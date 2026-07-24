@@ -291,12 +291,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats",
-        "label": "getCollectionStats()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-getcollectionstats"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-hasCollection",
         "label": "hasCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-hascollection"
@@ -362,12 +356,6 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType",
-            "label": "FunctionType",
-            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-functiontype"
-          },
-          {
-            "type": "doc",
             "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker",
             "label": "ModelRanker",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-modelranker"
@@ -394,12 +382,6 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction",
-        "label": "addCollectionFunction()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-addcollectionfunction"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction",
         "label": "alterCollectionFunction()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-altercollectionfunction"
@@ -409,12 +391,6 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection",
         "label": "batchDescribeCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-batchdescribecollection"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction",
-        "label": "dropCollectionFunction()",
-        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfunction"
       },
       {
         "type": "category",
@@ -519,6 +495,179 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2",
         "label": "getLoadStateV2()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-getloadstatev2"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Data Import",
+    "key": "category:api/java/java/v2/v2-dataimport",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkFileType",
+        "label": "BulkFileType",
+        "key": "doc:api/java/java/v2/v2-DataImport/v2-dataimport-bulkfiletype"
+      },
+      {
+        "type": "category",
+        "label": "BulkImport",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-bulkimport",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-DataImport-BulkImport",
+            "label": "BulkImport",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-dataimport-bulkimport"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport",
+            "label": "bulkImport()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-bulkimport"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress",
+            "label": "getImportProgress()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-getimportprogress"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs",
+            "label": "listImportJobs()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-listimportjobs"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-abortImport",
+            "label": "abortImport()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-abortimport"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-commitImport",
+            "label": "commitImport()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-commitimport"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "LocalBulkWriter",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-localbulkwriter",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close",
+            "label": "close()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-close"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit",
+            "label": "commit()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-commit"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles",
+            "label": "getBatchFiles()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-getbatchfiles"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter",
+            "label": "LocalBulkWriter",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-dataimport-localbulkwriter"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount",
+            "label": "getTotalRowCount()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-gettotalrowcount"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "RemoteBulkWriter",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-remotebulkwriter",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close",
+            "label": "close()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-close"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit",
+            "label": "commit()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-commit"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles",
+            "label": "getBatchFiles()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-getbatchfiles"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter",
+            "label": "RemoteBulkWriter",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-dataimport-remotebulkwriter"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount",
+            "label": "getTotalRowCount()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-gettotalrowcount"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "VolumeBulkWriter",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-volumebulkwriter",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close",
+            "label": "close()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-close"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit",
+            "label": "commit()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-commit"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles",
+            "label": "getBatchFiles()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-getbatchfiles"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount",
+            "label": "getTotalRowCount()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-gettotalrowcount"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult",
+            "label": "getVolumeUploadResult()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-getvolumeuploadresult"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter",
+            "label": "VolumeBulkWriter",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-dataimport-volumebulkwriter"
+          }
+        ]
       }
     ]
   },
@@ -688,6 +837,49 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "Partitions",
+    "key": "category:api/java/java/v2/v2-partitions",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-createPartition",
+        "label": "createPartition()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-createpartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition",
+        "label": "dropPartition()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-droppartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
+        "label": "hasPartition()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-haspartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions",
+        "label": "listPartitions()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-listpartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions",
+        "label": "loadPartitions()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-loadpartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions",
+        "label": "releasePartitions()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-releasepartitions"
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "Snapshots",
     "key": "category:api/java/java/v2/v2-snapshots",
     "items": [
@@ -772,39 +964,15 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-Vector-insert",
-        "label": "insert()",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-insert"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-Vector-query",
-        "label": "query()",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-query"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Vector/v2-Vector-queryIterator",
         "label": "queryIterator()",
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-queryiterator"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-Vector-search",
-        "label": "search()",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-search"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Vector/v2-Vector-searchIterator",
         "label": "searchIterator()",
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-searchiterator"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Vector/v2-Vector-upsert",
-        "label": "upsert()",
-        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-upsert"
       },
       {
         "type": "doc",
@@ -878,178 +1046,50 @@ module.exports = [
   },
   {
     "type": "category",
-    "label": "Data Import",
-    "key": "category:api/java/java/v2/v2-dataimport",
+    "label": "Volume",
+    "key": "category:api/java/java/v2/v2-volume",
     "items": [
       {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkFileType",
-        "label": "BulkFileType",
-        "key": "doc:api/java/java/v2/v2-DataImport/v2-dataimport-bulkfiletype"
-      },
-      {
         "type": "category",
-        "label": "BulkImport",
-        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-bulkimport",
+        "label": "VolumeFileManager",
+        "key": "category:api/java/java/v2/v2-Volume/v2-volume-volumefilemanager",
         "items": [
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-DataImport-BulkImport",
-            "label": "BulkImport",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-dataimport-bulkimport"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport",
-            "label": "bulkImport()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-bulkimport"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress",
-            "label": "getImportProgress()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-getimportprogress"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs",
-            "label": "listImportJobs()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-listimportjobs"
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager",
+            "label": "VolumeFileManager",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volume-volumefilemanager"
           }
         ]
       },
       {
         "type": "category",
-        "label": "LocalBulkWriter",
-        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-localbulkwriter",
+        "label": "VolumeManager",
+        "key": "category:api/java/java/v2/v2-Volume/v2-volume-volumemanager",
         "items": [
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close",
-            "label": "close()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-close"
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume",
+            "label": "createVolume()",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volumemanager-createvolume"
           },
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit",
-            "label": "commit()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-commit"
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume",
+            "label": "deleteVolume()",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volumemanager-deletevolume"
           },
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles",
-            "label": "getBatchFiles()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-getbatchfiles"
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes",
+            "label": "listVolumes()",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volumemanager-listvolumes"
           },
           {
             "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter",
-            "label": "LocalBulkWriter",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-dataimport-localbulkwriter"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow",
-            "label": "appendRow()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-appendrow"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount",
-            "label": "getTotalRowCount()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-gettotalrowcount"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "RemoteBulkWriter",
-        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-remotebulkwriter",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close",
-            "label": "close()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-close"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit",
-            "label": "commit()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-commit"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles",
-            "label": "getBatchFiles()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-getbatchfiles"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter",
-            "label": "RemoteBulkWriter",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-dataimport-remotebulkwriter"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow",
-            "label": "appendRow()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-appendrow"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount",
-            "label": "getTotalRowCount()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-gettotalrowcount"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "VolumeBulkWriter",
-        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-volumebulkwriter",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow",
-            "label": "appendRow()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-appendrow"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close",
-            "label": "close()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-close"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit",
-            "label": "commit()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-commit"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles",
-            "label": "getBatchFiles()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-getbatchfiles"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount",
-            "label": "getTotalRowCount()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-gettotalrowcount"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult",
-            "label": "getVolumeUploadResult()",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-getvolumeuploadresult"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter",
-            "label": "VolumeBulkWriter",
-            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-dataimport-volumebulkwriter"
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager",
+            "label": "VolumeManager",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volume-volumemanager"
           }
         ]
       }
@@ -1107,118 +1147,6 @@ module.exports = [
         "id": "api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase",
         "label": "currentUsedDatabase()",
         "key": "doc:api/java/java/v2/v2-Database/v2-database-currentuseddatabase"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "Partitions",
-    "key": "category:api/java/java/v2/v2-partitions",
-    "items": [
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-createPartition",
-        "label": "createPartition()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-createpartition"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition",
-        "label": "dropPartition()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-droppartition"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats",
-        "label": "getPartitionStats()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-getpartitionstats"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
-        "label": "hasPartition()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-haspartition"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions",
-        "label": "listPartitions()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-listpartitions"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions",
-        "label": "loadPartitions()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-loadpartitions"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions",
-        "label": "releasePartitions()",
-        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-releasepartitions"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "Volume",
-    "key": "category:api/java/java/v2/v2-volume",
-    "items": [
-      {
-        "type": "category",
-        "label": "VolumeFileManager",
-        "key": "category:api/java/java/v2/v2-Volume/v2-volume-volumefilemanager",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync",
-            "label": "uploadFilesAsync",
-            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volumefilemanager-uploadfilesasync"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager",
-            "label": "VolumeFileManager",
-            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volume-volumefilemanager"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully",
-            "label": "shutdownGracefully()",
-            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volumefilemanager-shutdowngracefully"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "VolumeManager",
-        "key": "category:api/java/java/v2/v2-Volume/v2-volume-volumemanager",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume",
-            "label": "createVolume()",
-            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volumemanager-createvolume"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume",
-            "label": "deleteVolume()",
-            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volumemanager-deletevolume"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes",
-            "label": "listVolumes()",
-            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volumemanager-listvolumes"
-          },
-          {
-            "type": "doc",
-            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager",
-            "label": "VolumeManager",
-            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volume-volumemanager"
-          }
-        ]
       }
     ]
   }
