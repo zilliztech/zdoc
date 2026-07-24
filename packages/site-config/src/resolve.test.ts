@@ -1,18 +1,22 @@
 import {describe, expect, it} from 'vitest';
 
 import {resolveSiteProfile} from './resolve';
+import type {DeepReadonly} from './immutable';
 import {
+  BaseUrlSchema,
   ContentPluginProfileSchema,
   FeatureProfileSchema,
   IntegrationProfileSchema,
   MarkdownProfileSchema,
+  NavigationItemSchema,
   NavigationProfileSchema,
-  BaseUrlSchema,
   RedirectProfileSchema,
   RepositoryRelativePathSchema,
   RobotsProfileSchema,
   RoutePathSchema,
+  SiteOriginSchema,
   SiteProfileSchema,
+  type SiteProfile,
 } from './schema';
 import {enProfile} from './sites/en';
 import {zhCNProfile} from './sites/zh-CN';
@@ -28,7 +32,44 @@ describe('site profile resolution', () => {
   it('keeps English and Chinese output ownership separate', () => {
     expect(enProfile.outputDir).not.toBe(zhCNProfile.outputDir);
   });
+
+  it('returns the same deeply frozen profile object', () => {
+    const profile = resolveSiteProfile('en');
+    expect(resolveSiteProfile('en')).toBe(profile);
+    expect([
+      profile,
+      profile.content,
+      profile.manuals,
+      profile.staticRoots,
+      profile.features,
+      profile.features.referenceKinds,
+      profile.navigation,
+      profile.navigation.items,
+      profile.markdown,
+      profile.markdown.remarkPlugins,
+      profile.markdown.rehypePlugins,
+      profile.integrations,
+      profile.redirects,
+      profile.redirects.rules,
+      profile.robots,
+    ].every(Object.isFrozen)).toBe(true);
+    expect(() => {
+      (profile.features as {chat: boolean}).chat = false;
+    }).toThrow(TypeError);
+    expect(profile.features.chat).toBe(true);
+  });
+
+  it('exposes deeply readonly profile types', () => {
+    const profile: DeepReadonly<SiteProfile> = resolveSiteProfile('zh-CN');
+    expect(profile.id).toBe('zh-CN');
+  });
 });
+
+function assertResolvedProfileIsReadonly(profile: ReturnType<typeof resolveSiteProfile>): void {
+  // @ts-expect-error resolved profiles are deeply readonly
+  profile.features.chat = false;
+}
+void assertResolvedProfileIsReadonly;
 
 describe('closed profile schemas', () => {
   it.each([
@@ -79,6 +120,13 @@ describe('normalized web paths', () => {
     '/docs//foo',
     'docs/foo/',
     '/docs/foo/',
+    'docs?x',
+    'docs#x',
+    'docs/\u0000control',
+    'docs/%2e%2e',
+    'docs/%2f',
+    'docs/%5c',
+    'docs/%zz',
   ])('rejects unsafe or non-normalized route path %s', value => {
     expect(RoutePathSchema.safeParse(value).success).toBe(false);
   });
@@ -100,12 +148,95 @@ describe('normalized web paths', () => {
     '/docs/./reference/',
     '/docs//reference/',
     '//docs/',
+    '/docs/?x',
+    '/docs/#x',
+    '/docs/\u0000control/',
+    '/docs/%2e%2e/',
+    '/docs/%2f/',
+    '/docs/%5c/',
+    '/docs/%zz/',
   ])('rejects unsafe or non-normalized baseUrl %s', value => {
     expect(BaseUrlSchema.safeParse(value).success).toBe(false);
   });
 
   it.each(['/', '/docs/', '/developer/reference/'])('accepts normalized baseUrl %s', value => {
     expect(BaseUrlSchema.parse(value)).toBe(value);
+  });
+
+  it.each([
+    'ftp://docs.zilliz.com',
+    'https://docs.zilliz.com/reference',
+    'https://docs.zilliz.com/%2e%2e',
+    'https://docs.zilliz.com?preview=true',
+    'https://docs.zilliz.com#reference',
+    'https://user:secret@docs.zilliz.com',
+  ])('rejects non-origin site URL %s', value => {
+    expect(SiteOriginSchema.safeParse(value).success).toBe(false);
+  });
+
+  it.each(['https://docs.zilliz.com', 'https://docs.zilliz.com.cn', 'http://localhost:3000'])('accepts HTTP site origin %s', value => {
+    expect(SiteOriginSchema.parse(value)).toBe(value);
+  });
+});
+
+describe('set-like profile declarations', () => {
+  const content = [
+    {id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'guides', sidebarPath: 'generated/en/sidebars/guides.ts'},
+    {id: 'reference', sourcePath: 'content/en/reference', routeBasePath: 'reference', sidebarPath: 'generated/en/sidebars/reference.ts'},
+  ] as const;
+
+  it('rejects duplicate content plugin ids', () => {
+    const result = SiteProfileSchema.safeParse({
+      ...enProfile,
+      content: [content[0], {...content[1], id: 'default'}],
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({path: ['content', 1, 'id']}));
+    }
+  });
+
+  it('rejects duplicate content routeBasePath values', () => {
+    const result = SiteProfileSchema.safeParse({
+      ...enProfile,
+      content: [content[0], {...content[1], routeBasePath: 'guides'}],
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({path: ['content', 1, 'routeBasePath']}));
+    }
+  });
+
+  it('rejects duplicate redirect sources', () => {
+    const result = SiteProfileSchema.safeParse({
+      ...enProfile,
+      redirects: {rules: [
+        {from: '/old', to: '/new'},
+        {from: '/old', to: '/newer'},
+      ]},
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({path: ['redirects', 'rules', 1, 'from']}));
+    }
+  });
+
+  it('rejects duplicate reference kinds', () => {
+    const result = SiteProfileSchema.safeParse({
+      ...enProfile,
+      features: {...enProfile.features, referenceKinds: ['python', 'python']},
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({path: ['features', 'referenceKinds', 1]}));
+    }
+  });
+
+  it('requires navigation items to declare exactly one destination kind', () => {
+    expect(NavigationItemSchema.safeParse({label: 'Docs', to: '/docs', href: 'https://example.com'}).success).toBe(false);
+    expect(NavigationItemSchema.safeParse({label: 'Docs'}).success).toBe(false);
+    expect(NavigationItemSchema.safeParse({label: 'Docs', to: '/docs'}).success).toBe(true);
+    expect(NavigationItemSchema.safeParse({label: 'External', href: 'https://example.com/a path'}).success).toBe(true);
   });
 });
 

@@ -1,6 +1,7 @@
+import {deepFreeze} from '../immutable';
 import {SiteProfileSchema} from '../schema';
 
-export const zhCNProfile = SiteProfileSchema.parse({
+export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   id: 'zh-CN',
   language: 'zh-Hans',
   title: 'Zilliz Cloud 开发指南',
@@ -25,4 +26,4 @@ export const zhCNProfile = SiteProfileSchema.parse({
   integrations: {},
   redirects: {rules: []},
   robots: {index: true},
-});
+}));

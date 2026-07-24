@@ -1,4 +1,3 @@
+export type {DeepReadonly} from './immutable';
 export * from './resolve';
 export * from './schema';
-export * from './sites/en';
-export * from './sites/zh-CN';

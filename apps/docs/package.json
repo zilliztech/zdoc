@@ -10,6 +10,7 @@
     "start:zh-CN": "ZDOC_SITE=zh-CN docusaurus start"
   },
   "dependencies": {
+    "@docusaurus/core": "3.10.1",
     "@zilliz/site-config": "workspace:*"
   }
 }

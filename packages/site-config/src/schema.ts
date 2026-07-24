@@ -2,6 +2,20 @@ import {z} from 'zod';
 
 export const SiteIdSchema = z.enum(['en', 'zh-CN']);
 
+const WebPathForbiddenCharactersSchema = z.string().superRefine((value, context) => {
+  const invalidReason =
+    /\s/u.test(value) ? 'must not contain whitespace' :
+    /[\u0000-\u001F\u007F]/u.test(value) ? 'must not contain control characters' :
+    value.includes('?') ? 'must not contain a query' :
+    value.includes('#') ? 'must not contain a fragment' :
+    value.includes('%') ? 'must not contain percent encoding' :
+    undefined;
+
+  if (invalidReason) {
+    context.addIssue({code: z.ZodIssueCode.custom, message: invalidReason});
+  }
+});
+
 export const RepositoryRelativePathSchema = z.string().min(1).superRefine((value, context) => {
   const segments = value.split('/');
   const invalidReason =
@@ -21,7 +35,7 @@ export const RepositoryRelativePathSchema = z.string().min(1).superRefine((value
   }
 });
 
-export const RoutePathSchema = z.string().min(1).superRefine((value, context) => {
+export const RoutePathSchema = WebPathForbiddenCharactersSchema.pipe(z.string().min(1)).superRefine((value, context) => {
   const routeBody = value.startsWith('/') ? value.slice(1) : value;
   const segments = routeBody.split('/');
   const invalidReason =
@@ -42,7 +56,7 @@ export const RoutePathSchema = z.string().min(1).superRefine((value, context) =>
   }
 });
 
-export const BaseUrlSchema = z.string().min(1).superRefine((value, context) => {
+export const BaseUrlSchema = WebPathForbiddenCharactersSchema.pipe(z.string().min(1)).superRefine((value, context) => {
   const hasRequiredBoundary = value.startsWith('/') && value.endsWith('/');
   const segments = hasRequiredBoundary ? value.slice(1, -1).split('/') : [];
   const invalidReason =
@@ -59,6 +73,32 @@ export const BaseUrlSchema = z.string().min(1).superRefine((value, context) => {
     context.addIssue({
       code: z.ZodIssueCode.custom,
       message: `baseUrl ${invalidReason}: ${JSON.stringify(value)}`,
+    });
+  }
+});
+
+export const SiteOriginSchema = z.string().url().superRefine((value, context) => {
+  let parsed: URL;
+  try {
+    parsed = new URL(value);
+  } catch {
+    context.addIssue({code: z.ZodIssueCode.custom, message: 'Site URL must be a valid HTTP(S) origin'});
+    return;
+  }
+
+  if (
+    (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') ||
+    (value !== parsed.origin && value !== `${parsed.origin}/`) ||
+    parsed.hostname.length === 0 ||
+    parsed.username.length > 0 ||
+    parsed.password.length > 0 ||
+    parsed.search.length > 0 ||
+    parsed.hash.length > 0 ||
+    parsed.pathname !== '/'
+  ) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Site URL must be an HTTP(S) origin without credentials, path, query, or fragment',
     });
   }
 });
@@ -81,7 +121,19 @@ export const FeatureProfileSchema = z.object({
   onpremise: z.boolean(),
   agents: z.boolean(),
   referenceKinds: z.array(z.enum(['python', 'java', 'nodejs', 'go', 'restful', 'cli'])),
-}).strict();
+}).strict().superRefine((features, context) => {
+  const seen = new Set<string>();
+  for (const [index, kind] of features.referenceKinds.entries()) {
+    if (seen.has(kind)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['referenceKinds', index],
+        message: `Duplicate referenceKinds entry: ${kind}`,
+      });
+    }
+    seen.add(kind);
+  }
+});
 
 export const IntegrationProfileSchema = z.object({
   searchProvider: z.string().min(1).optional(),
@@ -99,14 +151,26 @@ export const RedirectRuleSchema = z.object({
 
 export const RedirectProfileSchema = z.object({
   rules: z.array(RedirectRuleSchema),
-}).strict();
+}).strict().superRefine((redirects, context) => {
+  const seen = new Set<string>();
+  for (const [index, rule] of redirects.rules.entries()) {
+    if (seen.has(rule.from)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['rules', index, 'from'],
+        message: `Duplicate redirect source: ${rule.from}`,
+      });
+    }
+    seen.add(rule.from);
+  }
+});
 
 export const NavigationItemSchema = z.object({
   label: z.string().min(1),
   to: RoutePathSchema.optional(),
   href: z.string().min(1).optional(),
-}).strict().refine(item => item.to !== undefined || item.href !== undefined, {
-  message: 'Navigation items require either to or href',
+}).strict().refine(item => Number(item.to !== undefined) + Number(item.href !== undefined) === 1, {
+  message: 'Navigation items require exactly one of to or href',
 });
 
 export const NavigationProfileSchema = z.object({
@@ -156,7 +220,7 @@ export const SiteProfileSchema = z.object({
   language: z.string().min(1),
   title: z.string().min(1),
   tagline: z.string().min(1).optional(),
-  url: z.string().url(),
+  url: SiteOriginSchema,
   baseUrl: BaseUrlSchema,
   outputDir: RepositoryRelativePathSchema,
   content: z.array(ContentPluginProfileSchema),
@@ -169,6 +233,27 @@ export const SiteProfileSchema = z.object({
   redirects: RedirectProfileSchema,
   robots: RobotsProfileSchema,
 }).strict().superRefine((profile, context) => {
+  const contentIds = new Set<string>();
+  const contentRoutes = new Set<string>();
+  for (const [index, plugin] of profile.content.entries()) {
+    if (contentIds.has(plugin.id)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['content', index, 'id'],
+        message: `Duplicate content plugin id: ${plugin.id}`,
+      });
+    }
+    if (contentRoutes.has(plugin.routeBasePath)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['content', index, 'routeBasePath'],
+        message: `Duplicate content routeBasePath: ${plugin.routeBasePath}`,
+      });
+    }
+    contentIds.add(plugin.id);
+    contentRoutes.add(plugin.routeBasePath);
+  }
+
   const rootClaims: OwnershipClaim[] = [
     {label: 'outputDir', path: profile.outputDir},
     ...profile.content.map((plugin, index) => ({label: `content[${index}].sourcePath`, path: plugin.sourcePath})),
@@ -231,6 +316,7 @@ export type SiteId = z.infer<typeof SiteIdSchema>;
 export type RepositoryRelativePath = z.infer<typeof RepositoryRelativePathSchema>;
 export type RoutePath = z.infer<typeof RoutePathSchema>;
 export type BaseUrl = z.infer<typeof BaseUrlSchema>;
+export type SiteOrigin = z.infer<typeof SiteOriginSchema>;
 export type ContentPluginProfile = z.infer<typeof ContentPluginProfileSchema>;
 export type FeatureProfile = z.infer<typeof FeatureProfileSchema>;
 export type IntegrationProfile = z.infer<typeof IntegrationProfileSchema>;
