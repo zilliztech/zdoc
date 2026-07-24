@@ -7,22 +7,31 @@
   },
   "commands": [
     {
-      "artifactPath": "node_modules",
+      "artifacts": [
+        {
+          "path": "node_modules",
+          "produced": true,
+          "temporary": true
+        }
+      ],
       "command": "pnpm install --frozen-lockfile",
+      "eligibleAsCleanBaselineGate": true,
       "exitStatus": 0,
       "repository": "zdoc",
       "warningSummary": []
     },
     {
-      "artifactPath": "none",
+      "artifacts": [],
       "command": "pnpm typecheck",
+      "eligibleAsCleanBaselineGate": true,
       "exitStatus": 0,
       "repository": "zdoc",
       "warningSummary": []
     },
     {
-      "artifactPath": "none",
+      "artifacts": [],
       "command": "pnpm test:frontend",
+      "eligibleAsCleanBaselineGate": true,
       "exitStatus": 0,
       "repository": "zdoc",
       "testSummary": "6 test files passed; 31 tests passed.",
@@ -33,8 +42,15 @@
       ]
     },
     {
-      "artifactPath": "build",
+      "artifacts": [
+        {
+          "path": "build",
+          "produced": true,
+          "temporary": true
+        }
+      ],
       "command": "pnpm build",
+      "eligibleAsCleanBaselineGate": true,
       "exitStatus": 0,
       "repository": "zdoc",
       "warningSummary": [
@@ -44,8 +60,10 @@
       ]
     },
     {
-      "artifactPath": "node_modules (not produced)",
+      "artifacts": [],
       "command": "npm ci --prefix ../../../../zdoc_cn",
+      "dependencyState": "legacy package.json and package-lock.json are out of sync",
+      "eligibleAsCleanBaselineGate": false,
       "exitStatus": 1,
       "repository": "zdoc_cn",
       "warningSummary": [
@@ -54,36 +72,98 @@
       ]
     },
     {
-      "artifactPath": "none",
+      "artifacts": [],
       "command": "pnpm --dir ../../../../zdoc_cn test:cn-publish-normalizer",
+      "dependencyState": "pre-existing and unverified zdoc_cn node_modules",
+      "eligibleAsCleanBaselineGate": false,
       "exitStatus": 0,
       "repository": "zdoc_cn",
       "testSummary": "normalizeCnContent, remarkCnPublishNormalizer, and verify-cn-publish-artifacts test suites passed.",
       "warningSummary": []
     },
     {
-      "artifactPath": "temporary test fixtures under the system temporary directory",
+      "artifacts": [],
       "command": "pnpm --dir ../../../../zdoc_cn test:docs-workflow",
+      "dependencyState": "pre-existing and unverified zdoc_cn node_modules",
+      "eligibleAsCleanBaselineGate": false,
       "exitStatus": 0,
       "repository": "zdoc_cn",
       "testSummary": "622 passed; 2 skipped.",
       "warningSummary": []
     },
     {
-      "artifactPath": ".zdoc-assembled (assembled workspace); .zdoc-assembled/build (not produced)",
-      "command": "pnpm --dir ../../../../zdoc_cn build:assembled",
-      "exitStatus": 1,
+      "artifacts": [
+        {
+          "path": ".zdoc-assembled",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "npm run assemble",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "sourceInputs": {
+        "downstreamZdocCnSha": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "upstreamZdocSha": "12cf657f0f1ecca6fc9f85860b0662a2e923757b"
+      },
+      "warningSummary": []
+    },
+    {
+      "artifacts": [],
+      "command": "node scripts/upstream/validate-assembled.js",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "testSummary": "validate-assembled passed.",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [
+        {
+          "path": ".zdoc-assembled/node_modules",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "pnpm --dir .zdoc-assembled install --frozen-lockfile",
+      "dependencyState": "canonical assembled frozen-lockfile install",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "testSummary": "1697 packages installed; @zdoc/chat-ui workspace package linked.",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [
+        {
+          "path": ".zdoc-assembled/build",
+          "produced": true,
+          "temporary": true
+        },
+        {
+          "path": ".zdoc-assembled/build/ja-JP",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "pnpm --dir .zdoc-assembled run build",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
       "repository": "zdoc_cn",
       "warningSummary": [
-        "Known legacy baseline defect: assembly completed, then the Docusaurus build could not resolve @zdoc/chat-ui and @zdoc/chat-ui/dist/style.css from src/components/ChatPanel.",
-        "Assembly reported upstream zdoc commit 12cf657f0f1ecca6fc9f85860b0662a2e923757b, overlay hash excerpt 08425d9e...210e1d, and patch hash excerpt bb09578e...53d4cdb."
+        "Docusaurus reports the same pre-existing broken-link warnings.",
+        "Docusaurus reports the same pre-existing broken-anchor warnings.",
+        "Node emits the same experimental localStorage warnings."
       ]
     }
   ],
   "notes": [
     "The originally planned pnpm --dir ../../../../zdoc_cn install --frozen-lockfile command is not applicable: zdoc_cn has package-lock.json and yarn.lock but no pnpm-lock.yaml.",
     "npm ci is retained solely to reproduce the legacy zdoc_cn package-lock/CI baseline. The unified target workspace, both replacement-site builds, and Jenkins are pnpm-only.",
-    "The two nonzero legacy commands are recorded as baseline defects and were not fixed during this task."
+    "The passing zdoc_cn normalizer and docs-workflow tests used pre-existing, unverified node_modules and are not eligible as clean baseline gates.",
+    "A noncanonical pnpm --dir ../../../../zdoc_cn build:assembled helper attempt exited 1 after assembly because the helper skips the assembled frozen-lockfile install; this is an incomplete helper path, not a verified legacy product defect.",
+    "The canonical locked-upstream-overlay workflow assembled, validated, installed, and built the legacy site successfully."
   ],
   "repositories": {
     "zdoc": {

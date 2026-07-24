@@ -78,6 +78,7 @@ Before milestones 2-7, merge the completed prior milestone through normal review
 
 **Files:**
 - Create: `.claude/worktrees/unified-docs-clean-room` (Git worktree, ignored)
+- Create locally: `.claude/archives/zdoc-cn-pre-merge.bundle` (ignored, mode 0600)
 - Create: `migration/reports/baseline.json`
 - Create: `migration/reports/zdoc-cn-archive.json`
 - Modify: `.gitignore`
@@ -116,7 +117,13 @@ pnpm build
 npm ci --prefix ../../../../zdoc_cn
 pnpm --dir ../../../../zdoc_cn test:cn-publish-normalizer
 pnpm --dir ../../../../zdoc_cn test:docs-workflow
-pnpm --dir ../../../../zdoc_cn build:assembled
+(
+  cd ../../../../zdoc_cn
+  npm run assemble
+  node scripts/upstream/validate-assembled.js
+  pnpm --dir .zdoc-assembled install --frozen-lockfile
+  pnpm --dir .zdoc-assembled run build
+)
 ```
 
 Record the two repository SHAs, command, exit status, Node version, pnpm version, and artifact path in `migration/reports/baseline.json`; do not record secrets or complete environment dumps. `npm ci` is used only to reproduce the legacy `zdoc_cn` package-lock/CI baseline; it is not a unified-target dependency or build path. The unified workspace, both replacement-site builds, and Jenkins use pnpm only.
@@ -126,12 +133,15 @@ Record the two repository SHAs, command, exit status, Node version, pnpm version
 Run outside the archive target directory:
 
 ```bash
-git -C ../../../../zdoc_cn bundle create /tmp/zdoc-cn-pre-merge.bundle --all
-git bundle verify /tmp/zdoc-cn-pre-merge.bundle
-shasum -a 256 /tmp/zdoc-cn-pre-merge.bundle
+mkdir -p .claude/archives
+git -C ../../../../zdoc_cn bundle create "$PWD/.claude/archives/zdoc-cn-pre-merge.bundle" refs/remotes/origin/master refs/remotes/origin/dev '--glob=refs/remotes/origin/v*' --tags
+chmod 600 .claude/archives/zdoc-cn-pre-merge.bundle
+git bundle verify .claude/archives/zdoc-cn-pre-merge.bundle
+git bundle list-heads .claude/archives/zdoc-cn-pre-merge.bundle
+shasum -a 256 .claude/archives/zdoc-cn-pre-merge.bundle
 ```
 
-Expected: bundle verification succeeds. Store the source URL, source HEAD, bundle SHA-256, creation command, and controlled archive location in `migration/reports/zdoc-cn-archive.json`; do not commit the bundle.
+Expected: bundle verification succeeds and list-heads contains only the two approved published branches, published version refs, and tags. Store the source URL, source HEAD, exact included refs, ref policy, file mode, retention class, bundle SHA-256, creation command, and controlled archive location in `migration/reports/zdoc-cn-archive.json`; do not commit the bundle. Copy it to approved immutable archival storage and re-verify its SHA-256 before retiring `zdoc_cn`.
 
 - [ ] **Step 5: Commit the baseline evidence**
 
