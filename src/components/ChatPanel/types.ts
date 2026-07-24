@@ -14,4 +14,6 @@ export interface ChatHistoryEntry {
   title: string;
   messages: ChatMessage[];
   createdAt: number;
+  sessionId?: string | null;
+  conversationId?: string | null;
 }
