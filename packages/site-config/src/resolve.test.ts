@@ -110,6 +110,24 @@ describe('closed profile schemas', () => {
   });
 });
 
+describe('site-owned navigation', () => {
+  it('accepts nested secondary navigation declared by a site profile', () => {
+    const result = NavigationProfileSchema.safeParse({
+      items: [],
+      secondaryItems: [
+        {label: 'Guides', href: '/docs', prefix: '/docs', icon: 'cloud'},
+        {
+          label: 'API & SDK',
+          prefix: '/reference',
+          icon: 'code',
+          items: [{label: 'Python SDK', href: '/reference/python', prefix: '/reference/python', icon: 'python'}],
+        },
+      ],
+    });
+    expect(result.success).toBe(true);
+  });
+});
+
 describe('repository-relative paths', () => {
   it.each([
     '',

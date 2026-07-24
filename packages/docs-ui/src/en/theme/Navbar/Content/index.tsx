@@ -6,8 +6,8 @@ import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
 import {InkeepModalSearchAndChat} from '@inkeep/cxkit-react';
 import {Search, LifeBuoy, LogIn, Menu} from 'lucide-react';
-import SecondaryNavbar from '../../../components/SecondaryNavbar';
-import {inkeepSettings} from '../../../../en/inkeep.config';
+import SecondaryNavbar from '../../../navigation/SecondaryNavbar';
+import {inkeepSettings} from '../../../inkeep.config';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
 import styles from './styles.module.css';
 

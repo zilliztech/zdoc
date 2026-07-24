@@ -42,14 +42,30 @@ export default function docsUiPlugin(_context: unknown, options: Options): Plugi
   for (const required of sharedUiModules) {
     if (!modules.includes(required)) throw new Error(`Docs UI module selection requires ${required}`);
   }
+  const selectedEnglishModules = englishUiModules.filter(module => modules.includes(module));
+  if (selectedEnglishModules.length > 0 && selectedEnglishModules.length !== englishUiModules.length) {
+    const missing = englishUiModules.filter(module => !modules.includes(module));
+    throw new Error(`Docs UI English module selection requires ${missing.join(', ')}`);
+  }
 
   const repositoryRoot = findRepositoryRoot(__dirname);
   const sharedRoot = path.join(__dirname, 'shared');
+  const englishNavigationSelected = selectedEnglishModules.length === englishUiModules.length;
   const aliases = {
     ...exactModuleAliases('@site/src/components', path.join(sharedRoot, 'components')),
     ...exactModuleAliases('@site/src/theme', path.join(sharedRoot, 'theme')),
     ...exactModuleAliases('@site/src/utils', path.join(sharedRoot, 'utils')),
-    '@site/config/generated/guides.sidebar$': path.join(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js'),
+    ...(englishNavigationSelected
+      ? {
+          '@theme/Navbar/Content$': path.join(__dirname, 'en/theme/Navbar/Content/index.tsx'),
+          '@theme/Navbar/MobileSidebar/SecondaryMenu$': path.join(
+            __dirname,
+            'en/theme/Navbar/MobileSidebar/SecondaryMenu/index.tsx',
+          ),
+          '@theme/DocSidebar$': path.join(__dirname, 'en/theme/DocSidebar/index.tsx'),
+          '@site/config/generated/guides.sidebar$': path.join(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js'),
+        }
+      : {}),
   };
   return {
     name: 'zilliz-docs-ui',

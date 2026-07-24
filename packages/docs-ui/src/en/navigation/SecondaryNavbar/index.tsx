@@ -2,8 +2,8 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Link from '@docusaurus/Link';
 import {useLocation} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import ICONS from '../../utils/navIcons';
-import {useDropdownClose} from '../../utils/useDropdownClose';
+import ICONS from '../navIcons';
+import {useDropdownClose} from '../useDropdownClose';
 import styles from './styles.module.css';
 
 // ── Types ─────────────────────────────────────────────────────────────────────

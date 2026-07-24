@@ -31,7 +31,10 @@ function profile(overrides: Partial<SiteProfile> = {}): SiteProfile {
       },
     ],
     manuals: [],
-    navigation: {items: [{label: 'Guides', to: '/docs'}, {label: 'Company', href: 'https://example.com'}]},
+    navigation: {
+      items: [{label: 'Guides', to: '/docs'}, {label: 'Company', href: 'https://example.com'}],
+      secondaryItems: [{label: 'Guides', href: '/docs', prefix: '/docs', icon: 'cloud'}],
+    },
     features: {
       chat: true,
       askAi: true,
@@ -137,9 +140,22 @@ describe('createDocusaurusConfig', () => {
       integrations: {searchProvider: 'search-one', analyticsProvider: 'analytics-one'},
       features: {chat: true, referenceKinds: ['python']},
       redirects: {rules: [{from: '/old', to: '/docs', permanent: true}]},
+      secondaryNavbar: [{label: 'Guides', href: '/docs', prefix: '/docs', icon: 'cloud'}],
     });
     expect(redirectPlugin[1].createRedirects('/docs')).toEqual(['/old']);
     expect(redirectPlugin[1].createRedirects('/other')).toBeUndefined();
+  });
+
+  it('registers standalone pages only for the English site', () => {
+    const englishPages = (createDocusaurusConfig(profile()).plugins ?? []).find(
+      plugin => Array.isArray(plugin) && plugin[0] === '@docusaurus/plugin-content-pages',
+    ) as [string, {path: string}];
+    expect(englishPages[1].path).toMatch(/apps\/docs\/src\/pages$/);
+
+    const chinese = createDocusaurusConfig(profile({id: 'zh-CN', language: 'zh-Hans'}));
+    expect((chinese.plugins ?? []).some(
+      plugin => Array.isArray(plugin) && plugin[0] === '@docusaurus/plugin-content-pages',
+    )).toBe(false);
   });
 
   it('keeps the application bootstrap thin and exact', () => {

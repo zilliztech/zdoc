@@ -1,5 +1,5 @@
 import { capitalize } from 'lodash';
-import { i18n } from './i18n'
+import { i18n } from './i18n.js'
 import Showdown from 'showdown';
 // planeConfig is passed from callers that read it via useDocusaurusContext
 

@@ -21,7 +21,7 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
     agents: true,
     referenceKinds: ['python', 'java', 'nodejs', 'go', 'restful', 'cli'],
   },
-  navigation: {items: []},
+  navigation: {items: [], secondaryItems: []},
   markdown: {remarkPlugins: [], rehypePlugins: []},
   integrations: {},
   redirects: {rules: []},

@@ -94,6 +94,12 @@ export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Conf
     },
     plugins: [
       ['@zilliz/docs-ui/docusaurus', {modules: uiModules}],
+      ...(profile.id === 'en'
+        ? [[
+            '@docusaurus/plugin-content-pages',
+            {path: repositoryPath('apps/docs/src/pages')},
+          ] satisfies PluginConfig]
+        : []),
       ...profile.content.map(content => contentPlugin(content, profile)),
       ...redirectPlugin(profile),
     ],
@@ -115,6 +121,10 @@ export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Conf
       outputDir: profile.outputDir,
       manuals: [...profile.manuals],
       navigation: {items: profile.navigation.items.map(item => ({...item}))},
+      secondaryNavbar: profile.navigation.secondaryItems.map(item => ({
+        ...item,
+        items: item.items?.map(child => ({...child})),
+      })),
       integrations: {...profile.integrations},
       features: {...profile.features, referenceKinds: [...profile.features.referenceKinds]},
       redirects: {rules: profile.redirects.rules.map(rule => ({...rule}))},

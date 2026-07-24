@@ -9,7 +9,7 @@ import {
   Globe,
   Layers,
 } from 'lucide-react';
-import {PythonIcon, JavaIcon, NodejsIcon, GoIcon, RestIcon} from '../icons/brands';
+import {PythonIcon, JavaIcon, NodejsIcon, GoIcon, RestIcon} from '../../shared/icons/brands';
 
 /**
  * Shared icon registry for secondary navbar and sidebar product dropdown.

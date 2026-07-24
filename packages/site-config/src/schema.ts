@@ -181,8 +181,28 @@ export const NavigationItemSchema = z.object({
   message: 'Navigation items require exactly one of to or href',
 });
 
+export const SecondaryNavigationLeafSchema = z.object({
+  label: z.string().min(1),
+  href: RoutePathSchema,
+  prefix: RoutePathSchema.nullable(),
+  icon: z.string().min(1),
+  hidden: z.boolean().optional(),
+}).strict();
+
+export const SecondaryNavigationItemSchema = z.object({
+  label: z.string().min(1),
+  href: RoutePathSchema.optional(),
+  prefix: RoutePathSchema.nullable(),
+  icon: z.string().min(1),
+  hidden: z.boolean().optional(),
+  items: z.array(SecondaryNavigationLeafSchema).optional(),
+}).strict().refine(item => Number(item.href !== undefined) + Number(item.items !== undefined) === 1, {
+  message: 'Secondary navigation items require exactly one of href or items',
+});
+
 export const NavigationProfileSchema = z.object({
   items: z.array(NavigationItemSchema),
+  secondaryItems: z.array(SecondaryNavigationItemSchema),
 }).strict();
 
 export const MarkdownProfileSchema = z.object({
@@ -332,6 +352,7 @@ export type IntegrationProfile = z.infer<typeof IntegrationProfileSchema>;
 export type RedirectRule = z.infer<typeof RedirectRuleSchema>;
 export type RedirectProfile = z.infer<typeof RedirectProfileSchema>;
 export type NavigationItem = z.infer<typeof NavigationItemSchema>;
+export type SecondaryNavigationItem = z.infer<typeof SecondaryNavigationItemSchema>;
 export type NavigationProfile = z.infer<typeof NavigationProfileSchema>;
 export type MarkdownProfile = z.infer<typeof MarkdownProfileSchema>;
 export type RobotsProfile = z.infer<typeof RobotsProfileSchema>;

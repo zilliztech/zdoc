@@ -49,8 +49,8 @@ import {
   AlertTriangle,
   Wrench,
 } from 'lucide-react';
-import IconButton from '../../components/IconButton';
-import SidebarIconVisibilityContext from '../DocSidebarItem/iconVisibility';
+import IconButton from '../../../shared/components/IconButton';
+import SidebarIconVisibilityContext from '../../../shared/theme/DocSidebarItem/iconVisibility';
 
 import styles from './styles.module.css';
 
