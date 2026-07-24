@@ -1,7 +1,7 @@
 # Unified English and Chinese Site Profiles Design
 
 **Date:** 2026-07-24  
-**Status:** Ready for user review  
+**Status:** Approved for implementation planning
 **Repositories in scope:** `zdoc`, `zdoc_cn`  
 **Target repository:** `zdoc`
 
