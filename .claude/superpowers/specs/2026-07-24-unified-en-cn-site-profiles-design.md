@@ -11,7 +11,7 @@ Merge the English and Chinese documentation projects into `zdoc`, while preservi
 
 The merged repository will contain:
 
-- one shared Docusaurus application, dependency graph, theme, and documentation toolchain;
+- one newly structured shared Docusaurus application, dependency graph, theme, and documentation toolchain;
 - an English site profile and a Chinese site profile;
 - independent English and Chinese content trees that may have different structure, products, manuals, navigation, routes, and feature flags;
 - one canonical English Reference source and checked-in Chinese Reference translations;
@@ -51,6 +51,8 @@ The repositories should therefore be merged at the source level, not assembled a
 6. Final publishable `.md` and `.mdx` files remain checked into Git.
 7. Reference manuals should reuse the canonical English source for the English site and use checked-in translated files for the Chinese site.
 8. Missing Chinese content must not be silently replaced with English.
+9. Implementation will use a clean-room worktree so the new architecture is not constrained by the current repository layout.
+10. The clean-room branch must retain normal ancestry from `master`; it must not be an orphan branch.
 
 ## Goals
 
@@ -63,6 +65,8 @@ The repositories should therefore be merged at the source level, not assembled a
 - Record Reference source-to-translation provenance.
 - Allow English and Chinese sites to build, test, deploy, and roll back independently.
 - Preserve content-group atomicity for generated documentation workflows.
+- Establish explicit application, configuration, tooling, UI, adapter, content, and deployment package boundaries.
+- Migrate only inventory-approved legacy files into the new project structure.
 
 ## Non-goals
 
@@ -74,10 +78,13 @@ The repositories should therefore be merged at the source level, not assembled a
 - Replacing Docusaurus or rewriting the existing theme.
 - Moving all existing English content directories in the first migration step.
 - Retaining a generic filesystem overlay mechanism after migration.
+- Preserving the current root directory organization.
+- Creating an orphan branch or unrelated Git history for the replacement project.
+- Bulk-copying either existing repository into the new project without an ownership decision.
 
 ## Alternatives Considered
 
-### 1. One Docusaurus application with two site profiles
+### 1. One clean-room Docusaurus application with two site profiles
 
 This is the selected approach. Each build resolves one profile, registers only that site's content plugins and features, and produces one deployment artifact.
 
@@ -86,7 +93,7 @@ Benefits:
 - one source revision and lockfile;
 - maximum tooling and UI reuse;
 - explicit product differences;
-- lowest migration cost;
+- clean package boundaries without duplicating the application;
 - no duplicated application package.
 
 ### 2. Two application packages in a monorepo
@@ -122,26 +129,86 @@ This would remove runtime Git assembly but preserve cross-repository release coo
 
 The sites share implementation code but not a runtime content graph. A site profile is a complete declaration of what is built, not a set of overrides applied after an English site has been created.
 
+## Clean-room Worktree Strategy
+
+Implementation takes place in an isolated linked worktree:
+
+```text
+zdoc/                                            current master reference
+../zdoc_cn/                                     current Chinese reference
+zdoc/.claude/worktrees/unified-docs-clean-room/ replacement project worktree
+```
+
+The worktree branch is created from the reviewed design commit on `master`:
+
+```text
+codex/unified-docs-clean-room
+```
+
+It is a normal branch with shared ancestry. `git worktree add --orphan` is prohibited because an unrelated history would weaken review, merging, blame, and migration auditing.
+
+“Clean-room” means that the target architecture is designed from an empty conceptual model. It does not mean running an unreviewed recursive delete or copying an existing tree wholesale. The sequence is:
+
+1. verify the unmodified branch baseline;
+2. create the new application and package skeleton;
+3. inventory every legacy root;
+4. migrate, rewrite, or reject each owned unit explicitly;
+5. use `git mv` for content and reusable modules where it preserves meaningful history;
+6. remove a legacy root only after its replacement or retirement is validated;
+7. finish with no runtime dependency on the legacy layout.
+
+The original `zdoc` worktree and `zdoc_cn` checkout remain read-only references during migration. Deleting files on the replacement branch does not remove them from those reference checkouts.
+
 ## Repository Layout
 
 ### Target layout
 
 ```text
-config/
-  sites/
-    schema.ts
-    en.ts
-    zh-CN.ts
-    resolve.ts
-  manuals/
-    schema.ts
-    registry.ts
-  generated/
-    en/
-    zh-CN/
-  sidebar-overrides/
-    en/
-    zh-CN/
+apps/
+  docs/
+    package.json
+    docusaurus.config.ts
+    src/
+    static/
+    tests/
+
+packages/
+  site-config/
+    src/
+      schema.ts
+      resolve.ts
+      sites/
+        en.ts
+        zh-CN.ts
+  docs-tooling/
+    src/
+      manuals/
+        schema.ts
+        registry.ts
+      lark/
+      reference/
+      validation/
+  docs-ui/
+    src/
+      shared/
+      en/
+      zh-CN/
+  publication-adapters/
+    src/
+      registry.ts
+      zh-CN/
+
+generated/
+  en/
+    sidebars/
+    manifests/
+  zh-CN/
+    sidebars/
+    manifests/
+
+sidebar-overrides/
+  en/
+  zh-CN/
 
 content/
   en/
@@ -174,42 +241,43 @@ translations/
       cli/
       restful/
 
-src/
-  site/
-    shared/
-    en/
-    zh-CN/
-
-static/
-  shared/
-  en/
-  zh-CN/
-
 deploy/
   en/
   zh-CN/
 ```
 
-### Migration layout
+`apps/docs` is the only Docusaurus application. The packages are source-level workspace packages, not separately released dependencies.
 
-Moving all existing English documents immediately would create a large, low-value rename. During migration, the English profile may continue to use:
+### Legacy migration manifest
 
-```text
-docs/
-docs-byoc/
-reference/
+The replacement project owns a checked-in migration manifest that classifies every legacy root or significant subsystem:
+
+```ts
+export interface LegacyMigrationEntry {
+  sourceRepository: 'zdoc' | 'zdoc_cn';
+  sourcePath: string;
+  sourceCommit: string;
+  disposition: 'migrate' | 'rewrite' | 'retire' | 'defer';
+  targetPath?: string;
+  owner: 'app' | 'site-config' | 'tooling' | 'ui' | 'adapter' | 'content' | 'deploy';
+  evidence: string[];
+}
 ```
 
-The Chinese content should enter the merged repository under explicit Chinese roots, not under Docusaurus `i18n`:
+`defer` is allowed only while the replacement branch is not a cutover candidate. Every deferred entry must become `migrate`, `rewrite`, or `retire` before production cutover.
 
-```text
-content/zh-CN/guides/
-content/zh-CN/byoc/
-content/zh-CN/reference/
-content/zh-CN/onpremise/
-```
+The initial classification is:
 
-After the merge is stable, a separate mechanical change may move English content into `content/en`. That move is not required to complete the repository merge.
+| Legacy class | Default disposition |
+| --- | --- |
+| Final `.md` and `.mdx` content | migrate with history where practical |
+| Stable shared UI components | migrate into `packages/docs-ui` |
+| Lark and Reference generators | rewrite into `packages/docs-tooling` boundaries |
+| Site config and plugin registration | rewrite from the new profile schema |
+| Chinese normalizer and REST behavior | rewrite as publication adapters |
+| Deployment configuration | migrate into `deploy/<site>` after validation |
+| Assembly, overlay, upstream locks, patches | retire |
+| Build output, caches, `node_modules` | retire and never import |
 
 ## Site Profile Model
 
@@ -276,21 +344,21 @@ Application components consume the resolved feature profile through one shared s
 
 ## Docusaurus Configuration
 
-`docusaurus.config.ts` becomes a configuration factory consumer:
+`apps/docs/docusaurus.config.ts` is a thin configuration factory consumer:
 
 ```ts
 const site = resolveSiteProfile(process.env.ZDOC_SITE);
 export default createDocusaurusConfig(site);
 ```
 
-The package exposes fixed commands:
+The application package exposes fixed commands, and the repository root forwards to them:
 
 ```json
 {
-  "build:en": "ZDOC_SITE=en docusaurus build --out-dir build/en",
-  "build:zh-CN": "ZDOC_SITE=zh-CN docusaurus build --out-dir build/zh-CN",
-  "start:en": "ZDOC_SITE=en docusaurus start",
-  "start:zh-CN": "ZDOC_SITE=zh-CN docusaurus start"
+  "build:en": "pnpm --filter @zilliz/docs-site run build:en",
+  "build:zh-CN": "pnpm --filter @zilliz/docs-site run build:zh-CN",
+  "start:en": "pnpm --filter @zilliz/docs-site run start:en",
+  "start:zh-CN": "pnpm --filter @zilliz/docs-site run start:zh-CN"
 }
 ```
 
@@ -305,7 +373,7 @@ Docusaurus may receive a single site language in each resolved configuration so 
 
 ## Manual and Content Source Model
 
-The current `config/lark-docs.config.ts` mixes remote source identity, rendering behavior, and publication destination. The merged design separates these responsibilities.
+The current `config/lark-docs.config.ts` mixes remote source identity, rendering behavior, and publication destination. It is not migrated as the new registry. Its verified data is transferred into `packages/docs-tooling/src/manuals/registry.ts`, while the merged design separates these responsibilities.
 
 ```ts
 export interface ManualDefinition {
@@ -356,8 +424,8 @@ Guides may declare separate English and Chinese remote sources because they repr
       source: 'english',
       outputDir: 'docs/tutorials',
       contentRoot: 'docs',
-      sidebarPath: 'config/generated/en/guides.sidebar.js',
-      overridePath: 'config/sidebar-overrides/en/guides.json',
+      sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
+      overridePath: 'sidebar-overrides/en/guides.json',
       missingContent: 'error',
     },
     'zh-CN': {
@@ -365,8 +433,8 @@ Guides may declare separate English and Chinese remote sources because they repr
       source: 'chinese',
       outputDir: 'content/zh-CN/guides/tutorials',
       contentRoot: 'content/zh-CN/guides',
-      sidebarPath: 'config/generated/zh-CN/guides.sidebar.js',
-      overridePath: 'config/sidebar-overrides/zh-CN/guides.json',
+      sidebarPath: 'generated/zh-CN/sidebars/guides.sidebar.js',
+      overridePath: 'sidebar-overrides/zh-CN/guides.json',
       missingContent: 'error',
     },
   },
@@ -463,9 +531,9 @@ There will be no general rule equivalent to “copy the Chinese file tree over t
 | --- | --- |
 | Chinese documents | `content/zh-CN/**` or `translations/zh-CN/**` |
 | Feishu roots, Base IDs, manual versions | manual source and publication registry |
-| Chinese navigation and sidebars | `config/sites/zh-CN.ts` and locale-owned sidebar files |
+| Chinese navigation and sidebars | `packages/site-config/src/sites/zh-CN.ts` and `generated/zh-CN/sidebars` |
 | Chinese route redirects and robots | Chinese site profile and `deploy/zh-CN` |
-| Chinese UI strings and assets | `src/site/zh-CN` and `static/zh-CN` |
+| Chinese UI strings and assets | `packages/docs-ui/src/zh-CN` and `apps/docs/static/zh-CN` |
 | Markdown normalization | shared plugin extension point selected by profile |
 | REST replacements | Reference publication adapter selected by profile |
 | Aliyun OSS behavior | shared storage adapter registry selected by profile |
@@ -657,36 +725,50 @@ English and Chinese may deploy at different times and roll back independently, b
 
 ## Migration Plan
 
-### Phase 0: Inventory and freeze assembly growth
+### Phase 0: Create the clean-room worktree and record baselines
 
+- Create `.claude/worktrees/unified-docs-clean-room` from the reviewed `master` commit on branch `codex/unified-docs-clean-room`.
+- Confirm `.claude/worktrees/` remains ignored.
+- Install the existing project dependencies and run the agreed baseline test/build commands before deleting or moving files.
+- Record the exact starting SHA and baseline results in the migration report.
 - Freeze new overlay categories in `zdoc_cn`.
 - Inventory all overlay copy entries, patches, direct file differences, public routes, and deployment behavior.
 - Classify each difference into content, configuration, UI, adapter, or deployment ownership.
 - Capture route and rendered-page baselines for both sites.
 
-### Phase 1: Introduce profiles without changing English behavior
+### Phase 1: Establish the replacement project skeleton
 
-- Add the site profile schema and resolver to `zdoc`.
-- Represent the current English configuration as `config/sites/en.ts`.
-- Make `pnpm build:en` produce route and asset parity with the existing build.
-- Add collision and path-ownership validation.
+- Create the root pnpm workspace and `apps/docs` application.
+- Create `packages/site-config`, `packages/docs-tooling`, `packages/docs-ui`, and `packages/publication-adapters` with explicit public APIs.
+- Add the migration manifest and validate that every declared source path exists at its recorded source commit.
+- Add empty but schema-valid English and Chinese profiles.
+- Prohibit imports from undeclared legacy roots in the new packages.
 
-### Phase 2: Add shared extension points
+### Phase 2: Build the first English vertical slice
+
+- Migrate the minimum shared UI, one English content plugin, and its sidebar into the new structure.
+- Implement profile resolution and the Docusaurus configuration factory.
+- Build and smoke-test the slice through `pnpm build:en`.
+- Expand the English profile one content group at a time until route and asset parity is reached.
+- Use `git mv` for content or reusable files when target structure and file identity remain meaningful.
+
+### Phase 3: Add shared tooling and extension points
 
 - Convert the Chinese publication normalizer patch into a shared adapter hook.
 - Add explicit REST replacement and storage adapter registries.
 - Add explicit UI module selection.
-- Verify the English profile continues to use existing behavior.
+- Rewrite verified Lark and Reference generator behavior behind `packages/docs-tooling` APIs.
+- Verify the completed English profile continues to match the approved baseline.
 
-### Phase 3: Import Chinese configuration and content
+### Phase 4: Import Chinese configuration and content
 
-- Add `config/sites/zh-CN.ts`.
+- Complete `packages/site-config/src/sites/zh-CN.ts`.
 - Import Chinese Guides, BYOC, On-premise, Reference translations, sidebars, assets, and redirects into their declared roots.
 - Import Chinese manual source identities into the unified registry.
 - Preserve Git history where practical using repository history import; otherwise record the source `zdoc_cn` commit in the migration commit message and manifest.
 - Do not import `.zdoc-upstream`, `.zdoc-assembled`, `node_modules`, or build outputs.
 
-### Phase 4: Establish Reference source and translation boundaries
+### Phase 5: Establish Reference source and translation boundaries
 
 - Move or expose canonical English Reference content under declared source roots.
 - Map the English publication to canonical content.
@@ -694,26 +776,35 @@ English and Chinese may deploy at different times and roll back independently, b
 - Generate source-to-target manifests and explicit retirement records.
 - Fail closed on missing active Chinese translations.
 
-### Phase 5: Dual-build comparison
+### Phase 6: Resolve or retire every legacy subsystem
+
+- Change every migration manifest entry from `defer` to `migrate`, `rewrite`, or `retire`.
+- Scan new application and package imports for dependencies on old `src`, `plugins`, `scripts`, and `config` roots.
+- Remove a legacy root only after its replacement tests or retirement evidence pass.
+- Confirm no required behavior exists only in the original worktree or `zdoc_cn`.
+- Keep deletion and replacement in reviewable commits grouped by subsystem rather than one repository-wide deletion commit.
+
+### Phase 7: Dual-build comparison
 
 - Build the existing English site and new English profile; compare routes and representative rendered pages.
 - Build the existing Chinese site and new Chinese profile; compare routes, navigation, assets, metadata, and product-specific behavior.
 - Allow only reviewed route removals or redirects.
 - Run production Docker/Nginx smoke tests for both profiles.
 
-### Phase 6: Cut over CI and deployment
+### Phase 8: Cut over CI and deployment
 
 - Change Chinese generation workflows to commit into the merged repository.
 - Change Chinese Jenkins to checkout one `zdoc` SHA and run `build:zh-CN`.
 - Record and verify the immutable SHA in the deployed image.
 - Keep the old Chinese deployment available for immediate rollback during the observation period.
 
-### Phase 7: Retire the split repository mechanism
+### Phase 9: Retire the split repository mechanism
 
 - Make `zdoc_cn` read-only and archive it after production validation.
 - Remove upstream materialization, assembly, overlay validation, patch application, and workflow synchronization code.
 - Remove obsolete upstream locks and assembled-workspace tests.
 - Retain migration provenance and route comparison reports under project documentation.
+- Confirm the replacement branch still has ordinary ancestry from `master` and can merge through the normal review process.
 
 ## Validation Strategy
 
@@ -726,6 +817,9 @@ English and Chinese may deploy at different times and roll back independently, b
 - Each declared module, sidebar, adapter, and content root exists.
 - The Chinese profile registers no document content from `i18n/zh-CN`.
 - The profiles may expose different plugins, manuals, navigation, and features.
+- New workspace packages do not import undeclared legacy roots.
+- Every migration manifest entry has a valid owner and source commit.
+- A cutover candidate contains no `defer` migration entries.
 
 ### Manual registry tests
 
@@ -751,6 +845,7 @@ English and Chinese may deploy at different times and roll back independently, b
 - Neither build creates or reads `.zdoc-assembled`.
 - Neither build applies patches or reads another repository.
 - Each artifact contains matching provenance metadata.
+- The root commands build only through `apps/docs` and declared workspace packages.
 
 ### Route and product tests
 
@@ -772,13 +867,16 @@ English and Chinese may deploy at different times and roll back independently, b
 
 Rollout is profile-by-profile rather than repository-wide.
 
-1. Land the profile framework and English profile.
-2. Prove English parity.
-3. Land shared extension points.
-4. Import and validate the Chinese profile and content.
-5. Run old and new Chinese builds in parallel.
-6. Switch Chinese deployment to the merged repository.
-7. Observe production behavior before retiring `zdoc_cn`.
+1. Create the normal-history clean-room worktree.
+2. Land the replacement skeleton and first English vertical slice on the feature branch.
+3. Reach English parity within the new package boundaries.
+4. Land shared tooling and explicit extension points.
+5. Import and validate the Chinese profile and content.
+6. Resolve every legacy migration entry.
+7. Run old and new Chinese builds in parallel.
+8. Merge the replacement branch through normal review.
+9. Switch Chinese deployment to the merged repository.
+10. Observe production behavior before retiring `zdoc_cn`.
 
 Rollback options:
 
@@ -803,6 +901,14 @@ Mitigation: environment access is confined to profile resolution; components con
 
 Mitigation: preserve history with a controlled repository-history import where practical and always record the source repository SHA and migration mapping.
 
+### A clean-room rewrite can silently omit legacy behavior
+
+Mitigation: require an exhaustive migration manifest, baseline route/build evidence, subsystem-level replacement commits, and zero deferred entries before cutover.
+
+### An orphan branch would simplify an empty start but damage integration
+
+Mitigation: use a normal branch from `master`; conceptual cleanliness comes from the new package structure and controlled retirement, not unrelated Git history.
+
 ### Reference source and translation may drift
 
 Mitigation: deterministic translation manifests, source hashes, explicit acknowledged source revisions, and fail-closed coverage validation.
@@ -818,6 +924,8 @@ Mitigation: independent required checks and deployment records named by site ID,
 ## Acceptance Criteria
 
 - `zdoc` contains the complete checked-in inputs needed for both sites.
+- The replacement implementation was developed in `.claude/worktrees/unified-docs-clean-room` on a normal branch descended from `master`.
+- The final repository uses `apps/docs`, `packages/site-config`, `packages/docs-tooling`, `packages/docs-ui`, and `packages/publication-adapters` as explicit boundaries.
 - English and Chinese builds use the same package lock and shared application code.
 - `pnpm build:en` and `pnpm build:zh-CN` build independent artifacts.
 - Chinese content structure can differ from English without Docusaurus content i18n.
@@ -833,6 +941,8 @@ Mitigation: independent required checks and deployment records named by site ID,
 - Shared-code changes validate both sites; site-owned changes validate the affected site.
 - Route parity and reviewed deviations are documented before Chinese production cutover.
 - `zdoc_cn` can be archived without removing any input required to build the Chinese site.
+- The cutover candidate has no deferred migration entries and no runtime imports from retired legacy roots.
+- No orphan branch, unrelated-history merge, bulk overlay copy, or repository-wide unreviewed deletion is required.
 
 ## External Practice References
 
