@@ -291,6 +291,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats",
+        "label": "getCollectionStats()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-getcollectionstats"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-hasCollection",
         "label": "hasCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-hascollection"
@@ -356,6 +362,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType",
+            "label": "FunctionType",
+            "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-functiontype"
+          },
+          {
+            "type": "doc",
             "id": "api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker",
             "label": "ModelRanker",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-modelranker"
@@ -382,6 +394,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction",
+        "label": "addCollectionFunction()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-addcollectionfunction"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction",
         "label": "alterCollectionFunction()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-altercollectionfunction"
@@ -391,6 +409,12 @@ module.exports = [
         "id": "api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection",
         "label": "batchDescribeCollection()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-batchdescribecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction",
+        "label": "dropCollectionFunction()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfunction"
       },
       {
         "type": "category",
@@ -492,6 +516,24 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-addFunctionField",
+        "label": "addFunctionField()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-addfunctionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropCollectionField",
+        "label": "dropCollectionField()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropcollectionfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-dropFunctionField",
+        "label": "dropFunctionField()",
+        "key": "doc:api/java/java/v2/v2-Collections/v2-collections-dropfunctionfield"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2",
         "label": "getLoadStateV2()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-getloadstatev2"
@@ -583,6 +625,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow",
+            "label": "appendRow()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-appendrow"
+          },
+          {
+            "type": "doc",
             "id": "api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount",
             "label": "getTotalRowCount()",
             "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-gettotalrowcount"
@@ -620,6 +668,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow",
+            "label": "appendRow()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-appendrow"
+          },
+          {
+            "type": "doc",
             "id": "api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount",
             "label": "getTotalRowCount()",
             "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-gettotalrowcount"
@@ -631,6 +685,12 @@ module.exports = [
         "label": "VolumeBulkWriter",
         "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-volumebulkwriter",
         "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow",
+            "label": "appendRow()",
+            "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-volumebulkwriter-appendrow"
+          },
           {
             "type": "doc",
             "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close",
@@ -964,15 +1024,39 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-insert",
+        "label": "insert()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-insert"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-query",
+        "label": "query()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-query"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Vector/v2-Vector-queryIterator",
         "label": "queryIterator()",
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-queryiterator"
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-search",
+        "label": "search()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-search"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Vector/v2-Vector-searchIterator",
         "label": "searchIterator()",
         "key": "doc:api/java/java/v2/v2-Vector/v2-vector-searchiterator"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Vector/v2-Vector-upsert",
+        "label": "upsert()",
+        "key": "doc:api/java/java/v2/v2-Vector/v2-vector-upsert"
       },
       {
         "type": "doc",
@@ -1056,9 +1140,27 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync",
+            "label": "uploadFilesAsync()",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volumefilemanager-uploadfilesasync"
+          },
+          {
+            "type": "doc",
             "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager",
             "label": "VolumeFileManager",
             "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volume-volumefilemanager"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully",
+            "label": "shutdownGracefully()",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volumefilemanager-shutdowngracefully"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFiles",
+            "label": "uploadFiles()",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volumefilemanager-uploadfiles"
           }
         ]
       },
