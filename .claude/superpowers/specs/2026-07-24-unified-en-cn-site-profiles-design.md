@@ -305,7 +305,21 @@ Remote fetch snapshots, Feishu JSON, translation-service exports, and staging di
 - CI logs, downloaded dependencies, or deployment caches;
 - a duplicate copy of an externally owned Jenkins pipeline.
 
-If Jenkins orchestration remains in `vdc-jenkins`, that repository remains its owner. `zdoc/deploy/contracts` records the command, inputs, outputs, labels, and immutable-SHA expectations that Jenkins must satisfy; it does not mirror the Groovy pipeline.
+Jenkins orchestration remains in `vdc-jenkins`, and that repository remains its owner. `zdoc/deploy/contracts` records the command, inputs, outputs, labels, and immutable-SHA expectations that Jenkins must satisfy; it does not mirror the Groovy pipeline.
+
+The repository contract preserves the four existing `vdc-jenkins` delivery pipelines and their independent release cadence:
+
+| Site | UAT pipeline | Prod pipeline |
+| --- | --- | --- |
+| English | English UAT | English Prod |
+| Chinese | Chinese UAT | Chinese Prod |
+
+Both Prod pipelines already support two release paths, and the migration must preserve both:
+
+- **rebuild** — check out an explicit immutable `zdoc` SHA, build the selected site profile, publish a new image, and deploy that image;
+- **specified image** — deploy a selected image previously produced and validated by the corresponding UAT pipeline, without rebuilding its application payload.
+
+The existing Jenkins parameter UX may continue accepting an image reference or tag. Before deployment, Jenkins must resolve it to an immutable registry digest and verify the image provenance required by `deploy/contracts`; deployment and rollback records use the resolved digest, never the mutable tag alone.
 
 ### Legacy migration manifest
 
@@ -905,14 +919,44 @@ Recommended trigger classes:
 
 ### Deployment jobs
 
-Each deployment checks out one immutable `zdoc` SHA and invokes one named build command. It does not perform an auxiliary checkout.
+`vdc-jenkins` continues to own four independent deployment pipelines: English UAT, English Prod, Chinese UAT, and Chinese Prod. `zdoc` owns only the build, packaging, provenance, and validation contracts consumed by those pipelines.
+
+Each UAT pipeline:
+
+- checks out one explicit immutable `zdoc` SHA;
+- invokes the named build command for exactly one site profile;
+- publishes an image with immutable digest and provenance labels;
+- records the site ID, source repository, source SHA, image digest, and Jenkins build identity;
+- does not perform an auxiliary repository checkout or build-time overlay assembly.
+
+Each Prod pipeline preserves its existing choice between `rebuild` and `specified image`:
+
+| Prod mode | Required input | Required behavior |
+| --- | --- | --- |
+| `rebuild` | site ID and explicit immutable `zdoc` SHA | Check out that SHA, run the site's named build, publish a new image, record its digest, and deploy it. The release record links successful UAT evidence for the same site and SHA. |
+| `specified image` | site ID and an image reference produced by the corresponding UAT pipeline | Resolve the reference to a digest, verify its UAT provenance and site identity, then deploy or promote the same image manifest without rebuilding the application payload. |
+
+For `specified image`, verification fails closed unless the resolved image proves all of the following:
+
+- it was produced by the corresponding English or Chinese UAT pipeline;
+- its site ID matches the target Prod pipeline;
+- its source repository is `zdoc`;
+- it identifies one immutable source SHA;
+- its manifest digest still matches the registry object selected for deployment.
+
+A tag may remain a convenient operator input, but it is not release identity. Jenkins resolves the input before approval or deployment, displays the resolved digest, and records that digest in the production release record.
 
 English and Chinese may deploy at different times and roll back independently, but every deployed artifact identifies:
 
 - the same repository name;
 - its exact Git SHA;
 - its site profile;
-- its artifact hash.
+- its artifact or image digest;
+- whether Prod used `rebuild` or `specified image`;
+- the source UAT digest when Prod used `specified image`;
+- the final deployed digest and Jenkins build identity.
+
+Rollback accepts a previously recorded production digest. It must not depend on reconstructing the mutable tag that originally selected the image.
 
 ### Cutover runbook
 
@@ -920,6 +964,7 @@ The Chinese cutover has a versioned runbook containing:
 
 - exact legacy and replacement repository SHAs;
 - artifact and image hashes;
+- the selected Prod release mode and, for `specified image`, the resolved UAT digest;
 - change-freeze scope and duration;
 - preflight, deployment, smoke, and business validation commands;
 - owners for go/no-go, deployment, validation, and rollback;
@@ -1036,8 +1081,11 @@ Each sub-project must leave the repository installable and its affected build ta
 ### Phase 8: Cut over CI and deployment
 
 - Change Chinese generation workflows to commit into the merged repository.
-- Change Chinese Jenkins to checkout one `zdoc` SHA and run `build:zh-CN`.
-- Record and verify the immutable SHA in the deployed image.
+- Preserve the four existing `vdc-jenkins` pipelines: English UAT, English Prod, Chinese UAT, and Chinese Prod.
+- Change each UAT rebuild path to check out one `zdoc` SHA and run the named build for its site profile.
+- Preserve both existing Prod paths: rebuild from an explicit `zdoc` SHA or deploy a specified image produced by the corresponding UAT pipeline.
+- Record and verify the immutable source SHA and image digest for both paths; resolve any operator-supplied tag to a digest before deployment.
+- Verify site, repository, SHA, UAT pipeline provenance, and manifest digest before a specified image can be deployed to Prod.
 - Keep the old Chinese deployment available for immediate rollback during the observation period.
 - Execute the versioned cutover runbook and record approvals, evidence, and rollback checkpoints.
 
@@ -1114,6 +1162,12 @@ Each sub-project must leave the repository installable and its affected build ta
 - Shared tooling changes trigger both site validations.
 - Chinese-only content changes do not deploy the English site.
 - Shadow deployments cannot mutate production content, translation state, or integrations.
+- All four Jenkins pipelines consume the same versioned deployment contract while retaining independent site and environment ownership.
+- UAT images record site ID, source repository, source SHA, image digest, and Jenkins build identity.
+- Both Prod pipelines can rebuild from an explicit SHA and can deploy a specified image from the corresponding UAT pipeline.
+- A specified-image deployment rejects the wrong site, a non-UAT image, missing or mismatched source provenance, and registry digest drift.
+- A mutable image tag is resolved and recorded as an immutable digest before production deployment.
+- Production rollback can select a previously recorded Prod digest without rebuilding.
 - The cutover and rollback runbooks are executable from their recorded SHAs and artifacts.
 
 ## Rollout and Rollback
@@ -1134,7 +1188,7 @@ Rollout is profile-by-profile rather than repository-wide.
 Rollback options:
 
 - revert a profile or shared-code commit in `zdoc`;
-- deploy the last known-good artifact for the affected site;
+- deploy the last known-good production image digest for the affected site;
 - temporarily restore the old Chinese deployment during the observation period;
 - roll back one site without rolling back the other when the failure is profile-owned.
 
@@ -1192,7 +1246,7 @@ Mitigation: Markdown remains in Git; generated build artifacts, caches, and dupl
 
 ### Two deployments from one repository can create ambiguous status
 
-Mitigation: independent required checks and deployment records named by site ID, each reporting commit and artifact hash.
+Mitigation: independent required checks and deployment records named by site ID, each reporting source commit, release mode, and immutable artifact or image digest.
 
 ## Acceptance Criteria
 
@@ -1212,7 +1266,12 @@ Mitigation: independent required checks and deployment records named by site ID,
 - Missing active Chinese Reference content fails validation rather than falling back to English.
 - Chinese-only and English-only product capabilities are represented explicitly in profiles.
 - Generated Markdown is validated and committed before the site build.
-- Every deployed artifact identifies one `zdoc` SHA, one site profile, and one artifact hash.
+- Every deployed artifact identifies one `zdoc` SHA, one site profile, and one immutable artifact or image digest.
+- `vdc-jenkins` remains the owner of separate English UAT, English Prod, Chinese UAT, and Chinese Prod pipelines.
+- Both Prod pipelines preserve their existing rebuild and specified-image release paths.
+- Prod rebuild records the requested source SHA, resulting image digest, and linked UAT evidence for the same site and SHA.
+- Prod specified-image release verifies the corresponding UAT provenance and deploys the resolved immutable digest without rebuilding the application payload.
+- Production deployment and rollback records identify immutable digests even when an operator initially supplied a mutable tag.
 - `deploy/` contains only versioned packaging, serving, verification, and external-pipeline contract files; it contains no artifacts, secrets, mutable environment state, or duplicated Jenkins pipeline.
 - Shared-code changes validate both sites; site-owned changes validate the affected site.
 - Route parity and reviewed deviations are documented before Chinese production cutover.
