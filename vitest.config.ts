@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
-    include: ['src/**/*.test.{ts,tsx}'],
+    include: ['src/**/*.test.{ts,tsx}', 'packages/site-config/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'v8',
       include: ['src/components/ChatPanel/**/*.tsx', 'src/theme/Search/**/*.tsx'],

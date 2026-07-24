@@ -1,6 +1,7 @@
 packages:
   - 'chat-proxy'
-  - 'packages/chat-ui'
+  - 'apps/*'
+  - 'packages/*'
 
 onlyBuiltDependencies:
   - '@swc/core'

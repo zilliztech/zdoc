@@ -1,0 +1,15 @@
+{
+  "name": "@zilliz/docs-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:en": "ZDOC_SITE=en docusaurus build --out-dir ../../build/en",
+    "build:zh-CN": "ZDOC_SITE=zh-CN docusaurus build --out-dir ../../build/zh-CN",
+    "start:en": "ZDOC_SITE=en docusaurus start",
+    "start:zh-CN": "ZDOC_SITE=zh-CN docusaurus start"
+  },
+  "dependencies": {
+    "@zilliz/site-config": "workspace:*"
+  }
+}
