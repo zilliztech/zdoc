@@ -1,0 +1,16 @@
+{
+  "bundle": {
+    "command": "git -C ../../../../zdoc_cn bundle create /tmp/zdoc-cn-pre-merge.bundle --all",
+    "controlledArchiveLocation": "/tmp/zdoc-cn-pre-merge.bundle",
+    "sha256": "4e0535ebb55470bb3c9fd37b40279ad42e77b8b205697d12d47db8603504a447",
+    "verification": {
+      "command": "git bundle verify /tmp/zdoc-cn-pre-merge.bundle",
+      "exitStatus": 0,
+      "result": "The bundle is okay; it records a complete history."
+    }
+  },
+  "source": {
+    "head": "b1900473dddf8db2d56c11387211a7014b54c160",
+    "url": "https://github.com/zilliztech/zdoc_cn.git"
+  }
+}

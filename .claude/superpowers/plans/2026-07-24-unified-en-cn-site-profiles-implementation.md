@@ -113,13 +113,13 @@ pnpm install --frozen-lockfile
 pnpm typecheck
 pnpm test:frontend
 pnpm build
-pnpm --dir ../../../../zdoc_cn install --frozen-lockfile
+npm ci --prefix ../../../../zdoc_cn
 pnpm --dir ../../../../zdoc_cn test:cn-publish-normalizer
 pnpm --dir ../../../../zdoc_cn test:docs-workflow
 pnpm --dir ../../../../zdoc_cn build:assembled
 ```
 
-Expected: every command exits 0. Record the two repository SHAs, command, exit status, Node version, pnpm version, and artifact path in `migration/reports/baseline.json`; do not record secrets or complete environment dumps.
+Record the two repository SHAs, command, exit status, Node version, pnpm version, and artifact path in `migration/reports/baseline.json`; do not record secrets or complete environment dumps. `npm ci` is used only to reproduce the legacy `zdoc_cn` package-lock/CI baseline; it is not a unified-target dependency or build path. The unified workspace, both replacement-site builds, and Jenkins use pnpm only.
 
 - [ ] **Step 4: Create and verify the Chinese repository archive**
 

@@ -1,0 +1,101 @@
+{
+  "baseline": {
+    "branch": "codex/unified-docs/01-foundation",
+    "mergeBaseWithMaster": "b20b942facaa7774da4e5a769b9c918d056c4ac4",
+    "reviewedMasterSha": "b20b942facaa7774da4e5a769b9c918d056c4ac4",
+    "worktree": ".claude/worktrees/unified-docs-clean-room"
+  },
+  "commands": [
+    {
+      "artifactPath": "node_modules",
+      "command": "pnpm install --frozen-lockfile",
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "warningSummary": []
+    },
+    {
+      "artifactPath": "none",
+      "command": "pnpm typecheck",
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "warningSummary": []
+    },
+    {
+      "artifactPath": "none",
+      "command": "pnpm test:frontend",
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "warningSummary": [
+        "Vite CJS Node API deprecation warning.",
+        "Node experimental localStorage warnings.",
+        "The existing SearchModal test logs that navigation to another Document is not implemented."
+      ]
+    },
+    {
+      "artifactPath": "build",
+      "command": "pnpm build",
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "warningSummary": [
+        "Docusaurus reports pre-existing broken links, including frequently /reference/cpp, ./undefined, and ./data-import-format-options.",
+        "Docusaurus reports pre-existing broken anchors.",
+        "Docusaurus update check cannot access the local update config store."
+      ]
+    },
+    {
+      "artifactPath": "node_modules (not produced)",
+      "command": "npm ci --prefix ../../../../zdoc_cn",
+      "exitStatus": 1,
+      "repository": "zdoc_cn",
+      "warningSummary": [
+        "Known legacy baseline defect: package.json and package-lock.json are out of sync.",
+        "npm reports missing multiple @node-rs/jieba-* 1.10.4 packages and @napi-rs/wasm-runtime@0.2.12."
+      ]
+    },
+    {
+      "artifactPath": "none",
+      "command": "pnpm --dir ../../../../zdoc_cn test:cn-publish-normalizer",
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "warningSummary": []
+    },
+    {
+      "artifactPath": "temporary test fixtures under the system temporary directory",
+      "command": "pnpm --dir ../../../../zdoc_cn test:docs-workflow",
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "testSummary": "622 passed; 2 skipped.",
+      "warningSummary": []
+    },
+    {
+      "artifactPath": ".zdoc-assembled (assembled workspace); .zdoc-assembled/build (not produced)",
+      "command": "pnpm --dir ../../../../zdoc_cn build:assembled",
+      "exitStatus": 1,
+      "repository": "zdoc_cn",
+      "warningSummary": [
+        "Known legacy baseline defect: assembly completed, then the Docusaurus build could not resolve @zdoc/chat-ui and @zdoc/chat-ui/dist/style.css from src/components/ChatPanel.",
+        "Assembly reported upstream zdoc commit 12cf657f0f1ecca6fc9f85860b0662a2e923757b, overlay hash excerpt 08425d9e...210e1d, and patch hash excerpt bb09578e...53d4cdb."
+      ]
+    }
+  ],
+  "notes": [
+    "The originally planned pnpm --dir ../../../../zdoc_cn install --frozen-lockfile command is not applicable: zdoc_cn has package-lock.json and yarn.lock but no pnpm-lock.yaml.",
+    "npm ci is retained solely to reproduce the legacy zdoc_cn package-lock/CI baseline. The unified target workspace, both replacement-site builds, and Jenkins are pnpm-only.",
+    "The two nonzero legacy commands are recorded as baseline defects and were not fixed during this task."
+  ],
+  "repositories": {
+    "zdoc": {
+      "head": "b20b942facaa7774da4e5a769b9c918d056c4ac4",
+      "sourceUrl": "git@github.com:zilliztech/zdoc"
+    },
+    "zdoc_cn": {
+      "head": "b1900473dddf8db2d56c11387211a7014b54c160",
+      "sourceUrl": "https://github.com/zilliztech/zdoc_cn.git"
+    }
+  },
+  "toolVersions": {
+    "node": "v26.3.0",
+    "npm": "11.16.0",
+    "pnpm": "10.32.1"
+  }
+}
