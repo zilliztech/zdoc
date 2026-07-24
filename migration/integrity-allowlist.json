@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "context": "Narrow repository-integrity exceptions retained with explicit ownership and rationale.",
+  "exceptions": [
+    {
+      "rule": "secret.private-key-marker",
+      "path": "scripts/migration/integrity.test.mjs",
+      "owner": "tooling",
+      "reason": "Synthetic private-key header is required to prove fixture detection; no key material is present."
+    },
+    {
+      "rule": "secret.token-marker",
+      "path": "scripts/migration/integrity.test.mjs",
+      "owner": "tooling",
+      "reason": "Synthetic token-shaped value is required to prove fixture detection and is not a credential."
+    },
+    {
+      "rule": "secret.filename",
+      "path": ".env",
+      "owner": "deploy",
+      "reason": "Untracked local runtime configuration is retained outside migration inputs; only its filename and byte hash are reported and it must not be imported."
+    }
+  ]
+}

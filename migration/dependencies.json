@@ -1,0 +1,1016 @@
+{
+  "schemaVersion": 1,
+  "policy": "All unified-target decisions remain pending review unless separately approved.",
+  "dependencies": [
+    {
+      "package": "@aws-sdk/client-s3",
+      "versionRange": "^3.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/core",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/faster",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/plugin-content-docs",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/preset-classic",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/theme-common",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@easyops-cn/docusaurus-search-local",
+      "versionRange": "^0.41.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@inkeep/cxkit-docusaurus",
+      "versionRange": "^0.5.79",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@inkeep/cxkit-react",
+      "versionRange": "^0.5.71",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@inkeep/docusaurus",
+      "versionRange": "^2.0.16",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@mdx-js/mdx",
+      "versionRange": "^3.1.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@mdx-js/react",
+      "versionRange": "^3.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@smithy/node-http-handler",
+      "versionRange": "^4.5.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@zdoc/chat-ui",
+      "versionRange": "workspace:*",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "axios",
+      "versionRange": "^1.6.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "bottleneck",
+      "versionRange": "^2.19.5",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "cheerio",
+      "versionRange": "^1.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "clsx",
+      "versionRange": "^2.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "docusaurus-gtm-plugin",
+      "versionRange": "^0.0.2",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "docusaurus-plugin-image-zoom",
+      "versionRange": "^2.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "dotenv",
+      "versionRange": "^16.3.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "inquirer",
+      "versionRange": "^9.2.17",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "js-yaml",
+      "versionRange": "^4.1.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "lodash",
+      "versionRange": "^4.17.21",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "lucide-react",
+      "versionRange": "^0.577.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "node-fetch",
+      "versionRange": "^2.7.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "nunjucks",
+      "versionRange": "^3.2.4",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "playwright",
+      "versionRange": "^1.58.2",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "prism-react-renderer",
+      "versionRange": "^2.3.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "prismjs",
+      "versionRange": "^1.30.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react-dom",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react-markdown",
+      "versionRange": "^10.1.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "rehype-katex",
+      "versionRange": "^7.0.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "remark-gfm",
+      "versionRange": "^4.0.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "remark-math",
+      "versionRange": "^6.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "sharp",
+      "versionRange": "^0.34.5",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "showdown",
+      "versionRange": "^2.1.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "slugify",
+      "versionRange": "^1.6.6",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "unist-util-visit",
+      "versionRange": "^5.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "xml2js",
+      "versionRange": "^0.6.2",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "zod",
+      "versionRange": "^3.25.13",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "zod-to-json-schema",
+      "versionRange": "^3.25.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/module-type-aliases",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/tsconfig",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/types",
+      "versionRange": "3.10.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@playwright/test",
+      "versionRange": "^1.58.2",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@testing-library/jest-dom",
+      "versionRange": "^6.9.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@testing-library/react",
+      "versionRange": "^16.3.2",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@types/node",
+      "versionRange": "^25.3.5",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@vitest/coverage-v8",
+      "versionRange": "^3.2.4",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "jsdom",
+      "versionRange": "^29.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "typescript",
+      "versionRange": "~5.6.2",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "vitest",
+      "versionRange": "^3.2.4",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "lucide-react",
+      "versionRange": "^0.577.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react-markdown",
+      "versionRange": "^10.1.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "remark-gfm",
+      "versionRange": "^4.0.1",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@types/react",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@types/react-dom",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@vitejs/plugin-react",
+      "versionRange": "^4.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react-dom",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "typescript",
+      "versionRange": "~5.6.2",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "vite",
+      "versionRange": "^5.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "vite-plugin-dts",
+      "versionRange": "^3.0.0",
+      "sourceRepository": "zdoc",
+      "sourcePackageManifest": "packages/chat-ui/package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/core",
+      "versionRange": "^3.10.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/faster",
+      "versionRange": "^3.10.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/preset-classic",
+      "versionRange": "^3.10.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@easyops-cn/docusaurus-search-local",
+      "versionRange": "^0.45.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@inkeep/cxkit-docusaurus",
+      "versionRange": "^0.5.80",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@inkeep/cxkit-react",
+      "versionRange": "^0.5.75",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@inkeep/docusaurus",
+      "versionRange": "^2.0.16",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@mdx-js/react",
+      "versionRange": "^3.0.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@node-rs/jieba",
+      "versionRange": "^1.10.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "ali-oss",
+      "versionRange": "^6.x",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "bottleneck",
+      "versionRange": "^2.19.5",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "clsx",
+      "versionRange": "^2.0.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "docusaurus-gtm-plugin",
+      "versionRange": "^0.0.2",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "dotenv",
+      "versionRange": "^16.3.1",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "fast-xml-parser",
+      "versionRange": "^5.3.2",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "inquirer",
+      "versionRange": "^9.2.17",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "lodash",
+      "versionRange": "^4.17.21",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "lucide-react",
+      "versionRange": "^1.8.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "node-fetch",
+      "versionRange": "^2.7.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "nunjucks",
+      "versionRange": "^3.2.4",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "prism-react-renderer",
+      "versionRange": "^2.3.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "react-dom",
+      "versionRange": "^18.0.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "rehype-katex",
+      "versionRange": "7",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "remark-math",
+      "versionRange": "6",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "sharp",
+      "versionRange": "^0.34.5",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "showdown",
+      "versionRange": "^2.1.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "slugify",
+      "versionRange": "^1.6.6",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "uuid",
+      "versionRange": "^10.0.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "xml2js",
+      "versionRange": "^0.6.2",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "zod",
+      "versionRange": "^3.25.13",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "zod-to-json-schema",
+      "versionRange": "^3.24.5",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "dependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/module-type-aliases",
+      "versionRange": "^3.10.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@docusaurus/types",
+      "versionRange": "^3.10.0",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "husky",
+      "versionRange": "^9.0.11",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "devDependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    },
+    {
+      "package": "@node-rs/jieba-linux-x64-gnu",
+      "versionRange": "1.10.4",
+      "sourceRepository": "zdoc_cn",
+      "sourcePackageManifest": "package.json",
+      "dependencyClass": "optionalDependencies",
+      "owner": "tooling",
+      "capability": "docs.tooling",
+      "reviewStatus": "pending"
+    }
+  ]
+}

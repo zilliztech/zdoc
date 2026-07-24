@@ -1,0 +1,498 @@
+{
+  "schemaVersion": 1,
+  "capabilities": [
+    {
+      "id": "chinese.normalization",
+      "owner": "adapter",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Chinese normalization remains deterministic."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:plugins/cn-publish-normalizer"
+      ],
+      "replacementEntryPoints": [
+        "packages/publication-adapters/chinese-normalizer"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: pnpm test --filter chinese-normalizer; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "chinese.rest-replacements",
+      "owner": "adapter",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Chinese REST replacements remain explicit and validated."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:config/cn-publish-replacements.js",
+        "zdoc_cn:rest-overrides/zh-CN"
+      ],
+      "replacementEntryPoints": [
+        "packages/publication-adapters/chinese-rest"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-cn-rest-replacements.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "chinese.storage",
+      "owner": "adapter",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Storage publication preserves failure and retry behavior without embedding credentials."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:plugins/adapters/aliyun-oss"
+      ],
+      "replacementEntryPoints": [
+        "packages/publication-adapters/storage"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Required future gate: pnpm test --filter publication-storage; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "content.chinese",
+      "owner": "content",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Chinese content plugins, routes, sidebars, and navigation remain available."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:docs",
+        "zdoc_cn:i18n",
+        "zdoc_cn:docusaurus.config.js#plugins",
+        "zdoc_cn:sidebarsTutorial.js",
+        "zdoc_cn:sidebarsReference.js",
+        "zdoc_cn:sidebarsAgents.js",
+        "zdoc_cn:sidebarsOnPremise.js"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/content/zh-CN"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-routes.mjs --locale zh-CN; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "content.english",
+      "owner": "content",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "English content plugins, routes, sidebars, and navigation remain available."
+      ],
+      "legacyEntryPoints": [
+        "docs",
+        "docusaurus.config.ts#plugins",
+        "sidebarsTutorial.ts",
+        "sidebarsByoc.ts",
+        "sidebarsReference.ts"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/content/en"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-routes.mjs --locale en; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "deploy.container",
+      "owner": "deploy",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Container build and runtime environment injection remain functional."
+      ],
+      "legacyEntryPoints": [
+        "Dockerfile",
+        "docker-entrypoint.d"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/Dockerfile"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: docker build -t unified-docs:test .; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "deploy.jenkins-pipelines",
+      "owner": "deploy",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Four English/Chinese development and production pipelines preserve rebuild behavior, specified-image production mode, immutable image selection, and rollback behavior."
+      ],
+      "legacyEntryPoints": [
+        "vdc-jenkins:zilliz-docs/zilliz-docs-dev.groovy",
+        "vdc-jenkins:zilliz-docs/zilliz-docs-prod.groovy",
+        "vdc-jenkins:zilliz-docs/zilliz-docs-cn-dev.groovy",
+        "vdc-jenkins:zilliz-docs/zilliz-docs-cn-prod.groovy"
+      ],
+      "replacementEntryPoints": [
+        "ci/jenkins"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-jenkins-pipelines.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "deploy.nginx-health",
+      "owner": "deploy",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Nginx routing and health checks serve both locales."
+      ],
+      "legacyEntryPoints": [
+        "nginx.conf",
+        "zdoc_cn:nginx/zh-CN"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/nginx"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-container-health.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "feature.embedded-markdown",
+      "owner": "ui",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Embedded Markdown and MDX render safely."
+      ],
+      "legacyEntryPoints": [
+        "src/components/Markdown",
+        "@mdx-js/react"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-ui/embedded-markdown"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: pnpm test --filter embedded-markdown; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "feature.llms-txt",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "llms.txt outputs are deterministic and route-complete."
+      ],
+      "legacyEntryPoints": [
+        "plugins/llms-txt"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/llms-txt"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-llms-txt.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "feature.search",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Search integrations remain configured by environment."
+      ],
+      "legacyEntryPoints": [
+        "@easyops-cn/docusaurus-search-local",
+        "@inkeep/docusaurus"
+      ],
+      "replacementEntryPoints": [
+        "packages/site-config/search"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: pnpm test:e2e --grep search; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "feature.structured-data",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Structured data remains valid for published pages."
+      ],
+      "legacyEntryPoints": [
+        "docusaurus.config.ts",
+        "src/theme"
+      ],
+      "replacementEntryPoints": [
+        "packages/site-config/structured-data"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-structured-data.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "feature.web-metadata",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Metadata, robots directives, and redirects retain intended behavior."
+      ],
+      "legacyEntryPoints": [
+        "static/robots.txt",
+        "docusaurus.config.ts",
+        "nginx.conf"
+      ],
+      "replacementEntryPoints": [
+        "packages/site-config/web-metadata"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-metadata-robots-redirects.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "generation.lark-manuals",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Manual generation preserves content-group ownership, bounded concurrency, and atomic publication."
+      ],
+      "legacyEntryPoints": [
+        "plugins/lark-docs",
+        "scripts/docs-workflow"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/lark"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-publication-atomicity.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "generation.reference-rest",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "REST generation preserves provenance and translation coverage."
+      ],
+      "legacyEntryPoints": [
+        "plugins/apifox-docs"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/reference-rest"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-reference-rest.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "generation.reference-sdk",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "SDK generation preserves supported language/version coverage and provenance."
+      ],
+      "legacyEntryPoints": [
+        "plugins/lark-docs",
+        "sidebarsReference.ts"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/reference-sdk"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-reference-sdk.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "legacy.assembly-overlay",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Assembly, overlay validation, and copy behavior are retired after parity gates."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:scripts/upstream/assemble.js",
+        "zdoc_cn:scripts/upstream/validate-assembled.js",
+        "zdoc_cn:overlay-manifest.json"
+      ],
+      "replacementEntryPoints": [
+        "migration/archive/overlay-manifest.json"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-overlay-parity.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "legacy.overlay-patching",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Patch behavior is replaced by first-class extension points before retirement."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:patches/upstream/0001-cn-build-normalizer.patch"
+      ],
+      "replacementEntryPoints": [
+        "packages/publication-adapters/chinese-normalizer"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-patch-replacement.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "legacy.upstream-materialization",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Retire only after unified source cutover and archive verification."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:scripts/upstream/materialize.js"
+      ],
+      "replacementEntryPoints": [
+        "migration/archive/upstream-materialization"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-retirement-readiness.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "site.docusaurus-application",
+      "owner": "app",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Docusaurus application and registered plugins render the documentation site."
+      ],
+      "legacyEntryPoints": [
+        "docusaurus.config.ts",
+        "src/pages"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/docusaurus.config.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Required future gate: pnpm --filter @zdoc/docs build; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "site.shared-configuration",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Shared configuration and plugin registration are centralized without route loss."
+      ],
+      "legacyEntryPoints": [
+        "docusaurus.config.ts",
+        "config",
+        "sidebars*.ts"
+      ],
+      "replacementEntryPoints": [
+        "packages/site-config"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Required future gate: node scripts/migration/verify-site-config.mjs; this inventory does not claim it has passed."
+      ]
+    },
+    {
+      "id": "workspace.commands",
+      "owner": "app",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Install, build, typecheck, and test commands preserve nonzero exit behavior on failure."
+      ],
+      "legacyEntryPoints": [
+        "pnpm install --frozen-lockfile",
+        "package.json#scripts.build",
+        "package.json#scripts.typecheck",
+        "package.json#scripts.test:frontend"
+      ],
+      "replacementEntryPoints": [
+        "package.json#scripts"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Required future gate: pnpm install --frozen-lockfile && pnpm build && pnpm typecheck && pnpm test:frontend; this inventory does not claim it has passed."
+      ]
+    }
+  ]
+}
