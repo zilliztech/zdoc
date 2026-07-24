@@ -1,4 +1,4 @@
-import {createHash} from 'node:crypto';
+import {createHash, randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {createRequire} from 'node:module';
 import fs from 'node:fs';
@@ -134,14 +134,20 @@ function assertSafePathChain(repositoryRoot, absolutePath, label) {
 
 function secureReadRegularFile(repositoryRoot, relativePath, label) {
   const absolutePath = confinedPath(repositoryRoot, relativePath, label);
-  assertSafePathChain(repositoryRoot, absolutePath, label);
+  const preStat = assertSafePathChain(repositoryRoot, absolutePath, label);
   const noFollow = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
   const descriptor = fs.openSync(absolutePath, fs.constants.O_RDONLY | noFollow);
   try {
     const stat = fs.fstatSync(descriptor);
     if (!stat.isFile()) throw new Error(`${label} must be a regular file: ${relativePath}`);
+    if (preStat.dev !== stat.dev || preStat.ino !== stat.ino) {
+      throw new Error(`${label} changed before it could be read safely: ${relativePath}`);
+    }
     const bytes = fs.readFileSync(descriptor);
-    assertSafePathChain(repositoryRoot, absolutePath, label);
+    const postStat = assertSafePathChain(repositoryRoot, absolutePath, label);
+    if (postStat.dev !== stat.dev || postStat.ino !== stat.ino) {
+      throw new Error(`${label} changed while it was being read: ${relativePath}`);
+    }
     return {bytes, mode: stat.mode & 0o777};
   } finally {
     fs.closeSync(descriptor);
@@ -226,21 +232,44 @@ function resolveBuildDirectory(repositoryRoot, site, buildDirectory) {
 function secureWriteProvenance(repositoryRoot, buildRoot, bytes) {
   assertSafePathChain(repositoryRoot, buildRoot, 'build directory');
   const outputPath = path.join(buildRoot, provenanceFile);
-  const noFollow = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
-  const descriptor = fs.openSync(
-    outputPath,
-    fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_TRUNC | noFollow,
-    0o644,
+  const temporaryPath = path.join(
+    buildRoot,
+    `.${provenanceFile}.${process.pid}.${randomUUID()}.tmp`,
   );
+  const noFollow = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
+  let descriptor;
   try {
+    descriptor = fs.openSync(
+      temporaryPath,
+      fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | noFollow,
+      0o600,
+    );
     const stat = fs.fstatSync(descriptor);
     if (!stat.isFile()) throw new Error('Build provenance output must be a regular file');
-    assertSafePathChain(repositoryRoot, buildRoot, 'build directory');
     fs.writeFileSync(descriptor, bytes);
     fs.fsyncSync(descriptor);
-    assertSafePathChain(repositoryRoot, buildRoot, 'build directory');
-  } finally {
+    fs.fchmodSync(descriptor, 0o644);
     fs.closeSync(descriptor);
+    descriptor = undefined;
+    assertSafePathChain(repositoryRoot, buildRoot, 'build directory');
+    fs.renameSync(temporaryPath, outputPath);
+
+    let directoryDescriptor;
+    try {
+      directoryDescriptor = fs.openSync(buildRoot, fs.constants.O_RDONLY);
+      fs.fsyncSync(directoryDescriptor);
+    } catch (error) {
+      if (!['EINVAL', 'ENOTSUP', 'EISDIR'].includes(error?.code)) throw error;
+    } finally {
+      if (directoryDescriptor !== undefined) fs.closeSync(directoryDescriptor);
+    }
+  } finally {
+    if (descriptor !== undefined) fs.closeSync(descriptor);
+    try {
+      fs.unlinkSync(temporaryPath);
+    } catch (error) {
+      if (error?.code !== 'ENOENT') throw error;
+    }
   }
   assertSafePathChain(repositoryRoot, outputPath, 'build provenance output');
   return outputPath;

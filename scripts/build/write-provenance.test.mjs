@@ -218,3 +218,50 @@ test('rejects a tracked manifest whose parent directory is replaced by a symlink
   fs.symlinkSync(outside, path.join(root, 'content/en/guides'));
   assert.throws(() => run(root), /symbolic link/i);
 });
+
+test('atomically replaces an existing hardlink without mutating its victim', () => {
+  const root = fixture();
+  const victim = path.join(root, 'victim.txt');
+  const output = path.join(root, 'build/en/build-provenance.json');
+  fs.writeFileSync(victim, 'victim-bytes');
+  fs.linkSync(victim, output);
+  const victimBefore = fs.statSync(victim);
+
+  run(root);
+
+  const victimAfter = fs.statSync(victim);
+  const outputAfter = fs.statSync(output);
+  assert.equal(fs.readFileSync(victim, 'utf8'), 'victim-bytes');
+  assert.equal(victimAfter.ino, victimBefore.ino);
+  assert.notEqual(outputAfter.ino, victimAfter.ino);
+  assert.equal(outputAfter.mode & 0o777, 0o644);
+  assert.equal(fs.lstatSync(output).isFile(), true);
+});
+
+test('atomically replaces existing symlink and FIFO outputs without opening their targets', () => {
+  for (const outputKind of ['symlink', 'fifo']) {
+    const root = fixture();
+    const victim = path.join(root, 'victim.txt');
+    const output = path.join(root, 'build/en/build-provenance.json');
+    fs.writeFileSync(victim, 'victim-bytes');
+    if (outputKind === 'symlink') fs.symlinkSync(victim, output);
+    else execFileSync('mkfifo', [output]);
+
+    run(root);
+
+    assert.equal(fs.readFileSync(victim, 'utf8'), 'victim-bytes');
+    assert.equal(fs.lstatSync(output).isFile(), true);
+  }
+});
+
+test('does not replace a provenance directory and cleans its temporary file', () => {
+  const root = fixture();
+  const output = path.join(root, 'build/en/build-provenance.json');
+  fs.mkdirSync(output);
+  assert.throws(() => run(root), /directory|rename|EISDIR|ENOTDIR/i);
+  assert.equal(fs.lstatSync(output).isDirectory(), true);
+  assert.deepEqual(
+    fs.readdirSync(path.join(root, 'build/en')).filter(name => name.includes('build-provenance') && name.endsWith('.tmp')),
+    [],
+  );
+});

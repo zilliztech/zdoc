@@ -66,7 +66,7 @@ test('ignores profile environment spellings in strings and comments', () => {
   assert.deepEqual(findProfileEnvViolations(root), []);
 });
 
-test('tracks process, environment, and constant-key aliases across mjs and cjs files', () => {
+test('fails closed on exact static key literals across module formats without dataflow analysis', () => {
   const root = fixture({
     'src/process-alias.mjs': [
       'const proc = globalThis.process;',
@@ -90,7 +90,7 @@ test('tracks process, environment, and constant-key aliases across mjs and cjs f
   ]);
 });
 
-test('respects lexical shadowing while tracking aliases', () => {
+test('fails closed on lexical aliases instead of trying to prove their origin', () => {
   const root = fixture({
     'src/shadowed.ts': [
       'function read(process: {env: Record<string, string>}) {',
@@ -102,5 +102,47 @@ test('respects lexical shadowing while tracking aliases', () => {
       '}',
     ].join('\n'),
   });
-  assert.deepEqual(findProfileEnvViolations(root), []);
+  assert.deepEqual(findProfileEnvViolations(root), ['src/shadowed.ts']);
+});
+
+test('fails closed on assignments, destructuring assignments, holders, and returned objects', () => {
+  const root = fixture({
+    'src/assignment.js': 'let site; site.ZDOC_SITE = "en";\n',
+    'src/destructure-assignment.ts': 'let site; ({ZDOC_SITE: site} = loadConfig());\n',
+    'src/holder.mjs': 'const holder = getHolder(); export const site = holder.ZDOC_SITE;\n',
+    'src/returned.cjs': 'module.exports = getEnvironment().ZDOC_SITE;\n',
+    'src/variable.tsx': 'const ZDOC_SITE = "en"; export default ZDOC_SITE;\n',
+  });
+  assert.deepEqual(findProfileEnvViolations(root), [
+    'src/assignment.js',
+    'src/destructure-assignment.ts',
+    'src/holder.mjs',
+    'src/returned.cjs',
+    'src/variable.tsx',
+  ]);
+});
+
+test('evaluates static computed keys but ignores ordinary descriptive strings', () => {
+  const root = fixture({
+    'src/computed-literal.ts': "export const site = holder['ZDOC_SITE'];\n",
+    'src/computed-template.ts': 'export const site = holder[`ZDOC_SITE`];\n',
+    'src/computed-concat.ts': "export const site = holder['ZDOC_' + 'SITE'];\n",
+    'src/computed-binding.ts': "const {['ZDOC_' + 'SITE']: site} = holder;\n",
+    'src/description.ts': [
+      "export const description = 'ZDOC_SITE selects a documentation profile';",
+      '// ZDOC_SITE is described here, but never executed.',
+    ].join('\n'),
+    'src/exact-string.ts': "export const key = 'ZDOC_SITE';\n",
+    'src/exact-template.ts': 'export const key = `ZDOC_SITE`;\n',
+    'src/ignored.test.ts': 'export const site = holder.ZDOC_SITE;\n',
+    'scripts/migration/check-profile-env.mjs': 'export const site = holder.ZDOC_SITE;\n',
+  });
+  assert.deepEqual(findProfileEnvViolations(root), [
+    'src/computed-binding.ts',
+    'src/computed-concat.ts',
+    'src/computed-literal.ts',
+    'src/computed-template.ts',
+    'src/exact-string.ts',
+    'src/exact-template.ts',
+  ]);
 });
