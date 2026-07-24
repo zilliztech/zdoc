@@ -22,11 +22,12 @@ test('routes chat and interrupt directly to the private agent with affinity', ()
   }
 });
 
-test('keeps streaming unbuffered and the token out of browser env', () => {
+test('keeps streaming unbuffered and does not require client authentication', () => {
   assert.match(nginx, /proxy_buffering off;/);
   assert.match(nginx, /proxy_cache off;/);
   assert.match(nginx, /proxy_read_timeout 300s;/);
-  assert.match(entrypoint, /CHAT_AGENT_AUTH_TOKEN/);
-  assert.doesNotMatch(entrypoint, /window\.__ZDOC_ENV__[\s\S]*CHAT_AGENT_AUTH_TOKEN/);
-  assert.doesNotMatch(nginx, /Bearer 123456/);
+  assert.doesNotMatch(entrypoint, /CHAT_AGENT_AUTH_TOKEN/);
+  assert.doesNotMatch(entrypoint, /chat_agent_authorization/);
+  assert.doesNotMatch(nginx, /proxy_set_header Authorization/);
+  assert.doesNotMatch(nginx, /Bearer /);
 });
