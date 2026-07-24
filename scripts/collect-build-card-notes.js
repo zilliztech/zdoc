@@ -218,7 +218,7 @@ function assemblyIdentityNote() {
 }
 
 function linkCheckNote() {
-  const file = 'plugins/link-checks/meta/reports/latest.md'
+  const file = 'apps/docs/plugins/link-checks/meta/reports/latest.md'
   const content = readIfExists(file)
   if (!content) return null
   return `${compactMarkdown(content, 60)}\n\n${reportFileLine(file)}`

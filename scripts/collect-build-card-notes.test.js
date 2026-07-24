@@ -46,8 +46,8 @@ function assemblyDecision(overrides = {}) {
 test('collectCardNotes preserves workflow summary notes before report notes', () => {
   withTempCwd(() => {
     process.env.CARD_BASE_NOTES_JSON = '["# Workflow summary"]'
-    fs.mkdirSync('plugins/link-checks/meta/reports', { recursive: true })
-    fs.writeFileSync('plugins/link-checks/meta/reports/latest.md', '# Link checks\n\n- Broken links: 0')
+    fs.mkdirSync('apps/docs/plugins/link-checks/meta/reports', { recursive: true })
+    fs.writeFileSync('apps/docs/plugins/link-checks/meta/reports/latest.md', '# Link checks\n\n- Broken links: 0')
 
     const notes = collectCardNotes()
 

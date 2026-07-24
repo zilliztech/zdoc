@@ -173,7 +173,7 @@ module.exports = function (context, options) {
                         externalLinks: brokenLinks,
                     })
 
-                    const reportsDir = path.join(context.siteDir, 'plugins/link-checks/meta/reports')
+                    const reportsDir = path.join(__dirname, 'meta/reports')
                     fs.mkdirSync(reportsDir, { recursive: true })
                     const stamp = Date.now()
                     const json = JSON.stringify(report, null, 2)

@@ -55,7 +55,7 @@ function linkReportHasChanges(reportPath) {
 function main() {
   const args = parseArgs(process.argv.slice(2))
   const buildCommand = args.build || 'pnpm run build'
-  const reportPath = args.reportPath || 'plugins/link-checks/meta/reports/latest.md'
+  const reportPath = args.reportPath || 'apps/docs/plugins/link-checks/meta/reports/latest.md'
   const skipCardReporting = isTruthy(args.skipCardReporting) || isTruthy(process.env.SKIP_CARD_REPORTING)
 
   const buildStatus = run(buildCommand)

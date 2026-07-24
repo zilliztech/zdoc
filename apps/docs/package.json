@@ -4,13 +4,26 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:en": "ZDOC_SITE=en docusaurus build --out-dir ../../build/en",
-    "build:zh-CN": "ZDOC_SITE=zh-CN docusaurus build --out-dir ../../build/zh-CN",
+    "build:en": "ZDOC_SITE=en docusaurus build --out-dir ../../build/en && node ../../scripts/build/write-provenance.mjs --site en --build ../../build/en",
+    "build:zh-CN": "ZDOC_SITE=zh-CN docusaurus build --out-dir ../../build/zh-CN && node ../../scripts/build/write-provenance.mjs --site zh-CN --build ../../build/zh-CN",
     "start:en": "ZDOC_SITE=en docusaurus start",
     "start:zh-CN": "ZDOC_SITE=zh-CN docusaurus start"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",
-    "@zilliz/site-config": "workspace:*"
+    "@docusaurus/plugin-client-redirects": "3.10.1",
+    "@docusaurus/plugin-content-docs": "3.10.1",
+    "@mdx-js/mdx": "^3.1.1",
+    "@zilliz/site-config": "workspace:*",
+    "dotenv": "^16.3.1",
+    "js-yaml": "^4.1.1",
+    "jiti": "1.21.7",
+    "lodash": "^4.17.21",
+    "node-fetch": "^2.7.0",
+    "react": "^18.0.0",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@docusaurus/types": "3.10.1"
   }
 }

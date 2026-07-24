@@ -11,7 +11,7 @@ const {
     createFenceTracker,
     getFencedCodeRanges,
     createFencedCodeBlock,
-} = require('../mdx-parse/mdxPatcher')
+} = require('../../apps/docs/plugins/mdx-parse/mdxPatcher')
 const { filterCodeVariants } = require('./codeVariantFilter')
 const Downloader = require('./larkImageDownloader.js')
 const slugify = require('slugify')

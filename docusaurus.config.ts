@@ -127,7 +127,7 @@ const config: Config = {
   favicon: 'icons/favicon.svg',
   trailingSlash: false,
 
-  clientModules: [require.resolve('./src/clientModules/tableRowHeaders.js')],
+  clientModules: [require.resolve('./apps/docs/src/clientModules/tableRowHeaders.js')],
 
   future: {
     v4: true,
@@ -212,8 +212,8 @@ const config: Config = {
     ],
     ['./plugins/lark-docs', larkDocsConfig],
     './plugins/apifox-docs',
-    './plugins/link-checks',
-    './plugins/mdx-parse',
+    './apps/docs/plugins/link-checks',
+    './apps/docs/plugins/mdx-parse',
     [
       '@inkeep/cxkit-docusaurus',
       {
@@ -233,21 +233,21 @@ const config: Config = {
         },
       },
     ],
-    ['./plugins/embed-markdown', {
+    ['./apps/docs/plugins/embed-markdown', {
       sources: [
         { folder: 'docs',      route: '/docs'     },
         { folder: 'reference', route: '/reference' },
         { folder: 'docs-byoc', route: '/docs/byoc' },
       ],
     }],
-    ['./plugins/llms-txt', {
+    ['./apps/docs/plugins/llms-txt', {
       sources: [
         { folder: 'docs',      route: '/docs',      outputFile: 'cloud-guides', label: 'Cloud Guides' },
         { folder: 'docs-byoc', route: '/docs/byoc',  outputFile: 'byoc-guides',  label: 'BYOC Guides' },
         { folder: 'reference', route: '/reference',   outputFile: 'api-reference', label: 'API & SDK Reference' },
       ],
     }],
-    ['./plugins/structured-data', {
+    ['./apps/docs/plugins/structured-data', {
       sources: [
         { folder: 'docs',      route: '/docs' },
         { folder: 'docs-byoc', route: '/docs/byoc' },
@@ -276,7 +276,7 @@ const config: Config = {
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: './apps/docs/src/css/custom.css',
         },
       } satisfies Preset.Options,
     ],
