@@ -65,3 +65,42 @@ test('ignores profile environment spellings in strings and comments', () => {
   });
   assert.deepEqual(findProfileEnvViolations(root), []);
 });
+
+test('tracks process, environment, and constant-key aliases across mjs and cjs files', () => {
+  const root = fixture({
+    'src/process-alias.mjs': [
+      'const proc = globalThis.process;',
+      'const procAgain = proc;',
+      'const environment = procAgain.env;',
+      'const key = "ZDOC_SITE";',
+      'const keyAgain = key;',
+      'export const site = environment[keyAgain];',
+    ].join('\n'),
+    'src/env-alias.cjs': [
+      'const proc = process;',
+      'const env = proc["env"];',
+      'module.exports = env.ZDOC_SITE;',
+    ].join('\n'),
+    'src/optional.js': 'export const site = globalThis.process?.env?.ZDOC_SITE;\n',
+  });
+  assert.deepEqual(findProfileEnvViolations(root), [
+    'src/env-alias.cjs',
+    'src/optional.js',
+    'src/process-alias.mjs',
+  ]);
+});
+
+test('respects lexical shadowing while tracking aliases', () => {
+  const root = fixture({
+    'src/shadowed.ts': [
+      'function read(process: {env: Record<string, string>}) {',
+      '  const env = process.env;',
+      '  return env.ZDOC_SITE;',
+      '}',
+      'function readEnvironment(env: Record<string, string>) {',
+      '  return env.ZDOC_SITE;',
+      '}',
+    ].join('\n'),
+  });
+  assert.deepEqual(findProfileEnvViolations(root), []);
+});

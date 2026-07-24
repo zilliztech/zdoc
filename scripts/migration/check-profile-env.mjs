@@ -9,73 +9,205 @@ const allowedFiles = new Set([
   'packages/site-config/src/resolve.ts',
 ]);
 
-const sourceExtension = /\.(?:js|ts|tsx)$/u;
-function accessedName(node) {
+const sourceExtension = /\.(?:cjs|js|jsx|mjs|ts|tsx)$/u;
+const UNKNOWN = 'unknown';
+const PROCESS = 'process';
+const ENVIRONMENT = 'environment';
+const GLOBAL_THIS = 'globalThis';
+
+function stringState(value) {
+  return `string:${value}`;
+}
+
+function isFunctionScope(node) {
+  return ts.isFunctionDeclaration(node)
+    || ts.isFunctionExpression(node)
+    || ts.isArrowFunction(node)
+    || ts.isMethodDeclaration(node)
+    || ts.isConstructorDeclaration(node)
+    || ts.isGetAccessorDeclaration(node)
+    || ts.isSetAccessorDeclaration(node);
+}
+
+function unwrapExpression(node) {
+  let current = node;
+  while (
+    ts.isParenthesizedExpression(current)
+    || ts.isAsExpression(current)
+    || ts.isTypeAssertionExpression(current)
+    || ts.isNonNullExpression(current)
+  ) current = current.expression;
+  return current;
+}
+
+function expressionState(node, states) {
+  const current = unwrapExpression(node);
+  if (ts.isStringLiteralLike(current)) return stringState(current.text);
+  if (ts.isIdentifier(current)) {
+    if (states.has(current.text)) return states.get(current.text);
+    if (current.text === 'process') return PROCESS;
+    if (current.text === 'globalThis') return GLOBAL_THIS;
+    return UNKNOWN;
+  }
+  if (ts.isPropertyAccessExpression(current) || ts.isElementAccessExpression(current)) {
+    const owner = expressionState(current.expression, states);
+    const property = accessedName(current, states);
+    if (owner === GLOBAL_THIS && property === 'process') return PROCESS;
+    if (owner === PROCESS && property === 'env') return ENVIRONMENT;
+  }
+  return UNKNOWN;
+}
+
+function accessedName(node, states) {
   if (ts.isPropertyAccessExpression(node)) return node.name.text;
   if (ts.isElementAccessExpression(node) && node.argumentExpression) {
-    const argument = node.argumentExpression;
-    if (ts.isStringLiteralLike(argument)) return argument.text;
+    const state = expressionState(node.argumentExpression, states);
+    if (state.startsWith('string:')) return state.slice('string:'.length);
   }
   return undefined;
 }
 
-function namedBindingProperty(element) {
+function bindingPropertyName(element, states) {
   const property = element.propertyName ?? element.name;
   if (ts.isIdentifier(property) || ts.isStringLiteralLike(property)) return property.text;
+  if (ts.isComputedPropertyName(property)) {
+    const state = expressionState(property.expression, states);
+    if (state.startsWith('string:')) return state.slice('string:'.length);
+  }
   return undefined;
 }
 
-function isProcess(node) {
-  return ts.isIdentifier(node) && node.text === 'process';
-}
-
-function isProcessEnv(node) {
-  return (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node))
-    && isProcess(node.expression)
-    && accessedName(node) === 'env';
-}
-
-function bindingPatternContains(pattern, propertyName) {
-  return pattern.elements.some(element => namedBindingProperty(element) === propertyName);
-}
-
-function destructuresProfileSite(declaration) {
-  if (!declaration.initializer || !ts.isObjectBindingPattern(declaration.name)) return false;
-  if (isProcessEnv(declaration.initializer)) {
-    return bindingPatternContains(declaration.name, 'ZDOC_SITE');
+function collectBindingNames(name, names) {
+  if (ts.isIdentifier(name)) {
+    names.add(name.text);
+    return;
   }
-  if (!isProcess(declaration.initializer)) return false;
-  return declaration.name.elements.some(element =>
-    namedBindingProperty(element) === 'env'
-      && ts.isObjectBindingPattern(element.name)
-      && bindingPatternContains(element.name, 'ZDOC_SITE'),
-  );
+  for (const element of name.elements) {
+    if (!ts.isOmittedExpression(element)) collectBindingNames(element.name, names);
+  }
 }
 
-function sourceReadsProfileSite(file, source) {
-  const scriptKind = file.endsWith('.tsx') ? ts.ScriptKind.TSX
-    : file.endsWith('.ts') ? ts.ScriptKind.TS
-      : ts.ScriptKind.JS;
-  const sourceFile = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, scriptKind);
-  let violation = false;
+function scopeChildren(node) {
+  const children = [];
+  ts.forEachChild(node, child => {
+    children.push(child);
+  });
+  return children;
+}
+
+function isNestedScope(parent, child) {
+  return isFunctionScope(child) || (ts.isBlock(child) && child !== parent);
+}
+
+function collectScopeDeclarations(scopeNode) {
+  const declarations = [];
+  const names = new Set();
+  if (isFunctionScope(scopeNode)) {
+    for (const parameter of scopeNode.parameters) collectBindingNames(parameter.name, names);
+  }
   function visit(node) {
-    if (violation) return;
-    if (
-      (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node))
-      && accessedName(node) === 'ZDOC_SITE'
-      && isProcessEnv(node.expression)
-    ) {
-      violation = true;
-      return;
-    }
-    if (ts.isVariableDeclaration(node) && destructuresProfileSite(node)) {
-      violation = true;
-      return;
+    if (node !== scopeNode && isNestedScope(scopeNode, node)) return;
+    if (ts.isVariableDeclaration(node)) {
+      declarations.push(node);
+      collectBindingNames(node.name, names);
     }
     ts.forEachChild(node, visit);
   }
-  visit(sourceFile);
-  return violation;
+  visit(scopeNode);
+  return {declarations, names};
+}
+
+function bindingReadsProfileSite(pattern, sourceState, states) {
+  if (sourceState === ENVIRONMENT) {
+    return pattern.elements.some(element => bindingPropertyName(element, states) === 'ZDOC_SITE');
+  }
+  if (sourceState !== PROCESS) return false;
+  return pattern.elements.some(element =>
+    bindingPropertyName(element, states) === 'env'
+      && ts.isObjectBindingPattern(element.name)
+      && bindingReadsProfileSite(element.name, ENVIRONMENT, states),
+  );
+}
+
+function updateDeclarationState(declaration, states) {
+  if (!declaration.initializer) return false;
+  const sourceState = expressionState(declaration.initializer, states);
+  if (ts.isIdentifier(declaration.name)) {
+    if (sourceState === UNKNOWN || states.get(declaration.name.text) === sourceState) return false;
+    states.set(declaration.name.text, sourceState);
+    return true;
+  }
+  if (ts.isObjectBindingPattern(declaration.name) && sourceState === PROCESS) {
+    let changed = false;
+    for (const element of declaration.name.elements) {
+      if (
+        bindingPropertyName(element, states) === 'env'
+        && ts.isIdentifier(element.name)
+        && states.get(element.name.text) !== ENVIRONMENT
+      ) {
+        states.set(element.name.text, ENVIRONMENT);
+        changed = true;
+      }
+    }
+    return changed;
+  }
+  return false;
+}
+
+export function sourceReadsProfileSite(file, source) {
+  const scriptKind = file.endsWith('.tsx') || file.endsWith('.jsx') ? ts.ScriptKind.TSX
+    : file.endsWith('.ts') ? ts.ScriptKind.TS
+      : ts.ScriptKind.JS;
+  const sourceFile = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, scriptKind);
+
+  function analyzeScope(scopeNode, inheritedStates) {
+    const states = new Map(inheritedStates);
+    const {declarations, names} = collectScopeDeclarations(scopeNode);
+    for (const name of names) states.set(name, UNKNOWN);
+    let changed;
+    let remainingPasses = declarations.length + 1;
+    do {
+      changed = false;
+      for (const declaration of declarations) {
+        if (updateDeclarationState(declaration, states)) changed = true;
+      }
+      remainingPasses -= 1;
+      if (changed && remainingPasses === 0) {
+        throw new Error(`Profile environment alias analysis did not converge in ${file}`);
+      }
+    } while (changed);
+
+    let violation = false;
+    function visit(node) {
+      if (violation) return;
+      if (node !== scopeNode && isNestedScope(scopeNode, node)) {
+        violation = analyzeScope(node, states);
+        return;
+      }
+      if (
+        (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node))
+        && expressionState(node.expression, states) === ENVIRONMENT
+        && accessedName(node, states) === 'ZDOC_SITE'
+      ) {
+        violation = true;
+        return;
+      }
+      if (
+        ts.isVariableDeclaration(node)
+        && node.initializer
+        && ts.isObjectBindingPattern(node.name)
+        && bindingReadsProfileSite(node.name, expressionState(node.initializer, states), states)
+      ) {
+        violation = true;
+        return;
+      }
+      for (const child of scopeChildren(node)) visit(child);
+    }
+    visit(scopeNode);
+    return violation;
+  }
+
+  return analyzeScope(sourceFile, new Map());
 }
 
 export function findProfileEnvViolations(repositoryRoot) {

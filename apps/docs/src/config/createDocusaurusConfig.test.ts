@@ -1,6 +1,7 @@
-import {readFileSync} from 'node:fs';
+import {mkdtempSync, readFileSync} from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import type {SiteProfile} from '@zilliz/site-config';
 import {createDocusaurusConfig} from './createDocusaurusConfig';
 
@@ -135,5 +136,18 @@ describe('createDocusaurusConfig', () => {
       "import {createDocusaurusConfig} from './src/config/createDocusaurusConfig';\n\n" +
       `export default createDocusaurusConfig(resolveSiteProfile(${['process', 'env', 'ZDOC_SITE'].join('.')}));\n`,
     );
+  });
+
+  it('resolves repository paths from the factory module instead of the caller cwd', async () => {
+    const originalCwd = process.cwd();
+    process.chdir(mkdtempSync(path.join(os.tmpdir(), 'docs-config-cwd-')));
+    try {
+      vi.resetModules();
+      const reloaded = await import('./createDocusaurusConfig');
+      const config = reloaded.createDocusaurusConfig(profile());
+      expect(String(docsPlugins(config)[0][1].path)).toMatch(/content\/en\/guides$/);
+    } finally {
+      process.chdir(originalCwd);
+    }
   });
 });

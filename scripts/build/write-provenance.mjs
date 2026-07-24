@@ -6,6 +6,12 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const provenanceFile = 'build-provenance.json';
+const toolRepositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const requireFromApp = createRequire(path.join(toolRepositoryRoot, 'apps/docs/package.json'));
+const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefault: true});
+const {SiteProfileSchema, resolveSiteProfile} = jiti(
+  path.join(toolRepositoryRoot, 'packages/site-config/src/index.ts'),
+);
 const allowedEnvironmentFields = Object.freeze([
   'BUILD_ID',
   'BUILD_NUMBER',
@@ -20,7 +26,7 @@ function canonicalize(value) {
   if (Array.isArray(value)) return value.map(canonicalize);
   if (value && typeof value === 'object') {
     return Object.fromEntries(
-      Object.keys(value).sort().map(key => [key, canonicalize(value[key])]),
+      Object.keys(value).sort(compareBinary).map(key => [key, canonicalize(value[key])]),
     );
   }
   return value;
@@ -38,8 +44,49 @@ function hashCanonical(value) {
   return hashBytes(canonicalJson(value));
 }
 
+function compareBinary(left, right) {
+  return Buffer.compare(Buffer.from(left), Buffer.from(right));
+}
+
+function validateJsonSafe(value, location = 'profile', ancestors = new Set()) {
+  if (value === null || typeof value === 'string' || typeof value === 'boolean') return;
+  if (typeof value === 'number') {
+    if (!Number.isFinite(value)) throw new Error(`${location} must contain only JSON-safe finite numbers`);
+    return;
+  }
+  if (typeof value !== 'object') {
+    throw new Error(`${location} contains non-JSON-safe ${typeof value}`);
+  }
+  if (ancestors.has(value)) throw new Error(`${location} contains a JSON-unsafe cycle`);
+  const prototype = Object.getPrototypeOf(value);
+  if (!Array.isArray(value) && prototype !== Object.prototype && prototype !== null) {
+    throw new Error(`${location} contains a non-plain JSON-unsafe object`);
+  }
+  ancestors.add(value);
+  if (Array.isArray(value)) {
+    for (let index = 0; index < value.length; index += 1) {
+      validateJsonSafe(value[index], `${location}[${index}]`, ancestors);
+    }
+  } else {
+    if (Object.getOwnPropertySymbols(value).length > 0) {
+      throw new Error(`${location} contains a non-JSON-safe symbol key`);
+    }
+    for (const [key, entry] of Object.entries(value)) {
+      validateJsonSafe(entry, `${location}.${key}`, ancestors);
+    }
+  }
+  ancestors.delete(value);
+}
+
 function normalizeRelativePath(relativePath) {
   return relativePath.split(path.sep).join('/');
+}
+
+function resolveRepositoryRoot(repositoryRoot) {
+  const resolved = fs.realpathSync(path.resolve(repositoryRoot));
+  const stat = fs.lstatSync(resolved);
+  if (!stat.isDirectory()) throw new Error(`Repository root is not a directory: ${repositoryRoot}`);
+  return resolved;
 }
 
 function confinedPath(repositoryRoot, relativePath, label) {
@@ -58,18 +105,47 @@ function confinedPath(repositoryRoot, relativePath, label) {
   return resolved;
 }
 
-function requiredRegularFile(repositoryRoot, relativePath, label) {
-  const absolutePath = confinedPath(repositoryRoot, relativePath, label);
-  let stat;
-  try {
-    stat = fs.lstatSync(absolutePath);
-  } catch (error) {
-    if (error?.code === 'ENOENT') throw new Error(`Missing required ${label}: ${relativePath}`);
-    throw error;
+function assertSafePathChain(repositoryRoot, absolutePath, label) {
+  const relativePath = path.relative(repositoryRoot, absolutePath);
+  if (relativePath === '..' || relativePath.startsWith(`..${path.sep}`) || path.isAbsolute(relativePath)) {
+    throw new Error(`${label} escapes the real repository root`);
   }
-  if (stat.isSymbolicLink()) throw new Error(`${label} must not be a symbolic link: ${relativePath}`);
-  if (!stat.isFile()) throw new Error(`${label} must be a regular file: ${relativePath}`);
-  return {absolutePath, stat};
+  let current = repositoryRoot;
+  for (const segment of relativePath.split(path.sep).filter(Boolean)) {
+    current = path.join(current, segment);
+    let stat;
+    try {
+      stat = fs.lstatSync(current);
+    } catch (error) {
+      if (error?.code === 'ENOENT') throw new Error(`Missing required ${label}: ${normalizeRelativePath(relativePath)}`);
+      throw error;
+    }
+    if (stat.isSymbolicLink()) {
+      throw new Error(`${label} path must not contain a symbolic link: ${normalizeRelativePath(path.relative(repositoryRoot, current))}`);
+    }
+  }
+  const realPath = fs.realpathSync(absolutePath);
+  const prefix = `${repositoryRoot}${path.sep}`;
+  if (realPath !== repositoryRoot && !realPath.startsWith(prefix)) {
+    throw new Error(`${label} real path escapes the repository root`);
+  }
+  return fs.lstatSync(absolutePath);
+}
+
+function secureReadRegularFile(repositoryRoot, relativePath, label) {
+  const absolutePath = confinedPath(repositoryRoot, relativePath, label);
+  assertSafePathChain(repositoryRoot, absolutePath, label);
+  const noFollow = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
+  const descriptor = fs.openSync(absolutePath, fs.constants.O_RDONLY | noFollow);
+  try {
+    const stat = fs.fstatSync(descriptor);
+    if (!stat.isFile()) throw new Error(`${label} must be a regular file: ${relativePath}`);
+    const bytes = fs.readFileSync(descriptor);
+    assertSafePathChain(repositoryRoot, absolutePath, label);
+    return {bytes, mode: stat.mode & 0o777};
+  } finally {
+    fs.closeSync(descriptor);
+  }
 }
 
 function trackedFiles(repositoryRoot) {
@@ -78,25 +154,24 @@ function trackedFiles(repositoryRoot) {
 }
 
 function hashRequiredFile(repositoryRoot, relativePath, label) {
-  const {absolutePath} = requiredRegularFile(repositoryRoot, relativePath, label);
-  return hashBytes(fs.readFileSync(absolutePath));
+  return hashBytes(secureReadRegularFile(repositoryRoot, relativePath, label).bytes);
 }
 
 function hashContentManifests(repositoryRoot, manifests) {
   const tracked = new Set(trackedFiles(repositoryRoot));
-  const records = [...new Set(manifests)].sort().map(relativePath => {
+  return [...new Set(manifests)].sort(compareBinary).map(relativePath => {
     const normalized = normalizeRelativePath(relativePath);
-    const {absolutePath, stat} = requiredRegularFile(repositoryRoot, normalized, 'content manifest');
+    confinedPath(repositoryRoot, normalized, 'content manifest');
+    const {bytes, mode} = secureReadRegularFile(repositoryRoot, normalized, 'content manifest');
     if (!tracked.has(normalized)) {
       throw new Error(`Content manifest must be a checked-in file: ${relativePath}`);
     }
     return {
       path: normalized,
-      mode: stat.mode & 0o777,
-      hash: hashBytes(fs.readFileSync(absolutePath)),
+      mode,
+      sha256: hashBytes(bytes),
     };
   });
-  return hashCanonical(records);
 }
 
 function routeForHtml(relativePath) {
@@ -106,29 +181,34 @@ function routeForHtml(relativePath) {
   return `/${normalized.slice(0, -'.html'.length)}`;
 }
 
-function walkArtifactTree(root, current = root, records = [], routes = []) {
+function walkArtifactTree(repositoryRoot, root, current = root, records = [], routeSources = new Map()) {
   const relative = path.relative(root, current);
-  const stat = fs.lstatSync(current);
-  if (stat.isSymbolicLink()) {
-    throw new Error(`Artifact tree must not contain symbolic links: ${normalizeRelativePath(relative)}`);
-  }
+  const stat = assertSafePathChain(repositoryRoot, current, 'artifact tree');
   if (relative && normalizeRelativePath(relative) !== provenanceFile) {
     const record = {path: normalizeRelativePath(relative), mode: stat.mode & 0o777, type: stat.isDirectory() ? 'directory' : 'file'};
     if (stat.isFile()) {
-      record.hash = hashBytes(fs.readFileSync(current));
-      if (relative.endsWith('.html')) routes.push(routeForHtml(relative));
+      const repositoryRelative = normalizeRelativePath(path.relative(repositoryRoot, current));
+      record.hash = hashBytes(secureReadRegularFile(repositoryRoot, repositoryRelative, 'artifact file').bytes);
+      if (relative.endsWith('.html')) {
+        const route = routeForHtml(relative);
+        const existing = routeSources.get(route);
+        if (existing && existing !== record.path) {
+          throw new Error(`Route collision for ${route}: ${existing} and ${record.path}`);
+        }
+        routeSources.set(route, record.path);
+      }
     } else if (!stat.isDirectory()) {
       throw new Error(`Artifact tree contains unsupported entry: ${record.path}`);
     }
     records.push(record);
   }
   if (stat.isDirectory()) {
-    for (const child of fs.readdirSync(current).sort()) {
+    for (const child of fs.readdirSync(current).sort(compareBinary)) {
       if (!relative && child === provenanceFile) continue;
-      walkArtifactTree(root, path.join(current, child), records, routes);
+      walkArtifactTree(repositoryRoot, root, path.join(current, child), records, routeSources);
     }
   }
-  return {records, routes: [...new Set(routes)].sort()};
+  return {records, routes: [...routeSources.keys()].sort(compareBinary)};
 }
 
 function resolveBuildDirectory(repositoryRoot, site, buildDirectory) {
@@ -138,16 +218,32 @@ function resolveBuildDirectory(repositoryRoot, site, buildDirectory) {
   if (actual !== expected) {
     throw new Error(`Build directory must be confined to build/${site}`);
   }
-  let stat;
-  try {
-    stat = fs.lstatSync(actual);
-  } catch (error) {
-    if (error?.code === 'ENOENT') throw new Error(`Missing required build directory: build/${site}`);
-    throw error;
-  }
-  if (stat.isSymbolicLink()) throw new Error('Build directory must not be a symbolic link');
+  const stat = assertSafePathChain(repositoryRoot, actual, 'build directory');
   if (!stat.isDirectory()) throw new Error(`Build path is not a directory: build/${site}`);
   return actual;
+}
+
+function secureWriteProvenance(repositoryRoot, buildRoot, bytes) {
+  assertSafePathChain(repositoryRoot, buildRoot, 'build directory');
+  const outputPath = path.join(buildRoot, provenanceFile);
+  const noFollow = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
+  const descriptor = fs.openSync(
+    outputPath,
+    fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_TRUNC | noFollow,
+    0o644,
+  );
+  try {
+    const stat = fs.fstatSync(descriptor);
+    if (!stat.isFile()) throw new Error('Build provenance output must be a regular file');
+    assertSafePathChain(repositoryRoot, buildRoot, 'build directory');
+    fs.writeFileSync(descriptor, bytes);
+    fs.fsyncSync(descriptor);
+    assertSafePathChain(repositoryRoot, buildRoot, 'build directory');
+  } finally {
+    fs.closeSync(descriptor);
+  }
+  assertSafePathChain(repositoryRoot, outputPath, 'build provenance output');
+  return outputPath;
 }
 
 function git(repositoryRoot, args) {
@@ -163,16 +259,25 @@ export function writeBuildProvenance({
   environment = process.env,
   pnpmVersion,
 }) {
-  const root = path.resolve(repositoryRoot);
-  if (!profile || profile.id !== site) {
-    throw new Error(`Resolved profile site ${profile?.id ?? '(missing)'} does not match requested site ${site}`);
+  const requestedRoot = path.resolve(repositoryRoot);
+  const root = resolveRepositoryRoot(requestedRoot);
+  validateJsonSafe(profile);
+  const parsedProfile = SiteProfileSchema.parse(profile);
+  if (parsedProfile.id !== site) {
+    throw new Error(`Resolved profile site ${parsedProfile.id} does not match requested site ${site}`);
   }
-  if (profile.outputDir !== `build/${site}`) {
+  if (parsedProfile.outputDir !== `build/${site}`) {
     throw new Error(`Resolved profile outputDir must be build/${site}`);
   }
-  const buildRoot = resolveBuildDirectory(root, site, buildDirectory);
-  const selectedContentManifests = contentManifests ?? discoverContentManifests(root, profile);
-  const {records: artifactRecords, routes} = walkArtifactTree(buildRoot);
+  const requestedBuildRelative = path.relative(requestedRoot, path.resolve(buildDirectory));
+  const buildRoot = resolveBuildDirectory(root, site, path.resolve(root, requestedBuildRelative));
+  const selectionMode = contentManifests === undefined ? 'discovered' : 'explicit';
+  const selectedContentManifests = contentManifests ?? discoverContentManifests(root, parsedProfile);
+  const contentManifestRecords = hashContentManifests(root, selectedContentManifests);
+  if (parsedProfile.content.length > 0 && contentManifestRecords.length === 0) {
+    throw new Error(`Site profile ${site} declares content roots and requires at least one selected content manifest`);
+  }
+  const {records: artifactRecords, routes} = walkArtifactTree(root, buildRoot);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
       .filter(name => environment[name] !== undefined)
@@ -188,12 +293,16 @@ export function writeBuildProvenance({
     commit,
     workingTree,
     site,
+    contentManifests: {
+      mode: selectionMode,
+      records: contentManifestRecords,
+    },
     componentHashes: {
-      profile: hashCanonical(profile),
+      profile: hashCanonical(parsedProfile),
       lockfile: hashRequiredFile(root, 'pnpm-lock.yaml', 'pnpm lockfile'),
       dependencies: hashRequiredFile(root, 'migration/dependencies.json', 'dependency ledger'),
       legacyFiles: hashRequiredFile(root, 'migration/legacy-files.json', 'legacy file ledger'),
-      contentManifests: hashContentManifests(root, selectedContentManifests),
+      contentManifests: hashCanonical(contentManifestRecords),
       routes: hashCanonical(routes),
       environment: hashCanonical(selectedEnvironment),
     },
@@ -205,8 +314,7 @@ export function writeBuildProvenance({
     },
     artifactHash: hashCanonical(artifactRecords),
   };
-  const outputPath = path.join(buildRoot, provenanceFile);
-  fs.writeFileSync(outputPath, canonicalJson(manifest), {mode: 0o644});
+  const outputPath = secureWriteProvenance(root, buildRoot, canonicalJson(manifest));
   return {manifest: canonicalize(manifest), outputPath};
 }
 
@@ -235,15 +343,12 @@ export function discoverContentManifests(repositoryRoot, profile) {
     if (!roots.some(root => file.startsWith(root))) return false;
     const basename = path.posix.basename(file);
     return basename.startsWith('content-manifest') && basename.endsWith('.json');
-  }))].sort();
+  }))].sort(compareBinary);
 }
 
 async function main() {
   const options = parseArguments(process.argv.slice(2));
-  const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-  const requireFromApp = createRequire(path.join(repositoryRoot, 'apps/docs/package.json'));
-  const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefault: true});
-  const {resolveSiteProfile} = jiti(path.join(repositoryRoot, 'packages/site-config/src/index.ts'));
+  const repositoryRoot = toolRepositoryRoot;
   const profile = resolveSiteProfile(options.site);
   writeBuildProvenance({
     repositoryRoot,

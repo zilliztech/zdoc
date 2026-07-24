@@ -36,7 +36,12 @@ function fixture() {
 const profile = Object.freeze({
   id: 'en', language: 'en', title: 'Docs', url: 'https://docs.example.com', baseUrl: '/', outputDir: 'build/en',
   content: [{id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'docs', sidebarPath: 'config/sidebar.ts'}],
-  manuals: [], navigation: {items: []}, features: {chat: false}, markdown: {remarkPlugins: [], rehypePlugins: []},
+  manuals: [], navigation: {items: []},
+  features: {
+    chat: false, askAi: false, feedback: false, cloudSelector: false,
+    byoc: false, onpremise: false, agents: false, referenceKinds: [],
+  },
+  markdown: {remarkPlugins: [], rehypePlugins: []},
   integrations: {}, staticRoots: [], redirects: {rules: []}, robots: {index: true},
 });
 
@@ -78,6 +83,11 @@ test('writes canonical byte-identical provenance with required components and no
     'contentManifests', 'dependencies', 'environment', 'legacyFiles', 'lockfile', 'profile', 'routes',
   ]);
   assert.deepEqual(manifest.environmentFields, ['CI', 'NODE_ENV']);
+  assert.equal(manifest.contentManifests.mode, 'explicit');
+  assert.deepEqual(manifest.contentManifests.records.map(record => record.path), [
+    'content/en/guides/content-manifest.json',
+  ]);
+  assert.match(manifest.contentManifests.records[0].sha256, /^[0-9a-f]{64}$/);
   assert.deepEqual(manifest.routes, ['/', '/docs']);
   assert.deepEqual(manifest.toolchain, {node: process.versions.node, pnpm: '10.13.1'});
   assert.match(manifest.artifactHash, /^[0-9a-f]{64}$/);
@@ -95,8 +105,16 @@ test('changes the artifact hash when artifact bytes change and self-excludes pro
 
 test('discovers content-root and site generated manifests while explicit inputs override discovery', () => {
   const root = fixture();
-  const discovered = run(root, {contentManifests: undefined}).manifest.componentHashes.contentManifests;
-  const explicit = run(root).manifest.componentHashes.contentManifests;
+  const discoveredManifest = run(root, {contentManifests: undefined}).manifest;
+  const discovered = discoveredManifest.componentHashes.contentManifests;
+  const explicitManifest = run(root).manifest;
+  const explicit = explicitManifest.componentHashes.contentManifests;
+  assert.equal(discoveredManifest.contentManifests.mode, 'discovered');
+  assert.deepEqual(discoveredManifest.contentManifests.records.map(record => record.path), [
+    'content/en/guides/content-manifest.json',
+    'generated/en/manifests/reference.json',
+  ]);
+  assert.equal(explicitManifest.contentManifests.mode, 'explicit');
 
   fs.appendFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'changed');
   const changed = run(root, {contentManifests: undefined}).manifest.componentHashes.contentManifests;
@@ -127,6 +145,43 @@ test('discovers content-root and site generated manifests while explicit inputs 
   assert.notEqual(zhAfter, zhBefore);
 });
 
+test('allows empty manifest selection only for a profile without content roots', () => {
+  const root = fixture();
+  assert.throws(() => run(root, {contentManifests: []}), /content manifest.*required|requires.*manifest/i);
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
+  const result = writeBuildProvenance({
+    repositoryRoot: root,
+    site: 'zh-CN',
+    buildDirectory: path.join(root, 'build/zh-CN'),
+    profile: zhProfile,
+    contentManifests: [],
+    environment: {},
+    pnpmVersion: '10.13.1',
+  });
+  assert.deepEqual(result.manifest.contentManifests, {mode: 'explicit', records: []});
+});
+
+test('strictly validates a JSON-safe complete site profile before hashing it', () => {
+  const root = fixture();
+  assert.throws(() => run(root, {profile: {id: 'en'}}), /required|invalid/i);
+  assert.throws(() => run(root, {profile: {...profile, unknown: true}}), /unrecognized|unknown/i);
+  assert.throws(() => run(root, {profile: {...profile, title: undefined}}), /undefined|JSON-safe/i);
+  assert.throws(() => run(root, {profile: {...profile, title() { return 'Docs'; }}}), /function|JSON-safe/i);
+  assert.throws(() => run(root, {profile: {...profile, title: Symbol('Docs')}}), /symbol|JSON-safe/i);
+  assert.throws(() => run(root, {profile: {...profile, title: 1n}}), /bigint|JSON-safe/i);
+  assert.throws(() => run(root, {profile: {...profile, title: new Date()}}), /non-plain|JSON-safe/i);
+  const cyclic = {...profile};
+  cyclic.self = cyclic;
+  assert.throws(() => run(root, {profile: cyclic}), /cycle|JSON-safe/i);
+});
+
+test('rejects artifact paths that collide after route normalization', () => {
+  const root = fixture();
+  write(root, 'build/en/foo.html', '<html>flat</html>');
+  write(root, 'build/en/foo/index.html', '<html>index</html>');
+  assert.throws(() => run(root), /route collision.*foo\.html.*foo\/index\.html|route collision.*foo\/index\.html.*foo\.html/i);
+});
+
 test('truthfully records a dirty working tree without timestamps', () => {
   const root = fixture();
   fs.appendFileSync(path.join(root, 'tracked.txt'), 'dirty\n');
@@ -142,5 +197,24 @@ test('rejects wrong sites, escaped paths, symlinks, and missing required inputs'
   assert.throws(() => run(root, {contentManifests: ['../outside.json']}), /repository|escape|relative/i);
   assert.throws(() => run(root, {contentManifests: ['content/en/missing.json']}), /missing/i);
   fs.symlinkSync(path.join(root, 'tracked.txt'), path.join(root, 'build/en/link'));
+  assert.throws(() => run(root), /symbolic link/i);
+});
+
+test('rejects a symlinked build parent without writing outside the repository', () => {
+  const root = fixture();
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'outside-build-'));
+  fs.rmSync(path.join(root, 'build'), {recursive: true});
+  fs.symlinkSync(outside, path.join(root, 'build'));
+  fs.mkdirSync(path.join(outside, 'en'));
+  assert.throws(() => run(root), /symbolic link/i);
+  assert.equal(fs.existsSync(path.join(outside, 'en/build-provenance.json')), false);
+});
+
+test('rejects a tracked manifest whose parent directory is replaced by a symlink', () => {
+  const root = fixture();
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'outside-manifest-'));
+  write(outside, 'content-manifest.json', '{"outside":true}\n');
+  fs.rmSync(path.join(root, 'content/en/guides'), {recursive: true});
+  fs.symlinkSync(outside, path.join(root, 'content/en/guides'));
   assert.throws(() => run(root), /symbolic link/i);
 });

@@ -13,7 +13,9 @@ function findRepositoryRoot(startDirectory: string): string {
   }
 }
 
-const repositoryRoot = findRepositoryRoot(process.cwd());
+// Docusaurus loads TypeScript config through jiti's CommonJS transform, where
+// __dirname is the module-location equivalent of dirname(import.meta.url).
+const repositoryRoot = findRepositoryRoot(__dirname);
 
 function repositoryPath(relativePath: string): string {
   return path.resolve(repositoryRoot, relativePath);
