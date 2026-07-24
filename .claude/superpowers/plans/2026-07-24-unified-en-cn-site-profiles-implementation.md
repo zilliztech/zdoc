@@ -134,14 +134,14 @@ Run outside the archive target directory:
 
 ```bash
 mkdir -p .claude/archives
-git -C ../../../../zdoc_cn bundle create "$PWD/.claude/archives/zdoc-cn-pre-merge.bundle" refs/remotes/origin/master refs/remotes/origin/dev '--glob=refs/remotes/origin/v*' --tags
+git -C ../../../../zdoc_cn bundle create "$PWD/.claude/archives/zdoc-cn-pre-merge.bundle" HEAD refs/remotes/origin/master refs/remotes/origin/dev '--glob=refs/remotes/origin/v*' --tags
 chmod 600 .claude/archives/zdoc-cn-pre-merge.bundle
 git bundle verify .claude/archives/zdoc-cn-pre-merge.bundle
 git bundle list-heads .claude/archives/zdoc-cn-pre-merge.bundle
 shasum -a 256 .claude/archives/zdoc-cn-pre-merge.bundle
 ```
 
-Expected: bundle verification succeeds and list-heads contains only the two approved published branches, published version refs, and tags. Store the source URL, source HEAD, exact included refs, ref policy, file mode, retention class, bundle SHA-256, creation command, and controlled archive location in `migration/reports/zdoc-cn-archive.json`; do not commit the bundle. Copy it to approved immutable archival storage and re-verify its SHA-256 before retiring `zdoc_cn`.
+Expected: bundle verification succeeds and list-heads contains only the explicit checked-out source HEAD, the two approved published branches, published version refs, and tags. Store the source URL, source HEAD, exact included refs, ref policy, file mode, retention class, bundle SHA-256, creation command, and controlled archive location in `migration/reports/zdoc-cn-archive.json`; do not commit the bundle. Copy it to approved immutable archival storage and re-verify its SHA-256 before retiring `zdoc_cn`.
 
 - [ ] **Step 5: Commit the baseline evidence**
 

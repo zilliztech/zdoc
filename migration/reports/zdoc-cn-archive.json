@@ -1,9 +1,13 @@
 {
   "bundle": {
-    "command": "git -C ../../../../zdoc_cn bundle create \"$PWD/.claude/archives/zdoc-cn-pre-merge.bundle\" refs/remotes/origin/master refs/remotes/origin/dev '--glob=refs/remotes/origin/v*' --tags",
+    "command": "git -C ../../../../zdoc_cn bundle create \"$PWD/.claude/archives/zdoc-cn-pre-merge.bundle\" HEAD refs/remotes/origin/master refs/remotes/origin/dev '--glob=refs/remotes/origin/v*' --tags",
     "controlledArchiveLocation": ".claude/archives/zdoc-cn-pre-merge.bundle",
     "fileMode": "0600",
     "includedRefs": [
+      {
+        "ref": "HEAD",
+        "sha": "b1900473dddf8db2d56c11387211a7014b54c160"
+      },
       {
         "ref": "refs/remotes/origin/master",
         "sha": "59bb13897f321864d51c120521844b7dcdfd2f98"
@@ -121,6 +125,7 @@
         "worktree refs"
       ],
       "included": [
+        "HEAD",
         "refs/remotes/origin/master",
         "refs/remotes/origin/dev",
         "refs/remotes/origin/v*",
@@ -129,17 +134,17 @@
     },
     "requiredActionBeforeRetirement": "Copy this bundle to approved immutable archival storage and verify its SHA-256 before retiring zdoc_cn.",
     "retentionClass": "local-protected-staging",
-    "sha256": "367271445b3a3a9607cbe5a2a327f06c3933359ad60c1be65660e8a99c7693c6",
+    "sha256": "56cfb5d87da352e31b2d84451c299c8beaa1f0729bce4e72daa0ff80fb874e44",
     "verification": {
       "command": "git bundle verify .claude/archives/zdoc-cn-pre-merge.bundle",
       "exitStatus": 0,
       "listHeadsCommand": "git bundle list-heads .claude/archives/zdoc-cn-pre-merge.bundle",
-      "result": "The bundle is okay; it records a complete history and contains exactly 27 approved refs."
+      "result": "The bundle is okay; it records a complete history and contains exactly 28 approved refs."
     }
   },
   "source": {
     "sourceHead": "b1900473dddf8db2d56c11387211a7014b54c160",
-    "sourceHeadIncluded": false,
+    "sourceHeadIncluded": true,
     "sourceUrl": "https://github.com/zilliztech/zdoc_cn.git"
   }
 }
