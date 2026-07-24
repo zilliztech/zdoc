@@ -38,6 +38,7 @@ test('streams a correlated chat response with safe console debug logs', async ({
     capturedConversationId = request.headers()['x-conversation-id'];
     capturedBody = request.postDataJSON() as Record<string, unknown>;
 
+    expect(await request.headerValue('authorization')).toBeNull();
     expect(capturedRequestId).toMatch(requestIdPattern);
     expect(capturedConversationId).toMatch(requestIdPattern);
     expect(capturedBody).toMatchObject({
@@ -74,6 +75,7 @@ test('streams a correlated chat response with safe console debug logs', async ({
   await expect(chatPanel.getByText('Ask AI', {exact: true})).toBeVisible();
 
   await page.getByLabel('Chat message').fill(prompt);
+  expect(new URL(page.url()).hostname).toBe('localhost');
   await page.getByRole('button', {name: 'Send'}).click();
 
   await expect(page.getByText(prompt)).toBeVisible();
