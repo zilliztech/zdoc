@@ -23,6 +23,8 @@ function fixture() {
   write(root, 'migration/dependencies.json', '{"dependencies":[]}\n');
   write(root, 'migration/legacy-files.json', '{"files":[]}\n');
   write(root, 'content/en/guides/content-manifest.json', '{"pages":["docs"]}\n');
+  write(root, 'generated/en/manifests/reference.json', '{"revision":"en-1"}\n');
+  write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"zh-1"}\n');
   write(root, 'tracked.txt', 'tracked\n');
   execFileSync('git', ['add', '.'], {cwd: root});
   execFileSync('git', ['commit', '-qm', 'fixture'], {cwd: root});
@@ -36,6 +38,14 @@ const profile = Object.freeze({
   content: [{id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'docs', sidebarPath: 'config/sidebar.ts'}],
   manuals: [], navigation: {items: []}, features: {chat: false}, markdown: {remarkPlugins: [], rehypePlugins: []},
   integrations: {}, staticRoots: [], redirects: {rules: []}, robots: {index: true},
+});
+
+const zhProfile = Object.freeze({
+  ...profile,
+  id: 'zh-CN',
+  language: 'zh-Hans',
+  outputDir: 'build/zh-CN',
+  content: [],
 });
 
 function run(root, overrides = {}) {
@@ -81,6 +91,40 @@ test('changes the artifact hash when artifact bytes change and self-excludes pro
   assert.equal(run(root).manifest.artifactHash, original);
   fs.appendFileSync(path.join(root, 'build/en/docs/index.html'), 'changed');
   assert.notEqual(run(root).manifest.artifactHash, original);
+});
+
+test('discovers content-root and site generated manifests while explicit inputs override discovery', () => {
+  const root = fixture();
+  const discovered = run(root, {contentManifests: undefined}).manifest.componentHashes.contentManifests;
+  const explicit = run(root).manifest.componentHashes.contentManifests;
+
+  fs.appendFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'changed');
+  const changed = run(root, {contentManifests: undefined}).manifest.componentHashes.contentManifests;
+  assert.notEqual(changed, discovered);
+  assert.equal(run(root).manifest.componentHashes.contentManifests, explicit);
+
+  fs.appendFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'changed');
+  assert.equal(run(root, {contentManifests: undefined}).manifest.componentHashes.contentManifests, changed);
+
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
+  const zhBefore = writeBuildProvenance({
+    repositoryRoot: root,
+    site: 'zh-CN',
+    buildDirectory: path.join(root, 'build/zh-CN'),
+    profile: zhProfile,
+    environment: {},
+    pnpmVersion: '10.13.1',
+  }).manifest.componentHashes.contentManifests;
+  fs.appendFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'changed-again');
+  const zhAfter = writeBuildProvenance({
+    repositoryRoot: root,
+    site: 'zh-CN',
+    buildDirectory: path.join(root, 'build/zh-CN'),
+    profile: zhProfile,
+    environment: {},
+    pnpmVersion: '10.13.1',
+  }).manifest.componentHashes.contentManifests;
+  assert.notEqual(zhAfter, zhBefore);
 });
 
 test('truthfully records a dirty working tree without timestamps', () => {

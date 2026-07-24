@@ -159,7 +159,7 @@ export function writeBuildProvenance({
   site,
   buildDirectory,
   profile,
-  contentManifests = [],
+  contentManifests,
   environment = process.env,
   pnpmVersion,
 }) {
@@ -171,6 +171,7 @@ export function writeBuildProvenance({
     throw new Error(`Resolved profile outputDir must be build/${site}`);
   }
   const buildRoot = resolveBuildDirectory(root, site, buildDirectory);
+  const selectedContentManifests = contentManifests ?? discoverContentManifests(root, profile);
   const {records: artifactRecords, routes} = walkArtifactTree(buildRoot);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
@@ -192,7 +193,7 @@ export function writeBuildProvenance({
       lockfile: hashRequiredFile(root, 'pnpm-lock.yaml', 'pnpm lockfile'),
       dependencies: hashRequiredFile(root, 'migration/dependencies.json', 'dependency ledger'),
       legacyFiles: hashRequiredFile(root, 'migration/legacy-files.json', 'legacy file ledger'),
-      contentManifests: hashContentManifests(root, contentManifests),
+      contentManifests: hashContentManifests(root, selectedContentManifests),
       routes: hashCanonical(routes),
       environment: hashCanonical(selectedEnvironment),
     },
@@ -226,11 +227,15 @@ function parseArguments(argv) {
   return options;
 }
 
-function discoverContentManifests(repositoryRoot, profile) {
+export function discoverContentManifests(repositoryRoot, profile) {
   const roots = profile.content.map(content => `${content.sourcePath}/`);
-  return trackedFiles(repositoryRoot).filter(file =>
-    roots.some(root => file.startsWith(root)) && /(?:^|\/)content-manifest(?:\.[^/]+)?\.json$/u.test(file),
-  ).sort();
+  const generatedRoot = `generated/${profile.id}/manifests/`;
+  return [...new Set(trackedFiles(repositoryRoot).filter(file => {
+    if (file.startsWith(generatedRoot) && file.endsWith('.json')) return true;
+    if (!roots.some(root => file.startsWith(root))) return false;
+    const basename = path.posix.basename(file);
+    return basename.startsWith('content-manifest') && basename.endsWith('.json');
+  }))].sort();
 }
 
 async function main() {
@@ -240,15 +245,12 @@ async function main() {
   const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefault: true});
   const {resolveSiteProfile} = jiti(path.join(repositoryRoot, 'packages/site-config/src/index.ts'));
   const profile = resolveSiteProfile(options.site);
-  const contentManifests = options.contentManifests.length > 0
-    ? options.contentManifests
-    : discoverContentManifests(repositoryRoot, profile);
   writeBuildProvenance({
     repositoryRoot,
     site: options.site,
     buildDirectory: path.resolve(process.cwd(), options.buildDirectory),
     profile,
-    contentManifests,
+    contentManifests: options.contentManifests.length > 0 ? options.contentManifests : undefined,
   });
 }
 

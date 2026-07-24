@@ -38,3 +38,30 @@ test('finds direct and bracketed reads in tracked source without flagging detect
   });
   assert.deepEqual(findProfileEnvViolations(root), ['src/bracket.tsx', 'src/direct.ts']);
 });
+
+test('finds destructured profile environment reads including aliases and nested patterns', () => {
+  const root = fixture({
+    'src/destructure.ts': 'const {ZDOC_SITE} = process.env;\n',
+    'src/alias.ts': 'const {ZDOC_SITE: site} = process.env;\n',
+    'src/bracket-env.ts': "const {ZDOC_SITE: site} = process['env'];\n",
+    'src/nested.tsx': 'const {env: {ZDOC_SITE}} = process;\n',
+  });
+  assert.deepEqual(findProfileEnvViolations(root), [
+    'src/alias.ts',
+    'src/bracket-env.ts',
+    'src/destructure.ts',
+    'src/nested.tsx',
+  ]);
+});
+
+test('ignores profile environment spellings in strings and comments', () => {
+  const root = fixture({
+    'src/text.ts': [
+      "const direct = 'process.env.ZDOC_SITE';",
+      "const destructured = 'const {ZDOC_SITE} = process.env';",
+      '// process.env.ZDOC_SITE',
+      '/* const {env: {ZDOC_SITE}} = process; */',
+    ].join('\n'),
+  });
+  assert.deepEqual(findProfileEnvViolations(root), []);
+});
