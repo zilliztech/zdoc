@@ -8,9 +8,16 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
   url: 'https://docs.zilliz.com',
   baseUrl: '/',
   outputDir: 'build/en',
-  content: [],
+  content: [
+    {
+      id: 'default',
+      sourcePath: 'content/en/guides',
+      routeBasePath: 'docs',
+      sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
+    },
+  ],
   manuals: [],
-  staticRoots: ['apps/docs/static/shared', 'apps/docs/static/en'],
+  staticRoots: ['apps/docs/static/shared'],
   features: {
     chat: true,
     askAi: true,

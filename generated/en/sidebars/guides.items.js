@@ -1,3 +1,4 @@
+// Generated document items remain browser-safe and contain no build-time I/O.
 module.exports = [
   {
     "type": "category",

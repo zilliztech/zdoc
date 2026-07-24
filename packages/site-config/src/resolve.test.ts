@@ -34,6 +34,15 @@ describe('site profile resolution', () => {
     expect(enProfile.outputDir).not.toBe(zhCNProfile.outputDir);
   });
 
+  it('registers the migrated English Guides plugin explicitly', () => {
+    expect(enProfile.content).toEqual([{
+      id: 'default',
+      sourcePath: 'content/en/guides',
+      routeBasePath: 'docs',
+      sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
+    }]);
+  });
+
   it('returns the same deeply frozen profile object', () => {
     const profile = resolveSiteProfile('en');
     expect(resolveSiteProfile('en')).toBe(profile);
