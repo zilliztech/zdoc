@@ -34,7 +34,7 @@ describe('site profile resolution', () => {
     expect(enProfile.outputDir).not.toBe(zhCNProfile.outputDir);
   });
 
-  it('registers only the migrated English Guides and BYOC plugins explicitly', () => {
+  it('registers exactly the migrated English Guides, BYOC, and Reference plugins', () => {
     expect(enProfile.content).toEqual([
       {
         id: 'default',
@@ -47,6 +47,12 @@ describe('site profile resolution', () => {
         sourcePath: 'content/en/byoc',
         routeBasePath: 'docs/byoc',
         sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js',
+      },
+      {
+        id: 'reference',
+        sourcePath: 'content/en/reference',
+        routeBasePath: 'reference',
+        sidebarPath: 'packages/site-config/src/sidebars/en/reference.ts',
       },
     ]);
   });
