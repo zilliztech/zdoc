@@ -14,7 +14,7 @@
       "sourceRepository": "zdoc",
       "rule": "secret.private-key-marker",
       "path": "scripts/migration/integrity.test.mjs",
-      "expectedSha256": "1c1651bf67da7280a1d41c0618852214d1f42f4594a0b54d6a39dd119deace30",
+      "expectedSha256": "12f2b2085a45916fb1954356d9203414150f98fb4ab25242f62e5a86cef28ced",
       "owner": "tooling",
       "reason": "Synthetic private-key header is required to prove fixture detection; no key material is present."
     },
@@ -22,7 +22,7 @@
       "sourceRepository": "zdoc",
       "rule": "secret.token-marker",
       "path": "scripts/migration/integrity.test.mjs",
-      "expectedSha256": "1c1651bf67da7280a1d41c0618852214d1f42f4594a0b54d6a39dd119deace30",
+      "expectedSha256": "12f2b2085a45916fb1954356d9203414150f98fb4ab25242f62e5a86cef28ced",
       "owner": "tooling",
       "reason": "Synthetic token-shaped value is required to prove fixture detection and is not a credential."
     },

@@ -7,12 +7,32 @@
     "sourceRevision": null,
     "description": "Filesystem scan of the supplied repository root; no Git commit equivalence is asserted."
   },
-  "allowlistDigest": "85a063ceda672ef3799cc2afb1eda3938fa956104a664c6f5014d7668ba8a351",
+  "allowlistDigest": "fd76c598ede44736b05706263affbc0ee3038e1a3db92c62763df42687794e72",
   "policy": {
     "maxFileSize": 20971520,
     "contentRoots": [
-      "."
+      "docs",
+      "docs-byoc",
+      "i18n",
+      "reference"
     ],
+    "routePolicy": {
+      "allowedRoutePrefixes": [
+        "/docs",
+        "/img",
+        "/reference"
+      ],
+      "allowedExactRoutes": [
+        "/"
+      ],
+      "staticLinkForms": [
+        "inline Markdown links and images",
+        "Markdown reference definitions used by reference links or images",
+        "Markdown autolinks",
+        "static HTML/MDX href and src attributes"
+      ],
+      "dynamicJsxExpressions": "Expression-valued JSX href/src attributes are out of scope for this static scan."
+    },
     "excludedRoots": [
       ".docusaurus",
       ".git",
@@ -54,7 +74,7 @@
       "status": "allowed",
       "rule": "secret.private-key-marker",
       "path": "scripts/migration/integrity.test.mjs",
-      "sha256": "1c1651bf67da7280a1d41c0618852214d1f42f4594a0b54d6a39dd119deace30",
+      "sha256": "12f2b2085a45916fb1954356d9203414150f98fb4ab25242f62e5a86cef28ced",
       "detail": "A private-key marker was detected; value omitted.",
       "allowance": {
         "owner": "tooling",
@@ -66,7 +86,7 @@
       "status": "allowed",
       "rule": "secret.token-marker",
       "path": "scripts/migration/integrity.test.mjs",
-      "sha256": "1c1651bf67da7280a1d41c0618852214d1f42f4594a0b54d6a39dd119deace30",
+      "sha256": "12f2b2085a45916fb1954356d9203414150f98fb4ab25242f62e5a86cef28ced",
       "detail": "A common embedded token marker was detected; value omitted.",
       "allowance": {
         "owner": "tooling",

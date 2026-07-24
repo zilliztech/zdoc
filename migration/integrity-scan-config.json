@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "repositories": [
+    {
+      "id": "zdoc",
+      "contentRoots": [
+        "docs",
+        "docs-byoc",
+        "i18n",
+        "reference"
+      ],
+      "allowedRoutePrefixes": [
+        "/docs",
+        "/img",
+        "/reference"
+      ],
+      "allowedExactRoutes": [
+        "/"
+      ]
+    },
+    {
+      "id": "zdoc_cn",
+      "contentRoots": [
+        "docs",
+        "docs-agents",
+        "i18n",
+        "onpremise",
+        "reference",
+        "versioned_docs"
+      ],
+      "allowedRoutePrefixes": [
+        "/docs",
+        "/img",
+        "/on-premise",
+        "/reference"
+      ],
+      "allowedExactRoutes": [
+        "/"
+      ]
+    }
+  ]
+}

@@ -16,8 +16,17 @@ function fixture() {
   writeFileSync(path.join(root, '.gitattributes'), '*.bat text eol=crlf\n');
   writeFileSync(path.join(root, 'Readme.md'), 'one\n'); writeFileSync(path.join(root, 'README.md'), 'two\n');
   writeFileSync(path.join(root, 'docs/caf\u00e9.md'), 'nfc\n'); writeFileSync(path.join(root, 'docs/cafe\u0301.md'), 'nfd\n');
-  writeFileSync(path.join(root, 'docs/sub/links.mdx'), '[site](/docs/start) [legal](../page.md) [escape](../../../secret.md) [file](file:///etc/passwd) [again](../../../secret.md)\n');
-  writeFileSync(path.join(root, 'docs/bad.txt'), 'line\r\n'); writeFileSync(path.join(root, 'docs/large.bin'), Buffer.alloc(300));
+  writeFileSync(path.join(root, 'docs/sub/links.mdx'), [
+    '[site](/docs/start) [home](/) [near-route](/docsish) [legal](../page.md) [escape](../../.env) [again](../../.env)',
+    '[reference][unsafe] [duplicate](../../.env)',
+    '[unsafe]: /opt/private.pem',
+    '<file:///etc/passwd>',
+    '<a href="/docs/reference">allowed HTML route</a>',
+    '<img src="//server/share">',
+    '<Card href="/root/key" image="/docs/image.png" />',
+    '<a href={dynamicTarget}>dynamic JSX is out of scope</a>',
+  ].join('\n'));
+  writeFileSync(path.join(root, 'docs/bad.txt'), 'line\r\n'); writeFileSync(path.join(root, 'docs/large.bin'), Buffer.alloc(3000));
   writeFileSync(path.join(root, '.env.production'), 'SECRET=redacted\n');
   writeFileSync(path.join(root, 'docs/token.txt'), 'ghp_123456789012345678901234567890123456\n');
   writeFileSync(path.join(root, 'docs/key.pem'), '-----BEGIN PRIVATE KEY-----\nredacted\n');
@@ -31,13 +40,39 @@ function fixture() {
 }
 
 test('detects integrity hazards, resolves links safely, and deduplicates targets', async () => {
-  const report = await scanIntegrity(fixture(), {repository: 'zdoc', maxFileSize: 256, contentRoots: ['docs']});
+  const report = await scanIntegrity(fixture(), {
+    repository: 'zdoc',
+    maxFileSize: 1024,
+    contentRoots: ['docs'],
+    allowedRoutePrefixes: ['/docs'],
+    allowedExactRoutes: ['/'],
+  });
   const rules = new Set(report.findings.map(item => item.rule));
   for (const rule of ['path.case-collision', 'path.unicode-collision', 'symlink.unapproved', 'mode.executable', 'mode.executable-drift', 'line-ending.crlf', 'link.absolute', 'link.traversal', 'file.too-large', 'secret.filename', 'secret.token-marker', 'secret.private-key-marker', 'secret.large-binary-quarantine']) assert.ok(rules.has(rule), rule);
-  assert.equal(report.findings.filter(item => item.rule === 'link.traversal').length, 1);
-  assert.ok(!report.findings.some(item => item.normalizedTarget === '/docs/start' || item.normalizedTarget === 'docs/page.md'));
+  assert.equal(report.findings.filter(item => item.rule === 'link.traversal' && item.normalizedTarget === '.env').length, 1);
+  for (const target of ['/docsish', '/opt/private.pem', '/root/key', '//server/share', 'file:///etc/passwd']) {
+    assert.ok(report.findings.some(item => item.rule === 'link.absolute' && item.normalizedTarget === target), target);
+  }
+  assert.ok(!report.findings.some(item => ['/', '/docs/start', '/docs/reference', '/docs/image.png', 'docs/page.md'].includes(item.normalizedTarget)));
+  assert.ok(!JSON.stringify(report).includes('dynamicTarget'));
+  assert.deepEqual(report.policy.routePolicy.allowedRoutePrefixes, ['/docs']);
+  assert.deepEqual(report.policy.routePolicy.allowedExactRoutes, ['/']);
+  assert.match(report.policy.routePolicy.dynamicJsxExpressions, /out of scope/i);
   assert.equal(report.repository, 'zdoc'); assert.match(report.allowlistDigest, /^[0-9a-f]{64}$/);
   assert.doesNotMatch(JSON.stringify(report), /ghp_123456|SECRET=|redacted/);
+});
+
+test('detects ASCII secret markers in binary bytes and across read boundaries', async () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'integrity-binary-'));
+  const token = 'ghp_123456789012345678901234567890123456';
+  writeFileSync(path.join(root, 'invalid-before-token.bin'), Buffer.concat([Buffer.from([0xff]), Buffer.from(`\n${token}\n`)]));
+  writeFileSync(path.join(root, 'small-key.bin'), Buffer.concat([Buffer.from([0]), Buffer.from('-----BEGIN PRIVATE KEY-----\n')]));
+  writeFileSync(path.join(root, 'boundary.bin'), Buffer.concat([Buffer.alloc(64 * 1024 - 5, 0x20), Buffer.from(`${token}\n`)]));
+  const report = await scanIntegrity(root, {repository: 'zdoc'});
+  assert.ok(report.findings.some(item => item.path === 'invalid-before-token.bin' && item.rule === 'secret.token-marker'));
+  assert.ok(report.findings.some(item => item.path === 'small-key.bin' && item.rule === 'secret.private-key-marker'));
+  assert.ok(report.findings.some(item => item.path === 'boundary.bin' && item.rule === 'secret.token-marker'));
+  assert.ok(!report.findings.some(item => item.path === 'small-key.bin' && item.rule === 'secret.large-binary-quarantine'));
 });
 
 test('scans critical markers beyond the size limit and CLI exits 2', async () => {
@@ -66,4 +101,33 @@ test('allowlist is scoped by repository and expected content hash', async () => 
   assert.equal(changed.findings.find(item => item.rule === 'symlink.unapproved').status, 'unreviewed');
   assert.ok(changed.findings.some(item => item.rule === 'allowlist.stale-exception' && item.severity === 'critical'));
   await assert.rejects(() => scanIntegrity(root, {repository: 'zdoc_cn', allowlist: [{rule: 'symlink.unapproved', path: 'link'}]}), /sourceRepository/);
+});
+
+test('CLI loads a validated repository scan config and fails clearly when it is missing', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'integrity-config-'));
+  mkdirSync(path.join(root, 'docs'), {recursive: true});
+  writeFileSync(path.join(root, 'docs/index.md'), '[route](/docs/start) [hazard](/opt/private.pem)\n');
+  const reportPath = path.join(root, 'report.json');
+  const allowlistPath = path.join(root, 'allowlist.json');
+  const configPath = path.join(root, 'scan-config.json');
+  writeFileSync(allowlistPath, '{"exceptions":[]}\n');
+  writeFileSync(configPath, `${JSON.stringify({schemaVersion: 1, repositories: [{id: 'zdoc', contentRoots: ['docs'], allowedRoutePrefixes: ['/docs'], allowedExactRoutes: ['/']}]})}\n`);
+  const command = [path.resolve('scripts/migration/integrity.mjs'), '--root', root, '--repository', 'zdoc', '--report', reportPath, '--allowlist', allowlistPath];
+  const configured = spawnSync(process.execPath, [...command, '--scan-config', configPath], {encoding: 'utf8'});
+  assert.equal(configured.status, 0, configured.stderr);
+  const report = JSON.parse(readFileSync(reportPath, 'utf8'));
+  assert.deepEqual(report.policy.contentRoots, ['docs']);
+  assert.deepEqual(report.policy.routePolicy.allowedRoutePrefixes, ['/docs']);
+  assert.ok(report.findings.some(item => item.normalizedTarget === '/opt/private.pem'));
+  assert.ok(!report.findings.some(item => item.normalizedTarget === '/docs/start'));
+
+  const missing = spawnSync(process.execPath, [...command, '--scan-config', path.join(root, 'missing.json')], {encoding: 'utf8'});
+  assert.equal(missing.status, 1);
+  assert.match(missing.stderr, /scan config.*not found/i);
+
+  const invalidConfigPath = path.join(root, 'invalid-scan-config.json');
+  writeFileSync(invalidConfigPath, '{"schemaVersion":1,"repositories":[{"id":"zdoc","contentRoots":["docs"],"allowedRoutePrefixes":["/docs"]}]}\n');
+  const invalid = spawnSync(process.execPath, [...command, '--scan-config', invalidConfigPath], {encoding: 'utf8'});
+  assert.equal(invalid.status, 1);
+  assert.match(invalid.stderr, /must contain exactly.*allowedExactRoutes/i);
 });

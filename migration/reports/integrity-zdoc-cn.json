@@ -7,12 +7,35 @@
     "sourceRevision": null,
     "description": "Filesystem scan of the supplied repository root; no Git commit equivalence is asserted."
   },
-  "allowlistDigest": "85a063ceda672ef3799cc2afb1eda3938fa956104a664c6f5014d7668ba8a351",
+  "allowlistDigest": "fd76c598ede44736b05706263affbc0ee3038e1a3db92c62763df42687794e72",
   "policy": {
     "maxFileSize": 20971520,
     "contentRoots": [
-      "."
+      "docs",
+      "docs-agents",
+      "i18n",
+      "onpremise",
+      "reference",
+      "versioned_docs"
     ],
+    "routePolicy": {
+      "allowedRoutePrefixes": [
+        "/docs",
+        "/img",
+        "/on-premise",
+        "/reference"
+      ],
+      "allowedExactRoutes": [
+        "/"
+      ],
+      "staticLinkForms": [
+        "inline Markdown links and images",
+        "Markdown reference definitions used by reference links or images",
+        "Markdown autolinks",
+        "static HTML/MDX href and src attributes"
+      ],
+      "dynamicJsxExpressions": "Expression-valued JSX href/src attributes are out of scope for this static scan."
+    },
     "excludedRoots": [
       ".docusaurus",
       ".git",

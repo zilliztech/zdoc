@@ -107,6 +107,7 @@ export function validateDependency(dependency) {
     const approval = dependency.approval;
     if (!approval) fail('approval');
     for (const field of ['approvedBy', 'approvedAt', 'reason']) requireString(approval[field], `approval.${field}`);
+    if (Number.isNaN(Date.parse(approval.approvedAt)) || new Date(approval.approvedAt).toISOString() !== approval.approvedAt) fail('approval.approvedAt', 'must be a canonical ISO timestamp');
     requireStringArray(approval.evidence, 'approval.evidence');
   } else if (dependency.approval !== undefined) fail('approval', 'is only valid for approved records');
   return dependency;

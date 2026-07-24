@@ -93,7 +93,9 @@ test('validates direct dependency allowlist records and audited approvals', () =
   assert.throws(() => validateDependency({...validDependency, reviewStatus: 'approved'}), /approval/);
   assert.throws(() => validateDependency({...validDependency, reviewStatus: 'approved', licenseReview: {...validDependency.licenseReview, status: 'reviewed'}, vulnerabilityReview: {...validDependency.vulnerabilityReview, status: 'reviewed'}, approval: {approvedBy: 'docs-platform', approvedAt: '2026-07-24', reason: 'Text-only status flip.', evidence: ['approval/TASK-14']}}), /reviewedBy|review/);
   const reviewed = {status: 'reviewed', reviewedBy: 'security@example.com', reviewedAt: '2026-07-24T00:00:00.000Z', result: 'pass', report: 'reports/task-14.json', tool: 'approved-scanner@1', artifactSha256: 'c'.repeat(64), evidence: ['TASK-14']};
-  validateDependency({...validDependency, reviewStatus: 'approved', licenseReview: {...reviewed, license: 'MIT'}, vulnerabilityReview: reviewed, approval: {approvedBy: 'docs-platform', approvedAt: '2026-07-24T00:00:00.000Z', reason: 'Reviewed for unified workspace.', evidence: ['approval/TASK-14']}});
+  const approved = {...validDependency, reviewStatus: 'approved', licenseReview: {...reviewed, license: 'MIT'}, vulnerabilityReview: reviewed, approval: {approvedBy: 'docs-platform', approvedAt: '2026-07-24T00:00:00.000Z', reason: 'Reviewed for unified workspace.', evidence: ['approval/TASK-14']}};
+  assert.throws(() => validateDependency({...approved, approval: {...approved.approval, approvedAt: '2026-07-24'}}), /approval\.approvedAt/);
+  validateDependency(approved);
   assert.throws(() => validateDependencies([validDependency, validDependency]), /duplicate/i);
   assert.throws(() => validateDependencies([{...validDependency, package: 'zod'}, validDependency]), /sorted/i);
 });

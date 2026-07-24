@@ -16,6 +16,7 @@ const TOKEN_MARKERS = [
   /\bxox[baprs]-[A-Za-z0-9-]{12,}\b/,
 ];
 const PRIVATE_KEY_MARKER = /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/;
+const REPOSITORIES = new Set(['zdoc', 'zdoc_cn']);
 const SEVERITY = {
   'secret.filename': 'critical', 'secret.token-marker': 'critical', 'secret.private-key-marker': 'critical',
   'secret.large-binary-quarantine': 'critical', 'allowlist.stale-exception': 'critical',
@@ -88,7 +89,7 @@ function inspectRegularFile(absolute, size, collectLimit) {
   const chunk = Buffer.allocUnsafe(64 * 1024);
   const collected = [];
   const decoder = new TextDecoder('utf-8', {fatal: true});
-  let overlap = '', tokenMarker = false, privateKeyMarker = false, crlf = false, binary = false, bytesRead;
+  let rawOverlap = '', tokenMarker = false, privateKeyMarker = false, crlf = false, binary = false, bytesRead;
   try {
     do {
       bytesRead = readSync(descriptor, chunk, 0, chunk.length, null);
@@ -97,36 +98,102 @@ function inspectRegularFile(absolute, size, collectLimit) {
       hash.update(bytes);
       if (size <= collectLimit) collected.push(bytes);
       if (bytes.includes(0)) binary = true;
-      try {
-        const text = decoder.decode(bytes, {stream: true});
-        const window = overlap + text;
-        tokenMarker ||= TOKEN_MARKERS.some(marker => marker.test(window));
-        privateKeyMarker ||= PRIVATE_KEY_MARKER.test(window);
-        crlf ||= window.includes('\r\n');
-        overlap = window.slice(-256);
-      } catch { binary = true; }
+      const rawWindow = rawOverlap + bytes.toString('latin1');
+      tokenMarker ||= TOKEN_MARKERS.some(marker => marker.test(rawWindow));
+      privateKeyMarker ||= PRIVATE_KEY_MARKER.test(rawWindow);
+      crlf ||= rawWindow.includes('\r\n');
+      rawOverlap = rawWindow.slice(-256);
+      if (!binary) try { decoder.decode(bytes, {stream: true}); } catch { binary = true; }
     } while (bytesRead);
-    try { decoder.decode(); } catch { binary = true; }
+    if (!binary) try { decoder.decode(); } catch { binary = true; }
   } finally { closeSync(descriptor); }
-  return {sha256: hash.digest('hex'), bytes: collected.length ? Buffer.concat(collected) : null, tokenMarker, privateKeyMarker, crlf, binary};
+  return {sha256: hash.digest('hex'), bytes: collected.length ? Buffer.concat(collected) : null, tokenMarker, privateKeyMarker, crlf: !binary && crlf, binary};
 }
 
-function markdownLinks(text) {
+function referenceLabel(value) { return value.trim().replace(/\s+/g, ' ').toLowerCase(); }
+
+function staticLinks(text) {
   const results = [];
-  const matcher = /!?(?:\[[^\]]*\])\(([^)\s]+)(?:\s+["'][^"']*["'])?\)/g;
-  for (const match of text.matchAll(matcher)) results.push(match[1].replace(/^<|>$/g, ''));
+  const inline = /!?(?:\[[^\]]*\])\(([^)\s]+)(?:\s+["'][^"']*["'])?\)/g;
+  for (const match of text.matchAll(inline)) results.push(match[1].replace(/^<|>$/g, ''));
+
+  const definitions = new Map();
+  const definition = /^[ \t]{0,3}\[([^\]\r\n]+)\]:[ \t]*(?:<([^>\r\n]+)>|(\S+))/gm;
+  for (const match of text.matchAll(definition)) definitions.set(referenceLabel(match[1]), match[2] || match[3]);
+  const usage = /!?\[([^\]\r\n]*)\]\[([^\]\r\n]*)\]/g;
+  for (const match of text.matchAll(usage)) {
+    const target = definitions.get(referenceLabel(match[2] || match[1]));
+    if (target) results.push(target);
+  }
+
+  const autolink = /<([a-z][a-z0-9+.-]*:[^<>\s]+)>/gi;
+  for (const match of text.matchAll(autolink)) results.push(match[1]);
+  const staticAttribute = /(?:^|[<\s])(?:href|src)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`{}]+))/gi;
+  for (const match of text.matchAll(staticAttribute)) results.push(match[1] ?? match[2] ?? match[3]);
   return results;
 }
 
-function classifyMarkdownTarget(sourcePath, target, contentRoots) {
+function routeAllowed(route, allowedRoutePrefixes, allowedExactRoutes) {
+  return allowedExactRoutes.includes(route) || allowedRoutePrefixes.some(prefix => route === prefix || route.startsWith(`${prefix}/`));
+}
+
+function classifyStaticTarget(sourcePath, target, contentRoots, allowedRoutePrefixes, allowedExactRoutes) {
   const clean = target.split(/[?#]/, 1)[0];
-  if (/^file:\/\//i.test(clean) || /^[A-Za-z]:[\\/]/.test(clean) || /^\/(?:etc|Users|home|var|tmp|private)\//.test(clean)) return {rule: 'link.absolute', normalizedTarget: clean};
-  if (clean.startsWith('/') || /^[a-z][a-z0-9+.-]*:/i.test(clean) || clean.startsWith('#') || clean === '') return null;
+  if (/^file:\/\//i.test(clean) || /^[A-Za-z]:[\\/]/.test(clean) || clean.startsWith('//') || clean.startsWith('\\\\')) return {rule: 'link.absolute', normalizedTarget: clean};
+  if (clean.startsWith('/')) return routeAllowed(clean, allowedRoutePrefixes, allowedExactRoutes) ? null : {rule: 'link.absolute', normalizedTarget: clean};
+  if (/^[a-z][a-z0-9+.-]*:/i.test(clean) || clean.startsWith('#') || clean === '') return null;
   const normalized = path.posix.normalize(path.posix.join(path.posix.dirname(sourcePath), clean));
   const containingRoot = contentRoots.filter(root => sourcePath === root || sourcePath.startsWith(`${root}/`)).sort((a, b) => b.length - a.length)[0] || '.';
   const escapedRepository = normalized === '..' || normalized.startsWith('../');
   const escapedContent = containingRoot !== '.' && normalized !== containingRoot && !normalized.startsWith(`${containingRoot}/`);
   return escapedRepository || escapedContent ? {rule: 'link.traversal', normalizedTarget: normalized} : null;
+}
+
+function exactKeys(value, expected, label) {
+  const actual = Object.keys(value).sort(compareText);
+  const wanted = [...expected].sort(compareText);
+  if (actual.length !== wanted.length || actual.some((key, index) => key !== wanted[index])) throw new Error(`${label} must contain exactly: ${wanted.join(', ')}`);
+}
+
+function validateStringArray(value, label, validator, {allowEmpty = false} = {}) {
+  if (!Array.isArray(value) || !allowEmpty && value.length === 0) throw new Error(`${label} must be ${allowEmpty ? 'a' : 'a nonempty'} string array`);
+  if (value.some(item => typeof item !== 'string' || !validator(item))) throw new Error(`${label} contains an invalid value`);
+  if (new Set(value).size !== value.length) throw new Error(`${label} contains duplicates`);
+}
+
+function validContentRoot(value) {
+  return value === '.' || value.length > 0 && !value.includes('\\') && !path.posix.isAbsolute(value) && path.posix.normalize(value) === value && value !== '..' && !value.startsWith('../');
+}
+
+function validRoute(value, {prefix = false} = {}) {
+  return value.startsWith('/') && !value.includes('?') && !value.includes('#') && path.posix.normalize(value) === value && (!prefix || value !== '/') && (value === '/' || !value.endsWith('/'));
+}
+
+export function validateScanConfig(config) {
+  if (!config || typeof config !== 'object' || Array.isArray(config)) throw new Error('scan config must be an object');
+  exactKeys(config, ['schemaVersion', 'repositories'], 'scan config');
+  if (config.schemaVersion !== 1) throw new Error('scan config schemaVersion must be 1');
+  if (!Array.isArray(config.repositories) || config.repositories.length === 0) throw new Error('scan config repositories must be a nonempty array');
+  const seen = new Set();
+  for (const [index, repository] of config.repositories.entries()) {
+    if (!repository || typeof repository !== 'object' || Array.isArray(repository)) throw new Error(`scan config repositories[${index}] must be an object`);
+    exactKeys(repository, ['id', 'contentRoots', 'allowedRoutePrefixes', 'allowedExactRoutes'], `scan config repositories[${index}]`);
+    if (!REPOSITORIES.has(repository.id)) throw new Error(`scan config repositories[${index}].id is invalid`);
+    if (seen.has(repository.id)) throw new Error(`scan config contains duplicate repository ${repository.id}`);
+    seen.add(repository.id);
+    validateStringArray(repository.contentRoots, `scan config ${repository.id}.contentRoots`, validContentRoot);
+    validateStringArray(repository.allowedRoutePrefixes, `scan config ${repository.id}.allowedRoutePrefixes`, value => validRoute(value, {prefix: true}), {allowEmpty: true});
+    validateStringArray(repository.allowedExactRoutes, `scan config ${repository.id}.allowedExactRoutes`, value => validRoute(value), {allowEmpty: true});
+  }
+  return config;
+}
+
+function loadScanConfig(file) {
+  if (!existsSync(file)) throw new Error(`Integrity scan config not found: ${file}`);
+  let config;
+  try { config = JSON.parse(readFileSync(file, 'utf8')); }
+  catch (error) { throw new Error(`Integrity scan config is not valid JSON: ${file}: ${error.message}`); }
+  return validateScanConfig(config);
 }
 
 function validateAllowlist(allowlist) {
@@ -146,10 +213,15 @@ function finding(rule, relative, hash, detail) {
 export async function scanIntegrity(rootInput, options = {}) {
   const root = path.resolve(rootInput);
   const repository = options.repository;
-  if (!['zdoc', 'zdoc_cn'].includes(repository)) throw new Error('repository must be zdoc or zdoc_cn');
+  if (!REPOSITORIES.has(repository)) throw new Error('repository must be zdoc or zdoc_cn');
   const maxFileSize = options.maxFileSize ?? 20 * 1024 * 1024;
   const allowlist = options.allowlist ?? [];
   const contentRoots = (options.contentRoots || ['.']).map(item => item.replace(/^\.\/$/, '.'));
+  const allowedRoutePrefixes = options.allowedRoutePrefixes || [];
+  const allowedExactRoutes = options.allowedExactRoutes || [];
+  validateStringArray(contentRoots, 'contentRoots', validContentRoot);
+  validateStringArray(allowedRoutePrefixes, 'allowedRoutePrefixes', value => validRoute(value, {prefix: true}), {allowEmpty: true});
+  validateStringArray(allowedExactRoutes, 'allowedExactRoutes', value => validRoute(value), {allowEmpty: true});
   validateAllowlist(allowlist);
   const entries = walk(root);
   const findings = [];
@@ -190,13 +262,13 @@ export async function scanIntegrity(rootInput, options = {}) {
     if (bytes && !inspected.binary && /\.(?:md|mdx)$/i.test(entry.relative)) {
       const text = bytes.toString('utf8');
       const seenLinks = new Set();
-      for (const target of markdownLinks(text)) {
-        const classified = classifyMarkdownTarget(entry.relative, target, contentRoots);
+      for (const target of staticLinks(text)) {
+        const classified = classifyStaticTarget(entry.relative, target, contentRoots, allowedRoutePrefixes, allowedExactRoutes);
         if (!classified) continue;
         const identity = `${classified.rule}\0${classified.normalizedTarget}`;
         if (seenLinks.has(identity)) continue;
         seenLinks.add(identity);
-        findings.push({...finding(classified.rule, entry.relative, hash, classified.rule === 'link.absolute' ? 'Filesystem-absolute Markdown/MDX link detected.' : 'Markdown/MDX link escapes the configured content root.'), normalizedTarget: classified.normalizedTarget});
+        findings.push({...finding(classified.rule, entry.relative, hash, classified.rule === 'link.absolute' ? 'Filesystem-absolute static Markdown/MDX link target detected.' : 'Static Markdown/MDX link target escapes the configured content root.'), normalizedTarget: classified.normalizedTarget});
       }
     }
   }
@@ -219,13 +291,13 @@ export async function scanIntegrity(rootInput, options = {}) {
   for (const exception of allowlist.filter(item => item.sourceRepository === repository && !matchedAllowlist.has(item))) {
     findings.push(finding('allowlist.stale-exception', exception.path, sha256(Buffer.from(`${exception.sourceRepository}\0${exception.rule}\0${exception.path}\0${exception.expectedSha256}`)), 'Relevant allowlist exception did not match the current rule, normalized path, and expected content hash.'));
   }
-  findings.sort((a, b) => `${a.severity}\0${a.rule}\0${a.path}`.localeCompare(`${b.severity}\0${b.rule}\0${b.path}`));
+  findings.sort((a, b) => compareText(`${a.severity}\0${a.rule}\0${a.path}\0${a.normalizedTarget || ''}`, `${b.severity}\0${b.rule}\0${b.path}\0${b.normalizedTarget || ''}`));
   const counts = {};
   for (const item of findings) {
     const key = `${item.severity}:${item.status}`;
     counts[key] = (counts[key] || 0) + 1;
   }
-  return {schemaVersion: 2, repository, scanContext: {rootLabel: repository, scanMode: 'filesystem', sourceRevision: null, description: 'Filesystem scan of the supplied repository root; no Git commit equivalence is asserted.'}, allowlistDigest: sha256(Buffer.from(JSON.stringify(allowlist))), policy: {maxFileSize, contentRoots, excludedRoots: [...EXCLUDED_ROOTS].sort(compareText), excludedOperationalPrefixes: EXCLUDED_PREFIXES, crlfPolicySource: '.gitattributes'}, counts, findings};
+  return {schemaVersion: 2, repository, scanContext: {rootLabel: repository, scanMode: 'filesystem', sourceRevision: null, description: 'Filesystem scan of the supplied repository root; no Git commit equivalence is asserted.'}, allowlistDigest: sha256(Buffer.from(JSON.stringify(allowlist))), policy: {maxFileSize, contentRoots, routePolicy: {allowedRoutePrefixes, allowedExactRoutes, staticLinkForms: ['inline Markdown links and images', 'Markdown reference definitions used by reference links or images', 'Markdown autolinks', 'static HTML/MDX href and src attributes'], dynamicJsxExpressions: 'Expression-valued JSX href/src attributes are out of scope for this static scan.'}, excludedRoots: [...EXCLUDED_ROOTS].sort(compareText), excludedOperationalPrefixes: EXCLUDED_PREFIXES, crlfPolicySource: '.gitattributes'}, counts, findings};
 }
 
 function hashEntry(entry) {
@@ -238,19 +310,24 @@ function parseArgs(argv) {
   const result = {};
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index];
-    if (['--root', '--repository', '--report', '--allowlist', '--max-file-size'].includes(arg)) result[arg.slice(2)] = argv[++index];
+    if (['--root', '--repository', '--report', '--allowlist', '--scan-config', '--max-file-size'].includes(arg)) result[arg.slice(2)] = argv[++index];
     else throw new Error(`Unknown argument: ${arg}`);
   }
-  if (!result.root || !result.repository || !result.report) throw new Error('Usage: integrity.mjs --root <path> --repository <zdoc|zdoc_cn> --report <path> [--allowlist <json>] [--max-file-size <bytes>]');
+  if (!result.root || !result.repository || !result.report) throw new Error('Usage: integrity.mjs --root <path> --repository <zdoc|zdoc_cn> --report <path> [--allowlist <json>] [--scan-config <json>] [--max-file-size <bytes>]');
   return result;
 }
 
 async function main(argv) {
   const args = parseArgs(argv);
-  const defaultAllowlist = path.resolve('migration/integrity-allowlist.json');
+  const scriptRepositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+  const defaultAllowlist = path.join(scriptRepositoryRoot, 'migration/integrity-allowlist.json');
   const allowlistPath = args.allowlist ? path.resolve(args.allowlist) : existsSync(defaultAllowlist) ? defaultAllowlist : null;
   const allowlist = allowlistPath ? JSON.parse(readFileSync(allowlistPath, 'utf8')).exceptions : [];
-  const report = await scanIntegrity(args.root, {repository: args.repository, allowlist, ...(args['max-file-size'] ? {maxFileSize: Number(args['max-file-size'])} : {})});
+  const scanConfigPath = args['scan-config'] ? path.resolve(args['scan-config']) : path.join(scriptRepositoryRoot, 'migration/integrity-scan-config.json');
+  const scanConfig = loadScanConfig(scanConfigPath);
+  const scanPolicy = scanConfig.repositories.find(item => item.id === args.repository);
+  if (!scanPolicy) throw new Error(`Integrity scan config has no policy for repository: ${args.repository}`);
+  const report = await scanIntegrity(args.root, {...scanPolicy, repository: args.repository, allowlist, ...(args['max-file-size'] ? {maxFileSize: Number(args['max-file-size'])} : {})});
   const reportPath = path.resolve(args.report);
   mkdirSync(path.dirname(reportPath), {recursive: true});
   writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
