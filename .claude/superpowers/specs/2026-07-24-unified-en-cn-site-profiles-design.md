@@ -263,38 +263,49 @@ content/
     guides/
     byoc/
     reference/
-    agents/                 # only if still a distinct English product surface
   zh-CN/
     guides/
     byoc/
     reference/
     onpremise/
 
-content-sources/
-  reference/
-    python/
-    java/
-    nodejs/
-    go/
-    cli/
-    restful/
-
-translations/
-  zh-CN/
-    reference/
-      python/
-      java/
-      nodejs/
-      go/
-      cli/
-      restful/
-
 deploy/
   en/
   zh-CN/
+  contracts/
 ```
 
 `apps/docs` is the only Docusaurus application. The packages are source-level workspace packages, not separately released dependencies.
+
+There is exactly one committed publishable Markdown tree per site. Reference does not keep a second committed source copy:
+
+```text
+content/en/reference/**      canonical English Reference and English build input
+content/zh-CN/reference/**   checked-in Chinese Reference and Chinese build input
+```
+
+Remote fetch snapshots, Feishu JSON, translation-service exports, and staging directories are caches or CI artifacts unless a separately reviewed reproducibility requirement makes a specific snapshot a versioned input.
+
+### Deployment configuration storage
+
+`deploy/` is version-controlled configuration-as-code that affects how a site artifact is packaged, served, validated, or identified. It may contain:
+
+- Dockerfiles and image metadata rules;
+- Nginx templates and redirect configuration;
+- health-check and smoke-test definitions;
+- site-specific runtime configuration schemas;
+- deployment contracts consumed by an external Jenkins repository;
+- artifact label and provenance verification scripts.
+
+`deploy/` must not contain:
+
+- Docusaurus build output, image tarballs, or published archives;
+- credentials, private keys, tokens, or concrete secret values;
+- environment-specific mutable state;
+- CI logs, downloaded dependencies, or deployment caches;
+- a duplicate copy of an externally owned Jenkins pipeline.
+
+If Jenkins orchestration remains in `vdc-jenkins`, that repository remains its owner. `zdoc/deploy/contracts` records the command, inputs, outputs, labels, and immutable-SHA expectations that Jenkins must satisfy; it does not mirror the Groovy pipeline.
 
 ### Legacy migration manifest
 
@@ -326,7 +337,8 @@ The initial classification is:
 | Lark and Reference generators | rewrite into `packages/docs-tooling` boundaries |
 | Site config and plugin registration | rewrite from the new profile schema |
 | Chinese normalizer and REST behavior | rewrite as publication adapters |
-| Deployment configuration | migrate into `deploy/<site>` after validation |
+| Artifact packaging and serving configuration | migrate into `deploy/<site>` after validation |
+| Externally owned CI orchestration | retain in its owner repository and describe through `deploy/contracts` |
 | Assembly, overlay, upstream locks, patches | retire |
 | Build output, caches, `node_modules` | retire and never import |
 
@@ -524,11 +536,11 @@ Chinese-only manuals, such as an independently structured On-premise manual, hav
 
 ### Reference manuals
 
-Reference has a canonical English rendered source and a checked-in Chinese translation tree.
+Reference has one checked-in English publication tree and one checked-in Chinese publication tree.
 
 ```text
-content-sources/reference/python/**       canonical English Reference input
-translations/zh-CN/reference/python/**   checked-in Chinese translation
+content/en/reference/python/**      canonical English Reference and English build input
+content/zh-CN/reference/python/**   checked-in Chinese translation and Chinese build input
 ```
 
 The publications select them explicitly:
@@ -539,19 +551,20 @@ sources: {
     sourceType: 'drive',
     root: '...',
     base: '...',
-    sourceDir: 'content-sources/reference/python',
+    sourceDir: 'content/en/reference/python',
   },
   chineseTranslation: {
     sourceType: 'local',
-    sourceDir: 'translations/zh-CN/reference/python',
+    sourceDir: 'content/zh-CN/reference/python',
   },
 }
 ```
 
 Publication rules:
 
-- `en` reads the canonical English tree;
-- `zh-CN` reads the Chinese translation tree;
+- `en` builds directly from `content/en/reference`;
+- `zh-CN` builds directly from `content/zh-CN/reference`;
+- generation writes into an isolated staging directory and atomically replaces the relevant committed content group; it does not maintain a second committed Markdown copy;
 - a missing active Chinese page fails Reference completeness validation;
 - a manual unavailable in the Chinese product must be disabled explicitly;
 - retired Java or Go versions are recorded as retired paths or disabled publications;
@@ -667,7 +680,7 @@ There will be no general rule equivalent to “copy the Chinese file tree over t
 
 | Current Chinese difference | Merged ownership |
 | --- | --- |
-| Chinese documents | `content/zh-CN/**` or `translations/zh-CN/**` |
+| Chinese documents | `content/zh-CN/**` |
 | Feishu roots, Base IDs, manual versions | manual source and publication registry |
 | Chinese navigation and sidebars | `packages/site-config/src/sites/zh-CN.ts` and `generated/zh-CN/sidebars` |
 | Chinese route redirects and robots | Chinese site profile and `deploy/zh-CN` |
@@ -675,7 +688,8 @@ There will be no general rule equivalent to “copy the Chinese file tree over t
 | Markdown normalization | shared plugin extension point selected by profile |
 | REST replacements | Reference publication adapter selected by profile |
 | Aliyun OSS behavior | shared storage adapter registry selected by profile |
-| Nginx and Jenkins configuration | `deploy/zh-CN` |
+| Nginx and artifact packaging configuration | `deploy/zh-CN` |
+| Jenkins integration | `deploy/contracts` plus the externally owned Jenkins pipeline |
 | Patch against upstream source | normal shared code change or typed extension point |
 | `.zdoc-assembled` output | removed |
 
@@ -804,11 +818,11 @@ Reference is a two-stage flow:
 ```text
 fetch canonical English source
   -> render and validate canonical Markdown
-  -> commit canonical source group
+  -> atomically replace and commit content/en/reference/<group>
   -> calculate translation delta
   -> translate into isolated Chinese staging
   -> validate complete Chinese group and mapping manifest
-  -> commit Chinese translation group
+  -> atomically replace and commit content/zh-CN/reference/<group>
 ```
 
 A source update may commit even when translation fails. The prior complete Chinese group remains buildable. The Chinese build fails only if its checked-in manifest claims a source revision that is incomplete or inconsistent; it does not automatically consume a newer unacknowledged English source.
@@ -995,9 +1009,9 @@ Each sub-project must leave the repository installable and its affected build ta
 
 ### Phase 5: Establish Reference source and translation boundaries
 
-- Move or expose canonical English Reference content under declared source roots.
-- Map the English publication to canonical content.
-- Map the Chinese publication to checked-in translations.
+- Migrate canonical English Reference into `content/en/reference`.
+- Migrate checked-in Chinese Reference into `content/zh-CN/reference`.
+- Configure English and Chinese Reference plugins to build directly from those roots.
 - Generate source-to-target manifests and explicit retirement records.
 - Fail closed on missing active Chinese translations.
 
@@ -1194,10 +1208,12 @@ Mitigation: independent required checks and deployment records named by site ID,
 - No build creates `.zdoc-assembled`, copies an overlay tree, or applies an upstream patch.
 - English Reference uses canonical English content.
 - Chinese Reference uses checked-in translated content with complete source mapping.
+- English and Chinese Reference each have one committed publishable Markdown tree; no duplicate committed source or translation tree exists.
 - Missing active Chinese Reference content fails validation rather than falling back to English.
 - Chinese-only and English-only product capabilities are represented explicitly in profiles.
 - Generated Markdown is validated and committed before the site build.
 - Every deployed artifact identifies one `zdoc` SHA, one site profile, and one artifact hash.
+- `deploy/` contains only versioned packaging, serving, verification, and external-pipeline contract files; it contains no artifacts, secrets, mutable environment state, or duplicated Jenkins pipeline.
 - Shared-code changes validate both sites; site-owned changes validate the affected site.
 - Route parity and reviewed deviations are documented before Chinese production cutover.
 - `zdoc_cn` can be archived without removing any input required to build the Chinese site.
