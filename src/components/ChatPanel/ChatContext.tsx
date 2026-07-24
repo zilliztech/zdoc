@@ -3,6 +3,7 @@ import {useLocation} from '@docusaurus/router';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 import {getFeedbackEndpoint} from './endpoints';
 import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} from './agentStream';
+import {getChatAgentConfigCode} from './agentConfig';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
 export interface ContextChip {
@@ -121,12 +122,11 @@ function loadHistory(): ChatHistoryEntry[] {
 
 interface ChatProviderProps {
   chatEndpoint: string;
-  agentConfigCode: string;
   debugDefault?: boolean;
   children: React.ReactNode;
 }
 
-export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = false, children}: ChatProviderProps) {
+export function ChatProvider({chatEndpoint, debugDefault = false, children}: ChatProviderProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
@@ -264,6 +264,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
       abortRef.current = controller;
       if (!conversationIdRef.current) conversationIdRef.current = uuid();
       const conversationId = conversationIdRef.current;
+      const agentConfigCode = getChatAgentConfigCode();
       const requestBody = {
         message: outgoing,
         session_id: sessionIdRef.current,
@@ -461,7 +462,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
         }
       }
     }
-  }, [agentConfigCode, chatDebug, chatEndpoint, location.pathname]);
+  }, [chatDebug, chatEndpoint, location.pathname]);
 
   const rateFeedback = useCallback((messageIndex: number, rating: 'up' | 'down') => {
     setMessages(prev => {

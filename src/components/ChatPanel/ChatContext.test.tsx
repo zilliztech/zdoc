@@ -2,8 +2,16 @@ import React from 'react';
 import {act, renderHook, waitFor} from '@testing-library/react';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 
+const {getChatAgentConfigCodeMock} = vi.hoisted(() => ({
+  getChatAgentConfigCodeMock: vi.fn(() => 'zilliz_agent_dev'),
+}));
+
 vi.mock('@docusaurus/router', () => ({
   useLocation: () => ({pathname: '/docs/home'}),
+}));
+
+vi.mock('./agentConfig', () => ({
+  getChatAgentConfigCode: getChatAgentConfigCodeMock,
 }));
 
 import {ChatProvider, useChatContext} from './ChatContext';
@@ -69,11 +77,7 @@ function controlledRawSseResponse(): {
 function wrapper(debugDefault = false) {
   return function Wrapper({children}: {children: React.ReactNode}) {
     return (
-      <ChatProvider
-        chatEndpoint="/api/chat"
-        agentConfigCode="zilliz_agent_dev"
-        debugDefault={debugDefault}
-      >
+      <ChatProvider chatEndpoint="/api/chat" debugDefault={debugDefault}>
         {children}
       </ChatProvider>
     );
@@ -82,6 +86,8 @@ function wrapper(debugDefault = false) {
 
 describe('ChatProvider request debugging', () => {
   beforeEach(() => {
+    getChatAgentConfigCodeMock.mockReset();
+    getChatAgentConfigCodeMock.mockReturnValue('zilliz_agent_dev');
     localStorage.clear();
     let uuidCount = 0;
     vi.stubGlobal('crypto', {
@@ -128,6 +134,21 @@ describe('ChatProvider request debugging', () => {
       streaming_mode: 'token',
       site: 'docs.zilliz.com',
       agent_config: {agent_config_code: 'zilliz_agent_dev'},
+    });
+  });
+
+  it('uses the production agent config in the request contract', async () => {
+    getChatAgentConfigCodeMock.mockReturnValue('zilliz_agent_prod');
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+
+    await act(async () => {
+      await result.current.send('production question');
+    });
+
+    const [, init] = vi.mocked(fetch).mock.calls[0];
+    expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
+      site: 'docs.zilliz.com',
+      agent_config: {agent_config_code: 'zilliz_agent_prod'},
     });
   });
 
