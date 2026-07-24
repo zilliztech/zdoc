@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "baseline": "Task 2 unified documentation migration inventory",
+  "repositories": [
+    {
+      "id": "zdoc",
+      "revision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+      "lockfilePath": "pnpm-lock.yaml",
+      "lockConsistency": "verified",
+      "evidence": [
+        "Task 2 base commit supplied by the migration milestone."
+      ]
+    },
+    {
+      "id": "zdoc_cn",
+      "revision": "b1900473dddf8db2d56c11387211a7014b54c160",
+      "lockfilePath": "package-lock.json",
+      "lockConsistency": "stale",
+      "evidence": [
+        "Task 1 baseline records that package.json and package-lock.json are out of sync and npm ci exits nonzero.",
+        "Locked versions are inventory evidence only and are not clean-install or approval evidence."
+      ]
+    }
+  ]
+}
