@@ -200,7 +200,13 @@ export const SiteProfileSchema = z.object({
   }
   for (const [sidebarIndex, sidebar] of sidebarClaims.entries()) {
     const ownSourcePath = profile.content[sidebarIndex].sourcePath;
-    if (ownSourcePath.startsWith(`${sidebar.path}/`)) {
+    if (ownSourcePath === sidebar.path) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [sidebar.label],
+        message: `${sidebar.label} (${sidebar.path}) must not be equal to its own sourcePath`,
+      });
+    } else if (ownSourcePath.startsWith(`${sidebar.path}/`)) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         path: [sidebar.label],

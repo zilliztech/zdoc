@@ -170,6 +170,18 @@ describe('exclusive path ownership', () => {
     }).content).toHaveLength(1);
   });
 
+  it('rejects a plugin sidebar equal to its own source root', () => {
+    expect(() => SiteProfileSchema.parse({
+      ...enProfile,
+      content: [{
+        id: 'default',
+        sourcePath: 'content/en/guides',
+        routeBasePath: 'guides',
+        sidebarPath: 'content/en/guides',
+      }],
+    })).toThrow(/sidebarPath.*equal to its own sourcePath/);
+  });
+
   it('rejects a plugin sidebar inside another plugin source root', () => {
     expect(() => SiteProfileSchema.parse({
       ...enProfile,
