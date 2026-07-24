@@ -74,12 +74,20 @@ export function validateDependency(dependency) {
   requireString(dependency.importingWorkspacePackage, 'importingWorkspacePackage');
   validateRelativePath(dependency.importingWorkspacePath, 'importingWorkspacePath');
   if (!USAGE_CLASSES.has(dependency.usageClass)) fail('usageClass');
+  if (!dependency.usageClassification || !['classified', 'review-required'].includes(dependency.usageClassification.status)) fail('usageClassification.status');
+  requireString(dependency.usageClassification.reason, 'usageClassification.reason');
+  requireStringArray(dependency.usageClassification.evidence, 'usageClassification.evidence');
   if (!OWNERS.has(dependency.owner)) fail('owner');
   requireString(dependency.capability, 'capability');
   for (const field of ['licenseReview', 'vulnerabilityReview']) {
     const review = dependency[field];
     if (!review || !['pending', 'reviewed'].includes(review.status)) fail(`${field}.status`);
     requireStringArray(review.evidence, `${field}.evidence`);
+    if (review.status === 'reviewed') {
+      for (const key of ['reviewedBy', 'reviewedAt', 'result', 'report', 'tool']) requireString(review[key], `${field}.${key}`);
+      if (!/^[0-9a-f]{64}$/.test(review.artifactSha256 || '')) fail(`${field}.artifactSha256`);
+      if (Number.isNaN(Date.parse(review.reviewedAt)) || new Date(review.reviewedAt).toISOString() !== review.reviewedAt) fail(`${field}.reviewedAt`);
+    }
   }
   requireString(dependency.licenseReview.license, 'licenseReview.license');
   requireString(dependency.replacesLegacyDependency, 'replacesLegacyDependency');
@@ -94,6 +102,7 @@ export function validateDependency(dependency) {
   if (dependency.lockedVersion === null && mapping.resolutionStatus !== 'unresolved') fail('lockedVersion', 'may be null only when resolutionStatus is unresolved');
   if (!REVIEW_STATUSES.has(dependency.reviewStatus)) fail('reviewStatus');
   if (dependency.reviewStatus === 'approved') {
+    if (dependency.usageClassification.status !== 'classified') fail('approval', 'requires classified usage');
     if (dependency.licenseReview.status !== 'reviewed' || dependency.vulnerabilityReview.status !== 'reviewed') fail('approval', 'requires completed license and vulnerability review');
     const approval = dependency.approval;
     if (!approval) fail('approval');
@@ -204,7 +213,7 @@ function dependencyCapability(packageName) {
   if (/react|lucide|clsx|inkeep|chat-ui/.test(packageName)) return 'ui.runtime';
   if (/aws|oss|axios|fetch|xml|yaml|dotenv/.test(packageName)) return 'publication.adapters';
   if (/playwright|vitest|testing-library|jsdom|typescript|types/.test(packageName)) return 'quality.gates';
-  return 'docs.tooling';
+  return 'unclassified';
 }
 
 function dependencyOwner(packageName) {
@@ -242,10 +251,22 @@ function parsePnpmImporters(text) {
   return importers;
 }
 
-function lockedVersionFromLocator(locator, repository) {
+function workspaceTargetPath(locator, workspacePath, repository, packageName) {
+  const raw = locator.replace(/^(?:link:|workspace:)/, '');
+  if (!raw || raw === '*' || raw === '^' || raw === '~') {
+    const targetManifest = manifestPaths(repository).find(manifestPath => JSON.parse(gitShow(repository.root, repository.revision, manifestPath)).name === packageName);
+    return targetManifest ? path.posix.dirname(targetManifest) : null;
+  }
+  const resolved = path.posix.normalize(path.posix.join(workspacePath, raw));
+  if (path.posix.isAbsolute(resolved) || resolved === '..' || resolved.startsWith('../')) fail('workspace link', 'would escape the repository');
+  return resolved;
+}
+
+export function lockedVersionFromLocator(locator, repository, workspacePath = '.', packageName = null) {
   if (!locator) return null;
-  if (locator.startsWith('link:')) {
-    const target = locator.slice(5);
+  if (locator.startsWith('link:') || locator.startsWith('workspace:')) {
+    const target = workspaceTargetPath(locator, workspacePath, repository, packageName);
+    if (!target) return null;
     const manifest = JSON.parse(gitShow(repository.root, repository.revision, `${target}/package.json`));
     return manifest.version || null;
   }
@@ -265,7 +286,7 @@ function resolveLock(repository, lock, workspacePath, dependencyClass, packageNa
   if (lock.type === 'pnpm') {
     const record = lock.data[workspacePath]?.[dependencyClass]?.[packageName];
     const locator = record?.version || null;
-    return {lockedVersion: lockedVersionFromLocator(locator, repository), lockLocator: locator, license: 'unknown', status: locator?.startsWith('link:') ? 'workspace-link' : locator ? (repository.lockConsistency === 'stale' ? 'stale-lock' : 'resolved') : 'unresolved'};
+    return {lockedVersion: lockedVersionFromLocator(locator, repository, workspacePath, packageName), lockLocator: locator, license: 'unknown', status: /^(?:link:|workspace:)/.test(locator || '') ? 'workspace-link' : locator ? (repository.lockConsistency === 'stale' ? 'stale-lock' : 'resolved') : 'unresolved'};
   }
   if (lock.type === 'npm') {
     const node = lock.data.packages?.[`node_modules/${packageName}`];
@@ -276,9 +297,11 @@ function resolveLock(repository, lock, workspacePath, dependencyClass, packageNa
   return {lockedVersion: null, lockLocator: null, license: 'unknown', status: 'unresolved'};
 }
 
-function usageClass(packageName, dependencyClass) {
-  if (dependencyClass === 'devDependencies') return 'dev';
-  return /(?:aws-sdk|smithy|axios|bottleneck|cheerio|dotenv|inquirer|js-yaml|node-fetch|nunjucks|showdown|slugify|xml2js|zod-to-json-schema|ali-oss|fast-xml-parser)/.test(packageName) ? 'build' : 'runtime';
+function classifyUsage(dependencyClass, capability) {
+  if (dependencyClass === 'devDependencies' || capability === 'quality.gates') return {usageClass: 'dev', usageClassification: {status: 'classified', reason: 'Development dependency or quality-gate tooling is not shipped as site runtime.', evidence: [`dependencyClass=${dependencyClass}`, `capability=${capability}`]}};
+  if (capability === 'publication.adapters' || capability === 'docs.tooling') return {usageClass: 'build', usageClassification: {status: 'classified', reason: 'Publication adapters and documentation tooling execute during generation or build workflows.', evidence: [`dependencyClass=${dependencyClass}`, `capability=${capability}`]}};
+  if (capability === 'site.runtime' || capability === 'ui.runtime') return {usageClass: 'runtime', usageClassification: {status: 'classified', reason: 'Site and UI capability dependencies are shipped with or loaded by the documentation application.', evidence: [`dependencyClass=${dependencyClass}`, `capability=${capability}`]}};
+  return {usageClass: 'build', usageClassification: {status: 'review-required', reason: 'No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.', evidence: [`dependencyClass=${dependencyClass}`, `capability=${capability}`]}};
 }
 
 function listDependencies(repository) {
@@ -288,13 +311,15 @@ function listDependencies(repository) {
     const workspacePath = manifestPath === 'package.json' ? '.' : path.posix.dirname(manifestPath);
     for (const dependencyClass of DEPENDENCY_CLASSES) for (const [packageName, requestedRange] of Object.entries(manifest[dependencyClass] || {})) {
       const resolution = resolveLock(repository, lock, workspacePath, dependencyClass, packageName, requestedRange);
+      const capability = dependencyCapability(packageName);
+      const classification = classifyUsage(dependencyClass, capability);
       const evidence = resolution.status === 'unresolved'
         ? [`${lock.path} at ${repository.revision} does not provide a trustworthy matching direct resolution. Any literal locator is retained only as source evidence; no replacement version was inferred.`]
         : [`${lock.path} direct importer resolution at pinned commit ${repository.revision}.`, ...(repository.lockConsistency === 'stale' ? ['Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate.'] : [])];
       records.push({
         package: packageName, requestedRange, lockedVersion: resolution.lockedVersion, lockLocator: resolution.lockLocator,
         importingWorkspacePackage: manifest.name || workspacePath, importingWorkspacePath: workspacePath,
-        usageClass: usageClass(packageName, dependencyClass), owner: dependencyOwner(packageName), capability: dependencyCapability(packageName),
+        ...classification, owner: dependencyOwner(packageName), capability,
         licenseReview: {status: 'pending', license: resolution.license, evidence: [`License review is required before approval; lock metadata reports ${resolution.license}.`]},
         vulnerabilityReview: {status: 'pending', evidence: ['Run and retain the Task 14 vulnerability gate before approval.']},
         replacesLegacyDependency: `${repository.id}:${manifestPath}:${dependencyClass}:${packageName}`,
@@ -401,6 +426,12 @@ function writeJson(filePath, value) {
   writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+export function resolveRepositoryPin(configuredPin, revisionAssertion, flagName) {
+  if (!configuredPin) fail('source snapshot config');
+  if (revisionAssertion && revisionAssertion !== configuredPin.revision) throw new Error(`${flagName} must match a complete entry in the selected snapshot config; revision-specific lock consistency and evidence cannot be inherited`);
+  return configuredPin;
+}
+
 function main(argv) {
   const args = parseArgs(argv);
   const zdocRoot = path.resolve(args.zdoc);
@@ -413,8 +444,9 @@ function main(argv) {
     {id: 'zdoc_cn', root: path.resolve(args['zdoc-cn']), override: args['zdoc-cn-revision']},
   ].map(item => {
     const pin = configured.get(item.id);
-    if (!pin && !item.override) fail(`${item.id}.revision`, 'is missing from source snapshot config');
-    return {...pin, id: item.id, root: item.root, revision: item.override || pin.revision, revisionSource: item.override ? `CLI --${item.id === 'zdoc_cn' ? 'zdoc-cn' : 'zdoc'}-revision` : path.relative(zdocRoot, snapshotPath).split(path.sep).join('/')};
+    const flag = `--${item.id === 'zdoc_cn' ? 'zdoc-cn' : 'zdoc'}-revision`;
+    const selected = resolveRepositoryPin(pin, item.override, flag);
+    return {...selected, id: item.id, root: item.root, revisionSource: path.relative(zdocRoot, snapshotPath).split(path.sep).join('/')};
   });
   const result = generateInventory({repositories});
   if (!args.write) return process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);

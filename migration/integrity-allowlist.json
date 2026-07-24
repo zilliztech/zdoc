@@ -1,22 +1,36 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "context": "Narrow repository-integrity exceptions retained with explicit ownership and rationale.",
   "exceptions": [
     {
+      "sourceRepository": "zdoc",
+      "rule": "secret.large-binary-quarantine",
+      "path": ".claude/archives/zdoc-cn-pre-merge.bundle",
+      "expectedSha256": "56cfb5d87da352e31b2d84451c299c8beaa1f0729bce4e72daa0ff80fb874e44",
+      "owner": "tooling",
+      "reason": "Task 1 controlled Git bundle archive; its exact SHA-256 and restricted retention purpose are recorded in migration/reports/zdoc-cn-archive.json."
+    },
+    {
+      "sourceRepository": "zdoc",
       "rule": "secret.private-key-marker",
       "path": "scripts/migration/integrity.test.mjs",
+      "expectedSha256": "1c1651bf67da7280a1d41c0618852214d1f42f4594a0b54d6a39dd119deace30",
       "owner": "tooling",
       "reason": "Synthetic private-key header is required to prove fixture detection; no key material is present."
     },
     {
+      "sourceRepository": "zdoc",
       "rule": "secret.token-marker",
       "path": "scripts/migration/integrity.test.mjs",
+      "expectedSha256": "1c1651bf67da7280a1d41c0618852214d1f42f4594a0b54d6a39dd119deace30",
       "owner": "tooling",
       "reason": "Synthetic token-shaped value is required to prove fixture detection and is not a credential."
     },
     {
+      "sourceRepository": "zdoc_cn",
       "rule": "secret.filename",
       "path": ".env",
+      "expectedSha256": "c5245a619b1b79c5c1026e56d17c38fc7444de1325b87e32068019f15ccc7969",
       "owner": "deploy",
       "reason": "Untracked local runtime configuration is retained outside migration inputs; only its filename and byte hash are reported and it must not be imported."
     }

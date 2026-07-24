@@ -34,6 +34,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -71,6 +79,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -108,6 +124,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -145,6 +169,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -182,6 +214,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -219,6 +259,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -256,6 +304,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -293,6 +349,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -330,6 +394,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -367,6 +439,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -404,6 +484,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -441,6 +529,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -478,8 +574,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -515,6 +619,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -552,6 +664,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -589,8 +709,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -626,8 +754,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -663,6 +799,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -700,6 +844,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -737,6 +889,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -774,6 +934,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -811,8 +979,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -848,6 +1024,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -884,9 +1068,17 @@
       "lockLocator": "4.18.1",
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -922,6 +1114,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -959,6 +1159,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -996,8 +1204,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -1032,7 +1248,15 @@
       "lockLocator": "1.59.1",
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -1070,6 +1294,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1107,6 +1339,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1144,6 +1384,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -1181,6 +1429,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -1218,6 +1474,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -1255,6 +1519,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1292,6 +1564,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1329,6 +1609,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1365,9 +1653,17 @@
       "lockLocator": "0.34.5",
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -1403,8 +1699,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -1440,8 +1744,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -1476,9 +1788,17 @@
       "lockLocator": "5.1.0",
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -1514,6 +1834,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -1550,9 +1878,17 @@
       "lockLocator": "3.25.76",
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -1588,8 +1924,16 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -1625,6 +1969,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1662,6 +2014,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1699,6 +2059,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -1736,6 +2104,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -1773,6 +2149,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -1810,6 +2194,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -1847,6 +2239,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -1884,6 +2284,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -1921,6 +2329,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -1958,6 +2374,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -1995,6 +2419,14 @@
       "importingWorkspacePackage": "zdoc-redesign",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -2032,6 +2464,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2069,6 +2509,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2106,6 +2554,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2143,6 +2599,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2180,6 +2644,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2217,6 +2689,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2254,6 +2734,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2291,6 +2779,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2328,6 +2824,14 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
       "owner": "tooling",
       "capability": "quality.gates",
       "licenseReview": {
@@ -2365,8 +2869,16 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -2402,8 +2914,16 @@
       "importingWorkspacePackage": "@zdoc/chat-ui",
       "importingWorkspacePath": "packages/chat-ui",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "unknown",
@@ -2439,6 +2959,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2477,6 +3005,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2515,6 +3051,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2553,6 +3097,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2591,6 +3143,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2629,6 +3189,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2667,6 +3235,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2705,6 +3281,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2742,9 +3326,17 @@
       "lockLocator": "1.10.4",
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -2781,6 +3373,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -2819,8 +3419,16 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -2857,6 +3465,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -2895,6 +3511,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -2933,6 +3557,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -2971,6 +3603,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -3009,8 +3649,16 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -3046,9 +3694,17 @@
       "lockLocator": "4.18.1",
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -3085,6 +3741,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -3123,6 +3787,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -3161,8 +3833,16 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "BSD-2-Clause",
@@ -3199,6 +3879,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -3237,6 +3925,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -3275,6 +3971,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
       "owner": "ui",
       "capability": "ui.runtime",
       "licenseReview": {
@@ -3313,6 +4017,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -3351,6 +4063,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -3388,9 +4108,17 @@
       "lockLocator": "0.34.5",
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "Apache-2.0",
@@ -3427,8 +4155,16 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -3465,8 +4201,16 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -3502,9 +4246,17 @@
       "lockLocator": "10.0.0",
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -3541,6 +4293,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
       "owner": "adapter",
       "capability": "publication.adapters",
       "licenseReview": {
@@ -3578,9 +4338,17 @@
       "lockLocator": "3.25.76",
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -3617,8 +4385,16 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "ISC",
@@ -3655,6 +4431,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -3693,6 +4477,14 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
       "owner": "site-config",
       "capability": "site.runtime",
       "licenseReview": {
@@ -3731,8 +4523,16 @@
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
       "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",
@@ -3768,9 +4568,17 @@
       "lockLocator": "1.10.4",
       "importingWorkspacePackage": "site",
       "importingWorkspacePath": ".",
-      "usageClass": "runtime",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=optionalDependencies",
+          "capability=unclassified"
+        ]
+      },
       "owner": "tooling",
-      "capability": "docs.tooling",
+      "capability": "unclassified",
       "licenseReview": {
         "status": "pending",
         "license": "MIT",

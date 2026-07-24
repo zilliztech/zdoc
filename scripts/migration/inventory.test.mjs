@@ -7,6 +7,8 @@ import test from 'node:test';
 
 import {
   generateInventory,
+  lockedVersionFromLocator,
+  resolveRepositoryPin,
   validateCapability,
   validateDependency,
   validateDependencies,
@@ -30,6 +32,7 @@ const validCapability = {
 const validDependency = {
   package: 'react', requestedRange: '^18.0.0', lockedVersion: '18.3.1', lockLocator: '18.3.1',
   importingWorkspacePackage: 'zdoc-redesign', importingWorkspacePath: '.', usageClass: 'runtime',
+  usageClassification: {status: 'classified', reason: 'Site/UI dependency shipped with the application.', evidence: ['capability=ui.runtime']},
   owner: 'ui', capability: 'site.runtime', reviewStatus: 'pending',
   licenseReview: {status: 'pending', license: 'unknown', evidence: ['License review required.']},
   vulnerabilityReview: {status: 'pending', evidence: ['Vulnerability review required.']},
@@ -88,9 +91,32 @@ test('validates direct dependency allowlist records and audited approvals', () =
   assert.throws(() => validateDependency({...validDependency, lockedVersion: undefined}), /lockedVersion/);
   assert.throws(() => validateDependency({...validDependency, usageClass: 'unknown'}), /usageClass/);
   assert.throws(() => validateDependency({...validDependency, reviewStatus: 'approved'}), /approval/);
-  validateDependency({...validDependency, reviewStatus: 'approved', licenseReview: {...validDependency.licenseReview, status: 'reviewed'}, vulnerabilityReview: {...validDependency.vulnerabilityReview, status: 'reviewed'}, approval: {approvedBy: 'docs-platform', approvedAt: '2026-07-24', reason: 'Reviewed for unified workspace.', evidence: ['approval/TASK-14']}});
+  assert.throws(() => validateDependency({...validDependency, reviewStatus: 'approved', licenseReview: {...validDependency.licenseReview, status: 'reviewed'}, vulnerabilityReview: {...validDependency.vulnerabilityReview, status: 'reviewed'}, approval: {approvedBy: 'docs-platform', approvedAt: '2026-07-24', reason: 'Text-only status flip.', evidence: ['approval/TASK-14']}}), /reviewedBy|review/);
+  const reviewed = {status: 'reviewed', reviewedBy: 'security@example.com', reviewedAt: '2026-07-24T00:00:00.000Z', result: 'pass', report: 'reports/task-14.json', tool: 'approved-scanner@1', artifactSha256: 'c'.repeat(64), evidence: ['TASK-14']};
+  validateDependency({...validDependency, reviewStatus: 'approved', licenseReview: {...reviewed, license: 'MIT'}, vulnerabilityReview: reviewed, approval: {approvedBy: 'docs-platform', approvedAt: '2026-07-24T00:00:00.000Z', reason: 'Reviewed for unified workspace.', evidence: ['approval/TASK-14']}});
   assert.throws(() => validateDependencies([validDependency, validDependency]), /duplicate/i);
   assert.throws(() => validateDependencies([{...validDependency, package: 'zod'}, validDependency]), /sorted/i);
+});
+
+test('revision override is only an assertion against a complete configured snapshot', () => {
+  const pin = {id: 'zdoc', revision: SHA, lockConsistency: 'verified', evidence: ['audited pin'], lockfilePath: 'pnpm-lock.yaml'};
+  assert.equal(resolveRepositoryPin(pin, SHA, '--zdoc-revision').revision, SHA);
+  assert.throws(() => resolveRepositoryPin(pin, 'b'.repeat(40), '--zdoc-revision'), /snapshot config/i);
+});
+
+test('resolves nested pnpm links relative to the importing workspace and rejects escape', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'inventory-link-'));
+  spawnSync('git', ['init', '-q'], {cwd: root}); spawnSync('git', ['config', 'user.email', 'test@example.com'], {cwd: root}); spawnSync('git', ['config', 'user.name', 'Test'], {cwd: root});
+  mkdirSync(path.join(root, 'packages/a'), {recursive: true}); mkdirSync(path.join(root, 'packages/b'), {recursive: true});
+  writeFileSync(path.join(root, 'packages/b/package.json'), '{"name":"b","version":"2.3.4"}\n');
+  writeFileSync(path.join(root, 'packages/a/package.json'), '{"name":"a","version":"1.0.0"}\n');
+  spawnSync('git', ['add', '.'], {cwd: root}); spawnSync('git', ['commit', '-qm', 'workspace'], {cwd: root});
+  const revision = spawnSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).stdout.trim();
+  const repository = {root, revision};
+  assert.equal(lockedVersionFromLocator('link:../b', repository, 'packages/a'), '2.3.4');
+  assert.equal(lockedVersionFromLocator('workspace:../b', repository, 'packages/a'), '2.3.4');
+  assert.equal(lockedVersionFromLocator('workspace:*', repository, 'packages/a', 'b'), '2.3.4');
+  assert.throws(() => lockedVersionFromLocator('link:../../../outside', repository, 'packages/a'), /escape/i);
 });
 
 test('reproduces a pinned revision after repository HEAD advances', () => {
@@ -124,4 +150,10 @@ test('covers all 12 copy and 1 patch operations in the pinned downstream overlay
   assert.ok(result.overlayOperations.filter(item => item.optional).every(item => Array.isArray(item.trackedSourcePaths)));
   assert.ok(result.dependencies.filter(item => item.sourceMapping.sourceRepository === 'zdoc').every(item => item.lockedVersion !== null));
   assert.ok(result.dependencies.filter(item => item.sourceMapping.sourceRepository === 'zdoc_cn').every(item => item.sourceMapping.resolutionStatus === 'stale-lock'));
+  const byPackage = new Map(result.dependencies.filter(item => item.importingWorkspacePath === '.').map(item => [item.package, item]));
+  assert.equal(byPackage.get('playwright').usageClass, 'dev');
+  assert.equal(byPackage.get('@aws-sdk/client-s3').usageClass, 'build');
+  assert.equal(byPackage.get('react').usageClass, 'runtime');
+  assert.equal(byPackage.get('@docusaurus/core').usageClass, 'runtime');
+  assert.equal(byPackage.get('lodash').usageClassification.status, 'review-required');
 });
