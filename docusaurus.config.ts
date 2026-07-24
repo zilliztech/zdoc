@@ -162,7 +162,6 @@ const config: Config = {
   customFields: {
     planeConfig,
     chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat',
-    chatAgentConfigCode: process.env.CHAT_AGENT_CONFIG_CODE || 'zilliz_agent_dev',
     chatDebug: process.env.CHAT_DEBUG === 'true',
     secondaryNavbar: [
       { label: 'Zilliz-Managed Cloud', href: '/docs/register-with-zilliz-cloud', prefix: '/docs',       icon: 'cloud'  },

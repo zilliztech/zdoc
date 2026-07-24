@@ -4,6 +4,14 @@ const test = require('node:test');
 
 const nginx = fs.readFileSync('nginx.conf', 'utf8');
 const entrypoint = fs.readFileSync('docker-entrypoint.d/40-zdoc-env.sh', 'utf8');
+const dockerfile = fs.readFileSync('Dockerfile', 'utf8');
+const docusaurusConfig = fs.readFileSync('docusaurus.config.ts', 'utf8');
+
+test('selects the agent at browser runtime instead of image build time', () => {
+  assert.doesNotMatch(dockerfile, /CHAT_AGENT_CONFIG_CODE/);
+  assert.doesNotMatch(docusaurusConfig, /chatAgentConfigCode/);
+  assert.doesNotMatch(docusaurusConfig, /CHAT_AGENT_CONFIG_CODE/);
+});
 
 test('routes chat and interrupt directly to the private agent with affinity', () => {
   assert.match(nginx, /include \/etc\/nginx\/chat-agent-runtime\.conf;/);

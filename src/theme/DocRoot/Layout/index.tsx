@@ -510,11 +510,10 @@ function DocRootLayoutInner({children}: Props): ReactNode {
 export default function DocRootLayout(props: Props): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
-  const agentConfigCode = (siteConfig.customFields?.chatAgentConfigCode as string) || 'zilliz_agent_dev';
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
 
   return (
-    <ChatProvider chatEndpoint={chatEndpoint} agentConfigCode={agentConfigCode} debugDefault={chatDebug}>
+    <ChatProvider chatEndpoint={chatEndpoint} debugDefault={chatDebug}>
       <DocRootLayoutInner {...props} />
     </ChatProvider>
   );
