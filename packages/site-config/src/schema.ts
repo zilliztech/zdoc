@@ -56,6 +56,13 @@ export const RoutePathSchema = WebPathForbiddenCharactersSchema.pipe(z.string().
   }
 });
 
+export function canonicalRouteKey(routePath: string): string {
+  if (routePath === '/') {
+    return '/';
+  }
+  return routePath.startsWith('/') ? routePath.slice(1) : routePath;
+}
+
 export const BaseUrlSchema = WebPathForbiddenCharactersSchema.pipe(z.string().min(1)).superRefine((value, context) => {
   const hasRequiredBoundary = value.startsWith('/') && value.endsWith('/');
   const segments = hasRequiredBoundary ? value.slice(1, -1).split('/') : [];
@@ -154,14 +161,15 @@ export const RedirectProfileSchema = z.object({
 }).strict().superRefine((redirects, context) => {
   const seen = new Set<string>();
   for (const [index, rule] of redirects.rules.entries()) {
-    if (seen.has(rule.from)) {
+    const routeKey = canonicalRouteKey(rule.from);
+    if (seen.has(routeKey)) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['rules', index, 'from'],
         message: `Duplicate redirect source: ${rule.from}`,
       });
     }
-    seen.add(rule.from);
+    seen.add(routeKey);
   }
 });
 
@@ -243,7 +251,8 @@ export const SiteProfileSchema = z.object({
         message: `Duplicate content plugin id: ${plugin.id}`,
       });
     }
-    if (contentRoutes.has(plugin.routeBasePath)) {
+    const routeKey = canonicalRouteKey(plugin.routeBasePath);
+    if (contentRoutes.has(routeKey)) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['content', index, 'routeBasePath'],
@@ -251,7 +260,7 @@ export const SiteProfileSchema = z.object({
       });
     }
     contentIds.add(plugin.id);
-    contentRoutes.add(plugin.routeBasePath);
+    contentRoutes.add(routeKey);
   }
 
   const rootClaims: OwnershipClaim[] = [

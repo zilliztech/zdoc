@@ -4,6 +4,7 @@ import {resolveSiteProfile} from './resolve';
 import type {DeepReadonly} from './immutable';
 import {
   BaseUrlSchema,
+  canonicalRouteKey,
   ContentPluginProfileSchema,
   FeatureProfileSchema,
   IntegrationProfileSchema,
@@ -207,6 +208,17 @@ describe('set-like profile declarations', () => {
     }
   });
 
+  it('rejects content routeBasePath values that differ only by a leading slash', () => {
+    const result = SiteProfileSchema.safeParse({
+      ...enProfile,
+      content: [content[0], {...content[1], routeBasePath: '/guides'}],
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({path: ['content', 1, 'routeBasePath']}));
+    }
+  });
+
   it('rejects duplicate redirect sources', () => {
     const result = SiteProfileSchema.safeParse({
       ...enProfile,
@@ -219,6 +231,37 @@ describe('set-like profile declarations', () => {
     if (!result.success) {
       expect(result.error.issues).toContainEqual(expect.objectContaining({path: ['redirects', 'rules', 1, 'from']}));
     }
+  });
+
+  it('rejects redirect sources that differ only by a leading slash', () => {
+    const result = SiteProfileSchema.safeParse({
+      ...enProfile,
+      redirects: {rules: [
+        {from: 'old', to: '/new'},
+        {from: '/old', to: '/newer'},
+      ]},
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({path: ['redirects', 'rules', 1, 'from']}));
+    }
+  });
+
+  it('keeps distinct routes and the root route in separate canonical keys', () => {
+    expect(canonicalRouteKey('/')).toBe('/');
+    expect(canonicalRouteKey('guides')).toBe(canonicalRouteKey('/guides'));
+    expect(canonicalRouteKey('/')).not.toBe(canonicalRouteKey('root'));
+    expect(SiteProfileSchema.safeParse({
+      ...enProfile,
+      content: [
+        {...content[0], routeBasePath: '/'},
+        {...content[1], routeBasePath: '/reference'},
+      ],
+      redirects: {rules: [
+        {from: '/', to: '/docs'},
+        {from: 'old', to: '/new'},
+      ]},
+    }).success).toBe(true);
   });
 
   it('rejects duplicate reference kinds', () => {
