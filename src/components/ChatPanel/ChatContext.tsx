@@ -2,6 +2,7 @@ import React, {createContext, useContext, useState, useRef, useCallback, useEffe
 import {useLocation} from '@docusaurus/router';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 import {getFeedbackEndpoint} from './endpoints';
+import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} from './agentStream';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
 export interface ContextChip {
@@ -79,7 +80,7 @@ function summarizeClientValue(value: unknown, key?: string, sensitiveContainer =
   const normalized = key?.replace(/[^a-z0-9]/gi, '').toLowerCase();
   const nextSensitiveContainer = sensitiveContainer || Boolean(normalized && /payload|data|messages|content|text|query|response|answer|context|error/.test(normalized));
   if (typeof value === 'string') {
-    if (normalized === 'userid' || normalized === 'sessionid') return '[redacted]';
+    if (normalized === 'userid' || normalized === 'sessionid' || normalized === 'conversationid') return '[redacted]';
     if (nextSensitiveContainer || value.length > 100) return summarizeClientText(value);
     return value;
   }
@@ -118,7 +119,14 @@ function loadHistory(): ChatHistoryEntry[] {
   }
 }
 
-export function ChatProvider({chatEndpoint, debugDefault = false, children}: {chatEndpoint: string; debugDefault?: boolean; children: React.ReactNode}) {
+interface ChatProviderProps {
+  chatEndpoint: string;
+  agentConfigCode: string;
+  debugDefault?: boolean;
+  children: React.ReactNode;
+}
+
+export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = false, children}: ChatProviderProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
@@ -129,6 +137,8 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
   contextChipsRef.current = contextChips;
   const abortRef = useRef<AbortController | null>(null);
   const sessionIdRef = useRef<string | null>(null);
+  const conversationIdRef = useRef<string | null>(null);
+  const requestGenerationRef = useRef(0);
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
   const activeChatIdRef = useRef(activeChatId);
@@ -157,7 +167,13 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       setChatHistory(prev =>
         prev.map(entry =>
           entry.id === activeChatIdRef.current
-            ? {...entry, title, messages: [...messages]}
+            ? {
+                ...entry,
+                title,
+                messages: [...messages],
+                sessionId: sessionIdRef.current,
+                conversationId: conversationIdRef.current,
+              }
             : entry
         )
       );
@@ -165,7 +181,14 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       const id = uuid();
       setActiveChatId(id);
       activeChatIdRef.current = id;
-      setChatHistory(prev => [{id, title, messages: [...messages], createdAt: Date.now()}, ...prev]);
+      setChatHistory(prev => [{
+        id,
+        title,
+        messages: [...messages],
+        createdAt: Date.now(),
+        sessionId: sessionIdRef.current,
+        conversationId: conversationIdRef.current,
+      }, ...prev]);
     }
   }, [messages]);
 
@@ -220,6 +243,8 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
     setIsStreaming(true);
 
     const requestId = uuid();
+    const generation = requestGenerationRef.current + 1;
+    requestGenerationRef.current = generation;
     const startedAt = Date.now();
     const eventCounts: Record<string, number> = {};
     const pageContext = getPageContext();
@@ -232,39 +257,41 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
     });
 
     let controller: AbortController | null = null;
+    const isCurrentRequest = () =>
+      requestGenerationRef.current === generation && !controller?.signal.aborted;
     try {
       controller = new AbortController();
       abortRef.current = controller;
-      const apiMessages = updatedMessages
-        .filter(m => m.role === 'user' || (m.role === 'assistant' && m.text))
-        .map(m => {
-          const content = m.hookAppend ? m.text.replace(m.hookAppend, '') : m.text;
-          return {role: m.role, content};
-        });
-      const userId = getUserId();
+      if (!conversationIdRef.current) conversationIdRef.current = uuid();
+      const conversationId = conversationIdRef.current;
       const requestBody = {
-        messages: apiMessages,
-        pageContext,
-        pageUrl: location.pathname,
-        sessionId: sessionIdRef.current,
-        userId,
-        screenResolution: `${screen.width}x${screen.height}`,
+        message: outgoing,
+        session_id: sessionIdRef.current,
+        conversationId,
+        streaming_mode: 'token',
+        site: 'docs.zilliz.com',
+        agent_config: {agent_config_code: agentConfigCode},
       };
       chatDebug('chat.client.fetch.started', {
         requestId,
         endpointPath: chatEndpoint,
         pagePath: location.pathname,
-        messageCount: apiMessages.length,
         hasSessionId: Boolean(sessionIdRef.current),
-        hasUserId: Boolean(userId),
-        screenResolution: `${screen.width}x${screen.height}`,
+        conversationId,
+        agentConfigCode,
       });
       const res = await fetch(chatEndpoint, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'X-Request-ID': requestId},
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
+          'X-Request-ID': requestId,
+          'X-Conversation-ID': conversationId,
+        },
         body: JSON.stringify(requestBody),
         signal: controller.signal,
       });
+      if (!isCurrentRequest()) return;
       chatDebug('chat.client.fetch.response', {
         requestId,
         status: res.status,
@@ -294,11 +321,11 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       const decoder = new TextDecoder();
       let buffer = '';
       let assistantText = '';
-      let pendingSources: Source[] | undefined;
-      let pendingGrounding: GroundingCitation[] | undefined;
-      let pendingConfidence: ConfidenceLevel | undefined;
-      let pendingAgent: {type: AgentType; name: string} | undefined;
       let currentEvent = '';
+      const streamState = createAgentStreamState();
+      let sourceCount = 0;
+      let confidence: ConfidenceLevel | undefined;
+      let agentType: AgentType | undefined;
 
       const updateLastAssistant = (patch: Partial<ChatMessage>) => {
         setMessages(prev => {
@@ -311,8 +338,59 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         });
       };
 
+      const applyUpdate = (update: AgentStreamUpdate) => {
+        if (!isCurrentRequest()) return;
+        if (update.type === 'session') {
+          sessionIdRef.current = update.sessionId;
+          return;
+        }
+        if (update.type === 'text') {
+          assistantText += update.text;
+          updateLastAssistant({text: assistantText, status: undefined});
+          return;
+        }
+        if (update.type === 'agent') {
+          agentType = update.agentType;
+          updateLastAssistant({agent: update.name, agentType: update.agentType});
+          return;
+        }
+        if (update.type === 'status') {
+          updateLastAssistant({status: update.status, toolCallCount: undefined});
+          return;
+        }
+        if (update.type === 'tool-call') {
+          updateLastAssistant({toolCallCount: update.count, status: undefined});
+          return;
+        }
+        if (update.type === 'sources') {
+          sourceCount = update.sources.length;
+          updateLastAssistant({sources: update.sources});
+          return;
+        }
+        if (update.type === 'grounding') {
+          updateLastAssistant({grounding: update.citations});
+          return;
+        }
+        if (update.type === 'confidence') {
+          confidence = update.level;
+          updateLastAssistant({confidence: update.level});
+          return;
+        }
+        if (update.type === 'error') {
+          if (!assistantText) {
+            assistantText = update.message;
+            updateLastAssistant({text: assistantText, status: undefined});
+          } else {
+            updateLastAssistant({status: undefined});
+          }
+          return;
+        }
+        updateLastAssistant({status: undefined});
+      };
+
       while (true) {
         const {done, value} = await reader.read();
+        if (!isCurrentRequest()) break;
         if (done) {
           if (buffer.trim()) {
             buffer += '\n';
@@ -326,70 +404,31 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         buffer = done ? '' : (lines.pop() || '');
 
         for (const line of lines) {
-          if (line.startsWith('event: ')) {
-            currentEvent = line.slice(7);
+            if (line.startsWith('event: ')) {
+            currentEvent = line.slice(7).trim();
           } else if (line.startsWith('data: ')) {
-            const data = line.slice(6);
-            eventCounts[currentEvent] = (eventCounts[currentEvent] || 0) + 1;
+            const data = line.slice(6).trim();
+            const eventName = currentEvent;
+            currentEvent = '';
             let parsedForDebug: unknown = data;
             try { parsedForDebug = JSON.parse(data); } catch {}
-            chatDebug('chat.client.sse.event', {requestId, sseEvent: currentEvent, payload: parsedForDebug});
-            if (currentEvent === 'session') {
-              try {
-                const parsed = JSON.parse(data) as {sessionId: string};
-                sessionIdRef.current = parsed.sessionId;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'agent') {
-              try {
-                pendingAgent = JSON.parse(data) as {type: AgentType; name: string};
-                updateLastAssistant({agent: pendingAgent.name, agentType: pendingAgent.type});
-              } catch { /* skip */ }
-            } else if (currentEvent === 'tool-call') {
-              try {
-                const parsed = JSON.parse(data) as {tool: string; count: number};
-                updateLastAssistant({toolCallCount: parsed.count});
-              } catch { /* skip */ }
-            } else if (currentEvent === 'delta') {
-              try {
-                const parsed = JSON.parse(data) as {text: string};
-                assistantText += parsed.text;
-                chatDebug('chat.client.delta.applied', {requestId, deltaChars: parsed.text.length, assistantChars: assistantText.length});
-                updateLastAssistant({text: assistantText});
-              } catch { /* skip malformed chunk */ }
-            } else if (currentEvent === 'sources') {
-              try {
-                const parsed = JSON.parse(data) as {sources: Source[]};
-                pendingSources = parsed.sources;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'grounding') {
-              try {
-                const parsed = JSON.parse(data) as {citations: GroundingCitation[]};
-                pendingGrounding = parsed.citations;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'confidence') {
-              try {
-                const parsed = JSON.parse(data) as {level: ConfidenceLevel; retrieval_score: number};
-                pendingConfidence = parsed.level;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'hook-append') {
-              try {
-                const parsed = JSON.parse(data) as {text: string};
-                assistantText += parsed.text;
-                setMessages(prev => {
-                  const updated = [...prev];
-                  const last = updated[updated.length - 1];
-                  if (last && last.role === 'assistant') {
-                    updated[updated.length - 1] = {...last, text: assistantText, hookAppend: (last.hookAppend || '') + parsed.text};
-                  }
-                  return updated;
+            const effectiveEvent = eventName || (data === '[DONE]'
+              ? 'done'
+              : parsedForDebug && typeof parsedForDebug === 'object' && 'type' in parsedForDebug
+                ? String((parsedForDebug as {type?: unknown}).type || '')
+                : '');
+            eventCounts[effectiveEvent] = (eventCounts[effectiveEvent] || 0) + 1;
+            chatDebug('chat.client.sse.event', {requestId, sseEvent: effectiveEvent, payload: parsedForDebug});
+            for (const update of parseAgentStreamEvent(eventName, data, streamState)) {
+              if (!isCurrentRequest()) break;
+              if (update.type === 'text') {
+                chatDebug('chat.client.delta.applied', {
+                  requestId,
+                  deltaChars: update.text.length,
+                  assistantChars: assistantText.length + update.text.length,
                 });
-              } catch { /* skip */ }
-            } else if (currentEvent === 'error') {
-              try {
-                const parsed = JSON.parse(data) as {error: string};
-                assistantText = parsed.error;
-                updateLastAssistant({text: assistantText});
-              } catch { /* skip */ }
+              }
+              applyUpdate(update);
             }
           }
         }
@@ -402,25 +441,9 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         durationMs: Date.now() - startedAt,
         eventCounts,
         assistantText,
-        sourceCount: pendingSources?.length ?? 0,
-        confidence: pendingConfidence,
-        agentType: pendingAgent?.type,
-      });
-
-      // Attach sources, confidence, and agent to the last assistant message
-      setMessages(prev => {
-        const updated = [...prev];
-        const last = updated[updated.length - 1];
-        if (last && last.role === 'assistant') {
-          updated[updated.length - 1] = {
-            ...last,
-            ...(pendingSources && pendingSources.length > 0 ? {sources: pendingSources} : {}),
-            ...(pendingGrounding && pendingGrounding.length > 0 ? {grounding: pendingGrounding} : {}),
-            ...(pendingConfidence ? {confidence: pendingConfidence} : {}),
-            ...(pendingAgent ? {agent: pendingAgent.name, agentType: pendingAgent.type} : {}),
-          };
-        }
-        return updated;
+        sourceCount,
+        confidence,
+        agentType,
       });
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') {
@@ -431,12 +454,14 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         setMessages(prev => [...prev, {role: 'assistant', text: `Error: ${errorMsg}`}]);
       }
     } finally {
-      setIsStreaming(false);
-      if (abortRef.current === controller) {
-        abortRef.current = null;
+      if (requestGenerationRef.current === generation) {
+        setIsStreaming(false);
+        if (abortRef.current === controller) {
+          abortRef.current = null;
+        }
       }
     }
-  }, [chatDebug, chatEndpoint, location.pathname]);
+  }, [agentConfigCode, chatDebug, chatEndpoint, location.pathname]);
 
   const rateFeedback = useCallback((messageIndex: number, rating: 'up' | 'down') => {
     setMessages(prev => {
@@ -464,31 +489,54 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
   }, [chatEndpoint, location.pathname]);
 
   const stop = useCallback(() => {
-    if (abortRef.current) {
-      abortRef.current.abort();
-      abortRef.current = null;
+    const sessionId = sessionIdRef.current;
+    const conversationId = conversationIdRef.current;
+    if (sessionId && conversationId) {
+      void fetch(`${chatEndpoint.replace(/\/+$/, '')}/interrupt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Conversation-ID': conversationId,
+        },
+        body: JSON.stringify({session_id: sessionId, conversationId}),
+        keepalive: true,
+      }).catch(() => {});
     }
+    requestGenerationRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
     setIsStreaming(false);
-  }, []);
+    setMessages(prev => prev.map((message, index) =>
+      index === prev.length - 1 && message.role === 'assistant'
+        ? {...message, status: undefined}
+        : message,
+    ));
+  }, [chatEndpoint]);
 
   const newChat = useCallback(() => {
-    if (abortRef.current) abortRef.current.abort();
+    requestGenerationRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
     setMessages([]);
     setInput('');
     setIsStreaming(false);
     setActiveChatId(null);
     sessionIdRef.current = null;
+    conversationIdRef.current = null;
   }, []);
 
   const loadChat = useCallback((id: string) => {
-    if (abortRef.current) abortRef.current.abort();
+    requestGenerationRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
     const entry = chatHistory.find(e => e.id === id);
     if (!entry) return;
     setMessages([...entry.messages]);
     setActiveChatId(id);
     setInput('');
     setIsStreaming(false);
-    sessionIdRef.current = null;
+    sessionIdRef.current = entry.sessionId ?? null;
+    conversationIdRef.current = entry.conversationId ?? null;
   }, [chatHistory]);
 
   // Listen for chat-send events from the search bar / DocRoot
@@ -512,6 +560,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       setActiveChatId(null);
       setInput('');
       sessionIdRef.current = null;
+      conversationIdRef.current = null;
     }
   }, []);
 

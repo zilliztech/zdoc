@@ -238,6 +238,7 @@ function FallbackCard() {
 export default function NotFoundContent(): React.ReactElement {
   const {siteConfig} = useDocusaurusContext();
   const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
+  const agentConfigCode = (siteConfig.customFields?.chatAgentConfigCode as string) || 'zilliz_agent_dev';
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
 
   return (
@@ -246,7 +247,7 @@ export default function NotFoundContent(): React.ReactElement {
       <BrowserOnly fallback={<FallbackCard />}>
         {() => (
           <ErrorBoundary fallback={() => <FallbackCard />}>
-            <ChatProvider chatEndpoint={chatEndpoint} debugDefault={chatDebug}>
+            <ChatProvider chatEndpoint={chatEndpoint} agentConfigCode={agentConfigCode} debugDefault={chatDebug}>
               <NotFoundChat />
             </ChatProvider>
           </ErrorBoundary>

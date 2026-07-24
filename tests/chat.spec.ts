@@ -16,6 +16,7 @@ test('streams a correlated chat response with safe console debug logs', async ({
   const debugMessagePromises: Array<Promise<unknown[]>> = [];
   let chatRequestCount = 0;
   let capturedRequestId: string | undefined;
+  let capturedConversationId: string | undefined;
   let capturedBody: Record<string, unknown> | undefined;
 
   page.on('console', msg => {
@@ -30,18 +31,22 @@ test('streams a correlated chat response with safe console debug logs', async ({
     });
   });
 
-  await page.route('**/api/chat/stream', async route => {
+  await page.route('**/api/chat', async route => {
     chatRequestCount++;
     const request = route.request();
     capturedRequestId = request.headers()['x-request-id'];
+    capturedConversationId = request.headers()['x-conversation-id'];
     capturedBody = request.postDataJSON() as Record<string, unknown>;
 
     expect(capturedRequestId).toMatch(requestIdPattern);
+    expect(capturedConversationId).toMatch(requestIdPattern);
     expect(capturedBody).toMatchObject({
       message: prompt,
-      agent_config: {agent_config_code: 'zilliz-website-assistant'},
+      session_id: null,
+      conversationId: capturedConversationId,
+      site: 'docs.zilliz.com',
+      agent_config: {agent_config_code: 'zilliz_agent_dev'},
       streaming_mode: 'token',
-      user_id: expect.any(String),
     });
 
     await route.fulfill({
@@ -64,6 +69,7 @@ test('streams a correlated chat response with safe console debug logs', async ({
   });
 
   await page.goto('/docs/home?chatDebug=1');
+  await page.getByRole('button', {name: 'Ask AI', exact: true}).first().click();
   const chatPanel = page.getByRole('complementary', {name: 'Zilliz Copilot'});
   await expect(chatPanel.getByText('Ask AI', {exact: true})).toBeVisible();
 
@@ -77,6 +83,7 @@ test('streams a correlated chat response with safe console debug logs', async ({
 
   expect(chatRequestCount).toBe(1);
   expect(capturedRequestId).toMatch(requestIdPattern);
+  expect(capturedConversationId).toMatch(requestIdPattern);
   expect(capturedBody).toBeTruthy();
 
   await expect.poll(() => debugPayloads.map(payload => payload.event)).toContain('chat.client.completed');
@@ -102,6 +109,6 @@ test('streams a correlated chat response with safe console debug logs', async ({
   expect(serializedDebug).toContain('chat.client.sse.event');
   expect(serializedDebug).not.toContain(prompt);
   expect(serializedDebug).not.toContain(assistantAnswer);
-  expect(serializedDebug).not.toContain(capturedBody!.user_id as string);
+  expect(serializedDebug).not.toContain(capturedConversationId!);
   expect(serializedDebug).not.toContain(serverSessionId);
 });

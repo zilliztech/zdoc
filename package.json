@@ -21,6 +21,7 @@
     "test:workflow-policy": "node --test scripts/validate-workflow-policy.test.js",
     "test:check-404": "node --test scripts/check-404.test.js",
     "test:external-link-report": "node --test scripts/external-link-report-summary.test.js",
+    "test:chat-agent-config": "node --test scripts/chat-agent-nginx.test.js",
     "doc-publish-bot": "node scripts/doc-publish-bot/index.js",
     "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
     "test:all": "npm run test --prefix chat-proxy && npm run test:frontend"
