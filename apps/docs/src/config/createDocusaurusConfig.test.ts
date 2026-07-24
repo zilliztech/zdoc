@@ -66,6 +66,18 @@ describe('createDocusaurusConfig', () => {
     expect(config.i18n).toEqual({defaultLocale: 'en', locales: ['en']});
     expect(config.customFields?.outputDir).toBe('build/en');
     expect(JSON.stringify(config)).not.toContain('i18n/zh-CN');
+    expect(config.presets).toContainEqual([
+      '@docusaurus/preset-classic',
+      {docs: false, blog: false, pages: false, theme: {customCss: expect.stringMatching(/apps\/docs\/src\/css\/custom\.css$/)}},
+    ]);
+    expect(config.plugins).toContainEqual([
+      '@zilliz/docs-ui/docusaurus',
+      {modules: ['shared-theme', 'shared-components', 'english-navigation', 'english-home']},
+    ]);
+    expect(config.future).toMatchObject({
+      v4: true,
+      faster: {rspackBundler: false, rspackPersistentCache: false, mdxCrossCompilerCache: true},
+    });
   });
 
   it('allows Chinese-only content without leaking it into English', () => {
@@ -87,6 +99,10 @@ describe('createDocusaurusConfig', () => {
       locales: ['zh-CN'],
       localeConfigs: {'zh-CN': {htmlLang: 'zh-Hans'}},
     });
+    expect(createDocusaurusConfig(chinese).plugins).toContainEqual([
+      '@zilliz/docs-ui/docusaurus',
+      {modules: ['shared-theme', 'shared-components']},
+    ]);
   });
 
   it('maps every declared content field and shared Markdown plugin exactly once', () => {
@@ -136,6 +152,11 @@ describe('createDocusaurusConfig', () => {
       "import {createDocusaurusConfig} from './src/config/createDocusaurusConfig';\n\n" +
       `export default createDocusaurusConfig(resolveSiteProfile(${['process', 'env', 'ZDOC_SITE'].join('.')}));\n`,
     );
+  });
+
+  it('keeps generated Docusaurus registry files in CommonJS scope', () => {
+    const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), 'apps/docs/package.json'), 'utf8'));
+    expect(packageJson.type).toBeUndefined();
   });
 
   it('resolves repository paths from the factory module instead of the caller cwd', async () => {

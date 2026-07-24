@@ -177,18 +177,33 @@ importers:
       '@docusaurus/core':
         specifier: 3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(debug@4.4.3)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      '@docusaurus/faster':
+        specifier: 3.10.1
+        version: 3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       '@docusaurus/plugin-client-redirects':
         specifier: 3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       '@docusaurus/plugin-content-docs':
         specifier: 3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(debug@4.4.3)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      '@docusaurus/plugin-content-pages':
+        specifier: 3.10.1
+        version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      '@docusaurus/preset-classic':
+        specifier: 3.10.1
+        version: 3.10.1(@algolia/client-search@5.51.0)(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(@types/react@18.3.28)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.6.3)
+      '@docusaurus/theme-classic':
+        specifier: 3.10.1
+        version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@rspack/core@1.7.11)(@swc/core@1.15.32)(@types/react@18.3.28)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       '@mdx-js/mdx':
         specifier: ^3.1.1
         version: 3.1.1
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.1(@types/react@18.3.28)(react@18.3.1)
+      '@zilliz/docs-ui':
+        specifier: workspace:*
+        version: link:../../packages/docs-ui
       '@zilliz/site-config':
         specifier: workspace:*
         version: link:../../packages/site-config
@@ -260,7 +275,66 @@ importers:
 
   packages/docs-tooling: {}
 
-  packages/docs-ui: {}
+  packages/docs-ui:
+    dependencies:
+      '@docusaurus/core':
+        specifier: 3.10.1
+        version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(debug@4.4.3)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      '@docusaurus/plugin-content-docs':
+        specifier: 3.10.1
+        version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(debug@4.4.3)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      '@docusaurus/theme-common':
+        specifier: 3.10.1
+        version: 3.10.1(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@inkeep/cxkit-react':
+        specifier: ^0.5.71
+        version: 0.5.119(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.25.76)
+      '@zdoc/chat-ui':
+        specifier: workspace:*
+        version: link:../chat-ui
+      clsx:
+        specifier: ^2.0.0
+        version: 2.1.1
+      lodash:
+        specifier: ^4.17.21
+        version: 4.18.1
+      lucide-react:
+        specifier: ^0.577.0
+        version: 0.577.0(react@18.3.1)
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+      react-markdown:
+        specifier: ^10.1.0
+        version: 10.1.0(@types/react@18.3.28)(react@18.3.1)
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
+      showdown:
+        specifier: ^2.1.0
+        version: 2.1.0
+      zod-to-json-schema:
+        specifier: ^3.25.1
+        version: 3.25.2(zod@3.25.76)
+    devDependencies:
+      '@docusaurus/types':
+        specifier: 3.10.1
+        version: 3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@swc/core':
+        specifier: 1.15.32
+        version: 1.15.32
+      '@testing-library/react':
+        specifier: ^16.3.2
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.4(@types/debug@4.1.13)(@types/node@25.6.0)(jsdom@29.1.0)(lightningcss@1.32.0)(terser@5.46.2)
 
   packages/publication-adapters: {}
 

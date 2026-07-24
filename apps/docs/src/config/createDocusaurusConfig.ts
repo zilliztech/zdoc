@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type {Config, PluginConfig} from '@docusaurus/types';
 import type {ContentPluginProfile, DeepReadonly, SiteProfile} from '@zilliz/site-config';
+import {englishUiModules, sharedUiModules} from '@zilliz/docs-ui';
 
 function findRepositoryRoot(startDirectory: string): string {
   let current = path.resolve(startDirectory);
@@ -60,6 +61,9 @@ function redirectPlugin(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
 
 export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Config {
   const locale = profile.id;
+  const uiModules = profile.id === 'en'
+    ? [...sharedUiModules, ...englishUiModules]
+    : [...sharedUiModules];
 
   return {
     title: profile.title,
@@ -68,6 +72,18 @@ export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Conf
     baseUrl: profile.baseUrl,
     trailingSlash: false,
     onBrokenLinks: 'warn',
+    future: {
+      v4: true,
+      faster: {
+        swcJsLoader: true,
+        swcJsMinimizer: true,
+        swcHtmlMinimizer: true,
+        lightningCssMinimizer: true,
+        rspackBundler: false,
+        rspackPersistentCache: false,
+        mdxCrossCompilerCache: true,
+      },
+    },
     staticDirectories: profile.staticRoots.map(repositoryPath),
     i18n: {
       defaultLocale: locale,
@@ -77,9 +93,19 @@ export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Conf
         : {}),
     },
     plugins: [
+      ['@zilliz/docs-ui/docusaurus', {modules: uiModules}],
       ...profile.content.map(content => contentPlugin(content, profile)),
       ...redirectPlugin(profile),
     ],
+    presets: [[
+      '@docusaurus/preset-classic',
+      {
+        docs: false,
+        blog: false,
+        pages: false,
+        theme: {customCss: repositoryPath('apps/docs/src/css/custom.css')},
+      },
+    ]],
     themeConfig: {
       navbar: {items: profile.navigation.items.map(item => ({...item}))},
     },
