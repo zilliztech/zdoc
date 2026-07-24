@@ -195,6 +195,9 @@ importers:
       '@docusaurus/theme-classic':
         specifier: 3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@rspack/core@1.7.11)(@swc/core@1.15.32)(@types/react@18.3.28)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      '@inkeep/cxkit-docusaurus':
+        specifier: ^0.5.79
+        version: 0.5.119(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.25.76)
       '@mdx-js/mdx':
         specifier: ^3.1.1
         version: 3.1.1
@@ -228,6 +231,15 @@ importers:
       react-dom:
         specifier: ^18.0.0
         version: 18.3.1(react@18.3.1)
+      rehype-katex:
+        specifier: ^7.0.1
+        version: 7.0.1
+      remark-math:
+        specifier: ^6.0.0
+        version: 6.0.0
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.1.0
       xml2js:
         specifier: ^0.6.2
         version: 0.6.2
@@ -286,6 +298,9 @@ importers:
       '@docusaurus/theme-common':
         specifier: 3.10.1
         version: 3.10.1(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@inkeep/cxkit-docusaurus':
+        specifier: ^0.5.79
+        version: 0.5.119(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.25.76)
       '@inkeep/cxkit-react':
         specifier: ^0.5.71
         version: 0.5.119(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.25.76)
@@ -319,6 +334,9 @@ importers:
       showdown:
         specifier: ^2.1.0
         version: 2.1.0
+      zod:
+        specifier: ^3.25.13
+        version: 3.25.76
       zod-to-json-schema:
         specifier: ^3.25.1
         version: 3.25.2(zod@3.25.76)

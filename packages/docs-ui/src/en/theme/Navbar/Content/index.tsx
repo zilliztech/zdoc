@@ -8,6 +8,7 @@ import {InkeepModalSearchAndChat} from '@inkeep/cxkit-react';
 import {Search, LifeBuoy, LogIn, Menu} from 'lucide-react';
 import SecondaryNavbar from '../../../navigation/SecondaryNavbar';
 import {inkeepSettings} from '../../../inkeep.config';
+import {hasInkeepCredentials} from '../../../inkeepRuntime';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
 import styles from './styles.module.css';
 
@@ -320,7 +321,7 @@ export default function NavbarContent(): ReactNode {
         {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
       </div>
 
-      {apiKey && (
+      {hasInkeepCredentials({apiKey, integrationId, organizationId}) && (
         <>
           <InkeepModalSearchAndChat
             {...(inkeepSearchConfig as any)}

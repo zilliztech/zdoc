@@ -163,15 +163,90 @@ function hashRequiredFile(repositoryRoot, relativePath, label) {
   return hashBytes(secureReadRegularFile(repositoryRoot, relativePath, label).bytes);
 }
 
-function hashContentManifests(repositoryRoot, manifests) {
+function assertExactKeys(value, expected, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error(`${label} must be an object`);
+  }
+  const actual = Object.keys(value).sort(compareBinary);
+  const wanted = [...expected].sort(compareBinary);
+  if (JSON.stringify(actual) !== JSON.stringify(wanted)) {
+    throw new Error(`${label} must contain exactly: ${wanted.join(', ')}`);
+  }
+}
+
+function validateContentManifest(bytes, content, site, relativePath) {
+  let manifest;
+  try {
+    manifest = JSON.parse(bytes.toString('utf8'));
+  } catch (error) {
+    throw new Error(`Content manifest is not valid JSON: ${relativePath}`);
+  }
+  assertExactKeys(manifest, ['schemaVersion', 'site', 'plugin', 'source', 'inventory'], 'content manifest');
+  if (manifest.schemaVersion !== 1) throw new Error(`Content manifest schemaVersion must be 1: ${relativePath}`);
+  if (manifest.site !== site) throw new Error(`Content manifest site must be ${site}: ${relativePath}`);
+  if (manifest.plugin !== content.id) {
+    throw new Error(`Content manifest plugin must be ${content.id}: ${relativePath}`);
+  }
+  assertExactKeys(manifest.source, ['repository', 'legacyPath', 'commit', 'treeId'], 'content manifest source');
+  if (typeof manifest.source.repository !== 'string' || manifest.source.repository.length === 0) {
+    throw new Error(`Content manifest source repository is invalid: ${relativePath}`);
+  }
+  const legacyPath = manifest.source.legacyPath;
+  if (
+    typeof legacyPath !== 'string' || legacyPath.length === 0 || legacyPath.startsWith('/') ||
+    legacyPath.includes('\\') || legacyPath.split('/').some(segment => !segment || segment === '.' || segment === '..')
+  ) {
+    throw new Error(`Content manifest legacyPath is invalid: ${relativePath}`);
+  }
+  if (!/^[0-9a-f]{40}$/u.test(manifest.source.commit)) {
+    throw new Error(`Content manifest source commit is invalid: ${relativePath}`);
+  }
+  if (!/^[0-9a-f]{40}$/u.test(manifest.source.treeId)) {
+    throw new Error(`Content manifest source treeId is invalid: ${relativePath}`);
+  }
+  assertExactKeys(manifest.inventory, ['trackedFileCount', 'gitLsTreeSha256'], 'content manifest inventory');
+  if (!Number.isSafeInteger(manifest.inventory.trackedFileCount) || manifest.inventory.trackedFileCount < 0) {
+    throw new Error(`Content manifest inventory trackedFileCount is invalid: ${relativePath}`);
+  }
+  if (!/^[0-9a-f]{64}$/u.test(manifest.inventory.gitLsTreeSha256)) {
+    throw new Error(`Content manifest inventory gitLsTreeSha256 is invalid: ${relativePath}`);
+  }
+}
+
+function hashContentManifests(repositoryRoot, manifests, profile) {
   const tracked = new Set(trackedFiles(repositoryRoot));
-  return [...new Set(manifests)].sort(compareBinary).map(relativePath => {
+  const expected = new Map(profile.content.map(content => [
+    `${content.sourcePath}/content-manifest.json`,
+    content,
+  ]));
+  const counts = new Map();
+  for (const relativePath of manifests) {
+    const normalized = normalizeRelativePath(relativePath);
+    assertSafePathChain(
+      repositoryRoot,
+      confinedPath(repositoryRoot, normalized, 'content manifest'),
+      'content manifest',
+    );
+    counts.set(normalized, (counts.get(normalized) ?? 0) + 1);
+  }
+  for (const [relativePath, content] of expected) {
+    if (counts.get(relativePath) !== 1) {
+      throw new Error(`Content plugin ${content.id} at ${content.sourcePath} requires exactly one tracked root content manifest`);
+    }
+  }
+  for (const relativePath of counts.keys()) {
+    if (!expected.has(relativePath)) {
+      throw new Error(`Content manifest is not the declared root manifest of a profile content plugin: ${relativePath}`);
+    }
+  }
+  return [...counts.keys()].sort(compareBinary).map(relativePath => {
     const normalized = normalizeRelativePath(relativePath);
     confinedPath(repositoryRoot, normalized, 'content manifest');
     const {bytes, mode} = secureReadRegularFile(repositoryRoot, normalized, 'content manifest');
     if (!tracked.has(normalized)) {
       throw new Error(`Content manifest must be a checked-in file: ${relativePath}`);
     }
+    validateContentManifest(bytes, expected.get(normalized), profile.id, normalized);
     return {
       path: normalized,
       mode,
@@ -302,10 +377,7 @@ export function writeBuildProvenance({
   const buildRoot = resolveBuildDirectory(root, site, path.resolve(root, requestedBuildRelative));
   const selectionMode = contentManifests === undefined ? 'discovered' : 'explicit';
   const selectedContentManifests = contentManifests ?? discoverContentManifests(root, parsedProfile);
-  const contentManifestRecords = hashContentManifests(root, selectedContentManifests);
-  if (parsedProfile.content.length > 0 && contentManifestRecords.length === 0) {
-    throw new Error(`Site profile ${site} declares content roots and requires at least one selected content manifest`);
-  }
+  const contentManifestRecords = hashContentManifests(root, selectedContentManifests, parsedProfile);
   const {records: artifactRecords, routes} = walkArtifactTree(root, buildRoot);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
@@ -365,14 +437,11 @@ function parseArguments(argv) {
 }
 
 export function discoverContentManifests(repositoryRoot, profile) {
-  const roots = profile.content.map(content => `${content.sourcePath}/`);
-  const generatedRoot = `generated/${profile.id}/manifests/`;
-  return [...new Set(trackedFiles(repositoryRoot).filter(file => {
-    if (file.startsWith(generatedRoot) && file.endsWith('.json')) return true;
-    if (!roots.some(root => file.startsWith(root))) return false;
-    const basename = path.posix.basename(file);
-    return basename.startsWith('content-manifest') && basename.endsWith('.json');
-  }))].sort(compareBinary);
+  const tracked = new Set(trackedFiles(repositoryRoot));
+  return profile.content
+    .map(content => `${content.sourcePath}/content-manifest.json`)
+    .filter(relativePath => tracked.has(relativePath))
+    .sort(compareBinary);
 }
 
 async function main() {

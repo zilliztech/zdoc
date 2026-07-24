@@ -110,6 +110,22 @@ describe('closed profile schemas', () => {
   });
 });
 
+describe('REST API plane configuration', () => {
+  it('validates plane keywords as closed profile data', () => {
+    expect(IntegrationProfileSchema.parse({
+      restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster'], milvus: []}}},
+    })).toEqual({
+      restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster'], milvus: []}}},
+    });
+    expect(IntegrationProfileSchema.safeParse({
+      restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster']}, unknown: true}},
+    }).success).toBe(false);
+    expect(IntegrationProfileSchema.safeParse({
+      restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['']}}},
+    }).success).toBe(false);
+  });
+});
+
 describe('site-owned navigation', () => {
   it('accepts nested secondary navigation declared by a site profile', () => {
     const result = NavigationProfileSchema.safeParse({

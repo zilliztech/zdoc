@@ -157,6 +157,12 @@ export const isControlPlane = (endpoint, target = 'zilliz', planeConfig) => {
     return keywords.some(k => normalizedEndpoint.includes(k.toLowerCase()))
 }
 
+export const getTokenPlaceholder = (endpoint, target = 'zilliz', planeConfig, selectedBaseUrl) => {
+    return isControlPlane(endpoint, target, planeConfig) || selectedBaseUrl?.key === 'on-demand-compute'
+        ? 'YOUR_API_KEY'
+        : 'db_admin:xxxxxxxxxxxxx'
+}
+
 export const isBeta = (endpoint) => {
     return endpoint.includes('etl') ||
         endpoint.includes('stage') ||

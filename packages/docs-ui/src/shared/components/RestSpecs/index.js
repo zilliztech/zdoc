@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, isControlPlane } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, isControlPlane, getTokenPlaceholder } from './utils.js'
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -595,7 +595,7 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
     const planeConfig = siteConfig.customFields?.planeConfig
     const condition = isControlPlane(endpoint, target, planeConfig)
     const effectiveBaseUrl = baseUrl ? baseUrl : (condition ? "\${BASE_URL}" : "\${CLUSTER_ENDPOINT}")
-    const token = (condition || selectedBaseUrl?.key === 'on-demand-compute') ? 'YOUR_API_KEY' : "db_admin:xxxxxxxxxxxxx"
+    const token = getTokenPlaceholder(endpoint, target, planeConfig, selectedBaseUrl)
     var req = `export TOKEN="${token}"${pathExample ? "\n"+pathExample : ''}\n\ncurl --request ${method.toUpperCase()} \\\n--url "${effectiveBaseUrl}${endpoint}`
     req = (queryExample ? `${req}?${queryExample}` : req) + `"`
     req = headersExample ? `${req} \\\n${headersExample + ` \\\n--header "Request-Timeout: 5"`  + ` \\\n--header "Content-Type: application/json"`}` : req

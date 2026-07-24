@@ -3,6 +3,7 @@ import path from 'node:path';
 import type {Config, PluginConfig} from '@docusaurus/types';
 import type {ContentPluginProfile, DeepReadonly, SiteProfile} from '@zilliz/site-config';
 import {englishUiModules, sharedUiModules} from '@zilliz/docs-ui';
+import {resolveMarkdownPolicy} from './markdownPolicy';
 
 function findRepositoryRoot(startDirectory: string): string {
   let current = path.resolve(startDirectory);
@@ -24,7 +25,7 @@ function repositoryPath(relativePath: string): string {
 
 function contentPlugin(
   content: DeepReadonly<ContentPluginProfile>,
-  profile: DeepReadonly<SiteProfile>,
+  markdownPolicy: ReturnType<typeof resolveMarkdownPolicy>,
 ): PluginConfig {
   return [
     '@docusaurus/plugin-content-docs',
@@ -36,8 +37,8 @@ function contentPlugin(
       include: content.include ? [...content.include] : undefined,
       exclude: content.exclude ? [...content.exclude] : undefined,
       breadcrumbs: false,
-      remarkPlugins: [...profile.markdown.remarkPlugins],
-      rehypePlugins: [...profile.markdown.rehypePlugins],
+      remarkPlugins: [...markdownPolicy.remarkPlugins],
+      rehypePlugins: [...markdownPolicy.rehypePlugins],
     },
   ];
 }
@@ -59,8 +60,39 @@ function redirectPlugin(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
   ]];
 }
 
-export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Config {
+type BuildEnvironment = Record<string, string | undefined>;
+
+function inkeepPlugin(
+  profile: DeepReadonly<SiteProfile>,
+  environment: BuildEnvironment,
+): PluginConfig[] {
+  if (
+    profile.id !== 'en' ||
+    profile.integrations.searchProvider !== 'inkeep' ||
+    profile.integrations.chatProvider !== 'inkeep'
+  ) {
+    return [];
+  }
+  const baseSettings = {
+    apiKey: environment.INKEEP_API_KEY,
+    integrationId: environment.INKEEP_INTEGRATION_ID,
+    organizationId: environment.INKEEP_ORGANIZATION_ID,
+  };
+  return [[
+    '@inkeep/cxkit-docusaurus',
+    {
+      SearchBar: {baseSettings: {...baseSettings}},
+      ChatButton: {baseSettings: {...baseSettings}},
+    },
+  ]];
+}
+
+export function createDocusaurusConfig(
+  profile: DeepReadonly<SiteProfile>,
+  environment: BuildEnvironment = process.env,
+): Config {
   const locale = profile.id;
+  const markdownPolicy = resolveMarkdownPolicy(profile.markdown);
   const uiModules = profile.id === 'en'
     ? [...sharedUiModules, ...englishUiModules]
     : [...sharedUiModules];
@@ -100,8 +132,9 @@ export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Conf
             {path: repositoryPath('apps/docs/src/pages')},
           ] satisfies PluginConfig]
         : []),
-      ...profile.content.map(content => contentPlugin(content, profile)),
+      ...profile.content.map(content => contentPlugin(content, markdownPolicy)),
       ...redirectPlugin(profile),
+      ...inkeepPlugin(profile, environment),
     ],
     presets: [[
       '@docusaurus/preset-classic',
@@ -112,6 +145,12 @@ export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Conf
         theme: {customCss: repositoryPath('apps/docs/src/css/custom.css')},
       },
     ]],
+    stylesheets: [...markdownPolicy.stylesheets],
+    headTags: profile.id === 'en' &&
+      profile.integrations.searchProvider === 'inkeep' &&
+      profile.integrations.chatProvider === 'inkeep'
+      ? [{tagName: 'script', attributes: {src: '/env.js'}}]
+      : [],
     themeConfig: {
       navbar: {items: profile.navigation.items.map(item => ({...item}))},
     },
@@ -126,6 +165,14 @@ export function createDocusaurusConfig(profile: DeepReadonly<SiteProfile>): Conf
         items: item.items?.map(child => ({...child})),
       })),
       integrations: {...profile.integrations},
+      planeConfig: profile.integrations.restApi
+        ? {
+            controlPlaneKeywords: Object.fromEntries(
+              Object.entries(profile.integrations.restApi.planeConfig.controlPlaneKeywords)
+                .map(([target, keywords]) => [target, [...keywords]]),
+            ),
+          }
+        : undefined,
       features: {...profile.features, referenceKinds: [...profile.features.referenceKinds]},
       redirects: {rules: profile.redirects.rules.map(rule => ({...rule}))},
       robots: {...profile.robots},

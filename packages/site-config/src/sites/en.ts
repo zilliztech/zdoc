@@ -61,8 +61,27 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
       {label: 'Releases', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'},
     ],
   },
-  markdown: {remarkPlugins: [], rehypePlugins: []},
-  integrations: {},
+  markdown: {
+    remarkPlugins: ['math', 'math-brace-fix'],
+    rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks'],
+  },
+  integrations: {
+    searchProvider: 'inkeep',
+    chatProvider: 'inkeep',
+    restApi: {
+      planeConfig: {
+        controlPlaneKeywords: {
+          zilliz: [
+            'cloud', 'cluster', 'import', 'pipeline', 'backup', 'restore',
+            'invoices', 'usage', 'metrics', 'extract', 'volume', 'project',
+            'on-demand', 'region', 'migration', 'job', 'spark', 'alert',
+            'etl', 'stage', 'storage-integration', 'storageIntegrations',
+          ],
+          milvus: [],
+        },
+      },
+    },
+  },
   redirects: {rules: []},
   robots: {index: true},
 }));

@@ -3,6 +3,7 @@ import {createRequire} from 'node:module';
 import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 import docsUiPlugin from './docusaurus';
+import {hasInkeepCredentials} from './en/inkeepRuntime';
 
 const runtimeSingletons = [
   '@docusaurus/core',
@@ -188,7 +189,19 @@ describe('docs UI Docusaurus integration', () => {
     for (const singleton of runtimeSingletons) {
       expect(manifest.dependencies).not.toHaveProperty(singleton);
     }
+    expect(manifest.dependencies).toMatchObject({
+      '@inkeep/cxkit-docusaurus': expect.any(String),
+      zod: expect.any(String),
+    });
     expect(Object.keys(manifest.dependencies)).not.toContainEqual(expect.stringMatching(/^@docusaurus\//));
+  });
+
+  it('mounts English Inkeep UI only when all runtime credentials are available', () => {
+    expect(hasInkeepCredentials({})).toBe(false);
+    expect(hasInkeepCredentials({apiKey: 'key'})).toBe(false);
+    expect(hasInkeepCredentials({
+      apiKey: 'key', integrationId: 'integration', organizationId: 'organization',
+    })).toBe(true);
   });
 
   it('resolves app and docs-ui React and Docusaurus runtime imports to one installed instance', () => {

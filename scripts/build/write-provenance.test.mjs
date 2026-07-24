@@ -22,7 +22,7 @@ function fixture() {
   write(root, 'pnpm-lock.yaml', 'lockfileVersion: 9\n');
   write(root, 'migration/dependencies.json', '{"dependencies":[]}\n');
   write(root, 'migration/legacy-files.json', '{"files":[]}\n');
-  write(root, 'content/en/guides/content-manifest.json', '{"pages":["docs"]}\n');
+  write(root, 'content/en/guides/content-manifest.json', contentManifest('default', 'docs'));
   write(root, 'generated/en/manifests/reference.json', '{"revision":"en-1"}\n');
   write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"zh-1"}\n');
   write(root, 'tracked.txt', 'tracked\n');
@@ -36,7 +36,7 @@ function fixture() {
 const profile = Object.freeze({
   id: 'en', language: 'en', title: 'Docs', url: 'https://docs.example.com', baseUrl: '/', outputDir: 'build/en',
   content: [{id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'docs', sidebarPath: 'config/sidebar.ts'}],
-  manuals: [], navigation: {items: []},
+  manuals: [], navigation: {items: [], secondaryItems: []},
   features: {
     chat: false, askAi: false, feedback: false, cloudSelector: false,
     byoc: false, onpremise: false, agents: false, referenceKinds: [],
@@ -52,6 +52,42 @@ const zhProfile = Object.freeze({
   outputDir: 'build/zh-CN',
   content: [],
 });
+
+const fullEnglishProfile = Object.freeze({
+  ...profile,
+  content: [
+    {id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'docs', sidebarPath: 'config/guides.ts'},
+    {id: 'byoc', sourcePath: 'content/en/byoc', routeBasePath: 'docs/byoc', sidebarPath: 'config/byoc.ts'},
+    {id: 'reference', sourcePath: 'content/en/reference', routeBasePath: 'reference', sidebarPath: 'config/reference.ts'},
+  ],
+});
+
+function contentManifest(plugin, legacyPath, overrides = {}) {
+  return JSON.stringify({
+    schemaVersion: 1,
+    site: 'en',
+    plugin,
+    source: {
+      repository: 'zdoc',
+      legacyPath,
+      commit: 'a'.repeat(40),
+      treeId: 'b'.repeat(40),
+    },
+    inventory: {
+      trackedFileCount: 1,
+      gitLsTreeSha256: 'c'.repeat(64),
+    },
+    ...overrides,
+  });
+}
+
+function commitFullManifests(root) {
+  write(root, 'content/en/guides/content-manifest.json', contentManifest('default', 'docs'));
+  write(root, 'content/en/byoc/content-manifest.json', contentManifest('byoc', 'docs-byoc'));
+  write(root, 'content/en/reference/content-manifest.json', contentManifest('reference', 'reference'));
+  execFileSync('git', ['add', '.'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'content manifests'], {cwd: root});
+}
 
 function run(root, overrides = {}) {
   return writeBuildProvenance({
@@ -103,7 +139,7 @@ test('changes the artifact hash when artifact bytes change and self-excludes pro
   assert.notEqual(run(root).manifest.artifactHash, original);
 });
 
-test('discovers content-root and site generated manifests while explicit inputs override discovery', () => {
+test('discovers only exact content-root manifests while explicit inputs override discovery', () => {
   const root = fixture();
   const discoveredManifest = run(root, {contentManifests: undefined}).manifest;
   const discovered = discoveredManifest.componentHashes.contentManifests;
@@ -112,13 +148,12 @@ test('discovers content-root and site generated manifests while explicit inputs 
   assert.equal(discoveredManifest.contentManifests.mode, 'discovered');
   assert.deepEqual(discoveredManifest.contentManifests.records.map(record => record.path), [
     'content/en/guides/content-manifest.json',
-    'generated/en/manifests/reference.json',
   ]);
   assert.equal(explicitManifest.contentManifests.mode, 'explicit');
 
   fs.appendFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'changed');
   const changed = run(root, {contentManifests: undefined}).manifest.componentHashes.contentManifests;
-  assert.notEqual(changed, discovered);
+  assert.equal(changed, discovered);
   assert.equal(run(root).manifest.componentHashes.contentManifests, explicit);
 
   fs.appendFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'changed');
@@ -142,7 +177,7 @@ test('discovers content-root and site generated manifests while explicit inputs 
     environment: {},
     pnpmVersion: '10.13.1',
   }).manifest.componentHashes.contentManifests;
-  assert.notEqual(zhAfter, zhBefore);
+  assert.equal(zhAfter, zhBefore);
 });
 
 test('allows empty manifest selection only for a profile without content roots', () => {
@@ -159,6 +194,43 @@ test('allows empty manifest selection only for a profile without content roots',
     pnpmVersion: '10.13.1',
   });
   assert.deepEqual(result.manifest.contentManifests, {mode: 'explicit', records: []});
+});
+
+test('requires one tracked root manifest for every declared Guides, BYOC, and Reference plugin', () => {
+  for (const missing of fullEnglishProfile.content) {
+    const root = fixture();
+    commitFullManifests(root);
+    fs.rmSync(path.join(root, missing.sourcePath, 'content-manifest.json'));
+    execFileSync('git', ['add', '-A'], {cwd: root});
+    execFileSync('git', ['commit', '-qm', `remove ${missing.id}`], {cwd: root});
+    const selected = fullEnglishProfile.content
+      .filter(content => content.id !== missing.id)
+      .map(content => `${content.sourcePath}/content-manifest.json`);
+    assert.throws(() => run(root, {
+      profile: fullEnglishProfile,
+      contentManifests: selected,
+    }), new RegExp(`${missing.id}|${missing.sourcePath}`, 'i'));
+  }
+});
+
+test('validates manifest site, plugin, legacyPath, and inventory schema against its content root', () => {
+  const cases = [
+    ['site', {site: 'zh-CN'}],
+    ['plugin', {plugin: 'reference'}],
+    ['legacyPath', {source: {repository: 'zdoc', legacyPath: '../docs', commit: 'a'.repeat(40), treeId: 'b'.repeat(40)}}],
+    ['inventory', {inventory: {trackedFileCount: -1, gitLsTreeSha256: 'bad'}}],
+  ];
+  for (const [label, overrides] of cases) {
+    const root = fixture();
+    commitFullManifests(root);
+    write(root, 'content/en/guides/content-manifest.json', contentManifest('default', 'docs', overrides));
+    assert.throws(() => run(root, {
+      profile: fullEnglishProfile,
+      contentManifests: fullEnglishProfile.content.map(
+        content => `${content.sourcePath}/content-manifest.json`,
+      ),
+    }), new RegExp(label, 'i'));
+  }
 });
 
 test('strictly validates a JSON-safe complete site profile before hashing it', () => {

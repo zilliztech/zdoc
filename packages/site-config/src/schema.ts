@@ -142,12 +142,21 @@ export const FeatureProfileSchema = z.object({
   }
 });
 
+export const PlaneConfigSchema = z.object({
+  controlPlaneKeywords: z.record(z.string().min(1), z.array(z.string().min(1))),
+}).strict();
+
+export const RestApiIntegrationSchema = z.object({
+  planeConfig: PlaneConfigSchema,
+}).strict();
+
 export const IntegrationProfileSchema = z.object({
   searchProvider: z.string().min(1).optional(),
   chatProvider: z.string().min(1).optional(),
   analyticsProvider: z.string().min(1).optional(),
   feedbackProvider: z.string().min(1).optional(),
   storageAdapter: z.string().min(1).optional(),
+  restApi: RestApiIntegrationSchema.optional(),
 }).strict();
 
 export const RedirectRuleSchema = z.object({
@@ -348,6 +357,7 @@ export type BaseUrl = z.infer<typeof BaseUrlSchema>;
 export type SiteOrigin = z.infer<typeof SiteOriginSchema>;
 export type ContentPluginProfile = z.infer<typeof ContentPluginProfileSchema>;
 export type FeatureProfile = z.infer<typeof FeatureProfileSchema>;
+export type PlaneConfig = z.infer<typeof PlaneConfigSchema>;
 export type IntegrationProfile = z.infer<typeof IntegrationProfileSchema>;
 export type RedirectRule = z.infer<typeof RedirectRuleSchema>;
 export type RedirectProfile = z.infer<typeof RedirectProfileSchema>;
