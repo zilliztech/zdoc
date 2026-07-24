@@ -7,9 +7,11 @@ import {
   IntegrationProfileSchema,
   MarkdownProfileSchema,
   NavigationProfileSchema,
+  BaseUrlSchema,
   RedirectProfileSchema,
   RepositoryRelativePathSchema,
   RobotsProfileSchema,
+  RoutePathSchema,
   SiteProfileSchema,
 } from './schema';
 import {enProfile} from './sites/en';
@@ -62,6 +64,47 @@ describe('repository-relative paths', () => {
   });
 });
 
+describe('normalized web paths', () => {
+  it.each([
+    ' guides',
+    'guides ',
+    'docs\\foo',
+    './docs',
+    '../docs',
+    'docs/../foo',
+    'docs/./foo',
+    'docs//foo',
+    '/docs//foo',
+    'docs/foo/',
+    '/docs/foo/',
+  ])('rejects unsafe or non-normalized route path %s', value => {
+    expect(RoutePathSchema.safeParse(value).success).toBe(false);
+  });
+
+  it.each(['guides', '/docs/foo', '/'])('accepts normalized route path %s', value => {
+    expect(RoutePathSchema.parse(value)).toBe(value);
+  });
+
+  it.each([
+    ' /docs/',
+    '/docs/ ',
+    '/docs',
+    '/docs\\reference/',
+    '/../',
+    '/./',
+    '/docs/../reference/',
+    '/docs/./reference/',
+    '/docs//reference/',
+    '//docs/',
+  ])('rejects unsafe or non-normalized baseUrl %s', value => {
+    expect(BaseUrlSchema.safeParse(value).success).toBe(false);
+  });
+
+  it.each(['/', '/docs/', '/developer/reference/'])('accepts normalized baseUrl %s', value => {
+    expect(BaseUrlSchema.parse(value)).toBe(value);
+  });
+});
+
 describe('exclusive path ownership', () => {
   it.each([
     ['content source', {content: [{id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'guides', sidebarPath: 'generated/en/sidebars/guides.ts'}], outputDir: 'content/en'}],
@@ -79,5 +122,47 @@ describe('exclusive path ownership', () => {
         {id: 'reference', sourcePath: 'content/en/reference', routeBasePath: 'reference', sidebarPath: 'generated/en/sidebars/reference.ts'},
       ],
     })).toThrow(/content\[0\].*content\[1\].*ownership overlap/);
+  });
+
+  it.each([
+    ['outputDir', {outputDir: 'generated/en', staticRoots: enProfile.staticRoots, manuals: []}],
+    ['static root', {outputDir: enProfile.outputDir, staticRoots: ['apps/docs/static/shared', 'generated/en'], manuals: []}],
+    ['manual output', {outputDir: enProfile.outputDir, staticRoots: enProfile.staticRoots, manuals: ['generated/en']}],
+  ])('rejects a sidebar target overlapping %s', (_name, overrides) => {
+    expect(() => SiteProfileSchema.parse({
+      ...enProfile,
+      ...overrides,
+      content: [{
+        id: 'default',
+        sourcePath: 'content/en/guides',
+        routeBasePath: 'guides',
+        sidebarPath: 'generated/en/sidebars/guides.ts',
+      }],
+    })).toThrow(/sidebarPath.*ownership overlap/);
+  });
+
+  it.each([
+    ['duplicate', 'generated/en/sidebars/guides.ts'],
+    ['nested', 'generated/en/sidebars/guides.ts/nested'],
+  ])('rejects %s sidebar targets', (_name, secondSidebarPath) => {
+    expect(() => SiteProfileSchema.parse({
+      ...enProfile,
+      content: [
+        {id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'guides', sidebarPath: 'generated/en/sidebars/guides.ts'},
+        {id: 'reference', sourcePath: 'content/en/reference', routeBasePath: 'reference', sidebarPath: secondSidebarPath},
+      ],
+    })).toThrow(/sidebarPath.*sidebarPath.*ownership overlap/);
+  });
+
+  it('allows a sidebar target inside its content source root', () => {
+    expect(SiteProfileSchema.parse({
+      ...enProfile,
+      content: [{
+        id: 'default',
+        sourcePath: 'content/en/guides',
+        routeBasePath: 'guides',
+        sidebarPath: 'content/en/guides/sidebar.ts',
+      }],
+    }).content).toHaveLength(1);
   });
 });

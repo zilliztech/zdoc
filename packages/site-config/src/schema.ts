@@ -21,8 +21,44 @@ export const RepositoryRelativePathSchema = z.string().min(1).superRefine((value
   }
 });
 
-const RoutePathSchema = z.string().min(1).refine(value => !value.includes('\\'), {
-  message: 'Route paths must use forward slashes',
+export const RoutePathSchema = z.string().min(1).superRefine((value, context) => {
+  const routeBody = value.startsWith('/') ? value.slice(1) : value;
+  const segments = routeBody.split('/');
+  const invalidReason =
+    value !== value.trim() ? 'must not contain leading or trailing whitespace' :
+    value.includes('\\') ? 'must use forward slashes' :
+    value !== '/' && value.endsWith('/') ? 'must not have a trailing slash' :
+    value !== '/' && segments.some(segment => segment.length === 0) ? 'must not contain empty path segments' :
+    segments.some(segment => segment === '.' || segment === '..') ? 'must not contain dot path segments' :
+    segments.some(segment => segment !== segment.trim()) ? 'must not contain whitespace-padded segments' :
+    undefined;
+
+  if (invalidReason) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `Route path ${invalidReason}: ${JSON.stringify(value)}`,
+    });
+  }
+});
+
+export const BaseUrlSchema = z.string().min(1).superRefine((value, context) => {
+  const hasRequiredBoundary = value.startsWith('/') && value.endsWith('/');
+  const segments = hasRequiredBoundary ? value.slice(1, -1).split('/') : [];
+  const invalidReason =
+    value !== value.trim() ? 'must not contain leading or trailing whitespace' :
+    value.includes('\\') ? 'must use forward slashes' :
+    !hasRequiredBoundary ? 'must start and end with a slash' :
+    value !== '/' && segments.some(segment => segment.length === 0) ? 'must not contain empty path segments' :
+    segments.some(segment => segment === '.' || segment === '..') ? 'must not contain dot path segments' :
+    segments.some(segment => segment !== segment.trim()) ? 'must not contain whitespace-padded segments' :
+    undefined;
+
+  if (invalidReason) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `baseUrl ${invalidReason}: ${JSON.stringify(value)}`,
+    });
+  }
 });
 
 export const ContentPluginProfileSchema = z.object({
@@ -94,13 +130,32 @@ function pathsOverlap(left: string, right: string): boolean {
   return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
 }
 
+function reportOwnershipOverlaps(
+  claims: OwnershipClaim[],
+  context: z.RefinementCtx,
+): void {
+  for (let leftIndex = 0; leftIndex < claims.length; leftIndex += 1) {
+    for (let rightIndex = leftIndex + 1; rightIndex < claims.length; rightIndex += 1) {
+      const left = claims[leftIndex];
+      const right = claims[rightIndex];
+      if (pathsOverlap(left.path, right.path)) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [right.label],
+          message: `${left.label} (${left.path}) and ${right.label} (${right.path}) have a repository ownership overlap (ancestor/descendant paths)`,
+        });
+      }
+    }
+  }
+}
+
 export const SiteProfileSchema = z.object({
   id: SiteIdSchema,
   language: z.string().min(1),
   title: z.string().min(1),
   tagline: z.string().min(1).optional(),
   url: z.string().url(),
-  baseUrl: z.string().regex(/^\/(?:[^/]+\/)*$/, 'baseUrl must start and end with /'),
+  baseUrl: BaseUrlSchema,
   outputDir: RepositoryRelativePathSchema,
   content: z.array(ContentPluginProfileSchema),
   manuals: z.array(RepositoryRelativePathSchema),
@@ -112,22 +167,31 @@ export const SiteProfileSchema = z.object({
   redirects: RedirectProfileSchema,
   robots: RobotsProfileSchema,
 }).strict().superRefine((profile, context) => {
-  const exclusiveClaims: OwnershipClaim[] = [
+  const rootClaims: OwnershipClaim[] = [
     {label: 'outputDir', path: profile.outputDir},
     ...profile.content.map((plugin, index) => ({label: `content[${index}].sourcePath`, path: plugin.sourcePath})),
     ...profile.staticRoots.map((path, index) => ({label: `staticRoots[${index}]`, path})),
     ...profile.manuals.map((path, index) => ({label: `manuals[${index}]`, path})),
   ];
+  const sidebarClaims: OwnershipClaim[] = profile.content.map((plugin, index) => ({
+    label: `content[${index}].sidebarPath`,
+    path: plugin.sidebarPath,
+  }));
+  const sidebarRestrictedRoots: OwnershipClaim[] = [
+    {label: 'outputDir', path: profile.outputDir},
+    ...profile.staticRoots.map((path, index) => ({label: `staticRoots[${index}]`, path})),
+    ...profile.manuals.map((path, index) => ({label: `manuals[${index}]`, path})),
+  ];
 
-  for (let leftIndex = 0; leftIndex < exclusiveClaims.length; leftIndex += 1) {
-    for (let rightIndex = leftIndex + 1; rightIndex < exclusiveClaims.length; rightIndex += 1) {
-      const left = exclusiveClaims[leftIndex];
-      const right = exclusiveClaims[rightIndex];
-      if (pathsOverlap(left.path, right.path)) {
+  reportOwnershipOverlaps(rootClaims, context);
+  reportOwnershipOverlaps(sidebarClaims, context);
+  for (const sidebar of sidebarClaims) {
+    for (const restrictedRoot of sidebarRestrictedRoots) {
+      if (pathsOverlap(sidebar.path, restrictedRoot.path)) {
         context.addIssue({
           code: z.ZodIssueCode.custom,
-          path: [right.label],
-          message: `${left.label} (${left.path}) and ${right.label} (${right.path}) have a repository ownership overlap (ancestor/descendant paths)`,
+          path: [sidebar.label],
+          message: `${sidebar.label} (${sidebar.path}) and ${restrictedRoot.label} (${restrictedRoot.path}) have a repository ownership overlap (ancestor/descendant paths)`,
         });
       }
     }
@@ -136,6 +200,8 @@ export const SiteProfileSchema = z.object({
 
 export type SiteId = z.infer<typeof SiteIdSchema>;
 export type RepositoryRelativePath = z.infer<typeof RepositoryRelativePathSchema>;
+export type RoutePath = z.infer<typeof RoutePathSchema>;
+export type BaseUrl = z.infer<typeof BaseUrlSchema>;
 export type ContentPluginProfile = z.infer<typeof ContentPluginProfileSchema>;
 export type FeatureProfile = z.infer<typeof FeatureProfileSchema>;
 export type IntegrationProfile = z.infer<typeof IntegrationProfileSchema>;
