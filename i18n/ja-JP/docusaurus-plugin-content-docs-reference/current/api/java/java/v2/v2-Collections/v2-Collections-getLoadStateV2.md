@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、collection または partition の詳細なロード状態情報を取得します。現在のロード状態とロード進行状況の両方が必要な場合に使用します。 | Java | v2"
 type: docx
 token: JEgudTxxYocs2VxLjgccpB7SnOb
-sidebar_position: 38
+sidebar_position: 41
 keywords: 
   - オープンソース vector db
   - vector database の例
@@ -59,7 +59,7 @@ getLoadStateV2(GetLoadStateReq.builder()
 
 - `partitionName(String partitionName)`
 
-    オプションの partition 名です。collection レベルのロード状態を確認するには省略します。
+    オプションの partition 名です。collection レベルのロード状態を確認する場合は省略します。
 
 **戻り値:**
 
@@ -69,7 +69,7 @@ getLoadStateV2(GetLoadStateReq.builder()
 
 - **MilvusClientException**
 
-    バリデーションに失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    検証に失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外がスローされます。
 
 ## 例\{#example}
 
