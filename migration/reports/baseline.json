@@ -25,6 +25,7 @@
       "command": "pnpm test:frontend",
       "exitStatus": 0,
       "repository": "zdoc",
+      "testSummary": "6 test files passed; 31 tests passed.",
       "warningSummary": [
         "Vite CJS Node API deprecation warning.",
         "Node experimental localStorage warnings.",
@@ -57,6 +58,7 @@
       "command": "pnpm --dir ../../../../zdoc_cn test:cn-publish-normalizer",
       "exitStatus": 0,
       "repository": "zdoc_cn",
+      "testSummary": "normalizeCnContent, remarkCnPublishNormalizer, and verify-cn-publish-artifacts test suites passed.",
       "warningSummary": []
     },
     {
