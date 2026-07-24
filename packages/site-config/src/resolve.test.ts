@@ -68,6 +68,8 @@ describe('normalized web paths', () => {
   it.each([
     ' guides',
     'guides ',
+    'docs/foo bar',
+    'docs/foo\tbar',
     'docs\\foo',
     './docs',
     '../docs',
@@ -88,6 +90,8 @@ describe('normalized web paths', () => {
   it.each([
     ' /docs/',
     '/docs/ ',
+    '/docs/foo bar/',
+    '/docs/foo\tbar/',
     '/docs',
     '/docs\\reference/',
     '/../',
@@ -164,5 +168,37 @@ describe('exclusive path ownership', () => {
         sidebarPath: 'content/en/guides/sidebar.ts',
       }],
     }).content).toHaveLength(1);
+  });
+
+  it('rejects a plugin sidebar inside another plugin source root', () => {
+    expect(() => SiteProfileSchema.parse({
+      ...enProfile,
+      content: [
+        {id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'guides', sidebarPath: 'content/en/reference/sidebar.ts'},
+        {id: 'reference', sourcePath: 'content/en/reference', routeBasePath: 'reference', sidebarPath: 'generated/en/sidebars/reference.ts'},
+      ],
+    })).toThrow(/content\[0\].sidebarPath.*content\[1\].sourcePath.*ownership overlap/);
+  });
+
+  it('rejects a plugin sidebar that is an ancestor of another plugin source root', () => {
+    expect(() => SiteProfileSchema.parse({
+      ...enProfile,
+      content: [
+        {id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'guides', sidebarPath: 'content/en/reference'},
+        {id: 'reference', sourcePath: 'content/en/reference/pages', routeBasePath: 'reference', sidebarPath: 'generated/en/sidebars/reference.ts'},
+      ],
+    })).toThrow(/content\[0\].sidebarPath.*content\[1\].sourcePath.*ownership overlap/);
+  });
+
+  it('rejects a plugin sidebar that is an ancestor of its own source root', () => {
+    expect(() => SiteProfileSchema.parse({
+      ...enProfile,
+      content: [{
+        id: 'default',
+        sourcePath: 'content/en/guides/pages',
+        routeBasePath: 'guides',
+        sidebarPath: 'content/en/guides',
+      }],
+    })).toThrow(/sidebarPath.*own sourcePath/);
   });
 });

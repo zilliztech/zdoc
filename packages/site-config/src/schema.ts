@@ -26,6 +26,7 @@ export const RoutePathSchema = z.string().min(1).superRefine((value, context) =>
   const segments = routeBody.split('/');
   const invalidReason =
     value !== value.trim() ? 'must not contain leading or trailing whitespace' :
+    /\s/u.test(value) ? 'must not contain whitespace' :
     value.includes('\\') ? 'must use forward slashes' :
     value !== '/' && value.endsWith('/') ? 'must not have a trailing slash' :
     value !== '/' && segments.some(segment => segment.length === 0) ? 'must not contain empty path segments' :
@@ -46,6 +47,7 @@ export const BaseUrlSchema = z.string().min(1).superRefine((value, context) => {
   const segments = hasRequiredBoundary ? value.slice(1, -1).split('/') : [];
   const invalidReason =
     value !== value.trim() ? 'must not contain leading or trailing whitespace' :
+    /\s/u.test(value) ? 'must not contain whitespace' :
     value.includes('\\') ? 'must use forward slashes' :
     !hasRequiredBoundary ? 'must start and end with a slash' :
     value !== '/' && segments.some(segment => segment.length === 0) ? 'must not contain empty path segments' :
@@ -194,6 +196,27 @@ export const SiteProfileSchema = z.object({
           message: `${sidebar.label} (${sidebar.path}) and ${restrictedRoot.label} (${restrictedRoot.path}) have a repository ownership overlap (ancestor/descendant paths)`,
         });
       }
+    }
+  }
+  for (const [sidebarIndex, sidebar] of sidebarClaims.entries()) {
+    const ownSourcePath = profile.content[sidebarIndex].sourcePath;
+    if (ownSourcePath.startsWith(`${sidebar.path}/`)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [sidebar.label],
+        message: `${sidebar.label} (${sidebar.path}) must not be an ancestor of its own sourcePath (${ownSourcePath})`,
+      });
+    }
+
+    for (const [sourceIndex, plugin] of profile.content.entries()) {
+      if (sourceIndex === sidebarIndex || !pathsOverlap(sidebar.path, plugin.sourcePath)) {
+        continue;
+      }
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [sidebar.label],
+        message: `${sidebar.label} (${sidebar.path}) and content[${sourceIndex}].sourcePath (${plugin.sourcePath}) have a repository ownership overlap (cross-plugin ancestor/descendant paths)`,
+      });
     }
   }
 });
