@@ -75,6 +75,31 @@ test('detects ASCII secret markers in binary bytes and across read boundaries', 
   assert.ok(!report.findings.some(item => item.path === 'small-key.bin' && item.rule === 'secret.large-binary-quarantine'));
 });
 
+test('extracts shortcut references without reinterpreting full, collapsed, or inline links', async () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'integrity-shortcut-'));
+  mkdirSync(path.join(root, 'docs/sub'), {recursive: true});
+  writeFileSync(path.join(root, 'docs/sub/shortcut.mdx'), [
+    '[shortcut-escape] ![shortcut-image] [shortcut-safe]',
+    '[shortcut-escape]: ../../.env',
+    '[shortcut-image]: /opt/shortcut.png',
+    '[shortcut-safe]: /docs/start',
+  ].join('\n'));
+  writeFileSync(path.join(root, 'docs/sub/dedupe.mdx'), [
+    '[shortcut] [full][target] [collapsed][] [inline](../../.env)',
+    '[shortcut]: ../../.env',
+    '[target]: ../../.env',
+    '[collapsed]: ../../.env',
+    '[inline]: /root/inline-definition',
+    '[full]: /root/full-definition',
+  ].join('\n'));
+  const report = await scanIntegrity(root, {repository: 'zdoc', contentRoots: ['docs'], allowedRoutePrefixes: ['/docs'], allowedExactRoutes: ['/']});
+  assert.ok(report.findings.some(item => item.path === 'docs/sub/shortcut.mdx' && item.rule === 'link.traversal' && item.normalizedTarget === '.env'));
+  assert.ok(report.findings.some(item => item.path === 'docs/sub/shortcut.mdx' && item.rule === 'link.absolute' && item.normalizedTarget === '/opt/shortcut.png'));
+  assert.ok(!report.findings.some(item => item.path === 'docs/sub/shortcut.mdx' && item.normalizedTarget === '/docs/start'));
+  assert.equal(report.findings.filter(item => item.path === 'docs/sub/dedupe.mdx' && item.rule === 'link.traversal' && item.normalizedTarget === '.env').length, 1);
+  assert.ok(!report.findings.some(item => item.path === 'docs/sub/dedupe.mdx' && ['/root/inline-definition', '/root/full-definition'].includes(item.normalizedTarget)));
+});
+
 test('scans critical markers beyond the size limit and CLI exits 2', async () => {
   const root = mkdtempSync(path.join(tmpdir(), 'integrity-large-'));
   const large = `${'x'.repeat(4096)}\nghp_123456789012345678901234567890123456\n-----BEGIN PRIVATE KEY-----\n`;

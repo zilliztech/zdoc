@@ -114,15 +114,31 @@ function referenceLabel(value) { return value.trim().replace(/\s+/g, ' ').toLowe
 
 function staticLinks(text) {
   const results = [];
+  const occupied = [];
+  const occupy = match => occupied.push([match.index, match.index + match[0].length]);
+  const overlapsOccupied = match => occupied.some(([start, end]) => match.index < end && match.index + match[0].length > start);
   const inline = /!?(?:\[[^\]]*\])\(([^)\s]+)(?:\s+["'][^"']*["'])?\)/g;
-  for (const match of text.matchAll(inline)) results.push(match[1].replace(/^<|>$/g, ''));
+  for (const match of text.matchAll(inline)) {
+    results.push(match[1].replace(/^<|>$/g, ''));
+    occupy(match);
+  }
 
   const definitions = new Map();
   const definition = /^[ \t]{0,3}\[([^\]\r\n]+)\]:[ \t]*(?:<([^>\r\n]+)>|(\S+))/gm;
-  for (const match of text.matchAll(definition)) definitions.set(referenceLabel(match[1]), match[2] || match[3]);
+  for (const match of text.matchAll(definition)) {
+    definitions.set(referenceLabel(match[1]), match[2] || match[3]);
+    occupy(match);
+  }
   const usage = /!?\[([^\]\r\n]*)\]\[([^\]\r\n]*)\]/g;
   for (const match of text.matchAll(usage)) {
     const target = definitions.get(referenceLabel(match[2] || match[1]));
+    if (target) results.push(target);
+    occupy(match);
+  }
+  const shortcut = /!?\[([^\]\r\n]+)\]/g;
+  for (const match of text.matchAll(shortcut)) {
+    if (overlapsOccupied(match)) continue;
+    const target = definitions.get(referenceLabel(match[1]));
     if (target) results.push(target);
   }
 

@@ -7,7 +7,7 @@
     "sourceRevision": null,
     "description": "Filesystem scan of the supplied repository root; no Git commit equivalence is asserted."
   },
-  "allowlistDigest": "fd76c598ede44736b05706263affbc0ee3038e1a3db92c62763df42687794e72",
+  "allowlistDigest": "6030a8a7ae1854ce063865aa948f6fe6d8eaea2caab663e2d8357402f9e345aa",
   "policy": {
     "maxFileSize": 20971520,
     "contentRoots": [
