@@ -6,7 +6,7 @@ import {describe, expect, it} from 'vitest';
 
 import {createZhCnPublicationAdapterRegistry} from '../index.ts';
 import type {PublicationContext} from '../types.ts';
-import {markdownNormalizerFixture} from './legacyFixtures.ts';
+import {compactMarkdownTableFixture, markdownNormalizerFixture} from './legacyFixtures.ts';
 import {ZH_CN_MARKDOWN_NORMALIZER_ID} from './normalizer.ts';
 
 function context(site: 'en' | 'zh-CN'): PublicationContext {
@@ -58,6 +58,22 @@ describe('zh-CN Markdown normalizer adapter', () => {
     );
 
     expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], once, publicationContext)).toEqual(once);
+  });
+
+  it('preserves every pipe in compact Markdown tables while normalizing URL paths, queries, and hashes', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'compact.md', contents: compactMarkdownTableFixture.input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(compactMarkdownTableFixture.output);
+    expect(output.split('\n')[1]).toBe('|---|---|');
+    expect(tablePipes(output)).toEqual(tablePipes(compactMarkdownTableFixture.input));
+    expect(output.split('\n').filter(Boolean).every(line => (line.match(/\|/gu) ?? []).length === 3)).toBe(true);
   });
 
   it('does not apply the Chinese transform to an English publication through the real registry', () => {

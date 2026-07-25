@@ -7,7 +7,7 @@ import {describe, expect, it, vi} from 'vitest';
 import {createZhCnPublicationAdapterRegistry} from '../registry.ts';
 import type {PublicationContext} from '../types.ts';
 import {ZH_CN_ALIYUN_OSS_ID} from './aliyunOss.ts';
-import {restReplacementFixture} from './legacyFixtures.ts';
+import {compactRestTableFixture, restReplacementFixture} from './legacyFixtures.ts';
 import {ZH_CN_REST_REPLACEMENTS_ID} from './restReplacements.ts';
 
 function context(site: 'en' | 'zh-CN', manual = 'rest'): PublicationContext {
@@ -70,6 +70,22 @@ describe('zh-CN REST replacement adapter', () => {
 
     expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'page.mdx', contents: valid}, publicationContext).contents).toBe(expected);
     expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'page.mdx', contents: unterminated}, publicationContext).contents).toBe(unterminated);
+  });
+
+  it('preserves every pipe in compact REST tables across endpoint and storage replacements', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const output = registry.transformDocument(
+      [ZH_CN_REST_REPLACEMENTS_ID],
+      {path: 'compact.mdx', contents: compactRestTableFixture.input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(compactRestTableFixture.output);
+    expect(output.split('\n')[1]).toBe('|---|---|');
+    expect(tablePipes(output)).toEqual(tablePipes(compactRestTableFixture.input));
+    expect(output.split('\n').filter(Boolean).every(line => (line.match(/\|/gu) ?? []).length === 3)).toBe(true);
   });
 });
 
