@@ -11,8 +11,12 @@ interface Fence {
 }
 
 interface InlineMarkupState {
+  braceDepth: number;
+  braceQuote: '"' | "'" | '`' | undefined;
   codeSpanTicks: number;
   htmlCommentOpen: boolean;
+  tagOpen: boolean;
+  tagQuote: '"' | "'" | undefined;
 }
 
 function fenceAt(line: string): Fence | undefined {
@@ -30,15 +34,6 @@ function htmlBlockTagAt(line: string): string | undefined {
   const match = line.match(/^\s*<([A-Za-z][\w.-]*)(?:\s[^>]*)?>\s*$/u);
   if (!match || /\/>\s*$/u.test(line)) return undefined;
   return match[1];
-}
-
-function braceDelta(line: string): number {
-  let delta = 0;
-  for (const character of line) {
-    if (character === '{') delta += 1;
-    else if (character === '}') delta -= 1;
-  }
-  return delta;
 }
 
 function isEscaped(line: string, index: number): boolean {
@@ -59,11 +54,11 @@ function scanInlineMarkup(line: string, initialState: InlineMarkupState): {
 } {
   let codeSpanTicks = initialState.codeSpanTicks;
   let htmlCommentOpen = initialState.htmlCommentOpen;
-  let protectedLine = codeSpanTicks > 0 || htmlCommentOpen;
-  let inTag = false;
-  let tagQuote: '"' | "'" | undefined;
-  let braceDepth = 0;
-  let braceQuote: '"' | "'" | '`' | undefined;
+  let tagOpen = initialState.tagOpen;
+  let tagQuote = initialState.tagQuote;
+  let braceDepth = initialState.braceDepth;
+  let braceQuote = initialState.braceQuote;
+  let protectedLine = codeSpanTicks > 0 || htmlCommentOpen || tagOpen || braceDepth > 0;
 
   for (let index = 0; index < line.length;) {
     const character = line[index];
@@ -87,16 +82,18 @@ function scanInlineMarkup(line: string, initialState: InlineMarkupState): {
       continue;
     }
 
-    if (inTag) {
+    if (tagOpen) {
+      protectedLine = true;
       if (tagQuote) {
         if (character === tagQuote && !isEscaped(line, index)) tagQuote = undefined;
       } else if (character === '"' || character === "'") tagQuote = character;
-      else if (character === '>') inTag = false;
+      else if (character === '>') tagOpen = false;
       index += 1;
       continue;
     }
 
     if (braceDepth > 0) {
+      protectedLine = true;
       if (braceQuote) {
         if (character === braceQuote && !isEscaped(line, index)) braceQuote = undefined;
       } else if (character === '"' || character === "'" || character === '`') braceQuote = character;
@@ -116,16 +113,21 @@ function scanInlineMarkup(line: string, initialState: InlineMarkupState): {
       codeSpanTicks = backtickRunLength(line, index);
       protectedLine = true;
       index += codeSpanTicks;
-    } else if (character === '<') {
-      inTag = true;
+    } else if (character === '<' && /[A-Za-z]/u.test(line[index + 1] ?? '') && !isEscaped(line, index)) {
+      tagOpen = true;
+      protectedLine = true;
       index += 1;
-    } else if (character === '{') {
+    } else if (character === '{' && !isEscaped(line, index)) {
       braceDepth = 1;
+      protectedLine = true;
       index += 1;
     } else index += 1;
   }
 
-  return {protected: protectedLine, state: {codeSpanTicks, htmlCommentOpen}};
+  return {
+    protected: protectedLine,
+    state: {braceDepth, braceQuote, codeSpanTicks, htmlCommentOpen, tagOpen, tagQuote},
+  };
 }
 
 function repairLine(line: string): string {
@@ -136,8 +138,14 @@ function repairLine(line: string): string {
 export function repairChineseBoldPunctuation(contents: string): string {
   let fence: Fence | undefined;
   let htmlBlockTag: string | undefined;
-  let inlineMarkupState: InlineMarkupState = {codeSpanTicks: 0, htmlCommentOpen: false};
-  let mdxBraceDepth = 0;
+  let inlineMarkupState: InlineMarkupState = {
+    braceDepth: 0,
+    braceQuote: undefined,
+    codeSpanTicks: 0,
+    htmlCommentOpen: false,
+    tagOpen: false,
+    tagQuote: undefined,
+  };
   const parts = contents.split(/(\r\n|\n|\r)/u);
 
   for (let index = 0; index < parts.length; index += 2) {
@@ -152,12 +160,11 @@ export function repairChineseBoldPunctuation(contents: string): string {
       continue;
     }
 
-    if (mdxBraceDepth > 0) {
-      mdxBraceDepth = Math.max(0, mdxBraceDepth + braceDelta(line));
-      continue;
-    }
-
-    if (inlineMarkupState.htmlCommentOpen) {
+    if (
+      inlineMarkupState.htmlCommentOpen
+      || inlineMarkupState.tagOpen
+      || inlineMarkupState.braceDepth > 0
+    ) {
       inlineMarkupState = scanInlineMarkup(line, inlineMarkupState).state;
       continue;
     }
@@ -168,21 +175,17 @@ export function repairChineseBoldPunctuation(contents: string): string {
       continue;
     }
 
+    if (inlineMarkupState.codeSpanTicks === 0) {
+      const openingHtmlBlockTag = htmlBlockTagAt(line);
+      if (openingHtmlBlockTag) {
+        htmlBlockTag = openingHtmlBlockTag;
+        continue;
+      }
+    }
+
     const inlineMarkup = scanInlineMarkup(line, inlineMarkupState);
     inlineMarkupState = inlineMarkup.state;
     if (inlineMarkup.protected) continue;
-
-    const openingHtmlBlockTag = htmlBlockTagAt(line);
-    if (openingHtmlBlockTag) {
-      htmlBlockTag = openingHtmlBlockTag;
-      continue;
-    }
-
-    const openingBraceDepth = braceDelta(line);
-    if (openingBraceDepth > 0) {
-      mdxBraceDepth = openingBraceDepth;
-      continue;
-    }
 
     parts[index] = repairLine(line);
   }

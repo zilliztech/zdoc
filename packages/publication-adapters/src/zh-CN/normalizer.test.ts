@@ -381,6 +381,70 @@ describe('zh-CN Markdown normalizer adapter', () => {
     ).contents).toBe(escapedExpected);
   });
 
+  it('persists protected JSX tags and MDX expressions across lines', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const protectedRangesInput = [
+      '<Widget',
+      "  marker='<!--'",
+      '  title="escaped \\" quote <!-- literal"',
+      '/> **建议：**首次',
+      '**建议：**首次',
+      '{{',
+      '  value: "<!--",',
+      '  nested: {',
+      '    label: "escaped \\" <!-- literal",',
+      '  },',
+      '}} **问题？**回答',
+      '**问题？**回答',
+      'prefix <!-- real comment',
+      '**建议：**首次',
+      '--> **问题？**回答',
+      '**建议：**首次',
+    ].join('\n');
+    const protectedRangesExpected = [
+      '<Widget',
+      "  marker='<!--'",
+      '  title="escaped \\" quote <!-- literal"',
+      '/> **建议：**首次',
+      '**建议**：首次',
+      '{{',
+      '  value: "<!--",',
+      '  nested: {',
+      '    label: "escaped \\" <!-- literal",',
+      '  },',
+      '}} **问题？**回答',
+      '**问题**？回答',
+      'prefix <!-- real comment',
+      '**建议：**首次',
+      '--> **问题？**回答',
+      '**建议**：首次',
+    ].join('\n');
+    const unclosedTag = '<Widget\r\n  marker="<!--"\r\n**建议：**首次\r\n';
+    const unclosedExpression = '{{\n  value: "<!--",\n**问题？**回答\n';
+    const publicationContext = context('zh-CN');
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'multiline-protected-ranges.mdx', contents: protectedRangesInput},
+      publicationContext,
+    );
+
+    expect(output.contents).toBe(protectedRangesExpected);
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], output, publicationContext)).toEqual(output);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'unclosed-tag.mdx', contents: unclosedTag},
+      publicationContext,
+    ).contents).toBe(unclosedTag);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'unclosed-expression.mdx', contents: unclosedExpression},
+      publicationContext,
+    ).contents).toBe(unclosedExpression);
+  });
+
   it('normalizes only allowlisted paired decorated http tags', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},
