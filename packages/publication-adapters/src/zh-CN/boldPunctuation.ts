@@ -131,8 +131,11 @@ function scanInlineMarkup(line: string, initialState: InlineMarkupState): {
 }
 
 function repairLine(line: string): string {
-  if (INDENTED_CODE.test(line) || line.includes('`') || /[<>{}\[\]()]/u.test(line)) return line;
-  return line.replace(SIMPLE_BOLD_WITH_TRAILING_PUNCTUATION, '**$1**$2');
+  if (INDENTED_CODE.test(line)) return line;
+  const protectedMarkup = line.search(/[`<>{}\[\]()]/u);
+  if (protectedMarkup === 0) return line;
+  if (protectedMarkup === -1) return line.replace(SIMPLE_BOLD_WITH_TRAILING_PUNCTUATION, '**$1**$2');
+  return `${line.slice(0, protectedMarkup).replace(SIMPLE_BOLD_WITH_TRAILING_PUNCTUATION, '**$1**$2')}${line.slice(protectedMarkup)}`;
 }
 
 export function repairChineseBoldPunctuation(contents: string): string {
@@ -161,7 +164,8 @@ export function repairChineseBoldPunctuation(contents: string): string {
     }
 
     if (
-      inlineMarkupState.htmlCommentOpen
+      inlineMarkupState.codeSpanTicks > 0
+      || inlineMarkupState.htmlCommentOpen
       || inlineMarkupState.tagOpen
       || inlineMarkupState.braceDepth > 0
     ) {
@@ -185,8 +189,6 @@ export function repairChineseBoldPunctuation(contents: string): string {
 
     const inlineMarkup = scanInlineMarkup(line, inlineMarkupState);
     inlineMarkupState = inlineMarkup.state;
-    if (inlineMarkup.protected) continue;
-
     parts[index] = repairLine(line);
   }
 

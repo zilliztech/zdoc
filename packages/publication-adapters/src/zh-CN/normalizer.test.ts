@@ -183,6 +183,25 @@ describe('zh-CN Markdown normalizer adapter', () => {
     expect(compiled).not.toContain('**');
   });
 
+  it('repairs a plain bold prefix without rewriting a later Markdown link', async () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = '**联系销售获取自定义报价。**企业客户可以获得折扣，请[联系销售](https://zilliz.com.cn/contact-sales)。';
+    const expected = '**联系销售获取自定义报价**。企业客户可以获得折扣，请[联系销售](https://zilliz.com.cn/contact-sales)。';
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'bold-before-link.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+    const compiled = String(await compile(output));
+
+    expect(output).toBe(expected);
+    expect(compiled).not.toContain('**');
+    expect(output).toContain('[联系销售](https://zilliz.com.cn/contact-sales)');
+  });
+
   it('keeps unsafe bold punctuation contexts unchanged and remains frontmatter-safe and idempotent', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},
