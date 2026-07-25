@@ -1,0 +1,75 @@
+---
+displayed_sidbar: nodeSidebar
+title: "checkHealth() | Node.js"
+slug: /node/node/Client-checkHealth
+sidebar_label: "checkHealth()"
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
+beta: false
+notebook: false
+description: "This operation checks the health status of the Milvus server. | Node.js"
+type: docx
+token: DDvudeY20o6tV5xwwo4cKovjnHf
+sidebar_position: 2
+keywords: 
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - checkHealth()
+  - nodejs26
+displayed_sidebar: nodeSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# checkHealth()
+
+This operation checks the health status of the Milvus server.
+
+```javascript
+checkHealth(): Promise<CheckHealthResponse>
+```
+
+## Request Syntax
+
+```javascript
+milvusClient.checkHealth()
+```
+
+**RETURN TYPE:**
+
+*Promise*\<*CheckHealthResponse*>
+
+**RETURNS:**
+
+A promise that resolves to a **CheckHealthResponse** object.
+
+```javascript
+{
+    isHealthy: boolean,
+    reasons: []
+}
+```
+
+**PARAMETERS:**
+
+- **isHealthy** (*boolean*) -
+
+    Whether the currently connected Milvus server is healthy.
+
+- **reasons** (*[]*) - 
+
+    The reasons for the currently connected Milvus server is unhealthy.
+
+## Examples
+
+```javascript
+milvusClient.checkHealth()
+```

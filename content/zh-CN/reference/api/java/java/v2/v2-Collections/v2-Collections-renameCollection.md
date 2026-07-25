@@ -1,0 +1,101 @@
+---
+displayed_sidbar: javaSidebar
+title: "renameCollection() | Java | v2"
+slug: /java/java/v2-Collections-renameCollection
+sidebar_label: "renameCollection()"
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
+beta: false
+notebook: false
+description: "This operation renames an existing collection. | Java | v2"
+type: docx
+token: JCutdOT9Polf2dxej0mcoP24n9c
+sidebar_position: 21
+keywords: 
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - renameCollection()
+  - javaV226
+displayed_sidebar: javaSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# renameCollection()
+
+This operation renames an existing collection.
+
+```java
+public void renameCollection(RenameCollectionReq request)
+```
+
+## Request Syntax
+
+```java
+renameCollection(RenameCollectionReq.builder()
+    .databaseName(String databaseName)
+    .collectionName(String collectionName)
+    .newCollectionName(String newCollectionName)
+    .build()
+)
+```
+
+**BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
+
+- `collectionName(String collectionName)`
+
+    The name of an existing collection.
+
+    Setting this to a non-existing collection results in a **MilvusException**.
+
+- `newCollectionName(String newCollectionName)`
+
+    The name of the target collection after this operation.
+
+    Setting this to the value of **old_name** results in a **MilvusException**.
+
+**RETURNS:**
+
+*void*
+
+**EXCEPTIONS:**
+
+- **MilvusClientExceptions**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Example
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.RenameCollectionReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Rename collection "test" to "test2"
+RenameCollectionReq renameCollectionReq = RenameCollectionReq.builder()
+        .collectionName("test")
+        .newCollectionName("test2")
+        .build();
+client.renameCollection(renameCollectionReq);
+```
+

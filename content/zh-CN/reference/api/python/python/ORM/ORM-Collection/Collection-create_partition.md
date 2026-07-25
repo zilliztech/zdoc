@@ -1,0 +1,107 @@
+---
+displayed_sidbar: pythonSidebar
+title: "create_partition() | Python | ORM"
+slug: /python/python/Collection-create_partition
+sidebar_label: "create_partition()"
+added_since: Inherit
+last_modified: false
+deprecate_since: false
+beta: NEAR DEPRECATE
+notebook: false
+description: "This operation creates a partition in the target collection. | Python | ORM"
+type: docx
+token: Sh7HdgJOIoJipXx5AoNcicjMnyd
+sidebar_position: 5
+keywords: 
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_partition()
+  - pymilvus26
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# create_partition()
+
+This operation creates a partition in the target collection.
+
+## Request Syntax
+
+```python
+create_partition(
+    partition_name: str, 
+    description: str | None, 
+)
+```
+
+**PARAMETERS:**
+
+- **partition_name** (*string*)
+
+    **[REQUIRED]**
+
+    The name of the partition to create.
+
+- **description** (*string*)
+
+    The description of this partition.
+
+**RETURN TYPE:**
+
+*Partition*
+
+**RETURNS:**
+
+A partition object.
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Examples
+
+```python
+from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
+
+schema = CollectionSchema([
+    FieldSchema("id", DataType.INT64, is_primary=True),
+    FieldSchema("vector", DataType.FLOAT_VECTOR, dim=5)
+])
+
+# Create a collection
+collection = Collection(
+    name="test_collection",
+    schema=schema
+)
+
+# Create a partition
+partition = collection.create_partition(partition_name="test_partition")
+
+# Output
+# {"name":"test_partition","collection_name":"test_collection","description":""}
+```
+
+## Related operations
+
+The following operations are related to `create_partition()`:
+
+- [Collection](./ORM-Collection)
+
+- [Partition](./ORM-Partition)
+
+- [partition()](./Collection-partition)
+
+- [drop_partition()](./Collection-drop_partition)
+
+- [has_partition()](./Collection-has_partition)
+

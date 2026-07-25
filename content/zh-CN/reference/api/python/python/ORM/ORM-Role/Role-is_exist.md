@@ -1,0 +1,83 @@
+---
+displayed_sidbar: pythonSidebar
+title: "is_exist() | Python | ORM"
+slug: /python/python/Role-is_exist
+sidebar_label: "is_exist()"
+added_since: Inherit
+last_modified: false
+deprecate_since: false
+beta: NEAR DEPRECATE
+notebook: false
+description: "This operation checks whether the current role exists. | Python | ORM"
+type: docx
+token: F8WOdIoz4okn5OxMEymcXNuRnkb
+sidebar_position: 6
+keywords: 
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - is_exist()
+  - pymilvus26
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# is_exist()
+
+This operation checks whether the current role exists.
+
+## Request Syntax
+
+```python
+is_exist()
+```
+
+**PARAMETERS:**
+
+N/A
+
+**RETURN TYPE:**
+
+*bool*
+
+**RETURNS:**
+
+A boolean value indicating whether the current role exists or not
+
+**EXCEPTIONS:**
+
+*None*
+
+## Examples
+
+```python
+from pymilvus import Role, utility
+
+# Get a role
+role = Role(name="test")
+
+# Check whether the role exists
+role.is_exist()
+```
+
+## Related operations
+
+The following operations are related to `is_exist()`:
+
+- [add_user()](./Role-add_user)
+
+- [get_users()](./Role-get_users)
+
+- [list_grant()](./Role-list_grant)
+
+- [list_grants()](./Role-list_grants)
+
+- [remove_user()](./Role-remove_user)
+

@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 3
+slug: /restful/delete-project-v2
+beta: FALSE
+title: "删除项目 (V2) | RESTful"
+description: "本接口可删除指定项目。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "删除项目 (V2)"
+sidebar_custom_props: { badges: ['delete']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "删除项目 (V2)"
+  - "delete"
+  - RESTful
+  - API
+---
+
+# 删除项目 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Delete Project","deprecated":false,"description":"This operation deletes a specified project.","x-i18n":{"zh-CN":{"summary":"删除项目","description":"本接口可删除指定项目。"}},"tags":["Project Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"projectId","in":"path","description":"The ID of the project to delete.","required":true,"example":"proj-xxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"待删除项目的 ID。"}}}],"responses":{"200":{"description":"None","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response","x-i18n":{"zh-CN":{"description":"成功响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"type":"integer","example":0},"data":{"type":"string","description":"A string 'ok' indicating the project is deleted successfully.","x-i18n":{"zh-CN":{"description":"一个字符串 'ok'，表示项目删除成功。"}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":"ok"}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const endpoint = "/v2/projects/{projectId}"
+export const method = "delete"
