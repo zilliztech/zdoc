@@ -317,6 +317,70 @@ describe('zh-CN Markdown normalizer adapter', () => {
     ).contents).toBe(expected);
   });
 
+  it('tracks multiline code spans and escaped comment openers without changing bytes', async () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const multilineInput = [
+      '`single tick starts',
+      '**建议：**首次',
+      'single tick ends`',
+      '**建议：**首次',
+      '``double tick starts with ` inside',
+      '**问题？**回答',
+      'double tick ends``',
+      '**问题？**回答',
+    ].join('\n');
+    const multilineExpected = [
+      '`single tick starts',
+      '**建议：**首次',
+      'single tick ends`',
+      '**建议**：首次',
+      '``double tick starts with ` inside',
+      '**问题？**回答',
+      'double tick ends``',
+      '**问题**？回答',
+    ].join('\n');
+    const unclosed = '`unclosed span\r\n**建议：**首次\r\n**问题？**回答\r\n';
+    const escapedInput = [
+      '\\<!-- escaped literal opener',
+      '**建议：**首次',
+      '\\\\<!-- real opener after an escaped backslash',
+      '**问题？**回答',
+      '-->',
+      '**问题？**回答',
+    ].join('\n');
+    const escapedExpected = [
+      '\\<!-- escaped literal opener',
+      '**建议**：首次',
+      '\\\\<!-- real opener after an escaped backslash',
+      '**问题？**回答',
+      '-->',
+      '**问题**？回答',
+    ].join('\n');
+
+    const multilineOutput = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'multiline-code-span.md', contents: multilineInput},
+      context('zh-CN'),
+    ).contents;
+    const compiled = String(await compile(multilineOutput));
+
+    expect(multilineOutput).toBe(multilineExpected);
+    expect(compiled).toContain('code');
+    expect(compiled).toContain('strong');
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'unclosed-code-span.md', contents: unclosed},
+      context('zh-CN'),
+    ).contents).toBe(unclosed);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'escaped-comment.md', contents: escapedInput},
+      context('zh-CN'),
+    ).contents).toBe(escapedExpected);
+  });
+
   it('normalizes only allowlisted paired decorated http tags', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},

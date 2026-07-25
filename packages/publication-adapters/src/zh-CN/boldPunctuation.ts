@@ -10,6 +10,11 @@ interface Fence {
   length: number;
 }
 
+interface InlineMarkupState {
+  codeSpanTicks: number;
+  htmlCommentOpen: boolean;
+}
+
 function fenceAt(line: string): Fence | undefined {
   const match = line.match(FENCE_START);
   if (!match) return undefined;
@@ -48,17 +53,32 @@ function backtickRunLength(line: string, index: number): number {
   return end - index;
 }
 
-function findHtmlCommentOpening(line: string, start = 0): number {
-  let codeSpanTicks = 0;
+function scanInlineMarkup(line: string, initialState: InlineMarkupState): {
+  protected: boolean;
+  state: InlineMarkupState;
+} {
+  let codeSpanTicks = initialState.codeSpanTicks;
+  let htmlCommentOpen = initialState.htmlCommentOpen;
+  let protectedLine = codeSpanTicks > 0 || htmlCommentOpen;
   let inTag = false;
   let tagQuote: '"' | "'" | undefined;
   let braceDepth = 0;
   let braceQuote: '"' | "'" | '`' | undefined;
 
-  for (let index = start; index < line.length;) {
+  for (let index = 0; index < line.length;) {
     const character = line[index];
 
+    if (htmlCommentOpen) {
+      protectedLine = true;
+      const closing = line.indexOf('-->', index);
+      if (closing === -1) break;
+      htmlCommentOpen = false;
+      index = closing + 3;
+      continue;
+    }
+
     if (codeSpanTicks > 0) {
+      protectedLine = true;
       if (character === '`' && !isEscaped(line, index)) {
         const ticks = backtickRunLength(line, index);
         if (ticks === codeSpanTicks) codeSpanTicks = 0;
@@ -86,9 +106,15 @@ function findHtmlCommentOpening(line: string, start = 0): number {
       continue;
     }
 
-    if (line.startsWith('<!--', index)) return index;
+    if (line.startsWith('<!--', index) && !isEscaped(line, index)) {
+      htmlCommentOpen = true;
+      protectedLine = true;
+      index += 4;
+      continue;
+    }
     if (character === '`' && !isEscaped(line, index)) {
       codeSpanTicks = backtickRunLength(line, index);
+      protectedLine = true;
       index += codeSpanTicks;
     } else if (character === '<') {
       inTag = true;
@@ -99,26 +125,7 @@ function findHtmlCommentOpening(line: string, start = 0): number {
     } else index += 1;
   }
 
-  return -1;
-}
-
-function htmlCommentOpenAfterLine(line: string, initiallyOpen: boolean): boolean {
-  let cursor = 0;
-  if (initiallyOpen) {
-    const closing = line.indexOf('-->');
-    if (closing === -1) return true;
-    cursor = closing + 3;
-  }
-
-  while (cursor < line.length) {
-    const opening = findHtmlCommentOpening(line, cursor);
-    if (opening === -1) return false;
-    const closing = line.indexOf('-->', opening + 4);
-    if (closing === -1) return true;
-    cursor = closing + 3;
-  }
-
-  return false;
+  return {protected: protectedLine, state: {codeSpanTicks, htmlCommentOpen}};
 }
 
 function repairLine(line: string): string {
@@ -129,7 +136,7 @@ function repairLine(line: string): string {
 export function repairChineseBoldPunctuation(contents: string): string {
   let fence: Fence | undefined;
   let htmlBlockTag: string | undefined;
-  let htmlCommentOpen = false;
+  let inlineMarkupState: InlineMarkupState = {codeSpanTicks: 0, htmlCommentOpen: false};
   let mdxBraceDepth = 0;
   const parts = contents.split(/(\r\n|\n|\r)/u);
 
@@ -150,8 +157,8 @@ export function repairChineseBoldPunctuation(contents: string): string {
       continue;
     }
 
-    if (htmlCommentOpen || findHtmlCommentOpening(line) !== -1) {
-      htmlCommentOpen = htmlCommentOpenAfterLine(line, htmlCommentOpen);
+    if (inlineMarkupState.htmlCommentOpen) {
+      inlineMarkupState = scanInlineMarkup(line, inlineMarkupState).state;
       continue;
     }
 
@@ -160,6 +167,10 @@ export function repairChineseBoldPunctuation(contents: string): string {
       fence = openingFence;
       continue;
     }
+
+    const inlineMarkup = scanInlineMarkup(line, inlineMarkupState);
+    inlineMarkupState = inlineMarkup.state;
+    if (inlineMarkup.protected) continue;
 
     const openingHtmlBlockTag = htmlBlockTagAt(line);
     if (openingHtmlBlockTag) {
