@@ -284,6 +284,44 @@ describe('zh-CN REST replacement adapter', () => {
     expect(tablePipes(output)).toEqual(tablePipes(input));
   });
 
+  it('preserves Markdown emphasis and Chinese sentence punctuation at endpoint boundaries', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '**https://api.cloud.zilliz.com**',
+      '_https://project.region.api.zillizcloud.com_',
+      'https://api.cloud.zilliz.com。下一句',
+      'https://api.cloud.zilliz.com，下一句',
+      'https://api.cloud.zilliz.com；下一句',
+      'https://api.cloud.zilliz.com！下一句',
+      'https://api.cloud.zilliz.com？下一句',
+      'https://api.cloud.zilliz.com_evil',
+      'https://api.cloud.zilliz.com*evil',
+      'https://api.cloud.zilliz.com**evil',
+      'https://api.cloud.zilliz.com.evil',
+    ].join('\n');
+    const expected = [
+      '**https://api.cloud.zilliz.com.cn**',
+      '_https://project.region.api.cloud.zilliz.com.cn_',
+      'https://api.cloud.zilliz.com.cn。下一句',
+      'https://api.cloud.zilliz.com.cn，下一句',
+      'https://api.cloud.zilliz.com.cn；下一句',
+      'https://api.cloud.zilliz.com.cn！下一句',
+      'https://api.cloud.zilliz.com.cn？下一句',
+      'https://api.cloud.zilliz.com_evil',
+      'https://api.cloud.zilliz.com*evil',
+      'https://api.cloud.zilliz.com**evil',
+      'https://api.cloud.zilliz.com.evil',
+    ].join('\n');
+
+    expect(registry.transformDocument(
+      [ZH_CN_REST_REPLACEMENTS_ID],
+      {path: 'emphasis-and-cjk-punctuation.mdx', contents: input},
+      context('zh-CN'),
+    ).contents).toBe(expected);
+  });
+
   it('requires Unicode-safe field names and complete provider and region value tokens', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},
