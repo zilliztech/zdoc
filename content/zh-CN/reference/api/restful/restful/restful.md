@@ -87,4 +87,4 @@ curl --request GET \
     -d '{}'
 ```
 
-<!-- openapi-downloads -->
+{/* openapi-downloads */}
