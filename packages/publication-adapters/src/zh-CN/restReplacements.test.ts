@@ -20,6 +20,15 @@ function context(site: 'en' | 'zh-CN', manual = 'rest'): PublicationContext {
   };
 }
 
+function frontmatter(contents: string): string {
+  const end = contents.indexOf('\n---\n');
+  return contents.slice(0, end + 5);
+}
+
+function tablePipes(contents: string): string[] {
+  return contents.split(/\r?\n/u).filter(line => line.startsWith('|')).map(line => line.replace(/[^|]/gu, ''));
+}
+
 describe('zh-CN REST replacement adapter', () => {
   it('applies representative replacements only to the Chinese REST publication', () => {
     const registry = createZhCnPublicationAdapterRegistry({
@@ -45,8 +54,22 @@ describe('zh-CN REST replacement adapter', () => {
     );
 
     expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], once, publicationContext)).toEqual(once);
-    expect(once.contents).toContain('slug: /restful/create-cluster');
-    expect(once.contents).toContain('| --- | --- |');
+    expect(frontmatter(once.contents)).toBe(frontmatter(restReplacementFixture.input));
+    expect(once.contents.split('\n')).toContain('| :--- | ---: |');
+    expect(tablePipes(once.contents)).toEqual(tablePipes(restReplacementFixture.input));
+  });
+
+  it('preserves BOM, CRLF, and unterminated frontmatter fail-safe', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const valid = '\uFEFF---\r\nslug: https://YOUR_CLUSTER_ENDPOINT\r\ncloudId: aws\r\n---\r\n\r\ncloudId: aws\r\n';
+    const expected = '\uFEFF---\r\nslug: https://YOUR_CLUSTER_ENDPOINT\r\ncloudId: aws\r\n---\r\n\r\ncloudId: ali\r\n';
+    const unterminated = '\uFEFF---\r\nslug: https://YOUR_CLUSTER_ENDPOINT\r\ncloudId: aws\r\n';
+
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'page.mdx', contents: valid}, publicationContext).contents).toBe(expected);
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'page.mdx', contents: unterminated}, publicationContext).contents).toBe(unterminated);
   });
 });
 

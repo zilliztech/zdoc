@@ -1,4 +1,5 @@
 import type {GeneratedDocument, PublicationAdapter} from '../types.ts';
+import {transformMarkdownBody} from './markdownBody.ts';
 
 export const ZH_CN_REST_REPLACEMENTS_ID = 'zh-CN.rest-replacements';
 
@@ -36,7 +37,7 @@ export const zhCnRestReplacements: PublicationAdapter = Object.freeze({
   id: ZH_CN_REST_REPLACEMENTS_ID,
   transformDocument(document, context): GeneratedDocument {
     if (context.site !== 'zh-CN' || context.manual !== 'rest') return document;
-    return {...document, contents: normalizeRestExamples(document.contents)};
+    return {...document, contents: transformMarkdownBody(document.contents, normalizeRestExamples)};
   },
   async validatePublication() {},
 });

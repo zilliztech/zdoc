@@ -377,13 +377,42 @@ function buildOverlayOperations(repository, legacyFiles) {
   for (const copy of manifest.copy || []) {
     const tracked = downstreamFiles.filter(entry => entry.sourcePath === copy.from || entry.sourcePath.startsWith(`${copy.from}/`));
     const id = overlayIdentity('copy', copy.from, copy.to);
+    const cleanRoomRewrite = copy.from === 'config/cn-publish-replacements.js' || copy.from === 'plugins/cn-publish-normalizer';
     for (const entry of tracked) {
-      const suffix = entry.sourcePath === copy.from ? '' : entry.sourcePath.slice(copy.from.length + 1);
-      entry.targetPath = suffix ? `${copy.to}/${suffix}` : copy.to;
-      entry.disposition = 'migrate';
-      entry.evidence.push(`Covered by pinned overlay operation ${id}.`);
+      if (cleanRoomRewrite) {
+        const isTest = entry.sourcePath.endsWith('.test.js');
+        entry.targetPath = copy.from === 'config/cn-publish-replacements.js'
+          ? 'packages/publication-adapters/src/zh-CN/restReplacements.ts'
+          : `packages/publication-adapters/src/zh-CN/${isTest ? 'normalizer.test.ts' : 'normalizer.ts'}`;
+        entry.disposition = 'rewrite';
+        entry.owner = 'adapter';
+        entry.evidence.push(`Historical overlay operation ${id} is replaced by clean-room publication adapters; the legacy implementation tree is not copied.`);
+      } else {
+        const suffix = entry.sourcePath === copy.from ? '' : entry.sourcePath.slice(copy.from.length + 1);
+        entry.targetPath = suffix ? `${copy.to}/${suffix}` : copy.to;
+        entry.disposition = 'migrate';
+        entry.evidence.push(`Covered by pinned overlay operation ${id}.`);
+      }
     }
-    operations.push({id, type: 'copy', sourceRepository: repository.id, sourceRevision: repository.revision, sourcePath: copy.from, targetPath: copy.to, optional: Boolean(copy.optional), disposition: 'migrate', owner: ownerFor(copy.from), trackedSourcePaths: tracked.map(entry => entry.sourcePath).sort(compareText), evidence: [`overlay-manifest.json at ${repository.revision} declares this copy operation.`, tracked.length ? `${tracked.length} tracked source path(s) are represented in legacy entries.` : 'The optional source is absent at the pinned revision; the operation remains explicitly dispositioned.']});
+    operations.push({
+      id,
+      type: 'copy',
+      sourceRepository: repository.id,
+      sourceRevision: repository.revision,
+      sourcePath: copy.from,
+      targetPath: copy.to,
+      optional: Boolean(copy.optional),
+      disposition: cleanRoomRewrite ? 'rewrite' : 'migrate',
+      owner: cleanRoomRewrite ? 'adapter' : ownerFor(copy.from),
+      trackedSourcePaths: tracked.map(entry => entry.sourcePath).sort(compareText),
+      evidence: cleanRoomRewrite
+        ? [
+          `overlay-manifest.json at ${repository.revision} historically declares this copy operation and its original target.`,
+          'Task 8 replaces the behavior with clean-room publication adapters; the legacy config or implementation tree is not copied.',
+          `${tracked.length} tracked source path(s) are represented by rewrite entries.`,
+        ]
+        : [`overlay-manifest.json at ${repository.revision} declares this copy operation.`, tracked.length ? `${tracked.length} tracked source path(s) are represented in legacy entries.` : 'The optional source is absent at the pinned revision; the operation remains explicitly dispositioned.'],
+    });
   }
   for (const patch of manifest.patches || []) {
     const tracked = downstreamFiles.filter(entry => entry.sourcePath === patch.path);

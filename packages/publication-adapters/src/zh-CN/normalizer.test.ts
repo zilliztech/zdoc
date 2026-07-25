@@ -19,6 +19,15 @@ function context(site: 'en' | 'zh-CN'): PublicationContext {
   };
 }
 
+function frontmatter(contents: string): string {
+  const end = contents.indexOf('\n---\n');
+  return contents.slice(0, end + 5);
+}
+
+function tablePipes(contents: string): string[] {
+  return contents.split(/\r?\n/u).filter(line => line.startsWith('|')).map(line => line.replace(/[^|]/gu, ''));
+}
+
 describe('zh-CN Markdown normalizer adapter', () => {
   it('normalizes representative Markdown deterministically while preserving table syntax and slug', () => {
     const registry = createZhCnPublicationAdapterRegistry({
@@ -32,8 +41,9 @@ describe('zh-CN Markdown normalizer adapter', () => {
     expect(first.contents).toBe(markdownNormalizerFixture.output);
     expect(second).toEqual(first);
     expect(first.path).toBe(document.path);
-    expect(first.contents).toContain('slug: /cloud/aws-support');
-    expect(first.contents).toContain('| --- | --- |');
+    expect(frontmatter(first.contents)).toBe(frontmatter(markdownNormalizerFixture.input));
+    expect(first.contents.split('\n')).toContain('| :--- | ---: |');
+    expect(tablePipes(first.contents)).toEqual(tablePipes(markdownNormalizerFixture.input));
   });
 
   it('is idempotent', () => {
@@ -57,5 +67,18 @@ describe('zh-CN Markdown normalizer adapter', () => {
     const document = {path: 'guides/page.md', contents: markdownNormalizerFixture.input};
 
     expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], document, context('en'))).toEqual(document);
+  });
+
+  it('preserves BOM, CRLF, and unterminated frontmatter fail-safe', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const valid = '\uFEFF---\r\nslug: https://support.zilliz.com/hc/en-us\r\nnote: https://zilliz.com/pricing\r\n---\r\n\r\nhttps://support.zilliz.com/hc/en-us\r\n';
+    const expected = '\uFEFF---\r\nslug: https://support.zilliz.com/hc/en-us\r\nnote: https://zilliz.com/pricing\r\n---\r\n\r\nhttps://support.zilliz.com.cn/hc/zh-cn\r\n';
+    const unterminated = '\uFEFF---\r\nslug: https://support.zilliz.com/hc/en-us\r\nnote: https://zilliz.com/pricing\r\n';
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'page.md', contents: valid}, publicationContext).contents).toBe(expected);
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'page.md', contents: unterminated}, publicationContext).contents).toBe(unterminated);
   });
 });

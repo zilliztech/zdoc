@@ -1,4 +1,5 @@
 import type {GeneratedDocument, PublicationAdapter} from '../types.ts';
+import {transformMarkdownBody} from './markdownBody.ts';
 
 export const ZH_CN_MARKDOWN_NORMALIZER_ID = 'zh-CN.markdown-normalizer';
 
@@ -14,7 +15,7 @@ export const zhCnMarkdownNormalizer: PublicationAdapter = Object.freeze({
   id: ZH_CN_MARKDOWN_NORMALIZER_ID,
   transformDocument(document, context): GeneratedDocument {
     if (context.site !== 'zh-CN') return document;
-    return {...document, contents: normalizeMarkdown(document.contents)};
+    return {...document, contents: transformMarkdownBody(document.contents, normalizeMarkdown)};
   },
   async validatePublication() {},
 });

@@ -57,14 +57,15 @@
       "sourcePath": "config/cn-publish-replacements.js",
       "targetPath": "config/cn-publish-replacements.js",
       "optional": false,
-      "disposition": "migrate",
-      "owner": "site-config",
+      "disposition": "rewrite",
+      "owner": "adapter",
       "trackedSourcePaths": [
         "config/cn-publish-replacements.js"
       ],
       "evidence": [
-        "overlay-manifest.json at b1900473dddf8db2d56c11387211a7014b54c160 declares this copy operation.",
-        "1 tracked source path(s) are represented in legacy entries."
+        "overlay-manifest.json at b1900473dddf8db2d56c11387211a7014b54c160 historically declares this copy operation and its original target.",
+        "Task 8 replaces the behavior with clean-room publication adapters; the legacy config or implementation tree is not copied.",
+        "1 tracked source path(s) are represented by rewrite entries."
       ]
     },
     {
@@ -141,7 +142,7 @@
       "sourcePath": "plugins/cn-publish-normalizer",
       "targetPath": "plugins/cn-publish-normalizer",
       "optional": false,
-      "disposition": "migrate",
+      "disposition": "rewrite",
       "owner": "adapter",
       "trackedSourcePaths": [
         "plugins/cn-publish-normalizer/normalizeCnContent.js",
@@ -150,8 +151,9 @@
         "plugins/cn-publish-normalizer/remarkCnPublishNormalizer.test.js"
       ],
       "evidence": [
-        "overlay-manifest.json at b1900473dddf8db2d56c11387211a7014b54c160 declares this copy operation.",
-        "4 tracked source path(s) are represented in legacy entries."
+        "overlay-manifest.json at b1900473dddf8db2d56c11387211a7014b54c160 historically declares this copy operation and its original target.",
+        "Task 8 replaces the behavior with clean-room publication adapters; the legacy config or implementation tree is not copied.",
+        "4 tracked source path(s) are represented by rewrite entries."
       ]
     },
     {

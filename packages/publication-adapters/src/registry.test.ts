@@ -42,6 +42,7 @@ describe('publication adapter registry', () => {
       'zh-CN.rest-replacements',
     ]);
     expect(() => createPublicationAdapterRegistry([adapter('Uppercase')])).toThrow(/invalid/i);
+    expect(() => createPublicationAdapterRegistry([adapter('zh-CN.unrequested')])).toThrow(/invalid/i);
   });
 
   it('is strict, frozen, deterministic, and rejects duplicate IDs', () => {

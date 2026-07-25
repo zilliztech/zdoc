@@ -6,7 +6,12 @@ import {createZhCnAliyunOssAdapter, type AliyunOssStorage} from './zh-CN/aliyunO
 import {zhCnMarkdownNormalizer} from './zh-CN/normalizer.ts';
 import {zhCnRestReplacements} from './zh-CN/restReplacements.ts';
 
-const ADAPTER_ID = /^(?:[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?|zh-CN\.[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)$/u;
+const ADAPTER_ID = /^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/u;
+const ZH_CN_ADAPTER_IDS = new Set([
+  'zh-CN.markdown-normalizer',
+  'zh-CN.rest-replacements',
+  'zh-CN.aliyun-oss',
+]);
 
 function pathEntryExists(target: string): boolean {
   try {
@@ -85,9 +90,9 @@ function immutableDocument(document: GeneratedDocument, root: string): Generated
   return Object.freeze({path: document.path, contents: document.contents});
 }
 
-function adapterCopy(adapter: PublicationAdapter): PublicationAdapter {
+function adapterCopy(adapter: PublicationAdapter, additionalIds: ReadonlySet<string>): PublicationAdapter {
   if (!adapter || typeof adapter !== 'object') throw new Error('Publication adapter must be an object');
-  if (!ADAPTER_ID.test(adapter.id)) throw new Error(`Publication adapter ID is invalid: ${JSON.stringify(adapter.id)}`);
+  if (!ADAPTER_ID.test(adapter.id) && !additionalIds.has(adapter.id)) throw new Error(`Publication adapter ID is invalid: ${JSON.stringify(adapter.id)}`);
   if (typeof adapter.transformDocument !== 'function' || typeof adapter.validatePublication !== 'function') {
     throw new Error(`Publication adapter ${adapter.id} must implement transformDocument and validatePublication`);
   }
@@ -98,10 +103,10 @@ function adapterCopy(adapter: PublicationAdapter): PublicationAdapter {
   });
 }
 
-export function createPublicationAdapterRegistry(adapters: readonly PublicationAdapter[]): PublicationAdapterRegistry {
+function buildPublicationAdapterRegistry(adapters: readonly PublicationAdapter[], additionalIds: ReadonlySet<string>): PublicationAdapterRegistry {
   const byId = new Map<string, PublicationAdapter>();
   for (const candidate of adapters) {
-    const adapter = adapterCopy(candidate);
+    const adapter = adapterCopy(candidate, additionalIds);
     if (byId.has(adapter.id)) throw new Error(`Duplicate publication adapter ID: ${adapter.id}`);
     byId.set(adapter.id, adapter);
   }
@@ -144,13 +149,17 @@ export function createPublicationAdapterRegistry(adapters: readonly PublicationA
   });
 }
 
+export function createPublicationAdapterRegistry(adapters: readonly PublicationAdapter[]): PublicationAdapterRegistry {
+  return buildPublicationAdapterRegistry(adapters, new Set());
+}
+
 export function createZhCnPublicationAdapterRegistry(options: Readonly<{
   aliyunOssStorage: AliyunOssStorage;
 }>): PublicationAdapterRegistry {
   if (!options || typeof options !== 'object') throw new Error('zh-CN publication adapter options are required');
-  return createPublicationAdapterRegistry([
+  return buildPublicationAdapterRegistry([
     zhCnMarkdownNormalizer,
     zhCnRestReplacements,
     createZhCnAliyunOssAdapter(options.aliyunOssStorage),
-  ]);
+  ], ZH_CN_ADAPTER_IDS);
 }

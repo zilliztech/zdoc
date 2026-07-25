@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {mkdtempSync, mkdirSync, writeFileSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -86,6 +86,19 @@ test('validates operation-level overlay coverage including optional missing sour
   assert.throws(() => validateOverlayCoverage(operations.slice(1), manifest), /coverage/i);
 });
 
+test('checked migration ledger records clean-room Chinese adapter rewrites consistently', () => {
+  const ledger = JSON.parse(readFileSync(path.resolve(process.cwd(), 'migration/legacy-files.json'), 'utf8'));
+  for (const sourcePath of ['config/cn-publish-replacements.js', 'plugins/cn-publish-normalizer']) {
+    const operation = ledger.overlayOperations.find(item => item.sourceRepository === 'zdoc_cn' && item.sourcePath === sourcePath);
+    assert.equal(operation.disposition, 'rewrite');
+    assert.equal(operation.owner, 'adapter');
+    assert.match(operation.evidence.join('\n'), /not copied/i);
+    const represented = ledger.entries.filter(item => item.sourceRepository === 'zdoc_cn' && (item.sourcePath === sourcePath || item.sourcePath.startsWith(`${sourcePath}/`)));
+    assert.ok(represented.length > 0);
+    assert.ok(represented.every(item => item.disposition === 'rewrite' && item.owner === 'adapter'));
+  }
+});
+
 test('validates direct dependency allowlist records and audited approvals', () => {
   validateDependency(validDependency);
   assert.throws(() => validateDependency({...validDependency, lockedVersion: undefined}), /lockedVersion/);
@@ -150,6 +163,19 @@ test('covers all 12 copy and 1 patch operations in the pinned downstream overlay
   assert.equal(result.overlayOperations.filter(item => item.type === 'copy').length, 12);
   assert.equal(result.overlayOperations.filter(item => item.type === 'patch').length, 1);
   assert.ok(result.overlayOperations.filter(item => item.optional).every(item => Array.isArray(item.trackedSourcePaths)));
+  const replacements = new Map(result.overlayOperations.map(item => [item.sourcePath, item]));
+  assert.equal(replacements.get('config/cn-publish-replacements.js').disposition, 'rewrite');
+  assert.equal(replacements.get('plugins/cn-publish-normalizer').disposition, 'rewrite');
+  assert.match(replacements.get('plugins/cn-publish-normalizer').evidence.join('\n'), /historically declares this copy/i);
+  assert.match(replacements.get('plugins/cn-publish-normalizer').evidence.join('\n'), /not copied/i);
+  const legacyByPath = new Map(result.legacyFiles.filter(item => item.sourceRepository === 'zdoc_cn').map(item => [item.sourcePath, item]));
+  assert.deepEqual(
+    ['normalizeCnContent.js', 'normalizeCnContent.test.js', 'remarkCnPublishNormalizer.js', 'remarkCnPublishNormalizer.test.js']
+      .map(name => legacyByPath.get(`plugins/cn-publish-normalizer/${name}`).disposition),
+    ['rewrite', 'rewrite', 'rewrite', 'rewrite'],
+  );
+  assert.equal(legacyByPath.get('config/cn-publish-replacements.js').targetPath, 'packages/publication-adapters/src/zh-CN/restReplacements.ts');
+  assert.equal(legacyByPath.get('plugins/cn-publish-normalizer/normalizeCnContent.test.js').targetPath, 'packages/publication-adapters/src/zh-CN/normalizer.test.ts');
   assert.ok(result.dependencies.filter(item => item.sourceMapping.sourceRepository === 'zdoc').every(item => item.lockedVersion !== null));
   assert.ok(result.dependencies.filter(item => item.sourceMapping.sourceRepository === 'zdoc_cn').every(item => item.sourceMapping.resolutionStatus === 'stale-lock'));
   const byPackage = new Map(result.dependencies.filter(item => item.importingWorkspacePath === '.').map(item => [item.package, item]));
