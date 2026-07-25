@@ -7,7 +7,7 @@
     "start": "docusaurus start",
     "start:en": "pnpm --filter @zilliz/docs-site run start:en",
     "start:zh-CN": "pnpm --filter @zilliz/docs-site run start:zh-CN",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' docusaurus build",
+    "build": "pnpm run build:en",
     "build:en": "pnpm --filter @zilliz/docs-site run build:en",
     "build:zh-CN": "pnpm --filter @zilliz/docs-site run build:zh-CN",
     "swizzle": "docusaurus swizzle",

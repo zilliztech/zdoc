@@ -12,6 +12,7 @@ import {
   rmSync,
   statSync,
   symlinkSync,
+  unlinkSync,
   writeFileSync,
 } from 'node:fs';
 import {tmpdir} from 'node:os';
@@ -140,6 +141,98 @@ describe('atomic publication replacement', () => {
     expect(readdirSync(root).filter(name => name.includes('atomic-publication'))).toEqual([]);
   });
 
+  it('cleans up when the first durable journal callback throws', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        afterJournal: event => {
+          if (event.phase === 'preparing') throw new Error('simulated journal callback failure');
+        },
+      },
+    })).rejects.toThrow(/simulated journal callback failure/i);
+
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('old\n');
+    expect(readdirSync(root).filter(name => name.includes('atomic-publication'))).toEqual([]);
+  });
+
+  it('recovers a journal renamed into place when the journal directory fsync fails', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    let failed = false;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        beforeControlFsync: event => {
+          if (!failed && event.kind === 'journal-root') {
+            failed = true;
+            throw new Error('simulated journal fsync failure');
+          }
+        },
+      },
+    })).rejects.toThrow(/simulated journal fsync failure/i);
+
+    expect(failed).toBe(true);
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('old\n');
+    expect(readdirSync(root).filter(name => name.includes('atomic-publication'))).toEqual([]);
+  });
+
+  it('recovers a valid transaction journal even when its writer lock is missing', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    const stagedFile = writeTree(root, 'stage/generated/sidebar.js', 'new\n');
+    const ownedPaths = ['content/manual', 'generated/sidebar.js'] as const;
+    const baselineCommit = ownedTreeCommit(root, ownedPaths);
+    const worker = path.join(import.meta.dirname, 'atomicReplace.crash-worker.ts');
+    const result = spawnSync(process.execPath, [
+      '--experimental-strip-types', worker, root, stagedDirectory, stagedFile, baselineCommit, 'preparing',
+    ], {encoding: 'utf8'});
+
+    expect(result.signal).toBe('SIGKILL');
+    const writerLock = readdirSync(root).find(name => name.endsWith('.lock'));
+    expect(writerLock).toBeTruthy();
+    unlinkSync(path.join(root, writerLock!));
+
+    await atomicReplace({
+      publicationRoot: root,
+      baselineCommit,
+      replacements: [
+        {source: stagedDirectory, target: 'content/manual'},
+        {source: stagedFile, target: 'generated/sidebar.js'},
+      ],
+    });
+
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('new\n');
+    expect(readFileSync(path.join(root, 'generated/sidebar.js'), 'utf8')).toBe('new\n');
+    expect(readdirSync(root).filter(name => name.includes('atomic-publication'))).toEqual([]);
+  });
+
+  it('runs publication validation before acquiring the writer lock', () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    const baselineCommit = ownedTreeCommit(root, ['content/manual']);
+    const worker = path.join(import.meta.dirname, 'atomicReplace.reentrant-worker.ts');
+    const result = spawnSync(process.execPath, [
+      '--experimental-strip-types', worker, root, stagedDirectory, baselineCommit,
+    ], {encoding: 'utf8', timeout: 1_000});
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(0);
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('new\n');
+    expect(readdirSync(root).filter(name => name.includes('atomic-publication'))).toEqual([]);
+  });
+
   it('does not delete a non-transaction inode swapped into an installed target before crash recovery', async () => {
     const root = temporaryRoot();
     writeTree(root, 'content/manual/version.txt', 'old\n');
@@ -237,7 +330,7 @@ describe('atomic publication replacement', () => {
       replacements: [{source: stagedDirectory, target: 'content/manual'}],
       testing: {
         beforeFilesystemOperation: event => {
-          if (swapped || event.kind !== 'rename' || !event.from?.includes('.publication-tmp-')) return;
+          if (swapped || event.kind !== 'rename' || !event.from?.includes('.atomic-publication-state')) return;
           rmSync(event.from, {recursive: true});
           symlinkSync(outside, event.from);
           swapped = true;
@@ -248,6 +341,64 @@ describe('atomic publication replacement', () => {
     expect(swapped).toBe(true);
     expect(readFileSync(sentinel, 'utf8')).toBe('outside\n');
     expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('old\n');
+  });
+
+  it('does not write outside the repository when a recursive snapshot destination ancestor is swapped', async () => {
+    const root = temporaryRoot();
+    const outside = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(path.dirname(writeTree(root, 'stage/content/manual/nested/page.md', 'new\n')));
+    let swapped = false;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        beforeFilesystemOperation: event => {
+          if (swapped || event.kind !== 'copy' || !event.from?.endsWith('/nested')) return;
+          const snapshotRoot = path.dirname(event.to!);
+          renameSync(snapshotRoot, `${snapshotRoot}-original`);
+          symlinkSync(outside, snapshotRoot);
+          swapped = true;
+        },
+      },
+    })).rejects.toThrow(/destination|ancestor|identity|symlink|changed|unsafe/i);
+
+    expect(swapped).toBe(true);
+    expect(existsSync(path.join(outside, 'nested'))).toBe(false);
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('old\n');
+  });
+
+  it('revalidates every installed replacement inode before writing the committed marker', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    writeTree(root, 'generated/sidebar.js', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    const stagedFile = writeTree(root, 'stage/generated/sidebar.js', 'new\n');
+    const ownedPaths = ['content/manual', 'generated/sidebar.js'] as const;
+    let replaced = false;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ownedPaths),
+      replacements: [
+        {source: stagedDirectory, target: 'content/manual'},
+        {source: stagedFile, target: 'generated/sidebar.js'},
+      ],
+      testing: {
+        afterRename: event => {
+          if (replaced || !event.from?.includes('.atomic-publication-state') || !event.to?.endsWith('/content/manual')) return;
+          rmSync(event.to, {recursive: true});
+          writeTree(root, 'content/manual/version.txt', 'attacker\n');
+          replaced = true;
+        },
+      },
+    })).rejects.toThrow(/installed|identity|transaction|committed|changed/i);
+
+    expect(replaced).toBe(true);
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('attacker\n');
+    expect(readdirSync(root).some(name => name.endsWith('.journal.json'))).toBe(true);
   });
 
   it('leaves the prior target inode and staged diagnostics unchanged when validation fails', async () => {
@@ -279,7 +430,7 @@ describe('atomic publication replacement', () => {
     writeTree(root, 'generated/sidebar.js', 'old\n');
     const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/new.md', '# new\n'));
     const stagedFile = writeTree(root, 'stage/generated/sidebar.js', 'new\n');
-    const renameEvents: Array<readonly [string, string]> = [];
+    const renameEvents: Array<readonly [string, string, number, number]> = [];
     const canonicalRoot = realpathSync(root);
 
     await atomicReplace({
@@ -291,7 +442,12 @@ describe('atomic publication replacement', () => {
       ],
       testing: {
         afterRename: event => {
-          renameEvents.push([event.from!, event.to!]);
+          renameEvents.push([
+            event.from!,
+            event.to!,
+            statSync(path.dirname(event.from!)).dev,
+            statSync(path.dirname(event.to!)).dev,
+          ]);
         },
       },
     });
@@ -300,10 +456,9 @@ describe('atomic publication replacement', () => {
     expect(readFileSync(path.join(root, 'generated/sidebar.js'), 'utf8')).toBe('new\n');
     expect(readFileSync(path.join(stagedDirectory, 'new.md'), 'utf8')).toBe('# new\n');
     expect(readFileSync(stagedFile, 'utf8')).toBe('new\n');
-    expect(renameEvents.some(([from, to]) => from.includes('.publication-tmp-') && to === path.join(canonicalRoot, 'content/manual'))).toBe(true);
-    for (const [from, to] of renameEvents) {
-      expect(path.dirname(from)).toBe(path.dirname(to));
-      expect(statSync(path.dirname(from)).dev).toBe(statSync(path.dirname(to)).dev);
+    expect(renameEvents.some(([from, to]) => from.includes('.atomic-publication-state') && to === path.join(canonicalRoot, 'content/manual'))).toBe(true);
+    for (const [, , sourceDevice, destinationDevice] of renameEvents) {
+      expect(sourceDevice).toBe(destinationDevice);
     }
   });
 
@@ -343,7 +498,7 @@ describe('atomic publication replacement', () => {
       ],
       testing: {
         beforeFilesystemOperation: event => {
-          if (event.from?.includes('.publication-tmp-') && event.to?.endsWith('sidebar.js')) throw new Error('simulated rename failure');
+          if (event.from?.includes('.atomic-publication-state') && event.to?.endsWith('sidebar.js')) throw new Error('simulated rename failure');
         },
       },
     })).rejects.toThrow(/simulated rename failure/i);
@@ -366,9 +521,12 @@ describe('atomic publication replacement', () => {
       publicationRoot: root,
       baselineCommit,
       replacements: [{source: staged, target: 'content/manual'}],
-      validatePublication: async () => {
-        entered();
-        await paused;
+      testing: {
+        afterJournal: async event => {
+          if (event.phase !== 'preparing') return;
+          entered();
+          await paused;
+        },
       },
     });
     await vi.waitFor(() => expect(entered).toHaveBeenCalledOnce());

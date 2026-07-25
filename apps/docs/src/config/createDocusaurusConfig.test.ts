@@ -264,6 +264,11 @@ describe('createDocusaurusConfig', () => {
     );
   });
 
+  it('keeps the root build command behind the English publication fence', () => {
+    const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
+    expect(packageJson.scripts.build).toBe('pnpm run build:en');
+  });
+
   it('resolves repository paths from the factory module instead of the caller cwd', async () => {
     const originalCwd = process.cwd();
     process.chdir(mkdtempSync(path.join(os.tmpdir(), 'docs-config-cwd-')));
