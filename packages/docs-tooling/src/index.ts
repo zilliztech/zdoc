@@ -11,10 +11,13 @@ export {atomicReplace, ownedTreeCommit} from './publication/atomicReplace.ts';
 export type {AtomicReplacement, AtomicReplaceOptions} from './publication/atomicReplace.ts';
 export {
   PUBLICATION_DIAGNOSTICS_FILE,
+  PUBLICATION_ANCHOR_ROOT,
   capturePublicationDiagnostics,
   createPublicationDiagnostics,
   publicationOwnedTargets,
+  publicationAnchorPath,
   readAndValidatePublicationDiagnostics,
   writePublicationDiagnostics,
+  writePublicationAnchor,
 } from './publication/diagnostics.ts';
-export type {PublicationDiagnostics, PublicationDiagnosticsIdentity} from './publication/diagnostics.ts';
+export type {PublicationAnchor, PublicationDiagnostics, PublicationDiagnosticsIdentity} from './publication/diagnostics.ts';

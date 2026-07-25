@@ -11,6 +11,7 @@ import {
   capturePublicationDiagnostics,
   publicationOwnedTargets,
   readAndValidatePublicationDiagnostics,
+  writePublicationAnchor,
   writePublicationDiagnostics,
   type PublicationDiagnostics,
   type PublicationDiagnosticsIdentity,
@@ -399,7 +400,10 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
       : capturePublicationDiagnostics(repositoryRoot, diagnosticsIdentity(baseContext));
     const fetchContext: CommandContext = {...baseContext, publicationDiagnostics};
     resetStage(fetchContext);
-    if (publicationDiagnostics) writePublicationDiagnostics(repositoryRoot, stagePath, publicationDiagnostics);
+    if (publicationDiagnostics) {
+      writePublicationDiagnostics(repositoryRoot, stagePath, publicationDiagnostics);
+      writePublicationAnchor(repositoryRoot, diagnosticsIdentity(fetchContext), publicationDiagnostics);
+    }
     if (dependencies.fetch) await dependencies.fetch(fetchContext);
     else await defaultFetch(fetchContext, dependencies.spawnSync ?? nodeSpawnSync, environment);
     dependencies.write?.(`fetched ${request.manual}/${request.site} into ${request.stage}`);

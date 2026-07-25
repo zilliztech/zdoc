@@ -6,9 +6,11 @@ import {
   fsyncSync,
   linkSync,
   lstatSync,
+  mkdirSync,
   openSync,
   readFileSync,
   realpathSync,
+  renameSync,
   unlinkSync,
   writeFileSync,
 } from 'node:fs';
@@ -21,6 +23,7 @@ import type {ManualPublication, ManualSource, SiteId} from '../manuals/schema.ts
 import {ownedTreeCommit} from './atomicReplace.ts';
 
 export const PUBLICATION_DIAGNOSTICS_FILE = '.publication-diagnostics.json';
+export const PUBLICATION_ANCHOR_ROOT = 'tmp/docs-tooling/.publication-anchors';
 
 const SHA256 = /^sha256:[0-9a-f]{64}$/u;
 const NullableString = z.string().nullable();
@@ -69,7 +72,23 @@ const PublicationDiagnosticsSchema = z.object({
   manifestSha256: z.string().regex(SHA256),
 }).strict();
 
+const PublicationAnchorSchema = z.object({
+  schemaVersion: z.literal(1),
+  createdBy: z.literal('@zilliz/docs-tooling'),
+  site: z.enum(['en', 'zh-CN']),
+  manual: z.string().min(1),
+  stage: z.string().min(1),
+  identitySha256: z.string().regex(SHA256),
+  publicationIdentitySha256: z.string().regex(SHA256),
+  sourceIdentitySha256: z.string().regex(SHA256),
+  ownedTargets: z.array(z.string().min(1)).min(2),
+  baselineCommit: z.string().regex(SHA256),
+  diagnosticsManifestSha256: z.string().regex(SHA256),
+  anchorSha256: z.string().regex(SHA256),
+}).strict();
+
 export type PublicationDiagnostics = Readonly<z.infer<typeof PublicationDiagnosticsSchema>>;
+export type PublicationAnchor = Readonly<z.infer<typeof PublicationAnchorSchema>>;
 
 type PublicationIdentityInput = Readonly<Omit<ManualPublication, 'retiredPaths'>> & Readonly<{
   retiredPaths?: readonly string[];
@@ -152,6 +171,20 @@ function sourceIdentity(input: PublicationDiagnosticsIdentity): z.infer<typeof S
   return {...identity, sha256: sha256(identity)};
 }
 
+function anchorIdentity(input: PublicationDiagnosticsIdentity) {
+  const publication = publicationIdentity(input.publication);
+  const source = sourceIdentity(input);
+  const identity = {
+    site: input.site,
+    manual: input.manual,
+    stage: input.stage,
+    publicationIdentitySha256: publication.sha256,
+    sourceIdentitySha256: source.sha256,
+    ownedTargets: [...publicationOwnedTargets(input.site, input.publication)],
+  };
+  return {...identity, identitySha256: sha256(identity)};
+}
+
 export function publicationOwnedTargets(site: SiteId, publication: PublicationIdentityInput): readonly string[] {
   return Object.freeze([
     publication.outputDir,
@@ -194,6 +227,60 @@ function assertSelfConsistentDiagnostics(diagnostics: z.infer<typeof Publication
   if (sha256(source) !== sourceSha256) throw new Error('Publication diagnostics source identity checksum mismatch');
   const {manifestSha256, ...manifest} = diagnostics;
   if (sha256(manifest) !== manifestSha256) throw new Error('Publication diagnostics manifest checksum mismatch');
+}
+
+function createPublicationAnchor(
+  input: PublicationDiagnosticsIdentity,
+  diagnostics: PublicationDiagnostics,
+): PublicationAnchor {
+  const identity = anchorIdentity(input);
+  const anchor = {
+    schemaVersion: 1 as const,
+    createdBy: '@zilliz/docs-tooling' as const,
+    site: identity.site,
+    manual: identity.manual,
+    stage: identity.stage,
+    identitySha256: identity.identitySha256,
+    publicationIdentitySha256: identity.publicationIdentitySha256,
+    sourceIdentitySha256: identity.sourceIdentitySha256,
+    ownedTargets: identity.ownedTargets,
+    baselineCommit: diagnostics.baselineCommit,
+    diagnosticsManifestSha256: diagnostics.manifestSha256,
+  };
+  return deepFreeze({...anchor, anchorSha256: sha256(anchor)});
+}
+
+function assertSelfConsistentAnchor(anchor: z.infer<typeof PublicationAnchorSchema>): void {
+  const {anchorSha256, ...contents} = anchor;
+  if (sha256(contents) !== anchorSha256) throw new Error('Publication diagnostics trusted anchor checksum mismatch');
+}
+
+function resolveAnchorRoot(repositoryRootInput: string, create: boolean): string {
+  const repositoryInput = path.resolve(repositoryRootInput);
+  const repositoryStats = lstatSync(repositoryInput);
+  if (repositoryStats.isSymbolicLink() || !repositoryStats.isDirectory()) throw new Error('Publication anchor repository root must be a non-symlink directory');
+  const repositoryRoot = realpathSync(repositoryInput);
+  let current = repositoryInput;
+  for (const segment of PUBLICATION_ANCHOR_ROOT.split('/')) {
+    current = path.join(current, segment);
+    if (!pathEntryExists(current)) {
+      if (!create) throw new Error(`Publication diagnostics trusted anchor root is missing: ${current}`);
+      mkdirSync(current, {mode: 0o700});
+    }
+    const stats = lstatSync(current);
+    if (stats.isSymbolicLink() || !stats.isDirectory()) throw new Error(`Publication diagnostics trusted anchor root is unsafe: ${current}`);
+  }
+  const anchorRoot = realpathSync(current);
+  if (!anchorRoot.startsWith(`${repositoryRoot}${path.sep}`)) throw new Error('Publication diagnostics trusted anchor root escapes the repository');
+  return anchorRoot;
+}
+
+function anchorFileName(input: PublicationDiagnosticsIdentity): string {
+  return `${anchorIdentity(input).identitySha256.slice('sha256:'.length)}.json`;
+}
+
+export function publicationAnchorPath(repositoryRoot: string, input: PublicationDiagnosticsIdentity): string {
+  return path.join(resolveAnchorRoot(repositoryRoot, false), anchorFileName(input));
 }
 
 function resolveStageRoot(repositoryRootInput: string, stageRootInput: string): string {
@@ -258,6 +345,50 @@ export function writePublicationDiagnostics(
   return target;
 }
 
+export function writePublicationAnchor(
+  repositoryRoot: string,
+  expectedIdentity: PublicationDiagnosticsIdentity,
+  diagnostics: PublicationDiagnostics,
+): string {
+  const parsedDiagnostics = PublicationDiagnosticsSchema.parse(diagnostics);
+  assertSelfConsistentDiagnostics(parsedDiagnostics);
+  const expectedDiagnostics = createPublicationDiagnostics(expectedIdentity, parsedDiagnostics.baselineCommit);
+  if (canonicalJson(parsedDiagnostics) !== canonicalJson(expectedDiagnostics)) {
+    throw new Error('Publication diagnostics cannot be anchored because their identity does not match the selected publication');
+  }
+  const anchor = PublicationAnchorSchema.parse(createPublicationAnchor(expectedIdentity, parsedDiagnostics));
+  assertSelfConsistentAnchor(anchor);
+  const anchorRoot = resolveAnchorRoot(repositoryRoot, true);
+  const anchorRootIdentity = lstatSync(anchorRoot);
+  const target = path.join(anchorRoot, anchorFileName(expectedIdentity));
+  if (pathEntryExists(target)) {
+    const current = lstatSync(target);
+    if (current.isSymbolicLink() || !current.isFile() || current.nlink !== 1) {
+      throw new Error('Publication diagnostics trusted anchor must be a regular non-linked file');
+    }
+  }
+  const temporary = path.join(anchorRoot, `.${path.basename(target)}.tmp-${process.pid}-${randomUUID()}`);
+  const descriptor = openSync(temporary, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
+  try {
+    writeFileSync(descriptor, `${JSON.stringify(anchor, null, 2)}\n`);
+    fsyncSync(descriptor);
+  } finally {
+    closeSync(descriptor);
+  }
+  try {
+    const beforeCommit = lstatSync(anchorRoot);
+    if (beforeCommit.dev !== anchorRootIdentity.dev || beforeCommit.ino !== anchorRootIdentity.ino || beforeCommit.isSymbolicLink()) {
+      throw new Error('Publication diagnostics trusted anchor root identity changed before commit');
+    }
+    renameSync(temporary, target);
+    fsyncDirectory(anchorRoot);
+  } catch (error) {
+    if (pathEntryExists(temporary)) unlinkSync(temporary);
+    throw error;
+  }
+  return target;
+}
+
 function readDiagnosticsFile(repositoryRoot: string, stageRootInput: string): unknown {
   const stageRoot = resolveStageRoot(repositoryRoot, stageRootInput);
   const target = path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE);
@@ -287,6 +418,34 @@ function readDiagnosticsFile(repositoryRoot: string, stageRootInput: string): un
   }
 }
 
+function readAnchorFile(repositoryRoot: string, expectedIdentity: PublicationDiagnosticsIdentity): unknown {
+  const target = publicationAnchorPath(repositoryRoot, expectedIdentity);
+  if (!pathEntryExists(target)) throw new Error(`Publication diagnostics trusted anchor is missing: ${target}`);
+  const before = lstatSync(target);
+  if (before.isSymbolicLink() || !before.isFile()) throw new Error('Publication diagnostics trusted anchor must be a regular non-symlink file');
+  if (before.nlink !== 1) throw new Error('Publication diagnostics trusted anchor must not be hard-linked');
+  if (before.size > 1024 * 1024) throw new Error('Publication diagnostics trusted anchor exceeds the size limit');
+  const descriptor = openSync(target, constants.O_RDONLY | constants.O_NOFOLLOW);
+  try {
+    const opened = fstatSync(descriptor);
+    if (!opened.isFile() || opened.nlink !== 1 || opened.dev !== before.dev || opened.ino !== before.ino) {
+      throw new Error('Publication diagnostics trusted anchor identity changed while opening');
+    }
+    const text = readFileSync(descriptor, 'utf8');
+    const after = lstatSync(target);
+    if (after.dev !== opened.dev || after.ino !== opened.ino || after.size !== opened.size) {
+      throw new Error('Publication diagnostics trusted anchor identity changed while reading');
+    }
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      throw new Error('Publication diagnostics trusted anchor is not valid JSON', {cause: error});
+    }
+  } finally {
+    closeSync(descriptor);
+  }
+}
+
 export function readAndValidatePublicationDiagnostics(
   repositoryRoot: string,
   stageRoot: string,
@@ -298,6 +457,13 @@ export function readAndValidatePublicationDiagnostics(
   const expected = createPublicationDiagnostics(expectedIdentity, parsed.data.baselineCommit);
   if (canonicalJson(parsed.data) !== canonicalJson(expected)) {
     throw new Error('Publication diagnostics manifest does not match the selected site, manual, stage, publication, or source identity');
+  }
+  const anchor = PublicationAnchorSchema.safeParse(readAnchorFile(repositoryRoot, expectedIdentity));
+  if (!anchor.success) throw new Error(`Publication diagnostics trusted anchor schema validation failed: ${anchor.error.message}`);
+  assertSelfConsistentAnchor(anchor.data);
+  const expectedAnchor = createPublicationAnchor(expectedIdentity, parsed.data);
+  if (canonicalJson(anchor.data) !== canonicalJson(expectedAnchor)) {
+    throw new Error('Publication diagnostics manifest does not match its trusted external anchor');
   }
   return deepFreeze(parsed.data);
 }

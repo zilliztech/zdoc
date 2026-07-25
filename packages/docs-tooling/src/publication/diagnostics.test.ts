@@ -18,8 +18,10 @@ import {describe, expect, it} from 'vitest';
 import {resolveManualPublication} from '../manuals/registry.ts';
 import {
   PUBLICATION_DIAGNOSTICS_FILE,
+  publicationAnchorPath,
   createPublicationDiagnostics,
   readAndValidatePublicationDiagnostics,
+  writePublicationAnchor,
   writePublicationDiagnostics,
 } from './diagnostics.ts';
 
@@ -42,11 +44,17 @@ function fixture(root: string, stage = 'tmp/docs-tooling/en/python') {
   return {diagnostics, identity, stageRoot};
 }
 
+function writeTrustBundle(root: string, stageRoot: string, identity: ReturnType<typeof fixture>['identity'], diagnostics: ReturnType<typeof fixture>['diagnostics']): void {
+  writePublicationDiagnostics(root, stageRoot, diagnostics);
+  writePublicationAnchor(root, identity, diagnostics);
+}
+
 describe('publication diagnostics filesystem boundary', () => {
   it('publishes one complete immutable manifest exclusively and refuses replacement', () => {
     const root = temporaryRoot();
     const {diagnostics, identity, stageRoot} = fixture(root);
-    const target = writePublicationDiagnostics(root, stageRoot, diagnostics);
+    writeTrustBundle(root, stageRoot, identity, diagnostics);
+    const target = path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE);
 
     expect(path.basename(target)).toBe(PUBLICATION_DIAGNOSTICS_FILE);
     expect(lstatSync(target).isFile()).toBe(true);
@@ -89,7 +97,8 @@ describe('publication diagnostics filesystem boundary', () => {
   it('rejects malformed and checksum-tampered manifests without rewriting them', () => {
     const root = temporaryRoot();
     const {diagnostics, identity, stageRoot} = fixture(root);
-    const target = writePublicationDiagnostics(root, stageRoot, diagnostics);
+    writeTrustBundle(root, stageRoot, identity, diagnostics);
+    const target = path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE);
     const tampered = JSON.parse(readFileSync(target, 'utf8')) as Record<string, unknown>;
     tampered.baselineCommit = `sha256:${'2'.repeat(64)}`;
     writeFileSync(target, `${JSON.stringify(tampered)}\n`);
@@ -109,5 +118,43 @@ describe('publication diagnostics filesystem boundary', () => {
 
     expect(() => writePublicationDiagnostics(root, stageRoot, tampered)).toThrow(/checksum/i);
     expect(existsSync(path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE))).toBe(false);
+  });
+
+  it('fails closed when the external trusted anchor is missing', () => {
+    const root = temporaryRoot();
+    const {diagnostics, identity, stageRoot} = fixture(root);
+    writePublicationDiagnostics(root, stageRoot, diagnostics);
+
+    expect(() => readAndValidatePublicationDiagnostics(root, stageRoot, identity)).toThrow(/anchor.*missing/i);
+    expect(readFileSync(path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE), 'utf8')).toMatch(/baselineCommit/);
+  });
+
+  it.each(['symlink', 'hardlink', 'fifo'] as const)('rejects a %s trusted anchor entry', kind => {
+    const root = temporaryRoot();
+    const {diagnostics, identity, stageRoot} = fixture(root);
+    writeTrustBundle(root, stageRoot, identity, diagnostics);
+    const target = publicationAnchorPath(root, identity);
+    rmSync(target);
+    const external = path.join(root, 'external-anchor.json');
+    writeFileSync(external, '{}\n');
+    if (kind === 'symlink') symlinkSync(external, target);
+    if (kind === 'hardlink') linkSync(external, target);
+    if (kind === 'fifo') {
+      const result = spawnSync('mkfifo', [target]);
+      if (result.status !== 0) throw new Error(`mkfifo unavailable: ${result.stderr.toString()}`);
+    }
+
+    expect(() => readAndValidatePublicationDiagnostics(root, stageRoot, identity)).toThrow(new RegExp(kind === 'hardlink' ? 'hard.?link' : 'regular|symlink|FIFO', 'i'));
+  });
+
+  it('rejects a symlinked trusted anchor root without writing outside the repository', () => {
+    const root = temporaryRoot();
+    const outside = temporaryRoot();
+    const {diagnostics, identity} = fixture(root);
+    mkdirSync(path.join(root, 'tmp/docs-tooling'), {recursive: true});
+    symlinkSync(outside, path.join(root, 'tmp/docs-tooling/.publication-anchors'));
+
+    expect(() => writePublicationAnchor(root, identity, diagnostics)).toThrow(/anchor root.*unsafe|symlink/i);
+    expect(existsSync(path.join(outside, `${diagnostics.manifestSha256}.json`))).toBe(false);
   });
 });

@@ -1,4 +1,5 @@
 import {spawnSync as childSpawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
@@ -12,6 +13,7 @@ import {atomicReplace as realAtomicReplace, ownedTreeCommit} from '../publicatio
 import {
   createPublicationDiagnostics,
   publicationOwnedTargets,
+  writePublicationAnchor,
   writePublicationDiagnostics,
 } from '../publication/diagnostics';
 import {assertPublicationOwnership, assertSafeRepositoryRelativePath} from './ownership';
@@ -19,6 +21,19 @@ import {assertPathSetIntegrity, validateStageFilesystem} from './filesystem';
 
 function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-validation-'));
+}
+
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record).sort().map(key => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function canonicalSha256(value: unknown): string {
+  return `sha256:${createHash('sha256').update(canonicalJson(value)).digest('hex')}`;
 }
 
 function writeDiagnosticsFixture(
@@ -29,14 +44,16 @@ function writeDiagnosticsFixture(
   baselineCommit?: string,
 ): void {
   const resolved = resolveManualPublication(manual, site);
-  const diagnostics = createPublicationDiagnostics({
+  const identity = {
     site,
     manual,
     stage,
     publication: resolved.publication,
     sourceChain: resolved.sourceChain,
-  }, baselineCommit ?? ownedTreeCommit(repositoryRoot, publicationOwnedTargets(site, resolved.publication)));
+  };
+  const diagnostics = createPublicationDiagnostics(identity, baselineCommit ?? ownedTreeCommit(repositoryRoot, publicationOwnedTargets(site, resolved.publication)));
   writePublicationDiagnostics(repositoryRoot, path.join(repositoryRoot, stage), diagnostics);
+  writePublicationAnchor(repositoryRoot, identity, diagnostics);
 }
 
 describe('path ownership validation', () => {
@@ -139,6 +156,37 @@ describe('docs-tooling CLI boundary', () => {
     expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/content/zh-CN/reference/api/python/python/page.md'), 'utf8')).toBe('# fetched baseline\n');
   });
 
+  it('rejects coordinated stage diagnostics tampering that rebases a stale stage onto newer live content', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/python.sidebar.js');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'page.md'), '# baseline A\n');
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = ["A"]\n');
+    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
+    const stageRoot = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python');
+    const diagnosticsPath = path.join(stageRoot, '.publication-diagnostics.json');
+
+    writeFileSync(path.join(liveOutput, 'page.md'), '# newer live B\n');
+    const tampered = JSON.parse(readFileSync(diagnosticsPath, 'utf8')) as Record<string, unknown>;
+    tampered.baselineCommit = ownedTreeCommit(repositoryRoot, [
+      'content/zh-CN/reference/api/python/python',
+      'generated/zh-CN/sidebars/python.sidebar.js',
+    ]);
+    const {manifestSha256: _oldManifestSha256, ...manifest} = tampered;
+    tampered.manifestSha256 = canonicalSha256(manifest);
+    writeFileSync(diagnosticsPath, `${JSON.stringify(tampered, null, 2)}\n`);
+    const tamperedBytes = readFileSync(diagnosticsPath, 'utf8');
+
+    await expect(executeDocsToolingCommand(['validate', ...args], {repositoryRoot})).rejects.toThrow(/anchor|diagnostics|trusted|baseline/i);
+    await expect(executeDocsToolingCommand(['publish', ...args], {repositoryRoot})).rejects.toThrow(/anchor|diagnostics|trusted|baseline/i);
+    expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# newer live B\n');
+    expect(readFileSync(path.join(stageRoot, 'content/zh-CN/reference/api/python/python/page.md'), 'utf8')).toBe('# baseline A\n');
+    expect(readFileSync(diagnosticsPath, 'utf8')).toBe(tamperedBytes);
+  });
+
   it('publishes a fresh independently validated stage using its persisted baseline', async () => {
     const repositoryRoot = temporaryRoot();
     const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
@@ -202,6 +250,7 @@ describe('docs-tooling CLI boundary', () => {
     );
 
     expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/guides/.publication-diagnostics.json'))).toBe(false);
+    expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/.publication-anchors'))).toBe(false);
   });
 
   it('parses only the closed command shape', () => {
