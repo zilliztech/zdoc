@@ -32,6 +32,9 @@ function parseArgs(argv) {
     .requiredOption('--manual <id>')
     .requiredOption('--site <site>')
     .requiredOption('--source <identity>')
+    .requiredOption('--generator-manual <identity>')
+    .requiredOption('--snapshot-path <path>')
+    .requiredOption('--generator-target <target>')
     .requiredOption('--source-type <type>')
     .requiredOption('--root <token>')
     .requiredOption('--base <token>')
@@ -46,11 +49,15 @@ function parseArgs(argv) {
     .option('--source-only')
     .option('--snapshot-candidate <path>')
     .option('--force-full-fetch')
+    .option('--reuse-source')
   program.parse(argv, {from: 'user'})
   const options = program.opts()
   if (!['en', 'zh-CN'].includes(options.site)) throw new Error(`Unsupported site: ${options.site}`)
   if (!['wiki', 'drive', 'onePager'].includes(options.sourceType)) {
     throw new Error(`Unsupported Lark source type: ${options.sourceType}`)
+  }
+  if (!['zilliz', 'zilliz.saas', 'zilliz.paas'].includes(options.generatorTarget)) {
+    throw new Error(`Unsupported generator target: ${options.generatorTarget}`)
   }
   options.sourceDir = repositoryRelative(options.sourceDir, 'Lark source directory')
   options.stage = repositoryRelative(options.stage, 'Lark stage directory')
@@ -66,8 +73,12 @@ function parseArgs(argv) {
   if (options.snapshotCandidate) {
     options.snapshotCandidate = repositoryRelative(options.snapshotCandidate, 'Lark snapshot candidate')
   }
+  options.snapshotPath = repositoryRelative(options.snapshotPath, 'Lark snapshot path')
   if (options.snapshotCandidate && !options.sourceOnly) {
     throw new Error('--snapshot-candidate requires --source-only')
+  }
+  if (options.reuseSource && (options.manual !== 'guides-byoc' || options.sourceOnly)) {
+    throw new Error('--reuse-source is only valid for the Guides BYOC publication render')
   }
   if (!options.sourceOnly) {
     for (const [key, flag] of [['outputDir', '--output-dir'], ['contentRoot', '--content-root'], ['sidebarPath', '--sidebar-path'], ['overridePath', '--override-path']]) {
@@ -95,7 +106,7 @@ function runtimeManual(options) {
     ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
     ...(options.overridePath ? {overridePath: options.overridePath} : {}),
     targets: {
-      stage: {
+      [options.generatorTarget]: {
         outputDir: options.outputDir ? staged(options.outputDir) : stage,
         imageDir: path.join(stage, '.assets'),
         ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
@@ -106,9 +117,8 @@ function runtimeManual(options) {
 }
 
 function runtimeInvocation(options) {
-  const sourceIdentity = `${options.manual}:${options.site}:${options.source}`
+  const manualIdentity = options.generatorManual
   if (options.sourceOnly) {
-    const manualIdentity = options.snapshotCandidate ? options.manual : sourceIdentity
     return {
       manualIdentity,
       generatorArgs: [
@@ -116,23 +126,28 @@ function runtimeInvocation(options) {
         '--manual', manualIdentity,
         '--sourceOnly',
         ...(options.snapshotCandidate ? [
-          '--incremental',
-          '--buildEnv', 'uat',
-          '--snapshotCandidatePath', options.snapshotCandidate,
+        '--incremental',
+        '--buildEnv', 'uat',
+        '--snapshotPath', options.snapshotPath,
+        '--snapshotCandidatePath', options.snapshotCandidate,
         ] : []),
+        ...(!options.snapshotCandidate ? ['--snapshotPath', options.snapshotPath] : []),
+        ...(options.reuseSource ? ['--skipSourceDown'] : []),
         ...(options.forceFullFetch ? ['--forceFullFetch'] : []),
       ],
     }
   }
   return {
-    manualIdentity: sourceIdentity,
+    manualIdentity,
     generatorArgs: [
       'fetch-lark-docs',
-      '--manual', sourceIdentity,
-      '--pubTarget', 'stage',
+      '--manual', manualIdentity,
+      '--pubTarget', options.generatorTarget,
       '--uploadToS3',
       '--incremental',
       '--buildEnv', 'uat',
+      '--snapshotPath', options.snapshotPath,
+      ...(options.reuseSource ? ['--skipSourceDown'] : []),
       ...(options.forceFullFetch ? ['--forceFullFetch'] : []),
     ],
   }

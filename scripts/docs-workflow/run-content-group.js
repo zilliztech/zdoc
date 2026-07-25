@@ -48,7 +48,9 @@ function runContentGroup(group, options = {}) {
   const commands = options.stage ? commandsForGuidesStage(options.stage, { forceFullFetch: options.forceFullFetch }) : commandsFor(group);
   for (const command of commands) {
     const rendered = command.join(' ');
-    const result = runner(command[0], command.slice(1), { stdio: 'inherit', env });
+    const reusesGuidesSource = group === 'guides' && command.includes('fetch') && command.includes('guides-byoc');
+    const commandEnv = reusesGuidesSource ? {...env, DOCS_TOOLING_REUSE_LARK_SOURCE: '1'} : env;
+    const result = runner(command[0], command.slice(1), { stdio: 'inherit', env: commandEnv });
     if (result.error) {
       throw new Error(`Content group ${group} command ${rendered} could not be spawned: ${result.error.message}`, { cause: result.error });
     }

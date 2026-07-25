@@ -620,11 +620,15 @@ test('guides source and table render expose jobs for the central monitor without
 
 test('Tools table is the only Agents producer while Releases keeps its sidebar', () => {
   const config = fs.readFileSync('config/lark-docs.config.ts', 'utf8')
-  const sidebars = fs.readFileSync('sidebarsTutorial.ts', 'utf8')
+  const profile = fs.readFileSync('packages/site-config/src/sites/en.ts', 'utf8')
+  const sidebars = fs.readFileSync('generated/en/sidebars/guides.sidebar.js', 'utf8')
+  const items = fs.readFileSync('generated/en/sidebars/guides.items.js', 'utf8')
   const workflows = fs.readdirSync('.github/workflows').map(file => fs.readFileSync(path.join('.github/workflows', file), 'utf8')).join('\n')
   assert.doesNotMatch(config, /const agents: Manual|agents,/)
+  assert.match(profile, /sidebarPath: 'generated\/en\/sidebars\/guides\.sidebar\.js'/)
   assert.doesNotMatch(sidebars, /agentsSidebar|agents\.sidebar/)
   assert.match(sidebars, /releasesSidebar/)
+  assert.match(items, /"label": "Tools"/)
   assert.doesNotMatch(workflows, /produce_guides_agents|guides-agents|merge-agents-sidebar/)
 })
 

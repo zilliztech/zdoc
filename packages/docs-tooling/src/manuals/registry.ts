@@ -42,7 +42,7 @@ export type SourceEntry = Readonly<{
   source: DeepReadonly<ManualSource>;
 }>;
 
-function sourceChainFor(manual: DeepReadonly<ManualDefinition>, sourceKey: string): SourceEntry[] {
+function sourceChainFor(manual: DeepReadonly<ManualDefinition>, sourceKey: string): readonly SourceEntry[] {
   const chain: SourceEntry[] = [];
   const seen = new Set<string>();
   let currentKey: string | undefined = sourceKey;
@@ -55,7 +55,7 @@ function sourceChainFor(manual: DeepReadonly<ManualDefinition>, sourceKey: strin
     chain.push({key: currentKey, source});
     currentKey = source.fallbackSource;
   }
-  return chain.reverse();
+  return deepFreeze(chain.reverse());
 }
 
 export function publicationEntries(registry: readonly DeepReadonly<ManualDefinition>[]): PublicationEntry[] {
@@ -154,11 +154,24 @@ function remote(
   root: string,
   base: string,
   sourceDir: string,
+  generatorManual?: string,
   version?: string,
   lifecycle: ManualSource['lifecycle'] = 'active',
   fallbackSource?: string,
 ): ManualSource {
-  return {sourceType, lifecycle, root, base, ...(version ? {version} : {}), sourceDir: `${larkSourceRoot}/${sourceDir}`, ...(fallbackSource ? {fallbackSource} : {})};
+  return {
+    sourceType,
+    lifecycle,
+    root,
+    base,
+    ...(generatorManual ? {
+      generatorManual,
+      snapshotPath: `packages/docs-tooling/src/lark/meta/snapshots/${generatorManual}-uat-last-success.json`,
+    } : {}),
+    ...(version ? {version} : {}),
+    sourceDir: `${larkSourceRoot}/${sourceDir}`,
+    ...(fallbackSource ? {fallbackSource} : {}),
+  };
 }
 
 function local(sourceDir: string): ManualSource {
@@ -175,11 +188,13 @@ function publication(
   outputDir: string,
   contentRoot: string,
   sidebar: string,
+  generatorTarget: ManualPublication['generatorTarget'] = 'zilliz',
   retiredPaths?: string[],
 ): ManualPublication {
   return {
     enabled: true,
     source,
+    generatorTarget,
     outputDir: `content/${site}/${outputDir}`,
     contentRoot: `content/${site}/${contentRoot}`,
     sidebarPath: `generated/${site}/sidebars/${sidebar}.sidebar.js`,
@@ -194,7 +209,7 @@ const definitions: ManualDefinition[] = [
     id: 'agents',
     kind: 'agents',
     sources: {
-      chinese: remote('wiki', 'R8ZwwvHrJivIAyk8JkQchM0Anng', 'YxSibAMZ4aDqhjs5Ru4clmrun4f', 'agents-and-prompts'),
+      chinese: remote('wiki', 'R8ZwwvHrJivIAyk8JkQchM0Anng', 'YxSibAMZ4aDqhjs5Ru4clmrun4f', 'agents-and-prompts', 'agents'),
     },
     sourceOrder: ['chinese'],
     publications: {
@@ -205,84 +220,84 @@ const definitions: ManualDefinition[] = [
     id: 'cli',
     kind: 'reference',
     sources: {
-      'chinese-v0.1': remote('drive', 'PPuBfnEIWltim9dw8hxcC3EDnwb', 'OAK4bJaNuac501sX6Y1cS3OGnzf', 'cli/v0.1.x', '0.1.x', 'retired'),
-      'english-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', 'v1.3.x', 'fallback'),
-      'chinese-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', '1.3.x', 'retired'),
-      'english-v1.4': remote('drive', 'LF1Kf54jFllUBydVk7hcha30nUh', 'Lx1bbCdpMaSmJXs8wz5cjsDengf', 'cli/v1.4.x', '1.4.x', 'active', 'english-v1.3'),
+      'chinese-v0.1': remote('drive', 'PPuBfnEIWltim9dw8hxcC3EDnwb', 'OAK4bJaNuac501sX6Y1cS3OGnzf', 'cli/v0.1.x', undefined, '0.1.x', 'retired'),
+      'english-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', 'cliv13', 'v1.3.x', 'fallback'),
+      'chinese-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', undefined, '1.3.x', 'retired'),
+      'english-v1.4': remote('drive', 'LF1Kf54jFllUBydVk7hcha30nUh', 'Lx1bbCdpMaSmJXs8wz5cjsDengf', 'cli/v1.4.x', 'cliv14', '1.4.x', 'active', 'english-v1.3'),
       chineseTranslation: local('content/zh-CN/reference/cli/cli'),
     },
     sourceOrder: ['chinese-v0.1', 'english-v1.3', 'chinese-v1.3', 'english-v1.4', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', ['reference/cli/v0.1', 'reference/cli/v1.3']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', ['reference/cli/v0.1', 'reference/cli/v1.3']),
+      en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
     },
   },
   {
     id: 'go',
     kind: 'reference',
     sources: {
-      'english-v2.4': remote('wiki', 'V0SCw3U3siZBynkKhUCcRRAin69', 'WA8rbgtu8aq3wtsBm02cepOznPJ', 'go/v2.4.x', 'v2.4.x', 'retired'),
-      'english-v2.6': remote('drive', 'Pzejf3x4WlXq1HdtTndcfMjVnxh', 'Yc7gbtmgSal2ewsdqlhcLWVanbh', 'go/v2.6.x', 'v2.6.x', 'fallback'),
-      'english-v3.0': remote('drive', 'F9M3fK4Dbl69PPdSxTXcsIwgnDh', 'KQT5bV62QaioKisKZT0crwZDnke', 'go/v3.0.x', 'v3.0.x', 'active', 'english-v2.6'),
+      'english-v2.4': remote('wiki', 'V0SCw3U3siZBynkKhUCcRRAin69', 'WA8rbgtu8aq3wtsBm02cepOznPJ', 'go/v2.4.x', undefined, 'v2.4.x', 'retired'),
+      'english-v2.6': remote('drive', 'Pzejf3x4WlXq1HdtTndcfMjVnxh', 'Yc7gbtmgSal2ewsdqlhcLWVanbh', 'go/v2.6.x', 'gov226', 'v2.6.x', 'fallback'),
+      'english-v3.0': remote('drive', 'F9M3fK4Dbl69PPdSxTXcsIwgnDh', 'KQT5bV62QaioKisKZT0crwZDnke', 'go/v3.0.x', 'gov230', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/go/go/v2'),
     },
     sourceOrder: ['english-v2.4', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', ['reference/api/go/go/v1']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/go/go/v2', 'reference', 'go', ['reference/api/go/go/v1']),
+      en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
     },
   },
   {
     id: 'guides',
     kind: 'guides',
     sources: {
-      english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides'),
-      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN'),
+      english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides', 'guides'),
+      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN', 'guides'),
     },
     sourceOrder: ['english', 'chinese'],
     publications: {
-      en: publication('en', 'english', 'guides/tutorials', 'guides', 'guides'),
-      'zh-CN': publication('zh-CN', 'chinese', 'guides/tutorials', 'guides', 'guides'),
+      en: publication('en', 'english', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas'),
+      'zh-CN': publication('zh-CN', 'chinese', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas'),
     },
   },
   {
     id: 'guides-byoc',
     kind: 'guides',
     sources: {
-      english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides'),
-      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN'),
+      english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides', 'guides'),
+      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN', 'guides'),
     },
     sourceOrder: ['english', 'chinese'],
     publications: {
-      en: publication('en', 'english', 'byoc/tutorials', 'byoc', 'guides-byoc'),
-      'zh-CN': publication('zh-CN', 'chinese', 'byoc/tutorials', 'byoc', 'guides-byoc'),
+      en: publication('en', 'english', 'byoc/tutorials', 'byoc', 'guides-byoc', 'zilliz.paas'),
+      'zh-CN': publication('zh-CN', 'chinese', 'byoc/tutorials', 'byoc', 'guides-byoc', 'zilliz.paas'),
     },
   },
   {
     id: 'java',
     kind: 'reference',
     sources: {
-      'english-v1-2.4': remote('onePager', 'D0cfwvTqMiyhSrkCUv4c1a2Fnjd', 'A4ivb7y2XaIND9s93QZcvwykn0d', 'java/v2.4.x/v1', 'v2.4.x', 'retired'),
-      'english-v2-2.4': remote('drive', 'Sg3EfIgVtlTkeBdtguJchE9ynne', 'WqHJb3zimaxXjssk4Kic4GEDnte', 'java/v2.4.x/v2', 'v2.4.x', 'fallback'),
-      'english-v2.5': remote('drive', 'LJ6MfN5wzlHjz8dB642cjUh8nqq', 'Hsq1bRcqraeQW0sGFJbcI3YIn3d', 'java/v2.5.x/v2', 'v2.5.x', 'fallback', 'english-v2-2.4'),
-      'english-v2.6': remote('drive', 'B1agfRbPglv4tpdTkjlcUMgVnRV', 'Sbtcbm660abngWsXryKct5nOn2e', 'java/v2.6.x/v2', 'v2.6.x', 'fallback', 'english-v2.5'),
-      'english-v3.0': remote('drive', 'C4Ckfsx5qlKHbnd5PVrcpxvTn2d', 'AOFDbSmwma9XrNsLa8KcQgt9ngc', 'java/v3.0.x/v2', 'v3.0.x', 'active', 'english-v2.6'),
+      'english-v1-2.4': remote('onePager', 'D0cfwvTqMiyhSrkCUv4c1a2Fnjd', 'A4ivb7y2XaIND9s93QZcvwykn0d', 'java/v2.4.x/v1', undefined, 'v2.4.x', 'retired'),
+      'english-v2-2.4': remote('drive', 'Sg3EfIgVtlTkeBdtguJchE9ynne', 'WqHJb3zimaxXjssk4Kic4GEDnte', 'java/v2.4.x/v2', 'javaV2', 'v2.4.x', 'fallback'),
+      'english-v2.5': remote('drive', 'LJ6MfN5wzlHjz8dB642cjUh8nqq', 'Hsq1bRcqraeQW0sGFJbcI3YIn3d', 'java/v2.5.x/v2', 'javaV225', 'v2.5.x', 'fallback', 'english-v2-2.4'),
+      'english-v2.6': remote('drive', 'B1agfRbPglv4tpdTkjlcUMgVnRV', 'Sbtcbm660abngWsXryKct5nOn2e', 'java/v2.6.x/v2', 'javaV226', 'v2.6.x', 'fallback', 'english-v2.5'),
+      'english-v3.0': remote('drive', 'C4Ckfsx5qlKHbnd5PVrcpxvTn2d', 'AOFDbSmwma9XrNsLa8KcQgt9ngc', 'java/v3.0.x/v2', 'javaV230', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/java/java/v2'),
     },
     sourceOrder: ['english-v1-2.4', 'english-v2-2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', ['reference/api/java/java/v1']),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/java/java/v2', 'reference', 'java', ['reference/api/java/java/v1']),
+      en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
     },
   },
   {
     id: 'node',
     kind: 'reference',
     sources: {
-      'english-v2.4': remote('drive', 'Vg1kfluyll0h7MdlUMaciXfEnZd', 'DVVobtXQMamuLqsQij5c29nVn3c', 'node/v2.4.x', 'v2.4.x', 'fallback'),
-      'english-v2.5': remote('drive', 'U9fWfMPdelsPMydYnolcr2aEnBf', 'JTBebezMDaV8ZhsHF5wc7lJSnuh', 'node/v2.5.x', 'v2.5.x', 'fallback', 'english-v2.4'),
-      'english-v2.6': remote('drive', 'NFmOfwILlln3JgdePZUclweZnIe', 'R9i8bww4faNsR6smwQwcAtHGnkb', 'node/v2.6.x', 'v2.6.x', 'fallback', 'english-v2.5'),
-      'english-v3.0': remote('drive', 'LW67fVlTvlNCZRdxOVYcQZyJnFQ', 'LlrPbysPZau2dGsSVuicHmvCn0e', 'node/v3.0.x', 'v3.0.x', 'active', 'english-v2.6'),
+      'english-v2.4': remote('drive', 'Vg1kfluyll0h7MdlUMaciXfEnZd', 'DVVobtXQMamuLqsQij5c29nVn3c', 'node/v2.4.x', 'node', 'v2.4.x', 'fallback'),
+      'english-v2.5': remote('drive', 'U9fWfMPdelsPMydYnolcr2aEnBf', 'JTBebezMDaV8ZhsHF5wc7lJSnuh', 'node/v2.5.x', 'nodejs25', 'v2.5.x', 'fallback', 'english-v2.4'),
+      'english-v2.6': remote('drive', 'NFmOfwILlln3JgdePZUclweZnIe', 'R9i8bww4faNsR6smwQwcAtHGnkb', 'node/v2.6.x', 'nodejs26', 'v2.6.x', 'fallback', 'english-v2.5'),
+      'english-v3.0': remote('drive', 'LW67fVlTvlNCZRdxOVYcQZyJnFQ', 'LlrPbysPZau2dGsSVuicHmvCn0e', 'node/v3.0.x', 'nodejs30', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/nodejs/nodejs'),
     },
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
@@ -295,7 +310,7 @@ const definitions: ManualDefinition[] = [
     id: 'onpremise',
     kind: 'onpremise',
     sources: {
-      chinese: remote('wiki', 'PXwawNqh0i40H4krMYlc6qgZnKe', 'V7t6bcQWiaDL99sgUkwcEIJ0nUb', 'onpremise'),
+      chinese: remote('wiki', 'PXwawNqh0i40H4krMYlc6qgZnKe', 'V7t6bcQWiaDL99sgUkwcEIJ0nUb', 'onpremise', 'onpremise'),
     },
     sourceOrder: ['chinese'],
     publications: {
@@ -306,10 +321,10 @@ const definitions: ManualDefinition[] = [
     id: 'python',
     kind: 'reference',
     sources: {
-      'english-v2.4': remote('drive', 'PTJzfzI0ulKGjwdUsxQcFxfJn6b', 'D1VabelmAansLwsNTvLc2Wxxn1g', 'python/v2.4.x', 'v2.4.x', 'fallback'),
-      'english-v2.5': remote('drive', 'Z1SFf89zYlGHXvdo6dxcR6gXntc', 'B8X9bJjJta2q4NskclYcxT7lngG', 'python/v2.5.x', 'v2.5.x', 'fallback', 'english-v2.4'),
-      'english-v2.6': remote('drive', 'IaWgf4osAlpdwqdVIclct97wnCg', 'J3Qzbv7AWazzivsv7vqcqlGCnFc', 'python/v2.6.x', 'v2.6.x', 'fallback', 'english-v2.5'),
-      'english-v3.0': remote('drive', 'UxyTfjS3wl0TF8dn9tZcRT39nUe', 'Hk05b5eI6aXXSSsd6j9cqwwMn5a', 'python/v3.0.x', 'v3.0.x', 'active', 'english-v2.6'),
+      'english-v2.4': remote('drive', 'PTJzfzI0ulKGjwdUsxQcFxfJn6b', 'D1VabelmAansLwsNTvLc2Wxxn1g', 'python/v2.4.x', 'python', 'v2.4.x', 'fallback'),
+      'english-v2.5': remote('drive', 'Z1SFf89zYlGHXvdo6dxcR6gXntc', 'B8X9bJjJta2q4NskclYcxT7lngG', 'python/v2.5.x', 'pymilvus25', 'v2.5.x', 'fallback', 'english-v2.4'),
+      'english-v2.6': remote('drive', 'IaWgf4osAlpdwqdVIclct97wnCg', 'J3Qzbv7AWazzivsv7vqcqlGCnFc', 'python/v2.6.x', 'pymilvus26', 'v2.6.x', 'fallback', 'english-v2.5'),
+      'english-v3.0': remote('drive', 'UxyTfjS3wl0TF8dn9tZcRT39nUe', 'Hk05b5eI6aXXSSsd6j9cqwwMn5a', 'python/v3.0.x', 'pymilvus30', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/python/python'),
     },
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],

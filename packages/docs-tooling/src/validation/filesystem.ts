@@ -54,7 +54,6 @@ export function validateStageFilesystem(
       }
 
       discoveredPaths.push(relative);
-      assertPathSetIntegrity(discoveredPaths);
 
       if (stats.isDirectory()) {
         visit(absolute);
@@ -74,6 +73,7 @@ export function validateStageFilesystem(
   }
 
   visit(root);
+  assertPathSetIntegrity(discoveredPaths);
   files.sort((left, right) => left.path.localeCompare(right.path, 'en'));
   return Object.freeze({root, files: Object.freeze(files)});
 }

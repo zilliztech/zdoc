@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import {spawnSync as nodeSpawnSync} from 'node:child_process';
-import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, rmSync} from 'node:fs';
+import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readdirSync, realpathSync, rmSync} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
@@ -81,7 +81,53 @@ export function parseCliArgs(argv: readonly string[]): CliRequest {
   if (!values['--manual'] || !values['--site'] || !values['--stage']) throw new Error(USAGE);
   if (values['--site'] !== 'en' && values['--site'] !== 'zh-CN') throw new Error(`Unknown site: ${values['--site']}`);
   assertSafeRepositoryRelativePath(values['--stage'], 'Stage path');
+  const canonicalStage = `tmp/docs-tooling/${values['--site']}/${values['--manual']}`;
+  if (values['--stage'] !== canonicalStage && !values['--stage'].startsWith(`${canonicalStage}/`)) {
+    throw new Error(`Stage path must use the canonical ${canonicalStage} root or one of its descendants`);
+  }
   return {command, manual: values['--manual'], site: values['--site'], stage: values['--stage']};
+}
+
+function pathsOverlap(left: string, right: string): boolean {
+  return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
+}
+
+function assertPathAncestorsSafe(repositoryRoot: string, targetPath: string, label: string): void {
+  const repositoryReal = realpathSync(repositoryRoot);
+  const relative = path.relative(repositoryRoot, targetPath);
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) throw new Error(`${label} must stay below the repository root`);
+  let current = repositoryRoot;
+  for (const segment of relative.split(path.sep)) {
+    current = path.join(current, segment);
+    if (!existsSync(current)) continue;
+    const stats = lstatSync(current);
+    if (stats.isSymbolicLink()) throw new Error(`${label} has a symlink ancestor: ${path.relative(repositoryRoot, current)}`);
+    const currentReal = realpathSync(current);
+    if (currentReal !== repositoryReal && !currentReal.startsWith(`${repositoryReal}${path.sep}`)) {
+      throw new Error(`${label} escapes the repository through an ancestor: ${path.relative(repositoryRoot, current)}`);
+    }
+    if (current !== targetPath && !stats.isDirectory()) throw new Error(`${label} has a non-directory ancestor: ${path.relative(repositoryRoot, current)}`);
+  }
+}
+
+function assertSafeStageLocation(context: CommandContext): void {
+  const protectedPaths = [
+    '.git',
+    context.publication.outputDir,
+    context.publication.contentRoot,
+    context.publication.sidebarPath,
+    ...(context.publication.overridePath ? [context.publication.overridePath] : []),
+    ...context.sourceChain.map(entry => (entry.source as ManualSource).sourceDir),
+  ];
+  for (const protectedPath of protectedPaths) {
+    if (pathsOverlap(context.request.stage, protectedPath)) {
+      throw new Error(`Stage path overlaps a protected repository path: ${protectedPath}`);
+    }
+  }
+  assertPathAncestorsSafe(context.repositoryRoot, context.stagePath, 'Stage path');
+  if (existsSync(context.stagePath) && !lstatSync(context.stagePath).isDirectory()) {
+    throw new Error(`Stage root must be a directory: ${context.request.stage}`);
+  }
 }
 
 function assertExistingSource(repositoryRoot: string, source: ManualSource): string {
@@ -100,8 +146,8 @@ export function publicationStagePaths(context: CommandContext): PublicationStage
 }
 
 function resetStage(context: CommandContext): void {
+  assertSafeStageLocation(context);
   if (existsSync(context.stagePath)) {
-    if (lstatSync(context.stagePath).isSymbolicLink()) throw new Error(`Stage root must not be a symlink: ${context.request.stage}`);
     rmSync(context.stagePath, {recursive: true, force: true});
   }
   mkdirSync(context.stagePath, {recursive: true});
@@ -183,10 +229,16 @@ function larkGeneratorArgs(
   if (!source.root || !source.base) {
     throw new Error(`Manual ${context.request.manual} ${source.sourceType} source is missing its Lark root or base identity`);
   }
+  if (!source.generatorManual || !source.snapshotPath) {
+    throw new Error(`Manual ${context.request.manual} remote source ${sourceEntry.key} is missing its generator or snapshot identity`);
+  }
   return [
     '--manual', context.request.manual,
     '--site', context.request.site,
     '--source', sourceEntry.key,
+    '--generator-manual', source.generatorManual,
+    '--snapshot-path', source.snapshotPath,
+    '--generator-target', context.publication.generatorTarget,
     '--source-type', source.sourceType,
     '--root', source.root,
     '--base', source.base,
@@ -205,6 +257,7 @@ function larkGeneratorArgs(
       '--snapshot-candidate', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     ] : sourceOnly ? ['--source-only'] : []),
     ...(environment.DOCS_TOOLING_FORCE_FULL_FETCH === '1' ? ['--force-full-fetch'] : []),
+    ...(environment.DOCS_TOOLING_REUSE_LARK_SOURCE === '1' ? ['--reuse-source'] : []),
   ];
 }
 
@@ -264,10 +317,34 @@ function defaultPublish(context: CommandContext): void {
   const staged = publicationStagePaths(context);
   const outputPath = resolveOwnedRepositoryPath(context.repositoryRoot, context.publication.outputDir, 'Publication outputDir');
   const sidebarPath = resolveOwnedRepositoryPath(context.repositoryRoot, context.publication.sidebarPath, 'Publication sidebarPath');
-  mkdirSync(outputPath, {recursive: true});
+  const retiredPaths = (context.publication.retiredPaths ?? []).map(retiredPath => resolveOwnedRepositoryPath(
+    context.repositoryRoot,
+    `content/${context.request.site}/${retiredPath}`,
+    'Publication retiredPath',
+  ));
+  for (const [target, label] of [[outputPath, 'Publication outputDir'], [sidebarPath, 'Publication sidebarPath'], ...retiredPaths.map(target => [target, 'Publication retiredPath'])] as const) {
+    assertPathAncestorsSafe(context.repositoryRoot, target, label);
+    assertNoLinkBoundaries(target, label);
+  }
+
+  rmSync(outputPath, {recursive: true, force: true});
+  mkdirSync(path.dirname(outputPath), {recursive: true});
   cpSync(staged.outputPath, outputPath, {recursive: true, force: true, errorOnExist: false});
+  for (const retiredPath of retiredPaths) rmSync(retiredPath, {recursive: true, force: true});
   mkdirSync(path.dirname(sidebarPath), {recursive: true});
   copyFileSync(staged.sidebarPath, sidebarPath);
+}
+
+function assertNoLinkBoundaries(targetPath: string, label: string): void {
+  if (!existsSync(targetPath)) return;
+  const stats = lstatSync(targetPath);
+  if (stats.isSymbolicLink()) throw new Error(`${label} must not be a symlink`);
+  if (stats.isFile()) {
+    if (stats.nlink > 1) throw new Error(`${label} must not be hard-linked`);
+    return;
+  }
+  if (!stats.isDirectory()) throw new Error(`${label} must be a regular file or directory`);
+  for (const entry of readdirSync(targetPath)) assertNoLinkBoundaries(path.join(targetPath, entry), label);
 }
 
 export async function executeDocsToolingCommand(argv: readonly string[], dependencies: CliDependencies = {}): Promise<CommandContext> {
@@ -286,6 +363,7 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
     sourceChain: resolved.sourceChain,
     publication: resolved.publication,
   };
+  assertSafeStageLocation(baseContext);
 
   if (request.command === 'fetch') {
     if (dependencies.fetch) await dependencies.fetch(baseContext);

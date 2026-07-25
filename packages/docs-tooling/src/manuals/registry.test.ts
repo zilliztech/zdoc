@@ -18,6 +18,8 @@ function manual(overrides: Partial<ManualDefinition> = {}): ManualDefinition {
         root: 'root-token',
         base: 'base-token',
         version: 'v1',
+        generatorManual: 'fixture',
+        snapshotPath: 'packages/docs-tooling/src/lark/meta/snapshots/fixture-uat-last-success.json',
         sourceDir: 'packages/docs-tooling/src/lark/meta/sources/fixture/v1',
       },
     },
@@ -25,6 +27,7 @@ function manual(overrides: Partial<ManualDefinition> = {}): ManualDefinition {
       en: {
         enabled: true,
         source: 'canonical',
+        generatorTarget: 'zilliz',
         outputDir: 'content/en/reference/fixture',
         contentRoot: 'content/en/reference',
         sidebarPath: 'generated/en/sidebars/fixture.sidebar.js',
@@ -50,6 +53,28 @@ describe('manual registry contract', () => {
       expect(resolved.sourceChain.map(entry => entry.key)).toEqual(expected);
       expect(resolved.manual.sourceOrder.filter(key => expected.includes(key as never))).toEqual(expected);
     }
+  });
+
+  it('retains legacy generator and snapshot identities for every active SDK and CLI source', () => {
+    const expected = {
+      python: ['pymilvus30', 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json'],
+      java: ['javaV230', 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json'],
+      node: ['nodejs30', 'packages/docs-tooling/src/lark/meta/snapshots/nodejs30-uat-last-success.json'],
+      go: ['gov230', 'packages/docs-tooling/src/lark/meta/snapshots/gov230-uat-last-success.json'],
+      cli: ['cliv14', 'packages/docs-tooling/src/lark/meta/snapshots/cliv14-uat-last-success.json'],
+    } as const;
+
+    for (const [manualId, [generatorManual, snapshotPath]] of Object.entries(expected)) {
+      const {source} = resolveManualPublication(manualId, 'en');
+      expect(source.generatorManual).toBe(generatorManual);
+      expect(source.snapshotPath).toBe(snapshotPath);
+    }
+  });
+
+  it('keeps filesystem destinations separate from generator publication targets', () => {
+    expect(resolveManualPublication('python', 'en').publication.generatorTarget).toBe('zilliz');
+    expect(resolveManualPublication('guides', 'en').publication.generatorTarget).toBe('zilliz.saas');
+    expect(resolveManualPublication('guides-byoc', 'en').publication.generatorTarget).toBe('zilliz.paas');
   });
 
   it('retains verified archival source identities without making them implicit fallbacks', () => {
@@ -115,6 +140,7 @@ describe('manual registry contract', () => {
           en: {
             enabled: true,
             source: 'missing',
+            generatorTarget: 'zilliz',
             outputDir: 'content/en/reference/fixture',
             contentRoot: 'content/en/reference',
             sidebarPath: 'generated/en/sidebars/fixture.sidebar.js',
@@ -141,6 +167,7 @@ describe('manual registry contract', () => {
           en: {
             enabled: true,
             source: 'canonical',
+            generatorTarget: 'zilliz',
             outputDir: 'content/zh-CN/reference/fixture',
             contentRoot: 'content/en/reference',
             sidebarPath: 'generated/en/sidebars/fixture.sidebar.js',
@@ -162,6 +189,7 @@ describe('manual registry contract', () => {
           en: {
             enabled: true,
             source: 'canonical',
+            generatorTarget: 'zilliz',
             outputDir: 'content/en/reference/fixture',
             contentRoot: 'content/en/reference',
             sidebarPath: 'generated/en/sidebars/fixture.sidebar.js',
@@ -189,6 +217,8 @@ describe('manual registry contract', () => {
           sourceType: 'drive',
           root: 'root-token',
           base: 'base-token',
+          generatorManual: 'fixture',
+          snapshotPath: 'packages/docs-tooling/src/lark/meta/snapshots/fixture-uat-last-success.json',
           sourceDir: 'packages/docs-tooling/src/lark/meta/sources/fixture/v1',
           fallbackSource: 'older',
         },
@@ -196,6 +226,8 @@ describe('manual registry contract', () => {
           sourceType: 'drive',
           root: 'older-root',
           base: 'older-base',
+          generatorManual: 'fixture-old',
+          snapshotPath: 'packages/docs-tooling/src/lark/meta/snapshots/fixture-old-uat-last-success.json',
           sourceDir: 'packages/docs-tooling/src/lark/meta/sources/fixture/v0',
         },
       },
@@ -204,6 +236,7 @@ describe('manual registry contract', () => {
         en: {
           enabled: false,
           source: 'canonical',
+          generatorTarget: 'zilliz',
           outputDir: 'content/en/reference/fixture',
           contentRoot: 'content/en/reference',
           sidebarPath: 'generated/en/sidebars/fixture.sidebar.js',
@@ -234,6 +267,13 @@ describe('manual registry contract', () => {
     expect(Object.isFrozen(manualRegistry)).toBe(true);
     expect(Object.isFrozen(manualRegistry[0])).toBe(true);
     expect(Object.isFrozen(manualRegistry[0].sources)).toBe(true);
+
+    const sourceChain = resolveManualPublication('python', 'en').sourceChain;
+    expect(Object.isFrozen(sourceChain)).toBe(true);
+    expect(sourceChain.every(entry => Object.isFrozen(entry))).toBe(true);
+    expect(() => {
+      (sourceChain as unknown as Array<{key: string}>)[0].key = 'mutated';
+    }).toThrow();
 
     expect(() => validateManualRegistry([
       {...manual(), unexpected: true} as ManualDefinition,

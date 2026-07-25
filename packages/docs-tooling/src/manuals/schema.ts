@@ -26,6 +26,8 @@ export const ManualSourceSchema = z.object({
   root: z.string().min(1).optional(),
   base: z.string().min(1).optional(),
   version: z.string().min(1).optional(),
+  generatorManual: z.string().min(1).optional(),
+  snapshotPath: RepositoryRelativePathSchema.optional(),
   sourceDir: RepositoryRelativePathSchema,
   fallbackSource: z.string().min(1).optional(),
 }).strict().superRefine((source, context) => {
@@ -37,10 +39,22 @@ export const ManualSourceSchema = z.object({
       message: `Remote source type ${source.sourceType} requires root and base`,
     });
   }
+  if (isLark && source.lifecycle !== 'retired' && (!source.generatorManual || !source.snapshotPath)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `Active remote source type ${source.sourceType} requires generatorManual and snapshotPath`,
+    });
+  }
   if ((isLocal || source.sourceType === 'rest') && (source.root !== undefined || source.base !== undefined)) {
     context.addIssue({
       code: z.ZodIssueCode.custom,
       message: `${source.sourceType} sources must not declare Lark root or base identifiers`,
+    });
+  }
+  if ((isLocal || source.sourceType === 'rest') && (source.generatorManual !== undefined || source.snapshotPath !== undefined)) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `${source.sourceType} sources must not declare generator or snapshot identities`,
     });
   }
 });
@@ -48,6 +62,7 @@ export const ManualSourceSchema = z.object({
 export const ManualPublicationSchema = z.object({
   enabled: z.boolean(),
   source: z.string().min(1),
+  generatorTarget: z.enum(['zilliz', 'zilliz.saas', 'zilliz.paas']),
   outputDir: RepositoryRelativePathSchema,
   contentRoot: RepositoryRelativePathSchema,
   sidebarPath: RepositoryRelativePathSchema,

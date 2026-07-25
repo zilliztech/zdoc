@@ -12,7 +12,7 @@ const descriptionsPath = path.join(__dirname, 'meta/descriptions.json')
 const titlesPath = path.join(__dirname, 'meta/titles.json')
 const tutorialPath = path.join(
   __dirname,
-  '../../docs/tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters.md',
+  '../../../../../content/en/guides/tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters.md',
 )
 
 const movedOperations = [
@@ -80,7 +80,7 @@ function testSegmentBoundary() {
 }
 
 function testSidebarUsesOnDemandSegment() {
-  const sidebar = require('../../../../../config/generated/restful.sidebar.js')
+  const sidebar = require('../../../../../generated/en/sidebars/restful.sidebar.js')
   const sidebarIds = collectSidebarIds(sidebar)
   for (const slug of sidebarMovedSlugs) {
     assert.equal(

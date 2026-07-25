@@ -44,6 +44,21 @@ test('SDK reference compatibility wrapper invokes content groups in order', () =
   assert.doesNotMatch(fetchScript, /report-to-lark/)
 })
 
+test('every workflow that invokes docs-tooling uses a native TypeScript-capable Node runtime', () => {
+  const workflowDirectory = path.join(process.cwd(), '.github/workflows')
+  const invoking = fs.readdirSync(workflowDirectory)
+    .filter(file => file.endsWith('.yml'))
+    .filter(file => /run-content-group\.js|pnpm docs-tooling/.test(fs.readFileSync(path.join(workflowDirectory, file), 'utf8')))
+    .sort()
+  assert.deepEqual(invoking, ['_fetch-content-group.yml', '_fetch-guides-sources.yml'])
+  for (const file of invoking) {
+    const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
+    assert.match(source, /node-version:\s*['"]?22['"]?/, `${file} must use Node 22 for --experimental-strip-types`)
+  }
+  const rootPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+  assert.equal(rootPackage.scripts['docs-tooling'], 'node --experimental-strip-types packages/docs-tooling/src/cli.ts')
+})
+
 test('SDK reference snapshots are updated after successful build', () => {
   const snapshotScript = fs.readFileSync('scripts/update-sdk-reference-snapshots.sh', 'utf8')
   assert.match(snapshotScript, /groups=\(python java node go cli\)/)

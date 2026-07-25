@@ -54,6 +54,25 @@ test('runContentGroup executes sequentially with supplied environment', () => {
   assert.ok(calls.every(([, , options]) => options.stdio === 'inherit' && options.env === env));
 });
 
+test('guides downloads once and reuses the verified source for the BYOC render', () => {
+  const calls = [];
+  runContentGroup('guides', {
+    env: {BASE: 'yes'},
+    spawnSync(command, args, options) {
+      calls.push({command, args, env: options.env});
+      return {status: 0};
+    },
+  });
+
+  const fetches = calls.filter(call => call.args[1] === 'fetch');
+  assert.equal(fetches.length, 2, 'SaaS and BYOC each render through a fetch-stage command');
+  assert.equal(fetches[0].args[3], 'guides');
+  assert.equal(fetches[0].env.DOCS_TOOLING_REUSE_LARK_SOURCE, undefined);
+  assert.equal(fetches[1].args[3], 'guides-byoc');
+  assert.equal(fetches[1].env.DOCS_TOOLING_REUSE_LARK_SOURCE, '1');
+  assert.equal(fetches[1].env.BASE, 'yes');
+});
+
 test('runContentGroup forwards forced-full bootstrap through a narrow environment flag', () => {
   const calls = [];
   runContentGroup('guides', {
