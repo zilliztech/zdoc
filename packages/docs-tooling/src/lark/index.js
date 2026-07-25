@@ -26,6 +26,11 @@ function validateOfflineOptions(opts) {
     if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
 }
 
+function shouldReuseRecentIncrementalPlan({ skipSourceDown, incrementalRender, capability }) {
+    return !!skipSourceDown && !!incrementalRender &&
+        capability?.stageSeeded === true && capability?.stageValidated === true
+}
+
 function driveIncrementalRenderTokens(plan, docSourceDir, rootToken) {
     const materializedTokens = new Set()
     for (const file of fs.readdirSync(docSourceDir).filter(file => file.endsWith('.json')).sort()) {
@@ -442,6 +447,7 @@ function larkDocsPlugin(context, options) {
                 .option('--canonicalLinkReportPrefix <path>', 'Output prefix for canonical link audit reports')
                 .option('--failOnBrokenCanonicalLinks', 'Fail when canonical link audit finds links or mention_docs outside the current Base')
                 .option('--incremental', 'Fetch only changed Base docs and cross-reference neighbors when a last-success snapshot exists')
+                .option('--incrementalRender', 'Reuse a recent incremental plan for a validated, seeded publication stage')
                 .option('--incrementalPlanOnly', 'Write the incremental fetch plan and exit without fetching')
                 .option('--incrementalMaxReferenceDepth <n>', 'Reference expansion depth for --incremental', '1')
                 .option('--snapshotPath <path>', 'Override last-success snapshot path')
@@ -590,7 +596,11 @@ function larkDocsPlugin(context, options) {
                     }
 
                     const readRecentIncrementalPlanForSkippedSources = () => {
-                        if (!opts.skipSourceDown) return null
+                        if (!shouldReuseRecentIncrementalPlan({
+                            skipSourceDown: opts.skipSourceDown,
+                            incrementalRender: opts.incrementalRender,
+                            capability: manual.incrementalRenderCapability,
+                        })) return null
                         const reportPath = path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-incremental-fetch-plan.json`)
                         if (!fs.existsSync(reportPath)) return null
                         let plan
@@ -1134,3 +1144,4 @@ module.exports.writeSidebarPairTransactional = writeSidebarPairTransactional
 module.exports.sidebarModuleContents = sidebarModuleContents
 module.exports.parseSidebarTargets = parseSidebarTargets
 module.exports.validateSidebarTargetRequest = validateSidebarTargetRequest
+module.exports.shouldReuseRecentIncrementalPlan = shouldReuseRecentIncrementalPlan

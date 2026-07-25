@@ -28,16 +28,42 @@ function renderArgs({ manual, target, stage, outputDir, contentRoot, sidebarPath
   ]
 }
 
-test('clean Guides run downloads one source and fully renders nested SaaS and PaaS targets', async () => {
+test('recent incremental plan reuse requires an explicit render request and validated seeded-stage capability', () => {
+  const plugin = require('./index')
+  assert.equal(typeof plugin.shouldReuseRecentIncrementalPlan, 'function')
+  if (typeof plugin.shouldReuseRecentIncrementalPlan !== 'function') return
+  const ready = {stageSeeded: true, stageValidated: true}
+  assert.equal(plugin.shouldReuseRecentIncrementalPlan({skipSourceDown: true, incrementalRender: true, capability: ready}), true)
+  assert.equal(plugin.shouldReuseRecentIncrementalPlan({skipSourceDown: true, incrementalRender: false, capability: ready}), false)
+  assert.equal(plugin.shouldReuseRecentIncrementalPlan({skipSourceDown: true, incrementalRender: true, capability: {stageSeeded: true, stageValidated: false}}), false)
+  assert.equal(plugin.shouldReuseRecentIncrementalPlan({skipSourceDown: true, incrementalRender: true, capability: {stageSeeded: false, stageValidated: true}}), false)
+  assert.equal(plugin.shouldReuseRecentIncrementalPlan({skipSourceDown: false, incrementalRender: true, capability: ready}), false)
+})
+
+test('recent source-only delta plans still fully render empty SaaS and PaaS stages', async () => {
   const originalLoad = Module._load
   const originalCwd = process.cwd()
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'docs-tooling-guides-integration-'))
   const sourceDir = path.join(root, 'packages/docs-tooling/src/lark/meta/sources/guides')
+  const baselinePath = path.join(root, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json')
   const candidatePath = path.join(root, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')
   const seenTargets = []
   const completenessSnapshots = []
-  let downloaderCalls = 0
+  const sourceTokenFetches = []
+  const fullWrites = []
+  const subtreeWrites = []
+  let fullSourceFetchCalls = 0
   let failingTarget = null
+  let sourcePlan = {
+    manual: 'guides',
+    mode: 'incremental',
+    expanded_tokens: [],
+    changed_tokens: [],
+    removed_records: [],
+    reasons_by_token: {},
+    source_dir: 'packages/docs-tooling/src/lark/meta/sources/guides',
+    build_env: 'uat',
+  }
 
   const saasOnlyRecord = {
     base_placement_type: 'canonical',
@@ -58,16 +84,12 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
 
     async fetch(recursive) {
       assert.equal(recursive, true)
-      downloaderCalls += 1
-      this.records = [{record_id: 'saas-only', fields: {}}]
-      fs.mkdirSync(this.docSourceDir, {recursive: true})
-      fs.writeFileSync(path.join(this.docSourceDir, 'root-token.json'), JSON.stringify({
-        node_token: 'root-token', node_type: 'folder', title: 'Guides', children: [],
-      }))
+      fullSourceFetchCalls += 1
+      throw new Error('valid incremental source-only plan must not reset the complete source cache')
     }
 
     async fetch_wiki_node_metadata() { return new Map() }
-    async fetch_source_tokens() { throw new Error('clean source fetch must select a full source download') }
+    async fetch_source_tokens(tokens) { sourceTokenFetches.push([...tokens]) }
     async validate_content_links() { return {broken_links: []} }
   }
 
@@ -79,6 +101,7 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
 
     async write_docs(outputDir) {
       if (this.target === failingTarget) throw new Error(`render failed for ${this.target}`)
+      fullWrites.push(this.target)
       fs.mkdirSync(outputDir, {recursive: true})
       fs.writeFileSync(path.join(outputDir, 'shared.md'), '# Shared guide\n')
       const publishable = RealLarkDocWriter.prototype.__base_source_is_publishable.call(
@@ -86,6 +109,12 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
         saasOnlyRecord,
       )
       if (publishable) fs.writeFileSync(path.join(outputDir, 'saas-only.md'), '# SaaS only\n')
+    }
+
+    async write_subtree(outputDir, token) {
+      subtreeWrites.push([this.target, token])
+      fs.mkdirSync(outputDir, {recursive: true})
+      fs.writeFileSync(path.join(outputDir, `${token}.md`), `# ${token}\n`)
     }
 
     async generate_sidebar() {
@@ -110,10 +139,16 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
       if (request === './larkUtils.js') return FakeUtils
       if (request === './incrementalFetchPlanner') return {
         planIncrementalFetch() {
-          return {manual: 'guides', mode: 'full', expanded_tokens: [], removed_records: []}
+          return {...sourcePlan, generated_at: new Date().toISOString()}
         },
-        writeIncrementalFetchPlanReports() { return {markdownPath: path.join(root, 'plan.md')} },
+        writeIncrementalFetchPlanReports(plan, prefix) {
+          fs.mkdirSync(path.dirname(prefix), {recursive: true})
+          fs.writeFileSync(`${prefix}.json`, `${JSON.stringify(plan)}\n`)
+          fs.writeFileSync(`${prefix}.md`, '# plan\n')
+          return {jsonPath: `${prefix}.json`, markdownPath: `${prefix}.md`}
+        },
       }
+      if (request === './incrementalReconciliation') return {cleanupRemovedIncrementalRecords() {}}
       if (request === './sourceSnapshot') return {
         readSnapshot(file) {
           return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
@@ -128,7 +163,7 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
         },
       }
       if (request === './sourceCompleteness') return {
-        validateSourceCompleteness() { return {complete: false} },
+        validateSourceCompleteness() { return {complete: true, validCanonicalSources: 1, expectedCanonicalSources: 1} },
         assertSourceCompleteness({sourceDir: configuredSourceDir, snapshot}) {
           completenessSnapshots.push(snapshot.source_dir)
           assert.equal(snapshot.source_dir, path.resolve(configuredSourceDir))
@@ -141,6 +176,14 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
 
   try {
     process.chdir(root)
+    fs.mkdirSync(sourceDir, {recursive: true})
+    fs.writeFileSync(path.join(sourceDir, 'root-token.json'), JSON.stringify({
+      node_token: 'root-token', node_type: 'folder', title: 'Guides', children: [],
+    }))
+    fs.mkdirSync(path.dirname(baselinePath), {recursive: true})
+    fs.writeFileSync(baselinePath, `${JSON.stringify({
+      manual: 'guides', build_env: 'uat', source_dir: path.resolve(sourceDir), records: [],
+    })}\n`)
     delete require.cache[require.resolve('./index')]
     delete require.cache[require.resolve('./cli')]
     const {parseArgs, run, runtimeInvocation} = require('./cli')
@@ -173,7 +216,8 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
     assert.equal(fs.existsSync(candidatePath), false)
     await run(sourceArgs)
     assert.equal(fs.existsSync(candidatePath), true)
-    assert.equal(downloaderCalls, 1)
+    assert.deepEqual(sourceTokenFetches, [[]])
+    assert.equal(fullSourceFetchCalls, 0)
 
     for (const args of [saasArgs, paasArgs]) {
       const invocation = runtimeInvocation(parseArgs(args))
@@ -191,20 +235,32 @@ test('clean Guides run downloads one source and fully renders nested SaaS and Pa
     assert.equal(fs.existsSync(path.join(root, 'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js')), true)
     assert.equal(fs.existsSync(path.join(root, 'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js')), true)
     assert.deepEqual(seenTargets, ['zilliz.saas', 'zilliz.paas'])
+    assert.deepEqual(fullWrites, ['zilliz.saas', 'zilliz.paas'])
+    assert.deepEqual(subtreeWrites, [])
     assert.equal(completenessSnapshots.length, 3)
     assert.equal(new Set(completenessSnapshots).size, 1)
     assert.match(completenessSnapshots[0], /packages\/docs-tooling\/src\/lark\/meta\/sources\/guides$/)
 
+    sourcePlan = {
+      ...sourcePlan,
+      expanded_tokens: ['changed-token'],
+      changed_tokens: ['changed-token'],
+      reasons_by_token: {'changed-token': ['content changed']},
+    }
+    await run(sourceArgs)
+    assert.deepEqual(sourceTokenFetches, [[], ['changed-token']])
     fs.rmSync(path.join(root, 'tmp/docs-tooling/en/guides'), {recursive: true, force: true})
     await run(saasArgs)
     assert.equal(fs.existsSync(path.join(saasOutput, 'shared.md')), true)
     assert.equal(fs.existsSync(path.join(saasOutput, 'saas-only.md')), true)
-    assert.equal(downloaderCalls, 1)
+    assert.deepEqual(fullWrites, ['zilliz.saas', 'zilliz.paas', 'zilliz.saas'])
+    assert.deepEqual(subtreeWrites, [])
+    assert.equal(fullSourceFetchCalls, 0)
 
     failingTarget = 'zilliz.paas'
     fs.rmSync(path.join(root, 'tmp/docs-tooling/en/guides-byoc'), {recursive: true, force: true})
     await assert.rejects(() => run(paasArgs), /render failed for zilliz\.paas/)
-    assert.equal(downloaderCalls, 1)
+    assert.equal(fullSourceFetchCalls, 0)
   } finally {
     process.chdir(originalCwd)
     Module._load = originalLoad
