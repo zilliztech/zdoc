@@ -48,6 +48,7 @@ chat-proxy/scripts/eval/results/
 
 # Local scratch files and build logs
 tmp/
+/.atomic-publication-state/
 
 # AI tooling local state
 .agents/

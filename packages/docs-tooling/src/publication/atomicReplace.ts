@@ -42,17 +42,23 @@ export type AtomicControlFsyncEvent = Readonly<{
   transactionId: string;
 }>;
 
+export type AtomicValidationSnapshot = Readonly<{
+  publicationRoot: string;
+  ownedPaths: readonly string[];
+}>;
+
 export type AtomicReplaceOptions = Readonly<{
   publicationRoot: string;
   baselineCommit: string;
   replacements: readonly AtomicReplacement[];
   removals?: readonly string[];
-  validatePublication?: (sources: readonly string[]) => void | Promise<void>;
+  validatePublication?: (snapshot: AtomicValidationSnapshot) => void | Promise<void>;
   testing?: Readonly<{
     beforeFilesystemOperation?: (event: AtomicFilesystemEvent) => void | Promise<void>;
     afterRename?: (event: AtomicFilesystemEvent) => void | Promise<void>;
     afterJournal?: (event: AtomicJournalEvent) => void | Promise<void>;
     beforeControlFsync?: (event: AtomicControlFsyncEvent) => void;
+    pathDevice?: (target: string, actualDevice: number) => number;
   }>;
 }>;
 
@@ -75,6 +81,8 @@ type TransactionOperation = Readonly<{
 
 type JournalOperation = TransactionOperation & Readonly<{
   preparedIdentity?: PathIdentity;
+  preparedVersion?: string;
+  liveVersion?: string;
 }>;
 
 type WriterLock = Readonly<{
@@ -111,6 +119,7 @@ type TransactionJournal = Readonly<{
   baselineCommit: string;
   phase: JournalPhase;
   operationIndex: number | null;
+  stateIdentity: PathIdentity;
   operations: readonly JournalOperation[];
   checksum: string;
 }>;
@@ -216,6 +225,13 @@ function sameIdentity(left: PathIdentity, right: PathIdentity): boolean {
     && (left.kind === 'directory' || left.nlink === right.nlink);
 }
 
+function isPathIdentity(value: unknown): value is PathIdentity {
+  if (!value || typeof value !== 'object') return false;
+  const identity = value as Record<string, unknown>;
+  return typeof identity.dev === 'number' && typeof identity.ino === 'number' && typeof identity.mode === 'number'
+    && typeof identity.nlink === 'number' && (identity.kind === 'file' || identity.kind === 'directory');
+}
+
 function bindExistingAncestors(root: string, target: string, label: string): readonly BoundPath[] {
   const relative = path.relative(root, target);
   if (relative.startsWith('..') || path.isAbsolute(relative)) throw new Error(`${label} escapes the publication root`);
@@ -304,6 +320,28 @@ function ownedTreeCommitUnfenced(root: string, ownedPaths: readonly string[]): s
     hashTree(hash, target, '.');
   }
   return `sha256:${hash.digest('hex')}`;
+}
+
+function ownedPathVersion(root: string, relative: string): string {
+  return ownedTreeCommitUnfenced(root, [relative]);
+}
+
+function deepestExistingDirectory(root: string, target: string): string {
+  let current = target;
+  while (!pathEntryExists(current)) {
+    const parent = path.dirname(current);
+    if (parent === current || (parent !== root && !parent.startsWith(`${root}${path.sep}`))) {
+      throw new Error('Publication target parent escapes the publication root');
+    }
+    current = parent;
+  }
+  if (identityOf(current, 'Publication filesystem parent').kind !== 'directory') current = path.dirname(current);
+  return current;
+}
+
+function pathDevice(target: string, testing?: AtomicReplaceOptions['testing']): number {
+  const actualDevice = identityOf(target, 'Publication filesystem path').dev;
+  return testing?.pathDevice?.(target, actualDevice) ?? actualDevice;
 }
 
 function fsyncPath(target: string): void {
@@ -422,6 +460,7 @@ function readJournal(target: string): TransactionJournal {
   const value = readControlFile(target, 'Publication transaction journal');
   if (value.schemaVersion !== 1 || value.kind !== 'journal' || typeof value.transactionKey !== 'string' || typeof value.transactionId !== 'string'
     || typeof value.baselineCommit !== 'string' || !['preparing', 'backup', 'install', 'committed'].includes(String(value.phase))
+    || !isPathIdentity(value.stateIdentity)
     || !(typeof value.operationIndex === 'number' || value.operationIndex === null) || !Array.isArray(value.operations)) {
     throw new Error('Publication transaction journal schema validation failed');
   }
@@ -433,13 +472,17 @@ function operationPaths(root: string, lock: WriterLock, operation: TransactionOp
   const token = lock.transactionId;
   return {
     target,
-    temporary: path.join(root, '.atomic-publication-state', lock.transactionKey, token, 'snapshots', String(index)),
+    temporary: resolveTarget(snapshotPublicationRoot(root, lock), operation.target, 'Prepared publication target'),
     backup: path.join(path.dirname(target), `.${path.basename(target)}.publication-backup-${token}-${index}`),
   };
 }
 
 function transactionStatePath(root: string, lock: WriterLock): string {
   return path.join(root, '.atomic-publication-state', lock.transactionKey, lock.transactionId);
+}
+
+function snapshotPublicationRoot(root: string, lock: WriterLock): string {
+  return path.join(transactionStatePath(root, lock), 'publication');
 }
 
 function assertTransactionEntry(target: string, expected: string, label: string): void {
@@ -460,8 +503,26 @@ function ensureControlledDirectory(root: string, target: string, mode = 0o700): 
   revalidateBoundPaths(bindExistingAncestors(root, target, 'Publication transaction state'), 'Publication transaction state');
 }
 
-function ensureTransactionState(root: string, lock: WriterLock): void {
-  ensureControlledDirectory(root, path.join(root, '.atomic-publication-state', lock.transactionKey, lock.transactionId, 'snapshots'));
+function ensureTransactionState(root: string, lock: WriterLock): PathIdentity {
+  const transactionRoot = transactionStatePath(root, lock);
+  if (pathEntryExists(transactionRoot)) throw new Error('Publication transaction state already exists');
+  ensureControlledDirectory(root, path.dirname(transactionRoot));
+  const parentBinding = bindExistingAncestors(root, path.dirname(transactionRoot), 'Publication transaction state parent');
+  revalidateBoundPaths(parentBinding, 'Publication transaction state parent');
+  mkdirSync(transactionRoot, {mode: 0o700});
+  const stateIdentity = identityOf(transactionRoot, 'Publication transaction state');
+  ensureControlledDirectory(root, snapshotPublicationRoot(root, lock));
+  if (!sameIdentity(identityOf(transactionRoot, 'Publication transaction state'), stateIdentity)) {
+    throw new Error('Publication transaction state identity changed during creation');
+  }
+  return stateIdentity;
+}
+
+function ensureSnapshotParent(root: string, lock: WriterLock, stateIdentity: PathIdentity, target: string): void {
+  ensureControlledDirectory(root, path.dirname(target));
+  if (!sameIdentity(identityOf(transactionStatePath(root, lock), 'Publication transaction state'), stateIdentity)) {
+    throw new Error('Publication transaction state identity changed while preparing snapshot paths');
+  }
 }
 
 type RenameBinding = Readonly<{
@@ -496,10 +557,18 @@ function executeBoundRename(binding: RenameBinding, label: string): void {
   if (!sameIdentity(identityOf(binding.destination, `${label} destination`), binding.sourceIdentity)) throw new Error(`${label} destination identity changed after rename`);
 }
 
-async function performRename(root: string, source: string, destination: string, transactionId: string, testing?: AtomicReplaceOptions['testing']): Promise<void> {
+async function performRename(
+  root: string,
+  source: string,
+  destination: string,
+  transactionId: string,
+  testing?: AtomicReplaceOptions['testing'],
+  revalidateSource?: () => void,
+): Promise<void> {
   const event = Object.freeze({kind: 'rename' as const, transactionId, from: source, to: destination});
   const binding = bindRename(root, source, destination, 'Publication rename');
   await testing?.beforeFilesystemOperation?.(event);
+  revalidateSource?.();
   executeBoundRename(binding, 'Publication rename');
   fsyncPath(path.dirname(destination));
   await testing?.afterRename?.(event);
@@ -553,21 +622,23 @@ function rollbackTransaction(root: string, lock: WriterLock, journal: Transactio
     }
     removeTransactionEntry(root, paths.temporary, paths.temporary, 'Prepared publication temporary');
   }
-  removeTransactionState(root, lock);
+  removeTransactionState(root, lock, journal.stateIdentity);
 }
 
-function completeCommittedCleanup(root: string, lock: WriterLock): void {
+function completeCommittedCleanup(root: string, lock: WriterLock, stateIdentity: PathIdentity): void {
   for (const [index, operation] of lock.operations.entries()) {
     const paths = operationPaths(root, lock, operation, index);
     removeTransactionEntry(root, paths.backup, paths.backup, 'Publication backup', true, operation.originalIdentity);
     removeTransactionEntry(root, paths.temporary, paths.temporary, 'Prepared publication temporary');
   }
-  removeTransactionState(root, lock);
+  removeTransactionState(root, lock, stateIdentity);
 }
 
-function removeTransactionState(root: string, lock: WriterLock): void {
+function removeTransactionState(root: string, lock: WriterLock, expectedIdentity: PathIdentity): void {
   const transactionRoot = transactionStatePath(root, lock);
-  if (pathEntryExists(transactionRoot)) removeTransactionEntry(root, transactionRoot, transactionRoot, 'Publication transaction state');
+  if (pathEntryExists(transactionRoot)) {
+    removeTransactionEntry(root, transactionRoot, transactionRoot, 'Publication transaction state', true, expectedIdentity);
+  }
   for (const directory of [path.dirname(transactionRoot), path.dirname(path.dirname(transactionRoot))]) {
     if (pathEntryExists(directory) && identityOf(directory, 'Publication transaction state parent').kind === 'directory' && readdirSync(directory).length === 0) {
       rmdirSync(directory);
@@ -611,7 +682,7 @@ function recoverStaleWriter(root: string, key: string): void {
       operations: baseOperations(journal.operations),
       checksum: '',
     } satisfies WriterLock;
-    if (journal.phase === 'committed') completeCommittedCleanup(root, lock);
+    if (journal.phase === 'committed') completeCommittedCleanup(root, lock, journal.stateIdentity);
     else rollbackTransaction(root, lock, journal);
     removeControlFile(root, journalTarget, 'Publication transaction journal');
     return;
@@ -624,7 +695,7 @@ function recoverStaleWriter(root: string, key: string): void {
     if (journal.transactionId !== lock.transactionId || journal.transactionKey !== key || canonicalJson(baseOperations(journal.operations)) !== canonicalJson(lock.operations)) {
       throw new Error('Publication transaction journal does not match its stale writer lock');
     }
-    if (journal.phase === 'committed') completeCommittedCleanup(root, lock);
+    if (journal.phase === 'committed') completeCommittedCleanup(root, lock, journal.stateIdentity);
     else rollbackTransaction(root, lock, journal);
     removeControlFile(root, journalTarget, 'Publication transaction journal');
   }
@@ -834,6 +905,7 @@ async function waitForReaders(root: string, key: string): Promise<void> {
 function journalRecord(
   lock: WriterLock,
   baselineCommit: string,
+  stateIdentity: PathIdentity,
   phase: JournalPhase,
   operationIndex: number | null,
   operations: readonly JournalOperation[] = lock.operations,
@@ -844,6 +916,7 @@ function journalRecord(
     transactionKey: lock.transactionKey,
     transactionId: lock.transactionId,
     baselineCommit,
+    stateIdentity,
     phase,
     operationIndex,
     operations,
@@ -875,8 +948,6 @@ export async function atomicReplace(options: AtomicReplaceOptions): Promise<void
     if (pathEntryExists(target)) assertSafeTree(target, `Publication target ${relative}`);
   }
 
-  await options.validatePublication?.(Object.freeze([...sources]));
-
   const key = transactionKey(ownedPaths);
   recoverStaleWriter(root, key);
   const transactionId = `${process.pid}-${randomUUID()}`;
@@ -896,7 +967,7 @@ export async function atomicReplace(options: AtomicReplaceOptions): Promise<void
   const lockTarget = writerLockPath(root, key);
   const journalTarget = journalPath(root, key);
   let journalCreated = false;
-  let committed = false;
+  let stateIdentity: PathIdentity | undefined;
   try {
     await waitForReaders(root, key);
     for (const source of sources) assertSafeTree(source, 'Publication source');
@@ -905,14 +976,14 @@ export async function atomicReplace(options: AtomicReplaceOptions): Promise<void
       bindExistingAncestors(root, target, `Publication target ${relative}`);
       if (pathEntryExists(target)) assertSafeTree(target, `Publication target ${relative}`);
     }
-    writeJournal(root, journalRecord(lock, options.baselineCommit, 'preparing', null), options.testing);
+    stateIdentity = ensureTransactionState(root, lock);
+    writeJournal(root, journalRecord(lock, options.baselineCommit, stateIdentity, 'preparing', null), options.testing);
     journalCreated = true;
     await options.testing?.afterJournal?.({transactionId, phase: 'preparing', operationIndex: null});
-    ensureTransactionState(root, lock);
 
     for (const [index, source] of sources.entries()) {
       const paths = operationPaths(root, lock, operations[index], index);
-      ensureParent(root, paths.target);
+      ensureSnapshotParent(root, lock, stateIdentity, paths.temporary);
       if (pathEntryExists(paths.temporary) || pathEntryExists(paths.backup)) throw new Error('Publication transaction entry already exists');
       await copyImmutableTree(root, source, paths.temporary, transactionId, options.testing);
       assertSafeTree(paths.temporary, 'Prepared publication');
@@ -922,43 +993,102 @@ export async function atomicReplace(options: AtomicReplaceOptions): Promise<void
 
     const journalOperations: JournalOperation[] = operations.map((operation, index) => ({
       ...operation,
-      ...(operation.replacement ? {preparedIdentity: identityOf(operationPaths(root, lock, operation, index).temporary, 'Prepared publication')} : {}),
+      ...(operation.replacement ? {
+        preparedIdentity: identityOf(operationPaths(root, lock, operation, index).temporary, 'Prepared publication'),
+        preparedVersion: ownedPathVersion(snapshotPublicationRoot(root, lock), operation.target),
+      } : {}),
     }));
-    writeJournal(root, journalRecord(lock, options.baselineCommit, 'preparing', null, journalOperations), options.testing);
+    writeJournal(root, journalRecord(lock, options.baselineCommit, stateIdentity, 'preparing', null, journalOperations), options.testing);
     await options.testing?.afterJournal?.({transactionId, phase: 'preparing', operationIndex: null});
+
+    for (const [index, operation] of operations.entries()) {
+      if (!operation.replacement) continue;
+      const paths = operationPaths(root, lock, operation, index);
+      const snapshotDevice = pathDevice(path.dirname(paths.temporary), options.testing);
+      const targetParent = deepestExistingDirectory(root, path.dirname(paths.target));
+      const targetDevice = pathDevice(targetParent, options.testing);
+      if (snapshotDevice !== targetDevice) {
+        throw new Error(`Prepared publication and target must use the same filesystem: ${operation.target}`);
+      }
+    }
+
+    const validationRoot = snapshotPublicationRoot(root, lock);
+    const validatedSnapshotCommit = ownedTreeCommitUnfenced(validationRoot, ownedPaths);
+    await options.validatePublication?.(Object.freeze({
+      publicationRoot: validationRoot,
+      ownedPaths: Object.freeze([...ownedPaths]),
+    }));
+    if (ownedTreeCommitUnfenced(validationRoot, ownedPaths) !== validatedSnapshotCommit) {
+      throw new Error('Prepared publication snapshot changed during validation');
+    }
+
+    for (const [index, operation] of operations.entries()) {
+      if (operation.replacement) ensureParent(root, operationPaths(root, lock, operation, index).target);
+    }
 
     const currentCommit = ownedTreeCommitUnfenced(root, ownedPaths);
     if (currentCommit !== options.baselineCommit) {
       throw new Error(`Stale publication baseline compare-and-swap: expected ${options.baselineCommit}, found ${currentCommit}`);
     }
 
+    const versionedJournalOperations: JournalOperation[] = journalOperations.map(operation => ({
+      ...operation,
+      liveVersion: ownedPathVersion(root, operation.target),
+    }));
+    writeJournal(root, journalRecord(lock, options.baselineCommit, stateIdentity, 'preparing', null, versionedJournalOperations), options.testing);
+    await options.testing?.afterJournal?.({transactionId, phase: 'preparing', operationIndex: null});
+
     for (const [index, operation] of operations.entries()) {
       if (!operation.hadTarget) continue;
       const paths = operationPaths(root, lock, operation, index);
-      writeJournal(root, journalRecord(lock, options.baselineCommit, 'backup', index, journalOperations), options.testing);
+      const expectedLiveVersion = versionedJournalOperations[index].liveVersion;
+      if (!expectedLiveVersion || ownedPathVersion(root, operation.target) !== expectedLiveVersion) {
+        throw new Error(`Concurrent publication target content changed before backup intent: ${operation.target}`);
+      }
+      writeJournal(root, journalRecord(lock, options.baselineCommit, stateIdentity, 'backup', index, versionedJournalOperations), options.testing);
       await options.testing?.afterJournal?.({transactionId, phase: 'backup', operationIndex: index});
-      await performRename(root, paths.target, paths.backup, transactionId, options.testing);
+      await performRename(root, paths.target, paths.backup, transactionId, options.testing, () => {
+        if (ownedPathVersion(root, operation.target) !== expectedLiveVersion) {
+          throw new Error(`Concurrent publication target content changed before backup rename: ${operation.target}`);
+        }
+      });
+    }
+    if (ownedTreeCommitUnfenced(validationRoot, ownedPaths) !== validatedSnapshotCommit) {
+      throw new Error('Prepared publication snapshot changed before install');
     }
     for (const [index, operation] of operations.entries()) {
       if (!operation.replacement) continue;
       const paths = operationPaths(root, lock, operation, index);
-      writeJournal(root, journalRecord(lock, options.baselineCommit, 'install', index, journalOperations), options.testing);
+      const preparedVersion = versionedJournalOperations[index].preparedVersion;
+      if (!preparedVersion || ownedPathVersion(validationRoot, operation.target) !== preparedVersion) {
+        throw new Error(`Prepared publication snapshot content changed before install intent: ${operation.target}`);
+      }
+      if (pathEntryExists(paths.target)) {
+        throw new Error(`Concurrent publication target appeared before install intent: ${operation.target}`);
+      }
+      writeJournal(root, journalRecord(lock, options.baselineCommit, stateIdentity, 'install', index, versionedJournalOperations), options.testing);
       await options.testing?.afterJournal?.({transactionId, phase: 'install', operationIndex: index});
-      await performRename(root, paths.temporary, paths.target, transactionId, options.testing);
+      await performRename(root, paths.temporary, paths.target, transactionId, options.testing, () => {
+        if (ownedPathVersion(validationRoot, operation.target) !== preparedVersion) {
+          throw new Error(`Prepared publication snapshot content changed before install rename: ${operation.target}`);
+        }
+        if (pathEntryExists(paths.target)) {
+          throw new Error(`Concurrent publication target appeared before install rename: ${operation.target}`);
+        }
+      });
     }
     for (const [index, operation] of operations.entries()) {
       if (!operation.replacement) continue;
       const installed = operationPaths(root, lock, operation, index).target;
-      const preparedIdentity = journalOperations[index].preparedIdentity;
+      const preparedIdentity = versionedJournalOperations[index].preparedIdentity;
       if (!preparedIdentity || !pathEntryExists(installed) || !sameIdentity(identityOf(installed, 'Installed publication target'), preparedIdentity)) {
         throw new Error(`Installed publication target identity changed before committed marker: ${operation.target}`);
       }
       revalidateBoundPaths(bindExistingAncestors(root, installed, 'Installed publication target'), 'Installed publication target ancestors');
     }
-    writeJournal(root, journalRecord(lock, options.baselineCommit, 'committed', null, journalOperations), options.testing);
+    writeJournal(root, journalRecord(lock, options.baselineCommit, stateIdentity, 'committed', null, versionedJournalOperations), options.testing);
     await options.testing?.afterJournal?.({transactionId, phase: 'committed', operationIndex: null});
-    committed = true;
-    completeCommittedCleanup(root, lock);
+    completeCommittedCleanup(root, lock, stateIdentity);
     removeControlFile(root, journalTarget, 'Publication transaction journal');
     journalCreated = false;
   } catch (error) {
@@ -968,8 +1098,7 @@ export async function atomicReplace(options: AtomicReplaceOptions): Promise<void
       journalCreated = true;
       try {
         if (journal.phase === 'committed') {
-          committed = true;
-          completeCommittedCleanup(root, lock);
+          completeCommittedCleanup(root, lock, journal.stateIdentity);
         } else {
           rollbackTransaction(root, lock, journal);
         }
@@ -983,11 +1112,5 @@ export async function atomicReplace(options: AtomicReplaceOptions): Promise<void
     throw error;
   } finally {
     if (!journalCreated && pathEntryExists(lockTarget)) removeControlFile(root, lockTarget, 'Publication writer lock');
-    if (!committed && !journalCreated) {
-      for (const [index, operation] of operations.entries()) {
-        const paths = operationPaths(root, lock, operation, index);
-        if (pathEntryExists(paths.temporary)) removeTransactionEntry(root, paths.temporary, paths.temporary, 'Prepared publication temporary');
-      }
-    }
   }
 }

@@ -7,7 +7,7 @@ await atomicReplace({
   publicationRoot: root,
   baselineCommit,
   replacements: [{source: stagedDirectory, target: ownedPaths[0]}],
-  validatePublication: () => {
-    ownedTreeCommit(root, ownedPaths);
+  validatePublication: snapshot => {
+    ownedTreeCommit(snapshot.publicationRoot, snapshot.ownedPaths);
   },
 });

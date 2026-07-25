@@ -217,7 +217,7 @@ describe('atomic publication replacement', () => {
     expect(readdirSync(root).filter(name => name.includes('atomic-publication'))).toEqual([]);
   });
 
-  it('runs publication validation before acquiring the writer lock', () => {
+  it('validates the snapshot through an independent reader lock without reentering the live writer', () => {
     const root = temporaryRoot();
     writeTree(root, 'content/manual/version.txt', 'old\n');
     const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
@@ -231,6 +231,157 @@ describe('atomic publication replacement', () => {
     expect(result.status).toBe(0);
     expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('new\n');
     expect(readdirSync(root).filter(name => name.includes('atomic-publication'))).toEqual([]);
+  });
+
+  it('validates the immutable transaction snapshot instead of a mutable staged source', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedFile = writeTree(root, 'stage/content/manual/version.txt', 'validated\n');
+    const stagedDirectory = path.dirname(stagedFile);
+    let journalCount = 0;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      validatePublication: async snapshot => {
+        if (readFileSync(path.join(snapshot.publicationRoot, snapshot.ownedPaths[0], 'version.txt'), 'utf8') !== 'validated\n') {
+          throw new Error('snapshot validation rejected attacker content');
+        }
+      },
+      testing: {
+        afterJournal: event => {
+          if (event.phase !== 'preparing' || journalCount++ > 0) return;
+          writeFileSync(stagedFile, 'attacker\n');
+        },
+      },
+    })).rejects.toThrow(/snapshot validation rejected attacker content/i);
+
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('old\n');
+  });
+
+  it('revalidates each snapshot content version after validation and immediately before install', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    writeTree(root, 'generated/sidebar.js', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'validated\n'));
+    const stagedFile = writeTree(root, 'stage/generated/sidebar.js', 'validated\n');
+    let corrupted = false;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual', 'generated/sidebar.js']),
+      replacements: [
+        {source: stagedDirectory, target: 'content/manual'},
+        {source: stagedFile, target: 'generated/sidebar.js'},
+      ],
+      validatePublication: async snapshot => {
+        expect(readFileSync(path.join(snapshot.publicationRoot, 'generated/sidebar.js'), 'utf8')).toBe('validated\n');
+      },
+      testing: {
+        afterRename: event => {
+          if (corrupted || !event.from?.includes('.atomic-publication-state') || !event.to?.endsWith('/content/manual')) return;
+          const transactionRoot = event.from.slice(0, event.from.indexOf('/publication/') + '/publication'.length);
+          writeFileSync(path.join(transactionRoot, 'generated/sidebar.js'), 'attacker\n');
+          corrupted = true;
+        },
+      },
+    })).rejects.toThrow(/snapshot|prepared|content|version|changed/i);
+
+    expect(corrupted).toBe(true);
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('old\n');
+    expect(readFileSync(path.join(root, 'generated/sidebar.js'), 'utf8')).toBe('old\n');
+  });
+
+  it('preserves an in-place concurrent edit made after CAS and before the backup rename', async () => {
+    const root = temporaryRoot();
+    const liveFile = writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    let edited = false;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        afterJournal: event => {
+          if (edited || event.phase !== 'backup') return;
+          writeFileSync(liveFile, 'concurrent\n');
+          edited = true;
+        },
+      },
+    })).rejects.toThrow(/concurrent|content|version|baseline|changed/i);
+
+    expect(edited).toBe(true);
+    expect(readFileSync(liveFile, 'utf8')).toBe('concurrent\n');
+  });
+
+  it('preserves a concurrently created target that appears after CAS and before install', async () => {
+    const root = temporaryRoot();
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    let created = false;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        afterJournal: event => {
+          if (created || event.phase !== 'install') return;
+          writeTree(root, 'content/manual/version.txt', 'concurrent\n');
+          created = true;
+        },
+      },
+    })).rejects.toThrow(/concurrent|destination|target|appeared|changed/i);
+
+    expect(created).toBe(true);
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('concurrent\n');
+  });
+
+  it('does not recursively delete a replacement transaction state inode during cleanup', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    const attackerState = path.dirname(writeTree(root, 'attacker-state/sentinel.txt', 'keep\n'));
+    let swappedState = '';
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        afterJournal: event => {
+          if (event.phase !== 'committed' || swappedState) return;
+          const stateRoot = path.join(root, '.atomic-publication-state');
+          const transactionKey = readdirSync(stateRoot)[0];
+          swappedState = path.join(stateRoot, transactionKey, event.transactionId);
+          renameSync(swappedState, `${swappedState}-original`);
+          renameSync(attackerState, swappedState);
+        },
+      },
+    })).rejects.toThrow(/state|identity|transaction|cleanup|recovery/i);
+
+    expect(swappedState).not.toBe('');
+    expect(readFileSync(path.join(swappedState, 'sentinel.txt'), 'utf8')).toBe('keep\n');
+    expect(readdirSync(root).some(name => name.endsWith('.journal.json'))).toBe(true);
+  });
+
+  it('rejects a cross-device snapshot layout before mutating any live target', async () => {
+    const root = temporaryRoot();
+    writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        pathDevice: (target, actualDevice) => target.includes('.atomic-publication-state') ? actualDevice + 1 : actualDevice,
+      },
+    })).rejects.toThrow(/same filesystem|cross-device|device|EXDEV/i);
+
+    expect(readFileSync(path.join(root, 'content/manual/version.txt'), 'utf8')).toBe('old\n');
+    expect(readdirSync(root).filter(name => name.includes('publication-backup'))).toEqual([]);
   });
 
   it('does not delete a non-transaction inode swapped into an installed target before crash recovery', async () => {
