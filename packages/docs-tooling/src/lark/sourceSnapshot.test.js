@@ -184,7 +184,7 @@ test('validates and promotes a candidate without changing source facts', () => {
     publish_url: null,
     link_check_remote: 'https://docs.zilliz.com',
     generated_at: '2026-07-14T01:00:00.000Z',
-    source_dir: 'plugins/lark-docs/meta/sources/guides',
+    source_dir: 'packages/docs-tooling/src/lark/meta/sources/guides',
     base_app_token: 'base-token',
     records: [{
       record_id: 'rec-1', table_id: 'tbl-1', table_name: 'Development', placement_type: 'canonical',

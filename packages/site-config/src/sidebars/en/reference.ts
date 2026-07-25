@@ -1,7 +1,7 @@
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
-// Generated sidebar files are produced by `docusaurus fetch-lark-docs`.
-// Run `docusaurus fetch-lark-docs --manual <name> --pubTarget zilliz` to regenerate.
+// Generated sidebar files are produced through the docs-tooling manual pipeline.
+// Run `pnpm docs-tooling fetch|validate|publish --manual <name> --site en --stage <dir>`.
 // To customise without regenerating, edit the corresponding file in sidebar-overrides/en/.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function tryRequire(path: string): any[] {

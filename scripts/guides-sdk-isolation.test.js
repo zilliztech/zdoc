@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const test = require('node:test')
 const { commandsFor } = require('./docs-workflow/run-content-group')
 const { buildGuidesTableMatrix } = require('./docs-workflow/guides-tables')
-const { guidesPlacementType } = require('../plugins/lark-docs/guidesBaseRecordSemantics')
+const { guidesPlacementType } = require('../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
 
 function manualBlocks(source) {
   const blocks = new Map()

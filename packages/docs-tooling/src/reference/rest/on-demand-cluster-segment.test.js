@@ -80,7 +80,7 @@ function testSegmentBoundary() {
 }
 
 function testSidebarUsesOnDemandSegment() {
-  const sidebar = require('../../config/generated/restful.sidebar.js')
+  const sidebar = require('../../../../../config/generated/restful.sidebar.js')
   const sidebarIds = collectSidebarIds(sidebar)
   for (const slug of sidebarMovedSlugs) {
     assert.equal(

@@ -1,8 +1,8 @@
 const path = require('node:path')
 const fs = require('node:fs')
 const { v4: uuidv4 } = require('uuid')
-const tokenFetcher = require('../lark-docs/larkTokenFetcher')
-const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
+const tokenFetcher = require('../../packages/docs-tooling/src/lark/larkTokenFetcher')
+const { fetchFeishuJsonWithRetry } = require('../../packages/docs-tooling/src/lark/feishuFetch')
 const { buildCardV2 } = require('./cardV2')
 const { createCardClient } = require('./cardClient')
 const {

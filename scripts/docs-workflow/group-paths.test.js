@@ -30,7 +30,7 @@ test('guides group paths include SaaS, BYOC, and translated docs roots', () => {
     'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
     'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
   ]);
-  assert.equal(paths.snapshot, 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json');
+  assert.equal(paths.snapshot, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json');
 });
 
 test('reference groups map reference outputs into docs-reference i18n', () => {

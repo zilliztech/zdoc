@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict')
-const LarkDocWriter = require('../../plugins/lark-docs/larkDocWriter')
+const LarkDocWriter = require('../../packages/docs-tooling/src/lark/larkDocWriter')
 
 function testSidebarKeysArePathStable() {
   const writer = Object.create(LarkDocWriter.prototype)

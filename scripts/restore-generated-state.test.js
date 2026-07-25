@@ -17,9 +17,9 @@ const restorePaths = [
   'i18n',
   '.translation-cache',
   'config/generated',
-  'plugins/lark-docs/meta/snapshots',
-  'plugins/lark-docs/meta/assembly',
-  'plugins/lark-docs/meta/reports',
+  'packages/docs-tooling/src/lark/meta/snapshots',
+  'packages/docs-tooling/src/lark/meta/assembly',
+  'packages/docs-tooling/src/lark/meta/reports',
 ]
 
 function git(cwd, ...args) {
@@ -193,7 +193,7 @@ test('exact immutable ref mode makes the index equal a source tree that deletes 
 
 test('exact restore carries the Guides descriptor and translation checkpoints do not delete it', async () => {
   const fixture = createFixture()
-  const descriptor = 'plugins/lark-docs/meta/assembly/guides.json'
+  const descriptor = 'packages/docs-tooling/src/lark/meta/assembly/guides.json'
   try {
     write(fixture.source, descriptor, '{"schemaVersion":1}\n')
     git(fixture.source, 'add', descriptor)
@@ -226,7 +226,7 @@ test('exact restore carries the Guides descriptor and translation checkpoints do
 
 test('exact restore carries Guides report payloads used by translation checkpoints', async () => {
   const fixture = createFixture()
-  const report = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
+  const report = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json'
   try {
     write(fixture.source, report, '{"generated_at":"source"}\n')
     git(fixture.source, 'add', report)

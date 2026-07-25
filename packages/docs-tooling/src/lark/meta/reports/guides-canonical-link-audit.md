@@ -2,7 +2,7 @@
 
 Generated: 2026-07-13T03:18:36.310Z
 Target: zilliz.saas
-Source dir: `./plugins/lark-docs/meta/sources/guides`
+Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 
 ## Summary
 

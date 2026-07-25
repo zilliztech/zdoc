@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-08T14:24:27.205Z",
-  "source_dir": "./plugins/lark-docs/meta/sources/guides",
+  "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "base_table_id": "*",
   "summary": {

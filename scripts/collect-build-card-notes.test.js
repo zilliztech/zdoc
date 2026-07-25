@@ -244,7 +244,7 @@ function writeJson(file, value) {
 }
 
 function writeFreshGuidesReports(generatedAt = '2026-07-17T01:05:00.000Z') {
-  writeJson('plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', {
+  writeJson('packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', {
     generated_at: generatedAt,
     mode: 'incremental',
     build_env: 'uat',
@@ -253,21 +253,21 @@ function writeFreshGuidesReports(generatedAt = '2026-07-17T01:05:00.000Z') {
     removed_tokens: [],
     warnings: [],
   })
-  writeJson('plugins/lark-docs/meta/reports/guides-broken-content-links.json', {
+  writeJson('packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json', {
     generated_at: generatedAt,
-    source_dir: './plugins/lark-docs/meta/sources/guides',
+    source_dir: './packages/docs-tooling/src/lark/meta/sources/guides',
     summary: { canonical_tokens: 1, scanned_sources: 1, content_links: 1, broken_content_links: 0 },
     broken_content_links: [],
   })
-  writeJson('plugins/lark-docs/meta/reports/guides-canonical-link-audit.json', {
+  writeJson('packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json', {
     generated_at: generatedAt,
     target: 'zilliz.saas',
     summary: { canonical_records: 1, scanned_sources: 1, internal_references: 1, valid_references: 1, broken_references: 0 },
   })
   writeMediaReports({ generatedAt })
   const decision = assemblyDecision({ generated_at: generatedAt })
-  writeJson('plugins/lark-docs/meta/reports/guides-assembly-decision.json', decision)
-  writeJson('plugins/lark-docs/meta/reports/guides-assembly-result.json', {
+  writeJson('packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json', decision)
+  writeJson('packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json', {
     schemaVersion: 1,
     generated_at: generatedAt,
     mode: 'reuse_observed',
@@ -279,7 +279,7 @@ function writeFreshGuidesReports(generatedAt = '2026-07-17T01:05:00.000Z') {
 }
 
 function writeMediaReports({ generatedAt = '2026-07-17T01:05:00.000Z', persistence = 'saved', media = {}, generation = {} } = {}) {
-  writeJson('plugins/lark-docs/meta/reports/guides-media-prefetch.json', {
+  writeJson('packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json', {
     schemaVersion: 1,
     generated_at: generatedAt,
     mode: 'incremental',
@@ -296,7 +296,7 @@ function writeMediaReports({ generatedAt = '2026-07-17T01:05:00.000Z', persisten
     ...media,
   })
   const skipped = persistence === 'skipped-valid-v4'
-  writeJson('plugins/lark-docs/meta/reports/guides-cache-generation.json', {
+  writeJson('packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json', {
     schemaVersion: 1,
     generated_at: generatedAt,
     sourceCacheVersion: skipped ? 'v4' : 'v3',
@@ -340,8 +340,8 @@ test('assembly reporting uses observe-only reuse wording and never claims sideba
     process.env.CARD_REPORT_ARTIFACT_URL = 'https://github.com/zilliztech/zdoc/actions/runs/123#artifacts'
     const decision = assemblyDecision()
     const { assemblyDecisionSha256 } = require('./docs-workflow/guides-assembly-identity')
-    writeJson('plugins/lark-docs/meta/reports/guides-assembly-decision.json', decision)
-    writeJson('plugins/lark-docs/meta/reports/guides-assembly-result.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json', decision)
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json', {
       schemaVersion: 1,
       generated_at: '2026-07-17T01:06:00.000Z',
       mode: 'reuse_observed',
@@ -364,7 +364,7 @@ test('assembly reporting distinguishes regeneration decisions from completed res
   const pastTense = /(?:^|\s)Regenerated: source-delta/
   const prepare = () => {
     const decision = assemblyDecision({ mode: 'regenerate', reasons: ['source-delta'], baselineSourceSha: 'b'.repeat(40) })
-    writeJson('plugins/lark-docs/meta/reports/guides-assembly-decision.json', decision)
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json', decision)
     return decision
   }
 
@@ -377,8 +377,8 @@ test('assembly reporting distinguishes regeneration decisions from completed res
 
   await t.test('missing result', () => withTempCwd(() => {
     prepare()
-    fs.mkdirSync('plugins/lark-docs/meta/reports', { recursive: true })
-    assert.equal(fs.existsSync('plugins/lark-docs/meta/reports/guides-assembly-result.json'), false)
+    fs.mkdirSync('packages/docs-tooling/src/lark/meta/reports', { recursive: true })
+    assert.equal(fs.existsSync('packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json'), false)
     const note = assemblyIdentityNote()
     assert.match(note, prospective)
     assert.doesNotMatch(note, pastTense)
@@ -386,7 +386,7 @@ test('assembly reporting distinguishes regeneration decisions from completed res
 
   await t.test('invalid result', () => withTempCwd(() => {
     prepare()
-    writeJson('plugins/lark-docs/meta/reports/guides-assembly-result.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json', {
       schemaVersion: 1,
       generated_at: '2026-07-17T01:06:00.000Z',
       mode: 'reuse_observed',
@@ -402,7 +402,7 @@ test('assembly reporting distinguishes regeneration decisions from completed res
 
   await t.test('valid result', () => withTempCwd(() => {
     const decision = prepare()
-    writeJson('plugins/lark-docs/meta/reports/guides-assembly-result.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json', {
       schemaVersion: 1,
       generated_at: '2026-07-17T01:06:00.000Z',
       mode: 'regenerated',
@@ -527,7 +527,7 @@ test('missing persistence report leaves media facts available and names only per
     process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
     process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
     writeMediaReports()
-    fs.rmSync('plugins/lark-docs/meta/reports/guides-cache-generation.json')
+    fs.rmSync('packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json')
 
     assert.equal(cacheGenerationNote(), null)
     const notes = collectNotes()
@@ -559,8 +559,8 @@ for (const [label, mutateMedia, mutateGeneration] of [
     withTempCwd(() => {
       process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
       writeMediaReports()
-      const mediaFile = 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'
-      const generationFile = 'plugins/lark-docs/meta/reports/guides-cache-generation.json'
+      const mediaFile = 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'
+      const generationFile = 'packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json'
       const media = JSON.parse(fs.readFileSync(mediaFile, 'utf8'))
       const generation = JSON.parse(fs.readFileSync(generationFile, 'utf8'))
       mutateMedia(media)
@@ -605,8 +605,8 @@ test('published Guides reports use immutable links except runtime assembly repor
 
     const notes = collectNotes()
 
-    assert.match(notes.join('\n'), new RegExp(`/blob/${finalSha}/plugins/lark-docs/meta/reports/`))
-    assert.match(notes.join('\n'), /Current-run report: \[plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json\]\(https:\/\/github\.com\/zilliztech\/zdoc\/actions\/runs\/123#artifacts\)/)
+    assert.match(notes.join('\n'), new RegExp(`/blob/${finalSha}/packages/docs-tooling/src/lark/meta/reports/`))
+    assert.match(notes.join('\n'), /Current-run report: \[packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-assembly-decision\.json\]\(https:\/\/github\.com\/zilliztech\/zdoc\/actions\/runs\/123#artifacts\)/)
   })
 })
 
@@ -629,7 +629,7 @@ test('partial Guides reports preserve available notes and name only missing cate
   withTempCwd(() => {
     process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
     process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
-    writeJson('plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', {
       generated_at: '2026-07-17T01:05:00.000Z',
       mode: 'incremental',
       build_env: 'uat',
@@ -654,7 +654,7 @@ for (const [label, generatedAt] of [['missing', undefined], ['malformed', 'not-a
     withTempCwd(() => {
       process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
       process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
-      writeJson('plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', {
+      writeJson('packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', {
         generated_at: generatedAt,
         mode: 'incremental',
         build_env: 'uat',
@@ -683,7 +683,7 @@ for (const [label, generatedAt] of [
     withTempCwd(() => {
       process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
       process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
-      writeJson('plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', {
+      writeJson('packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', {
         generated_at: generatedAt,
         mode: 'incremental',
         build_env: 'uat',
@@ -715,18 +715,18 @@ test('generated_at remains optional when no valid run boundary is supplied', () 
 test('collectNotes omits generated reports older than the current card run', () => {
   withTempCwd(() => {
     process.env.CARD_REPORT_STARTED_AT = '2026-07-09T11:05:28.000Z'
-    writeJson('plugins/lark-docs/meta/reports/guides-broken-content-links.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json', {
       generated_at: '2026-07-08T14:24:27.205Z',
-      source_dir: './plugins/lark-docs/meta/sources/guides',
+      source_dir: './packages/docs-tooling/src/lark/meta/sources/guides',
       summary: { broken_content_links: 137 },
       broken_content_links: [],
     })
-    writeJson('plugins/lark-docs/meta/reports/guides-canonical-link-audit.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json', {
       generated_at: '2026-07-08T14:24:28.441Z',
       target: 'zilliz.saas',
       summary: { broken_references: 137 },
     })
-    writeJson('plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', {
       generated_at: '2026-07-09T11:14:01.219Z',
       mode: 'incremental',
       build_env: 'uat',
@@ -751,9 +751,9 @@ test('broken content link report is attached as canonical content links note', (
     process.env.GITHUB_REPOSITORY = 'zilliztech/zdoc'
     process.env.GITHUB_SERVER_URL = 'https://github.com'
     process.env.CARD_REPORT_REF = 'c'.repeat(40)
-    writeJson('plugins/lark-docs/meta/reports/guides-broken-content-links.json', {
+    writeJson('packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json', {
       generated_at: '2026-07-09T11:14:01.219Z',
-      source_dir: './plugins/lark-docs/meta/sources/guides',
+      source_dir: './packages/docs-tooling/src/lark/meta/sources/guides',
       summary: {
         canonical_tokens: 370,
         scanned_sources: 369,
@@ -777,7 +777,7 @@ test('broken content link report is attached as canonical content links note', (
     assert.match(note, /guides-canonical-link-audit\.md/)
     assert.match(note, /guides-canonical-link-audit\.csv/)
     assert.match(note, /guides-broken-content-links\.json/)
-    assert.match(note, new RegExp(`github\\.com/zilliztech/zdoc/blob/${'c'.repeat(40)}/plugins/lark-docs/meta/reports/guides-canonical-link-audit\\.md`))
+    assert.match(note, new RegExp(`github\\.com/zilliztech/zdoc/blob/${'c'.repeat(40)}/packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit\\.md`))
   })
 })
 

@@ -721,7 +721,7 @@ jobs:
           set -euo pipefail
           if [[ "$FINAL_DEV_SHA" =~ ^[0-9a-f]{40}$ ]]; then
             git fetch --no-tags origin "$FINAL_DEV_SHA"
-            for report_dir in plugins/lark-docs/meta/reports apps/docs/plugins/link-checks/meta/reports; do
+            for report_dir in packages/docs-tooling/src/lark/meta/reports apps/docs/plugins/link-checks/meta/reports; do
               if git cat-file -e "$FINAL_DEV_SHA:$report_dir" 2>/dev/null; then
                 rm -rf "$report_dir"
                 git checkout "$FINAL_DEV_SHA" -- "$report_dir"
@@ -734,7 +734,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: docs-checkpoint-guides-${{ github.run_id }}-reports
-          path: plugins/lark-docs/meta/reports
+          path: packages/docs-tooling/src/lark/meta/reports
       - name: Download Guides translation publication report
         if: ${{ always() && needs.prepare_guides_translation_batches.outputs.batch_count != '' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' }}
         continue-on-error: true

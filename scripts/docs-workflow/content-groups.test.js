@@ -21,7 +21,7 @@ test('defines the Python content group ownership contract', () => {
   assert.deepEqual(python.ownedPaths, [
     'reference/api/python/python',
     'config/generated/python.sidebar.js',
-    'plugins/lark-docs/meta/snapshots/pymilvus30-uat-last-success.json',
+    'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
   ]);
 });
 
@@ -39,7 +39,7 @@ test('configures durable translation batches for Guides only', () => {
 });
 
 test('Guides exclusively owns the committed assembly descriptor', () => {
-  const descriptor = 'plugins/lark-docs/meta/assembly/guides.json';
+  const descriptor = 'packages/docs-tooling/src/lark/meta/assembly/guides.json';
   assert.equal(getContentGroup('guides').ownedPaths.filter((owned) => owned === descriptor).length, 1);
   for (const group of listContentGroups().filter((name) => name !== 'guides')) {
     assert.equal(getContentGroup(group).ownedPaths.includes(descriptor), false, group);

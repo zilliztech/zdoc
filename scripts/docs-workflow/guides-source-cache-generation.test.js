@@ -50,7 +50,7 @@ function fixture() {
     table_digests: { table: 'a'.repeat(64) },
   }
   const snapshotPath = write(root, 'snapshot.json', snapshot)
-  write(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', {
+  write(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', {
     schemaVersion: 1,
     entries: [{ id: 'feishu-image:image', type: 'feishu-image', token: 'image', caption: 'Image', objectKey: 'image.png' }],
   })
@@ -79,9 +79,9 @@ function thrown(operation) {
 
 function livePaths(workspace) {
   return {
-    sourceDir: path.join(workspace, 'plugins/lark-docs/meta/sources/guides'),
-    sourceManifestPath: path.join(workspace, 'plugins/lark-docs/meta/source-cache/guides-manifest.json'),
-    mediaManifestPath: path.join(workspace, 'plugins/lark-docs/meta/media-cache/guides.json'),
+    sourceDir: path.join(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides'),
+    sourceManifestPath: path.join(workspace, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json'),
+    mediaManifestPath: path.join(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json'),
   }
 }
 
@@ -168,7 +168,7 @@ test('create accepts a prospective output through a benign alias and returns its
 })
 
 test('create rejects internal workspace symlink boundaries without touching external data', async (t) => {
-  for (const relative of ['plugins', 'plugins/lark-docs/meta', 'plugins/lark-docs/meta/source-cache']) {
+  for (const relative of ['packages', 'packages/docs-tooling', 'packages/docs-tooling/src/lark/meta', 'packages/docs-tooling/src/lark/meta/source-cache']) {
     await t.test(relative, () => {
       const f = fixture()
       const internal = path.join(f.workspace, relative)
@@ -207,7 +207,7 @@ test('promote canonicalizes a workspace reached through a symlinked parent befor
 })
 
 test('promote rejects internal workspace symlink boundaries without touching external data', async (t) => {
-  for (const relative of ['plugins', 'plugins/lark-docs/meta', 'plugins/lark-docs/meta/media-cache']) {
+  for (const relative of ['packages', 'packages/docs-tooling', 'packages/docs-tooling/src/lark/meta', 'packages/docs-tooling/src/lark/meta/media-cache']) {
     await t.test(relative, () => {
       const f = fixture()
       createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
@@ -247,8 +247,8 @@ test('creates, validates, and promotes the exact v4 payload while removing stale
   const workspace = path.join(f.root, 'promotion-workspace')
   const live = livePaths(workspace)
   write(live.sourceDir, 'stale.json', '{"stale":true}')
-  write(workspace, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'old source manifest')
-  write(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'old media manifest')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'old source manifest')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'old media manifest')
   promoteGenerationPayload({ payloadDir: f.outputDir, workspace, snapshotPath: f.snapshotPath, rootToken: 'root' })
   assert.deepEqual(treeBytes(live.sourceDir), treeBytes(path.join(f.outputDir, 'sources')))
   assert.equal(fs.readFileSync(live.sourceManifestPath, 'utf8'), fs.readFileSync(path.join(f.outputDir, 'source-manifest.json'), 'utf8'))
@@ -263,8 +263,8 @@ test('rejected payload cannot mutate live paths', () => {
   const workspace = path.join(f.root, 'workspace')
   const live = livePaths(workspace)
   write(live.sourceDir, 'kept.json', 'kept source')
-  write(workspace, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'kept manifest')
-  write(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'kept media')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'kept manifest')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'kept media')
   const before = treeBytes(workspace)
   assert.throws(() => promoteGenerationPayload({ payloadDir: f.outputDir, workspace, snapshotPath: f.snapshotPath, rootToken: 'root' }), /cache|manifest|identity/i)
   assert.deepEqual(treeBytes(workspace), before)
@@ -320,8 +320,8 @@ test('promotion rolls live paths back byte-for-byte after an injected install fa
   const workspace = path.join(f.root, 'workspace')
   const live = livePaths(workspace)
   write(live.sourceDir, 'old.json', 'old source bytes')
-  write(workspace, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'old source manifest bytes')
-  write(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'old media manifest bytes')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'old source manifest bytes')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'old media manifest bytes')
   const before = treeBytes(workspace)
   assert.throws(() => promoteGenerationPayload({
     payloadDir: f.outputDir,
@@ -338,7 +338,7 @@ test('promotion rollback removes directory residue for initially absent and mixe
   createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
   const workspace = path.join(f.root, 'mixed-workspace')
   const live = livePaths(workspace)
-  write(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'old media bytes')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'old media bytes')
   const before = treeBytes(workspace)
 
   assert.throws(() => promoteGenerationPayload({

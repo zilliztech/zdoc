@@ -15,6 +15,11 @@ const path = require('node:path')
 const inquirer = require('inquirer')
 require('dotenv/config');
 
+function resetSourceDirectory(sourceDir) {
+    fs.rmSync(sourceDir, { recursive: true, force: true })
+    fs.mkdirSync(sourceDir, { recursive: true })
+}
+
 function validateOfflineOptions(opts) {
     if (!opts.offline) return
     if (!opts.skipSourceDown) throw new Error('--offline requires --skipSourceDown')
@@ -500,7 +505,7 @@ function larkDocsPlugin(context, options) {
                         fs.mkdirSync(docSourceDir, { recursive: true })
                     }
 
-                    const contentLinkReportPath = `./plugins/lark-docs/meta/reports/${manualName}-broken-content-links.json`
+                    const contentLinkReportPath = `./packages/docs-tooling/src/lark/meta/reports/${manualName}-broken-content-links.json`
                     const shouldAutoValidateContentLinks = () => sourceType === 'wiki' && base.endsWith(':*')
                     const validateContentLinks = async ({ force=false, fresh=false } = {}) => {
                         if (opts.skipLinkValidation) return null
@@ -519,7 +524,7 @@ function larkDocsPlugin(context, options) {
                             await auditScraper.__base()
                         }
                         const prefix = opts.canonicalLinkReportPrefix ||
-                            `./plugins/lark-docs/meta/reports/${manualName}-canonical-link-audit`
+                            `./packages/docs-tooling/src/lark/meta/reports/${manualName}-canonical-link-audit`
                         const { report, paths } = runCanonicalLinkAudit({
                             manualName,
                             docSourceDir,
@@ -534,8 +539,7 @@ function larkDocsPlugin(context, options) {
                     }
 
                     const fullSourceFetch = async () => {
-                        fs.rmSync(docSourceDir, { recursive: true })
-                        fs.mkdirSync(docSourceDir, { recursive: true })
+                        resetSourceDirectory(docSourceDir)
                         await scraper.fetch(true)
                         if (fallbackSourceDir !== undefined) {
                             utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
@@ -550,7 +554,7 @@ function larkDocsPlugin(context, options) {
                         }
                         const snapshotEnv = opts.buildEnv || 'local'
                         const snapshotPath = opts.snapshotPath ||
-                            path.join('.', 'plugins', 'lark-docs', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`)
+                            path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`)
                         currentNodeMetadataByToken = sourceType === 'wiki'
                             ? await scraper.fetch_wiki_node_metadata(scraper.records, {
                                 progressLabel: '[incremental-fetch] Wiki metadata',
@@ -579,7 +583,7 @@ function larkDocsPlugin(context, options) {
                             sourceCompleteness,
                         })
                         plan.source_scope = sourceCacheIsFresh || plan.mode === 'full' ? 'full' : 'partial'
-                        const prefix = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
+                        const prefix = path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
                         const paths = writeIncrementalFetchPlanReports(plan, prefix)
                         console.log(`[incremental-fetch] Plan written to ${paths.markdownPath}`)
                         return plan
@@ -587,7 +591,7 @@ function larkDocsPlugin(context, options) {
 
                     const readRecentIncrementalPlanForSkippedSources = () => {
                         if (!opts.skipSourceDown) return null
-                        const reportPath = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan.json`)
+                        const reportPath = path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', `${manualName}-incremental-fetch-plan.json`)
                         if (!fs.existsSync(reportPath)) return null
                         let plan
                         try {
@@ -814,7 +818,7 @@ function larkDocsPlugin(context, options) {
                         }
 
                         if (manualName === 'guides' && opts.skipSourceDown && !opts.postProcess) {
-                            const candidatePath = opts.snapshotCandidatePath || path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', 'guides-source-snapshot-candidate.json')
+                            const candidatePath = opts.snapshotCandidatePath || path.join('.', 'packages', 'docs-tooling', 'src', 'lark', 'meta', 'reports', 'guides-source-snapshot-candidate.json')
                             if (!fs.existsSync(candidatePath)) throw new Error(`Complete guides source candidate is required before rendering: ${candidatePath}`)
                             assertSourceCompleteness({
                                 manual: 'guides',
@@ -1123,6 +1127,7 @@ function larkDocsPlugin(context, options) {
 }
 
 module.exports = larkDocsPlugin
+module.exports.resetSourceDirectory = resetSourceDirectory
 module.exports.validateOfflineOptions = validateOfflineOptions
 module.exports.generateSidebarTargets = generateSidebarTargets
 module.exports.writeSidebarPairTransactional = writeSidebarPairTransactional

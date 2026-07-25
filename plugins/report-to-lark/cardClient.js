@@ -3,14 +3,14 @@
 const { buildCardV2 } = require('./cardV2')
 
 async function defaultTokenProvider() {
-  const TokenFetcher = require('../lark-docs/larkTokenFetcher')
+  const TokenFetcher = require('../../packages/docs-tooling/src/lark/larkTokenFetcher')
   const fetcher = new TokenFetcher()
   await fetcher.fetchToken()
   return fetcher.token()
 }
 
 function defaultRequestJson(...args) {
-  const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
+  const { fetchFeishuJsonWithRetry } = require('../../packages/docs-tooling/src/lark/feishuFetch')
   return fetchFeishuJsonWithRetry(...args)
 }
 

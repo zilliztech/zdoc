@@ -9,7 +9,7 @@
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
   "generated_at": "2026-07-13T10:52:07.169Z",
-  "source_dir": "./plugins/lark-docs/meta/sources/java/v3.0.x/v2",
+  "source_dir": "./packages/docs-tooling/src/lark/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
     {

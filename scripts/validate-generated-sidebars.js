@@ -123,7 +123,7 @@ function main() {
   }
   const preserved = validatePreservedEnglishFiles()
   console.log(`[sidebar-validation] ${preserved.checked} preserved landing page(s) checked`)
-  const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
+  const candidate = path.join(process.cwd(), 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')
   if (fs.existsSync(candidate)) {
     const applyOverrides = require('../config/applyOverrides')
     const { validateGuidesCoverage } = require('./validate-guides-coverage')

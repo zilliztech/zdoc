@@ -3,7 +3,7 @@
 
 const fs = require('node:fs')
 const slugify = require('slugify')
-const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../../plugins/lark-docs/guidesBaseRecordSemantics')
+const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
 
 const TARGETS = ['zilliz.paas', 'zilliz.saas']
 

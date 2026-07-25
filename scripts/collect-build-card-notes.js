@@ -51,7 +51,7 @@ function isExactIsoTimestamp(value) {
 
 function mediaPrefetchNote() {
   try {
-    const report = freshJsonReport('plugins/lark-docs/meta/reports/guides-media-prefetch.json')
+    const report = freshJsonReport('packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json')
     if (!report || !hasExactKeys(report, ['schemaVersion', 'generated_at', 'mode', 'cacheState', 'metrics']) ||
         report.schemaVersion !== 1 || !isExactIsoTimestamp(report.generated_at) ||
         !['incremental', 'recovery'].includes(report.mode) || !['valid', 'invalid', 'missing', 'legacy'].includes(report.cacheState)) return null
@@ -81,7 +81,7 @@ function mediaPrefetchNote() {
 
 function cacheGenerationNote() {
   try {
-    const report = freshJsonReport('plugins/lark-docs/meta/reports/guides-cache-generation.json')
+    const report = freshJsonReport('packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json')
     if (!report || !hasExactKeys(report, ['schemaVersion', 'generated_at', 'sourceCacheVersion', 'saveRequired', 'persistence', 'saveKey']) ||
         report.schemaVersion !== 1 || !isExactIsoTimestamp(report.generated_at) ||
         !['v4', 'v3', 'v2', 'v1', 'none'].includes(report.sourceCacheVersion) || typeof report.saveRequired !== 'boolean' ||
@@ -190,8 +190,8 @@ function runtimeReportFileLine(file) {
 
 function assemblyIdentityNote() {
   try {
-    const decisionFile = 'plugins/lark-docs/meta/reports/guides-assembly-decision.json'
-    const resultFile = 'plugins/lark-docs/meta/reports/guides-assembly-result.json'
+    const decisionFile = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json'
+    const resultFile = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json'
     const decision = freshJsonReport(decisionFile)
     if (!decision) return null
     validateAssemblyDecision(decision)
@@ -225,8 +225,8 @@ function linkCheckNote() {
 }
 
 function canonicalLinkNote() {
-  const jsonFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json'
-  const mdFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md'
+  const jsonFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json'
+  const mdFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md'
   const report = freshJsonReport(jsonFile)
   if (!report) {
     const fallback = reportStartedAt() ? '' : readIfExists(mdFile)
@@ -253,7 +253,7 @@ function canonicalLinkNote() {
 }
 
 function brokenContentLinksNote() {
-  const jsonFile = 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'
+  const jsonFile = 'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json'
   const report = freshJsonReport(jsonFile)
   if (!report) return null
 
@@ -264,8 +264,8 @@ function brokenContentLinksNote() {
     const text = link.link_text ? ` "${link.link_text}"` : ''
     return `- ${title}:${text} ${link.url || link.raw_url || link.token || '(unknown target)'}`
   })
-  const canonicalMdFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md'
-  const canonicalCsvFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv'
+  const canonicalMdFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md'
+  const canonicalCsvFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv'
 
   return [
     '# Canonical Content Links Audit',
@@ -295,8 +295,8 @@ function brokenContentLinksNote() {
 }
 
 function incrementalPlanNote() {
-  const jsonFile = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
-  const mdFile = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md'
+  const jsonFile = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json'
+  const mdFile = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.md'
   const plan = freshJsonReport(jsonFile)
   if (!plan) {
     const fallback = reportStartedAt() ? '' : readIfExists(mdFile)

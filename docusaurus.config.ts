@@ -5,7 +5,7 @@ import larkDocsConfig from './config/lark-docs.config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import {visit} from 'unist-util-visit';
-const planeConfig = require('./plugins/apifox-docs/meta/plane-config.json');
+const planeConfig = require('./packages/docs-tooling/src/reference/rest/meta/plane-config.json');
 
 // Remark plugin: fix escaped braces inside math nodes.
 // Doc sources use \{ and \} (MDX escapes) inside $...$ blocks.
@@ -210,8 +210,8 @@ const config: Config = {
         rehypePlugins: [rehypeKatex, rehypeWrapTables, rehypeEmojiMarks],
       },
     ],
-    ['./plugins/lark-docs', larkDocsConfig],
-    './plugins/apifox-docs',
+    ['./packages/docs-tooling/src/lark', larkDocsConfig],
+    './packages/docs-tooling/src/reference/rest',
     './apps/docs/plugins/link-checks',
     './apps/docs/plugins/mdx-parse',
     [

@@ -7,7 +7,7 @@ const {
     convertHtmlCommentsToMdx,
     findMalformedProceduresBlocks,
 } = require('./mdxPatcher');
-const LarkDocWriter = require('../../../../plugins/lark-docs/larkDocWriter');
+const LarkDocWriter = require('../../../../packages/docs-tooling/src/lark/larkDocWriter');
 
 const failingCodeSpan = '<p><code><i>http</i>s://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com</code></p>';
 const normalizedCodeSpan = '<p><code>https://\\{cluster-id\\}.serverless.\\{region\\}.vectordb.zillizcloud.com</code></p>';

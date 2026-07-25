@@ -6,8 +6,8 @@ const Module = require('node:module')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const pluginPath = require.resolve('../../plugins/lark-docs/index.js')
-const { generateSidebarTargets, writeSidebarPairTransactional } = require('../../plugins/lark-docs/index.js')
+const pluginPath = require.resolve('../../packages/docs-tooling/src/lark/index.js')
+const { generateSidebarTargets, writeSidebarPairTransactional } = require('../../packages/docs-tooling/src/lark/index.js')
 const { generateGuidesSidebars, parseArgs } = require('./generate-guides-sidebars')
 
 function manualFixture(root = '.') {
@@ -46,7 +46,7 @@ function validHelperOptions(overrides = {}) {
     sidebarOnly: true,
     skipSourceDown: true,
     offline: true,
-    mediaManifest: 'plugins/lark-docs/meta/media-cache/guides.json',
+    mediaManifest: 'packages/docs-tooling/src/lark/meta/media-cache/guides.json',
     linkShim: null,
     mediaResolver: Object.freeze({ id: 'media' }),
     ...overrides,
@@ -462,10 +462,11 @@ test('existing docToken action keeps writer arguments and fetch/write_subtree fl
     })
 
     assert.equal(writerArgs.length, 1)
-    assert.equal(writerArgs[0].length, 10)
+    // The compatibility path retains the explicit sourceIndex slot; docToken mode supplies null.
+    assert.equal(writerArgs[0].length, 11)
     assert.deepEqual(writerArgs[0], [
       'root-token', 'base-token:*', 'default', sourceDir, imageDir,
-      'zilliz.saas', true, true, 'shim.json', null,
+      'zilliz.saas', true, true, 'shim.json', null, null,
     ])
     assert.ok(events.some(event => event[0] === 'fetch' && event[1] === true && event[2] === 'leaf-token'))
     assert.ok(events.some(event => event[0] === 'write_subtree' && event[1] === outputDir && event[2] === 'leaf-token'))
@@ -565,7 +566,7 @@ test('combined action keeps validation and canonical audit flags on the path to 
 
 function wrapperFixture() {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'generate-guides-sidebars-'))
-  const mediaManifest = 'plugins/lark-docs/meta/media-cache/guides.json'
+  const mediaManifest = 'packages/docs-tooling/src/lark/meta/media-cache/guides.json'
   fs.mkdirSync(path.join(workspace, path.dirname(mediaManifest)), { recursive: true })
   fs.writeFileSync(path.join(workspace, mediaManifest), '{}')
   return { workspace, mediaManifest }
@@ -608,8 +609,8 @@ test('wrapper spawns the exact combined Guides command and validates both output
 })
 
 test('wrapper CLI accepts exactly one --media-manifest value', () => {
-  assert.deepEqual(parseArgs(['--media-manifest', 'plugins/lark-docs/meta/media-cache/guides.json']), {
-    mediaManifest: 'plugins/lark-docs/meta/media-cache/guides.json',
+  assert.deepEqual(parseArgs(['--media-manifest', 'packages/docs-tooling/src/lark/meta/media-cache/guides.json']), {
+    mediaManifest: 'packages/docs-tooling/src/lark/meta/media-cache/guides.json',
   })
   for (const argv of [
     [],

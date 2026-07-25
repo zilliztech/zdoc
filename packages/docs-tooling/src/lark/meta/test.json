@@ -5092,7 +5092,7 @@
                                             "height": 1499,
                                             "token": "NDfrbpRGYoK4sOxpLCecRC3Ankb",
                                             "width": 2000,
-                                            "path": "./plugins/lark-docs/NDfrbpRGYoK4sOxpLCecRC3Ankb.png"
+                                            "path": "./packages/docs-tooling/src/lark/NDfrbpRGYoK4sOxpLCecRC3Ankb.png"
                                         },
                                         "parent_id": "FxijdMQtboTeKexlHbucfhyunCg"
                                     },
@@ -13181,7 +13181,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D6104-1688%26t%3DTITwJ8tzsgUcCaaX-4"
                                             },
                                             "caption": "create_cluster_01",
-                                            "path": "./plugins/lark-docs/create_cluster_01.png"
+                                            "path": "./packages/docs-tooling/src/lark/create_cluster_01.png"
                                         },
                                         "parent_id": "EJjWdvRR8oHodVxUvX2cmMgknNg"
                                     },
@@ -13628,7 +13628,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D6104-1693%26t%3DTITwJ8tzsgUcCaaX-4"
                                             },
                                             "caption": "create_cluster_02",
-                                            "path": "./plugins/lark-docs/create_cluster_02.png"
+                                            "path": "./packages/docs-tooling/src/lark/create_cluster_02.png"
                                         },
                                         "parent_id": "Fmx4dY1p8oye2Bx360lcXrifnjh"
                                     },
@@ -13768,7 +13768,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D6104-1700%26mode%3Ddesign"
                                             },
                                             "caption": "create_cluster_03",
-                                            "path": "./plugins/lark-docs/create_cluster_03.png"
+                                            "path": "./packages/docs-tooling/src/lark/create_cluster_03.png"
                                         },
                                         "parent_id": "GdcUdwZPAoIRk9xwpHucPASdnCh"
                                     },
@@ -14510,7 +14510,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D6104-1688%26t%3DTITwJ8tzsgUcCaaX-4"
                                             },
                                             "caption": "create_cluster_01",
-                                            "path": "./plugins/lark-docs/create_cluster_01.png"
+                                            "path": "./packages/docs-tooling/src/lark/create_cluster_01.png"
                                         },
                                         "parent_id": "IInhdPWcCoD0CMxDmaAc5wNmn7e"
                                     },
@@ -15173,7 +15173,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D5844-1662%26mode%3Ddesign%26t%3DFdTpl30LXYfc1XHs-4"
                                             },
                                             "caption": "create-dedicated_cluster",
-                                            "path": "./plugins/lark-docs/create-dedicated_cluster.png"
+                                            "path": "./packages/docs-tooling/src/lark/create-dedicated_cluster.png"
                                         },
                                         "parent_id": "IAdndp9ZfoDsZpxGn1gcNDLUnjg"
                                     },
@@ -25779,7 +25779,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D7154-72%26mode%3Ddesign%26t%3DuZ56ptY5cmJ3Z8p3-4"
                                             },
                                             "caption": "serverless-cluster-lifecycle",
-                                            "path": "./plugins/lark-docs/serverless-cluster-lifecycle.png"
+                                            "path": "./packages/docs-tooling/src/lark/serverless-cluster-lifecycle.png"
                                         },
                                         "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
                                     },
@@ -26506,7 +26506,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D7157-208%26mode%3Ddesign%26t%3DuZ56ptY5cmJ3Z8p3-4"
                                             },
                                             "caption": "migrate-to-dedicated",
-                                            "path": "./plugins/lark-docs/migrate-to-dedicated.png"
+                                            "path": "./packages/docs-tooling/src/lark/migrate-to-dedicated.png"
                                         },
                                         "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
                                     },
@@ -26776,7 +26776,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D7155-171%26mode%3Ddesign%26t%3DuZ56ptY5cmJ3Z8p3-4"
                                             },
                                             "caption": "dedicated-cluster-lifecycle",
-                                            "path": "./plugins/lark-docs/dedicated-cluster-lifecycle.png"
+                                            "path": "./packages/docs-tooling/src/lark/dedicated-cluster-lifecycle.png"
                                         },
                                         "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
                                     },
@@ -27205,7 +27205,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D7159-211%26mode%3Ddesign%26t%3DuZ56ptY5cmJ3Z8p3-4"
                                             },
                                             "caption": "manage-collections",
-                                            "path": "./plugins/lark-docs/manage-collections.png"
+                                            "path": "./packages/docs-tooling/src/lark/manage-collections.png"
                                         },
                                         "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
                                     },
@@ -27293,7 +27293,7 @@
                                                 "url": "https%3A%2F%2Fwww.figma.com%2Ffile%2FRb9z8tsmYYdqdultiKx7kT%2FZilliz-Diagrams%3Ftype%3Ddesign%26node-id%3D7160-214%26mode%3Ddesign%26t%3DuZ56ptY5cmJ3Z8p3-4"
                                             },
                                             "caption": "manage-users",
-                                            "path": "./plugins/lark-docs/manage-users.png"
+                                            "path": "./packages/docs-tooling/src/lark/manage-users.png"
                                         },
                                         "parent_id": "PA3gdTb8do5mXzxbrTzctkGIn9b"
                                     },
@@ -32707,7 +32707,7 @@
                                             "height": 568,
                                             "token": "IS03b3BmooHjA4xcielcWvTTnhd",
                                             "width": 2000,
-                                            "path": "./plugins/lark-docs/IS03b3BmooHjA4xcielcWvTTnhd.png"
+                                            "path": "./packages/docs-tooling/src/lark/IS03b3BmooHjA4xcielcWvTTnhd.png"
                                         },
                                         "parent_id": "EgyZdpQOmo5Os4xxl6Wcsmc4nYY"
                                     },
@@ -45278,7 +45278,7 @@
                                             "height": 356,
                                             "token": "JNobbfAgKoSGSDxiMK3cOkVsnyf",
                                             "width": 2000,
-                                            "path": "./plugins/lark-docs/JNobbfAgKoSGSDxiMK3cOkVsnyf.png"
+                                            "path": "./packages/docs-tooling/src/lark/JNobbfAgKoSGSDxiMK3cOkVsnyf.png"
                                         },
                                         "parent_id": "JZAsdh6Cpok9GIxpOo0caUnondg"
                                     },
@@ -45441,7 +45441,7 @@
                                             "height": 798,
                                             "token": "URSvbRCwvoKkF0x29ndc8QW9nVe",
                                             "width": 2000,
-                                            "path": "./plugins/lark-docs/URSvbRCwvoKkF0x29ndc8QW9nVe.png"
+                                            "path": "./packages/docs-tooling/src/lark/URSvbRCwvoKkF0x29ndc8QW9nVe.png"
                                         },
                                         "parent_id": "JZAsdh6Cpok9GIxpOo0caUnondg"
                                     },
@@ -49311,7 +49311,7 @@
                                             "height": 405,
                                             "token": "Kzoab30FgoFmAUxqEazcLAAunAb",
                                             "width": 720,
-                                            "path": "./plugins/lark-docs/Kzoab30FgoFmAUxqEazcLAAunAb.png"
+                                            "path": "./packages/docs-tooling/src/lark/Kzoab30FgoFmAUxqEazcLAAunAb.png"
                                         },
                                         "parent_id": "W8hDdQqUhof4Jmx5MuEcdrXunMB"
                                     },
@@ -49473,7 +49473,7 @@
                                             "height": 1128,
                                             "token": "Fy3ObFGZSoBt4Cxjf2fc3lNknpc",
                                             "width": 2956,
-                                            "path": "./plugins/lark-docs/Fy3ObFGZSoBt4Cxjf2fc3lNknpc.png"
+                                            "path": "./packages/docs-tooling/src/lark/Fy3ObFGZSoBt4Cxjf2fc3lNknpc.png"
                                         },
                                         "parent_id": "W8hDdQqUhof4Jmx5MuEcdrXunMB"
                                     },
@@ -50133,7 +50133,7 @@
                                             "height": 1234,
                                             "token": "Vd9IbMgcdoKndIxAP2vc4wBmnnc",
                                             "width": 2228,
-                                            "path": "./plugins/lark-docs/Vd9IbMgcdoKndIxAP2vc4wBmnnc.png"
+                                            "path": "./packages/docs-tooling/src/lark/Vd9IbMgcdoKndIxAP2vc4wBmnnc.png"
                                         },
                                         "parent_id": "W8hDdQqUhof4Jmx5MuEcdrXunMB"
                                     },
@@ -51835,7 +51835,7 @@
                                             "height": 2770,
                                             "token": "BpX2bfdVTo9PhTxhBysclfI8nDg",
                                             "width": 3400,
-                                            "path": "./plugins/lark-docs/BpX2bfdVTo9PhTxhBysclfI8nDg.png"
+                                            "path": "./packages/docs-tooling/src/lark/BpX2bfdVTo9PhTxhBysclfI8nDg.png"
                                         },
                                         "parent_id": "HfjKdgGrtouikqxwSm9cDxOhn4g"
                                     },
@@ -55913,7 +55913,7 @@
                                             "height": 542,
                                             "token": "GRHcbYtK6oK33OxeR1IcTqqRnCe",
                                             "width": 750,
-                                            "path": "./plugins/lark-docs/GRHcbYtK6oK33OxeR1IcTqqRnCe.png"
+                                            "path": "./packages/docs-tooling/src/lark/GRHcbYtK6oK33OxeR1IcTqqRnCe.png"
                                         },
                                         "parent_id": "GTPWdMfz3olPmixi9Q7cCiR5nKg"
                                     },
@@ -56052,7 +56052,7 @@
                                             "height": 500,
                                             "token": "ZPEtb6rV6o6tjVxYD1JceY60n1c",
                                             "width": 750,
-                                            "path": "./plugins/lark-docs/ZPEtb6rV6o6tjVxYD1JceY60n1c.png"
+                                            "path": "./packages/docs-tooling/src/lark/ZPEtb6rV6o6tjVxYD1JceY60n1c.png"
                                         },
                                         "parent_id": "GTPWdMfz3olPmixi9Q7cCiR5nKg"
                                     },
@@ -62749,7 +62749,7 @@
                                             "height": 674,
                                             "token": "TmqKbBazzoT9toxiXtmcrp0DnFO",
                                             "width": 2880,
-                                            "path": "./plugins/lark-docs/TmqKbBazzoT9toxiXtmcrp0DnFO.png"
+                                            "path": "./packages/docs-tooling/src/lark/TmqKbBazzoT9toxiXtmcrp0DnFO.png"
                                         },
                                         "parent_id": "Ju2DdnXYXo51eVxAIeCcDaAgnl5"
                                     },
@@ -63202,7 +63202,7 @@
                                             "height": 484,
                                             "token": "QqT5b26WromoWsxKSKCctAC2nOd",
                                             "width": 890,
-                                            "path": "./plugins/lark-docs/QqT5b26WromoWsxKSKCctAC2nOd.png"
+                                            "path": "./packages/docs-tooling/src/lark/QqT5b26WromoWsxKSKCctAC2nOd.png"
                                         },
                                         "parent_id": "Ju2DdnXYXo51eVxAIeCcDaAgnl5"
                                     },
@@ -63312,7 +63312,7 @@
                                             "height": 1636,
                                             "token": "JayBbrTBFoFOhux7pWtcrENSn7d",
                                             "width": 1512,
-                                            "path": "./plugins/lark-docs/JayBbrTBFoFOhux7pWtcrENSn7d.png"
+                                            "path": "./packages/docs-tooling/src/lark/JayBbrTBFoFOhux7pWtcrENSn7d.png"
                                         },
                                         "parent_id": "Ju2DdnXYXo51eVxAIeCcDaAgnl5"
                                     },
@@ -154046,7 +154046,7 @@
                             "height": 264,
                             "token": "Y6Kqbq6AooEGBlxgZiPcJ64nnDe",
                             "width": 1520,
-                            "path": "./plugins/lark-docs/Y6Kqbq6AooEGBlxgZiPcJ64nnDe.png"
+                            "path": "./packages/docs-tooling/src/lark/Y6Kqbq6AooEGBlxgZiPcJ64nnDe.png"
                         },
                         "parent_id": "Ly6BdqdNooKWDhxejD8ckxaZnah"
                     },

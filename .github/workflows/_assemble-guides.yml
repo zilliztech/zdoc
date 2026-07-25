@@ -71,7 +71,7 @@ jobs:
       - id: assembly_decision
         name: Validate Guides assembly decision
         run: |
-          decision=plugins/lark-docs/meta/reports/guides-assembly-decision.json
+          decision=packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json
           node scripts/docs-workflow/guides-assembly-identity.js validate-decision \
             --repository-root "$GITHUB_WORKSPACE" --input "$decision" \
             --expected-master-sha "${{ inputs.master_sha }}" \
@@ -85,7 +85,7 @@ jobs:
           if [[ "$mode" == reuse ]]; then
             node scripts/docs-workflow/guides-assembly-identity.js verify-descriptor \
               --repository-root "$RUNNER_TEMP/baseline" \
-              --descriptor plugins/lark-docs/meta/assembly/guides.json \
+              --descriptor packages/docs-tooling/src/lark/meta/assembly/guides.json \
               --saas-sidebar config/generated/guides.sidebar.js \
               --byoc-sidebar config/generated/guides-byoc.sidebar.js
             node - "$decision" "$RUNNER_TEMP/baseline" <<'NODE'
@@ -95,7 +95,7 @@ jobs:
           const decision = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
           const baseline = process.argv[3]
           const facts = [
-            ['plugins/lark-docs/meta/assembly/guides.json', 'baselineDescriptorSha256'],
+            ['packages/docs-tooling/src/lark/meta/assembly/guides.json', 'baselineDescriptorSha256'],
             ['config/generated/guides.sidebar.js', 'baselineSaasSidebarSha256'],
             ['config/generated/guides-byoc.sidebar.js', 'baselineByocSidebarSha256'],
           ]
@@ -107,7 +107,7 @@ jobs:
           fi
           printf 'mode=%s\nstarted_milliseconds=%s\n' "$mode" "$(node -e 'process.stdout.write(String(Date.now()))')" >> "$GITHUB_OUTPUT"
       - name: Generate combined Guides sidebars offline
-        run: node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest plugins/lark-docs/meta/media-cache/guides.json
+        run: node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json
         env:
           DOCS_BUILD_ENV: uat
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
@@ -118,8 +118,8 @@ jobs:
           node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting
       - name: Finalize Guides assembly identity
         run: |
-          decision=plugins/lark-docs/meta/reports/guides-assembly-decision.json
-          descriptor=plugins/lark-docs/meta/assembly/guides.json
+          decision=packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json
+          descriptor=packages/docs-tooling/src/lark/meta/assembly/guides.json
           saas=config/generated/guides.sidebar.js
           byoc=config/generated/guides-byoc.sidebar.js
           saas_equal=null
@@ -149,12 +149,12 @@ jobs:
             --elapsed-milliseconds "$elapsed_milliseconds" \
             --saas-equal "$saas_equal" --byoc-equal "$byoc_equal" \
             --descriptor-verified true \
-            --output plugins/lark-docs/meta/reports/guides-assembly-result.json
+            --output packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json
       - id: promoted_snapshot
         name: Select promoted Guides source snapshot
         run: |
-          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
+          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
           selection=$(node scripts/docs-workflow/guides-cache-generation-lifecycle.js select \
             --cache-version "${{ inputs.cache_version }}" \
             --save-required "${{ inputs.cache_save_required }}" \
@@ -166,7 +166,7 @@ jobs:
               --output "$snapshot" \
               --manual guides \
               --build-env uat \
-              --source-dir plugins/lark-docs/meta/sources/guides \
+              --source-dir packages/docs-tooling/src/lark/meta/sources/guides \
               --targets-built zilliz.saas,zilliz.paas \
               --source-branch "${{ inputs.target_branch }}" \
               --publish-url https://docs.cloud-uat3.zilliz.com \
@@ -178,15 +178,15 @@ jobs:
       - id: promoted_source_manifest
         name: Prepare promoted Guides source manifest
         run: |
-          mkdir -p plugins/lark-docs/meta/source-cache
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
-          manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
-          node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --output "$manifest" --media-manifest plugins/lark-docs/meta/media-cache/guides.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+          mkdir -p packages/docs-tooling/src/lark/meta/source-cache
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+          manifest=packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
+          node scripts/docs-workflow/guides-source-cache.js create --source-dir packages/docs-tooling/src/lark/meta/sources/guides --snapshot "$snapshot" --output "$manifest" --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
       - id: guides_v4_generation
         name: Create Guides v4 generation payload
         if: ${{ inputs.cache_save_required == 'true' }}
         run: |
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
           generation=$(node scripts/docs-workflow/guides-source-cache-generation.js keys \
             --snapshot "$snapshot" --run-id "${{ github.run_id }}" --run-attempt "${{ github.run_attempt }}")
           key=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).saveKey)' "$generation")
@@ -216,7 +216,7 @@ jobs:
             --preparation-outcome "${{ steps.guides_v4_generation.outcome }}" \
             --save-outcome "${{ steps.save_guides_v4_generation.outcome }}" \
             --save-key "${{ steps.guides_v4_generation.outputs.key }}" \
-            --output plugins/lark-docs/meta/reports/guides-cache-generation.json
+            --output packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json
       - name: Create combined guides checkpoint
         run: |
           node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'
@@ -233,7 +233,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: docs-checkpoint-guides-${{ github.run_id }}-reports
-          path: plugins/lark-docs/meta/reports/
+          path: packages/docs-tooling/src/lark/meta/reports/
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: ignore
       - id: result

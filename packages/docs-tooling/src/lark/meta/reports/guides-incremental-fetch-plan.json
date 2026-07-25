@@ -3,7 +3,7 @@
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
-  "source_dir": "./plugins/lark-docs/meta/sources/guides",
+  "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
   "changed_records": [],
   "changed_tokens": [],
   "expanded_tokens": [],

@@ -11,7 +11,7 @@ const { createGuidesStageArtifact, restoreGuidesStageArtifact, validateGuidesSta
 
 const SHA = 'a'.repeat(40)
 const SHA_B = 'b'.repeat(40)
-const ASSEMBLY_DECISION = 'plugins/lark-docs/meta/reports/guides-assembly-decision.json'
+const ASSEMBLY_DECISION = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json'
 function write(root, relative, value) { const file = path.join(root, relative); fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, value) }
 function json(root, relative, value) { write(root, relative, JSON.stringify(value)) }
 
@@ -86,13 +86,13 @@ function prepareSourceWorkspace(root, { report = validMediaPrefetchReport(), med
   const artifact = path.join(root, 'artifact')
   fs.mkdirSync(workspace)
   fs.mkdirSync(baseline)
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', renderableSource())
-  json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
-  json(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', mediaManifest)
-  write(workspace, 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', '{}')
+  json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
+  json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json', renderableSource())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', mediaManifest)
+  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', '{}')
   json(workspace, ASSEMBLY_DECISION, validAssemblyDecision())
-  if (report !== null) json(workspace, 'plugins/lark-docs/meta/reports/guides-media-prefetch.json', report)
+  if (report !== null) json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json', report)
   return { workspace, baseline, artifact }
 }
 
@@ -100,30 +100,30 @@ test('creates, validates, and restores a source artifact', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-'))
   const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact'), target = path.join(root, 'target')
   fs.mkdirSync(workspace); fs.mkdirSync(baseline); fs.mkdirSync(target)
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', renderableSource())
-  write(workspace, 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', '{}')
+  json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
+  json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json', renderableSource())
+  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', '{}')
   await assert.rejects(
     createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
     /snapshot candidate/i,
   )
-  json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
-  json(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', {
+  json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', {
     schemaVersion: 1,
     entries: [],
   })
-  json(workspace, 'plugins/lark-docs/meta/reports/guides-media-prefetch.json', validMediaPrefetchReport())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json', validMediaPrefetchReport())
   json(workspace, ASSEMBLY_DECISION, validAssemblyDecision())
   const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   assert.equal(manifest.stage, 'source')
   assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 7)
   assert.deepEqual(manifest.files.filter(file => file.path.includes('/reports/guides-assembly')).map(file => file.path), [ASSEMBLY_DECISION])
-  assert.equal(manifest.files.some(file => file.path === 'plugins/lark-docs/meta/assembly/guides.json'), false)
+  assert.equal(manifest.files.some(file => file.path === 'packages/docs-tooling/src/lark/meta/assembly/guides.json'), false)
   await restoreGuidesStageArtifact({ artifact, target })
-  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
-  assert.equal(fs.existsSync(path.join(target, 'plugins/lark-docs/meta/media-cache/guides.json')), true)
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
+  assert.equal(fs.existsSync(path.join(target, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json')), true)
   assert.deepEqual(
-    JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'), 'utf8')),
+    JSON.parse(fs.readFileSync(path.join(target, 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'), 'utf8')),
     validMediaPrefetchReport(),
   )
 })
@@ -134,7 +134,7 @@ test('restore creates a missing target root one segment at a time', async () => 
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   const target = path.join(root, 'missing', 'nested', 'target')
   await restoreGuidesStageArtifact({ artifact: fixture.artifact, target })
-  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
 })
 
 test('source artifact requires a semantic media prefetch report', async () => {
@@ -204,7 +204,7 @@ test('source artifact validation rejects a rehashed assembly decision with wrong
 test('artifact validation rejects unsafe manifest file and deletion paths before filesystem access', async (t) => {
   const unsafePaths = [
     'docs/../../victim',
-    'plugins/lark-docs/meta/sources/guides/../../../victim',
+    'packages/docs-tooling/src/lark/meta/sources/guides/../../../victim',
     '/absolute/path',
     'docs\\victim',
     'docs//victim',
@@ -240,7 +240,7 @@ test('artifact validation rejects symlink ancestors inside payload', async () =>
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-payload-symlink-'))
   const fixture = prepareSourceWorkspace(root)
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
-  const payloadMeta = path.join(fixture.artifact, 'payload/plugins/lark-docs/meta')
+  const payloadMeta = path.join(fixture.artifact, 'payload/packages/docs-tooling/src/lark/meta')
   const displaced = `${payloadMeta}.real`
   fs.renameSync(payloadMeta, displaced)
   fs.symlinkSync(displaced, payloadMeta)
@@ -251,9 +251,9 @@ test('artifact validation detects a payload ancestor replacement before reading 
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-payload-race-'))
   const fixture = prepareSourceWorkspace(root)
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
-  const relative = 'plugins/lark-docs/meta/sources/guides/doc.json'
+  const relative = 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json'
   const target = fs.realpathSync(path.join(fixture.artifact, 'payload', relative))
-  const payloadMeta = path.join(fixture.artifact, 'payload/plugins/lark-docs/meta')
+  const payloadMeta = path.join(fixture.artifact, 'payload/packages/docs-tooling/src/lark/meta')
   const displaced = `${payloadMeta}.real`
   const outsideMeta = path.join(root, 'outside-meta')
   write(outsideMeta, 'sources/guides/doc.json', 'outside-secret')
@@ -308,7 +308,7 @@ test('artifact validation pins the payload root identity across all file reads',
   const replacement = path.join(root, 'replacement-payload')
   fs.cpSync(payload, replacement, { recursive: true })
   fs.writeFileSync(path.join(replacement, 'sentinel'), 'keep')
-  const trigger = path.join(payload, 'plugins/lark-docs/meta/media-cache/guides.json')
+  const trigger = path.join(payload, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json')
   const originalOpen = fsp.open
   let replaced = false
   let outsideRead = false
@@ -345,10 +345,10 @@ test('restore rejects symlink target ancestors without outside writes or deletio
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   const target = path.join(root, 'target')
   const outside = path.join(root, 'outside')
-  fs.mkdirSync(path.join(target, 'plugins/lark-docs'), { recursive: true })
+  fs.mkdirSync(path.join(target, 'packages/docs-tooling/src/lark'), { recursive: true })
   fs.mkdirSync(outside)
   fs.writeFileSync(path.join(outside, 'sentinel'), 'keep')
-  fs.symlinkSync(outside, path.join(target, 'plugins/lark-docs/meta'))
+  fs.symlinkSync(outside, path.join(target, 'packages/docs-tooling/src/lark/meta'))
   await assert.rejects(restoreGuidesStageArtifact({ artifact: fixture.artifact, target }), /symlink|ancestor|directory/i)
   assert.equal(fs.readFileSync(path.join(outside, 'sentinel'), 'utf8'), 'keep')
   assert.equal(fs.readdirSync(outside).length, 1)
@@ -359,11 +359,11 @@ test('restore detects a target ancestor replacement before overwriting outside b
   const fixture = prepareSourceWorkspace(root)
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   const target = path.join(root, 'target')
-  const targetMeta = path.join(target, 'plugins/lark-docs/meta')
+  const targetMeta = path.join(target, 'packages/docs-tooling/src/lark/meta')
   const displaced = `${targetMeta}.real`
   const outsideMeta = path.join(root, 'outside-meta')
   fs.mkdirSync(targetMeta, { recursive: true })
-  const relative = 'plugins/lark-docs/meta/media-cache/guides.json'
+  const relative = 'packages/docs-tooling/src/lark/meta/media-cache/guides.json'
   const destinationPath = path.join(target, relative)
   write(target, relative, 'inside-old')
   const destination = fs.realpathSync(destinationPath)
@@ -519,10 +519,10 @@ test('invalid assembly decisions preserve an existing artifact byte-for-byte', a
 
 test('invalid collected workspace and baseline paths preserve an existing artifact byte-for-byte', async (t) => {
   const cases = [
-    ['workspace backslash', 'workspace', 'plugins/lark-docs/meta/sources/guides/bad\\name.json'],
-    ['workspace newline', 'workspace', 'plugins/lark-docs/meta/sources/guides/bad\nname.json'],
-    ['baseline backslash', 'baseline', 'plugins/lark-docs/meta/sources/guides/bad\\name.json'],
-    ['baseline newline', 'baseline', 'plugins/lark-docs/meta/sources/guides/bad\nname.json'],
+    ['workspace backslash', 'workspace', 'packages/docs-tooling/src/lark/meta/sources/guides/bad\\name.json'],
+    ['workspace newline', 'workspace', 'packages/docs-tooling/src/lark/meta/sources/guides/bad\nname.json'],
+    ['baseline backslash', 'baseline', 'packages/docs-tooling/src/lark/meta/sources/guides/bad\\name.json'],
+    ['baseline newline', 'baseline', 'packages/docs-tooling/src/lark/meta/sources/guides/bad\nname.json'],
   ]
   for (const [name, location, relative] of cases) {
     await t.test(name, async () => {
@@ -599,7 +599,7 @@ test('source artifact validation rejects semantic report tampering even with a m
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-rehashed-media-report-'))
   const fixture = prepareSourceWorkspace(root)
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
-  const relative = 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'
+  const relative = 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'
   const payload = path.join(fixture.artifact, 'payload', relative)
   const invalid = Buffer.from(JSON.stringify({ ...validMediaPrefetchReport(), cacheState: 'unknown' }))
   fs.writeFileSync(payload, invalid)
@@ -616,7 +616,7 @@ test('source artifact validation still rejects media prefetch payload checksum t
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-tampered-media-report-'))
   const fixture = prepareSourceWorkspace(root)
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
-  fs.writeFileSync(path.join(fixture.artifact, 'payload/plugins/lark-docs/meta/reports/guides-media-prefetch.json'), '{}')
+  fs.writeFileSync(path.join(fixture.artifact, 'payload/packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'), '{}')
   await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /checksum|size/i)
 })
 
@@ -624,7 +624,7 @@ test('source artifact validation rejects rehashed valid media and report count m
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-rehashed-media-count-'))
   const fixture = prepareSourceWorkspace(root)
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
-  const relative = 'plugins/lark-docs/meta/media-cache/guides.json'
+  const relative = 'packages/docs-tooling/src/lark/meta/media-cache/guides.json'
   const payload = path.join(fixture.artifact, 'payload', relative)
   const media = Buffer.from(JSON.stringify({
     schemaVersion: 1,
@@ -644,9 +644,9 @@ test('source artifact requires the shared media manifest', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-media-'))
   const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact')
   fs.mkdirSync(workspace); fs.mkdirSync(baseline)
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', renderableSource())
-  json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
+  json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json', renderableSource())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
 
   await assert.rejects(
     createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
@@ -658,8 +658,8 @@ test('source artifact creation rejects an incomplete candidate source graph', as
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-'))
   const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact')
   fs.mkdirSync(workspace); fs.mkdirSync(baseline)
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
-  json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
+  json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
 
   await assert.rejects(
     createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),

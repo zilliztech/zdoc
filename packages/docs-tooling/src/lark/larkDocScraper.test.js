@@ -1085,7 +1085,7 @@ async function testIncrementalSourceFetchWritesCandidateFromRetainedScan() {
   class FakeUtils {}
 
   Module._load = function patchedLoad(request, parent, isMain) {
-    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+    if (parent?.filename?.endsWith('/packages/docs-tooling/src/lark/index.js')) {
       if (request === './larkDocScraper.js') return FakeScraper;
       if (request === './larkUtils.js') return FakeUtils;
       if (request === './incrementalFetchPlanner') return {
@@ -1175,7 +1175,7 @@ async function testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta() {
   class FakeUtils {}
 
   Module._load = function patchedLoad(request, parent, isMain) {
-    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+    if (parent?.filename?.endsWith('/packages/docs-tooling/src/lark/index.js')) {
       if (request === './larkDocScraper.js') return FakeScraper;
       if (request === './larkUtils.js') return FakeUtils;
       if (request === './incrementalFetchPlanner') return {
@@ -1264,7 +1264,7 @@ async function testDriveFallbackIncrementalRebuildsCompleteOutput() {
   }
 
   Module._load = function patchedLoad(request, parent, isMain) {
-    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+    if (parent?.filename?.endsWith('/packages/docs-tooling/src/lark/index.js')) {
       if (request === './larkDocScraper.js') return FakeScraper;
       if (request === './larkDriveWriter.js') return FakeDriveWriter;
       if (request === './larkUtils.js') return FakeUtils;
@@ -1378,7 +1378,7 @@ async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
   }
 
   Module._load = function patchedLoad(request, parent, isMain) {
-    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+    if (parent?.filename?.endsWith('/packages/docs-tooling/src/lark/index.js')) {
       if (request === './larkDocScraper.js') return FakeScraper;
       if (request === './larkDriveWriter.js') return FakeDriveWriter;
       if (request === './larkUtils.js') return FakeUtils;

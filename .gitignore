@@ -41,7 +41,7 @@ node_modules/
 k8s/**/secret.yaml
 
 # Lark-docs pre-fetched source JSON (generated build artifacts)
-/plugins/lark-docs/meta/sources/
+/packages/docs-tooling/src/lark/meta/sources/
 
 # Eval results (generated)
 chat-proxy/scripts/eval/results/

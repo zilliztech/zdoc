@@ -310,7 +310,7 @@
         "scripts/docs-workflow"
       ],
       "replacementEntryPoints": [
-        "packages/docs-tooling/lark"
+        "packages/docs-tooling/src/lark"
       ],
       "disposition": "change",
       "acceptanceEvidence": [
@@ -331,7 +331,7 @@
         "plugins/apifox-docs"
       ],
       "replacementEntryPoints": [
-        "packages/docs-tooling/reference-rest"
+        "packages/docs-tooling/src/reference/rest"
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
@@ -353,7 +353,7 @@
         "sidebarsReference.ts"
       ],
       "replacementEntryPoints": [
-        "packages/docs-tooling/reference-sdk"
+        "packages/docs-tooling/src/lark"
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
@@ -403,6 +403,29 @@
       "acceptanceEvidence": [
         "Required future gate: node scripts/migration/verify-patch-replacement.mjs; this inventory does not claim it has passed."
       ]
+    },
+    {
+      "id": "legacy.run-content-group-adapter",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "The adapter invokes only the closed docs-tooling fetch, validate, and publish commands."
+      ],
+      "legacyEntryPoints": [
+        "scripts/docs-workflow/run-content-group.js"
+      ],
+      "replacementEntryPoints": [
+        "package.json#scripts.docs-tooling",
+        "packages/docs-tooling/src/cli.ts"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Task 6 gate: node --test scripts/docs-workflow/run-content-group.test.js."
+      ],
+      "removalMilestone": 7
     },
     {
       "id": "legacy.upstream-materialization",

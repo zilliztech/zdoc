@@ -1,12 +1,12 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const vm = require('node:vm')
-const larkDocScraper = require('../plugins/lark-docs/larkDocScraper')
+const larkDocScraper = require('../packages/docs-tooling/src/lark/larkDocScraper')
 const {
   createSourceSnapshot,
   outputPathsByTokenFromDirs,
   writeSnapshot,
-} = require('../plugins/lark-docs/sourceSnapshot')
+} = require('../packages/docs-tooling/src/lark/sourceSnapshot')
 const { outputDirsForTargets } = require('./docs-workflow/lark-snapshot-output-paths')
 
 function parseArgs(argv) {
@@ -49,7 +49,7 @@ async function main() {
   const buildEnv = args.buildEnv || process.env.DOCS_BUILD_ENV || 'local'
   const targetsBuilt = args.targetsBuilt ? args.targetsBuilt.split(',').map(item => item.trim()).filter(Boolean) : []
   const snapshotPath = args.snapshotPath ||
-    path.join('plugins', 'lark-docs', 'meta', 'snapshots', `${args.manual}-${buildEnv}-last-success.json`)
+    path.join('packages', 'docs-tooling', 'src', 'lark', 'meta', 'snapshots', `${args.manual}-${buildEnv}-last-success.json`)
   const scraper = new larkDocScraper(manual.root, manual.base, manual.sourceType, manual.docSourceDir)
   await scraper.__base({ progressLabel: '[snapshot] Base scan' })
   const nodeMetadataByToken = manual.sourceType === 'wiki'

@@ -10,7 +10,7 @@
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
   "generated_at": "2026-07-14T00:38:23.315Z",
-  "source_dir": "./plugins/lark-docs/meta/sources/guides",
+  "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
     {

@@ -12,32 +12,32 @@ function deepFreeze(value) {
 const CONTENT_GROUPS = deepFreeze({
   guides: {
     manuals: ['guides'], snapshotManual: 'guides', translate: true, durableTranslationBatchSize: 30,
-    ownedPaths: ['docs', 'docs-byoc', 'config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json', 'plugins/lark-docs/meta/assembly/guides.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md', 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'],
+    ownedPaths: ['docs', 'docs-byoc', 'config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js', 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', 'packages/docs-tooling/src/lark/meta/assembly/guides.json', 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json', 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md', 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv', 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json', 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.md', 'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json'],
     commitMessage: 'docs(guides): publish fetched content',
   },
   python: {
     manuals: ['python', 'pymilvus25', 'pymilvus26', 'pymilvus30'], snapshotManual: 'pymilvus30', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/python/python', 'config/generated/python.sidebar.js', 'plugins/lark-docs/meta/snapshots/pymilvus30-uat-last-success.json'],
+    ownedPaths: ['reference/api/python/python', 'config/generated/python.sidebar.js', 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json'],
     commitMessage: 'docs(python): publish SDK reference',
   },
   java: {
     manuals: ['javaV2', 'javaV225', 'javaV226', 'javaV230'], snapshotManual: 'javaV230', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/java/java/v2', 'reference/api/java/java/java.md', 'config/generated/java.sidebar.js', 'plugins/lark-docs/meta/snapshots/javaV230-uat-last-success.json'],
+    ownedPaths: ['reference/api/java/java/v2', 'reference/api/java/java/java.md', 'config/generated/java.sidebar.js', 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json'],
     commitMessage: 'docs(java): publish SDK reference',
   },
   node: {
     manuals: ['node', 'nodejs25', 'nodejs26', 'nodejs30'], snapshotManual: 'nodejs30', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/nodejs/nodejs', 'config/generated/node.sidebar.js', 'plugins/lark-docs/meta/snapshots/nodejs30-uat-last-success.json'],
+    ownedPaths: ['reference/api/nodejs/nodejs', 'config/generated/node.sidebar.js', 'packages/docs-tooling/src/lark/meta/snapshots/nodejs30-uat-last-success.json'],
     commitMessage: 'docs(node): publish SDK reference',
   },
   go: {
     manuals: ['gov226', 'gov230'], snapshotManual: 'gov230', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/go/go/v2', 'reference/api/go/go/go.md', 'config/generated/go.sidebar.js', 'plugins/lark-docs/meta/snapshots/gov230-uat-last-success.json'],
+    ownedPaths: ['reference/api/go/go/v2', 'reference/api/go/go/go.md', 'config/generated/go.sidebar.js', 'packages/docs-tooling/src/lark/meta/snapshots/gov230-uat-last-success.json'],
     commitMessage: 'docs(go): publish SDK reference',
   },
   cli: {
     manuals: ['cliv13', 'cliv14'], snapshotManual: 'cliv14', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/cli/cli', 'config/generated/cli.sidebar.js', 'plugins/lark-docs/meta/snapshots/cliv14-uat-last-success.json'],
+    ownedPaths: ['reference/cli/cli', 'config/generated/cli.sidebar.js', 'packages/docs-tooling/src/lark/meta/snapshots/cliv14-uat-last-success.json'],
     commitMessage: 'docs(cli): publish CLI reference',
   },
   rest: {

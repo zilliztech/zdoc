@@ -2,7 +2,7 @@
   "generated_at": "2026-07-13T03:18:36.310Z",
   "manual": "guides",
   "target": "zilliz.saas",
-  "source_dir": "./plugins/lark-docs/meta/sources/guides",
+  "source_dir": "./packages/docs-tooling/src/lark/meta/sources/guides",
   "summary": {
     "canonical_records": 373,
     "scanned_sources": 0,

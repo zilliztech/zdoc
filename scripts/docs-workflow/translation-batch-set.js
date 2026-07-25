@@ -21,8 +21,8 @@ const SOURCE_AUTHORITY = Object.freeze([
   'docs-byoc',
   'config/generated/guides.sidebar.js',
   'config/generated/guides-byoc.sidebar.js',
-  'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json',
-  'plugins/lark-docs/meta/assembly/guides.json',
+  'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+  'packages/docs-tooling/src/lark/meta/assembly/guides.json',
 ])
 const PAIR_KEYS = ['artifactDir', 'baselineDir']
 const PAIRS_MANIFEST_KEYS = ['schemaVersion', 'group', 'sourceCheckpointSha', 'expectedTargetSha', 'pairs']

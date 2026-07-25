@@ -61,6 +61,7 @@ export function validateCapability(capability) {
   if (!OWNERS.has(capability.owner)) fail('owner');
   for (const field of ['consumers', 'contracts', 'legacyEntryPoints', 'replacementEntryPoints', 'acceptanceEvidence']) requireStringArray(capability[field], field);
   if (!CAPABILITY_DISPOSITIONS.has(capability.disposition)) fail('disposition');
+  if (capability.removalMilestone !== undefined && (!Number.isInteger(capability.removalMilestone) || capability.removalMilestone < 1)) fail('removalMilestone');
   return capability;
 }
 
@@ -349,9 +350,9 @@ export function seedCapabilities() {
     capability('feature.llms-txt', 'tooling', ['plugins/llms-txt'], ['packages/docs-tooling/llms-txt'], 'preserve', ['llms.txt outputs are deterministic and route-complete.'], future('node scripts/migration/verify-llms-txt.mjs')),
     capability('feature.structured-data', 'site-config', ['docusaurus.config.ts', 'src/theme'], ['packages/site-config/structured-data'], 'preserve', ['Structured data remains valid for published pages.'], future('node scripts/migration/verify-structured-data.mjs')),
     capability('feature.web-metadata', 'site-config', ['static/robots.txt', 'docusaurus.config.ts', 'nginx.conf'], ['packages/site-config/web-metadata'], 'preserve', ['Metadata, robots directives, and redirects retain intended behavior.'], future('node scripts/migration/verify-metadata-robots-redirects.mjs')),
-    capability('generation.lark-manuals', 'tooling', ['plugins/lark-docs', 'scripts/docs-workflow'], ['packages/docs-tooling/lark'], 'change', ['Manual generation preserves content-group ownership, bounded concurrency, and atomic publication.'], future('node scripts/migration/verify-publication-atomicity.mjs')),
-    capability('generation.reference-rest', 'tooling', ['plugins/apifox-docs'], ['packages/docs-tooling/reference-rest'], 'preserve', ['REST generation preserves provenance and translation coverage.'], future('node scripts/migration/verify-reference-rest.mjs')),
-    capability('generation.reference-sdk', 'tooling', ['plugins/lark-docs', 'sidebarsReference.ts'], ['packages/docs-tooling/reference-sdk'], 'preserve', ['SDK generation preserves supported language/version coverage and provenance.'], future('node scripts/migration/verify-reference-sdk.mjs')),
+    capability('generation.lark-manuals', 'tooling', ['plugins/lark-docs', 'scripts/docs-workflow'], ['packages/docs-tooling/src/lark'], 'change', ['Manual generation preserves content-group ownership, bounded concurrency, and atomic publication.'], future('node scripts/migration/verify-publication-atomicity.mjs')),
+    capability('generation.reference-rest', 'tooling', ['plugins/apifox-docs'], ['packages/docs-tooling/src/reference/rest'], 'preserve', ['REST generation preserves provenance and translation coverage.'], future('node scripts/migration/verify-reference-rest.mjs')),
+    capability('generation.reference-sdk', 'tooling', ['plugins/lark-docs', 'sidebarsReference.ts'], ['packages/docs-tooling/src/lark'], 'preserve', ['SDK generation preserves supported language/version coverage and provenance.'], future('node scripts/migration/verify-reference-sdk.mjs')),
     capability('chinese.normalization', 'adapter', ['zdoc_cn:plugins/cn-publish-normalizer'], ['packages/publication-adapters/chinese-normalizer'], 'preserve', ['Chinese normalization remains deterministic.'], future('pnpm test --filter chinese-normalizer')),
     capability('chinese.rest-replacements', 'adapter', ['zdoc_cn:config/cn-publish-replacements.js', 'zdoc_cn:rest-overrides/zh-CN'], ['packages/publication-adapters/chinese-rest'], 'preserve', ['Chinese REST replacements remain explicit and validated.'], future('node scripts/migration/verify-cn-rest-replacements.mjs')),
     capability('chinese.storage', 'adapter', ['zdoc_cn:plugins/adapters/aliyun-oss'], ['packages/publication-adapters/storage'], 'change', ['Storage publication preserves failure and retry behavior without embedding credentials.'], future('pnpm test --filter publication-storage')),
@@ -361,6 +362,10 @@ export function seedCapabilities() {
     capability('legacy.upstream-materialization', 'tooling', ['zdoc_cn:scripts/upstream/materialize.js'], ['migration/archive/upstream-materialization'], 'retire', ['Retire only after unified source cutover and archive verification.'], future('node scripts/migration/verify-retirement-readiness.mjs')),
     capability('legacy.assembly-overlay', 'tooling', ['zdoc_cn:scripts/upstream/assemble.js', 'zdoc_cn:scripts/upstream/validate-assembled.js', 'zdoc_cn:overlay-manifest.json'], ['migration/archive/overlay-manifest.json'], 'retire', ['Assembly, overlay validation, and copy behavior are retired after parity gates.'], future('node scripts/migration/verify-overlay-parity.mjs')),
     capability('legacy.overlay-patching', 'tooling', ['zdoc_cn:patches/upstream/0001-cn-build-normalizer.patch'], ['packages/publication-adapters/chinese-normalizer'], 'retire', ['Patch behavior is replaced by first-class extension points before retirement.'], future('node scripts/migration/verify-patch-replacement.mjs')),
+    {
+      ...capability('legacy.run-content-group-adapter', 'tooling', ['scripts/docs-workflow/run-content-group.js'], ['package.json#scripts.docs-tooling', 'packages/docs-tooling/src/cli.ts'], 'retire', ['The adapter invokes only the closed docs-tooling fetch, validate, and publish commands.'], ['Task 6 gate: node --test scripts/docs-workflow/run-content-group.test.js.']),
+      removalMilestone: 7,
+    },
   ].sort((a, b) => compareText(a.id, b.id));
 }
 

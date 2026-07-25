@@ -59,7 +59,7 @@ jobs:
       - id: source_cache_keys
         name: Compute Guides cache generation keys
         run: |
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
           if [[ -f "$snapshot" ]]; then
             v4_restore_enabled=true
             generation=$(node scripts/docs-workflow/guides-source-cache-generation.js keys \
@@ -95,7 +95,7 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
           payload=tmp/guides-source-cache-v4
           staged="$RUNNER_TEMP/guides-source-cache-v4"
           rm -rf "$staged"
@@ -139,9 +139,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            plugins/lark-docs/meta/sources/guides
-            plugins/lark-docs/meta/source-cache/guides-manifest.json
-            plugins/lark-docs/meta/media-cache/guides.json
+            packages/docs-tooling/src/lark/meta/sources/guides
+            packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
+            packages/docs-tooling/src/lark/meta/media-cache/guides.json
           key: ${{ steps.source_cache_keys.outputs.v3 }}
       - id: source_cache_v3_check
         name: Validate Guides v3 cache candidate
@@ -149,14 +149,14 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
-          manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
-          media=plugins/lark-docs/meta/media-cache/guides.json
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+          manifest=packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
+          media=packages/docs-tooling/src/lark/meta/media-cache/guides.json
           if [[ "${{ steps.source_cache_v4_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             media_valid="${{ steps.source_cache_v4_check.outputs.media_valid }}"
           else
-            [[ -e plugins/lark-docs/meta/sources/guides || -L plugins/lark-docs/meta/sources/guides || \
+            [[ -e packages/docs-tooling/src/lark/meta/sources/guides || -L packages/docs-tooling/src/lark/meta/sources/guides || \
                -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
             if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
               --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
@@ -183,9 +183,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            plugins/lark-docs/meta/sources/guides
-            plugins/lark-docs/meta/source-cache/guides-manifest.json
-            plugins/lark-docs/meta/media-cache/guides.json
+            packages/docs-tooling/src/lark/meta/sources/guides
+            packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
+            packages/docs-tooling/src/lark/meta/media-cache/guides.json
           key: ${{ steps.source_cache_keys.outputs.v2 }}
       - id: source_cache_v2_check
         name: Validate Guides v2 cache candidate
@@ -193,14 +193,14 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
-          manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
-          media=plugins/lark-docs/meta/media-cache/guides.json
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+          manifest=packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
+          media=packages/docs-tooling/src/lark/meta/media-cache/guides.json
           if [[ "${{ steps.source_cache_v3_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             media_valid="${{ steps.source_cache_v3_check.outputs.media_valid }}"
           else
-            [[ -e plugins/lark-docs/meta/sources/guides || -L plugins/lark-docs/meta/sources/guides || \
+            [[ -e packages/docs-tooling/src/lark/meta/sources/guides || -L packages/docs-tooling/src/lark/meta/sources/guides || \
                -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
             if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
               --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
@@ -227,8 +227,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            plugins/lark-docs/meta/sources/guides
-            plugins/lark-docs/meta/source-cache/guides-manifest.json
+            packages/docs-tooling/src/lark/meta/sources/guides
+            packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
           key: ${{ steps.source_cache_keys.outputs.v1 }}
       - id: source_cache_v1_check
         name: Validate Guides v1 cache candidate
@@ -236,13 +236,13 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
-          manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
+          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+          manifest=packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
           if [[ "${{ steps.source_cache_v2_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             media_valid="${{ steps.source_cache_v2_check.outputs.media_valid }}"
           else
-            [[ -e plugins/lark-docs/meta/sources/guides || -L plugins/lark-docs/meta/sources/guides || \
+            [[ -e packages/docs-tooling/src/lark/meta/sources/guides || -L packages/docs-tooling/src/lark/meta/sources/guides || \
                -e "$manifest" || -L "$manifest" ]] && candidate_present=true
             if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
               --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
@@ -315,10 +315,10 @@ jobs:
         name: Prefetch shared guides media
         run: |
           args=(
-            --source-dir plugins/lark-docs/meta/sources/guides
-            --output plugins/lark-docs/meta/media-cache/guides.json
-            --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json
-            --report plugins/lark-docs/meta/reports/guides-media-prefetch.json
+            --source-dir packages/docs-tooling/src/lark/meta/sources/guides
+            --output packages/docs-tooling/src/lark/meta/media-cache/guides.json
+            --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+            --report packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json
             --bootstrap-docs docs,docs-byoc
             --concurrency 4
           )
@@ -328,8 +328,8 @@ jobs:
             args+=(
               --mode incremental
               --cache-state valid
-              --plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json
-              --previous-manifest plugins/lark-docs/meta/media-cache/guides.json
+              --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json
+              --previous-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json
             )
           else
             echo "[source-cache] Media cache unavailable; rebuilding complete canonical media coverage."
@@ -355,8 +355,8 @@ jobs:
       - id: source_cache_result
         name: Finalize Guides cache generation state
         run: |
-          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json
-          baseline=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
+          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+          baseline=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
           cache_version="${{ steps.source_cache_check.outputs.cache_version }}"
           cache_save_required=$(node scripts/docs-workflow/guides-cache-save-decision.js decide \
             --cache-version "$cache_version" \
@@ -369,8 +369,8 @@ jobs:
         name: Build Guides table render matrix
         run: |
           matrix=$(node scripts/docs-workflow/guides-tables.js matrix \
-            --plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json \
-            --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json)
+            --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json)
           count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")
           echo "matrix={\"include\":$matrix}" >> "$GITHUB_OUTPUT"
           echo "count=$count" >> "$GITHUB_OUTPUT"
@@ -382,24 +382,24 @@ jobs:
           node scripts/docs-workflow/guides-assembly-identity.js decide \
             --repository-root "$GITHUB_WORKSPACE" \
             --baseline-root "$RUNNER_TEMP/baseline" \
-            --candidate-snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
-            --incremental-plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json \
-            --baseline-descriptor plugins/lark-docs/meta/assembly/guides.json \
+            --candidate-snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
+            --incremental-plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --baseline-descriptor packages/docs-tooling/src/lark/meta/assembly/guides.json \
             --baseline-saas-sidebar config/generated/guides.sidebar.js \
             --baseline-byoc-sidebar config/generated/guides-byoc.sidebar.js \
             --master-sha "${{ inputs.master_sha }}" \
             --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" \
             --baseline-source-sha "$baseline_source_sha" \
             --table-count "${{ steps.table_matrix.outputs.count }}" \
-            --output plugins/lark-docs/meta/reports/guides-assembly-decision.json
+            --output packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json
           node scripts/docs-workflow/guides-assembly-identity.js validate-decision \
             --repository-root "$GITHUB_WORKSPACE" \
-            --input plugins/lark-docs/meta/reports/guides-assembly-decision.json \
+            --input packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json \
             --expected-master-sha "${{ inputs.master_sha }}" \
             --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
           decision_sha=$(node scripts/docs-workflow/guides-assembly-identity.js decision-sha \
             --repository-root "$GITHUB_WORKSPACE" \
-            --input plugins/lark-docs/meta/reports/guides-assembly-decision.json \
+            --input packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json \
             --expected-master-sha "${{ inputs.master_sha }}" \
             --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}")
           echo "assembly_decision_sha256=$decision_sha" >> "$GITHUB_OUTPUT"
@@ -418,8 +418,8 @@ jobs:
           if-no-files-found: ignore
       - name: Create shared source artifact
         run: |
-          node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest plugins/lark-docs/meta/media-cache/guides.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
-          node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+          node scripts/docs-workflow/guides-source-cache.js create --source-dir packages/docs-tooling/src/lark/meta/sources/guides --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+          node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
           tar -cf "$RUNNER_TEMP/guides-source.tar" -C "$RUNNER_TEMP" guides-source
       - id: upload
         uses: actions/upload-artifact@v4

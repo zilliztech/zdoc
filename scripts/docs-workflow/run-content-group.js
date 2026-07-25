@@ -4,32 +4,26 @@
 const { spawnSync } = require('node:child_process');
 const { getContentGroup } = require('./content-groups');
 
-const fetch = (manual, ...args) => ['npx', 'docusaurus', 'fetch-lark-docs', '-man', manual, ...args];
-const GUIDES_SOURCE_SNAPSHOT_CANDIDATE = 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json';
+const tooling = (action, manual) => [
+  'pnpm', 'docs-tooling', action,
+  '--manual', manual,
+  '--site', 'en',
+  '--stage', `tmp/docs-tooling/en/${manual}`,
+];
+const pipeline = manual => [tooling('fetch', manual), tooling('validate', manual), tooling('publish', manual)];
 const GUIDES_STAGES = {
-  source: [fetch('guides', '-src-only', '--incremental', '--buildEnv', 'uat', '--snapshotCandidatePath', GUIDES_SOURCE_SNAPSHOT_CANDIDATE)],
-  saas: [
-    fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks', '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json'),
-    fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'),
-  ],
-  byoc: [
-    fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS', '--buildEnv', 'uat', '--skipLinkValidation', '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json'),
-    fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
-  ],
+  source: [tooling('fetch', 'guides')],
+  saas: [tooling('validate', 'guides'), tooling('publish', 'guides')],
+  byoc: [tooling('validate', 'guides-byoc'), tooling('publish', 'guides-byoc')],
 };
 const COMMANDS = {
-  guides: [
-    fetch('guides', '-tar', 'zilliz.saas', '-s3', '--incremental', '--buildEnv', 'uat', '--auditCanonicalLinks'),
-    fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'),
-    fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS'),
-    fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
-  ],
-  python: [fetch('python', '-src-only'), fetch('pymilvus25', '-src-only'), fetch('pymilvus26', '-src-only'), fetch('pymilvus30', '-tar', 'zilliz', '-s3', '--incremental', '--buildEnv', 'uat'), fetch('pymilvus30', '-tar', 'zilliz', '-post')],
-  java: [fetch('javaV2', '-src-only'), fetch('javaV225', '-src-only'), fetch('javaV226', '-src-only'), fetch('javaV230', '-tar', 'zilliz', '-s3', '--incremental', '--buildEnv', 'uat'), fetch('javaV230', '-tar', 'zilliz', '-post')],
-  node: [fetch('node', '-src-only'), fetch('nodejs25', '-src-only'), fetch('nodejs26', '-src-only'), fetch('nodejs30', '-tar', 'zilliz', '-s3', '--incremental', '--buildEnv', 'uat'), fetch('nodejs30', '-tar', 'zilliz', '-post')],
-  go: [fetch('gov226', '-src-only'), fetch('gov230', '-tar', 'zilliz', '-s3', '--incremental', '--buildEnv', 'uat'), fetch('gov230', '-tar', 'zilliz', '-post')],
-  cli: [fetch('cliv13', '-src-only'), fetch('cliv14', '-tar', 'zilliz', '-s3', '--incremental', '--buildEnv', 'uat')],
-  rest: [['npx', 'docusaurus', 'fetch-apifox-docs', '-s', 'plugins/apifox-docs/meta/openapi/']],
+  guides: [...pipeline('guides'), ...pipeline('guides-byoc')],
+  python: pipeline('python'),
+  java: pipeline('java'),
+  node: pipeline('node'),
+  go: pipeline('go'),
+  cli: pipeline('cli'),
+  rest: pipeline('rest'),
 };
 
 function commandsFor(group) {
@@ -39,14 +33,18 @@ function commandsFor(group) {
 
 function commandsForGuidesStage(stage, options = {}) {
   if (!Object.hasOwn(GUIDES_STAGES, stage)) throw new Error(`Unknown guides stage: ${stage}`);
-  const commands = GUIDES_STAGES[stage].map(command => [...command]);
-  if (stage === 'source' && options.forceFullFetch) commands[0].push('--forceFullFetch');
-  return commands;
+  return GUIDES_STAGES[stage].map(command => [...command]);
 }
 
 function runContentGroup(group, options = {}) {
   const runner = options.spawnSync || spawnSync;
-  const env = options.env || process.env;
+  const baseEnv = options.env || process.env;
+  const hasEnvironmentOverrides = options.forceFullFetch || options.stage === 'source';
+  const env = hasEnvironmentOverrides ? {
+    ...baseEnv,
+    ...(options.forceFullFetch ? { DOCS_TOOLING_FORCE_FULL_FETCH: '1' } : {}),
+    ...(options.stage === 'source' ? { DOCS_TOOLING_GUIDES_STAGE: 'source' } : {}),
+  } : baseEnv;
   const commands = options.stage ? commandsForGuidesStage(options.stage, { forceFullFetch: options.forceFullFetch }) : commandsFor(group);
   for (const command of commands) {
     const rendered = command.join(' ');

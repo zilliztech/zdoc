@@ -7,7 +7,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { hashSnapshot } = require('../../plugins/lark-docs/sourceCompleteness')
+const { hashSnapshot } = require('../../packages/docs-tooling/src/lark/sourceCompleteness')
 const { sourceCacheKey, createSourceCacheManifest, validateMediaCache, validateSourceCache } = require('./guides-source-cache')
 
 function write(root, relative, value) { const file = path.join(root, relative); fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, typeof value === 'string' ? value : JSON.stringify(value)); return file }

@@ -5,8 +5,8 @@ const fs = require('node:fs')
 const path = require('node:path')
 const slugify = require('slugify')
 const yaml = require('js-yaml')
-const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../plugins/lark-docs/guidesBaseRecordSemantics')
-const { canonicalizeInternalDocLink } = require('../plugins/lark-docs/internalDocLink')
+const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
+const { canonicalizeInternalDocLink } = require('../packages/docs-tooling/src/lark/internalDocLink')
 
 function targetMatches(record, target) {
   const targets = guidesRecordPublishTargets(record)

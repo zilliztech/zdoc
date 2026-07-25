@@ -32,7 +32,7 @@ function getGroupPaths(groupName) {
     ownedPath.startsWith('config/generated/') && ownedPath.endsWith('.sidebar.js')
   )));
   const snapshot = group.ownedPaths.find((ownedPath) => (
-    ownedPath.startsWith('plugins/lark-docs/meta/snapshots/') && ownedPath.endsWith('.json')
+    ownedPath.startsWith('packages/docs-tooling/src/lark/meta/snapshots/') && ownedPath.endsWith('.json')
   )) || null;
   const preservedEnglish = Object.freeze([...PRESERVED_ENGLISH[groupName]]);
 

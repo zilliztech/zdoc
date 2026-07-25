@@ -1,6 +1,6 @@
 const fs = require('node:fs')
 
-const reportPath = process.argv[2] || './plugins/lark-docs/meta/reports/guides-canonical-link-audit.json'
+const reportPath = process.argv[2] || './packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json'
 
 if (!fs.existsSync(reportPath)) {
   console.error(`[canonical-links] Report not found: ${reportPath}`)

@@ -15,7 +15,7 @@ function write(file, content = 'x') {
 
 test('cleanupRemovedIncrementalRecords removes source JSON and recorded English outputs', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'incremental-reconcile-'));
-  const sourceDir = path.join(root, 'plugins/lark-docs/meta/sources/python/v3.0.x');
+  const sourceDir = path.join(root, 'packages/docs-tooling/src/lark/meta/sources/python/v3.0.x');
   const outputDir = path.join(root, 'reference/api/python/python');
   write(path.join(sourceDir, 'removed-token.json'), '{}');
   write(path.join(outputDir, 'old/path.md'), '---\ntoken: removed-token\n---\n');

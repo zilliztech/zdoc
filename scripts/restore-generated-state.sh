@@ -88,9 +88,9 @@ paths=(
   "i18n"
   ".translation-cache"
   "config/generated"
-  "plugins/lark-docs/meta/snapshots"
-  "plugins/lark-docs/meta/assembly"
-  "plugins/lark-docs/meta/reports"
+  "packages/docs-tooling/src/lark/meta/snapshots"
+  "packages/docs-tooling/src/lark/meta/assembly"
+  "packages/docs-tooling/src/lark/meta/reports"
 )
 
 for restore_path in "${paths[@]}"; do

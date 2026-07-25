@@ -3,7 +3,7 @@
 Generated: 2026-07-13T03:18:36.150Z
 Mode: incremental
 Build env: uat
-Source dir: `./plugins/lark-docs/meta/sources/guides`
+Source dir: `./packages/docs-tooling/src/lark/meta/sources/guides`
 Previous snapshot: 2026-07-12T03:27:06.753Z
 
 ## Summary

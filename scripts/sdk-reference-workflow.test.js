@@ -27,8 +27,8 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
   assert.ok(steps.indexOf(selection) < steps.indexOf(checkpoint), 'checkpoint creation must include the selected snapshot identity')
 
   const selectionRun = selection.run || ''
-  assert.match(selectionRun, /^[ \t]*candidate=plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
-  assert.match(selectionRun, /^[ \t]*snapshot=plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json$/m)
+  assert.match(selectionRun, /^[ \t]*candidate=packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
+  assert.match(selectionRun, /^[ \t]*snapshot=packages\/docs-tooling\/src\/lark\/meta\/snapshots\/guides-uat-last-success\.json$/m)
   assert.match(selectionRun, /guides-cache-generation-lifecycle\.js select[\s\S]*--candidate "\$candidate" --baseline "\$snapshot"/)
   assert.match(selectionRun, /if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js[\s\S]*--candidate "\$candidate"[\s\S]*--output "\$snapshot"/)
   assert.equal((checkpoint.run || '').includes(`--validation-command '${GUIDES_BUILD_VALIDATION}'`), true, 'checkpoint creation must embed the second exact no-card build validation')
@@ -73,7 +73,7 @@ test('Guides assembly rejects build validation moved out of the combined validat
   const source = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
   const moved = source
     .replace(`          ${GUIDES_BUILD_VALIDATION}\n`, '          true\n')
-    .replace('          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', `          ${GUIDES_BUILD_VALIDATION}\n          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json`)
+    .replace('          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', `          ${GUIDES_BUILD_VALIDATION}\n          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json`)
   const escaped = GUIDES_BUILD_VALIDATION.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   assert.equal((moved.match(new RegExp(escaped, 'g')) || []).length, 2, 'mutation retains the misleading global command count')
   assert.throws(() => assertGuidesAssemblySnapshotLifecycle(moved), /combined validation step must run the exact no-card build/)

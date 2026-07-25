@@ -11,7 +11,7 @@ const {
     createFenceTracker,
     getFencedCodeRanges,
     createFencedCodeBlock,
-} = require('../../apps/docs/plugins/mdx-parse/mdxPatcher')
+} = require('../../../../apps/docs/plugins/mdx-parse/mdxPatcher')
 const { filterCodeVariants } = require('./codeVariantFilter')
 const Downloader = require('./larkImageDownloader.js')
 const slugify = require('slugify')
@@ -44,7 +44,7 @@ class larkDocWriter {
         root_token,
         base_token,
         displayedSidebar,
-        docSourceDir='plugins/lark-docs/meta/sources',
+        docSourceDir='packages/docs-tooling/src/lark/meta/sources',
         imageDir='static/img',
         targets='zilliz.saas',
         skip_image_download=false,
@@ -3389,7 +3389,7 @@ class larkDocWriter {
     }
 
     keyword_picker(seedInput=null) {
-        const keywords = fs.readFileSync(node_path.join('plugins', 'lark-docs', 'meta', 'keywords.txt'), 'utf8').trim().split('\n')
+        const keywords = fs.readFileSync(node_path.join('packages', 'docs-tooling', 'src', 'lark', 'meta', 'keywords.txt'), 'utf8').trim().split('\n')
         let seed = Math.floor(Math.random() * keywords.length)
         if (seedInput != null) {
             seed = String(seedInput).split('').reduce((hash, char) => {
