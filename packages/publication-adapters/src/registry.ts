@@ -2,8 +2,11 @@ import {lstatSync, realpathSync} from 'node:fs';
 import path from 'node:path';
 
 import type {GeneratedDocument, PublicationAdapter, PublicationContext} from './types.ts';
+import {createZhCnAliyunOssAdapter, type AliyunOssStorage} from './zh-CN/aliyunOss.ts';
+import {zhCnMarkdownNormalizer} from './zh-CN/normalizer.ts';
+import {zhCnRestReplacements} from './zh-CN/restReplacements.ts';
 
-const ADAPTER_ID = /^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/u;
+const ADAPTER_ID = /^(?:[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?|zh-CN\.[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)$/u;
 
 function pathEntryExists(target: string): boolean {
   try {
@@ -139,4 +142,15 @@ export function createPublicationAdapterRegistry(adapters: readonly PublicationA
       for (const adapter of adapters) await adapter.validatePublication(safeContext.publicationRoot, safeContext);
     },
   });
+}
+
+export function createZhCnPublicationAdapterRegistry(options: Readonly<{
+  aliyunOssStorage: AliyunOssStorage;
+}>): PublicationAdapterRegistry {
+  if (!options || typeof options !== 'object') throw new Error('zh-CN publication adapter options are required');
+  return createPublicationAdapterRegistry([
+    zhCnMarkdownNormalizer,
+    zhCnRestReplacements,
+    createZhCnAliyunOssAdapter(options.aliyunOssStorage),
+  ]);
 }

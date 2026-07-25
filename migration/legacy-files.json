@@ -52391,14 +52391,14 @@
       "sourcePath": "config/cn-publish-replacements.js",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b91fd06bcf19272bd07af2524c12a5f28451ff57",
-      "disposition": "migrate",
-      "owner": "site-config",
+      "disposition": "rewrite",
+      "owner": "adapter",
       "evidence": [
         "Git blob b91fd06bcf19272bd07af2524c12a5f28451ff57 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Covered by pinned overlay operation copy:config/cn-publish-replacements.js=>config/cn-publish-replacements.js."
+        "Representative constants and field-scoped behavior are preserved in packages/publication-adapters/src/zh-CN/legacyFixtures.ts and restReplacements.test.ts; the legacy config module is not copied."
       ],
-      "targetPath": "config/cn-publish-replacements.js"
+      "targetPath": "packages/publication-adapters/src/zh-CN/restReplacements.ts"
     },
     {
       "sourceRepository": "zdoc_cn",
@@ -65524,56 +65524,56 @@
       "sourcePath": "plugins/cn-publish-normalizer/normalizeCnContent.js",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d0e97dfbbe607d26320050a02839152e2843e54e",
-      "disposition": "migrate",
+      "disposition": "rewrite",
       "owner": "adapter",
       "evidence": [
         "Git blob d0e97dfbbe607d26320050a02839152e2843e54e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Covered by pinned overlay operation copy:plugins/cn-publish-normalizer=>plugins/cn-publish-normalizer."
+        "Rewritten as the named zh-CN Markdown and REST publication adapters; the legacy implementation tree is not copied."
       ],
-      "targetPath": "plugins/cn-publish-normalizer/normalizeCnContent.js"
+      "targetPath": "packages/publication-adapters/src/zh-CN/normalizer.ts"
     },
     {
       "sourceRepository": "zdoc_cn",
       "sourcePath": "plugins/cn-publish-normalizer/normalizeCnContent.test.js",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "079654e4720106e87793c1cf46232cdd84a3e456",
-      "disposition": "migrate",
+      "disposition": "rewrite",
       "owner": "adapter",
       "evidence": [
         "Git blob 079654e4720106e87793c1cf46232cdd84a3e456 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Covered by pinned overlay operation copy:plugins/cn-publish-normalizer=>plugins/cn-publish-normalizer."
+        "Representative input and output behavior is preserved in packages/publication-adapters/src/zh-CN/legacyFixtures.ts and normalizer.test.ts."
       ],
-      "targetPath": "plugins/cn-publish-normalizer/normalizeCnContent.test.js"
+      "targetPath": "packages/publication-adapters/src/zh-CN/normalizer.test.ts"
     },
     {
       "sourceRepository": "zdoc_cn",
       "sourcePath": "plugins/cn-publish-normalizer/remarkCnPublishNormalizer.js",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e9a9b315b029db718903691b3abb2e844589e74e",
-      "disposition": "migrate",
+      "disposition": "rewrite",
       "owner": "adapter",
       "evidence": [
         "Git blob e9a9b315b029db718903691b3abb2e844589e74e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Covered by pinned overlay operation copy:plugins/cn-publish-normalizer=>plugins/cn-publish-normalizer."
+        "Rewritten as a document-level adapter selected through the bounded publication registry; the legacy Remark implementation is not copied."
       ],
-      "targetPath": "plugins/cn-publish-normalizer/remarkCnPublishNormalizer.js"
+      "targetPath": "packages/publication-adapters/src/zh-CN/normalizer.ts"
     },
     {
       "sourceRepository": "zdoc_cn",
       "sourcePath": "plugins/cn-publish-normalizer/remarkCnPublishNormalizer.test.js",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "babaf500979e6efb9112d0fc01fd50ebd0375e93",
-      "disposition": "migrate",
+      "disposition": "rewrite",
       "owner": "adapter",
       "evidence": [
         "Git blob babaf500979e6efb9112d0fc01fd50ebd0375e93 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Covered by pinned overlay operation copy:plugins/cn-publish-normalizer=>plugins/cn-publish-normalizer."
+        "Representative link and inline behavior is preserved in packages/publication-adapters/src/zh-CN/legacyFixtures.ts and normalizer.test.ts; package tests additionally pin table and slug structural stability."
       ],
-      "targetPath": "plugins/cn-publish-normalizer/remarkCnPublishNormalizer.test.js"
+      "targetPath": "packages/publication-adapters/src/zh-CN/normalizer.test.ts"
     },
     {
       "sourceRepository": "zdoc_cn",
@@ -80426,12 +80426,14 @@
       "sourcePath": "scripts/docs-workflow/rest-reconciliation.test.js",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7d0bfb11e07d7a4aff93afdbc8c302fb096dd9ae",
-      "disposition": "defer",
-      "owner": "tooling",
+      "disposition": "rewrite",
+      "owner": "adapter",
       "evidence": [
         "Git blob 7d0bfb11e07d7a4aff93afdbc8c302fb096dd9ae at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
-      ]
+        "Revision pin source: migration/source-snapshots.json.",
+        "Representative REST publication scope is preserved in packages/publication-adapters/src/zh-CN/legacyFixtures.ts and restReplacements.test.ts."
+      ],
+      "targetPath": "packages/publication-adapters/src/zh-CN/restReplacements.test.ts"
     },
     {
       "sourceRepository": "zdoc_cn",

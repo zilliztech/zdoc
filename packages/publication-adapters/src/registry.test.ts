@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import {describe, expect, it, vi} from 'vitest';
 
-import {createPublicationAdapterRegistry} from './registry.ts';
+import {createPublicationAdapterRegistry, createZhCnPublicationAdapterRegistry} from './registry.ts';
 import type {GeneratedDocument, PublicationAdapter, PublicationContext} from './types.ts';
 
 function temporaryRoot(): string {
@@ -33,6 +33,17 @@ function adapter(
 }
 
 describe('publication adapter registry', () => {
+  it('accepts the bounded zh-CN adapter namespace without allowing arbitrary uppercase IDs', () => {
+    expect(createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    }).ids).toEqual([
+      'zh-CN.aliyun-oss',
+      'zh-CN.markdown-normalizer',
+      'zh-CN.rest-replacements',
+    ]);
+    expect(() => createPublicationAdapterRegistry([adapter('Uppercase')])).toThrow(/invalid/i);
+  });
+
   it('is strict, frozen, deterministic, and rejects duplicate IDs', () => {
     expect(() => createPublicationAdapterRegistry([adapter('normalize'), adapter('normalize')])).toThrow(/duplicate.*normalize/i);
     const registry = createPublicationAdapterRegistry([adapter('z-last'), adapter('a-first')]);
