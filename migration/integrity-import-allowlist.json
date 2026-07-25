@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "context": "Import batch scans intentionally run without repository-wide legacy exceptions.",
+  "exceptions": []
+}
