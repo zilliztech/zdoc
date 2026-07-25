@@ -13,7 +13,8 @@ const PROJECT_ENDPOINT = 'https://{project-id}.{region}.api.cloud.zilliz.com.cn'
 const GLOBAL_ENDPOINT = 'https://glo-xxxx.global-cluster.vectordb.zilliz.com.cn';
 const PRIVATE_ENDPOINT = 'https://{cluster-id}-privatelink.{region}.vectordb.zilliz.com.cn';
 
-const HOST_TERMINAL = String.raw`(?=$|[:/?#\s)\]}>"'|])`;
+const HOST_CLOSING_CONTEXT = String.raw`[\s)\]}>"'|\x60]|\\[)\]|]`;
+const HOST_TERMINAL = `(?=$|[:/?#]|${HOST_CLOSING_CONTEXT}|[.,;](?=$|${HOST_CLOSING_CONTEXT}))`;
 
 function legacyEndpointHostMatcher(hostPattern: string): RegExp {
   return new RegExp(`https?://${hostPattern}${HOST_TERMINAL}`, 'giu');

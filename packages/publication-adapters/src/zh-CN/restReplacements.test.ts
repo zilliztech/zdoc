@@ -233,6 +233,57 @@ describe('zh-CN REST replacement adapter', () => {
     expect(tablePipes(output)).toEqual(tablePipes(input));
   });
 
+  it('accepts safe Markdown and sentence terminal contexts without matching hostile continuations', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '`https://api.cloud.zilliz.com`',
+      '`https://api.cloud.zilliz.com.`',
+      'Period https://api.cloud.zilliz.com. Next',
+      'Comma https://api.cloud.zilliz.com, next',
+      'Semicolon https://api.cloud.zilliz.com; next',
+      'Escaped https://api.cloud.zilliz.com\\)',
+      'Escaped https://project.region.api.zillizcloud.com\\]',
+      '|escaped|https://cluster.api.region.zillizcloud.com\\||',
+      '[API](https://api.cloud.zilliz.com)',
+      '```text',
+      'https://project.region.api.zillizcloud.com',
+      '```',
+      'https://api.cloud.zilliz.com.evil/path',
+      'https://api.cloud.zilliz.com,evil',
+      'https://api.cloud.zilliz.com;evil',
+      'EOF https://api.cloud.zilliz.com.',
+    ].join('\n');
+    const expected = [
+      '`https://api.cloud.zilliz.com.cn`',
+      '`https://api.cloud.zilliz.com.cn.`',
+      'Period https://api.cloud.zilliz.com.cn. Next',
+      'Comma https://api.cloud.zilliz.com.cn, next',
+      'Semicolon https://api.cloud.zilliz.com.cn; next',
+      'Escaped https://api.cloud.zilliz.com.cn\\)',
+      'Escaped https://project.region.api.cloud.zilliz.com.cn\\]',
+      '|escaped|https://cluster.region.vectordb.zilliz.com.cn\\||',
+      '[API](https://api.cloud.zilliz.com.cn)',
+      '```text',
+      'https://project.region.api.cloud.zilliz.com.cn',
+      '```',
+      'https://api.cloud.zilliz.com.evil/path',
+      'https://api.cloud.zilliz.com,evil',
+      'https://api.cloud.zilliz.com;evil',
+      'EOF https://api.cloud.zilliz.com.cn.',
+    ].join('\n');
+
+    const output = registry.transformDocument(
+      [ZH_CN_REST_REPLACEMENTS_ID],
+      {path: 'terminal-contexts.mdx', contents: input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(expected);
+    expect(tablePipes(output)).toEqual(tablePipes(input));
+  });
+
   it('requires Unicode-safe field names and complete provider and region value tokens', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},
