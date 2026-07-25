@@ -129,11 +129,47 @@ describe('publication diagnostics filesystem boundary', () => {
     expect(readFileSync(path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE), 'utf8')).toMatch(/baselineCommit/);
   });
 
+  it('keeps valid anchors immutable and gives each diagnostics generation a distinct path', () => {
+    const root = temporaryRoot();
+    const {identity} = fixture(root);
+    const first = createPublicationDiagnostics(identity, `sha256:${'1'.repeat(64)}`);
+    const second = createPublicationDiagnostics(identity, `sha256:${'2'.repeat(64)}`);
+    const firstPath = writePublicationAnchor(root, identity, first);
+    const firstBytes = readFileSync(firstPath, 'utf8');
+    const firstInode = lstatSync(firstPath).ino;
+    const secondPath = writePublicationAnchor(root, identity, second);
+
+    expect(secondPath).not.toBe(firstPath);
+    expect(readFileSync(firstPath, 'utf8')).toBe(firstBytes);
+    expect(lstatSync(firstPath).ino).toBe(firstInode);
+    expect(publicationAnchorPath(root, identity, first.manifestSha256)).toBe(firstPath);
+    expect(publicationAnchorPath(root, identity, second.manifestSha256)).toBe(secondPath);
+  });
+
+  it('validates two interleaved fetch generations without anchor cross-contamination', () => {
+    const root = temporaryRoot();
+    const {identity} = fixture(root);
+    const firstStage = path.join(root, 'interleaved/first');
+    const secondStage = path.join(root, 'interleaved/second');
+    mkdirSync(firstStage, {recursive: true});
+    mkdirSync(secondStage, {recursive: true});
+    const first = createPublicationDiagnostics(identity, `sha256:${'1'.repeat(64)}`);
+    const second = createPublicationDiagnostics(identity, `sha256:${'2'.repeat(64)}`);
+
+    writePublicationDiagnostics(root, firstStage, first);
+    writePublicationAnchor(root, identity, first);
+    writePublicationDiagnostics(root, secondStage, second);
+    writePublicationAnchor(root, identity, second);
+
+    expect(readAndValidatePublicationDiagnostics(root, firstStage, identity)).toEqual(first);
+    expect(readAndValidatePublicationDiagnostics(root, secondStage, identity)).toEqual(second);
+  });
+
   it.each(['symlink', 'hardlink', 'fifo'] as const)('rejects a %s trusted anchor entry', kind => {
     const root = temporaryRoot();
     const {diagnostics, identity, stageRoot} = fixture(root);
     writeTrustBundle(root, stageRoot, identity, diagnostics);
-    const target = publicationAnchorPath(root, identity);
+    const target = publicationAnchorPath(root, identity, diagnostics.manifestSha256);
     rmSync(target);
     const external = path.join(root, 'external-anchor.json');
     writeFileSync(external, '{}\n');

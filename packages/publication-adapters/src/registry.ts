@@ -110,20 +110,33 @@ export function createPublicationAdapterRegistry(adapters: readonly PublicationA
     return adapter;
   }
 
+  function normalizeSelection(adapterIds: readonly string[]): readonly PublicationAdapter[] {
+    if (!Array.isArray(adapterIds)) throw new Error('Selected publication adapter IDs must be an array');
+    const selected = new Set<string>();
+    return Object.freeze(adapterIds.map((id, index) => {
+      if (typeof id !== 'string') throw new Error(`Selected publication adapter ID at index ${index} must be a string`);
+      if (selected.has(id)) throw new Error(`Duplicate selected publication adapter ID: ${id}`);
+      selected.add(id);
+      return resolve(id);
+    }));
+  }
+
   return Object.freeze({
     ids,
     resolve,
     transformDocument(adapterIds: readonly string[], document: GeneratedDocument, context: PublicationContext): GeneratedDocument {
+      const adapters = normalizeSelection(adapterIds);
       const safeContext = immutableContext(context);
       let transformed = immutableDocument(document, safeContext.publicationRoot);
-      for (const id of adapterIds) {
-        transformed = immutableDocument(resolve(id).transformDocument(transformed, safeContext), safeContext.publicationRoot);
+      for (const adapter of adapters) {
+        transformed = immutableDocument(adapter.transformDocument(transformed, safeContext), safeContext.publicationRoot);
       }
       return transformed;
     },
     async validatePublication(adapterIds: readonly string[], context: PublicationContext): Promise<void> {
+      const adapters = normalizeSelection(adapterIds);
       const safeContext = immutableContext(context);
-      for (const id of adapterIds) await resolve(id).validatePublication(safeContext.publicationRoot, safeContext);
+      for (const adapter of adapters) await adapter.validatePublication(safeContext.publicationRoot, safeContext);
     },
   });
 }

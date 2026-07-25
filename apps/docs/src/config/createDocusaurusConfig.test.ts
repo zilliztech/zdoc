@@ -257,7 +257,10 @@ describe('createDocusaurusConfig', () => {
     const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), 'apps/docs/package.json'), 'utf8'));
     expect(packageJson.type).toBeUndefined();
     expect(packageJson.scripts['build:en']).toMatch(
-      /^NODE_OPTIONS=--max-old-space-size=8192 ZDOC_SITE=en docusaurus build /,
+      /^NODE_OPTIONS=--max-old-space-size=8192 node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site en -- docusaurus build /,
+    );
+    expect(packageJson.scripts['build:zh-CN']).toMatch(
+      /^node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
     );
   });
 

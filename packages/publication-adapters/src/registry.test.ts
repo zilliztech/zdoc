@@ -47,6 +47,37 @@ describe('publication adapter registry', () => {
     expect(() => registry.transformDocument(['missing'], {path: 'page.md', contents: '# page\n'}, context(temporaryRoot()))).toThrow(/unknown|undeclared.*missing/i);
   });
 
+  it.each(['transform', 'validate'] as const)('rejects duplicate selected adapter IDs before %s side effects', async operation => {
+    const root = temporaryRoot();
+    const transformDocument = vi.fn((document: GeneratedDocument) => document);
+    const validatePublication = vi.fn(async () => {});
+    const registry = createPublicationAdapterRegistry([{...adapter('append', transformDocument), validatePublication}]);
+
+    if (operation === 'transform') {
+      expect(() => registry.transformDocument(['append', 'append'], {path: 'page.md', contents: '# page\n'}, context(root))).toThrow(/duplicate.*append|append.*duplicate/i);
+    } else {
+      await expect(registry.validatePublication(['append', 'append'], context(root))).rejects.toThrow(/duplicate.*append|append.*duplicate/i);
+    }
+    expect(transformDocument).not.toHaveBeenCalled();
+    expect(validatePublication).not.toHaveBeenCalled();
+  });
+
+  it.each(['transform', 'validate'] as const)('rejects non-string selected adapter IDs before %s side effects', async operation => {
+    const root = temporaryRoot();
+    const transformDocument = vi.fn((document: GeneratedDocument) => document);
+    const validatePublication = vi.fn(async () => {});
+    const registry = createPublicationAdapterRegistry([{...adapter('append', transformDocument), validatePublication}]);
+    const selected = ['append', 7] as unknown as readonly string[];
+
+    if (operation === 'transform') {
+      expect(() => registry.transformDocument(selected, {path: 'page.md', contents: '# page\n'}, context(root))).toThrow(/adapter.*id.*string|selected.*string/i);
+    } else {
+      await expect(registry.validatePublication(selected, context(root))).rejects.toThrow(/adapter.*id.*string|selected.*string/i);
+    }
+    expect(transformDocument).not.toHaveBeenCalled();
+    expect(validatePublication).not.toHaveBeenCalled();
+  });
+
   it.each([
     '../escape.md',
     '/absolute.md',

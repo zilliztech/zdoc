@@ -10,7 +10,6 @@ import {
   openSync,
   readFileSync,
   realpathSync,
-  renameSync,
   unlinkSync,
   writeFileSync,
 } from 'node:fs';
@@ -275,12 +274,13 @@ function resolveAnchorRoot(repositoryRootInput: string, create: boolean): string
   return anchorRoot;
 }
 
-function anchorFileName(input: PublicationDiagnosticsIdentity): string {
-  return `${anchorIdentity(input).identitySha256.slice('sha256:'.length)}.json`;
+function anchorFileName(input: PublicationDiagnosticsIdentity, diagnosticsManifestSha256: string): string {
+  if (!SHA256.test(diagnosticsManifestSha256)) throw new Error('Publication diagnostics trusted anchor manifest checksum is invalid');
+  return `${anchorIdentity(input).identitySha256.slice('sha256:'.length)}-${diagnosticsManifestSha256.slice('sha256:'.length)}.json`;
 }
 
-export function publicationAnchorPath(repositoryRoot: string, input: PublicationDiagnosticsIdentity): string {
-  return path.join(resolveAnchorRoot(repositoryRoot, false), anchorFileName(input));
+export function publicationAnchorPath(repositoryRoot: string, input: PublicationDiagnosticsIdentity, diagnosticsManifestSha256: string): string {
+  return path.join(resolveAnchorRoot(repositoryRoot, false), anchorFileName(input, diagnosticsManifestSha256));
 }
 
 function resolveStageRoot(repositoryRootInput: string, stageRootInput: string): string {
@@ -360,17 +360,20 @@ export function writePublicationAnchor(
   assertSelfConsistentAnchor(anchor);
   const anchorRoot = resolveAnchorRoot(repositoryRoot, true);
   const anchorRootIdentity = lstatSync(anchorRoot);
-  const target = path.join(anchorRoot, anchorFileName(expectedIdentity));
+  const target = path.join(anchorRoot, anchorFileName(expectedIdentity, parsedDiagnostics.manifestSha256));
+  const serialized = `${JSON.stringify(anchor, null, 2)}\n`;
   if (pathEntryExists(target)) {
     const current = lstatSync(target);
     if (current.isSymbolicLink() || !current.isFile() || current.nlink !== 1) {
       throw new Error('Publication diagnostics trusted anchor must be a regular non-linked file');
     }
+    if (readFileSync(target, 'utf8') !== serialized) throw new Error('Publication diagnostics trusted anchor generation already exists with different bytes');
+    return target;
   }
   const temporary = path.join(anchorRoot, `.${path.basename(target)}.tmp-${process.pid}-${randomUUID()}`);
   const descriptor = openSync(temporary, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
   try {
-    writeFileSync(descriptor, `${JSON.stringify(anchor, null, 2)}\n`);
+    writeFileSync(descriptor, serialized);
     fsyncSync(descriptor);
   } finally {
     closeSync(descriptor);
@@ -380,10 +383,18 @@ export function writePublicationAnchor(
     if (beforeCommit.dev !== anchorRootIdentity.dev || beforeCommit.ino !== anchorRootIdentity.ino || beforeCommit.isSymbolicLink()) {
       throw new Error('Publication diagnostics trusted anchor root identity changed before commit');
     }
-    renameSync(temporary, target);
+    linkSync(temporary, target);
+    unlinkSync(temporary);
     fsyncDirectory(anchorRoot);
   } catch (error) {
     if (pathEntryExists(temporary)) unlinkSync(temporary);
+    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
+      const current = lstatSync(target);
+      if (current.isSymbolicLink() || !current.isFile() || current.nlink !== 1 || readFileSync(target, 'utf8') !== serialized) {
+        throw new Error('Publication diagnostics trusted anchor generation was concurrently replaced with unsafe or different bytes', {cause: error});
+      }
+      return target;
+    }
     throw error;
   }
   return target;
@@ -418,8 +429,8 @@ function readDiagnosticsFile(repositoryRoot: string, stageRootInput: string): un
   }
 }
 
-function readAnchorFile(repositoryRoot: string, expectedIdentity: PublicationDiagnosticsIdentity): unknown {
-  const target = publicationAnchorPath(repositoryRoot, expectedIdentity);
+function readAnchorFile(repositoryRoot: string, expectedIdentity: PublicationDiagnosticsIdentity, diagnosticsManifestSha256: string): unknown {
+  const target = publicationAnchorPath(repositoryRoot, expectedIdentity, diagnosticsManifestSha256);
   if (!pathEntryExists(target)) throw new Error(`Publication diagnostics trusted anchor is missing: ${target}`);
   const before = lstatSync(target);
   if (before.isSymbolicLink() || !before.isFile()) throw new Error('Publication diagnostics trusted anchor must be a regular non-symlink file');
@@ -458,7 +469,7 @@ export function readAndValidatePublicationDiagnostics(
   if (canonicalJson(parsed.data) !== canonicalJson(expected)) {
     throw new Error('Publication diagnostics manifest does not match the selected site, manual, stage, publication, or source identity');
   }
-  const anchor = PublicationAnchorSchema.safeParse(readAnchorFile(repositoryRoot, expectedIdentity));
+  const anchor = PublicationAnchorSchema.safeParse(readAnchorFile(repositoryRoot, expectedIdentity, parsed.data.manifestSha256));
   if (!anchor.success) throw new Error(`Publication diagnostics trusted anchor schema validation failed: ${anchor.error.message}`);
   assertSelfConsistentAnchor(anchor.data);
   const expectedAnchor = createPublicationAnchor(expectedIdentity, parsed.data);
