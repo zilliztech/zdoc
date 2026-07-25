@@ -57,6 +57,42 @@ describe('site profile resolution', () => {
     ]);
   });
 
+  it('registers the five independent Chinese product roots without Docusaurus content i18n', () => {
+    expect(zhCNProfile.content).toEqual([
+      {
+        id: 'default',
+        sourcePath: 'content/zh-CN/guides',
+        routeBasePath: 'docs',
+        sidebarPath: 'packages/site-config/src/sidebars/zh-CN/guides.ts',
+      },
+      {
+        id: 'byoc',
+        sourcePath: 'content/zh-CN/byoc',
+        routeBasePath: 'docs/byoc',
+        sidebarPath: 'packages/site-config/src/sidebars/zh-CN/byoc.ts',
+      },
+      {
+        id: 'onpremise',
+        sourcePath: 'content/zh-CN/onpremise',
+        routeBasePath: 'on-premise',
+        sidebarPath: 'packages/site-config/src/sidebars/zh-CN/onpremise.ts',
+      },
+      {
+        id: 'agents',
+        sourcePath: 'content/zh-CN/agents',
+        routeBasePath: 'docs/agents',
+        sidebarPath: 'packages/site-config/src/sidebars/zh-CN/agents.ts',
+      },
+      {
+        id: 'reference',
+        sourcePath: 'content/zh-CN/reference',
+        routeBasePath: 'reference',
+        sidebarPath: 'packages/site-config/src/sidebars/zh-CN/reference.ts',
+      },
+    ]);
+    expect(zhCNProfile.content.every(plugin => !plugin.sourcePath.startsWith('i18n/'))).toBe(true);
+  });
+
   it('returns the same deeply frozen profile object', () => {
     const profile = resolveSiteProfile('en');
     expect(resolveSiteProfile('en')).toBe(profile);
