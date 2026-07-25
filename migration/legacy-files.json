@@ -64927,11 +64927,12 @@
       "sourcePath": "onpremise/docs/ops/install-and-deploy/deploy-milvus-cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9192834d4f48d314f159614b3adc5a3975162204",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9192834d4f48d314f159614b3adc5a3975162204 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -64939,11 +64940,12 @@
       "sourcePath": "onpremise/docs/ops/install-and-deploy/install-and-deploy.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dc50d00dffff4a379ce871b28884905129e5e47c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dc50d00dffff4a379ce871b28884905129e5e47c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -64951,11 +64953,12 @@
       "sourcePath": "onpremise/docs/ops/install-and-deploy/install-milvus-operator.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "3775d0066376bceb85f8909dbb23d742bcaf3cca",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 3775d0066376bceb85f8909dbb23d742bcaf3cca at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -64963,11 +64966,12 @@
       "sourcePath": "onpremise/docs/ops/on-premise-overview/license-usage.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "613f4f4764295d153f597a68dc054e061c7289d6",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 613f4f4764295d153f597a68dc054e061c7289d6 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -64975,11 +64979,12 @@
       "sourcePath": "onpremise/docs/ops/on-premise-overview/obtain-images.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "545c97b9932c086bbf0a0469bf6bef8c2767bc22",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 545c97b9932c086bbf0a0469bf6bef8c2767bc22 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -64987,11 +64992,12 @@
       "sourcePath": "onpremise/docs/ops/on-premise-overview/on-premise-overview.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "15e97e2ae9d1d8e65ac1a2b6835e1adba63dcd1f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 15e97e2ae9d1d8e65ac1a2b6835e1adba63dcd1f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -64999,11 +65005,12 @@
       "sourcePath": "onpremise/docs/ops/on-premise-overview/requirements.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "4b08358c2491682319644bfa19976b05bed5d199",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 4b08358c2491682319644bfa19976b05bed5d199 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65011,11 +65018,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/enable-pod-monitor.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a0bee82db4f27d538492624d7bed51c0daaeee27",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a0bee82db4f27d538492624d7bed51c0daaeee27 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65023,11 +65031,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/modify-milvus-configs.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b45ca6b563b5b37528419ff03278770b932fcf48",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b45ca6b563b5b37528419ff03278770b932fcf48 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65035,11 +65044,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/ops-guide.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "6d8c74be33dd702934d74f611384dd898e1c1fd2",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 6d8c74be33dd702934d74f611384dd898e1c1fd2 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65047,11 +65057,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/scale-milvus-cluster/scale-deps-and-storage.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d00d64246e6cc93d47b07608a9775c641430d8dd",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d00d64246e6cc93d47b07608a9775c641430d8dd at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65059,11 +65070,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/scale-milvus-cluster/scale-milvus-cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "98948ceed6bf6356cdf27cd2f0b7d96a5010d3d2",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 98948ceed6bf6356cdf27cd2f0b7d96a5010d3d2 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65071,11 +65083,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/scale-milvus-cluster/scale-milvus-horizontally.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8818f1e2c31b6d442ba083d90c30468f960dee61",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8818f1e2c31b6d442ba083d90c30468f960dee61 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65083,11 +65096,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/scale-milvus-cluster/scale-milvus-vertically.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b0ebd2572d8902b05a264bdee754c8d5371e039a",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b0ebd2572d8902b05a264bdee754c8d5371e039a at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65095,11 +65109,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/upgrade-milvus-cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a2c5fd9b5866efc0471a6d10e2e4b2eced5332af",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a2c5fd9b5866efc0471a6d10e2e4b2eced5332af at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65107,11 +65122,12 @@
       "sourcePath": "onpremise/docs/ops/ops-guide/upgrade-milvus-operator.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5a8d0d0924dff82236050b1301a24635f1c79a90",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5a8d0d0924dff82236050b1301a24635f1c79a90 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
@@ -65119,11 +65135,12 @@
       "sourcePath": "onpremise/docs/vdb/test.mdx",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dccd0fa1e411112c3e64ee0284915912f5656e57",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dccd0fa1e411112c3e64ee0284915912f5656e57 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 On-premise batch imports this tracked zdoc_cn blob into content/zh-CN/onpremise."
       ]
     },
     {
