@@ -6,7 +6,15 @@ import {fileURLToPath} from 'node:url';
 
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
-import {atomicReplace, ownedTreeCommit, type AtomicReplaceOptions} from './publication/atomicReplace.ts';
+import {atomicReplace, type AtomicReplaceOptions} from './publication/atomicReplace.ts';
+import {
+  capturePublicationDiagnostics,
+  publicationOwnedTargets,
+  readAndValidatePublicationDiagnostics,
+  writePublicationDiagnostics,
+  type PublicationDiagnostics,
+  type PublicationDiagnosticsIdentity,
+} from './publication/diagnostics.ts';
 import {validateStageFilesystem, type StageInventory} from './validation/filesystem.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
 import {
@@ -34,6 +42,7 @@ export type CommandContext = Readonly<{
   source: ResolvedPublication['source'];
   sourceChain: ResolvedPublication['sourceChain'];
   publication: ResolvedPublication['publication'];
+  publicationDiagnostics?: PublicationDiagnostics;
   baselineCommit?: string;
   inventory?: StageInventory;
 }>;
@@ -164,7 +173,21 @@ function stageExistingSidebar(context: CommandContext): void {
   copyFileSync(sourcePath, staged);
 }
 
-async function validatePublicationStage(context: CommandContext): Promise<StageInventory> {
+function diagnosticsIdentity(context: CommandContext): PublicationDiagnosticsIdentity {
+  return {
+    site: context.request.site,
+    manual: context.request.manual,
+    stage: context.request.stage,
+    publication: context.publication as ManualPublication,
+    sourceChain: context.sourceChain,
+  };
+}
+
+async function validatePublicationStage(context: CommandContext): Promise<Readonly<{
+  inventory: StageInventory;
+  diagnostics: PublicationDiagnostics;
+}>> {
+  const diagnostics = readAndValidatePublicationDiagnostics(context.repositoryRoot, context.stagePath, diagnosticsIdentity(context));
   const paths = publicationStagePaths(context);
   if (!existsSync(paths.outputPath)) throw new Error(`Publication content artifact is missing: ${context.publication.outputDir}`);
   if (!existsSync(paths.sidebarPath)) throw new Error(`Publication sidebar artifact is missing: ${context.publication.sidebarPath}`);
@@ -183,7 +206,7 @@ async function validatePublicationStage(context: CommandContext): Promise<StageI
     const summary = unreviewed.slice(0, 5).map((finding: {path: string; rule: string}) => `${finding.rule} at ${finding.path}`).join(', ');
     throw new Error(`Publication integrity validation failed with ${unreviewed.length} unreviewed finding(s): ${summary}`);
   }
-  return inventory;
+  return {inventory, diagnostics};
 }
 
 async function copyLocalSource(context: CommandContext): Promise<void> {
@@ -267,7 +290,6 @@ function larkGeneratorArgs(
 
 async function defaultFetch(context: CommandContext, runner: GeneratorRunner, environment: NodeJS.ProcessEnv): Promise<void> {
   const source = context.source as ManualSource;
-  resetStage(context);
   if (source.sourceType === 'local') {
     await copyLocalSource(context);
     return;
@@ -334,28 +356,22 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
   throw new Error(`Unsupported manual source type: ${String(exhaustive)}`);
 }
 
-function publicationOwnedPaths(context: CommandContext): {replacements: readonly string[]; removals: readonly string[]} {
-  return {
-    replacements: [context.publication.outputDir, context.publication.sidebarPath],
-    removals: (context.publication.retiredPaths ?? []).map(retiredPath => `content/${context.request.site}/${retiredPath}`),
-  };
-}
-
 async function defaultPublish(
   context: CommandContext,
   replace: (options: AtomicReplaceOptions) => Promise<void> = atomicReplace,
 ): Promise<void> {
   const staged = publicationStagePaths(context);
-  const owned = publicationOwnedPaths(context);
-  if (!context.baselineCommit) throw new Error('Publication baseline commit is missing');
+  if (!context.publicationDiagnostics) throw new Error('Validated publication diagnostics are missing');
+  const ownedTargets = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
+  const removalTargets = ownedTargets.filter(target => target !== context.publication.outputDir && target !== context.publication.sidebarPath);
   await replace({
     publicationRoot: context.repositoryRoot,
-    baselineCommit: context.baselineCommit,
+    baselineCommit: context.publicationDiagnostics.baselineCommit,
     replacements: [
       {source: staged.outputPath, target: context.publication.outputDir},
       {source: staged.sidebarPath, target: context.publication.sidebarPath},
     ],
-    removals: owned.removals,
+    removals: removalTargets,
   });
 }
 
@@ -378,18 +394,25 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
   assertSafeStageLocation(baseContext);
 
   if (request.command === 'fetch') {
-    if (dependencies.fetch) await dependencies.fetch(baseContext);
-    else await defaultFetch(baseContext, dependencies.spawnSync ?? nodeSpawnSync, environment);
+    const publicationDiagnostics = isGuidesSourceStage(baseContext, environment)
+      ? undefined
+      : capturePublicationDiagnostics(repositoryRoot, diagnosticsIdentity(baseContext));
+    const fetchContext: CommandContext = {...baseContext, publicationDiagnostics};
+    resetStage(fetchContext);
+    if (publicationDiagnostics) writePublicationDiagnostics(repositoryRoot, stagePath, publicationDiagnostics);
+    if (dependencies.fetch) await dependencies.fetch(fetchContext);
+    else await defaultFetch(fetchContext, dependencies.spawnSync ?? nodeSpawnSync, environment);
     dependencies.write?.(`fetched ${request.manual}/${request.site} into ${request.stage}`);
-    return baseContext;
+    return fetchContext;
   }
 
-  const owned = publicationOwnedPaths(baseContext);
-  const baselineCommit = request.command === 'publish'
-    ? ownedTreeCommit(repositoryRoot, [...owned.replacements, ...owned.removals])
-    : undefined;
-  const inventory = await validatePublicationStage(baseContext);
-  const validatedContext: CommandContext = {...baseContext, inventory, baselineCommit};
+  const {inventory, diagnostics} = await validatePublicationStage(baseContext);
+  const validatedContext: CommandContext = {
+    ...baseContext,
+    inventory,
+    publicationDiagnostics: diagnostics,
+    baselineCommit: diagnostics.baselineCommit,
+  };
   if (request.command === 'publish') {
     if (dependencies.publish) await dependencies.publish(validatedContext);
     else await defaultPublish(validatedContext, dependencies.atomicReplace);

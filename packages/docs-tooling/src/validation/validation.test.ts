@@ -1,5 +1,5 @@
 import {spawnSync as childSpawnSync} from 'node:child_process';
-import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, symlinkSync, writeFileSync} from 'node:fs';
+import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -7,12 +7,36 @@ import path from 'node:path';
 import {describe, expect, it, vi} from 'vitest';
 
 import {executeDocsToolingCommand, parseCliArgs} from '../cli';
+import {resolveManualPublication} from '../manuals/registry';
 import {atomicReplace as realAtomicReplace, ownedTreeCommit} from '../publication/atomicReplace';
+import {
+  createPublicationDiagnostics,
+  publicationOwnedTargets,
+  writePublicationDiagnostics,
+} from '../publication/diagnostics';
 import {assertPublicationOwnership, assertSafeRepositoryRelativePath} from './ownership';
 import {assertPathSetIntegrity, validateStageFilesystem} from './filesystem';
 
 function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-validation-'));
+}
+
+function writeDiagnosticsFixture(
+  repositoryRoot: string,
+  manual: string,
+  site: 'en' | 'zh-CN',
+  stage: string,
+  baselineCommit?: string,
+): void {
+  const resolved = resolveManualPublication(manual, site);
+  const diagnostics = createPublicationDiagnostics({
+    site,
+    manual,
+    stage,
+    publication: resolved.publication,
+    sourceChain: resolved.sourceChain,
+  }, baselineCommit ?? ownedTreeCommit(repositoryRoot, publicationOwnedTargets(site, resolved.publication)));
+  writePublicationDiagnostics(repositoryRoot, path.join(repositoryRoot, stage), diagnostics);
 }
 
 describe('path ownership validation', () => {
@@ -92,6 +116,94 @@ describe('stage filesystem validation', () => {
 });
 
 describe('docs-tooling CLI boundary', () => {
+  it('persists the fetch-time baseline across independent validate and publish invocations', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/python.sidebar.js');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'page.md'), '# fetched baseline\n');
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = ["baseline"]\n');
+    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+
+    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
+    const diagnosticsPath = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/.publication-diagnostics.json');
+    const diagnostics = readFileSync(diagnosticsPath, 'utf8');
+    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot});
+
+    writeFileSync(path.join(liveOutput, 'page.md'), '# newer live publication\n');
+    await expect(executeDocsToolingCommand(['publish', ...args], {repositoryRoot})).rejects.toThrow(/baseline|compare-and-swap|stale/i);
+
+    expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# newer live publication\n');
+    expect(readFileSync(diagnosticsPath, 'utf8')).toBe(diagnostics);
+    expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/content/zh-CN/reference/api/python/python/page.md'), 'utf8')).toBe('# fetched baseline\n');
+  });
+
+  it('publishes a fresh independently validated stage using its persisted baseline', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/python.sidebar.js');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'page.md'), '# old\n');
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = ["old"]\n');
+    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+
+    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
+    writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/content/zh-CN/reference/api/python/python/page.md'), '# fresh stage\n');
+    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot});
+    await executeDocsToolingCommand(['publish', ...args], {repositoryRoot});
+
+    expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# fresh stage\n');
+    expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/.publication-diagnostics.json'))).toBe(true);
+  });
+
+  it.each([
+    ['missing', (diagnosticsPath: string) => rmSync(diagnosticsPath, {force: true})],
+    ['tampered', (diagnosticsPath: string) => {
+      const diagnostics = JSON.parse(readFileSync(diagnosticsPath, 'utf8')) as Record<string, unknown>;
+      diagnostics.baselineCommit = 'sha256:tampered';
+      writeFileSync(diagnosticsPath, `${JSON.stringify(diagnostics)}\n`);
+    }],
+    ['mismatched', (diagnosticsPath: string) => {
+      const diagnostics = JSON.parse(readFileSync(diagnosticsPath, 'utf8')) as Record<string, unknown>;
+      diagnostics.manual = 'rest';
+      writeFileSync(diagnosticsPath, `${JSON.stringify(diagnostics)}\n`);
+    }],
+  ] as const)('rejects a %s publication diagnostics manifest without rewriting it', async (_kind, mutate) => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/python.sidebar.js');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'page.md'), '# live\n');
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = []\n');
+    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
+    const diagnosticsPath = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/.publication-diagnostics.json');
+    mutate(diagnosticsPath);
+    const bytes = existsSync(diagnosticsPath) ? readFileSync(diagnosticsPath, 'utf8') : null;
+
+    await expect(executeDocsToolingCommand(['validate', ...args], {repositoryRoot})).rejects.toThrow(/diagnostics|manifest|baseline|manual|missing/i);
+    if (bytes === null) expect(existsSync(diagnosticsPath)).toBe(false);
+    else expect(readFileSync(diagnosticsPath, 'utf8')).toBe(bytes);
+  });
+
+  it('does not create publication diagnostics for a Guides source-only cache stage', async () => {
+    const repositoryRoot = temporaryRoot();
+    const sourceDir = path.join(repositoryRoot, 'packages/docs-tooling/src/lark/meta/sources/guides');
+    mkdirSync(sourceDir, {recursive: true});
+    writeFileSync(path.join(sourceDir, 'source.json'), '{}\n');
+    const spawnSync = vi.fn(() => ({status: 0}));
+
+    await executeDocsToolingCommand(
+      ['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
+      {repositoryRoot, environment: {DOCS_TOOLING_GUIDES_STAGE: 'source'}, spawnSync},
+    );
+
+    expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/guides/.publication-diagnostics.json'))).toBe(false);
+  });
+
   it('parses only the closed command shape', () => {
     expect(parseCliArgs(['validate', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'])).toEqual({
       command: 'validate',
@@ -403,6 +515,7 @@ describe('docs-tooling CLI boundary', () => {
     symlinkSync('target.md', path.join(repositoryRoot, 'tmp/docs-tooling/en/python/content/en/reference/api/python/python/alias.md'));
     mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = []\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python');
     const publish = vi.fn();
 
     await expect(executeDocsToolingCommand(
@@ -418,6 +531,7 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/content/en/reference/api/python/python/page.md'), '# staged\n');
     mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = ["staged"]\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python');
 
     await executeDocsToolingCommand(
       ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
@@ -443,6 +557,7 @@ describe('docs-tooling CLI boundary', () => {
       'content/en/reference/api/python/python',
       'generated/en/sidebars/python.sidebar.js',
     ]);
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python', expectedBaseline);
     const replace = vi.fn(realAtomicReplace);
 
     await executeDocsToolingCommand(
@@ -473,6 +588,7 @@ describe('docs-tooling CLI boundary', () => {
       mkdirSync(path.join(repositoryRoot, retired), {recursive: true});
       writeFileSync(path.join(repositoryRoot, retired, 'retired.md'), '# retired\n');
     }
+    writeDiagnosticsFixture(repositoryRoot, 'cli', 'en', 'tmp/docs-tooling/en/cli');
 
     await executeDocsToolingCommand(['publish', '--manual', 'cli', '--site', 'en', '--stage', 'tmp/docs-tooling/en/cli'], {repositoryRoot});
 
@@ -493,6 +609,7 @@ describe('docs-tooling CLI boundary', () => {
     mkdirSync(path.join(repositoryRoot, 'generated/en/sidebars'), {recursive: true});
     const external = path.join(repositoryRoot, 'sidebar-hardlink-sentinel');
     writeFileSync(external, 'module.exports = ["old"]\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python');
     linkSync(external, path.join(repositoryRoot, 'generated/en/sidebars/python.sidebar.js'));
 
     await expect(executeDocsToolingCommand(['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'], {repositoryRoot})).rejects.toThrow(/hard.?link|link count|owned target/i);
@@ -508,6 +625,7 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(output, 'token.md'), '[escape](../../../../../../../../.env)\nghp_123456789012345678901234567890123456\n-----BEGIN PRIVATE KEY-----\n');
     mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = []\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python');
     const publish = vi.fn();
 
     await expect(executeDocsToolingCommand(
