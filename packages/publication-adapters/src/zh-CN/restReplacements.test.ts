@@ -196,6 +196,43 @@ describe('zh-CN REST replacement adapter', () => {
     expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], once, publicationContext)).toEqual(once);
   });
 
+  it('requires terminal host boundaries for every legacy endpoint family', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '|control|https://api.cloud.zilliz.com:443/v2/projects?limit=10#page|',
+      '|project|https://project.region.api.zillizcloud.com:443/v2/jobs?x=1#result|',
+      '|serverless|https://cluster.serverless.region.vectordb.zillizcloud.com:19530/v1/vector?x=1#result|',
+      '|cluster|https://cluster.api.region.zillizcloud.com:19530/v1/vector?x=1#result|',
+      'https://api.cloud.zilliz.com.evil/v2/projects',
+      'https://project.region.api.zillizcloud.com.evil/v2/jobs',
+      'https://cluster.serverless.region.vectordb.zillizcloud.com.evil/v1/vector',
+      'https://cluster.api.region.zillizcloud.com.evil/v1/vector',
+      'https://cluster.region.vectordb.zillizcloud.com.evil/v1/vector',
+    ].join('\n');
+    const expected = [
+      '|control|https://api.cloud.zilliz.com.cn:443/v2/projects?limit=10#page|',
+      '|project|https://project.region.api.cloud.zilliz.com.cn:443/v2/jobs?x=1#result|',
+      '|serverless|https://cluster.serverless.region.cloud.zilliz.com.cn:19530/v1/vector?x=1#result|',
+      '|cluster|https://cluster.region.vectordb.zilliz.com.cn:19530/v1/vector?x=1#result|',
+      'https://api.cloud.zilliz.com.evil/v2/projects',
+      'https://project.region.api.zillizcloud.com.evil/v2/jobs',
+      'https://cluster.serverless.region.vectordb.zillizcloud.com.evil/v1/vector',
+      'https://cluster.api.region.zillizcloud.com.evil/v1/vector',
+      'https://cluster.region.vectordb.zillizcloud.com.evil/v1/vector',
+    ].join('\n');
+
+    const output = registry.transformDocument(
+      [ZH_CN_REST_REPLACEMENTS_ID],
+      {path: 'legacy-host-boundaries.mdx', contents: input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(expected);
+    expect(tablePipes(output)).toEqual(tablePipes(input));
+  });
+
   it('requires Unicode-safe field names and complete provider and region value tokens', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},

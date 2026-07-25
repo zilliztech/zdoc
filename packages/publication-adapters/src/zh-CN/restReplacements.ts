@@ -13,8 +13,24 @@ const PROJECT_ENDPOINT = 'https://{project-id}.{region}.api.cloud.zilliz.com.cn'
 const GLOBAL_ENDPOINT = 'https://glo-xxxx.global-cluster.vectordb.zilliz.com.cn';
 const PRIVATE_ENDPOINT = 'https://{cluster-id}-privatelink.{region}.vectordb.zilliz.com.cn';
 
+const HOST_TERMINAL = String.raw`(?=$|[:/?#\s)\]}>"'|])`;
+
+function legacyEndpointHostMatcher(hostPattern: string): RegExp {
+  return new RegExp(`https?://${hostPattern}${HOST_TERMINAL}`, 'giu');
+}
+
+const CONTROL_PLANE_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`api\.cloud\.zilliz\.com(?:\.cn)?`);
+const LEGACY_PROJECT_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.([\w{}-]+)\.api\.zillizcloud\.com(?:\.cn)?`);
+const PROJECT_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.([\w{}-]+)\.api\.zilliz\.com\.cn`);
+const CURRENT_PROJECT_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.([\w{}-]+)\.api\.cloud\.zilliz\.com(?!\.cn)`);
+const LEGACY_SERVERLESS_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.serverless\.([\w{}-]+)\.vectordb\.zillizcloud\.com(?:\.cn)?`);
+const SERVERLESS_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.serverless\.([\w{}-]+)\.vectordb\.zilliz\.com\.cn(?:\.cn)?`);
+const CURRENT_SERVERLESS_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.serverless\.([\w{}-]+)\.cloud\.zilliz\.com(?!\.cn)`);
+const LEGACY_CLUSTER_API_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.api\.([\w{}-]+)\.zillizcloud\.com(?:\.cn)?`);
+const LEGACY_CLUSTER_ENDPOINT_HOST = legacyEndpointHostMatcher(String.raw`([\w{}-]+)\.([\w{}-]+)\.vectordb\.zillizcloud\.com(?:\.cn)?`);
+
 const TARGET_ENDPOINT_HOST_WITH_CN = new RegExp(
-  `((?:api\\.cloud|[\\w{}-]+\\.[\\w{}-]+\\.api\\.cloud|[\\w{}-]+\\.serverless\\.[\\w{}-]+\\.cloud|[\\w{}-]+\\.[\\w{}-]+\\.vectordb)\\.zilliz\\.com)(?:\\.cn)+(?=$|[:/?#\\s)\\]}>'"|])`,
+  `((?:api\\.cloud|[\\w{}-]+\\.[\\w{}-]+\\.api\\.cloud|[\\w{}-]+\\.serverless\\.[\\w{}-]+\\.cloud|[\\w{}-]+\\.[\\w{}-]+\\.vectordb)\\.zilliz\\.com)(?:\\.cn)+${HOST_TERMINAL}`,
   'giu',
 );
 const PROVIDER_ASSIGNMENT = new RegExp(
@@ -37,15 +53,15 @@ function normalizeRestExamples(contents: string): string {
     ['YOUR_PRIVATE_ENDPOINT', PRIVATE_ENDPOINT],
   ] as const) normalized = replaceStandaloneEndpointToken(normalized, token, replacement);
   return normalized
-    .replace(/https?:\/\/api\.cloud\.zilliz\.com(?:\.cn)?/giu, 'https://api.cloud.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.([\w{}-]+)\.api\.zillizcloud\.com(?:\.cn)?/giu, 'https://$1.$2.api.cloud.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.([\w{}-]+)\.api\.zilliz\.com\.cn/giu, 'https://$1.$2.api.cloud.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.([\w{}-]+)\.api\.cloud\.zilliz\.com(?!\.cn)/giu, 'https://$1.$2.api.cloud.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.serverless\.([\w{}-]+)\.vectordb\.zillizcloud\.com(?:\.cn)?/giu, 'https://$1.serverless.$2.cloud.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.serverless\.([\w{}-]+)\.vectordb\.zilliz\.com\.cn(?:\.cn)?/giu, 'https://$1.serverless.$2.cloud.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.serverless\.([\w{}-]+)\.cloud\.zilliz\.com(?!\.cn)/giu, 'https://$1.serverless.$2.cloud.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.api\.([\w{}-]+)\.zillizcloud\.com(?:\.cn)?/giu, 'https://$1.$2.vectordb.zilliz.com.cn')
-    .replace(/https?:\/\/([\w{}-]+)\.([\w{}-]+)\.vectordb\.zillizcloud\.com(?:\.cn)?/giu, 'https://$1.$2.vectordb.zilliz.com.cn')
+    .replace(CONTROL_PLANE_ENDPOINT_HOST, 'https://api.cloud.zilliz.com.cn')
+    .replace(LEGACY_PROJECT_ENDPOINT_HOST, 'https://$1.$2.api.cloud.zilliz.com.cn')
+    .replace(PROJECT_ENDPOINT_HOST, 'https://$1.$2.api.cloud.zilliz.com.cn')
+    .replace(CURRENT_PROJECT_ENDPOINT_HOST, 'https://$1.$2.api.cloud.zilliz.com.cn')
+    .replace(LEGACY_SERVERLESS_ENDPOINT_HOST, 'https://$1.serverless.$2.cloud.zilliz.com.cn')
+    .replace(SERVERLESS_ENDPOINT_HOST, 'https://$1.serverless.$2.cloud.zilliz.com.cn')
+    .replace(CURRENT_SERVERLESS_ENDPOINT_HOST, 'https://$1.serverless.$2.cloud.zilliz.com.cn')
+    .replace(LEGACY_CLUSTER_API_ENDPOINT_HOST, 'https://$1.$2.vectordb.zilliz.com.cn')
+    .replace(LEGACY_CLUSTER_ENDPOINT_HOST, 'https://$1.$2.vectordb.zilliz.com.cn')
     .replace(TARGET_ENDPOINT_HOST_WITH_CN, '$1.cn')
     .replace(PROVIDER_ASSIGNMENT, '$1$2$1$3$4ali$4')
     .replace(REGION_ASSIGNMENT, '$1$2$1$3$4ali-cn-hangzhou$4')
