@@ -36,6 +36,72 @@ function braceDelta(line: string): number {
   return delta;
 }
 
+function isEscaped(line: string, index: number): boolean {
+  let backslashes = 0;
+  for (let cursor = index - 1; cursor >= 0 && line[cursor] === '\\'; cursor -= 1) backslashes += 1;
+  return backslashes % 2 === 1;
+}
+
+function backtickRunLength(line: string, index: number): number {
+  let end = index;
+  while (line[end] === '`') end += 1;
+  return end - index;
+}
+
+function findHtmlCommentOpening(line: string, start = 0): number {
+  let codeSpanTicks = 0;
+  let inTag = false;
+  let tagQuote: '"' | "'" | undefined;
+  let braceDepth = 0;
+  let braceQuote: '"' | "'" | '`' | undefined;
+
+  for (let index = start; index < line.length;) {
+    const character = line[index];
+
+    if (codeSpanTicks > 0) {
+      if (character === '`' && !isEscaped(line, index)) {
+        const ticks = backtickRunLength(line, index);
+        if (ticks === codeSpanTicks) codeSpanTicks = 0;
+        index += ticks;
+      } else index += 1;
+      continue;
+    }
+
+    if (inTag) {
+      if (tagQuote) {
+        if (character === tagQuote && !isEscaped(line, index)) tagQuote = undefined;
+      } else if (character === '"' || character === "'") tagQuote = character;
+      else if (character === '>') inTag = false;
+      index += 1;
+      continue;
+    }
+
+    if (braceDepth > 0) {
+      if (braceQuote) {
+        if (character === braceQuote && !isEscaped(line, index)) braceQuote = undefined;
+      } else if (character === '"' || character === "'" || character === '`') braceQuote = character;
+      else if (character === '{') braceDepth += 1;
+      else if (character === '}') braceDepth -= 1;
+      index += 1;
+      continue;
+    }
+
+    if (line.startsWith('<!--', index)) return index;
+    if (character === '`' && !isEscaped(line, index)) {
+      codeSpanTicks = backtickRunLength(line, index);
+      index += codeSpanTicks;
+    } else if (character === '<') {
+      inTag = true;
+      index += 1;
+    } else if (character === '{') {
+      braceDepth = 1;
+      index += 1;
+    } else index += 1;
+  }
+
+  return -1;
+}
+
 function htmlCommentOpenAfterLine(line: string, initiallyOpen: boolean): boolean {
   let cursor = 0;
   if (initiallyOpen) {
@@ -45,7 +111,7 @@ function htmlCommentOpenAfterLine(line: string, initiallyOpen: boolean): boolean
   }
 
   while (cursor < line.length) {
-    const opening = line.indexOf('<!--', cursor);
+    const opening = findHtmlCommentOpening(line, cursor);
     if (opening === -1) return false;
     const closing = line.indexOf('-->', opening + 4);
     if (closing === -1) return true;
@@ -84,7 +150,7 @@ export function repairChineseBoldPunctuation(contents: string): string {
       continue;
     }
 
-    if (htmlCommentOpen || line.includes('<!--')) {
+    if (htmlCommentOpen || findHtmlCommentOpening(line) !== -1) {
       htmlCommentOpen = htmlCommentOpenAfterLine(line, htmlCommentOpen);
       continue;
     }

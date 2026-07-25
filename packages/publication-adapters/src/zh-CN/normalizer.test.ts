@@ -273,6 +273,50 @@ describe('zh-CN Markdown normalizer adapter', () => {
     ).contents).toBe(crlfExpected);
   });
 
+  it('does not open HTML comment state for protected literal markers', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '`<!--`',
+      '**建议：**首次',
+      '<Widget marker="<!--" />',
+      '**问题？**回答',
+      '<Widget marker="escaped \\" <!-- literal" />',
+      '**建议：**首次',
+      '{value === "<!--"}',
+      '**问题？**回答',
+      '{value === "escaped \\" <!-- literal"}',
+      '**建议：**首次',
+      'prefix <!-- real comment',
+      '**问题？**回答',
+      '-->',
+      '**建议：**首次',
+    ].join('\n');
+    const expected = [
+      '`<!--`',
+      '**建议**：首次',
+      '<Widget marker="<!--" />',
+      '**问题**？回答',
+      '<Widget marker="escaped \\" <!-- literal" />',
+      '**建议**：首次',
+      '{value === "<!--"}',
+      '**问题**？回答',
+      '{value === "escaped \\" <!-- literal"}',
+      '**建议**：首次',
+      'prefix <!-- real comment',
+      '**问题？**回答',
+      '-->',
+      '**建议**：首次',
+    ].join('\n');
+
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'comment-literals.mdx', contents: input},
+      context('zh-CN'),
+    ).contents).toBe(expected);
+  });
+
   it('normalizes only allowlisted paired decorated http tags', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},
