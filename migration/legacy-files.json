@@ -83206,11 +83206,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/backup-and-restore/backup-and-restore.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7afd42067b741cc157927a95c32d09247889b279",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7afd42067b741cc157927a95c32d09247889b279 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83218,11 +83219,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/backup-and-restore/create-snapshot.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "618d539430235a1ec22a04e321db142699159f44",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 618d539430235a1ec22a04e321db142699159f44 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83230,11 +83232,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/backup-and-restore/export-backup-files.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0ed8ec53e6f6085416b2da10b4e053fc1efdadbf",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0ed8ec53e6f6085416b2da10b4e053fc1efdadbf at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83242,11 +83245,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/backup-and-restore/manage-backup-files.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e6424c467d0ebf768db2cdab7af76ab52fee2891",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e6424c467d0ebf768db2cdab7af76ab52fee2891 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83254,11 +83258,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/backup-and-restore/restore-from-snapshot.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "767c72ae19694ced6a744aa2fabb4d136b457cf7",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 767c72ae19694ced6a744aa2fabb4d136b457cf7 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83266,11 +83271,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/backup-and-restore/schedule-automatic-backups.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "02e96c7f906b6b389084aa01f8f702f35aa4eccb",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 02e96c7f906b6b389084aa01f8f702f35aa4eccb at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83278,11 +83284,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "54925d5e456db0661d26e20fe9ad296d23ce895e",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 54925d5e456db0661d26e20fe9ad296d23ce895e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83290,11 +83297,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/connect-to-cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "1c3834e1540716094dd503b7a12ca795f4cda65b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 1c3834e1540716094dd503b7a12ca795f4cda65b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83302,11 +83310,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/create-cluster-byoc.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0da440267f16704e8bbc587ec2be2f2b7994fe74",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0da440267f16704e8bbc587ec2be2f2b7994fe74 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83314,11 +83323,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/database.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "30061071f980f1a7f7f5991d69ff38afc603aaa2",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 30061071f980f1a7f7f5991d69ff38afc603aaa2 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83326,11 +83336,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/manage-cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "2d7a332d83e6ea89a090ed998eb7cfd91fbb699e",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 2d7a332d83e6ea89a090ed998eb7cfd91fbb699e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83338,11 +83349,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/scale-cluster/cron-expression.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "589660ff4eb62effe1e9a047a3bf97516a26f840",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 589660ff4eb62effe1e9a047a3bf97516a26f840 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83350,11 +83362,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/scale-cluster/manage-replica.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "63113544f5eebf44ff1edb1ae146ae0dfe307aea",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 63113544f5eebf44ff1edb1ae146ae0dfe307aea at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83362,11 +83375,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/scale-cluster/scale-cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0b4042b783ae9f2388331db15a90f6c8433ff787",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0b4042b783ae9f2388331db15a90f6c8433ff787 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83374,11 +83388,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/cluster/scale-cluster/scale-query-cu.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e25e120dcf38d748cbdeceed99ed3846978b428c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e25e120dcf38d748cbdeceed99ed3846978b428c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83386,11 +83401,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/collection.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a3f509fe1fbd4e2c96dbbafb8c77124bbc86349a",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a3f509fe1fbd4e2c96dbbafb8c77124bbc86349a at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83398,11 +83414,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/drop-collection.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d17c6dc965e74db7e015d7ae32b3da8d6fb6d035",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d17c6dc965e74db7e015d7ae32b3da8d6fb6d035 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83410,11 +83427,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/load-release-collections.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5928bc5f8ec8c9cc54f238c6ba88103566027b26",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5928bc5f8ec8c9cc54f238c6ba88103566027b26 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83422,11 +83440,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/manage-aliases.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "013857cdf738c59a5e4773e034b4a5266588b5dc",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 013857cdf738c59a5e4773e034b4a5266588b5dc at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83434,11 +83453,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/manage-collections-console.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f9982077dbd02c7d6cdf0162a5952e29aa105f03",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f9982077dbd02c7d6cdf0162a5952e29aa105f03 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83446,11 +83466,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/manage-collections-sdks.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dfa3bf4db0d983af9b2c1b05db92d4621dac6c56",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dfa3bf4db0d983af9b2c1b05db92d4621dac6c56 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83458,11 +83479,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/manage-collections.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "fc566d464fbfe8e1e3c54a42e6d95582cd8bd0e5",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob fc566d464fbfe8e1e3c54a42e6d95582cd8bd0e5 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83470,11 +83492,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/manage-partitions.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "041d9d78d6e9926dae3234896df26dd18933537f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 041d9d78d6e9926dae3234896df26dd18933537f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83482,11 +83505,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/modify-collections.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "07fa1194a00d19017a1a6be159cb2241c384f7ef",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 07fa1194a00d19017a1a6be159cb2241c384f7ef at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83494,11 +83518,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/set-collection-ttl.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f4f8784614e0b8eab6382977e112acbdcc96c7c4",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f4f8784614e0b8eab6382977e112acbdcc96c7c4 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83506,11 +83531,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/collection/view-collections.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dae3c4f263a8619ad1c20a708283ada9564489bf",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dae3c4f263a8619ad1c20a708283ada9564489bf at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83518,11 +83544,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-export/data-export.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "c40463a9ae4a5309914adb229dea1c933d7109c7",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob c40463a9ae4a5309914adb229dea1c933d7109c7 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83530,11 +83557,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-export/export-data-iterators.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7613b2a538760657a84fb4d2345e641baa407d5d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7613b2a538760657a84fb4d2345e641baa407d5d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83542,11 +83570,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import-export.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "4b7d0287b76873ee25f8f63bb3bf88b0d4208e66",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 4b7d0287b76873ee25f8f63bb3bf88b0d4208e66 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83554,11 +83583,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/data-import-format-options/data-import-format-options.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7cb38f961bc8346a4496be69af61f1d34d6d4513",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7cb38f961bc8346a4496be69af61f1d34d6d4513 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83566,11 +83596,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/data-import-format-options/data-import-json.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "c6e84103bb863a2ae4ad7463868520a80e4c6627",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob c6e84103bb863a2ae4ad7463868520a80e4c6627 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83578,11 +83609,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/data-import-format-options/data-import-numpy.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b2e43c36c09af0b9519a756985e46dd3741f8fd9",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b2e43c36c09af0b9519a756985e46dd3741f8fd9 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83590,11 +83622,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/data-import-format-options/data-import-parquet.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ee49187b8420465d01887a1bdf8456bb752a141c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ee49187b8420465d01887a1bdf8456bb752a141c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83602,11 +83635,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/data-import-storage-options.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "17a3cf4e5fd41625f33ec9e99ed79471eac231da",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 17a3cf4e5fd41625f33ec9e99ed79471eac231da at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83614,11 +83648,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/data-import-zero-to-hero.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "89fa16d5bf8fb189de75f4b4ad4011149449acab",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 89fa16d5bf8fb189de75f4b4ad4011149449acab at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83626,11 +83661,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/data-import.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ffee67a2b4e694ce77c6a347dee197ec3a0bb9fe",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ffee67a2b4e694ce77c6a347dee197ec3a0bb9fe at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83638,11 +83674,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/import-data/import-data-on-web-ui.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "793b44f6d2d574e21e58e39552770b88a605f2d6",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 793b44f6d2d574e21e58e39552770b88a605f2d6 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83650,11 +83687,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/import-data/import-data-via-restful-api.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "23d63448dd13d3ffc5ccd19dba741925394a25c8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 23d63448dd13d3ffc5ccd19dba741925394a25c8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83662,11 +83700,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/import-data/import-data-via-sdks.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "75dd6686e1a57c80b441994df45ef7cb749048c9",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 75dd6686e1a57c80b441994df45ef7cb749048c9 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83674,11 +83713,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/import-data/import-data.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d0def0ccae35cded67ed08b9e1e38d38d65d3e07",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d0def0ccae35cded67ed08b9e1e38d38d65d3e07 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83686,11 +83726,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/prepare-data-import/prepare-data-import.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "28e0d9ccd4181ce84123e0e5792f2a25ade6ff31",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 28e0d9ccd4181ce84123e0e5792f2a25ade6ff31 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83698,11 +83739,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data-import-export/data-import/prepare-data-import/use-bulkwriter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "164f5b5aa476f4374e212848c331b715378c9f39",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 164f5b5aa476f4374e212848c331b715378c9f39 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83710,11 +83752,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/data.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7cd711df2e33764a636f6958749a7c480b05603c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7cd711df2e33764a636f6958749a7c480b05603c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83722,11 +83765,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/insert-update-delete/count-entities.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8869446cfdcff15e86416735aee086bee3531d8e",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8869446cfdcff15e86416735aee086bee3531d8e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83734,11 +83778,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/insert-update-delete/delete-entities.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f7ce0aa495229db282e7914333afe1c1f3664f56",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f7ce0aa495229db282e7914333afe1c1f3664f56 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83746,11 +83791,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/insert-update-delete/insert-entities.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9045014abd152c58b88bbdc306f3cef869f0375c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9045014abd152c58b88bbdc306f3cef869f0375c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83758,11 +83804,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/insert-update-delete/insert-update-delete.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "da9918dfb7a19812208765a6ca9f19056969f85d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob da9918dfb7a19812208765a6ca9f19056969f85d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83770,11 +83817,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/insert-update-delete/upsert-entities.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "c11d433d955264c68b5220b3f7d0424336621aed",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob c11d433d955264c68b5220b3f7d0424336621aed at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83782,11 +83830,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/manage-indexes/index-scalar-fields/index-scalar-fields.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ceaaf8db58e1e1f6a908e9b88ddc723f03f1158f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ceaaf8db58e1e1f6a908e9b88ddc723f03f1158f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83794,11 +83843,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/manage-indexes/index-scalar-fields/ngram-index-type.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "566188dbd9ae56def23f4165c632663231652ae8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 566188dbd9ae56def23f4165c632663231652ae8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83806,11 +83856,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/manage-indexes/index-scalar-fields/rtree-index-type.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "818541952336d09b079089fcded7abfde1bd0f72",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 818541952336d09b079089fcded7abfde1bd0f72 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83818,11 +83869,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/manage-indexes/index-vector-fields/index-vector-fields.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "2c1c1e2ea868c31fc9d0abc66d495a70f6b84751",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 2c1c1e2ea868c31fc9d0abc66d495a70f6b84751 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83830,11 +83882,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/manage-indexes/index-vector-fields/tune-index-build-level.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9edd74d232ba14b1550ece87931e333cbe478c0a",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9edd74d232ba14b1550ece87931e333cbe478c0a at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83842,11 +83895,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/manage-indexes/manage-indexes.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "717373814e4815e14a87b1afdbe8700bce2a43e4",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 717373814e4815e14a87b1afdbe8700bce2a43e4 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83854,11 +83908,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/add-fields-to-an-existing-collection.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "3c000b94f1090b70de1f9141f2240d19b3644862",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 3c000b94f1090b70de1f9141f2240d19b3644862 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83866,11 +83921,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/alter-collection-field.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e833063043c1de6d301cea91278401907658b1f0",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e833063043c1de6d301cea91278401907658b1f0 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83878,11 +83934,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/alphanumonly-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "94343a26e04d61ebde886c86a25c974dd183f01c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 94343a26e04d61ebde886c86a25c974dd183f01c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83890,11 +83947,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/analyzer-filters.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "55c545c82a5e0efeb015f4ce84e18b2741a21bcc",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 55c545c82a5e0efeb015f4ce84e18b2741a21bcc at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83902,11 +83960,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/ascii-folding-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "bf929e4ab7631a93b7a018787248786eb02c58eb",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob bf929e4ab7631a93b7a018787248786eb02c58eb at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83914,11 +83973,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/cnalphanumonly-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "94402ea63f98fa226a1c1137cd57c6328d5cf470",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 94402ea63f98fa226a1c1137cd57c6328d5cf470 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83926,11 +83986,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/cncharonly-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d9cf474bc0e625b25938a7f620af01e917dced71",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d9cf474bc0e625b25938a7f620af01e917dced71 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83938,11 +83999,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/decompounder-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "c142ff2785d18e5a79766b4b5f6bcda028549373",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob c142ff2785d18e5a79766b4b5f6bcda028549373 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83950,11 +84012,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/length-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f8705d86b3aec0b506da6635257c8512100d6f5f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f8705d86b3aec0b506da6635257c8512100d6f5f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83962,11 +84025,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/lowercase-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a1b859fbdea976985542e3ef4b663028e5363b4e",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a1b859fbdea976985542e3ef4b663028e5363b4e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83974,11 +84038,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/regex-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0096b5a2dd33d6f199a1989a83d864330ab01d4a",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0096b5a2dd33d6f199a1989a83d864330ab01d4a at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83986,11 +84051,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/remove-punct-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "1e1718bbdeb727c552fbd76056ea0ca1f6772408",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 1e1718bbdeb727c552fbd76056ea0ca1f6772408 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -83998,11 +84064,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/stemmer-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f7716322a4993490434dcba2bbb5912b8325f4ef",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f7716322a4993490434dcba2bbb5912b8325f4ef at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84010,11 +84077,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-filters/stop-filter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d69e1b07269f28916cb78bc817fde5fda4a30bb5",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d69e1b07269f28916cb78bc817fde5fda4a30bb5 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84022,11 +84090,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-overview.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "88cdd7619840ed2faf95611f2a4525c4e0e11443",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 88cdd7619840ed2faf95611f2a4525c4e0e11443 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84034,11 +84103,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/analyzer-tokenizers.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "601779b5c091a37e0652239d0f4ab6950af7ee10",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 601779b5c091a37e0652239d0f4ab6950af7ee10 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84046,11 +84116,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/icu-tokenizer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "79f9ef7a095af3e0be05571a2b3ef8ed8153c651",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 79f9ef7a095af3e0be05571a2b3ef8ed8153c651 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84058,11 +84129,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/jieba-tokenizer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9049620e57f6d9c3f0b87c3eafdd8e2bd4fdf721",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9049620e57f6d9c3f0b87c3eafdd8e2bd4fdf721 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84070,11 +84142,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f754399a69489ccdd030d5a237fe78c717a9320f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f754399a69489ccdd030d5a237fe78c717a9320f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84082,11 +84155,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/lindera-tokenizer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9f0908ea5069b159af56e732b5fed3d5a0ba12e1",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9f0908ea5069b159af56e732b5fed3d5a0ba12e1 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84094,11 +84168,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/standard-tokenizer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ce711ea427004020b6114f80828ec45b7b7223f8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ce711ea427004020b6114f80828ec45b7b7223f8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84106,11 +84181,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/whitespace-tokenizer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "aa32fe558cd0388951eddad3d9611feb393d19ee",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob aa32fe558cd0388951eddad3d9611feb393d19ee at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84118,11 +84194,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/analyzer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "deeab135712f6ff02b908bbd884124711ff3fec3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob deeab135712f6ff02b908bbd884124711ff3fec3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84130,11 +84207,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/built-in-analyzer/built-in-analyzer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e8d512a0a25727f94132ee3b2aa90cab2642f9c7",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e8d512a0a25727f94132ee3b2aa90cab2642f9c7 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84142,11 +84220,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/built-in-analyzer/chinese-analyzer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0de1fb18d556300772a80e15ddabccadb76e6e71",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0de1fb18d556300772a80e15ddabccadb76e6e71 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84154,11 +84233,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/built-in-analyzer/english-analyzer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0da6dcc73b1293a9cb9b99e87ace945805eb01a3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0da6dcc73b1293a9cb9b99e87ace945805eb01a3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84166,11 +84246,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/built-in-analyzer/standard-analyzer.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "48fcd687b4bec7a33d34cc025da67b0e65320e69",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 48fcd687b4bec7a33d34cc025da67b0e65320e69 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84178,11 +84259,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/choose-the-right-analyzer-for-your-use-case.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "c514a899d85db1b5f6fbf898ab9bf1ae883148d6",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob c514a899d85db1b5f6fbf898ab9bf1ae883148d6 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84190,11 +84272,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/analyzer/multi-language-analyzers.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "92b75a5afd5d240c2a94bea170c0ad3d5858ca78",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 92b75a5afd5d240c2a94bea170c0ad3d5858ca78 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84202,11 +84285,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/enable-dynamic-field.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0374d79c4c6487d1ab4cb50f94675dc6d84bdf1b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0374d79c4c6487d1ab4cb50f94675dc6d84bdf1b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84214,11 +84298,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/nullable-and-default.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "3bbe2b69290aa8c4e02a34ee141189957aba9556",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 3bbe2b69290aa8c4e02a34ee141189957aba9556 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84226,11 +84311,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/primary-field-auto-id.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "4dc28b878ff3bab0a01b304f06e046c421a96e12",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 4dc28b878ff3bab0a01b304f06e046c421a96e12 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84238,11 +84324,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/schema-best-practices/schema-best-practices.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ad3f27b65eed3f407e80b23736bf3e31e1d4d49b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ad3f27b65eed3f407e80b23736bf3e31e1d4d49b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84250,11 +84337,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/schema-best-practices/schema-design-hands-on.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7ff788a507f8d8cb872b99c59c5c8d431ce843a1",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7ff788a507f8d8cb872b99c59c5c8d431ce843a1 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84262,11 +84350,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/schema-best-practices/schema-design-with-structs.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "6a876db0eaec46e333cd433d03c47f9a4e992fdf",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 6a876db0eaec46e333cd433d03c47f9a4e992fdf at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84274,11 +84363,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/schema-data-fields.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "31eecc5a0e0368ac82039878b5f3185241e8c751",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 31eecc5a0e0368ac82039878b5f3185241e8c751 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84286,11 +84376,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/schema-explained.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8ca4c38f5a8800df6f0586ee9c63f6bd2be3477b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8ca4c38f5a8800df6f0586ee9c63f6bd2be3477b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84298,11 +84389,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-array-fields.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5273cfb49425b79a94de8df419cecbb73eb9a75f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5273cfb49425b79a94de8df419cecbb73eb9a75f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84310,11 +84402,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-array-of-structs.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "890ec62555c0230adc6614dc989cfc783c6a6945",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 890ec62555c0230adc6614dc989cfc783c6a6945 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84322,11 +84415,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-binary-vector.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e601118f1e6a4b87d7f190e869dffd1b21400675",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e601118f1e6a4b87d7f190e869dffd1b21400675 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84334,11 +84428,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-dense-vector.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "c808719a51febde101ef40a844abd40fad56e938",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob c808719a51febde101ef40a844abd40fad56e938 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84346,11 +84441,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-geometry-field.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "09147193b0b3bda2b48c9d789ab7068fb445c11f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 09147193b0b3bda2b48c9d789ab7068fb445c11f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84358,11 +84454,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-json-fields/json-field-overview.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "1f495769305c22bb29e426f54e5b19c845ae5799",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 1f495769305c22bb29e426f54e5b19c845ae5799 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84370,11 +84467,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-json-fields/json-indexing.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e69dac94e68b45f7edbcf540a60a87c8fd8ff1d3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e69dac94e68b45f7edbcf540a60a87c8fd8ff1d3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84382,11 +84480,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-json-fields/json-shredding.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b31e35d8fc5c119ff63c1a111efa907888d9a72c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b31e35d8fc5c119ff63c1a111efa907888d9a72c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84394,11 +84493,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-json-fields/use-json-fields.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "fa012d6b82b77a7c0c910d987a82b500bbc410c3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob fa012d6b82b77a7c0c910d987a82b500bbc410c3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84406,11 +84506,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-number-field.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "92f63867bf9ed2eefeb2ccd4f35d4caf793e3d15",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 92f63867bf9ed2eefeb2ccd4f35d4caf793e3d15 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84418,11 +84519,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-sparse-vector.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d6fa61bb16cad6689a11463ab1170269fdca4b90",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d6fa61bb16cad6689a11463ab1170269fdca4b90 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84430,11 +84532,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-string-field.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "648972cc7ccc8e2d6477ee077dbc5198f0d9188e",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 648972cc7ccc8e2d6477ee077dbc5198f0d9188e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84442,11 +84545,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/schema-data-fields/use-timestamptz-field.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "53616a38747a6a605d227619eb5126f7457ac0f3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 53616a38747a6a605d227619eb5126f7457ac0f3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84454,11 +84558,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/consistency-level.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "86c7faceda0e9b65c67af29eb16def079b51b0c0",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 86c7faceda0e9b65c67af29eb16def079b51b0c0 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84466,11 +84571,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/elasticsearch-queries-to-milvus.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "6ecd6b5558c4398e73b8392ae7aa2bd598392e86",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 6ecd6b5558c4398e73b8392ae7aa2bd598392e86 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84478,11 +84584,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtered-search.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ab43ef27c42859a0c2823dd1f275ec6460384c41",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ab43ef27c42859a0c2823dd1f275ec6460384c41 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84490,11 +84597,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/array-filtering-operators.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8651b03e925fea40900d0f447be5eba0edfa0bd1",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8651b03e925fea40900d0f447be5eba0edfa0bd1 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84502,11 +84610,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/basic-filtering-operators.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a8475bf576ba422e5597c698bfb50ef89dda0186",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a8475bf576ba422e5597c698bfb50ef89dda0186 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84514,11 +84623,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/filtering-overview.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e100293aad2d313d60cdc3ae6167bf36aa78cf2d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e100293aad2d313d60cdc3ae6167bf36aa78cf2d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84526,11 +84636,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/filtering-templating.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "19509e84f288e39cc329ebc6d42932ed6150f3db",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 19509e84f288e39cc329ebc6d42932ed6150f3db at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84538,11 +84649,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/filtering.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ebcc0a15b0587a9042e2e7738e4effc0075dee2b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ebcc0a15b0587a9042e2e7738e4effc0075dee2b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84550,11 +84662,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/geometry-operators.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f87bca6d902007b865daec771c7d654f2cabd071",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f87bca6d902007b865daec771c7d654f2cabd071 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84562,11 +84675,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/json-filtering-operators.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0bb2e0ba9835c9b3208c2874c1a053be131ccd3e",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0bb2e0ba9835c9b3208c2874c1a053be131ccd3e at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84574,11 +84688,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/filtering/ramdom-sampling.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8c43c357ceb19e40ca993165659b2e3c2f83ba46",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8c43c357ceb19e40ca993165659b2e3c2f83ba46 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84586,11 +84701,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/full-text-search.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a8854eae3e1ae97f26546fa1366bca7eb7dcae4a",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a8854eae3e1ae97f26546fa1366bca7eb7dcae4a at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84598,11 +84714,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/get-and-scalar-query.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "948c47ab77aa8c26ce87e8a507e08cf7232897a1",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 948c47ab77aa8c26ce87e8a507e08cf7232897a1 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84610,11 +84727,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/grouping-search.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "65e51e3f36fa1a26cbdf1317ae1bd9ee4517896b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 65e51e3f36fa1a26cbdf1317ae1bd9ee4517896b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84622,11 +84740,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/hybrid-search.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5955820b15d24253065cfb3a7b93ec9ab7b4cc80",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5955820b15d24253065cfb3a7b93ec9ab7b4cc80 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84634,11 +84753,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/phrase-match.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "acb5df39cb2d43aa08c4b2ec415a9b2909749032",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob acb5df39cb2d43aa08c4b2ec415a9b2909749032 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84646,11 +84766,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/range-search.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a2754e0e83b6dea9241b104cd3e9bb36c312e6f3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a2754e0e83b6dea9241b104cd3e9bb36c312e6f3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84658,11 +84779,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/search-metrics-explained.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ffdf699ffe58b3187ec6a3d319abc0e1cedecb4d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ffdf699ffe58b3187ec6a3d319abc0e1cedecb4d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84670,11 +84792,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/search-query-get.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0fe15f90709d56e5cc951e756b91eadefbf21974",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0fe15f90709d56e5cc951e756b91eadefbf21974 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84682,11 +84805,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/single-vector-search.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "1d35edc8984b4d5bda92cbc2c11d0cdcb2ebb9d0",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 1d35edc8984b4d5bda92cbc2c11d0cdcb2ebb9d0 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84694,11 +84818,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/text-highlighter.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "15077286bcf4e56b365b710d028582105d4f9daa",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 15077286bcf4e56b365b710d028582105d4f9daa at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84706,11 +84831,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/text-match.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "04b4033f3ee5a240cb8c17a9e80c529bcd831205",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 04b4033f3ee5a240cb8c17a9e80c529bcd831205 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84718,11 +84844,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/tune-recall-rate.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "784005a1533a0b2892f10049e23607379a0d0891",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 784005a1533a0b2892f10049e23607379a0d0891 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84730,11 +84857,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/use-mmap.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "29e8f741f0115616faf4a03797f1f504f90c8146",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 29e8f741f0115616faf4a03797f1f504f90c8146 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84742,11 +84870,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/use-partition-key.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ddf775c9e3b3209f87f6dd16c0d36d7ba1c5ea82",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ddf775c9e3b3209f87f6dd16c0d36d7ba1c5ea82 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84754,11 +84883,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/data/search-query-get/with-iterators.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "189d952f70f649def93840485ee6e07296cb070f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 189d952f70f649def93840485ee6e07296cb070f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84766,11 +84896,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-authentication.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a7b55e6daf1c49f096571794f8bf4c0401091135",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a7b55e6daf1c49f096571794f8bf4c0401091135 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84778,11 +84909,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-backup-and-restore.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "91868aaaa98ff15849317ce5400bc7c8d9ad0301",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 91868aaaa98ff15849317ce5400bc7c8d9ad0301 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84790,11 +84922,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-cluster.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d1fbbd80b1c2e38f04d75bfafaaaa6450832b578",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d1fbbd80b1c2e38f04d75bfafaaaa6450832b578 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84802,11 +84935,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-collection.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0e2e607106e0770a0d1802ccc36f1faf4c547592",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0e2e607106e0770a0d1802ccc36f1faf4c547592 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84814,11 +84948,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-data-import.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9b94e2993d8d0fcc6c78669881f6e14d9900e411",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9b94e2993d8d0fcc6c78669881f6e14d9900e411 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84826,11 +84961,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-get-started.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "6a6ab1f4cf5582c94e11a672607ff8fc724f6307",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 6a6ab1f4cf5582c94e11a672607ff8fc724f6307 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84838,11 +84974,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-integrations.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dd2d3feda7c84dd90a34a6d2996d89cdce9465da",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dd2d3feda7c84dd90a34a6d2996d89cdce9465da at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84850,11 +84987,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-migration.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "2b715450631b0dc31dce02da6cbdf60aea0efcd3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 2b715450631b0dc31dce02da6cbdf60aea0efcd3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84862,11 +85000,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-monitors-and-metrics.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b0b2e315a8ac8091a838da05b423fcf1f56138db",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b0b2e315a8ac8091a838da05b423fcf1f56138db at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84874,11 +85013,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-resource-planning.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "19278bc968cbbb72ca7809ae05702421bcff97d9",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 19278bc968cbbb72ca7809ae05702421bcff97d9 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84886,11 +85026,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-security.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b5430f486b7c3fcde7f81d741d739bf5022444ab",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b5430f486b7c3fcde7f81d741d739bf5022444ab at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84898,11 +85039,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faq-users-and-roles.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "839fbb0efb5d68a313a6083c8d2dff8c66c93b26",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 839fbb0efb5d68a313a6083c8d2dff8c66c93b26 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84910,11 +85052,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/faqs/faqs.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d992ab0f0a22975b46e6ca95360e7cc10d07a928",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d992ab0f0a22975b46e6ca95360e7cc10d07a928 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84922,11 +85065,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/bm25-function.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "eb11ea34854ca190fbf7f98640bb95ba652ad6e8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob eb11ea34854ca190fbf7f98640bb95ba652ad6e8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84934,11 +85078,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/function-and-model-inference-overview.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "872cba09090ce7f23d075ca6ea6f964698dfd519",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 872cba09090ce7f23d075ca6ea6f964698dfd519 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84946,11 +85091,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/function-and-model-inference.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "aad2e5d6fe548b8d91e2427aaa17e3acb04f5a39",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob aad2e5d6fe548b8d91e2427aaa17e3acb04f5a39 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84958,11 +85104,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/model-based-functions/model-based-functions.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "08d425a25a9e6bc9773bf328f2fea48ef7e10681",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 08d425a25a9e6bc9773bf328f2fea48ef7e10681 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84970,11 +85117,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/model-based-functions/siliconflow.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "51110ae410923cedca360250539af4197b59992b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 51110ae410923cedca360250539af4197b59992b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84982,11 +85130,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/hybrid-search-rankers/hybrid-search-rankers.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5038a3e3dae7757ec651c3ba72d369ca5ed69d55",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5038a3e3dae7757ec651c3ba72d369ca5ed69d55 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -84994,11 +85143,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/hybrid-search-rankers/reranking-rrf.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "3b94a99273662eedbb1562643fbc655be34dde39",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 3b94a99273662eedbb1562643fbc655be34dde39 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85006,11 +85156,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/hybrid-search-rankers/reranking-weighted-reranker.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "36d9209f74cdb8129bef908b9c29182c41c91c80",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 36d9209f74cdb8129bef908b9c29182c41c91c80 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85018,11 +85169,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/model-ranker/model-ranker.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "f69ee72302b6aa136820acca4df92173a9a0b9d5",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob f69ee72302b6aa136820acca4df92173a9a0b9d5 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85030,11 +85182,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/model-ranker/siliconflow-model-ranker.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "cbb835977504e614a18e5b22fc98231ae19edf52",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob cbb835977504e614a18e5b22fc98231ae19edf52 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85042,11 +85195,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/reranking.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "92b868247cd3f33d17e4858997c0630eed8ea5a3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 92b868247cd3f33d17e4858997c0630eed8ea5a3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85054,11 +85208,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/boost-ranker.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "1c551fe75685ece295fb17b806740ec992585099",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 1c551fe75685ece295fb17b806740ec992585099 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85066,11 +85221,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/decay-ranker/decay-ranker-oveview.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "4bde7d419ffa34fa83b251159225e3cad53f6dd6",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 4bde7d419ffa34fa83b251159225e3cad53f6dd6 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85078,11 +85234,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/decay-ranker/decay-ranker.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7a2d35057d4256ebf5f31cd53b8a50b29f20453f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7a2d35057d4256ebf5f31cd53b8a50b29f20453f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85090,11 +85247,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/decay-ranker/exponential-decay.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "699dcc701b04adacfb76c873e1995e2584826503",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 699dcc701b04adacfb76c873e1995e2584826503 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85102,11 +85260,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/decay-ranker/gaussian-decay.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7d98f8d940d22f7370d420c7f5b52ca2c3c3714d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7d98f8d940d22f7370d420c7f5b52ca2c3c3714d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85114,11 +85273,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/decay-ranker/linear-decay.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "90064fb9a69be076f104f1eb00ba5c6d62784ddd",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 90064fb9a69be076f104f1eb00ba5c6d62784ddd at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85126,11 +85286,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/decay-ranker/tutorial-implement-time-based-ranking.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b75a9c68b9b3f27088548cc36d7669f7098b9cc6",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b75a9c68b9b3f27088548cc36d7669f7098b9cc6 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85138,11 +85299,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/function-and-model-inference/reranking/rule-based-rankers/rule-based-rankers.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "69c2f9dc39c4a6903b7cc918947f5321d226a237",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 69c2f9dc39c4a6903b7cc918947f5321d226a237 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85150,11 +85312,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/api-sdks/api-sdks.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "53998ea1bd420afd184217694ae902367bf68805",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 53998ea1bd420afd184217694ae902367bf68805 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85162,11 +85325,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/api-sdks/install-sdks.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "15e27b280468b40e95fc3066e4036420416f5fb7",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 15e27b280468b40e95fc3066e4036420416f5fb7 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85174,11 +85338,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/best-practices/best-practices.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8aef19e0a51ae632217343df3e1f909f516f772f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8aef19e0a51ae632217343df3e1f909f516f772f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85186,11 +85351,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/best-practices/environment-isolation.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0e7a50e998305a97f3cd251a6d9c9b2779c9daac",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0e7a50e998305a97f3cd251a6d9c9b2779c9daac at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85198,11 +85364,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/best-practices/multi-tenancy.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "42558a0efac967477e5af9b1ac692d097fe31ed4",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 42558a0efac967477e5af9b1ac692d097fe31ed4 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85210,11 +85377,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/byoc-intro.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "63127866d2314ad0d2d34861095d2166f7555362",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 63127866d2314ad0d2d34861095d2166f7555362 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85222,11 +85390,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/get-started.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b81ad4fe5813647d77dff5617a9269564b8f47d0",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b81ad4fe5813647d77dff5617a9269564b8f47d0 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85234,11 +85403,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/quick-start.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "039b0577f0dfdb174414dd9e3178aa6170c679d7",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 039b0577f0dfdb174414dd9e3178aa6170c679d7 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85246,11 +85416,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/register-with-zilliz-cloud.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "880cdcd96188c4479fbae10028ae85ca1ca3f611",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 880cdcd96188c4479fbae10028ae85ca1ca3f611 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85258,11 +85429,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/resource-planning/cu-types-explained.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ce44d980768f996acda517a677944348e15f4213",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ce44d980768f996acda517a677944348e15f4213 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85270,11 +85442,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/resource-planning/data-resilience.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "69b8b066c7a6a90a4d03fd01256c8989a9ab17bd",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 69b8b066c7a6a90a4d03fd01256c8989a9ab17bd at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85282,11 +85455,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/resource-planning/resource-planning.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "2ed7d1df436e866a43daa5862faee9bd9bd494ed",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 2ed7d1df436e866a43daa5862faee9bd9bd494ed at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85294,11 +85468,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/shared-responsibilities.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ad47c3434e9a58cbe71b7959e393d459a45f9342",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ad47c3434e9a58cbe71b7959e393d459a45f9342 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85306,11 +85481,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/terraform-provider.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a58e1dd8b15d19abc03edc98a8ada3bad84cf6c9",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a58e1dd8b15d19abc03edc98a8ada3bad84cf6c9 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85318,11 +85494,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/understand-basics/ann-search-explained.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8ed05d85068ee860192a73431524ee0d487c0c88",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8ed05d85068ee860192a73431524ee0d487c0c88 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85330,11 +85507,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/understand-basics/autoindex-explained.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "2bc9f10863fd8058147faf6263ab45c0fe450b0d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 2bc9f10863fd8058147faf6263ab45c0fe450b0d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85342,11 +85520,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/understand-basics/understand-basics.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "64ada9b27c7ff31bc796af5a8f57afa86337318c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 64ada9b27c7ff31bc796af5a8f57afa86337318c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85354,11 +85533,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/get-started/zilliz-mcp-server.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dc7e891893784b6871ba3d96e439db82804fc479",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dc7e891893784b6871ba3d96e439db82804fc479 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85366,11 +85546,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/limits-and-restrictions/api-comparison.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "4c6c7383a4ba7605ed6fb0569b8b6f253afaa4f4",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 4c6c7383a4ba7605ed6fb0569b8b6f253afaa4f4 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85378,11 +85559,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/limits-and-restrictions/limits-and-restrictions.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "75752d3aec5ee42850b31997fc94f0bf0c9472ae",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 75752d3aec5ee42850b31997fc94f0bf0c9472ae at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85390,11 +85572,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/limits-and-restrictions/limits.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dddfa96d4bbb424a2752cd0119c5418ae0a5bf69",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dddfa96d4bbb424a2752cd0119c5418ae0a5bf69 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85402,11 +85585,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/metrics-and-alerts/manage-notification-channels.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5ea4ea022ce38f7ed20f152e96eb8340fb7d02e4",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5ea4ea022ce38f7ed20f152e96eb8340fb7d02e4 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85414,11 +85598,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/metrics-and-alerts/manage-organization-alerts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e7d1f8be6cbe337e7e1af6f49a7c61859cc46d51",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e7d1f8be6cbe337e7e1af6f49a7c61859cc46d51 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85426,11 +85611,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/metrics-and-alerts/manage-project-alerts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "3c78a40259b1f8fa57839c8aa9f374bec445d36d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 3c78a40259b1f8fa57839c8aa9f374bec445d36d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85438,11 +85624,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/metrics-and-alerts/metrics-alerts-reference.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a5317ee2cc50b228d6c998b7d56c47622abdd0f8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a5317ee2cc50b228d6c998b7d56c47622abdd0f8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85450,11 +85637,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/metrics-and-alerts/metrics-and-alerts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "93397b30fb3859de60c043355d9ab3925c004125",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 93397b30fb3859de60c043355d9ab3925c004125 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85462,11 +85650,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/metrics-and-alerts/view-cluster-metric-charts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "890ed617663893771711a39ddb69019672a11e6c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 890ed617663893771711a39ddb69019672a11e6c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85474,11 +85663,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/migrations/migrate-from-milvus/migrate-from-milvus.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5e72e522e3f84a9e4277b403d7447d6c7207eaf5",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5e72e522e3f84a9e4277b403d7447d6c7207eaf5 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85486,11 +85676,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/migrations/migrate-from-milvus/via-endpoint.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "791efe08e3370711160b7532734601d4b57eb9f5",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 791efe08e3370711160b7532734601d4b57eb9f5 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85498,11 +85689,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/migrations/migrations.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "515e81fed23b901b83237a44764acddde74e540a",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 515e81fed23b901b83237a44764acddde74e540a at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85510,11 +85702,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/migrations/zilliz-cloud-ips.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "59828df52051730afadd48ef630525b1dc2af2b7",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 59828df52051730afadd48ef630525b1dc2af2b7 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85522,11 +85715,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/organizations/organization-settings.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "66e49f6c926ffc7efc0644d6d5eb059dd4ae837b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 66e49f6c926ffc7efc0644d6d5eb059dd4ae837b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85534,11 +85728,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/organizations/organization-users.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "82f823ed277473847c2f5301bb3ff6f7262b0f33",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 82f823ed277473847c2f5301bb3ff6f7262b0f33 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85546,11 +85741,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/organizations/organizations.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "484070f3f1e843e473795c8d6d7cedb54c192754",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 484070f3f1e843e473795c8d6d7cedb54c192754 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85558,11 +85754,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/organizations/use-recycle-bin.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "1f6e78776ff61354e49f0cc97ec2d29a4fd73b09",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 1f6e78776ff61354e49f0cc97ec2d29a4fd73b09 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85570,11 +85767,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/integrate-with-third-parties/integrate-with-amazon-s3.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "ffac66f3492fb2e8ffb4f416051f1828a6d93277",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob ffac66f3492fb2e8ffb4f416051f1828a6d93277 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85582,11 +85780,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/integrate-with-third-parties/integrate-with-model-providers.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "c56e772c6ce5979fe03e56c40c68ee7dd02d141b",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob c56e772c6ce5979fe03e56c40c68ee7dd02d141b at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85594,11 +85793,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/integrate-with-third-parties/integrate-with-storage-bucket.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "268e4ba89002087b741416415a8df436a994b978",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 268e4ba89002087b741416415a8df436a994b978 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85606,11 +85806,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/integrate-with-third-parties/integrate-with-third-parties.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dd8c7b951eda946173626ebc4f016b676fbdb69c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dd8c7b951eda946173626ebc4f016b676fbdb69c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85618,11 +85819,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/integrate-with-third-parties/prometheus-monitoring.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "22880035613c39c1fe5ea48e482fc9cdddf0c2d1",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 22880035613c39c1fe5ea48e482fc9cdddf0c2d1 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85630,11 +85832,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/job-center.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "010683f4bf7c8ba20ef56c89644bc44e7858e50c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 010683f4bf7c8ba20ef56c89644bc44e7858e50c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85642,11 +85845,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/manage-projects.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "3b34ac2633e48e7cfa5b9d45f824596a8a1e6e16",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 3b34ac2633e48e7cfa5b9d45f824596a8a1e6e16 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85654,11 +85858,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/project-users.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8f59ec9b0ff514e76d681a0367288c6853f15372",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8f59ec9b0ff514e76d681a0367288c6853f15372 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85666,11 +85871,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/projects/projects.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "303a8b933b534cb5f00a34d6f6821c387fbdd567",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 303a8b933b534cb5f00a34d6f6821c387fbdd567 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85678,11 +85884,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/access-control/access-control-overview.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "381adcf2219130dad1fb5df75ac2e18869652125",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 381adcf2219130dad1fb5df75ac2e18869652125 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85690,11 +85897,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/access-control/access-control.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7056237914533bc7bcb600103b7ef94b9d588997",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7056237914533bc7bcb600103b7ef94b9d588997 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85702,11 +85910,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/access-control/cluster-privileges.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "76691cf9d0e7f48cdc2571a37cce2c41dc27baa8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 76691cf9d0e7f48cdc2571a37cce2c41dc27baa8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85714,11 +85923,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/access-control/cluster-roles-sdk.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9589da33d0159676798bc79bdd80a0945e1ee9b8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9589da33d0159676798bc79bdd80a0945e1ee9b8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85726,11 +85936,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/access-control/cluster-roles.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "04c12971e2ade321402f8b4e61c4f6d1d7d76a05",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 04c12971e2ade321402f8b4e61c4f6d1d7d76a05 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85738,11 +85949,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/access-control/cluster-users-sdk.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7230ea89a2490b162647894a813d5564d539043a",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7230ea89a2490b162647894a813d5564d539043a at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85750,11 +85962,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/access-control/cluster-users.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a6810de5cba357906faccff860fa23a6b85c9905",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a6810de5cba357906faccff860fa23a6b85c9905 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85762,11 +85975,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/auditing/audit-logs-ref.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b28ed8e4e51eb9b73f4f78a1864a2fd0382502ff",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b28ed8e4e51eb9b73f4f78a1864a2fd0382502ff at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85774,11 +85988,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/auditing/audit-logs.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b3fd0f17012d426c488a2345fcd6075d1c896aa8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b3fd0f17012d426c488a2345fcd6075d1c896aa8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85786,11 +86001,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/auditing/auditing.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "68b9d9f871255b8a7b8cfb74b308a2ea48130893",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 68b9d9f871255b8a7b8cfb74b308a2ea48130893 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85798,11 +86014,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/auditing/view-activities.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "93f946de3a4068753525954bbf13f666bda4012d",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 93f946de3a4068753525954bbf13f666bda4012d at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85810,11 +86027,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/authentication/authentication.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "d19639a784a2c62866f7e7c20d7f7d3d8fcc70da",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob d19639a784a2c62866f7e7c20d7f7d3d8fcc70da at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85822,11 +86040,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/authentication/cluster-credentials.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "49faed91d8fbac57cfa548583c98100bd9a18a8f",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 49faed91d8fbac57cfa548583c98100bd9a18a8f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85834,11 +86053,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/authentication/email-accounts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b5b5ffe137784bd11963f51abd5ce59648fdc591",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b5b5ffe137784bd11963f51abd5ce59648fdc591 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85846,11 +86066,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/authentication/manage-api-keys.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b1147465b5a13051e32b8f74e75e7d025ca95750",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b1147465b5a13051e32b8f74e75e7d025ca95750 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85858,11 +86079,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/authentication/multi-factor-auth.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "4a4f1af37b4c2accd0b0b12a60d990fcc1419131",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 4a4f1af37b4c2accd0b0b12a60d990fcc1419131 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85870,11 +86092,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/data-security.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "5b86492e34f1b382c7b9dcd984b010cf078adbc2",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 5b86492e34f1b382c7b9dcd984b010cf078adbc2 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85882,11 +86105,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/network-and-security/network-and-security.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "7c19d6b95f9c98eb865ac45b11098702e4fabcb8",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 7c19d6b95f9c98eb865ac45b11098702e4fabcb8 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85894,11 +86118,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/network-and-security/setup-console-ip-allowlist.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "64f308b1d79ea448b970d0406372193dba096cd6",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 64f308b1d79ea448b970d0406372193dba096cd6 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
@@ -85906,11 +86131,12 @@
       "sourcePath": "versioned_docs/version-byoc/tutorials/security/security.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9564f7564c9f29687fba4185c35d2069ff935449",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9564f7564c9f29687fba4185c35d2069ff935449 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
       ]
     },
     {
