@@ -57,7 +57,7 @@ Require capabilities to include the embedded engine identity:
 ```ts
 expect(result.data).toMatchObject({
   docxEngine: {
-    version: "0.1.0",
+    version: "0.1.1",
     schemaVersion: 1,
     capabilities: expect.arrayContaining([
       "nested-list-create-v1",
@@ -89,7 +89,7 @@ Expected: engine fields/features are absent and doctor still probes `feishu-md-s
 Run:
 
 ```bash
-pnpm --filter zdoc-localize add feishu-docx-engine@0.1.0 --save-exact
+pnpm --filter zdoc-localize add feishu-docx-engine@0.1.1 --save-exact
 ```
 
 Import `ENGINE_VERSION`, `ENGINE_SCHEMA_VERSION`, and `ENGINE_CAPABILITIES`. Add them to capabilities output. Replace the optional binary probe with:
@@ -437,7 +437,7 @@ Assert the preview includes engine version, batch fingerprint, typed operation s
 
 ```ts
 expect(preview).toMatchObject({
-  docxEngineVersion: "0.1.0",
+  docxEngineVersion: "0.1.1",
   batchFingerprint: expect.stringMatching(/^[a-f0-9]{64}$/),
   operations: expect.arrayContaining([
     expect.objectContaining({operationId: "op-list", kind: "insert", nodeKind: "list"}),
@@ -729,7 +729,7 @@ Expected: every command exits 0.
 
 - [ ] **Step 3: Bump compatible CLI and Skill versions**
 
-Set `zdoc-localize` and its package to `0.2.0`. Update the Skill compatibility range to `>=0.2.0 <0.3.0`, update release notes and capabilities together, and keep the engine dependency fixed to the tested `0.1.0` release for this rollout.
+Set `zdoc-localize` and its package to `0.2.0`. Update the Skill compatibility range to `>=0.2.0 <0.3.0`, update release notes and capabilities together, and keep the engine dependency fixed to the tested `0.1.1` release for this rollout.
 
 - [ ] **Step 4: Re-run package verification after the version bump**
 

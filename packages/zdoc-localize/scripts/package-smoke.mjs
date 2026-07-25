@@ -24,7 +24,9 @@ try {
   const capabilities = JSON.parse(execFileSync(bin, ['capabilities', '--format', 'json'], {cwd: consumer, encoding: 'utf8'}));
   const doctor = JSON.parse(execFileSync(bin, ['doctor', '--offline', '--format', 'json'], {cwd: consumer, encoding: 'utf8'}));
   const skillCompatibility = JSON.parse(execFileSync(process.execPath, [join(root, 'scripts', 'check-zdoc-localize-skill-compat.mjs')], {cwd: root, encoding: 'utf8'}));
-  if (version !== '0.1.1' || capabilities.ok !== true || doctor.ok !== true || skillCompatibility.compatible !== true) {
+  if (version !== '0.1.1' || capabilities.ok !== true ||
+    capabilities.data?.docxEngine?.version !== '0.1.1' ||
+    doctor.ok !== true || skillCompatibility.compatible !== true) {
     throw new Error('Packed CLI smoke checks did not return the expected contracts.');
   }
   process.stdout.write(`${JSON.stringify({ok: true, version, archive, checks: ['capabilities', 'doctor-offline', 'skill-compatibility']})}\n`);
