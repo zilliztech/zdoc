@@ -316,6 +316,29 @@ describe('atomic publication replacement', () => {
     expect(readFileSync(liveFile, 'utf8')).toBe('concurrent\n');
   });
 
+  it('runs the final cooperative-writer content check after the beforeRename fault hook', async () => {
+    const root = temporaryRoot();
+    const liveFile = writeTree(root, 'content/manual/version.txt', 'old\n');
+    const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));
+    let edited = false;
+
+    await expect(atomicReplace({
+      publicationRoot: root,
+      baselineCommit: ownedTreeCommit(root, ['content/manual']),
+      replacements: [{source: stagedDirectory, target: 'content/manual'}],
+      testing: {
+        beforeRename: event => {
+          if (edited || event.from !== path.join(realpathSync(root), 'content/manual')) return;
+          writeFileSync(liveFile, 'concurrent\n');
+          edited = true;
+        },
+      },
+    })).rejects.toThrow(/concurrent|content|version|changed/i);
+
+    expect(edited).toBe(true);
+    expect(readFileSync(liveFile, 'utf8')).toBe('concurrent\n');
+  });
+
   it('preserves a concurrently created target that appears after CAS and before install', async () => {
     const root = temporaryRoot();
     const stagedDirectory = path.dirname(writeTree(root, 'stage/content/manual/version.txt', 'new\n'));

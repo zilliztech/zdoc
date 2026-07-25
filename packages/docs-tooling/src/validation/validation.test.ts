@@ -206,6 +206,48 @@ describe('docs-tooling CLI boundary', () => {
     expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/.publication-diagnostics.json'))).toBe(true);
   });
 
+  it('rejects stage content tampered after CLI validation by validating the immutable atomic snapshot', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/en/reference/api/python/python');
+    const liveSidebar = path.join(repositoryRoot, 'generated/en/sidebars/python.sidebar.js');
+    const stageRoot = path.join(repositoryRoot, 'tmp/docs-tooling/en/python');
+    const stagedOutput = path.join(stageRoot, 'content/en/reference/api/python/python');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'page.md'), '# old\n');
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = ["old"]\n');
+    mkdirSync(stagedOutput, {recursive: true});
+    writeFileSync(path.join(stagedOutput, 'page.md'), '# validated\n');
+    mkdirSync(path.join(stageRoot, 'generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(stageRoot, 'generated/en/sidebars/python.sidebar.js'), 'module.exports = ["validated"]\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python');
+    const diagnosticsPath = path.join(stageRoot, '.publication-diagnostics.json');
+    const diagnosticsBytes = readFileSync(diagnosticsPath, 'utf8');
+
+    await expect(executeDocsToolingCommand(
+      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      {
+        repositoryRoot,
+        atomicReplace: async options => {
+          writeFileSync(path.join(stagedOutput, '.env.production'), 'SECRET=attacker\n');
+          const validateSnapshot = options.validatePublication;
+          expect(validateSnapshot).toEqual(expect.any(Function));
+          await realAtomicReplace({
+            ...options,
+            validatePublication: async snapshot => {
+              expect(existsSync(path.join(snapshot.publicationRoot, '.publication-diagnostics.json'))).toBe(false);
+              await validateSnapshot!(snapshot);
+            },
+          });
+        },
+      },
+    )).rejects.toThrow(/credential|secret|integrity|environment|\.env/i);
+
+    expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# old\n');
+    expect(readFileSync(liveSidebar, 'utf8')).toBe('module.exports = ["old"]\n');
+    expect(readFileSync(diagnosticsPath, 'utf8')).toBe(diagnosticsBytes);
+  });
+
   it.each([
     ['missing', (diagnosticsPath: string) => rmSync(diagnosticsPath, {force: true})],
     ['tampered', (diagnosticsPath: string) => {
@@ -618,6 +660,7 @@ describe('docs-tooling CLI boundary', () => {
     expect(replace).toHaveBeenCalledWith(expect.objectContaining({
       publicationRoot: expect.any(String),
       baselineCommit: expectedBaseline,
+      validatePublication: expect.any(Function),
       replacements: expect.arrayContaining([
         expect.objectContaining({target: 'content/en/reference/api/python/python'}),
         expect.objectContaining({target: 'generated/en/sidebars/python.sidebar.js'}),

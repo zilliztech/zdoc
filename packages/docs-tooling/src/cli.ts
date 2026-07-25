@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
-import {atomicReplace, type AtomicReplaceOptions} from './publication/atomicReplace.ts';
+import {atomicReplace, type AtomicReplaceOptions, type AtomicValidationSnapshot} from './publication/atomicReplace.ts';
 import {
   capturePublicationDiagnostics,
   publicationOwnedTargets,
@@ -189,16 +189,22 @@ async function validatePublicationStage(context: CommandContext): Promise<Readon
   diagnostics: PublicationDiagnostics;
 }>> {
   const diagnostics = readAndValidatePublicationDiagnostics(context.repositoryRoot, context.stagePath, diagnosticsIdentity(context));
-  const paths = publicationStagePaths(context);
-  if (!existsSync(paths.outputPath)) throw new Error(`Publication content artifact is missing: ${context.publication.outputDir}`);
-  if (!existsSync(paths.sidebarPath)) throw new Error(`Publication sidebar artifact is missing: ${context.publication.sidebarPath}`);
-  if (!lstatSync(paths.sidebarPath).isFile() || lstatSync(paths.sidebarPath).isSymbolicLink()) {
-    throw new Error(`Publication sidebar artifact must be a regular file: ${context.publication.sidebarPath}`);
+  const inventory = await validatePublicationFilesystem(context.stagePath, context.publication as ManualPublication);
+  return {inventory, diagnostics};
+}
+
+async function validatePublicationFilesystem(root: string, publication: ManualPublication): Promise<StageInventory> {
+  const outputPath = path.join(root, publication.outputDir);
+  const sidebarPath = path.join(root, publication.sidebarPath);
+  if (!existsSync(outputPath)) throw new Error(`Publication content artifact is missing: ${publication.outputDir}`);
+  if (!existsSync(sidebarPath)) throw new Error(`Publication sidebar artifact is missing: ${publication.sidebarPath}`);
+  if (!lstatSync(sidebarPath).isFile() || lstatSync(sidebarPath).isSymbolicLink()) {
+    throw new Error(`Publication sidebar artifact must be a regular file: ${publication.sidebarPath}`);
   }
-  const inventory = validateStageFilesystem(context.stagePath);
-  const integrity = await scanIntegrity(context.stagePath, {
+  const inventory = validateStageFilesystem(root);
+  const integrity = await scanIntegrity(root, {
     repository: 'zdoc',
-    contentRoots: [context.publication.outputDir],
+    contentRoots: [publication.outputDir],
     allowedRoutePrefixes: ['/docs', '/img', '/reference'],
     allowedExactRoutes: ['/'],
   });
@@ -207,7 +213,16 @@ async function validatePublicationStage(context: CommandContext): Promise<Readon
     const summary = unreviewed.slice(0, 5).map((finding: {path: string; rule: string}) => `${finding.rule} at ${finding.path}`).join(', ');
     throw new Error(`Publication integrity validation failed with ${unreviewed.length} unreviewed finding(s): ${summary}`);
   }
-  return {inventory, diagnostics};
+  return inventory;
+}
+
+async function validatePublicationSnapshot(context: CommandContext, snapshot: AtomicValidationSnapshot): Promise<void> {
+  const expectedOwnedPaths = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
+  if (snapshot.ownedPaths.length !== expectedOwnedPaths.length
+    || expectedOwnedPaths.some((target, index) => snapshot.ownedPaths[index] !== target)) {
+    throw new Error('Atomic publication snapshot owned paths do not match the validated publication contract');
+  }
+  await validatePublicationFilesystem(snapshot.publicationRoot, context.publication as ManualPublication);
 }
 
 async function copyLocalSource(context: CommandContext): Promise<void> {
@@ -373,6 +388,7 @@ async function defaultPublish(
       {source: staged.sidebarPath, target: context.publication.sidebarPath},
     ],
     removals: removalTargets,
+    validatePublication: snapshot => validatePublicationSnapshot(context, snapshot),
   });
 }
 

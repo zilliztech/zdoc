@@ -47,6 +47,14 @@ export type AtomicValidationSnapshot = Readonly<{
   ownedPaths: readonly string[];
 }>;
 
+/**
+ * Cooperative-writer contract: every supported writer for the same owned path
+ * set must publish through atomicReplace and therefore share its transaction-key
+ * writer lock. Official readers use the matching read fence. Content and inode
+ * checks fail closed for changes observed before rename, but Node provides no
+ * portable conditional directory rename; non-cooperative same-UID filesystem
+ * mutation in the final check-to-rename syscall gap is outside this guarantee.
+ */
 export type AtomicReplaceOptions = Readonly<{
   publicationRoot: string;
   baselineCommit: string;
@@ -55,6 +63,7 @@ export type AtomicReplaceOptions = Readonly<{
   validatePublication?: (snapshot: AtomicValidationSnapshot) => void | Promise<void>;
   testing?: Readonly<{
     beforeFilesystemOperation?: (event: AtomicFilesystemEvent) => void | Promise<void>;
+    beforeRename?: (event: AtomicFilesystemEvent) => void | Promise<void>;
     afterRename?: (event: AtomicFilesystemEvent) => void | Promise<void>;
     afterJournal?: (event: AtomicJournalEvent) => void | Promise<void>;
     beforeControlFsync?: (event: AtomicControlFsyncEvent) => void;
@@ -568,6 +577,7 @@ async function performRename(
   const event = Object.freeze({kind: 'rename' as const, transactionId, from: source, to: destination});
   const binding = bindRename(root, source, destination, 'Publication rename');
   await testing?.beforeFilesystemOperation?.(event);
+  await testing?.beforeRename?.(event);
   revalidateSource?.();
   executeBoundRename(binding, 'Publication rename');
   fsyncPath(path.dirname(destination));
@@ -923,6 +933,7 @@ function journalRecord(
   }) as TransactionJournal;
 }
 
+/** Publish an owned path set under the cooperative-writer contract above. */
 export async function atomicReplace(options: AtomicReplaceOptions): Promise<void> {
   const root = canonicalRoot(options.publicationRoot);
   const replacementTargets = options.replacements.map(replacement => replacement.target);

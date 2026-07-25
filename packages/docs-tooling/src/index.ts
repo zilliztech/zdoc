@@ -8,7 +8,13 @@ export type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './
 export {validateStageFilesystem} from './validation/filesystem.ts';
 export {assertPublicationOwnership, assertSafeRepositoryRelativePath} from './validation/ownership.ts';
 export {atomicReplace, ownedTreeCommit, withAtomicPublicationRead, withAtomicPublicationReads} from './publication/atomicReplace.ts';
-export type {AtomicFilesystemEvent, AtomicJournalEvent, AtomicReplacement, AtomicReplaceOptions} from './publication/atomicReplace.ts';
+export type {
+  AtomicFilesystemEvent,
+  AtomicJournalEvent,
+  AtomicReplacement,
+  AtomicReplaceOptions,
+  AtomicValidationSnapshot,
+} from './publication/atomicReplace.ts';
 export {
   PUBLICATION_DIAGNOSTICS_FILE,
   PUBLICATION_ANCHOR_ROOT,

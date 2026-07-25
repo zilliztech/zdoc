@@ -567,6 +567,13 @@ export interface PublicationAdapter {
 
 `PublicationContext` contains `site`, `manual`, `publicationRoot`, `baselineCommit`, and immutable source identity. Resolve every path under `publicationRoot` before adapter execution and reject escapes. Before replacement, compare `baselineCommit` with the current owned-tree commit/hash; a mismatch aborts publication and preserves both the live tree and staged diagnostics.
 
+**Atomic publication threat model and audit:**
+
+- The atomic boundary is a cooperative writer protocol. Every supported in-place writer for the same owned path set must use `atomicReplace`, and therefore the same transaction-key writer lock. Official Docusaurus builds use the corresponding read fence.
+- Snapshot validation runs against the immutable transaction snapshot's publication-shaped root, never against the mutable stage. The CLI validates snapshot content and sidebar artifacts with the same filesystem and integrity checks used during stage validation; diagnostics and anchors remain read-only evidence outside the owned snapshot.
+- Node exposes no portable conditional directory rename. The implementation performs content, inode, ancestor, CAS, and destination checks immediately before `renameSync`, but a non-cooperative same-UID process mutating the filesystem in the final check-to-syscall gap is outside the lock-free guarantee. No unaudited native helper is introduced.
+- Repository writer audit: `packages/docs-tooling/src/cli.ts` is the supported in-place publication path and uses `atomicReplace`. Lark/REST generators write canonical staging roots before publication. Docs workflow assembly and translation helpers write isolated or detached CI worktrees that are committed through Git rather than concurrently replacing a served publication tree. `scripts/build/write-provenance.mjs` writes only the selected build output. No second supported in-place publication writer was found.
+
 - [ ] **Step 4: Verify and commit**
 
 Run: `pnpm vitest run packages/docs-tooling packages/publication-adapters`
