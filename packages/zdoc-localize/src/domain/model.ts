@@ -142,3 +142,8 @@ export interface RunRecord {
   errorDetail?: unknown;
   metadata?: Record<string, unknown>;
 }
+
+export type ApprovedReviewOperation =
+  | {operationId: string; approvedText: string}
+  | {operationId: string; approvedSlots: Array<{slotId: string; approvedText: string}>}
+  | {operationId: string; decision: 'delete' | 'protected'};

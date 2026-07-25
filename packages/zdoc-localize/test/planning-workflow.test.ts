@@ -246,7 +246,7 @@ describe('bootstrap and planning workflows', () => {
     };
 
     expect(created).toMatchObject({state: 'translation_required', translationRequests: []});
-    expect(plan.planVersion).toBe(2);
+    expect(plan.planVersion).toBe(3);
     expect(plan.operations).toEqual([expect.objectContaining({
       policy: 'verify_synced_reference', effect: 'verify_only', sourceDocumentId: 'source',
       sourceBlockId: 'sync-source', targetBlockId: 'sync-reference',
@@ -452,7 +452,7 @@ describe('bootstrap and planning workflows', () => {
       planVersion: number;
       operations: Array<{policy?: string; proposedText: string}>;
     };
-    expect(compiledPlan.planVersion).toBe(2);
+    expect(compiledPlan.planVersion).toBe(3);
     expect(compiledPlan.operations).toEqual(expect.arrayContaining([
       expect.objectContaining({policy: 'translation', proposedText: 'Hugging Face'}),
       expect.objectContaining({policy: 'translation', proposedText: '中文正文。'}),
@@ -539,10 +539,35 @@ describe('bootstrap and planning workflows', () => {
           targetNodeKind: request.targetNodeKind,
           translatedText: request.sourceAfter ?? request.sourceBefore ?? '保留',
         });
-    await expect(workflows.completePlan(result.runId, responses)).rejects.toMatchObject({
-      type: 'compatibility',
-      subtype: 'structured_review_pending',
-    });
+    const completed = await workflows.completePlan(result.runId, responses);
+    const compiledPlan = JSON.parse(await readFile(join(cwd, completed.planPath), 'utf8')) as {
+      planVersion: number;
+      operations: Array<{operationId: string; structured?: {kind: string; topologyHash: string; sourceStructure: unknown; slots: unknown[]}}>;
+    };
+    const review = await readFile(join(cwd, completed.reviewPath), 'utf8');
+
+    expect(completed.state).toBe('review_required');
+    expect(compiledPlan.planVersion).toBe(3);
+    expect(compiledPlan.operations).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        operationId: list!.operationId,
+        structured: expect.objectContaining({kind: 'list', slots: expect.any(Array)}),
+      }),
+      expect.objectContaining({
+        operationId: table!.operationId,
+        structured: expect.objectContaining({
+          kind: 'table',
+          sourceStructure: expect.objectContaining({kind: 'table', rows: expect.any(Array)}),
+          slots: expect.any(Array),
+        }),
+      }),
+    ]));
+    expect(review).toContain(`op:${table!.operationId} slot:row-0/cell-0/paragraph-0`);
+    expect(review).toContain('### Structured list');
+    expect(review).toContain('### Structured table');
+    expect(review).toContain('Rows: 2');
+    expect(review).toContain('Columns: 2');
+    expect(review).toContain('`model_name`');
     expect(docs.fetches).toEqual([]);
   });
 

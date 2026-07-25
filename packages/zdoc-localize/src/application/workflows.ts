@@ -48,6 +48,7 @@ import {
   type TranslationMemoryExample,
   type TranslationRequest,
   type TranslationResponse,
+  type ValidatedTranslation,
   validateTranslations,
 } from '../domain/translation.js';
 import {parseFeishuDocument} from '../domain/xml-parser.js';
@@ -70,6 +71,7 @@ import {
   parseReview,
   type LocalizationPlan,
   type PlanOperation,
+  type StructuredReviewShape,
 } from '../domain/review.js';
 
 export interface WorkflowDependencies {
@@ -379,6 +381,78 @@ function structuredTranslationShape(
       ...(targetSlots.has(slot.slotId) ? {targetCurrent: targetSlots.get(slot.slotId)} : {}),
     })),
   };
+}
+
+function structuredReviewShape(
+  request: TranslationRequest,
+  translation: ValidatedTranslation,
+  sourceNode: SemanticNode | undefined,
+): {structured: StructuredReviewShape} | Record<string, never> {
+  if (!request.structured || !('slots' in translation)) return {};
+  const sourceStructure = structuredContent(sourceNode);
+  if (!sourceStructure || sourceStructure.kind !== request.structured.kind) {
+    throw new LocalizeError({
+      type: 'verification_failed',
+      subtype: 'structured_source_missing',
+      message: `Operation ${request.operationId} is missing its immutable structured source content.`,
+    });
+  }
+  const topologyHash = structuredTopologyHash(sourceStructure);
+  if (topologyHash !== request.structured.topologyHash) {
+    throw new LocalizeError({
+      type: 'verification_failed',
+      subtype: 'structured_topology_mismatch',
+      message: `Operation ${request.operationId} no longer matches its structured translation request.`,
+      details: {expected: request.structured.topologyHash, actual: topologyHash},
+    });
+  }
+  return {
+    structured: {
+      kind: request.structured.kind,
+      topologyHash: request.structured.topologyHash,
+      sourceStructure: structuredClone(sourceStructure),
+      slots: request.structured.slots.map((slot, index) => ({
+        ...slot,
+        proposedText: translation.slots[index]!.translatedText,
+      })),
+    },
+  };
+}
+
+function approvedTranslationResponses(
+  operations: ReturnType<typeof parseReview>['operations'],
+  requestById: Map<string, TranslationRequest>,
+): TranslationResponse[] {
+  return operations.flatMap((operation): TranslationResponse[] => {
+    if ('decision' in operation) {
+      return operation.decision === 'delete'
+        ? [{operationId: operation.operationId, decision: 'delete'}]
+        : [];
+    }
+    const request = requestById.get(operation.operationId);
+    if (!request) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'translation_request_missing',
+        message: `The approved operation ${operation.operationId} has no translation request.`,
+      });
+    }
+    if ('approvedSlots' in operation) {
+      return [{
+        operationId: operation.operationId,
+        targetNodeKind: request.targetNodeKind,
+        slots: operation.approvedSlots.map((slot) => ({
+          slotId: slot.slotId,
+          translatedText: slot.approvedText,
+        })),
+      }];
+    }
+    return [{
+      operationId: operation.operationId,
+      translatedText: operation.approvedText,
+      targetNodeKind: request.targetNodeKind,
+    }];
+  });
 }
 
 function documentArtifacts(name: string, content: string, document: SemanticDocument): Record<string, string> {
@@ -1118,14 +1192,6 @@ export class LocalizationWorkflows {
       throw new LocalizeError({type: 'verification_failed', subtype: 'plan_bundle_incomplete', message: 'Planning snapshot is missing translation requests or target XML.'});
     }
     const requests = JSON.parse(requestJson) as TranslationRequest[];
-    if (requests.some((request) => request.structured)) {
-      throw new LocalizeError({
-        type: 'compatibility',
-        subtype: 'structured_review_pending',
-        message: 'Structured translations require the plan v3 review protocol before review compilation.',
-        hint: 'Complete the structured review renderer before compiling list or table translations.',
-      });
-    }
     const validated = validateTranslations(requests, responses);
     const aligned = metadata.aligned as AlignedChange[] | undefined
       ?? (bundle.files['alignments.json'] ? JSON.parse(bundle.files['alignments.json']) as AlignedChange[] : undefined);
@@ -1138,6 +1204,7 @@ export class LocalizationWorkflows {
     });
     const validatedById = new Map(validated.map((item) => [item.operationId, item]));
     const requestById = new Map(requests.map((item) => [item.operationId, item]));
+    const alignedById = new Map(aligned.map((item) => [item.change.changeId, item]));
     const resourceOperations = (metadata.resourceOperations as PlanOperation[] | undefined)
       ?? (bundle.files['resource-operations.json']
         ? JSON.parse(bundle.files['resource-operations.json']) as PlanOperation[]
@@ -1162,6 +1229,12 @@ export class LocalizationWorkflows {
             ...operation,
             proposedText: translation.translatedText,
             preserved: request.preserved,
+            ...structuredReviewShape(
+              request,
+              translation,
+              alignedById.get(operation.operationId)?.change.after
+                ?? alignedById.get(operation.operationId)?.change.before,
+            ),
           };
         })
       : [...aligned.map((item) => {
@@ -1202,10 +1275,11 @@ export class LocalizationWorkflows {
         targetElementName: structuralNode.remote.elementName,
         targetAttributes: structuralNode.remote.attributes,
         preserved: request.preserved,
+        ...structuredReviewShape(request, translation, sourceNode),
       };
       }), ...resourceOperations];
     const plan: LocalizationPlan = {
-      planVersion: run.metadata?.kind === 'initialization' || resourceOperations.length > 0 ? 2 : 1,
+      planVersion: 3,
       runId,
       pairId: run.pairId,
       sourceRevision: Number(metadata.sourceRevision),
@@ -1244,14 +1318,15 @@ export class LocalizationWorkflows {
     }
     const requests = JSON.parse(requestJson) as TranslationRequest[];
     const requestById = new Map(requests.map((request) => [request.operationId, request]));
-    validateTranslations(requests, approved.operations.flatMap((operation): TranslationResponse[] => {
-      if ('decision' in operation) return operation.decision === 'delete'
-        ? [{operationId: operation.operationId, decision: 'delete'}]
-        : [];
-      const request = requestById.get(operation.operationId);
-      if (!request) throw new LocalizeError({type: 'verification_failed', subtype: 'translation_request_missing', message: `The approved operation ${operation.operationId} has no translation request.`});
-      return [{operationId: operation.operationId, translatedText: operation.approvedText, targetNodeKind: request.targetNodeKind}];
-    }));
+    validateTranslations(requests, approvedTranslationResponses(approved.operations, requestById));
+    if (approved.operations.some((operation) => 'approvedSlots' in operation)) {
+      throw new LocalizeError({
+        type: 'compatibility',
+        subtype: 'engine_preview_pending',
+        message: 'Structured reviews require an exact Docx engine batch preview.',
+        hint: 'Complete the plan v3 engine preview compiler before applying this review.',
+      });
+    }
     const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
     let creationDraftXml: string | undefined;
     if (run.metadata!.kind === 'creation') {
@@ -1298,7 +1373,9 @@ export class LocalizationWorkflows {
                 approvedText: reviewOperation.approvedText,
                 compiledXml: xmlForOperation(operation, reviewOperation.approvedText),
               }
-            : {decision: reviewOperation.decision}),
+            : 'decision' in reviewOperation
+              ? {decision: reviewOperation.decision}
+              : {decision: 'protected' as const}),
         };
       }),
     };
@@ -1336,24 +1413,15 @@ export class LocalizationWorkflows {
     }
     const requests = JSON.parse(requestJson) as TranslationRequest[];
     const requestById = new Map(requests.map((request) => [request.operationId, request]));
-    validateTranslations(requests, approved.operations.flatMap((operation): TranslationResponse[] => {
-      if ('decision' in operation) return operation.decision === 'delete'
-        ? [{operationId: operation.operationId, decision: 'delete'}]
-        : [];
-      const request = requestById.get(operation.operationId);
-      if (!request) {
-        throw new LocalizeError({
-          type: 'verification_failed',
-          subtype: 'translation_request_missing',
-          message: `The approved operation ${operation.operationId} has no translation request.`,
-        });
-      }
-      return [{
-        operationId: operation.operationId,
-        translatedText: operation.approvedText,
-        targetNodeKind: request.targetNodeKind,
-      }];
-    }));
+    validateTranslations(requests, approvedTranslationResponses(approved.operations, requestById));
+    if (approved.operations.some((operation) => 'approvedSlots' in operation)) {
+      throw new LocalizeError({
+        type: 'compatibility',
+        subtype: 'engine_preview_pending',
+        message: 'Structured reviews require an exact Docx engine batch preview.',
+        hint: 'Complete the plan v3 engine preview compiler before applying this review.',
+      });
+    }
     const hashDomain = this.hashDomainForRun(run);
     const [sourceRead, targetRead] = await Promise.all([
       this.readPlanningDocument(pair.sourceDocUrl, hashDomain),

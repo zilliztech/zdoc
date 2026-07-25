@@ -154,4 +154,159 @@ describe('review artifacts', () => {
       planV2,
     )).toThrowError(expect.objectContaining({subtype: 'review_metadata_changed'}));
   });
+
+  it('renders and parses immutable plan-v3 list and table slots', () => {
+    const planV3: LocalizationPlan = {
+      planVersion: 3,
+      runId: 'run-v3',
+      pairId: 'pair-v3',
+      sourceRevision: 44,
+      targetRevision: 4,
+      sourceHash: 'source-v3',
+      targetHash: 'target-v3',
+      operations: [
+        {
+          operationId: 'op-list',
+          policy: 'translation',
+          effect: 'write',
+          kind: 'insert',
+          confidence: 'high',
+          proposedText: '创建账户\n生成令牌',
+          targetNodeKind: 'list',
+          structured: {
+            kind: 'list',
+            topologyHash: '1'.repeat(64),
+            sourceStructure: {
+              kind: 'list',
+              ordered: true,
+              items: [{
+                content: [{kind: 'text', text: 'Create an account'}],
+                children: [{
+                  ordered: false,
+                  items: [{
+                    content: [{kind: 'text', text: 'Generate a token', bold: true}],
+                    children: [],
+                  }],
+                }],
+              }],
+            },
+            slots: [
+              {slotId: 'item-0/text', sourceText: 'Create an account', proposedText: '创建账户', preserved: []},
+              {
+                slotId: 'item-0/child-0/item-0/text',
+                sourceText: '**Generate a token**',
+                targetCurrent: '**生成旧令牌**',
+                proposedText: '**生成令牌**',
+                preserved: [{kind: 'bold_span', value: '', count: 1}],
+              },
+            ],
+          },
+        },
+        {
+          operationId: 'op-table',
+          policy: 'translation',
+          effect: 'write',
+          kind: 'insert',
+          confidence: 'high',
+          proposedText: '模型 ID\n描述',
+          targetNodeKind: 'table',
+          structured: {
+            kind: 'table',
+            topologyHash: '2'.repeat(64),
+            sourceStructure: {
+              kind: 'table',
+              rows: [
+                {cells: [
+                  {content: [{kind: 'paragraph', content: [{kind: 'text', text: 'Parameter', bold: true}]}]},
+                  {content: [{kind: 'paragraph', content: [{kind: 'text', text: 'Description', bold: true}]}]},
+                ]},
+                {cells: [
+                  {content: [{kind: 'code', language: 'text', text: 'model_name'}]},
+                  {content: [{kind: 'paragraph', content: [{kind: 'text', text: 'Model ID'}]}]},
+                ]},
+              ],
+            },
+            slots: [
+              {
+                slotId: 'row-0/cell-0/paragraph-0',
+                sourceText: '**Parameter**',
+                proposedText: '**参数**',
+                preserved: [{kind: 'bold_span', value: '', count: 1}],
+              },
+              {
+                slotId: 'row-0/cell-1/paragraph-0',
+                sourceText: '**Description**',
+                proposedText: '**描述**',
+                preserved: [{kind: 'bold_span', value: '', count: 1}],
+              },
+              {
+                slotId: 'row-1/cell-1/paragraph-0',
+                sourceText: 'Model ID',
+                proposedText: '模型 ID',
+                preserved: [],
+              },
+            ],
+          },
+        },
+        {
+          operationId: 'op-code',
+          policy: 'verbatim_code',
+          effect: 'write',
+          kind: 'insert',
+          confidence: 'high',
+          proposedText: 'print("hello")',
+          targetNodeKind: 'code',
+        },
+      ],
+    };
+    const review = compileReview(planV3);
+
+    expect(review).toContain('### Structured list · 2 editable slots');
+    expect(review).toContain('### Structured table · 3 editable slots');
+    expect(review).toContain('Rows: 2');
+    expect(review).toContain('Columns: 2');
+    expect(review).toContain('| Row | Cell 1 | Cell 2 |');
+    expect(review).toContain('| 2 | `model_name` | Model ID |');
+    expect(review).toContain('#### Proposed target structure');
+    expect(review).toContain('| 2 | `model_name` | 模型 ID |');
+    expect(review).toContain('1. Create an account');
+    expect(review).toContain('  - **Generate a token**');
+    expect(review).toContain('<!-- BEGIN EDITABLE TRANSLATION op:op-table slot:row-1/cell-1/paragraph-0 -->');
+    expect(review).toContain('Protected content: print("hello")');
+
+    const edited = review
+      .replace('创建账户\n<!-- END EDITABLE TRANSLATION op:op-list slot:item-0/text -->', '注册账户\n<!-- END EDITABLE TRANSLATION op:op-list slot:item-0/text -->')
+      .replace('模型 ID\n<!-- END EDITABLE TRANSLATION op:op-table slot:row-1/cell-1/paragraph-0 -->', '模型标识符\n<!-- END EDITABLE TRANSLATION op:op-table slot:row-1/cell-1/paragraph-0 -->');
+
+    expect(parseReview(edited, planV3).operations).toEqual([
+      {
+        operationId: 'op-list',
+        approvedSlots: [
+          {slotId: 'item-0/text', approvedText: '注册账户'},
+          {slotId: 'item-0/child-0/item-0/text', approvedText: '**生成令牌**'},
+        ],
+      },
+      {
+        operationId: 'op-table',
+        approvedSlots: [
+          {slotId: 'row-0/cell-0/paragraph-0', approvedText: '**参数**'},
+          {slotId: 'row-0/cell-1/paragraph-0', approvedText: '**描述**'},
+          {slotId: 'row-1/cell-1/paragraph-0', approvedText: '模型标识符'},
+        ],
+      },
+      {operationId: 'op-code', decision: 'protected'},
+    ]);
+
+    for (const tampered of [
+      review.replace('Rows: 2', 'Rows: 3'),
+      review.replace('Topology hash: 2222', 'Topology hash: 9999'),
+      review.replaceAll('slot:row-1/cell-1/paragraph-0', 'slot:row-9/cell-9/paragraph-9'),
+      review.replace('`model_name`', '`changed_name`'),
+      review.replace('Protected content: print("hello")', 'Protected content: print("changed")'),
+    ]) {
+      expect(() => parseReview(tampered, planV3)).toThrowError(expect.objectContaining({
+        subtype: expect.stringMatching(/^review_(metadata_changed|operation_mismatch)$/),
+      }));
+    }
+  });
 });

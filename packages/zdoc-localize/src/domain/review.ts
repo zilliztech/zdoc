@@ -1,10 +1,27 @@
+import type {DesiredNode, InlineContent} from 'feishu-docx-engine';
+
 import {LocalizeError} from './errors.js';
 import {canonicalHash} from './hash.js';
 import type {
+  ApprovedReviewOperation,
   AlignmentConfidence,
   ChangeKind,
   SemanticNodeKind,
 } from './model.js';
+import {
+  applySlotTranslations,
+  type StructuredContent,
+} from './structured-content.js';
+import type {StructuredTranslationSlot} from './translation.js';
+
+export type {ApprovedReviewOperation} from './model.js';
+
+export interface StructuredReviewShape {
+  kind: 'list' | 'table';
+  topologyHash: string;
+  sourceStructure: StructuredContent;
+  slots: Array<StructuredTranslationSlot & {proposedText: string}>;
+}
 
 export interface PlanOperation {
   operationId: string;
@@ -37,6 +54,7 @@ export interface PlanOperation {
   sourceResourceHash?: string;
   targetResourceToken?: string;
   sourceXml?: string;
+  structured?: StructuredReviewShape;
 }
 
 export type OperationPolicy =
@@ -50,7 +68,7 @@ export type OperationPolicy =
 export type OperationEffect = 'write' | 'mirror' | 'manual' | 'verify_only' | 'delete';
 
 export interface LocalizationPlan {
-  planVersion: 1 | 2;
+  planVersion: 1 | 2 | 3;
   runId: string;
   pairId: string;
   sourceRevision: number;
@@ -60,10 +78,6 @@ export interface LocalizationPlan {
   operations: PlanOperation[];
 }
 
-export type ApprovedReviewOperation =
-  | {operationId: string; approvedText: string}
-  | {operationId: string; decision: 'delete' | 'protected'};
-
 export interface ApprovedReview {
   planHash: string;
   operations: ApprovedReviewOperation[];
@@ -71,6 +85,124 @@ export interface ApprovedReview {
 
 function field(value: string | undefined): string {
   return value?.trim() ? value : '(none)';
+}
+
+const escapedInlineCharacters = /[\\`*~[\]()<>]/g;
+
+function escapeInline(value: string): string {
+  return value.replace(escapedInlineCharacters, (character) => `\\${character}`);
+}
+
+function inlineMarkdown(content: InlineContent[]): string {
+  return content.map((part) => {
+    if (part.kind === 'code') return `\`${part.text.replaceAll('`', '\\`')}\``;
+    if (part.kind === 'link') return `[${escapeInline(part.text)}](${escapeInline(part.url)})`;
+    let value = escapeInline(part.text);
+    if (part.strike) value = `~~${value}~~`;
+    if (part.italic) value = `*${value}*`;
+    if (part.bold) value = `**${value}**`;
+    if (part.underline) value = `<u>${value}</u>`;
+    return value;
+  }).join('');
+}
+
+function semanticListMarkdown(
+  items: Extract<StructuredContent, {kind: 'list'}>['items'],
+  ordered: boolean,
+  depth = 0,
+): string {
+  return items.flatMap((item, index) => {
+    const marker = ordered ? `${index + 1}.` : '-';
+    return [
+      `${'  '.repeat(depth)}${marker} ${inlineMarkdown(item.content)}`,
+      ...item.children.flatMap((child) => semanticListMarkdown(child.items, child.ordered, depth + 1).split('\n')),
+    ];
+  }).join('\n');
+}
+
+function desiredListMarkdown(
+  node: Extract<DesiredNode, {kind: 'list'}>,
+  depth = 0,
+): string {
+  return node.items.flatMap((item, index) => {
+    const marker = node.ordered ? `${index + 1}.` : '-';
+    const children = item.children.flatMap((child) => child.kind === 'list'
+      ? desiredListMarkdown(child, depth + 1).split('\n')
+      : [`${'  '.repeat(depth + 1)}${inlineMarkdown(child.content)}`]);
+    return [`${'  '.repeat(depth)}${marker} ${inlineMarkdown(item.content)}`, ...children];
+  }).join('\n');
+}
+
+function desiredNodeMarkdown(node: DesiredNode): string {
+  if (node.kind === 'paragraph' || node.kind === 'heading' || node.kind === 'quote' || node.kind === 'title') {
+    return inlineMarkdown(node.content);
+  }
+  if (node.kind === 'list') return desiredListMarkdown(node);
+  if (node.kind === 'code') {
+    const caption = node.caption ? ` (${node.caption})` : '';
+    return `\`${node.text.replaceAll('`', '\\`')}\`${caption}`;
+  }
+  if (node.kind === 'callout') {
+    return [node.title, ...node.children.map(desiredNodeMarkdown)].filter(Boolean).join('\n');
+  }
+  return tableMarkdown(node);
+}
+
+function tableMarkdown(table: Extract<StructuredContent, {kind: 'table'}>): string {
+  const columns = Math.max(0, ...table.rows.map((row) => row.cells.length));
+  const header = ['Row', ...Array.from({length: columns}, (_, index) => `Cell ${index + 1}`)];
+  const separator = header.map(() => '---');
+  const rows = table.rows.map((row, rowIndex) => [
+    String(rowIndex + 1),
+    ...Array.from({length: columns}, (_, cellIndex) => {
+      const cell = row.cells[cellIndex];
+      if (!cell) return '(empty)';
+      const value = cell.content.map(desiredNodeMarkdown).join('\n');
+      return field(value).replaceAll('|', '\\|').replaceAll('\n', '<br>');
+    }),
+  ]);
+  return [header, separator, ...rows].map((row) => `| ${row.join(' | ')} |`).join('\n');
+}
+
+function structuredContentMarkdown(content: StructuredContent): string {
+  return content.kind === 'list'
+    ? semanticListMarkdown(content.items, content.ordered)
+    : tableMarkdown(content);
+}
+
+function structuredOverview(operation: PlanOperation): string {
+  const structured = operation.structured!;
+  const proposedStructure = applySlotTranslations(
+    structured.sourceStructure,
+    structured.slots.map((slot) => ({slotId: slot.slotId, translatedText: slot.proposedText})),
+  );
+  const dimensions = structured.sourceStructure.kind === 'table'
+    ? `\n\nRows: ${structured.sourceStructure.rows.length}\n\nColumns: ${Math.max(0, ...structured.sourceStructure.rows.map((row) => row.cells.length))}`
+    : '';
+  return `### Structured ${structured.kind} · ${structured.slots.length} editable slots
+
+Topology hash: ${structured.topologyHash}
+${dimensions}
+
+#### English source structure
+
+${structuredContentMarkdown(structured.sourceStructure)}
+
+#### Proposed target structure
+
+${structuredContentMarkdown(proposedStructure)}`;
+}
+
+function structuredEditableSlots(operation: PlanOperation): string {
+  return operation.structured!.slots.map((slot) => `#### Slot \`${slot.slotId}\`
+
+English: ${field(slot.sourceText)}
+
+Current Chinese: ${field(slot.targetCurrent)}
+
+<!-- BEGIN EDITABLE TRANSLATION op:${operation.operationId} slot:${slot.slotId} -->
+${slot.proposedText}
+<!-- END EDITABLE TRANSLATION op:${operation.operationId} slot:${slot.slotId} -->`).join('\n\n');
 }
 
 export function compileReview(plan: LocalizationPlan): string {
@@ -101,7 +233,22 @@ Target resource: ${field(operation.targetResourceToken)}
 
 ### Protected action
 
-This operation is planned and reviewable, but it has no editable translation text.`;
+This operation is planned and reviewable, but it has no editable translation text.
+
+Protected content: ${field(operation.proposedText)}`;
+    }
+    if (operation.structured) {
+      return `${header}
+
+Policy: ${policy}
+
+Effect: ${operation.effect ?? '(none)'}
+
+${structuredOverview(operation)}
+
+### Editable structured slots
+
+${structuredEditableSlots(operation)}`;
     }
     return `${header}
 
@@ -141,11 +288,16 @@ ${sections.join('\n\n---\n\n')}
 }
 
 const editablePattern = /<!-- BEGIN EDITABLE TRANSLATION op:([^\s]+) -->\n([\s\S]*?)\n<!-- END EDITABLE TRANSLATION op:\1 -->/g;
+const structuredEditablePattern = /<!-- BEGIN EDITABLE TRANSLATION op:([^\s]+) slot:([^\s]+) -->\n([\s\S]*?)\n<!-- END EDITABLE TRANSLATION op:\1 slot:\2 -->/g;
 
 function masked(review: string): string {
-  return review.replace(editablePattern, (_match, operationId: string) =>
-    `<!-- BEGIN EDITABLE TRANSLATION op:${operationId} -->\n<EDITABLE>\n<!-- END EDITABLE TRANSLATION op:${operationId} -->`,
-  );
+  return review
+    .replace(structuredEditablePattern, (_match, operationId: string, slotId: string) =>
+      `<!-- BEGIN EDITABLE TRANSLATION op:${operationId} slot:${slotId} -->\n<EDITABLE>\n<!-- END EDITABLE TRANSLATION op:${operationId} slot:${slotId} -->`,
+    )
+    .replace(editablePattern, (_match, operationId: string) =>
+      `<!-- BEGIN EDITABLE TRANSLATION op:${operationId} -->\n<EDITABLE>\n<!-- END EDITABLE TRANSLATION op:${operationId} -->`,
+    );
 }
 
 function reviewError(subtype: string, message: string, details?: unknown): LocalizeError {
@@ -162,25 +314,46 @@ export function parseReview(review: string, plan: LocalizationPlan): ApprovedRev
   }
 
   const matches = [...review.matchAll(editablePattern)];
+  const structuredMatches = [...review.matchAll(structuredEditablePattern)];
   const editableOperations = plan.operations.filter((operation) => {
     const policy = operation.policy ?? (operation.kind === 'delete' ? 'delete' : 'translation');
     return policy === 'translation' || policy === 'delete';
   });
-  const expectedIds = editableOperations.map((operation) => operation.operationId);
-  const actualIds = matches.map((match) => match[1]);
-  if (actualIds.length !== expectedIds.length || actualIds.some((id, index) => id !== expectedIds[index])) {
+  const expectedIds = editableOperations.flatMap((operation) => operation.structured
+    ? operation.structured.slots.map((slot) => `${operation.operationId}\u0000${slot.slotId}`)
+    : [operation.operationId]);
+  const orderedActualIds = [...review.matchAll(/<!-- BEGIN EDITABLE TRANSLATION op:([^\s]+)(?: slot:([^\s]+))? -->/g)]
+    .map((match) => match[2] ? `${match[1]}\u0000${match[2]}` : match[1]!);
+  if (orderedActualIds.length !== expectedIds.length || orderedActualIds.some((id, index) => id !== expectedIds[index])) {
     throw reviewError(
       'review_operation_mismatch',
       'Review operation markers are missing, duplicated, unknown, or reordered.',
-      {expectedIds, actualIds},
+      {expectedIds, actualIds: orderedActualIds},
     );
   }
 
   const editableById = new Map(matches.map((match) => [match[1]!, match[2]!.trim()]));
+  const structuredById = new Map(structuredMatches.map((match) => [
+    `${match[1]}\u0000${match[2]}`,
+    match[3]!,
+  ]));
   const operations = plan.operations.map((operation): ApprovedReviewOperation => {
     const policy = operation.policy ?? (operation.kind === 'delete' ? 'delete' : 'translation');
     if (policy !== 'translation' && policy !== 'delete') {
       return {operationId: operation.operationId, decision: 'protected'};
+    }
+    if (operation.structured) {
+      const approvedSlots = operation.structured.slots.map((slot) => {
+        const approvedText = structuredById.get(`${operation.operationId}\u0000${slot.slotId}`) ?? '';
+        if (!approvedText.trim()) {
+          throw reviewError(
+            'review_translation_blank',
+            `Operation ${operation.operationId} slot ${slot.slotId} has a blank approved translation.`,
+          );
+        }
+        return {slotId: slot.slotId, approvedText};
+      });
+      return {operationId: operation.operationId, approvedSlots};
     }
     const text = editableById.get(operation.operationId) ?? '';
     if (operation.kind === 'delete') {
