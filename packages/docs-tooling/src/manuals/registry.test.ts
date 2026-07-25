@@ -61,6 +61,37 @@ describe('manual registry contract', () => {
     expect(resolveManualPublication('go', 'en').sourceChain.map(entry => entry.key)).not.toContain('english-v2.4');
   });
 
+  it('retains the exact exported zdoc_cn CLI identities without adding them to an active fallback chain', () => {
+    const cli = manualRegistry.find(candidate => candidate.id === 'cli');
+
+    expect(cli?.sources['chinese-v0.1']).toMatchObject({
+      sourceType: 'drive',
+      lifecycle: 'retired',
+      root: 'PPuBfnEIWltim9dw8hxcC3EDnwb',
+      base: 'OAK4bJaNuac501sX6Y1cS3OGnzf',
+      version: '0.1.x',
+      sourceDir: 'packages/docs-tooling/src/lark/meta/sources/cli/v0.1.x',
+    });
+    expect(cli?.sources['chinese-v1.3']).toMatchObject({
+      sourceType: 'drive',
+      lifecycle: 'retired',
+      root: 'QBLKf6CCPloK0cddw6gcXUZqnob',
+      base: 'Rr4lbWr8baQj5psICV9cEFa2nYe',
+      version: '1.3.x',
+      sourceDir: 'packages/docs-tooling/src/lark/meta/sources/cli/v1.3.x',
+    });
+    expect(cli?.sources['english-v1.3'].version).toBe('v1.3.x');
+    expect(cli?.sourceOrder).toEqual([
+      'chinese-v0.1',
+      'english-v1.3',
+      'chinese-v1.3',
+      'english-v1.4',
+      'chineseTranslation',
+    ]);
+    expect(resolveManualPublication('cli', 'en').sourceChain.map(entry => entry.key)).toEqual(['english-v1.3', 'english-v1.4']);
+    expect(resolveManualPublication('cli', 'zh-CN').sourceChain.map(entry => entry.key)).toEqual(['chineseTranslation']);
+  });
+
   it('rejects unclassified dead sources while allowing explicitly retired identities', () => {
     expect(() => validateManualRegistry([
       {

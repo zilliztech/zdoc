@@ -205,11 +205,13 @@ const definitions: ManualDefinition[] = [
     id: 'cli',
     kind: 'reference',
     sources: {
+      'chinese-v0.1': remote('drive', 'PPuBfnEIWltim9dw8hxcC3EDnwb', 'OAK4bJaNuac501sX6Y1cS3OGnzf', 'cli/v0.1.x', '0.1.x', 'retired'),
       'english-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', 'v1.3.x', 'fallback'),
+      'chinese-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', '1.3.x', 'retired'),
       'english-v1.4': remote('drive', 'LF1Kf54jFllUBydVk7hcha30nUh', 'Lx1bbCdpMaSmJXs8wz5cjsDengf', 'cli/v1.4.x', '1.4.x', 'active', 'english-v1.3'),
       chineseTranslation: local('content/zh-CN/reference/cli/cli'),
     },
-    sourceOrder: ['english-v1.3', 'english-v1.4', 'chineseTranslation'],
+    sourceOrder: ['chinese-v0.1', 'english-v1.3', 'chinese-v1.3', 'english-v1.4', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', ['reference/cli/v0.1', 'reference/cli/v1.3']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', ['reference/cli/v0.1', 'reference/cli/v1.3']),
