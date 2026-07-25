@@ -144,6 +144,18 @@ export function validateManualRegistry(input: unknown): ManualDefinition[] {
     }
   }
 
+  const activeTargets = entries
+    .filter(entry => entry.publication.enabled)
+    .flatMap(entry => [entry.publication.outputDir, entry.publication.sidebarPath]);
+  for (const entry of entries) {
+    for (const retiredPath of entry.publication.retiredPaths ?? []) {
+      const absoluteRetiredPath = `content/${entry.site}/${retiredPath}`;
+      if (activeTargets.some(target => pathsOverlap(absoluteRetiredPath, target))) {
+        throw new Error(`Manual ${entry.manual.id}/${entry.site} retired path overlaps an active publication target: ${retiredPath}`);
+      }
+    }
+  }
+
   return registry;
 }
 

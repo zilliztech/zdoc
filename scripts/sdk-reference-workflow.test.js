@@ -48,9 +48,9 @@ test('every workflow that invokes docs-tooling uses a native TypeScript-capable 
   const workflowDirectory = path.join(process.cwd(), '.github/workflows')
   const invoking = fs.readdirSync(workflowDirectory)
     .filter(file => file.endsWith('.yml'))
-    .filter(file => /run-content-group\.js|pnpm docs-tooling/.test(fs.readFileSync(path.join(workflowDirectory, file), 'utf8')))
+    .filter(file => /run-content-group\.js|pnpm docs-tooling|generate-guides-sidebars\.js/.test(fs.readFileSync(path.join(workflowDirectory, file), 'utf8')))
     .sort()
-  assert.deepEqual(invoking, ['_fetch-content-group.yml', '_fetch-guides-sources.yml'])
+  assert.deepEqual(invoking, ['_assemble-guides.yml', '_fetch-content-group.yml', '_fetch-guides-sources.yml'])
   for (const file of invoking) {
     const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
     assert.match(source, /node-version:\s*['"]?22['"]?/, `${file} must use Node 22 for --experimental-strip-types`)

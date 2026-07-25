@@ -77,8 +77,8 @@ function parseArgs(argv) {
   if (options.snapshotCandidate && !options.sourceOnly) {
     throw new Error('--snapshot-candidate requires --source-only')
   }
-  if (options.reuseSource && (options.manual !== 'guides-byoc' || options.sourceOnly)) {
-    throw new Error('--reuse-source is only valid for the Guides BYOC publication render')
+  if (options.reuseSource && (!['guides', 'guides-byoc'].includes(options.manual) || options.sourceOnly)) {
+    throw new Error('--reuse-source is only valid for a Guides publication render')
   }
   if (!options.sourceOnly) {
     for (const [key, flag] of [['outputDir', '--output-dir'], ['contentRoot', '--content-root'], ['sidebarPath', '--sidebar-path'], ['overridePath', '--override-path']]) {
@@ -94,6 +94,17 @@ function parseArgs(argv) {
 function runtimeManual(options) {
   const stage = options.stage
   const staged = value => path.posix.join(stage, value)
+  const targetConfig = {
+    outputDir: options.outputDir ? staged(options.outputDir) : stage,
+    imageDir: path.join(stage, '.assets'),
+    ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
+    ...(options.overridePath ? {overridePath: options.overridePath} : {}),
+  }
+  const targets = {}
+  const targetParts = options.generatorTarget.split('.')
+  let targetParent = targets
+  for (const part of targetParts.slice(0, -1)) targetParent = targetParent[part] ??= {}
+  targetParent[targetParts.at(-1)] = targetConfig
   return {
     root: options.root,
     base: options.base,
@@ -105,14 +116,7 @@ function runtimeManual(options) {
     ...(options.contentRoot ? {contentRoot: staged(options.contentRoot)} : {}),
     ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
     ...(options.overridePath ? {overridePath: options.overridePath} : {}),
-    targets: {
-      [options.generatorTarget]: {
-        outputDir: options.outputDir ? staged(options.outputDir) : stage,
-        imageDir: path.join(stage, '.assets'),
-        ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
-        ...(options.overridePath ? {overridePath: options.overridePath} : {}),
-      },
-    },
+    targets,
   }
 }
 
@@ -144,7 +148,6 @@ function runtimeInvocation(options) {
       '--manual', manualIdentity,
       '--pubTarget', options.generatorTarget,
       '--uploadToS3',
-      '--incremental',
       '--buildEnv', 'uat',
       '--snapshotPath', options.snapshotPath,
       ...(options.reuseSource ? ['--skipSourceDown'] : []),

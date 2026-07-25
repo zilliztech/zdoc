@@ -257,6 +257,7 @@ describe('docs-tooling CLI boundary', () => {
       const sourceDir = args[args.indexOf('--source-dir') + 1];
       mkdirSync(path.join(repositoryRoot, sourceDir), {recursive: true});
       writeFileSync(path.join(repositoryRoot, sourceDir, 'source.json'), '{}\n');
+      if (args.includes('--source-only')) return {status: 0};
       const stage = args[args.indexOf('--stage') + 1];
       const outputDir = args[args.indexOf('--output-dir') + 1];
       const sidebarPath = args[args.indexOf('--sidebar-path') + 1];
@@ -273,19 +274,38 @@ describe('docs-tooling CLI boundary', () => {
       {repositoryRoot, spawnSync, environment: {DOCS_TOOLING_REUSE_LARK_SOURCE: '1'}},
     );
 
-    expect(calls).toHaveLength(2);
+    expect(calls).toHaveLength(3);
     const value = (args: string[], flag: string) => args[args.indexOf(flag) + 1];
     expect(calls.map(args => value(args, '--source-dir'))).toEqual([
+      'packages/docs-tooling/src/lark/meta/sources/guides',
       'packages/docs-tooling/src/lark/meta/sources/guides',
       'packages/docs-tooling/src/lark/meta/sources/guides',
     ]);
     expect(calls.map(args => value(args, '--snapshot-path'))).toEqual([
       'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
       'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+      'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
     ]);
-    expect(calls.map(args => value(args, '--generator-target'))).toEqual(['zilliz.saas', 'zilliz.paas']);
+    expect(calls.map(args => value(args, '--generator-target'))).toEqual(['zilliz.saas', 'zilliz.saas', 'zilliz.paas']);
+    expect(calls[0]).toEqual(expect.arrayContaining([
+      '--source-only',
+      '--snapshot-candidate', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
+    ]));
     expect(calls[0]).not.toContain('--reuse-source');
     expect(calls[1]).toContain('--reuse-source');
+    expect(calls[2]).toContain('--reuse-source');
+  });
+
+  it('stops a Guides clean run when the shared source fetch fails before either render', async () => {
+    const repositoryRoot = temporaryRoot();
+    const spawnSync = vi.fn((_command: string, _args: readonly string[]) => ({status: 9}));
+
+    await expect(executeDocsToolingCommand(
+      ['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
+      {repositoryRoot, spawnSync},
+    )).rejects.toThrow(/guides.*generator.*status 9/i);
+    expect(spawnSync).toHaveBeenCalledOnce();
+    expect(spawnSync.mock.calls[0][1]).toContain('--source-only');
   });
 
   it('propagates remote generator failures without falling back to a cache copy', async () => {
@@ -556,7 +576,6 @@ describe('moved generator module boundaries', () => {
         '--manual', 'pymilvus30',
         '--pubTarget', 'zilliz',
         '--uploadToS3',
-        '--incremental',
         '--buildEnv', 'uat',
         '--snapshotPath', 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
       ],
@@ -567,7 +586,9 @@ describe('moved generator module boundaries', () => {
     reusedByoc[reusedByoc.indexOf('pymilvus30')] = 'guides';
     reusedByoc[reusedByoc.indexOf('packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json')] = 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json';
     reusedByoc[reusedByoc.indexOf('zilliz')] = 'zilliz.paas';
-    expect(runtimeInvocation(parseArgs(reusedByoc)).generatorArgs).toContain('--skipSourceDown');
+    const reusedInvocation = runtimeInvocation(parseArgs(reusedByoc)).generatorArgs;
+    expect(reusedInvocation).toContain('--skipSourceDown');
+    expect(reusedInvocation).not.toContain('--incremental');
     const escaped = [...values];
     escaped[escaped.indexOf('tmp/docs-tooling/en/python')] = '../escape';
     expect(() => parseArgs(escaped)).toThrow(/repository-relative|escape/i);
@@ -603,9 +624,8 @@ describe('moved generator module boundaries', () => {
     });
   });
 
-  it('uses the generator target when filtering target-specific Guides records', () => {
+  it('constructs nested dotted generator target configuration', () => {
     const require = createRequire(import.meta.url);
-    const LarkDocWriter = require('../lark/larkDocWriter.js');
     const {runtimeManual} = require('../lark/cli.js');
     const runtimeOptions = {
       manual: 'guides',
@@ -619,21 +639,9 @@ describe('moved generator module boundaries', () => {
       contentRoot: 'content/en/guides',
       sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
     };
-    const record = {
-      base_placement_type: 'canonical',
-      base_targets: ['zilliz.saas'],
-      base_status: 'Draft',
-    };
-    const writers = ['zilliz.saas', 'zilliz.paas'].map(generatorTarget => {
-      const manual = runtimeManual({...runtimeOptions, generatorTarget});
-      const target = Object.keys(manual.targets)[0];
-      return new LarkDocWriter('root-token', 'base-token:*', 'default', temporaryRoot(), temporaryRoot(), target, true, false);
-    });
-    try {
-      expect(writers[0].__base_source_is_publishable(record)).toBe(true);
-      expect(writers[1].__base_source_is_publishable(record)).toBe(false);
-    } finally {
-      for (const writer of writers) writer.destroy();
-    }
+    const saas = runtimeManual(runtimeOptions);
+    const paas = runtimeManual({...runtimeOptions, generatorTarget: 'zilliz.paas'});
+    expect(saas.targets.zilliz.saas.outputDir).toBe('tmp/docs-tooling/en/guides/content/en/guides/tutorials');
+    expect(paas.targets.zilliz.paas.outputDir).toBe('tmp/docs-tooling/en/guides/content/en/guides/tutorials');
   });
 });

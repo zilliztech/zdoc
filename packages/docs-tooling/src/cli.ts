@@ -224,6 +224,7 @@ function larkGeneratorArgs(
   environment: NodeJS.ProcessEnv,
   sourceEntry: SourceEntry,
   sourceOnly = false,
+  reuseSource = environment.DOCS_TOOLING_REUSE_LARK_SOURCE === '1',
 ): string[] {
   const source = sourceEntry.source as ManualSource;
   if (!source.root || !source.base) {
@@ -257,7 +258,7 @@ function larkGeneratorArgs(
       '--snapshot-candidate', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     ] : sourceOnly ? ['--source-only'] : []),
     ...(environment.DOCS_TOOLING_FORCE_FULL_FETCH === '1' ? ['--force-full-fetch'] : []),
-    ...(environment.DOCS_TOOLING_REUSE_LARK_SOURCE === '1' ? ['--reuse-source'] : []),
+    ...(reuseSource ? ['--reuse-source'] : []),
   ];
 }
 
@@ -270,14 +271,19 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
   }
   if (source.sourceType === 'wiki' || source.sourceType === 'drive' || source.sourceType === 'onePager') {
     const guidesSourceOnly = isGuidesSourceStage(context, environment);
+    const preparesSharedGuidesSource = context.request.manual === 'guides' && !guidesSourceOnly;
+    const reusesSharedGuidesSource = context.request.manual === 'guides-byoc' || environment.DOCS_TOOLING_REUSE_LARK_SOURCE === '1';
     const chain = context.sourceChain;
     for (const [index, entry] of chain.entries()) {
-      const sourceOnly = guidesSourceOnly || index < chain.length - 1;
+      const sourceOnly = guidesSourceOnly || preparesSharedGuidesSource || index < chain.length - 1;
+      const argumentEnvironment = preparesSharedGuidesSource
+        ? {...environment, DOCS_TOOLING_GUIDES_STAGE: 'source'}
+        : environment;
       runGenerator(
         context,
         runner,
         path.join(context.repositoryRoot, 'packages/docs-tooling/src/lark/cli.js'),
-        larkGeneratorArgs(context, environment, entry, sourceOnly),
+        larkGeneratorArgs(context, argumentEnvironment, entry, sourceOnly, !sourceOnly && reusesSharedGuidesSource),
         environment,
         false,
       );
@@ -287,7 +293,19 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
       const sourcePath = assertExistingSource(context.repositoryRoot, source);
       cpSync(sourcePath, context.stagePath, {recursive: true, force: true, errorOnExist: false});
       validateStageFilesystem(context.stagePath);
-    } else await validatePublicationStage(context);
+    } else {
+      if (preparesSharedGuidesSource) {
+        runGenerator(
+          context,
+          runner,
+          path.join(context.repositoryRoot, 'packages/docs-tooling/src/lark/cli.js'),
+          larkGeneratorArgs(context, environment, chain.at(-1)!, false, true),
+          environment,
+          false,
+        );
+      }
+      await validatePublicationStage(context);
+    }
     return;
   }
   if (source.sourceType === 'rest') {

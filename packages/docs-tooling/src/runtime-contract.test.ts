@@ -1,11 +1,29 @@
 import {spawnSync} from 'node:child_process';
-import {readFileSync} from 'node:fs';
+import {readdirSync, readFileSync} from 'node:fs';
+import {builtinModules} from 'node:module';
 import path from 'node:path';
 
 import {describe, expect, it} from 'vitest';
 
 const repositoryRoot = path.resolve(import.meta.dirname, '../../..');
 const packageRoot = path.join(repositoryRoot, 'packages/docs-tooling');
+
+function runtimeSourceFiles(root: string): string[] {
+  return readdirSync(root, {withFileTypes: true}).flatMap(entry => {
+    const absolute = path.join(root, entry.name);
+    if (entry.isDirectory()) return runtimeSourceFiles(absolute);
+    if (!entry.isFile() || !/\.(?:js|ts)$/.test(entry.name) || /\.test\.(?:js|ts)$/.test(entry.name)) return [];
+    return [absolute];
+  });
+}
+
+function packageName(specifier: string): string | null {
+  if (specifier.includes('${') || specifier.startsWith('@site/') || specifier.startsWith('@theme/')) return null;
+  if (specifier.startsWith('.') || specifier.startsWith('/') || specifier.startsWith('node:')) return null;
+  if (builtinModules.includes(specifier) || builtinModules.includes(specifier.replace(/^node:/, ''))) return null;
+  const parts = specifier.split('/');
+  return specifier.startsWith('@') ? parts.slice(0, 2).join('/') : parts[0];
+}
 
 describe('docs-tooling runtime contract', () => {
   it('declares every direct runtime package in the owning workspace package', () => {
@@ -15,6 +33,7 @@ describe('docs-tooling runtime contract', () => {
     };
     expect(Object.keys(manifest.dependencies ?? {}).sort()).toEqual([
       '@aws-sdk/client-s3',
+      '@mdx-js/mdx',
       '@smithy/node-http-handler',
       'bottleneck',
       'cheerio',
@@ -25,12 +44,37 @@ describe('docs-tooling runtime contract', () => {
       'lodash',
       'node-fetch',
       'nunjucks',
+      'remark-math',
       'sharp',
       'showdown',
       'slugify',
       'zod',
     ]);
     expect(manifest.engines?.node).toBe('>=22.6.0');
+  });
+
+  it('declares every statically or dynamically imported runtime package', () => {
+    const manifest = JSON.parse(readFileSync(path.join(packageRoot, 'package.json'), 'utf8')) as {
+      dependencies?: Record<string, string>;
+    };
+    const imports = new Set<string>();
+    const patterns = [
+      /\brequire\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
+      /\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
+      /\bfrom\s+['"]([^'"]+)['"]/g,
+      /^\s*import\s+['"]([^'"]+)['"]/gm,
+    ];
+    for (const file of runtimeSourceFiles(path.join(packageRoot, 'src'))) {
+      const source = readFileSync(file, 'utf8');
+      for (const pattern of patterns) {
+        for (const match of source.matchAll(pattern)) {
+          const dependency = packageName(match[1]);
+          if (dependency) imports.add(dependency);
+        }
+      }
+    }
+    const declared = new Set(Object.keys(manifest.dependencies ?? {}));
+    expect([...imports].filter(dependency => !declared.has(dependency)).sort()).toEqual([]);
   });
 
   it('loads moved generator boundaries without resolving packages from the user home node_modules', () => {

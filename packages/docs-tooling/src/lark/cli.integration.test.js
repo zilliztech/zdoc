@@ -1,0 +1,215 @@
+const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const Module = require('node:module')
+const os = require('node:os')
+const path = require('node:path')
+const { test } = require('node:test')
+
+const RealLarkDocWriter = require('./larkDocWriter')
+
+function renderArgs({ manual, target, stage, outputDir, contentRoot, sidebarPath }) {
+  return [
+    '--manual', manual,
+    '--site', 'en',
+    '--source', 'english',
+    '--generator-manual', 'guides',
+    '--snapshot-path', 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+    '--generator-target', target,
+    '--source-type', 'wiki',
+    '--root', 'root-token',
+    '--base', 'base-token:*',
+    '--source-dir', 'packages/docs-tooling/src/lark/meta/sources/guides',
+    '--stage', stage,
+    '--output-dir', outputDir,
+    '--content-root', contentRoot,
+    '--sidebar-path', sidebarPath,
+    '--override-path', `sidebar-overrides/en/${manual}.json`,
+    '--reuse-source',
+  ]
+}
+
+test('clean Guides run downloads one source and fully renders nested SaaS and PaaS targets', async () => {
+  const originalLoad = Module._load
+  const originalCwd = process.cwd()
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'docs-tooling-guides-integration-'))
+  const sourceDir = path.join(root, 'packages/docs-tooling/src/lark/meta/sources/guides')
+  const candidatePath = path.join(root, 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')
+  const seenTargets = []
+  const completenessSnapshots = []
+  let downloaderCalls = 0
+  let failingTarget = null
+
+  const saasOnlyRecord = {
+    base_placement_type: 'canonical',
+    base_targets: ['zilliz.saas'],
+    base_status: 'Draft',
+  }
+
+  class FakeScraper {
+    constructor(_root, _base, _sourceType, configuredSourceDir) {
+      this.docSourceDir = configuredSourceDir
+      this.base_app_token = 'base-token'
+      this.records = null
+    }
+
+    async __base() {
+      this.records = [{record_id: 'saas-only', fields: {}}]
+    }
+
+    async fetch(recursive) {
+      assert.equal(recursive, true)
+      downloaderCalls += 1
+      this.records = [{record_id: 'saas-only', fields: {}}]
+      fs.mkdirSync(this.docSourceDir, {recursive: true})
+      fs.writeFileSync(path.join(this.docSourceDir, 'root-token.json'), JSON.stringify({
+        node_token: 'root-token', node_type: 'folder', title: 'Guides', children: [],
+      }))
+    }
+
+    async fetch_wiki_node_metadata() { return new Map() }
+    async fetch_source_tokens() { throw new Error('clean source fetch must select a full source download') }
+    async validate_content_links() { return {broken_links: []} }
+  }
+
+  class FakeWriter {
+    constructor(_root, _base, _sidebar, _sources, _images, target) {
+      this.target = target
+      seenTargets.push(target)
+    }
+
+    async write_docs(outputDir) {
+      if (this.target === failingTarget) throw new Error(`render failed for ${this.target}`)
+      fs.mkdirSync(outputDir, {recursive: true})
+      fs.writeFileSync(path.join(outputDir, 'shared.md'), '# Shared guide\n')
+      const publishable = RealLarkDocWriter.prototype.__base_source_is_publishable.call(
+        {targets: this.target},
+        saasOnlyRecord,
+      )
+      if (publishable) fs.writeFileSync(path.join(outputDir, 'saas-only.md'), '# SaaS only\n')
+    }
+
+    async generate_sidebar() {
+      return [{type: 'doc', id: `${this.target}-shared`}]
+    }
+
+    destroy() {}
+  }
+
+  class FakeUtils {
+    pre_process_file_paths(outputDir) {
+      fs.rmSync(outputDir, {recursive: true, force: true})
+      fs.mkdirSync(outputDir, {recursive: true})
+    }
+    post_process_file_paths() {}
+  }
+
+  Module._load = function patchedLoad(request, parent) {
+    if (parent?.filename?.endsWith('/packages/docs-tooling/src/lark/index.js')) {
+      if (request === './larkDocScraper.js') return FakeScraper
+      if (request === './larkDocWriter.js') return FakeWriter
+      if (request === './larkUtils.js') return FakeUtils
+      if (request === './incrementalFetchPlanner') return {
+        planIncrementalFetch() {
+          return {manual: 'guides', mode: 'full', expanded_tokens: [], removed_records: []}
+        },
+        writeIncrementalFetchPlanReports() { return {markdownPath: path.join(root, 'plan.md')} },
+      }
+      if (request === './sourceSnapshot') return {
+        readSnapshot(file) {
+          return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
+        },
+        createSourceSnapshot({docSourceDir}) {
+          return {manual: 'guides', build_env: 'uat', source_dir: path.resolve(docSourceDir), records: []}
+        },
+        validateCandidateSnapshot() {},
+        writeSnapshot(file, snapshot) {
+          fs.mkdirSync(path.dirname(file), {recursive: true})
+          fs.writeFileSync(file, `${JSON.stringify(snapshot)}\n`)
+        },
+      }
+      if (request === './sourceCompleteness') return {
+        validateSourceCompleteness() { return {complete: false} },
+        assertSourceCompleteness({sourceDir: configuredSourceDir, snapshot}) {
+          completenessSnapshots.push(snapshot.source_dir)
+          assert.equal(snapshot.source_dir, path.resolve(configuredSourceDir))
+          assert.equal(fs.existsSync(path.join(configuredSourceDir, 'root-token.json')), true)
+        },
+      }
+    }
+    return originalLoad.apply(this, arguments)
+  }
+
+  try {
+    process.chdir(root)
+    delete require.cache[require.resolve('./index')]
+    delete require.cache[require.resolve('./cli')]
+    const {parseArgs, run, runtimeInvocation} = require('./cli')
+    const sourceArgs = [
+      '--manual', 'guides',
+      '--site', 'en',
+      '--source', 'english',
+      '--generator-manual', 'guides',
+      '--snapshot-path', 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+      '--generator-target', 'zilliz.saas',
+      '--source-type', 'wiki',
+      '--root', 'root-token',
+      '--base', 'base-token:*',
+      '--source-dir', 'packages/docs-tooling/src/lark/meta/sources/guides',
+      '--stage', 'tmp/docs-tooling/en/guides/source',
+      '--source-only',
+      '--snapshot-candidate', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
+    ]
+    const saasArgs = renderArgs({
+      manual: 'guides', target: 'zilliz.saas', stage: 'tmp/docs-tooling/en/guides',
+      outputDir: 'content/en/guides/tutorials', contentRoot: 'content/en/guides',
+      sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
+    })
+    const paasArgs = renderArgs({
+      manual: 'guides-byoc', target: 'zilliz.paas', stage: 'tmp/docs-tooling/en/guides-byoc',
+      outputDir: 'content/en/byoc/tutorials', contentRoot: 'content/en/byoc',
+      sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js',
+    })
+
+    assert.equal(fs.existsSync(candidatePath), false)
+    await run(sourceArgs)
+    assert.equal(fs.existsSync(candidatePath), true)
+    assert.equal(downloaderCalls, 1)
+
+    for (const args of [saasArgs, paasArgs]) {
+      const invocation = runtimeInvocation(parseArgs(args))
+      assert.equal(invocation.generatorArgs.includes('--skipSourceDown'), true)
+      assert.equal(invocation.generatorArgs.includes('--incremental'), false)
+      await run(args)
+    }
+
+    const saasOutput = path.join(root, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials')
+    const paasOutput = path.join(root, 'tmp/docs-tooling/en/guides-byoc/content/en/byoc/tutorials')
+    assert.equal(fs.existsSync(path.join(saasOutput, 'shared.md')), true)
+    assert.equal(fs.existsSync(path.join(saasOutput, 'saas-only.md')), true)
+    assert.equal(fs.existsSync(path.join(paasOutput, 'shared.md')), true)
+    assert.equal(fs.existsSync(path.join(paasOutput, 'saas-only.md')), false)
+    assert.equal(fs.existsSync(path.join(root, 'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js')), true)
+    assert.equal(fs.existsSync(path.join(root, 'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js')), true)
+    assert.deepEqual(seenTargets, ['zilliz.saas', 'zilliz.paas'])
+    assert.equal(completenessSnapshots.length, 3)
+    assert.equal(new Set(completenessSnapshots).size, 1)
+    assert.match(completenessSnapshots[0], /packages\/docs-tooling\/src\/lark\/meta\/sources\/guides$/)
+
+    fs.rmSync(path.join(root, 'tmp/docs-tooling/en/guides'), {recursive: true, force: true})
+    await run(saasArgs)
+    assert.equal(fs.existsSync(path.join(saasOutput, 'shared.md')), true)
+    assert.equal(fs.existsSync(path.join(saasOutput, 'saas-only.md')), true)
+    assert.equal(downloaderCalls, 1)
+
+    failingTarget = 'zilliz.paas'
+    fs.rmSync(path.join(root, 'tmp/docs-tooling/en/guides-byoc'), {recursive: true, force: true})
+    await assert.rejects(() => run(paasArgs), /render failed for zilliz\.paas/)
+    assert.equal(downloaderCalls, 1)
+  } finally {
+    process.chdir(originalCwd)
+    Module._load = originalLoad
+    delete require.cache[require.resolve('./index')]
+    delete require.cache[require.resolve('./cli')]
+    fs.rmSync(root, {recursive: true, force: true})
+  }
+})

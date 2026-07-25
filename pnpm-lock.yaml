@@ -290,6 +290,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.0.0
         version: 3.1038.0
+      '@mdx-js/mdx':
+        specifier: ^3.1.1
+        version: 3.1.1
       '@smithy/node-http-handler':
         specifier: ^4.5.0
         version: 4.6.1
@@ -320,6 +323,9 @@ importers:
       nunjucks:
         specifier: ^3.2.4
         version: 3.2.4(chokidar@3.6.0)
+      remark-math:
+        specifier: ^6.0.0
+        version: 6.0.0
       sharp:
         specifier: ^0.34.5
         version: 0.34.5

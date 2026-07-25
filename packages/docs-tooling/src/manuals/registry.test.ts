@@ -263,6 +263,44 @@ describe('manual registry contract', () => {
     ])).toThrow(/publication output.*overlap/i);
   });
 
+  it('rejects retired paths that overlap any active publication target', () => {
+    const retiring = manual({
+      id: 'retiring',
+      publications: {
+        en: {
+          enabled: true,
+          source: 'canonical',
+          generatorTarget: 'zilliz',
+          outputDir: 'content/en/reference/retiring',
+          contentRoot: 'content/en/reference',
+          sidebarPath: 'generated/en/sidebars/retiring.sidebar.js',
+          retiredPaths: ['reference/active'],
+          missingContent: 'error',
+        },
+      },
+    });
+    const active = manual({
+      id: 'active',
+      publications: {
+        en: {
+          enabled: true,
+          source: 'canonical',
+          generatorTarget: 'zilliz',
+          outputDir: 'content/en/reference/active',
+          contentRoot: 'content/en/reference',
+          sidebarPath: 'generated/en/sidebars/active.sidebar.js',
+          missingContent: 'error',
+        },
+      },
+    });
+
+    expect(() => validateManualRegistry([retiring, active])).toThrow(/retired path.*active publication/i);
+
+    const selfRetiring = manual();
+    selfRetiring.publications.en!.retiredPaths = ['reference/fixture'];
+    expect(() => validateManualRegistry([selfRetiring])).toThrow(/retired path.*active publication/i);
+  });
+
   it('is deterministic, deeply immutable, and closed to unknown keys', () => {
     expect(Object.isFrozen(manualRegistry)).toBe(true);
     expect(Object.isFrozen(manualRegistry[0])).toBe(true);
