@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "zdoc_cn",
+  "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
+  "legacyBuild": {
+    "command": "npm run build",
+    "outputDirectory": "build",
+    "rawRouteCount": 3372,
+    "locales": [
+      "zh-Hans",
+      "zh-CN"
+    ]
+  },
+  "canonicalChineseLocale": {
+    "locale": "zh-Hans",
+    "routeDirectory": "build",
+    "routeCount": 1686,
+    "evidence": [
+      "docusaurus.config.js pins i18n.defaultLocale to zh-Hans and baseUrl to /.",
+      "The root index page declares canonical https://docs.zilliz.com.cn/.",
+      "migration/reports/routes-zh-CN-legacy.json captures this route tree while excluding the secondary zh-CN directory."
+    ]
+  },
+  "secondaryLocaleDuplicate": {
+    "locale": "zh-CN",
+    "routeDirectory": "build/zh-CN",
+    "routeCount": 1686,
+    "relativeRouteMapping": "Every build/zh-CN/<route> maps to build/<route>.",
+    "behaviorDifferences": 0,
+    "canonicalBehavior": "Each ordinary secondary canonical is the matching root canonical with /zh-CN inserted. The /404 canonical uses .html in both trees and /home has no canonical in either tree.",
+    "evidence": [
+      "A fresh isolated npm run build produced 3372 raw routes: 1686 root routes plus 1686 secondary-locale routes.",
+      "A route-by-route comparison of kind and redirect target found zero differences."
+    ]
+  },
+  "assembledBuild": {
+    "command": "npm run build:assembled",
+    "upstreamCommit": "12cf657f0f1ecca6fc9f85860b0662a2e923757b",
+    "downstreamCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
+    "overlayManifestSha256": "08425d9e026aae39b1585d45d9dcaa6eac010c9cb8540399303938d389210e1d",
+    "locales": [
+      "en",
+      "ja-JP"
+    ],
+    "routeCount": 3736,
+    "chineseRouteBaseline": false,
+    "evidence": [
+      "The isolated assembled Docusaurus build logged en and ja-JP as its only locales.",
+      "The assembled output has no zh-CN tree, so it is not used as the Chinese replacement route baseline."
+    ]
+  }
+}
