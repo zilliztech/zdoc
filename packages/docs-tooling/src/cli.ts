@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import {spawnSync as nodeSpawnSync} from 'node:child_process';
-import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readdirSync, realpathSync, rmSync} from 'node:fs';
+import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, realpathSync, rmSync} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
+import {atomicReplace, ownedTreeCommit, type AtomicReplaceOptions} from './publication/atomicReplace.ts';
 import {validateStageFilesystem, type StageInventory} from './validation/filesystem.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
 import {
@@ -33,6 +34,7 @@ export type CommandContext = Readonly<{
   source: ResolvedPublication['source'];
   sourceChain: ResolvedPublication['sourceChain'];
   publication: ResolvedPublication['publication'];
+  baselineCommit?: string;
   inventory?: StageInventory;
 }>;
 
@@ -47,6 +49,7 @@ export type CliDependencies = {
   environment?: NodeJS.ProcessEnv;
   fetch?: (context: CommandContext) => void | Promise<void>;
   publish?: (context: CommandContext) => void | Promise<void>;
+  atomicReplace?: (options: AtomicReplaceOptions) => Promise<void>;
   spawnSync?: GeneratorRunner;
   write?: (message: string) => void;
 };
@@ -331,38 +334,29 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
   throw new Error(`Unsupported manual source type: ${String(exhaustive)}`);
 }
 
-function defaultPublish(context: CommandContext): void {
-  const staged = publicationStagePaths(context);
-  const outputPath = resolveOwnedRepositoryPath(context.repositoryRoot, context.publication.outputDir, 'Publication outputDir');
-  const sidebarPath = resolveOwnedRepositoryPath(context.repositoryRoot, context.publication.sidebarPath, 'Publication sidebarPath');
-  const retiredPaths = (context.publication.retiredPaths ?? []).map(retiredPath => resolveOwnedRepositoryPath(
-    context.repositoryRoot,
-    `content/${context.request.site}/${retiredPath}`,
-    'Publication retiredPath',
-  ));
-  for (const [target, label] of [[outputPath, 'Publication outputDir'], [sidebarPath, 'Publication sidebarPath'], ...retiredPaths.map(target => [target, 'Publication retiredPath'])] as const) {
-    assertPathAncestorsSafe(context.repositoryRoot, target, label);
-    assertNoLinkBoundaries(target, label);
-  }
-
-  rmSync(outputPath, {recursive: true, force: true});
-  mkdirSync(path.dirname(outputPath), {recursive: true});
-  cpSync(staged.outputPath, outputPath, {recursive: true, force: true, errorOnExist: false});
-  for (const retiredPath of retiredPaths) rmSync(retiredPath, {recursive: true, force: true});
-  mkdirSync(path.dirname(sidebarPath), {recursive: true});
-  copyFileSync(staged.sidebarPath, sidebarPath);
+function publicationOwnedPaths(context: CommandContext): {replacements: readonly string[]; removals: readonly string[]} {
+  return {
+    replacements: [context.publication.outputDir, context.publication.sidebarPath],
+    removals: (context.publication.retiredPaths ?? []).map(retiredPath => `content/${context.request.site}/${retiredPath}`),
+  };
 }
 
-function assertNoLinkBoundaries(targetPath: string, label: string): void {
-  if (!existsSync(targetPath)) return;
-  const stats = lstatSync(targetPath);
-  if (stats.isSymbolicLink()) throw new Error(`${label} must not be a symlink`);
-  if (stats.isFile()) {
-    if (stats.nlink > 1) throw new Error(`${label} must not be hard-linked`);
-    return;
-  }
-  if (!stats.isDirectory()) throw new Error(`${label} must be a regular file or directory`);
-  for (const entry of readdirSync(targetPath)) assertNoLinkBoundaries(path.join(targetPath, entry), label);
+async function defaultPublish(
+  context: CommandContext,
+  replace: (options: AtomicReplaceOptions) => Promise<void> = atomicReplace,
+): Promise<void> {
+  const staged = publicationStagePaths(context);
+  const owned = publicationOwnedPaths(context);
+  if (!context.baselineCommit) throw new Error('Publication baseline commit is missing');
+  await replace({
+    publicationRoot: context.repositoryRoot,
+    baselineCommit: context.baselineCommit,
+    replacements: [
+      {source: staged.outputPath, target: context.publication.outputDir},
+      {source: staged.sidebarPath, target: context.publication.sidebarPath},
+    ],
+    removals: owned.removals,
+  });
 }
 
 export async function executeDocsToolingCommand(argv: readonly string[], dependencies: CliDependencies = {}): Promise<CommandContext> {
@@ -390,9 +384,16 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
     return baseContext;
   }
 
+  const owned = publicationOwnedPaths(baseContext);
+  const baselineCommit = request.command === 'publish'
+    ? ownedTreeCommit(repositoryRoot, [...owned.replacements, ...owned.removals])
+    : undefined;
   const inventory = await validatePublicationStage(baseContext);
-  const validatedContext: CommandContext = {...baseContext, inventory};
-  if (request.command === 'publish') await (dependencies.publish ?? defaultPublish)(validatedContext);
+  const validatedContext: CommandContext = {...baseContext, inventory, baselineCommit};
+  if (request.command === 'publish') {
+    if (dependencies.publish) await dependencies.publish(validatedContext);
+    else await defaultPublish(validatedContext, dependencies.atomicReplace);
+  }
   dependencies.write?.(`${request.command === 'publish' ? 'published' : 'validated'} ${request.manual}/${request.site} from ${request.stage}`);
   return validatedContext;
 }

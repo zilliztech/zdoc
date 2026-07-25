@@ -7,6 +7,7 @@ import path from 'node:path';
 import {describe, expect, it, vi} from 'vitest';
 
 import {executeDocsToolingCommand, parseCliArgs} from '../cli';
+import {atomicReplace as realAtomicReplace, ownedTreeCommit} from '../publication/atomicReplace';
 import {assertPublicationOwnership, assertSafeRepositoryRelativePath} from './ownership';
 import {assertPathSetIntegrity, validateStageFilesystem} from './filesystem';
 
@@ -426,6 +427,38 @@ describe('docs-tooling CLI boundary', () => {
     expect(readFileSync(path.join(repositoryRoot, 'content/en/reference/api/python/python/page.md'), 'utf8')).toBe('# staged\n');
     expect(readFileSync(path.join(repositoryRoot, 'generated/en/sidebars/python.sidebar.js'), 'utf8')).toBe('module.exports = ["staged"]\n');
     expect(existsSync(path.join(repositoryRoot, 'content/en/reference/api/python/python/content'))).toBe(false);
+  });
+
+  it('routes the default publication through the atomic owned-tree boundary', async () => {
+    const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/content/en/reference/api/python/python'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/content/en/reference/api/python/python/page.md'), '# staged\n');
+    mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = ["staged"]\n');
+    mkdirSync(path.join(repositoryRoot, 'content/en/reference/api/python/python'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'content/en/reference/api/python/python/page.md'), '# old\n');
+    mkdirSync(path.join(repositoryRoot, 'generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'generated/en/sidebars/python.sidebar.js'), 'module.exports = ["old"]\n');
+    const expectedBaseline = ownedTreeCommit(repositoryRoot, [
+      'content/en/reference/api/python/python',
+      'generated/en/sidebars/python.sidebar.js',
+    ]);
+    const replace = vi.fn(realAtomicReplace);
+
+    await executeDocsToolingCommand(
+      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      {repositoryRoot, atomicReplace: replace},
+    );
+
+    expect(replace).toHaveBeenCalledOnce();
+    expect(replace).toHaveBeenCalledWith(expect.objectContaining({
+      publicationRoot: expect.any(String),
+      baselineCommit: expectedBaseline,
+      replacements: expect.arrayContaining([
+        expect.objectContaining({target: 'content/en/reference/api/python/python'}),
+        expect.objectContaining({target: 'generated/en/sidebars/python.sidebar.js'}),
+      ]),
+    }));
   });
 
   it('publishes an exact owned tree and removes declared retired paths', async () => {
