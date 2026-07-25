@@ -22,6 +22,7 @@ const RepositoryRelativePathSchema = z.string().min(1).superRefine((value, conte
 
 export const ManualSourceSchema = z.object({
   sourceType: z.enum(['wiki', 'drive', 'onePager', 'rest', 'local']),
+  lifecycle: z.enum(['active', 'fallback', 'retired', 'translation']).default('active'),
   root: z.string().min(1).optional(),
   base: z.string().min(1).optional(),
   version: z.string().min(1).optional(),
@@ -59,6 +60,7 @@ export const ManualDefinitionSchema = z.object({
   id: z.string().regex(/^[a-z][a-z0-9-]*$/u),
   kind: z.enum(['guides', 'reference', 'onpremise', 'agents']),
   sources: z.record(z.string().min(1), ManualSourceSchema),
+  sourceOrder: z.array(z.string().min(1)).optional(),
   publications: z.object({
     en: ManualPublicationSchema.optional(),
     'zh-CN': ManualPublicationSchema.optional(),

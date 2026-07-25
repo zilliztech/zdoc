@@ -24,28 +24,24 @@ function registerCommand(command) {
             console.log('Fetching docs from Apifox...')
 
             if (opts.specifications === undefined) {
-                console.log('Please provide specifications')
-                return
+                throw new Error('Please provide specifications')
             } else {
                 try {
                     specifications = loadSpecifications(opts.specifications)
                 } catch (err) {
-                    console.error(`Failed to read OpenAPI spec from "${opts.specifications}": ${err.message}`)
-                    return
+                    throw new Error(`Failed to read OpenAPI spec from "${opts.specifications}": ${err.message}`, { cause: err })
                 }
             }
 
             if (opts.lang === 'zh-CN' && opts.strings === undefined) {
-                console.log('Please provide the localization strings for Chinese docs')
-                return
+                throw new Error('Please provide the localization strings for Chinese docs')
             }
 
             if (opts.lang === 'zh-CN') {
                 try {
                     strings = fs.readFileSync(opts.strings, 'utf-8').split('\n')
                 } catch (err) {
-                    console.error(`Failed to read localization strings from "${opts.strings}": ${err.message}`)
-                    return
+                    throw new Error(`Failed to read localization strings from "${opts.strings}": ${err.message}`, { cause: err })
                 }
             }
 
@@ -57,6 +53,7 @@ function registerCommand(command) {
                 strings,
             })
 
+            fs.mkdirSync(target_path, { recursive: true })
             const folders = fs.readdirSync(target_path, { recursive: true }).filter(f => fs.statSync(target_path + '/' + f).isDirectory())
             for (let folder of folders.filter(f => !f.endsWith('v1') && !f.endsWith('v2'))) {
                 fs.rmSync(target_path + '/' + folder, { recursive: true, force: true })
@@ -70,8 +67,7 @@ function registerCommand(command) {
                     const uploader = new S3Uploader({ target, lang })
                     await uploader.upload(specifications, lang)
                 } catch (err) {
-                    console.error(`S3 upload failed: ${err.message}`)
-                    process.exitCode = 1
+                    throw new Error(`S3 upload failed: ${err.message}`, { cause: err })
                 }
             }
         })
@@ -90,5 +86,8 @@ if (require.main === module) {
     program
         .name('fetch-apifox-docs')
     registerCommand(program)
-    program.parse()
+    program.parseAsync().catch(error => {
+        console.error(error instanceof Error ? error.message : String(error))
+        process.exitCode = 1
+    })
 }

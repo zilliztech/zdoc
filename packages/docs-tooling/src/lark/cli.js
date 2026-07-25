@@ -38,6 +38,11 @@ function parseArgs(argv) {
     .requiredOption('--source-dir <dir>')
     .requiredOption('--stage <dir>')
     .option('--version <version>')
+    .option('--fallback-source-dir <dir>')
+    .option('--output-dir <dir>')
+    .option('--content-root <dir>')
+    .option('--sidebar-path <path>')
+    .option('--override-path <path>')
     .option('--source-only')
     .option('--snapshot-candidate <path>')
     .option('--force-full-fetch')
@@ -49,20 +54,35 @@ function parseArgs(argv) {
   }
   options.sourceDir = repositoryRelative(options.sourceDir, 'Lark source directory')
   options.stage = repositoryRelative(options.stage, 'Lark stage directory')
+  for (const [key, label] of [
+    ['fallbackSourceDir', 'Lark fallback source directory'],
+    ['outputDir', 'Lark publication output directory'],
+    ['contentRoot', 'Lark publication content root'],
+    ['sidebarPath', 'Lark publication sidebar path'],
+    ['overridePath', 'Lark publication override path'],
+  ]) {
+    if (options[key]) options[key] = repositoryRelative(options[key], label)
+  }
   if (options.snapshotCandidate) {
     options.snapshotCandidate = repositoryRelative(options.snapshotCandidate, 'Lark snapshot candidate')
   }
-  if (options.sourceOnly && !options.snapshotCandidate) {
-    throw new Error('--source-only requires --snapshot-candidate')
-  }
   if (options.snapshotCandidate && !options.sourceOnly) {
     throw new Error('--snapshot-candidate requires --source-only')
+  }
+  if (!options.sourceOnly) {
+    for (const [key, flag] of [['outputDir', '--output-dir'], ['contentRoot', '--content-root'], ['sidebarPath', '--sidebar-path'], ['overridePath', '--override-path']]) {
+      if (!options[key]) throw new Error(`${flag} is required for publication generation`)
+    }
+    if (options.outputDir !== options.contentRoot && !options.outputDir.startsWith(`${options.contentRoot}/`)) {
+      throw new Error('--output-dir must be contained by --content-root')
+    }
   }
   return options
 }
 
 function runtimeManual(options) {
   const stage = options.stage
+  const staged = value => path.posix.join(stage, value)
   return {
     root: options.root,
     base: options.base,
@@ -70,11 +90,16 @@ function runtimeManual(options) {
     ...(options.version ? {version: options.version} : {}),
     displayedSidebar: DISPLAYED_SIDEBARS[options.manual] || 'default',
     docSourceDir: options.sourceDir,
-    contentRoot: stage,
+    ...(options.fallbackSourceDir ? {fallbackSourceDir: options.fallbackSourceDir} : {}),
+    ...(options.contentRoot ? {contentRoot: staged(options.contentRoot)} : {}),
+    ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
+    ...(options.overridePath ? {overridePath: options.overridePath} : {}),
     targets: {
       stage: {
-        outputDir: stage,
+        outputDir: options.outputDir ? staged(options.outputDir) : stage,
         imageDir: path.join(stage, '.assets'),
+        ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
+        ...(options.overridePath ? {overridePath: options.overridePath} : {}),
       },
     },
   }
@@ -83,15 +108,18 @@ function runtimeManual(options) {
 function runtimeInvocation(options) {
   const sourceIdentity = `${options.manual}:${options.site}:${options.source}`
   if (options.sourceOnly) {
+    const manualIdentity = options.snapshotCandidate ? options.manual : sourceIdentity
     return {
-      manualIdentity: options.manual,
+      manualIdentity,
       generatorArgs: [
         'fetch-lark-docs',
-        '--manual', options.manual,
+        '--manual', manualIdentity,
         '--sourceOnly',
-        '--incremental',
-        '--buildEnv', 'uat',
-        '--snapshotCandidatePath', options.snapshotCandidate,
+        ...(options.snapshotCandidate ? [
+          '--incremental',
+          '--buildEnv', 'uat',
+          '--snapshotCandidatePath', options.snapshotCandidate,
+        ] : []),
         ...(options.forceFullFetch ? ['--forceFullFetch'] : []),
       ],
     }

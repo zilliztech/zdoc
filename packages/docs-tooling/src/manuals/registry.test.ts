@@ -3,6 +3,7 @@ import {describe, expect, it} from 'vitest';
 import {
   manualRegistry,
   publicationEntries,
+  resolveManualPublication,
   validateManualRegistry,
 } from './registry';
 import type {ManualDefinition} from './schema';
@@ -35,6 +36,43 @@ function manual(overrides: Partial<ManualDefinition> = {}): ManualDefinition {
 }
 
 describe('manual registry contract', () => {
+  it('resolves active publication fallback chains in deterministic earliest-to-active order', () => {
+    const expectations = {
+      python: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0'],
+      java: ['english-v2-2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0'],
+      node: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0'],
+      go: ['english-v2.6', 'english-v3.0'],
+      cli: ['english-v1.3', 'english-v1.4'],
+    } as const;
+
+    for (const [manualId, expected] of Object.entries(expectations)) {
+      const resolved = resolveManualPublication(manualId, 'en');
+      expect(resolved.sourceChain.map(entry => entry.key)).toEqual(expected);
+      expect(resolved.manual.sourceOrder.filter(key => expected.includes(key as never))).toEqual(expected);
+    }
+  });
+
+  it('retains verified archival source identities without making them implicit fallbacks', () => {
+    const java = manualRegistry.find(candidate => candidate.id === 'java');
+    const go = manualRegistry.find(candidate => candidate.id === 'go');
+    expect(java?.sources['english-v1-2.4'].lifecycle).toBe('retired');
+    expect(go?.sources['english-v2.4'].lifecycle).toBe('retired');
+    expect(resolveManualPublication('java', 'en').sourceChain.map(entry => entry.key)).not.toContain('english-v1-2.4');
+    expect(resolveManualPublication('go', 'en').sourceChain.map(entry => entry.key)).not.toContain('english-v2.4');
+  });
+
+  it('rejects unclassified dead sources while allowing explicitly retired identities', () => {
+    expect(() => validateManualRegistry([
+      {
+        ...manual(),
+        sources: {
+          canonical: manual().sources.canonical,
+          orphan: {...manual().sources.canonical, sourceDir: 'packages/docs-tooling/src/lark/meta/sources/orphan'},
+        },
+      },
+    ])).toThrow(/dead|unreachable|lifecycle/i);
+  });
+
   it('contains only publications whose source keys exist', () => {
     for (const {manual: definition, publication} of publicationEntries(manualRegistry)) {
       expect(definition.sources).toHaveProperty(publication.source);
@@ -130,6 +168,7 @@ describe('manual registry contract', () => {
           sourceDir: 'packages/docs-tooling/src/lark/meta/sources/fixture/v0',
         },
       },
+      sourceOrder: ['older', 'canonical'],
       publications: {
         en: {
           enabled: false,

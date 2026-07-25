@@ -1,4 +1,5 @@
-import {mkdtempSync, mkdirSync, symlinkSync, writeFileSync} from 'node:fs';
+import {spawnSync as childSpawnSync} from 'node:child_process';
+import {existsSync, mkdtempSync, mkdirSync, readFileSync, symlinkSync, writeFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -111,6 +112,11 @@ describe('docs-tooling CLI boundary', () => {
     const spawnSync = vi.fn((command: string, args: readonly string[], options: {cwd: string}) => {
       expect(command).toBe(process.execPath);
       expect(args[0]).toBe(path.join(repositoryRoot, 'packages/docs-tooling/src/lark/cli.js'));
+      expect(options.cwd).toBe(repositoryRoot);
+      const sourceDir = args[args.indexOf('--source-dir') + 1];
+      mkdirSync(path.join(repositoryRoot, sourceDir), {recursive: true});
+      writeFileSync(path.join(repositoryRoot, sourceDir, 'source.json'), '{}\n');
+      if (args.includes('--source-only')) return {status: 0};
       expect(args).toEqual(expect.arrayContaining([
         '--manual', 'python',
         '--site', 'en',
@@ -120,10 +126,15 @@ describe('docs-tooling CLI boundary', () => {
         '--base', 'Hk05b5eI6aXXSSsd6j9cqwwMn5a',
         '--source-dir', 'packages/docs-tooling/src/lark/meta/sources/python/v3.0.x',
         '--stage', 'tmp/python',
+        '--output-dir', 'content/en/reference/api/python/python',
+        '--content-root', 'content/en/reference',
+        '--sidebar-path', 'generated/en/sidebars/python.sidebar.js',
+        '--override-path', 'sidebar-overrides/en/python.json',
       ]));
-      expect(options.cwd).toBe(repositoryRoot);
-      mkdirSync(path.join(repositoryRoot, 'tmp/python'), {recursive: true});
-      writeFileSync(path.join(repositoryRoot, 'tmp/python/page.md'), '# generated\n');
+      mkdirSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python'), {recursive: true});
+      writeFileSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python/page.md'), '# generated\n');
+      mkdirSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars'), {recursive: true});
+      writeFileSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = []\n');
       return {status: 0};
     });
 
@@ -132,7 +143,47 @@ describe('docs-tooling CLI boundary', () => {
       {repositoryRoot, spawnSync},
     );
 
-    expect(spawnSync).toHaveBeenCalledOnce();
+    expect(spawnSync).toHaveBeenCalledTimes(4);
+  });
+
+  it('fetches the full ordered fallback source chain before rendering the active SDK publication', async () => {
+    const repositoryRoot = temporaryRoot();
+    const calls: readonly string[][] = [];
+    const spawnSync = vi.fn((_command: string, args: readonly string[]) => {
+      (calls as string[][]).push([...args]);
+      const sourceDir = args[args.indexOf('--source-dir') + 1];
+      mkdirSync(path.join(repositoryRoot, sourceDir), {recursive: true});
+      writeFileSync(path.join(repositoryRoot, sourceDir, 'source.json'), '{}\n');
+      if (!args.includes('--source-only')) {
+        mkdirSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python'), {recursive: true});
+        writeFileSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python/page.md'), '# generated\n');
+        mkdirSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars'), {recursive: true});
+        writeFileSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = []\n');
+      }
+      return {status: 0};
+    });
+
+    await executeDocsToolingCommand(
+      ['fetch', '--manual', 'python', '--site', 'en', '--stage', 'tmp/python'],
+      {repositoryRoot, spawnSync},
+    );
+
+    expect(calls.map(args => args[args.indexOf('--source') + 1])).toEqual([
+      'english-v2.4',
+      'english-v2.5',
+      'english-v2.6',
+      'english-v3.0',
+    ]);
+    expect(calls.slice(0, -1).every(args => args.includes('--source-only'))).toBe(true);
+    expect(calls.at(-1)).not.toContain('--source-only');
+    expect(calls.map(args => args.includes('--fallback-source-dir')
+      ? args[args.indexOf('--fallback-source-dir') + 1]
+      : null)).toEqual([
+      null,
+      'packages/docs-tooling/src/lark/meta/sources/python/v2.4.x',
+      'packages/docs-tooling/src/lark/meta/sources/python/v2.5.x',
+      'packages/docs-tooling/src/lark/meta/sources/python/v2.6.x',
+    ]);
   });
 
   it('preserves the Guides source-only snapshot stage without requiring a preexisting cache', async () => {
@@ -177,17 +228,19 @@ describe('docs-tooling CLI boundary', () => {
     const repositoryRoot = temporaryRoot();
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
+    mkdirSync(path.join(repositoryRoot, 'generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'generated/en/sidebars/restful.sidebar.js'), 'module.exports = []\n');
     const spawnSync = vi.fn((command: string, args: readonly string[]) => {
       expect(command).toBe(process.execPath);
       expect(args).toEqual([
         path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/index.js'),
         '--specifications', path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'),
-        '--output_path', path.join(repositoryRoot, 'tmp/rest'),
+        '--output_path', path.join(repositoryRoot, 'tmp/rest/content/en/reference/api/restful'),
         '--lang', 'en-US',
         '--target', 'zilliz',
       ]);
-      mkdirSync(path.join(repositoryRoot, 'tmp/rest'), {recursive: true});
-      writeFileSync(path.join(repositoryRoot, 'tmp/rest/page.md'), '# generated\n');
+      mkdirSync(path.join(repositoryRoot, 'tmp/rest/content/en/reference/api/restful'), {recursive: true});
+      writeFileSync(path.join(repositoryRoot, 'tmp/rest/content/en/reference/api/restful/page.md'), '# generated\n');
       return {status: 0};
     });
 
@@ -204,6 +257,8 @@ describe('docs-tooling CLI boundary', () => {
     const source = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
     mkdirSync(source, {recursive: true});
     writeFileSync(path.join(source, 'page.md'), '# translated\n');
+    mkdirSync(path.join(repositoryRoot, 'generated/zh-CN/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'generated/zh-CN/sidebars/python.sidebar.js'), 'module.exports = []\n');
     const spawnSync = vi.fn();
 
     await executeDocsToolingCommand(
@@ -216,15 +271,75 @@ describe('docs-tooling CLI boundary', () => {
 
   it('validates stage integrity before invoking publication', async () => {
     const repositoryRoot = temporaryRoot();
-    mkdirSync(path.join(repositoryRoot, 'tmp/python'), {recursive: true});
-    writeFileSync(path.join(repositoryRoot, 'tmp/python/target.md'), '# Target\n');
-    symlinkSync('target.md', path.join(repositoryRoot, 'tmp/python/alias.md'));
+    mkdirSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python/target.md'), '# Target\n');
+    symlinkSync('target.md', path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python/alias.md'));
+    mkdirSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = []\n');
     const publish = vi.fn();
 
     await expect(executeDocsToolingCommand(
       ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/python'],
       {repositoryRoot, publish},
     )).rejects.toThrow(/symlink/i);
+    expect(publish).not.toHaveBeenCalled();
+  });
+
+  it('publishes staged content and sidebar artifacts to separate owned targets', async () => {
+    const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python/page.md'), '# staged\n');
+    mkdirSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = ["staged"]\n');
+
+    await executeDocsToolingCommand(
+      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/python'],
+      {repositoryRoot},
+    );
+
+    expect(readFileSync(path.join(repositoryRoot, 'content/en/reference/api/python/python/page.md'), 'utf8')).toBe('# staged\n');
+    expect(readFileSync(path.join(repositoryRoot, 'generated/en/sidebars/python.sidebar.js'), 'utf8')).toBe('module.exports = ["staged"]\n');
+    expect(existsSync(path.join(repositoryRoot, 'content/en/reference/api/python/python/content'))).toBe(false);
+  });
+
+  it('rejects credential markers and traversal links before publication mutation', async () => {
+    const repositoryRoot = temporaryRoot();
+    const output = path.join(repositoryRoot, 'tmp/python/content/en/reference/api/python/python');
+    mkdirSync(output, {recursive: true});
+    writeFileSync(path.join(output, '.env.production'), 'placeholder\n');
+    writeFileSync(path.join(output, 'token.md'), '[escape](../../../../../../../../.env)\nghp_123456789012345678901234567890123456\n-----BEGIN PRIVATE KEY-----\n');
+    mkdirSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/python/generated/en/sidebars/python.sidebar.js'), 'module.exports = []\n');
+    const publish = vi.fn();
+
+    await expect(executeDocsToolingCommand(
+      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/python'],
+      {repositoryRoot, publish},
+    )).rejects.toThrow(/secret|credential|private key|token|traversal|integrity/i);
+    expect(publish).not.toHaveBeenCalled();
+    expect(existsSync(path.join(repositoryRoot, 'content/en/reference/api/python/python'))).toBe(false);
+  });
+
+  it('clears stale REST stages before generation and leaves failures unpublishable', async () => {
+    const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
+    mkdirSync(path.join(repositoryRoot, 'tmp/rest/content/en/reference/api/restful'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/rest/content/en/reference/api/restful/stale.md'), '# stale\n');
+    mkdirSync(path.join(repositoryRoot, 'tmp/rest/generated/en/sidebars'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/rest/generated/en/sidebars/restful.sidebar.js'), 'module.exports = []\n');
+
+    await expect(executeDocsToolingCommand(
+      ['fetch', '--manual', 'rest', '--site', 'en', '--stage', 'tmp/rest'],
+      {repositoryRoot, spawnSync: vi.fn(() => ({status: 9}))},
+    )).rejects.toThrow(/rest.*status 9/i);
+    expect(existsSync(path.join(repositoryRoot, 'tmp/rest/content/en/reference/api/restful/stale.md'))).toBe(false);
+
+    const publish = vi.fn();
+    await expect(executeDocsToolingCommand(
+      ['publish', '--manual', 'rest', '--site', 'en', '--stage', 'tmp/rest'],
+      {repositoryRoot, publish},
+    )).rejects.toThrow(/content artifact|sidebar artifact|missing/i);
     expect(publish).not.toHaveBeenCalled();
   });
 });
@@ -235,6 +350,17 @@ describe('moved generator module boundaries', () => {
     expect(() => require('../lark/index.js')).not.toThrow();
     expect(() => require('../lark/cli.js')).not.toThrow();
     expect(() => require('../reference/rest/index.js')).not.toThrow();
+  });
+
+  it('makes the standalone REST generator exit nonzero on specification load errors', () => {
+    const result = childSpawnSync(process.execPath, [
+      path.resolve('packages/docs-tooling/src/reference/rest/index.js'),
+      '--specifications', path.join(temporaryRoot(), 'missing-specifications'),
+      '--output_path', path.join(temporaryRoot(), 'rest-output'),
+    ], {encoding: 'utf8'});
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/failed to read openapi|specification|enoent/i);
   });
 
   it('allows a full Lark source fetch to start without a preexisting cache directory', () => {
@@ -259,12 +385,21 @@ describe('moved generator module boundaries', () => {
       '--root', 'root-token',
       '--base', 'base-token',
       '--source-dir', 'packages/docs-tooling/src/lark/meta/sources/python/v3.0.x',
+      '--fallback-source-dir', 'packages/docs-tooling/src/lark/meta/sources/python/v2.6.x',
       '--stage', 'tmp/docs-tooling/en/python',
+      '--output-dir', 'content/en/reference/api/python/python',
+      '--content-root', 'content/en/reference',
+      '--sidebar-path', 'generated/en/sidebars/python.sidebar.js',
+      '--override-path', 'sidebar-overrides/en/python.json',
     ];
     const manual = runtimeManual(parseArgs(values));
 
     expect(manual.docSourceDir).toBe('packages/docs-tooling/src/lark/meta/sources/python/v3.0.x');
-    expect(manual.targets.stage.outputDir).toBe('tmp/docs-tooling/en/python');
+    expect(manual.fallbackSourceDir).toBe('packages/docs-tooling/src/lark/meta/sources/python/v2.6.x');
+    expect(manual.contentRoot).toBe('tmp/docs-tooling/en/python/content/en/reference');
+    expect(manual.sidebarPath).toBe('tmp/docs-tooling/en/python/generated/en/sidebars/python.sidebar.js');
+    expect(manual.overridePath).toBe('sidebar-overrides/en/python.json');
+    expect(manual.targets.stage.outputDir).toBe('tmp/docs-tooling/en/python/content/en/reference/api/python/python');
     expect(manual.targets.stage.imageDir).toBe('tmp/docs-tooling/en/python/.assets');
     const escaped = [...values];
     escaped[escaped.indexOf('tmp/docs-tooling/en/python')] = '../escape';

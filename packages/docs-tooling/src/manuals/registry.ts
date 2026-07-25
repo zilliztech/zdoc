@@ -37,6 +37,27 @@ export type PublicationEntry = {
   publication: DeepReadonly<ManualPublication>;
 };
 
+export type SourceEntry = Readonly<{
+  key: string;
+  source: DeepReadonly<ManualSource>;
+}>;
+
+function sourceChainFor(manual: DeepReadonly<ManualDefinition>, sourceKey: string): SourceEntry[] {
+  const chain: SourceEntry[] = [];
+  const seen = new Set<string>();
+  let currentKey: string | undefined = sourceKey;
+  while (currentKey) {
+    if (seen.has(currentKey)) throw new Error(`Manual ${manual.id} source fallback cycle includes ${currentKey}`);
+    seen.add(currentKey);
+    const source = manual.sources[currentKey];
+    if (!source) throw new Error(`Manual ${manual.id} references unknown source ${currentKey}`);
+    if (source.lifecycle === 'retired') throw new Error(`Manual ${manual.id} retired source ${currentKey} cannot be an active fallback`);
+    chain.push({key: currentKey, source});
+    currentKey = source.fallbackSource;
+  }
+  return chain.reverse();
+}
+
 export function publicationEntries(registry: readonly DeepReadonly<ManualDefinition>[]): PublicationEntry[] {
   return registry.flatMap(manual => (['en', 'zh-CN'] as const).flatMap(site => {
     const publication = manual.publications[site];
@@ -52,17 +73,30 @@ export function validateManualRegistry(input: unknown): ManualDefinition[] {
     if (ids.has(manual.id)) throw new Error(`Duplicate manual id: ${manual.id}`);
     ids.add(manual.id);
 
+    const sourceOrder = manual.sourceOrder ?? Object.keys(manual.sources);
+    if (new Set(sourceOrder).size !== sourceOrder.length || sourceOrder.length !== Object.keys(manual.sources).length || sourceOrder.some(key => !Object.hasOwn(manual.sources, key))) {
+      throw new Error(`Manual ${manual.id} sourceOrder must contain every source key exactly once`);
+    }
+    const sourcePositions = new Map(sourceOrder.map((key, index) => [key, index]));
     for (const [sourceKey, source] of Object.entries(manual.sources)) {
       if (source.fallbackSource !== undefined && !Object.hasOwn(manual.sources, source.fallbackSource)) {
         throw new Error(`Manual ${manual.id} source ${sourceKey} references unknown fallback source ${source.fallbackSource}`);
       }
+      if (source.fallbackSource !== undefined && (sourcePositions.get(source.fallbackSource) ?? Infinity) >= (sourcePositions.get(sourceKey) ?? -1)) {
+        throw new Error(`Manual ${manual.id} source ${sourceKey} fallback must precede it in sourceOrder`);
+      }
+      if (source.lifecycle === 'retired' && source.fallbackSource !== undefined) {
+        throw new Error(`Manual ${manual.id} retired source ${sourceKey} must not declare a fallback`);
+      }
     }
 
+    const reachableSources = new Set<string>();
     for (const site of ['en', 'zh-CN'] as const) {
       const publication = manual.publications[site];
       if (!publication) continue;
       const source = manual.sources[publication.source];
       if (!source) throw new Error(`Manual ${manual.id} ${site} publication references unknown source key ${publication.source}`);
+      for (const entry of sourceChainFor(manual, publication.source)) reachableSources.add(entry.key);
       if (!siteOwnedPath(site, publication.outputDir, 'content') || !siteOwnedPath(site, publication.contentRoot, 'content')) {
         throw new Error(`Manual ${manual.id} ${site} publication content paths must be site-owned`);
       }
@@ -92,6 +126,11 @@ export function validateManualRegistry(input: unknown): ManualDefinition[] {
         }
       }
     }
+    for (const [sourceKey, source] of Object.entries(manual.sources)) {
+      if (!reachableSources.has(sourceKey) && source.lifecycle !== 'retired') {
+        throw new Error(`Manual ${manual.id} source ${sourceKey} is dead or unreachable and must be classified retired`);
+      }
+    }
   }
 
   const entries = publicationEntries(registry);
@@ -116,16 +155,18 @@ function remote(
   base: string,
   sourceDir: string,
   version?: string,
+  lifecycle: ManualSource['lifecycle'] = 'active',
+  fallbackSource?: string,
 ): ManualSource {
-  return {sourceType, root, base, ...(version ? {version} : {}), sourceDir: `${larkSourceRoot}/${sourceDir}`};
+  return {sourceType, lifecycle, root, base, ...(version ? {version} : {}), sourceDir: `${larkSourceRoot}/${sourceDir}`, ...(fallbackSource ? {fallbackSource} : {})};
 }
 
 function local(sourceDir: string): ManualSource {
-  return {sourceType: 'local', sourceDir};
+  return {sourceType: 'local', lifecycle: 'translation', sourceDir};
 }
 
 function rest(sourceDir: string): ManualSource {
-  return {sourceType: 'rest', sourceDir};
+  return {sourceType: 'rest', lifecycle: 'active', sourceDir};
 }
 
 function publication(
@@ -155,6 +196,7 @@ const definitions: ManualDefinition[] = [
     sources: {
       chinese: remote('wiki', 'R8ZwwvHrJivIAyk8JkQchM0Anng', 'YxSibAMZ4aDqhjs5Ru4clmrun4f', 'agents-and-prompts'),
     },
+    sourceOrder: ['chinese'],
     publications: {
       'zh-CN': publication('zh-CN', 'chinese', 'agents', 'agents', 'agents'),
     },
@@ -163,13 +205,11 @@ const definitions: ManualDefinition[] = [
     id: 'cli',
     kind: 'reference',
     sources: {
-      'chinese-v0.1': remote('drive', 'PPuBfnEIWltim9dw8hxcC3EDnwb', 'OAK4bJaNuac501sX6Y1cS3OGnzf', 'cli/v0.1.x', '0.1.x'),
-      'english-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', 'v1.3.x'),
-      'chinese-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', '1.3.x'),
-      'english-v1.4': remote('drive', 'LF1Kf54jFllUBydVk7hcha30nUh', 'Lx1bbCdpMaSmJXs8wz5cjsDengf', 'cli/v1.4.x', '1.4.x'),
-      'chinese-v1.4': remote('drive', 'LF1Kf54jFllUBydVk7hcha30nUh', 'Lx1bbCdpMaSmJXs8wz5cjsDengf', 'cli/v1.4.x', '1.4.x'),
+      'english-v1.3': remote('drive', 'QBLKf6CCPloK0cddw6gcXUZqnob', 'Rr4lbWr8baQj5psICV9cEFa2nYe', 'cli/v1.3.x', 'v1.3.x', 'fallback'),
+      'english-v1.4': remote('drive', 'LF1Kf54jFllUBydVk7hcha30nUh', 'Lx1bbCdpMaSmJXs8wz5cjsDengf', 'cli/v1.4.x', '1.4.x', 'active', 'english-v1.3'),
       chineseTranslation: local('content/zh-CN/reference/cli/cli'),
     },
+    sourceOrder: ['english-v1.3', 'english-v1.4', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', ['reference/cli/v0.1', 'reference/cli/v1.3']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', ['reference/cli/v0.1', 'reference/cli/v1.3']),
@@ -179,14 +219,12 @@ const definitions: ManualDefinition[] = [
     id: 'go',
     kind: 'reference',
     sources: {
-      'english-v2.4': remote('wiki', 'V0SCw3U3siZBynkKhUCcRRAin69', 'WA8rbgtu8aq3wtsBm02cepOznPJ', 'go/v2.4.x', 'v2.4.x'),
-      'chinese-v2.4': remote('wiki', 'V0SCw3U3siZBynkKhUCcRRAin69', 'WA8rbgtu8aq3wtsBm02cepOznPJ', 'go/v2.4.x', 'v2.4.x'),
-      'english-v2.6': remote('drive', 'Pzejf3x4WlXq1HdtTndcfMjVnxh', 'Yc7gbtmgSal2ewsdqlhcLWVanbh', 'go/v2.6.x', 'v2.6.x'),
-      'chinese-v2.6': remote('drive', 'Pzejf3x4WlXq1HdtTndcfMjVnxh', 'Yc7gbtmgSal2ewsdqlhcLWVanbh', 'go/v2/v2.6.x', 'v2.6.x'),
-      'english-v3.0': remote('drive', 'F9M3fK4Dbl69PPdSxTXcsIwgnDh', 'KQT5bV62QaioKisKZT0crwZDnke', 'go/v3.0.x', 'v3.0.x'),
-      'chinese-v3.0': remote('drive', 'F9M3fK4Dbl69PPdSxTXcsIwgnDh', 'KQT5bV62QaioKisKZT0crwZDnke', 'go/v2/v3.0.x', 'v3.0.x'),
+      'english-v2.4': remote('wiki', 'V0SCw3U3siZBynkKhUCcRRAin69', 'WA8rbgtu8aq3wtsBm02cepOznPJ', 'go/v2.4.x', 'v2.4.x', 'retired'),
+      'english-v2.6': remote('drive', 'Pzejf3x4WlXq1HdtTndcfMjVnxh', 'Yc7gbtmgSal2ewsdqlhcLWVanbh', 'go/v2.6.x', 'v2.6.x', 'fallback'),
+      'english-v3.0': remote('drive', 'F9M3fK4Dbl69PPdSxTXcsIwgnDh', 'KQT5bV62QaioKisKZT0crwZDnke', 'go/v3.0.x', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/go/go/v2'),
     },
+    sourceOrder: ['english-v2.4', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', ['reference/api/go/go/v1']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/go/go/v2', 'reference', 'go', ['reference/api/go/go/v1']),
@@ -199,6 +237,7 @@ const definitions: ManualDefinition[] = [
       english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides'),
       chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN'),
     },
+    sourceOrder: ['english', 'chinese'],
     publications: {
       en: publication('en', 'english', 'guides/tutorials', 'guides', 'guides'),
       'zh-CN': publication('zh-CN', 'chinese', 'guides/tutorials', 'guides', 'guides'),
@@ -211,6 +250,7 @@ const definitions: ManualDefinition[] = [
       english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides'),
       chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN'),
     },
+    sourceOrder: ['english', 'chinese'],
     publications: {
       en: publication('en', 'english', 'byoc/tutorials', 'byoc', 'guides-byoc'),
       'zh-CN': publication('zh-CN', 'chinese', 'byoc/tutorials', 'byoc', 'guides-byoc'),
@@ -220,18 +260,14 @@ const definitions: ManualDefinition[] = [
     id: 'java',
     kind: 'reference',
     sources: {
-      'english-v1-2.4': remote('onePager', 'D0cfwvTqMiyhSrkCUv4c1a2Fnjd', 'A4ivb7y2XaIND9s93QZcvwykn0d', 'java/v2.4.x/v1', 'v2.4.x'),
-      'chinese-v1-2.4': remote('onePager', 'D0cfwvTqMiyhSrkCUv4c1a2Fnjd', 'A4ivb7y2XaIND9s93QZcvwykn0d', 'java/v2.4.x/v1', 'v2.4.x'),
-      'english-v2-2.4': remote('drive', 'Sg3EfIgVtlTkeBdtguJchE9ynne', 'WqHJb3zimaxXjssk4Kic4GEDnte', 'java/v2.4.x/v2', 'v2.4.x'),
-      'chinese-v2-2.4': remote('drive', 'Sg3EfIgVtlTkeBdtguJchE9ynne', 'WqHJb3zimaxXjssk4Kic4GEDnte', 'java/v2.4.x/v2', 'v2.4.x'),
-      'english-v2.5': remote('drive', 'LJ6MfN5wzlHjz8dB642cjUh8nqq', 'Hsq1bRcqraeQW0sGFJbcI3YIn3d', 'java/v2.5.x/v2', 'v2.5.x'),
-      'chinese-v2.5': remote('drive', 'LJ6MfN5wzlHjz8dB642cjUh8nqq', 'Hsq1bRcqraeQW0sGFJbcI3YIn3d', 'java/v2.5.x/v2'),
-      'english-v2.6': remote('drive', 'B1agfRbPglv4tpdTkjlcUMgVnRV', 'Sbtcbm660abngWsXryKct5nOn2e', 'java/v2.6.x/v2', 'v2.6.x'),
-      'chinese-v2.6': remote('drive', 'B1agfRbPglv4tpdTkjlcUMgVnRV', 'Sbtcbm660abngWsXryKct5nOn2e', 'java/v2.6.x/v2', 'v2.6.x'),
-      'english-v3.0': remote('drive', 'C4Ckfsx5qlKHbnd5PVrcpxvTn2d', 'AOFDbSmwma9XrNsLa8KcQgt9ngc', 'java/v3.0.x/v2', 'v3.0.x'),
-      'chinese-v3.0': remote('drive', 'C4Ckfsx5qlKHbnd5PVrcpxvTn2d', 'AOFDbSmwma9XrNsLa8KcQgt9ngc', 'java/v3.0.x/v2', 'v3.0.x'),
+      'english-v1-2.4': remote('onePager', 'D0cfwvTqMiyhSrkCUv4c1a2Fnjd', 'A4ivb7y2XaIND9s93QZcvwykn0d', 'java/v2.4.x/v1', 'v2.4.x', 'retired'),
+      'english-v2-2.4': remote('drive', 'Sg3EfIgVtlTkeBdtguJchE9ynne', 'WqHJb3zimaxXjssk4Kic4GEDnte', 'java/v2.4.x/v2', 'v2.4.x', 'fallback'),
+      'english-v2.5': remote('drive', 'LJ6MfN5wzlHjz8dB642cjUh8nqq', 'Hsq1bRcqraeQW0sGFJbcI3YIn3d', 'java/v2.5.x/v2', 'v2.5.x', 'fallback', 'english-v2-2.4'),
+      'english-v2.6': remote('drive', 'B1agfRbPglv4tpdTkjlcUMgVnRV', 'Sbtcbm660abngWsXryKct5nOn2e', 'java/v2.6.x/v2', 'v2.6.x', 'fallback', 'english-v2.5'),
+      'english-v3.0': remote('drive', 'C4Ckfsx5qlKHbnd5PVrcpxvTn2d', 'AOFDbSmwma9XrNsLa8KcQgt9ngc', 'java/v3.0.x/v2', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/java/java/v2'),
     },
+    sourceOrder: ['english-v1-2.4', 'english-v2-2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', ['reference/api/java/java/v1']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/java/java/v2', 'reference', 'java', ['reference/api/java/java/v1']),
@@ -241,16 +277,13 @@ const definitions: ManualDefinition[] = [
     id: 'node',
     kind: 'reference',
     sources: {
-      'english-v2.4': remote('drive', 'Vg1kfluyll0h7MdlUMaciXfEnZd', 'DVVobtXQMamuLqsQij5c29nVn3c', 'node/v2.4.x', 'v2.4.x'),
-      'chinese-v2.4': remote('drive', 'Vg1kfluyll0h7MdlUMaciXfEnZd', 'DVVobtXQMamuLqsQij5c29nVn3c', 'node/v2.4.x', 'v2.4.x'),
-      'english-v2.5': remote('drive', 'U9fWfMPdelsPMydYnolcr2aEnBf', 'JTBebezMDaV8ZhsHF5wc7lJSnuh', 'node/v2.5.x', 'v2.5.x'),
-      'chinese-v2.5': remote('drive', 'U9fWfMPdelsPMydYnolcr2aEnBf', 'JTBebezMDaV8ZhsHF5wc7lJSnuh', 'node/v2.5.x'),
-      'english-v2.6': remote('drive', 'NFmOfwILlln3JgdePZUclweZnIe', 'R9i8bww4faNsR6smwQwcAtHGnkb', 'node/v2.6.x', 'v2.6.x'),
-      'chinese-v2.6': remote('drive', 'NFmOfwILlln3JgdePZUclweZnIe', 'R9i8bww4faNsR6smwQwcAtHGnkb', 'node/v2.6.x', 'v2.6.x'),
-      'english-v3.0': remote('drive', 'LW67fVlTvlNCZRdxOVYcQZyJnFQ', 'LlrPbysPZau2dGsSVuicHmvCn0e', 'node/v3.0.x', 'v3.0.x'),
-      'chinese-v3.0': remote('drive', 'LW67fVlTvlNCZRdxOVYcQZyJnFQ', 'LlrPbysPZau2dGsSVuicHmvCn0e', 'node/v3.0.x', 'v3.0.x'),
+      'english-v2.4': remote('drive', 'Vg1kfluyll0h7MdlUMaciXfEnZd', 'DVVobtXQMamuLqsQij5c29nVn3c', 'node/v2.4.x', 'v2.4.x', 'fallback'),
+      'english-v2.5': remote('drive', 'U9fWfMPdelsPMydYnolcr2aEnBf', 'JTBebezMDaV8ZhsHF5wc7lJSnuh', 'node/v2.5.x', 'v2.5.x', 'fallback', 'english-v2.4'),
+      'english-v2.6': remote('drive', 'NFmOfwILlln3JgdePZUclweZnIe', 'R9i8bww4faNsR6smwQwcAtHGnkb', 'node/v2.6.x', 'v2.6.x', 'fallback', 'english-v2.5'),
+      'english-v3.0': remote('drive', 'LW67fVlTvlNCZRdxOVYcQZyJnFQ', 'LlrPbysPZau2dGsSVuicHmvCn0e', 'node/v3.0.x', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/nodejs/nodejs'),
     },
+    sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node'),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/nodejs/nodejs', 'reference', 'node'),
@@ -262,6 +295,7 @@ const definitions: ManualDefinition[] = [
     sources: {
       chinese: remote('wiki', 'PXwawNqh0i40H4krMYlc6qgZnKe', 'V7t6bcQWiaDL99sgUkwcEIJ0nUb', 'onpremise'),
     },
+    sourceOrder: ['chinese'],
     publications: {
       'zh-CN': publication('zh-CN', 'chinese', 'onpremise', 'onpremise', 'onpremise'),
     },
@@ -270,16 +304,13 @@ const definitions: ManualDefinition[] = [
     id: 'python',
     kind: 'reference',
     sources: {
-      'english-v2.4': remote('drive', 'PTJzfzI0ulKGjwdUsxQcFxfJn6b', 'D1VabelmAansLwsNTvLc2Wxxn1g', 'python/v2.4.x', 'v2.4.x'),
-      'chinese-v2.4': remote('drive', 'PTJzfzI0ulKGjwdUsxQcFxfJn6b', 'D1VabelmAansLwsNTvLc2Wxxn1g', 'python/v2.4.x', 'v2.4.x'),
-      'english-v2.5': remote('drive', 'Z1SFf89zYlGHXvdo6dxcR6gXntc', 'B8X9bJjJta2q4NskclYcxT7lngG', 'python/v2.5.x', 'v2.5.x'),
-      'chinese-v2.5': remote('drive', 'Z1SFf89zYlGHXvdo6dxcR6gXntc', 'B8X9bJjJta2q4NskclYcxT7lngG', 'python/v2.5.x'),
-      'english-v2.6': remote('drive', 'IaWgf4osAlpdwqdVIclct97wnCg', 'J3Qzbv7AWazzivsv7vqcqlGCnFc', 'python/v2.6.x', 'v2.6.x'),
-      'chinese-v2.6': remote('drive', 'IaWgf4osAlpdwqdVIclct97wnCg', 'J3Qzbv7AWazzivsv7vqcqlGCnFc', 'python/v2.6.x'),
-      'english-v3.0': remote('drive', 'UxyTfjS3wl0TF8dn9tZcRT39nUe', 'Hk05b5eI6aXXSSsd6j9cqwwMn5a', 'python/v3.0.x', 'v3.0.x'),
-      'chinese-v3.0': remote('drive', 'UxyTfjS3wl0TF8dn9tZcRT39nUe', 'Hk05b5eI6aXXSSsd6j9cqwwMn5a', 'python/v3.0.x', 'v3.0.x'),
+      'english-v2.4': remote('drive', 'PTJzfzI0ulKGjwdUsxQcFxfJn6b', 'D1VabelmAansLwsNTvLc2Wxxn1g', 'python/v2.4.x', 'v2.4.x', 'fallback'),
+      'english-v2.5': remote('drive', 'Z1SFf89zYlGHXvdo6dxcR6gXntc', 'B8X9bJjJta2q4NskclYcxT7lngG', 'python/v2.5.x', 'v2.5.x', 'fallback', 'english-v2.4'),
+      'english-v2.6': remote('drive', 'IaWgf4osAlpdwqdVIclct97wnCg', 'J3Qzbv7AWazzivsv7vqcqlGCnFc', 'python/v2.6.x', 'v2.6.x', 'fallback', 'english-v2.5'),
+      'english-v3.0': remote('drive', 'UxyTfjS3wl0TF8dn9tZcRT39nUe', 'Hk05b5eI6aXXSSsd6j9cqwwMn5a', 'python/v3.0.x', 'v3.0.x', 'active', 'english-v2.6'),
       chineseTranslation: local('content/zh-CN/reference/api/python/python'),
     },
+    sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/python/python', 'reference', 'python'),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/python/python', 'reference', 'python'),
@@ -292,6 +323,7 @@ const definitions: ManualDefinition[] = [
       canonical: rest('packages/docs-tooling/src/reference/rest/meta/openapi'),
       chineseTranslation: local('content/zh-CN/reference/api/restful'),
     },
+    sourceOrder: ['canonical', 'chineseTranslation'],
     publications: {
       en: publication('en', 'canonical', 'reference/api/restful', 'reference', 'restful'),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful', 'reference', 'restful'),
@@ -304,6 +336,7 @@ export const manualRegistry = deepFreeze(validateManualRegistry(definitions));
 export function resolveManualPublication(manualId: string, site: SiteId): {
   manual: DeepReadonly<ManualDefinition>;
   source: DeepReadonly<ManualSource>;
+  sourceChain: readonly SourceEntry[];
   publication: DeepReadonly<ManualPublication>;
 } {
   const manual = manualRegistry.find(candidate => candidate.id === manualId);
@@ -311,5 +344,5 @@ export function resolveManualPublication(manualId: string, site: SiteId): {
   const publication = manual.publications[site];
   if (!publication) throw new Error(`Manual ${manualId} is not published for site ${site}`);
   if (!publication.enabled) throw new Error(`Manual ${manualId} is explicitly disabled for site ${site}`);
-  return {manual, source: manual.sources[publication.source], publication};
+  return {manual, source: manual.sources[publication.source], sourceChain: sourceChainFor(manual, publication.source), publication};
 }
