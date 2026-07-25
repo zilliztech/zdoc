@@ -234,6 +234,45 @@ describe('zh-CN Markdown normalizer adapter', () => {
     expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], once, publicationContext)).toEqual(once);
   });
 
+  it('preserves multiline HTML comments across LF and CRLF documents', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const lfInput = [
+      'Before <!-- first comment',
+      '**建议：**首次',
+      '--> after comment',
+      '<!-- same-line comment --> **问题？**回答',
+      '<!-- second comment',
+      '**问题？**回答',
+      '-->',
+      '**建议：**首次',
+    ].join('\n');
+    const lfExpected = [
+      'Before <!-- first comment',
+      '**建议：**首次',
+      '--> after comment',
+      '<!-- same-line comment --> **问题？**回答',
+      '<!-- second comment',
+      '**问题？**回答',
+      '-->',
+      '**建议**：首次',
+    ].join('\n');
+    const crlfInput = '<!-- CRLF comment\r\n**问题？**回答\r\n-->\r\n**问题？**回答\r\n';
+    const crlfExpected = '<!-- CRLF comment\r\n**问题？**回答\r\n-->\r\n**问题**？回答\r\n';
+
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'comments-lf.md', contents: lfInput},
+      context('zh-CN'),
+    ).contents).toBe(lfExpected);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'comments-crlf.md', contents: crlfInput},
+      context('zh-CN'),
+    ).contents).toBe(crlfExpected);
+  });
+
   it('normalizes only allowlisted paired decorated http tags', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},

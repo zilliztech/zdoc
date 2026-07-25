@@ -36,6 +36,25 @@ function braceDelta(line: string): number {
   return delta;
 }
 
+function htmlCommentOpenAfterLine(line: string, initiallyOpen: boolean): boolean {
+  let cursor = 0;
+  if (initiallyOpen) {
+    const closing = line.indexOf('-->');
+    if (closing === -1) return true;
+    cursor = closing + 3;
+  }
+
+  while (cursor < line.length) {
+    const opening = line.indexOf('<!--', cursor);
+    if (opening === -1) return false;
+    const closing = line.indexOf('-->', opening + 4);
+    if (closing === -1) return true;
+    cursor = closing + 3;
+  }
+
+  return false;
+}
+
 function repairLine(line: string): string {
   if (INDENTED_CODE.test(line) || line.includes('`') || /[<>{}\[\]()]/u.test(line)) return line;
   return line.replace(SIMPLE_BOLD_WITH_TRAILING_PUNCTUATION, '**$1**$2');
@@ -44,6 +63,7 @@ function repairLine(line: string): string {
 export function repairChineseBoldPunctuation(contents: string): string {
   let fence: Fence | undefined;
   let htmlBlockTag: string | undefined;
+  let htmlCommentOpen = false;
   let mdxBraceDepth = 0;
   const parts = contents.split(/(\r\n|\n|\r)/u);
 
@@ -61,6 +81,11 @@ export function repairChineseBoldPunctuation(contents: string): string {
 
     if (mdxBraceDepth > 0) {
       mdxBraceDepth = Math.max(0, mdxBraceDepth + braceDelta(line));
+      continue;
+    }
+
+    if (htmlCommentOpen || line.includes('<!--')) {
+      htmlCommentOpen = htmlCommentOpenAfterLine(line, htmlCommentOpen);
       continue;
     }
 
