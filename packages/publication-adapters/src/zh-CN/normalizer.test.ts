@@ -122,6 +122,39 @@ describe('zh-CN Markdown normalizer adapter', () => {
     expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'urls.md', contents: input}, context('zh-CN')).contents).toBe(expected);
   });
 
+  it('normalizes legacy www sales and pricing hosts in prose and compact tables', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      'Sales: https://www.zilliz.com/contact-sales?from=prose#form',
+      '|pricing|https://www.zilliz.com.cn/pricing?plan=pro#calculator|',
+      'https://www.zilliz.com/contact-salesforce?from=footer',
+      'https://www.zilliz.com/pricing-guide#calculator',
+      'https://www.zilliz.com.evil/contact-sales',
+      'https://notwww.zilliz.com/pricing',
+      'https://www.zilliz.com.cn.evil/pricing',
+    ].join('\n');
+    const expected = [
+      'Sales: https://zilliz.com.cn/contact-sales?from=prose#form',
+      '|pricing|https://zilliz.com.cn/pricing?plan=pro#calculator|',
+      'https://www.zilliz.com/contact-salesforce?from=footer',
+      'https://www.zilliz.com/pricing-guide#calculator',
+      'https://www.zilliz.com.evil/contact-sales',
+      'https://notwww.zilliz.com/pricing',
+      'https://www.zilliz.com.cn.evil/pricing',
+    ].join('\n');
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'www-urls.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(expected);
+    expect(tablePipes(output)).toEqual(tablePipes(input));
+  });
+
   it('normalizes only allowlisted paired decorated http tags', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},

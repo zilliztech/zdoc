@@ -136,6 +136,100 @@ describe('zh-CN REST replacement adapter', () => {
     expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'tokens.mdx', contents: input}, context('zh-CN')).contents).toBe(expected);
   });
 
+  it('uses JavaScript-compatible Unicode identifier boundaries for endpoint placeholders', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '"YOUR_CLUSTER_ENDPOINT"',
+      'https://YOUR_PROJECT_ENDPOINT',
+      '变量YOUR_CLUSTER_ENDPOINT',
+      'YOUR_CLUSTER_ENDPOINT变量',
+      '$YOUR_PROJECT_ENDPOINT',
+      'YOUR_PROJECT_ENDPOINT$cache',
+      `prefix\u200CYOUR_GLOBAL_ENDPOINT`,
+      `YOUR_GLOBAL_ENDPOINT\u200Dsuffix`,
+    ].join('\n');
+    const expected = [
+      '"https://{cluster-id}.{region}.vectordb.zilliz.com.cn:19530"',
+      'https://{project-id}.{region}.api.cloud.zilliz.com.cn',
+      '变量YOUR_CLUSTER_ENDPOINT',
+      'YOUR_CLUSTER_ENDPOINT变量',
+      '$YOUR_PROJECT_ENDPOINT',
+      'YOUR_PROJECT_ENDPOINT$cache',
+      `prefix\u200CYOUR_GLOBAL_ENDPOINT`,
+      `YOUR_GLOBAL_ENDPOINT\u200Dsuffix`,
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'unicode-tokens.mdx', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
+
+  it('collapses repeated cn suffixes only on REST target endpoint families and stays idempotent', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const input = [
+      'https://api.cloud.zilliz.com.cn.cn.cn/v2/projects?limit=10#page',
+      'https://{project-id}.{region}.api.cloud.zilliz.com.cn.cn/v2/jobs?x=1#result',
+      'https://demo.serverless.us-west-2.cloud.zilliz.com.cn.cn/query?x=1#result',
+      'https://demo.us-west-2.vectordb.zilliz.com.cn.cn.cn:19530/path?x=1#result',
+      'https://unrelated.zilliz.com.cn.cn/path',
+      'https://vectordb.zilliz.com.cn.cn.evil/path',
+    ].join('\n');
+    const expected = [
+      'https://api.cloud.zilliz.com.cn/v2/projects?limit=10#page',
+      'https://{project-id}.{region}.api.cloud.zilliz.com.cn/v2/jobs?x=1#result',
+      'https://demo.serverless.us-west-2.cloud.zilliz.com.cn/query?x=1#result',
+      'https://demo.us-west-2.vectordb.zilliz.com.cn:19530/path?x=1#result',
+      'https://unrelated.zilliz.com.cn.cn/path',
+      'https://vectordb.zilliz.com.cn.cn.evil/path',
+    ].join('\n');
+
+    const once = registry.transformDocument(
+      [ZH_CN_REST_REPLACEMENTS_ID],
+      {path: 'repeated-cn.mdx', contents: input},
+      publicationContext,
+    );
+
+    expect(once.contents).toBe(expected);
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], once, publicationContext)).toEqual(once);
+  });
+
+  it('requires Unicode-safe field names and complete provider and region value tokens', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      'cloudId=aws',
+      '"cloud_id":"gcp"',
+      'regionId=aws-us-west-2',
+      '"region_id":"gcp-us-west1"',
+      'cloudId=aws-west',
+      'regionId=aws-us-west-2-test',
+      'cloudId=gcpX',
+      '变量cloudId=aws',
+      '$cloudId=aws',
+      `prefix\u200CregionId=aws-us-west-2`,
+      `prefix\u200Dcloud_id=gcp`,
+    ].join('\n');
+    const expected = [
+      'cloudId=ali',
+      '"cloud_id":"ali"',
+      'regionId=ali-cn-hangzhou',
+      '"region_id":"ali-cn-hangzhou"',
+      'cloudId=aws-west',
+      'regionId=aws-us-west-2-test',
+      'cloudId=gcpX',
+      '变量cloudId=aws',
+      '$cloudId=aws',
+      `prefix\u200CregionId=aws-us-west-2`,
+      `prefix\u200Dcloud_id=gcp`,
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'field-boundaries.mdx', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
+
   it('uses the same allowlisted decorated http tags as the Markdown normalizer', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},
