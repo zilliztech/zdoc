@@ -117,6 +117,7 @@ export const ContentPluginProfileSchema = z.object({
   sidebarPath: RepositoryRelativePathSchema,
   include: z.array(RepositoryRelativePathSchema).optional(),
   exclude: z.array(RepositoryRelativePathSchema).optional(),
+  currentVersionPath: RoutePathSchema.optional(),
 }).strict();
 
 export const FeatureProfileSchema = z.object({

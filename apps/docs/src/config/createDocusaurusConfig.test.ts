@@ -113,6 +113,44 @@ describe('createDocusaurusConfig', () => {
     ]);
   });
 
+  it('maps site-owned exclusions and current-version route paths into docs plugin options', () => {
+    const chinese = profile({
+      id: 'zh-CN',
+      language: 'zh-Hans',
+      title: 'Chinese docs',
+      outputDir: 'build/zh-CN',
+      content: [
+        {
+          id: 'default',
+          sourcePath: 'content/zh-CN/guides',
+          routeBasePath: 'docs',
+          sidebarPath: 'config/sidebars/zh-CN/guides.ts',
+          exclude: ['tutorials/get-started/release-notes/release-notes.md'],
+        },
+        {
+          id: 'onpremise',
+          sourcePath: 'content/zh-CN/onpremise',
+          routeBasePath: 'on-premise',
+          sidebarPath: 'config/sidebars/zh-CN/onpremise.ts',
+          currentVersionPath: 'v2.4.11',
+        },
+      ],
+      markdown: {remarkPlugins: [], rehypePlugins: []},
+    });
+
+    expect(chinese.content[1].currentVersionPath).toBe('v2.4.11');
+    const plugins = docsPlugins(createDocusaurusConfig(chinese));
+    expect(plugins[0][1]).toMatchObject({
+      id: 'default',
+      exclude: ['tutorials/get-started/release-notes/release-notes.md'],
+    });
+    expect(plugins[1][1]).toMatchObject({
+      id: 'onpremise',
+      lastVersion: 'current',
+      versions: {current: {path: 'v2.4.11'}},
+    });
+  });
+
   it('maps every declared content field and named English Markdown policy exactly once', () => {
     const config = createDocusaurusConfig(profile());
     const plugins = docsPlugins(config);

@@ -9,9 +9,9 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   baseUrl: '/',
   outputDir: 'build/zh-CN',
   content: [
-    {id: 'default', sourcePath: 'content/zh-CN/guides', routeBasePath: 'docs', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/guides.ts'},
+    {id: 'default', sourcePath: 'content/zh-CN/guides', routeBasePath: 'docs', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/guides.ts', exclude: ['tutorials/get-started/release-notes/release-notes.md']},
     {id: 'byoc', sourcePath: 'content/zh-CN/byoc', routeBasePath: 'docs/byoc', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/byoc.ts'},
-    {id: 'onpremise', sourcePath: 'content/zh-CN/onpremise', routeBasePath: 'on-premise', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/onpremise.ts'},
+    {id: 'onpremise', sourcePath: 'content/zh-CN/onpremise', routeBasePath: 'on-premise', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/onpremise.ts', currentVersionPath: 'v2.4.11'},
     {id: 'agents', sourcePath: 'content/zh-CN/agents', routeBasePath: 'docs/agents', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/agents.ts'},
     {id: 'reference', sourcePath: 'content/zh-CN/reference', routeBasePath: 'reference', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/reference.ts'},
   ],

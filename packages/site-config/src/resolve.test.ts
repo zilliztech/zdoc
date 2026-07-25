@@ -64,6 +64,7 @@ describe('site profile resolution', () => {
         sourcePath: 'content/zh-CN/guides',
         routeBasePath: 'docs',
         sidebarPath: 'packages/site-config/src/sidebars/zh-CN/guides.ts',
+        exclude: ['tutorials/get-started/release-notes/release-notes.md'],
       },
       {
         id: 'byoc',
@@ -76,6 +77,7 @@ describe('site profile resolution', () => {
         sourcePath: 'content/zh-CN/onpremise',
         routeBasePath: 'on-premise',
         sidebarPath: 'packages/site-config/src/sidebars/zh-CN/onpremise.ts',
+        currentVersionPath: 'v2.4.11',
       },
       {
         id: 'agents',

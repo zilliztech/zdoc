@@ -36,6 +36,9 @@ function contentPlugin(
       sidebarPath: repositoryPath(content.sidebarPath),
       include: content.include ? [...content.include] : undefined,
       exclude: content.exclude ? [...content.exclude] : undefined,
+      ...(content.currentVersionPath
+        ? {lastVersion: 'current', versions: {current: {path: content.currentVersionPath}}}
+        : {}),
       breadcrumbs: false,
       remarkPlugins: [...markdownPolicy.remarkPlugins],
       rehypePlugins: [...markdownPolicy.rehypePlugins],
