@@ -97,4 +97,54 @@ describe('zh-CN Markdown normalizer adapter', () => {
     expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'page.md', contents: valid}, publicationContext).contents).toBe(expected);
     expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'page.md', contents: unterminated}, publicationContext).contents).toBe(unterminated);
   });
+
+  it('matches complete supported URLs, collapses repeated cn hosts, and preserves suffixes', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      'https://support.zilliz.com.cn.cn/hc/en-us/articles/123?a=1#section',
+      'https://zilliz.com.cn.cn/contact-sales?from=footer#form',
+      'https://zilliz.com.cn.cn/pricing#calculator',
+      'https://support.zilliz.com/article',
+      'https://zilliz.com/contact-salesforce?from=footer',
+      'https://zilliz.com/pricing-guide#calculator',
+    ].join('\n');
+    const expected = [
+      'https://support.zilliz.com.cn/hc/zh-cn/articles/123?a=1#section',
+      'https://zilliz.com.cn/contact-sales?from=footer#form',
+      'https://zilliz.com.cn/pricing#calculator',
+      'https://support.zilliz.com/article',
+      'https://zilliz.com/contact-salesforce?from=footer',
+      'https://zilliz.com/pricing-guide#calculator',
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'urls.md', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
+
+  it('normalizes only allowlisted paired decorated http tags', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '<i>http</i>s://support.zilliz.com/hc/en-us',
+      '<em>http</em>s://support.zilliz.com/hc/en-us',
+      '<strong>http</strong>s://support.zilliz.com/hc/en-us',
+      '<b>http</b>s://support.zilliz.com/hc/en-us',
+      '<code>http</code>s://support.zilliz.com/hc/en-us',
+      '<span>http</span>s://support.zilliz.com/hc/en-us',
+      '<Custom>http</Custom>s://support.zilliz.com/hc/en-us',
+    ].join('\n');
+    const expected = [
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      '<code>http</code>s://support.zilliz.com/hc/en-us',
+      '<span>http</span>s://support.zilliz.com/hc/en-us',
+      '<Custom>http</Custom>s://support.zilliz.com/hc/en-us',
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'decorated.md', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
 });

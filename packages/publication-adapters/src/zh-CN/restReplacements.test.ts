@@ -87,6 +87,72 @@ describe('zh-CN REST replacement adapter', () => {
     expect(tablePipes(output)).toEqual(tablePipes(compactRestTableFixture.input));
     expect(output.split('\n').filter(Boolean).every(line => (line.match(/\|/gu) ?? []).length === 3)).toBe(true);
   });
+
+  it('normalizes quoted JSON-style provider and region fields without changing prose', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '```json',
+      '{"cloudId":"aws","region_id":"gcp-us-west1"}',
+      '```',
+      "inline = {'cloud_id': 'azure', 'regionId' = 'az-eastus'}",
+      'The "cloudId" prose mentions aws and region_id gcp-us-west1 without assigning values.',
+      'mycloudId=aws and region_id_suffix=gcp-us-west1 are unrelated identifiers.',
+    ].join('\n');
+    const expected = [
+      '```json',
+      '{"cloudId":"ali","region_id":"ali-cn-hangzhou"}',
+      '```',
+      "inline = {'cloud_id': 'ali', 'regionId' = 'ali-cn-hangzhou'}",
+      'The "cloudId" prose mentions aws and region_id gcp-us-west1 without assigning values.',
+      'mycloudId=aws and region_id_suffix=gcp-us-west1 are unrelated identifiers.',
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'fields.mdx', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
+
+  it('replaces only standalone endpoint placeholder tokens', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '{"endpoint":"YOUR_CLUSTER_ENDPOINT"}',
+      '{"endpoint":"https://YOUR_PROJECT_ENDPOINT"}',
+      'NOTYOUR_CLUSTER_ENDPOINT',
+      'YOUR_CLUSTER_ENDPOINT_SUFFIX',
+      'prefixYOUR_PROJECT_ENDPOINT',
+      '{someYOUR_GLOBAL_ENDPOINTValue}',
+    ].join('\n');
+    const expected = [
+      '{"endpoint":"https://{cluster-id}.{region}.vectordb.zilliz.com.cn:19530"}',
+      '{"endpoint":"https://{project-id}.{region}.api.cloud.zilliz.com.cn"}',
+      'NOTYOUR_CLUSTER_ENDPOINT',
+      'YOUR_CLUSTER_ENDPOINT_SUFFIX',
+      'prefixYOUR_PROJECT_ENDPOINT',
+      '{someYOUR_GLOBAL_ENDPOINTValue}',
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'tokens.mdx', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
+
+  it('uses the same allowlisted decorated http tags as the Markdown normalizer', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '<strong>http</strong>s://YOUR_PROJECT_ENDPOINT',
+      '<code>http</code>s://YOUR_PROJECT_ENDPOINT',
+      '<Widget>http</Widget>s://YOUR_PROJECT_ENDPOINT',
+    ].join('\n');
+    const expected = [
+      'https://{project-id}.{region}.api.cloud.zilliz.com.cn',
+      '<code>http</code>s://YOUR_PROJECT_ENDPOINT',
+      '<Widget>http</Widget>s://YOUR_PROJECT_ENDPOINT',
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_REST_REPLACEMENTS_ID], {path: 'decorated.mdx', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
 });
 
 describe('zh-CN Aliyun OSS adapter', () => {
