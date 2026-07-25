@@ -2,6 +2,7 @@ import {mkdtempSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
+import {compile} from '@mdx-js/mdx';
 import {describe, expect, it} from 'vitest';
 
 import {createZhCnPublicationAdapterRegistry} from '../index.ts';
@@ -153,6 +154,84 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
     expect(output).toBe(expected);
     expect(tablePipes(output)).toEqual(tablePipes(input));
+  });
+
+  it('repairs simple Chinese bold punctuation into CommonMark strong nodes', async () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = [
+      '**建议：**首次注册后请尽早添加支付方式。',
+      '- **这个操作在什么时候执行？**在搜索之前，还是在搜索之后。',
+      '1. 在左侧导航栏，单击 **Bucket 列表，**然后单击**创建 Bucket**。',
+    ].join('\n');
+    const expected = [
+      '**建议**：首次注册后请尽早添加支付方式。',
+      '- **这个操作在什么时候执行**？在搜索之前，还是在搜索之后。',
+      '1. 在左侧导航栏，单击 **Bucket 列表**，然后单击**创建 Bucket**。',
+    ].join('\n');
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'bold-punctuation.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+    const compiled = String(await compile(output));
+
+    expect(output).toBe(expected);
+    expect(compiled).toContain('strong');
+    expect(compiled).not.toContain('**');
+  });
+
+  it('keeps unsafe bold punctuation contexts unchanged and remains frontmatter-safe and idempotent', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const unsafe = [
+      '**建议：** 首次',
+      '**建议**：首次',
+      '```md',
+      '**建议：**首次',
+      '```',
+      '~~~md',
+      '**问题？**回答',
+      '~~~',
+      '> ```md',
+      '> **建议：**首次',
+      '> ```',
+      '- ~~~md',
+      '  **问题？**回答',
+      '  ~~~',
+      '`**建议：**首次`',
+      '\\**建议：**首次',
+      '[**建议：**](https://example.com)首次',
+      '**建议：`code`**首次',
+      '***建议：***首次',
+      '<span>**建议：**首次</span>',
+      '<Widget label="**建议：**首次" />',
+      '{condition && <Thing>**建议：**首次</Thing>}',
+      '<Widget>',
+      '**建议：**首次',
+      '</Widget>',
+      '{condition ? (',
+      '**问题？**回答',
+      ') : null}',
+      '**建议：**',
+      '首次',
+    ].join('\n');
+    const withFrontmatter = `---\r\ntitle: **建议：**首次\r\n---\r\n${unsafe}\r\n**问题？**回答\r\n`;
+    const expected = `---\r\ntitle: **建议：**首次\r\n---\r\n${unsafe}\r\n**问题**？回答\r\n`;
+
+    const once = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'bold-boundaries.mdx', contents: withFrontmatter},
+      publicationContext,
+    );
+
+    expect(once.contents).toBe(expected);
+    expect(frontmatter(once.contents)).toBe(frontmatter(withFrontmatter));
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], once, publicationContext)).toEqual(once);
   });
 
   it('normalizes only allowlisted paired decorated http tags', () => {
