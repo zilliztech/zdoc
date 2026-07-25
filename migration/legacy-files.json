@@ -52613,11 +52613,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/agents-and-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "0f49c2c559e290cfec5b2ec7b8130c3e9137bb78",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 0f49c2c559e290cfec5b2ec7b8130c3e9137bb78 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52625,11 +52626,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a9d81c2861616efd703285395438fc90ab326379",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a9d81c2861616efd703285395438fc90ab326379 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52637,11 +52639,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dadf51a3b70a4052b46cb39019288768fe7e89f3",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dadf51a3b70a4052b46cb39019288768fe7e89f3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52649,11 +52652,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "49ffb183910cecbefc9d4150ec8bc07baaa5ef52",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 49ffb183910cecbefc9d4150ec8bc07baaa5ef52 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52661,11 +52665,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "3fb55da7d2a664f58510694efb554e710672987c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 3fb55da7d2a664f58510694efb554e710672987c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52673,11 +52678,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "23a92c4aaa05cc086cda32ccd9e3f9a20058f4cb",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 23a92c4aaa05cc086cda32ccd9e3f9a20058f4cb at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52685,11 +52691,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "de6402b7d80be3b92fa1c0430c1e99294142b563",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob de6402b7d80be3b92fa1c0430c1e99294142b563 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52697,11 +52704,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "b5eea9c1113d7edb12f990b42506a33f3a28faa9",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob b5eea9c1113d7edb12f990b42506a33f3a28faa9 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52709,11 +52717,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "1f0c72080bcc1ac0e0796fdd29a896793b84bcb2",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 1f0c72080bcc1ac0e0796fdd29a896793b84bcb2 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52721,11 +52730,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "cf3a320db6292da5979a5a991519a9c2a14935b2",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob cf3a320db6292da5979a5a991519a9c2a14935b2 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52733,11 +52743,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "a7ce8c13d04544857c42405a4181b7dcd62939d6",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob a7ce8c13d04544857c42405a4181b7dcd62939d6 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52745,11 +52756,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dffdc5b36a2525a34bd2e1b85451c1bdfae8cdae",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dffdc5b36a2525a34bd2e1b85451c1bdfae8cdae at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52757,11 +52769,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-gemini-extension.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "9a0ef8e6b7411b4b4f29c45967963a0c62460c90",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 9a0ef8e6b7411b4b4f29c45967963a0c62460c90 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52769,11 +52782,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "e1f5bd5fddc1cb918577776bdf7a579803a2ee64",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob e1f5bd5fddc1cb918577776bdf7a579803a2ee64 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52781,11 +52795,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "8c7e79423e4ea59618399cedf73a8b043d92b46c",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 8c7e79423e4ea59618399cedf73a8b043d92b46c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52793,11 +52808,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "dce1cf6652cd68f34c3685b9f291786fc034bf82",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob dce1cf6652cd68f34c3685b9f291786fc034bf82 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52805,11 +52821,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-plugin/zilliz-plugin.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "912a0aecf0f0197184dad958fa49127847d3f902",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 912a0aecf0f0197184dad958fa49127847d3f902 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {
@@ -52817,11 +52834,12 @@
       "sourcePath": "docs-agents/agents-and-prompts/zilliz-skill.md",
       "sourceCommit": "b1900473dddf8db2d56c11387211a7014b54c160",
       "sourceBlobId": "994625cde0e7fdbc80400c0a48e32e5def952bed",
-      "disposition": "defer",
+      "disposition": "migrate",
       "owner": "content",
       "evidence": [
         "Git blob 994625cde0e7fdbc80400c0a48e32e5def952bed at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
-        "Revision pin source: migration/source-snapshots.json."
+        "Revision pin source: migration/source-snapshots.json.",
+        "Task 9 Agents batch imports this tracked zdoc_cn blob into content/zh-CN/agents."
       ]
     },
     {

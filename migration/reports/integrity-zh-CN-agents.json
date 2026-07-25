@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 2,
+  "repository": "zdoc",
+  "scanContext": {
+    "rootLabel": "zdoc",
+    "scanMode": "filesystem",
+    "sourceRevision": null,
+    "description": "Filesystem scan of the supplied repository root; no Git commit equivalence is asserted."
+  },
+  "allowlistDigest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "policy": {
+    "maxFileSize": 20971520,
+    "contentRoots": [
+      "docs",
+      "docs-byoc",
+      "i18n",
+      "reference"
+    ],
+    "routePolicy": {
+      "allowedRoutePrefixes": [
+        "/docs",
+        "/img",
+        "/reference"
+      ],
+      "allowedExactRoutes": [
+        "/"
+      ],
+      "staticLinkForms": [
+        "inline Markdown links and images",
+        "Markdown reference definitions used by reference links or images",
+        "Markdown autolinks",
+        "static HTML/MDX href and src attributes"
+      ],
+      "dynamicJsxExpressions": "Expression-valued JSX href/src attributes are out of scope for this static scan."
+    },
+    "excludedRoots": [
+      ".docusaurus",
+      ".git",
+      ".zdoc-assembled",
+      ".zdoc-upstream",
+      "build",
+      "node_modules",
+      "playwright-report",
+      "test-results"
+    ],
+    "excludedOperationalPrefixes": [
+      ".claude/worktrees/",
+      ".worktrees/",
+      ".pnpm-store/",
+      ".codegraph/",
+      "tmp/"
+    ],
+    "crlfPolicySource": ".gitattributes"
+  },
+  "counts": {},
+  "findings": []
+}
