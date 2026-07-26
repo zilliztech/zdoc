@@ -772,7 +772,7 @@ Expected: FAIL because site-owned Dockerfiles do not exist.
 
 Use one dependency installation layer and one site build per Dockerfile. English redirects come from the verified current `nginx.conf`; Chinese redirects and runtime behavior come from the verified `zdoc_cn` configuration. Do not copy Jenkins Groovy, build output, credentials, or mutable state into `deploy/`.
 
-- [ ] **Step 4: Build and smoke-test both images**
+- [x] **Step 4: Build and smoke-test both images**
 
 Run:
 
@@ -785,7 +785,7 @@ deploy/contracts/smoke.sh zdoc-zh-cn:test zh-CN
 
 Expected: both images build, labels validate, health checks pass, and representative routes return expected status codes.
 
-Validation note: static and executable container/provenance contracts pass, but the managed sandbox blocked or indefinitely stalled Docker buildx state access. Keep this step open until both real images and smoke checks complete in an environment with usable Docker build permissions.
+Validation note (2026-07-26, local Docker Desktop): both images built from revision `2baf97a007a34b10dde9412263101f5846cd9b85`; `zdoc-en:test` is `sha256:b13b3e0d4ee3fda92318168311876687cea9453b990e3041dc57093d493ff3ff` and `zdoc-zh-cn:test` is `sha256:9873df7373ba6e32f8d0d1a51ae11018deded7580d9010bb04237f917b0f44f2`. Both smoke checks passed their label, health, and representative-route contracts, and their temporary containers were removed. The Chinese Docker build required an explicit 4 GiB Node heap; the prior default heap failed at approximately 2 GiB and an 8 GiB heap caused severe pressure in the 8.39 GB Docker VM.
 
 - [x] **Step 5: Commit packaging**
 
@@ -851,7 +851,7 @@ pnpm build:zh-CN
 
 Expected: all tests and builds pass.
 
-Validation note: all release and container contract tests pass and the English build completed. The Chinese build repeatedly exited with Docusaurus/Node status 13 after client compilation, including with an 8 GiB heap. Keep this build gate open until it is rerun from an isolated clean environment without the current worktree process-state issue.
+Validation note: all 35 release/container contract tests pass, the English workspace build completes, and a clean-context Chinese Docker build completes with the explicit 4 GiB Node heap. The Chinese workspace command still exits with Docusaurus status 13 immediately after client compilation on this worktree under both host Node `v26.3.0` and Homebrew Node `v22.22.3`, while the same Node 22 build completes in Docker; keep this step open pending isolation of that host-only process-state difference.
 
 ```bash
 git add deploy/contracts

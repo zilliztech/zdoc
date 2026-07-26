@@ -324,7 +324,7 @@ describe('createDocusaurusConfig', () => {
       /^NODE_OPTIONS=--max-old-space-size=8192 node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site en -- docusaurus build /,
     );
     expect(packageJson.scripts['build:zh-CN']).toMatch(
-      /^node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
+      /^NODE_OPTIONS=--max-old-space-size=4096 node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
     );
   });
 
