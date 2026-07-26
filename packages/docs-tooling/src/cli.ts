@@ -207,9 +207,11 @@ type SelectedPublicationAdapters = Readonly<{
   registry: PublicationAdapterRegistry;
 }>;
 
-function noOpAliyunOssStorage(): AliyunOssStorage {
+function missingAliyunOssStorage(): AliyunOssStorage {
   return {
-    async validateOrPublish() {},
+    async validateOrPublish() {
+      throw new Error('zh-CN publication validation requires explicit Aliyun OSS storage injection');
+    },
   };
 }
 
@@ -219,7 +221,7 @@ function selectedPublicationAdapters(site: SiteId, aliyunOssStorage: AliyunOssSt
   if (site !== 'zh-CN') throw new Error(`Site ${site} cannot select Chinese publication adapters`);
   return {
     ids,
-    registry: createZhCnPublicationAdapterRegistry({aliyunOssStorage: aliyunOssStorage ?? noOpAliyunOssStorage()}),
+    registry: createZhCnPublicationAdapterRegistry({aliyunOssStorage: aliyunOssStorage ?? missingAliyunOssStorage()}),
   };
 }
 

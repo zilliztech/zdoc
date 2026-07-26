@@ -35,6 +35,8 @@ describe('docs-tooling runtime contract', () => {
       '@aws-sdk/client-s3',
       '@mdx-js/mdx',
       '@smithy/node-http-handler',
+      '@zilliz/publication-adapters',
+      '@zilliz/site-config',
       'bottleneck',
       'cheerio',
       'commander',
