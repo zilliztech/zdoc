@@ -220,6 +220,42 @@ export const MarkdownProfileSchema = z.object({
   rehypePlugins: z.array(z.string().min(1)),
 }).strict();
 
+export const PublicationAdapterIdSchema = z.enum([
+  'zh-CN.markdown-normalizer',
+  'zh-CN.rest-replacements',
+  'zh-CN.aliyun-oss',
+]);
+
+const publicationAdapterOrder = [
+  'zh-CN.markdown-normalizer',
+  'zh-CN.rest-replacements',
+  'zh-CN.aliyun-oss',
+] as const;
+
+export const PublicationAdapterSelectionSchema = z.array(PublicationAdapterIdSchema).superRefine((adapterIds, context) => {
+  const seen = new Set<string>();
+  let previousIndex = -1;
+  for (const [index, adapterId] of adapterIds.entries()) {
+    if (seen.has(adapterId)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [index],
+        message: `Duplicate publication adapter ID: ${adapterId}`,
+      });
+    }
+    const orderIndex = publicationAdapterOrder.indexOf(adapterId);
+    if (orderIndex <= previousIndex) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [index],
+        message: `Publication adapter IDs must use canonical selection order`,
+      });
+    }
+    seen.add(adapterId);
+    previousIndex = orderIndex;
+  }
+});
+
 export const RobotsProfileSchema = z.object({
   index: z.boolean(),
   sitemap: z.boolean().optional(),
@@ -266,6 +302,7 @@ export const SiteProfileSchema = z.object({
   navigation: NavigationProfileSchema,
   features: FeatureProfileSchema,
   markdown: MarkdownProfileSchema,
+  publicationAdapters: PublicationAdapterSelectionSchema,
   integrations: IntegrationProfileSchema,
   staticRoots: z.array(RepositoryRelativePathSchema),
   redirects: RedirectProfileSchema,
@@ -366,5 +403,7 @@ export type NavigationItem = z.infer<typeof NavigationItemSchema>;
 export type SecondaryNavigationItem = z.infer<typeof SecondaryNavigationItemSchema>;
 export type NavigationProfile = z.infer<typeof NavigationProfileSchema>;
 export type MarkdownProfile = z.infer<typeof MarkdownProfileSchema>;
+export type PublicationAdapterId = z.infer<typeof PublicationAdapterIdSchema>;
+export type PublicationAdapterSelection = z.infer<typeof PublicationAdapterSelectionSchema>;
 export type RobotsProfile = z.infer<typeof RobotsProfileSchema>;
 export type SiteProfile = z.infer<typeof SiteProfileSchema>;

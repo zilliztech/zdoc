@@ -95,6 +95,15 @@ describe('site profile resolution', () => {
     expect(zhCNProfile.content.every(plugin => !plugin.sourcePath.startsWith('i18n/'))).toBe(true);
   });
 
+  it('declares deterministic publication adapters per site', () => {
+    expect(enProfile.publicationAdapters).toEqual([]);
+    expect(zhCNProfile.publicationAdapters).toEqual([
+      'zh-CN.markdown-normalizer',
+      'zh-CN.rest-replacements',
+      'zh-CN.aliyun-oss',
+    ]);
+  });
+
   it('returns the same deeply frozen profile object', () => {
     const profile = resolveSiteProfile('en');
     expect(resolveSiteProfile('en')).toBe(profile);
@@ -145,6 +154,21 @@ describe('closed profile schemas', () => {
     ['site profile', SiteProfileSchema, {...enProfile, unknown: true}],
   ])('rejects unknown keys in the %s schema', (_name, schema, value) => {
     expect(schema.safeParse(value).success).toBe(false);
+  });
+});
+
+describe('publication adapter profile selection', () => {
+  it('fails closed on unknown or duplicate adapter IDs', () => {
+    const unknown = SiteProfileSchema.safeParse({...enProfile, publicationAdapters: ['zh-CN.unknown']});
+    const duplicate = SiteProfileSchema.safeParse({
+      ...zhCNProfile,
+      publicationAdapters: ['zh-CN.markdown-normalizer', 'zh-CN.markdown-normalizer'],
+    });
+
+    expect(unknown.success).toBe(false);
+    expect(duplicate.success).toBe(false);
+    if (!unknown.success) expect(unknown.error.issues).toContainEqual(expect.objectContaining({path: ['publicationAdapters', 0]}));
+    if (!duplicate.success) expect(duplicate.error.issues).toContainEqual(expect.objectContaining({path: ['publicationAdapters', 1]}));
   });
 });
 

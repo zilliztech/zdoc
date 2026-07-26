@@ -7,7 +7,7 @@ import path from 'node:path';
 
 import {describe, expect, it, vi} from 'vitest';
 
-import {executeDocsToolingCommand, parseCliArgs} from '../cli';
+import {executeDocsToolingCommand, parseCliArgs, publicationStagePaths} from '../cli';
 import {resolveManualPublication} from '../manuals/registry';
 import {atomicReplace as realAtomicReplace, ownedTreeCommit} from '../publication/atomicReplace';
 import {
@@ -133,6 +133,56 @@ describe('stage filesystem validation', () => {
 });
 
 describe('docs-tooling CLI boundary', () => {
+  it('uses the selected Chinese adapters for staged Markdown and validates Aliyun through injection', async () => {
+    const repositoryRoot = temporaryRoot();
+    const aliyunOssStorage = {validateOrPublish: vi.fn().mockResolvedValue(undefined)};
+    const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
+      const paths = publicationStagePaths(context);
+      mkdirSync(paths.outputPath, {recursive: true});
+      writeFileSync(
+        path.join(paths.outputPath, 'page.md'),
+        'Sales: https://www.zilliz.com/contact-sales\nEndpoint: YOUR_CLUSTER_ENDPOINT\n',
+      );
+      mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
+      writeFileSync(paths.sidebarPath, 'module.exports = []\n');
+    };
+    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+
+    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot, fetch, aliyunOssStorage});
+
+    const staged = readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/content/zh-CN/reference/api/python/python/page.md'), 'utf8');
+    expect(staged).toContain('https://zilliz.com.cn/contact-sales');
+    expect(staged).toContain('YOUR_CLUSTER_ENDPOINT');
+
+    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot, aliyunOssStorage});
+    expect(aliyunOssStorage.validateOrPublish).toHaveBeenCalledOnce();
+  });
+
+  it('applies REST replacements only to the REST manual and leaves English publication unchanged', async () => {
+    const repositoryRoot = temporaryRoot();
+    const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
+      const paths = publicationStagePaths(context);
+      mkdirSync(paths.outputPath, {recursive: true});
+      writeFileSync(path.join(paths.outputPath, 'page.md'), 'Sales: https://www.zilliz.com/contact-sales\nEndpoint: YOUR_CLUSTER_ENDPOINT\n');
+      mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
+      writeFileSync(paths.sidebarPath, 'module.exports = []\n');
+    };
+
+    await executeDocsToolingCommand(
+      ['fetch', '--manual', 'rest', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/rest'],
+      {repositoryRoot, fetch},
+    );
+    await executeDocsToolingCommand(
+      ['fetch', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      {repositoryRoot, fetch},
+    );
+
+    expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/rest/content/zh-CN/reference/api/restful/page.md'), 'utf8'))
+      .toContain('https://{cluster-id}.{region}.vectordb.zilliz.com.cn:19530');
+    expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/content/en/reference/api/python/python/page.md'), 'utf8'))
+      .toBe('Sales: https://www.zilliz.com/contact-sales\nEndpoint: YOUR_CLUSTER_ENDPOINT\n');
+  });
+
   it('persists the fetch-time baseline across independent validate and publish invocations', async () => {
     const repositoryRoot = temporaryRoot();
     const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');

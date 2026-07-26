@@ -299,6 +299,12 @@ importers:
       '@smithy/node-http-handler':
         specifier: ^4.5.0
         version: 4.6.1
+      '@zilliz/publication-adapters':
+        specifier: workspace:*
+        version: link:../publication-adapters
+      '@zilliz/site-config':
+        specifier: workspace:*
+        version: link:../site-config
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5

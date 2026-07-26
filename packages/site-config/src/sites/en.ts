@@ -65,6 +65,7 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
     remarkPlugins: ['math', 'math-brace-fix'],
     rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks'],
   },
+  publicationAdapters: [],
   integrations: {
     searchProvider: 'inkeep',
     chatProvider: 'inkeep',

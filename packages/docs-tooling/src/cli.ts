@@ -1,8 +1,16 @@
 #!/usr/bin/env node
 import {spawnSync as nodeSpawnSync} from 'node:child_process';
-import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, realpathSync, rmSync} from 'node:fs';
+import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+
+import {
+  createPublicationAdapterRegistry,
+  createZhCnPublicationAdapterRegistry,
+  type PublicationAdapterRegistry,
+} from '@zilliz/publication-adapters';
+import type {AliyunOssStorage, PublicationContext} from '@zilliz/publication-adapters';
+import {resolveSiteProfile} from '@zilliz/site-config';
 
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
@@ -61,6 +69,7 @@ export type CliDependencies = {
   publish?: (context: CommandContext) => void | Promise<void>;
   atomicReplace?: (options: AtomicReplaceOptions) => Promise<void>;
   spawnSync?: GeneratorRunner;
+  aliyunOssStorage?: AliyunOssStorage;
   write?: (message: string) => void;
 };
 
@@ -193,6 +202,67 @@ async function validatePublicationStage(context: CommandContext): Promise<Readon
   return {inventory, diagnostics};
 }
 
+type SelectedPublicationAdapters = Readonly<{
+  ids: readonly string[];
+  registry: PublicationAdapterRegistry;
+}>;
+
+function noOpAliyunOssStorage(): AliyunOssStorage {
+  return {
+    async validateOrPublish() {},
+  };
+}
+
+function selectedPublicationAdapters(site: SiteId, aliyunOssStorage: AliyunOssStorage | undefined): SelectedPublicationAdapters {
+  const ids = resolveSiteProfile(site).publicationAdapters;
+  if (ids.length === 0) return {ids, registry: createPublicationAdapterRegistry([])};
+  if (site !== 'zh-CN') throw new Error(`Site ${site} cannot select Chinese publication adapters`);
+  return {
+    ids,
+    registry: createZhCnPublicationAdapterRegistry({aliyunOssStorage: aliyunOssStorage ?? noOpAliyunOssStorage()}),
+  };
+}
+
+function publicationAdapterContext(context: CommandContext): PublicationContext {
+  const source = context.source as ManualSource;
+  return {
+    site: context.request.site,
+    manual: context.request.manual,
+    publicationRoot: context.stagePath,
+    baselineCommit: context.baselineCommit ?? context.publicationDiagnostics?.baselineCommit ?? '',
+    sourceIdentity: {
+      type: source.sourceType,
+      sourceType: source.sourceType,
+      lifecycle: source.lifecycle,
+      sourceDir: source.sourceDir,
+      ...(source.root ? {root: source.root} : {}),
+      ...(source.base ? {base: source.base} : {}),
+      ...(source.version ? {version: source.version} : {}),
+    },
+  };
+}
+
+function transformStagedMarkdown(context: CommandContext, selected: SelectedPublicationAdapters): void {
+  if (selected.ids.length === 0) return;
+  const inventory = validateStageFilesystem(context.stagePath);
+  const outputPrefix = `${context.publication.outputDir}/`;
+  const adapterContext = publicationAdapterContext(context);
+  for (const file of inventory.files) {
+    if (!file.path.startsWith(outputPrefix) || !/\.mdx?$/u.test(file.path)) continue;
+    const absolutePath = path.join(context.stagePath, file.path);
+    const document = selected.registry.transformDocument(selected.ids, {
+      path: file.path,
+      contents: readFileSync(absolutePath, 'utf8'),
+    }, adapterContext);
+    writeFileSync(absolutePath, document.contents);
+  }
+}
+
+async function validateSelectedPublicationAdapters(context: CommandContext, selected: SelectedPublicationAdapters): Promise<void> {
+  if (selected.ids.length === 0) return;
+  await selected.registry.validatePublication(selected.ids, publicationAdapterContext(context));
+}
+
 async function validatePublicationFilesystem(root: string, publication: ManualPublication): Promise<StageInventory> {
   const outputPath = path.join(root, publication.outputDir);
   const sidebarPath = path.join(root, publication.sidebarPath);
@@ -231,7 +301,6 @@ async function copyLocalSource(context: CommandContext): Promise<void> {
   mkdirSync(outputPath, {recursive: true});
   cpSync(sourcePath, outputPath, {recursive: true, force: true, errorOnExist: false});
   stageExistingSidebar(context);
-  await validatePublicationStage(context);
 }
 
 function runGenerator(
@@ -345,7 +414,6 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
           false,
         );
       }
-      await validatePublicationStage(context);
     }
     return;
   }
@@ -365,7 +433,6 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
       false,
     );
     stageExistingSidebar(context);
-    await validatePublicationStage(context);
     return;
   }
   const exhaustive: never = source.sourceType;
@@ -398,6 +465,7 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
   const stagePath = resolveOwnedRepositoryPath(repositoryRoot, request.stage, 'Stage path');
   const resolved = resolveManualPublication(request.manual, request.site);
   const environment = dependencies.environment ?? process.env;
+  const selectedAdapters = selectedPublicationAdapters(request.site, dependencies.aliyunOssStorage);
   assertPublicationOwnership(request.site, resolved.publication as ManualPublication);
   const baseContext: CommandContext = {
     request,
@@ -422,6 +490,10 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
     }
     if (dependencies.fetch) await dependencies.fetch(fetchContext);
     else await defaultFetch(fetchContext, dependencies.spawnSync ?? nodeSpawnSync, environment);
+    if (publicationDiagnostics) {
+      transformStagedMarkdown(fetchContext, selectedAdapters);
+      await validatePublicationStage(fetchContext);
+    }
     dependencies.write?.(`fetched ${request.manual}/${request.site} into ${request.stage}`);
     return fetchContext;
   }
@@ -433,6 +505,7 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
     publicationDiagnostics: diagnostics,
     baselineCommit: diagnostics.baselineCommit,
   };
+  await validateSelectedPublicationAdapters(validatedContext, selectedAdapters);
   if (request.command === 'publish') {
     if (dependencies.publish) await dependencies.publish(validatedContext);
     else await defaultPublish(validatedContext, dependencies.atomicReplace);
