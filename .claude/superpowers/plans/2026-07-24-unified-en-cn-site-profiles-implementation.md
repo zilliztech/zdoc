@@ -804,17 +804,17 @@ git commit -m "feat: add independent site container packaging"
 - Create: `deploy/contracts/release-record.example.json`
 - Create: `deploy/contracts/README.md`
 
-- [ ] **Step 1: Write failing release-mode tests**
+- [x] **Step 1: Write failing release-mode tests**
 
 Cover English/Chinese site identity, UAT producer identity, repository `zdoc`, immutable source SHA, registry digest format, `rebuild` required fields, `specified-image` required fields, wrong-site rejection, non-UAT rejection, tag-to-digest resolution, and rollback to a recorded Prod digest.
 
-- [ ] **Step 2: Run the test and verify RED**
+- [x] **Step 2: Run the test and verify RED**
 
 Run: `node --test deploy/contracts/verify-image.test.mjs`
 
 Expected: FAIL because the verifier does not exist.
 
-- [ ] **Step 3: Implement the release record and verifier**
+- [x] **Step 3: Implement the release record and verifier**
 
 The release record contains:
 
@@ -833,7 +833,7 @@ The release record contains:
 
 `rebuild` requires the requested SHA, linked same-site/same-SHA UAT evidence, and resulting digest. `specified-image` accepts the existing operator image reference, resolves it before approval, verifies corresponding UAT provenance, and records immutable source/final digests without rebuilding the application payload.
 
-- [ ] **Step 4: Document the externally owned pipeline matrix**
+- [x] **Step 4: Document the externally owned pipeline matrix**
 
 `deploy/contracts/README.md` names English UAT, English Prod, Chinese UAT, and Chinese Prod; maps each to `pnpm build:en` or `pnpm build:zh-CN`; documents current `rebuild` and `specified-image` Prod paths; and states that Groovy, credentials, registry access, approvals, and environment configuration remain in `vdc-jenkins`.
 
@@ -850,6 +850,8 @@ pnpm build:zh-CN
 ```
 
 Expected: all tests and builds pass.
+
+Validation note: all release and container contract tests pass and the English build completed. The Chinese build repeatedly exited with Docusaurus/Node status 13 after client compilation, including with an 8 GiB heap. Keep this build gate open until it is rerun from an isolated clean environment without the current worktree process-state issue.
 
 ```bash
 git add deploy/contracts
