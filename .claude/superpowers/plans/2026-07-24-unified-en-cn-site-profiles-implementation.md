@@ -644,9 +644,9 @@ git commit -m "feat: port Chinese publication adapters"
 - Create: `generated/zh-CN/{sidebars,manifests}`
 - Create: `sidebar-overrides/zh-CN/`
 
-- [ ] **Step 1: Capture the assembled Chinese route baseline**
+- [ ] **Step 1: Capture and classify the legacy Chinese route baseline**
 
-Build the unchanged `zdoc_cn` assembled site, then run `capture-routes.mjs` against its build output and commit `migration/reports/routes-zh-CN-legacy.json`.
+Build the unchanged deployed `zdoc_cn` Chinese site with `npm run build`, then run `capture-routes.mjs` against its canonical root `zh-Hans` output and commit `migration/reports/routes-zh-CN-legacy.json`. Separately reproduce `npm run build:assembled` and record its locales and route tree in `migration/reports/routes-zh-CN-legacy-context.json`: the assembled workflow is an overlay integration check, not the Chinese baseline when it emits no Chinese tree. Do not relabel standalone output as assembled; the context report must preserve the exact commands, source SHAs, and the reason the deployed Chinese build is canonical.
 
 - [ ] **Step 2: Import content in owned batches**
 

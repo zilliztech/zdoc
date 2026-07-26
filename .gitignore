@@ -67,6 +67,6 @@ skills-lock.json
 
 dist/
 
-data/
+/data/
 .build-card-state.json
 .codegraph
