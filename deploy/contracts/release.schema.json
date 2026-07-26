@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.zilliz.com/contracts/release.schema.json",
+  "title": "Zilliz documentation release record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "site",
+    "environment",
+    "mode",
+    "sourceRepository",
+    "sourceSha",
+    "finalDeployedDigest",
+    "jenkinsBuildIdentity"
+  ],
+  "properties": {
+    "site": {
+      "enum": ["en", "zh-CN"]
+    },
+    "environment": {
+      "enum": ["uat", "prod"]
+    },
+    "mode": {
+      "enum": ["rebuild", "specified-image"]
+    },
+    "sourceRepository": {
+      "const": "zdoc"
+    },
+    "sourceSha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "requestedSourceSha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "operatorImageRef": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*$"
+    },
+    "sourceUatDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "finalDeployedDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "jenkinsBuildIdentity": {
+      "type": "string",
+      "pattern": "^vdc-jenkins/(english|chinese)-(uat|prod)/[1-9][0-9]*$"
+    },
+    "status": {
+      "enum": ["succeeded", "failed"]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "environment": {"const": "uat"},
+        "mode": {"const": "rebuild"}
+      },
+      "required": ["environment", "mode"],
+      "not": {
+        "anyOf": [
+          {"required": ["requestedSourceSha"]},
+          {"required": ["operatorImageRef"]},
+          {"required": ["sourceUatDigest"]}
+        ]
+      }
+    },
+    {
+      "properties": {
+        "environment": {"const": "prod"},
+        "mode": {"const": "rebuild"}
+      },
+      "required": ["environment", "mode", "requestedSourceSha", "sourceUatDigest"],
+      "not": {"required": ["operatorImageRef"]}
+    },
+    {
+      "properties": {
+        "environment": {"const": "prod"},
+        "mode": {"const": "specified-image"}
+      },
+      "required": ["environment", "mode", "operatorImageRef", "sourceUatDigest"],
+      "not": {"required": ["requestedSourceSha"]}
+    }
+  ],
+  "allOf": [
+    {
+      "if": {"properties": {"site": {"const": "en"}}},
+      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/english-(uat|prod)/[1-9][0-9]*$"}}}
+    },
+    {
+      "if": {"properties": {"site": {"const": "zh-CN"}}},
+      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/chinese-(uat|prod)/[1-9][0-9]*$"}}}
+    },
+    {
+      "if": {"properties": {"environment": {"const": "uat"}}},
+      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/(english|chinese)-uat/[1-9][0-9]*$"}}}
+    },
+    {
+      "if": {"properties": {"environment": {"const": "prod"}}},
+      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/(english|chinese)-prod/[1-9][0-9]*$"}}}
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "shared": {
+    "patterns": [
+      "apps/docs/**",
+      "packages/**",
+      "pnpm-lock.yaml",
+      "pnpm-workspace.yaml",
+      "package.json",
+      "deploy/contracts/**",
+      "config/lark-docs.config.ts",
+      "packages/docs-tooling/src/manuals/registry.ts",
+      "scripts/reference/**"
+    ],
+    "sites": ["en", "zh-CN"],
+    "checks": ["build", "release-contract"]
+  },
+  "siteOwned": {
+    "en": {
+      "patterns": [
+        "content/en/**",
+        "packages/site-config/src/sites/en.ts",
+        "deploy/en/**"
+      ],
+      "sites": ["en"],
+      "checks": ["build:en"]
+    },
+    "zh-CN": {
+      "patterns": [
+        "content/zh-CN/**",
+        "packages/site-config/src/sites/zh-CN.ts",
+        "deploy/zh-CN/**"
+      ],
+      "sites": ["zh-CN"],
+      "checks": ["build:zh-CN"]
+    }
+  },
+  "canonicalEnglishReference": {
+    "patterns": [
+      "content/en/reference/**",
+      "generated/en/manifests/reference.json",
+      "packages/docs-tooling/src/reference/**"
+    ],
+    "sites": ["en", "zh-CN"],
+    "checks": ["build:en", "zh-reference-translation-coverage"]
+  }
+}
