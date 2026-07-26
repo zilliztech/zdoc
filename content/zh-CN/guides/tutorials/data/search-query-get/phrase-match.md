@@ -43,7 +43,7 @@ import TabItem from '@theme/TabItem';
 
 ![HqFowmaDWhxrirbFPhRcd7fAnNe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/HqFowmaDWhxrirbFPhRcd7fAnNe.png)
 
-1. **文档分词**：当您将文档插入 Zilliz Cloud 时，文本会被 Analyzer 拆分为词元（单个单词或术语），并记录每个词元的位置信息。例如**，doc_1** 被分词为 **["machine" (pos=0), "learning" (pos=1), "boosts" (pos=2), "efficiency" (pos=3)]**。有关 Analyzer 的更多信息，请参阅[Analyzer 概述](./analyzer-overview)。
+1. **文档分词**：当您将文档插入 Zilliz Cloud 时，文本会被 Analyzer 拆分为词元（单个单词或术语），并记录每个词元的位置信息。例如，**doc_1** 被分词为 **["machine" (pos=0), "learning" (pos=1), "boosts" (pos=2), "efficiency" (pos=3)]**。有关 Analyzer 的更多信息，请参阅[Analyzer 概述](./analyzer-overview)。
 
 1. **创建倒排索引**：Zilliz Cloud 构建倒排索引，将每个词项映射到其出现的文档以及该词项在这些文档中的位置。
 

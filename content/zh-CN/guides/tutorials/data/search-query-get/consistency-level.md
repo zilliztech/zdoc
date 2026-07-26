@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # 一致性水平
 
-作为一款分布式向量数据库，Zilliz Cloud 提供了多种一致性水平来确保在数据读写期间每个节点或副本都能获取到相同的数据。当前，支持使用的一致性水平包括 **Strong**、**Bounded**、**Eventually** 。其中**，Bounded** 是默认使用的一致性水平。
+作为一款分布式向量数据库，Zilliz Cloud 提供了多种一致性水平来确保在数据读写期间每个节点或副本都能获取到相同的数据。当前，支持使用的一致性水平包括 **Strong**、**Bounded**、**Eventually** 。其中，**Bounded** 是默认使用的一致性水平。
 
 ## 概述\{#overview}
 

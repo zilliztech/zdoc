@@ -54061,7 +54061,8 @@
       "evidence": [
         "Git blob 79a8127899ce7202f23af88dfe16a8e6c4c5b307 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 652a28b2b8b95204c53e49740e6a978e9be1056377079ef00f4cc0de7248bbf7; no compatibility transform applies."
       ]
     },
     {
@@ -54464,7 +54465,8 @@
       "evidence": [
         "Git blob 2161cb451fd5ef12580718fe919fafcbd814a613 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 070e1ce989c505f7dbed3ed9b8157140095e1213b764a44fee3b6f506064f163; no compatibility transform applies."
       ]
     },
     {
@@ -54659,7 +54661,8 @@
       "evidence": [
         "Git blob cccceb833a4e4e40c3590335bcd652bced4e5701 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 ca0e388c379783d7d16bf9652b753c1af38f1eaf13f2a129c23752508b4275d1; no compatibility transform applies."
       ]
     },
     {
@@ -54685,7 +54688,8 @@
       "evidence": [
         "Git blob 4cda0a96b5709b62971ad945a109493867a61cc2 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 3ecd823e6b4f69de9167c32990eba9bd7bde034dc930a0ceef6159e8313361a1; no compatibility transform applies."
       ]
     },
     {
@@ -85281,7 +85285,8 @@
       "evidence": [
         "Git blob f754399a69489ccdd030d5a237fe78c717a9320f at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 fd18a7b136ca79bfc012685517c7ad56dc0f37fb93e90723145476ba2fc17102; no compatibility transform applies."
       ]
     },
     {
@@ -85697,7 +85702,8 @@
       "evidence": [
         "Git blob 86c7faceda0e9b65c67af29eb16def079b51b0c0 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 02edcc21ebc5377338bf3ef9ced66b40b446f9aa7848474c4eb50715259fa854; no compatibility transform applies."
       ]
     },
     {
@@ -85892,7 +85898,8 @@
       "evidence": [
         "Git blob acb5df39cb2d43aa08c4b2ec415a9b2909749032 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 66fdbcb44cc37d2247b2d94ffb55ecf942693953d09b15e331e05166bc5fac79; no compatibility transform applies."
       ]
     },
     {
@@ -85905,7 +85912,8 @@
       "evidence": [
         "Git blob a2754e0e83b6dea9241b104cd3e9bb36c312e6f3 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc.",
+        "Re-review restored the exact blob after cross-paired bold corruption; target SHA-256 7d35d2016377657632ebd3c2a128bc721c5833b731fdf9ca4541d845281119cf; no compatibility transform applies."
       ]
     },
     {

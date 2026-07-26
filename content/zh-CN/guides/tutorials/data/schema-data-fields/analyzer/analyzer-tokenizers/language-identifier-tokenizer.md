@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 1. **输入**：工作流程以一个文本字符串作为输入。
 
-1. **语言检测**：该字符串首先被传递到语言检测引擎，系统尝试识别其语言。Zilliz Cloud 支持两个引擎**：whatlang** 和 **lingua**。
+1. **语言检测**：该字符串首先被传递到语言检测引擎，系统尝试识别其语言。Zilliz Cloud 支持两个引擎：**whatlang** 和 **lingua**。
 
 1. **Analyzer 选择**：
 

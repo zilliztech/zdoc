@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {normalizeZhImportedContent} from './zh-content-compatibility.ts';
 
@@ -21,4 +22,31 @@ test('normalizes pinned Chinese source text without crossing adjacent bold spans
     '相邻强调：**先**与**后**保持不变。',
     '具体价格请[联系销售](https://zilliz.com.cn/contact-sales)。',
   ].join('\n'));
+});
+
+test('keeps valid adjacent Chinese prose and bold spans intact', () => {
+  const input = [
+    'Zilliz Cloud 支持两个引擎：**whatlang** 和 **lingua**。',
+    '其中，**range_filter** 可以设置为 **0**。',
+  ].join('\n');
+
+  assert.equal(normalizeZhImportedContent(input), input);
+});
+
+test('does not retain cross-paired bold corruption in imported Guides and BYOC data documents', () => {
+  const targets = [
+    'content/zh-CN/guides/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md',
+    'content/zh-CN/guides/tutorials/data/search-query-get/consistency-level.md',
+    'content/zh-CN/guides/tutorials/data/search-query-get/phrase-match.md',
+    'content/zh-CN/guides/tutorials/data/search-query-get/range-search.md',
+    'content/zh-CN/byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md',
+    'content/zh-CN/byoc/tutorials/data/search-query-get/consistency-level.md',
+    'content/zh-CN/byoc/tutorials/data/search-query-get/phrase-match.md',
+    'content/zh-CN/byoc/tutorials/data/search-query-get/range-search.md',
+  ];
+
+  for (const target of targets) {
+    const contents = readFileSync(target, 'utf8');
+    assert.doesNotMatch(contents, /引擎\*\*：whatlang\*\*|其中\*\*，range_filter\*\*/u, target);
+  }
 });

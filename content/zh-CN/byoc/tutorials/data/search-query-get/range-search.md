@@ -37,7 +37,7 @@ Range Search 是一种通过指定搜索结果的相似度得分范围的方式�
 
 ## 概述\{#overview}
 
-在执行 Range Search 请求时，Zilliz Cloud 会以 ANN Search 搜索结果中与查询向量最相似的向量为圆心，以 Search 请求中指定的 **radius** 值为外圆半径，以 **range_filter** 为内圆半径画两个同心圆。所有相似度得分落在由这两个同心圆构成的圆环上的向量会被返回。其中**，range_filter** 可以设置为 **0**，表示返回指定相似度得分 （**radius**）以内的所有 Entity。
+在执行 Range Search 请求时，Zilliz Cloud 会以 ANN Search 搜索结果中与查询向量最相似的向量为圆心，以 Search 请求中指定的 **radius** 值为外圆半径，以 **range_filter** 为内圆半径画两个同心圆。所有相似度得分落在由这两个同心圆构成的圆环上的向量会被返回。其中，**range_filter** 可以设置为 **0**，表示返回指定相似度得分 （**radius**）以内的所有 Entity。
 
 ![UasowweO3hvOcCb1mZDc0EbunBd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/UasowweO3hvOcCb1mZDc0EbunBd.png)
 
@@ -90,7 +90,7 @@ Range Search 是一种通过指定搜索结果的相似度得分范围的方式�
 
 下方的示例未指定相似度类型，表明使用默认相似度类型 **COSINE**。通过查表可知，在使用 **COSINE** 对目标向量与查询向量间的相似度进行打分时，值越大越相似。因此在设置 Range Search 相关参数时，需要确保 **radius** 小于 **range_filter**。
 
-示例 Search 请求中指定的 **radius** 为 0.4**，range_filter** 为 0.6。在收到此请求后，Zilliz Cloud 会返回所有与查询向量相似度得分在 0.4 到 0.6 之间的 Entity。
+示例 Search 请求中指定的 **radius** 为 0.4，**range_filter** 为 0.6。在收到此请求后，Zilliz Cloud 会返回所有与查询向量相似度得分在 0.4 到 0.6 之间的 Entity。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
