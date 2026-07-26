@@ -20,10 +20,11 @@ function fixture(files) {
 
 const forbiddenRead = ['process', 'env', 'ZDOC_SITE'].join('.');
 
-test('allows the profile bootstrap and resolver only', () => {
+test('allows only the profile bootstrap, resolver, and controlled build injection boundary', () => {
   const root = fixture({
     'apps/docs/docusaurus.config.ts': `export default ${forbiddenRead};\n`,
     'packages/site-config/src/resolve.ts': `export const site = ${forbiddenRead};\n`,
+    'scripts/build/run-with-publication-read-fence.mjs': `spawn('docusaurus', [], {env: {...process.env, ZDOC_SITE: 'en'}});\n`,
     'src/other.ts': 'export const safe = true;\n',
   });
   assert.deepEqual(findProfileEnvViolations(root), []);

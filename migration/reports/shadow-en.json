@@ -34,7 +34,8 @@
   ],
   "externalShadow": {
     "status": "not-executed",
-    "blocker": "Requires vdc-jenkins, registry, non-production hostname, CDN/Nginx environment, deployment credentials, and environment owners.",
+    "uatPipeline": "zilliz-docs-dev",
+    "blocker": "The externally managed zilliz-docs-dev pipeline, registry, non-production hostname, CDN/Nginx environment, deployment credentials, and environment owners are outside this repository's control.",
     "requiredEvidence": ["registry digest", "UAT release record", "shadow hostname", "synthetic-check output", "observation window", "owner approval"]
   }
 }

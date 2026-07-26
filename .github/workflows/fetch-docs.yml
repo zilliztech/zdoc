@@ -108,7 +108,6 @@ jobs:
           card_stages=$(IFS=,; echo "${card_parts[*]}")
           printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: pnpm }
       - run: pnpm install --frozen-lockfile
@@ -656,7 +655,6 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.master_sha }}
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: pnpm }
       - run: pnpm install --frozen-lockfile
@@ -811,7 +809,6 @@ jobs:
       - uses: actions/checkout@v4
         with: { ref: '${{ needs.prepare.outputs.master_sha }}' }
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: pnpm }
       - run: pnpm install --frozen-lockfile

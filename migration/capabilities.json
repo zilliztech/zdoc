@@ -163,7 +163,8 @@
       "disposition": "change",
       "acceptanceEvidence": [
         "Release contract tests and dual-mode verifier are implemented under deploy/contracts.",
-        "Live four-pipeline UAT/Prod rehearsal is externally blocked on vdc-jenkins, registry, deployment credentials, and environment owners; see migration/runbooks/cutover-zh-CN.md."
+        "Repository GitHub Actions use the versioned path-filter contract for site-selective validation without deployment credentials.",
+        "English and Chinese external UAT validation must run through zilliz-docs-dev and zilliz-docs-cn-dev respectively. Live four-pipeline UAT/Prod rehearsal remains outside repository control; see migration/runbooks/cutover-zh-CN.md."
       ]
     },
     {

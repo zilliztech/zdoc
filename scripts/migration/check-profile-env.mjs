@@ -7,6 +7,7 @@ import ts from 'typescript';
 const ignoredFiles = new Set([
   'apps/docs/docusaurus.config.ts',
   'packages/site-config/src/resolve.ts',
+  'scripts/build/run-with-publication-read-fence.mjs',
   'scripts/migration/check-profile-env.mjs',
 ]);
 
@@ -136,7 +137,7 @@ export function checkProfileEnv(repositoryRoot = process.cwd()) {
   const violations = findProfileEnvViolations(repositoryRoot);
   if (violations.length > 0) {
     throw new Error(
-      `ZDOC_SITE may only be used by the site-profile bootstrap:\n${violations.map(file => `- ${file}`).join('\n')}`,
+      `ZDOC_SITE may only be used by controlled site-profile boundaries:\n${violations.map(file => `- ${file}`).join('\n')}`,
     );
   }
 }

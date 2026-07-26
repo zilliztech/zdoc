@@ -1,0 +1,125 @@
+name: site validation
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - master
+  push:
+    branches:
+      - dev
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  classify:
+    name: Classify changed site inputs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      build_en: ${{ steps.filters.outputs.build_en }}
+      build_zh_cn: ${{ steps.filters.outputs.build_zh_cn }}
+      reference_coverage: ${{ steps.filters.outputs.reference_coverage }}
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Evaluate versioned path filters
+        id: filters
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+          HEAD_SHA: ${{ github.sha }}
+        run: >-
+          node deploy/contracts/evaluate-path-filters.mjs
+          --base "$BASE_SHA"
+          --head "$HEAD_SHA"
+          --filters deploy/contracts/path-filters.json
+          --github-output "$GITHUB_OUTPUT"
+
+  build_en:
+    name: Build English site
+    needs: classify
+    if: needs.classify.outputs.build_en == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:en
+
+  build_zh_cn:
+    name: Build Chinese site
+    needs: classify
+    if: needs.classify.outputs.build_zh_cn == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+      DOCUSAURUS_SSG_WORKER_THREAD_COUNT: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:zh-CN
+
+  reference_coverage:
+    name: Validate Chinese Reference coverage
+    needs: classify
+    if: needs.classify.outputs.reference_coverage == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm docs-tooling validate-reference --site zh-CN
+
+  site_validation:
+    name: Site validation gate
+    needs:
+      - classify
+      - build_en
+      - build_zh_cn
+      - reference_coverage
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CLASSIFY_RESULT: ${{ needs.classify.result }}
+      EN_RESULT: ${{ needs.build_en.result }}
+      ZH_CN_RESULT: ${{ needs.build_zh_cn.result }}
+      REFERENCE_RESULT: ${{ needs.reference_coverage.result }}
+    steps:
+      - name: Require every selected validation to pass
+        run: |
+          test "$CLASSIFY_RESULT" = success
+          for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT"; do
+            test "$result" = success || test "$result" = skipped
+          done

@@ -6,10 +6,10 @@ This directory defines the auditable data boundary between this repository and t
 
 | External pipeline | Site | Build command | Responsibility |
 | --- | --- | --- | --- |
-| English UAT | `en` | `pnpm build:en` | Build and publish immutable UAT evidence |
-| English Prod | `en` | `pnpm build:en` when rebuilding | Rebuild a requested SHA or promote a verified UAT image |
-| Chinese UAT | `zh-CN` | `pnpm build:zh-CN` | Build and publish immutable UAT evidence |
-| Chinese Prod | `zh-CN` | `pnpm build:zh-CN` when rebuilding | Rebuild a requested SHA or promote a verified UAT image |
+| `zilliz-docs-dev` | `en` | `pnpm build:en` | Build and publish immutable English UAT evidence |
+| `zilliz-docs-prod` | `en` | `pnpm build:en` when rebuilding | Rebuild a requested SHA or promote a verified English UAT image |
+| `zilliz-docs-cn-dev` | `zh-CN` | `pnpm build:zh-CN` | Build and publish immutable Chinese UAT evidence |
+| `zilliz-docs-cn-prod` | `zh-CN` | `pnpm build:zh-CN` when rebuilding | Rebuild a requested SHA or promote a verified Chinese UAT image |
 
 Every record fixes `sourceRepository` to `zdoc`, uses a lowercase 40-character Git SHA, records an immutable registry digest, and identifies the producing `vdc-jenkins` build. The Chinese release contract has no build-time or runtime dependency on `zdoc_cn`.
 
@@ -55,11 +55,11 @@ node deploy/contracts/verify-image.mjs verify-specified-image \
 
 ## Path filters
 
-`path-filters.json` describes the minimum validation fan-out used by `vdc-jenkins`. Rules are mutually exclusive and use explicit precedence: canonical English Reference, Chinese Reference translation state, site-owned English, site-owned Chinese, then shared inputs. Multiple matches fail closed.
+`path-filters.json` describes the minimum validation fan-out. Repository GitHub Actions consume it through `evaluate-path-filters.mjs`; externally managed `vdc-jenkins` pipelines can consume the same versioned contract when their owners implement the cutover. Rules are mutually exclusive and use explicit precedence: canonical English Reference, Chinese Reference translation state, site-owned English, site-owned Chinese, then shared inputs. Multiple matches fail closed, and unclassified paths conservatively run both site builds.
 
 - Shared application code, packages, `.dockerignore`, lock/workspace files, build/provenance scripts, migration dependency inventories, and the manual registry require both site builds.
 - Site-owned content, profiles, sidebars, generated sidebars, and deploy files require only that site's build.
 - Canonical English Reference content, manifests, tooling, translation validation, and Reference scripts require both site builds plus Chinese Reference translation-coverage validation.
 - The Chinese Reference translation manifest and retirement registry require the Chinese build plus translation-coverage validation.
 
-The filters are auditable policy data. Jenkins remains responsible for evaluating them and applying credentials and approvals.
+The `site validation` GitHub Actions workflow is a read-only build gate: it does not deploy, use deployment secrets, publish documentation, or replace Jenkins approvals. After it passes, external UAT validation runs through `zilliz-docs-dev` for English and `zilliz-docs-cn-dev` for Chinese. Jenkins remains responsible for registry access, deployment credentials, immutable UAT evidence, environment checks, and approvals.

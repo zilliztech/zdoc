@@ -176,14 +176,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
       }
-      if (!/mdx-parse/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build/.test(unbatchedRun)) {
+      if (!/mdx-parse/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build:en/.test(unbatchedRun)) {
         errors.push(`${file}: unbatched translations must retain full MDX, coverage, and build validation`)
       }
       for (const step of steps) {
         if (step === unbatched || step === checkpoint) continue
         if (containsFullValidationCommand(step?.run)) errors.push(`${file}: full validation and build commands must exist only in the exact unbatched validation path`)
       }
-      const checkpointAttestation = 'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi'
+      const checkpointAttestation = 'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi'
       const checkpointLines = checkpointRun.split('\n')
       const attestationEntries = executableShellLineEntries(checkpointRun).filter(entry => entry.trimmed === checkpointAttestation)
       const attestationIndexes = new Set(attestationEntries.map(entry => entry.index))
@@ -303,7 +303,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const generatorStep = steps[generateIndex]
       if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
       const validationStep = steps[validateIndex]
-      if (!/validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "pnpm run build"/.test(validationStep?.run || '')) errors.push(`${file}: combined sidebar and full build validation must run before descriptor promotion`)
+      if (!/validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "pnpm run build:en"/.test(validationStep?.run || '')) errors.push(`${file}: combined sidebar and full build validation must run before descriptor promotion`)
       const finalizeStep = steps[finalizeIndex]
       if (!/saas=config\/generated\/guides\.sidebar\.js[\s\S]*byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
       if (/npx docusaurus fetch-lark-docs[\s\S]*-sidebar/.test(source) || /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/.test(source)) errors.push(`${file}: observe-only assembly must not restore sidebars or use the legacy split generators`)
@@ -395,7 +395,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/name: Clean up final dev worktree[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*git worktree remove --force "\$RUNNER_TEMP\/final-dev"/, 'must always clean up the final dev worktree'],
         [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
         [/for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/, 'must validate translated coverage for every translatable group'],
-        [/run-doc-build-stage\.js --build "pnpm run build"/, 'must run the documentation build stage'],
+        [/run-doc-build-stage\.js --build "pnpm run build:en"/, 'must run the documentation build stage'],
         [/name: Verify final documentation state[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/, 'must propagate failures from verification commands piped to report logs'],
         [/validate-workflow-policy\.js/, 'must validate workflow policy'],
         [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],

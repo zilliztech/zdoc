@@ -50,6 +50,8 @@
     },
     "shared": {
       "include": [
+        ".github/actions/**",
+        ".github/workflows/**",
         "apps/docs/**",
         "packages/**",
         ".dockerignore",

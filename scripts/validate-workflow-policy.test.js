@@ -557,8 +557,8 @@ test('reusable final verification uses immutable master tooling against exact fi
   assert.doesNotMatch(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
   assert.match(workflow, /validate-generated-sidebars\.js/)
   assert.match(workflow, /for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/)
-  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build"/)
-  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build" --skipCardReporting/)
+  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en"/)
+  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en" --skipCardReporting/)
   const verificationStep = workflow.slice(workflow.indexOf('name: Verify final documentation state'), workflow.indexOf('name: Upload final verification reports'))
   assert.match(verificationStep, /run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/)
   assert.ok(verificationStep.indexOf('set -euo pipefail') < verificationStep.indexOf('validate-generated-sidebars.js'))
@@ -795,7 +795,7 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(validation, /baseline\/config\/generated\/guides\.sidebar\.js|\$RUNNER_TEMP\/baseline[\s\S]*config\/generated\/guides\.sidebar\.js/)
   const finalValidation = assemble.slice(indices[2], indices[3])
   assert.match(finalValidation, /validate-generated-sidebars\.js/)
-  assert.match(finalValidation, /run-doc-build-stage\.js --build "pnpm run build"/)
+  assert.match(finalValidation, /run-doc-build-stage\.js --build "pnpm run build:en"/)
   const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
   assert.match(finalize, /saas=config\/generated\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
   assert.match(finalize, /byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
@@ -917,7 +917,7 @@ test('Guides translation batches publish through one validated staging ref', () 
   assert.match(validate, /restore-generated-state\.sh --exact --ref "\$staged_sha"/)
   assert.match(validate, /validate-guides-translation-staging\.js[\s\S]*--trusted-root/)
   assert.match(validate, /recordValidationInfrastructureFailure/)
-  assert.doesNotMatch(validate, /validate-generated-sidebars|validate-translated-coverage|pnpm run build/)
+  assert.doesNotMatch(validate, /validate-generated-sidebars|validate-translated-coverage|pnpm run build:en/)
 
   assert.match(byName.get(requiredNames[4]).run, /status === 'no_changes'[\s\S]*promotePhase/)
   assert.match(orchestration, /promoteStaging[\s\S]*probeRemoteTarget/)
@@ -973,7 +973,7 @@ test('workflow policy rejects unsafe Guides staging publisher mutations', () => 
       expected: `${workflowName}: staging publisher must not force-update the target`,
     },
     {
-      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Validate combined Guides translation').run += '\npnpm run build' },
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Validate combined Guides translation').run += '\npnpm run build:en' },
       expected: `${workflowName}: combined staging validation must run only through the fixed validation wrapper`,
     },
     {
@@ -1045,7 +1045,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(numbered.if, /steps\.agents\.outputs\.translated_count \|\| '0'/)
   assert.match(numbered.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
   assert.match(numbered.if, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
-  assert.doesNotMatch(numbered.run, /mdx-parse|validate-translated-coverage|pnpm run build/)
+  assert.doesNotMatch(numbered.run, /mdx-parse|validate-translated-coverage|pnpm run build:en/)
   assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
   assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
 
@@ -1054,7 +1054,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
   assert.match(unbatched.run, /mdx-parse/)
   assert.match(unbatched.run, /validate-translated-coverage\.js --group "\$GROUP"/)
-  assert.match(unbatched.run, /pnpm run build/)
+  assert.match(unbatched.run, /pnpm run build:en/)
 
   assert.match(checkpoint.run, /--include-translation-cache/)
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/)
@@ -1097,15 +1097,15 @@ test('workflow policy rejects numbered translation batch validation regressions'
       expected: `${workflowName}: numbered Guides checkpoints must validate baseline/result pair identity`,
     },
     {
-      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\npnpm run build' },
+      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\npnpm run build:en' },
       expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
     },
     {
       mutate(steps) {
         const step = steps.find(item => item.name === 'Create validated translation checkpoints')
         step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
-          '# if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
+          '# if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
         )
       },
       expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
@@ -1114,8 +1114,8 @@ test('workflow policy rejects numbered translation batch validation regressions'
       mutate(steps) {
         const step = steps.find(item => item.name === 'Create validated translation checkpoints')
         step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
-          'cat <<\'ATTESTATION\'\nif (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\nATTESTATION',
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
+          'cat <<\'ATTESTATION\'\nif (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi\nATTESTATION',
         )
       },
       expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
@@ -1124,8 +1124,8 @@ test('workflow policy rejects numbered translation batch validation regressions'
       mutate(steps) {
         const step = steps.find(item => item.name === 'Create validated translation checkpoints')
         step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
-          'echo \'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\'',
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
+          'echo \'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi\'',
         )
       },
       expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
@@ -1134,8 +1134,8 @@ test('workflow policy rejects numbered translation batch validation regressions'
       mutate(steps) {
         const step = steps.find(item => item.name === 'Create validated translation checkpoints')
         step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
-          '\'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\'',
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
+          '\'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi\'',
         )
       },
       expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,

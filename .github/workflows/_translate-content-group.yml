@@ -67,7 +67,6 @@ jobs:
           ref: ${{ inputs.master_sha }}
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: pnpm }
       - name: Install current master tooling
@@ -128,7 +127,7 @@ jobs:
             *) test ! -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current || npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ;;
           esac
           node scripts/validate-translated-coverage.js --group "$GROUP"
-          pnpm run build
+          pnpm run build:en
       - name: Validate translated batch outputs
         if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:
@@ -159,7 +158,7 @@ jobs:
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
             if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input tmp/translation-batch-input.json); fi
           fi
-          if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi
+          if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi
           node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}" "${batch_input_args[@]}"
           node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}" "${batch_input_args[@]}" "${validation_args[@]}"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA"

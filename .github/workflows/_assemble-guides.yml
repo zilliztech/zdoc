@@ -31,7 +31,6 @@ jobs:
       - uses: actions/checkout@v4
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
@@ -115,7 +114,7 @@ jobs:
       - name: Validate combined guides output
         run: |
           node scripts/validate-generated-sidebars.js
-          node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting
+          node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks --skipCardReporting
       - name: Finalize Guides assembly identity
         run: |
           decision=packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json
@@ -219,7 +218,7 @@ jobs:
             --output packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json
       - name: Create combined guides checkpoint
         run: |
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks --skipCardReporting'
           tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
       - id: upload
         uses: actions/upload-artifact@v4

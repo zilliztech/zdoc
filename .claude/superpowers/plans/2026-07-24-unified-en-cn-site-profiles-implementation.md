@@ -839,7 +839,13 @@ The release record contains:
 
 `path-filters.json` requires both site checks for shared application, package, lockfile, manual-registry, or shared Reference-generator changes; requires only the owned site for site content/profile/deploy changes; and adds Chinese translation coverage validation when canonical English Reference changes.
 
-- [x] **Step 5: Verify and commit**
+- [x] **Step 5: Re-orchestrate repository GitHub Actions validation**
+
+Pin pnpm once through the root `packageManager`, remove workflow-local pnpm version drift, add a read-only `site validation` workflow, and evaluate changed paths through `deploy/contracts/path-filters.json`. The stable aggregate gate runs only the selected English build, Chinese build, and Chinese Reference coverage checks. Existing Lark content-production workflows remain English-canonical and now say `pnpm run build:en` explicitly instead of relying on the ambiguous default build alias.
+
+GitHub Actions do not deploy or replace externally owned Jenkins controls. After repository validation passes, English UAT runs through `zilliz-docs-dev` and Chinese UAT runs through `zilliz-docs-cn-dev`; the two Prod pipelines remain externally owned and retain rebuild and specified-image modes.
+
+- [x] **Step 6: Verify and commit**
 
 Run:
 
@@ -879,6 +885,8 @@ Validation note (2026-07-26): merged reviewed `origin/master` at `9ae596fd95b092
 Compare routes, navigation, redirects, canonical URLs, metadata, static assets, search/LLM/structured-data outputs, Docker labels, health behavior, and representative rendered pages. Classify every difference as intentional, fixed legacy defect, or reviewed nondeterminism in `migration/approved-differences.json`.
 
 Partial validation note (2026-07-26): exhaustive route/canonical comparisons are clean (English 1868/1868, Chinese 1686/1686, zero differences); both local images pass immutable-label, health, representative-route, chat-routing contract, and cleanup checks. Production-equivalent CDN metadata, full asset/search/LLM/structured-data sampling, and rendered-page checks remain part of the external shadow deployment gate.
+
+External gate note (2026-07-26): `vdc-jenkins` is outside repository control. The next executable UAT gates are `zilliz-docs-dev` for English and `zilliz-docs-cn-dev` for Chinese after the repository `site validation` GitHub Actions gate passes.
 
 - [ ] **Step 3: Deploy non-mutating shadows**
 

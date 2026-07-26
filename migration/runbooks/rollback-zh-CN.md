@@ -18,7 +18,7 @@ Rollback for sustained health failures, critical route or asset loss, incorrect 
 2. Release engineering creates a request containing only `site: zh-CN` and the prior successful `targetDigest`.
 3. Run `node deploy/contracts/verify-image.mjs verify-rollback` with authenticated Prod history from the kernel-enforced read-only Jenkins evidence mount.
 4. Reject the request if the digest is absent from successful Chinese Prod history, belongs to English, or requires rebuilding.
-5. Use Chinese Prod `specified-image` mode to redeploy the verified digest. Resolve any operator tag before approval and record the immutable digest.
+5. Use `zilliz-docs-cn-prod` in `specified-image` mode to redeploy the verified digest. Resolve any operator tag before approval and record the immutable digest.
 6. Restore traffic using the existing platform procedure.
 7. Verify `/healthz`, `/docs/home`, representative Chinese content routes, `/search`, canonical metadata, critical static assets, and chat routing.
 8. Observe for at least 30 minutes. Keep publication frozen until health and acceptance recover.
@@ -35,4 +35,3 @@ Do not rebuild an arbitrary commit under incident pressure. Stop traffic promoti
 - Verified specified-image redeployment target: 15 minutes.
 - Total recovery-time objective: 30 minutes.
 - Observation window after rollback: 30 minutes minimum.
-

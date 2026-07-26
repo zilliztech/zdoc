@@ -89,8 +89,6 @@ jobs:
         run: node -e 'require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP)'
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -137,9 +135,9 @@ jobs:
           set -euo pipefail
           node scripts/validate-generated-sidebars.js
           if [[ "$GROUP" == guides ]]; then
-            node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks
+            node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks
           else
-            node scripts/run-doc-build-stage.js --build "pnpm run build"
+            node scripts/run-doc-build-stage.js --build "pnpm run build:en"
           fi
         env:
           DOCS_BUILD_ENV: uat
@@ -170,7 +168,7 @@ jobs:
 
       - name: Create source checkpoint artifact
         run: |
-          validation_command='node scripts/run-doc-build-stage.js --build "pnpm run build"'
+          validation_command='node scripts/run-doc-build-stage.js --build "pnpm run build:en"'
           if [[ "$GROUP" == guides ]]; then
             validation_command+=' --skipLinkChecks'
           fi
