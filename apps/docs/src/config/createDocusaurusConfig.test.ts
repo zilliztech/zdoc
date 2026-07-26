@@ -83,7 +83,12 @@ describe('createDocusaurusConfig', () => {
     ]);
     expect(config.future).toMatchObject({
       v4: true,
-      faster: {rspackBundler: false, rspackPersistentCache: false, mdxCrossCompilerCache: false},
+      faster: {
+        rspackBundler: false,
+        rspackPersistentCache: false,
+        mdxCrossCompilerCache: false,
+        ssgWorkerThreads: false,
+      },
     });
   });
 
@@ -115,6 +120,9 @@ describe('createDocusaurusConfig', () => {
       '@docusaurus/plugin-content-pages',
       {path: expect.stringMatching(/packages\/docs-ui\/src\/zh-CN\/pages$/)},
     ]);
+    expect(createDocusaurusConfig(chinese).future).toMatchObject({
+      faster: {ssgWorkerThreads: true},
+    });
   });
 
   it('restores the legacy Chinese local-search route without enabling it for English', () => {
@@ -324,7 +332,7 @@ describe('createDocusaurusConfig', () => {
       /^NODE_OPTIONS=--max-old-space-size=8192 node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site en -- docusaurus build /,
     );
     expect(packageJson.scripts['build:zh-CN']).toMatch(
-      /^NODE_OPTIONS=--max-old-space-size=6144 node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
+      /^DOCUSAURUS_SSG_WORKER_THREAD_COUNT=2 NODE_OPTIONS=--max-old-space-size=4096 node --experimental-strip-types \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
     );
   });
 

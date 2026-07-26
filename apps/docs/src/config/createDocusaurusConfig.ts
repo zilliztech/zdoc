@@ -136,6 +136,7 @@ export function createDocusaurusConfig(
         rspackBundler: false,
         rspackPersistentCache: false,
         mdxCrossCompilerCache: false,
+        ssgWorkerThreads: profile.id === 'zh-CN',
       },
     },
     staticDirectories: profile.staticRoots.map(repositoryPath),
