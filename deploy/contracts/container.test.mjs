@@ -101,6 +101,7 @@ for (const site of ['en', 'zh-CN']) {
     assert.doesNotMatch(contents, /COPY --from=build \/app\/build\/?\s/);
     assert.doesNotMatch(contents, new RegExp(`/app/build/${otherSite.replace('-', '\\-')}\\b`));
     assert.match(contents, new RegExp(`COPY deploy/${site.replace('-', '\\-')}/nginx\\.conf /etc/nginx/conf\\.d/default\\.conf`));
+    assert.match(contents, /COPY --chmod=755 deploy\/runtime\/40-zdoc-env\.sh \/docker-entrypoint\.d\/40-zdoc-env\.sh/);
   });
 
   test(`${site} build and runtime validation reject malformed revision identities`, () => {
@@ -186,6 +187,25 @@ test('Chinese chat uses the same-site API proxy required by the frontend endpoin
   assert.match(nginx, /location \/api\/\s*\{/);
   assert.match(nginx, /proxy_pass http:\/\/\$chat_proxy_upstream/);
   assert.match(nginx, /chat-proxy\.zdocs\.svc\.cluster\.local:9000/);
+});
+
+test('both site-owned images route chat directly to the private agent runtime', () => {
+  const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
+  assert.match(entrypoint, /upstream docs_agent\s*\{/);
+  assert.ok(entrypoint.includes('hash \\$http_x_conversation_id consistent;'));
+  assert.match(entrypoint, /zone docs_agent 64k;/);
+  for (const pod of [0, 1, 2]) {
+    assert.match(entrypoint, new RegExp(`cloud-ai-assistant-${pod}\\.cloud-ai-assistant-hs\\.vdc\\.svc\\.cluster\\.local:9000 resolve`));
+  }
+
+  for (const site of ['en', 'zh-CN']) {
+    const nginx = read(`deploy/${site}/nginx.conf`);
+    assert.match(nginx, /include \/etc\/nginx\/chat-agent-runtime\.conf;/);
+    assert.match(nginx, /location = \/api\/chat\s*\{[\s\S]*?proxy_pass http:\/\/docs_agent\/api\/chat\/stream;/);
+    assert.match(nginx, /location = \/api\/chat\/interrupt\s*\{[\s\S]*?proxy_pass http:\/\/docs_agent\/api\/chat\/interrupt;/);
+    assert.equal((nginx.match(/proxy_set_header Authorization "";/g) ?? []).length, 2);
+    assert.ok(nginx.indexOf('location = /api/chat') < nginx.indexOf('location /api/'));
+  }
 });
 
 test('package scripts expose the container contract without changing the default site build', () => {
