@@ -758,17 +758,17 @@ git commit -m "feat: enforce Reference translation provenance"
 - Create: `deploy/contracts/container.test.mjs`
 - Modify: `package.json`
 
-- [ ] **Step 1: Write container-contract tests**
+- [x] **Step 1: Write container-contract tests**
 
 Create `deploy/contracts/container.test.mjs` that verifies both Dockerfiles accept `ZDOC_SHA`, `ZDOC_SITE`, and `JENKINS_BUILD_ID`, invoke only `pnpm build:<site>`, copy the matching output root, and declare OCI labels for source repository, revision, site, and Jenkins build identity.
 
-- [ ] **Step 2: Run the test and verify RED**
+- [x] **Step 2: Run the test and verify RED**
 
 Run: `node --test deploy/contracts/container.test.mjs`
 
 Expected: FAIL because site-owned Dockerfiles do not exist.
 
-- [ ] **Step 3: Implement site-owned Docker and Nginx files**
+- [x] **Step 3: Implement site-owned Docker and Nginx files**
 
 Use one dependency installation layer and one site build per Dockerfile. English redirects come from the verified current `nginx.conf`; Chinese redirects and runtime behavior come from the verified `zdoc_cn` configuration. Do not copy Jenkins Groovy, build output, credentials, or mutable state into `deploy/`.
 
@@ -785,7 +785,9 @@ deploy/contracts/smoke.sh zdoc-zh-cn:test zh-CN
 
 Expected: both images build, labels validate, health checks pass, and representative routes return expected status codes.
 
-- [ ] **Step 5: Commit packaging**
+Validation note: static and executable container/provenance contracts pass, but the managed sandbox blocked or indefinitely stalled Docker buildx state access. Keep this step open until both real images and smoke checks complete in an environment with usable Docker build permissions.
+
+- [x] **Step 5: Commit packaging**
 
 ```bash
 git add deploy package.json
