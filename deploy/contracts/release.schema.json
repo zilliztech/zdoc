@@ -14,94 +14,63 @@
     "jenkinsBuildIdentity"
   ],
   "properties": {
-    "site": {
-      "enum": ["en", "zh-CN"]
-    },
-    "environment": {
-      "enum": ["uat", "prod"]
-    },
-    "mode": {
-      "enum": ["rebuild", "specified-image"]
-    },
-    "sourceRepository": {
-      "const": "zdoc"
-    },
-    "sourceSha": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{40}$"
-    },
-    "requestedSourceSha": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{40}$"
-    },
-    "operatorImageRef": {
-      "type": "string",
-      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*$"
-    },
-    "sourceUatDigest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
-    },
-    "finalDeployedDigest": {
-      "type": "string",
-      "pattern": "^sha256:[0-9a-f]{64}$"
-    },
-    "jenkinsBuildIdentity": {
-      "type": "string",
-      "pattern": "^vdc-jenkins/(english|chinese)-(uat|prod)/[1-9][0-9]*$"
-    },
-    "status": {
-      "enum": ["succeeded", "failed"]
-    }
+    "site": {"enum": ["en", "zh-CN"]},
+    "environment": {"enum": ["uat", "prod"]},
+    "mode": {"enum": ["rebuild", "specified-image"]},
+    "sourceRepository": {"const": "zdoc"},
+    "sourceSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "operatorImageRef": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*$"},
+    "sourceUatDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "finalDeployedDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "jenkinsBuildIdentity": {"type": "string", "pattern": "^vdc-jenkins/(english|chinese)-(uat|prod)/[1-9][0-9]*$"},
+    "status": {"enum": ["succeeded", "failed", "pending"]}
   },
   "oneOf": [
     {
       "properties": {
         "environment": {"const": "uat"},
-        "mode": {"const": "rebuild"}
+        "mode": {"const": "rebuild"},
+        "operatorImageRef": false,
+        "sourceUatDigest": false,
+        "status": {"enum": ["succeeded", "failed", "pending"]}
       },
-      "required": ["environment", "mode"],
-      "not": {
-        "anyOf": [
-          {"required": ["requestedSourceSha"]},
-          {"required": ["operatorImageRef"]},
-          {"required": ["sourceUatDigest"]}
-        ]
-      }
+      "required": ["environment", "mode", "status"]
     },
     {
       "properties": {
         "environment": {"const": "prod"},
-        "mode": {"const": "rebuild"}
+        "mode": {"const": "rebuild"},
+        "operatorImageRef": false,
+        "sourceUatDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
       },
-      "required": ["environment", "mode", "requestedSourceSha", "sourceUatDigest"],
-      "not": {"required": ["operatorImageRef"]}
+      "required": ["environment", "mode", "sourceUatDigest"]
     },
     {
       "properties": {
         "environment": {"const": "prod"},
-        "mode": {"const": "specified-image"}
+        "mode": {"const": "specified-image"},
+        "operatorImageRef": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*$"},
+        "sourceUatDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
       },
-      "required": ["environment", "mode", "operatorImageRef", "sourceUatDigest"],
-      "not": {"required": ["requestedSourceSha"]}
+      "required": ["environment", "mode", "operatorImageRef", "sourceUatDigest"]
     }
   ],
   "allOf": [
     {
-      "if": {"properties": {"site": {"const": "en"}}},
-      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/english-(uat|prod)/[1-9][0-9]*$"}}}
+      "if": {"properties": {"site": {"const": "en"}}, "required": ["site"]},
+      "then": {"properties": {"jenkinsBuildIdentity": {"type": "string", "pattern": "^vdc-jenkins/english-(uat|prod)/[1-9][0-9]*$"}}}
     },
     {
-      "if": {"properties": {"site": {"const": "zh-CN"}}},
-      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/chinese-(uat|prod)/[1-9][0-9]*$"}}}
+      "if": {"properties": {"site": {"const": "zh-CN"}}, "required": ["site"]},
+      "then": {"properties": {"jenkinsBuildIdentity": {"type": "string", "pattern": "^vdc-jenkins/chinese-(uat|prod)/[1-9][0-9]*$"}}}
     },
     {
-      "if": {"properties": {"environment": {"const": "uat"}}},
-      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/(english|chinese)-uat/[1-9][0-9]*$"}}}
+      "if": {"properties": {"environment": {"const": "uat"}}, "required": ["environment"]},
+      "then": {"properties": {"jenkinsBuildIdentity": {"type": "string", "pattern": "^vdc-jenkins/(english|chinese)-uat/[1-9][0-9]*$"}}}
     },
     {
-      "if": {"properties": {"environment": {"const": "prod"}}},
-      "then": {"properties": {"jenkinsBuildIdentity": {"pattern": "^vdc-jenkins/(english|chinese)-prod/[1-9][0-9]*$"}}}
+      "if": {"properties": {"environment": {"const": "prod"}}, "required": ["environment"]},
+      "then": {"properties": {"jenkinsBuildIdentity": {"type": "string", "pattern": "^vdc-jenkins/(english|chinese)-prod/[1-9][0-9]*$"}}}
     }
   ]
 }

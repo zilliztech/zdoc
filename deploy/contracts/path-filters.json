@@ -1,47 +1,58 @@
 {
-  "version": 1,
-  "shared": {
-    "patterns": [
-      "apps/docs/**",
-      "packages/**",
-      "pnpm-lock.yaml",
-      "pnpm-workspace.yaml",
-      "package.json",
-      "deploy/contracts/**",
-      "config/lark-docs.config.ts",
-      "packages/docs-tooling/src/manuals/registry.ts",
-      "scripts/reference/**"
-    ],
-    "sites": ["en", "zh-CN"],
-    "checks": ["build", "release-contract"]
-  },
-  "siteOwned": {
-    "en": {
-      "patterns": [
+  "version": 2,
+  "precedence": [
+    "canonicalEnglishReference",
+    "siteOwned.en",
+    "siteOwned.zh-CN",
+    "shared"
+  ],
+  "rules": {
+    "canonicalEnglishReference": {
+      "include": [
+        "content/en/reference/**",
+        "generated/en/manifests/reference.json",
+        "packages/docs-tooling/src/reference/**"
+      ],
+      "checks": ["build:en", "build:zh-CN", "zh-reference-translation-coverage"]
+    },
+    "siteOwned.en": {
+      "include": [
         "content/en/**",
         "packages/site-config/src/sites/en.ts",
+        "sidebar-overrides/en/**",
+        "generated/en/sidebars/**",
         "deploy/en/**"
       ],
-      "sites": ["en"],
       "checks": ["build:en"]
     },
-    "zh-CN": {
-      "patterns": [
+    "siteOwned.zh-CN": {
+      "include": [
         "content/zh-CN/**",
         "packages/site-config/src/sites/zh-CN.ts",
+        "sidebar-overrides/zh-CN/**",
+        "generated/zh-CN/sidebars/**",
         "deploy/zh-CN/**"
       ],
-      "sites": ["zh-CN"],
       "checks": ["build:zh-CN"]
+    },
+    "shared": {
+      "include": [
+        "apps/docs/**",
+        "packages/**",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "package.json",
+        "deploy/contracts/**",
+        "config/lark-docs.config.ts",
+        "config/applyOverrides.js",
+        "scripts/build/**",
+        "scripts/reference/**"
+      ],
+      "exclude": [
+        "packages/site-config/src/sites/en.ts",
+        "packages/site-config/src/sites/zh-CN.ts"
+      ],
+      "checks": ["build:en", "build:zh-CN"]
     }
-  },
-  "canonicalEnglishReference": {
-    "patterns": [
-      "content/en/reference/**",
-      "generated/en/manifests/reference.json",
-      "packages/docs-tooling/src/reference/**"
-    ],
-    "sites": ["en", "zh-CN"],
-    "checks": ["build:en", "zh-reference-translation-coverage"]
   }
 }

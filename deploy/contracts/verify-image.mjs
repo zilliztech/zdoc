@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import {readFile, realpath} from 'node:fs/promises';
+import {constants} from 'node:fs';
+import {lstat, open, realpath} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
@@ -17,6 +18,11 @@ const COMMON_FIELDS = [
   'jenkinsBuildIdentity',
 ];
 const OPTIONAL_FIELDS = ['status'];
+const TRUSTED_EVIDENCE_FILES = Object.freeze({
+  uat: 'uat-records.json',
+  resolutions: 'resolved-images.json',
+  prod: 'prod-records.json',
+});
 
 function fail(message) {
   throw new Error(`release contract violation: ${message}`);
@@ -40,7 +46,6 @@ export function validateReleaseRecord(record) {
   if (!record || typeof record !== 'object' || Array.isArray(record)) {
     fail('record must be an object');
   }
-
   if (!['en', 'zh-CN'].includes(record.site)) {
     fail('site must be en or zh-CN');
   }
@@ -63,18 +68,17 @@ export function validateReleaseRecord(record) {
   if (!expectedPipeline(record).test(record.jenkinsBuildIdentity)) {
     fail('jenkinsBuildIdentity must identify the matching external vdc-jenkins pipeline');
   }
-  if (record.status !== undefined && !['succeeded', 'failed'].includes(record.status)) {
-    fail('status must be succeeded or failed');
+  if (record.status !== undefined && !['succeeded', 'failed', 'pending'].includes(record.status)) {
+    fail('status must be succeeded, failed, or pending');
+  }
+  if (record.environment === 'uat' && record.status === undefined) {
+    fail('UAT record status is required');
   }
 
   const variantFields = [];
   if (record.environment === 'prod' && record.mode === 'rebuild') {
-    variantFields.push('requestedSourceSha', 'sourceUatDigest');
-    requireString(record, 'requestedSourceSha', SOURCE_SHA);
+    variantFields.push('sourceUatDigest');
     requireString(record, 'sourceUatDigest', REGISTRY_DIGEST);
-    if (record.requestedSourceSha !== record.sourceSha) {
-      fail('requestedSourceSha must equal sourceSha');
-    }
   }
   if (record.environment === 'prod' && record.mode === 'specified-image') {
     variantFields.push('operatorImageRef', 'sourceUatDigest');
@@ -88,48 +92,82 @@ export function validateReleaseRecord(record) {
       fail(`unexpected field: ${field}`);
     }
   }
-
   return record;
 }
 
-function findUatEvidence(record, uatRecords, {sameSourceSha}) {
-  const candidates = uatRecords.filter((candidate) =>
-    candidate?.environment === 'uat'
-    && candidate?.site === record.site
-    && candidate?.sourceRepository === 'zdoc'
-    && candidate?.finalDeployedDigest === record.sourceUatDigest,
-  );
-  const evidence = sameSourceSha
-    ? candidates.find((candidate) => candidate.sourceSha === record.sourceSha)
-    : candidates[0];
-  return evidence;
+function requireTrustedEvidenceProvider(provider) {
+  for (const method of [
+    'getAuthenticatedUatRecords',
+    'resolveImageReference',
+    'getSuccessfulProdRecords',
+  ]) {
+    if (typeof provider?.[method] !== 'function') {
+      fail(`trustedEvidenceProvider.${method} is required`);
+    }
+  }
+  return provider;
 }
 
-export function verifyRebuildRelease(record, uatRecords) {
+function validateEvidenceRecords(value, label) {
+  if (!Array.isArray(value)) {
+    fail(`${label} must be an array`);
+  }
+  const identities = new Set();
+  for (const record of value) {
+    validateReleaseRecord(record);
+    if (identities.has(record.jenkinsBuildIdentity)) {
+      fail(`${label} contains duplicate jenkinsBuildIdentity: ${record.jenkinsBuildIdentity}`);
+    }
+    identities.add(record.jenkinsBuildIdentity);
+  }
+  return value;
+}
+
+function successfulUatEvidence(record, uatRecords) {
+  const matches = uatRecords.filter((candidate) =>
+    candidate.environment === 'uat'
+    && candidate.status === 'succeeded'
+    && candidate.site === record.site
+    && candidate.sourceRepository === 'zdoc'
+    && candidate.sourceSha === record.sourceSha
+    && candidate.finalDeployedDigest === record.sourceUatDigest,
+  );
+  if (matches.length === 0) {
+    fail('release requires successful UAT evidence for the same site, source SHA, and sourceUatDigest');
+  }
+  if (matches.length !== 1) {
+    fail('release requires unique successful UAT evidence');
+  }
+  return matches[0];
+}
+
+export async function verifyRebuildRelease(record, trustedEvidenceProvider) {
   validateReleaseRecord(record);
   if (record.environment !== 'prod' || record.mode !== 'rebuild') {
     fail('rebuild verification requires a Prod rebuild record');
   }
-  const evidence = findUatEvidence(record, uatRecords, {sameSourceSha: true});
-  if (!evidence) {
-    fail('rebuild requires UAT evidence with the same site, same source SHA, and sourceUatDigest');
-  }
-  validateReleaseRecord(evidence);
+  const provider = requireTrustedEvidenceProvider(trustedEvidenceProvider);
+  const records = validateEvidenceRecords(
+    await provider.getAuthenticatedUatRecords(),
+    'authenticated UAT records',
+  );
+  successfulUatEvidence(record, records);
   return record;
 }
 
-export async function verifySpecifiedImageRelease(record, uatRecords, dependencies) {
+export async function verifySpecifiedImageRelease(record, trustedEvidenceProvider) {
   validateReleaseRecord(record);
   if (record.environment !== 'prod' || record.mode !== 'specified-image') {
     fail('specified-image verification requires a Prod specified-image record');
   }
-  if (typeof dependencies?.resolveImageReference !== 'function') {
-    fail('resolveImageReference dependency is required');
-  }
-
-  const resolvedDigest = await dependencies.resolveImageReference(record.operatorImageRef);
+  const provider = requireTrustedEvidenceProvider(trustedEvidenceProvider);
+  const records = validateEvidenceRecords(
+    await provider.getAuthenticatedUatRecords(),
+    'authenticated UAT records',
+  );
+  const resolvedDigest = await provider.resolveImageReference(record.operatorImageRef);
   if (!REGISTRY_DIGEST.test(resolvedDigest ?? '')) {
-    fail('resolver must return an immutable sha256 registry digest');
+    fail('trusted resolver must return an immutable sha256 registry digest');
   }
   if (resolvedDigest !== record.sourceUatDigest) {
     fail('resolved digest must equal sourceUatDigest');
@@ -137,22 +175,11 @@ export async function verifySpecifiedImageRelease(record, uatRecords, dependenci
   if (record.finalDeployedDigest !== resolvedDigest) {
     fail('finalDeployedDigest must equal the resolved immutable digest');
   }
-
-  const digestEvidence = uatRecords.filter((candidate) =>
-    candidate?.finalDeployedDigest === resolvedDigest,
-  );
-  if (digestEvidence.length === 0 || digestEvidence.every((candidate) => candidate.environment !== 'uat')) {
-    fail('specified-image requires UAT provenance');
-  }
-  const evidence = findUatEvidence(record, uatRecords, {sameSourceSha: true});
-  if (!evidence) {
-    fail('specified-image requires UAT provenance from the same site and source SHA');
-  }
-  validateReleaseRecord(evidence);
+  successfulUatEvidence(record, records);
   return record;
 }
 
-export function verifyRollbackTarget(request, prodReleaseRecords) {
+function validateRollbackRequest(request) {
   if (!request || typeof request !== 'object' || Array.isArray(request)) {
     fail('rollback request must be an object');
   }
@@ -164,16 +191,24 @@ export function verifyRollbackTarget(request, prodReleaseRecords) {
     fail('rollback site must be en or zh-CN');
   }
   requireString(request, 'targetDigest', REGISTRY_DIGEST);
-  const sourceRelease = prodReleaseRecords.find((record) =>
-    record?.environment === 'prod'
-    && record?.status === 'succeeded'
-    && record?.site === request.site
-    && record?.finalDeployedDigest === request.targetDigest,
+}
+
+export async function verifyRollbackTarget(request, trustedEvidenceProvider) {
+  validateRollbackRequest(request);
+  const provider = requireTrustedEvidenceProvider(trustedEvidenceProvider);
+  const records = validateEvidenceRecords(
+    await provider.getSuccessfulProdRecords(),
+    'successful Prod records',
+  );
+  const sourceRelease = records.find((record) =>
+    record.environment === 'prod'
+    && record.status === 'succeeded'
+    && record.site === request.site
+    && record.finalDeployedDigest === request.targetDigest,
   );
   if (!sourceRelease) {
     fail('rollback target must reference a recorded successful Prod release for the same site');
   }
-  validateReleaseRecord(sourceRelease);
   return request.targetDigest;
 }
 
@@ -204,38 +239,6 @@ function parseArgs(argv) {
   return {command, options};
 }
 
-function resolveWithinRoot(root, relativePath) {
-  if (typeof relativePath !== 'string' || relativePath.length === 0 || path.isAbsolute(relativePath)) {
-    fail('path escapes --root');
-  }
-  const resolvedRoot = path.resolve(root);
-  const resolvedPath = path.resolve(resolvedRoot, relativePath);
-  if (resolvedPath !== resolvedRoot && !resolvedPath.startsWith(`${resolvedRoot}${path.sep}`)) {
-    fail('path escapes --root');
-  }
-  return resolvedPath;
-}
-
-async function readJson(root, relativePath, label) {
-  if (!relativePath) {
-    fail(`${label} path is required`);
-  }
-  const file = resolveWithinRoot(root, relativePath);
-  try {
-    const resolvedRoot = await realpath(path.resolve(root));
-    const resolvedFile = await realpath(file);
-    if (resolvedFile !== resolvedRoot && !resolvedFile.startsWith(`${resolvedRoot}${path.sep}`)) {
-      fail('path escapes --root');
-    }
-    return JSON.parse(await readFile(resolvedFile, 'utf8'));
-  } catch (error) {
-    if (error.message.includes('path escapes --root')) {
-      throw error;
-    }
-    fail(`${label} must be readable valid JSON: ${error.message}`);
-  }
-}
-
 function assertAllowedOptions(options, allowed) {
   for (const key of Object.keys(options)) {
     if (!allowed.includes(key)) {
@@ -244,46 +247,213 @@ function assertAllowedOptions(options, allowed) {
   }
 }
 
+function sameIdentity(left, right) {
+  return left.dev === right.dev && left.ino === right.ino && left.size === right.size;
+}
+
+async function pinDirectory(directory, label) {
+  const stats = await lstat(directory);
+  if (stats.isSymbolicLink() || !stats.isDirectory() || await realpath(directory) !== directory) {
+    fail(`${label} must be a canonical real directory`);
+  }
+  return {path: directory, dev: stats.dev, ino: stats.ino};
+}
+
+async function pinRoot(directory, label) {
+  const requested = path.resolve(directory);
+  let canonical;
+  try {
+    canonical = await realpath(requested);
+  } catch (error) {
+    fail(`${label} must be an existing real directory: ${error.message}`);
+  }
+  if (canonical !== requested) {
+    fail(`${label} must not use symlink ancestors`);
+  }
+  return {path: canonical, ancestors: [await pinDirectory(canonical, label)]};
+}
+
+async function verifyAncestorChain(ancestors, label) {
+  for (const identity of ancestors) {
+    let stats;
+    try {
+      stats = await lstat(identity.path);
+    } catch (error) {
+      fail(`${label} ancestor identity changed: ${error.message}`);
+    }
+    if (stats.isSymbolicLink() || !stats.isDirectory()
+      || stats.dev !== identity.dev || stats.ino !== identity.ino
+      || await realpath(identity.path) !== identity.path) {
+      fail(`${label} ancestor identity changed`);
+    }
+  }
+}
+
+function requireSafeRelativePath(relativePath, label) {
+  if (typeof relativePath !== 'string' || relativePath.length === 0
+    || path.isAbsolute(relativePath) || relativePath.includes('\\')) {
+    fail(`${label} path is unsafe`);
+  }
+  const parts = relativePath.split('/');
+  if (parts.some((part) => part === '' || part === '.' || part === '..')) {
+    fail(`${label} path is unsafe`);
+  }
+  return parts;
+}
+
+async function pinFile(root, relativePath, label) {
+  const parts = requireSafeRelativePath(relativePath, label);
+  const ancestors = [...root.ancestors];
+  let current = root.path;
+  for (const segment of parts.slice(0, -1)) {
+    current = path.join(current, segment);
+    ancestors.push(await pinDirectory(current, `${label} ancestor`));
+  }
+  await verifyAncestorChain(ancestors, label);
+  return {target: path.join(current, parts.at(-1)), ancestors};
+}
+
+async function readJsonUnderPinnedRoot(root, relativePath, label) {
+  if (typeof constants.O_NOFOLLOW !== 'number' || typeof constants.O_NONBLOCK !== 'number') {
+    fail('safe JSON reads require O_NOFOLLOW and O_NONBLOCK');
+  }
+  const pinned = await pinFile(root, relativePath, label);
+  await verifyAncestorChain(pinned.ancestors, label);
+  let handle;
+  try {
+    handle = await open(pinned.target, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+    const before = await handle.stat();
+    if (!before.isFile()) {
+      fail(`${label} must be a regular non-symlink file`);
+    }
+    await verifyAncestorChain(pinned.ancestors, label);
+    const bytes = await handle.readFile();
+    const after = await handle.stat();
+    if (!sameIdentity(before, after)) {
+      fail(`${label} identity changed while reading`);
+    }
+    await verifyAncestorChain(pinned.ancestors, label);
+    try {
+      return JSON.parse(bytes.toString('utf8'));
+    } catch (error) {
+      fail(`${label} must be valid JSON: ${error.message}`);
+    }
+  } catch (error) {
+    if (error.code === 'ELOOP') {
+      fail(`${label} must be a regular non-symlink file`);
+    }
+    throw error;
+  } finally {
+    if (handle) await handle.close();
+  }
+}
+
+function rootsOverlap(left, right) {
+  const relation = path.relative(left, right);
+  const reverse = path.relative(right, left);
+  const inside = (value) => value === '' || (!value.startsWith('..') && !path.isAbsolute(value));
+  return inside(relation) || inside(reverse);
+}
+
+function filesystemTrustedEvidenceProvider(root) {
+  return {
+    getAuthenticatedUatRecords: () => readJsonUnderPinnedRoot(root, TRUSTED_EVIDENCE_FILES.uat, 'authenticated UAT records'),
+    resolveImageReference: async (reference) => {
+      const resolutions = await readJsonUnderPinnedRoot(root, TRUSTED_EVIDENCE_FILES.resolutions, 'trusted image resolutions');
+      if (!resolutions || typeof resolutions !== 'object' || Array.isArray(resolutions)) {
+        fail('trusted image resolutions must be an object');
+      }
+      for (const [imageReference, digest] of Object.entries(resolutions)) {
+        if (!IMAGE_REFERENCE.test(imageReference) || typeof digest !== 'string' || !REGISTRY_DIGEST.test(digest)) {
+          fail(`trusted image resolutions contain an invalid entry: ${imageReference}`);
+        }
+      }
+      return Object.hasOwn(resolutions, reference) ? resolutions[reference] : undefined;
+    },
+    getSuccessfulProdRecords: () => readJsonUnderPinnedRoot(root, TRUSTED_EVIDENCE_FILES.prod, 'successful Prod records'),
+  };
+}
+
+async function cliRoots(options, dependencies, requireTrust) {
+  if (!options.root) fail('--root is required');
+  const requestRoot = await pinRoot(options.root, 'request root');
+  if (!requireTrust) return {requestRoot};
+  const env = dependencies.env ?? process.env;
+  const evidenceDirectory = env.VDC_JENKINS_EVIDENCE_ROOT;
+  if (!evidenceDirectory) {
+    fail('VDC_JENKINS_EVIDENCE_ROOT is required for approval verification');
+  }
+  const evidenceRoot = await pinRoot(evidenceDirectory, 'trusted evidence root');
+  if (rootsOverlap(requestRoot.path, evidenceRoot.path)) {
+    fail('request root and trusted evidence root must not overlap');
+  }
+  return {
+    requestRoot,
+    provider: filesystemTrustedEvidenceProvider(evidenceRoot),
+  };
+}
+
+function patternMatches(relativePath, pattern) {
+  if (pattern.endsWith('/**')) {
+    const prefix = pattern.slice(0, -3);
+    return relativePath === prefix || relativePath.startsWith(`${prefix}/`);
+  }
+  return relativePath === pattern;
+}
+
+export function resolvePathChecks(relativePath, filters) {
+  requireSafeRelativePath(relativePath, 'changed file');
+  if (!filters || typeof filters !== 'object' || !Array.isArray(filters.precedence)
+    || !filters.rules || typeof filters.rules !== 'object') {
+    fail('path filters must define precedence and rules');
+  }
+  for (const ruleId of filters.precedence) {
+    const rule = filters.rules[ruleId];
+    if (!rule || !Array.isArray(rule.include) || !Array.isArray(rule.checks)) {
+      fail(`path filter rule is invalid: ${ruleId}`);
+    }
+    const included = rule.include.some((pattern) => patternMatches(relativePath, pattern));
+    const excluded = (rule.exclude ?? []).some((pattern) => patternMatches(relativePath, pattern));
+    if (included && !excluded) return [...rule.checks];
+  }
+  return [];
+}
+
 export async function main(argv, dependencies = {}) {
   const {command, options} = parseArgs(argv);
   const write = dependencies.write ?? ((value) => process.stdout.write(value));
-  if (!options.root) {
-    fail('--root is required');
-  }
 
   if (command === 'verify-record') {
     assertAllowedOptions(options, ['root', 'record']);
-    const record = await readJson(options.root, options.record, 'record');
+    const {requestRoot} = await cliRoots(options, dependencies, false);
+    const record = await readJsonUnderPinnedRoot(requestRoot, options.record, 'record');
     validateReleaseRecord(record);
     write(`${JSON.stringify(record)}\n`);
     return record;
   }
 
   if (command === 'verify-rebuild') {
-    assertAllowedOptions(options, ['root', 'record', 'uat-records']);
-    const record = await readJson(options.root, options.record, 'record');
-    const uatRecords = await readJson(options.root, options['uat-records'], 'uat-records');
-    const result = verifyRebuildRelease(record, uatRecords);
+    assertAllowedOptions(options, ['root', 'record']);
+    const {requestRoot, provider} = await cliRoots(options, dependencies, true);
+    const record = await readJsonUnderPinnedRoot(requestRoot, options.record, 'record');
+    const result = await verifyRebuildRelease(record, provider);
     write(`${JSON.stringify(result)}\n`);
     return result;
   }
 
   if (command === 'verify-specified-image') {
-    assertAllowedOptions(options, ['root', 'record', 'uat-records', 'resolutions']);
-    const record = await readJson(options.root, options.record, 'record');
-    const uatRecords = await readJson(options.root, options['uat-records'], 'uat-records');
-    const resolutions = await readJson(options.root, options.resolutions, 'resolutions');
-    const result = await verifySpecifiedImageRelease(record, uatRecords, {
-      resolveImageReference: async (reference) => resolutions[reference],
-    });
+    assertAllowedOptions(options, ['root', 'record']);
+    const {requestRoot, provider} = await cliRoots(options, dependencies, true);
+    const record = await readJsonUnderPinnedRoot(requestRoot, options.record, 'record');
+    const result = await verifySpecifiedImageRelease(record, provider);
     write(`${JSON.stringify(result)}\n`);
     return result;
   }
 
-  assertAllowedOptions(options, ['root', 'request', 'prod-records']);
-  const request = await readJson(options.root, options.request, 'request');
-  const prodRecords = await readJson(options.root, options['prod-records'], 'prod-records');
-  const result = verifyRollbackTarget(request, prodRecords);
+  assertAllowedOptions(options, ['root', 'request']);
+  const {requestRoot, provider} = await cliRoots(options, dependencies, true);
+  const request = await readJsonUnderPinnedRoot(requestRoot, options.request, 'rollback request');
+  const result = await verifyRollbackTarget(request, provider);
   write(`${JSON.stringify({targetDigest: result})}\n`);
   return result;
 }
