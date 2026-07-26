@@ -644,21 +644,21 @@ git commit -m "feat: port Chinese publication adapters"
 - Create: `generated/zh-CN/{sidebars,manifests}`
 - Create: `sidebar-overrides/zh-CN/`
 
-- [ ] **Step 1: Capture and classify the legacy Chinese route baseline**
+- [x] **Step 1: Capture and classify the legacy Chinese route baseline**
 
 Build the unchanged deployed `zdoc_cn` Chinese site with `npm run build`, then run `capture-routes.mjs` against its canonical root `zh-Hans` output and commit `migration/reports/routes-zh-CN-legacy.json`. Separately reproduce `npm run build:assembled` and record its locales and route tree in `migration/reports/routes-zh-CN-legacy-context.json`: the assembled workflow is an overlay integration check, not the Chinese baseline when it emits no Chinese tree. Do not relabel standalone output as assembled; the context report must preserve the exact commands, source SHAs, and the reason the deployed Chinese build is canonical.
 
-- [ ] **Step 2: Import content in owned batches**
+- [x] **Step 2: Import content in owned batches**
 
 Import Guides, BYOC, On-premise, Agents, and Reference separately. Exclude `.zdoc-upstream`, `.zdoc-assembled`, `build`, `.docusaurus`, `node_modules`, caches, and CI logs. After each batch run the secret, symlink, case, Unicode, mode, line-ending, large-file, and relative-link scans; record the source commit/blob IDs in the migration ledger.
 
 Commit each passing batch with its ledger update before importing the next content owner. Never combine a failed or unclassified batch with a later successful batch.
 
-- [ ] **Step 3: Complete the Chinese profile**
+- [x] **Step 3: Complete the Chinese profile**
 
 The Chinese profile explicitly registers its five content plugin roots and selects Chinese UI modules, navigation, redirects, robots, integrations, and publication adapters. Configure exactly one Docusaurus language for the build and assert that no content path starts with `i18n/`.
 
-- [ ] **Step 4: Build and compare Chinese output**
+- [x] **Step 4: Build and compare Chinese output**
 
 Run:
 
@@ -671,11 +671,11 @@ pnpm build:en
 
 Expected: both site builds pass and route comparison has no unclassified difference.
 
-- [ ] **Step 5: Prove assembly independence**
+- [x] **Step 5: Prove assembly independence**
 
 Temporarily make `../../../../zdoc_cn` unavailable to the build command and run `pnpm build:zh-CN` from a clean checkout with document-network access disabled. Expected: build passes and neither `.zdoc-upstream` nor `.zdoc-assembled` is created.
 
-- [ ] **Step 6: Commit the Chinese vertical slice**
+- [x] **Step 6: Commit the Chinese vertical slice**
 
 ```bash
 git add apps packages content generated sidebar-overrides migration
@@ -695,17 +695,17 @@ git commit -m "feat: add independent Chinese site profile"
 - Create: `generated/en/manifests/reference.json`
 - Create: `generated/zh-CN/manifests/reference-translations.json`
 
-- [ ] **Step 1: Write failing completeness tests**
+- [x] **Step 1: Write failing completeness tests**
 
 Cover active source without target, orphan target, mismatched source hash, mismatched target hash, path escape, duplicate target, explicit retirement, deterministic sorting, and absence of volatile timestamps.
 
-- [ ] **Step 2: Run the focused test and verify RED**
+- [x] **Step 2: Run the focused test and verify RED**
 
 Run: `pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts`
 
 Expected: FAIL because the manifest builder does not exist.
 
-- [ ] **Step 3: Implement the manifest record**
+- [x] **Step 3: Implement the manifest record**
 
 ```ts
 export interface TranslationRecord {
@@ -721,7 +721,7 @@ export interface TranslationRecord {
 
 Hash file bytes with SHA-256, normalize paths to repository-relative POSIX form, sort by manual/sourcePath/targetPath, and reject fields not present in the schema.
 
-- [ ] **Step 4: Generate manifests from the only committed Reference trees**
+- [x] **Step 4: Generate manifests from the only committed Reference trees**
 
 Run:
 
@@ -733,7 +733,7 @@ pnpm docs-tooling validate-reference --site zh-CN
 
 Expected: manifests are written only under `generated/*/manifests`; no `content-sources/reference` or `translations/zh-CN/reference` directory is created.
 
-- [ ] **Step 5: Verify deterministic regeneration and commit**
+- [x] **Step 5: Verify deterministic regeneration and commit**
 
 Run the generation command twice, then run `git diff --exit-code` after the second run. Expected: no diff.
 
