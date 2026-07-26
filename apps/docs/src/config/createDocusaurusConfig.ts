@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type {Config, PluginConfig} from '@docusaurus/types';
 import type {ContentPluginProfile, DeepReadonly, SiteProfile} from '@zilliz/site-config';
-import {englishUiModules, sharedUiModules} from '@zilliz/docs-ui';
+import {chineseUiModules, englishUiModules, sharedUiModules} from '@zilliz/docs-ui';
 import {resolveMarkdownPolicy} from './markdownPolicy';
 
 function findRepositoryRoot(startDirectory: string): string {
@@ -90,6 +90,25 @@ function inkeepPlugin(
   ]];
 }
 
+function localSearchTheme(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
+  if (profile.integrations.searchProvider !== 'local') return [];
+  const searchable = profile.content.filter(content => content.id === 'default' || content.id === 'reference');
+  return [[
+    '@easyops-cn/docusaurus-search-local',
+    {
+      hashed: true,
+      indexBlog: false,
+      language: ['en', 'zh'],
+      docsDir: searchable.map(content => path.relative(
+        repositoryPath('apps/docs'),
+        repositoryPath(content.sourcePath),
+      )),
+      docsRouteBasePath: searchable.map(content => content.routeBasePath),
+      highlightSearchTermsOnTargetPage: true,
+    },
+  ]];
+}
+
 export function createDocusaurusConfig(
   profile: DeepReadonly<SiteProfile>,
   environment: BuildEnvironment = process.env,
@@ -98,7 +117,7 @@ export function createDocusaurusConfig(
   const markdownPolicy = resolveMarkdownPolicy(profile.markdown);
   const uiModules = profile.id === 'en'
     ? [...sharedUiModules, ...englishUiModules]
-    : [...sharedUiModules];
+    : [...sharedUiModules, ...chineseUiModules];
 
   return {
     title: profile.title,
@@ -134,11 +153,15 @@ export function createDocusaurusConfig(
             '@docusaurus/plugin-content-pages',
             {path: repositoryPath('apps/docs/src/pages')},
           ] satisfies PluginConfig]
-        : []),
+        : [[
+            '@docusaurus/plugin-content-pages',
+            {path: repositoryPath('packages/docs-ui/src/zh-CN/pages')},
+          ] satisfies PluginConfig]),
       ...profile.content.map(content => contentPlugin(content, markdownPolicy)),
       ...redirectPlugin(profile),
       ...inkeepPlugin(profile, environment),
     ],
+    themes: localSearchTheme(profile),
     presets: [[
       '@docusaurus/preset-classic',
       {

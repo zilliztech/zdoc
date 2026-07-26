@@ -130,6 +130,16 @@ describe('docs UI Docusaurus integration', () => {
     );
   });
 
+  it('keeps the Chinese root route in a site-owned page directory', () => {
+    const homeEntry = path.join(process.cwd(), 'packages/docs-ui/src/zh-CN/pages/index.tsx');
+    expect(fs.existsSync(homeEntry)).toBe(true);
+    if (!fs.existsSync(homeEntry)) return;
+
+    const source = fs.readFileSync(homeEntry, 'utf8');
+    expect(source).toContain("import {Redirect} from '@docusaurus/router';");
+    expect(source).toContain('<Redirect to="/docs/home" />');
+  });
+
   it('keeps migrated legacy sidebar loaders as explicit generated-wrapper shims', () => {
     for (const [loader, generated] of [
       ['guides.legacy.ts', 'guides.sidebar'],

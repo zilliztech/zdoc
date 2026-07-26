@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type {Plugin} from '@docusaurus/types';
-import {englishUiModules, sharedUiModules, type DocsUiModule} from './index';
+import {chineseUiModules, englishUiModules, sharedUiModules, type DocsUiModule} from './index';
 
 type Options = {modules: DocsUiModule[]};
 
-const supportedModules = new Set<DocsUiModule>([...sharedUiModules, ...englishUiModules]);
+const supportedModules = new Set<DocsUiModule>([...sharedUiModules, ...englishUiModules, ...chineseUiModules]);
 
 function findRepositoryRoot(startDirectory: string): string {
   let current = path.resolve(startDirectory);
@@ -46,6 +46,10 @@ export default function docsUiPlugin(_context: unknown, options: Options): Plugi
   if (selectedEnglishModules.length > 0 && selectedEnglishModules.length !== englishUiModules.length) {
     const missing = englishUiModules.filter(module => !modules.includes(module));
     throw new Error(`Docs UI English module selection requires ${missing.join(', ')}`);
+  }
+  const selectedChineseModules = chineseUiModules.filter(module => modules.includes(module));
+  if (selectedEnglishModules.length > 0 && selectedChineseModules.length > 0) {
+    throw new Error('Docs UI English and Chinese modules are mutually exclusive');
   }
 
   const repositoryRoot = findRepositoryRoot(__dirname);

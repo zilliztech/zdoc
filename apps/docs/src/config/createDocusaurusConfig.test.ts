@@ -109,8 +109,32 @@ describe('createDocusaurusConfig', () => {
     });
     expect(createDocusaurusConfig(chinese).plugins).toContainEqual([
       '@zilliz/docs-ui/docusaurus',
-      {modules: ['shared-theme', 'shared-components']},
+      {modules: ['shared-theme', 'shared-components', 'chinese-home']},
     ]);
+    expect(createDocusaurusConfig(chinese).plugins).toContainEqual([
+      '@docusaurus/plugin-content-pages',
+      {path: expect.stringMatching(/packages\/docs-ui\/src\/zh-CN\/pages$/)},
+    ]);
+  });
+
+  it('restores the legacy Chinese local-search route without enabling it for English', () => {
+    const chinese = profile({
+      id: 'zh-CN',
+      language: 'zh-Hans',
+      outputDir: 'build/zh-CN',
+      integrations: {searchProvider: 'local', chatProvider: 'inkeep'},
+    });
+
+    expect(createDocusaurusConfig(chinese).themes).toContainEqual([
+      '@easyops-cn/docusaurus-search-local',
+      expect.objectContaining({
+        hashed: true,
+        indexBlog: false,
+        language: ['en', 'zh'],
+        docsRouteBasePath: ['docs', 'reference'],
+      }),
+    ]);
+    expect(createDocusaurusConfig(profile()).themes ?? []).toEqual([]);
   });
 
   it('maps site-owned exclusions and current-version route paths into docs plugin options', () => {
@@ -222,16 +246,18 @@ describe('createDocusaurusConfig', () => {
     expect(redirectPlugin[1].createRedirects('/other')).toBeUndefined();
   });
 
-  it('registers standalone pages only for the English site', () => {
+  it('registers disjoint site-owned standalone page roots', () => {
     const englishPages = (createDocusaurusConfig(profile()).plugins ?? []).find(
       plugin => Array.isArray(plugin) && plugin[0] === '@docusaurus/plugin-content-pages',
     ) as [string, {path: string}];
     expect(englishPages[1].path).toMatch(/apps\/docs\/src\/pages$/);
 
     const chinese = createDocusaurusConfig(profile({id: 'zh-CN', language: 'zh-Hans'}));
-    expect((chinese.plugins ?? []).some(
+    const chinesePages = (chinese.plugins ?? []).find(
       plugin => Array.isArray(plugin) && plugin[0] === '@docusaurus/plugin-content-pages',
-    )).toBe(false);
+    ) as [string, {path: string}];
+    expect(chinesePages[1].path).toMatch(/packages\/docs-ui\/src\/zh-CN\/pages$/);
+    expect(chinesePages[1].path).not.toBe(englishPages[1].path);
   });
 
   it('registers English Inkeep runtime integration and loads runtime environment before UI hydration', () => {

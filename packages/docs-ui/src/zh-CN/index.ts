@@ -1,1 +1,1 @@
-export const chineseUiModules = [] as const;
+export const chineseUiModules = ['chinese-home'] as const;

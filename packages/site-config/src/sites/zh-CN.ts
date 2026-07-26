@@ -29,7 +29,7 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   },
   navigation: {items: [{label: 'Cloud 开发指南', to: '/docs/quick-start'}, {label: 'BYOC 开发指南', to: '/docs/byoc/quick-start'}, {label: 'API & SDK', to: '/reference'}], secondaryItems: []},
   markdown: {remarkPlugins: ['math', 'math-brace-fix'], rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks']},
-  integrations: {searchProvider: 'inkeep', chatProvider: 'inkeep'},
+  integrations: {searchProvider: 'local', chatProvider: 'inkeep'},
   redirects: {rules: []},
   robots: {index: true},
 }));

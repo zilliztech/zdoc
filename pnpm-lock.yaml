@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@easyops-cn/docusaurus-search-local>cheerio': 1.0.0-rc.12
+
 importers:
 
   .:
@@ -11433,7 +11436,7 @@ snapshots:
       '@docusaurus/utils-validation': 3.10.0(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@easyops-cn/autocomplete.js': 0.38.1
       '@node-rs/jieba': 1.10.4
-      cheerio: 1.2.0
+      cheerio: 1.0.0-rc.12
       clsx: 1.2.1
       debug: 4.4.3
       fs-extra: 10.1.0
