@@ -79,6 +79,23 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   if (options.verifyFiles === false) return;
   const sourceFiles = readReferenceTree(options.repositoryRoot, options.sourceRoot);
   const targetFiles = readReferenceTree(options.repositoryRoot, options.targetRoot);
+  for (const record of translationManifest.records) {
+    const sourceHash = fileHash(options.repositoryRoot, record.sourcePath);
+    const targetHash = fileHash(options.repositoryRoot, record.targetPath);
+    const sourceMissing = sourceHash === undefined;
+    const targetMissing = targetHash === undefined;
+    if (record.status === 'retired') {
+      if (sourceMissing === targetMissing) {
+        throw new Error(`Retired translation must have exactly one missing side: ${record.sourcePath} -> ${record.targetPath}`);
+      }
+    } else if (sourceMissing || targetMissing) {
+      throw new Error(`Active translation source and target must both exist: ${record.sourcePath}`);
+    }
+    if (sourceHash && sourceHash !== record.sourceHash) throw new Error(`Source hash mismatch: ${record.sourcePath}`);
+    if (targetHash && targetHash !== record.targetHash) throw new Error(`Target hash mismatch: ${record.targetPath}`);
+    if (sourceMissing && record.sourceHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired source must use the empty-file hash: ${record.sourcePath}`);
+    if (targetMissing && record.targetHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired target must use the empty-file hash: ${record.targetPath}`);
+  }
   for (const [filePath, hash] of sourceFiles) {
     const source = sourceRecords.get(filePath);
     if (!source) throw new Error(`Active canonical source is absent from the source manifest: ${filePath}`);
@@ -89,17 +106,6 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   }
   for (const [filePath] of targetFiles) {
     if (!targetPaths.has(filePath)) throw new Error(`Orphan target is absent from the translation manifest: ${filePath}`);
-  }
-  for (const record of translationManifest.records) {
-    const sourceHash = fileHash(options.repositoryRoot, record.sourcePath);
-    const targetHash = fileHash(options.repositoryRoot, record.targetPath);
-    if (record.status !== 'retired' && (!sourceHash || !targetHash)) {
-      throw new Error(`Active translation source and target must both exist: ${record.sourcePath}`);
-    }
-    if (sourceHash && sourceHash !== record.sourceHash) throw new Error(`Source hash mismatch: ${record.sourcePath}`);
-    if (targetHash && targetHash !== record.targetHash) throw new Error(`Target hash mismatch: ${record.targetPath}`);
-    if (!sourceHash && record.sourceHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired source must use the empty-file hash: ${record.sourcePath}`);
-    if (!targetHash && record.targetHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired target must use the empty-file hash: ${record.targetPath}`);
   }
 }
 

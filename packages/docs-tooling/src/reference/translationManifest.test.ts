@@ -100,6 +100,13 @@ describe('Reference translation provenance', () => {
     expect(() => parseReferenceTranslationManifest({schemaVersion: 1, records: [translationManifest().records[0]], generatedAt: 'now'})).toThrow(/unrecognized|schema/i);
   });
 
+  it('rejects fields outside the TranslationRecord schema', () => {
+    expect(() => parseReferenceTranslationManifest({
+      schemaVersion: 1,
+      records: [{...translationManifest().records[0], note: 'not allowed'}],
+    })).toThrow(/unrecognized|schema/i);
+  });
+
   it('rejects duplicate target mappings', () => {
     const record = translationManifest().records[0];
     expect(() => validateReferenceTranslation({
@@ -107,12 +114,12 @@ describe('Reference translation provenance', () => {
       sourceRoot: 'content/en/reference',
       targetRoot: 'content/zh-CN/reference',
       sourceManifest: sourceManifest({records: [
-        sourceManifest().records[0],
         {...sourceManifest().records[0], sourcePath: 'content/en/reference/api/python/other.md'},
+        sourceManifest().records[0],
       ]}),
       translationManifest: translationManifest({records: [
-        record,
         {...record, sourcePath: 'content/en/reference/api/python/other.md'},
+        record,
       ]}),
       verifyFiles: false,
     })).toThrow(/duplicate target/i);
@@ -133,6 +140,32 @@ describe('Reference translation provenance', () => {
     })).not.toThrow();
   });
 
+  it('rejects a retired mapping when both source and target are present', () => {
+    const roots = fixture();
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+
+    expect(() => validateReferenceTranslation({
+      ...roots,
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [{...translationManifest().records[0], status: 'retired'}]}),
+    })).toThrow(/retired.*exactly one.*missing/i);
+  });
+
+  it('rejects a retired mapping when both source and target are missing', () => {
+    const roots = fixture();
+    expect(() => validateReferenceTranslation({
+      ...roots,
+      sourceManifest: sourceManifest({records: [{...sourceManifest().records[0], sourceHash: EMPTY_FILE_SHA256}]}),
+      translationManifest: translationManifest({records: [{
+        ...translationManifest().records[0],
+        sourceHash: EMPTY_FILE_SHA256,
+        targetHash: EMPTY_FILE_SHA256,
+        status: 'retired',
+      }]}),
+    })).toThrow(/retired.*exactly one.*missing/i);
+  });
+
   it('does not silently retire a newly unmatched source during generation', () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
@@ -142,6 +175,41 @@ describe('Reference translation provenance', () => {
       sourceCommit: 'a'.repeat(40),
       manualForPath: () => 'python',
     })).toThrow(/explicit retirement/i);
+  });
+
+  it('fails closed when a registered retirement loses its remaining file', () => {
+    const roots = fixture();
+    const retiredRecord = {
+      ...translationManifest().records[0],
+      sourceHash: EMPTY_FILE_SHA256,
+      targetHash: sha256('# old target\n'),
+      status: 'retired' as const,
+    };
+
+    expect(() => buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'python',
+      retiredRecords: [retiredRecord],
+    })).toThrow(/retirement.*remaining.*missing|both.*missing/i);
+  });
+
+  it('rejects translation and source manifests whose records are not canonically sorted', () => {
+    const sourceRecords = [
+      sourceManifest().records[0],
+      {...sourceManifest().records[0], sourcePath: 'content/en/reference/api/python/z.md'},
+    ];
+    const translationRecords = [
+      translationManifest().records[0],
+      {
+        ...translationManifest().records[0],
+        sourcePath: 'content/en/reference/api/python/z.md',
+        targetPath: 'content/zh-CN/reference/api/python/z.md',
+      },
+    ];
+
+    expect(() => parseReferenceSourceManifest({...sourceManifest(), records: sourceRecords.reverse()})).toThrow(/sorted|order/i);
+    expect(() => parseReferenceTranslationManifest({...translationManifest(), records: translationRecords.reverse()})).toThrow(/sorted|order/i);
   });
 
   it('builds deterministically sorted manifests without volatile timestamps', () => {

@@ -39,12 +39,26 @@ const ReferenceSourceManifestSchema = z.object({
   schemaVersion: z.literal(1),
   sourceCommit: z.string().regex(COMMIT_SHA),
   records: z.array(SourceRecordSchema),
-}).strict();
+}).strict().superRefine((manifest, context) => {
+  for (let index = 1; index < manifest.records.length; index += 1) {
+    if (compareRecords(manifest.records[index - 1], manifest.records[index]) > 0) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['records', index], message: 'Source manifest records must be canonically sorted by manual and sourcePath'});
+      return;
+    }
+  }
+});
 
 const ReferenceTranslationManifestSchema = z.object({
   schemaVersion: z.literal(1),
   records: z.array(TranslationRecordSchema),
-}).strict();
+}).strict().superRefine((manifest, context) => {
+  for (let index = 1; index < manifest.records.length; index += 1) {
+    if (compareRecords(manifest.records[index - 1], manifest.records[index]) > 0) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['records', index], message: 'Translation manifest records must be canonically sorted by manual, sourcePath, and targetPath'});
+      return;
+    }
+  }
+});
 
 export interface TranslationRecord {
   manual: string;
@@ -81,11 +95,11 @@ function compareText(left: string, right: string): number {
 }
 
 function compareRecords(
-  left: {manual: string; sourcePath: string; targetPath?: string},
-  right: {manual: string; sourcePath: string; targetPath?: string},
+  left: {manual?: string; sourcePath?: string; targetPath?: string},
+  right: {manual?: string; sourcePath?: string; targetPath?: string},
 ): number {
-  return compareText(left.manual, right.manual)
-    || compareText(left.sourcePath, right.sourcePath)
+  return compareText(left.manual ?? '', right.manual ?? '')
+    || compareText(left.sourcePath ?? '', right.sourcePath ?? '')
     || compareText(left.targetPath ?? '', right.targetPath ?? '');
 }
 
@@ -152,6 +166,11 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   const retired = new Set((options.retiredRecords ?? [])
     .filter(record => record.status === 'retired')
     .map(record => `${record.sourcePath}\0${record.targetPath}`));
+  for (const record of options.retiredRecords ?? []) {
+    if (record.status === 'retired' && !sourceFiles.has(record.sourcePath) && !targetFiles.has(record.targetPath)) {
+      throw new Error(`Registered retirement lost its remaining file; both sides are missing: ${record.sourcePath} -> ${record.targetPath}`);
+    }
+  }
   const relativePaths = new Set([...sourceByRelative.keys(), ...targetByRelative.keys()]);
   const records: TranslationRecord[] = [];
   for (const relativePath of [...relativePaths].sort(compareText)) {
