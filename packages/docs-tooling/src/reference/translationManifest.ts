@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {lstatSync, readdirSync, readFileSync} from 'node:fs';
+import {closeSync, constants, existsSync, fstatSync, lstatSync, openSync, readdirSync, readFileSync, realpathSync} from 'node:fs';
 import path from 'node:path';
 
 import {z} from 'zod';
@@ -60,6 +60,31 @@ const ReferenceTranslationManifestSchema = z.object({
   }
 });
 
+const RetirementRecordSchema = z.object({
+  manual: z.string().regex(/^[a-z][a-z0-9-]*$/u),
+  sourcePath: RepositoryPathSchema,
+  targetPath: RepositoryPathSchema,
+  reason: z.string().min(1),
+}).strict().superRefine((record, context) => {
+  const sourceRelative = relativeToRoot(record.sourcePath, 'content/en/reference');
+  const targetRelative = relativeToRoot(record.targetPath, 'content/zh-CN/reference');
+  if (sourceRelative !== targetRelative) {
+    context.addIssue({code: z.ZodIssueCode.custom, message: 'Retirement source and target must use the same canonical relative path'});
+  }
+});
+
+const ReferenceRetirementRegistrySchema = z.object({
+  schemaVersion: z.literal(1),
+  retirements: z.array(RetirementRecordSchema),
+}).strict().superRefine((registry, context) => {
+  for (let index = 1; index < registry.retirements.length; index += 1) {
+    if (compareRecords(registry.retirements[index - 1], registry.retirements[index]) > 0) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['retirements', index], message: 'Retirement records must be canonically sorted'});
+      return;
+    }
+  }
+});
+
 export interface TranslationRecord {
   manual: string;
   sourcePath: string;
@@ -76,6 +101,9 @@ export type ReferenceTranslationManifest = Readonly<{
   schemaVersion: 1;
   records: readonly TranslationRecord[];
 }>;
+export type ReferenceRetirementRecord = z.infer<typeof RetirementRecordSchema>;
+export type ReferenceRetirementRegistry = z.infer<typeof ReferenceRetirementRegistrySchema>;
+export type ReferenceTreeSnapshot = ReadonlyMap<string, string>;
 
 export type BuildReferenceManifestOptions = Readonly<{
   repositoryRoot: string;
@@ -83,7 +111,9 @@ export type BuildReferenceManifestOptions = Readonly<{
   targetRoot: string;
   sourceCommit: string;
   manualForPath: (repositoryRelativePath: string) => string;
-  retiredRecords?: readonly TranslationRecord[];
+  retirementRegistry?: ReferenceRetirementRegistry;
+  sourceSnapshot?: ReferenceTreeSnapshot;
+  targetSnapshot?: ReferenceTreeSnapshot;
 }>;
 
 function sha256(bytes: Buffer): string {
@@ -103,9 +133,38 @@ function compareRecords(
     || compareText(left.targetPath ?? '', right.targetPath ?? '');
 }
 
+export function assertSafeRepositoryPathChain(repositoryRoot: string, relativePath: string, label: string): string {
+  assertSafeRepositoryRelativePath(relativePath, label);
+  const repositoryReal = realpathSync(repositoryRoot);
+  let current = repositoryRoot;
+  for (const segment of relativePath.split('/')) {
+    current = path.join(current, segment);
+    if (!existsSync(current)) continue;
+    const stats = lstatSync(current);
+    if (stats.isSymbolicLink()) throw new Error(`${label} must not use a symlink ancestor or final target: ${relativePath}`);
+    const resolved = realpathSync(current);
+    if (resolved !== repositoryReal && !resolved.startsWith(`${repositoryReal}${path.sep}`)) {
+      throw new Error(`${label} escapes the repository root: ${relativePath}`);
+    }
+  }
+  return resolveOwnedRepositoryPath(repositoryRoot, relativePath, label);
+}
+
+function readRegularFileNoFollow(absolutePath: string): Buffer {
+  const noFollow = typeof constants.O_NOFOLLOW === 'number' ? constants.O_NOFOLLOW : 0;
+  const descriptor = openSync(absolutePath, constants.O_RDONLY | noFollow);
+  try {
+    const stats = fstatSync(descriptor);
+    if (!stats.isFile()) throw new Error(`Reference file must be regular: ${absolutePath}`);
+    return readFileSync(descriptor);
+  } finally {
+    closeSync(descriptor);
+  }
+}
+
 function repositoryFiles(repositoryRoot: string, relativeRoot: string): Map<string, string> {
   assertSafeRepositoryRelativePath(relativeRoot, 'Reference root');
-  const absoluteRoot = resolveOwnedRepositoryPath(repositoryRoot, relativeRoot, 'Reference root');
+  const absoluteRoot = assertSafeRepositoryPathChain(repositoryRoot, relativeRoot, 'Reference root');
   const rootStats = lstatSync(absoluteRoot);
   if (!rootStats.isDirectory() || rootStats.isSymbolicLink()) throw new Error(`Reference root must be a regular directory: ${relativeRoot}`);
   const files = new Map<string, string>();
@@ -121,7 +180,7 @@ function repositoryFiles(repositoryRoot: string, relativeRoot: string): Map<stri
       if (entry.name === '.gitkeep' || (directory === absoluteRoot && entry.name === 'content-manifest.json')) continue;
       const relativePath = path.relative(repositoryRoot, absolutePath).split(path.sep).join('/');
       assertSafeRepositoryRelativePath(relativePath, 'Reference file');
-      files.set(relativePath, sha256(readFileSync(absolutePath)));
+      files.set(relativePath, sha256(readRegularFileNoFollow(absolutePath)));
     }
   };
   visit(absoluteRoot);
@@ -141,6 +200,10 @@ export function parseReferenceTranslationManifest(value: unknown): ReferenceTran
   return ReferenceTranslationManifestSchema.parse(value) as unknown as ReferenceTranslationManifest;
 }
 
+export function parseReferenceRetirementRegistry(value: unknown): ReferenceRetirementRegistry {
+  return ReferenceRetirementRegistrySchema.parse(value);
+}
+
 export function serializeReferenceManifest(value: ReferenceSourceManifest | ReferenceTranslationManifest): string {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -150,8 +213,8 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   translationManifest: ReferenceTranslationManifest;
 }> {
   const sourceCommit = z.string().regex(COMMIT_SHA).parse(options.sourceCommit);
-  const sourceFiles = repositoryFiles(options.repositoryRoot, options.sourceRoot);
-  const targetFiles = repositoryFiles(options.repositoryRoot, options.targetRoot);
+  const sourceFiles = new Map(options.sourceSnapshot ?? repositoryFiles(options.repositoryRoot, options.sourceRoot));
+  const targetFiles = new Map(options.targetSnapshot ?? repositoryFiles(options.repositoryRoot, options.targetRoot));
   const sourceManifest: ReferenceSourceManifest = {
     schemaVersion: 1,
     sourceCommit,
@@ -163,11 +226,10 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   };
   const sourceByRelative = new Map([...sourceFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.sourceRoot), {filePath, hash}]));
   const targetByRelative = new Map([...targetFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.targetRoot), {filePath, hash}]));
-  const retired = new Set((options.retiredRecords ?? [])
-    .filter(record => record.status === 'retired')
-    .map(record => `${record.sourcePath}\0${record.targetPath}`));
-  for (const record of options.retiredRecords ?? []) {
-    if (record.status === 'retired' && !sourceFiles.has(record.sourcePath) && !targetFiles.has(record.targetPath)) {
+  const registeredRetirements = options.retirementRegistry?.retirements ?? [];
+  const retired = new Set(registeredRetirements.map(record => `${record.sourcePath}\0${record.targetPath}`));
+  for (const record of registeredRetirements) {
+    if (!sourceFiles.has(record.sourcePath) && !targetFiles.has(record.targetPath)) {
       throw new Error(`Registered retirement lost its remaining file; both sides are missing: ${record.sourcePath} -> ${record.targetPath}`);
     }
   }
@@ -200,5 +262,9 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
 }
 
 export function readReferenceTree(repositoryRoot: string, relativeRoot: string): ReadonlyMap<string, string> {
+  return repositoryFiles(repositoryRoot, relativeRoot);
+}
+
+export function captureReferenceTree(repositoryRoot: string, relativeRoot: string): ReferenceTreeSnapshot {
   return repositoryFiles(repositoryRoot, relativeRoot);
 }

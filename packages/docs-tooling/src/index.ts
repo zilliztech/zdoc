@@ -29,9 +29,19 @@ export {
 export type {PublicationAnchor, PublicationDiagnostics, PublicationDiagnosticsIdentity} from './publication/diagnostics.ts';
 export {
   buildReferenceManifests,
+  captureReferenceTree,
+  parseReferenceRetirementRegistry,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
   serializeReferenceManifest,
 } from './reference/translationManifest.ts';
-export type {ReferenceSourceManifest, ReferenceSourceRecord, ReferenceTranslationManifest, TranslationRecord} from './reference/translationManifest.ts';
+export type {
+  ReferenceRetirementRecord,
+  ReferenceRetirementRegistry,
+  ReferenceSourceManifest,
+  ReferenceSourceRecord,
+  ReferenceTranslationManifest,
+  ReferenceTreeSnapshot,
+  TranslationRecord,
+} from './reference/translationManifest.ts';
 export {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';

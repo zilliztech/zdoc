@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -10,6 +10,7 @@ import {
   EMPTY_FILE_SHA256,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
+  parseReferenceRetirementRegistry,
   serializeReferenceManifest,
   type ReferenceSourceManifest,
   type ReferenceTranslationManifest,
@@ -122,7 +123,7 @@ describe('Reference translation provenance', () => {
         record,
       ]}),
       verifyFiles: false,
-    })).toThrow(/duplicate target/i);
+    })).toThrow(/duplicate target|canonical relative path/i);
   });
 
   it('allows an explicit retirement for a canonical source whose target was removed', () => {
@@ -180,17 +181,17 @@ describe('Reference translation provenance', () => {
   it('fails closed when a registered retirement loses its remaining file', () => {
     const roots = fixture();
     const retiredRecord = {
-      ...translationManifest().records[0],
-      sourceHash: EMPTY_FILE_SHA256,
-      targetHash: sha256('# old target\n'),
-      status: 'retired' as const,
+      manual: 'python',
+      sourcePath: 'content/en/reference/api/python/page.md',
+      targetPath: 'content/zh-CN/reference/api/python/page.md',
+      reason: 'Fixture retirement',
     };
 
     expect(() => buildReferenceManifests({
       ...roots,
       sourceCommit: 'a'.repeat(40),
       manualForPath: () => 'python',
-      retiredRecords: [retiredRecord],
+      retirementRegistry: {schemaVersion: 1, retirements: [retiredRecord]},
     })).toThrow(/retirement.*remaining.*missing|both.*missing/i);
   });
 
@@ -210,6 +211,87 @@ describe('Reference translation provenance', () => {
 
     expect(() => parseReferenceSourceManifest({...sourceManifest(), records: sourceRecords.reverse()})).toThrow(/sorted|order/i);
     expect(() => parseReferenceTranslationManifest({...translationManifest(), records: translationRecords.reverse()})).toThrow(/sorted|order/i);
+  });
+
+  it('rejects a translation whose target is swapped with another canonical relative path', () => {
+    const roots = fixture();
+    for (const [relativePath, contents] of [['a.md', '# a\n'], ['b.md', '# b\n']] as const) {
+      writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python', relativePath), contents);
+      writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python', relativePath), `# 中文 ${relativePath}\n`);
+    }
+    const sourceRecords = [
+      {manual: 'python', sourcePath: 'content/en/reference/api/python/a.md', sourceHash: sha256('# a\n')},
+      {manual: 'python', sourcePath: 'content/en/reference/api/python/b.md', sourceHash: sha256('# b\n')},
+    ];
+    const records = [
+      {
+        ...translationManifest().records[0],
+        sourcePath: sourceRecords[0].sourcePath,
+        sourceHash: sourceRecords[0].sourceHash,
+        targetPath: 'content/zh-CN/reference/api/python/b.md',
+        targetHash: sha256('# 中文 b.md\n'),
+      },
+      {
+        ...translationManifest().records[0],
+        sourcePath: sourceRecords[1].sourcePath,
+        sourceHash: sourceRecords[1].sourceHash,
+        targetPath: 'content/zh-CN/reference/api/python/a.md',
+        targetHash: sha256('# 中文 a.md\n'),
+      },
+    ].sort((left, right) => left.sourcePath.localeCompare(right.sourcePath));
+
+    expect(() => validateReferenceTranslation({
+      ...roots,
+      sourceManifest: sourceManifest({records: sourceRecords}),
+      translationManifest: translationManifest({records}),
+    })).toThrow(/canonical|relative path|mapping/i);
+  });
+
+  it('rejects translated status when source and target hashes are equal', () => {
+    expect(() => validateReferenceTranslation({
+      repositoryRoot: '/unused',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [{
+        ...translationManifest().records[0],
+        targetHash: translationManifest().records[0].sourceHash,
+        status: 'translated',
+      }]}),
+      verifyFiles: false,
+    })).toThrow(/translated.*differ|status/i);
+  });
+
+  it('rejects a Reference root reached through a symlinked ancestor', () => {
+    const repositoryRoot = mkdtempSync(path.join(tmpdir(), 'reference-root-symlink-'));
+    const outside = mkdtempSync(path.join(tmpdir(), 'reference-root-outside-'));
+    mkdirSync(path.join(repositoryRoot, 'content'), {recursive: true});
+    mkdirSync(path.join(outside, 'reference'), {recursive: true});
+    mkdirSync(path.join(repositoryRoot, 'content/zh-CN/reference'), {recursive: true});
+    symlinkSync(outside, path.join(repositoryRoot, 'content/en'));
+
+    expect(() => buildReferenceManifests({
+      repositoryRoot,
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'python',
+    })).toThrow(/symlink|ancestor/i);
+  });
+
+  it('validates a strict, sorted, canonical retirement registry', () => {
+    const record = {
+      manual: 'python',
+      sourcePath: 'content/en/reference/api/python/page.md',
+      targetPath: 'content/zh-CN/reference/api/python/page.md',
+      reason: 'Legacy translation retained after canonical source removal',
+    };
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [{...record, extra: true}]})).toThrow(/unrecognized|schema/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [
+      {...record, sourcePath: 'content/en/reference/api/python/z.md', targetPath: 'content/zh-CN/reference/api/python/z.md'},
+      record,
+    ]})).toThrow(/sorted|order/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [{...record, targetPath: 'content/zh-CN/reference/api/python/other.md'}]})).toThrow(/canonical|relative/i);
   });
 
   it('builds deterministically sorted manifests without volatile timestamps', () => {
@@ -251,6 +333,7 @@ describe('Reference translation provenance', () => {
       resolveSourceCommit: () => 'a'.repeat(40),
       verifySourceRevision: (commit: string) => { verifiedRevisions.push(commit); },
       manualForPath: () => 'python',
+      retirementRegistry: {schemaVersion: 1 as const, retirements: []},
     };
 
     await executeReferenceDocsToolingCommand([

@@ -3,13 +3,13 @@ import {createHash} from 'node:crypto';
 
 import {
   EMPTY_FILE_SHA256,
+  assertSafeRepositoryPathChain,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
   readReferenceTree,
   type ReferenceSourceManifest,
   type ReferenceTranslationManifest,
 } from '../reference/translationManifest.ts';
-import {resolveOwnedRepositoryPath} from './ownership.ts';
 
 export type ValidateReferenceTranslationOptions = Readonly<{
   repositoryRoot: string;
@@ -18,6 +18,7 @@ export type ValidateReferenceTranslationOptions = Readonly<{
   sourceManifest: ReferenceSourceManifest;
   translationManifest: ReferenceTranslationManifest;
   verifyFiles?: boolean;
+  manualForPath?: (repositoryRelativePath: string) => string;
 }>;
 
 export type ValidateReferenceSourceOptions = Readonly<{
@@ -30,8 +31,13 @@ function assertBelowRoot(filePath: string, root: string, label: string): void {
   if (!filePath.startsWith(`${root}/`)) throw new Error(`${label} must stay within ${root}: ${filePath}`);
 }
 
+function relativeBelowRoot(filePath: string, root: string): string {
+  assertBelowRoot(filePath, root, 'Translation path');
+  return filePath.slice(root.length + 1);
+}
+
 function fileHash(repositoryRoot: string, relativePath: string): string | undefined {
-  const absolutePath = resolveOwnedRepositoryPath(repositoryRoot, relativePath, 'Manifest file');
+  const absolutePath = assertSafeRepositoryPathChain(repositoryRoot, relativePath, 'Manifest file');
   if (!existsSync(absolutePath)) return undefined;
   const stats = lstatSync(absolutePath);
   if (!stats.isFile() || stats.isSymbolicLink()) throw new Error(`Manifest file must be a regular non-symlink file: ${relativePath}`);
@@ -53,6 +59,9 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   for (const record of translationManifest.records) {
     assertBelowRoot(record.sourcePath, options.sourceRoot, 'Translation source path');
     assertBelowRoot(record.targetPath, options.targetRoot, 'Translation target path');
+    if (relativeBelowRoot(record.sourcePath, options.sourceRoot) !== relativeBelowRoot(record.targetPath, options.targetRoot)) {
+      throw new Error(`Translation mapping must use the same canonical relative path: ${record.sourcePath} -> ${record.targetPath}`);
+    }
     if (record.sourceCommit !== sourceManifest.sourceCommit) throw new Error(`Translation source commit mismatch: ${record.sourcePath}`);
     if (translationsBySource.has(record.sourcePath)) throw new Error(`Duplicate source mapping: ${record.sourcePath}`);
     if (targetPaths.has(record.targetPath)) throw new Error(`Duplicate target mapping: ${record.targetPath}`);
@@ -64,9 +73,17 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
       throw new Error(`Orphan target has no active or retired source mapping: ${record.targetPath}`);
     }
     if (source && source.manual !== record.manual) throw new Error(`Translation manual mismatch: ${record.sourcePath}`);
+    if (options.manualForPath) {
+      if (options.manualForPath(record.sourcePath) !== record.manual || options.manualForPath(record.targetPath) !== record.manual) {
+        throw new Error(`Translation manual does not match source and target ownership: ${record.sourcePath}`);
+      }
+    }
     if (source && source.sourceHash !== record.sourceHash) throw new Error(`Declared source hash mismatch: ${record.sourcePath}`);
     if (record.status === 'unchanged' && record.sourceHash !== record.targetHash) {
       throw new Error(`Unchanged translation must have identical source and target hashes: ${record.targetPath}`);
+    }
+    if (record.status === 'translated' && record.sourceHash === record.targetHash) {
+      throw new Error(`Translated status requires source and target hashes to differ: ${record.targetPath}`);
     }
   }
 
