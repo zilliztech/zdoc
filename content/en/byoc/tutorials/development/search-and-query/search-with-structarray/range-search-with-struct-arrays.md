@@ -113,7 +113,7 @@ In this example, `COSINE` is a similarity-style metric, so the result range is g
 
 You can combine element-level range search with StructArray scalar filtering. Use a top-level predicate for parent-entity fields, and use `element_filter` to constrain which Struct elements participate in the vector range search.
 
-```plaintext
+```python
 filter_expr = (
     'category == "search" && '
     'element_filter(chunks, '

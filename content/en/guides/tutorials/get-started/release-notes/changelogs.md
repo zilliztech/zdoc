@@ -46,6 +46,28 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **[July 15, 2026](./release-notes-2607#byoc-supports-storage-integrations-and-external-volumes)**
+
+    </div>
+
+    <div>
+
+        - 💾 [Storage integration](/docs/byoc/integrate-with-aws-s3) and [external volumes](/docs/byoc/external-volume) become available for BYOC projects.
+
+        - 📈 [Collection-level metrics](./metrics-alerts-reference) go online for on-demand clusters.
+
+        - 💳 On-demand compute and external volumes now incur charges. For the breakdown, see [On-Demand Compute Cost](./on-demand-compute-cost) and [Storage Request Cost](./storage-request-cost).
+
+        - 💻 [Programmable storage integrations](/reference/restful/storage-integration-operations-v2) are available through RESTful APIs.
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
         **[July 6, 2026](./release-notes-2607)**
 
     </div>
@@ -94,7 +116,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[June 3, 2026](./release-notes-2606)**
+        **[June 3, 2026](./release-notes-2606#nullable-vector)**
 
     </div>
 
@@ -142,21 +164,21 @@ import Grid from '@site/src/components/Grid';
 
             - [External collections and backfill](./create-external-collection)
 
-            - [Nullable vectors](./nullable-fields),
+            - [Nullable vectors](./nullable-fields)
 
             - [Embedding list searches and filtering](./use-array-of-structs),
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query),
+            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results)
 
-            - [Snapshots](./snapshots),
+            - [Snapshots](./snapshots)
 
-            - [Entity TTL](./set-collection-ttl),
+            - [Entity TTL](./set-collection-ttl)
 
-            - Force merge,
+            - Force merge
 
-            - Custom dictionaries and tokenizers, and
+            - Custom dictionaries and tokenizers
 
             - Spark semantic deduplication and abnormal detection
 
@@ -164,7 +186,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🔍︎ Collection-level [large top-K](./use-large-topk) becomes available, expanding the maximum number of returned entities from 16,384 to 1,000,000 for enabled collections
 
-        - 🗺️ [Regional constraints are available in projects](./manage-projects), helping enterprises manage data residency and keep regional data-plane access explicit.
+        - 🗺️ [Regional constraints are available in projects](./manage-projects#add-project-regions), helping enterprises manage data residency and keep regional data-plane access explicit.
 
     </div>
 
@@ -188,7 +210,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚙️ The [maintenance window](./organization-settings#set-up-preferred-maintenance-window) has been redesigned to provide more predictable upgrade scheduling and proactive notifications.
 
-        - 👥 A new [cluster admin](./project-users) role grants team members operational access to specific clusters without full project-level admin privileges.
+        - 👥 A new [cluster admin](./project-users#cluster-admin) role grants team members operational access to specific clusters without full project-level admin privileges.
 
         - 💾 Tiered storage becomes available to clusters in BYOC projects.
 
@@ -200,7 +222,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[February 9](./release-notes-2602)[, 2026](./release-notes-2602)**
+        **[February 9](./release-notes-2602#sso-enforcement)[, 2026](./release-notes-2602#sso-enforcement)**
 
     </div>
 
@@ -208,7 +230,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🔐 [SSO enforcement](./enforce-sso-in-your-organization) to restrict access from non-SSO authentication.
 
-        - 👥 Cluster-level access control configured at the [organization-](./organization-users#organization-role) and [project-level](./project-users) for fine-grained data access.
+        - 👥 Cluster-level access control configured at the [organization-](./organization-users#organization-role) and [project-level](./project-users#project-access) for fine-grained data access.
 
     </div>
 
@@ -218,7 +240,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[February 4](./release-notes-2602)[, 2026](./release-notes-2602)**
+        **[February 4](./release-notes-2602#new-region-aws-ireland)[, 2026](./release-notes-2602#new-region-aws-ireland)**
 
     </div>
 
@@ -362,11 +384,11 @@ import Grid from '@site/src/components/Grid';
 
             - [Array of Structs](./use-array-of-structs)
 
-        - 🔍  Full-text search capabilities are now available during [migrations](./via-endpoint).
+        - 🔍  Full-text search capabilities are now available during [migrations](./via-endpoint#getting-started).
 
-        - ⏰  Customizing the [notification interval](./manage-project-alerts) to suppress repeated alerts.
+        - ⏰  Customizing the [notification interval](./manage-project-alerts#alert-settings) to suppress repeated alerts.
 
-        - 🔧  The [dynamic field can be enabled for existing collections](./modify-collections) without collection recreations.
+        - 🔧  The [dynamic field can be enabled for existing collections](./modify-collections#example-5-enable-dynamic-field) without collection recreations.
 
         - 💳  Subscription plans have been shifted to the project level, while clusters have several deployment options. Read [Detailed Plan Comparison](./select-zilliz-cloud-service-plans) to find more.
 
@@ -412,7 +434,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[August 20, 2025](./release-notes-2508)**
+        **[August 20, 2025](./release-notes-2508#autoscaling-upgrade)**
 
     </div>
 
@@ -432,7 +454,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[August 13, 2025](./release-notes-2508)**
+        **[August 13, 2025](./release-notes-2508#support-aws-sydney-region)**
 
     </div>
 
@@ -460,7 +482,7 @@ import Grid from '@site/src/components/Grid';
 
         - 📅  [Schedule-based cluster autoscaling](./scheduled-scaling)
 
-        - [🔄  Partial restoration](./restore-from-backup-files) of a cluster
+        - [🔄  Partial restoration](./restore-from-backup-files#restore-a-partial-cluster) of a cluster
 
         - [⚙️  JSON index](./json-indexing) settings on the Zilliz Cloud console
 
@@ -570,7 +592,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🎯  High recall rate by [turning the search level](./tune-recall-rate)
 
-        - [🔐  Collection-level RBAC support](./cluster-privileges)
+        - [🔐  Collection-level RBAC support](./cluster-privileges#collection-level-privilege-groups)
 
         - [💾  mmap](./use-mmap) support for expanded data capacity
 

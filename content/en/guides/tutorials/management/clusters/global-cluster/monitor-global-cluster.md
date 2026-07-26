@@ -38,7 +38,7 @@ This page explains how to monitor the health, replication status, and performanc
 
 The **Global Topology** card on the global cluster page provides a real-time view of your global cluster's structure and health. 
 
-![GbpRw8cuyhmqKLbVHmUcUugenNb](https://zdoc-images.s3.us-west-2.amazonaws.com/GbpRw8cuyhmqKLbVHmUcUugenNb.png)
+![GbpRw8cuyhmqKLbVHmUcUugenNb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/GbpRw8cuyhmqKLbVHmUcUugenNb.png)
 
 The global topology card displays:
 

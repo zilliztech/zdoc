@@ -43,7 +43,7 @@ The following table lists the corresponding UI and API privileges of this organi
      <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
    </tr>
    <tr>
-     <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-alerts-reference">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users">Project Admin</a> and a <a href="./cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
+     <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-alerts-reference">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-admin">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
      <td><p><a href="/reference/restful/control-plane-v2">All control plane operations</a></p></td>
      <td><p><a href="/reference/restful/data-plane-v2">All data plane operations</a></p></td>
    </tr>
@@ -72,13 +72,13 @@ The following table lists the corresponding UI and API privileges of this organi
 
 You can create an organization role for the invitation recipients. An organization role is a role with the privilege to view an organization and its resources. You can edit project- and cluster-level privileges for the role.
 
-![Cb5Yw6EWNhdqD5bjxTRcHHF1nAd](https://zdoc-images.s3.us-west-2.amazonaws.com/Cb5Yw6EWNhdqD5bjxTRcHHF1nAd.png)
+![Cb5Yw6EWNhdqD5bjxTRcHHF1nAd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Cb5Yw6EWNhdqD5bjxTRcHHF1nAd.png)
 
 #### Customize project privileges\{#customize-project-privileges}
 
 By default, **Project Admin** access to **Default Project** is granted to the invitation recipients. However, you can select **Customize** to grant fine-grained privileges.
 
-![PXLywcZSyh9Vaib1wUFc0NminUd](https://zdoc-images.s3.us-west-2.amazonaws.com/PXLywcZSyh9Vaib1wUFc0NminUd.png)
+![PXLywcZSyh9Vaib1wUFc0NminUd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PXLywcZSyh9Vaib1wUFc0NminUd.png)
 
 - **Cluster Access**
 
@@ -107,7 +107,7 @@ The following table lists the UI and API privileges granted to the invitees for 
    <tr>
      <td><ul><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
      <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p>Part of import operations</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">Get Import Job Progress</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">List Import Jobs </a></p></li></ul></li><li><p>Part of backup & restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-     <td><p>The data plan privileges are determined by <a href="./project-users">project</a> and <a href="./cluster-roles">cluster</a> roles</p></td>
+     <td><p>The data plan privileges are determined by <a href="./project-users#invite-a-user-to-a-project">project</a> and <a href="./cluster-roles">cluster</a> roles</p></td>
    </tr>
 </table>
 
@@ -125,7 +125,7 @@ Each time, you can invite one or more users with the same role to the organizati
 
 After you invite a user to join your organization, Zilliz Cloud sends an invitation email to the user. You can revoke or resend the invitation before the user accepts it.
 
-![NDXHw6PVFhyxntbucxbc9SOFnLg](https://zdoc-images.s3.us-west-2.amazonaws.com/NDXHw6PVFhyxntbucxbc9SOFnLg.png)
+![NDXHw6PVFhyxntbucxbc9SOFnLg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NDXHw6PVFhyxntbucxbc9SOFnLg.png)
 
 ## Edit the role of an organization user\{#edit-the-role-of-an-organization-user}
 
@@ -133,7 +133,7 @@ Once a user accepts the invitation and joins your organization, you can adjust t
 
 To edit an organization user's role, you must be an **Organization Owner**.
 
-![VGxOwarfShUDk1bIoEpc5wf3nFf](https://zdoc-images.s3.us-west-2.amazonaws.com/VGxOwarfShUDk1bIoEpc5wf3nFf.png)
+![VGxOwarfShUDk1bIoEpc5wf3nFf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VGxOwarfShUDk1bIoEpc5wf3nFf.png)
 
 ## Remove an organization user\{#remove-an-organization-user}
 
@@ -147,7 +147,7 @@ Upon removing a member, the corresponding personal API key will be immediately r
 
 </Admonition>
 
-![C6O0wzlfRhmxQwbt7yccX3VHn3g](https://zdoc-images.s3.us-west-2.amazonaws.com/C6O0wzlfRhmxQwbt7yccX3VHn3g.png)
+![C6O0wzlfRhmxQwbt7yccX3VHn3g](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/C6O0wzlfRhmxQwbt7yccX3VHn3g.png)
 
 ## Leave an organization\{#leave-an-organization}
 
@@ -165,9 +165,9 @@ You can leave an organization in either of the following ways:
 
 - Leave an organization on the organization list page:
 
-    ![Jdu2wpIYBhNZ5mbdMKOcBB6rnBg](https://zdoc-images.s3.us-west-2.amazonaws.com/Jdu2wpIYBhNZ5mbdMKOcBB6rnBg.png)
+    ![Jdu2wpIYBhNZ5mbdMKOcBB6rnBg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Jdu2wpIYBhNZ5mbdMKOcBB6rnBg.png)
 
 - Enter an organization and leave it on the **Organization Members** page:
 
-    ![YQYsw1BYahoLHabbmXdc4V15nA8](https://zdoc-images.s3.us-west-2.amazonaws.com/YQYsw1BYahoLHabbmXdc4V15nA8.png)
+    ![YQYsw1BYahoLHabbmXdc4V15nA8](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YQYsw1BYahoLHabbmXdc4V15nA8.png)
 

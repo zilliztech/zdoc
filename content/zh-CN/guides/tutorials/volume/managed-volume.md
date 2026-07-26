@@ -1,24 +1,17 @@
 ---
 title: "Managed Volume | Cloud"
 slug: /managed-volume
-sidebar_key: managed-volume
 sidebar_label: "Managed Volume"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "Managed Volume 是由 Zilliz Cloud 提供的存储空间，用于存放导入和迁移所需的数据文件。 | Cloud"
 type: origin
 token: JVtGwoZ0Ni6ZEmkTZvyc58kAnjc
 sidebar_position: 1
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - Volume
-  - managed volume
+displayed_sidebar: default
 
 ---
 
@@ -112,14 +105,14 @@ export TOKEN="YOUR_API_KEY"
     from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
-        cloud_endpoint="https://api.cloud.zilliz.com.cn",
+        cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
     
     # Create a managed volume
     volume_manager.create_volume(
         project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-        region_id="ali-cn-hangzhou", 
+        region_id="aws-us-west-2", 
         volume_name="managed_volume"
     )
     
@@ -138,7 +131,7 @@ export TOKEN="YOUR_API_KEY"
     import io.milvus.bulkwriter.VolumeManagerParam;
     
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
             
@@ -149,7 +142,7 @@ export TOKEN="YOUR_API_KEY"
     
     CreateVolumeRequest request = CreateVolumeRequest.builder()
         .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-        .regionId("ali-cn-hangzhou")
+        .regionId("aws-us-west-2")
         .volumeName("managed_volume")
         .build();
     
@@ -165,18 +158,16 @@ export TOKEN="YOUR_API_KEY"
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com.cn"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "ali-cn-hangzhou",
-        "volumeName": "managed_volume",
-        "type": "MANAGED"
+        "regionId": "aws-us-west-2",
+        "volumeName": "my_volume",
+        "description": "A volume for storing collection data."
     }'
     
     # {
@@ -192,28 +183,13 @@ export TOKEN="YOUR_API_KEY"
 
     下表为参数说明
 
-    <table>
-       <tr>
-         <th><p><strong>Parameter</strong></p></th>
-         <th><p><strong>说明</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><code>projectId</code></p></td>
-         <td><p>您要创建 Volume 的所属项目的 ID。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>regionId</code></p></td>
-         <td><p>要创建的 Volume 所在地域。该地域必须与您计划用于导入或迁移数据的目标集群的云地域一致。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>volumeName</code></p></td>
-         <td><p>要创建的 Volume 名称。该名称在组织内必须唯一；长度不超过 64 个字符；必须以字母或下划线开头；仅可包含字母、数字、连字符和下划线。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>type</code>(可选)</p></td>
-         <td><p>可填写的参数值：<code>MANAGED</code> 或 <code>EXTERNAL</code>。</p><p>若省略该参数，默认创建 Managed Volume。</p></td>
-       </tr>
-    </table>
+    | **Parameter** | **说明** |
+    | --- | --- |
+    | `projectId` | 您要创建 Volume 的所属项目的 ID。 |
+    | `regionId` | 要创建的 Volume 所在地域。该地域必须与您计划用于导入或迁移数据的目标集群的云地域一致。 |
+    | `volumeName` | 要创建的 Volume 名称。该名称在组织内必须唯一；长度不超过 64 个字符；必须以字母或下划线开头；仅可包含字母、数字、连字符和下划线。 |
+    | `type`(可选) | 可填写的参数值：`MANAGED` 或 `EXTERNAL`。<br/>若省略该参数，默认创建 Managed Volume。 |
+    | `description`(可选) | 要创建的 Volume 描述。最多 255 个字符。 |
 
 - **通过 Web 控制台**
 
@@ -240,7 +216,7 @@ export TOKEN="YOUR_API_KEY"
            </tr>
            <tr>
              <td><p>描述</p></td>
-             <td><p>可选参数。</p></td>
+             <td><p>可选参数。最多 255 个字符。</p></td>
            </tr>
            <tr>
              <td><p>Volume 类型</p></td>
@@ -248,7 +224,7 @@ export TOKEN="YOUR_API_KEY"
            </tr>
            <tr>
              <td><p>计费类型</p></td>
-             <td><ul><li><p>若您仅想体验 Managed Volume 功能，可创建免费试用 Volume。每个组织仅可创建一次免费试用 Volume，且对容量和文件上传有所限制。详情请参见<a href="./managed-volume#billing">计费</a>章节中的对比表。</p></li><li><p>对于生产环境中的应用，请创建按量计费 Volume。 </p></li></ul></td>
+             <td><ul><li><p>若您仅想体验 Managed Volume 功能，可创建免费试用 Volume。每个组织仅可创建一次免费试用 Volume，且对容量和文件上传有所限制。详情请参见<a href="./managed-volume#billing">计费</a>章节中的对比表。</p></li><li><p>对于生产环境中的应用，请创建按量计费 Volume。</p></li></ul></td>
            </tr>
            <tr>
              <td><p>云地域</p></td>
@@ -274,7 +250,7 @@ export TOKEN="YOUR_API_KEY"
     from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
-        cloud_endpoint="https://api.cloud.zilliz.com.cn",
+        cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
     
@@ -312,7 +288,7 @@ export TOKEN="YOUR_API_KEY"
     import io.milvus.bulkwriter.VolumeManagerParam;
     
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
             
@@ -353,7 +329,7 @@ export TOKEN="YOUR_API_KEY"
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com.cn"
+    export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
@@ -362,17 +338,28 @@ export TOKEN="YOUR_API_KEY"
     --header "Content-Type: application/json"
     
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -382,7 +369,7 @@ export TOKEN="YOUR_API_KEY"
 
 - **通过 Web 控制台**
 
-    ![Sb2dwi4emhxlWtbi1tNcyeMQn3e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Sb2dwi4emhxlWtbi1tNcyeMQn3e.png)
+    ![WXtPwcoT4heZicblLYmctLRunrf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/WXtPwcoT4heZicblLYmctLRunrf.png)
 
 ## 查看 Volume 详情\{#Describe-managed-volume}
 
@@ -641,7 +628,7 @@ export TOKEN="YOUR_API_KEY"
 
 从 Managed Volume 删除数据可能需要几分钟，具体取决于文件或文件夹大小。
 
-<Admonition type="caution" icon="🚧" title="警告">
+<Admonition type="info" icon="📘" title="⚠️  警告">
 
 已删除的文件和文件夹无法恢复，请谨慎操作。
 
@@ -667,7 +654,7 @@ export TOKEN="YOUR_API_KEY"
 
 删除 Managed Volume 时，其中的所有文件和文件夹也会一并删除。
 
-<Admonition type="caution" icon="🚧" title="警告">
+<Admonition type="info" icon="📘" title="⚠️  警告">
 
 已删除的 Volume 无法恢复，请谨慎操作。      
 
@@ -770,33 +757,12 @@ export TOKEN="YOUR_API_KEY"
 
 创建 Volume 时，您可以选择**免费试用 Volume** 或**按量计费 Volume**。下表比较了它们的典型使用场景和限制。
 
-<table>
-   <tr>
-     <th></th>
-     <th><p>免费试用</p></th>
-     <th><p>按量计费</p></th>
-   </tr>
-   <tr>
-     <td><p>使用场景</p></td>
-     <td><p>仅适用于测试环境。</p></td>
-     <td><p>适用于生产环境。</p></td>
-   </tr>
-   <tr>
-     <td><p>容量</p></td>
-     <td><p>5 GB</p></td>
-     <td><p>无限制</p></td>
-   </tr>
-   <tr>
-     <td><p>单次上传的文件大小和数量</p></td>
-     <td><p>每次上传最多 1 GB 且不可超过 1,000 个文件</p></td>
-     <td><p>每次上传最多 100 GB 且文件数量不限</p></td>
-   </tr>
-   <tr>
-     <td><p>最多可创建的数量</p></td>
-     <td><p>1 个</p></td>
-     <td><p>100 个</p></td>
-   </tr>
-</table>
+|  | 免费试用 | 按量计费 |
+| --- | --- | --- |
+| 使用场景 | 仅适用于测试环境。 | 适用于生产环境。 |
+| 容量 | 5 GB | 无限制 |
+| 单次上传的文件大小和数量 | 每次上传最多 1 GB 且不可超过 1,000 个文件 | 每次上传最多 100 GB 且文件数量不限 |
+| 最多可创建的数量 | 1 个 | 100 个 |
 
 **免费试用 Volume**
 
@@ -832,18 +798,8 @@ export TOKEN="YOUR_API_KEY"
 
 下表罗列了所有您可能看到的 Volume 状态及对应说明。
 
-<table>
-   <tr>
-     <th><p><strong>状态</strong></p></th>
-     <th><p><strong>说明</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>运行中</strong></p></td>
-     <td><p>Volume 处于正常运行状态，可正常使用。 </p></td>
-   </tr>
-   <tr>
-     <td><p><strong>已冻结</strong></p></td>
-     <td><p>由于逾期账单，组织已被冻结。该 Volume 无法用于新的操作。请先完成<a href="./view-invoice">支付</a>后再继续使用 Volume。</p></td>
-   </tr>
-</table>
+| **状态** | **说明** |
+| --- | --- |
+| **可用** | Volume 处于正常运行状态，可正常使用。 |
+| **已冻结** | 由于逾期账单，组织已被冻结。该 Volume 无法用于新的操作。请先完成[支付](./view-invoice)后再继续使用 Volume。 |
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Serverless clusters in Zilliz Cloud use a pay-per-operation model, where you are mainly charged for the resources consumed by your read and write operations. This ensures you only pay for the actual workload processed, without the need to provision fixed capacity in advance. | Cloud"
 type: origin
 token: Uk0Nw1ZdbiOEBtkAOKacLTf8nGe
-sidebar_position: 1
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

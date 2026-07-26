@@ -62,7 +62,7 @@ client = MilvusClient(
 
 Use a session object to attach your operations to the on-demand cluster.
 
-```plaintext
+```python
 session = client.session(cluster_id="inxx-xxxxxxxxxxxxxxx")
 ```
 

@@ -43,7 +43,7 @@ As a built-in function, MinHash runs within Zilliz Cloud and does not require ex
 
 The overall workflow consists of a **shared text processing pipeline** used by both document ingestion and query processing, followed by phase-specific operations for storage and retrieval.
 
-![IaqkbFEh8oQgGSx6NsocFoSOnDo](https://zdoc-images.s3.us-west-2.amazonaws.com/iaqkbfeh8oqggsx6nsocfosondo.png "IaqkbFEh8oQgGSx6NsocFoSOnDo")
+![IaqkbFEh8oQgGSx6NsocFoSOnDo](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/iaqkbfeh8oqggsx6nsocfosondo.png "IaqkbFEh8oQgGSx6NsocFoSOnDo")
 
 ### Shared text processing pipeline\{#shared-text-processing-pipeline}
 

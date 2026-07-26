@@ -38,13 +38,13 @@ External collections created in an on-demand compute database do not support dro
 
 ## Refresh data\{#refresh-data}
 
-![ZEAOwzCoThf80KbhYbgcsJgJnhg](https://zdoc-images.s3.us-west-2.amazonaws.com/ZEAOwzCoThf80KbhYbgcsJgJnhg.png)
+![ZEAOwzCoThf80KbhYbgcsJgJnhg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ZEAOwzCoThf80KbhYbgcsJgJnhg.png)
 
 ## Enable query mode\{#enable-query-mode}
 
 Before you start, ensure you have deleted the vector index.
 
-![ZF6gw5l8rh3zT9bsgv8c52Y5nNb](https://zdoc-images.s3.us-west-2.amazonaws.com/ZF6gw5l8rh3zT9bsgv8c52Y5nNb.png)
+![ZF6gw5l8rh3zT9bsgv8c52Y5nNb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ZF6gw5l8rh3zT9bsgv8c52Y5nNb.png)
 
 ## Drop an external collection\{#drop-an-external-collection}
 

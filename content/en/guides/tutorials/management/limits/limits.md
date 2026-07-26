@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page provides information about limits on the Zilliz Cloud platform. Submit a request to us if you need to report issues related to these limits. | Cloud"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
-sidebar_position: 1
+sidebar_position: 18
 displayed_sidebar: default
 
 ---
@@ -89,7 +89,7 @@ A CU is the basic unit of compute resources used for parallel processing of data
 | **Project Plan & Cluster Deployment Option** | **Limits** | **Remarks** |
 | --- | --- | --- |
 | Dedicated serving cluster in a Standard project | CU size &lt;=32 | On the console, you can create up to 32 CUs for a single cluster. |
-| Dedicated serving cluster in an Enterprise project | CU size x Replica Count &lt;=10,240 | On the console, you can create up to 1,024 CUs for a single cluster.<br/>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added. |
+| Dedicated serving cluster in an Enterprise project | CU size x Replica Count &lt;=204,800 | On the console, you can create up to 2,048 CUs for a single cluster.<br/>However, the limit is CU size x Replica Count &lt;=204,800 if replicas are added. |
 | On-demand cluster in an Enterprise project | 8&lt;= CU size &lt;= 256 | On the console, a single on-demand cluster supports 8 to 256 CUs.<br/>Every 8 CU enables searches across up to 3 TB of data. |
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
@@ -125,12 +125,20 @@ The upper limits for dedicated cluster capacity depend on the CU type and size u
 
 ## Replicas\{#replicas}
 
-To add replicas, the cluster needs to have **12 CUs or more**. The following limit applies as well.
+To add replicas, the cluster must have **at least 8 CUs**. The following limit applies as well.
 
 | **Item** | **Limits** | **Remarks** |
 | --- | --- | --- |
-| Replica | 10 | You can create a maximum of 10 replicas. |
-| Query CU x Replica Count | 10,240 | The cluster replica x query CU should not exceed 10,240. |
+| Replica | 100 | You can create a maximum of 100 replicas. |
+| Query CU x Replica Count | 204,800 | The cluster replica x query CU should not exceed 204,800. |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+For certain clusters compatible with earlier Milvus releases, you may need at least 12 CUs to add replicas. 
+
+To add replicas for clusters with fewer query CUs, [contact us](https://support.zilliz.com/hc/en-us).
+
+</Admonition>
 
 ## Databases\{#databases}
 
@@ -146,7 +154,7 @@ The maximum number of collections and partitions in a Zilliz Cloud cluster varie
 
 You can create a maximum of **1,024** collections or **4,096** partitions per CU, with up to **1,024** partitions allowed per collection. You can use the following formulae to calculate the upper limits for the number of collections and partitions in a cluster:
 
-![I1aJwA2LShihxQbyG30cFm14ngf](https://zdoc-images.s3.us-west-2.amazonaws.com/I1aJwA2LShihxQbyG30cFm14ngf.png)
+![I1aJwA2LShihxQbyG30cFm14ngf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/I1aJwA2LShihxQbyG30cFm14ngf.png)
 
 - The total number of collections in a cluster should be less than 1,024 times the number of CUs in the cluster or 16,384, whichever is lower.
 

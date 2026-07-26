@@ -133,7 +133,7 @@ We recommend completing the operations within 1 hour to avoid service interrupti
 
 1. Verify the update in the **Payment Method** section on the **Billing Overview** page. Click on the Subscription ID and verify if the subscription **Account ID** has been updated to the new Marketplace account.
 
-    ![view-aws-subscription-id](https://zdoc-images.s3.us-west-2.amazonaws.com/view-aws-subscription-id.png "view-aws-subscription-id")
+    ![view-aws-subscription-id](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view-aws-subscription-id.png "view-aws-subscription-id")
 
 </Procedures>
 

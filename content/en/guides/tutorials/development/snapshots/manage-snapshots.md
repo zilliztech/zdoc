@@ -49,6 +49,9 @@ When naming a snapshot, use clear, descriptive names, such as `"daily_backup_202
 
 The code examples below assume that you already have a collection named `my_collection`.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient
 
@@ -68,9 +71,17 @@ client.create_snapshot(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
+
+</TabItem>
+
+<TabItem value='go'>
 
 ```go
 import (
@@ -96,30 +107,52 @@ createOpt := milvusclient.NewCreateSnapshotOption("backup_20240101", "my_collect
 err = client.CreateSnapshot(context.Background(), createOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
 
 ## List snapshots\{#list-snapshots}
 
 You can list the names of existing snapshots.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 # List all snapshots for a collection
 snapshots = client.list_snapshots(
     collection_name="my_collection"
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 // List snapshots for collection
 listOpt := milvusclient.NewListSnapshotsOption().
     WithCollectionName("my_collection")
@@ -127,17 +160,31 @@ listOpt := milvusclient.NewListSnapshotsOption().
 snapshots, err := client.ListSnapshots(context.Background(), listOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # bash
 ```
+
+</TabItem>
+</Tabs>
 
 ## Describe snapshot\{#describe-snapshot}
 
 You can get the detailed information about a specific snapshot.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 snapshot_info = client.describe_snapshot(
@@ -151,11 +198,19 @@ print(f"Created: {snapshot_info.create_ts}")
 print(f"Description: {snapshot_info.description}")
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 describeOpt := milvusclient.NewDescribeSnapshotOption("backup_20240101")
 resp, err := client.DescribeSnapshot(context.Background(), describeOpt)
 
@@ -163,13 +218,24 @@ fmt.Printf("Snapshot ID: %d\n", resp.GetSnapshotInfo().GetId())
 fmt.Printf("Collection: %s\n", resp.GetSnapshotInfo().GetCollectionName())
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
 
 ## Pin/unpin snapshot data\{#pinunpin-snapshot-data}
 
@@ -177,7 +243,10 @@ During restoration, you can pin a snapshot to temporarily protect its underlying
 
 You can also set a time-to-live (TTL) duration for the pin operation so that the pinned data will be released when the duration expires.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 pin_id = client.pin_snapshot_data(
     snapshot_name="backup_20240101",
     collection_name="my_collection",
@@ -189,11 +258,19 @@ client.unpin_snapshot_data(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 pinID, err := cli.PinSnapshotData(
     ctx,
     client.NewPinSnapshotDataOption("backup_20240101", "my_collection").WithTTLSeconds(3600),
@@ -210,13 +287,24 @@ defer func() {
 // do work with pinned snapshot data
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
 
 ## Restore snapshot\{#restore-snapshot}
 
@@ -234,7 +322,10 @@ The restoration uses a **copy-segment** mechanism instead of data import, which 
 
 To restore a snapshot, do as follows:
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 # Restore snapshot to new collection
 job_id = client.restore_snapshot(
     snapshot_name="backup_20240101",
@@ -242,11 +333,19 @@ job_id = client.restore_snapshot(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 restoreOpt := milvusclient.NewRestoreSnapshotOption(
     "backup_20240101", 
     "restored_collection"
@@ -258,13 +357,24 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
 
 For details on monitoring the progress of a restoration job, refer to Monitor restoration progress.
 
@@ -272,34 +382,59 @@ For details on monitoring the progress of a restoration job, refer to Monitor re
 
 You can drop a snapshot if it is no longer needed. You are advised to remove old snapshots regularly to save storage.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.drop_snapshot(
     snapshot_name="backup_20240101"
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 dropOpt := milvusclient.NewDropSnapshotOption("backup_20240101")
 err := client.DropSnapshot(context.Background(), dropOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
 
 ## List restoration jobs\{#list-restoration-jobs}
 
 You can use this API to get a list of snapshots already created for the target collection.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 # List all restore jobs
 jobs = client.list_restore_snapshot_jobs()
 
@@ -311,11 +446,19 @@ for job in jobs:
 jobs = client.list_restore_snapshot_jobs(collection_name="my_collection")
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 // List all restore jobs
 listOpt := milvusclient.NewListRestoreSnapshotJobsOption()
 jobs, err := client.ListRestoreSnapshotJobs(context.Background(), listOpt)
@@ -336,17 +479,31 @@ listOpt = milvusclient.NewListRestoreSnapshotJobsOption().
 jobs, err = client.ListRestoreSnapshotJobs(context.Background(), listOpt)
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>
 
 ## Get restoration state\{#get-restoration-state}
 
 Once you have a restoration job ID, you can use it to retrieve restoration progress.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 state = client.get_restore_snapshot_state(job_id=12345)
@@ -361,11 +518,19 @@ if state.state == "RestoreSnapshotFailed":
 print(f"Time Cost: {state.time_cost}ms")
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 // java
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 stateOpt := milvusclient.NewGetRestoreSnapshotStateOption(12345)
 state, err := client.GetRestoreSnapshotState(context.Background(), stateOpt)
 if err != nil {
@@ -383,10 +548,21 @@ if state.GetState() == milvuspb.RestoreSnapshotState_RestoreSnapshotFailed {
 fmt.Printf("Time Cost: %dms\n", state.GetTimeCost())
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // node.js
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # restful
 ```
+
+</TabItem>
+</Tabs>

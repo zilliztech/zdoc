@@ -11,15 +11,6 @@ description: "Zilliz Skills are reusable skill modules for Claude Code that prov
 type: origin
 token: EXj3wKsw8ijsqJk8uYPcmfXWn3g
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - skill
-  - opencode
-  - gemini cli
-  - qwen code
-  - zilliz cli
 displayed_sidebar: default
 
 ---

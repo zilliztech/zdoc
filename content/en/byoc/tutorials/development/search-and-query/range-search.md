@@ -53,7 +53,7 @@ This section demonstrates how to conduct a range search. The search requests in 
 
 In the following code snippets, set `radius` to `0.4` and `range_filter` to `0.6` so that Zilliz Cloud returns all entities whose distances or scores to the query vector fall within **0.4** to **0.6**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -236,7 +236,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -273,6 +274,9 @@ for (auto& result : response.Results().Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 

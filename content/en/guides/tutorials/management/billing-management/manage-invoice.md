@@ -39,7 +39,7 @@ To manage invoices, you must be an **Organization Owner** or **Organization Bill
 
 <TabItem value="Cloud Console">
 
-![view-invoices](https://zdoc-images.s3.us-west-2.amazonaws.com/view-invoices.png "view-invoices")
+![view-invoices](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view-invoices.png "view-invoices")
 
 <Procedures>
 
@@ -107,7 +107,7 @@ In the results returned by the API, all amounts are in cents.
 
 <TabItem value="Cloud Console">
 
-![view-invoice-detail](https://zdoc-images.s3.us-west-2.amazonaws.com/view-invoice-detail.png "view-invoice-detail")
+![view-invoice-detail](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view-invoice-detail.png "view-invoice-detail")
 
 <Procedures>
 
@@ -174,11 +174,11 @@ In the results returned by the API, all amounts are in cents.
 
 When your invoice is overdue, you can first check and update your payment method and then retry the payment view the Zilliz Cloud web console.
 
-![pay-invoice](https://zdoc-images.s3.us-west-2.amazonaws.com/pay-invoice.png "pay-invoice")
+![pay-invoice](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/pay-invoice.png "pay-invoice")
 
 ### Download Invoice\{#download-invoice}
 
 To download an invoice, click the download icon next to the target invoice on the Zilliz Cloud web console.
 
-![download-invoices](https://zdoc-images.s3.us-west-2.amazonaws.com/download-invoices.png "download-invoices")
+![download-invoices](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/download-invoices.png "download-invoices")
 

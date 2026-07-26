@@ -126,7 +126,7 @@ In Zilliz Cloud, you can use either a JSON field or an Array-of-Structs field to
 
 The diagram below illustrates how we can model this dataset using the schema illustrated in the following schema:
 
-![PATjwyoKzhPELnb14kBcnAEAnGv](https://zdoc-images.s3.us-west-2.amazonaws.com/PATjwyoKzhPELnb14kBcnAEAnGv.png)
+![PATjwyoKzhPELnb14kBcnAEAnGv](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PATjwyoKzhPELnb14kBcnAEAnGv.png)
 
 The above diagram illustrates the structure of a video clip, which comprises the following fields:
 

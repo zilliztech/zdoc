@@ -32,7 +32,7 @@ A bitmap index consists of two main components: bitmaps and keys. Keys represent
 
 Consider a collection of documents with fields **Category** and **Public**. We want to retrieve documents that fall into the **Tech** category and are open to the **Public**. In this case, the keys for our bitmap indexes are **Tech** and **Public**.
 
-![S5cHwsXsPhOLfQb3Tatc4jqAn9e](https://zdoc-images.s3.us-west-2.amazonaws.com/S5cHwsXsPhOLfQb3Tatc4jqAn9e.png)
+![S5cHwsXsPhOLfQb3Tatc4jqAn9e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/S5cHwsXsPhOLfQb3Tatc4jqAn9e.png)
 
 As shown in the figure, the bitmap indexes for **Category** and **Public** are:
 

@@ -1,27 +1,17 @@
 ---
 title: "导出备份文件 | Cloud"
 slug: /export-backup-files
-sidebar_key: export-backup-files
 sidebar_label: "导出备份文件"
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PRIVATE
 notebook: FALSE
 description: "您可以通过 Zilliz Cloud 控制台将备份文件导出至对象存储。 | Cloud"
 type: origin
 token: WXBjwo4sgiCDX8kZvBwcJrJCnyg
 sidebar_position: 5
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - 备份
-  - 导出备份
-  - export backup
-  - export backup to bucket
-  - 配置对象存储
+displayed_sidebar: default
 
 ---
 
@@ -42,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 开始前\{#before-you-start}
 
-- 您已完成对象存储的集成操作。有关具体信息，请参考[阿里云对象存储](./integrate-with-storage-bucket)或 [Amazon S3](./integrate-with-amazon-s3)。
+- 您已完成对象存储的集成操作。有关具体信息，请参考[阿里云对象存储](./integrate-with-alibaba-cloud-oss)或 [Amazon S3](./integrate-with-amazon-s3-cn)。
 
 - 您是目标组织中的**组织管理员**或**项目管理员**。
 
@@ -84,7 +74,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ### 通过调用 RESTful API 接口导出\{#export-through-restful-api}
 
-在您通过调用导出备份文件 RESTful API 接口导出备份文件之前，您需要将您的对象存储桶集成到 Zilliz Cloud 并获取该对象存储桶的集成 ID。关于如何获取对象存储桶的集成 ID，可以查看[获取集成 ID](./integrate-with-storage-bucket#obtain-the-integration-id)。
+在您通过调用导出备份文件 RESTful API 接口导出备份文件之前，您需要将您的对象存储桶集成到 Zilliz Cloud 并获取该对象存储桶的集成 ID。关于如何获取对象存储桶的集成 ID，可以查看[获取集成 ID](./integrate-with-alibaba-cloud-oss#obtain-the-integration-id)。
 
 ```bash
 export BASE_URL="https://api.cloud.zilliz.com.cn"
@@ -137,7 +127,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="说明">
 
- 取消任务不会移除已上传至存储空间的数据。
+取消任务不会移除已上传至存储空间的数据。
 
 </Admonition>
 

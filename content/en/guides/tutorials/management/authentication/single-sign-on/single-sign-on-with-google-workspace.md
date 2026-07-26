@@ -34,7 +34,7 @@ This topic describes how to configure single sign-on (SSO) with Google Workspace
 
 In this guide, Zilliz Cloud acts as the Service Provider (SP) and Google Workspace acts as the Identity Provider (IdP). The following digram illustrates the necessary steps in Zilliz Cloud and Google Admin console.
 
-![LsmAwFbPthojH3bLRtEcogRinwc](https://zdoc-images.s3.us-west-2.amazonaws.com/LsmAwFbPthojH3bLRtEcogRinwc.png)
+![LsmAwFbPthojH3bLRtEcogRinwc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LsmAwFbPthojH3bLRtEcogRinwc.png)
 
 ## Before you start\{#before-you-start}
 
@@ -164,8 +164,8 @@ Before users can access Zilliz Cloud through SSO, turn on your SAML app:
 
         - If the **Service status** is set to **Inherited** and you want to keep the updated setting, even if the parent setting changes, click **Override**.
 
-        - If the **Service status** is set to **Overridden**, either click **Inherit** to revert to the same setting as its parent, or click **Save** to keep the new setting, even if the parent setting changes.
-Note: Learn more about [organizational structure](https://support.google.com/a/answer/4352075).
+        - If the **Service status** is set to **Overridden**, either click **Inherit** to revert to the same setting as its parent, or click **Save** to keep the new setting, even if the parent setting changes.<br/>
+          Note: Learn more about [organizational structure](https://support.google.com/a/answer/4352075).
 
 1. (Optional) To turn on a service for a set of users across or within organizational units, select an access group. For details, go to [Use groups to customize service access](https://support.google.com/a/answer/9050643).
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Dedicated clusters in Zilliz Cloud follows a pay-as-you-go model, where you are mainly charged for the compute resources consumed by your clusters. This ensures you only pay for what you actually use, without the need to over-provision resources in advance. | Cloud"
 type: origin
 token: J2prwh2KLis9oqkqNIAcU1d6nsd
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -86,7 +86,7 @@ Suppose your cluster configuration is as follows:
 
 With the plan, cloud provider and region, and the cluster type information, you can find on the [Pricing Page](https://zilliz.com/pricing) that the CU Unit Price is **&#36;0.248/hour**.
 
-![find-cu-unit-price](https://zdoc-images.s3.us-west-2.amazonaws.com/find-cu-unit-price.png "find-cu-unit-price")
+![find-cu-unit-price](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/find-cu-unit-price.png "find-cu-unit-price")
 
 According to the number of query CU and replica count, the total number of query CU is `8 CU x 2 Replica = 16 CU`.
 

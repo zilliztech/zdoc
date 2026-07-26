@@ -140,7 +140,7 @@ For more information on schemas and detailed guidance on adding various types of
 
 To begin, we need to create an empty schema. This step establishes a foundational structure for defining the data model.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -198,7 +198,8 @@ schema := entity.NewSchema()
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -214,11 +215,14 @@ if (!status.IsOk()) {
 milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
 ```
 
+</TabItem>
+</Tabs>
+
 ### Step 2: Add fields\{#step-2-add-fields}
 
 Once the schema is created, the next step is to specify the fields that will comprise your data. Each field is associated with their respective data types and attributes.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -407,7 +411,8 @@ export schema="{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 schema->AddField({"article_id", milvus::DataType::INT64, "", true, true});
@@ -419,6 +424,9 @@ schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR)
 schema->AddField(milvus::FieldSchema("text_dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
 schema->AddField(milvus::FieldSchema("text_sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR));
 ```
+
+</TabItem>
+</Tabs>
 
 In this example, the following attributes are specified for fields:
 
@@ -432,7 +440,7 @@ In this example, the following attributes are specified for fields:
 
 To enhance data querying capabilities, functions can be incorporated into the schema. For instance, a function can be created to process related to specific fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -521,7 +529,8 @@ export schema="{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25", milvus::FunctionType::BM25);
@@ -529,6 +538,9 @@ function->AddInputFieldName("text");
 function->AddOutputFieldName("text_sparse_vector");
 schema->AddFunction(function);
 ```
+
+</TabItem>
+</Tabs>
 
 This example adds a built-in BM25 function in schema, utilizing the `text` field as input and storing the resulting sparse vectors in the `text_sparse_vector` field.
 

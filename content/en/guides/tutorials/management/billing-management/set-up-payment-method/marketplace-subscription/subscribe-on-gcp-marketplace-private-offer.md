@@ -48,7 +48,7 @@ Before accepting a private offer, make sure that:
 
 The following is an overview of the subscription process.
 
-![YSY9wG2TNhNlvMbFCZ9cLrIDnDh](https://zdoc-images.s3.us-west-2.amazonaws.com/YSY9wG2TNhNlvMbFCZ9cLrIDnDh.png)
+![YSY9wG2TNhNlvMbFCZ9cLrIDnDh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YSY9wG2TNhNlvMbFCZ9cLrIDnDh.png)
 
 You can follow the detailed step-by-step guide below to subscribe to a Private Offer on Google Cloud Marketplace.
 
@@ -62,7 +62,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     Look for an email from Google Cloud Marketplace with the subject **New Private Offer from Zilliz**. Click the **Review Offer** button in the email.
 
-    ![Oawqwr3rDheYWibpPwQclqh0n3d](https://zdoc-images.s3.us-west-2.amazonaws.com/Oawqwr3rDheYWibpPwQclqh0n3d.png)
+    ![Oawqwr3rDheYWibpPwQclqh0n3d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Oawqwr3rDheYWibpPwQclqh0n3d.png)
 
     <Admonition type="info" icon="📘" title="Note">
 
@@ -72,7 +72,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
 1. Review the offer details and accept the offer.
 
-    ![NGJ1w2fVKh9ED1bMqK4cuzq2n5w](https://zdoc-images.s3.us-west-2.amazonaws.com/NGJ1w2fVKh9ED1bMqK4cuzq2n5w.png)
+    ![NGJ1w2fVKh9ED1bMqK4cuzq2n5w](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NGJ1w2fVKh9ED1bMqK4cuzq2n5w.png)
 
 1. Sign up with Zilliz.
 
@@ -86,27 +86,27 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     </Admonition>
 
-    ![IOkkwz2A6hexfnbiBBfcGGmNnxc](https://zdoc-images.s3.us-west-2.amazonaws.com/IOkkwz2A6hexfnbiBBfcGGmNnxc.png)
+    ![IOkkwz2A6hexfnbiBBfcGGmNnxc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/IOkkwz2A6hexfnbiBBfcGGmNnxc.png)
 
 1. Link Marketplace subscription to Zilliz Cloud organization.
 
     1. Log into your Zilliz Cloud account.
 
-        ![WZuibFtHLofsE5xOfTPccb4Xnxe](https://zdoc-images.s3.us-west-2.amazonaws.com/wzuibfthlofse5xoftpccb4xnxe.png "WZuibFtHLofsE5xOfTPccb4Xnxe")
+        ![WZuibFtHLofsE5xOfTPccb4Xnxe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/wzuibfthlofse5xoftpccb4xnxe.png "WZuibFtHLofsE5xOfTPccb4Xnxe")
 
     1. Select a Zilliz Cloud organization to link to the Marketplace subscription.
 
         If no organization is available to select, or if you have any questions, contact [Zilliz Support](http://support.zilliz.com).
 
-        ![EGjCbIHRGoDylPxCNQdc4YT6nTd](https://zdoc-images.s3.us-west-2.amazonaws.com/egjcbihrgodylpxcnqdc4yt6ntd.png "EGjCbIHRGoDylPxCNQdc4YT6nTd")
+        ![EGjCbIHRGoDylPxCNQdc4YT6nTd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/egjcbihrgodylpxcnqdc4yt6ntd.png "EGjCbIHRGoDylPxCNQdc4YT6nTd")
 
     1. When the process is complete, the following confirmation window appears.
 
-        ![Hcy6bjddpoGiJfxszMBccAalnoe](https://zdoc-images.s3.us-west-2.amazonaws.com/hcy6bjddpogijfxszmbccaalnoe.png "Hcy6bjddpoGiJfxszMBccAalnoe")
+        ![Hcy6bjddpoGiJfxszMBccAalnoe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/hcy6bjddpogijfxszmbccaalnoe.png "Hcy6bjddpoGiJfxszMBccAalnoe")
 
     1. On the Zilliz Cloud **Billing** page, find the **Payment Method** section. You can verify your subscription by hovering on the ID icon.
 
-        ![XoiTbm6HzoZMCMxCttVco12GnAn](https://zdoc-images.s3.us-west-2.amazonaws.com/xoitbm6hzozmcmxcttvco12gnan.png "XoiTbm6HzoZMCMxCttVco12GnAn")
+        ![XoiTbm6HzoZMCMxCttVco12GnAn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/xoitbm6hzozmcmxcttvco12gnan.png "XoiTbm6HzoZMCMxCttVco12GnAn")
 
 </Procedures>
 
@@ -122,7 +122,7 @@ For Google Cloud Marketplace, renewal is handled on the existing private offer o
 
 The following is an overview of the renewal process. 
 
-![CbdUwGifPh2rvFbk0F4c1OVFnxh](https://zdoc-images.s3.us-west-2.amazonaws.com/CbdUwGifPh2rvFbk0F4c1OVFnxh.png)
+![CbdUwGifPh2rvFbk0F4c1OVFnxh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/CbdUwGifPh2rvFbk0F4c1OVFnxh.png)
 
 You can follow the detailed step-by-step guide below to subscribe to a Private Offer on Google Cloud Marketplace.
 
@@ -132,27 +132,27 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     1. Look for an email from Google Cloud Marketplace with the subject **New Private Offer from Zilliz**. Click the **Review Offer** button in the email.
 
-        ![DYogwUgizhEYNnbIks9cqZVcn1f](https://zdoc-images.s3.us-west-2.amazonaws.com/DYogwUgizhEYNnbIks9cqZVcn1f.png)
+        ![DYogwUgizhEYNnbIks9cqZVcn1f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/DYogwUgizhEYNnbIks9cqZVcn1f.png)
 
 1. Review the offer details and accept the offer.
 
-    ![Y6cAwGfu0hBF5obUyWScaR63njf](https://zdoc-images.s3.us-west-2.amazonaws.com/Y6cAwGfu0hBF5obUyWScaR63njf.png)
+    ![Y6cAwGfu0hBF5obUyWScaR63njf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Y6cAwGfu0hBF5obUyWScaR63njf.png)
 
 1. Your offer is successfully renewed.
 
     When you see the dialog box with the title **Amendment request sent to Zilliz**, the renewal process is complete on Zilliz Cloud.
 
-    ![O7r8wYN4lhED5qbVkrScNkpAned](https://zdoc-images.s3.us-west-2.amazonaws.com/O7r8wYN4lhED5qbVkrScNkpAned.png)
+    ![O7r8wYN4lhED5qbVkrScNkpAned](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/O7r8wYN4lhED5qbVkrScNkpAned.png)
 
 1. Verify the renewal.
 
     1. You can go to the [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) page. Select your billing account and then click on the order ID to view its details.
 
-        ![A3piwyJD6hz3qwbzry0cAYSunRc](https://zdoc-images.s3.us-west-2.amazonaws.com/A3piwyJD6hz3qwbzry0cAYSunRc.png)
+        ![A3piwyJD6hz3qwbzry0cAYSunRc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/A3piwyJD6hz3qwbzry0cAYSunRc.png)
 
     1. In the **Key Events** section, you can verify that the existing order is successfully amended and your private offer is renewed with a new contract end date.
 
-        ![SlGfwioVMhP8uqbFi0ucDEMOnmd](https://zdoc-images.s3.us-west-2.amazonaws.com/SlGfwioVMhP8uqbFi0ucDEMOnmd.png)
+        ![SlGfwioVMhP8uqbFi0ucDEMOnmd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SlGfwioVMhP8uqbFi0ucDEMOnmd.png)
 
 </Procedures>
 
@@ -204,15 +204,15 @@ To complete the setup,
 
 1. go to **Google Cloud Marketplace > Your orders**, find the Zilliz Cloud order. Click on the product name.
 
-    ![YgzQwi6xDh8eVFbgOSLcNElVnNh](https://zdoc-images.s3.us-west-2.amazonaws.com/YgzQwi6xDh8eVFbgOSLcNElVnNh.png)
+    ![YgzQwi6xDh8eVFbgOSLcNElVnNh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YgzQwi6xDh8eVFbgOSLcNElVnNh.png)
 
 1. Click on **Manage on provider**.
 
-    ![GO3bwCnjWhyzT0bZCk3cpyHonPH](https://zdoc-images.s3.us-west-2.amazonaws.com/GO3bwCnjWhyzT0bZCk3cpyHonPH.png)
+    ![GO3bwCnjWhyzT0bZCk3cpyHonPH](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/GO3bwCnjWhyzT0bZCk3cpyHonPH.png)
 
 1. You will be redirected to Zilliz Cloud. Please complete the operations on Zilliz Cloud.
 
-    ![RYtsbHgYUoaFBuxOspXcxIlrn5b](https://zdoc-images.s3.us-west-2.amazonaws.com/rytsbhgyuoafbuxospxcxilrn5b.png "RYtsbHgYUoaFBuxOspXcxIlrn5b")
+    ![RYtsbHgYUoaFBuxOspXcxIlrn5b](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/rytsbhgyuoafbuxospxcxilrn5b.png "RYtsbHgYUoaFBuxOspXcxIlrn5b")
 
 </Procedures>
 
@@ -224,7 +224,7 @@ There could be several reasons.
 
     This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-    ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
+    ![insufficient-permission-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
     To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
 
@@ -232,7 +232,7 @@ There could be several reasons.
 
     This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
 
-    ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
+    ![marketplace-already-linked-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
     In this case,
 
@@ -244,7 +244,7 @@ There could be several reasons.
 
     - This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
+    ![no-organization-during-subcription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
     In this case, you can:
 

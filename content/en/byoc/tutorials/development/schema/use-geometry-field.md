@@ -65,7 +65,7 @@ The workflow for using a `GEOMETRY` field involves defining it in your collectio
 
 To use a `GEOMETRY` field, explicitly define it in your collection schema when creating the collection. The following example demonstrates how to create a collection with a `geo` field of type `DataType.GEOMETRY`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -218,7 +218,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -246,6 +247,9 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 <Admonition type="info" icon="📘" title="Notes">
 
 In this example, the `GEOMETRY` field defined in the collection schema allows null values with `nullable=True`. For details, refer to [Nullable & Default](./nullable-fields).
@@ -256,7 +260,7 @@ In this example, the `GEOMETRY` field defined in the collection schema allows nu
 
 Insert entities with geometry data in [WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) format. Here’s an example with several geo points:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -419,7 +423,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{{"id", 1}, {"name", "Shop A"}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}}, {"geo", "POINT(13.399710 52.518010)"}},
@@ -439,6 +444,9 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Step 3: Filtering operations\{#step-3-filtering-operations}
 
 Before you can perform filtering operations on `GEOMETRY` fields, make sure:
@@ -451,7 +459,7 @@ Before you can perform filtering operations on `GEOMETRY` fields, make sure:
 
 <summary>Show code</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -550,7 +558,8 @@ sleep 3
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::IndexDesc index_vector("embeddings", "", milvus::IndexType::IVF_FLAT, milvus::MetricType::L2)
@@ -569,6 +578,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 </details>
 
@@ -596,7 +608,7 @@ The following examples demonstrate how to use different geometry-specific operat
 
 #### Example 1: Find entities within a rectangular area\{#example-1-find-entities-within-a-rectangular-area}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -702,7 +714,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::string filter = "st_within(geo, 'POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))')";
@@ -725,9 +738,12 @@ for (const auto& row : output_rows) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 #### Example 2: Find entities within 1km of a central point\{#example-2-find-entities-within-1km-of-a-central-point}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -821,7 +837,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::string filter = "st_dwithin(geo, 'POINT(13.403683 52.520711)', 1000.0)";
@@ -844,9 +861,12 @@ for (const auto& row : output_rows) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 #### Example 3: Combine vector similarity with a spatial filter\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -961,7 +981,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
@@ -990,6 +1011,9 @@ for (auto& result : search_results.Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Next: Accelerate queries\{#next-accelerate-queries}
 

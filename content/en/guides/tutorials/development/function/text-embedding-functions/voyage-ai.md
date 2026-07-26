@@ -218,9 +218,7 @@ text_embedding_function = Function(
     params={                                      # Provider-specific embedding parameters (function-level)
         "provider": "voyageai",                   # Must be set to "voyageai"
         "model_name": "voyage-3-large",                 # Specifies the embedding model to use
-
         "integration_id": "YOUR_INTEGRATION_ID",    # Integration ID generated in the Zilliz Cloud console for the selected model provider
-
         # "url": "https://api.voyageai.com/v1/embeddings",     # Defaults to the official endpoint if omitted
         # "dim": "1024"                           # Output dimension of the vector embeddings after truncation
         # "truncation": "true"                    # Whether to truncate the input texts to fit within the context length. Defaults to true.
@@ -245,9 +243,7 @@ Function function = Function.builder()
         .outputFieldNames(Collections.singletonList("dense"))
         .param("provider", "voyageai")
         .param("model_name", "voyage-3-large")
-
         .param("integration_id", "YOUR_INTEGRATION_ID")
-
         .build();
 schema.addFunction(function);
 ```
@@ -286,9 +282,7 @@ function->AddInputFieldName("document");
 function->AddOutputFieldName("dense");
 function->AddParam("provider", "voyageai");
 function->AddParam("model_name", "voyage-3-large");
-
 function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
-
 collection_schema->AddFunction(function);
 ```
 

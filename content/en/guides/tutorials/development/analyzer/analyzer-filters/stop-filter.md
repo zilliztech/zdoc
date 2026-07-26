@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `stop` filter removes specified stop words from tokenized text, helping to eliminate common, less meaningful words. You can configure the list of stop words using the `stopwords` parameter. | Cloud"
 type: origin
 token: ScncwBnDBiVoLjksXAwcUgrgnod
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---
@@ -31,7 +31,7 @@ The `stop` filter accepts its stop-words list either inline via the `stop_words`
 
 To use the `stop` filter with an inline list, specify `"type": "stop"` in the filter configuration, along with a `stop_words` parameter that provides the list of stop words.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -109,7 +109,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -119,6 +120,9 @@ nlohmann::json analyzer_params = {
     }}
 };
 ```
+
+</TabItem>
+</Tabs>
 
 The `stop` filter accepts the following configurable parameters.
 
@@ -143,7 +147,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,7 +206,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -213,9 +218,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -309,7 +317,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -333,6 +342,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

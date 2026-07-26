@@ -36,7 +36,7 @@ Currently, you can only [contact us](https://zilliz.com/contact-sales) to add fu
 
 To view your bank transfer history, click Billing on the top navigation bar or on the left navigation pane. Then click History under the Advance Pay section. On the **Bank Transfer History** page, you can view all the details of all past transfers, including the time when you made the transfer, the amount of funds you added, etc.
 
-![add-fund-en](https://zdoc-images.s3.us-west-2.amazonaws.com/add-fund-en.png "add-fund-en")
+![add-fund-en](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/add-fund-en.png "add-fund-en")
 
 ## Set monitor for Advance Pay balance\{#set-monitor-for-advance-pay-balance}
 

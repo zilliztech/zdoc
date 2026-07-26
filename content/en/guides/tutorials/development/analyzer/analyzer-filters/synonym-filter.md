@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `synonym` filter rewrites tokens according to a synonym dictionary, so that related terms match during search. It supports two modes of operation and two ways of supplying the dictionary | Cloud"
 type: origin
 token: Wo5xwhRaWitCP9kXOG2c082en2c
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: default
 
 ---

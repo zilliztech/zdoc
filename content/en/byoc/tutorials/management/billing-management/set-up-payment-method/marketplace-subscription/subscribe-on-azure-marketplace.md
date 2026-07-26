@@ -66,6 +66,8 @@ Also ensure your billing country or region is on the list of supported markets. 
 
         - Belgium
 
+        - Brazil
+
         - Bulgaria
 
         - Canada
@@ -168,11 +170,11 @@ Also ensure your billing country or region is on the list of supported markets. 
 
         - Singapore
 
+        - Slovakia
+
     </div>
 
     <div>
-
-        - Slovakia
 
         - Slovenia
 
@@ -290,7 +292,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see Update Payment Method.
+For details, see [Update Payment Method](./update-payment-method).
 
 ## Cancel Azure Marketplace subscription\{#cancel-azure-marketplace-subscription}
 

@@ -8,6 +8,7 @@ description: "本文列举了在 Zilliz Cloud 进行数据迁移时可能遇到�
 type: origin
 token: YVAzwqHdti7uHSkZL6icsY7hnpe
 sidebar_position: 5
+displayed_sidebar: default
 
 ---
 
@@ -15,15 +16,15 @@ sidebar_position: 5
 
 本文列举了在 Zilliz Cloud 进行数据迁移时可能遇到的常见问题及对应解决方法。
 
-## 目录
+## Contents
 
 - [如何将数据批量从 Elasticsearch 导入 Zilliz Cloud？](#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud)
 
-## 问答
+## FAQs
 
 
 
 
-### 如何将数据批量从 Elasticsearch 导入 Zilliz Cloud？ \{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
+### 如何将数据批量从 Elasticsearch 导入 Zilliz Cloud？\{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
 
 请根据文档[从 Elasticsearch 迁移至 Zilliz Cloud](./migrate-from-elasticsearch)中的详细指南将数据从 Elasticsearch 迁移至 Zilliz Cloud。

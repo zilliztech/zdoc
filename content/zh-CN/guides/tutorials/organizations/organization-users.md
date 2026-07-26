@@ -1,36 +1,24 @@
 ---
-title: "管理组织用户 | Cloud"
+title: "组织用户 | Cloud"
 slug: /organization-users
-sidebar_key: organization-users
-sidebar_label: "管理组织用户"
+sidebar_label: "组织用户"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "在 Zilliz Cloud 中，一个组织通常代表一家公司。您可以邀请员工加入您的组织，并根据他们的工作职能分配角色。这些角色决定了用户对特定资源的访问权限以及他们能执行的操作。例如，开发者通常需要访问数据的权限，但不需要管理账单的权限。 | Cloud"
 type: origin
 token: PzjhwZkgqiiVmakWT03c8VDAnTh
 sidebar_position: 1
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - 组织
-  - organizations
-  - organization users
-  - 组织用户
-  - 组织管理员
-  - 组织成员
-  - 组织账单管理员
+displayed_sidebar: default
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 管理组织用户
+# 组织用户
 
 在 Zilliz Cloud 中，一个组织通常代表一家公司。您可以邀请员工加入您的组织，并根据他们的工作职能分配角色。这些角色决定了用户对特定资源的访问权限以及他们能执行的操作。例如，开发者通常需要访问数据的权限，但不需要管理账单的权限。
 
@@ -56,8 +44,8 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td><ul><li><p>管理组织中的所有项目</p></li><li><p>管理<a href="./payment-billing">支付方式与账单</a></p></li><li><p>管理 <a href="./manage-api-keys">API 密钥</a></p></li><li><p><a href="./organization-users">管理组织用户</a></p></li><li><p><a href="./manage-organization-alerts">管理组织告警</a></p></li><li><p><a href="./view-activities">查看事件</a></p></li><li><p><a href="./organization-settings">管理组织设置</a></p></li><li><p><a href="./use-recycle-bin">使用回收站</a></p></li><li><p>以及<a href="./project-users">项目管理员</a>和<a href="./cluster-roles">集群 Admin</a> 的所有权限</p></li></ul></td>
-     <td><p><a href="/reference/restful/control-plane-v2">所有控制面操作</a></p></td>
-     <td><p><a href="/reference/restful/data-plane-v2">所有数据面操作</a></p></td>
+     <td><p><a href="https://docs.zilliz.com.cn/reference/restful/control-plane-v2">所有控制面操作</a></p></td>
+     <td><p><a href="https://docs.zilliz.com.cn/reference/restful/data-plane-v2">所有数据面操作</a></p></td>
    </tr>
 </table>
 
@@ -75,7 +63,7 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td><ul><li><p>管理<a href="./payment-billing">支付方式与账单</a></p></li><li><p>查看 <a href="./manage-api-keys">API 密钥</a></p></li><li><p>邀请<a href="./organization-users">组织用户</a></p></li><li><p>查看<a href="./organization-settings">组织设置</a></p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/list-invoices-v2">查看发票列表</a></p></li><li><p><a href="/reference/restful/describe-invoice-v2">查看发票详情</a></p></li><li><p><a href="/reference/restful/query-daily-usage-v2">查询日用量</a></p></li></ul></td>
+     <td><ul><li><p><a href="https://docs.zilliz.com.cn/reference/restful/list-invoices-v2">查看发票列表</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/describe-invoice-v2">查看发票详情</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/query-daily-usage-v2">查询日用量</a></p></li></ul></td>
      <td><p>数据面权限取决于<a href="./project-users">项目</a>和<a href="./cluster-roles">集群角色</a>。但通常组织账单管理员不需要数据面的权限。</p></td>
    </tr>
 </table>
@@ -118,7 +106,7 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td><ul><li><p>查看 <a href="./manage-api-keys">API 密钥</a></p></li><li><p>邀请<a href="./organization-users">组织用户</a></p></li><li><p>查看<a href="./organization-settings">组织设置</a></p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">所有 Cloud Meta 操作</a></p></li><li><p>部分 Cluster 操作</p><ul><li><p><a href="/reference/restful/list-projects-v2">查看项目列表</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">查看集群列表</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">查看集群详情</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">查询集群指标</a></p></li><li><p><a href="/docs/prometheus-monitoring">导出集群指标</a></p></li></ul></li><li><p>部分 Import 操作</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">查看导入任务进度</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">查看导入任务列表</a></p></li></ul></li><li><p>部分 Backup & Restore 操作</p><ul><li><p><a href="/reference/restful/list-backups-v2">查看备份列表</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">查看备份详情</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">获取备份策略</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">所有 Cloud Job 操作</a></p></li></ul></td>
+     <td><ul><li><p><a href="https://docs.zilliz.com.cn/reference/restful/cloud-meta-v2">所有 Cloud Meta 操作</a></p></li><li><p>部分 Cluster 操作</p><ul><li><p><a href="https://docs.zilliz.com.cn/reference/restful/list-projects-v2">查看项目列表</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/list-clusters-v2">查看集群列表</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/describe-cluster-v2">查看集群详情</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/query-cluster-metrics-v2">查询集群指标</a></p></li><li><p><a href="https://docs.zilliz.com.cn/docs/prometheus-monitoring">导出集群指标</a></p></li></ul></li><li><p>部分 Import 操作</p><ul><li><p><a href="https://docs.zilliz.com.cn/reference/restful/get-import-job-progress-v2">查看导入任务进度</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/list-import-jobs-v2">查看导入任务列表</a></p></li></ul></li><li><p>部分 Backup & Restore 操作</p><ul><li><p><a href="https://docs.zilliz.com.cn/reference/restful/list-backups-v2">查看备份列表</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/describe-backup-v2">查看备份详情</a></p></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/get-backup-policy-v2">获取备份策略</a></p></li></ul></li><li><p><a href="https://docs.zilliz.com.cn/reference/restful/cloud-job-v2">所有 Cloud Job 操作</a></p></li></ul></td>
      <td><p>数据面权限取决于<a href="./project-users">项目</a>和<a href="./cluster-roles">集群角色</a>。</p></td>
    </tr>
 </table>
@@ -127,7 +115,7 @@ import Admonition from '@theme/Admonition';
 
 被邀请的用户将收到邀请邮件，并需要在 48 小时内接受邀请以加入组织。或者，您也可以直接从 Web 控制台复制邀请链接并分享给被邀请人。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
 您可以同时邀请一个或多个用户加入组织，但他们的角色需相同。每个组织最多可拥有 100 名成员。
 
@@ -167,7 +155,7 @@ import Admonition from '@theme/Admonition';
 
 注意，如果您是组织的唯一管理员，您将无法离开该组织，因为每个组织必须始终至少有一个组织管理员。
 
-<Admonition type="caution" icon="🚧" title="警告">
+<Admonition type="info" icon="📘" title="🚧 警告">
 
 一旦您离开组织，您对该组织及其相关资源的访问权限将被取消。
 

@@ -154,7 +154,7 @@ Use `element_filter(structArrayField, predicate)` to match Struct elements in a 
 
 Inside the predicate, use `$[subfield]` to refer to a scalar subfield of the current Struct element.
 
-```plaintext
+```python
 element_filter(chunks, $[section] == "index")
 ```
 
@@ -162,7 +162,7 @@ With the two entities in the [example data](./struct-array-filtering#example-dat
 
 When multiple conditions are used inside the predicate, all `$[subfield]` references apply to the same Struct element:
 
-```plaintext
+```python
 element_filter(chunks, $[section] == "index" && $[quality_score] > 0.9)
 ```
 
@@ -170,7 +170,7 @@ With the two entities in the [example data](./struct-array-filtering#example-dat
 
 When you combine an entity-level predicate with `element_filter`, place `element_filter` at the end of the expression:
 
-```plaintext
+```python
 # Correct
 category == "index" && element_filter(chunks, $[quality_score] > 0.9)
 
@@ -198,7 +198,7 @@ Use `MATCH_*` operators when an entity should be selected based on how many Stru
 
 `MATCH_ANY` evaluates to `true` if at least one element in the StructArray satisfies the predicate.
 
-```plaintext
+```python
 MATCH_ANY(chunks, $[section] == "index")
 ```
 
@@ -210,7 +210,7 @@ With the two entities in the [example data](./struct-array-filtering#example-dat
 
 `MATCH_ALL` evaluates to `true` if every element in the StructArray satisfies the predicate.
 
-```plaintext
+```python
 MATCH_ALL(chunks, $[has_code] == true)
 ```
 
@@ -222,7 +222,7 @@ With the two entities in the [example data](./struct-array-filtering#example-dat
 
 `MATCH_LEAST` evaluates to `true` if the number of elements satisfying the predicate is greater than or equal to `threshold`.
 
-```plaintext
+```python
 MATCH_LEAST(chunks, $[quality_score] > 0.9, threshold=2)
 ```
 
@@ -234,7 +234,7 @@ With the two entities in the [example data](./struct-array-filtering#example-dat
 
 `MATCH_MOST` evaluates to `true` if the number of elements satisfying the predicate is less than or equal to `threshold`.
 
-```plaintext
+```python
 MATCH_MOST(chunks, $[has_code] == true, threshold=1)
 ```
 
@@ -246,7 +246,7 @@ With the two entities in the [example data](./struct-array-filtering#example-dat
 
 `MATCH_EXACT` evaluates to `true` if the number of elements satisfying the predicate is exactly equal to `threshold`.
 
-```plaintext
+```python
 MATCH_EXACT(chunks, $[section] == "filter", threshold=1)
 ```
 

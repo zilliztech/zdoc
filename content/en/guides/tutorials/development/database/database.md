@@ -10,7 +10,7 @@ notebook: FALSE
 description: "A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint. | Cloud"
 type: origin
 token: DtLVw8EUyi6MqMkXh3Cc3rfZnic
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -147,7 +147,10 @@ curl --request POST \
 
 You can also set properties when creating a database. The following example sets the number of replicas.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.create_database(
     db_name="my_database_2",
     properties={
@@ -155,6 +158,10 @@ client.create_database(
     },
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import java.util.HashMap;
@@ -171,7 +178,11 @@ CreateDatabaseReq request = CreateDatabaseReq.builder()
 client.createDatabase(request);
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.CreateDatabase(
     ctx,
     milvusclient.NewCreateDatabaseOption("my_database_2").
@@ -182,7 +193,11 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.createDatabase({
   db_name: "my_database_2",
   properties: {
@@ -190,6 +205,10 @@ await client.createDatabase({
   },
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -204,11 +223,14 @@ curl --request POST \
   }'
 ```
 
+</TabItem>
+</Tabs>
+
 ## View databases\{#view-databases}
 
 List databases or describe a specific database.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -240,9 +262,10 @@ DescribeDatabaseResp database = client.describeDatabase(
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='go'>
+
+```go
 databases, err := client.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
     // handle error
@@ -256,7 +279,8 @@ if err != nil {
 log.Println(database)
 ```
 
-<Tabs groupId="code" defaultValue='javascript' values={[{"label":"JavaScript","value":"javascript"}]}>
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -301,7 +325,10 @@ The following database properties can be configured for databases in serving clu
 
 The following example limits the number of collections that can be created in a database.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.alter_database_properties(
     db_name="my_database_1",
     properties={
@@ -309,6 +336,10 @@ client.alter_database_properties(
     },
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
@@ -321,7 +352,11 @@ client.alterDatabaseProperties(
 );
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.AlterDatabaseProperties(
     ctx,
     milvusclient.NewAlterDatabasePropertiesOption("my_database_1").
@@ -332,7 +367,11 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.alterDatabaseProperties({
   db_name: "my_database_1",
   properties: {
@@ -340,6 +379,10 @@ await client.alterDatabaseProperties({
   },
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -354,11 +397,17 @@ curl --request POST \
   }'
 ```
 
+</TabItem>
+</Tabs>
+
 ### Drop database properties\{#drop-database-properties}
 
 The following example removes the collection limit from a database.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.drop_database_properties(
     db_name="my_database_1",
     property_keys=[
@@ -366,6 +415,10 @@ client.drop_database_properties(
     ],
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
@@ -379,7 +432,11 @@ client.dropDatabaseProperties(
 );
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.DropDatabaseProperties(
     ctx,
     milvusclient.NewDropDatabasePropertiesOption("my_database_1", "database.max.collections"),
@@ -389,12 +446,20 @@ if err != nil {
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.dropDatabaseProperties({
   db_name: "my_database_1",
   property_keys: ["database.max.collections"],
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -409,6 +474,9 @@ curl --request POST \
   }'
 ```
 
+</TabItem>
+</Tabs>
+
 ## Use database\{#use-database}
 
 You can switch from one database to another without reconnecting when using an SDK.
@@ -419,43 +487,72 @@ RESTful API does not support switching databases on a persistent connection. For
 
 </Admonition>
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.use_database(
     db_name="my_database_2",
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 client.useDatabase("my_database_2");
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.useDatabase({
   db_name: "my_database_2",
 });
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 # RESTful API does not provide a persistent connection to switch.
 # Specify "dbName" in the request body of each operation when supported.
 ```
+
+</TabItem>
+</Tabs>
 
 ## Drop database\{#drop-database}
 
 Default databases cannot be dropped. Before dropping a database, drop all collections in the database first.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 client.drop_database(
     db_name="my_database_2",
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.service.database.request.DropDatabaseReq;
@@ -467,18 +564,30 @@ client.dropDatabase(
 );
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 err = client.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("my_database_2"))
 if err != nil {
     // handle error
 }
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 await client.dropDatabase({
   db_name: "my_database_2",
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -489,6 +598,9 @@ curl --request POST \
     "dbName": "my_database_2"
   }'
 ```
+
+</TabItem>
+</Tabs>
 
 ## Next steps\{#next-steps}
 

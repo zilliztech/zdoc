@@ -1,25 +1,17 @@
 ---
 title: "跨地域备份 | Cloud"
 slug: /backup-to-other-regions
-sidebar_key: backup-to-other-regions
 sidebar_label: "跨地域备份"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud 的跨区域备份通过将备份复制到多个云地域来增强数据保护。它可防范区域性故障，并通过降低本地故障带来的风险，支持灾难恢复、业务连续性和高可用性。 | Cloud"
 type: origin
 token: DwklwhvhBi1xiQkdaxVcbIK0ned
 sidebar_position: 3
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - 备份
-  - 快照
-  - 跨地域备份
+displayed_sidebar: default
 
 ---
 
@@ -60,13 +52,13 @@ Zilliz Cloud 的跨区域备份通过将备份复制到多个云地域来增强�
 
 ## 操作步骤\{#procedure}
 
-您可以在[手动创建备份](./create-snapshot)或[设置定时自动备份](./schedule-automatic-backups)时启用跨地域备份。
+您可以在[手动创建备份](./create-backup)或[设置定时自动备份](./schedule-automatic-backups)时启用跨地域备份。
 
 - **手动备份：** 如果在手动创建备份时选择开启跨地域备份，所有跨地域备份将被永久保留。
 
 - **设置定时自动备份：** 如果在设置定时自动备份时选择开启跨地域备份，您必须为每个地域的备份文件设置保留时长。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
 您只能选择与集群云地域相同云服务商下的其他区域。
 

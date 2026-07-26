@@ -29,7 +29,7 @@ Dense vectors are mainly used in scenarios that require understanding the semant
 
 Dense vectors are typically represented as arrays of floating-point numbers with a fixed length, such as `[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`. The dimensionality of these vectors usually ranges from hundreds to thousands, such as 128, 256, 768, or 1024. Each dimension captures specific semantic features of an object, making it applicable to various scenarios through similarity calculations.
 
-![QOgMwbrhLhvvtbbk5TxcarhEn8i](https://zdoc-images.s3.us-west-2.amazonaws.com/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
+![QOgMwbrhLhvvtbbk5TxcarhEn8i](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
 
 The image above illustrates the representation of dense vectors in a 2D space. Although dense vectors in real-world applications often have much higher dimensions, this 2D illustration effectively conveys several key concepts:
 
@@ -59,7 +59,7 @@ Dense vectors can be generated using various [embedding](https://en.wikipedia.or
 
 Once data is vectorized, it can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
 
-![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.s3.us-west-2.amazonaws.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
+![No8KwR6wPhTIP6bKEqGcbBDWngc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -79,7 +79,7 @@ To use dense vectors in Zilliz Cloud clusters, first define a vector field for s
 
 In the example below, we add a vector field named `dense_vector` to store dense vectors. The field's data type is `FLOAT_VECTOR`, with a dimension of `4`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,7 +217,8 @@ export schema="{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -236,6 +237,9 @@ schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, 
 schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
 ```
 
+</TabItem>
+</Tabs>
+
 **Supported data types for dense vector fields**:
 
 | Data Type | Description |
@@ -249,7 +253,7 @@ schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VEC
 
 To accelerate semantic searches, an index must be created for the vector field. Indexing can significantly improve the retrieval efficiency of large-scale vector data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -320,13 +324,17 @@ export indexParams='[
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
     milvus::IndexDesc("dense_vector", "dense_vector_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP)
 }
 ```
+
+</TabItem>
+</Tabs>
 
 In the example above, an index named `dense_vector_index` is created for the `dense_vector` field using the `AUTOINDEX` index type. The `metric_type` is set to `IP`, indicating that inner product will be used as the distance metric.
 
@@ -336,7 +344,7 @@ Zilliz Cloud supports other metric types. For more information, refer to [Metric
 
 Once the dense vector and index param settings are complete, you can create a collection containing dense vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -408,7 +416,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
@@ -420,11 +429,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Insert data\{#insert-data}
 
 After creating the collection, use the `insert` method to add data containing dense vectors. Ensure that the dimensionality of the dense vectors being inserted matches the `dim` value defined when adding the dense vector field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -515,7 +527,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{{"dense_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4}}},
@@ -531,11 +544,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ### Perform similarity search\{#perform-similarity-search}
 
 Semantic search based on dense vectors is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -661,7 +677,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.7};
@@ -687,5 +704,8 @@ for (auto& result : search_results.Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 For more information on similarity search parameters, refer to [Basic ANN Search](./single-vector-search).

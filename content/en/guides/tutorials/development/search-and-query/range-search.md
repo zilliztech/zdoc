@@ -27,7 +27,7 @@ A range search improves search result relevancy by restricting the distance or s
 
 When executing a Range Search request, Zilliz Cloud uses the most similar vectors to the query vector from the ANN Search results as the center, with the **radius** specified in the Search request as the outer circle's radius, and the **range_filter** as the inner circle's radius to draw two concentric circles. All vectors with similarity scores that fall within the annular region formed by these two concentric circles will be returned. Here, the **range_filter** can be set to **0**, indicating that all entities within the specified similarity score (radius) will be returned.
 
-![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
+![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
 
 The above diagram shows that a range search request carries two parameters: **radius** and **range_filter**. Upon receiving a range search request, Zilliz Cloud does the following:
 
@@ -53,7 +53,7 @@ This section demonstrates how to conduct a range search. The search requests in 
 
 In the following code snippets, set `radius` to `0.4` and `range_filter` to `0.6` so that Zilliz Cloud returns all entities whose distances or scores to the query vector fall within **0.4** to **0.6**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -236,7 +236,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -273,6 +274,9 @@ for (auto& result : response.Results().Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 

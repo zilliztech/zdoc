@@ -29,7 +29,7 @@ You can use `upsert` to either insert a new entity or update an existing one, de
 
 An upsert request  combines an insert and a delete. When an `upsert` request for an existing entity is received, Zilliz Cloud inserts the data carried in the request payload and deletes the existing entity with the original primary key specified in the data at the same time. 
 
-![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.s3.us-west-2.amazonaws.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
+![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
 
 If the target collection has `autoID` enabled on its primary field, the `upsert` request must still include the primary key of the target entity. Zilliz Cloud uses the provided primary key to locate the entity to replace, and generates a new primary key for the data carried in the request payload before inserting it.
 
@@ -39,7 +39,7 @@ For fields with `nullable` enabled, you can omit them in the `upsert` request if
 
 You can also use the `partial_update` flag to make an upsert request work in merge mode. This allows you to include only the fields that need updating in the request payload.
 
-![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
+![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
 
 To perform a merge, set `partial_update` to `True` in the `upsert` request along with the primary key and the fields to update with their new values. 
 
@@ -119,7 +119,7 @@ In this section, we will upsert entities into a collection named `my_collection`
 
 The three entities, if exists in the collection, will be overridden by those included the upsert request.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -314,7 +314,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -343,13 +344,16 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## Upsert entities in a partition\{#upsert-entities-in-a-partition}
 
 You can also upsert entities into a specified partition. The following code snippets assume that you have a partition named **PartitionA** in your collection.
 
 The three entities, if exists in the partition, will be overridden by those included in the request. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -508,7 +512,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {
@@ -528,6 +533,9 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## Upsert entities in merge mode\{#upsert-entities-in-merge-mode}
 
 The following code example demonstrates how to upsert entities with partial updates. Provide only the fields needing updates and their new values, along with the explicit partial update flag.
@@ -540,7 +548,7 @@ When performing an upsert in merge mode, ensure that the entities involved in th
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -687,7 +695,8 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/upsert" \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{{"id", 1}, {"issue", "vol.14"}},
@@ -701,6 +710,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Upsert ARRAY fields in merge mode\{#upsert-array-fields-in-merge-mode}
 

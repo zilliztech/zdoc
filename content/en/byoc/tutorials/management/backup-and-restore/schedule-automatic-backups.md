@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | BYOC"
 type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

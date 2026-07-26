@@ -102,7 +102,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see Update Payment Method.
+For details, see [Update Payment Method](./update-payment-method).
 
 ## Cancel GCP Marketplace subscription\{#cancel-gcp-marketplace-subscription}
 

@@ -4,10 +4,11 @@ slug: /faq-authentication
 sidebar_label: "FAQ：鉴权"
 beta: FALSE
 notebook: FALSE
-description: " | BYOC"
+description: "本文列举了在 Zilliz Cloud 鉴权时可能遇到的常见问题及对应解决方法。 | BYOC"
 type: origin
 token: YVAzwqHdti7uHSkZL6icsY7hnpe
 sidebar_position: 10
+displayed_sidebar: default
 
 ---
 
@@ -15,16 +16,18 @@ sidebar_position: 10
 
 本文列举了在 Zilliz Cloud 鉴权时可能遇到的常见问题及对应解决方法。
 
-## 目录
+## Contents
 
 - [如何解决连接时身份验证失败？](#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster)
 
-## 问答
+## FAQs
 
 
 
 
-### 如何解决连接时身份验证失败？ \{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
+在 BYOC 项目中，请使用目标集群的鉴权凭据（`username:password`）进行集群连接。
+
+### 如何解决连接时身份验证失败？\{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 
 请执行以下步骤解决连接时身份验证失败的问题：
 

@@ -50,7 +50,7 @@ To address this issue, you can follow the instructions below.
 
 - If you are using a free cluster, please [upgrade](./manage-cluster) to the Serverless or Dedicated deployment option .
 
-- If you are using a Dedicated cluster, please [scale up your cluster](./undefined) by increasing the CU size.
+- If you are using a Dedicated cluster, please [scale up your cluster](./auto-scaling) by increasing the CU size.
 
 ### Can I change the cluster type after my dedicated cluster is created?\{#can-i-change-the-cluster-type-after-my-dedicated-cluster-is-created}
 
@@ -68,7 +68,7 @@ No. The project region cannot be changed once the project is created. To use a d
 
 Yes. To scale down your the query CU of your serving cluster,  go to the **Summary** section in the [Zilliz Cloud console](https://cloud.zilliz.com/signup) and click **Scale** next to the **Query CU**. This will open the scaling page where you can increase or decrease the amount of query CUs. Before scaling down your serving cluster, make sure the new number query CUs can accommodate your data volume and workload capacity.
 
-For more information, refer to [Scale Cluster](./undefined).
+For more information, refer to [Plan Cluster Scaling](./plan-cluster-scaling).
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?\{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 

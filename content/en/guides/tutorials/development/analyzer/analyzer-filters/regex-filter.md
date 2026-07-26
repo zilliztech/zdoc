@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `regex` filter is a regular expression filter any token produced by the tokenizer is kept only if it matches the expression you provide; everything else is discarded. | Cloud"
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: default
 
 ---
@@ -27,7 +27,7 @@ The `regex` filter is a regular expression filter: any token produced by the tok
 
 The `regex` filter is a custom filter in Zilliz Cloud. To use it, specify `"type": "regex"` in the filter configuration, along with an `expr` parameter to specify the desired regular expressions.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -84,7 +84,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -94,6 +95,9 @@ nlohmann::json analyzer_params = {
     }}
 };
 ```
+
+</TabItem>
+</Tabs>
 
 The `regex` filter accepts the following configurable parameters.
 
@@ -111,7 +115,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -167,7 +171,8 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -178,9 +183,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -274,7 +282,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -298,6 +307,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

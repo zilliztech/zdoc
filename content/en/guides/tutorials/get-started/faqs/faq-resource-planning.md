@@ -41,7 +41,7 @@ For more details, see [Select the Right CU](./cu-types-explained).
 
 ### What is a vCU? How does it get calculated?\{#what-is-a-vcu-how-does-it-get-calculated}
 
-A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. For details, refer to Serverless Cluster Cost.
+A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. For details, refer to [Serverless Cluster Cost](./serverless-cluster-cost).
 
 ### How can I avoid expenses on unused clusters?\{#how-can-i-avoid-expenses-on-unused-clusters}
 
@@ -49,7 +49,7 @@ We recommend suspending unused clusters to save computing costs. You can resume 
 
 ### How can I estimate the cost of using Zilliz Cloud?\{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
 
-You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate or refer to Storage Cost for details.
+You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate or refer to [Storage Cost](./storage-cost) for details.
 
 ### Does Zilliz Cloud support deployment on Azure?\{#does-zilliz-cloud-support-deployment-on-azure}
 
@@ -63,7 +63,7 @@ To request a new cloud service provider region for Zilliz Cloud, please [fill ou
 
 To view your plan, go to the project list. You will see the plan of each project.
 
-![XMRtb3eYsoWUnsxQM0ecyjj2nqf](https://zdoc-images.s3.us-west-2.amazonaws.com/xmrtb3eysowunsxqm0ecyjj2nqf.png "XMRtb3eYsoWUnsxQM0ecyjj2nqf")
+![XMRtb3eYsoWUnsxQM0ecyjj2nqf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/xmrtb3eysowunsxqm0ecyjj2nqf.png "XMRtb3eYsoWUnsxQM0ecyjj2nqf")
 
 ### How many query CUs do I need for a given collection?\{#how-many-query-cus-do-i-need-for-a-given-collection}
 

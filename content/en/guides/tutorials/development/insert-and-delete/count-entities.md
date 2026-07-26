@@ -61,7 +61,7 @@ Instead of obtaining the entity count programmatically, you can also access the 
 
 To get the precise entity count, load the collection and run a query with `count(*)` as the output field and set the consistency level for the query to `Strong`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,7 +208,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -253,13 +254,16 @@ if (!status.IsOk()) {
 std::cout << response.Results().GetRowCount() << std::endl;
 ```
 
+</TabItem>
+</Tabs>
+
 ## Use `get_collection_stats()`\{#use-getcollectionstats}
 
 As described above, the `get_collection_stats()` returns an estimated number of entities in a collection, which may differ from the actual entity count. You can use this as a reference without loading a collection. 
 
 The following example assumes that a collection named `test_collection` exists.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -368,7 +372,8 @@ milvusClient.getCollectionStats({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -399,6 +404,9 @@ if (!status.IsOk()) {
 std::cout << response.Stats().RowCount() << std::endl;
 ```
 
+</TabItem>
+</Tabs>
+
 ## Entity counts on the Zilliz Cloud console\{#entity-counts-on-the-zilliz-cloud-console}
 
 Instead of counting the entities programmatically, you can also access the Zilliz Cloud console to find the entity count for a cluster, a collection, or a partition on the following pages.
@@ -407,19 +415,19 @@ Instead of counting the entities programmatically, you can also access the Zilli
 
 You can find **Entity Count** and **Loaded Entities (Approx.)** of a cluster on its **Metrics** tab. Both values are estimates. Values in the curve are obtained [using ](./count-entities#use-getcollectionstats)[`get_collection_stats()`](./count-entities#use-getcollectionstats). If there are no further data insertions and deletions, the **Entity Count** curve will eventually reflect the actual number of entities in the current collection.
 
-![ZVYcwdlqAhOUqDb4vC3c2Hf8n5e](https://zdoc-images.s3.us-west-2.amazonaws.com/ZVYcwdlqAhOUqDb4vC3c2Hf8n5e.png)
+![ZVYcwdlqAhOUqDb4vC3c2Hf8n5e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ZVYcwdlqAhOUqDb4vC3c2Hf8n5e.png)
 
 ### Collection Details\{#collection-details}
 
 You can find the actual entity count of a collection on its details tab. This value is obtained by using [queries with ](./count-entities)[`count(*)`](./count-entities)[ as the output field](./count-entities).
 
-![PfXfwGQoLhW0OBbVMMfccM0Qnaf](https://zdoc-images.s3.us-west-2.amazonaws.com/PfXfwGQoLhW0OBbVMMfccM0Qnaf.png)
+![PfXfwGQoLhW0OBbVMMfccM0Qnaf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PfXfwGQoLhW0OBbVMMfccM0Qnaf.png)
 
 ### Partitions\{#partitions}
 
 You can also use the **Partitions** tab of a collection to find the estimated number of loaded entities in its child partitions. This value is obtained by using `get_partition_stats()`.
 
-![LKThwnS2fhTj8vbFJpEcjAMunwf](https://zdoc-images.s3.us-west-2.amazonaws.com/LKThwnS2fhTj8vbFJpEcjAMunwf.png)
+![LKThwnS2fhTj8vbFJpEcjAMunwf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LKThwnS2fhTj8vbFJpEcjAMunwf.png)
 
 ## FAQs\{#faqs}
 

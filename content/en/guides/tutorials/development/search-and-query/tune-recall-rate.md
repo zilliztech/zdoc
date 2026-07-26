@@ -32,7 +32,7 @@ This applies to all searches, including basic vector searches, filtered searches
 
 The recall rate in Zilliz Cloud usually refers to the proportion of relevant results successfully retrieved by a search. It measures the system's ability to recover all the relevant items from a collection.
 
-![OdMnbeHYOoAEqKxNEEnc9SwNnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/odmnbehyooaeqkxneenc9swnnmf.png "OdMnbeHYOoAEqKxNEEnc9SwNnmf")
+![OdMnbeHYOoAEqKxNEEnc9SwNnmf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/odmnbehyooaeqkxneenc9swnnmf.png "OdMnbeHYOoAEqKxNEEnc9SwNnmf")
 
 To calculate a search's recall rate, you can divide the number of relevant items retrieved by the total number of applicable items that should be retrieved. For example, if a search retrieves 90 of 100 relevant items, the recall rate should be **0.9** or **90%**.
 

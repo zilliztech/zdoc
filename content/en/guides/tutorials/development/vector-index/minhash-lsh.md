@@ -68,7 +68,7 @@ The MinHash process involves:
 
 You can see the entire process illustrated below:
 
-![CCzEwT7uchMqI6bsxRJcK1qenEh](https://zdoc-images.s3.us-west-2.amazonaws.com/CCzEwT7uchMqI6bsxRJcK1qenEh.png)
+![CCzEwT7uchMqI6bsxRJcK1qenEh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/CCzEwT7uchMqI6bsxRJcK1qenEh.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -116,15 +116,15 @@ For details, refer to [Locality-sensitive hashing](https://en.wikipedia.org/wiki
 
 Consider three documents with 128-dimensional MinHash signatures:
 
-![E1dewMnqshua0ib7aHmcL10lnIe](https://zdoc-images.s3.us-west-2.amazonaws.com/E1dewMnqshua0ib7aHmcL10lnIe.png)
+![E1dewMnqshua0ib7aHmcL10lnIe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/E1dewMnqshua0ib7aHmcL10lnIe.png)
 
 First, LSH divides the 128-dimensional signature into 32 bands of 4 consecutive values each:
 
-![PhSMwS74rh25oybv9Docmfionze](https://zdoc-images.s3.us-west-2.amazonaws.com/PhSMwS74rh25oybv9Docmfionze.png)
+![PhSMwS74rh25oybv9Docmfionze](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PhSMwS74rh25oybv9Docmfionze.png)
 
 Then, each band is hashed into different buckets using a hash function. Document pairs sharing buckets are selected as similarity candidates. In the example below, Document A and Document B are selected as similarity candidates as their hash results collide in **Band 0**:
 
-![RfmMwNkIvhlUFSb11alcP8fqnmf](https://zdoc-images.s3.us-west-2.amazonaws.com/RfmMwNkIvhlUFSb11alcP8fqnmf.png)
+![RfmMwNkIvhlUFSb11alcP8fqnmf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/RfmMwNkIvhlUFSb11alcP8fqnmf.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -154,7 +154,7 @@ For more information about this metric type, refer to [MHJACCARD](./search-metri
 
 The deduplication process powered by MinHash LSH allows Zilliz Cloud to efficiently identify and filter out near-duplicate text or structured records before inserting them into the collection.
 
-![It9wwbCFwhfT0RbwosAcGltZneb](https://zdoc-images.s3.us-west-2.amazonaws.com/It9wwbCFwhfT0RbwosAcGltZneb.png)
+![It9wwbCFwhfT0RbwosAcGltZneb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/It9wwbCFwhfT0RbwosAcGltZneb.png)
 
 1. **Chunk & preprocess**: Split incoming text data or structured data (e.g., records, fields) into chunks; normalize text (lowercasing, punctuation removal), and remove stopwords as needed.
 

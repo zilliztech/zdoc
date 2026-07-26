@@ -4,10 +4,11 @@ slug: /faq-monitors-and-metrics
 sidebar_label: "FAQ：监控与指标"
 beta: FALSE
 notebook: FALSE
-description: " | BYOC"
+description: "本文列举了在 Zilliz Cloud 使用监控与指标时可能遇到的常见问题及对应解决方法。 | BYOC"
 type: origin
 token: YVAzwqHdti7uHSkZL6icsY7hnpe
 sidebar_position: 9
+displayed_sidebar: default
 
 ---
 
@@ -15,18 +16,18 @@ sidebar_position: 9
 
 本文列举了在 Zilliz Cloud 使用监控与指标时可能遇到的常见问题及对应解决方法。
 
-## 目录
+## Contents
 
 - [频繁进行数据插入和删除操作时，为什么集群 CU 加载容量和存储用量这两个指标会上升？](#why-does-the-cluster-s-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations)
 - [集群容量达到上限后，无法插入数据。如何解决这个问题？](#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result)
 - [为什么删除 Collection 后，内存用量依旧保持不变？](#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection)
 
-## 问答
+## FAQs
 
 
 
 
-### 频繁进行数据插入和删除操作时，为什么集群 CU 加载容量和存储用量这两个指标会上升？ \{#why-does-the-cluster-s-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations}
+### 频繁进行数据插入和删除操作时，为什么集群 CU 加载容量和存储用量这两个指标会上升？\{#why-does-the-cluster-s-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations}
 
 频繁的插入和删除操作会触发内部的 *[Compaction](https://milvus.io/blog/2022-2-21-compact.md)* 机制。
 
@@ -38,7 +39,7 @@ Compaction 过程中会暂时创建新的 Segment，因此会导致 CU 加载容
 
 上述情况为预期内现象，不会影响您的系统性能。
 
-### 集群容量达到上限后，无法插入数据。如何解决这个问题？ \{#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result}
+### 集群容量达到上限后，无法插入数据。如何解决这个问题？\{#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result}
 
 请尝试以下 2 种方法：
 
@@ -46,6 +47,6 @@ Compaction 过程中会暂时创建新的 Segment，因此会导致 CU 加载容
 
 1. 释放一些已加载但不常用的 Collection。这能够帮助您节省内存用量。
 
-### 为什么删除 Collection 后，内存用量依旧保持不变？ \{#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection}
+### 为什么删除 Collection 后，内存用量依旧保持不变？\{#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection}
 
 删除的 Collection 数据将于 24 小时后被彻底清理。如果内存用量在 24 小时后仍未下降，请[提交工单](https://support.zilliz.com.cn/hc/zh-cn)。

@@ -32,7 +32,7 @@ To manage billing profile, you must be an **Organization Owner** or **Organizati
 
 ## Update billing profile\{#update-billing-profile}
 
-![OyU3wocxShpyvAb18M6c7ymHnkF](https://zdoc-images.s3.us-west-2.amazonaws.com/OyU3wocxShpyvAb18M6c7ymHnkF.png)
+![OyU3wocxShpyvAb18M6c7ymHnkF](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/OyU3wocxShpyvAb18M6c7ymHnkF.png)
 
 <Procedures>
 

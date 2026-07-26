@@ -27,7 +27,7 @@ Sparse vectors are an important method of capturing surface-level term matching 
 
 A sparse vector is a special high-dimensional vector where most elements are zero, and only a few dimensions have non-zero values. As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., `[0.3, 0.8, 0.2, 0.3, 0.1]`). In contrast, sparse vectors store only non-zero elements and their indices of the dimension, often represented as key-value pairs of `{ index: value}` (e.g., `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`). 
 
-![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
+![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
 With tokenization and scoring, documents can be represented as bag-of-words vectors, where each dimension corresponds to a specific word in the vocabulary. Only the words present in the document have non-zero values, creating a sparse vector representation. Sparse vectors can be generated using two approaches:
 
@@ -37,7 +37,7 @@ With tokenization and scoring, documents can be represented as bag-of-words vect
 
 Sparse vectors and the original text can be stored in Zilliz Cloud for efficient retrieval. The diagram below outlines the overall process.
 
-![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
+![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -92,7 +92,7 @@ To use sparse vectors in Zilliz Cloud clusters, you need to create a collection 
 
 - Typically, the raw text that the sparse vector represents is also stored in the collection. You can use a `VARCHAR` field for storing the raw text.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -263,7 +263,8 @@ export schema="{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -281,6 +282,9 @@ schema->AddField(milvus::FieldSchema("pk", milvus::DataType::VARCHAR, "", true, 
 schema->AddField(milvus::FieldSchema("sparse_vector", milvus::DataType::SPARSE_FLOAT_VECTOR));
 schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(65535).EnableAnalyzer(true));
 ```
+
+</TabItem>
+</Tabs>
 
 In this example, three fields are added:
 
@@ -300,19 +304,17 @@ To enable  or Zilliz Cloud to generate sparse vector embeddings from a specified
 
 The process of creating an index for sparse vectors is similar to that for [dense vectors](./use-dense-vector), but with differences in the specified index type (`index_type`), distance metric (`metric_type`), and index parameters (`params`).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
-
 index_params.add_index(
     field_name="sparse_vector",
     index_name="sparse_auto_index",
     index_type="AUTOINDEX",
     metric_type="IP"
 )
-
 ```
 
 </TabItem>
@@ -324,14 +326,12 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
-
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
         .indexName("sparse_auto_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build());
-
 ```
 
 </TabItem>
@@ -339,14 +339,12 @@ indexes.add(IndexParam.builder()
 <TabItem value='javascript'>
 
 ```javascript
-
 const indexParams = await client.createIndex({
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
     index_name: 'sparse_auto_index',
     index_type: IndexType.AUTOINDEX,
 });
-
 ```
 
 </TabItem>
@@ -363,7 +361,6 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector
 <TabItem value='bash'>
 
 ```bash
-
 export indexParams='[
         {
             "fieldName": "sparse_vector",
@@ -372,17 +369,18 @@ export indexParams='[
             "indexType": "AUTOINDEX"
         }
     ]'
+```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
 ```
 
 </TabItem>
 </Tabs>
-
-```c++
-
-milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
-
-```
 
 This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric. For more details, see the following resources:
 
@@ -394,7 +392,7 @@ This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric
 
 Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the [`create_collection`](./manage-collections-sdks) method to create a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -464,7 +462,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
@@ -476,11 +475,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## Insert data\{#insert-data}
 
 You must provide data for all fields defined during collection creation, except for fields that are auto-generated (such as the primary key with `auto_id` enabled). If you are using the built-in BM25 function to auto-generate sparse vectors, you should also omit the sparse vector field when inserting data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -626,7 +628,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 milvus::EntityRows data = {{"text", "information retrieval is a field of study.", {"sparse_vector", {{"1", 0.5}, {"100", 0.3}, {"500", 0.8}}}},
@@ -642,11 +645,14 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## Perform Similarity Search\{#perform-similarity-search}
 
 To perform a similarity search using sparse vectors, prepare both the query data and the search parameters. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -717,15 +723,19 @@ export queryData='[{1: 0.2, 50: 0.4, 1000: 0.7}]'
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json query_vector = {{"1", 0.2}, {"50", 0.4}, {"1000", 0.7}};
 ```
 
+</TabItem>
+</Tabs>
+
 Then, execute the similarity search using the `search` method:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -843,7 +853,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::SearchRequest()
@@ -868,6 +879,9 @@ for (auto& result : search_results.Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 For more information on similarity search parameters, refer to [Basic Vector Search](./single-vector-search).
 

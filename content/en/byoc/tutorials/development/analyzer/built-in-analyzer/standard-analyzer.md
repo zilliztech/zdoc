@@ -452,6 +452,6 @@ if (!status.IsOk()) {
 
 ### Expected output\{#expected-output}
 
-```plaintext
+```sql
 Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'scale']
 ```

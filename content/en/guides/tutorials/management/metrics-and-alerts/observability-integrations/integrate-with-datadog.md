@@ -38,7 +38,7 @@ This feature is available only to **Dedicated** clusters in an **Enterprise** pr
 
 ## Procedure\{#procedure}
 
-![integrate-with-datadog-1](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-datadog-1.png "integrate-with-datadog-1")
+![integrate-with-datadog-1](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/integrate-with-datadog-1.png "integrate-with-datadog-1")
 
 <Procedures>
 
@@ -88,7 +88,7 @@ After setup, return to the **Integrations** page and verify that your Datadog in
 
 By clicking the external link icon next to the integration, you can open the associated Datadog dashboard to view cluster metrics that are pushed from the selected Zilliz Cloud clusters.
 
-![integrate-with-datadog-2](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-datadog-2.png "integrate-with-datadog-2")
+![integrate-with-datadog-2](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/integrate-with-datadog-2.png "integrate-with-datadog-2")
 
 ## Manage integrations\{#manage-integrations}
 
@@ -98,7 +98,7 @@ To manage your Datadog integration, use the **Actions** column:
 
 - **Remove**: Delete the integration if it is no longer required.
 
-![integrate-with-datadog-3](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-datadog-3.png "integrate-with-datadog-3")
+![integrate-with-datadog-3](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/integrate-with-datadog-3.png "integrate-with-datadog-3")
 
 ## Performance metrics available to Datadog\{#performance-metrics-available-to-datadog}
 

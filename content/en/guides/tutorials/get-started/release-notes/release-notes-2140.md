@@ -28,7 +28,7 @@ This release is compatible with **Milvus v2.4.x**.
 
 If you prefer to upgrade your clusters to **Public Preview**, **Milvus 2.5.x** features are available after the upgrade. You can click **Try Preview Features** on the **Cluster Details** page on the Zilliz Cloud console to learn more about the features in **Public Preview**.
 
-![Koy0bfMhuoaJ2ZxtVJfcUSl9n6d](https://zdoc-images.s3.us-west-2.amazonaws.com/koy0bfmhuoaj2zxtvjfcusl9n6d.png "Koy0bfMhuoaJ2ZxtVJfcUSl9n6d")
+![Koy0bfMhuoaJ2ZxtVJfcUSl9n6d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/koy0bfmhuoaj2zxtvjfcusl9n6d.png "Koy0bfMhuoaJ2ZxtVJfcUSl9n6d")
 
 ## BYOC-I: A New Deployment Option That Provides Complete Data Sovereignty with Enhanced Project Management Capabilities\{#byoc-i-a-new-deployment-option-that-provides-complete-data-sovereignty-with-enhanced-project-management-capabilities}
 

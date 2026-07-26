@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 In many applications, an object can be searched by a rich set of information such as title and description, or with multiple modalities such as text, images, and audio. For example, a tweet with a piece of text and an image shall be searched if either the text or the image matches the semantic of the search query. Hybrid search enhances search experience by combining searches across these diverse fields. Zilliz Cloud supports this by allowing search on multiple vector fields, conducting several Approximate Nearest Neighbor (ANN) searches simultaneously. Multi-vector hybrid search is particularly useful if you want to search both text and images, multiple text fields that describe the same object, or dense and sparse vectors to improve search quality. 
 
-![Qx7UwgI6jhrku8bAxZqcYxZMnSe](https://zdoc-images.s3.us-west-2.amazonaws.com/Qx7UwgI6jhrku8bAxZqcYxZMnSe.png)
+![Qx7UwgI6jhrku8bAxZqcYxZMnSe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Qx7UwgI6jhrku8bAxZqcYxZMnSe.png)
 
 The multi-vector hybrid search integrates different search methods or spans embeddings from various modalities:
 
@@ -65,7 +65,7 @@ This example incorporates the following fields into the schema:
 
 Since we will use the built-in BM25 algorithm to perform a full-text search on the text field, it is necessary to add the Milvus `Function` to the schema. For further details, please refer to [Full Text Search](./full-text-search).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -325,7 +325,8 @@ export schema='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -351,6 +352,9 @@ schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
 schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
 ```
 
+</TabItem>
+</Tabs>
+
 ### Create index\{#create-index}
 
 After defining the collection schema, the next step is to configure the vector indexes and specify the similarity metrics. In the given example:
@@ -361,7 +365,7 @@ After defining the collection schema, the next step is to configure the vector i
 
 - `image_dense_index`: an index of type `AUTOINDEX` with `IP` metric type is created for the image dense vector field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -500,7 +504,8 @@ export indexParams='[
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 std::vector<milvus::IndexDesc> indexes = {
@@ -510,11 +515,14 @@ std::vector<milvus::IndexDesc> indexes = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### Create collection\{#create-collection}
 
 Create a collection named `demo` with the collection schema and indexes configured in the previous two steps.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -585,7 +593,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
@@ -596,6 +605,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## Insert data\{#insert-data}
 
@@ -613,7 +625,7 @@ You may use the same or different models to generate dense embeddings for each f
 
 Since this example uses the built-in BM25 function to generate sparse embeddings from the text field, you do not need to supply sparse vectors manually. However, if you opt not to use BM25, you must precompute and provide the sparse embeddings yourself.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -755,7 +767,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include <random>
@@ -788,6 +801,9 @@ if (!status.IsOk()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## Perform Hybrid Search\{#perform-hybrid-search}
 
 ### Step 1: Create multiple AnnSearchRequest instances\{#step-1-create-multiple-annsearchrequest-instances}
@@ -810,7 +826,7 @@ To demonstrate the capabilities of various search vector fields, we will constru
 
 - `image_dense`for multimodal text-to-image search, to retrieve relevant product images based on the semantic content of the query.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -957,7 +973,8 @@ export req='[
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto query_text = "white headphones, quiet and comfortable";
@@ -980,6 +997,9 @@ auto sub_req3 = milvus::SubSearchRequest()
                     .WithLimit(2);
 ```
 
+</TabItem>
+</Tabs>
+
 Given that the parameter `limit` is set to 2, each `AnnSearchRequest` returns 2 search results. In this example, 3 `AnnSearchRequest` instances are created, resulting in a total of 6 search results.
 
 ### Step 2: Configure a reranking strategy\{#step-2-configure-a-reranking-strategy}
@@ -988,7 +1008,7 @@ To merge and rerank the sets of ANN search results, selecting an appropriate rer
 
 In this example, since there is no particular emphasis on specific search queries, we will proceed with the RRFRanker strategy.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1074,17 +1094,21 @@ export ranker='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto ranker = std::make_shared<milvus::RRFRerank>(100);
 ```
 
+</TabItem>
+</Tabs>
+
 ### Step 3: Perform a Hybrid Search\{#step-3-perform-a-hybrid-search}
 
 Before initiating a Hybrid Search, ensure that the collection is loaded. If any vector fields within the collection lack an index or are not loaded into memory, an error will occur upon executing the Hybrid Search method.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1185,7 +1209,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 auto request = milvus::HybridSearchRequest()
@@ -1211,6 +1236,9 @@ for (auto& result : response.Results().Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 The following is the output:
 

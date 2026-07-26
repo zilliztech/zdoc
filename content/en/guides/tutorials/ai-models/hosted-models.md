@@ -26,7 +26,7 @@ With a managed model instance, you can insert raw data into a collection. Zilliz
 
 The following diagram shows the procedures for using hosted models.
 
-![NkgEwmrJDhyXiubY6HpcssaynHg](https://zdoc-images.s3.us-west-2.amazonaws.com/NkgEwmrJDhyXiubY6HpcssaynHg.png)
+![NkgEwmrJDhyXiubY6HpcssaynHg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NkgEwmrJDhyXiubY6HpcssaynHg.png)
 
 ## Deploy a model\{#deploy-a-model}
 

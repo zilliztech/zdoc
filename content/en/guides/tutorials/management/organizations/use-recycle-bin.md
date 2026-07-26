@@ -32,7 +32,7 @@ To restore a cluster in the recycle bin, you need to [add a payment method](/doc
 
 ## Restore a dropped cluster in the recycle bin\{#restore-a-dropped-cluster-in-the-recycle-bin}
 
-![use-recycle-bin](https://zdoc-images.s3.us-west-2.amazonaws.com/use-recycle-bin.png "use-recycle-bin")
+![use-recycle-bin](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/use-recycle-bin.png "use-recycle-bin")
 
 <Procedures>
 

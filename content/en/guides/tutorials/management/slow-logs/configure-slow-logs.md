@@ -68,7 +68,7 @@ This guide covers the full lifecycle of slow logs on Zilliz Cloud: enabling, adj
 
 ## Edit slow log settings\{#edit-slow-log-settings}
 
-![Pj70wvma3hwRdubQdqucq7Zinnc](https://zdoc-images.s3.us-west-2.amazonaws.com/Pj70wvma3hwRdubQdqucq7Zinnc.png)
+![Pj70wvma3hwRdubQdqucq7Zinnc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Pj70wvma3hwRdubQdqucq7Zinnc.png)
 
 <Procedures>
 
@@ -86,7 +86,7 @@ This guide covers the full lifecycle of slow logs on Zilliz Cloud: enabling, adj
 
 ## Disable slow logs\{#disable-slow-logs}
 
-![AfQswQaVYh9qW7ba3sTcBI7qnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/AfQswQaVYh9qW7ba3sTcBI7qnfg.png)
+![AfQswQaVYh9qW7ba3sTcBI7qnfg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AfQswQaVYh9qW7ba3sTcBI7qnfg.png)
 
 <Procedures>
 

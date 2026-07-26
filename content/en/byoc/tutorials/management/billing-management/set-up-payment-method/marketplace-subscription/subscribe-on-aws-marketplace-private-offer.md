@@ -32,7 +32,7 @@ If you need a private offer for Zilliz Cloud, [contact your Zilliz account execu
 
 Before you subscribe to a private offer on AWS Marketplace, make sure:
 
-- You have a Zilliz Cloud account and organization.
+- You have a Zilliz Cloud account and [organization](./organization-settings).
 
 - You have an [AWS account ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console-account-id.html) that should receive and accept the private offer.
 

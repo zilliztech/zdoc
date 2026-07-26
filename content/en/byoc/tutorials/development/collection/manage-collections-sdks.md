@@ -11,12 +11,6 @@ description: "You can create a collection by defining its schema, index paramete
 type: origin
 token: EmcowmwYpiFbWgkmnqfcMf3knVc
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - create collections
 displayed_sidebar: default
 
 ---

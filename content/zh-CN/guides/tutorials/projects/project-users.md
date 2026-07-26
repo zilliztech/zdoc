@@ -1,34 +1,24 @@
 ---
-title: "管理项目用户 | Cloud"
+title: "项目用户 | Cloud"
 slug: /project-users
-sidebar_key: project-users
-sidebar_label: "管理项目用户"
+sidebar_label: "项目用户"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "在 Zilliz Cloud 中，您可以邀请用户加入项目并根据他们的工作职能分配角色。这些角色决定了用户对项目的访问权限以及他们可以执行的操作。 | Cloud"
 type: origin
 token: GZriwpM0Gi7fcukuo8xc736VnBh
 sidebar_position: 2
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - 项目
-  - 项目管理
-  - 管理项目用户
-  - 项目管理员
-  - 项目协作者
+displayed_sidebar: default
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 管理项目用户
+# 项目用户
 
 在 Zilliz Cloud 中，您可以邀请用户加入项目并根据他们的工作职能分配角色。这些角色决定了用户对项目的访问权限以及他们可以执行的操作。
 
@@ -52,7 +42,7 @@ import Admonition from '@theme/Admonition';
 
 一旦用户加入项目，该用户自动成为项目所属组织的组织成员。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
 每次您可以以相同角色邀请一个或多个用户加入项目。
 
@@ -104,230 +94,67 @@ import Admonition from '@theme/Admonition';
 
 下表对比了不同项目角色的权限差异。
 
+**按需计算**
+
+| 操作 | 项目管理员 | 集群管理员 | 项目读写 | 项目只读 |
+| --- | --- | --- | --- | --- |
+| 创建按需计算集群 | ✅ | ❌ | ❌ | ❌ |
+| 查看按需计算集群列表和详情 | ✅ | ✅ | ✅ | ✅ |
+| 修改、重命名或删除按需计算集群 | ✅ | ❌ | ❌ | ❌ |
+| 创建按需计算 Database | ✅ | ✅ | ✅ | ❌ |
+| 查看按需计算 Database 列表 | ✅ | ✅ | ✅ | ❌ |
+| 删除按需计算 Database | ✅ | ❌ | ❌ | ❌ |
+| 在按需计算 Database 中创建或删除 Collection | ✅ | ✅ | ✅ | ❌ |
+| 向按需计算 Database 中的 Collection 导入数据 | ✅ | ✅ | ✅ | ❌ |
+| 通过按需计算集群执行 Query、Search 或 Get | ✅ | ✅ | ✅ | ✅ |
+| 创建 Managed Volume 或 External Volume | ✅ | ❌ | ❌ | ❌ |
+
 **集群操作**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>创建集群</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除集群</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>集群 Query CU 扩缩容</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>集群 Replica 扩缩容</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>挂起集群</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>恢复运行集群</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>查看集群列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>查看集群详情</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>查看集群指标</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 创建集群 | ✅ | ❌ | ❌ | ❌ |
+| 删除集群 | ✅ | ❌ | ❌ | ❌ |
+| 集群 Query CU 扩缩容 | ✅ | ✅ | ❌ | ❌ |
+| 集群 Replica 扩缩容 | ✅ | ✅ | ❌ | ❌ |
+| 挂起集群 | ✅ | ✅ | ❌ | ❌ |
+| 恢复运行集群 | ✅ | ✅ | ❌ | ❌ |
+| 查看集群列表 | ✅ | ✅ | ✅ | ✅ |
+| 查看集群详情 | ✅ | ✅ | ✅ | ✅ |
+| 查看集群指标 | ✅ | ✅ | ✅ | ✅ |
 
 **集群用户**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看用户列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建用户</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>重置用户密码</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除用户</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看用户列表 | ✅ | ✅ | ✅ | ✅ |
+| 创建用户 | ✅ | ✅ | ❌ | ❌ |
+| 重置用户密码 | ✅ | ✅ | ❌ | ❌ |
+| 删除用户 | ✅ | ✅ | ❌ | ❌ |
 
 **审计日志**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>启用审计日志</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>修改审计日志配置</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>关闭审计日志</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>查看审计日志流状态</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 启用审计日志 | ✅ | ✅ | ❌ | ❌ |
+| 修改审计日志配置 | ✅ | ✅ | ❌ | ❌ |
+| 关闭审计日志 | ✅ | ✅ | ❌ | ❌ |
+| 查看审计日志流状态 | ✅ | ✅ | ✅ | ✅ |
 
 **数据面操作**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>床架 Collection</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Drop Collection</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>List/Describe Collection</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert/Upsert</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Query/Search/Get</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Bulk Import</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>所有其他 RESTful 操作</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>按操作区分</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 创建 Collection | ✅ | ✅ | ✅ | ❌ |
+| Drop Collection | ✅ | ✅ | ✅ | ❌ |
+| List/Describe Collection | ✅ | ✅ | ✅ | ✅ |
+| Insert/Upsert | ✅ | ✅ | ✅ | ❌ |
+| Delete | ✅ | ✅ | ✅ | ❌ |
+| Query/Search/Get | ✅ | ✅ | ✅ | ✅ |
+| Bulk Import | ✅ | ✅ | ✅ | ❌ |
+| 所有其他 RESTful 操作 | ✅ | ✅ | ✅ | 按操作区分 |
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
 集群管理员与项目读写角色的数据面权限相同。       
 
@@ -335,417 +162,95 @@ import Admonition from '@theme/Admonition';
 
 **备份恢复**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看备份列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建集群备份</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>恢复到新集群</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Collection恢复到当前集群</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除集群备份</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看备份列表 | ✅ | ✅ | ✅ | ✅ |
+| 创建集群备份 | ✅ | ✅ | ❌ | ❌ |
+| 恢复到新集群 | ✅ | ❌ | ❌ | ❌ |
+| Collection恢复到当前集群 | ✅ | ✅ | ❌ | ❌ |
+| 删除集群备份 | ✅ | ✅ | ❌ | ❌ |
 
 **Volume**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看 Volume 列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建 Volume</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除 Volume</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看 Volume 列表 | ✅ | ✅ | ✅ | ✅ |
+| 创建 Volume | ✅ | ❌ | ❌ | ❌ |
+| 删除 Volume | ✅ | ❌ | ❌ | ❌ |
 
 **迁移**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看迁移列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建迁移任务</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>停止迁移任务</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>查看迁移任务详情（查看已迁移Collection/Database）</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看迁移列表 | ✅ | ✅ | ✅ | ✅ |
+| 创建迁移任务 | ✅ | ✅ | ❌ | ❌ |
+| 停止迁移任务 | ✅ | ✅ | ❌ | ❌ |
+| 查看迁移任务详情（查看已迁移Collection/Database） | ✅ | ✅ | ✅ | ✅ |
 
 **任务中心**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看任务列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>查看任务详情</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>取消任务</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>重试任务</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看任务列表 | ✅ | ✅ | ✅ | ✅ |
+| 查看任务详情 | ✅ | ✅ | ✅ | ✅ |
+| 取消任务 | ✅ | ✅ | ❌ | ❌ |
+| 重试任务 | ✅ | ✅ | ❌ | ❌ |
 
 **项目告警**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看告警列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建告警</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>编辑告警</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>删除告警</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>查看告警历史</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看告警列表 | ✅ | ✅ | ✅ | ✅ |
+| 创建告警 | ✅ | ✅ | ✅ | ✅ |
+| 编辑告警 | ✅ | ✅ | ✅ | ✅ |
+| 删除告警 | ✅ | ✅ | ✅ | ✅ |
+| 查看告警历史 | ✅ | ✅ | ✅ | ✅ |
 
 **项目成员**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>邀请项目成员</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>编辑成员权限</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>移除项目成员</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 邀请项目成员 | ✅ | ❌ | ❌ | ❌ |
+| 编辑成员权限 | ✅ | ❌ | ❌ | ❌ |
+| 移除项目成员 | ✅ | ❌ | ❌ | ❌ |
 
 **集群 IP 白名单**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看 IP 白名单</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建 IP 白名单</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>修改 IP 白名单</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除 IP 白名单</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看 IP 白名单 | ✅ | ✅ | ✅ | ✅ |
+| 创建 IP 白名单 | ✅ | ❌ | ❌ | ❌ |
+| 修改 IP 白名单 | ✅ | ❌ | ❌ | ❌ |
+| 删除 IP 白名单 | ✅ | ❌ | ❌ | ❌ |
 
 **Private endpoints**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看 Private Endpoint 列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建 Private Endpoint</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除 Private Endpoint</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看 Private Endpoint 列表 | ✅ | ✅ | ✅ | ✅ |
+| 创建 Private Endpoint | ✅ | ❌ | ❌ | ❌ |
+| 删除 Private Endpoint | ✅ | ❌ | ❌ | ❌ |
 
 **CMEK**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看 CMEK 列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>添加 CMEK</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除 CMEK</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看 CMEK 列表 | ✅ | ✅ | ✅ | ✅ |
+| 添加 CMEK | ✅ | ❌ | ❌ | ❌ |
+| 删除 CMEK | ✅ | ❌ | ❌ | ❌ |
 
 **集成中心**
 
-<table>
-   <tr>
-     <th><p><strong>操作</strong></p></th>
-     <th><p><strong>项目管理员</strong></p></th>
-     <th><p><strong>集群管理员</strong></p></th>
-     <th><p><strong>项目读写</strong></p></th>
-     <th><p><strong>项目只读</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>查看集成列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>查看 Datadog 集成</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建 Datadog 集成</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>更新 Datadog 集成</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除 Datadog 集成</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>查看存储集成列表</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>创建存储集成</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>删除存储集成</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **操作** | **项目管理员** | **集群管理员** | **项目读写** | **项目只读** |
+| --- | --- | --- | --- | --- |
+| 查看集成列表 | ✅ | ✅ | ✅ | ✅ |
+| 查看 Datadog 集成 | ✅ | ✅ | ✅ | ✅ |
+| 创建 Datadog 集成 | ✅ | ❌ | ❌ | ❌ |
+| 更新 Datadog 集成 | ✅ | ❌ | ❌ | ❌ |
+| 删除 Datadog 集成 | ✅ | ❌ | ❌ | ❌ |
+| 查看存储集成列表 | ✅ | ✅ | ✅ | ✅ |
+| 创建存储集成 | ✅ | ❌ | ❌ | ❌ |
+| 删除存储集成 | ✅ | ❌ | ❌ | ❌ |
 
 ## 撤销或重发邀请\{#revoke-or-resend-an-invitation}
 
@@ -755,7 +260,7 @@ import Admonition from '@theme/Admonition';
 
 要撤销或重发邀请，你必须是[组织管理员](./organization-users)或[项目管理员](./project-users)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
 在用户接受邀请之前，您可以选择撤销或重发邀请。
 
@@ -783,7 +288,7 @@ import Admonition from '@theme/Admonition';
 
 注意，如果您是项目的唯一管理员，您将无法离开该项目，因为每个项目必须始终至少有一个项目管理员。
 
-<Admonition type="caution" icon="🚧" title="警告">
+<Admonition type="info" icon="📘" title="🚧 警告">
 
 一旦您离开项目，您对该项目及其相关资源的访问权限将被取消。
 

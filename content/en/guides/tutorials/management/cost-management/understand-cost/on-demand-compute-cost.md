@@ -102,9 +102,9 @@ According to the information above, you can find the following unit prices on th
 
 Then:
 
-`Query CU Cost = 8 x 30 x $0.41 = $98.40`
+`Query CU Cost = 8 x (30 ÷ 60) x $0.41 = $1.64`
 
-`Indexing CU Cost = 120 x $0.41 = $49.20`
+`Indexing CU Cost = (120 ÷ 60) x $0.41 = $0.82`
 
-`Total On-demand Compute Cost = $98.40+ $49.20 = $147.60`
+`Total On-demand Compute Cost = $1.64 + $0.82 = $2.46`
 

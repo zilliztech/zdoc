@@ -60,21 +60,21 @@ As shown in an internal benchmark test, the default option increases the storage
 
 The following table compares the capacity, QPS, and recall rate of a performance-optimized cluster before and after introducing `build_level`. You can see that the default option maintains the recall rate and increases both QPS and storage capacity.
 
-| Build Level Option | Capacity | QPS | Recall |
+| Build Level Option | Capacity (Per CU) | QPS | Recall |
 | --- | --- | --- | --- |
-| Capacity-first (0) | 2.1 million 768-dim vectors | &#126; 2,850 | 90% - 95% |
-| Balanced (1) | 1.5 million 768-dim vectors | &#126; 3,500 | 91% - 97% |
-| Precison-first (2) | 1 million 768-dim vectors | &#126; 3,000 | 92% - 98% (↑) |
+| Capacity-first (0) | 5 million 768-dim vectors | &#126; 1,800 | 90% - 95% |
+| Balanced (1) | 2 million 768-dim vectors | &#126; 2,800 | 91% - 97% |
+| Precison-first (2) | 1.5 million 768-dim vectors | &#126; 2,900 | 92% - 98% (↑) |
 
 ### Capacity-optimized clusters\{#capacity-optimized-clusters}
 
 The following table compares the capacity, QPS, and recall rate of a capacity-optimized cluster before and after introducing `build_level`. You can see that the default option maintains the recall rate and increases both QPS and storage capacity.
 
-| Build Level Option | Capacity | QPS | Recall |
+| Build Level Option | Capacity (Per CU) | QPS | Recall |
 | --- | --- | --- | --- |
-| Capacity-first (0) | 7 million 768-dim vectors | &#126; 300 | 89% - 97% |
-| Balanced (1) | 5 million 768-dim vectors | &#126; 350 | 93% - 98% |
-| Precision-first (2) | 3 million 768-dim vectors | &#126; 345 | 94% - 98% |
+| Capacity-first (0) | 12 million 768-dim vectors | &#126; 200 | 89% - 97% |
+| Balanced (1) | 8 million 768-dim vectors | &#126; 300 | 93% - 98% |
+| Precision-first (2) | 5 million 768-dim vectors | &#126; 350 | 94% - 98% |
 
 ### Tiered-storage clusters\{#tiered-storage-clusters}
 

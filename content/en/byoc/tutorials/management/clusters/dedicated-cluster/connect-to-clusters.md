@@ -71,7 +71,7 @@ If you use RESTful APIs instead of SDKs, a continuous connection is not establis
 
 Install the SDK for your application language.
 
-```plaintext
+```bash
 pip install pymilvus
 ```
 

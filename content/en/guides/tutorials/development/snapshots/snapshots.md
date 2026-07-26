@@ -50,7 +50,7 @@ When you create a snapshot for a collection, Milvus collects the following:
 
 Among the above information, Milvus generates an Apache Avro manifest file for each segment and stores the snapshot metadata, collection description, index information, and the paths to the manifest files in a JSON file. The following diagram illustrates the snapshot folder structure.
 
-```plaintext
+```python
 snapshots/{collection_id}/
 ├── metadata/
 │   └── {snapshot_id}.json         # Snapshot metadata (JSON format)

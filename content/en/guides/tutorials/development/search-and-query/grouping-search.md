@@ -29,11 +29,11 @@ When entities in the search results share the same value in a scalar field, this
 
 Assume a collection stores multiple documents (denoted by **docId**). To retain as much semantic information as possible when converting documents into vectors, each document is split into smaller, manageable paragraphs (or **chunks**) and stored as separate entities. Even though the document is divided into smaller sections, users are often still interested in identifying which documents are most relevant to their needs.
 
-![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.s3.us-west-2.amazonaws.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
+![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
 
 When performing an Approximate Nearest Neighbor (ANN) search on such a collection, the search results may include several paragraphs from the same document, potentially causing other documents to be overlooked, which may not align with the intended use case.
 
-![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.s3.us-west-2.amazonaws.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
+![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
 
 To improve the diversity of search results, you can add the `group_by_field` parameter in the search request to enable Grouping Search. As shown in the diagram, you can set `group_by_field` to `docId`. Upon receiving this request, Zilliz Cloud will:
 
@@ -70,7 +70,7 @@ This section provides example code to demonstrate the use of Grouping Search. Th
 
 In the search request, set both `group_by_field` and `output_fields` to `docId`. Zilliz Cloud will group the results by the specified field and return the most similar entity from each group, including the value of `docId` for each returned entity.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -238,7 +238,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -276,13 +277,16 @@ for (auto& result : response.Results().Results()) {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 In the request above, `limit=3` indicates that the system will return search results from three groups, with each group containing the single most similar entity to the query vector.
 
 ## Configure group size\{#configure-group-size}
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -437,7 +441,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -476,6 +481,9 @@ for (auto& result : response.Results().Results()) {
     }
 }
 ```
+
+</TabItem>
+</Tabs>
 
 In the example above:
 

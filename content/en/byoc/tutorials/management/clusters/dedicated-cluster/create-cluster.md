@@ -139,7 +139,7 @@ In the command above,
 
 - `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized.
 
-- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256.
+- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 2,048.
 
 - `description` (optional): Description of the cluster.
 

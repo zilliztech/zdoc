@@ -10,7 +10,7 @@ notebook: FALSE
 description: "If you are an Organization Owner, you have the privileges to manage the organization settings. | Cloud"
 type: origin
 token: AAqUwQW3qia3akkjfDNc0kwanlh
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -36,13 +36,13 @@ After logging into the [Zilliz Cloud console](https://cloud.zilliz.com/login), y
 
 For a quick view of all the organizations you've joined, just click **All Organizations** in the top left corner.
 
-![view-organizations](https://zdoc-images.s3.us-west-2.amazonaws.com/view-organizations.png "view-organizations")
+![view-organizations](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view-organizations.png "view-organizations")
 
 ## Create an organization\{#create-an-organization}
 
 If you need multiple organizations, please [submit a support ticket](http://support.zilliz.com) so that we can enable the multi-organization feature for you. Once the feature is enabled, you can create new organizations on your own.
 
-![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.s3.us-west-2.amazonaws.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
+![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
 
 ## Rename an organization\{#rename-an-organization}
 
@@ -52,11 +52,11 @@ You can rename an organization in either of the following ways:
 
 - Rename an organization on the organization list page:
 
-    ![rename-organization](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-organization.png "rename-organization")
+    ![rename-organization](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/rename-organization.png "rename-organization")
 
 - Enter an organization and rename it on the **System Settings** page:
 
-    ![edit-organization-name](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-organization-name.png "edit-organization-name")
+    ![edit-organization-name](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/edit-organization-name.png "edit-organization-name")
 
 ## Manage timezone\{#manage-timezone}
 
@@ -64,7 +64,7 @@ The system time zone is set to where your first login occurs and applies to all 
 
 To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Organization Users](./organization-users).
 
-![timezone-settings](https://zdoc-images.s3.us-west-2.amazonaws.com/timezone-settings.png "timezone-settings")
+![timezone-settings](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/timezone-settings.png "timezone-settings")
 
 To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
@@ -88,7 +88,7 @@ If maintenance runs past your preferred window, it will continue until completio
 
 7 days before scheduled maintenance, you will see a notification on the **Cluster Overview** page in the web console.
 
-![Czaab7qPaoElX6xVizQcEiwznmh](https://zdoc-images.s3.us-west-2.amazonaws.com/czaab7qpaoelx6xvizqceiwznmh.png "Czaab7qPaoElX6xVizQcEiwznmh")
+![Czaab7qPaoElX6xVizQcEiwznmh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/czaab7qpaoelx6xvizqceiwznmh.png "Czaab7qPaoElX6xVizQcEiwznmh")
 
 - For **Organization Owners** and **Project Admins**, you can choose to:
 
@@ -98,7 +98,7 @@ If maintenance runs past your preferred window, it will continue until completio
 
     - Take no action and let maintenance run as scheduled.
 
-- For **Organization Members**, please check your [SDK compatibility](./install-sdks).
+- For **Organization Members**, please check your [SDK compatibility](./install-sdks#sdk-compatibility).
 
 ## Delete organization\{#delete-organization}
 
@@ -138,5 +138,5 @@ The action of deleting an organization cannot be undone. Please take extra cauti
 
 </Admonition>
 
-![delete-organization-en](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-organization-en.png "delete-organization-en")
+![delete-organization-en](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/delete-organization-en.png "delete-organization-en")
 

@@ -52,7 +52,7 @@ Choose the cast type that matches the values stored at the path. To check whethe
 | `ARRAY_BOOL` | An array of Boolean values | `[true, false]` |
 | `ARRAY_DOUBLE` | An array of numeric values | `[1.2, 3.14]` |
 | `ARRAY_VARCHAR` | An array of string values | `["tag1", "tag2"]` |
-| `JSON` | An entire JSON object or sub-object | `{"supplier": {"country": "USA"}}` |
+| `JSON` | An entire JSON object or sub-object. Whole-object JSON indexing is deprecated starting in Milvus 3.0.0. | `{"supplier": {"country": "USA"}}` |
 
 If values at the same path have inconsistent types, only values that match the cast type are indexed. For example, if `metadata["price"]` contains both `99.99` and `"99.99"`, an index of the `DOUBLE` cast type includes the numeric value and skips the string value. To convert string values during indexing, use `json_cast_function`; see [Example 5: Convert data type at index time](./json-indexing#example-5-convert-data-type-at-index-time).
 
@@ -64,11 +64,11 @@ After you choose a cast type, choose the index type according to your query patt
 | --- | --- | --- | --- |
 | Mixed equality and range filters on scalar values | `AUTOINDEX` | Use `BOOL`, `DOUBLE`, or `VARCHAR`. | Lets Zilliz Cloud choose the internal index layout based on value cardinality. |
 | Filters on values inside JSON arrays | `INVERTED` | Use `ARRAY_BOOL`, `ARRAY_DOUBLE`, or `ARRAY_VARCHAR`. | Required for all array cast types. |
-| Whole-object or sub-object indexing | `INVERTED` or `AUTOINDEX` | Use `JSON`. | `AUTOINDEX` uses `INVERTED` instead of cardinality-based selection for `JSON` cast type. |
+| Whole-object or sub-object indexing (deprecated) | `INVERTED` or `AUTOINDEX` (compatibility only) | Use `JSON`. | Supported for compatibility. For new workloads, create path-specific indexes or consider [JSON Shredding](./json-shredding). |
 | Range filters on numbers or sortable strings | `STL_SORT` or `AUTOINDEX` | Use `DOUBLE` or `VARCHAR`. | Use `STL_SORT` to force a sorted layout; use `AUTOINDEX` when you want automatic selection. |
 | Equality or `IN` filters on low-cardinality values | `BITMAP` or `AUTOINDEX` | Use `BOOL` or `VARCHAR`. | Use `BITMAP` to force a bitmap layout. For numeric values, use `AUTOINDEX` or `STL_SORT`. |
 
-When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitly for array cast types and text-match queries. For whole-object JSON indexing, use either `INVERTED` or `AUTOINDEX`.
+When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitly for array cast types and text-match queries. Whole-object JSON indexing with either `INVERTED` or `AUTOINDEX` remains supported, but it is deprecated starting in Milvus 3.0.0.
 
 ### AUTOINDEX\{#autoindex}
 
@@ -78,7 +78,7 @@ When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitl
 | --- | --- |
 | `BOOL`, `DOUBLE`, `VARCHAR` | Chooses between `BITMAP` and `STL_SORT` based on value cardinality. |
 | `ARRAY_BOOL`, `ARRAY_DOUBLE`, `ARRAY_VARCHAR` | Not supported. Use `INVERTED` explicitly as the index type. |
-| `JSON` | Uses `INVERTED` for whole-object or sub-object indexing. |
+| `JSON` | Uses `INVERTED` for whole-object or sub-object indexing. This mode is deprecated starting in Milvus 3.0.0. |
 
 For scalar cast types (`BOOL`, `DOUBLE`, and `VARCHAR`), `AUTOINDEX` is the recommended starting point when you want Zilliz Cloud to choose the internal index layout. During index build, Zilliz Cloud measures the **cardinality** of the values at the JSON path. Cardinality means the number of distinct values at that path.
 
@@ -92,17 +92,17 @@ The default `BITMAP`-vs-`STL_SORT` threshold is **100 distinct values**. You can
 
 ### INVERTED\{#inverted}
 
-`INVERTED` is the best fit when you need text-match queries, array indexing, or whole-object JSON indexing.
+`INVERTED` is the best fit when you need text-match queries or array indexing. It also remains available for deprecated whole-object JSON indexing.
 
 Specify `INVERTED` explicitly when:
 
 - You need to index values inside JSON arrays.
 
-- You need to index an entire JSON object or sub-object and want to make the `INVERTED` behavior explicit.
+- You maintain an existing index on an entire JSON object or sub-object and want to make the `INVERTED` behavior explicit.
 
-- You want one index type that handles equality, `IN`, range, text-match, array, and object-level queries, at the cost of a larger index size.
+- You want one index type that handles equality, `IN`, range, text-match, and array queries. Whole-object support remains available for compatibility, at the cost of a larger index size.
 
-For entire JSON objects (`json_cast_type="JSON"`), you can use either `INVERTED` or `AUTOINDEX`. `AUTOINDEX` uses `INVERTED` for this cast type.
+For existing indexes on entire JSON objects (`json_cast_type="JSON"`), you can continue to use either `INVERTED` or `AUTOINDEX`. `AUTOINDEX` uses `INVERTED` for this cast type. Whole-object JSON indexing is no longer recommended for new workloads.
 
 For details, see [INVERTED](./inverted-index-type).
 
@@ -118,7 +118,7 @@ For details, see [INVERTED](./inverted-index-type).
 
 - You want to force a sorted layout instead of letting `AUTOINDEX` choose.
 
-`STL_SORT` does not support `BOOL`, `ARRAY_*`, or `JSON` cast types. Use `INVERTED` for arrays or whole-object indexing.
+`STL_SORT` does not support `BOOL`, `ARRAY_*`, or `JSON` cast types. Use `INVERTED` for arrays. Existing whole-object indexes can continue to use `INVERTED` or `AUTOINDEX`, but whole-object JSON indexing is deprecated.
 
 For details, see [STL_SORT](./slt-sort-index-type).
 
@@ -150,7 +150,7 @@ Use the following matrix as a quick reference for supported `(cast type, index t
 | `ARRAY_BOOL` | Array of booleans. | `[true, false]` | — | ✓ | — | — |
 | `ARRAY_DOUBLE` | Array of numbers. | `[1.2, 3.14]` | — | ✓ | — | — |
 | `ARRAY_VARCHAR` | Array of strings. | `["tag1", "tag2"]` | — | ✓ | — | — |
-| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. | any nested object | ✓ | ✓ | — | — |
+| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. Deprecated starting in Milvus 3.0.0. | any nested object | Yes (deprecated) | Yes (deprecated) | — | — |
 
 For cells marked `—`, Zilliz Cloud rejects the request at index-creation time. For array cast types, use `INVERTED` explicitly (`AUTOINDEX` does not cover arrays).
 
@@ -345,7 +345,13 @@ If conversion fails for a row (e.g., a non-numeric string like `"invalid"`), tha
 
 ### Example 6: Index entire JSON objects\{#example-6-index-entire-json-objects}
 
-Setting `json_cast_type="JSON"` indexes the full structure at the given path. Zilliz Cloud flattens nested objects into paths and automatically infers each value's type. All keys under the path become searchable.
+<Admonition type="warning" icon="🚧" title="Warning">
+
+Starting in Milvus 3.0.0, whole-object JSON indexing (`json_cast_type="JSON"`), also known as JSON flat indexing, is deprecated. Existing indexes and new index-creation requests remain supported for compatibility, but this mode is no longer recommended for new workloads. Create JSON path indexes for known query paths. For complex or evolving JSON documents with broad query patterns, consider [JSON Shredding](./json-shredding). JSON shredding does not accelerate values inside arrays; use JSON path indexes with array cast types for those queries.
+
+</Admonition>
+
+For compatible existing workloads, setting `json_cast_type="JSON"` indexes the full structure at the given path. Zilliz Cloud flattens nested objects into paths and automatically infers each value's type. All keys under the path become searchable.
 
 `AUTOINDEX` transparently uses `INVERTED` for `JSON` cast type, since flattening and type inference are inverted-index capabilities.
 
@@ -383,7 +389,7 @@ index_params.add_index(
 )
 ```
 
-Indexing entire objects increases index size. For deeply nested documents with diverse query patterns, consider JSON Shredding.
+Indexing entire objects increases index size. For new workloads with deeply nested documents and diverse query patterns, use path-specific indexes or consider [JSON Shredding](./json-shredding).
 
 ### Apply the index\{#apply-the-index}
 
@@ -435,7 +441,9 @@ Start with `AUTOINDEX`. It picks the right layout from your data's cardinality, 
 
 - You need text-match or substring queries → `INVERTED`.
 
-- You're indexing array cast types or an entire JSON object → `INVERTED` (or `AUTOINDEX` for the entire-object case).
+- You're indexing array cast types. Use `INVERTED` explicitly.
+
+- You're maintaining an existing whole-object JSON index. Both `INVERTED` and `AUTOINDEX` remain supported for compatibility, but whole-object JSON indexing is deprecated starting in Milvus 3.0.0.
 
 ### What happens if a query's filter expression uses a different type than the indexed cast type?\{#what-happens-if-a-querys-filter-expression-uses-a-different-type-than-the-indexed-cast-type}
 

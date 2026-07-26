@@ -1,24 +1,17 @@
 ---
-title: "使用回收站 | BYOC"
+title: "回收站 | BYOC"
 slug: /use-recycle-bin
-sidebar_label: "使用回收站"
+sidebar_label: "回收站"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud 回收站会在您手动删除或因试用结束等原因而自动删除的所有 Serverless 和 Dedicated 集群，并提供 30 天的宽限期，以便您恢复这些集群。 | BYOC"
+description: "如果您手动删除集群或因试用结束等原因而自动删除的所有集群，其对应的数据备份会进入 Zilliz Cloud 回收站，并提供 30 天的宽限期，后续您可以使用这些备份数据恢复到新集群。 | BYOC"
 type: origin
 token: FgDZw6JJuiICETkqrqHckN4pneb
 sidebar_position: 3
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - 组织
-  - organizations
-  - 使用回收站
+displayed_sidebar: default
 
 ---
 
@@ -27,9 +20,9 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# 使用回收站
+# 回收站
 
-Zilliz Cloud 回收站会在您手动删除或因试用结束等原因而自动删除的所有 Serverless 和 Dedicated 集群，并提供 30 天的宽限期，以便您恢复这些集群。
+如果您手动删除集群或因试用结束等原因而自动删除的所有集群，其对应的数据备份会进入 Zilliz Cloud 回收站，并提供 30 天的宽限期，后续您可以使用这些备份数据恢复到新集群。
 
 ## 恢复回收站中的按量计费集群\{#restore-a-dropped-usage-based-cluster-in-the-recycle-bin}
 
@@ -47,13 +40,15 @@ Zilliz Cloud 回收站会在您手动删除或因试用结束等原因而自动�
 
     1. 您可以修改集群名称和 Query CU 规格。
 
+    1. 恢复页面可能允许您选择不同的目标 Milvus 版本。如果页面显示版本选择器，您可以为恢复后的集群选择 Milvus 版本；如果未显示版本选择器，则恢复后的集群将使用原集群的 Milvus 版本，且目标版本不可更改。
+
 1. 点击**恢复**。Zilliz Cloud 将开始根据您在上一步骤中的配置创建新集群，并将你的数据恢复到集群中。
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
-<p>集群恢复过程中，其状态将从<strong>创建中</strong>变为<strong>恢复中</strong>，最后变为<strong>运行中</strong>。集群状态变为<strong>运行中</strong>即代表所有被删除的数据已恢复。</p>
+集群恢复过程中，其状态将从**创建中**变为**恢复中**，最后变为**运行中**。集群状态变为**运行中**即代表所有被删除的数据已恢复。
 
 </Admonition>
 

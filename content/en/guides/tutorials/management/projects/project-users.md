@@ -54,7 +54,7 @@ A **Project Admin** role has full privileges to manage a project and all its res
 
 To minimize access permissions, you can also configure fine-grained privileges for cluster and volume access for the invited user.
 
-![Gs3jwYjb6hVbunbyASAcVUp3nIe](https://zdoc-images.s3.us-west-2.amazonaws.com/Gs3jwYjb6hVbunbyASAcVUp3nIe.png)
+![Gs3jwYjb6hVbunbyASAcVUp3nIe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Gs3jwYjb6hVbunbyASAcVUp3nIe.png)
 
 - **Cluster Access**
 
@@ -254,7 +254,7 @@ Both the Cluster Admin and the Project Read-Write roles share the same data plan
 
 When you invite an existing organization member to a project within the same organization, they automatically gain access to the project without receiving a separate invitation. However, if you invite someone to a project within an organization they are not already a part of, they will receive an invitation to join the organization, which also grants them access to the specified project.
 
-![CKuxwsNxihJzNtbQ4fBc1xHRnxf](https://zdoc-images.s3.us-west-2.amazonaws.com/CKuxwsNxihJzNtbQ4fBc1xHRnxf.png)
+![CKuxwsNxihJzNtbQ4fBc1xHRnxf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/CKuxwsNxihJzNtbQ4fBc1xHRnxf.png)
 
 To revoke or resend the invitation, you must be an **Organization Owner** or a **Project Admin**.
 
@@ -270,19 +270,19 @@ After a user accepts the invitation, they become a project collaborator.
 
 To edit a collaborator's role, you must be an **Organization Owner** or a **Project Admin**.
 
-![DCvMwB44UhQdXRbmxdUc493ynJb](https://zdoc-images.s3.us-west-2.amazonaws.com/DCvMwB44UhQdXRbmxdUc493ynJb.png)
+![DCvMwB44UhQdXRbmxdUc493ynJb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/DCvMwB44UhQdXRbmxdUc493ynJb.png)
 
 ## Remove a collaborator\{#remove-a-collaborator}
 
 To remove a project collaborator, you must be an **Organization Owner** or a **Project Admin**.
 
-![HKpow0x7qheStnb0zcOcDlyunHc](https://zdoc-images.s3.us-west-2.amazonaws.com/HKpow0x7qheStnb0zcOcDlyunHc.png)
+![HKpow0x7qheStnb0zcOcDlyunHc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/HKpow0x7qheStnb0zcOcDlyunHc.png)
 
 ## Leave a project\{#leave-a-project}
 
 In addition to removing a collaborator from a project, you can also remove yourself by leaving it.
 
-![DTwiwN0AThgVZLb60dMcSblDnsb](https://zdoc-images.s3.us-west-2.amazonaws.com/DTwiwN0AThgVZLb60dMcSblDnsb.png)
+![DTwiwN0AThgVZLb60dMcSblDnsb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/DTwiwN0AThgVZLb60dMcSblDnsb.png)
 
 Note that if you are the only admin of a project, you cannot leave it as each project must have at least one Project Admin at all times.
 

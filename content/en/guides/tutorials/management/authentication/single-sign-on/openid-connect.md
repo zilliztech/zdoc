@@ -34,7 +34,7 @@ This topic describes how to configure single sign-on (SSO) with Okta using the O
 
 In this guide, Zilliz Cloud acts as the Service Provider (SP) and Okta acts as the Identity Provider (IdP). The following diagram illustrates the necessary steps in Zilliz Cloud and the Okta console.
 
-![EfRWwnbKNhcXEwbL7EBcB66inrd](https://zdoc-images.s3.us-west-2.amazonaws.com/EfRWwnbKNhcXEwbL7EBcB66inrd.png)
+![EfRWwnbKNhcXEwbL7EBcB66inrd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/EfRWwnbKNhcXEwbL7EBcB66inrd.png)
 
 ## Before you start\{#before-you-start}
 

@@ -37,7 +37,7 @@ Milvus supports two configuration approaches for the `jieba` tokenizer: a simple
 
 With the simple configuration, you only need to set the tokenizer to `"jieba"`. For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -86,7 +86,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -94,9 +95,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 This simple configuration is equivalent to the following custom configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -146,7 +150,8 @@ analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mo
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -157,13 +162,16 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 For details on parameters, refer to [Custom configuration](./jieba-tokenizer#custom-configuration).
 
 ### Custom configuration\{#custom-configuration}
 
 For more control, you can provide a custom configuration that allows you to specify a custom dictionary, select the segmentation mode, and enable or disable the Hidden Markov Model (HMM). For example:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -224,7 +232,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzerParams = {                                                                                              
@@ -236,6 +245,9 @@ nlohmann::json analyzerParams = {
   }}
 };
 ```
+
+</TabItem>
+</Tabs>
 
 <table>
    <tr>
@@ -273,7 +285,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -333,7 +345,8 @@ analyzerParams := map[string]interface{}{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzerParams = {
@@ -346,9 +359,12 @@ nlohmann::json analyzerParams = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -446,7 +462,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -470,6 +487,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

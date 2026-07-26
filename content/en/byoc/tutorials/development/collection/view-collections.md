@@ -252,7 +252,7 @@ std::cout << "Collection ID: " << response.Desc().ID() << std::endl;
 
 The result of the above example should be similar to the following.
 
-```plaintext
+```sql
 {
     'collection_name': 'quick_setup', 
     'auto_id': False, 

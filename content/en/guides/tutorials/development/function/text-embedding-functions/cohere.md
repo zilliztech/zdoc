@@ -215,9 +215,7 @@ text_embedding_function = Function(
     params={                                            # Provider-specific embedding parameters (function-level)
         "provider": "cohere",                           # Must be set to "cohere"
         "model_name": "embed-english-v3.0",             # Specifies the embedding model to use
-
         "integration_id": "YOUR_INTEGRATION_ID",    # Integration ID generated in the Zilliz Cloud console for the selected model provider
-
         # "url": "https://api.cohere.com/v2/embed",     # Defaults to the official endpoint if omitted
         # "truncate": "NONE",                           # Specifies how the API will handle inputs longer than the maximum token length.
     }
@@ -241,9 +239,7 @@ Function function = Function.builder()
         .outputFieldNames(Collections.singletonList("dense"))
         .param("provider", "cohere")
         .param("model_name", "embed-english-v3.0")
-
         .param("integration_id", "YOUR_INTEGRATION_ID")
-
         .build();
 schema.addFunction(function);
 ```
@@ -282,9 +278,7 @@ function->AddInputFieldName("document");
 function->AddOutputFieldName("dense");
 function->AddParam("provider", "cohere");
 function->AddParam("model_name", "embed-english-v3.0");
-
 function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
-
 collection_schema->AddFunction(function);
 ```
 

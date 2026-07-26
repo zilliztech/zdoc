@@ -101,7 +101,7 @@ In the command above,
 
 - `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized, and Tiered-storage.
 
-- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
+- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 2,048. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
 
 - `description` (optional): Description of the cluster.
 
@@ -139,7 +139,7 @@ This feature is available in AWS. It is not available on Google Cloud and Micros
 
 To create an encrypted cluster, you need to add at least a customer-managed encryption key (CMEK) to Zilliz Cloud. For details, refer to [Customer-managed Keys for Data Encryption](./cmek).
 
-![RGUrbElsSoc61JxikfWcoTCrnHe](https://zdoc-images.s3.us-west-2.amazonaws.com/rgurbelssoc61jxikfwcotcrnhe.png "RGUrbElsSoc61JxikfWcoTCrnHe")
+![RGUrbElsSoc61JxikfWcoTCrnHe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/rgurbelssoc61jxikfwcotcrnhe.png "RGUrbElsSoc61JxikfWcoTCrnHe")
 
 Once you have added a KMS key, you can create an encrypted cluster as follows:
 
@@ -153,7 +153,7 @@ Once you have added a KMS key, you can create an encrypted cluster as follows:
 
 1. Review the summary, then click **Create Cluster**.
 
-    ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
+    ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
     On the **Overview** page of an encrypted cluster, there is a key icon to the right of the cluster name, as shown in the above figure. All collections created in an encrypted cluster are encrypted by default.
 

@@ -32,7 +32,7 @@ Zilliz Cloud supports multi-tenancy at four levels: **Database**, **Collection**
 
 With database-level multi-tenancy, each tenant receives a corresponding [database](./database-concept) containing one or more collections. 
 
-![NVV9w0w49hZJ61bNzG4cdi9gn6C](https://zdoc-images.s3.us-west-2.amazonaws.com/NVV9w0w49hZJ61bNzG4cdi9gn6C.png)
+![NVV9w0w49hZJ61bNzG4cdi9gn6C](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NVV9w0w49hZJ61bNzG4cdi9gn6C.png)
 
 - **Scalability**: The database-level multi-tenancy strategy is only available to Zilliz Cloud’s Dedicated clusters and supports a maximum of 1,024 tenants .
 
@@ -46,7 +46,7 @@ With database-level multi-tenancy, each tenant receives a corresponding [databas
 
 With collection-level multi-tenancy, each tenant is assigned a [collection](./manage-collections), offering strong data isolation. 
 
-![SNxNwi64ChMFdubYKmrcGOH5ncg](https://zdoc-images.s3.us-west-2.amazonaws.com/SNxNwi64ChMFdubYKmrcGOH5ncg.png)
+![SNxNwi64ChMFdubYKmrcGOH5ncg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SNxNwi64ChMFdubYKmrcGOH5ncg.png)
 
 - **Scalability**: Since a cluster can hold up to 16,384 collections , this strategy can accommodate the same number of tenants within the cluster.
 
@@ -60,7 +60,7 @@ With collection-level multi-tenancy, each tenant is assigned a [collection](./ma
 
 In partition-level multi-tenancy, each tenant is assigned to a manually created [partition](./manage-partitions) within a shared collection. 
 
-![D5cawfOk0hKkJmbJwHwc54a5n4f](https://zdoc-images.s3.us-west-2.amazonaws.com/D5cawfOk0hKkJmbJwHwc54a5n4f.png)
+![D5cawfOk0hKkJmbJwHwc54a5n4f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/D5cawfOk0hKkJmbJwHwc54a5n4f.png)
 
 - **Scalability**: A collection can hold up to 1,024 partitions per collection, allowing for the same number of tenants within it.
 
@@ -74,7 +74,7 @@ In partition-level multi-tenancy, each tenant is assigned to a manually created 
 
 With this strategy, all tenants share a single collection and schema, but each tenant's data is automatically routed into 16 physically isolated partitions based on the [partition key](./use-partition-key) value. Although each physical partition can contain multiple tenants, the data from different tenants remains logically separated. 
 
-![GzOrwUHnEhaPGybcp7ActPwsnMh](https://zdoc-images.s3.us-west-2.amazonaws.com/GzOrwUHnEhaPGybcp7ActPwsnMh.png)
+![GzOrwUHnEhaPGybcp7ActPwsnMh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/GzOrwUHnEhaPGybcp7ActPwsnMh.png)
 
 - **Scalability**: The partition key-level strategy offers the most scalable approach, supporting millions of tenants.
 

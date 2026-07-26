@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `decompounder` filter splits compound words into individual components based on a specified dictionary, making it easier to search for parts of compound terms. This filter is particularly useful for languages that frequently use compound words, such as German. | BYOC"
 type: origin
 token: DDrHwdsb7idJa9kVU6zc2VwInBf
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---
@@ -31,7 +31,7 @@ The `decompounder` filter accepts its component dictionary either inline via the
 
 The `decompounder` filter is a custom filter in Zilliz Cloud. To use it, specify `"type": "decompounder"` in the filter configuration, along with a `word_list` parameter that provides the dictionary of word components to recognize.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -112,7 +112,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -125,6 +126,9 @@ nlohmann::json analyzer_params = {
     }}
 };
 ```
+
+</TabItem>
+</Tabs>
 
 The `decompounder` filter accepts the following configurable parameters.
 
@@ -142,7 +146,7 @@ Before applying the analyzer configuration to your collection schema, verify its
 
 ### Analyzer configuration\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -217,7 +221,8 @@ analyzerParams='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 nlohmann::json analyzer_params = {
@@ -231,9 +236,12 @@ nlohmann::json analyzer_params = {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -327,7 +335,8 @@ if err != nil {
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -351,6 +360,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Expected output\{#expected-output}
 

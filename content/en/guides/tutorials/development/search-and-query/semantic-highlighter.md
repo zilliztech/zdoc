@@ -66,7 +66,7 @@ Semantic Highlighter runs after semantic search and only operates on the top K r
 
 The diagram below shows the workflow of Semantic Highlighter:
 
-![U9E0bdlHRoAb9OxwBr6cl1Xhn0q](https://zdoc-images.s3.us-west-2.amazonaws.com/u9e0bdlhroab9oxwbr6cl1xhn0q.png "U9E0bdlHRoAb9OxwBr6cl1Xhn0q")
+![U9E0bdlHRoAb9OxwBr6cl1Xhn0q](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/u9e0bdlhroab9oxwbr6cl1xhn0q.png "U9E0bdlHRoAb9OxwBr6cl1Xhn0q")
 
 ### Stage 1: Semantic search\{#stage-1-semantic-search}
 
@@ -198,8 +198,8 @@ You can use the `threshold` parameter to control when a text span is considered 
 
     The default threshold of 0.5 is used. Semantic matches returned by the highlighting model with scores below 0.5 will be filtered out. In this case, the `fragments` and `scores` fields will only contain matching results with scores ≥ 0.5.
 
-- **If** `threshold` **is set**
-Only spans whose semantic score is **greater than or equal to** the configured `threshold` are returned. Spans below this score are discarded, which may result in an empty `fragments` / `scores` array for some entities.
+- **If** `threshold` **is set**<br/>
+  Only spans whose semantic score is **greater than or equal to** the configured `threshold` are returned. Spans below this score are discarded, which may result in an empty `fragments` / `scores` array for some entities.
 
 Example configuration:
 

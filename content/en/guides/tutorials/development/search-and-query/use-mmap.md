@@ -35,7 +35,7 @@ Zilliz Cloud supports configuring mmap settings programmatically or via the web 
 
 Zilliz Cloud uses collections to organize vector embeddings and their metadata, and each row in the collection represents an entity. As shown in the left figure below, the vector field stores vector embeddings, and the scalar fields store their metadata. When you have created indexes on certain fields and loaded the collection, Zilliz Cloud loads the created indexes and raw data from all fields into memory.
 
-![EPNvwAI7hhCppbbKmuxcW5VRnUh](https://zdoc-images.s3.us-west-2.amazonaws.com/EPNvwAI7hhCppbbKmuxcW5VRnUh.png)
+![EPNvwAI7hhCppbbKmuxcW5VRnUh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/EPNvwAI7hhCppbbKmuxcW5VRnUh.png)
 
 Zilliz Cloud clusters are memory-intensive database systems, and the memory size available determines the capacity of a collection. Loading fields containing a large volume of data into memory is impossible if the data size exceeds the memory capacity, which is the usual case for AI-driven applications. 
 

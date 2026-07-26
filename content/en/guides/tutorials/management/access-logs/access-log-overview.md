@@ -42,7 +42,7 @@ Access Logs give you that visibility. When enabled on a Zilliz Cloud cluster, th
 
 The access log pipeline has two phases: collection on the Zilliz Cloud side and analysis on yours.
 
-![TWlbbeheTo3aOnxE5t5cEYgcnbb](https://zdoc-images.s3.us-west-2.amazonaws.com/twlbbeheto3aonxe5t5ceygcnbb.png "TWlbbeheTo3aOnxE5t5cEYgcnbb")
+![TWlbbeheTo3aOnxE5t5cEYgcnbb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/twlbbeheto3aonxe5t5ceygcnbb.png "TWlbbeheTo3aOnxE5t5cEYgcnbb")
 
 ### Zilliz Cloud collects and delivers logs\{#zilliz-cloud-collects-and-delivers-logs}
 

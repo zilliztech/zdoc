@@ -28,7 +28,7 @@ Zilliz Cloud allows you to integrate with [Google Cloud Storage](https://cloud.g
 
 The following digram illustrates the necessary steps on Zilliz Cloud and Google Admin console.
 
-![UNmxw6LdCh60Dob3j7KcHGxynkg](https://zdoc-images.s3.us-west-2.amazonaws.com/UNmxw6LdCh60Dob3j7KcHGxynkg.png)
+![UNmxw6LdCh60Dob3j7KcHGxynkg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/UNmxw6LdCh60Dob3j7KcHGxynkg.png)
 
 ## Before you start\{#before-you-start}
 
@@ -293,7 +293,7 @@ As an alternative to working on Zilliz Cloud console, you can also programmatica
 
 Once the integration is added, you can view its details or remove the integration as needed.
 
-![FKLYbB02LoDDA9xENiYccBTun5e](https://zdoc-images.s3.us-west-2.amazonaws.com/fklybb02lodda9xeniyccbtun5e.png "FKLYbB02LoDDA9xENiYccBTun5e")
+![FKLYbB02LoDDA9xENiYccBTun5e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/fklybb02lodda9xeniyccbtun5e.png "FKLYbB02LoDDA9xENiYccBTun5e")
 
 ### Obtain the integration ID\{#obtain-the-integration-id}
 

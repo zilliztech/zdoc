@@ -34,7 +34,7 @@ This topic describes how to configure single sign-on (SSO) with Microsoft Entra 
 
 In this guide, Zilliz Cloud acts as the Service Provider (SP) and Microsoft Entra acts as the Identity Provider (IdP). The following digram illustrates the necessary steps in Zilliz Cloud and Microsoft Entra admin center.
 
-![M3UywWSZHhlwTHbkjI8c6jTinGh](https://zdoc-images.s3.us-west-2.amazonaws.com/M3UywWSZHhlwTHbkjI8c6jTinGh.png)
+![M3UywWSZHhlwTHbkjI8c6jTinGh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/M3UywWSZHhlwTHbkjI8c6jTinGh.png)
 
 ## Before you start\{#before-you-start}
 

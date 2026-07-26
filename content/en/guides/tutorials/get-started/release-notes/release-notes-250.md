@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 1
+sidebar_position: 26
 displayed_sidebar: releasesSidebar
 
 ---
@@ -36,7 +36,7 @@ In this release, Zilliz Cloud introduced a unified design for the [API Key](./ma
 
 The permission design of Zilliz Cloud follows the RBAC (Role-Based Access Control) principles, divided into two layers: the Operation Layer and the Data Layer. In the Operation Layer, roles govern the operational permissions of resources such as Clusters, Projects, Users, and Billing. In the Data Layer, roles focus on controlling the capabilities of adding, deleting, modifying, and querying data.
 
-![V6ZhbOu0go1AORx0dxFcELQ3ndd](https://zdoc-images.s3.us-west-2.amazonaws.com/v6zhbou0go1aorx0dxfcelq3ndd.png "V6ZhbOu0go1AORx0dxFcELQ3ndd")
+![V6ZhbOu0go1AORx0dxFcELQ3ndd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/v6zhbou0go1aorx0dxfcelq3ndd.png "V6ZhbOu0go1AORx0dxFcELQ3ndd")
 
 In the Operation Layer, Zilliz Cloud supports four types of roles, of which Organization Owner, Project Owner, and Project Member are three commonly used roles:
 
@@ -66,5 +66,28 @@ This release also includes a series of enhancements:
 
 - Improved experience of several web console pages.
 
-- Stability Enhancements: addressing known issues to further enhance the reliability of our service.
+- Stability Enhancements: addressing known issues to further enhance the reliability of our service.<br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
 

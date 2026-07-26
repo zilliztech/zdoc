@@ -73,7 +73,7 @@ It is recommended to use the global endpoint for production workloads. It elimin
 
 1. On the Connect card, copy the **Global Endpoint** or **Public Endpoint**.
 
-    ![OPCTbMaYIoUXHKxDf0ycdMNBnze](https://zdoc-images.s3.us-west-2.amazonaws.com/opctbmayiouxhkxdf0ycdmnbnze.png "OPCTbMaYIoUXHKxDf0ycdMNBnze")
+    ![OPCTbMaYIoUXHKxDf0ycdMNBnze](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/opctbmayiouxhkxdf0ycdmnbnze.png "OPCTbMaYIoUXHKxDf0ycdMNBnze")
 
 1. Prepare your authentication token. This can be either an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) (`username:password`).
 

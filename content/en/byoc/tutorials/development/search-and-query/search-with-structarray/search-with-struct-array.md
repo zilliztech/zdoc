@@ -101,7 +101,7 @@ For a full ColBERT or ColPali-style walkthrough, see [Search with Embedding List
 
 Use element-level search when each Struct element should participate in vector search independently. The query is a regular vector, and the target vector subfield must be indexed with a regular vector metric.
 
-```plaintext
+```python
 query_vector = [0.19, 0.24, 0.30, 0.37]
 
 results = client.search(

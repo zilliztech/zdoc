@@ -28,7 +28,7 @@ A collection is a two-dimensional table with fixed columns and variable rows. Ea
 
 The following chart shows a collection with eight columns and six entities.
 
-![BitLbgzN4oYspwxM4vQcAmg2n9f](https://zdoc-images.s3.us-west-2.amazonaws.com/bitlbgzn4oyspwxm4vqcamg2n9f.png "BitLbgzN4oYspwxM4vQcAmg2n9f")
+![BitLbgzN4oYspwxM4vQcAmg2n9f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/bitlbgzn4oyspwxm4vqcamg2n9f.png "BitLbgzN4oYspwxM4vQcAmg2n9f")
 
 ## Schema and Fields\{#schema-and-fields}
 

@@ -30,7 +30,7 @@ It focuses on **practical decision-making**: what analyzer to use, when to custo
 
 An analyzer processes textual data so that it becomes searchable for features like [full text search](./full-text-search) (BM25-based), [phrase match](./phrase-match), or [text match](./text-match). It transforms your raw text into discrete searchable tokens through a two-stage pipeline.
 
-![JwMZwIYUwhbSZ4bjhxcc1PfNnvx](https://zdoc-images.s3.us-west-2.amazonaws.com/JwMZwIYUwhbSZ4bjhxcc1PfNnvx.png)
+![JwMZwIYUwhbSZ4bjhxcc1PfNnvx](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/JwMZwIYUwhbSZ4bjhxcc1PfNnvx.png)
 
 1. **Tokenization (required):** This initial stage applies a **tokenizer** to break a continuous string of text into discrete, meaningful units called tokens. The tokenization method can vary significantly depending on the language and content type.
 
@@ -84,7 +84,7 @@ An inappropriate analyzer can cause either under- or over-tokenization, missing 
      <td><p>Users type Pinyin, but the indexed text uses Chinese characters.</p></td>
      <td><p>Chinese text: <code>"足球"</code>; query text: <code>"zuqiu"</code></p></td>
      <td><p>Analyzer that emits only Chinese-character tokens</p></td>
-     <td><p>Use a custom analyzer with the <a href="./jieba-tokenizer"><code>jieba</code></a> tokenizer and <a href="./undefined"><code>pinyin</code></a> filter.</p></td>
+     <td><p>Use a custom analyzer with the <a href="./jieba-tokenizer"><code>jieba</code></a> tokenizer and <a href="./pinyin-filter"><code>pinyin</code></a> filter.</p></td>
    </tr>
 </table>
 
@@ -429,7 +429,7 @@ These filters handle specific language characteristics:
      <td><ul><li><p>Input: <code>["Hello", "世界", "123"]</code></p></li><li><p>Output: <code>[[], ['世界'], []]</code></p></li></ul></td>
    </tr>
    <tr>
-     <td><p><a href="./undefined"><code>pinyin</code></a></p></td>
+     <td><p><a href="./pinyin-filter"><code>pinyin</code></a></p></td>
      <td><p>Chinese</p></td>
      <td><p>Emits Pinyin token forms for Chinese tokens</p></td>
      <td><ul><li><p>Input: <code>["中文"]</code></p></li><li><p>Output: <code>[['中文', 'zhong', 'wen']]</code></p></li></ul></td>

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. | Cloud"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -321,7 +321,7 @@ You can view all existing volumes in a project.
 
 - **Via web console**
 
-    ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
+    ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
 ## Describe  external volume\{#describe-external-volume}
 
@@ -435,7 +435,7 @@ You can check the details of a specific volume.
 
 - **Via web console**
 
-    ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.s3.us-west-2.amazonaws.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
+    ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
 
 ## Delete an external volume\{#delete-an-external-volume}
 
@@ -556,7 +556,7 @@ Both allow you to import data from your own S3 or GCS bucket. The key difference
 
 - External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
 
-- Direct [external storage import](./import-data-on-web-ui) requires you to provide credentials (access key and secret key) with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
+- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key and secret key) with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
 
 **Can I modify the storage integration or path of an external volume after creation?**
 
@@ -585,7 +585,7 @@ The following table lists the possible volume statuses.
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="./view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
+     <td><p>The organization is frozen due to overdue <a href="/docs/view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>

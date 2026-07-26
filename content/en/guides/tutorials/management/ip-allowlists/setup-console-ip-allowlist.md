@@ -88,7 +88,7 @@ The following demo shows how to delete an IP address from the allowlist.
 
     When you are locked out, you will see the screen below.
 
-    ![YGKLbTmW7oYJkIxuyx2cf6cvnwh](https://zdoc-images.s3.us-west-2.amazonaws.com/ygklbtmw7oyjkixuyx2cf6cvnwh.png "YGKLbTmW7oYJkIxuyx2cf6cvnwh")
+    ![YGKLbTmW7oYJkIxuyx2cf6cvnwh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ygklbtmw7oyjkixuyx2cf6cvnwh.png "YGKLbTmW7oYJkIxuyx2cf6cvnwh")
 
     Please try the following recovery options:
 

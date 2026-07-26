@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page explains how to add and delete secondary clusters, convert a global cluster to a regular cluster, and drop a global cluster entirely. | Cloud"
 type: origin
 token: DW9wwFlgAiwOhBk2PgucY4URnke
-sidebar_position: 1
+sidebar_position: 7
 displayed_sidebar: default
 
 ---
@@ -109,7 +109,7 @@ You can drop a secondary cluster either via the web console or RESTful API.
 
     The following screenshot shows how to drop a secondary cluster.
 
-    ![KjCvwgeZWhTEHnb1t3Pc1NoXnCb](https://zdoc-images.s3.us-west-2.amazonaws.com/KjCvwgeZWhTEHnb1t3Pc1NoXnCb.png)
+    ![KjCvwgeZWhTEHnb1t3Pc1NoXnCb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/KjCvwgeZWhTEHnb1t3Pc1NoXnCb.png)
 
 - **Via RESTful API**
 
@@ -147,7 +147,7 @@ To convert a global cluster to a regular cluster, you need to:
 
 1. On the **Global Cluster** page, click on **Remove Global Endpoint** from the **Actions** dropdown.
 
-    ![Qg0Mw7gCGh9vlfbMpxockJPVnUg](https://zdoc-images.s3.us-west-2.amazonaws.com/Qg0Mw7gCGh9vlfbMpxockJPVnUg.png)
+    ![Qg0Mw7gCGh9vlfbMpxockJPVnUg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Qg0Mw7gCGh9vlfbMpxockJPVnUg.png)
 
 </Procedures>
 

@@ -54,7 +54,7 @@ In the above formulae,
 
 Once vectorization is complete, the query embedding list is compared with each document embedding list, token by token, to determine the final similarity score.
 
-![BqBlwM4OOh6hM9bmNwbc2xUUnxc](https://zdoc-images.s3.us-west-2.amazonaws.com/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
+![BqBlwM4OOh6hM9bmNwbc2xUUnxc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
 
 As shown in the diagram above, the query contains two tokens, namely `machine` and `learning`, and the document in the window has four tokens: `neural`, `network`, `python`, and `tutorial`. Once these tokens are vectorized, the vector embeddings of each query token are compared with those in the document to get a list of similarity scores. Then the highest scores from each score list are summed to produce the final score. The process for determining a document's final score is known as maximum similarity (**MAX_SIM**). For details on maximum similarity, refer to [Maximum similarity](./search-metrics-explained#maximum-similarity).
 
@@ -72,7 +72,7 @@ Based on ColBERT, ColPali (arXiv: [2407.01449](https://arxiv.org/abs/2407.01449?
 
 This method preserves non-textual information, such as the document layout, images, and table structures, which are lost when using text-only retrieval systems.
 
-![SuHjwmWiDhLs79buw22cw9aAnqf](https://zdoc-images.s3.us-west-2.amazonaws.com/SuHjwmWiDhLs79buw22cw9aAnqf.png)
+![SuHjwmWiDhLs79buw22cw9aAnqf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SuHjwmWiDhLs79buw22cw9aAnqf.png)
 
 The VLM used in ColPali is called PaliGemma (arXiv: [2407.07726](https://arxiv.org/html/2407.07726v2#S1)), which comprises an image encoder (**SigLIP-400M**), a decoder-only language model (**Gemma2-2B**), and a linear layer that projects the image encoder's output into the language model's vector space, as shown in the above diagram.
 

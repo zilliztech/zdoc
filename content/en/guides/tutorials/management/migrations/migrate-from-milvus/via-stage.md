@@ -152,7 +152,7 @@ After migration, verify that the number of collections and entities in the targe
 
 </Admonition>
 
-![verify_collection](https://zdoc-images.s3.us-west-2.amazonaws.com/verify_collection.png "verify_collection")
+![verify_collection](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/verify_collection.png "verify_collection")
 
 ## Post-migration\{#post-migration}
 

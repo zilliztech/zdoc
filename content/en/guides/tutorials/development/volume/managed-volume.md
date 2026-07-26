@@ -371,7 +371,7 @@ You can view all existing volumes in a project.
 
 - **Via web console**
 
-    ![Hp1Hwxoj9hkJqdbECCYcB4G6nVe](https://zdoc-images.s3.us-west-2.amazonaws.com/Hp1Hwxoj9hkJqdbECCYcB4G6nVe.png)
+    ![Hp1Hwxoj9hkJqdbECCYcB4G6nVe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Hp1Hwxoj9hkJqdbECCYcB4G6nVe.png)
 
 ## Describe managed volume\{#describe-managed-volume}
 
@@ -477,7 +477,7 @@ You can also check the details of a specific managed volume.
 
     You can view the list of volumes in a project and inspect the details of a specific volume by clicking on the volume name.
 
-    ![FU4ow2zIuht0CfbRiBJcFZ6RnYf](https://zdoc-images.s3.us-west-2.amazonaws.com/FU4ow2zIuht0CfbRiBJcFZ6RnYf.png)
+    ![FU4ow2zIuht0CfbRiBJcFZ6RnYf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/FU4ow2zIuht0CfbRiBJcFZ6RnYf.png)
 
 ## Upload data into a managed volume\{#upload-data-into-a-managed-volume}
 

@@ -104,7 +104,7 @@ Our migration tools provide extensive configuration options to ensure your data 
 
 The migration follows a three-phase approach designed to ensure data integrity and provide visibility throughout the process:
 
-![TlBawqVufhMN4BbNzdXcNQjpnVb](https://zdoc-images.s3.us-west-2.amazonaws.com/TlBawqVufhMN4BbNzdXcNQjpnVb.png)
+![TlBawqVufhMN4BbNzdXcNQjpnVb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/TlBawqVufhMN4BbNzdXcNQjpnVb.png)
 
 ### Phase 1: Connect & configure\{#phase-1-connect-and-configure}
 

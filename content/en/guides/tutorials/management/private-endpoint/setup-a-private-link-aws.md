@@ -44,7 +44,7 @@ Ensure that:
 
 Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
-![I02ibsAgioWpuLxwzHDcp1c2nge](https://zdoc-images.s3.us-west-2.amazonaws.com/i02ibsagiowpulxwzhdcp1c2nge.png "I02ibsAgioWpuLxwzHDcp1c2nge")
+![I02ibsAgioWpuLxwzHDcp1c2nge](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/i02ibsagiowpulxwzhdcp1c2nge.png "I02ibsAgioWpuLxwzHDcp1c2nge")
 
 ### Step 1: Select a cloud provider and region\{#step-1-select-a-cloud-provider-and-region}
 
@@ -52,7 +52,7 @@ To create a private endpoint for a cluster deployed in an AWS region, select **A
 
 For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
-![NxuFbXh41oA53VxB4sPcfR9snVg](https://zdoc-images.s3.us-west-2.amazonaws.com/nxufbxh41oa53vxb4spcfr9snvg.png "NxuFbXh41oA53VxB4sPcfR9snVg")
+![NxuFbXh41oA53VxB4sPcfR9snVg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/nxufbxh41oa53vxb4spcfr9snvg.png "NxuFbXh41oA53VxB4sPcfR9snVg")
 
 ### Step 2: Create an Endpoint\{#step-2-create-an-endpoint}
 
@@ -60,7 +60,7 @@ You need to complete this step on your cloud provider console using either the U
 
 - **Via UI console**
 
-    ![AJlTbcoxNoXKBIxAxz6cYrkBnrc](https://zdoc-images.s3.us-west-2.amazonaws.com/ajltbcoxnoxkbixaxz6cyrkbnrc.png "AJlTbcoxNoXKBIxAxz6cYrkBnrc")
+    ![AJlTbcoxNoXKBIxAxz6cYrkBnrc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ajltbcoxnoxkbixaxz6cyrkbnrc.png "AJlTbcoxNoXKBIxAxz6cYrkBnrc")
 
     <Procedures>
 
@@ -78,15 +78,15 @@ You need to complete this step on your cloud provider console using either the U
 
         </Admonition>
 
-        ![setup_private_link_window_aws](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_window_aws.png "setup_private_link_window_aws")
+        ![setup_private_link_window_aws](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/setup_private_link_window_aws.png "setup_private_link_window_aws")
 
     1. On the **Create Endpoint** page, select **Endpoint services that use NLBs and GWLBs** as the endpoint **Type**.
 
-        ![create_endpoint_type_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/create_endpoint_type_gcp.png "create_endpoint_type_gcp")
+        ![create_endpoint_type_gcp](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/create_endpoint_type_gcp.png "create_endpoint_type_gcp")
 
     1. In **Service Settings**, paste the **Service Name** you copied from the Zilliz Cloud web console into the **Service Name** field. Then click **Verify service**.
 
-        ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_service_name_gcp.png "enter_service_name_gcp")
+        ![enter_service_name_gcp](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/enter_service_name_gcp.png "enter_service_name_gcp")
 
         <Admonition type="info" icon="📘" title="📘 Notes">
 
@@ -94,7 +94,7 @@ You need to complete this step on your cloud provider console using either the U
         
         In the following diagram, your Zilliz Cloud cluster is assumed to be running in **Europe (Frankfurt)**, and your service is running in another region.
         
-        ![NX2AbfqBfokf1axbn4LchJfZnqS](https://zdoc-images.s3.us-west-2.amazonaws.com/nx2abfqbfokf1axbn4lchjfznqs.png "NX2AbfqBfokf1axbn4LchJfZnqS")
+        ![NX2AbfqBfokf1axbn4LchJfZnqS](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/nx2abfqbfokf1axbn4lchjfznqs.png "NX2AbfqBfokf1axbn4LchJfZnqS")
 
         </Admonition>
 
@@ -106,7 +106,7 @@ You need to complete this step on your cloud provider console using either the U
 
 - **Via CLI**
 
-    ![TzQdb9ReToZlkTxGRVZcCdUbnOe](https://zdoc-images.s3.us-west-2.amazonaws.com/tzqdb9retozlktxgrvzccdubnoe.png "TzQdb9ReToZlkTxGRVZcCdUbnOe")
+    ![TzQdb9ReToZlkTxGRVZcCdUbnOe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/tzqdb9retozlktxgrvzccdubnoe.png "TzQdb9ReToZlkTxGRVZcCdUbnOe")
 
     <Procedures>
 
@@ -128,7 +128,7 @@ You need to complete this step on your cloud provider console using either the U
 
         In the top navigation, launch AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
 
-        ![setup_private_link_aws_cloud_shell](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_aws_cloud_shell.png "setup_private_link_aws_cloud_shell")
+        ![setup_private_link_aws_cloud_shell](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/setup_private_link_aws_cloud_shell.png "setup_private_link_aws_cloud_shell")
 
         The returned message is similar to the following:
 
@@ -161,7 +161,7 @@ You need to complete this step on your cloud provider console using either the U
 
 Paste the endpoint ID you obtained from the AWS console into the **Endpoint ID** box on Zilliz Cloud. Click **Create**.
 
-![setup_private_link_aws_authorize_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_aws_authorize_endpoint.png "setup_private_link_aws_authorize_endpoint")
+![setup_private_link_aws_authorize_endpoint](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/setup_private_link_aws_authorize_endpoint.png "setup_private_link_aws_authorize_endpoint")
 
 ## Obtain a private link\{#obtain-a-private-link}
 
@@ -177,7 +177,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
     Amazon Route 53 is a web-based DNS service. Create a hosted DNS zone so that you can add DNS records to it.
 
-    ![A1zxblLRPo96Kvx0zzccZ485nGb](https://zdoc-images.s3.us-west-2.amazonaws.com/a1zxbllrpo96kvx0zzccz485ngb.png "A1zxblLRPo96Kvx0zzccZ485nGb")
+    ![A1zxblLRPo96Kvx0zzccZ485nGb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/a1zxbllrpo96kvx0zzccz485ngb.png "A1zxblLRPo96Kvx0zzccZ485nGb")
 
     <Procedures>
 
@@ -214,7 +214,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
     An alias record is a type of DNS record that maps an alias name to a true or canonical domain name. Create an alias record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then, you can use the private link to access your cluster privately.
 
-    ![VoCsbJtTDo1glVx0vtGcqWPRnEd](https://zdoc-images.s3.us-west-2.amazonaws.com/vocsbjttdo1glvx0vtgcqwprned.png "VoCsbJtTDo1glVx0vtGcqWPRnEd")
+    ![VoCsbJtTDo1glVx0vtGcqWPRnEd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/vocsbjttdo1glvx0vtgcqwprned.png "VoCsbJtTDo1glVx0vtGcqWPRnEd")
 
     <Procedures>
 
@@ -258,7 +258,7 @@ To disable public endpoints:
 
 </Admonition>
 
-![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disable_public_endpoint.png "disable_public_endpoint")
+![disable_public_endpoint](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disable_public_endpoint.png "disable_public_endpoint")
 
 ## FAQ\{#faq}
 
@@ -270,7 +270,7 @@ A timeout usually occurs for the following reasons:
 
     If a DNS record exists, you can ping the private link as follows:
 
-    ![QOanbDGrYovMXHxczXmcCbUcnsc](https://zdoc-images.s3.us-west-2.amazonaws.com/qoanbdgryovmxhxczxmccbucnsc.png "QOanbDGrYovMXHxczXmcCbUcnsc")
+    ![QOanbDGrYovMXHxczXmcCbUcnsc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/qoanbdgryovmxhxczxmccbucnsc.png "QOanbDGrYovMXHxczXmcCbUcnsc")
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -280,7 +280,7 @@ A timeout usually occurs for the following reasons:
 
     If you see the following, you need to [set up the DNS record](./setup-a-private-link-aws#set-up-a-dns-record).
 
-    ![X5ahblpw1oRxp8xKR3OczuD9nFf](https://zdoc-images.s3.us-west-2.amazonaws.com/x5ahblpw1orxp8xkr3oczud9nff.png "X5ahblpw1oRxp8xKR3OczuD9nFf")
+    ![X5ahblpw1oRxp8xKR3OczuD9nFf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/x5ahblpw1orxp8xkr3oczud9nff.png "X5ahblpw1oRxp8xKR3OczuD9nFf")
 
 - No or invalid security group rules exist.
 
@@ -288,11 +288,11 @@ A timeout usually occurs for the following reasons:
 
     You can use a `curl` command to test the connectivity of the private link. In a normal case, it returns a 400 response.
 
-    ![ERtlbR2v7oA3Q4xXRlccM3VhnNc](https://zdoc-images.s3.us-west-2.amazonaws.com/ertlbr2v7oa3q4xxrlccm3vhnnc.png "ERtlbR2v7oA3Q4xXRlccM3VhnNc")
+    ![ERtlbR2v7oA3Q4xXRlccM3VhnNc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ertlbr2v7oa3q4xxrlccm3vhnnc.png "ERtlbR2v7oA3Q4xXRlccM3VhnNc")
 
     If the `curl` command hangs without any response as in the following screenshot, you need to set up proper security group rules by referring to step 9 in [Create a VPC endpoint](https://docs.amazonaws.cn/en_us/vpc/latest/privatelink/create-interface-endpoint.html).
 
-    ![KHj0bEy7ZojM6axnR0ocg1LPnue](https://zdoc-images.s3.us-west-2.amazonaws.com/khj0bey7zojm6axnr0ocg1lpnue.png "KHj0bEy7ZojM6axnR0ocg1LPnue")
+    ![KHj0bEy7ZojM6axnR0ocg1LPnue](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/khj0bey7zojm6axnr0ocg1lpnue.png "KHj0bEy7ZojM6axnR0ocg1LPnue")
 
     <Admonition type="info" icon="📘" title="Notes">
 

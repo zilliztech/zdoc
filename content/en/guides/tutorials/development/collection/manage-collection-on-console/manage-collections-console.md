@@ -198,7 +198,7 @@ Zilliz Cloud supports the following management operations on created collections
 
 - **Edit collection description:** You can change the description of an existing collection. 
 
-    ![SBlWwPqMPhqspYbR7pxct59xnle](https://zdoc-images.s3.us-west-2.amazonaws.com/SBlWwPqMPhqspYbR7pxct59xnle.png)
+    ![SBlWwPqMPhqspYbR7pxct59xnle](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SBlWwPqMPhqspYbR7pxct59xnle.png)
 
 - **Edit collection schema and settings:** Currently, Zilliz Cloud only supports editing the following schema and settings.
 
@@ -244,4 +244,4 @@ You can define a filter expression, configure the `limit` parameter to control t
 
 You can also use **Order By** to sort the data preview in ascending or descending order by a primary key field, numeric fields, or scalar fields.
 
-![WHDsw55d9hAOZeboD3Fc7yTwnSg](https://zdoc-images.s3.us-west-2.amazonaws.com/WHDsw55d9hAOZeboD3Fc7yTwnSg.png)
+![WHDsw55d9hAOZeboD3Fc7yTwnSg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/WHDsw55d9hAOZeboD3Fc7yTwnSg.png)

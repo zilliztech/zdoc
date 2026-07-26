@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still contact us if you need further help. | BYOC"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
-sidebar_position: 1
+sidebar_position: 18
 displayed_sidebar: default
 
 ---
@@ -60,7 +60,7 @@ A CU is the basic unit of compute resources used for parallel processing of data
 | **Project Plan & Cluster Deployment Option** | **Limits** | **Remarks** |
 | --- | --- | --- |
 | Dedicated serving cluster in a Standard project | CU size &lt;=32 | On the console, you can create up to 32 CUs for a single cluster. |
-| Dedicated serving cluster in an Enterprise project | CU size x Replica Count &lt;=10,240 | On the console, you can create up to 1,024 CUs for a single cluster.<br/>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added. |
+| Dedicated serving cluster in an Enterprise project | CU size x Replica Count &lt;=204,800 | On the console, you can create up to 2,048 CUs for a single cluster.<br/>However, the limit is CU size x Replica Count &lt;=204,800 if replicas are added. |
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
@@ -70,12 +70,20 @@ You are welcome to [contact us](https://support.zilliz.com/hc/en-us)
 
 ## Replicas\{#replicas}
 
-To add replicas, the cluster needs to have **12 CUs or more**. The following limit applies as well.
+To add replicas, the cluster must have **at least 8 CUs**. The following limit applies as well.
 
 | **Item** | **Limits** | **Remarks** |
 | --- | --- | --- |
-| Replica | 10 | You can create a maximum of 10 replicas. |
-| Query CU x Replica Count | 10,240 | The cluster replica x query CU should not exceed 10,240. |
+| Replica | 100 | You can create a maximum of 100 replicas. |
+| Query CU x Replica Count | 204,800 | The cluster replica x query CU should not exceed 204,800. |
+
+<Admonition type="info" icon="📘" title="Notes">
+
+For certain clusters compatible with earlier Milvus releases, you may need at least 12 CUs to add replicas. 
+
+To add replicas for clusters with fewer query CUs, [contact us](https://support.zilliz.com/hc/en-us).
+
+</Admonition>
 
 ## Databases\{#databases}
 

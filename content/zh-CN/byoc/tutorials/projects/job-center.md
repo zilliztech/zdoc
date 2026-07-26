@@ -1,7 +1,7 @@
 ---
-title: "管理项目任务 | BYOC"
+title: "项目任务 | BYOC"
 slug: /job-center
-sidebar_label: "管理项目任务"
+sidebar_label: "项目任务"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -11,27 +11,18 @@ description: "Zilliz Cloud 提供了一个直观的任务中心页面，将同�
 type: origin
 token: YtLLwrOl0in7OqkdMpPc4ZkxnVd
 sidebar_position: 3
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - 项目
-  - 项目管理
-  - 管理项目任务
-  - 任务中心
-  - job center
+displayed_sidebar: default
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 管理项目任务
+# 项目任务
 
 Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的所有历史和异步数据任务整合在一起。
 
-## 查看项目任务
+## 查看项目任务\{#}
 
 选择目标项目。在左侧导航栏中，点击**任务中心**。您可以看到正在执行或已完成的所有异步数据任务。
 
@@ -45,7 +36,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
          <th><p><strong>说明</strong></p></th>
        </tr>
        <tr>
-         <td rowspan="3"><p><a href="./create-snapshot">备份</a></p></td>
+         <td rowspan="3"><p><a href="./create-backup">备份</a></p></td>
          <td><p>为集群创建备份。</p></td>
        </tr>
        <tr>
@@ -55,7 +46,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
          <td><p>进行跨地域备份。</p></td>
        </tr>
        <tr>
-         <td rowspan="2"><p><a href="./restore-from-snapshot">恢复</a></p></td>
+         <td rowspan="2"><p><a href="./restore-from-backup-files">恢复</a></p></td>
          <td><p>从备份恢复集群。</p></td>
        </tr>
        <tr>
@@ -66,11 +57,11 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
          <td><p>将备份文件导出至指定对象存储服务中。</p></td>
        </tr>
        <tr>
-         <td><p><a href="./migrations">迁移</a></p></td>
-         <td><p>将数据迁移至集群。</p><ul><li><p>迁移外部数据</p><ul><li><p>从 Milvus 迁移至 Zilliz Cloud 集群</p></li><li><p>从 Qdrant 迁移至 Zilliz Cloud 集群</p></li><li><p>从 Elasticsearch 迁移至 Zilliz Cloud 集群</p></li><li><p>从 OpenSearch 迁移至 Zilliz Cloud 集群</p></li><li><p>从 PostgreSQL 迁移至 Zilliz Cloud 集群</p></li><li><p>从腾讯云向量数据库迁移至 Zilliz Cloud 集群</p></li></ul></li><li><p>Zilliz Cloud 跨集群迁移</p><ul><li><p>在当前组织中进行跨集群迁移</p></li><li><p>跨组织进行集群间迁移</p></li></ul></li></ul></td>
+         <td><p><a href="./undefined">迁移</a></p></td>
+         <td><p>将数据迁移至集群。</p><ul><li><p>Zilliz Cloud 跨集群迁移</p><ul><li><p>在当前组织中进行跨集群迁移</p></li><li><p>跨组织进行集群间迁移</p></li></ul></li></ul></td>
        </tr>
        <tr>
-         <td><p><a href="./data-import">导入</a></p></td>
+         <td><p><a href="./undefined">导入</a></p></td>
          <td><p>将数据导入至 Collection。</p></td>
        </tr>
        <tr>
@@ -107,13 +98,13 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 - 创建人：发起数据任务的项目用户。
 
-## 查看任务详情
+## 查看任务详情\{#}
 
-点击**操作**栏中的**...**，选择**查看详情**。或者，您也可以通过[查看任务详情](/reference/restful/describe-job-v2)的 RESTful API 接口获取任务详情。
+点击**操作**栏中的**...**，选择**查看详情**。或者，您也可以通过[查看任务详情](https://docs.zilliz.com.cn/reference/restful/describe-job-v2)的 RESTful API 接口获取任务详情。
 
 ![view_job_details_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view_job_details_cn.png "view_job_details_cn")
 
-## 取消任务
+## 取消任务\{#}
 
 您可以取消如下类型的**进行中**和**等待中**的任务：
 
@@ -123,20 +114,21 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 - 导出备份文件任务
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
-<p>如需取消任务，您需要具备<strong>组织管理员</strong>或<strong>项目管理员</strong>权限。</p>
+如需取消任务，您需要具备**组织管理员**或**项目管理员**权限。
 
 </Admonition>
 
 ![cancel_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/cancel_job_cn.png "cancel_job_cn")
 
-## 重试失败任务
+## 重试失败任务\{#}
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="📘 说明">
 
-<p>目前仅支持重试失败的导入任务。</p>
-<p>如需重试失败任务，您需要具备<strong>组织管理员</strong>或<strong>项目管理员</strong>角色。</p>
+目前仅支持重试失败的导入任务。
+
+如需重试失败任务，您需要具备**组织管理员**或**项目管理员**角色。
 
 </Admonition>
 

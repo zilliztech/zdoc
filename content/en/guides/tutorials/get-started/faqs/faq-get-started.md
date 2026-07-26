@@ -78,7 +78,7 @@ For pricing questions, please [contact sales](http://zilliz.com/contact-sales).
 
 ### Can I apply for more credits?\{#can-i-apply-for-more-credits}
 
-When you register on Zilliz Cloud with a work email you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 credits by subscribing to Zilliz Cloud on Marketplaces. For extra credits and discounts, please [contact sales](https://zilliz.com/contact-sales).
+When you register on Zilliz Cloud with a work email you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 credits by subscribing to Zilliz Cloud on [Marketplaces](./subscribe-on-aws-marketplace). For extra credits and discounts, please [contact sales](https://zilliz.com/contact-sales).
 
 ### Can I extend my free trial?\{#can-i-extend-my-free-trial}
 

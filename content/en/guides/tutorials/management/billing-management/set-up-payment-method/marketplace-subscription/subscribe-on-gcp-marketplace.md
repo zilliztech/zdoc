@@ -46,7 +46,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
 1. Search for **Zilliz Cloud** in the search box, or [go to the GCP Marketplace](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view the Zilliz Cloud portal page.
 
-    ![search_for_zilliz_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/search_for_zilliz_on_gcp.png "search_for_zilliz_on_gcp")
+    ![search_for_zilliz_on_gcp](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/search_for_zilliz_on_gcp.png "search_for_zilliz_on_gcp")
 
 1. Click **Zilliz Cloud**.
 
@@ -54,7 +54,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
 1. Select the project for subscription and click **Subscribe**. 
 
-    ![click_subscribe_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/click_subscribe_on_gcp.png "click_subscribe_on_gcp")
+    ![click_subscribe_on_gcp](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/click_subscribe_on_gcp.png "click_subscribe_on_gcp")
 
 1. On the **New Zilliz Cloud subscription** page, complete the following steps:
 
@@ -64,7 +64,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     1. Click **Subscribe**.
 
-    ![new_zilliz_cloud_subscription_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/new_zilliz_cloud_subscription_on_gcp.png "new_zilliz_cloud_subscription_on_gcp")
+    ![new_zilliz_cloud_subscription_on_gcp](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/new_zilliz_cloud_subscription_on_gcp.png "new_zilliz_cloud_subscription_on_gcp")
 
 1. In the pop-up window, click **SIGN UP WITH ZILLIZ**.
 
@@ -74,7 +74,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     </Admonition>
 
-    ![gcp_flash_message](https://zdoc-images.s3.us-west-2.amazonaws.com/gcp_flash_message.png "gcp_flash_message")
+    ![gcp_flash_message](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/gcp_flash_message.png "gcp_flash_message")
 
 1. In the new tab, follow the steps below to complete subscription.
 
@@ -84,11 +84,11 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     1. Complete authorization.
 
-    ![aws-marketplace-dialog](https://zdoc-images.s3.us-west-2.amazonaws.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
+    ![aws-marketplace-dialog](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
 
 1. Go to **Billing** to ensure your GCP Marketplace subscription is set as your payment method.
 
-    ![gcp-marketplace-success](https://zdoc-images.s3.us-west-2.amazonaws.com/gcp-marketplace-success.png "gcp-marketplace-success")
+    ![gcp-marketplace-success](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/gcp-marketplace-success.png "gcp-marketplace-success")
 
 </Procedures>
 
@@ -102,7 +102,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see Update Payment Method.
+For details, see [Update Payment Method](./update-payment-method).
 
 ## Cancel GCP Marketplace subscription\{#cancel-gcp-marketplace-subscription}
 
@@ -136,7 +136,7 @@ There could be several reasons.
 
     This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-    ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
+    ![insufficient-permission-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
     To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
 
@@ -144,7 +144,7 @@ There could be several reasons.
 
     This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
 
-    ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
+    ![marketplace-already-linked-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
     In this case,
 
@@ -156,7 +156,7 @@ There could be several reasons.
 
     - This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
+    ![no-organization-during-subcription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
     In this case, you can:
 

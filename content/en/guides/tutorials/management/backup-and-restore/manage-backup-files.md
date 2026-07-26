@@ -42,7 +42,7 @@ You can view a list of all backup files—either completed or in progress—and 
 
 To view all backups files and their details on the Zilliz Cloud web console, click on "Backups" in the left navigation.
 
-![Cdf2b3by2o6SlOxUhKXcbMrMnth](https://zdoc-images.s3.us-west-2.amazonaws.com/cdf2b3by2o6sloxuhkxcbmrmnth.png "Cdf2b3by2o6SlOxUhKXcbMrMnth")
+![Cdf2b3by2o6SlOxUhKXcbMrMnth](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/cdf2b3by2o6sloxuhkxcbmrmnth.png "Cdf2b3by2o6SlOxUhKXcbMrMnth")
 
 ### Via RESTful API\{#via-restful-api}
 

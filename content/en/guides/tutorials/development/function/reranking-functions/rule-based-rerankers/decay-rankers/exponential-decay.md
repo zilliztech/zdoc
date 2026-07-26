@@ -60,7 +60,7 @@ All time parameters (`origin`, `offset`, `scale`) must use the same unit as the 
 
 </Admonition>
 
-![YaRsbolv9oqomcxrFe5cXBa4nNg](https://zdoc-images.s3.us-west-2.amazonaws.com/yarsbolv9oqomcxrfe5cxba4nng.png "YaRsbolv9oqomcxrFe5cXBa4nNg")
+![YaRsbolv9oqomcxrFe5cXBa4nNg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/yarsbolv9oqomcxrfe5cxba4nng.png "YaRsbolv9oqomcxrFe5cXBa4nNg")
 
 The graph above shows how exponential decay would affect news article rankings in a digital news platform:
 

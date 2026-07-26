@@ -53,7 +53,7 @@ Tokenizers support only UTF-8 format. Support for other formats will be added in
 
 The workflow below shows how an analyzer processes text.
 
-![Ke6jw8437hjR8hbZCvEcQtIIn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
+![Ke6jw8437hjR8hbZCvEcQtIIn1e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
 
 ## Analyzer types\{#analyzer-types}
 
@@ -255,7 +255,7 @@ if (!status.IsOk()) {
 
 The output will be:
 
-```plaintext
+```sql
 ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
 ```
 
@@ -459,7 +459,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     - `cncharonly`: Removes tokens that contain any non-Chinese characters. For details, refer to [Cncharonly](./cncharonly-filter).
 
-    - `pinyin`: Adds Pinyin token forms for Chinese tokens, enabling Pinyin-based matching for Chinese text. For details, refer to [Pinyin](./undefined).
+    - `pinyin`: Adds Pinyin token forms for Chinese tokens, enabling Pinyin-based matching for Chinese text. For details, refer to [Pinyin](./pinyin-filter).
 
     **Example of using a built-in filter:**
 

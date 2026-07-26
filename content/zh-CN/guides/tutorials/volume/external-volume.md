@@ -1,24 +1,17 @@
 ---
 title: "External Volume | Cloud"
 slug: /external-volume
-sidebar_key: external-volume
 sidebar_label: "External Volume"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或亚马逊云科技 S3）中某个存储桶。通过 External Volume，Zilliz Cloud 可访问您的数据，您无需将数据复制或迁移到 Zilliz Cloud。 | Cloud"
 type: origin
 token: E9QNwMMUbiVDvtkJQKUcuHR0nxc
 sidebar_position: 2
-keywords: 
-  - 向量数据库
-  - zilliz
-  - milvus
-  - 大模型向量数据库
-  - Volume
-  - external volume
+displayed_sidebar: default
 
 ---
 
@@ -52,7 +45,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
 ## 开始之前\{#before-you-start}
 
-创建 External Volume 前，您需要先创建[阿里云对象存储](./integrate-with-storage-bucket)或 [Amazon S3](./integrate-with-amazon-s3) 集成。请注意，存储集成必须与您要创建的 External Volume 位于相同的云地域。      
+创建 External Volume 前，您需要先创建[阿里云对象存储](./integrate-with-alibaba-cloud-oss)或 [Amazon S3](./integrate-with-amazon-s3-cn) 集成。请注意，存储集成必须与您要创建的 External Volume 位于相同的云地域。      
 
 ## 创建 External Volume\{#create-an-external-volume}
 
@@ -66,14 +59,14 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
-        cloud_endpoint="https://api.cloud.zilliz.com.cn",
+        cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
     
     # Create a volume
     volume_manager.create_volume(
         project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-        region_id="ali-cn-hangzhou", 
+        region_id="aws-us-west-2", 
         volume_name="external_volume",
         volume_type="EXTERNAL",
         storage_integration_id="integ-xxxx",
@@ -95,7 +88,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     import io.milvus.bulkwriter.VolumeManagerParam;
     
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
             
@@ -106,7 +99,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     
     CreateVolumeRequest request = CreateVolumeRequest.builder()
         .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-        .regionId("ali-cn-hangzhou")
+        .regionId("aws-us-west-2")
         .volumeName("external_volume")
         .type("EXTERNAL")
         .storageIntegrationId("integ-xxxx")
@@ -125,20 +118,19 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com.cn"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
-        "projectId": "proj-xxxx",
-        "regionId": "ali-cn-hangzhou",
-        "volumeName": "external_volume",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "volumeName": "my_external_volume",
         "type": "EXTERNAL",
-        "storageIntegrationId": "integ-xxxx",
-        "path": "/data/"
+        "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "path": "data/",
+        "description": "A volume for storing collection data."
     }'
     
     # {
@@ -154,36 +146,15 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
     下表为参数说明。
 
-    <table>
-       <tr>
-         <th><p><strong>参数</strong></p></th>
-         <th><p><strong>说明</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><code>projectId</code></p></td>
-         <td><p>您要创建 Volume 的所属项目的 ID。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>regionId</code></p></td>
-         <td><p>要创建的 Volume 所在地域。该地域必须与您计划用于导入或迁移数据的目标集群的云地域一致。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>volumeName</code></p></td>
-         <td><p>要创建的 Volume 名称。该名称在组织内必须唯一；长度不超过 64 个字符；必须以字母或下划线开头；仅可包含字母、数字、连字符和下划线。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>type</code></p></td>
-         <td><p>将类型设置为 <code>EXTERNAL</code>, 否则默认为 <code>MANAGED</code>。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>storageIntegrationId</code></p></td>
-         <td><p>引用的存储集成 ID。当 <code>type=EXTERNAL</code> 时必填。所选存储集成必须与要创建的 External Volume 属于同一组织、同一云地域。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>path</code></p></td>
-         <td><p>存储路径。当 <code>type=EXTERNAL</code> 时必填。</p></td>
-       </tr>
-    </table>
+    | **参数** | **说明** |
+    | --- | --- |
+    | `projectId` | 您要创建 Volume 的所属项目的 ID。 |
+    | `regionId` | 要创建的 Volume 所在地域。该地域必须与您计划用于导入或迁移数据的目标集群的云地域一致。 |
+    | `volumeName` | 要创建的 Volume 名称。该名称在组织内必须唯一；长度不超过 64 个字符；必须以字母或下划线开头；仅可包含字母、数字、连字符和下划线。 |
+    | `type` | 将类型设置为 `EXTERNAL`, 否则默认为 `MANAGED`。 |
+    | `storageIntegrationId` | 引用的存储集成 ID。当 `type=EXTERNAL` 时必填。所选存储集成必须与要创建的 External Volume 属于同一组织、同一云地域。 |
+    | `path` | 存储路径。当 `type=EXTERNAL` 时必填。 |
+    | `description`(可选) | 要创建的 Volume 描述。最多 255 个字符。 |
 
 - **通过 Web 控制台**
 
@@ -199,32 +170,13 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
         下表为参数说明。
 
-        <table>
-           <tr>
-             <th><p><strong>参数</strong></p></th>
-             <th><p><strong>说明</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>名称</p></td>
-             <td><p>Volume 名称必须在组织范围内唯一，长度不超过 64 个字符，以字母或下划线开头，并且只能包含字母、数字、连字符（-）和下划线（_）。</p></td>
-           </tr>
-           <tr>
-             <td><p>描述</p></td>
-             <td><p>可选参数。</p></td>
-           </tr>
-           <tr>
-             <td><p>Volume 类型</p></td>
-             <td><p>选择“External”作为 Volume 类型。</p></td>
-           </tr>
-           <tr>
-             <td><p>云地域</p></td>
-             <td><p>Volume 所在地域必须与计划导入或迁移数据的目标集群所使用的云服务商和地域完全一致。</p></td>
-           </tr>
-           <tr>
-             <td><p>存储集成 & 路径</p></td>
-             <td><p>存储集成（<a href="./integrate-with-storage-bucket">阿里云对象存储</a>或 <a href="./integrate-with-amazon-s3">Amazon S3</a>）是一种凭证对象，用于封装访问您的云存储所需的配置信息。</p><p>路径用于指向您的数据所在位置（例如：<code>folder/</code>）。</p></td>
-           </tr>
-        </table>
+        | **参数** | **说明** |
+        | --- | --- |
+        | 名称 | Volume 名称必须在组织范围内唯一，长度不超过 64 个字符，以字母或下划线开头，并且只能包含字母、数字、连字符（-）和下划线（_）。 |
+        | 描述 | 可选参数。最多 255 个字符。 |
+        | Volume 类型 | 选择“External”作为 Volume 类型。 |
+        | 云地域 | Volume 所在地域必须与计划导入或迁移数据的目标集群所使用的云服务商和地域完全一致。 |
+        | 存储集成 & 路径 | 存储集成（[阿里云对象存储](./integrate-with-alibaba-cloud-oss)或 [Amazon S3](./integrate-with-amazon-s3-cn)）是一种凭证对象，用于封装访问您的云存储所需的配置信息。<br/>路径用于指向您的数据所在位置（例如：`folder/`）。 |
 
     1. 点击**创建**。
 
@@ -244,7 +196,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     from pymilvus.bulk_writer.volume_manager import VolumeManager
     
     volume_manager = VolumeManager(
-        cloud_endpoint="https://api.cloud.zilliz.com.cn",
+        cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
     
@@ -282,7 +234,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     import io.milvus.bulkwriter.VolumeManagerParam;
     
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-        .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+        .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
             
@@ -323,7 +275,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com.cn"
+    export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
@@ -332,17 +284,28 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
     --header "Content-Type: application/json"
     
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -585,7 +548,7 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
 两种方式都允许您从外部的云服务对象存储中导入数据。不同之处在于：
 
--  External Volume 通过存储集成来管理凭证。凭证只需配置一次，即可在多个 Volume 和操作中复用。数据工程师无需直接接触云存储密钥。
+-  External Volume 通过[存储集成](./integrate-with-alibaba-cloud-oss)来管理凭证。凭证只需配置一次，即可在多个 Volume 和操作中复用。数据工程师无需直接接触云存储密钥。
 
 - 直接从外部存储导入时，需要在每次导入请求中提供凭证（access key、secret key）。这种方式更适合一次性导入，但不具备凭证隔离和复用能力。
 
@@ -605,22 +568,9 @@ External Volume 映射至您自有云服务对象存储（如阿里云 OSS 或�
 
 下表列出了您可能看到的 Volume 状态及对应说明。
 
-<table>
-   <tr>
-     <th><p><strong>状态</strong></p></th>
-     <th><p><strong>说明</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>运行中</strong></p></td>
-     <td><p>Volume 处于正常运行状态，可正常使用。 </p></td>
-   </tr>
-   <tr>
-     <td><p><strong>已冻结</strong></p></td>
-     <td><p>由于逾期账单，组织已被冻结。该 Volume 无法用于新的操作。请先完成<a href="./view-invoice">支付</a>后再继续使用 Volume。</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>错误</strong></p></td>
-     <td><p>存储集成校验失败。请检查配置后重试。</p></td>
-   </tr>
-</table>
+| **状态** | **说明** |
+| --- | --- |
+| **运行中** | Volume 处于正常运行状态，可正常使用。 |
+| **已冻结** | 由于逾期账单，组织已被冻结。该 Volume 无法用于新的操作。请先完成[支付](./view-invoice)后再继续使用 Volume。 |
+| **错误** | 存储集成校验失败。请检查配置后重试。 |
 

@@ -32,7 +32,7 @@ To separate Zilliz Cloud billing on AWS Marketplace, you should map each billing
 
 With this setup, [AWS Billing and Cost Management](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html) shows Marketplace charges under the selected AWS member account. With consolidated billing, the organization receives **one bill** paid through the **management account**, while usage and costs remain trackable for each **member account**.
 
-![GvudwMSj7hDpbQbdIrqcGBbrn7e](https://zdoc-images.s3.us-west-2.amazonaws.com/GvudwMSj7hDpbQbdIrqcGBbrn7e.png)
+![GvudwMSj7hDpbQbdIrqcGBbrn7e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/GvudwMSj7hDpbQbdIrqcGBbrn7e.png)
 
 With this setup:
 
@@ -124,7 +124,7 @@ For each business unit:
 
 1. On the Zilliz Cloud Billing page, click **+ Add Payment Method**, and then select **Marketplace**. Click **Subscribe Now**.
 
-    ![NCUmwUABRht89lbl0NKcBZ7on1e](https://zdoc-images.s3.us-west-2.amazonaws.com/NCUmwUABRht89lbl0NKcBZ7on1e.png)
+    ![NCUmwUABRht89lbl0NKcBZ7on1e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NCUmwUABRht89lbl0NKcBZ7on1e.png)
 
 1. You will be redirected to AWS Marketplace. Complete your purchase there.
 

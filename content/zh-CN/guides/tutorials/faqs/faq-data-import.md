@@ -8,6 +8,7 @@ description: "本文列举了在 Zilliz Cloud 导入数据时可能遇到的常�
 type: origin
 token: YVAzwqHdti7uHSkZL6icsY7hnpe
 sidebar_position: 4
+displayed_sidebar: default
 
 ---
 
@@ -15,18 +16,18 @@ sidebar_position: 4
 
 本文列举了在 Zilliz Cloud 导入数据时可能遇到的常见问题及对应解决方法。
 
-## 目录
+## Contents
 
 - [从对象存储服务导入数据时，我能否使用临时 Token？](#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)
 - [能否向 Zilliz Cloud 集群批量导入数据？](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
 - [在使用 Node.js SDK 导入数据或查询时，遇到 ECONNRESET错误该怎么办？](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
-## 问答
+## FAQs
 
 
 
 
-### 从对象存储服务导入数据时，我能否使用临时 Token？ \{#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service}
+### 从对象存储服务导入数据时，我能否使用临时 Token？\{#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service}
 
 可以。根据您的数据安全需求，在从对象存储服务导入数据时您可以根据以下步骤使用临时 Token。
 
@@ -46,11 +47,11 @@ sidebar_position: 4
 
     - Amazon S3（亚马逊云科技对象存储）：`accessKeyId`、`secretAccessKey`、`sessionToken`
 
-### 能否向 Zilliz Cloud 集群批量导入数据？ \{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
+### 能否向 Zilliz Cloud 集群批量导入数据？\{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
 
-目前，您只能使用 Zilliz Cloud 界面批量导入数据。更多详情，请参阅[数据导入](./data-import)。
+目前，您只能使用 Zilliz Cloud 界面批量导入数据。更多详情，请参阅[数据导入](./undefined)。
 
-### 在使用 Node.js SDK 导入数据或查询时，遇到 ECONNRESET错误该怎么办？ \{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+### 在使用 Node.js SDK 导入数据或查询时，遇到 ECONNRESET错误该怎么办？\{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 
 请执行以下步骤，解决`ECONNRESET`错误问题：
 
@@ -81,5 +82,5 @@ sidebar_position: 4
       username: 'username',
       password: 'your-pass',
       channelOptions: channelOptions
-    })\`
+    })`
     ```
