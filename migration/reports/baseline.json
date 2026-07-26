@@ -5,6 +5,18 @@
     "reviewedMasterSha": "b20b942facaa7774da4e5a769b9c918d056c4ac4",
     "worktree": ".claude/worktrees/unified-docs-clean-room"
   },
+  "latestSynchronization": {
+    "reviewedMasterSha": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+    "mergeCommit": "808501bce676ca106334a2e97778415b91336719",
+    "validatedHead": "f3c889e01e6e462156e3080ce46baeb394364805",
+    "mergeBaseWithReviewedMaster": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+    "strategy": "merge",
+    "validatedAt": "2026-07-26T15:55:00+08:00",
+    "notes": [
+      "The reviewed master was merged without using an orphan history or build-time dependency on zdoc_cn.",
+      "The merged agent-chat frontend increased Chinese SSG memory pressure. The validated fix keeps the 4096 MiB heap and enables two Docusaurus SSG worker threads with built-in worker recycling for zh-CN only."
+    ]
+  },
   "commands": [
     {
       "artifacts": [

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "site": "en",
+  "sourceRepository": "zdoc",
+  "sourceSha": "f3c889e01e6e462156e3080ce46baeb394364805",
+  "reviewedMasterSha": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+  "localImage": {
+    "reference": "zdoc-en:shadow",
+    "imageId": "sha256:44934669298c728b53aad9b66c9aa91da7d4562e831f50e74f13eaf047a24d2a",
+    "sizeBytes": 317214851,
+    "createdAt": "2026-07-26T15:52:49.72941225+08:00",
+    "jenkinsBuildIdentityLabel": "local-shadow-en"
+  },
+  "build": {
+    "command": "docker build --progress=plain -f deploy/en/Dockerfile --build-arg ZDOC_SHA=f3c889e01e6e462156e3080ce46baeb394364805 --build-arg JENKINS_BUILD_ID=local-shadow-en -t zdoc-en:shadow .",
+    "exitStatus": 0,
+    "dependencyInstall": "pnpm install --frozen-lockfile",
+    "siteCommand": "pnpm build:en",
+    "publicationNetworkFence": true
+  },
+  "localSmoke": {
+    "command": "deploy/contracts/smoke.sh zdoc-en:shadow en",
+    "exitStatus": 0,
+    "checks": ["OCI source label", "revision label", "site label", "Jenkins identity label", "/healthz", "/docs/home", "temporary container cleanup"]
+  },
+  "differential": {
+    "legacyRoutes": 1868,
+    "replacementRoutes": 1868,
+    "differences": 0,
+    "evidence": ["migration/reports/routes-en-legacy.json", "migration/reports/routes-en-replacement.json"]
+  },
+  "warnings": [
+    "Existing Docusaurus broken-link and broken-anchor diagnostics remain non-blocking and are not classified as migration differences."
+  ],
+  "externalShadow": {
+    "status": "not-executed",
+    "blocker": "Requires vdc-jenkins, registry, non-production hostname, CDN/Nginx environment, deployment credentials, and environment owners.",
+    "requiredEvidence": ["registry digest", "UAT release record", "shadow hostname", "synthetic-check output", "observation window", "owner approval"]
+  }
+}

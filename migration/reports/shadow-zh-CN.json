@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "site": "zh-CN",
+  "sourceRepository": "zdoc",
+  "sourceSha": "f3c889e01e6e462156e3080ce46baeb394364805",
+  "reviewedMasterSha": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+  "localImage": {
+    "reference": "zdoc-zh-cn:shadow",
+    "imageId": "sha256:53c7f49e734aebc9f1cd105e6ce91619356385734befcc6569b6b27fd7d5e3fe",
+    "sizeBytes": 910914619,
+    "createdAt": "2026-07-26T15:50:16.75495145+08:00",
+    "jenkinsBuildIdentityLabel": "local-shadow-zh"
+  },
+  "build": {
+    "command": "docker build --progress=plain -f deploy/zh-CN/Dockerfile --build-arg ZDOC_SHA=f3c889e01e6e462156e3080ce46baeb394364805 --build-arg JENKINS_BUILD_ID=local-shadow-zh -t zdoc-zh-cn:shadow .",
+    "exitStatus": 0,
+    "dependencyInstall": "pnpm install --frozen-lockfile",
+    "siteCommand": "pnpm build:zh-CN",
+    "publicationNetworkFence": true,
+    "ssgMemoryControl": "DOCUSAURUS_SSG_WORKER_THREAD_COUNT=2 with Docusaurus worker recycling and a 4096 MiB V8 heap"
+  },
+  "localSmoke": {
+    "command": "deploy/contracts/smoke.sh zdoc-zh-cn:shadow zh-CN",
+    "exitStatus": 0,
+    "checks": ["OCI source label", "revision label", "site label", "Jenkins identity label", "/healthz", "/docs/home", "temporary container cleanup"]
+  },
+  "differential": {
+    "legacyRoutes": 1686,
+    "replacementRoutes": 1686,
+    "differences": 0,
+    "evidence": ["migration/reports/routes-zh-CN-legacy.json", "migration/reports/routes-zh-CN-replacement.json"]
+  },
+  "warnings": [
+    "Existing broken-link, broken-anchor, one-page HTML-minifier, KaTeX Unicode, and lunr registration diagnostics remain non-blocking and are not classified as migration differences."
+  ],
+  "externalShadow": {
+    "status": "not-executed",
+    "blocker": "Requires vdc-jenkins, registry, non-production Chinese hostname, CDN/Nginx environment, deployment credentials, and environment owners.",
+    "requiredEvidence": ["registry digest", "Chinese UAT release record", "shadow hostname", "synthetic-check output", "observation window", "owner approval"]
+  }
+}

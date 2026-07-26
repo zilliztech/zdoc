@@ -89,7 +89,8 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: node scripts/migration/verify-routes.mjs --locale zh-CN; this inventory does not claim it has passed."
+        "Route differential at f3c889e01e6e462156e3080ce46baeb394364805: 1686 legacy and 1686 replacement routes with zero differences; see migration/reports/routes-zh-CN-{legacy,replacement}.json.",
+        "Local Node 22 image build and smoke passed; see migration/reports/shadow-zh-CN.json. External non-production shadow remains required."
       ]
     },
     {
@@ -114,7 +115,8 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: node scripts/migration/verify-routes.mjs --locale en; this inventory does not claim it has passed."
+        "Route differential at f3c889e01e6e462156e3080ce46baeb394364805: 1868 legacy and 1868 replacement routes with zero differences; see migration/reports/routes-en-{legacy,replacement}.json.",
+        "Local Node 22 image build and smoke passed; see migration/reports/shadow-en.json. External non-production shadow remains required."
       ]
     },
     {
@@ -136,7 +138,7 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: docker build -t unified-docs:test .; this inventory does not claim it has passed."
+        "Both site-owned images built at f3c889e01e6e462156e3080ce46baeb394364805 and passed label/health/route smoke; see migration/reports/shadow-en.json and shadow-zh-CN.json."
       ]
     },
     {
@@ -160,7 +162,8 @@
       ],
       "disposition": "change",
       "acceptanceEvidence": [
-        "Required future gate: node scripts/migration/verify-jenkins-pipelines.mjs; this inventory does not claim it has passed."
+        "Release contract tests and dual-mode verifier are implemented under deploy/contracts.",
+        "Live four-pipeline UAT/Prod rehearsal is externally blocked on vdc-jenkins, registry, deployment credentials, and environment owners; see migration/runbooks/cutover-zh-CN.md."
       ]
     },
     {
@@ -182,7 +185,8 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: node scripts/migration/verify-container-health.mjs; this inventory does not claim it has passed."
+        "Both local site images passed /healthz and /docs/home smoke with temporary-container cleanup at f3c889e01e6e462156e3080ce46baeb394364805.",
+        "Container contracts verify exact chat routes, conversation affinity, and stripped Authorization headers; production-equivalent CDN/Nginx shadow remains external."
       ]
     },
     {
@@ -292,7 +296,8 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: node scripts/migration/verify-metadata-robots-redirects.mjs; this inventory does not claim it has passed."
+        "Exhaustive route inventories include canonical URLs and compare with zero English or Chinese differences at f3c889e01e6e462156e3080ce46baeb394364805.",
+        "Live robots, redirect, and CDN metadata checks remain part of the external shadow gate."
       ]
     },
     {

@@ -839,7 +839,7 @@ The release record contains:
 
 `path-filters.json` requires both site checks for shared application, package, lockfile, manual-registry, or shared Reference-generator changes; requires only the owned site for site content/profile/deploy changes; and adds Chinese translation coverage validation when canonical English Reference changes.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run:
 
@@ -868,13 +868,17 @@ git commit -m "feat: define Jenkins dual-mode release contract"
 - Modify: `migration/capabilities.json`
 - Modify: `migration/approved-differences.json`
 
-- [ ] **Step 1: Synchronize the branch and run clean builds**
+- [x] **Step 1: Synchronize the branch and run clean builds**
 
 Rebase or merge the latest reviewed `master` according to repository policy, update migration drift records, install from a frozen lockfile in a fresh checkout, and run both named builds with document-network access disabled.
+
+Validation note (2026-07-26): merged reviewed `origin/master` at `9ae596fd95b092d07f146aacb45d6ef52e934f2c`; clean Node 22 Docker builds at `f3c889e01e6e462156e3080ce46baeb394364805` performed `pnpm install --frozen-lockfile` and ran the publication read fence. The merged agent-chat frontend exposed single-renderer Chinese SSG memory accumulation; the validated fix retains a 4096 MiB heap and uses two Docusaurus SSG worker threads with built-in recycling for `zh-CN` only.
 
 - [ ] **Step 2: Run differential artifact checks**
 
 Compare routes, navigation, redirects, canonical URLs, metadata, static assets, search/LLM/structured-data outputs, Docker labels, health behavior, and representative rendered pages. Classify every difference as intentional, fixed legacy defect, or reviewed nondeterminism in `migration/approved-differences.json`.
+
+Partial validation note (2026-07-26): exhaustive route/canonical comparisons are clean (English 1868/1868, Chinese 1686/1686, zero differences); both local images pass immutable-label, health, representative-route, chat-routing contract, and cleanup checks. Production-equivalent CDN metadata, full asset/search/LLM/structured-data sampling, and rendered-page checks remain part of the external shadow deployment gate.
 
 - [ ] **Step 3: Deploy non-mutating shadows**
 

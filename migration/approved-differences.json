@@ -1,5 +1,11 @@
 {
   "schemaVersion": 1,
   "context": "Unified documentation migration acceptance allowlist. Entries require explicit review, owner, reason, and bounded scope.",
+  "reviewedRevision": "f3c889e01e6e462156e3080ce46baeb394364805",
+  "reviewedAt": "2026-07-26T15:55:00+08:00",
+  "routeDifferential": {
+    "en": {"legacy": 1868, "replacement": 1868, "differences": 0},
+    "zh-CN": {"legacy": 1686, "replacement": 1686, "differences": 0}
+  },
   "differences": []
 }
