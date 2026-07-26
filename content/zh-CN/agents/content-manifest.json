@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "site": "zh-CN",
+  "plugin": "agents",
+  "source": {
+    "repository": "zdoc_cn",
+    "legacyPath": "docs-agents",
+    "commit": "b1900473dddf8db2d56c11387211a7014b54c160",
+    "treeId": "3df80b49130c88926eef8fbc12d585151366823c"
+  },
+  "inventory": {
+    "trackedFileCount": 18,
+    "gitLsTreeSha256": "f257789253b607d48f2eb9c211d757252d36b1c336f5fa50e00557ed42201e2b"
+  }
+}

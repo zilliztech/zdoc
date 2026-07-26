@@ -1,4 +1,4 @@
-const SIMPLE_BOLD_WITH_TRAILING_PUNCTUATION = /(?<!\\)\*\*([^*\\`_<>{}\[\]()~\r\n]+?)([：，；！？。])\*\*(?=[\p{L}\p{N}])/gu;
+const SIMPLE_BOLD_CONTENT_WITH_TRAILING_PUNCTUATION = /^([^*\\`_<>{}\[\]()~\r\n]+?)([：，；！？。])$/u;
 const MARKDOWN_CONTAINER_PREFIX = String.raw`(?: {0,3}> ?)*(?:(?: {0,3})(?:[-+*]|\d+[.)]) +)? {0,3}`;
 const FENCE_RUN = String.raw`(\x60{3,}|~{3,})`;
 const FENCE_START = new RegExp(`^${MARKDOWN_CONTAINER_PREFIX}${FENCE_RUN}`, 'u');
@@ -134,8 +134,33 @@ function repairLine(line: string): string {
   if (INDENTED_CODE.test(line)) return line;
   const protectedMarkup = line.search(/[`<>{}\[\]()]/u);
   if (protectedMarkup === 0) return line;
-  if (protectedMarkup === -1) return line.replace(SIMPLE_BOLD_WITH_TRAILING_PUNCTUATION, '**$1**$2');
-  return `${line.slice(0, protectedMarkup).replace(SIMPLE_BOLD_WITH_TRAILING_PUNCTUATION, '**$1**$2')}${line.slice(protectedMarkup)}`;
+  const plainPrefix = protectedMarkup === -1 ? line : line.slice(0, protectedMarkup);
+  const delimiters: number[] = [];
+  for (let index = 0; index < plainPrefix.length;) {
+    if (!plainPrefix.startsWith('**', index) || isEscaped(plainPrefix, index)) {
+      index += 1;
+      continue;
+    }
+    let runEnd = index + 2;
+    while (plainPrefix[runEnd] === '*') runEnd += 1;
+    if (runEnd - index === 2) delimiters.push(index);
+    index = runEnd;
+  }
+
+  let repaired = '';
+  let cursor = 0;
+  for (let index = 0; index + 1 < delimiters.length; index += 2) {
+    const opening = delimiters[index];
+    const closing = delimiters[index + 1];
+    const content = plainPrefix.slice(opening + 2, closing);
+    const match = content.match(SIMPLE_BOLD_CONTENT_WITH_TRAILING_PUNCTUATION);
+    const following = plainPrefix[closing + 2] ?? '';
+    if (!match || !/[\p{L}\p{N}]/u.test(following)) continue;
+    repaired += `${plainPrefix.slice(cursor, opening)}**${match[1]}**${match[2]}`;
+    cursor = closing + 2;
+  }
+  repaired += plainPrefix.slice(cursor);
+  return `${repaired}${protectedMarkup === -1 ? '' : line.slice(protectedMarkup)}`;
 }
 
 export function repairChineseBoldPunctuation(contents: string): string {

@@ -55036,7 +55036,8 @@
       "evidence": [
         "Git blob 2a71c5ed3dc5aebfff8be6db55e02afa55f79d32 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Task 9 zh-content-compatibility transform moves trailing CJK punctuation out of bold; target content/zh-CN/guides/tutorials/function-and-model-inference/function-and-model-inference-overview.md SHA-256 81d365806ada5486b8ca9c394f7914cb641f16bab1e733a8f3de7338ecf4ce97."
       ]
     },
     {
@@ -55296,7 +55297,8 @@
       "evidence": [
         "Git blob 109832f2d23bdcaccd17f3bc7e8fee1c2e5a1c85 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Task 9 zh-content-compatibility transform moves trailing CJK punctuation out of bold; target content/zh-CN/guides/tutorials/get-started/best-practices/cost-optimization.md SHA-256 052858107260a7dce0f20a839a951997a770bc1c001cbe336231a86a6b0c16b0."
       ]
     },
     {
@@ -56388,7 +56390,8 @@
       "evidence": [
         "Git blob 456bd87958198ebb77e7576b98233d584d60112c at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Task 9 zh-content-compatibility transform moves trailing CJK punctuation out of bold; target content/zh-CN/guides/tutorials/payment-billing/manage-order.md SHA-256 88636b27d3d367abcebd78985ccbcaa6b2f36c66baf4c4f31a0d35263dd7ebe6."
       ]
     },
     {
@@ -56557,7 +56560,8 @@
       "evidence": [
         "Git blob 1b599f643c457a2d79be9e49ee0fe84570ee0831 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides."
+        "Task 9 Guides batch imports this tracked zdoc_cn blob into content/zh-CN/guides.",
+        "Task 9 zh-content-compatibility transform moves trailing CJK punctuation out of bold; target content/zh-CN/guides/tutorials/payment-billing/view-invoice.md SHA-256 446c37b47a0f6c952e28f19d516418d67fa3018606103963e004fe09b048e530."
       ]
     },
     {
@@ -86213,7 +86217,8 @@
       "evidence": [
         "Git blob 872cba09090ce7f23d075ca6ea6f964698dfd519 at zdoc_cn pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
         "Revision pin source: migration/source-snapshots.json.",
-        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc."
+        "Task 9 BYOC batch imports this tracked zdoc_cn blob into content/zh-CN/byoc.",
+        "Task 9 zh-content-compatibility transform moves trailing CJK punctuation out of bold; target content/zh-CN/byoc/tutorials/function-and-model-inference/function-and-model-inference-overview.md SHA-256 d320a34a1420f56f1920ea0c08807547e837f563b655148411e04686c5b65e7f."
       ]
     },
     {

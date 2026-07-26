@@ -202,6 +202,21 @@ describe('zh-CN Markdown normalizer adapter', () => {
     expect(output).toContain('[联系销售](https://zilliz.com.cn/contact-sales)');
   });
 
+  it('does not cross-pair adjacent strong spans around ordinary Chinese punctuation', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssStorage: {validateOrPublish: async () => {}},
+    });
+    const input = '**实际案例：** 假设配置已经够了，**节省 25% 的 CU 成本**。';
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'adjacent-bold-spans.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(input);
+  });
+
   it('keeps unsafe bold punctuation contexts unchanged and remains frontmatter-safe and idempotent', () => {
     const registry = createZhCnPublicationAdapterRegistry({
       aliyunOssStorage: {validateOrPublish: async () => {}},
