@@ -1,0 +1,120 @@
+import {existsSync, lstatSync, readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+
+import {
+  EMPTY_FILE_SHA256,
+  parseReferenceSourceManifest,
+  parseReferenceTranslationManifest,
+  readReferenceTree,
+  type ReferenceSourceManifest,
+  type ReferenceTranslationManifest,
+} from '../reference/translationManifest.ts';
+import {resolveOwnedRepositoryPath} from './ownership.ts';
+
+export type ValidateReferenceTranslationOptions = Readonly<{
+  repositoryRoot: string;
+  sourceRoot: string;
+  targetRoot: string;
+  sourceManifest: ReferenceSourceManifest;
+  translationManifest: ReferenceTranslationManifest;
+  verifyFiles?: boolean;
+}>;
+
+export type ValidateReferenceSourceOptions = Readonly<{
+  repositoryRoot: string;
+  sourceRoot: string;
+  sourceManifest: ReferenceSourceManifest;
+}>;
+
+function assertBelowRoot(filePath: string, root: string, label: string): void {
+  if (!filePath.startsWith(`${root}/`)) throw new Error(`${label} must stay within ${root}: ${filePath}`);
+}
+
+function fileHash(repositoryRoot: string, relativePath: string): string | undefined {
+  const absolutePath = resolveOwnedRepositoryPath(repositoryRoot, relativePath, 'Manifest file');
+  if (!existsSync(absolutePath)) return undefined;
+  const stats = lstatSync(absolutePath);
+  if (!stats.isFile() || stats.isSymbolicLink()) throw new Error(`Manifest file must be a regular non-symlink file: ${relativePath}`);
+  return createHash('sha256').update(readFileSync(absolutePath)).digest('hex');
+}
+
+export function validateReferenceTranslation(options: ValidateReferenceTranslationOptions): void {
+  const sourceManifest = parseReferenceSourceManifest(options.sourceManifest);
+  const translationManifest = parseReferenceTranslationManifest(options.translationManifest);
+  const sourceRecords = new Map<string, ReferenceSourceManifest['records'][number]>();
+  for (const record of sourceManifest.records) {
+    assertBelowRoot(record.sourcePath, options.sourceRoot, 'Source path');
+    if (sourceRecords.has(record.sourcePath)) throw new Error(`Duplicate canonical source: ${record.sourcePath}`);
+    sourceRecords.set(record.sourcePath, record);
+  }
+
+  const translationsBySource = new Map<string, ReferenceTranslationManifest['records'][number]>();
+  const targetPaths = new Set<string>();
+  for (const record of translationManifest.records) {
+    assertBelowRoot(record.sourcePath, options.sourceRoot, 'Translation source path');
+    assertBelowRoot(record.targetPath, options.targetRoot, 'Translation target path');
+    if (record.sourceCommit !== sourceManifest.sourceCommit) throw new Error(`Translation source commit mismatch: ${record.sourcePath}`);
+    if (translationsBySource.has(record.sourcePath)) throw new Error(`Duplicate source mapping: ${record.sourcePath}`);
+    if (targetPaths.has(record.targetPath)) throw new Error(`Duplicate target mapping: ${record.targetPath}`);
+    translationsBySource.set(record.sourcePath, record);
+    targetPaths.add(record.targetPath);
+
+    const source = sourceRecords.get(record.sourcePath);
+    if (!source && !(record.status === 'retired' && record.sourceHash === EMPTY_FILE_SHA256)) {
+      throw new Error(`Orphan target has no active or retired source mapping: ${record.targetPath}`);
+    }
+    if (source && source.manual !== record.manual) throw new Error(`Translation manual mismatch: ${record.sourcePath}`);
+    if (source && source.sourceHash !== record.sourceHash) throw new Error(`Declared source hash mismatch: ${record.sourcePath}`);
+    if (record.status === 'unchanged' && record.sourceHash !== record.targetHash) {
+      throw new Error(`Unchanged translation must have identical source and target hashes: ${record.targetPath}`);
+    }
+  }
+
+  for (const source of sourceManifest.records) {
+    if (!translationsBySource.has(source.sourcePath)) {
+      throw new Error(`Active canonical source is missing a Chinese target mapping: ${source.sourcePath}`);
+    }
+  }
+
+  if (options.verifyFiles === false) return;
+  const sourceFiles = readReferenceTree(options.repositoryRoot, options.sourceRoot);
+  const targetFiles = readReferenceTree(options.repositoryRoot, options.targetRoot);
+  for (const [filePath, hash] of sourceFiles) {
+    const source = sourceRecords.get(filePath);
+    if (!source) throw new Error(`Active canonical source is absent from the source manifest: ${filePath}`);
+    if (source.sourceHash !== hash) throw new Error(`Source hash mismatch: ${filePath}`);
+  }
+  for (const source of sourceManifest.records) {
+    if (!sourceFiles.has(source.sourcePath)) throw new Error(`Source manifest path is missing: ${source.sourcePath}`);
+  }
+  for (const [filePath] of targetFiles) {
+    if (!targetPaths.has(filePath)) throw new Error(`Orphan target is absent from the translation manifest: ${filePath}`);
+  }
+  for (const record of translationManifest.records) {
+    const sourceHash = fileHash(options.repositoryRoot, record.sourcePath);
+    const targetHash = fileHash(options.repositoryRoot, record.targetPath);
+    if (record.status !== 'retired' && (!sourceHash || !targetHash)) {
+      throw new Error(`Active translation source and target must both exist: ${record.sourcePath}`);
+    }
+    if (sourceHash && sourceHash !== record.sourceHash) throw new Error(`Source hash mismatch: ${record.sourcePath}`);
+    if (targetHash && targetHash !== record.targetHash) throw new Error(`Target hash mismatch: ${record.targetPath}`);
+    if (!sourceHash && record.sourceHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired source must use the empty-file hash: ${record.sourcePath}`);
+    if (!targetHash && record.targetHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired target must use the empty-file hash: ${record.targetPath}`);
+  }
+}
+
+export function validateReferenceSource(options: ValidateReferenceSourceOptions): void {
+  const sourceManifest = parseReferenceSourceManifest(options.sourceManifest);
+  const files = readReferenceTree(options.repositoryRoot, options.sourceRoot);
+  const records = new Map(sourceManifest.records.map(record => [record.sourcePath, record]));
+  if (records.size !== sourceManifest.records.length) throw new Error('Reference source manifest contains duplicate source paths');
+  for (const record of sourceManifest.records) assertBelowRoot(record.sourcePath, options.sourceRoot, 'Source path');
+  for (const [filePath, hash] of files) {
+    const record = records.get(filePath);
+    if (!record) throw new Error(`Active canonical source is absent from the source manifest: ${filePath}`);
+    if (record.sourceHash !== hash) throw new Error(`Source hash mismatch: ${filePath}`);
+  }
+  for (const record of sourceManifest.records) {
+    if (!files.has(record.sourcePath)) throw new Error(`Source manifest path is missing: ${record.sourcePath}`);
+  }
+}

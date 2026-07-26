@@ -12,6 +12,7 @@ import type {AliyunOssValidator, PublicationContext} from '@zilliz/publication-a
 import {resolveSiteProfile} from '@zilliz/site-config';
 
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
+import {manualRegistry, publicationEntries} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
 import {atomicReplace, type AtomicReplaceOptions, type AtomicValidationSnapshot} from './publication/atomicReplace.ts';
 import {
@@ -24,6 +25,13 @@ import {
   type PublicationDiagnosticsIdentity,
 } from './publication/diagnostics.ts';
 import {validateStageFilesystem, type StageInventory} from './validation/filesystem.ts';
+import {
+  buildReferenceManifests,
+  parseReferenceSourceManifest,
+  parseReferenceTranslationManifest,
+  serializeReferenceManifest,
+} from './reference/translationManifest.ts';
+import {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
 import {
   assertPublicationOwnership,
@@ -83,6 +91,147 @@ export type GeneratorRunner = (
   args: readonly string[],
   options: Readonly<{cwd: string; env: NodeJS.ProcessEnv; stdio: 'inherit'}>,
 ) => GeneratorResult;
+
+export type ReferenceCommandDependencies = Readonly<{
+  repositoryRoot?: string;
+  resolveSourceCommit?: (revision: string) => string;
+  verifySourceRevision?: (commit: string, sourceRoot: string) => void;
+  manualForPath?: (repositoryRelativePath: string) => string;
+  write?: (message: string) => void;
+}>;
+
+const REFERENCE_SOURCE_ROOT = 'content/en/reference';
+const REFERENCE_TARGET_ROOT = 'content/zh-CN/reference';
+const REFERENCE_SOURCE_MANIFEST = 'generated/en/manifests/reference.json';
+const REFERENCE_TRANSLATION_MANIFEST = 'generated/zh-CN/manifests/reference-translations.json';
+
+function resolveGitCommit(repositoryRoot: string, revision: string): string {
+  const result = nodeSpawnSync('git', ['rev-parse', '--verify', `${revision}^{commit}`], {cwd: repositoryRoot, encoding: 'utf8'});
+  if (result.error || result.status !== 0) throw new Error(`Could not resolve source commit ${revision}: ${result.stderr || result.error?.message || 'git failed'}`);
+  const commit = result.stdout.trim();
+  if (!/^[a-f0-9]{40}$/u.test(commit)) throw new Error(`Resolved source commit is not a stable commit SHA: ${commit}`);
+  return commit;
+}
+
+function verifyGitSourceRevision(repositoryRoot: string, commit: string, sourceRoot: string): void {
+  const difference = nodeSpawnSync('git', ['diff', '--quiet', commit, '--', sourceRoot], {cwd: repositoryRoot, encoding: 'utf8'});
+  if (difference.error || (difference.status !== 0 && difference.status !== 1)) {
+    throw new Error(`Could not compare Reference source with ${commit}: ${difference.stderr || difference.error?.message || 'git failed'}`);
+  }
+  if (difference.status === 1) throw new Error(`Reference source bytes do not match declared source commit ${commit}`);
+  const untracked = nodeSpawnSync('git', ['ls-files', '--others', '--exclude-standard', '--', sourceRoot], {cwd: repositoryRoot, encoding: 'utf8'});
+  if (untracked.error || untracked.status !== 0) {
+    throw new Error(`Could not inspect untracked Reference sources: ${untracked.stderr || untracked.error?.message || 'git failed'}`);
+  }
+  if (untracked.stdout.trim()) throw new Error(`Reference source contains files absent from declared source commit ${commit}: ${untracked.stdout.trim()}`);
+}
+
+function defaultReferenceManualForPath(filePath: string): string {
+  const candidates = publicationEntries(manualRegistry)
+    .filter(entry => entry.manual.kind === 'reference')
+    .flatMap(entry => {
+      const active = entry.publication.outputDir;
+      const retired = (entry.publication.retiredPaths ?? []).map(retiredPath => `content/${entry.site}/${retiredPath}`);
+      const referenceRoot = `content/${entry.site}/reference/`;
+      const relative = active.slice(referenceRoot.length).split('/');
+      const family = `${referenceRoot}${relative[0] === 'api' ? relative.slice(0, 2).join('/') : relative[0]}`;
+      return [active, ...retired, family].map(prefix => ({manual: entry.manual.id, prefix}));
+    })
+    .filter(candidate => filePath === candidate.prefix || filePath.startsWith(`${candidate.prefix}/`))
+    .sort((left, right) => right.prefix.length - left.prefix.length || (left.manual < right.manual ? -1 : left.manual > right.manual ? 1 : 0));
+  const selected = candidates[0];
+  if (!selected) throw new Error(`Reference file is not owned by a registered manual: ${filePath}`);
+  return selected.manual;
+}
+
+function readJson(repositoryRoot: string, relativePath: string): unknown {
+  const absolutePath = resolveOwnedRepositoryPath(repositoryRoot, relativePath, 'Reference manifest');
+  if (!existsSync(absolutePath)) throw new Error(`Reference manifest is missing: ${relativePath}`);
+  try {
+    return JSON.parse(readFileSync(absolutePath, 'utf8'));
+  } catch (error) {
+    throw new Error(`Reference manifest is not valid JSON: ${relativePath}`, {cause: error});
+  }
+}
+
+export async function executeReferenceDocsToolingCommand(
+  argv: readonly string[],
+  dependencies: ReferenceCommandDependencies = {},
+): Promise<void> {
+  const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
+  if (argv[0] === 'reference-manifest') {
+    if (argv.length !== 8 || argv[7] !== '--write') throw new Error('Usage: docs-tooling reference-manifest --source <dir> --target <dir> --source-commit <revision> --write');
+    const values: Record<string, string> = {};
+    for (let index = 1; index < 7; index += 2) {
+      const flag = argv[index];
+      if (!['--source', '--target', '--source-commit'].includes(flag)) throw new Error(`Unknown reference-manifest argument: ${flag}`);
+      if (values[flag]) throw new Error(`Duplicate reference-manifest argument: ${flag}`);
+      const value = argv[index + 1];
+      if (!value || value.startsWith('--')) throw new Error(`Missing value for ${flag}`);
+      values[flag] = value;
+    }
+    if (values['--source'] !== REFERENCE_SOURCE_ROOT || values['--target'] !== REFERENCE_TARGET_ROOT || !values['--source-commit']) {
+      throw new Error(`Reference manifests must use ${REFERENCE_SOURCE_ROOT} and ${REFERENCE_TARGET_ROOT}`);
+    }
+    const sourceCommit = (dependencies.resolveSourceCommit ?? (revision => resolveGitCommit(repositoryRoot, revision)))(values['--source-commit']);
+    (dependencies.verifySourceRevision ?? ((commit, sourceRoot) => verifyGitSourceRevision(repositoryRoot, commit, sourceRoot)))(sourceCommit, REFERENCE_SOURCE_ROOT);
+    const translationManifestPath = resolveOwnedRepositoryPath(repositoryRoot, REFERENCE_TRANSLATION_MANIFEST, 'Reference translation manifest');
+    const retiredRecords = existsSync(translationManifestPath)
+      ? parseReferenceTranslationManifest(readJson(repositoryRoot, REFERENCE_TRANSLATION_MANIFEST)).records
+      : [];
+    const manifests = buildReferenceManifests({
+      repositoryRoot,
+      sourceRoot: REFERENCE_SOURCE_ROOT,
+      targetRoot: REFERENCE_TARGET_ROOT,
+      sourceCommit,
+      manualForPath: dependencies.manualForPath ?? defaultReferenceManualForPath,
+      retiredRecords,
+    });
+    validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest: manifests.sourceManifest});
+    validateReferenceTranslation({
+      repositoryRoot,
+      sourceRoot: REFERENCE_SOURCE_ROOT,
+      targetRoot: REFERENCE_TARGET_ROOT,
+      sourceManifest: manifests.sourceManifest,
+      translationManifest: manifests.translationManifest,
+    });
+    for (const [relativePath, manifest] of [
+      [REFERENCE_SOURCE_MANIFEST, manifests.sourceManifest],
+      [REFERENCE_TRANSLATION_MANIFEST, manifests.translationManifest],
+    ] as const) {
+      const absolutePath = resolveOwnedRepositoryPath(repositoryRoot, relativePath, 'Reference manifest output');
+      mkdirSync(path.dirname(absolutePath), {recursive: true});
+      writeFileSync(absolutePath, serializeReferenceManifest(manifest));
+    }
+    dependencies.write?.(`wrote Reference manifests for ${sourceCommit}`);
+    return;
+  }
+  if (argv[0] === 'validate-reference') {
+    if (argv.length !== 3 || argv[1] !== '--site' || (argv[2] !== 'en' && argv[2] !== 'zh-CN')) {
+      throw new Error('Usage: docs-tooling validate-reference --site <en|zh-CN>');
+    }
+    const sourceManifest = parseReferenceSourceManifest(readJson(repositoryRoot, REFERENCE_SOURCE_MANIFEST));
+    (dependencies.verifySourceRevision ?? ((commit, sourceRoot) => verifyGitSourceRevision(repositoryRoot, commit, sourceRoot)))(
+      sourceManifest.sourceCommit,
+      REFERENCE_SOURCE_ROOT,
+    );
+    if (argv[2] === 'en') {
+      validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest});
+    } else {
+      const translationManifest = parseReferenceTranslationManifest(readJson(repositoryRoot, REFERENCE_TRANSLATION_MANIFEST));
+      validateReferenceTranslation({
+        repositoryRoot,
+        sourceRoot: REFERENCE_SOURCE_ROOT,
+        targetRoot: REFERENCE_TARGET_ROOT,
+        sourceManifest,
+        translationManifest,
+      });
+    }
+    dependencies.write?.(`validated Reference provenance for ${argv[2]}`);
+    return;
+  }
+  throw new Error(`Unknown Reference command: ${argv[0] ?? '(missing)'}`);
+}
 
 const USAGE = 'Usage: docs-tooling <fetch|validate|publish> --manual <id> --site <en|zh-CN> --stage <dir>';
 

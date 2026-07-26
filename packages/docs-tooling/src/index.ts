@@ -27,3 +27,11 @@ export {
   writePublicationAnchor,
 } from './publication/diagnostics.ts';
 export type {PublicationAnchor, PublicationDiagnostics, PublicationDiagnosticsIdentity} from './publication/diagnostics.ts';
+export {
+  buildReferenceManifests,
+  parseReferenceSourceManifest,
+  parseReferenceTranslationManifest,
+  serializeReferenceManifest,
+} from './reference/translationManifest.ts';
+export type {ReferenceSourceManifest, ReferenceSourceRecord, ReferenceTranslationManifest, TranslationRecord} from './reference/translationManifest.ts';
+export {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';

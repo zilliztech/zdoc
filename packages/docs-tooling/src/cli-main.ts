@@ -5,7 +5,7 @@ import {pathToFileURL} from 'node:url';
 
 import type {AliyunOssValidator} from '@zilliz/publication-adapters';
 
-import {executeDocsToolingCommand, parseCliArgs} from './cli.ts';
+import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './validation/ownership.ts';
 
 const ALIYUN_VALIDATOR_PROVIDER = 'DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER';
@@ -47,6 +47,10 @@ async function loadAliyunOssValidator(repositoryRoot: string, environment: NodeJ
 async function main(): Promise<void> {
   try {
     const argv = process.argv.slice(2);
+    if (argv[0] === 'reference-manifest' || argv[0] === 'validate-reference') {
+      await executeReferenceDocsToolingCommand(argv, {write: message => process.stdout.write(`${message}\n`)});
+      return;
+    }
     const request = parseCliArgs(argv);
     const repositoryRoot = path.resolve(process.cwd());
     const aliyunOssValidator = request.site === 'zh-CN'
