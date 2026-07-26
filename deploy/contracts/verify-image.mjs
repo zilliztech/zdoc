@@ -459,6 +459,9 @@ async function cliRoots(options, dependencies, requireTrust) {
   if (rootsOverlap(requestRoot.path, evidenceRoot.path)) {
     fail('request root and trusted evidence root must not overlap');
   }
+  if (env.VDC_JENKINS_EVIDENCE_PROTECTION !== 'kernel-read-only-mount') {
+    fail('VDC_JENKINS_EVIDENCE_PROTECTION must equal kernel-read-only-mount');
+  }
   const identities = await inspectTrustedEvidenceTree(evidenceRoot);
   return {
     requestRoot,

@@ -88,6 +88,13 @@ function trustedProvider({
   };
 }
 
+function trustedEnv(root, protection = 'kernel-read-only-mount') {
+  return {
+    VDC_JENKINS_EVIDENCE_ROOT: root,
+    VDC_JENKINS_EVIDENCE_PROTECTION: protection,
+  };
+}
+
 async function makeCliRoots() {
   const base = await realpath(await mkdtemp(path.join(os.tmpdir(), 'zdoc-release-contract-')));
   const requestRoot = path.join(base, 'request');
@@ -226,7 +233,7 @@ test('trusted image resolution validates the complete map before selecting a ref
   });
   await assert.rejects(
     main(['verify-specified-image', '--root', requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: trustRoot},
+      env: trustedEnv(trustRoot),
       write: () => {},
     }),
     /trusted image resolutions.*invalid/,
@@ -303,6 +310,31 @@ test('CLI fails closed without a vdc-jenkins-owned trust root', async () => {
   );
 });
 
+test('CLI requires the external kernel read-only mount attestation', async () => {
+  const {main} = await loadVerifier();
+  const {requestRoot, trustRoot} = await makeCliRoots();
+  await writeJson(requestRoot, 'record.json', rebuildRequest());
+  await writeTrustedEvidence(trustRoot);
+  for (const protection of [undefined, 'chmod-only', 'read-only']) {
+    const env = {VDC_JENKINS_EVIDENCE_ROOT: trustRoot};
+    if (protection !== undefined) env.VDC_JENKINS_EVIDENCE_PROTECTION = protection;
+    await assert.rejects(
+      main(['verify-rebuild', '--root', requestRoot, '--record', 'record.json'], {
+        env,
+        write: () => {},
+      }),
+      /VDC_JENKINS_EVIDENCE_PROTECTION.*kernel-read-only-mount/,
+    );
+  }
+
+  const writes = [];
+  await main(['verify-rebuild', '--root', requestRoot, '--record', 'record.json'], {
+    env: trustedEnv(trustRoot),
+    write: (value) => writes.push(value),
+  });
+  assert.equal(writes.length, 1);
+});
+
 test('CLI rejects equal or overlapping request and trusted evidence roots', async () => {
   const {main} = await loadVerifier();
   const {base, requestRoot, trustRoot} = await makeCliRoots();
@@ -316,7 +348,7 @@ test('CLI rejects equal or overlapping request and trusted evidence roots', asyn
     }
     await assert.rejects(
       main(['verify-rebuild', '--root', requestRoot, '--record', 'record.json'], {
-        env: {VDC_JENKINS_EVIDENCE_ROOT: evidenceRoot},
+        env: trustedEnv(evidenceRoot),
         write: () => {},
       }),
       /request root.*trusted evidence root.*overlap/i,
@@ -333,7 +365,7 @@ test('request-side forged evidence cannot override the trusted Jenkins evidence 
 
   await assert.rejects(
     main(['verify-rebuild', '--root', requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: trustRoot},
+      env: trustedEnv(trustRoot),
       write: () => {},
     }),
     /successful UAT evidence/,
@@ -343,7 +375,7 @@ test('request-side forged evidence cannot override the trusted Jenkins evidence 
   await writeTrustedEvidence(trustRoot, {uatRecords: [uatRecord({status: 'succeeded'})]});
   const writes = [];
   await main(['verify-rebuild', '--root', requestRoot, '--record', 'record.json'], {
-    env: {VDC_JENKINS_EVIDENCE_ROOT: trustRoot},
+    env: trustedEnv(trustRoot),
     write: (value) => writes.push(value),
   });
   assert.equal(writes.length, 1);
@@ -361,7 +393,7 @@ test('request-side forged tag resolutions cannot override trusted registry resol
   });
   await assert.rejects(
     main(['verify-specified-image', '--root', requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: trustRoot},
+      env: trustedEnv(trustRoot),
       write: () => {},
     }),
     /resolved digest.*sourceUatDigest/,
@@ -378,7 +410,7 @@ test('CLI rollback ignores request-side Prod history and uses trusted history on
   await writeTrustedEvidence(trustRoot, {prodRecords: []});
   await assert.rejects(
     main(['verify-rollback', '--root', requestRoot, '--request', 'rollback.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: trustRoot},
+      env: trustedEnv(trustRoot),
       write: () => {},
     }),
     /recorded successful Prod release/,
@@ -393,7 +425,7 @@ test('CLI rejects writable trusted evidence roots and files, then accepts the se
   await chmod(rootWritable.trustRoot, 0o755);
   await assert.rejects(
     main(['verify-rebuild', '--root', rootWritable.requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: rootWritable.trustRoot},
+      env: trustedEnv(rootWritable.trustRoot),
       write: () => {},
     }),
     /trusted evidence root.*read-only|write bits/i,
@@ -405,7 +437,7 @@ test('CLI rejects writable trusted evidence roots and files, then accepts the se
   await chmod(path.join(fileWritable.trustRoot, 'evidence/uat-records.json'), 0o644);
   await assert.rejects(
     main(['verify-rebuild', '--root', fileWritable.requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: fileWritable.trustRoot},
+      env: trustedEnv(fileWritable.trustRoot),
       write: () => {},
     }),
     /trusted.*uat.*read-only|write bits/i,
@@ -414,7 +446,7 @@ test('CLI rejects writable trusted evidence roots and files, then accepts the se
   await chmod(path.join(fileWritable.trustRoot, 'evidence/uat-records.json'), 0o444);
   const writes = [];
   await main(['verify-rebuild', '--root', fileWritable.requestRoot, '--record', 'record.json'], {
-    env: {VDC_JENKINS_EVIDENCE_ROOT: fileWritable.trustRoot},
+    env: trustedEnv(fileWritable.trustRoot),
     write: (value) => writes.push(value),
   });
   assert.equal(writes.length, 1);
@@ -425,7 +457,7 @@ test('CLI rejects writable trusted evidence roots and files, then accepts the se
   await chmod(path.join(ancestorWritable.trustRoot, 'evidence'), 0o755);
   await assert.rejects(
     main(['verify-rebuild', '--root', ancestorWritable.requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: ancestorWritable.trustRoot},
+      env: trustedEnv(ancestorWritable.trustRoot),
       write: () => {},
     }),
     /trusted.*ancestor.*read-only|write bits/i,
@@ -441,7 +473,7 @@ test('safe JSON reads reject final symlinks beneath either root', async () => {
   await symlink(path.join(outside, 'record.json'), path.join(requestRoot, 'record.json'));
   await assert.rejects(
     main(['verify-rebuild', '--root', requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: trustRoot},
+      env: trustedEnv(trustRoot),
       write: () => {},
     }),
     /non-symlink|O_NOFOLLOW|safe JSON|path/i,
@@ -460,7 +492,7 @@ test('safe JSON reads reject final symlinks beneath either root', async () => {
   await chmod(second.trustRoot, 0o555);
   await assert.rejects(
     main(['verify-rebuild', '--root', second.requestRoot, '--record', 'record.json'], {
-      env: {VDC_JENKINS_EVIDENCE_ROOT: second.trustRoot},
+      env: trustedEnv(second.trustRoot),
       write: () => {},
     }),
     /non-symlink|O_NOFOLLOW|safe JSON|path/i,
@@ -492,6 +524,7 @@ test('Ajv executes the strict schema with runtime-compatible positive and negati
 test('README documents the external trust-store ownership and current CLI boundary', async () => {
   const readme = await readFile(new URL('./README.md', import.meta.url), 'utf8');
   assert.match(readme, /VDC_JENKINS_EVIDENCE_ROOT/);
+  assert.match(readme, /VDC_JENKINS_EVIDENCE_PROTECTION=kernel-read-only-mount/);
   assert.match(readme, /vdc-jenkins.*read-only/i);
   assert.match(readme, /authenticat.*registry/i);
   assert.match(readme, /attestation/i);
@@ -499,6 +532,8 @@ test('README documents the external trust-store ownership and current CLI bounda
   assert.match(readme, /0555/);
   assert.match(readme, /0444/);
   assert.match(readme, /before.*verifier.*start/i);
+  assert.match(readme, /chmod-only.*not.*sufficient/i);
+  assert.match(readme, /mount parent.*cannot.*write/i);
   assert.doesNotMatch(readme, /--uat-records|--resolutions|--prod-records/);
 });
 
@@ -520,6 +555,7 @@ test('path-filter precedence routes representative build inputs to exact checks'
     ['deploy/en/Dockerfile', ['build:en']],
     ['deploy/zh-CN/Dockerfile', ['build:zh-CN']],
     ['deploy/contracts/release.schema.json', both],
+    ['.dockerignore', both],
     ['scripts/build/write-provenance.mjs', both],
     ['config/applyOverrides.js', both],
     ['migration/dependencies.json', both],

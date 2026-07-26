@@ -52,6 +52,7 @@
       "include": [
         "apps/docs/**",
         "packages/**",
+        ".dockerignore",
         "pnpm-lock.yaml",
         "pnpm-workspace.yaml",
         "package.json",

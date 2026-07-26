@@ -28,9 +28,12 @@ Rollback is a constrained specified-image deployment. The target digest must be 
 The CLI has two non-overlapping filesystem trust domains:
 
 - `--root` is the request root. It contains only the record or rollback request awaiting approval.
-- `VDC_JENKINS_EVIDENCE_ROOT` is the trusted evidence root. It is an external, read-only mount created and permission-controlled by `vdc-jenkins`. Jenkins supplies the root and its fixed `evidence/` directory as mode `0555`, and `evidence/uat-records.json`, `evidence/resolved-images.json`, and `evidence/prod-records.json` as mode `0444`.
+- `VDC_JENKINS_EVIDENCE_ROOT` is the trusted evidence root. It is an external, kernel or container-runtime read-only mount created and permission-controlled by `vdc-jenkins`. Jenkins supplies the root and its fixed `evidence/` directory as mode `0555`, and `evidence/uat-records.json`, `evidence/resolved-images.json`, and `evidence/prod-records.json` as mode `0444`.
+- `VDC_JENKINS_EVIDENCE_PROTECTION=kernel-read-only-mount` is a mandatory external attestation on every approval-verifier invocation. Any other value, including `chmod-only`, fails closed.
 
-Before the verifier starts, `vdc-jenkins` must finish generating or replacing the evidence tree, authenticate registry resolution and release attestations, and remount or chmod the complete tree read-only. The verifier rejects any write bit on the trusted root, its internal ancestors, or the three files. This repository does not own registry credentials, attestation keys, Jenkins Groovy, or the evidence-store permissions. A missing trust root, an overlap with the request root, a failed or pending UAT record, duplicate producer identity, malformed evidence, or request-side lookalike evidence fails closed.
+Before the verifier starts, `vdc-jenkins` must finish generating or replacing the evidence tree, authenticate registry resolution and release attestations, and expose it through a kernel or container-runtime enforced read-only mount. The mount parent cannot allow the verifier process or a concurrent job to write or replace entries. `chmod-only` is not sufficient: modes `0555` and `0444` are defense-in-depth checks after the mandatory external mount attestation. This repository cannot portably inspect mount flags and does not claim to do so; the exact environment value defines the externally attested invocation contract. This repository does not own registry credentials, attestation keys, Jenkins Groovy, or the evidence-store permissions.
+
+The verifier additionally rejects any write bit on the trusted root, its internal ancestors, or the three files. A missing trust root or protection declaration, an overlap with the request root, a failed or pending UAT record, duplicate producer identity, malformed evidence, or request-side lookalike evidence fails closed.
 
 Both roots and every JSON file are read with canonical ancestor checks and `O_NOFOLLOW`. Trusted directories and files are pinned by device, inode, and mode before use, then rechecked before and after descriptor reads. The verifier never contacts a registry or network itself.
 
@@ -42,6 +45,7 @@ node deploy/contracts/verify-image.mjs verify-record \
   --record prod-record.json
 
 VDC_JENKINS_EVIDENCE_ROOT=/run/vdc-jenkins/zdoc-evidence \
+VDC_JENKINS_EVIDENCE_PROTECTION=kernel-read-only-mount \
 node deploy/contracts/verify-image.mjs verify-specified-image \
   --root release-inputs \
   --record prod-record.json
@@ -53,7 +57,7 @@ node deploy/contracts/verify-image.mjs verify-specified-image \
 
 `path-filters.json` describes the minimum validation fan-out used by `vdc-jenkins`. Rules are mutually exclusive and use explicit precedence: canonical English Reference, Chinese Reference translation state, site-owned English, site-owned Chinese, then shared inputs. Multiple matches fail closed.
 
-- Shared application code, packages, lock/workspace files, build/provenance scripts, migration dependency inventories, and the manual registry require both site builds.
+- Shared application code, packages, `.dockerignore`, lock/workspace files, build/provenance scripts, migration dependency inventories, and the manual registry require both site builds.
 - Site-owned content, profiles, sidebars, generated sidebars, and deploy files require only that site's build.
 - Canonical English Reference content, manifests, tooling, translation validation, and Reference scripts require both site builds plus Chinese Reference translation-coverage validation.
 - The Chinese Reference translation manifest and retirement registry require the Chinese build plus translation-coverage validation.
