@@ -28,11 +28,11 @@ Rollback is a constrained specified-image deployment. The target digest must be 
 The CLI has two non-overlapping filesystem trust domains:
 
 - `--root` is the request root. It contains only the record or rollback request awaiting approval.
-- `VDC_JENKINS_EVIDENCE_ROOT` is the trusted evidence root. It is an external, read-only mount created and permission-controlled by `vdc-jenkins`. It contains fixed files named `uat-records.json`, `resolved-images.json`, and `prod-records.json`.
+- `VDC_JENKINS_EVIDENCE_ROOT` is the trusted evidence root. It is an external, read-only mount created and permission-controlled by `vdc-jenkins`. Jenkins supplies the root and its fixed `evidence/` directory as mode `0555`, and `evidence/uat-records.json`, `evidence/resolved-images.json`, and `evidence/prod-records.json` as mode `0444`.
 
-Before invoking the verifier, `vdc-jenkins` must authenticate registry resolution and the release attestations placed in that read-only directory. This repository does not own registry credentials, attestation keys, Jenkins Groovy, or the evidence-store permissions. A missing trust root, an overlap with the request root, a failed or pending UAT record, duplicate producer identity, malformed evidence, or request-side lookalike evidence fails closed.
+Before the verifier starts, `vdc-jenkins` must finish generating or replacing the evidence tree, authenticate registry resolution and release attestations, and remount or chmod the complete tree read-only. The verifier rejects any write bit on the trusted root, its internal ancestors, or the three files. This repository does not own registry credentials, attestation keys, Jenkins Groovy, or the evidence-store permissions. A missing trust root, an overlap with the request root, a failed or pending UAT record, duplicate producer identity, malformed evidence, or request-side lookalike evidence fails closed.
 
-Both roots and every JSON file are read with canonical ancestor checks, `O_NOFOLLOW`, descriptor identity checks, and ancestor revalidation. The verifier never contacts a registry or network itself.
+Both roots and every JSON file are read with canonical ancestor checks and `O_NOFOLLOW`. Trusted directories and files are pinned by device, inode, and mode before use, then rechecked before and after descriptor reads. The verifier never contacts a registry or network itself.
 
 Examples:
 
@@ -51,10 +51,11 @@ node deploy/contracts/verify-image.mjs verify-specified-image \
 
 ## Path filters
 
-`path-filters.json` describes the minimum validation fan-out used by `vdc-jenkins`. Rules use explicit precedence: canonical English Reference, site-owned English, site-owned Chinese, then shared inputs.
+`path-filters.json` describes the minimum validation fan-out used by `vdc-jenkins`. Rules are mutually exclusive and use explicit precedence: canonical English Reference, Chinese Reference translation state, site-owned English, site-owned Chinese, then shared inputs. Multiple matches fail closed.
 
-- Shared application code, packages, lock/workspace files, the manual registry, and shared Reference generator changes require both site checks.
-- Site-owned content, profile, and deploy changes require only that site's checks.
-- Canonical English Reference and shared Reference generator changes require both site builds plus Chinese Reference translation-coverage validation.
+- Shared application code, packages, lock/workspace files, build/provenance scripts, migration dependency inventories, and the manual registry require both site builds.
+- Site-owned content, profiles, sidebars, generated sidebars, and deploy files require only that site's build.
+- Canonical English Reference content, manifests, tooling, translation validation, and Reference scripts require both site builds plus Chinese Reference translation-coverage validation.
+- The Chinese Reference translation manifest and retirement registry require the Chinese build plus translation-coverage validation.
 
 The filters are auditable policy data. Jenkins remains responsible for evaluating them and applying credentials and approvals.

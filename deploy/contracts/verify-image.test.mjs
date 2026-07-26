@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {mkdir, mkdtemp, readFile, realpath, symlink, writeFile} from 'node:fs/promises';
+import {chmod, mkdir, mkdtemp, readFile, realpath, symlink, writeFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -106,9 +106,27 @@ async function writeTrustedEvidence(root, {
   resolutions = {[specifiedImageRequest().operatorImageRef]: ZH_DIGEST},
   prodRecords = [],
 } = {}) {
-  await writeJson(root, 'uat-records.json', uatRecords);
-  await writeJson(root, 'resolved-images.json', resolutions);
-  await writeJson(root, 'prod-records.json', prodRecords);
+  await mkdir(path.join(root, 'evidence'), {recursive: true});
+  await writeJson(root, 'evidence/uat-records.json', uatRecords);
+  await writeJson(root, 'evidence/resolved-images.json', resolutions);
+  await writeJson(root, 'evidence/prod-records.json', prodRecords);
+  await sealTrustedEvidence(root);
+}
+
+async function sealTrustedEvidence(root) {
+  for (const name of ['uat-records.json', 'resolved-images.json', 'prod-records.json']) {
+    await chmod(path.join(root, 'evidence', name), 0o444);
+  }
+  await chmod(path.join(root, 'evidence'), 0o555);
+  await chmod(root, 0o555);
+}
+
+async function unsealTrustedEvidence(root) {
+  await chmod(root, 0o755);
+  await chmod(path.join(root, 'evidence'), 0o755);
+  for (const name of ['uat-records.json', 'resolved-images.json', 'prod-records.json']) {
+    await chmod(path.join(root, 'evidence', name), 0o644);
+  }
 }
 
 test('accepts auditable English and Chinese site identities', async () => {
@@ -321,6 +339,7 @@ test('request-side forged evidence cannot override the trusted Jenkins evidence 
     /successful UAT evidence/,
   );
 
+  await unsealTrustedEvidence(trustRoot);
   await writeTrustedEvidence(trustRoot, {uatRecords: [uatRecord({status: 'succeeded'})]});
   const writes = [];
   await main(['verify-rebuild', '--root', requestRoot, '--record', 'record.json'], {
@@ -366,6 +385,53 @@ test('CLI rollback ignores request-side Prod history and uses trusted history on
   );
 });
 
+test('CLI rejects writable trusted evidence roots and files, then accepts the sealed tree', async () => {
+  const {main} = await loadVerifier();
+  const rootWritable = await makeCliRoots();
+  await writeJson(rootWritable.requestRoot, 'record.json', rebuildRequest());
+  await writeTrustedEvidence(rootWritable.trustRoot);
+  await chmod(rootWritable.trustRoot, 0o755);
+  await assert.rejects(
+    main(['verify-rebuild', '--root', rootWritable.requestRoot, '--record', 'record.json'], {
+      env: {VDC_JENKINS_EVIDENCE_ROOT: rootWritable.trustRoot},
+      write: () => {},
+    }),
+    /trusted evidence root.*read-only|write bits/i,
+  );
+
+  const fileWritable = await makeCliRoots();
+  await writeJson(fileWritable.requestRoot, 'record.json', rebuildRequest());
+  await writeTrustedEvidence(fileWritable.trustRoot);
+  await chmod(path.join(fileWritable.trustRoot, 'evidence/uat-records.json'), 0o644);
+  await assert.rejects(
+    main(['verify-rebuild', '--root', fileWritable.requestRoot, '--record', 'record.json'], {
+      env: {VDC_JENKINS_EVIDENCE_ROOT: fileWritable.trustRoot},
+      write: () => {},
+    }),
+    /trusted.*uat.*read-only|write bits/i,
+  );
+
+  await chmod(path.join(fileWritable.trustRoot, 'evidence/uat-records.json'), 0o444);
+  const writes = [];
+  await main(['verify-rebuild', '--root', fileWritable.requestRoot, '--record', 'record.json'], {
+    env: {VDC_JENKINS_EVIDENCE_ROOT: fileWritable.trustRoot},
+    write: (value) => writes.push(value),
+  });
+  assert.equal(writes.length, 1);
+
+  const ancestorWritable = await makeCliRoots();
+  await writeJson(ancestorWritable.requestRoot, 'record.json', rebuildRequest());
+  await writeTrustedEvidence(ancestorWritable.trustRoot);
+  await chmod(path.join(ancestorWritable.trustRoot, 'evidence'), 0o755);
+  await assert.rejects(
+    main(['verify-rebuild', '--root', ancestorWritable.requestRoot, '--record', 'record.json'], {
+      env: {VDC_JENKINS_EVIDENCE_ROOT: ancestorWritable.trustRoot},
+      write: () => {},
+    }),
+    /trusted.*ancestor.*read-only|write bits/i,
+  );
+});
+
 test('safe JSON reads reject final symlinks beneath either root', async () => {
   const {main} = await loadVerifier();
   const {requestRoot, trustRoot} = await makeCliRoots();
@@ -383,10 +449,15 @@ test('safe JSON reads reject final symlinks beneath either root', async () => {
 
   const second = await makeCliRoots();
   await writeJson(second.requestRoot, 'record.json', rebuildRequest());
+  await mkdir(path.join(second.trustRoot, 'evidence'));
   await writeJson(outside, 'uat-records.json', [uatRecord()]);
-  await writeJson(second.trustRoot, 'resolved-images.json', {});
-  await writeJson(second.trustRoot, 'prod-records.json', []);
-  await symlink(path.join(outside, 'uat-records.json'), path.join(second.trustRoot, 'uat-records.json'));
+  await writeJson(second.trustRoot, 'evidence/resolved-images.json', {});
+  await writeJson(second.trustRoot, 'evidence/prod-records.json', []);
+  await symlink(path.join(outside, 'uat-records.json'), path.join(second.trustRoot, 'evidence/uat-records.json'));
+  await chmod(path.join(second.trustRoot, 'evidence/resolved-images.json'), 0o444);
+  await chmod(path.join(second.trustRoot, 'evidence/prod-records.json'), 0o444);
+  await chmod(path.join(second.trustRoot, 'evidence'), 0o555);
+  await chmod(second.trustRoot, 0o555);
   await assert.rejects(
     main(['verify-rebuild', '--root', second.requestRoot, '--record', 'record.json'], {
       env: {VDC_JENKINS_EVIDENCE_ROOT: second.trustRoot},
@@ -425,16 +496,21 @@ test('README documents the external trust-store ownership and current CLI bounda
   assert.match(readme, /authenticat.*registry/i);
   assert.match(readme, /attestation/i);
   assert.match(readme, /request root/i);
+  assert.match(readme, /0555/);
+  assert.match(readme, /0444/);
+  assert.match(readme, /before.*verifier.*start/i);
   assert.doesNotMatch(readme, /--uat-records|--resolutions|--prod-records/);
 });
 
 test('path-filter precedence routes representative build inputs to exact checks', async () => {
-  const {resolvePathChecks} = await loadVerifier();
+  const {matchingPathFilterRules, resolvePathChecks} = await loadVerifier();
   const filters = JSON.parse(await readFile(new URL('./path-filters.json', import.meta.url), 'utf8'));
   const both = ['build:en', 'build:zh-CN'];
   const cases = [
     ['packages/site-config/src/sites/en.ts', ['build:en']],
     ['packages/site-config/src/sites/zh-CN.ts', ['build:zh-CN']],
+    ['packages/site-config/src/sidebars/en/reference.ts', ['build:en']],
+    ['packages/site-config/src/sidebars/zh-CN/reference.ts', ['build:zh-CN']],
     ['content/en/guide.md', ['build:en']],
     ['content/zh-CN/guide.md', ['build:zh-CN']],
     ['sidebar-overrides/en/guides.json', ['build:en']],
@@ -446,12 +522,22 @@ test('path-filter precedence routes representative build inputs to exact checks'
     ['deploy/contracts/release.schema.json', both],
     ['scripts/build/write-provenance.mjs', both],
     ['config/applyOverrides.js', both],
+    ['migration/dependencies.json', both],
+    ['migration/legacy-files.json', both],
     ['packages/docs-ui/src/index.ts', both],
     ['pnpm-lock.yaml', both],
     ['content/en/reference/api/python/read.md', ['build:en', 'build:zh-CN', 'zh-reference-translation-coverage']],
+    ['generated/en/manifests/reference.json', ['build:en', 'build:zh-CN', 'zh-reference-translation-coverage']],
+    ['generated/zh-CN/manifests/reference-translations.json', ['build:zh-CN', 'zh-reference-translation-coverage']],
+    ['config/reference-retirements.json', ['build:zh-CN', 'zh-reference-translation-coverage']],
     ['packages/docs-tooling/src/reference/translationManifest.ts', ['build:en', 'build:zh-CN', 'zh-reference-translation-coverage']],
+    ['packages/docs-tooling/src/validation/translation.ts', ['build:en', 'build:zh-CN', 'zh-reference-translation-coverage']],
+    ['scripts/reference/generate.mjs', ['build:en', 'build:zh-CN', 'zh-reference-translation-coverage']],
   ];
   for (const [file, checks] of cases) {
     assert.deepEqual(resolvePathChecks(file, filters), checks, file);
+    assert.equal(matchingPathFilterRules(file, filters).length, 1, `${file} must match exactly one rule`);
   }
+  assert.deepEqual(resolvePathChecks('README.md', filters), []);
+  assert.deepEqual(matchingPathFilterRules('README.md', filters), []);
 });

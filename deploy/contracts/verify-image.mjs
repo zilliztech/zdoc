@@ -19,9 +19,9 @@ const COMMON_FIELDS = [
 ];
 const OPTIONAL_FIELDS = ['status'];
 const TRUSTED_EVIDENCE_FILES = Object.freeze({
-  uat: 'uat-records.json',
-  resolutions: 'resolved-images.json',
-  prod: 'prod-records.json',
+  uat: 'evidence/uat-records.json',
+  resolutions: 'evidence/resolved-images.json',
+  prod: 'evidence/prod-records.json',
 });
 
 function fail(message) {
@@ -248,7 +248,14 @@ function assertAllowedOptions(options, allowed) {
 }
 
 function sameIdentity(left, right) {
-  return left.dev === right.dev && left.ino === right.ino && left.size === right.size;
+  return left.dev === right.dev && left.ino === right.ino
+    && left.mode === right.mode && left.size === right.size;
+}
+
+function requireReadOnly(stats, label) {
+  if ((stats.mode & 0o222) !== 0) {
+    fail(`${label} must be read-only without write bits`);
+  }
 }
 
 async function pinDirectory(directory, label) {
@@ -256,7 +263,7 @@ async function pinDirectory(directory, label) {
   if (stats.isSymbolicLink() || !stats.isDirectory() || await realpath(directory) !== directory) {
     fail(`${label} must be a canonical real directory`);
   }
-  return {path: directory, dev: stats.dev, ino: stats.ino};
+  return {path: directory, dev: stats.dev, ino: stats.ino, mode: stats.mode};
 }
 
 async function pinRoot(directory, label) {
@@ -283,6 +290,7 @@ async function verifyAncestorChain(ancestors, label) {
     }
     if (stats.isSymbolicLink() || !stats.isDirectory()
       || stats.dev !== identity.dev || stats.ino !== identity.ino
+      || stats.mode !== identity.mode
       || await realpath(identity.path) !== identity.path) {
       fail(`${label} ancestor identity changed`);
     }
@@ -348,6 +356,40 @@ async function readJsonUnderPinnedRoot(root, relativePath, label) {
   }
 }
 
+async function inspectTrustedFile(root, relativePath, label) {
+  const pinned = await pinFile(root, relativePath, label);
+  for (const ancestor of pinned.ancestors) requireReadOnly(ancestor, `${label} ancestor`);
+  await verifyAncestorChain(pinned.ancestors, label);
+  let handle;
+  try {
+    handle = await open(pinned.target, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+    const before = await handle.stat();
+    if (!before.isFile()) fail(`${label} must be a regular non-symlink file`);
+    requireReadOnly(before, label);
+    await verifyAncestorChain(pinned.ancestors, label);
+    const after = await handle.stat();
+    if (!sameIdentity(before, after)) fail(`${label} identity changed during trusted-tree inspection`);
+    await verifyAncestorChain(pinned.ancestors, label);
+    return {dev: before.dev, ino: before.ino, mode: before.mode, size: before.size};
+  } catch (error) {
+    if (error.code === 'ELOOP') fail(`${label} must be a regular non-symlink file`);
+    throw error;
+  } finally {
+    if (handle) await handle.close();
+  }
+}
+
+async function inspectTrustedEvidenceTree(root) {
+  for (const ancestor of root.ancestors) requireReadOnly(ancestor, 'trusted evidence root');
+  await verifyAncestorChain(root.ancestors, 'trusted evidence root');
+  const identities = new Map();
+  for (const [kind, relativePath] of Object.entries(TRUSTED_EVIDENCE_FILES)) {
+    identities.set(relativePath, await inspectTrustedFile(root, relativePath, `trusted ${kind} evidence`));
+  }
+  await verifyAncestorChain(root.ancestors, 'trusted evidence root');
+  return identities;
+}
+
 function rootsOverlap(left, right) {
   const relation = path.relative(left, right);
   const reverse = path.relative(right, left);
@@ -355,11 +397,41 @@ function rootsOverlap(left, right) {
   return inside(relation) || inside(reverse);
 }
 
-function filesystemTrustedEvidenceProvider(root) {
+function filesystemTrustedEvidenceProvider(root, identities) {
+  const readTrustedJson = async (relativePath, label) => {
+    const pinned = await pinFile(root, relativePath, label);
+    for (const ancestor of pinned.ancestors) requireReadOnly(ancestor, `${label} ancestor`);
+    await verifyAncestorChain(pinned.ancestors, label);
+    let handle;
+    try {
+      handle = await open(pinned.target, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+      const before = await handle.stat();
+      if (!before.isFile()) fail(`${label} must be a regular non-symlink file`);
+      requireReadOnly(before, label);
+      if (!sameIdentity(before, identities.get(relativePath))) {
+        fail(`${label} identity changed after trusted-tree inspection`);
+      }
+      await verifyAncestorChain(pinned.ancestors, label);
+      const bytes = await handle.readFile();
+      const after = await handle.stat();
+      if (!sameIdentity(before, after)) fail(`${label} identity changed while reading`);
+      await verifyAncestorChain(pinned.ancestors, label);
+      try {
+        return JSON.parse(bytes.toString('utf8'));
+      } catch (error) {
+        fail(`${label} must be valid JSON: ${error.message}`);
+      }
+    } catch (error) {
+      if (error.code === 'ELOOP') fail(`${label} must be a regular non-symlink file`);
+      throw error;
+    } finally {
+      if (handle) await handle.close();
+    }
+  };
   return {
-    getAuthenticatedUatRecords: () => readJsonUnderPinnedRoot(root, TRUSTED_EVIDENCE_FILES.uat, 'authenticated UAT records'),
+    getAuthenticatedUatRecords: () => readTrustedJson(TRUSTED_EVIDENCE_FILES.uat, 'authenticated UAT records'),
     resolveImageReference: async (reference) => {
-      const resolutions = await readJsonUnderPinnedRoot(root, TRUSTED_EVIDENCE_FILES.resolutions, 'trusted image resolutions');
+      const resolutions = await readTrustedJson(TRUSTED_EVIDENCE_FILES.resolutions, 'trusted image resolutions');
       if (!resolutions || typeof resolutions !== 'object' || Array.isArray(resolutions)) {
         fail('trusted image resolutions must be an object');
       }
@@ -370,7 +442,7 @@ function filesystemTrustedEvidenceProvider(root) {
       }
       return Object.hasOwn(resolutions, reference) ? resolutions[reference] : undefined;
     },
-    getSuccessfulProdRecords: () => readJsonUnderPinnedRoot(root, TRUSTED_EVIDENCE_FILES.prod, 'successful Prod records'),
+    getSuccessfulProdRecords: () => readTrustedJson(TRUSTED_EVIDENCE_FILES.prod, 'successful Prod records'),
   };
 }
 
@@ -387,9 +459,10 @@ async function cliRoots(options, dependencies, requireTrust) {
   if (rootsOverlap(requestRoot.path, evidenceRoot.path)) {
     fail('request root and trusted evidence root must not overlap');
   }
+  const identities = await inspectTrustedEvidenceTree(evidenceRoot);
   return {
     requestRoot,
-    provider: filesystemTrustedEvidenceProvider(evidenceRoot),
+    provider: filesystemTrustedEvidenceProvider(evidenceRoot, identities),
   };
 }
 
@@ -401,12 +474,13 @@ function patternMatches(relativePath, pattern) {
   return relativePath === pattern;
 }
 
-export function resolvePathChecks(relativePath, filters) {
+export function matchingPathFilterRules(relativePath, filters) {
   requireSafeRelativePath(relativePath, 'changed file');
   if (!filters || typeof filters !== 'object' || !Array.isArray(filters.precedence)
     || !filters.rules || typeof filters.rules !== 'object') {
     fail('path filters must define precedence and rules');
   }
+  const matches = [];
   for (const ruleId of filters.precedence) {
     const rule = filters.rules[ruleId];
     if (!rule || !Array.isArray(rule.include) || !Array.isArray(rule.checks)) {
@@ -414,9 +488,17 @@ export function resolvePathChecks(relativePath, filters) {
     }
     const included = rule.include.some((pattern) => patternMatches(relativePath, pattern));
     const excluded = (rule.exclude ?? []).some((pattern) => patternMatches(relativePath, pattern));
-    if (included && !excluded) return [...rule.checks];
+    if (included && !excluded) matches.push(ruleId);
   }
-  return [];
+  return matches;
+}
+
+export function resolvePathChecks(relativePath, filters) {
+  const matches = matchingPathFilterRules(relativePath, filters);
+  if (matches.length > 1) {
+    fail(`changed file matches multiple path filter rules: ${relativePath}: ${matches.join(', ')}`);
+  }
+  return matches.length === 0 ? [] : [...filters.rules[matches[0]].checks];
 }
 
 export async function main(argv, dependencies = {}) {

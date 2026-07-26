@@ -1,7 +1,8 @@
 {
-  "version": 2,
+  "version": 3,
   "precedence": [
     "canonicalEnglishReference",
+    "zhReferenceTranslation",
     "siteOwned.en",
     "siteOwned.zh-CN",
     "shared"
@@ -11,24 +12,36 @@
       "include": [
         "content/en/reference/**",
         "generated/en/manifests/reference.json",
-        "packages/docs-tooling/src/reference/**"
+        "packages/docs-tooling/src/reference/**",
+        "packages/docs-tooling/src/validation/translation.ts",
+        "scripts/reference/**"
       ],
       "checks": ["build:en", "build:zh-CN", "zh-reference-translation-coverage"]
+    },
+    "zhReferenceTranslation": {
+      "include": [
+        "generated/zh-CN/manifests/reference-translations.json",
+        "config/reference-retirements.json"
+      ],
+      "checks": ["build:zh-CN", "zh-reference-translation-coverage"]
     },
     "siteOwned.en": {
       "include": [
         "content/en/**",
         "packages/site-config/src/sites/en.ts",
+        "packages/site-config/src/sidebars/en/**",
         "sidebar-overrides/en/**",
         "generated/en/sidebars/**",
         "deploy/en/**"
       ],
+      "exclude": ["content/en/reference/**"],
       "checks": ["build:en"]
     },
     "siteOwned.zh-CN": {
       "include": [
         "content/zh-CN/**",
         "packages/site-config/src/sites/zh-CN.ts",
+        "packages/site-config/src/sidebars/zh-CN/**",
         "sidebar-overrides/zh-CN/**",
         "generated/zh-CN/sidebars/**",
         "deploy/zh-CN/**"
@@ -45,12 +58,17 @@
         "deploy/contracts/**",
         "config/lark-docs.config.ts",
         "config/applyOverrides.js",
-        "scripts/build/**",
-        "scripts/reference/**"
+        "migration/dependencies.json",
+        "migration/legacy-files.json",
+        "scripts/build/**"
       ],
       "exclude": [
         "packages/site-config/src/sites/en.ts",
-        "packages/site-config/src/sites/zh-CN.ts"
+        "packages/site-config/src/sites/zh-CN.ts",
+        "packages/site-config/src/sidebars/en/**",
+        "packages/site-config/src/sidebars/zh-CN/**",
+        "packages/docs-tooling/src/reference/**",
+        "packages/docs-tooling/src/validation/translation.ts"
       ],
       "checks": ["build:en", "build:zh-CN"]
     }
