@@ -238,7 +238,13 @@ describe('createDocusaurusConfig', () => {
     ) as [string, {createRedirects(path: string): string[] | undefined}];
 
     expect(config.staticDirectories?.map(String).join('|')).toMatch(/static\/shared.*static\/en/);
-    expect(config.themeConfig).toMatchObject({navbar: {items: [{label: 'Guides', to: '/docs'}, {label: 'Company', href: 'https://example.com'}]}});
+    expect(config.themeConfig).toMatchObject({
+      navbar: {
+        title: '',
+        logo: {alt: 'Zilliz Logo', src: '/img/logo.svg', href: 'https://zilliz.com'},
+        items: [{label: 'Guides', to: '/docs'}, {label: 'Company', href: 'https://example.com'}],
+      },
+    });
     expect(config.customFields).toMatchObject({
       integrations: {
         searchProvider: 'search-one',

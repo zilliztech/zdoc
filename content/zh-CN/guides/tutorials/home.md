@@ -1,6 +1,7 @@
 ---
 title: "首页 | Cloud"
 slug: /home
+displayed_sidebar: default
 sidebar_key: home
 sidebar_label: "首页"
 added_since: FALSE

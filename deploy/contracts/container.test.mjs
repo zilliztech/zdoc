@@ -66,6 +66,14 @@ function dockerInstructions(contents) {
     .filter(line => line && !line.startsWith('#'));
 }
 
+function finalDockerStage(contents) {
+  const instructions = dockerInstructions(contents);
+  const finalFrom = instructions.map((instruction, index) =>
+    instruction.startsWith('FROM ') ? index : -1).filter(index => index >= 0).at(-1);
+  assert.notEqual(finalFrom, undefined, 'Dockerfile must declare a final stage');
+  return instructions.slice(finalFrom);
+}
+
 function localCopySources(contents) {
   return dockerInstructions(contents).flatMap(line => {
     const tokens = line.split(/\s+/u);
@@ -134,6 +142,18 @@ for (const site of ['en', 'zh-CN']) {
     assert.match(contents, new RegExp(`${labelNames.site}=\\\"\\$\\{ZDOC_SITE\\}\\\"`));
     assert.match(contents, new RegExp(`${labelNames.jenkinsBuildId}=\\\"\\$\\{JENKINS_BUILD_ID\\}\\\"`));
   });
+
+  test(`${site} runtime stage contains only nginx, site output, and required runtime configuration`, () => {
+    const runtime = finalDockerStage(dockerfile(site));
+    assert.equal(runtime[0], 'FROM nginx:1.28-alpine');
+    assert.equal(runtime.filter(instruction => instruction.startsWith('FROM ')).length, 1);
+    assert.equal(runtime.filter(instruction => instruction.startsWith('COPY --from=build ')).length, 1);
+    assert.ok(runtime.includes(`COPY --from=build /app/build/${site}/ /usr/share/nginx/html/`));
+    assert.ok(runtime.includes(`COPY deploy/${site}/nginx.conf /etc/nginx/conf.d/default.conf`));
+    assert.ok(runtime.includes('COPY --chmod=755 deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh'));
+    assert.equal(runtime.filter(instruction => instruction.startsWith('COPY ')).length, 3);
+    assert.doesNotMatch(runtime.join('\n'), /(?:node|pnpm|npm|yarn|node_modules|package\.json|pnpm-lock|COPY \.)/i);
+  });
 }
 
 test('the image-label schema defines the complete inspectable label contract', () => {
@@ -189,6 +209,13 @@ test('Chinese chat uses the same-site API proxy required by the frontend endpoin
   assert.match(nginx, /chat-proxy\.zdocs\.svc\.cluster\.local:9000/);
 });
 
+test('Chinese nginx redirects retired standalone Agents routes to translated Guides pages', () => {
+  const nginx = read('deploy/zh-CN/nginx.conf');
+  assert.match(nginx, /location\s+=\s+\/docs\/agents\s*\{[\s\S]*?return\s+301\s+\/docs\/agents-and-prompts;/);
+  assert.match(nginx, /location\s+~\s+\^\/docs\/agents\/\(\.\+\)\$\s*\{[\s\S]*?return\s+301\s+\/docs\/\$1;/);
+  assert.doesNotMatch(nginx, /return\s+301\s+\$scheme:\/\/\$host\/agents\$1;/);
+});
+
 test('both site-owned images route chat directly to the private agent runtime', () => {
   const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
   assert.match(entrypoint, /upstream docs_agent\s*\{/);
@@ -219,11 +246,17 @@ test('the Docker context excludes generated and mutable repository state', () =>
   assert.ok(entries.includes('build'), 'build output must not enter a clean image build context');
   assert.ok(entries.includes('.git'), 'mutable Git state must not enter a clean image build context');
   assert.ok(entries.includes('node_modules'), 'host dependencies must not enter the image build context');
+  assert.ok(entries.includes('**/node_modules'), 'nested workspace dependencies must not enter the image build context');
+  assert.ok(entries.includes('**/.docusaurus'), 'nested Docusaurus caches must not enter the image build context');
+  assert.ok(entries.includes('tmp'), 'temporary publication state must not enter the image build context');
   assert.ok(!entries.includes('deploy'), 'site-owned packaging must remain in the image build context');
   for (const sensitive of ['.env.*', '.npmrc', '*.pem', '*.key']) {
     assert.ok(entries.includes(sensitive), `missing sensitive-input exclusion: ${sensitive}`);
   }
   for (const ignored of ['chat-proxy/package.json', '.env.production', 'secrets/tls.pem', 'private/signing.key']) {
     assert.equal(isIgnored(ignored), true, `dockerignore matcher did not exclude: ${ignored}`);
+  }
+  for (const ignored of ['apps/docs/node_modules/.cache/webpack/client-production/0.pack', 'apps/docs/.docusaurus/client-manifest.json', 'tmp/docs-tooling/en/staging.json']) {
+    assert.equal(isIgnored(ignored), true, `dockerignore matcher did not exclude nested generated state: ${ignored}`);
   }
 });

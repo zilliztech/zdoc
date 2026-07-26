@@ -13,13 +13,13 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
       id: 'default',
       sourcePath: 'content/en/guides',
       routeBasePath: 'docs',
-      sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
+      sidebarPath: 'packages/site-config/src/sidebars/en/guides.legacy.ts',
     },
     {
       id: 'byoc',
       sourcePath: 'content/en/byoc',
       routeBasePath: 'docs/byoc',
-      sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js',
+      sidebarPath: 'packages/site-config/src/sidebars/en/byoc.legacy.ts',
     },
     {
       id: 'reference',

@@ -1,3 +1,5 @@
+import {readFileSync} from 'node:fs';
+import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 
 import {resolveSiteProfile} from './resolve';
@@ -40,13 +42,13 @@ describe('site profile resolution', () => {
         id: 'default',
         sourcePath: 'content/en/guides',
         routeBasePath: 'docs',
-        sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
+        sidebarPath: 'packages/site-config/src/sidebars/en/guides.legacy.ts',
       },
       {
         id: 'byoc',
         sourcePath: 'content/en/byoc',
         routeBasePath: 'docs/byoc',
-        sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js',
+        sidebarPath: 'packages/site-config/src/sidebars/en/byoc.legacy.ts',
       },
       {
         id: 'reference',
@@ -57,7 +59,7 @@ describe('site profile resolution', () => {
     ]);
   });
 
-  it('registers the five independent Chinese product roots without Docusaurus content i18n', () => {
+  it('publishes translated Tools through Chinese Guides without a standalone Agents root', () => {
     expect(zhCNProfile.content).toEqual([
       {
         id: 'default',
@@ -80,18 +82,13 @@ describe('site profile resolution', () => {
         currentVersionPath: 'v2.4.11',
       },
       {
-        id: 'agents',
-        sourcePath: 'content/zh-CN/agents',
-        routeBasePath: 'docs/agents',
-        sidebarPath: 'packages/site-config/src/sidebars/zh-CN/agents.ts',
-      },
-      {
         id: 'reference',
         sourcePath: 'content/zh-CN/reference',
         routeBasePath: 'reference',
         sidebarPath: 'packages/site-config/src/sidebars/zh-CN/reference.ts',
       },
     ]);
+    expect(zhCNProfile.features.agents).toBe(false);
     expect(zhCNProfile.content.every(plugin => !plugin.sourcePath.startsWith('i18n/'))).toBe(true);
   });
 
@@ -203,6 +200,29 @@ describe('site-owned navigation', () => {
       ],
     });
     expect(result.success).toBe(true);
+  });
+
+  it('publishes the Chinese product navigation through the shared navigation shell', () => {
+    expect(zhCNProfile.navigation.secondaryItems.map(item => item.label)).toEqual([
+      'Cloud 开发指南',
+      'BYOC 开发指南',
+      'API & SDK',
+      'CLI',
+      '版本文档',
+    ]);
+    expect(zhCNProfile.navigation.secondaryItems.find(item => item.label === 'API & SDK')?.items)
+      .toEqual(expect.arrayContaining([
+        expect.objectContaining({label: 'Python SDK', href: '/reference/python'}),
+        expect.objectContaining({label: 'RESTful API', href: '/reference/restful'}),
+      ]));
+  });
+
+  it('attaches the preserved Chinese home page to the default sidebar', () => {
+    const home = readFileSync(
+      path.join(process.cwd(), 'content/zh-CN/guides/tutorials/home.md'),
+      'utf8',
+    );
+    expect(home).toMatch(/^displayed_sidebar: default$/m);
   });
 });
 

@@ -179,7 +179,15 @@ export function createDocusaurusConfig(
       ? [{tagName: 'script', attributes: {src: '/env.js'}}]
       : [],
     themeConfig: {
-      navbar: {items: profile.navigation.items.map(item => ({...item}))},
+      navbar: {
+        title: '',
+        logo: {
+          alt: 'Zilliz Logo',
+          src: '/img/logo.svg',
+          href: 'https://zilliz.com',
+        },
+        items: profile.navigation.items.map(item => ({...item})),
+      },
     },
     customFields: {
       site: profile.id,

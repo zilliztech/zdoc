@@ -1,6 +1,9 @@
 node_modules
+**/node_modules
 .docusaurus
+**/.docusaurus
 build
+tmp
 .env
 .env.*
 .npmrc
@@ -15,3 +18,5 @@ chat-proxy
 .qwen
 test-results
 playwright-report
+.playwright-cli
+.translation-cache
