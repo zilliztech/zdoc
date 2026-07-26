@@ -83,7 +83,7 @@ describe('createDocusaurusConfig', () => {
     ]);
     expect(config.future).toMatchObject({
       v4: true,
-      faster: {rspackBundler: false, rspackPersistentCache: false, mdxCrossCompilerCache: true},
+      faster: {rspackBundler: false, rspackPersistentCache: false, mdxCrossCompilerCache: false},
     });
   });
 

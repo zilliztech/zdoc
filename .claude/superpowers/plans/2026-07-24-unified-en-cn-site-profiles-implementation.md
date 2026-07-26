@@ -617,7 +617,7 @@ Expected: FAIL because adapters are not implemented.
 
 Register stable IDs `zh-CN.markdown-normalizer`, `zh-CN.rest-replacements`, and `zh-CN.aliyun-oss`. Keep storage I/O behind an injected interface so unit tests use an in-memory fake and builds require no network.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run:
 
@@ -851,7 +851,7 @@ pnpm build:zh-CN
 
 Expected: all tests and builds pass.
 
-Validation note: all 35 release/container contract tests pass, the English workspace build completes, and a clean-context Chinese Docker build completes with the explicit 4 GiB Node heap. The Chinese workspace command still exits with Docusaurus status 13 immediately after client compilation on this worktree under both host Node `v26.3.0` and Homebrew Node `v22.22.3`, while the same Node 22 build completes in Docker; keep this step open pending isolation of that host-only process-state difference.
+Validation note (2026-07-26): all 35 release/container contract tests pass, followed by successful `pnpm build:en` and `pnpm build:zh-CN` runs in the ordinary host Terminal under Node `v26.3.0`. The prior Chinese status 13 was isolated to Docusaurus `mdxCrossCompilerCache`: with the cache enabled, the server compiler promise could remain unsettled after the client compiler completed; disabling only that cache preserves the SWC/HTML/CSS acceleration paths and makes both Node 22 and Node 26 workspace builds complete. Existing broken-link, broken-anchor, and one-page HTML-minifier diagnostics remain non-blocking warnings.
 
 ```bash
 git add deploy/contracts

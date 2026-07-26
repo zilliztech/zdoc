@@ -135,7 +135,7 @@ export function createDocusaurusConfig(
         lightningCssMinimizer: true,
         rspackBundler: false,
         rspackPersistentCache: false,
-        mdxCrossCompilerCache: true,
+        mdxCrossCompilerCache: false,
       },
     },
     staticDirectories: profile.staticRoots.map(repositoryPath),
