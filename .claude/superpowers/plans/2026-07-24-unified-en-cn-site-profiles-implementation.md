@@ -664,7 +664,7 @@ Run:
 
 ```bash
 pnpm build:zh-CN
-node scripts/migration/capture-routes.mjs --build build/zh-CN --output migration/reports/routes-zh-CN-replacement.json
+node scripts/migration/capture-routes.mjs --build build/zh-CN --output migration/reports/routes-zh-CN-replacement.json --site zh-CN
 node scripts/migration/compare-routes.mjs --legacy migration/reports/routes-zh-CN-legacy.json --replacement migration/reports/routes-zh-CN-replacement.json --approved migration/approved-differences.json --site zh-CN
 pnpm build:en
 ```
