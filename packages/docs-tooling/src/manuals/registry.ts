@@ -202,6 +202,7 @@ function publication(
   sidebar: string,
   generatorTarget: ManualPublication['generatorTarget'] = 'zilliz',
   retiredPaths?: string[],
+  preservedFiles?: string[],
 ): ManualPublication {
   return {
     enabled: true,
@@ -213,21 +214,11 @@ function publication(
     overridePath: `sidebar-overrides/${site}/${sidebar}.json`,
     missingContent: 'error',
     ...(retiredPaths ? {retiredPaths} : {}),
+    ...(preservedFiles ? {preservedFiles} : {}),
   };
 }
 
 const definitions: ManualDefinition[] = [
-  {
-    id: 'agents',
-    kind: 'agents',
-    sources: {
-      chinese: remote('wiki', 'R8ZwwvHrJivIAyk8JkQchM0Anng', 'YxSibAMZ4aDqhjs5Ru4clmrun4f', 'agents-and-prompts', 'agents'),
-    },
-    sourceOrder: ['chinese'],
-    publications: {
-      'zh-CN': publication('zh-CN', 'chinese', 'agents', 'agents', 'agents'),
-    },
-  },
   {
     id: 'cli',
     kind: 'reference',
@@ -268,8 +259,8 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english', 'chinese'],
     publications: {
-      en: publication('en', 'english', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas'),
-      'zh-CN': publication('zh-CN', 'chinese', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas'),
+      en: publication('en', 'english', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas', undefined, ['home.md']),
+      'zh-CN': publication('zh-CN', 'chinese', 'guides/tutorials', 'guides', 'guides', 'zilliz.saas', undefined, ['home.md']),
     },
   },
   {

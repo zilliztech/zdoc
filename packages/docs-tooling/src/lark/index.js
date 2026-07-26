@@ -786,7 +786,7 @@ function larkDocsPlugin(context, options) {
                             ? new docWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.linkShim, mediaResolver)
                             : new driveWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.manual)
                         console.log('Generating sidebar from existing sources...')
-                        const sidebarItems = await writer.generate_sidebar(outputDir, outputDir.split('/')[0])
+                        const sidebarItems = await writer.generate_sidebar(outputDir, contentRoot || outputDir.split('/')[0])
                         const sidebarDir = require('node:path').dirname(effectiveSidebarPath)
                         if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, { recursive: true })
                         fs.writeFileSync(effectiveSidebarPath, `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`)
@@ -948,7 +948,7 @@ function larkDocsPlugin(context, options) {
                                     (sourcePlan.removed_records || []).length > 0
                                 if (effectiveSidebarPath && !opts.skipSidebar && shouldUpdateSidebar) {
                                     console.log('Generating sidebar...')
-                                    const sidebarItems = await writer.generate_sidebar(outputDir, outputDir.split('/')[0])
+                                    const sidebarItems = await writer.generate_sidebar(outputDir, contentRoot || outputDir.split('/')[0])
                                     const sidebarDir = require('node:path').dirname(effectiveSidebarPath)
                                     if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, { recursive: true })
                                     fs.writeFileSync(effectiveSidebarPath, `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`)

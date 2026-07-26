@@ -39,6 +39,19 @@ function manual(overrides: Partial<ManualDefinition> = {}): ManualDefinition {
 }
 
 describe('manual registry contract', () => {
+  it('publishes translated Tools through Guides instead of a standalone Agents manual', () => {
+    expect(manualRegistry.some(candidate => candidate.id === 'agents')).toBe(false);
+
+    const guides = resolveManualPublication('guides', 'zh-CN');
+    expect(guides.source).toMatchObject({
+      sourceType: 'wiki',
+      root: 'XyeFwdx6kiK9A6kq3yIcLNdEnDd',
+      base: 'I6YUb1M0JajHrqsJGcLcZNh7neP:*',
+      generatorManual: 'guides',
+    });
+    expect(guides.publication.outputDir).toBe('content/zh-CN/guides/tutorials');
+  });
+
   it('resolves active publication fallback chains in deterministic earliest-to-active order', () => {
     const expectations = {
       python: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0'],
@@ -75,6 +88,8 @@ describe('manual registry contract', () => {
     expect(resolveManualPublication('python', 'en').publication.generatorTarget).toBe('zilliz');
     expect(resolveManualPublication('guides', 'en').publication.generatorTarget).toBe('zilliz.saas');
     expect(resolveManualPublication('guides-byoc', 'en').publication.generatorTarget).toBe('zilliz.paas');
+    expect(resolveManualPublication('guides', 'en').publication.preservedFiles).toEqual(['home.md']);
+    expect(resolveManualPublication('guides', 'zh-CN').publication.preservedFiles).toEqual(['home.md']);
   });
 
   it('retains verified archival source identities without making them implicit fallbacks', () => {

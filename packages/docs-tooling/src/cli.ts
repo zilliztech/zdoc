@@ -454,6 +454,23 @@ function stageExistingSidebar(context: CommandContext): void {
   copyFileSync(sourcePath, staged);
 }
 
+function stagePreservedPublicationFiles(context: CommandContext): void {
+  const outputPath = publicationStagePaths(context).outputPath;
+  for (const relativePath of context.publication.preservedFiles ?? []) {
+    const sourcePath = resolveOwnedRepositoryPath(
+      context.repositoryRoot,
+      `${context.publication.outputDir}/${relativePath}`,
+      'Preserved publication source',
+    );
+    if (!existsSync(sourcePath) || !lstatSync(sourcePath).isFile()) {
+      throw new Error(`Preserved publication file is missing or is not a regular file: ${context.publication.outputDir}/${relativePath}`);
+    }
+    const targetPath = resolveOwnedRepositoryPath(outputPath, relativePath, 'Preserved staged publication file');
+    mkdirSync(path.dirname(targetPath), {recursive: true});
+    copyFileSync(sourcePath, targetPath);
+  }
+}
+
 function diagnosticsIdentity(context: CommandContext): PublicationDiagnosticsIdentity {
   return {
     site: context.request.site,
@@ -770,6 +787,7 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
     if (publicationDiagnostics) {
       writePublicationDiagnostics(repositoryRoot, stagePath, publicationDiagnostics);
       writePublicationAnchor(repositoryRoot, diagnosticsIdentity(fetchContext), publicationDiagnostics);
+      stagePreservedPublicationFiles(fetchContext);
     }
     if (dependencies.fetch) await dependencies.fetch(fetchContext);
     else await defaultFetch(fetchContext, dependencies.spawnSync ?? nodeSpawnSync, environment);

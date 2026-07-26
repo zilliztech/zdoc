@@ -52,6 +52,7 @@ test('recent source-only delta plans still fully render empty SaaS and PaaS stag
   const sourceTokenFetches = []
   const fullWrites = []
   const subtreeWrites = []
+  const sidebarCalls = []
   let fullSourceFetchCalls = 0
   let failingTarget = null
   let sourcePlan = {
@@ -117,7 +118,8 @@ test('recent source-only delta plans still fully render empty SaaS and PaaS stag
       fs.writeFileSync(path.join(outputDir, `${token}.md`), `# ${token}\n`)
     }
 
-    async generate_sidebar() {
+    async generate_sidebar(outputDir, contentRoot) {
+      sidebarCalls.push([this.target, outputDir, contentRoot])
       return [{type: 'doc', id: `${this.target}-shared`}]
     }
 
@@ -237,9 +239,22 @@ test('recent source-only delta plans still fully render empty SaaS and PaaS stag
     assert.deepEqual(seenTargets, ['zilliz.saas', 'zilliz.paas'])
     assert.deepEqual(fullWrites, ['zilliz.saas', 'zilliz.paas'])
     assert.deepEqual(subtreeWrites, [])
+    assert.deepEqual(sidebarCalls.slice(0, 2), [
+      ['zilliz.saas', 'tmp/docs-tooling/en/guides/content/en/guides/tutorials', 'tmp/docs-tooling/en/guides/content/en/guides'],
+      ['zilliz.paas', 'tmp/docs-tooling/en/guides-byoc/content/en/byoc/tutorials', 'tmp/docs-tooling/en/guides-byoc/content/en/byoc'],
+    ])
     assert.equal(completenessSnapshots.length, 3)
     assert.equal(new Set(completenessSnapshots).size, 1)
     assert.match(completenessSnapshots[0], /packages\/docs-tooling\/src\/lark\/meta\/sources\/guides$/)
+
+    const writesBeforeSidebarOnly = fullWrites.length
+    await run([...saasArgs, '--sidebar-only'])
+    assert.equal(fullWrites.length, writesBeforeSidebarOnly)
+    assert.deepEqual(sidebarCalls.at(-1), [
+      'zilliz.saas',
+      'tmp/docs-tooling/en/guides/content/en/guides/tutorials',
+      'tmp/docs-tooling/en/guides/content/en/guides',
+    ])
 
     sourcePlan = {
       ...sourcePlan,

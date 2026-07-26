@@ -133,6 +133,28 @@ describe('stage filesystem validation', () => {
 });
 
 describe('docs-tooling CLI boundary', () => {
+  it('seeds declared site-owned Guides files into a clean publication stage before rendering', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/en/guides/tutorials');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'home.md'), '# Site-owned home\n');
+    const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
+      const paths = publicationStagePaths(context);
+      expect(readFileSync(path.join(paths.outputPath, 'home.md'), 'utf8')).toBe('# Site-owned home\n');
+      writeFileSync(path.join(paths.outputPath, 'generated.md'), '# Generated\n');
+      mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
+      writeFileSync(paths.sidebarPath, 'module.exports = []\n');
+    };
+
+    await executeDocsToolingCommand(
+      ['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
+      {repositoryRoot, fetch},
+    );
+
+    expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/home.md'), 'utf8'))
+      .toBe('# Site-owned home\n');
+  });
+
   it('uses the selected Chinese adapters for staged Markdown and validates Aliyun through injection', async () => {
     const repositoryRoot = temporaryRoot();
     const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
@@ -610,6 +632,9 @@ describe('docs-tooling CLI boundary', () => {
 
   it('renders SaaS and BYOC from one shared Guides source and snapshot identity', async () => {
     const repositoryRoot = temporaryRoot();
+    const guidesOutput = path.join(repositoryRoot, 'content/en/guides/tutorials');
+    mkdirSync(guidesOutput, {recursive: true});
+    writeFileSync(path.join(guidesOutput, 'home.md'), '# Home\n');
     const calls: string[][] = [];
     const spawnSync = vi.fn((_command: string, args: readonly string[]) => {
       calls.push([...args]);
@@ -657,6 +682,9 @@ describe('docs-tooling CLI boundary', () => {
 
   it('stops a Guides clean run when the shared source fetch fails before either render', async () => {
     const repositoryRoot = temporaryRoot();
+    const guidesOutput = path.join(repositoryRoot, 'content/en/guides/tutorials');
+    mkdirSync(guidesOutput, {recursive: true});
+    writeFileSync(path.join(guidesOutput, 'home.md'), '# Home\n');
     const spawnSync = vi.fn((_command: string, _args: readonly string[]) => ({status: 9}));
 
     await expect(executeDocsToolingCommand(

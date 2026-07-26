@@ -50,6 +50,7 @@ function parseArgs(argv) {
     .option('--snapshot-candidate <path>')
     .option('--force-full-fetch')
     .option('--reuse-source')
+    .option('--sidebar-only')
   program.parse(argv, {from: 'user'})
   const options = program.opts()
   if (!['en', 'zh-CN'].includes(options.site)) throw new Error(`Unsupported site: ${options.site}`)
@@ -152,6 +153,7 @@ function runtimeInvocation(options) {
       '--snapshotPath', options.snapshotPath,
       ...(options.reuseSource ? ['--skipSourceDown'] : []),
       ...(options.forceFullFetch ? ['--forceFullFetch'] : []),
+      ...(options.sidebarOnly ? ['--sidebarOnly'] : []),
     ],
   }
 }
