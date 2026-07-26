@@ -42,7 +42,7 @@ const profile = Object.freeze({
     byoc: false, onpremise: false, agents: false, referenceKinds: [],
   },
   markdown: {remarkPlugins: [], rehypePlugins: []},
-  integrations: {}, staticRoots: [], redirects: {rules: []}, robots: {index: true},
+  integrations: {}, publicationAdapters: [], staticRoots: [], redirects: {rules: []}, robots: {index: true},
 });
 
 const zhProfile = Object.freeze({
@@ -260,6 +260,43 @@ test('truthfully records a dirty working tree without timestamps', () => {
   const {manifest} = run(root);
   assert.equal(manifest.workingTree, 'dirty');
   assert.equal(JSON.stringify(manifest).includes('timestamp'), false);
+});
+
+test('external container snapshots are explicit, fail closed, and do not require Git metadata', () => {
+  const root = fixture();
+  fs.rmSync(path.join(root, '.git'), {recursive: true});
+
+  assert.throws(() => run(root), /git|snapshot|provenance commit/i);
+  assert.throws(() => run(root, {
+    environment: {ZDOC_PROVENANCE_WORKTREE: 'external-snapshot'},
+  }), /commit|40|sha/i);
+  assert.throws(() => run(root, {
+    environment: {
+      ZDOC_PROVENANCE_COMMIT: 'not-a-sha',
+      ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+    },
+  }), /commit|40|sha/i);
+  assert.throws(() => run(root, {
+    environment: {
+      ZDOC_PROVENANCE_COMMIT: 'd'.repeat(40),
+      ZDOC_PROVENANCE_WORKTREE: 'clean',
+    },
+  }), /external-snapshot|worktree|mode/i);
+
+  const result = run(root, {
+    contentManifests: undefined,
+    environment: {
+      CI: 'true',
+      ZDOC_PROVENANCE_COMMIT: 'd'.repeat(40),
+      ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+    },
+  });
+  assert.equal(result.manifest.commit, 'd'.repeat(40));
+  assert.equal(result.manifest.workingTree, 'external-snapshot');
+  assert.equal(result.manifest.contentManifests.mode, 'profile-declared');
+  assert.deepEqual(result.manifest.contentManifests.records.map(record => record.path), [
+    'content/en/guides/content-manifest.json',
+  ]);
 });
 
 test('rejects wrong sites, escaped paths, symlinks, and missing required inputs', () => {

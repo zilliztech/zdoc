@@ -6,6 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const provenanceFile = 'build-provenance.json';
+const externalSnapshotWorktree = 'external-snapshot';
 const toolRepositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const requireFromApp = createRequire(path.join(toolRepositoryRoot, 'apps/docs/package.json'));
 const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefault: true});
@@ -155,7 +156,11 @@ function secureReadRegularFile(repositoryRoot, relativePath, label) {
 }
 
 function trackedFiles(repositoryRoot) {
-  return execFileSync('git', ['ls-files', '-z'], {cwd: repositoryRoot, encoding: 'utf8'})
+  return execFileSync('git', ['ls-files', '-z'], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  })
     .split('\0').filter(Boolean);
 }
 
@@ -213,8 +218,7 @@ function validateContentManifest(bytes, content, site, relativePath) {
   }
 }
 
-function hashContentManifests(repositoryRoot, manifests, profile) {
-  const tracked = new Set(trackedFiles(repositoryRoot));
+function hashContentManifests(repositoryRoot, manifests, profile, tracked = new Set(trackedFiles(repositoryRoot))) {
   const expected = new Map(profile.content.map(content => [
     `${content.sourcePath}/content-manifest.json`,
     content,
@@ -351,7 +355,35 @@ function secureWriteProvenance(repositoryRoot, buildRoot, bytes) {
 }
 
 function git(repositoryRoot, args) {
-  return execFileSync('git', args, {cwd: repositoryRoot, encoding: 'utf8'}).trim();
+  return execFileSync('git', args, {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  }).trim();
+}
+
+function resolveExternalSnapshot(environment) {
+  const hasCommit = Object.hasOwn(environment, 'ZDOC_PROVENANCE_COMMIT');
+  const hasWorktree = Object.hasOwn(environment, 'ZDOC_PROVENANCE_WORKTREE');
+  if (!hasCommit && !hasWorktree) return undefined;
+  if (!hasCommit || !hasWorktree) {
+    throw new Error('External snapshot provenance requires both commit and worktree mode');
+  }
+  const commit = String(environment.ZDOC_PROVENANCE_COMMIT);
+  const workingTree = String(environment.ZDOC_PROVENANCE_WORKTREE);
+  if (workingTree !== externalSnapshotWorktree) {
+    throw new Error(`External snapshot provenance worktree mode must be ${externalSnapshotWorktree}`);
+  }
+  if (!/^[0-9a-f]{40}$/u.test(commit)) {
+    throw new Error('External snapshot provenance commit must be a 40-character lowercase Git SHA');
+  }
+  return {commit, workingTree};
+}
+
+function declaredContentManifests(profile) {
+  return profile.content
+    .map(content => `${content.sourcePath}/content-manifest.json`)
+    .sort(compareBinary);
 }
 
 export function writeBuildProvenance({
@@ -373,20 +405,35 @@ export function writeBuildProvenance({
   if (parsedProfile.outputDir !== `build/${site}`) {
     throw new Error(`Resolved profile outputDir must be build/${site}`);
   }
+  const externalSnapshot = resolveExternalSnapshot(environment);
   const requestedBuildRelative = path.relative(requestedRoot, path.resolve(buildDirectory));
   const buildRoot = resolveBuildDirectory(root, site, path.resolve(root, requestedBuildRelative));
-  const selectionMode = contentManifests === undefined ? 'discovered' : 'explicit';
-  const selectedContentManifests = contentManifests ?? discoverContentManifests(root, parsedProfile);
-  const contentManifestRecords = hashContentManifests(root, selectedContentManifests, parsedProfile);
+  const selectionMode = contentManifests === undefined
+    ? (externalSnapshot ? 'profile-declared' : 'discovered')
+    : 'explicit';
+  const selectedContentManifests = contentManifests ?? (
+    externalSnapshot ? declaredContentManifests(parsedProfile) : discoverContentManifests(root, parsedProfile)
+  );
+  const snapshotDeclaredManifests = externalSnapshot
+    ? new Set(declaredContentManifests(parsedProfile))
+    : undefined;
+  const contentManifestRecords = hashContentManifests(
+    root,
+    selectedContentManifests,
+    parsedProfile,
+    snapshotDeclaredManifests,
+  );
   const {records: artifactRecords, routes} = walkArtifactTree(root, buildRoot);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
       .filter(name => environment[name] !== undefined)
       .map(name => [name, String(environment[name])]),
   );
-  const commit = git(root, ['rev-parse', 'HEAD']);
+  const commit = externalSnapshot?.commit ?? git(root, ['rev-parse', 'HEAD']);
   if (!/^[0-9a-f]{40}$/u.test(commit)) throw new Error(`Git returned an invalid commit: ${commit}`);
-  const workingTree = git(root, ['status', '--porcelain', '--untracked-files=normal']).length === 0 ? 'clean' : 'dirty';
+  const workingTree = externalSnapshot?.workingTree ?? (
+    git(root, ['status', '--porcelain', '--untracked-files=normal']).length === 0 ? 'clean' : 'dirty'
+  );
 
   const manifest = {
     schemaVersion: 1,

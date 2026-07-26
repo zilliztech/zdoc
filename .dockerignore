@@ -2,6 +2,10 @@ node_modules
 .docusaurus
 build
 .env
+.env.*
+.npmrc
+*.pem
+*.key
 .git
 chat-proxy
 .vercel
