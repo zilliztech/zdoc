@@ -1,6 +1,6 @@
 node_modules
 .docusaurus
-# build
+build
 .env
 .git
 chat-proxy

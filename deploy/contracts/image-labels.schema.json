@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docs.zilliz.com/schemas/image-labels.schema.json",
+  "title": "ZDoc container image labels",
+  "type": "object",
+  "required": [
+    "org.opencontainers.image.source",
+    "org.opencontainers.image.revision",
+    "com.zilliz.zdoc.site",
+    "com.zilliz.jenkins.build-id"
+  ],
+  "properties": {
+    "org.opencontainers.image.source": {
+      "const": "https://github.com/zilliztech/zdoc"
+    },
+    "org.opencontainers.image.revision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "com.zilliz.zdoc.site": {
+      "type": "string",
+      "enum": ["en", "zh-CN"]
+    },
+    "com.zilliz.jenkins.build-id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": true
+}

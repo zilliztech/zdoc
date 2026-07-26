@@ -20,6 +20,7 @@
     "check:static-env": "node scripts/check-static-env-placeholder.js",
     "check:external-links": "node scripts/check-404.js",
     "test:frontend": "vitest run",
+    "test:containers": "node --test deploy/contracts/container.test.mjs",
     "test:profiles": "pnpm vitest run packages/site-config",
     "docs-tooling": "node --experimental-strip-types packages/docs-tooling/src/cli-main.ts",
     "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
