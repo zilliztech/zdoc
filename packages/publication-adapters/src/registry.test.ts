@@ -35,7 +35,7 @@ function adapter(
 describe('publication adapter registry', () => {
   it('accepts the bounded zh-CN adapter namespace without allowing arbitrary uppercase IDs', () => {
     expect(createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     }).ids).toEqual([
       'zh-CN.aliyun-oss',
       'zh-CN.markdown-normalizer',

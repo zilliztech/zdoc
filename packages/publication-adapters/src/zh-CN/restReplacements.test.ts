@@ -32,7 +32,7 @@ function tablePipes(contents: string): string[] {
 describe('zh-CN REST replacement adapter', () => {
   it('applies representative replacements only to the Chinese REST publication', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const document = {path: 'reference/api/restful/page.mdx', contents: restReplacementFixture.input};
 
@@ -44,7 +44,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('is idempotent and preserves REST table and slug structure', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const publicationContext = context('zh-CN');
     const once = registry.transformDocument(
@@ -61,7 +61,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('preserves BOM, CRLF, and unterminated frontmatter fail-safe', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const publicationContext = context('zh-CN');
     const valid = '\uFEFF---\r\nslug: https://YOUR_CLUSTER_ENDPOINT\r\ncloudId: aws\r\n---\r\n\r\ncloudId: aws\r\n';
@@ -74,7 +74,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('preserves every pipe in compact REST tables across endpoint and storage replacements', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const output = registry.transformDocument(
       [ZH_CN_REST_REPLACEMENTS_ID],
@@ -90,7 +90,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('normalizes quoted JSON-style provider and region fields without changing prose', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '```json',
@@ -114,7 +114,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('replaces only standalone endpoint placeholder tokens', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '{"endpoint":"YOUR_CLUSTER_ENDPOINT"}',
@@ -138,7 +138,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('uses JavaScript-compatible Unicode identifier boundaries for endpoint placeholders', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '"YOUR_CLUSTER_ENDPOINT"',
@@ -166,7 +166,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('collapses repeated cn suffixes only on REST target endpoint families and stays idempotent', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const publicationContext = context('zh-CN');
     const input = [
@@ -198,7 +198,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('requires terminal host boundaries for every legacy endpoint family', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '|control|https://api.cloud.zilliz.com:443/v2/projects?limit=10#page|',
@@ -235,7 +235,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('accepts safe Markdown and sentence terminal contexts without matching hostile continuations', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '`https://api.cloud.zilliz.com`',
@@ -286,7 +286,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('preserves Markdown emphasis and Chinese sentence punctuation at endpoint boundaries', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '**https://api.cloud.zilliz.com**',
@@ -324,7 +324,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('requires Unicode-safe field names and complete provider and region value tokens', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       'cloudId=aws',
@@ -358,7 +358,7 @@ describe('zh-CN REST replacement adapter', () => {
 
   it('uses the same allowlisted decorated http tags as the Markdown normalizer', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '<strong>http</strong>s://YOUR_PROJECT_ENDPOINT',
@@ -376,22 +376,25 @@ describe('zh-CN REST replacement adapter', () => {
 });
 
 describe('zh-CN Aliyun OSS adapter', () => {
-  it('fails fast when no storage port is injected', () => {
+  it('fails fast when no validation-only port is injected', () => {
     expect(() => createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: undefined as never,
-    })).toThrow(/aliyun oss.*storage.*required/i);
+      aliyunOssValidator: undefined as never,
+    })).toThrow(/aliyun oss.*validator.*required/i);
   });
 
-  it('uses only injected storage during Chinese validation and performs no English I/O', async () => {
-    const validateOrPublish = vi.fn(async () => {});
-    const registry = createZhCnPublicationAdapterRegistry({aliyunOssStorage: {validateOrPublish}});
+  it('exposes only the injected validation port and performs no English I/O', async () => {
+    const validatePublication = vi.fn(async () => {});
+    const registry = createZhCnPublicationAdapterRegistry({aliyunOssValidator: {validatePublication}});
+    const adapter = registry.resolve(ZH_CN_ALIYUN_OSS_ID);
     const chinese = context('zh-CN');
     const english = context('en');
 
     await registry.validatePublication([ZH_CN_ALIYUN_OSS_ID], chinese);
     await registry.validatePublication([ZH_CN_ALIYUN_OSS_ID], english);
 
-    expect(validateOrPublish).toHaveBeenCalledTimes(1);
-    expect(validateOrPublish).toHaveBeenCalledWith(realpathSync(chinese.publicationRoot), expect.objectContaining({site: 'zh-CN'}));
+    expect(validatePublication).toHaveBeenCalledTimes(1);
+    expect(validatePublication).toHaveBeenCalledWith(realpathSync(chinese.publicationRoot), expect.objectContaining({site: 'zh-CN'}));
+    expect(adapter).not.toHaveProperty('publish');
+    expect(adapter).not.toHaveProperty('validateOrPublish');
   });
 });

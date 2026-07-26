@@ -1,7 +1,7 @@
-import type {DeepReadonly} from './immutable';
-import type {SiteId, SiteProfile} from './schema';
-import {enProfile} from './sites/en';
-import {zhCNProfile} from './sites/zh-CN';
+import type {DeepReadonly} from './immutable.ts';
+import type {SiteId, SiteProfile} from './schema.ts';
+import {enProfile} from './sites/en.ts';
+import {zhCNProfile} from './sites/zh-CN.ts';
 
 const profiles = {
   en: enProfile,

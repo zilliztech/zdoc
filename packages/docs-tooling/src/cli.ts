@@ -2,14 +2,13 @@
 import {spawnSync as nodeSpawnSync} from 'node:child_process';
 import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, realpathSync, rmSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
 
 import {
   createPublicationAdapterRegistry,
   createZhCnPublicationAdapterRegistry,
   type PublicationAdapterRegistry,
 } from '@zilliz/publication-adapters';
-import type {AliyunOssStorage, PublicationContext} from '@zilliz/publication-adapters';
+import type {AliyunOssValidator, PublicationContext} from '@zilliz/publication-adapters';
 import {resolveSiteProfile} from '@zilliz/site-config';
 
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
@@ -69,7 +68,7 @@ export type CliDependencies = {
   publish?: (context: CommandContext) => void | Promise<void>;
   atomicReplace?: (options: AtomicReplaceOptions) => Promise<void>;
   spawnSync?: GeneratorRunner;
-  aliyunOssStorage?: AliyunOssStorage;
+  aliyunOssValidator?: AliyunOssValidator;
   write?: (message: string) => void;
 };
 
@@ -207,30 +206,30 @@ type SelectedPublicationAdapters = Readonly<{
   registry: PublicationAdapterRegistry;
 }>;
 
-function missingAliyunOssStorage(): AliyunOssStorage {
+function missingAliyunOssValidator(): AliyunOssValidator {
   return {
-    async validateOrPublish() {
-      throw new Error('zh-CN publication validation requires explicit Aliyun OSS storage injection');
+    async validatePublication() {
+      throw new Error('zh-CN publication validation requires explicit Aliyun OSS validator injection');
     },
   };
 }
 
-function selectedPublicationAdapters(site: SiteId, aliyunOssStorage: AliyunOssStorage | undefined): SelectedPublicationAdapters {
+function selectedPublicationAdapters(site: SiteId, aliyunOssValidator: AliyunOssValidator | undefined): SelectedPublicationAdapters {
   const ids = resolveSiteProfile(site).publicationAdapters;
   if (ids.length === 0) return {ids, registry: createPublicationAdapterRegistry([])};
   if (site !== 'zh-CN') throw new Error(`Site ${site} cannot select Chinese publication adapters`);
   return {
     ids,
-    registry: createZhCnPublicationAdapterRegistry({aliyunOssStorage: aliyunOssStorage ?? missingAliyunOssStorage()}),
+    registry: createZhCnPublicationAdapterRegistry({aliyunOssValidator: aliyunOssValidator ?? missingAliyunOssValidator()}),
   };
 }
 
-function publicationAdapterContext(context: CommandContext): PublicationContext {
+function publicationAdapterContext(context: CommandContext, publicationRoot = context.stagePath): PublicationContext {
   const source = context.source as ManualSource;
   return {
     site: context.request.site,
     manual: context.request.manual,
-    publicationRoot: context.stagePath,
+    publicationRoot,
     baselineCommit: context.baselineCommit ?? context.publicationDiagnostics?.baselineCommit ?? '',
     sourceIdentity: {
       type: source.sourceType,
@@ -260,9 +259,13 @@ function transformStagedMarkdown(context: CommandContext, selected: SelectedPubl
   }
 }
 
-async function validateSelectedPublicationAdapters(context: CommandContext, selected: SelectedPublicationAdapters): Promise<void> {
+async function validateSelectedPublicationAdapters(
+  context: CommandContext,
+  selected: SelectedPublicationAdapters,
+  publicationRoot = context.stagePath,
+): Promise<void> {
   if (selected.ids.length === 0) return;
-  await selected.registry.validatePublication(selected.ids, publicationAdapterContext(context));
+  await selected.registry.validatePublication(selected.ids, publicationAdapterContext(context, publicationRoot));
 }
 
 async function validatePublicationFilesystem(root: string, publication: ManualPublication): Promise<StageInventory> {
@@ -288,13 +291,18 @@ async function validatePublicationFilesystem(root: string, publication: ManualPu
   return inventory;
 }
 
-async function validatePublicationSnapshot(context: CommandContext, snapshot: AtomicValidationSnapshot): Promise<void> {
+async function validatePublicationSnapshot(
+  context: CommandContext,
+  selected: SelectedPublicationAdapters,
+  snapshot: AtomicValidationSnapshot,
+): Promise<void> {
   const expectedOwnedPaths = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
   if (snapshot.ownedPaths.length !== expectedOwnedPaths.length
     || expectedOwnedPaths.some((target, index) => snapshot.ownedPaths[index] !== target)) {
     throw new Error('Atomic publication snapshot owned paths do not match the validated publication contract');
   }
   await validatePublicationFilesystem(snapshot.publicationRoot, context.publication as ManualPublication);
+  await validateSelectedPublicationAdapters(context, selected, snapshot.publicationRoot);
 }
 
 async function copyLocalSource(context: CommandContext): Promise<void> {
@@ -443,6 +451,7 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
 
 async function defaultPublish(
   context: CommandContext,
+  selected: SelectedPublicationAdapters,
   replace: (options: AtomicReplaceOptions) => Promise<void> = atomicReplace,
 ): Promise<void> {
   const staged = publicationStagePaths(context);
@@ -457,7 +466,7 @@ async function defaultPublish(
       {source: staged.sidebarPath, target: context.publication.sidebarPath},
     ],
     removals: removalTargets,
-    validatePublication: snapshot => validatePublicationSnapshot(context, snapshot),
+    validatePublication: snapshot => validatePublicationSnapshot(context, selected, snapshot),
   });
 }
 
@@ -467,7 +476,7 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
   const stagePath = resolveOwnedRepositoryPath(repositoryRoot, request.stage, 'Stage path');
   const resolved = resolveManualPublication(request.manual, request.site);
   const environment = dependencies.environment ?? process.env;
-  const selectedAdapters = selectedPublicationAdapters(request.site, dependencies.aliyunOssStorage);
+  const selectedAdapters = selectedPublicationAdapters(request.site, dependencies.aliyunOssValidator);
   assertPublicationOwnership(request.site, resolved.publication as ManualPublication);
   const baseContext: CommandContext = {
     request,
@@ -510,19 +519,8 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
   await validateSelectedPublicationAdapters(validatedContext, selectedAdapters);
   if (request.command === 'publish') {
     if (dependencies.publish) await dependencies.publish(validatedContext);
-    else await defaultPublish(validatedContext, dependencies.atomicReplace);
+    else await defaultPublish(validatedContext, selectedAdapters, dependencies.atomicReplace);
   }
   dependencies.write?.(`${request.command === 'publish' ? 'published' : 'validated'} ${request.manual}/${request.site} from ${request.stage}`);
   return validatedContext;
 }
-
-async function main(): Promise<void> {
-  try {
-    await executeDocsToolingCommand(process.argv.slice(2), {write: message => process.stdout.write(`${message}\n`)});
-  } catch (error) {
-    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
-    process.exitCode = 1;
-  }
-}
-
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) void main();

@@ -1,6 +1,6 @@
 import {spawnSync as childSpawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {existsSync, linkSync, mkdtempSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -135,7 +135,7 @@ describe('stage filesystem validation', () => {
 describe('docs-tooling CLI boundary', () => {
   it('uses the selected Chinese adapters for staged Markdown and validates Aliyun through injection', async () => {
     const repositoryRoot = temporaryRoot();
-    const aliyunOssStorage = {validateOrPublish: vi.fn().mockResolvedValue(undefined)};
+    const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
     const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
       const paths = publicationStagePaths(context);
       mkdirSync(paths.outputPath, {recursive: true});
@@ -148,14 +148,14 @@ describe('docs-tooling CLI boundary', () => {
     };
     const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
 
-    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot, fetch, aliyunOssStorage});
+    await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot, fetch, aliyunOssValidator});
 
     const staged = readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/content/zh-CN/reference/api/python/python/page.md'), 'utf8');
     expect(staged).toContain('https://zilliz.com.cn/contact-sales');
     expect(staged).toContain('YOUR_CLUSTER_ENDPOINT');
 
-    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot, aliyunOssStorage});
-    expect(aliyunOssStorage.validateOrPublish).toHaveBeenCalledOnce();
+    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot, aliyunOssValidator});
+    expect(aliyunOssValidator.validatePublication).toHaveBeenCalledOnce();
   });
 
   it('requires injected Aliyun storage for Chinese validation and publication but not fetch transforms', async () => {
@@ -174,10 +174,91 @@ describe('docs-tooling CLI boundary', () => {
       .toBe('Sales: https://zilliz.com.cn/contact-sales\n');
 
     await expect(executeDocsToolingCommand(['validate', ...args], {repositoryRoot}))
-      .rejects.toThrow(/Aliyun OSS storage injection/i);
+      .rejects.toThrow(/Aliyun OSS validator injection/i);
     await expect(executeDocsToolingCommand(['publish', ...args], {repositoryRoot}))
-      .rejects.toThrow(/Aliyun OSS storage injection/i);
+      .rejects.toThrow(/Aliyun OSS validator injection/i);
     expect(existsSync(path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python'))).toBe(false);
+  });
+
+  it('revalidates Chinese publication from the immutable atomic snapshot before installation', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/python.sidebar.js');
+    const stageRoot = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'page.md'), '# old\n');
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = ["old"]\n');
+    mkdirSync(path.join(stageRoot, 'content/zh-CN/reference/api/python/python'), {recursive: true});
+    writeFileSync(path.join(stageRoot, 'content/zh-CN/reference/api/python/python/page.md'), '# fresh\n');
+    mkdirSync(path.join(stageRoot, 'generated/zh-CN/sidebars'), {recursive: true});
+    writeFileSync(path.join(stageRoot, 'generated/zh-CN/sidebars/python.sidebar.js'), 'module.exports = ["fresh"]\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'zh-CN', 'tmp/docs-tooling/zh-CN/python');
+    const roots: string[] = [];
+    const aliyunOssValidator = {
+      validatePublication: vi.fn(async (root: string, context: {publicationRoot: string}) => {
+        roots.push(root);
+        expect(context.publicationRoot).toBe(root);
+      }),
+    };
+
+    await executeDocsToolingCommand(
+      ['publish', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      {repositoryRoot, aliyunOssValidator} as never,
+    );
+
+    expect(roots).toHaveLength(2);
+    expect(roots[0]).toBe(realpathSync(stageRoot));
+    expect(roots[1]).not.toBe(realpathSync(stageRoot));
+    expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# fresh\n');
+  });
+
+  it('rejects snapshot validation failures before atomic installation', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/reference/api/python/python');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/python.sidebar.js');
+    const stageRoot = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'page.md'), '# old\n');
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = ["old"]\n');
+    mkdirSync(path.join(stageRoot, 'content/zh-CN/reference/api/python/python'), {recursive: true});
+    writeFileSync(path.join(stageRoot, 'content/zh-CN/reference/api/python/python/page.md'), '# fresh\n');
+    mkdirSync(path.join(stageRoot, 'generated/zh-CN/sidebars'), {recursive: true});
+    writeFileSync(path.join(stageRoot, 'generated/zh-CN/sidebars/python.sidebar.js'), 'module.exports = ["fresh"]\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'zh-CN', 'tmp/docs-tooling/zh-CN/python');
+    const aliyunOssValidator = {
+      validatePublication: vi.fn(async (root: string) => {
+        if (root !== stageRoot) throw new Error('snapshot validator rejection');
+      }),
+    };
+
+    await expect(executeDocsToolingCommand(
+      ['publish', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      {repositoryRoot, aliyunOssValidator} as never,
+    )).rejects.toThrow('snapshot validator rejection');
+
+    expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# old\n');
+  });
+
+  it('does not let custom internal publication hooks bypass selected validation', async () => {
+    const repositoryRoot = temporaryRoot();
+    const stageRoot = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python');
+    mkdirSync(path.join(stageRoot, 'content/zh-CN/reference/api/python/python'), {recursive: true});
+    writeFileSync(path.join(stageRoot, 'content/zh-CN/reference/api/python/python/page.md'), '# staged\n');
+    mkdirSync(path.join(stageRoot, 'generated/zh-CN/sidebars'), {recursive: true});
+    writeFileSync(path.join(stageRoot, 'generated/zh-CN/sidebars/python.sidebar.js'), 'module.exports = []\n');
+    writeDiagnosticsFixture(repositoryRoot, 'python', 'zh-CN', 'tmp/docs-tooling/zh-CN/python');
+    const publish = vi.fn();
+    const aliyunOssValidator = {validatePublication: vi.fn(async () => { throw new Error('validator rejection'); })};
+
+    await expect(executeDocsToolingCommand(
+      ['publish', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      {repositoryRoot, aliyunOssValidator, publish},
+    )).rejects.toThrow('validator rejection');
+
+    expect(aliyunOssValidator.validatePublication).toHaveBeenCalledOnce();
+    expect(publish).not.toHaveBeenCalled();
   });
 
   it('applies REST replacements only to the REST manual and leaves English publication unchanged', async () => {
@@ -214,15 +295,15 @@ describe('docs-tooling CLI boundary', () => {
     mkdirSync(path.dirname(liveSidebar), {recursive: true});
     writeFileSync(liveSidebar, 'module.exports = ["baseline"]\n');
     const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
-    const aliyunOssStorage = {validateOrPublish: vi.fn().mockResolvedValue(undefined)};
+    const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
 
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
     const diagnosticsPath = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/.publication-diagnostics.json');
     const diagnostics = readFileSync(diagnosticsPath, 'utf8');
-    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot, aliyunOssStorage});
+    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot, aliyunOssValidator});
 
     writeFileSync(path.join(liveOutput, 'page.md'), '# newer live publication\n');
-    await expect(executeDocsToolingCommand(['publish', ...args], {repositoryRoot, aliyunOssStorage})).rejects.toThrow(/baseline|compare-and-swap|stale/i);
+    await expect(executeDocsToolingCommand(['publish', ...args], {repositoryRoot, aliyunOssValidator})).rejects.toThrow(/baseline|compare-and-swap|stale/i);
 
     expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# newer live publication\n');
     expect(readFileSync(diagnosticsPath, 'utf8')).toBe(diagnostics);
@@ -269,12 +350,12 @@ describe('docs-tooling CLI boundary', () => {
     mkdirSync(path.dirname(liveSidebar), {recursive: true});
     writeFileSync(liveSidebar, 'module.exports = ["old"]\n');
     const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
-    const aliyunOssStorage = {validateOrPublish: vi.fn().mockResolvedValue(undefined)};
+    const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
 
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/content/zh-CN/reference/api/python/python/page.md'), '# fresh stage\n');
-    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot, aliyunOssStorage});
-    await executeDocsToolingCommand(['publish', ...args], {repositoryRoot, aliyunOssStorage});
+    await executeDocsToolingCommand(['validate', ...args], {repositoryRoot, aliyunOssValidator});
+    await executeDocsToolingCommand(['publish', ...args], {repositoryRoot, aliyunOssValidator});
 
     expect(readFileSync(path.join(liveOutput, 'page.md'), 'utf8')).toBe('# fresh stage\n');
     expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/.publication-diagnostics.json'))).toBe(true);

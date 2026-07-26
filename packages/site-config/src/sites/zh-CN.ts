@@ -1,5 +1,5 @@
-import {deepFreeze} from '../immutable';
-import {SiteProfileSchema} from '../schema';
+import {deepFreeze} from '../immutable.ts';
+import {SiteProfileSchema} from '../schema.ts';
 
 export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   id: 'zh-CN',

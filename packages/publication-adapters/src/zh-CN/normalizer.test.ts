@@ -32,7 +32,7 @@ function tablePipes(contents: string): string[] {
 describe('zh-CN Markdown normalizer adapter', () => {
   it('normalizes representative Markdown deterministically while preserving table syntax and slug', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const document = {path: 'guides/page.md', contents: markdownNormalizerFixture.input};
 
@@ -49,7 +49,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('is idempotent', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const publicationContext = context('zh-CN');
     const once = registry.transformDocument(
@@ -63,7 +63,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('preserves every pipe in compact Markdown tables while normalizing URL paths, queries, and hashes', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const output = registry.transformDocument(
       [ZH_CN_MARKDOWN_NORMALIZER_ID],
@@ -79,7 +79,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('does not apply the Chinese transform to an English publication through the real registry', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const document = {path: 'guides/page.md', contents: markdownNormalizerFixture.input};
 
@@ -88,7 +88,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('preserves BOM, CRLF, and unterminated frontmatter fail-safe', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const publicationContext = context('zh-CN');
     const valid = '\uFEFF---\r\nslug: https://support.zilliz.com/hc/en-us\r\nnote: https://zilliz.com/pricing\r\n---\r\n\r\nhttps://support.zilliz.com/hc/en-us\r\n';
@@ -101,7 +101,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('matches complete supported URLs, collapses repeated cn hosts, and preserves suffixes', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       'https://support.zilliz.com.cn.cn/hc/en-us/articles/123?a=1#section',
@@ -125,7 +125,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('normalizes legacy www sales and pricing hosts in prose and compact tables', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       'Sales: https://www.zilliz.com/contact-sales?from=prose#form',
@@ -158,7 +158,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('repairs simple Chinese bold punctuation into CommonMark strong nodes', async () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '**建议：**首次注册后请尽早添加支付方式。',
@@ -185,7 +185,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('repairs a plain bold prefix without rewriting a later Markdown link', async () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = '**联系销售获取自定义报价。**企业客户可以获得折扣，请[联系销售](https://zilliz.com.cn/contact-sales)。';
     const expected = '**联系销售获取自定义报价**。企业客户可以获得折扣，请[联系销售](https://zilliz.com.cn/contact-sales)。';
@@ -204,7 +204,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('does not cross-pair adjacent strong spans around ordinary Chinese punctuation', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = '**实际案例：** 假设配置已经够了，**节省 25% 的 CU 成本**。';
 
@@ -219,7 +219,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('keeps unsafe bold punctuation contexts unchanged and remains frontmatter-safe and idempotent', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const publicationContext = context('zh-CN');
     const unsafe = [
@@ -270,7 +270,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('preserves multiline HTML comments across LF and CRLF documents', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const lfInput = [
       'Before <!-- first comment',
@@ -309,7 +309,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('does not open HTML comment state for protected literal markers', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '`<!--`',
@@ -353,7 +353,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('tracks multiline code spans and escaped comment openers without changing bytes', async () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const multilineInput = [
       '`single tick starts',
@@ -417,7 +417,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('persists protected JSX tags and MDX expressions across lines', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const protectedRangesInput = [
       '<Widget',
@@ -481,7 +481,7 @@ describe('zh-CN Markdown normalizer adapter', () => {
 
   it('normalizes only allowlisted paired decorated http tags', () => {
     const registry = createZhCnPublicationAdapterRegistry({
-      aliyunOssStorage: {validateOrPublish: async () => {}},
+      aliyunOssValidator: {validatePublication: async () => {}},
     });
     const input = [
       '<i>http</i>s://support.zilliz.com/hc/en-us',

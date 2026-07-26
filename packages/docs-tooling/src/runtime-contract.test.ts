@@ -26,6 +26,13 @@ function packageName(specifier: string): string | null {
 }
 
 describe('docs-tooling runtime contract', () => {
+  it('points the root docs-tooling command at the executable composition root', () => {
+    const rootManifest = JSON.parse(readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8')) as {
+      scripts?: Record<string, string>;
+    };
+    expect(rootManifest.scripts?.['docs-tooling']).toBe('node --experimental-strip-types packages/docs-tooling/src/cli-main.ts');
+  });
+
   it('declares every direct runtime package in the owning workspace package', () => {
     const manifest = JSON.parse(readFileSync(path.join(packageRoot, 'package.json'), 'utf8')) as {
       dependencies?: Record<string, string>;

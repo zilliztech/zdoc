@@ -21,7 +21,7 @@
     "check:external-links": "node scripts/check-404.js",
     "test:frontend": "vitest run",
     "test:profiles": "pnpm vitest run packages/site-config",
-    "docs-tooling": "node --experimental-strip-types packages/docs-tooling/src/cli.ts",
+    "docs-tooling": "node --experimental-strip-types packages/docs-tooling/src/cli-main.ts",
     "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
     "test:e2e": "playwright test --project=chromium",
     "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js && node --test scripts/translation/chunker.test.js scripts/translation/reportSummary.test.js scripts/translation/workflowReporting.test.js",
