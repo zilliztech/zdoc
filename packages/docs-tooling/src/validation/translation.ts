@@ -25,6 +25,7 @@ export type ValidateReferenceSourceOptions = Readonly<{
   repositoryRoot: string;
   sourceRoot: string;
   sourceManifest: ReferenceSourceManifest;
+  manualForPath?: (repositoryRelativePath: string) => string;
 }>;
 
 function assertBelowRoot(filePath: string, root: string, label: string): void {
@@ -131,7 +132,12 @@ export function validateReferenceSource(options: ValidateReferenceSourceOptions)
   const files = readReferenceTree(options.repositoryRoot, options.sourceRoot);
   const records = new Map(sourceManifest.records.map(record => [record.sourcePath, record]));
   if (records.size !== sourceManifest.records.length) throw new Error('Reference source manifest contains duplicate source paths');
-  for (const record of sourceManifest.records) assertBelowRoot(record.sourcePath, options.sourceRoot, 'Source path');
+  for (const record of sourceManifest.records) {
+    assertBelowRoot(record.sourcePath, options.sourceRoot, 'Source path');
+    if (options.manualForPath && options.manualForPath(record.sourcePath) !== record.manual) {
+      throw new Error(`Reference source manual does not match authoritative ownership: ${record.sourcePath}`);
+    }
+  }
   for (const [filePath, hash] of files) {
     const record = records.get(filePath);
     if (!record) throw new Error(`Active canonical source is absent from the source manifest: ${filePath}`);

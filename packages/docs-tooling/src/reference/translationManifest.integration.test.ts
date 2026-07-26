@@ -43,6 +43,31 @@ function validateChinese(repositoryRoot: string) {
   ], {cwd: repositoryRoot, encoding: 'utf8'});
 }
 
+function validateEnglish(repositoryRoot: string) {
+  return spawnSync(process.execPath, [
+    '--experimental-strip-types', cliMain,
+    'validate-reference', '--site', 'en',
+  ], {cwd: repositoryRoot, encoding: 'utf8'});
+}
+
+function retiredRepository(): string {
+  const root = repository();
+  rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
+  writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
+    schemaVersion: 1,
+    retirements: [{
+      manual: 'python',
+      sourcePath: 'content/en/reference/api/python/page.md',
+      targetPath: 'content/zh-CN/reference/api/python/page.md',
+      reason: 'Fixture retirement',
+    }],
+  }, null, 2) + '\n');
+  git(root, ['add', '-A']);
+  git(root, ['commit', '--quiet', '-m', 'retire source']);
+  expect(generate(root).status).toBe(0);
+  return root;
+}
+
 describe('Reference manifest executable security boundary', () => {
   it('bootstraps from content, commit, and the retirement registry without generated input', () => {
     const root = repository();
@@ -113,5 +138,42 @@ describe('Reference manifest executable security boundary', () => {
 
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/canonical relative path|mapping/i);
+  });
+
+  it.each([
+    ['empty', (root: string) => writeFileSync(path.join(root, 'config/reference-retirements.json'), '{"schemaVersion":1,"retirements":[]}\n')],
+    ['missing', (root: string) => rmSync(path.join(root, 'config/reference-retirements.json'))],
+    ['malformed', (root: string) => writeFileSync(path.join(root, 'config/reference-retirements.json'), '{not-json\n')],
+    ['stale', (root: string) => writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
+      schemaVersion: 1,
+      retirements: [{
+        manual: 'python',
+        sourcePath: 'content/en/reference/api/python/stale.md',
+        targetPath: 'content/zh-CN/reference/api/python/stale.md',
+        reason: 'Stale fixture retirement',
+      }],
+    }, null, 2) + '\n')],
+  ])('rejects a %s retirement registry during Chinese executable validation', (_kind, mutate) => {
+    const root = retiredRepository();
+    mutate(root);
+
+    const result = validateChinese(root);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/retirement|registry|missing|json/i);
+  });
+
+  it('rejects a source manifest manual that does not match authoritative ownership', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    const manifestPath = path.join(root, 'generated/en/manifests/reference.json');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    manifest.records[0].manual = 'aaa';
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+
+    const result = validateEnglish(root);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/manual|ownership/i);
   });
 });

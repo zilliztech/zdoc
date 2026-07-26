@@ -256,6 +256,16 @@ function validateRetirementRegistry(
   }
 }
 
+function assertRetirementsMatchManifest(registry: ReferenceRetirementRegistry, translationManifest: ReturnType<typeof parseReferenceTranslationManifest>): void {
+  const expected = registry.retirements.map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
+  const actual = translationManifest.records
+    .filter(record => record.status === 'retired')
+    .map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
+  if (expected.length !== actual.length || expected.some((record, index) => record !== actual[index])) {
+    throw new Error('Reference retirement registry does not exactly match retired translation manifest records');
+  }
+}
+
 export async function executeReferenceDocsToolingCommand(
   argv: readonly string[],
   dependencies: ReferenceCommandDependencies = {},
@@ -294,7 +304,7 @@ export async function executeReferenceDocsToolingCommand(
       sourceSnapshot,
       targetSnapshot,
     });
-    validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest: manifests.sourceManifest});
+    validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest: manifests.sourceManifest, manualForPath});
     validateReferenceTranslation({
       repositoryRoot,
       sourceRoot: REFERENCE_SOURCE_ROOT,
@@ -320,17 +330,24 @@ export async function executeReferenceDocsToolingCommand(
     const sourceSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT);
     if (dependencies.verifySourceRevision) dependencies.verifySourceRevision(sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT);
     else verifyGitSourceRevision(repositoryRoot, sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT, sourceSnapshot);
+    const manualForPath = dependencies.manualForPath ?? defaultReferenceManualForPath;
+    validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest, manualForPath});
     if (argv[2] === 'en') {
-      validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest});
+      // Source ownership, revision, and hashes were validated above.
     } else {
       const translationManifest = parseReferenceTranslationManifest(readJson(repositoryRoot, REFERENCE_TRANSLATION_MANIFEST));
+      const targetSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_TARGET_ROOT);
+      const retirementRegistry = dependencies.retirementRegistry
+        ?? parseReferenceRetirementRegistry(readJson(repositoryRoot, REFERENCE_RETIREMENT_REGISTRY));
+      validateRetirementRegistry(retirementRegistry, sourceSnapshot, targetSnapshot, manualForPath);
+      assertRetirementsMatchManifest(retirementRegistry, translationManifest);
       validateReferenceTranslation({
         repositoryRoot,
         sourceRoot: REFERENCE_SOURCE_ROOT,
         targetRoot: REFERENCE_TARGET_ROOT,
         sourceManifest,
         translationManifest,
-        manualForPath: dependencies.manualForPath ?? defaultReferenceManualForPath,
+        manualForPath,
       });
     }
     dependencies.write?.(`validated Reference provenance for ${argv[2]}`);

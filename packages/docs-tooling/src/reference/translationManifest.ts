@@ -77,6 +77,16 @@ const ReferenceRetirementRegistrySchema = z.object({
   schemaVersion: z.literal(1),
   retirements: z.array(RetirementRecordSchema),
 }).strict().superRefine((registry, context) => {
+  const sourcePaths = new Set<string>();
+  const targetPaths = new Set<string>();
+  for (const [index, record] of registry.retirements.entries()) {
+    if (sourcePaths.has(record.sourcePath) || targetPaths.has(record.targetPath)) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['retirements', index], message: 'Retirement sourcePath and targetPath decisions must be unique'});
+      return;
+    }
+    sourcePaths.add(record.sourcePath);
+    targetPaths.add(record.targetPath);
+  }
   for (let index = 1; index < registry.retirements.length; index += 1) {
     if (compareRecords(registry.retirements[index - 1], registry.retirements[index]) > 0) {
       context.addIssue({code: z.ZodIssueCode.custom, path: ['retirements', index], message: 'Retirement records must be canonically sorted'});

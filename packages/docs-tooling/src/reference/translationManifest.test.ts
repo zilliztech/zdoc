@@ -292,6 +292,7 @@ describe('Reference translation provenance', () => {
       record,
     ]})).toThrow(/sorted|order/i);
     expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [{...record, targetPath: 'content/zh-CN/reference/api/python/other.md'}]})).toThrow(/canonical|relative/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [record, record]})).toThrow(/duplicate|unique/i);
   });
 
   it('builds deterministically sorted manifests without volatile timestamps', () => {
