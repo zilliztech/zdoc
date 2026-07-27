@@ -1,10 +1,11 @@
-import {existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
+import {existsSync, lstatSync, readFileSync, readdirSync, realpathSync} from 'node:fs';
 import path from 'node:path';
 
 import {XMLParser} from 'fast-xml-parser';
 import {resolveSiteProfile} from '@zilliz/site-config';
 
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
+import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';
 
 type Site = 'en' | 'zh-CN';
 type LinkEntry = {url: string; page?: string; pages?: string[]; status?: number; error?: string};
@@ -191,6 +192,14 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
   assertSite(options.site);
   const profile = resolveSiteProfile(options.site);
   const output = resolveOutput(options.repositoryRoot, options.output);
+  const now = (dependencies.now ?? (() => new Date()))();
+  const outputDirectory = path.posix.dirname(options.output);
+  const jsonOutput = options.output.replace(/\.md$/u, '.json');
+  const stamp = now.getTime();
+  const timestampedMarkdown = path.posix.join(outputDirectory, `report_${stamp}.md`);
+  const timestampedJson = path.posix.join(outputDirectory, `report_${stamp}.json`);
+  const reportOutputs = [options.output, jsonOutput, timestampedMarkdown, timestampedJson];
+  assertSafeAtomicWriteTargets(options.repositoryRoot, reportOutputs, 'Link-check report output');
   const environment = dependencies.environment ?? process.env;
   const fetcher = dependencies.fetch ?? (globalThis.fetch as unknown as FetchLike);
   const write = dependencies.write ?? (message => process.stdout.write(`${message}\n`));
@@ -209,7 +218,7 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
     }
   }));
   const report = buildLinkCheckReport({
-    generatedAt: (dependencies.now ?? (() => new Date()))().toISOString(),
+    generatedAt: now.toISOString(),
     remoteSitemapSource: remoteSource,
     localSitemapSource: localSource,
     remoteUrls: remote,
@@ -218,16 +227,14 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
     externalLinks: broken,
     workflowRunUrl: resolveWorkflowRunUrl(environment),
   });
-  mkdirSync(path.dirname(output), {recursive: true});
-  assertNoSymlinks(options.repositoryRoot, output, 'Link-check report output');
   const markdown = renderLinkCheckMarkdown(report);
   const json = JSON.stringify(report, null, 2);
-  const jsonOutput = output.replace(/\.md$/u, '.json');
-  writeFileSync(output, markdown);
-  writeFileSync(jsonOutput, json);
-  const stamp = (dependencies.now ?? (() => new Date()))().getTime();
-  writeFileSync(path.join(path.dirname(output), `report_${stamp}.md`), markdown);
-  writeFileSync(path.join(path.dirname(output), `report_${stamp}.json`), json);
+  writeAtomicRepositoryFiles(options.repositoryRoot, [
+    {path: options.output, contents: markdown},
+    {path: jsonOutput, contents: json},
+    {path: timestampedMarkdown, contents: markdown},
+    {path: timestampedJson, contents: json},
+  ], 'Link-check report output');
   write(`Deleted links: ${report.summary.deleted_links}`);
   write(`Added links: ${report.summary.added_links}`);
   write(`Total external links: ${report.summary.external_links}`);

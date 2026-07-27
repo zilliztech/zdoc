@@ -416,4 +416,25 @@ describe('report-card client and command behavior', () => {
       requestJson: async () => ({code: 0}),
     })).rejects.toThrow(/symlink/i);
   });
+
+  it('rejects a symlinked card-state output before network access or outside writes', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const outside = path.join(mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-outside-')), 'sentinel.json');
+    writeFileSync(outside, 'outside sentinel');
+    symlinkSync(outside, path.join(root, '.build-card-state.json'));
+    let requested = false;
+
+    await expect(executeReportCard({
+      repositoryRoot: root,
+      action: 'create',
+      options: {title: 'Build', stages: 'Build'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => { requested = true; return 'token'; },
+      requestJson: async () => { requested = true; return {data: {message_id: 'om_123'}}; },
+    })).rejects.toThrow(/symlink/i);
+
+    expect(requested).toBe(false);
+    expect(readFileSync(outside, 'utf8')).toBe('outside sentinel');
+  });
 });

@@ -4,6 +4,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
 import type {AliyunOssValidator} from '@zilliz/publication-adapters';
+import {config as loadDotenv} from 'dotenv';
 
 import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
 import {checkLinks} from './links/check.ts';
@@ -130,6 +131,7 @@ async function main(): Promise<void> {
   try {
     const argv = process.argv.slice(2);
     const repositoryRoot = path.resolve(process.cwd());
+    loadDotenv({path: path.join(repositoryRoot, '.env'), override: false});
     if (await executeExplicitCommand(argv, repositoryRoot)) return;
     if (argv[0] === 'reference-manifest' || argv[0] === 'validate-reference') {
       await executeReferenceDocsToolingCommand(argv, {write: message => process.stdout.write(`${message}\n`)});

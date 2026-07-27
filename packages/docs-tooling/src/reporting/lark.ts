@@ -1,9 +1,10 @@
 import {randomUUID as nodeRandomUUID} from 'node:crypto';
-import {appendFileSync, existsSync, lstatSync, readFileSync, realpathSync, writeFileSync} from 'node:fs';
+import {appendFileSync, existsSync, lstatSync, readFileSync, realpathSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import path from 'node:path';
 
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
+import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';
 
 const require = createRequire(import.meta.url);
 const {fetchFeishuJsonWithRetry} = require('../lark/feishuFetch.js');
@@ -411,11 +412,7 @@ function safeInput(repositoryRoot, relativePath, label) {
 }
 
 function statePath(repositoryRoot) {
-  const target = path.join(repositoryRoot, CARD_STATE_FILE);
-  if (existsSync(target) && (lstatSync(target).isSymbolicLink() || !lstatSync(target).isFile())) {
-    throw new Error('Card state must be a regular non-symlink file');
-  }
-  return target;
+  return assertSafeAtomicWriteTargets(repositoryRoot, [CARD_STATE_FILE], 'Card state')[0].finalPath;
 }
 
 function loadState(repositoryRoot) {
@@ -425,7 +422,7 @@ function loadState(repositoryRoot) {
 }
 
 function saveState(repositoryRoot, state) {
-  writeFileSync(statePath(repositoryRoot), JSON.stringify(state, null, 2));
+  writeAtomicRepositoryFiles(repositoryRoot, [{path: CARD_STATE_FILE, contents: JSON.stringify(state, null, 2)}], 'Card state');
 }
 
 async function defaultTokenProvider(credentials) {
@@ -477,6 +474,7 @@ export async function executeReportCard(request, dependencies = {}) {
   if (!['create', 'advance', 'note', 'finish'].includes(action)) {
     throw new Error('report-card action must be create, advance, note, or finish');
   }
+  statePath(repositoryRoot);
   const auth = credentials(environment);
   const tokenProvider = dependencies.tokenProvider || defaultTokenProvider;
   const requestJson = dependencies.requestJson || fetchFeishuJsonWithRetry;
@@ -607,4 +605,3 @@ export {
   parseNotesJson,
   reportNeedsAttention,
 };
-

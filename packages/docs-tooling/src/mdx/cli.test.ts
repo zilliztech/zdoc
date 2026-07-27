@@ -16,12 +16,32 @@ function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-mdx-cli-'));
 }
 
-function run(repositoryRoot: string, ...args: string[]) {
+const cliEnvironmentKeys = [
+  'APP_ID', 'APP_SECRET', 'FEISHU_HOST', 'LARK_RECEIVE_ID',
+  'LINK_CHECKS_REMOTE_SITEMAP', 'LINK_CHECKS_REMOTE_BASE_URL', 'LINK_CHECKS_LOCAL_SITEMAP',
+];
+
+function subprocessEnvironment(overrides: NodeJS.ProcessEnv = {}): NodeJS.ProcessEnv {
+  const environment = {...process.env};
+  for (const key of cliEnvironmentKeys) delete environment[key];
+  return {...environment, ...overrides};
+}
+
+function runWithEnvironment(repositoryRoot: string, environment: NodeJS.ProcessEnv, ...args: string[]) {
   return spawnSync(process.execPath, ['--experimental-strip-types', cliMain, ...args], {
     cwd: repositoryRoot,
     encoding: 'utf8',
-    env: {...process.env},
+    env: subprocessEnvironment(environment),
   });
+}
+
+function run(repositoryRoot: string, ...args: string[]) {
+  return runWithEnvironment(repositoryRoot, {}, ...args);
+}
+
+function writeSitemap(root: string, relativePath: string, url: string): void {
+  mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
+  writeFileSync(path.join(root, relativePath), `<urlset><url><loc>${url}</loc></url></urlset>`);
 }
 
 describe('docs-tooling validate-mdx', () => {
@@ -71,6 +91,32 @@ describe('docs-tooling check-links', () => {
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/output|report|unsafe|\.md/i);
   });
+
+  it('loads link-check configuration from the repository-root .env', () => {
+    const root = temporaryRoot();
+    writeSitemap(root, 'fixtures/remote.xml', 'https://docs.zilliz.com/docs/old/');
+    writeSitemap(root, 'fixtures/local.xml', 'https://docs.zilliz.com/docs/new/');
+    writeFileSync(path.join(root, '.env'), 'LINK_CHECKS_LOCAL_SITEMAP=fixtures/local.xml\n');
+
+    const result = runWithEnvironment(root, {LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml'}, 'check-links', '--site', 'en', '--output', 'tmp/report.md');
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(JSON.parse(readFileSync(path.join(root, 'tmp/report.json'), 'utf8')).summary).toMatchObject({deleted_links: 1, added_links: 1});
+  });
+
+  it('keeps explicit process environment values over repository-root .env values', () => {
+    const root = temporaryRoot();
+    writeSitemap(root, 'fixtures/remote.xml', 'https://docs.zilliz.com/docs/old/');
+    writeSitemap(root, 'fixtures/local.xml', 'https://docs.zilliz.com/docs/new/');
+    writeFileSync(path.join(root, '.env'), 'LINK_CHECKS_REMOTE_SITEMAP=fixtures/missing.xml\nLINK_CHECKS_LOCAL_SITEMAP=fixtures/missing.xml\n');
+
+    const result = runWithEnvironment(root, {
+      LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml',
+      LINK_CHECKS_LOCAL_SITEMAP: 'fixtures/local.xml',
+    }, 'check-links', '--site', 'en', '--output', 'tmp/report.md');
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+  });
 });
 
 describe('docs-tooling report-card', () => {
@@ -94,5 +140,32 @@ describe('docs-tooling report-card', () => {
     const result = run(temporaryRoot(), 'report-card', 'delete');
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/create.*advance.*note.*finish/i);
+  });
+
+  it('loads report-card credentials from the repository-root .env', () => {
+    const root = temporaryRoot();
+    const secret = 'dotenv-secret-value';
+    writeFileSync(path.join(root, '.env'), `APP_ID=dotenv-app-id\nAPP_SECRET=${secret}\n`);
+
+    const result = run(root, 'report-card', 'create', '--title', 'Build', '--stages', 'Build');
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/FEISHU_HOST.*required/i);
+    expect(result.stderr).not.toMatch(/APP_ID.*required|APP_SECRET.*required/i);
+    expect(result.stderr).not.toContain(secret);
+    expect(result.stdout).not.toContain(secret);
+  });
+
+  it('names only missing credential variables and never prints dotenv secrets', () => {
+    const root = temporaryRoot();
+    const secret = 'dotenv-do-not-print';
+    writeFileSync(path.join(root, '.env'), `APP_SECRET=${secret}\nFEISHU_HOST=https://open.feishu.cn\n`);
+
+    const result = run(root, 'report-card', 'create', '--title', 'Build', '--stages', 'Build');
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/APP_ID.*required/i);
+    expect(result.stderr).not.toContain(secret);
+    expect(result.stdout).not.toContain(secret);
   });
 });
