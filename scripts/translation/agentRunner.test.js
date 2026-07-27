@@ -12,6 +12,7 @@ const {
   isRetryableProviderError,
   loadChunkLimits,
   parseNonNegativeInteger,
+  promptNamesFor,
   processItemWithRetry,
   processManifestItem,
   protectEsmStatements,
@@ -19,6 +20,7 @@ const {
   runWorkerPool,
   stabilizeBareUrlFormatting,
   stripCodeFence,
+  validateTranslationManifest,
   withTimeout,
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
@@ -35,6 +37,104 @@ function withTempDir(callback) {
 function write(filePath, content) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   fs.writeFileSync(filePath, content, 'utf8')
+}
+
+function testSelectsPromptsByTranslationTarget() {
+  assert.deepEqual(promptNamesFor('ja-JP'), {
+    translation: 'codex-translation-agent.ja-JP.md',
+    review: 'codex-review-agent.ja-JP.md',
+    rest: 'codex-rest-spec-translation-agent.ja-JP.md',
+  })
+  assert.equal(promptNamesFor('zh-CN-reference').review, 'codex-review-agent.zh-CN-reference.md')
+  assert.equal(promptNamesFor('zh-CN-tools').translation, 'codex-translation-agent.zh-CN-tools.md')
+  assert.equal(promptNamesFor('zh-CN-tools').rest, undefined)
+  assert.throws(() => promptNamesFor('zh-CN'), /Unsupported translation target/)
+  assert.throws(() => promptNamesFor('unknown'), /Unsupported translation target/)
+}
+
+function testMessageBuildersSelectPromptsFromTarget() {
+  const common = {
+    target: 'zh-CN-tools',
+    sourcePath: 'content/en/guides/tutorials/tools/test.md',
+    sourceContent: '# Tool\n',
+    locale: 'zh-CN',
+  }
+  assert.match(buildTranslationMessages(common)[0].content, /complete .*Tools chapter/i)
+  assert.match(buildReviewMessages({...common, translatedContent: '# 工具\n'})[0].content, /materially English/i)
+  assert.match(buildCorrectionMessages({
+    ...common,
+    translatedContent: '# Tool\n',
+    review: {pass: false, issues: [{severity: 'high', type: 'style', comment: 'Translate the heading.'}]},
+  })[0].content, /complete .*Tools chapter/i)
+  assert.match(buildCorrectionMessages({
+    target: 'ja-JP',
+    sourcePath: 'content/en/guides/tutorials/test.md',
+    sourceContent: '# Test\n',
+    translatedContent: '# テスト\n',
+    review: {pass: false, issues: []},
+    locale: 'ja-JP',
+  })[0].content, /Correction Agent for Japanese/)
+}
+
+function validManifest(overrides = {}) {
+  return {
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    group: null,
+    sourceCheckpointSha: null,
+    generatedAt: '2026-07-27T00:00:00.000Z',
+    items: [{
+      sourcePath: 'content/en/reference/api/python/search.md',
+      targetPath: 'content/zh-CN/reference/api/python/search.md',
+      sourceHash: 'a'.repeat(64),
+      locale: 'zh-CN',
+      type: 'reference',
+      reason: 'current_delta',
+    }],
+    ...overrides,
+  }
+}
+
+function testValidatesExactManifestTargetContract() {
+  assert.equal(validateTranslationManifest(validManifest()).target, 'zh-CN-reference')
+  assert.throws(() => validateTranslationManifest(validManifest({target: undefined})), /target/i)
+  assert.throws(() => validateTranslationManifest(validManifest({target: 'zh-CN'})), /Unsupported translation target/)
+  assert.throws(() => validateTranslationManifest(validManifest({locale: undefined})), /locale/i)
+  assert.throws(() => validateTranslationManifest(validManifest({locale: 'ja-JP'})), /locale/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    locale: 'ja-JP',
+  }]})), /locale/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    sourcePath: 'content/en/guides/tutorials/tools/search.md',
+  }]})), /source path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    sourcePath: undefined,
+  }]})), /source path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    targetPath: 'content/zh-CN/guides/tutorials/tools/search.md',
+  }]})), /target path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    targetPath: undefined,
+  }]})), /target path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    sourcePath: 'content/en/reference/../guides/search.md',
+    targetPath: 'content/zh-CN/reference/../guides/search.md',
+  }]})), /source path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    type: 'tools',
+  }]})), /type/i)
+  assert.throws(() => validateTranslationManifest({...validManifest(), retirementAuthority: true}), /exact schema/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    retirementReason: 'source_deleted',
+  }]})), /exact schema/i)
 }
 
 async function testCorrectionRunsWhenReviewFails() {
@@ -59,6 +159,7 @@ async function testCorrectionRunsWhenReviewFails() {
     const result = await processManifestItem({
       siteDir,
       item: {
+        target: 'ja-JP',
         sourcePath,
         targetPath,
         sourceHash: 'abc123',
@@ -91,7 +192,7 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
     }
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'rest', locale: 'ja-JP', type: 'reference' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'rest', locale: 'ja-JP', type: 'reference' },
       callModel,
       validate: async () => [],
     })
@@ -238,7 +339,7 @@ function testChunkMessagesContainContinuityContext() {
     documentTitle: 'Analyzer overview',
     previousTranslatedHeading: '概要',
   }
-  const common = { sourcePath: 'docs/test.md', sourceContent: '# Section\n', locale: 'ja-JP', chunkContext }
+  const common = { target: 'ja-JP', sourcePath: 'docs/test.md', sourceContent: '# Section\n', locale: 'ja-JP', chunkContext }
   const translation = buildTranslationMessages(common).at(-1).content
   const review = buildReviewMessages({ ...common, translatedContent: '# セクション\n' }).at(-1).content
   const correction = buildCorrectionMessages({
@@ -254,6 +355,7 @@ function testChunkMessagesContainContinuityContext() {
   }
   assert.match(translation, /Translate this consecutive MDX\/Markdown section/)
   assert.match(buildTranslationMessages({
+    target: 'ja-JP',
     sourcePath: 'docs/test.md',
     sourceContent: '# Complete\n',
     locale: 'ja-JP',
@@ -292,7 +394,7 @@ async function testLongDocumentTranslatesChunksSequentially() {
 
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
       chunkTargetChars: 45,
@@ -326,7 +428,7 @@ async function testRestoresSourceImportsBeforeValidation() {
 
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'import-hash', locale: 'ja-JP', type: 'reference' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'import-hash', locale: 'ja-JP', type: 'reference' },
       callModel,
       maxReviewRounds: 0,
     })
@@ -361,7 +463,7 @@ async function testRepairsUnescapedHeadingAnchorsAfterTranslation() {
       : '{"pass":true,"issues":[]}'
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'anchor-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'anchor-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
     })
@@ -380,7 +482,7 @@ async function testRejectsChangedHeadingAnchorIdentity() {
       : '{"pass":true,"issues":[]}'
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'changed-anchor-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'changed-anchor-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
     })
@@ -410,7 +512,7 @@ async function testFailedChunkDoesNotWritePartialTarget() {
 
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
       chunkTargetChars: 20,
@@ -558,6 +660,9 @@ async function testProgressCoordinatorCheckpointsCacheAndReport() {
 }
 
 async function run() {
+  testSelectsPromptsByTranslationTarget()
+  testMessageBuildersSelectPromptsFromTarget()
+  testValidatesExactManifestTargetContract()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
   await testProviderCallRetriesTransientFailures()

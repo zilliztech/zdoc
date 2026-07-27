@@ -6,7 +6,9 @@ const yaml = require('js-yaml')
 const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
-const { assembleRestDocument, parseRestDocument, translateRestSpecs } = require('./restSpecLocalization')
+const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
+const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts')
+const { assertSafeRepositoryRelativePath } = require('../../packages/docs-tooling/src/validation/ownership.ts')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
@@ -40,11 +42,6 @@ function loadChunkLimits(env = process.env) {
 function normalizeBaseUrl(raw) {
   const base = String(raw || '').replace(/\/+$/, '')
   return base.endsWith('/v1') ? base : `${base}/v1`
-}
-
-function loadPrompt(name) {
-  const promptPath = path.join(process.cwd(), '.github', 'prompts', name)
-  return fs.readFileSync(promptPath, 'utf8')
 }
 
 function stripCodeFence(text) {
@@ -204,13 +201,13 @@ function formatDocumentContext(chunkContext) {
   return `${lines.join('\n')}\n`
 }
 
-function buildTranslationMessages({ sourcePath, sourceContent, locale, chunkContext }) {
+function buildTranslationMessages({ target, sourcePath, sourceContent, locale, chunkContext }) {
   const context = formatDocumentContext(chunkContext)
   const instruction = chunkContext
     ? 'Translate this consecutive MDX/Markdown section:'
     : 'Translate this complete MDX/Markdown file:'
   return [
-    { role: 'system', content: loadPrompt('codex-translation-agent.md') },
+    { role: 'system', content: loadPrompt(promptNamesFor(target).translation) },
     {
       role: 'user',
       content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\n${instruction}\n\n${sourceContent}`,
@@ -218,10 +215,10 @@ function buildTranslationMessages({ sourcePath, sourceContent, locale, chunkCont
   ]
 }
 
-function buildReviewMessages({ sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
+function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
   const context = formatDocumentContext(chunkContext)
   return [
-    { role: 'system', content: loadPrompt('codex-review-agent.md') },
+    { role: 'system', content: loadPrompt(promptNamesFor(target).review) },
     {
       role: 'user',
       content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nTranslated draft${chunkContext ? ' section' : ''}:\n${translatedContent}`,
@@ -229,10 +226,18 @@ function buildReviewMessages({ sourcePath, sourceContent, translatedContent, loc
   ]
 }
 
-function buildCorrectionMessages({ sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
+function correctionPromptFor(target) {
+  if (target === 'ja-JP') return loadPrompt('codex-correction-agent.md')
+  return `${loadPrompt(promptNamesFor(target).translation)}\n\nRevise the current translation to fix every issue in the supplied review JSON. Prefer surgical correction and return only the corrected content.`
+}
+
+function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
   const context = formatDocumentContext(chunkContext)
   return [
-    { role: 'system', content: loadPrompt('codex-correction-agent.md') },
+    {
+      role: 'system',
+      content: correctionPromptFor(target),
+    },
     {
       role: 'user',
       content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nCurrent translation${chunkContext ? ' section' : ''}:\n${translatedContent}\n\nReview JSON:\n${JSON.stringify(review, null, 2)}`,
@@ -312,6 +317,7 @@ function restoreEsmStatements(sourceContent, translatedContent) {
 }
 
 async function translateAndReviewUnit({
+  target,
   sourcePath,
   sourceContent,
   locale,
@@ -323,19 +329,19 @@ async function translateAndReviewUnit({
   const modelSourceContent = protectedEsm.content
   let translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
     agent: 'translation',
-    messages: buildTranslationMessages({ sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
+    messages: buildTranslationMessages({ target, sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
   })))
 
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
     review = parseReview(await callModel({
       agent: 'review',
-      messages: buildReviewMessages({ sourcePath, sourceContent: modelSourceContent, translatedContent, locale, chunkContext }),
+      messages: buildReviewMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, locale, chunkContext }),
     }))
     if (review.pass || round === maxReviewRounds) break
     translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
       agent: 'correction',
-      messages: buildCorrectionMessages({ sourcePath, sourceContent: modelSourceContent, translatedContent, review, locale, chunkContext }),
+      messages: buildCorrectionMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, review, locale, chunkContext }),
     })))
   }
   return { translatedContent: restoreProtectedEsm(translatedContent, protectedEsm), review }
@@ -359,6 +365,7 @@ async function processManifestItem({
   ) ? parseRestDocument(sourceContent) : null
   if (restDocument) {
     const shell = await translateAndReviewUnit({
+      target: item.target,
       sourcePath: item.sourcePath,
       sourceContent: restDocument.prefix,
       locale: item.locale,
@@ -369,9 +376,9 @@ async function processManifestItem({
     if (!shell.review.pass) return { ...item, status: 'failed', review: shell.review, validationErrors: [] }
     const specResult = await translateRestSpecs({
       sourceSpecs: restDocument.sourceSpecs,
+      target: item.target,
       locale: item.locale,
       callModel,
-      systemPrompt: loadPrompt('codex-rest-spec-translation-agent.md'),
     })
     const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
       translatedPrefix: shell.translatedContent,
@@ -401,6 +408,7 @@ async function processManifestItem({
         }
       : null
     const unit = await translateAndReviewUnit({
+      target: item.target,
       sourcePath: item.sourcePath,
       sourceContent: chunk.source,
       locale: item.locale,
@@ -449,6 +457,74 @@ async function processManifestItem({
     validationErrors: [],
     chunks: { total: chunks.length },
   }
+}
+
+function assertExactKeys(value, allowedKeys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object with an exact schema`)
+  const unexpected = Object.keys(value).filter(key => !allowedKeys.includes(key))
+  if (unexpected.length) throw new Error(`${label} must use the exact schema; unexpected field(s): ${unexpected.join(', ')}`)
+}
+
+function mappedTargetPath(target, sourcePath) {
+  if (target.id === 'ja-JP') {
+    for (const mapping of target.mappings) {
+      if (sourcePath.startsWith(`${mapping.sourceRoot}/`)) {
+        return `${mapping.targetRoot}/${sourcePath.slice(mapping.sourceRoot.length + 1)}`
+      }
+    }
+    return null
+  }
+  if (target.id === 'zh-CN-tools' && sourcePath === target.sidebarSource) return target.sidebarTarget
+  if (!sourcePath.startsWith(`${target.sourceRoot}/`)) return null
+  return `${target.targetRoot}/${sourcePath.slice(target.sourceRoot.length + 1)}`
+}
+
+function expectedItemType(target, sourcePath) {
+  if (target.id === 'zh-CN-reference') return 'reference'
+  if (target.id === 'zh-CN-tools') return sourcePath === target.sidebarSource ? 'sidebar' : 'tools'
+  if (sourcePath.startsWith(`${target.mappings[0].sourceRoot}/`)) return 'guides'
+  if (sourcePath.startsWith(`${target.mappings[1].sourceRoot}/`)) return 'byoc'
+  if (sourcePath.startsWith(`${target.mappings[2].sourceRoot}/`)) return 'reference'
+  return null
+}
+
+function validateTranslationManifest(manifest) {
+  assertExactKeys(manifest, ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch'], 'Translation manifest')
+  if (typeof manifest.target !== 'string') throw new Error('Translation manifest target is required')
+  let target
+  try {
+    target = resolveTranslationTarget(manifest.target)
+  } catch {
+    throw new Error(`Unsupported translation target: ${manifest.target}`)
+  }
+  promptNamesFor(manifest.target)
+  if (manifest.locale !== target.locale) throw new Error(`Translation manifest locale must be ${target.locale} for target ${target.id}`)
+  if (!Array.isArray(manifest.items)) throw new Error('Translation manifest items must be an array')
+  for (const [index, item] of manifest.items.entries()) {
+    const label = `Translation manifest item ${index}`
+    assertExactKeys(item, ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason'], label)
+    if (item.locale !== target.locale) throw new Error(`${label} locale must be ${target.locale}`)
+    if (!(target.id === 'zh-CN-tools' && item.sourcePath === target.sidebarSource)) {
+      try {
+        assertSafeRepositoryRelativePath(item.sourcePath, `${label} source path`)
+      } catch {
+        throw new Error(`${label} source path must be a safe normalized repository-relative path`)
+      }
+    }
+    try {
+      assertSafeRepositoryRelativePath(item.targetPath, `${label} target path`)
+    } catch {
+      throw new Error(`${label} target path must be a safe normalized repository-relative path`)
+    }
+    const expectedTargetPath = mappedTargetPath(target, item.sourcePath)
+    if (!expectedTargetPath) throw new Error(`${label} source path is outside target ${target.id}`)
+    if (item.targetPath !== expectedTargetPath) throw new Error(`${label} target path must be ${expectedTargetPath}`)
+    const expectedType = expectedItemType(target, item.sourcePath)
+    if (item.type !== expectedType) throw new Error(`${label} type must be ${expectedType}`)
+    if (!/^[0-9a-f]{64}$/.test(item.sourceHash || '')) throw new Error(`${label} sourceHash must be 64 lowercase hex characters`)
+    if (!['current_delta', 'missing_target', 'stale_source'].includes(item.reason)) throw new Error(`${label} has an unsupported reason`)
+  }
+  return manifest
 }
 
 function loadAgentConfigsFromEnv() {
@@ -573,7 +649,7 @@ async function main() {
   const softDeadlineMs = parsePositiveInteger(process.env.TRANSLATION_SOFT_DEADLINE_MS, 18000000)
   const chunkLimits = loadChunkLimits()
   const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
-  const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8'))
+  const manifest = validateTranslationManifest(JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8')))
   const callModel = await createProviderCall(loadAgentConfigsFromEnv(), {
     maxRetries: maxProviderRetries,
     timeoutMs: providerTimeoutMs,
@@ -612,7 +688,7 @@ async function main() {
           processItem: () => withTimeout(
             processManifestItem({
               siteDir,
-              item,
+              item: {...item, target: manifest.target},
               callModel,
               maxReviewRounds,
               chunkTargetChars: chunkLimits.targetChars,
@@ -665,6 +741,7 @@ module.exports = {
   parseReview,
   parsePositiveInteger,
   parseNonNegativeInteger,
+  promptNamesFor,
   processItemWithRetry,
   processManifestItem,
   protectEsmStatements,
@@ -674,6 +751,7 @@ module.exports = {
   restoreProtectedEsm,
   stabilizeBareUrlFormatting,
   stripCodeFence,
+  validateTranslationManifest,
   validateTranslatedContent,
   withTimeout,
 }

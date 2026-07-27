@@ -51,6 +51,7 @@ function testBuildManifestIncludesChangedAndMissingDocs() {
 
     const manifest = buildManifest({ siteDir, locale: 'ja-JP', includeReference: false })
 
+    assert.equal(manifest.target, 'ja-JP')
     assert.deepEqual(
       manifest.items.map(item => item.sourcePath).sort(),
       ['content/en/byoc/tutorials/byoc.md', 'content/en/guides/tutorials/hello.md'],

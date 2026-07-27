@@ -22,8 +22,11 @@ test('extracts supported prose without examples or existing locale data', () => 
 
 test('adds Japanese locale data without changing the source specification', async () => {
   const { localized, translatedCount } = await translateRestSpecs({
-    sourceSpecs, locale: 'ja-JP', systemPrompt: 'prompt',
-    callModel: async ({ messages }) => JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: `JA:${entry.text}` }))),
+    sourceSpecs, target: 'ja-JP', locale: 'ja-JP',
+    callModel: async ({ messages }) => {
+      assert.match(messages[0].content, /from English to Japanese/)
+      return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: `JA:${entry.text}` })))
+    },
   })
   assert.equal(translatedCount, 3)
   assert.equal(localized['x-i18n']['ja-JP'].summary, 'JA:Search')
@@ -43,7 +46,7 @@ test('parses and assembles a REST endpoint document with Japanese RestSpecs lang
 test('rejects translations that change protected API tokens', async () => {
   await assert.rejects(translateRestSpecs({
     sourceSpecs: { description: 'Use `offset` with {{TOKEN}} at https://example.com.' },
-    locale: 'ja-JP', systemPrompt: 'prompt',
+    target: 'ja-JP', locale: 'ja-JP',
     callModel: async ({ messages }) => JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '変更されたテキスト' }))),
   }), /protected token/i)
 })
@@ -54,8 +57,8 @@ test('allows code formatting to be added around unchanged technical identifiers'
   }
   const { localized } = await translateRestSpecs({
     sourceSpecs: technicalSpecs,
+    target: 'ja-JP',
     locale: 'ja-JP',
-    systemPrompt: 'prompt',
     callModel: async ({ messages }) => JSON.stringify(
       JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
         ...entry,
@@ -72,10 +75,32 @@ test('allows code formatting to be added around unchanged technical identifiers'
 test('rejects invented code identifiers that do not exist in the source prose', async () => {
   await assert.rejects(translateRestSpecs({
     sourceSpecs: { description: 'Use the INDEX function.' },
+    target: 'ja-JP',
     locale: 'ja-JP',
-    systemPrompt: 'prompt',
     callModel: async ({ messages }) => JSON.stringify(
       JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '`UNKNOWN` 関数を使用します。' })),
     ),
   }), /protected token/i)
+})
+
+test('selects the Chinese Reference REST prompt from target', async () => {
+  const {localized} = await translateRestSpecs({
+    sourceSpecs: {description: 'Search a collection.'},
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: async ({messages}) => {
+      assert.match(messages[0].content, /Simplified Chinese/)
+      return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '搜索 Collection。'})))
+    },
+  })
+  assert.equal(localized['x-i18n']['zh-CN'].description, '搜索 Collection。')
+})
+
+test('rejects REST translation for a target without a REST prompt product', async () => {
+  await assert.rejects(translateRestSpecs({
+    sourceSpecs: {description: 'Search a collection.'},
+    target: 'zh-CN-tools',
+    locale: 'zh-CN',
+    callModel: async () => '[]',
+  }), /REST translation is unsupported/i)
 })

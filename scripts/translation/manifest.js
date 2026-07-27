@@ -263,11 +263,11 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
   if (effectiveSourceDelta && (uniqueRetirements.length > 0 || Object.hasOwn(sourceDelta || {}, 'retirementCandidates'))) {
     effectiveSourceDelta.retirementCandidates = uniqueRetirements
   }
-  return createManifest({ locale, group, sourceCheckpointSha, sourceDelta: effectiveSourceDelta, items: selectedItems })
+  return createManifest({ target, locale, group, sourceCheckpointSha, sourceDelta: effectiveSourceDelta, items: selectedItems })
 }
 
-function createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items }) {
-  const manifest = { locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
+function createManifest({ target, locale, group, sourceCheckpointSha, sourceDelta, items }) {
+  const manifest = { target, locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
   if (sourceDelta) {
     manifest.source_delta = {
       deleted_i18n: [...(sourceDelta.deletedI18n || [])],
