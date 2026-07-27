@@ -12,6 +12,14 @@ function jobBlock(workflow, jobName) {
   return workflow.slice(headers[index].index, headers[index + 1]?.index);
 }
 
+function assertRetirementContract(workflow) {
+  const retirement = jobBlock(workflow, 'retirement');
+  const aggregate = jobBlock(workflow, 'site_validation');
+  assert.match(retirement, /run: pnpm test:retirement/);
+  assert.match(aggregate, /^      - retirement$/m);
+  assert.match(aggregate, /^          test "\$RETIREMENT_RESULT" = success$/m);
+}
+
 test('the repository pins one pnpm version for local, Docker, and GitHub Actions builds', async () => {
   const packageJson = JSON.parse(await readFile(path.join(repositoryRoot, 'package.json'), 'utf8'));
   assert.equal(packageJson.packageManager, 'pnpm@10.33.0');
@@ -60,11 +68,45 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /^  reference_coverage:$/m);
   assert.match(workflow, /pnpm docs-tooling validate-reference --site zh-CN/);
   assert.match(workflow, /^  retirement:$/m);
-  assert.match(workflow, /run: pnpm test:retirement/);
   assert.match(workflow, /^  site_validation:$/m);
-  assert.match(jobBlock(workflow, 'site_validation'), /^      - retirement$/m);
+  assertRetirementContract(workflow);
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/);
   assert.doesNotMatch(workflow, /secrets\.|contents: write|git push/);
+});
+
+test('a retirement command in a later job cannot satisfy the aggregate contract', () => {
+  const workflow = [
+    'jobs:',
+    '  retirement:',
+    '    steps:',
+    '      - run: echo skipped',
+    '  site_validation:',
+    '    needs:',
+    '      - retirement',
+    '    steps:',
+    '      - run: |',
+    '          test "$RETIREMENT_RESULT" = success',
+    '  unrelated:',
+    '    steps:',
+    '      - run: pnpm test:retirement',
+  ].join('\n');
+  assert.throws(() => assertRetirementContract(workflow));
+});
+
+test('a skipped retirement result cannot satisfy the aggregate contract', () => {
+  const workflow = [
+    'jobs:',
+    '  retirement:',
+    '    steps:',
+    '      - run: pnpm test:retirement',
+    '  site_validation:',
+    '    needs:',
+    '      - retirement',
+    '    steps:',
+    '      - run: |',
+    '          test "$RETIREMENT_RESULT" = success || test "$RETIREMENT_RESULT" = skipped',
+  ].join('\n');
+  assert.throws(() => assertRetirementContract(workflow));
 });
 
 test('the aggregate retirement dependency cannot be supplied by a later workflow job', () => {

@@ -9,35 +9,30 @@ const retiredPaths = new Set([
   'Dockerfile',
   'nginx.conf',
   'docker-entrypoint.d/40-zdoc-env.sh',
-  ['scripts', 'docs-workflow', ['run-content-group', 'js'].join('.')].join('/'),
-  ['config', 'generated', 'guides.sidebar.js'].join('/'),
+  'scripts/docs-workflow/run-content-group.js',
+  'config/generated/guides.sidebar.js',
 ]);
-const retiredDirectories = [
-  ['do', 'cs'].join(''),
-  [['do', 'cs'].join(''), 'byoc'].join('-'),
-  ['re', 'ference'].join(''),
-  ['i18n', 'zh-CN'].join('/'),
-];
+const retiredRoots = ['docs', 'docs-byoc', 'reference', 'config/generated', 'i18n/zh-CN'];
 const sourceReferenceExemptions = [
+  /^scripts\/architecture\/verify-retired-layout\.mjs$/,
   /^migration\//,
   /^\.claude\/superpowers\/plans\/2026-07-27-new-architecture-retirement\.md$/,
 ];
-const retiredReferenceRoots = [...retiredDirectories.slice(0, 3), ['config', 'generated'].join('/')];
-const retiredReferencePattern = retiredReferenceRoots.join('|');
-const rootPathReference = new RegExp(`(?:^|[\\s'"\\\`(=:])(?:${retiredReferencePattern})/`, 'm');
-const exactConfigGeneratedReference = new RegExp(
-  `(?:^|[\\s'"\\\`(=:])${retiredReferenceRoots.at(-1)}(?=$|['"\\\`\\s,;)}\\]])`,
-  'm',
-);
-const pathFieldReference = new RegExp(
-  `\\b(?:sourcePath|sourceRoot|folder|cwd)(?:['"\\\`])?\\s*[:=]\\s*(?:['"\\\`])?(?:${retiredDirectories.slice(0, 3).join('|')})(?:['"\\\`])?(?=\\s*(?:[,;}\\]\\n]|$))`,
-  'm',
-);
-const repositoryRootJoinReference = new RegExp(
-  `\\bpath\\.(?:join|resolve)\\(\\s*(?:repositoryRoot|repoRoot|root)\\s*,\\s*(?:['"\\\`](?:${retiredDirectories.slice(0, 3).join('|')})['"\\\`]|['"]config['"]\\s*,\\s*['"]generated['"])`,
-  'm',
-);
-const quotedRelativeReference = /(['"`])(\.{1,2}\/[^'"`]+)\1/g;
+const nonProductionRoles = [
+  /^\.claude\//,
+  /^\.translation-cache\//,
+  /^content\//,
+  /^i18n\//,
+  /^generated\//,
+  /^scripts\/migration\//,
+  /(?:^|\/)(?:reports|fixtures|snapshots|__fixtures__|__snapshots__|cache|caches|generated)\//,
+];
+const productionRoots = [/^\.github\//, /^scripts\//, /^config\//, /^deploy\//, /^apps\//, /^packages\//, /^plugins\//];
+const pathValuedField = /(?:^|[{,\n])\s*["']?(sourcePath|sourceRoot|folder|cwd|working-directory)["']?\s*[:=]\s*(?:(["'`])([^"'`\n]+)\2|([^\s,;}\]]+))/gm;
+const shellChangeDirectory = /\bcd\s+(?:(["'])([^"']+)\1|([^\s;&|]+))/g;
+const rootedPathReference = /(?:^|[\s(=:])((?:docs|docs-byoc|reference)\/[^\s'"`;,)}\]]+|config\/generated(?:\/[^\s'"`;,)}\]]+)?|i18n\/zh-CN(?:\/[^\s'"`;,)}\]]+)?)/gm;
+const quotedString = /(["'`])([^"'`\n]+)\1/g;
+const repositoryRootPathCall = /\bpath\.(?:join|resolve)\(\s*(?:repositoryRoot|repoRoot|root|process\.cwd\(\))\s*,([\s\S]*?)\)/g;
 
 function normalize(relativePath) {
   return relativePath.split(path.sep).join('/');
@@ -45,7 +40,7 @@ function normalize(relativePath) {
 
 function isRetiredPath(relativePath) {
   return retiredPaths.has(relativePath)
-    || retiredDirectories.some(directory => relativePath.startsWith(`${directory}/`));
+    || retiredRoots.some(root => relativePath === root || relativePath.startsWith(`${root}/`));
 }
 
 function isReferenceExempt(relativePath) {
@@ -53,25 +48,60 @@ function isReferenceExempt(relativePath) {
 }
 
 function isProductionControlFile(relativePath) {
-  return controlFilePattern.test(relativePath) && !/\.(?:test|spec)\.[^.]+$/.test(relativePath);
+  if (!controlFilePattern.test(relativePath) || /\.(?:test|spec)\.[^.]+$/.test(relativePath)) return false;
+  if (isReferenceExempt(relativePath) || nonProductionRoles.some(pattern => pattern.test(relativePath))) return false;
+  if (relativePath.endsWith('.md')) return relativePath.startsWith('.github/');
+  if (!relativePath.includes('/')) return true;
+  return productionRoots.some(pattern => pattern.test(relativePath));
 }
 
 function targetsRetiredRoot(relativePath) {
-  return retiredReferenceRoots.some(root => relativePath === root || relativePath.startsWith(`${root}/`));
+  const normalized = path.posix.normalize(relativePath.replaceAll('\\', '/')).replace(/^\.\//, '');
+  return retiredRoots.some(root => normalized === root || normalized.startsWith(`${root}/`));
+}
+
+function lineNumber(source, index) {
+  return source.slice(0, index).split('\n').length;
+}
+
+function finding(source, match, reference) {
+  return {line: lineNumber(source, match.index), reference};
 }
 
 function hasRetiredReference(relativePath, source) {
-  if (/run-content-group\.js/.test(source)
-    || rootPathReference.test(source)
-    || exactConfigGeneratedReference.test(source)
-    || pathFieldReference.test(source)
-    || repositoryRootJoinReference.test(source)) return true;
+  const retiredRunner = /run-content-group\.js/.exec(source);
+  if (retiredRunner) return finding(source, retiredRunner, retiredRunner[0]);
 
-  for (const [, , reference] of source.matchAll(quotedRelativeReference)) {
-    const destination = path.posix.normalize(path.posix.join(path.posix.dirname(relativePath), reference));
-    if (targetsRetiredRoot(destination)) return true;
+  for (const match of source.matchAll(rootedPathReference)) {
+    if (targetsRetiredRoot(match[1])) return finding(source, match, match[1]);
   }
-  return false;
+
+  for (const match of source.matchAll(pathValuedField)) {
+    const reference = match[3] ?? match[4];
+    if (targetsRetiredRoot(reference)) return finding(source, match, `${match[1]}: ${reference}`);
+  }
+
+  for (const match of source.matchAll(shellChangeDirectory)) {
+    const reference = match[2] ?? match[3];
+    if (targetsRetiredRoot(reference)) return finding(source, match, `cd ${reference}`);
+  }
+
+  for (const match of source.matchAll(repositoryRootPathCall)) {
+    const segments = [...match[1].matchAll(quotedString)].map(value => value[2]);
+    const reference = segments.join('/');
+    if (targetsRetiredRoot(reference)) return finding(source, match, reference);
+  }
+
+  for (const match of source.matchAll(quotedString)) {
+    const reference = match[2];
+    if (reference.startsWith('./') || reference.startsWith('../')) {
+      const destination = path.posix.normalize(path.posix.join(path.posix.dirname(relativePath), reference));
+      if (targetsRetiredRoot(destination)) return finding(source, match, reference);
+    } else if (reference.includes('/') && targetsRetiredRoot(reference)) {
+      return finding(source, match, reference);
+    }
+  }
+  return null;
 }
 
 async function filesIn(directory, prefix = '') {
@@ -106,10 +136,15 @@ export async function verifyRetiredLayout(repositoryRoot) {
 
   for (const relativePath of files) {
     if (!isProductionControlFile(relativePath) || isReferenceExempt(relativePath)) continue;
-    const source = await readFile(path.join(repositoryRoot, relativePath), 'utf8');
-    if (hasRetiredReference(relativePath, source)) {
-      violations.push(`Retired layout reference in: ${relativePath}`);
+    let source;
+    try {
+      source = await readFile(path.join(repositoryRoot, relativePath), 'utf8');
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw error;
     }
+    const match = hasRetiredReference(relativePath, source);
+    if (match) violations.push(`Retired layout reference in: ${relativePath}:${match.line} (${match.reference})`);
   }
 
   if (violations.length > 0) throw new Error(`Retired layout violations:\n${violations.join('\n')}`);

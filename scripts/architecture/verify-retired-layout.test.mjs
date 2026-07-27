@@ -1,18 +1,38 @@
 import assert from 'node:assert/strict';
-import {mkdtemp, mkdir, writeFile} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import {mkdtemp, mkdir, rm, symlink, unlink, writeFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import test from 'node:test';
+import test, {afterEach} from 'node:test';
 
 import {verifyRetiredLayout} from './verify-retired-layout.mjs';
 
+const fixtureRoots = new Set();
+
+afterEach(async () => {
+  await Promise.all([...fixtureRoots].map(root => rm(root, {recursive: true, force: true})));
+  fixtureRoots.clear();
+});
+
 async function createFixture(files) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'verify-retired-layout-'));
+  fixtureRoots.add(root);
   for (const [relativePath, source = 'fixture\n'] of Object.entries(files)) {
     const target = path.join(root, relativePath);
     await mkdir(path.dirname(target), {recursive: true});
     await writeFile(target, source);
   }
+  return root;
+}
+
+function git(root, ...args) {
+  execFileSync('git', ['-C', root, ...args], {stdio: 'ignore'});
+}
+
+async function createGitFixture(files, trackedPaths = Object.keys(files)) {
+  const root = await createFixture(files);
+  git(root, 'init');
+  if (trackedPaths.length > 0) git(root, 'add', '--', ...trackedPaths);
   return root;
 }
 
@@ -107,6 +127,99 @@ test('rejects path.join from the repository root to a retired directory', async 
     'scripts/validate.mjs': "const target = path.join(repositoryRoot, 'reference');\n",
   });
   await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
+});
+
+for (const retiredRoot of ['docs', 'docs-byoc', 'reference', 'config/generated']) {
+  test(`rejects YAML working-directory at ${retiredRoot}`, async () => {
+    const root = await createFixture({
+      '.github/workflows/check.yml': `steps:\n  - run: build\n    working-directory: ${retiredRoot}\n`,
+    });
+    await assert.rejects(() => verifyRetiredLayout(root), /\.github\/workflows\/check\.yml/);
+  });
+}
+
+test('allows YAML working-directory under a live nested source directory', async () => {
+  const root = await createFixture({
+    '.github/workflows/check.yml': 'steps:\n  - run: build\n    working-directory: packages/docs\n',
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+for (const retiredRoot of ['docs', './docs', 'docs-byoc', 'reference', 'config/generated']) {
+  test(`rejects shell cd to ${retiredRoot}`, async () => {
+    const root = await createFixture({'scripts/check.sh': `cd ${retiredRoot}\n`});
+    await assert.rejects(() => verifyRetiredLayout(root), /scripts\/check\.sh/);
+  });
+}
+
+test('allows shell cd to a live nested source directory', async () => {
+  const root = await createFixture({'scripts/check.sh': 'cd packages/docs\n'});
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+for (const retiredRoot of ['docs', 'docs-byoc', 'reference']) {
+  test(`rejects path.resolve from process.cwd() to ${retiredRoot}`, async () => {
+    const root = await createFixture({
+      'scripts/validate.mjs': `const target = path.resolve(process.cwd(), '${retiredRoot}');\n`,
+    });
+    await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
+  });
+}
+
+test('allows path.resolve from process.cwd() to a live nested source directory', async () => {
+  const root = await createFixture({
+    'scripts/validate.mjs': "const target = path.resolve(process.cwd(), 'packages', 'docs');\n",
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('scans live controls but excludes historical and generated evidence roles', async () => {
+  const root = await createFixture({
+    'scripts/live.mjs': "const legacy = 'docs/tutorials';\n",
+    '.claude/plans/history.md': 'docs/tutorials\n',
+    '.claude/specs/history.md': 'reference/api\n',
+    'migration/reports/history.json': '{"path":"docs/tutorials"}\n',
+    '.translation-cache/ja-JP.json': '{"path":"docs/tutorials"}\n',
+    'content/en/guides/a.md': 'docs/tutorials\n',
+    'packages/tool/reports/output.json': '{"path":"docs/tutorials"}\n',
+    'packages/tool/fixtures/input.json': '{"path":"docs/tutorials"}\n',
+    'packages/tool/snapshots/state.json': '{"path":"docs/tutorials"}\n',
+    'packages/tool/README.md': 'docs/tutorials\n',
+    'scripts/migration/inventory.mjs': "const legacy = 'docs/tutorials';\n",
+    'generated/evidence.json': '{"path":"docs/tutorials"}\n',
+    'README.md': 'docs/tutorials\n',
+  });
+  let error;
+  await assert.rejects(() => verifyRetiredLayout(root), value => {
+    error = value;
+    return true;
+  });
+  assert.match(error.message, /scripts\/live\.mjs/);
+  for (const excluded of ['.claude', 'migration/reports', '.translation-cache', 'content/en', '/reports/', '/fixtures/', '/snapshots/', 'packages/tool/README', 'scripts/migration', 'generated/evidence', 'README.md']) {
+    assert.doesNotMatch(error.message, new RegExp(excluded.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+});
+
+for (const retiredRoot of ['docs', 'docs-byoc', 'reference', 'config/generated', 'i18n/zh-CN']) {
+  test(`rejects a tracked symlink at the exact retired root ${retiredRoot}`, async () => {
+    const root = await createGitFixture({'canonical/marker.txt': 'live\n'}, ['canonical/marker.txt']);
+    const target = path.join(root, retiredRoot);
+    await mkdir(path.dirname(target), {recursive: true});
+    await symlink(path.relative(path.dirname(target), path.join(root, 'canonical')), target);
+    git(root, 'add', '--', retiredRoot);
+    await assert.rejects(() => verifyRetiredLayout(root), new RegExp(retiredRoot.replace('/', '\\/')));
+  });
+}
+
+test('ignores untracked retired paths when a Git index is available', async () => {
+  const root = await createGitFixture({'package.json': '{}\n', 'docs/untracked.md': '# untracked\n'}, ['package.json']);
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('rejects a deleted path that remains tracked in the Git index', async () => {
+  const root = await createGitFixture({'docs/deleted.md': '# tracked\n'});
+  await unlink(path.join(root, 'docs/deleted.md'));
+  await assert.rejects(() => verifyRetiredLayout(root), /docs\/deleted\.md/);
 });
 
 for (const method of ['join', 'resolve']) {

@@ -136,6 +136,7 @@ jobs:
       - name: Require every selected validation to pass
         run: |
           test "$CLASSIFY_RESULT" = success
-          for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$RETIREMENT_RESULT"; do
+          test "$RETIREMENT_RESULT" = success
+          for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT"; do
             test "$result" = success || test "$result" = skipped
           done
