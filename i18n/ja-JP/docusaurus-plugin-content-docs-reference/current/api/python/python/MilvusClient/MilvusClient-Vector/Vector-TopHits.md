@@ -2,18 +2,18 @@
 title: "TopHits | Python | MilvusClient"
 slug: /python/python/Vector-TopHits
 sidebar_label: "TopHits"
-beta: PRIVATE
+beta: PUBLIC
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A `TopHits` インスタンスは、search aggregation の各 bucket から返される代表的なヒットを定義します。bucket ごとに返すヒット数と、必要に応じて各 bucket 内でのヒットの並べ替え方法を指定します。 | Python | MilvusClient"
+description: "`TopHits` インスタンスは、各 `SearchAggregation` バケットから返される代表エンティティを設定します。 | Python | MilvusClient"
 type: docx
-token: EgeGdZL4LoCuv2xVUfFc9eDAnkd
-sidebar_position: 12
+token: PszSdqvtRo4t96xrW0ycWlVAnfc
+sidebar_position: 14
 keywords: 
   - milvus open source
-  - milvus の仕組み
+  - milvus はどのように動作するか
   - Zilliz vector database
   - Zilliz database
   - zilliz
@@ -31,17 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # TopHits
 
-`TopHits` インスタンスは、search aggregation の各 bucket から返される代表的なヒットを定義します。bucket ごとに返すヒット数と、必要に応じて各 bucket 内でのヒットの並べ替え方法を指定します。
-
-このドラフトは Search Aggregation API の設計入力に基づいています。公開前に、最終的なコンストラクタのシグネチャ、インポートパス、バリデーションルール、およびプロパティ名を PyMilvus のソースと照合して確認してください。
+`TopHits` インスタンスは、各 `SearchAggregation` バケットから返される代表エンティティを設定します。
 
 ```python
 class pymilvus.TopHits
 ```
 
 ## Constructor\{#constructor}
-
-`GroupBy` オブジェクトで使用するための `TopHits` オブジェクトを構築します。
 
 ```python
 TopHits(
@@ -52,76 +48,33 @@ TopHits(
 
 **PARAMETERS:**
 
-- **size** (*int*) -
+- **size** (*int*) **[REQUIRED]** -
 
-    **[REQUIRED]**
-
-    各 bucket から返す代表的なヒット数。
-
-    たとえば、`TopHits(size=3)` は各 bucket から最大 3 件のヒットを返します。
+    各バケットから返される代表エンティティの最大数です。値は正の整数である必要があります。
 
 - **sort** (*list[dict[str, str]] | None*) -
 
-    ヒットレベルの並べ替えルールのリスト。
-
-    各項目はフィールドと並び順の方向を定義します。
-
-    ```python
-    sort=[{"field": "rating", "order": "desc"}]
-    ```
-
-    `field` の値はドキュメントレベルのフィールドまたは `_score` である必要があります。`order` の値は `asc` または `desc` である必要があります。
-
-    `sort` は bucket 内でのヒットの順序のみを制御します。どの bucket が返されるか、bucket がどのように並べられるか、または bucket ごとのメトリクスがどのように計算されるかには影響しません。
-
-    `sort` を省略した場合、ヒットは vector 類似度スコアによって並べられます。
+    リストの順序で評価されるヒットの並び順ルールです。各項目は、スカラーフィールド名または `_score` を `"asc"` または `"desc"` に対応付ける単一キーの辞書です。省略した場合、サーバーはデフォルトのヒット順を使用します。
 
 **RETURN TYPE:**
 
 *TopHits*
 
-**RETURNS:**
-
-`TopHits` オブジェクト。
-
 **EXCEPTIONS:**
 
-- **ParamError**
+- **ParamError** - `size` が正の整数ではない場合、または `sort` が有効な方向を持つ単一キーの辞書のリストではない場合に発生します。
 
-    `TopHits` の指定が無効な場合、この例外が発生することがあります。たとえば、正でない `size`、サポートされていない並び順、サポートされていない並べ替えフィールド、または `sort` における bucket レベルのメトリクスエイリアスの使用などが該当します。
-
-    最終的な例外タイプは SDK の確認待ちです。
-
-## Examples\{#examples}
+## Example\{#example}
 
 ```python
-from pymilvus import GroupBy, TopHits
+from pymilvus import SearchAggregation, TopHits
 
-# Return the top 3 hits from each bucket by vector similarity score.
-group_by = GroupBy(
-    fields=["brand"],
-    size=10,
-    top_hits=TopHits(size=3),
-)
-
-# Return the 3 highest-rated hits from each bucket.
-group_by = GroupBy(
+aggregation = SearchAggregation(
     fields=["brand"],
     size=10,
     top_hits=TopHits(
         size=3,
-        sort=[{"field": "rating", "order": "desc"}],
+        sort=[{"rating": "desc"}, {"_score": "desc"}],
     ),
-)
-
-# Return only bucket keys and metrics by omitting TopHits.
-group_by = GroupBy(
-    fields=["brand"],
-    size=10,
-    metrics={
-        "item_count": {"count": "*"},
-        "avg_price": {"avg": "price"},
-    },
-    order=[{"avg_price": "desc"}],
 )
 ```
