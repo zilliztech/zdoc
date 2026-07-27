@@ -7,6 +7,7 @@ import test, {afterEach} from 'node:test';
 
 import {verifyRetiredLayout} from './verify-retired-layout.mjs';
 
+const repositoryRoot = path.resolve(import.meta.dirname, '../..');
 const fixtureRoots = new Set();
 
 afterEach(async () => {
@@ -144,6 +145,20 @@ for (const [field, retiredRoot] of [
   });
 }
 
+for (const [field, retiredPath] of [
+  ['contentRoot', 'docs'],
+  ['outputDir', 'docs/tutorials'],
+  ['outputPath', 'reference/api/restful/restful'],
+  ['sidebarPath', './config/generated/guides.sidebar.js'],
+]) {
+  test(`rejects the filesystem field ${field} at ${retiredPath}`, async () => {
+    const root = await createFixture({
+      'config/lark-docs.config.ts': `const target = {${field}: '${retiredPath}'};\n`,
+    });
+    await assert.rejects(() => verifyRetiredLayout(root), /config\/lark-docs\.config\.ts/);
+  });
+}
+
 test('rejects path.join from the repository root to a retired directory', async () => {
   const root = await createFixture({
     'scripts/validate.mjs': "const target = path.join(repositoryRoot, 'reference');\n",
@@ -193,6 +208,35 @@ test('allows path.resolve from process.cwd() to a live nested source directory',
     'scripts/validate.mjs': "const target = path.resolve(process.cwd(), 'packages', 'docs');\n",
   });
   await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('rejects retired literals returned by a path producer consumed by path.join', async () => {
+  const root = await createFixture({
+    'scripts/docs-workflow/render-guides-table.js': [
+      "const path = require('node:path')",
+      'function tableOutputPath(entry) {',
+      "  const root = entry.target === 'zilliz.saas'",
+      "    ? 'docs/tutorials'",
+      "    : 'docs-byoc/tutorials'",
+      '  return `${root}/${entry.table_slug}`',
+      '}',
+      'function render(options) {',
+      '  const outputPath = tableOutputPath(options)',
+      '  return path.join(options.workspace, outputPath)',
+      '}',
+    ].join('\n'),
+  });
+  await assert.rejects(() => verifyRetiredLayout(root), /scripts\/docs-workflow\/render-guides-table\.js/);
+});
+
+test('rejects a Commander filesystem-output option default at a retired root', async () => {
+  const root = await createFixture({
+    'packages/docs-tooling/src/reference/rest/index.js': [
+      "command.option('-o, --output_path <target_path>', 'Target path of the API Reference', 'reference/api/restful/restful')",
+      'fs.mkdirSync(opts.output_path, {recursive: true})',
+    ].join('\n'),
+  });
+  await assert.rejects(() => verifyRetiredLayout(root), /packages\/docs-tooling\/src\/reference\/rest\/index\.js/);
 });
 
 test('scans live controls but excludes historical and generated evidence roles', async () => {
@@ -276,4 +320,23 @@ test('rejects the retired Chinese i18n layout', async () => {
     'i18n/zh-CN/docusaurus-plugin-content-docs/current/tutorials/a.md': '# Retired\n',
   });
   await assert.rejects(() => verifyRetiredLayout(root), /i18n\/zh-CN/);
+});
+
+test('repository findings include live filesystem dependencies and exclude semantic examples', async () => {
+  let error;
+  await assert.rejects(() => verifyRetiredLayout(repositoryRoot), value => {
+    error = value;
+    return true;
+  });
+  for (const live of [
+    'config/lark-docs.config.ts',
+    'scripts/docs-workflow/render-guides-table.js',
+    'packages/docs-tooling/src/reference/rest/index.js',
+  ]) assert.match(error.message, new RegExp(live.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  for (const semantic of [
+    'packages/site-config/src/sites/en.ts',
+    'packages/site-config/src/sites/zh-CN.ts',
+    'packages/docs-tooling/src/manuals/registry.ts',
+  ]) assert.doesNotMatch(error.message, new RegExp(semantic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.doesNotMatch(error.message, /\(docs\/refs\)/);
 });

@@ -28,10 +28,20 @@ const nonProductionRoles = [
   /(?:^|\/)(?:reports|fixtures|snapshots|__fixtures__|__snapshots__|cache|caches|generated)\//,
 ];
 const productionRoots = [/^\.github\//, /^scripts\//, /^config\//, /^deploy\//, /^apps\//, /^packages\//, /^plugins\//];
-const pathValuedField = /(?:^|[{,\n])\s*["']?(sourcePath|sourceRoot|folder|cwd|working-directory)["']?\s*[:=]\s*(?:(["'`])([^"'`\n]+)\2|([^\s,;}\]]+))/gm;
+const filesystemFieldNames = [
+  'sourcePath', 'sourceRoot', 'contentRoot', 'outputDir', 'outputPath', 'sidebarPath',
+  'overridePath', 'docSourceDir', 'fallbackSourceDir', 'imageDir', 'folder', 'cwd', 'working-directory',
+];
+const pathValuedField = new RegExp(
+  `(?:^|[{,\\n])\\s*["']?(${filesystemFieldNames.join('|')})["']?\\s*[:=]\\s*(?:(["'\\\`])([^"'\\\`\\n]+)\\2|([^\\s,;}\\]]+))`,
+  'gm',
+);
 const shellChangeDirectory = /\bcd\s+(?:(["'])([^"']+)\1|([^\s;&|]+))/g;
 const quotedString = /(["'`])([^"'`\n]+)\1/g;
 const repositoryRootPathCall = /\bpath\.(?:join|resolve)\(\s*(?:repositoryRoot|repoRoot|root|process\.cwd\(\))\s*,([\s\S]*?)\)/g;
+const commanderOption = /\.option\(\s*(["'])([^"']+)\1\s*,\s*(["'])([^"']*)\3\s*,\s*(["'])([^"']+)\5\s*\)/g;
+const pathProducingAssignment = /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*([A-Za-z_$][\w$]*)\s*\([^;\n]*\)/g;
+const retiredLiteralAssignment = /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(["'`])([^"'`\n]+)\2/g;
 
 function normalize(relativePath) {
   return relativePath.split(path.sep).join('/');
@@ -67,6 +77,29 @@ function finding(source, match, reference) {
   return {line: lineNumber(source, match.index), reference};
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function isFilesystemConsumer(source, identifier) {
+  const name = escapeRegExp(identifier);
+  return new RegExp(`\\bpath\\.(?:join|resolve)\\([^;\\n]*\\b${name}\\b`).test(source)
+    || new RegExp(`\\bfs\\.(?:readFile|writeFile|mkdir|readdir|rm|stat|unlink|copyFile|rename)(?:Sync)?\\([^;\\n]*\\b${name}\\b`).test(source);
+}
+
+function functionBody(source, functionName) {
+  const header = new RegExp(`\\bfunction\\s+${escapeRegExp(functionName)}\\s*\\([^)]*\\)\\s*\\{`).exec(source);
+  if (!header) return null;
+  const openingBrace = header.index + header[0].lastIndexOf('{');
+  let depth = 0;
+  for (let index = openingBrace; index < source.length; index += 1) {
+    if (source[index] === '{') depth += 1;
+    if (source[index] === '}') depth -= 1;
+    if (depth === 0) return {start: openingBrace + 1, source: source.slice(openingBrace + 1, index)};
+  }
+  return null;
+}
+
 function hasRetiredReference(relativePath, source) {
   const retiredRunner = /run-content-group\.js/.exec(source);
   if (retiredRunner) return finding(source, retiredRunner, retiredRunner[0]);
@@ -85,6 +118,33 @@ function hasRetiredReference(relativePath, source) {
     const segments = [...match[1].matchAll(quotedString)].map(value => value[2]);
     const reference = segments.join('/');
     if (targetsRetiredRoot(reference)) return finding(source, match, reference);
+  }
+
+  for (const match of source.matchAll(commanderOption)) {
+    const flags = match[2];
+    const reference = match[6];
+    if (/--(?:output(?:[_-](?:path|dir))?|target[_-]path|destination)\b/.test(flags)
+      && targetsRetiredRoot(reference)) return finding(source, match, reference);
+  }
+
+  for (const match of source.matchAll(retiredLiteralAssignment)) {
+    const identifier = match[1];
+    const reference = match[3];
+    if (targetsRetiredRoot(reference) && isFilesystemConsumer(source, identifier)) {
+      return finding(source, match, reference);
+    }
+  }
+
+  for (const match of source.matchAll(pathProducingAssignment)) {
+    const [, producedPath, producer] = match;
+    if (!isFilesystemConsumer(source, producedPath)) continue;
+    const body = functionBody(source, producer);
+    if (!body) continue;
+    for (const literal of body.source.matchAll(quotedString)) {
+      if (targetsRetiredRoot(literal[2])) {
+        return finding(source, {index: body.start + literal.index}, literal[2]);
+      }
+    }
   }
 
   for (const match of source.matchAll(quotedString)) {
