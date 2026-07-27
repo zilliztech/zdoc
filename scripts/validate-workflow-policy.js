@@ -512,6 +512,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === '_publish-content-group.yml') {
+      const steps = workflow.jobs?.publish?.steps || []
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
+      const contractIndex = steps.findIndex(step => step?.name === 'Validate content group contract')
+      if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < contractIndex)) {
+        errors.push(`${file}: must install dependencies before validating the content group contract`)
+      }
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out exact translation tooling and separate source tooling'],

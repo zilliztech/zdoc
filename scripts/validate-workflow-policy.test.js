@@ -1109,6 +1109,12 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   const workflowPath = path.join(process.cwd(), '.github/workflows/_publish-content-group.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content publisher workflow must exist')
   const workflow = fs.readFileSync(workflowPath, 'utf8')
+  const steps = yaml.load(workflow).jobs.publish.steps
+  const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v4')
+  const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v4')
+  const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
+  const contractIndex = steps.findIndex(step => step.name === 'Validate content group contract')
+  assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < contractIndex)
 
   assert.match(workflow, /^name: publish docs content group$/m)
   assert.match(workflow, /^  workflow_call:$/m)
@@ -1139,6 +1145,26 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force/)
   const publicationBody = workflow.slice(workflow.indexOf('name: Publish checkpoint'))
   assert.doesNotMatch(publicationBody, /secrets\./)
+})
+
+test('workflow policy rejects content group contract validation before dependencies are installed', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-install-order-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const file = path.join(directory, '_publish-content-group.yml')
+    const workflow = yaml.load(fs.readFileSync(file, 'utf8'))
+    const steps = workflow.jobs.publish.steps
+    const contractIndex = steps.findIndex(step => step.name === 'Validate content group contract')
+    const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
+    assert.ok(contractIndex > installIndex)
+    const [contract] = steps.splice(contractIndex, 1)
+    steps.splice(installIndex, 0, contract)
+    fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
+    assert.ok(validateWorkflowPolicies(directory).includes('_publish-content-group.yml: must install dependencies before validating the content group contract'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
 })
 
 test('Guides translation batches publish through one validated staging ref', () => {

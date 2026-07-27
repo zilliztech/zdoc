@@ -115,20 +115,6 @@ jobs:
           ref: ${{ inputs.master_sha }}
           fetch-depth: 0
 
-      - name: Validate content group contract
-        if: ${{ inputs.should_publish }}
-        run: |
-          node - <<'NODE'
-          const group = require('./scripts/docs-workflow/content-groups.js').getContentGroup(process.env.GROUP)
-          const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
-          const allowed = process.env.TRANSLATION_TARGET === 'zh-CN-tools'
-            ? 'i18n(zh-CN-tools): publish tools translations'
-            : process.env.TRANSLATION_TARGET
-              ? `i18n(${process.env.TRANSLATION_TARGET}): publish ${process.env.GROUP} translations`
-              : number > 0 ? `i18n(${process.env.GROUP}): publish batch ${number} of ${count}` : `i18n(${process.env.GROUP}): publish translations`
-          if (process.env.COMMIT_MESSAGE !== group.commitMessage && process.env.COMMIT_MESSAGE !== allowed) throw new Error('commit_message must equal a permitted content group message')
-          NODE
-
       - uses: pnpm/action-setup@v4
         if: ${{ inputs.should_publish }}
 
@@ -142,6 +128,20 @@ jobs:
       - name: Install dependencies
         if: ${{ inputs.should_publish }}
         run: pnpm install --frozen-lockfile
+
+      - name: Validate content group contract
+        if: ${{ inputs.should_publish }}
+        run: |
+          node - <<'NODE'
+          const group = require('./scripts/docs-workflow/content-groups.js').getContentGroup(process.env.GROUP)
+          const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
+          const allowed = process.env.TRANSLATION_TARGET === 'zh-CN-tools'
+            ? 'i18n(zh-CN-tools): publish tools translations'
+            : process.env.TRANSLATION_TARGET
+              ? `i18n(${process.env.TRANSLATION_TARGET}): publish ${process.env.GROUP} translations`
+              : number > 0 ? `i18n(${process.env.GROUP}): publish batch ${number} of ${count}` : `i18n(${process.env.GROUP}): publish translations`
+          if (process.env.COMMIT_MESSAGE !== group.commitMessage && process.env.COMMIT_MESSAGE !== allowed) throw new Error('commit_message must equal a permitted content group message')
+          NODE
 
       - name: Download checkpoint artifact
         if: ${{ inputs.should_publish }}
