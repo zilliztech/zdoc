@@ -665,6 +665,26 @@ test('guides source and table render expose jobs for the central monitor without
   assert.doesNotMatch(metadataSteps, /APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
 })
 
+test('Guides table matrix generation is site-qualified and policy rejects site-blind generation', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const sourcePath = path.join(sourceDirectory, '_fetch-guides-sources.yml')
+  const source = fs.readFileSync(sourcePath, 'utf8')
+  const siteArgument = '            --site "${{ inputs.site }}" \\\n'
+  assert.match(source, /guides-tables\.js matrix \\\n\s+--site "\$\{\{ inputs\.site \}\}"/)
+
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-matrix-site-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const fixture = path.join(directory, '_fetch-guides-sources.yml')
+    const fixtureSource = fs.readFileSync(fixture, 'utf8')
+    assert.ok(fixtureSource.includes(siteArgument))
+    fs.writeFileSync(fixture, fixtureSource.replace(siteArgument, ''))
+    assert.ok(validateWorkflowPolicies(directory).includes('_fetch-guides-sources.yml: Guides table matrix generation must pass the required site'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
 test('Tools table is the only Agents producer while Releases keeps its sidebar', () => {
   const config = fs.readFileSync('config/lark-docs.config.ts', 'utf8')
   const profile = fs.readFileSync('packages/site-config/src/sites/en.ts', 'utf8')
@@ -842,7 +862,8 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(validation, /generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js/)
   const finalValidation = assemble.slice(indices[2], indices[3])
   assert.match(finalValidation, /validate-generated-sidebars\.js/)
-  assert.match(finalValidation, /run-doc-build-stage\.js --build "pnpm run build:en"/)
+  assert.match(assemble, /ZDOC_BUILD_COMMAND: \$\{\{ inputs\.site == 'en' && 'pnpm run build:en' \|\| inputs\.site == 'zh-CN' && 'pnpm run build:zh-CN' \|\| '' \}\}/)
+  assert.match(finalValidation, /run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND"/)
   const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
   assert.match(finalize, /saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
   assert.match(finalize, /byoc=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
@@ -857,6 +878,39 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(assemble, /^      assembly_decision_sha256: \{ required: true, type: string \}$/m)
   const caller = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
   assert.match(caller, /produce_guides:[\s\S]*assembly_decision_sha256: \$\{\{ needs\.produce_guides_sources\.outputs\.assembly_decision_sha256 \}\}/)
+})
+
+test('Guides assembly uses one explicit site-owned build mapping and policy rejects an unconditional English build', () => {
+  const workflowDirectory = path.join(process.cwd(), '.github/workflows')
+  const workflowPath = path.join(workflowDirectory, '_assemble-guides.yml')
+  const source = fs.readFileSync(workflowPath, 'utf8')
+  const workflow = yaml.load(source)
+  const expectedMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+  assert.equal(workflow.jobs.assemble.env.ZDOC_BUILD_COMMAND, expectedMapping)
+  const validation = workflow.jobs.assemble.steps.find(step => step.name === 'Validate combined guides output')?.run || ''
+  const checkpoint = workflow.jobs.assemble.steps.find(step => step.name === 'Create combined guides checkpoint')?.run || ''
+  assert.match(validation, /\[\[ -n "\$ZDOC_BUILD_COMMAND" \]\]/)
+  assert.match(validation, /run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting/)
+  assert.match(checkpoint, /printf -v build_validation 'node scripts\/run-doc-build-stage\.js --build "%s" --skipLinkChecks --skipCardReporting' "\$ZDOC_BUILD_COMMAND"/)
+  assert.match(checkpoint, /--validation-command "\$build_validation"/)
+  assert.doesNotMatch(source, /run-doc-build-stage\.js --build "pnpm run build:en"/)
+
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-build-site-policy-'))
+  try {
+    fs.cpSync(workflowDirectory, directory, { recursive: true })
+    const fixture = path.join(directory, '_assemble-guides.yml')
+    const fixtureSource = fs.readFileSync(fixture, 'utf8')
+    assert.ok(fixtureSource.includes(expectedMapping))
+    fs.writeFileSync(fixture, fixtureSource.replace(expectedMapping, 'pnpm run build:en'))
+    assert.ok(validateWorkflowPolicies(directory).includes('_assemble-guides.yml: Guides assembly build validation must use the explicit site-owned build mapping'))
+
+    const variableBuild = '--build "$ZDOC_BUILD_COMMAND"'
+    assert.ok(fixtureSource.includes(variableBuild))
+    fs.writeFileSync(fixture, fixtureSource.replace(variableBuild, '--build "pnpm run build:en"'))
+    assert.ok(validateWorkflowPolicies(directory).includes('_assemble-guides.yml: Guides assembly build validation must use the explicit site-owned build mapping'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
 })
 
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {

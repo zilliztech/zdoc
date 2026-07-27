@@ -5,7 +5,8 @@ const path = require('node:path')
 const { test } = require('node:test')
 const yaml = require('js-yaml')
 
-const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks --skipCardReporting'
+const GUIDES_BUILD_MAPPING = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting'
 
 function assertGuidesAssemblySnapshotLifecycle(source) {
   const workflow = yaml.load(source)
@@ -21,6 +22,7 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
   const validation = validations[0]
   const selection = selections[0]
   const checkpoint = checkpoints[0]
+  assert.equal(workflow.jobs.assemble.env.ZDOC_BUILD_COMMAND, GUIDES_BUILD_MAPPING, 'Guides assembly must map each site to its owned build')
   assert.match(validation.run || '', /node scripts\/validate-generated-sidebars\.js/)
   assert.equal((validation.run || '').includes(GUIDES_BUILD_VALIDATION), true, 'combined validation step must run the exact no-card build')
   assert.ok(steps.indexOf(validation) < steps.indexOf(selection), 'snapshot selection and conditional promotion must follow combined validation')
@@ -31,7 +33,8 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
   assert.match(selectionRun, /^[ \t]*snapshot=packages\/docs-tooling\/src\/lark\/meta\/snapshots\/guides-uat-last-success\.json$/m)
   assert.match(selectionRun, /guides-cache-generation-lifecycle\.js select[\s\S]*--candidate "\$candidate" --baseline "\$snapshot"/)
   assert.match(selectionRun, /if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js[\s\S]*--candidate "\$candidate"[\s\S]*--output "\$snapshot"/)
-  assert.equal((checkpoint.run || '').includes(`--validation-command '${GUIDES_BUILD_VALIDATION}'`), true, 'checkpoint creation must embed the second exact no-card build validation')
+  assert.match(checkpoint.run || '', /printf -v build_validation 'node scripts\/run-doc-build-stage\.js --build "%s" --skipLinkChecks --skipCardReporting' "\$ZDOC_BUILD_COMMAND"/)
+  assert.match(checkpoint.run || '', /--validation-command "\$build_validation"/, 'checkpoint creation must embed the site-owned no-card build validation')
 
   assert.doesNotMatch(source, /update-lark-doc-snapshot\.js/)
   assert.doesNotMatch(source, /\[snapshot\] Base scan|\[snapshot\] Wiki metadata/)
@@ -100,8 +103,7 @@ test('Guides assembly rejects build validation moved out of the combined validat
   const moved = source
     .replace(`          ${GUIDES_BUILD_VALIDATION}\n`, '          true\n')
     .replace('          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', `          ${GUIDES_BUILD_VALIDATION}\n          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json`)
-  const escaped = GUIDES_BUILD_VALIDATION.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  assert.equal((moved.match(new RegExp(escaped, 'g')) || []).length, 2, 'mutation retains the misleading global command count')
+  assert.equal((moved.match(/run-doc-build-stage\.js/g) || []).length, 2, 'mutation retains the misleading global command count')
   assert.throws(() => assertGuidesAssemblySnapshotLifecycle(moved), /combined validation step must run the exact no-card build/)
 })
 

@@ -1,6 +1,10 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const { spawnSync } = require('node:child_process')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
 const test = require('node:test')
 const { buildGuidesTableMatrix } = require('./guides-tables')
 
@@ -36,7 +40,7 @@ function snapshot(extra = []) {
 }
 
 test('full Guides matrix contains the current 14 publishable target/table combinations', () => {
-  const matrix = buildGuidesTableMatrix({ plan: { mode: 'full', affected_tables: TABLES.map(([id]) => id) }, snapshot: snapshot() })
+  const matrix = buildGuidesTableMatrix({ site: 'en', plan: { mode: 'full', affected_tables: TABLES.map(([id]) => id) }, snapshot: snapshot() })
   assert.equal(matrix.length, 14)
   assert.deepEqual(matrix.filter(item => item.table_name === 'Client Libraries').map(item => item.target), ['zilliz.paas', 'zilliz.saas'])
   assert.deepEqual(matrix.filter(item => item.table_name === 'Tools').map(item => item.target), ['zilliz.paas', 'zilliz.saas'])
@@ -49,12 +53,13 @@ test('incremental matrix adds newly targeted canonical and ignores empty Progres
     { record_id: 'solution-page', table_id: 'solution', table_name: 'Solution', placement_type: 'canonical', progress: 'Draft', targets: ['zilliz.saas'] },
     { record_id: 'hidden-page', table_id: 'hidden', table_name: 'Hidden', placement_type: 'canonical', progress: '', targets: ['zilliz.saas'] },
   ])
-  const matrix = buildGuidesTableMatrix({ plan: { mode: 'incremental', affected_tables: ['solution', 'hidden'] }, snapshot: current })
+  const matrix = buildGuidesTableMatrix({ site: 'en', plan: { mode: 'incremental', affected_tables: ['solution', 'hidden'] }, snapshot: current })
   assert.deepEqual(matrix, [{ table_id: 'solution', table_name: 'Solution', table_slug: 'solution', target: 'zilliz.saas', target_name: 'saas', cleanup: false }])
 })
 
 test('incremental matrix emits one cleanup entry after the last canonical target is deleted', () => {
   const matrix = buildGuidesTableMatrix({
+    site: 'en',
     plan: {
       mode: 'incremental',
       affected_tables: ['tools'],
@@ -73,6 +78,7 @@ test('incremental matrix emits one cleanup entry after the last canonical target
 
 test('full matrix also cleans a table removed entirely since the previous snapshot', () => {
   const matrix = buildGuidesTableMatrix({
+    site: 'en',
     plan: { mode: 'full', previous_table_targets: { removed: ['zilliz.paas'] }, previous_table_names: { removed: 'Removed Table' } },
     snapshot: snapshot(),
   })
@@ -80,4 +86,70 @@ test('full matrix also cleans a table removed entirely since the previous snapsh
     table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
     target: 'zilliz.paas', target_name: 'byoc', cleanup: true,
   })
+})
+
+test('incremental matrix ignores an affected table with no current or previous targets', () => {
+  const matrix = buildGuidesTableMatrix({
+    site: 'en',
+    plan: { mode: 'incremental', affected_tables: ['empty'] },
+    snapshot: {
+      schema_version: 3,
+      manual: 'guides',
+      navigation_records: [],
+      table_digests: {},
+    },
+  })
+  assert.deepEqual(matrix, [])
+})
+
+test('Chinese Guides matrix omits protected Tools identities before render while preserving other cleanup rows', () => {
+  const matrix = buildGuidesTableMatrix({
+    site: 'zh-CN',
+    plan: {
+      mode: 'incremental',
+      affected_tables: ['tools', 'tools-alias', 'removed'],
+      previous_table_targets: {
+        tools: ['zilliz.saas'],
+        'tools-alias': ['zilliz.paas'],
+        removed: ['zilliz.paas'],
+      },
+      previous_table_names: {
+        tools: 'Renamed protected table',
+        'tools-alias': 'Tools',
+        removed: 'Removed Table',
+      },
+    },
+    snapshot: {
+      schema_version: 3,
+      manual: 'guides',
+      navigation_records: [],
+      table_digests: {},
+    },
+  })
+
+  assert.deepEqual(matrix, [{
+    table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
+    target: 'zilliz.paas', target_name: 'byoc', cleanup: true,
+  }])
+})
+
+test('matrix CLI rejects a missing or unsupported site with a clear contract error', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-table-site-cli-'))
+  try {
+    const planFile = path.join(directory, 'plan.json')
+    const snapshotFile = path.join(directory, 'snapshot.json')
+    fs.writeFileSync(planFile, JSON.stringify({ mode: 'incremental', affected_tables: [] }))
+    fs.writeFileSync(snapshotFile, JSON.stringify(snapshot()))
+    const script = path.join(__dirname, 'guides-tables.js')
+
+    const missing = spawnSync(process.execPath, [script, 'matrix', '--plan', planFile, '--snapshot', snapshotFile], { encoding: 'utf8' })
+    assert.notEqual(missing.status, 0)
+    assert.match(missing.stderr, /--site, --plan, and --snapshot are required/)
+
+    const unsupported = spawnSync(process.execPath, [script, 'matrix', '--site', 'fr', '--plan', planFile, '--snapshot', snapshotFile], { encoding: 'utf8' })
+    assert.notEqual(unsupported.status, 0)
+    assert.match(unsupported.stderr, /Guides table matrix site must be en or zh-CN/)
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
 })

@@ -320,7 +320,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const generatorStep = steps[generateIndex]
       if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
       const validationStep = steps[validateIndex]
-      if (!/validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "pnpm run build:en"/.test(validationStep?.run || '')) errors.push(`${file}: combined sidebar and full build validation must run before descriptor promotion`)
+      const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
+      const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+      if (workflow.jobs?.assemble?.env?.ZDOC_BUILD_COMMAND !== expectedBuildMapping ||
+          !/\[\[ -n "\$ZDOC_BUILD_COMMAND" \]\][\s\S]*validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting/.test(validationStep?.run || '') ||
+          !/printf -v build_validation[\s\S]*"\$ZDOC_BUILD_COMMAND"[\s\S]*--validation-command "\$build_validation"/.test(checkpointStep?.run || '') ||
+          /run-doc-build-stage\.js --build "pnpm run build:en"/.test(source)) {
+        errors.push(`${file}: Guides assembly build validation must use the explicit site-owned build mapping`)
+      }
       const finalizeStep = steps[finalizeIndex]
       if (!/saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*byoc=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
       if (/npx docusaurus fetch-lark-docs[\s\S]*-sidebar/.test(source) || /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/.test(source)) errors.push(`${file}: observe-only assembly must not restore sidebars or use the legacy split generators`)
@@ -504,6 +511,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     try { guidesWorkflow = yaml.load(guidesSource) } catch {}
     const guidesSteps = guidesWorkflow.jobs?.fetch?.steps || []
     const stepById = new Map(guidesSteps.filter(step => step.id).map(step => [step.id, step]))
+    const tableMatrix = stepById.get('table_matrix')
+    if (!/guides-tables\.js matrix[\s\S]*--site "\$\{\{ inputs\.site \}\}"/.test(tableMatrix?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: Guides table matrix generation must pass the required site')
+    }
     const requiredCacheSteps = [
       'Compute Guides cache generation keys',
       'Restore Guides v4 cache candidate',

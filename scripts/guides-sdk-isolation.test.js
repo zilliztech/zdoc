@@ -61,6 +61,7 @@ test('SDK record schemas do not enter Guides placement or matrix semantics', () 
   ]
   for (const fixture of fixtures) assert.equal(guidesPlacementType(fixture), null)
   assert.throws(() => buildGuidesTableMatrix({
+    site: 'en',
     plan: { mode: 'incremental', affected_tables: [] },
     snapshot: { schema_version: 2, manual: 'pymilvus30', records: [] },
   }), /Guides snapshot schema v3/i)

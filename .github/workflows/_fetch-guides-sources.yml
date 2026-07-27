@@ -370,6 +370,7 @@ jobs:
         name: Build Guides table render matrix
         run: |
           matrix=$(node scripts/docs-workflow/guides-tables.js matrix \
+            --site "${{ inputs.site }}" \
             --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
             --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json)
           count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")

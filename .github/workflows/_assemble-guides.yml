@@ -27,6 +27,7 @@ jobs:
     timeout-minutes: 180
     env:
       ZDOC_SITE: ${{ inputs.site }}
+      ZDOC_BUILD_COMMAND: ${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}
     outputs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: docs-checkpoint-guides-${{ github.run_id }}
@@ -127,8 +128,9 @@ jobs:
           DOCS_TOOLING_GUIDES_STAGE: assembled
       - name: Validate combined guides output
         run: |
+          [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }
           node scripts/validate-generated-sidebars.js
-          node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks --skipCardReporting
+          node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting
       - name: Finalize Guides assembly identity
         run: |
           decision=packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json
@@ -232,7 +234,9 @@ jobs:
             --output packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json
       - name: Create combined guides checkpoint
         run: |
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks --skipCardReporting'
+          [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }
+          printf -v build_validation 'node scripts/run-doc-build-stage.js --build "%s" --skipLinkChecks --skipCardReporting' "$ZDOC_BUILD_COMMAND"
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command "$build_validation"
           tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
       - id: upload
         uses: actions/upload-artifact@v4
