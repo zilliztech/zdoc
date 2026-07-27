@@ -51,8 +51,8 @@ test('rejects production control-file references to retired layout', async () =>
   await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
 });
 
-for (const reference of ['docs', 'docs-byoc', 'reference', './docs/tutorials', './docs-byoc/tutorials', '../reference/api']) {
-  test(`rejects the production reference ${reference}`, async () => {
+for (const reference of ['docs/tutorials', 'docs-byoc/tutorials', 'reference/api', 'config/generated/guides.sidebar.js']) {
+  test(`rejects the repo-root path ${reference}`, async () => {
     const root = await createFixture({
       'scripts/validate.mjs': `const legacy = '${reference}';\n`,
     });
@@ -60,12 +60,46 @@ for (const reference of ['docs', 'docs-byoc', 'reference', './docs/tutorials', '
   });
 }
 
-test('allows ordinary words and canonical content paths', async () => {
+test('allows a semantic reference identifier used by the site schema', async () => {
   const root = await createFixture({
-    'scripts/validate.mjs': "const copy = 'documentation reference guide content/en/guides content/en/reference/api';\n",
-    'config/valid.json': '{"reference":"content/en/reference/api"}\n',
+    'packages/site-config/src/schema.ts': "export const section = z.enum(['reference']);\n",
   });
   await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('allows a nested reference import used by the docs tooling CLI', async () => {
+  const root = await createFixture({
+    'packages/docs-tooling/src/cli.ts': "import './reference/commands.js';\n",
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('rejects a relative reference that resolves to the retired root', async () => {
+  const root = await createFixture({
+    'packages/docs-tooling/src/cli.ts': "import '../../../reference/api.js';\n",
+  });
+  await assert.rejects(() => verifyRetiredLayout(root), /packages\/docs-tooling\/src\/cli\.ts/);
+});
+
+for (const [field, retiredRoot] of [
+  ['sourcePath', 'docs'],
+  ['sourceRoot', 'docs-byoc'],
+  ['folder', 'reference'],
+  ['cwd', 'docs'],
+]) {
+  test(`rejects ${field} when it names the retired root ${retiredRoot}`, async () => {
+    const root = await createFixture({
+      'config/paths.json': `{\"${field}\":\"${retiredRoot}\"}\n`,
+    });
+    await assert.rejects(() => verifyRetiredLayout(root), /config\/paths\.json/);
+  });
+}
+
+test('rejects path.join from the repository root to a retired directory', async () => {
+  const root = await createFixture({
+    'scripts/validate.mjs': "const target = path.join(repositoryRoot, 'reference');\n",
+  });
+  await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
 });
 
 test('allows the canonical layout and migration evidence', async () => {

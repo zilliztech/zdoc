@@ -22,15 +22,18 @@ const sourceReferenceExemptions = [
   /^migration\//,
   /^\.claude\/superpowers\/plans\/2026-07-27-new-architecture-retirement\.md$/,
 ];
-const retiredRootPattern = retiredDirectories.slice(0, 3).join('|');
-const forbiddenReferences = [
-  /run-content-group\.js/,
-  /config\/generated/,
-  new RegExp(
-    `(?:['"\\\`])(?:${retiredRootPattern})(?=/|['"\\\`](?:$|[\\s,;)}\\]]))|(?:\\.{1,2}/)(?:${retiredRootPattern})(?=$|[/'"\\\`\\s;,)}])|(?:^|[\\s'"\\\`(=:])(?:${retiredRootPattern})/`,
-    'm',
-  ),
-];
+const retiredReferenceRoots = [...retiredDirectories.slice(0, 3), ['config', 'generated'].join('/')];
+const retiredReferencePattern = retiredReferenceRoots.join('|');
+const rootPathReference = new RegExp(`(?:^|[\\s'"\\\`(=:])(?:${retiredReferencePattern})/`, 'm');
+const pathFieldReference = new RegExp(
+  `\\b(?:sourcePath|sourceRoot|folder|cwd)(?:['"\\\`])?\\s*[:=]\\s*(?:['"\\\`])?(?:${retiredDirectories.slice(0, 3).join('|')})(?:['"\\\`])?(?=\\s*(?:[,;}\\]\\n]|$))`,
+  'm',
+);
+const repositoryRootJoinReference = new RegExp(
+  `\\bpath\\.(?:join|resolve)\\(\\s*(?:repositoryRoot|repoRoot|root)\\s*,\\s*['"\\\`](?:${retiredDirectories.slice(0, 3).join('|')})['"\\\`]`,
+  'm',
+);
+const quotedRelativeReference = /(['"`])(\.{1,2}\/[^'"`]+)\1/g;
 
 function normalize(relativePath) {
   return relativePath.split(path.sep).join('/');
@@ -47,6 +50,23 @@ function isReferenceExempt(relativePath) {
 
 function isProductionControlFile(relativePath) {
   return controlFilePattern.test(relativePath) && !/\.(?:test|spec)\.[^.]+$/.test(relativePath);
+}
+
+function targetsRetiredRoot(relativePath) {
+  return retiredReferenceRoots.some(root => relativePath === root || relativePath.startsWith(`${root}/`));
+}
+
+function hasRetiredReference(relativePath, source) {
+  if (/run-content-group\.js/.test(source)
+    || rootPathReference.test(source)
+    || pathFieldReference.test(source)
+    || repositoryRootJoinReference.test(source)) return true;
+
+  for (const [, , reference] of source.matchAll(quotedRelativeReference)) {
+    const destination = path.posix.normalize(path.posix.join(path.posix.dirname(relativePath), reference));
+    if (targetsRetiredRoot(destination)) return true;
+  }
+  return false;
 }
 
 async function filesIn(directory, prefix = '') {
@@ -82,7 +102,7 @@ export async function verifyRetiredLayout(repositoryRoot) {
   for (const relativePath of files) {
     if (!isProductionControlFile(relativePath) || isReferenceExempt(relativePath)) continue;
     const source = await readFile(path.join(repositoryRoot, relativePath), 'utf8');
-    if (forbiddenReferences.some(pattern => pattern.test(source))) {
+    if (hasRetiredReference(relativePath, source)) {
       violations.push(`Retired layout reference in: ${relativePath}`);
     }
   }
