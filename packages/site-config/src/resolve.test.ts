@@ -10,6 +10,8 @@ import {
   ContentPluginProfileSchema,
   FeatureProfileSchema,
   IntegrationProfileSchema,
+  LocaleProfileSchema,
+  LocalizationProfileSchema,
   MarkdownProfileSchema,
   NavigationItemSchema,
   NavigationProfileSchema,
@@ -124,6 +126,9 @@ describe('site profile resolution', () => {
     expect(resolveSiteProfile('en')).toBe(profile);
     expect([
       profile,
+      profile.localization,
+      profile.localization.locales,
+      ...profile.localization.locales,
       profile.content,
       profile.manuals,
       profile.staticRoots,
@@ -160,6 +165,8 @@ void assertResolvedProfileIsReadonly;
 describe('closed profile schemas', () => {
   it.each([
     ['content plugin', ContentPluginProfileSchema, {id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'guides', sidebarPath: 'generated/en/sidebars/guides.ts', unknown: true}],
+    ['locale', LocaleProfileSchema, {...enProfile.localization.locales[0], unknown: true}],
+    ['localization', LocalizationProfileSchema, {...enProfile.localization, unknown: true}],
     ['feature', FeatureProfileSchema, {...enProfile.features, unknown: true}],
     ['integration', IntegrationProfileSchema, {unknown: true}],
     ['redirect', RedirectProfileSchema, {rules: [], unknown: true}],
@@ -169,6 +176,100 @@ describe('closed profile schemas', () => {
     ['site profile', SiteProfileSchema, {...enProfile, unknown: true}],
   ])('rejects unknown keys in the %s schema', (_name, schema, value) => {
     expect(schema.safeParse(value).success).toBe(false);
+  });
+});
+
+describe('closed localization variants', () => {
+  it.each([
+    [
+      'missing default',
+      {defaultLocale: 'en', translationRoot: 'i18n', locales: [{id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'}]},
+      ['defaultLocale'],
+      /Default locale must appear exactly once/,
+    ],
+    [
+      'duplicate default',
+      {defaultLocale: 'en', translationRoot: 'i18n', locales: [
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+      ]},
+      ['locales', 1, 'id'],
+      /Default locale must appear exactly once/,
+    ],
+    [
+      'duplicate locale ID',
+      {defaultLocale: 'en', translationRoot: 'i18n', locales: [
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+      ]},
+      ['locales', 2, 'id'],
+      /Duplicate locale id/,
+    ],
+    [
+      'default noncanonical',
+      {defaultLocale: 'en', translationRoot: 'i18n', locales: [
+        {id: 'en', htmlLang: 'en', source: 'docusaurus-i18n'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+      ]},
+      ['locales', 0, 'source'],
+      /Default locale must be canonical/,
+    ],
+    [
+      'Japanese under Chinese',
+      {defaultLocale: 'zh-CN', translationRoot: 'i18n', locales: [
+        {id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+      ]},
+      ['locales', 1, 'id'],
+      /Japanese locales are only supported by the English profile/,
+    ],
+    [
+      'canonical Japanese',
+      {defaultLocale: 'en', translationRoot: 'i18n', locales: [
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'canonical'},
+      ]},
+      ['locales', 1, 'source'],
+      /Japanese locales must use docusaurus-i18n content/,
+    ],
+    [
+      'extra locale under Chinese',
+      {defaultLocale: 'zh-CN', translationRoot: 'i18n', locales: [
+        {id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'},
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+      ]},
+      ['locales', 1, 'id'],
+      /Chinese profile may only include zh-CN/,
+    ],
+    [
+      'Chinese under English',
+      {defaultLocale: 'en', translationRoot: 'i18n', locales: [
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+        {id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'},
+      ]},
+      ['locales', 2, 'id'],
+      /English profile may only include en and ja-JP/,
+    ],
+    [
+      'English missing Japanese',
+      {defaultLocale: 'en', translationRoot: 'i18n', locales: [
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+      ]},
+      ['locales'],
+      /English profile must include ja-JP using docusaurus-i18n/,
+    ],
+  ])('rejects %s with a targeted issue', (_name, localization, expectedPath, expectedMessage) => {
+    const result = LocalizationProfileSchema.safeParse(localization);
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({
+        path: expectedPath,
+        message: expect.stringMatching(expectedMessage),
+      }));
+    }
   });
 });
 
@@ -447,6 +548,30 @@ describe('exclusive path ownership', () => {
     ['manual output', {manuals: ['build/en/manuals']}],
   ])('rejects outputDir overlap with a %s', (_name, overrides) => {
     expect(() => SiteProfileSchema.parse({...enProfile, ...overrides})).toThrow(/ownership overlap/);
+  });
+
+  it.each([
+    ['English content root', enProfile, 'content/en'],
+    ['Chinese content root', zhCNProfile, 'content/zh-CN'],
+    ['English build output', enProfile, 'build/en'],
+    ['Chinese build output', zhCNProfile, 'build/zh-CN'],
+  ])('rejects translationRoot overlap with the %s', (_name, profile, translationRoot) => {
+    const result = SiteProfileSchema.safeParse({
+      ...profile,
+      localization: {...profile.localization, translationRoot},
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(expect.objectContaining({
+        path: ['localization', 'translationRoot'],
+        message: expect.stringMatching(/translationRoot.*ownership overlap/),
+      }));
+    }
+  });
+
+  it('allows the intended repository-level i18n translation root', () => {
+    expect(SiteProfileSchema.safeParse(enProfile).success).toBe(true);
+    expect(SiteProfileSchema.safeParse(zhCNProfile).success).toBe(true);
   });
 
   it('rejects overlapping content plugin source roots', () => {

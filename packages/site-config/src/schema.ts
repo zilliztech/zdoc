@@ -109,6 +109,24 @@ export const LocalizationProfileSchema = z.object({
       message: `Default locale must appear exactly once: ${localization.defaultLocale}`,
     });
   }
+
+  if (localization.defaultLocale === 'en') {
+    const chineseLocaleIndex = localization.locales.findIndex(locale => locale.id === 'zh-CN');
+    if (chineseLocaleIndex !== -1) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['locales', chineseLocaleIndex, 'id'],
+        message: 'The English profile may only include en and ja-JP',
+      });
+    }
+    if (!localeIds.has('ja-JP')) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['locales'],
+        message: 'The English profile must include ja-JP using docusaurus-i18n',
+      });
+    }
+  }
 });
 
 export const RoutePathSchema = WebPathForbiddenCharactersSchema.pipe(z.string().min(1)).superRefine((value, context) => {
@@ -430,9 +448,22 @@ export const SiteProfileSchema = z.object({
     ...profile.staticRoots.map((path, index) => ({label: `staticRoots[${index}]`, path})),
     ...profile.manuals.map((path, index) => ({label: `manuals[${index}]`, path})),
   ];
+  const translationRestrictedRoots: OwnershipClaim[] = [
+    {label: 'outputDir', path: profile.outputDir},
+    ...profile.content.map((plugin, index) => ({label: `content[${index}].sourcePath`, path: plugin.sourcePath})),
+  ];
 
   reportOwnershipOverlaps(rootClaims, context);
   reportOwnershipOverlaps(sidebarClaims, context);
+  for (const restrictedRoot of translationRestrictedRoots) {
+    if (pathsOverlap(profile.localization.translationRoot, restrictedRoot.path)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['localization', 'translationRoot'],
+        message: `localization.translationRoot (${profile.localization.translationRoot}) and ${restrictedRoot.label} (${restrictedRoot.path}) have a repository ownership overlap (ancestor/descendant paths)`,
+      });
+    }
+  }
   for (const sidebar of sidebarClaims) {
     for (const restrictedRoot of sidebarRestrictedRoots) {
       if (pathsOverlap(sidebar.path, restrictedRoot.path)) {
