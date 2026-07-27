@@ -5,9 +5,10 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const { lstat, mkdir, mkdtemp, open, readlink, realpath, readdir, rename, rm, symlink, writeFile } = require('node:fs/promises');
 const path = require('node:path');
+const { loadTypeScript } = require('../lib/load-typescript');
 const { getContentGroup } = require('./content-groups');
 const { translationOwnedPaths, validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
-const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts');
+const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
 const { validateBatchInput } = require('./translation-batch-input');
 
 const SHA = /^[0-9a-f]{40}$/;

@@ -5,9 +5,10 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const { lstat, open, readlink, realpath, readdir } = require('node:fs/promises');
 const path = require('node:path');
+const { loadTypeScript } = require('../lib/load-typescript');
 const { getContentGroup } = require('./content-groups');
 const { validateBatchInput } = require('./translation-batch-input');
-const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts');
+const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
 
 const COMMON_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual'];
 const TRANSLATION_IDENTITY_KEYS = ['translationTarget', 'sourceSite', 'targetSite', 'sourceCheckpointSha', 'toolingSha'];

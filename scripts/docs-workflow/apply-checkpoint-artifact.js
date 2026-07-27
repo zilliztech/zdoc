@@ -4,8 +4,9 @@
 const fs = require('node:fs');
 const { cp, lstat, mkdir, mkdtemp, open, realpath, rename, rm, rmdir, statfs } = require('node:fs/promises');
 const path = require('node:path');
+const { loadTypeScript } = require('../lib/load-typescript');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
-const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts');
+const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
 
 const CACHE = '.translation-cache/ja-JP.json';
 function insideOrEqual(parent, child) { const rel = path.relative(parent, child); return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel)); }

@@ -4,18 +4,19 @@ const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
+const { loadTypeScript } = require('../lib/load-typescript')
 const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
-const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts')
-const { assertSafeRepositoryRelativePath } = require('../../packages/docs-tooling/src/validation/ownership.ts')
+const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
+const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
 const {
   assertSafeRepositoryPathChain,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
-} = require('../../packages/docs-tooling/src/reference/translationManifest.ts')
-const { validateTranslatedSidebarFragment } = require('../../packages/docs-tooling/src/translation/candidates.ts')
+} = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts')
+const { validateTranslatedSidebarFragment } = loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3

@@ -1,11 +1,12 @@
 'use strict';
 
-const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts');
+const { loadTypeScript } = require('../lib/load-typescript');
+const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts');
 const {
   canonicalPublicationGroupForManual,
   listPublicationGroups,
   resolvePublicationGroupWorkflow,
-} = require('../../packages/docs-tooling/src/workflows/groups.ts');
+} = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts');
 
 function normalizeOwnershipPath(path) {
   if (typeof path !== 'string' || path === '' || path.startsWith('/') || path.endsWith('/')) {

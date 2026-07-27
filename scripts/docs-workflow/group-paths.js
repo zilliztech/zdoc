@@ -1,8 +1,9 @@
 'use strict';
 
-const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts');
+const { loadTypeScript } = require('../lib/load-typescript');
+const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts');
 const { getContentGroup } = require('./content-groups');
-const { resolvePublicationGroupWorkflow } = require('../../packages/docs-tooling/src/workflows/groups.ts');
+const { resolvePublicationGroupWorkflow } = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts');
 
 const TRANSLATION_ROOT = 'i18n/ja-JP';
 const REFERENCE_I18N_ROOT = `${TRANSLATION_ROOT}/docusaurus-plugin-content-docs-reference/current`;
