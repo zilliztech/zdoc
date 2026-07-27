@@ -520,6 +520,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < contractIndex)) {
         errors.push(`${file}: must install dependencies before validating the content group contract`)
       }
+      if (/require\(['"][^'"]+\.ts['"]\)/.test(source)) {
+        errors.push(`${file}: must load TypeScript modules through the shared loader`)
+      }
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out exact translation tooling and separate source tooling'],

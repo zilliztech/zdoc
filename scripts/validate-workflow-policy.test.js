@@ -1137,6 +1137,8 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /validate-checkpoint-artifact\.js[\s\S]*--group "\$GROUP"[\s\S]*--master-sha "\$MASTER_SHA"/)
   assert.match(workflow, /publish-checkpoint\.sh[\s\S]*--artifact "\$ARTIFACT_DIR"[\s\S]*--branch "\$TARGET_BRANCH"[\s\S]*--message "\$COMMIT_MESSAGE"[\s\S]*--max-attempts 10[\s\S]*--validate-command "\$VALIDATE_COMMAND"/)
   assert.match(workflow, /id: baseline_validation[\s\S]*validateCheckpointArtifact[\s\S]*manifest\.resolvedDir[\s\S]*resolveTranslationTarget\(manifest\.translationTarget\)\.state\.path[\s\S]*baseline_dir=/)
+  assert.match(workflow, /const \{ loadTypeScript \} = require\('\.\/scripts\/lib\/load-typescript'\)[\s\S]*loadTypeScript\('\.\.\/\.\.\/packages\/docs-tooling\/src\/translation\/targets\.ts'\)/)
+  assert.doesNotMatch(workflow, /require\(['"][^'"]+\.ts['"]\)/)
   assert.match(workflow, /BASELINE_PAYLOAD_DIR: \$\{\{ steps\.baseline_validation\.outputs\.baseline_dir \}\}[\s\S]*baseline_args=\(\)[\s\S]*baseline_args=\(--baseline-dir "\$BASELINE_PAYLOAD_DIR"\)[\s\S]*"\$\{baseline_args\[@\]\}"/)
   assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*status=failed[\s\S]*status=skipped[\s\S]*published[\s\S]*no_changes/)
   assert.match(workflow, /commit_sha=/)
@@ -1162,6 +1164,22 @@ test('workflow policy rejects content group contract validation before dependenc
     steps.splice(installIndex, 0, contract)
     fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
     assert.ok(validateWorkflowPolicies(directory).includes('_publish-content-group.yml: must install dependencies before validating the content group contract'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+test('workflow policy rejects direct TypeScript requires in the content publisher', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-typescript-loader-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const file = path.join(directory, '_publish-content-group.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const loaderCall = "loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')"
+    assert.ok(source.includes(loaderCall))
+    fs.writeFileSync(file, source.replace(loaderCall, "require('./packages/docs-tooling/src/translation/targets.ts')"))
+    assert.ok(validateWorkflowPolicies(directory).includes('_publish-content-group.yml: must load TypeScript modules through the shared loader'))
   } finally {
     fs.rmSync(directory, { recursive: true, force: true })
   }
