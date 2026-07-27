@@ -206,6 +206,142 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
   })
 }
 
+function toolsSidebarItem() {
+  return {
+    target: 'zh-CN-tools',
+    sourcePath: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
+    targetPath: 'generated/zh-CN/sidebars/tools.sidebar.js',
+    sourceHash: 'b'.repeat(64),
+    locale: 'zh-CN',
+    type: 'sidebar',
+  }
+}
+
+function toolsSidebarFragment(label = 'Tools') {
+  return {
+    type: 'category',
+    label,
+    key: 'category:tutorials/tools',
+    items: [
+      {
+        type: 'doc',
+        id: 'tutorials/tools/cli',
+        label: 'CLI Tool',
+        key: 'doc:tutorials/tools/cli',
+      },
+      {
+        type: 'link',
+        href: 'https://example.com/tools',
+        label: 'External Tool',
+        key: 'link:tutorials/tools/external',
+      },
+    ],
+  }
+}
+
+async function testTranslatesToolsSidebarFragmentWithoutReadingPseudoPath() {
+  await withTempDir(async siteDir => {
+    write(
+      path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'),
+      `module.exports = ${JSON.stringify([{type: 'category', label: 'Other', key: 'category:other', items: []}, toolsSidebarFragment()])}\n`,
+    )
+    const translated = toolsSidebarFragment('工具')
+    translated.items[0].label = 'CLI 工具'
+    translated.items[1].label = '外部工具'
+    const calls = []
+    const result = await processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      maxReviewRounds: 0,
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        assert.match(messages[0].content, /Tools chapter/i)
+        return agent === 'translation'
+          ? JSON.stringify(translated)
+          : '{"pass":true,"issues":[]}'
+      },
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.equal(result.sourcePath, toolsSidebarItem().sourcePath)
+    assert.equal(result.targetPath, toolsSidebarItem().targetPath)
+    assert.deepEqual(calls, ['translation', 'review'])
+    const outputPath = path.join(siteDir, toolsSidebarItem().targetPath)
+    const resolved = require.resolve(outputPath)
+    delete require.cache[resolved]
+    const output = require(resolved)
+    assert.deepEqual(output, [translated])
+    assert.equal(output[0].items[0].id, 'tutorials/tools/cli')
+    assert.equal(output[0].items[1].href, 'https://example.com/tools')
+  })
+}
+
+async function testToolsSidebarReviewFailureDoesNotWriteTarget() {
+  await withTempDir(async siteDir => {
+    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), `module.exports = ${JSON.stringify([toolsSidebarFragment()])}\n`)
+    const result = await processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      maxReviewRounds: 0,
+      callModel: async ({agent}) => agent === 'translation'
+        ? JSON.stringify(toolsSidebarFragment())
+        : '{"pass":false,"issues":[{"severity":"high","type":"untranslated_prose","comment":"Labels remain materially English."}]}',
+    })
+    assert.equal(result.status, 'failed')
+    assert.match(result.review.issues[0].comment, /materially English/i)
+    assert.equal(fs.existsSync(path.join(siteDir, toolsSidebarItem().targetPath)), false)
+  })
+}
+
+async function testToolsSidebarRejectsChangedStructure() {
+  await withTempDir(async siteDir => {
+    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), `module.exports = ${JSON.stringify([toolsSidebarFragment()])}\n`)
+    const changed = toolsSidebarFragment('工具')
+    changed.items[0].id = 'tutorials/tools/changed'
+    const result = await processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      maxReviewRounds: 0,
+      callModel: async ({agent}) => agent === 'translation'
+        ? JSON.stringify(changed)
+        : '{"pass":true,"issues":[]}',
+    })
+    assert.equal(result.status, 'failed')
+    assert.match(result.validationErrors.join('\n'), /sidebar fragment validation.*structure/i)
+    assert.equal(fs.existsSync(path.join(siteDir, toolsSidebarItem().targetPath)), false)
+  })
+}
+
+async function testToolsSidebarFragmentIdentityFailsClosed() {
+  await withTempDir(async siteDir => {
+    const sourceModule = path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js')
+    write(sourceModule, `module.exports = ${JSON.stringify([{type: 'category', label: 'Other', key: 'category:other', items: []}])}\n`)
+    await assert.rejects(processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      callModel: async () => { throw new Error('model must not be called') },
+    }), /missing.*category:tutorials\/tools/i)
+
+    write(sourceModule, `module.exports = ${JSON.stringify([toolsSidebarFragment(), toolsSidebarFragment('Duplicate')])}\n`)
+    delete require.cache[require.resolve(sourceModule)]
+    await assert.rejects(processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      callModel: async () => { throw new Error('model must not be called') },
+    }), /ambiguous.*category:tutorials\/tools/i)
+  })
+}
+
+async function testRejectsSidebarPseudoPathForNonToolsTarget() {
+  await withTempDir(async siteDir => {
+    await assert.rejects(processManifestItem({
+      siteDir,
+      item: {...toolsSidebarItem(), target: 'ja-JP'},
+      callModel: async () => { throw new Error('model must not be called') },
+    }), /fragment pseudo-path.*zh-CN-tools/i)
+  })
+}
+
 async function testProviderCallRetriesTransientFailures() {
   const originalFetch = global.fetch
   let calls = 0
@@ -665,6 +801,11 @@ async function run() {
   testValidatesExactManifestTargetContract()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
+  await testTranslatesToolsSidebarFragmentWithoutReadingPseudoPath()
+  await testToolsSidebarReviewFailureDoesNotWriteTarget()
+  await testToolsSidebarRejectsChangedStructure()
+  await testToolsSidebarFragmentIdentityFailsClosed()
+  await testRejectsSidebarPseudoPathForNonToolsTarget()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()

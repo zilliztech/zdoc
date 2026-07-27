@@ -9,6 +9,8 @@ const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = require('../../packages/docs-tooling/src/validation/ownership.ts')
+const { assertSafeRepositoryPathChain } = require('../../packages/docs-tooling/src/reference/translationManifest.ts')
+const { validateTranslatedSidebarFragment } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
@@ -347,6 +349,69 @@ async function translateAndReviewUnit({
   return { translatedContent: restoreProtectedEsm(translatedContent, protectedEsm), review }
 }
 
+function collectSidebarFragments(value, key, matches = []) {
+  if (Array.isArray(value)) {
+    for (const child of value) collectSidebarFragments(child, key, matches)
+    return matches
+  }
+  if (!value || typeof value !== 'object') return matches
+  if (value.key === key) matches.push(value)
+  collectSidebarFragments(value.items, key, matches)
+  return matches
+}
+
+function readToolsSidebarFragment(siteDir, item) {
+  const target = resolveTranslationTarget('zh-CN-tools')
+  if (item.target !== target.id) throw new Error('Sidebar fragment pseudo-paths are supported only for zh-CN-tools')
+  if (item.sourcePath !== target.sidebarSource || item.targetPath !== target.sidebarTarget) {
+    throw new Error('Sidebar fragment paths must match the zh-CN-tools target registry')
+  }
+  const [relativePath, key, extra] = item.sourcePath.split('#')
+  if (!relativePath || !key || extra !== undefined) throw new Error(`Invalid sidebar fragment pseudo-path: ${item.sourcePath}`)
+  const absolutePath = assertSafeRepositoryPathChain(siteDir, relativePath, 'Tools sidebar source module')
+  const resolved = require.resolve(absolutePath)
+  delete require.cache[resolved]
+  const loaded = require(resolved)
+  const sidebar = loaded && typeof loaded === 'object' && 'default' in loaded ? loaded.default : loaded
+  const matches = collectSidebarFragments(sidebar, key)
+  if (matches.length === 0) throw new Error(`Missing sidebar fragment ${key}`)
+  if (matches.length > 1) throw new Error(`Ambiguous sidebar fragment ${key}`)
+  return matches[0]
+}
+
+async function processToolsSidebarFragment({siteDir, item, callModel, maxReviewRounds}) {
+  const sourceFragment = readToolsSidebarFragment(siteDir, item)
+  const sourceContent = `${JSON.stringify(sourceFragment, null, 2)}\n`
+  const unit = await translateAndReviewUnit({
+    target: item.target,
+    sourcePath: item.sourcePath,
+    sourceContent,
+    locale: item.locale,
+    callModel,
+    maxReviewRounds,
+    chunkContext: null,
+  })
+  if (!unit.review.pass) return {...item, status: 'failed', review: unit.review, validationErrors: []}
+
+  let translatedFragment
+  try {
+    translatedFragment = JSON.parse(unit.translatedContent)
+    validateTranslatedSidebarFragment(sourceFragment, translatedFragment)
+  } catch (error) {
+    return {
+      ...item,
+      status: 'failed',
+      review: unit.review,
+      validationErrors: [`Sidebar fragment validation failed: ${String(error?.message || error)}`],
+    }
+  }
+
+  const absTargetPath = path.join(siteDir, item.targetPath)
+  fs.mkdirSync(path.dirname(absTargetPath), {recursive: true})
+  fs.writeFileSync(absTargetPath, `'use strict'\n\nmodule.exports = ${JSON.stringify([translatedFragment], null, 2)}\n`, 'utf8')
+  return {...item, status: 'translated', review: unit.review, validationErrors: [], chunks: {total: 1}}
+}
+
 async function processManifestItem({
   siteDir,
   item,
@@ -356,6 +421,9 @@ async function processManifestItem({
   chunkMaxChars = DEFAULT_MAX_CHARS,
   validate = validateTranslatedContent,
 }) {
+  if (item.sourcePath.includes('#')) {
+    return processToolsSidebarFragment({siteDir, item, callModel, maxReviewRounds})
+  }
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
   const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
