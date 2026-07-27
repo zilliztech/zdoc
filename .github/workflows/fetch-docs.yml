@@ -403,18 +403,37 @@ jobs:
         run: node scripts/docs-workflow/finalize-translation-batches.js
 
   guides_translation_publication_barrier:
-    needs: [finalize_guides_translation]
+    needs: [produce_guides_sources, render_guides_tables, produce_guides, publish_guides, prepare_guides_translation_batches, translate_guides_batches, publish_guides_translation_batches, finalize_guides_translation]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Accept completed Guides translation publication
         env:
+          PRODUCE_GUIDES_SOURCES_RESULT: ${{ needs.produce_guides_sources.result }}
+          RENDER_GUIDES_TABLES_RESULT: ${{ needs.render_guides_tables.result }}
+          PRODUCE_GUIDES_RESULT: ${{ needs.produce_guides.result }}
+          PUBLISH_GUIDES_RESULT: ${{ needs.publish_guides.result }}
+          PREPARE_GUIDES_TRANSLATION_BATCHES_RESULT: ${{ needs.prepare_guides_translation_batches.result }}
+          TRANSLATE_GUIDES_BATCHES_RESULT: ${{ needs.translate_guides_batches.result }}
+          PUBLISH_GUIDES_TRANSLATION_BATCHES_RESULT: ${{ needs.publish_guides_translation_batches.result }}
           FINALIZER_RESULT: ${{ needs.finalize_guides_translation.result }}
           TRANSLATOR_STATUS: ${{ needs.finalize_guides_translation.outputs.translator_status }}
           PUBLISHER_STATUS: ${{ needs.finalize_guides_translation.outputs.publisher_status }}
         run: |
           node - <<'NODE'
+          const prerequisites = {
+            produce_guides_sources: process.env.PRODUCE_GUIDES_SOURCES_RESULT,
+            render_guides_tables: process.env.RENDER_GUIDES_TABLES_RESULT,
+            produce_guides: process.env.PRODUCE_GUIDES_RESULT,
+            publish_guides: process.env.PUBLISH_GUIDES_RESULT,
+            prepare_guides_translation_batches: process.env.PREPARE_GUIDES_TRANSLATION_BATCHES_RESULT,
+            translate_guides_batches: process.env.TRANSLATE_GUIDES_BATCHES_RESULT,
+            publish_guides_translation_batches: process.env.PUBLISH_GUIDES_TRANSLATION_BATCHES_RESULT,
+            finalize_guides_translation: process.env.FINALIZER_RESULT,
+          }
+          const unsuccessful = Object.entries(prerequisites).filter(([, result]) => result === 'failure' || result === 'cancelled')
+          if (unsuccessful.length) throw new Error(`Guides publication prerequisite failed: ${unsuccessful.map(([job, result]) => `${job}=${result}`).join(', ')}`)
           const pair = `${process.env.TRANSLATOR_STATUS}:${process.env.PUBLISHER_STATUS}`
           const acceptable = new Set(['translation_ready:published', 'translation_ready:no_changes', 'no_changes:no_changes', 'skipped:skipped'])
           if (process.env.FINALIZER_RESULT !== 'success' || !acceptable.has(pair)) throw new Error(`Guides translation publication did not complete acceptably: ${process.env.FINALIZER_RESULT} ${pair}`)

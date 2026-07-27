@@ -427,7 +427,27 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const barrier = workflow.jobs?.[barrierName]
       const barrierNeeds = Array.isArray(barrier?.needs) ? barrier.needs : barrier?.needs ? [barrier.needs] : []
       const barrierStep = barrier?.steps?.find(step => step.name === 'Accept completed Guides translation publication')
-      if (barrierNeeds.join(',') !== 'finalize_guides_translation' || barrier?.if !== '${{ always() }}' ||
+      const expectedBarrierNeeds = [
+        'produce_guides_sources', 'render_guides_tables', 'produce_guides', 'publish_guides',
+        'prepare_guides_translation_batches', 'translate_guides_batches',
+        'publish_guides_translation_batches', 'finalize_guides_translation',
+      ]
+      const prerequisiteResultInputs = {
+        PRODUCE_GUIDES_SOURCES_RESULT: '${{ needs.produce_guides_sources.result }}',
+        RENDER_GUIDES_TABLES_RESULT: '${{ needs.render_guides_tables.result }}',
+        PRODUCE_GUIDES_RESULT: '${{ needs.produce_guides.result }}',
+        PUBLISH_GUIDES_RESULT: '${{ needs.publish_guides.result }}',
+        PREPARE_GUIDES_TRANSLATION_BATCHES_RESULT: '${{ needs.prepare_guides_translation_batches.result }}',
+        TRANSLATE_GUIDES_BATCHES_RESULT: '${{ needs.translate_guides_batches.result }}',
+        PUBLISH_GUIDES_TRANSLATION_BATCHES_RESULT: '${{ needs.publish_guides_translation_batches.result }}',
+        FINALIZER_RESULT: '${{ needs.finalize_guides_translation.result }}',
+      }
+      if (barrierNeeds.join(',') !== expectedBarrierNeeds.join(',') ||
+          Object.entries(prerequisiteResultInputs).some(([name, value]) => barrierStep?.env?.[name] !== value) ||
+          !/result === 'failure' \|\| result === 'cancelled'/.test(barrierStep?.run || '')) {
+        errors.push(`${file}: Guides translation publication barrier must validate authoritative prerequisite results`)
+      }
+      if (barrier?.if !== '${{ always() }}' ||
           barrierStep?.env?.FINALIZER_RESULT !== '${{ needs.finalize_guides_translation.result }}' ||
           barrierStep?.env?.TRANSLATOR_STATUS !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
           barrierStep?.env?.PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||

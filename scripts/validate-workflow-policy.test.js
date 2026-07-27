@@ -1232,8 +1232,51 @@ test('Chinese publishers wait for the Guides translation publication barrier', (
   const barrierName = 'guides_translation_publication_barrier'
   const barrier = workflow.jobs[barrierName]
   assert.ok(workflow.jobs.finalize_guides_translation.needs.includes('publish_guides_translation_batches'))
-  assert.deepEqual(barrier.needs, ['finalize_guides_translation'])
+  const barrierNeeds = [
+    'produce_guides_sources',
+    'render_guides_tables',
+    'produce_guides',
+    'publish_guides',
+    'prepare_guides_translation_batches',
+    'translate_guides_batches',
+    'publish_guides_translation_batches',
+    'finalize_guides_translation',
+  ]
+  assert.deepEqual(barrier.needs, barrierNeeds)
   assert.equal(barrier.if, '${{ always() }}')
+  const barrierRun = barrier.steps.find(step => step.name === 'Accept completed Guides translation publication').run
+  const skippedEnvironment = {
+    PRODUCE_GUIDES_SOURCES_RESULT: 'skipped',
+    RENDER_GUIDES_TABLES_RESULT: 'skipped',
+    PRODUCE_GUIDES_RESULT: 'skipped',
+    PUBLISH_GUIDES_RESULT: 'skipped',
+    PREPARE_GUIDES_TRANSLATION_BATCHES_RESULT: 'skipped',
+    TRANSLATE_GUIDES_BATCHES_RESULT: 'skipped',
+    PUBLISH_GUIDES_TRANSLATION_BATCHES_RESULT: 'skipped',
+    FINALIZER_RESULT: 'success',
+    TRANSLATOR_STATUS: 'skipped',
+    PUBLISHER_STATUS: 'skipped',
+  }
+  const runBarrier = overrides => spawnSync('bash', ['-c', barrierRun], {
+    encoding: 'utf8',
+    env: {...process.env, ...skippedEnvironment, ...overrides},
+  })
+  assert.equal(runBarrier({}).status, 0, 'intentionally unselected Guides publication must pass')
+  assert.equal(runBarrier({
+    PRODUCE_GUIDES_SOURCES_RESULT: 'success',
+    PRODUCE_GUIDES_RESULT: 'success',
+    PUBLISH_GUIDES_RESULT: 'success',
+    PREPARE_GUIDES_TRANSLATION_BATCHES_RESULT: 'success',
+    TRANSLATOR_STATUS: 'no_changes',
+    PUBLISHER_STATUS: 'no_changes',
+  }).status, 0, 'intentional zero-batch no_changes must pass')
+  for (const [label, overrides] of [
+    ['failed Guides source publisher with skipped downstream', {PUBLISH_GUIDES_RESULT: 'failure'}],
+    ['cancelled Guides source publisher with skipped downstream', {PUBLISH_GUIDES_RESULT: 'cancelled'}],
+    ['earlier Guides assembly failure with skipped downstream', {PRODUCE_GUIDES_RESULT: 'failure'}],
+  ]) {
+    assert.notEqual(runBarrier(overrides).status, 0, label)
+  }
   const publishingJobs = [
     'translate_python_zh_reference',
     'translate_java_zh_reference',
@@ -1279,6 +1322,10 @@ test('Chinese publishers wait for the Guides translation publication barrier', (
     mutated.jobs.translate_python_zh_reference.needs = mutated.jobs.translate_python_zh_reference.needs.filter(need => need !== barrierName)
     fs.writeFileSync(file, yaml.dump(mutated, {lineWidth: -1, noRefs: true}))
     assert.ok(validateWorkflowPolicies(directory).includes('fetch-docs.yml: every Chinese publisher must wait for the Guides translation publication barrier'))
+    mutated.jobs.translate_python_zh_reference.needs.push(barrierName)
+    mutated.jobs[barrierName].needs = mutated.jobs[barrierName].needs.filter(need => need !== 'publish_guides')
+    fs.writeFileSync(file, yaml.dump(mutated, {lineWidth: -1, noRefs: true}))
+    assert.ok(validateWorkflowPolicies(directory).includes('fetch-docs.yml: Guides translation publication barrier must validate authoritative prerequisite results'))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
   }
