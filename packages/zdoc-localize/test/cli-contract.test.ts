@@ -28,13 +28,16 @@ describe('CLI contract', () => {
         cliVersion: '0.1.1',
         schemaVersion: 1,
         docxEngine: {
-          version: '0.1.1',
-          schemaVersion: 1,
+          version: '0.2.0',
+          schemaVersion: 2,
           capabilities: expect.arrayContaining([
             'nested-list-create-v1',
             'native-table-create-v1',
             'whiteboard-overwrite-v1',
             'partial-write-evidence-v1',
+            'batch-operation-output-refs-v1',
+            'whiteboard-create-copy-v1',
+            'contiguous-range-replace-v1',
           ]),
         },
         commands: expect.arrayContaining([
@@ -133,7 +136,7 @@ describe('CLI contract', () => {
         expect.objectContaining({id: 'lark-auth', status: 'passed'}),
         expect.objectContaining({id: 'registry-access', status: 'passed'}),
         expect.objectContaining({id: 'sqlite', status: 'passed'}),
-        expect.objectContaining({id: 'feishu-docx-engine', status: 'passed', detail: '0.1.1'}),
+        expect.objectContaining({id: 'feishu-docx-engine', status: 'passed', detail: '0.2.0'}),
     ]));
     expect(diagnostics.calls).toEqual([
       {executable: 'lark-cli', args: ['--version']},

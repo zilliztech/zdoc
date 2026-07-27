@@ -190,7 +190,7 @@ function createProgram(
       await runCheck('lark-auth', 'lark-cli', ['auth', 'status', '--json', '--verify']);
       checks.push({
         id: 'feishu-docx-engine',
-        status: ENGINE_SCHEMA_VERSION === 1 ? 'passed' : 'failed',
+        status: ENGINE_SCHEMA_VERSION === 2 ? 'passed' : 'failed',
         detail: ENGINE_VERSION,
       });
       try {

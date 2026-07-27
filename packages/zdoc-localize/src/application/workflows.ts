@@ -55,6 +55,7 @@ import {parseFeishuDocument} from '../domain/xml-parser.js';
 import {isStrictlyEmptyTarget} from '../domain/initialization.js';
 import {buildInitialPlanInputs} from '../domain/initial-plan.js';
 import {InitializationInspector, type InitializationDisposition} from './initialization-inspector.js';
+import {compileEngineBatch} from './engine-plan.js';
 import {
   manualSyncMarker,
   syncedReferencePlaceholder,
@@ -146,6 +147,9 @@ export interface ApplyPreviewResult {
   targetRevision: number;
   sourceHash: string;
   targetHash: string;
+  docxEngineVersion?: string;
+  engineSchemaVersion?: number;
+  batchFingerprint?: string;
   creationDraftXml?: string;
   operations: Array<{
     operationId: string;
@@ -157,6 +161,8 @@ export interface ApplyPreviewResult {
     approvedText?: string;
     decision?: 'delete' | 'protected';
     compiledXml?: string;
+    nodeKind?: PlanOperation['targetNodeKind'];
+    createdSubtreeCount?: number;
   }>;
 }
 
@@ -1319,6 +1325,77 @@ export class LocalizationWorkflows {
     const requests = JSON.parse(requestJson) as TranslationRequest[];
     const requestById = new Map(requests.map((request) => [request.operationId, request]));
     validateTranslations(requests, approvedTranslationResponses(approved.operations, requestById));
+    const hashDomain = this.hashDomainForRun(run);
+    if (hashDomain === 'docx-engine-v1') {
+      const engine = this.dependencies.engine;
+      if (!engine) {
+        throw new LocalizeError({
+          type: 'compatibility',
+          subtype: 'docx_engine_missing',
+          message: 'This plan requires the shared Docx engine, but no engine is configured.',
+        });
+      }
+      const targetSnapshotJson = planBundle.files['target-current.snapshot.json'];
+      if (!targetSnapshotJson) {
+        throw new LocalizeError({
+          type: 'verification_failed',
+          subtype: 'engine_snapshot_missing',
+          message: 'The reviewed plan bundle has no immutable target Docx snapshot.',
+        });
+      }
+      const compiled = compileEngineBatch({
+        runId,
+        plan,
+        approved,
+        targetSnapshot: JSON.parse(targetSnapshotJson) as DocumentSnapshot,
+        engine,
+      });
+      const approvalToken = canonicalHash({
+        runId,
+        planHash: approved.planHash,
+        approvedOperations: approved.operations,
+        engineSchemaVersion: compiled.batch.schemaVersion,
+        engineVersion: compiled.batch.engineVersion,
+        batchFingerprint: compiled.batch.fingerprint,
+      });
+      const previewBundleRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          'prepared-batch.json': `${JSON.stringify(compiled.batch, null, 2)}\n`,
+          'approved-review.json': `${JSON.stringify(approved, null, 2)}\n`,
+        },
+      });
+      await this.markRun(run, 'review_required', {
+        previewBundleRef,
+        engineBatchFingerprint: compiled.batch.fingerprint,
+        engineVersion: compiled.batch.engineVersion,
+        engineSchemaVersion: compiled.batch.schemaVersion,
+      });
+      const operationById = new Map(plan.operations.map((operation) => [operation.operationId, operation]));
+      return {
+        runId,
+        state: 'confirmation_required',
+        approvalToken,
+        pairId: plan.pairId,
+        sourceRevision: plan.sourceRevision,
+        targetRevision: plan.targetRevision,
+        sourceHash: plan.sourceHash,
+        targetHash: plan.targetHash,
+        docxEngineVersion: compiled.batch.engineVersion,
+        engineSchemaVersion: compiled.batch.schemaVersion,
+        batchFingerprint: compiled.batch.fingerprint,
+        operations: compiled.operations.map((summary) => {
+          const operation = operationById.get(summary.operationId)!;
+          return {
+            ...summary,
+            ...(operation.targetBlockId ? {targetBlockId: operation.targetBlockId} : {}),
+            ...(operation.targetBlockIds?.length ? {targetBlockIds: operation.targetBlockIds} : {}),
+            ...(operation.anchorBlockId ? {anchorBlockId: operation.anchorBlockId} : {}),
+            ...(operation.anchorOperationId ? {anchorOperationId: operation.anchorOperationId} : {}),
+          };
+        }),
+      };
+    }
     if (approved.operations.some((operation) => 'approvedSlots' in operation)) {
       throw new LocalizeError({
         type: 'compatibility',
