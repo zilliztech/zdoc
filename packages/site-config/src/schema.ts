@@ -2,6 +2,14 @@ import {z} from 'zod';
 
 export const SiteIdSchema = z.enum(['en', 'zh-CN']);
 
+export const LocaleIdSchema = z.enum(['en', 'ja-JP', 'zh-CN']);
+
+export const LocaleProfileSchema = z.object({
+  id: LocaleIdSchema,
+  htmlLang: z.string().min(1),
+  source: z.enum(['canonical', 'docusaurus-i18n']),
+}).strict();
+
 const WebPathForbiddenCharactersSchema = z.string().superRefine((value, context) => {
   const invalidReason =
     /\s/u.test(value) ? 'must not contain whitespace' :
@@ -31,6 +39,74 @@ export const RepositoryRelativePathSchema = z.string().min(1).superRefine((value
     context.addIssue({
       code: z.ZodIssueCode.custom,
       message: `Repository-relative path ${invalidReason}: ${JSON.stringify(value)}`,
+    });
+  }
+});
+
+export const LocalizationProfileSchema = z.object({
+  defaultLocale: z.enum(['en', 'zh-CN']),
+  translationRoot: RepositoryRelativePathSchema,
+  locales: z.array(LocaleProfileSchema).min(1),
+}).strict().superRefine((localization, context) => {
+  const localeIds = new Set<string>();
+  let defaultLocaleIndex = -1;
+
+  for (const [index, locale] of localization.locales.entries()) {
+    if (localeIds.has(locale.id)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['locales', index, 'id'],
+        message: `Duplicate locale id: ${locale.id}`,
+      });
+    }
+    localeIds.add(locale.id);
+
+    if (locale.id === localization.defaultLocale) {
+      if (defaultLocaleIndex !== -1) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['locales', index, 'id'],
+          message: `Default locale must appear exactly once: ${localization.defaultLocale}`,
+        });
+      }
+      defaultLocaleIndex = index;
+      if (locale.source !== 'canonical') {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['locales', index, 'source'],
+          message: `Default locale must be canonical: ${localization.defaultLocale}`,
+        });
+      }
+    }
+
+    if (locale.id === 'ja-JP' && localization.defaultLocale !== 'en') {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['locales', index, 'id'],
+        message: 'Japanese locales are only supported by the English profile',
+      });
+    }
+    if (locale.id === 'ja-JP' && locale.source !== 'docusaurus-i18n') {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['locales', index, 'source'],
+        message: 'Japanese locales must use docusaurus-i18n content',
+      });
+    }
+    if (localization.defaultLocale === 'zh-CN' && locale.id !== 'zh-CN') {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['locales', index, 'id'],
+        message: 'The Chinese profile may only include zh-CN',
+      });
+    }
+  }
+
+  if (defaultLocaleIndex === -1) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['defaultLocale'],
+      message: `Default locale must appear exactly once: ${localization.defaultLocale}`,
     });
   }
 });
@@ -297,6 +373,7 @@ export const SiteProfileSchema = z.object({
   url: SiteOriginSchema,
   baseUrl: BaseUrlSchema,
   outputDir: RepositoryRelativePathSchema,
+  localization: LocalizationProfileSchema,
   content: z.array(ContentPluginProfileSchema),
   manuals: z.array(RepositoryRelativePathSchema),
   navigation: NavigationProfileSchema,
@@ -308,6 +385,14 @@ export const SiteProfileSchema = z.object({
   redirects: RedirectProfileSchema,
   robots: RobotsProfileSchema,
 }).strict().superRefine((profile, context) => {
+  if (profile.id !== profile.localization.defaultLocale) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['localization', 'defaultLocale'],
+      message: `Site profile ${profile.id} must use ${profile.id} as its default locale`,
+    });
+  }
+
   const contentIds = new Set<string>();
   const contentRoutes = new Set<string>();
   for (const [index, plugin] of profile.content.entries()) {
@@ -389,11 +474,14 @@ export const SiteProfileSchema = z.object({
 });
 
 export type SiteId = z.infer<typeof SiteIdSchema>;
+export type LocaleId = z.infer<typeof LocaleIdSchema>;
 export type RepositoryRelativePath = z.infer<typeof RepositoryRelativePathSchema>;
 export type RoutePath = z.infer<typeof RoutePathSchema>;
 export type BaseUrl = z.infer<typeof BaseUrlSchema>;
 export type SiteOrigin = z.infer<typeof SiteOriginSchema>;
 export type ContentPluginProfile = z.infer<typeof ContentPluginProfileSchema>;
+export type LocaleProfile = z.infer<typeof LocaleProfileSchema>;
+export type LocalizationProfile = z.infer<typeof LocalizationProfileSchema>;
 export type FeatureProfile = z.infer<typeof FeatureProfileSchema>;
 export type PlaneConfig = z.infer<typeof PlaneConfigSchema>;
 export type IntegrationProfile = z.infer<typeof IntegrationProfileSchema>;

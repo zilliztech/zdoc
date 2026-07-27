@@ -8,6 +8,14 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
   url: 'https://docs.zilliz.com',
   baseUrl: '/',
   outputDir: 'build/en',
+  localization: {
+    defaultLocale: 'en',
+    translationRoot: 'i18n',
+    locales: [
+      {id: 'en', htmlLang: 'en', source: 'canonical'},
+      {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+    ],
+  },
   content: [
     {
       id: 'default',

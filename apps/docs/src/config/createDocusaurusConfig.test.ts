@@ -7,7 +7,7 @@ import {createDocusaurusConfig} from './createDocusaurusConfig';
 import {resolveMarkdownPolicy} from './markdownPolicy';
 
 function profile(overrides: Partial<SiteProfile> = {}): SiteProfile {
-  return {
+  const defaults: SiteProfile = {
     id: 'en',
     language: 'en',
     title: 'English docs',
@@ -15,6 +15,14 @@ function profile(overrides: Partial<SiteProfile> = {}): SiteProfile {
     url: 'https://docs.example.com',
     baseUrl: '/',
     outputDir: 'build/en',
+    localization: {
+      defaultLocale: 'en',
+      translationRoot: 'i18n',
+      locales: [
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+      ],
+    },
     content: [
       {
         id: 'default',
@@ -54,7 +62,18 @@ function profile(overrides: Partial<SiteProfile> = {}): SiteProfile {
     staticRoots: ['apps/docs/static/shared', 'apps/docs/static/en'],
     redirects: {rules: [{from: '/old', to: '/docs', permanent: true}]},
     robots: {index: true, sitemap: true},
+  };
+
+  return {
+    ...defaults,
     ...overrides,
+    localization: overrides.localization ?? (overrides.id === 'zh-CN'
+      ? {
+          defaultLocale: 'zh-CN',
+          translationRoot: 'i18n',
+          locales: [{id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'}],
+        }
+      : defaults.localization),
   };
 }
 
@@ -66,11 +85,19 @@ function docsPlugins(config: ReturnType<typeof createDocusaurusConfig>) {
 }
 
 describe('createDocusaurusConfig', () => {
-  it('registers only the English profile content and one configured locale', () => {
+  it('registers only the English profile content and its configured locales', () => {
     const config = createDocusaurusConfig(profile());
 
     expect(docsPlugins(config).map(([, options]) => options.id)).toEqual(['default', 'reference']);
-    expect(config.i18n).toEqual({defaultLocale: 'en', locales: ['en']});
+    expect(config.i18n).toEqual({
+      defaultLocale: 'en',
+      path: path.resolve(process.cwd(), 'i18n'),
+      locales: ['en', 'ja-JP'],
+      localeConfigs: {
+        en: {htmlLang: 'en'},
+        'ja-JP': {htmlLang: 'ja-JP'},
+      },
+    });
     expect(config.customFields?.outputDir).toBe('build/en');
     expect(JSON.stringify(config)).not.toContain('i18n/zh-CN');
     expect(config.presets).toContainEqual([
@@ -109,9 +136,13 @@ describe('createDocusaurusConfig', () => {
     expect(docsPlugins(createDocusaurusConfig(profile())).map(([, options]) => options.id)).not.toContain('onpremise');
     expect(createDocusaurusConfig(chinese).i18n).toEqual({
       defaultLocale: 'zh-CN',
+      path: path.resolve(process.cwd(), 'i18n'),
       locales: ['zh-CN'],
       localeConfigs: {'zh-CN': {htmlLang: 'zh-Hans'}},
     });
+    expect(docsPlugins(createDocusaurusConfig(chinese)).every(([, options]) => (
+      !path.relative(process.cwd(), String(options.path)).startsWith('i18n/')
+    ))).toBe(true);
     expect(createDocusaurusConfig(chinese).plugins).toContainEqual([
       '@zilliz/docs-ui/docusaurus',
       {modules: ['shared-theme', 'shared-components', 'chinese-home']},
@@ -220,6 +251,7 @@ describe('createDocusaurusConfig', () => {
     expect(config.stylesheets).toEqual([]);
     expect(config.i18n).toEqual({
       defaultLocale: 'zh-CN',
+      path: path.resolve(process.cwd(), 'i18n'),
       locales: ['zh-CN'],
       localeConfigs: {'zh-CN': {htmlLang: 'zh-Hans'}},
     });

@@ -36,6 +36,24 @@ describe('site profile resolution', () => {
     expect(enProfile.outputDir).not.toBe(zhCNProfile.outputDir);
   });
 
+  it('models locale profiles independently from deployable site identities', () => {
+    expect(enProfile.localization).toEqual({
+      defaultLocale: 'en',
+      translationRoot: 'i18n',
+      locales: [
+        {id: 'en', htmlLang: 'en', source: 'canonical'},
+        {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'},
+      ],
+    });
+    expect(zhCNProfile.localization).toEqual({
+      defaultLocale: 'zh-CN',
+      translationRoot: 'i18n',
+      locales: [
+        {id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'},
+      ],
+    });
+  });
+
   it('registers exactly the migrated English Guides, BYOC, and Reference plugins', () => {
     expect(enProfile.content).toEqual([
       {

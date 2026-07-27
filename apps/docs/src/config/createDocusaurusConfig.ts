@@ -113,7 +113,6 @@ export function createDocusaurusConfig(
   profile: DeepReadonly<SiteProfile>,
   environment: BuildEnvironment = process.env,
 ): Config {
-  const locale = profile.id;
   const markdownPolicy = resolveMarkdownPolicy(profile.markdown);
   const uiModules = profile.id === 'en'
     ? [...sharedUiModules, ...englishUiModules]
@@ -141,11 +140,13 @@ export function createDocusaurusConfig(
     },
     staticDirectories: profile.staticRoots.map(repositoryPath),
     i18n: {
-      defaultLocale: locale,
-      locales: [locale],
-      ...(profile.id === 'zh-CN'
-        ? {localeConfigs: {'zh-CN': {htmlLang: profile.language}}}
-        : {}),
+      defaultLocale: profile.localization.defaultLocale,
+      path: repositoryPath(profile.localization.translationRoot),
+      locales: profile.localization.locales.map(locale => locale.id),
+      localeConfigs: Object.fromEntries(profile.localization.locales.map(locale => [
+        locale.id,
+        {htmlLang: locale.htmlLang},
+      ])),
     },
     plugins: [
       ['@zilliz/docs-ui/docusaurus', {modules: uiModules}],

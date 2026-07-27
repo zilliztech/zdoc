@@ -8,6 +8,11 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   url: 'https://docs.zilliz.com.cn',
   baseUrl: '/',
   outputDir: 'build/zh-CN',
+  localization: {
+    defaultLocale: 'zh-CN',
+    translationRoot: 'i18n',
+    locales: [{id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'}],
+  },
   content: [
     {id: 'default', sourcePath: 'content/zh-CN/guides', routeBasePath: 'docs', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/guides.ts', exclude: ['tutorials/get-started/release-notes/release-notes.md']},
     {id: 'byoc', sourcePath: 'content/zh-CN/byoc', routeBasePath: 'docs/byoc', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/byoc.ts'},
