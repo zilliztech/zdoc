@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、入力テキストに対してテキストアナライザーを実行し、トークン化された出力を返します。 | Go | v2"
+description: "この操作は、入力テキストに対してテキスト analyzer を実行し、トークン化された出力を返します。 | Go | v2"
 type: docx
 token: CnuHdninQoBoJXxWe2pczq7snGd
-sidebar_position: 11
+sidebar_position: 16
 keywords: 
   - milvus vector db
   - Zilliz Cloud
-  - milvus とは
+  - what is milvus
   - milvus database
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RunAnalyzer()
 
-この操作は、入力テキストに対してテキストアナライザーを実行し、トークン化された出力を返します。
+この操作は、入力テキストに対してテキスト analyzer を実行し、トークン化された出力を返します。
 
 ```go
 func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, callOptions ...grpc.CallOption) ([]*entity.AnalyzerResult, error)
@@ -51,7 +51,7 @@ option := milvusclient.NewRunAnalyzerOption(text).
 result, err := client.RunAnalyzer(ctx, option)
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **text** (*...string*)
 

@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "挿入されたエンティティの件数と ID を含む Insert 操作の結果。 | Go | v2"
+description: "挿入されたエンティティの件数と ID を含む Insert 操作の結果を格納します。 | Go | v2"
 type: docx
 token: EqKvdT96PoSVzzxyEF7civIgnDh
-sidebar_position: 7
+sidebar_position: 12
 keywords: 
-  - 安価な vector database
-  - マネージド vector database
-  - Pinecone vector database
-  - 音声検索
+  - 安価なベクターデータベース
+  - マネージドベクターデータベース
+  - Pinecone ベクターデータベース
+  - オーディオ検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - InsertResult
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # InsertResult
 
-挿入されたエンティティの件数と ID を含む Insert 操作の結果です。
+挿入されたエンティティの件数と ID を含む Insert 操作の結果を格納します。
 
 ```go
 type InsertResult struct {

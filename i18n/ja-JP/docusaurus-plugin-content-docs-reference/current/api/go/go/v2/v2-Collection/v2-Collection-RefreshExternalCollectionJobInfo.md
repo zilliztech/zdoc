@@ -7,15 +7,15 @@ added_since: v3.0.0
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この型には、外部 collection の更新ジョブに関する情報が含まれます。 | Go | v2"
+description: "この型には、外部コレクションの更新ジョブに関する情報が含まれます。 | Go | v2"
 type: docx
 token: TxIQdcx34oB2CUxHIRMcRGPNnic
-sidebar_position: 28
+sidebar_position: 29
 keywords: 
-  - ベクターデータベース比較
-  - openai ベクターデータベース
+  - vector db の比較
+  - openai vector db
   - 自然言語処理データベース
-  - 安価なベクターデータベース
+  - 安価な vector データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollectionJobInfo
 
-この型には、外部 collection の更新ジョブに関する情報が含まれます。
+この型には、外部コレクションの更新ジョブに関する情報が含まれます。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
@@ -49,10 +49,10 @@ type RefreshExternalCollectionJobInfo struct {
 **FIELDS:**
 
 - **JobID** (*int64*) -<br/>
-  更新ジョブの一意識別子です。
+  更新ジョブの一意の識別子です。
 
 - **CollectionName** (*string*) -<br/>
-  更新対象の collection の名前です。
+  更新対象のコレクションの名前です。
 
 - **State** (*[RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)*) -<br/>
   更新ジョブの現在の状態です。
@@ -67,8 +67,8 @@ type RefreshExternalCollectionJobInfo struct {
   外部データソースの識別子です。
 
 - **StartTime** (*int64*) -<br/>
-  ジョブが開始された Unix タイムスタンプです。
+  ジョブが開始された時刻の Unix タイムスタンプです。
 
 - **EndTime** (*int64*) -<br/>
-  ジョブが完了した Unix タイムスタンプです。
+  ジョブが完了した時刻の Unix タイムスタンプです。
 

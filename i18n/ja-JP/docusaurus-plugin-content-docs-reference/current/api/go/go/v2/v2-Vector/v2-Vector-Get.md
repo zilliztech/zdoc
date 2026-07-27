@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、主キー値によってエンティティを取得します。 | Go | v2"
 type: docx
 token: FLBRdxZqWojjpXxuwJZc5APKncC
-sidebar_position: 4
+sidebar_position: 9
 keywords: 
   - milvus
   - Zilliz
@@ -53,7 +53,7 @@ option := milvusclient.NewQueryOption(collectionName).
 result, err := client.Get(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collectionName** (*string*)
 
@@ -63,15 +63,15 @@ result, err := client.Get(ctx, option)
 
 - `WithFilter(expr string)`
 
-    結果を絞り込むために、ブールフィルター式を適用します。
+    ブールフィルター式を適用して結果を絞り込みます。
 
 - `WithTemplateParam(key string, val any)`
 
-    式評価のためのテンプレートパラメータを設定します。
+    式評価用のテンプレートパラメーターを設定します。
 
 - `WithOffset(offset int)`
 
-    一致結果を返す前にスキップする結果数を設定します。
+    一致する結果を返す前にスキップする結果数を設定します。
 
 - `WithLimit(limit int)`
 
@@ -83,15 +83,15 @@ result, err := client.Get(ctx, option)
 
 - `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
 
-    操作の整合性レベルを設定します（Strong、Bounded、Session、または Eventually）。
+    この操作の整合性レベル（Strong、Bounded、Session、または Eventually）を設定します。
 
 - `WithPartitions(partitionNames ...string)`
 
-    操作を指定した partition に限定します。
+    この操作を指定した partitions に制限します。
 
 - `WithIDs(ids column.Column)`
 
-    操作の IDs を設定します。
+    この操作の IDs を設定します。
 
 **戻り値の型:**
 
@@ -99,13 +99,13 @@ result, err := client.Get(ctx, option)
 
 **戻り値:**
 
-一致したエンティティのスコアとフィールドを含む検索またはクエリ結果です。操作が失敗した場合はエラーを返します。
+一致したエンティティのスコアとフィールドを含む search または query の結果です。操作が失敗した場合はエラーを返します。
 
 **例外:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    障害の詳細は `err != nil` を確認してください。
 
 ## 例\{#example}
 

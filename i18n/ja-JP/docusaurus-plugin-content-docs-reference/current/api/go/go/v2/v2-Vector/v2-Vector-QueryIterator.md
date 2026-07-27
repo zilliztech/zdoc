@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: v2.6.2
 deprecate_since: false
 notebook: false
-description: "この操作は、collection から一致するエンティティをバッチ単位で取得する query iterator を作成します。一度にメモリへ読み込むべきでない大規模な結果セットに使用します。 | Go | v2"
+description: "この操作は、collection から一致するエンティティをバッチ単位で取得するクエリイテレータを作成します。一度にメモリへすべて読み込むべきではない大規模な結果セットに使用してください。 | Go | v2"
 type: docx
 token: GLdddi5uboT02bxj6cdc1FG2nvd
-sidebar_position: 9
+sidebar_position: 14
 keywords: 
   - Dense vector
   - Hierarchical Navigable Small Worlds
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # QueryIterator()
 
-この操作は、collection から一致するエンティティをバッチ単位で取得する query iterator を作成します。一度にメモリへ読み込むべきでない大規模な結果セットに使用します。
+この操作は、collection から一致するエンティティをバッチ単位で取得するクエリイテレータを作成します。一度にメモリへすべて読み込むべきではない大規模な結果セットに使用してください。
 
 ```go
 func (c *Client) QueryIterator(ctx context.Context, option QueryIteratorOption, callOptions ...grpc.CallOption) (QueryIterator, error)
@@ -54,17 +54,17 @@ client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(collectionName).
 
 - `NewQueryIteratorOption(collectionName string)` -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    指定した collection 用の新しい query iterator option を作成します。
+    指定した collection の新しいクエリイテレータオプションを作成します。
 
 - `WithBatchSize(batchSize int)` -
 
-    反復ごとのバッチで返されるエンティティ数です。デフォルト: `1000`。
+    反復ごとの各バッチで返すエンティティ数です。デフォルト: `1000`。
 
 - `WithPartitions(partitionNames ...string)` -
 
-    query 対象の partition です。指定しない場合、すべての partition が query されます。
+    クエリ対象の partition です。指定しない場合は、すべての partition がクエリされます。
 
 - `WithFilter(expr string)` -
 
@@ -72,11 +72,11 @@ client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(collectionName).
 
 - `WithOutputFields(fieldNames ...string)` -
 
-    返されるエンティティに含めるフィールドです。指定しない場合、主キー フィールドのみが返されます。
+    返されるエンティティに含めるフィールドです。指定しない場合は、主キー フィールドのみが返されます。
 
 - `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)` -
 
-    query の整合性レベルです。デフォルト: `Bounded`。
+    クエリの整合性レベルです。デフォルト: `Bounded`。
 
 - `WithIteratorLimit(limit int64)` -
 
@@ -86,7 +86,7 @@ client.QueryIterator(ctx, milvusclient.NewQueryIteratorOption(collectionName).
 
 *QueryIterator, error*
 
-QueryIterator インターフェースは、query 結果へのページネーションアクセスを提供します。`io.EOF` が返されるまで `Next()` を繰り返し呼び出してください。
+QueryIterator インターフェースは、クエリ結果へのページネーション付きアクセスを提供します。`io.EOF` が返されるまで `Next()` を繰り返し呼び出してください。
 
 **EXCEPTIONS:**
 
@@ -133,4 +133,4 @@ for {
 
 - `Next(ctx context.Context)` -
 
-    次の query 結果のバッチを `ResultSet` として返します。すべての結果が消費されると、エラーとして `io.EOF` を返します。
+    次のクエリ結果バッチを `ResultSet` として返します。すべての結果が消費されると、エラーとして `io.EOF` を返します。

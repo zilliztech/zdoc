@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、ブールフィルター式に一致するエンティティを取得します。 | Go | v2"
 type: docx
 token: P84bd17ncosvh4xuahpcFGzoneb
-sidebar_position: 8
+sidebar_position: 13
 keywords: 
   - オープンソース vector db
   - vector database の例
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 func (c *Client) Query(ctx context.Context, option QueryOption, callOptions ...grpc.CallOption) (ResultSet, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := milvusclient.NewQueryOption(collectionName).
@@ -53,13 +53,13 @@ option := milvusclient.NewQueryOption(collectionName).
 result, err := client.Query(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collectionName** (*string*)
 
     対象 collection の名前。
 
-**OPTION METHODS:**
+**オプションメソッド:**
 
 - `WithFilter(expr string)`
 
@@ -67,15 +67,15 @@ result, err := client.Query(ctx, option)
 
 - `WithTemplateParam(key string, val any)`
 
-    式の評価用にテンプレートパラメータを設定します。
+    式評価用のテンプレートパラメーターを設定します。
 
 - `WithOffset(offset int)`
 
-    一致する結果を返す前にスキップする件数を設定します。
+    一致結果を返す前にスキップする結果数を設定します。
 
 - `WithLimit(limit int)`
 
-    返す結果の最大件数を設定します。
+    返す結果の最大数を設定します。
 
 - `WithOutputFields(fieldNames ...string)`
 
@@ -83,31 +83,31 @@ result, err := client.Query(ctx, option)
 
 - `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
 
-    この操作の整合性レベルを設定します（Strong、Bounded、Session、または Eventually）。
+    操作の整合性レベル（Strong、Bounded、Session、または Eventually）を設定します。
 
 - `WithPartitions(partitionNames ...string)`
 
-    この操作を指定した partition に限定します。
+    操作を指定した partition に限定します。
 
 - `WithIDs(ids column.Column)`
 
-    この操作の IDs を設定します。
+    操作の IDs を設定します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *[ResultSet](./v2-Vector-ResultSet), error*
 
-**RETURNS:**
+**戻り値:**
 
-一致したエンティティのスコアとフィールドを含む search または query の結果です。操作が失敗した場合はエラーを返します。
+一致したエンティティのスコアとフィールドを含む検索またはクエリ結果。操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **error**
 
     失敗の詳細は `err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
 import (

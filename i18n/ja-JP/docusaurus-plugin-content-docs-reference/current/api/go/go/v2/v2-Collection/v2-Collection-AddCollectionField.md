@@ -4,12 +4,12 @@ slug: /go/go/v2-Collection-AddCollectionField
 sidebar_label: "AddCollectionField()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、既存の collection スキーマに新しい field を追加します。 | Go | v2"
+description: "クライアントでフィールドオプションを検証した後、既存の collection に nullable フィールドを追加します。 | Go | v2"
 type: docx
-token: QupedlVukov8hsxbSyOcrcI9nAb
+token: NmAwdxspJop8U0xi2DPcNYpmnBe
 sidebar_position: 1
 keywords: 
   - AI チャットボット
@@ -31,72 +31,67 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionField()
 
-この操作は、既存の collection スキーマに新しい field を追加します。
+クライアントでフィールドオプションを検証した後、既存の collection に nullable フィールドを追加します。
 
 ```go
 func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldOption, callOpts ...grpc.CallOption) error
 ```
 
-## リクエスト構文\{#request-syntax}
+**PARAMETERS:**
 
-```go
-option := milvusclient.NewAddCollectionFieldOption(collectionName, field)
+- **collectionName** (*string*) -
 
-err := client.AddCollectionField(ctx, option)
-```
+    **[REQUIRED]**
 
-**パラメータ:**
+    フィールドを追加する collection の名前です。
 
-- **collectionName** (*string*)
+- **field** (**entity.Field*) -
 
-    対象の collection 名。
+    **[REQUIRED]**
 
-- **[field](./v2-Collection-Field)** (**[entity.Field](./v2-Collection-Field)*)
+    追加するフィールド定義です。vector フィールドは nullable である必要があります。
 
-    field。
-
-**戻り値の型:**
+**RETURN TYPE:**
 
 *error*
 
-**戻り値:**
+**RETURNS:**
 
-成功した場合は nil、失敗した場合は原因を説明する error を返します。
+フィールドが追加されると nil を返します。クライアント側の検証または RPC が失敗した場合はエラーを返します。
 
-**例外:**
+**ERROR HANDLING:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    検証、リクエスト構築、または RPC が失敗します。失敗の詳細は返されたエラーを確認してください。
 
-## 例\{#example}
+## Example\{#example}
+
+AddCollectionField() の使用方法を示します。
 
 ```go
 import (
 	"context"
-	"log"
 
-	"github.com/milvus-io/milvus/client/v2/entity"
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: "YOUR_CLUSTER_ENDPOINT",
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-	log.Fatal("failed to connect to milvus server: ", err.Error())
+	// handle error
 }
-
 defer cli.Close(ctx)
 
-// the field to add
-// must be nullable for now
-newField := entity.NewField().WithName("new_field").WithDataType(entity.FieldTypeInt64).WithNullable(true)
+field := entity.NewField().
+	WithName("new_field").
+	WithDataType(entity.FieldTypeInt64).
+	WithNullable(true)
 
-err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("customized_setup_2", newField))
+err = cli.AddCollectionField(ctx, milvusclient.NewAddCollectionFieldOption("books", field))
 if err != nil {
 	// handle error
 }

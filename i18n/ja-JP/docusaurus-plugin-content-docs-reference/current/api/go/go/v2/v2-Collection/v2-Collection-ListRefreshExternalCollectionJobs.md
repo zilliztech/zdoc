@@ -7,12 +7,12 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、すべてまたは指定した collection の external collection refresh job を一覧表示します。 | Go | v2"
+description: "この操作は、すべてまたは指定された collection の external collection リフレッシュジョブを一覧表示します。 | Go | v2"
 type: docx
 token: KTeqdqUI2o3YO1xg3EXcJqGcnbe
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
-  - vector database はどのように動作するか
+  - ベクトルデータベースはどのように動作するか
   - vector db comparison
   - openai vector db
   - natural language processing database
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # ListRefreshExternalCollectionJobs()
 
-この操作は、すべてまたは指定した collection の external collection refresh job を一覧表示します。
+この操作は、すべてまたは指定された collection の external collection リフレッシュジョブを一覧表示します。
 
 ```go
 func (c *Client) ListRefreshExternalCollectionJobs(ctx context.Context, option ListRefreshExternalCollectionJobsOption, callOptions ...grpc.CallOption) ([]*entity.RefreshExternalCollectionJobInfo, error) {
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := client.NewListRefreshExternalCollectionJobsOption(collectionName)
@@ -45,19 +45,19 @@ option := client.NewListRefreshExternalCollectionJobsOption(collectionName)
 result, err := client.ListRefreshExternalCollectionJobs(option)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collectionName** (*string*) -
 
-    対象 collection の名前です。このパラメータを指定しない場合、すべての external collection の refresh job が返されます。
+    対象 collection の名前です。このパラメーターを指定しない場合、すべての external collection のリフレッシュジョブが返されます。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *[]&ast;entity.RefreshExternalCollectionJobInfo*
 
-**RETURNS:**
+**戻り値:**
 
-*entity.RefreshExternalCollectionJobInfo* 構造体のリストを返します。各要素には、external collection refresh job の詳細が記録されています。
+*entity.RefreshExternalCollectionJobInfo* 構造体のリストです。各要素には、external collection リフレッシュジョブの詳細が記録されています。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
@@ -72,13 +72,13 @@ type RefreshExternalCollectionJobInfo struct {
 }
 ```
 
-PARAMETERS:
+パラメーター:
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **JobID** (*int64*) -
 
-    現在のリクエストで指定された job ID です。
+    現在のリクエストで指定されたジョブ ID です。
 
 - **CollectionName** (*string*) -
 
@@ -86,7 +86,7 @@ PARAMETERS:
 
 - **State** (*string*) -
 
-    指定した job の現在の状態です。可能な値は次のとおりです。
+    指定されたジョブの現在の状態です。可能な値は次のとおりです。
 
     - RefreshPending
 
@@ -98,11 +98,11 @@ PARAMETERS:
 
 - **Progress** (*int64*) -
 
-    指定した job の現在の進行状況です。値は 0 から 100 までの整数です。
+    指定されたジョブの現在の進行状況です。値は 0 から 100 までの整数です。
 
 - **Reason** (*string*) -
 
-    refresh 操作が失敗した場合のエラープロンプトです。通常時は空文字列です。
+    リフレッシュ操作が失敗した場合のエラープロンプトです。通常時は空文字列です。
 
 - **ExternalSource** (*string*) -
 
@@ -110,19 +110,19 @@ PARAMETERS:
 
 - **StartTime** (*int64*) -
 
-    指定した job が開始した時点のタイムスタンプ（ミリ秒）です。
+    指定されたジョブが開始される時点のミリ秒単位のタイムスタンプです。
 
 - **EndTime** (*int64*) -  
 
-    指定した job が終了した時点のタイムスタンプ（ミリ秒）です。
+    指定されたジョブが終了する時点のミリ秒単位のタイムスタンプです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
-// 指定した collection の refresh job を一覧表示します
+// 指定した collection のリフレッシュジョブを一覧表示
 option := client.NewListRefreshExternalCollectionJobsOption("test_collection")
 
-// すべての external collection の refresh job を一覧表示します
+// すべての external collection のリフレッシュジョブを一覧表示
 option = client.NewListRefreshExternalCollectionJobsOption()
 
 result, err = client.ListRefreshExternalCollectionJobs(option)

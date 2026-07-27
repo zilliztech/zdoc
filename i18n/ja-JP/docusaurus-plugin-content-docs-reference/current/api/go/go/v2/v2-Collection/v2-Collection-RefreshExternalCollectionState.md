@@ -10,15 +10,15 @@ notebook: false
 description: "この型は、外部 collection の更新ジョブの状態を表します。 | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
-sidebar_position: 29
+sidebar_position: 30
 keywords: 
-  - ベクトル検索アルゴリズム
-  - 質問応答システム
+  - vector search algorithms
+  - Question answering system
   - llm-as-a-judge
-  - ハイブリッドベクトル検索
+  - hybrid vector search
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - RefreshExternalCollectionState
   - gov230
 displayed_sidebar: goSidebar

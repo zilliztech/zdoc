@@ -10,15 +10,15 @@ notebook: false
 description: "この操作は、指定された collection に対して近似最近傍（ANN）検索を実行します。ベクトルベースの検索には `NewSearchOption` を、主キー ID による検索には `NewSearchByIDsOption` を使用できます。 | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
-sidebar_position: 12
+sidebar_position: 17
 keywords: 
-  - ベクトルインデックス
-  - オープンソースのベクトルデータベース
+  - Vector index
+  - オープンソース vector database
   - オープンソース vector db
-  - ベクトルデータベースの例
+  - vector database の例
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - Search()
   - gov230
 displayed_sidebar: goSidebar
@@ -39,7 +39,7 @@ func (c *Client) Search(ctx context.Context, option SearchOption, callOptions ..
 
 ## リクエスト構文\{#request-syntax}
 
-**ベクトル検索:**
+**vector 検索:**
 
 ```go
 option := milvusclient.NewSearchOption(collectionName, limit, vectors).
@@ -72,16 +72,16 @@ option := milvusclient.NewSearchByIDsOption(collectionName, limit, ids).
 resultSets, err := cli.Search(ctx, option)
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **option** (*SearchOption*) -
 
-    検索オプションです。ベクトル検索には `NewSearchOption` を、PK ベースの検索には `NewSearchByIDsOption` を使用します。
+    検索オプションです。vector 検索には `NewSearchOption` を、PK ベースの検索には `NewSearchByIDsOption` を使用します。
 
 **ビルダーメソッド:**
 
 - `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`<br/>
-  ベクトルベースの ANN 検索用の検索オプションを作成します。
+  vector ベースの ANN 検索用の検索オプションを作成します。
 
 - `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`<br/>
   主キー ID によって entity を検索するための検索オプションを作成します。
@@ -93,10 +93,10 @@ resultSets, err := cli.Search(ctx, option)
   検索結果にブール式フィルターを適用します。
 
 - `WithTemplateParam(key string, val any)`<br/>
-  式評価用のテンプレートパラメータを設定します。
+  式評価用のテンプレートパラメーターを設定します。
 
 - `WithOffset(offset int)`<br/>
-  一致結果を返す前にスキップする結果数を設定します。
+  一致した結果を返す前にスキップする件数を設定します。
 
 - `WithOutputFields(fieldNames ...string)`<br/>
   結果セットで返すフィールドを指定します。
@@ -105,7 +105,7 @@ resultSets, err := cli.Search(ctx, option)
   検索の整合性レベルを設定します。
 
 - `WithANNSField(annsField string)`<br/>
-  collection に複数のベクトルフィールドがある場合に、検索対象のベクトルフィールドを指定します。
+  collection に複数の vector フィールドがある場合に、検索対象の vector フィールドを指定します。
 
 - `WithGroupByField(groupByField string)`<br/>
   検索結果を指定したフィールドでグループ化します。
@@ -117,16 +117,16 @@ resultSets, err := cli.Search(ctx, option)
   厳密なグループサイズ制限を適用します。
 
 - `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
-  検索中に growing セグメントを無視します。
+  検索中に growing segment を無視します。
 
 - `WithAnnParam(ap index.AnnParam)`<br/>
-  近似最近傍検索パラメータ（例: nprobe、ef）を設定します。
+  近似最近傍検索パラメーター（例: nprobe, ef）を設定します。
 
 - `WithSearchParam(key, value string)`<br/>
-  カスタム検索パラメータのキーと値のペアを設定します。
+  カスタム検索パラメーターのキーと値のペアを設定します。
 
 - `WithFunctionReranker(fr *entity.Function)`<br/>
-  関数ベースの reranker を検索結果に適用します。
+  検索結果に関数ベースの reranker を適用します。
 
 **戻り値の型:**
 
@@ -134,7 +134,7 @@ resultSets, err := cli.Search(ctx, option)
 
 **戻り値:**
 
-一致した entity とそのスコアおよびフィールドを含む検索またはクエリ結果です。操作が失敗した場合はエラーを返します。
+スコアとフィールドを含む、一致した entity の検索結果またはクエリ結果です。操作が失敗した場合はエラーを返します。
 
 **例外:**
 

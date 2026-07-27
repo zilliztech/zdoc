@@ -10,11 +10,11 @@ notebook: false
 description: "削除されたエンティティ数を含む Delete 操作の結果を格納します。 | Go | v2"
 type: docx
 token: Gh4ydrMIBopZekxncUFcrJctnBl
-sidebar_position: 3
+sidebar_position: 8
 keywords: 
   - Pinecone vector database
-  - 音声検索
-  - セマンティック検索とは
+  - Audio search
+  - what is semantic search
   - Embedding model
   - zilliz
   - zilliz cloud

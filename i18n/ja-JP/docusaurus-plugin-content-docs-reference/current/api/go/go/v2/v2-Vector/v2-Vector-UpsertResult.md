@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "影響を受けたエンティティの数と IDs を含む Upsert 操作の結果を保持します。 | Go | v2"
+description: "影響を受けたエンティティの件数と ID を含む Upsert 操作の結果。 | Go | v2"
 type: docx
 token: KlfGdGLbxo7zfNxin91cgFxWnQO
-sidebar_position: 15
+sidebar_position: 20
 keywords: 
-  - 動画類似検索
+  - 動画類似性検索
   - ベクトル検索
-  - 音声類似検索
+  - 音声類似性検索
   - Elastic vector database
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # UpsertResult
 
-影響を受けたエンティティの数と IDs を含む Upsert 操作の結果を保持します。
+影響を受けたエンティティの件数と ID を含む Upsert 操作の結果です。
 
 ```go
 type UpsertResult struct {
@@ -48,4 +48,4 @@ type UpsertResult struct {
 
 - **IDs** (*column.Column*)
 
-    影響を受けたエンティティの IDs。
+    影響を受けたエンティティの ID。

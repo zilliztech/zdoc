@@ -10,9 +10,9 @@ notebook: false
 description: "この操作は、スキーマで定義された外部ストレージ内のデータファイルをスキャンし、それらのデータファイルとのマッピング関係を記録するメタデータファイルを生成します。 | Go | v2"
 type: docx
 token: Mw42dp2VZoN4gFxdiSYcxDB8n0g
-sidebar_position: 27
+sidebar_position: 28
 keywords: 
-  - ベクトル類似検索
+  - ベクトル類似性検索
   - 近似最近傍探索
   - DiskANN
   - Sparse vector
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 func (c *Client) RefreshExternalCollection(ctx context.Context, option RefreshExternalCollectionOption, callOptions ...grpc.CallOption) (*RefreshExternalCollectionResult, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := client.NewRefreshExternalCollectionOption(collectionName).
@@ -48,21 +48,21 @@ option := client.NewRefreshExternalCollectionOption(collectionName).
 result, err := client.RefreshExternalCollection(option)
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **collectionName** (*string*) -
 
     既存の external collection の名前。
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `WithExternalSource(externalSource string)`
 
-    これはソースデータ URI を設定します。アクセス可能な外部 volume の名前である必要があります。
+    ソースデータ URI を設定します。これはアクセス可能な外部ボリュームの名前である必要があります。
 
 - `WithExternalSpec(externalSpec string)`
 
-    外部ソースの仕様であり、一連の副次パラメータです。
+    外部ソースの仕様であり、一連の二次パラメータです。
 
     - **format** (*string*) - 
 
@@ -72,15 +72,15 @@ result, err := client.RefreshExternalCollection(option)
 
 - `WithDbName(dbName string)`
 
-    対象の external collection が属するデータベース名。
+    対象の external collection が属するデータベースの名前。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *&ast;RefreshExternalCollectionResult*
 
-**RETURNS:**
+**戻り値:**
 
-以下の形式の struct 型です。
+以下の形式の型 struct です。
 
 ```go
 type RefreshExternalCollectionResult struct {
@@ -88,13 +88,13 @@ type RefreshExternalCollectionResult struct {
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **JobID** (*int64*) -
 
-    作成された非同期ジョブを示す整数。
+    作成された非同期ジョブを示す整数です。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 refreshResult, err := client.RefreshExternalCollection(ctx,

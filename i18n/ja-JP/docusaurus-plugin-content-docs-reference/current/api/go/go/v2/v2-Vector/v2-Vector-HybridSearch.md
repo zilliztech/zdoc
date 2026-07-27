@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、複数の ANN リクエストの結果を組み合わせるハイブリッド検索を実行します。各リクエストは異なる vector field または index type を対象とします。結果のマージと並べ替えには reranker を使用します。 | Go | v2"
+description: "この操作は、異なる vector field または index type を対象とする複数の ANN リクエストからの結果を組み合わせるハイブリッド検索を実行します。結果のマージと並べ替えには reranker を使用します。 | Go | v2"
 type: docx
 token: VneHdph9ZoSf9wxQdKBc0046nBT
-sidebar_position: 5
+sidebar_position: 10
 keywords: 
   - 音声検索
   - セマンティック検索とは
-  - 埋め込みモデル
+  - Embedding model
   - 画像類似検索
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # HybridSearch()
 
-この操作は、複数の ANN リクエストの結果を組み合わせるハイブリッド検索を実行します。各リクエストは異なる vector field または index type を対象とします。結果のマージと並べ替えには reranker を使用します。
+この操作は、異なる vector field または index type を対象とする複数の ANN リクエストからの結果を組み合わせるハイブリッド検索を実行します。結果のマージと並べ替えには reranker を使用します。
 
 ```go
 func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := milvusclient.NewHybridSearchOption(collectionName, limit, annRequests).
@@ -51,22 +51,22 @@ option := milvusclient.NewHybridSearchOption(collectionName, limit, annRequests)
 resultSets, err := cli.HybridSearch(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **option** (*HybridSearchOption*) -
 
     ハイブリッド検索オプションです。
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
 - `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`<br/>
-  1 つ以上の ANN リクエストを含むハイブリッド検索オプションを作成します。
+  1 つ以上の ANN リクエストを使用してハイブリッド検索オプションを作成します。
 
 - `NewAnnRequest(fieldName string, limit int, vector entity.Vector)`<br/>
   特定の vector field に対する ANN リクエストを作成します。
 
 - `WithIDs(ids column.Column)`<br/>
-  指定した主キー ID のみを検索するように ANN リクエストをフィルタリングします。
+  指定された primary key ID のみを検索するように ANN リクエストをフィルタリングします。
 
 - `WithFilter(expr string)`<br/>
   ANN リクエストにブール式フィルターを適用します。
@@ -75,7 +75,7 @@ resultSets, err := cli.HybridSearch(ctx, option)
   ANN リクエストでスキップする結果数を設定します。
 
 - `WithGroupByField(groupByField string)`<br/>
-  指定した field ごとに ANN リクエストの結果をグループ化します。
+  指定された field で ANN リクエストの結果をグループ化します。
 
 - `WithGroupSize(groupSize int)`<br/>
   グループごとの結果数を設定します。
@@ -90,44 +90,44 @@ resultSets, err := cli.HybridSearch(ctx, option)
   リクエストの ANN パラメータを設定します。
 
 - `WithSearchParam(key, value string)`<br/>
-  ANN リクエストのカスタム検索パラメータを設定します。
+  ANN リクエストにカスタム検索パラメータを設定します。
 
 - `WithFunctionReranker(fr *entity.Function)`<br/>
   ANN リクエストに function reranker を適用します。
 
 - `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
-  ハイブリッド検索の一貫性レベルを設定します。
+  ハイブリッド検索の整合性レベルを設定します。
 
 - `WithPartitions(partitionNames ...string)`<br/>
-  ハイブリッド検索を指定した partitions に限定します。
+  ハイブリッド検索を指定された partition に制限します。
 
 - `WithOutputFields(fieldNames ...string)`<br/>
-  結果セットで返す fields を指定します。
+  結果セットで返す field を指定します。
 
 - `WithReranker(reranker milvusclient.Reranker)`<br/>
-  複数の ANN リクエストの結果をマージして並べ替える reranker を設定します。
+  複数の ANN リクエストからの結果をマージして並べ替える reranker を設定します。
 
 - `WithFunctionRerankers(functionReranker ...*entity.Function)`<br/>
-  ハイブリッド検索用の function ベースの reranker を設定します。
+  ハイブリッド検索に function ベースの reranker を設定します。
 
 - `WithOffset(offset int)`<br/>
   一致結果を返す前にスキップする結果数を設定します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *[]ResultSet, error*
 
-**RETURNS:**
+**戻り値:**
 
-すべての ANN リクエストからのスコアと fields を持つ一致エンティティを含むハイブリッド検索結果です。操作が失敗した場合はエラーを返します。
+スコアおよびすべての ANN リクエストの field を持つ、一致した entity を含むハイブリッド検索結果です。操作に失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **error**
 
     失敗の詳細は `err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
 import (

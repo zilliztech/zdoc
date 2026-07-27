@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection のすべてのデータを削除しますが、collection のスキーマと構造は保持します | Go | v2"
+description: "この操作は collection からすべてのデータを削除しますが、collection のスキーマと構造は保持します | Go | v2"
 type: docx
 token: V7bwdcBPGosCFWxjYQfctDDInmb
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
   - vector database の例
   - rag vector database
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # TruncateCollection()
 
-この操作は、collection のすべてのデータを削除しますが、collection のスキーマと構造は保持します
+この操作は collection からすべてのデータを削除しますが、collection のスキーマと構造は保持します
 
 ```go
 func (c *Client) TruncateCollection(ctx context.Context, option TruncateCollectionOption, callOptions ...grpc.CallOption) error
@@ -58,7 +58,7 @@ err := client.TruncateCollection(
 
 **戻り値:**
 
-成功時は nil を返し、失敗時は問題の内容を示す error を返します。
+成功した場合は nil を返し、失敗した場合は問題の内容を示す error を返します。
 
 **例外:**
 

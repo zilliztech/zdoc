@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された外部コレクションのリフレッシュジョブの進行状況を返します。 | Go | v2"
+description: "この操作は、指定した external collection のリフレッシュジョブの進行状況を返します。 | Go | v2"
 type: docx
 token: OTM3db7aroAXAYxrTy4cyVbwnGG
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
-  - 安価なベクトルデータベース
-  - マネージドベクトルデータベース
-  - Pinecone ベクトルデータベース
-  - オーディオ検索
+  - 安価な vector データベース
+  - マネージド vector データベース
+  - Pinecone vector データベース
+  - 音声検索
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetRefreshExternalCollectionProgress()
 
-この操作は、指定された外部コレクションのリフレッシュジョブの進行状況を返します。
+この操作は、指定した external collection のリフレッシュジョブの進行状況を返します。
 
 ```go
 func (c *Client) GetRefreshExternalCollectionProgress(ctx context.Context, option GetRefreshExternalCollectionProgressOption, callOptions ...grpc.CallOption) (*entity.RefreshExternalCollectionJobInfo, error)
@@ -57,7 +57,7 @@ result, err := client.GetRefreshExternalCollectionProgress(option)
 
 **RETURNS:**
 
-指定された外部コレクションのリフレッシュジョブの詳細を記録する struct 型です。
+指定した external collection リフレッシュジョブの詳細を記録する型 struct です。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
@@ -82,7 +82,7 @@ PARAMETERS:
 
 - **CollectionName** (*string*) -
 
-    `RefreshExternalCollection()` で指定された外部コレクションの名前。
+    `RefreshExternalCollection()` で指定された external collection の名前。
 
 - **State** (*string*) -
 
@@ -106,11 +106,11 @@ PARAMETERS:
 
 - **ExternalSource** (*string*) -
 
-    `RefreshExternalCollection()` で指定された外部ソース URI。
+    `RefreshExternalCollection()` で指定された external source URI。
 
 - **StartTime** (*int64*) -
 
-    指定されたジョブが開始された時刻のミリ秒タイムスタンプ。
+    指定されたジョブが開始した時刻のミリ秒タイムスタンプ。
 
 - **EndTime** (*int64*) -  
 
