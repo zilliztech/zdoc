@@ -1,4 +1,5 @@
-import {existsSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdtempSync, readFileSync, readdirSync, symlinkSync, writeFileSync} from 'node:fs';
+import {spawnSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -16,6 +17,24 @@ function sampleState(overrides: Partial<ExactCardState> = {}): ExactCardState {
     reports: [{title: 'Warning report', markdown: '# Warning report\n\n- Warnings: 2', attention: true}],
     startedAt: '2026-07-16T10:00:00.000Z', targetBranch: 'test/central-card', ...overrides,
   };
+}
+
+function persistedEnvelope(root: string): Record<string, unknown> {
+  return JSON.parse(readFileSync(path.join(root, '.build-card-state.json'), 'utf8')) as Record<string, unknown>;
+}
+
+function persistedState(root: string): Record<string, unknown> {
+  return persistedEnvelope(root).state as Record<string, unknown>;
+}
+
+function atomicResidue(root: string): string[] {
+  const visit = (directory: string): string[] => readdirSync(directory, {withFileTypes: true}).flatMap(entry => {
+    const target = path.join(directory, entry.name);
+    return entry.isDirectory() ? [target, ...visit(target)] : [target];
+  });
+  return visit(root).map(target => path.relative(root, target)).filter(relative => (
+    relative.includes('.docs-tooling-transactions') || relative.endsWith('.bak') || relative.endsWith('.tmp')
+  ));
 }
 
 describe('report-card state and Card V2 rendering', () => {
@@ -391,7 +410,8 @@ describe('report-card client and command behavior', () => {
       now: () => new Date('2026-07-16T10:00:00.000Z'), randomUUID: () => 'uuid', write: message => writes.push(message),
     };
     await executeReportCard({repositoryRoot: root, action: 'create', options: {title: 'Build', stages: 'Fetch,Build', targetBranch: 'dev'}, environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'}}, dependencies);
-    expect(JSON.parse(readFileSync(path.join(root, '.build-card-state.json'), 'utf8'))).toMatchObject({messageId: 'om_123', statuses: ['running', 'pending']});
+    expect(persistedEnvelope(root)).toMatchObject({schemaVersion: 1, variant: 'ordered'});
+    expect(persistedState(root)).toMatchObject({messageId: 'om_123', statuses: ['running', 'pending']});
     expect(writes).toContain('om_123');
   });
 
@@ -581,7 +601,7 @@ describe('report-card client and command behavior', () => {
     expect(readFileSync(stateFile, 'utf8')).toBe(original);
 
     await executeReportCard(request, dependencies);
-    expect(JSON.parse(readFileSync(stateFile, 'utf8'))).toMatchObject({
+    expect(persistedState(root)).toMatchObject({
       statuses: ['done', 'running'], currentIndex: 1, notes: ['Existing', 'Completed fetch'],
     });
     expect(attempts).toBe(2);
@@ -619,7 +639,7 @@ describe('report-card client and command behavior', () => {
     const committed = readFileSync(stateFile, 'utf8');
     await executeReportCard(request, dependencies);
     expect(readFileSync(stateFile, 'utf8')).toBe(committed);
-    expect(JSON.parse(committed)).toMatchObject({messageId: 'om_1', overallStatus: 'success'});
+    expect((JSON.parse(committed) as {state: unknown}).state).toMatchObject({messageId: 'om_1', overallStatus: 'success'});
   });
 
   it('does not persist create state or GitHub outputs when remote creation fails', async () => {
@@ -663,7 +683,7 @@ describe('report-card client and command behavior', () => {
     expect(readFileSync(stateFile, 'utf8')).toBe(original);
     fail = false;
     await executeReportCard(request, dependencies);
-    expect(JSON.parse(readFileSync(stateFile, 'utf8')).notes).toEqual(['New note']);
+    expect(persistedState(root).notes).toEqual(['New note']);
   });
 
   it('commits finish state only after PATCH succeeds', async () => {
@@ -689,6 +709,191 @@ describe('report-card client and command behavior', () => {
     expect(readFileSync(stateFile, 'utf8')).toBe(original);
     fail = false;
     await executeReportCard(request, dependencies);
-    expect(JSON.parse(readFileSync(stateFile, 'utf8')).statuses).toEqual(['done']);
+    expect(persistedState(root).statuses).toEqual(['done']);
+  });
+
+  it('recovers a pre-commit card-state crash before the actual ordered advance reads state', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-crash-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    writeFileSync(stateFile, JSON.stringify({
+      messageId: 'om_1', title: 'Build', stages: ['Fetch', 'Build'], statuses: ['running', 'pending'], currentIndex: 0,
+      notes: ['old generation'], startedAt: '2026-07-16T10:00:00.000Z',
+    }, null, 2));
+    const worker = path.join(import.meta.dirname, 'lark.crash-worker.ts');
+    const crash = spawnSync(process.execPath, [
+      '--experimental-strip-types', worker, root, 'rename:backup:0',
+    ], {encoding: 'utf8'});
+    expect(crash.signal).toBe('SIGKILL');
+    expect(existsSync(stateFile)).toBe(false);
+    let patches = 0;
+
+    await executeReportCard({
+      repositoryRoot: root, action: 'advance', options: {status: 'done', note: 'intended transition'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => { patches += 1; return {code: 0}; },
+    });
+
+    expect(patches).toBe(1);
+    expect(persistedEnvelope(root)).toMatchObject({
+      schemaVersion: 1,
+      variant: 'ordered',
+      state: {statuses: ['done', 'running'], notes: ['old generation', 'intended transition']},
+    });
+    expect(atomicResidue(root)).toEqual([]);
+  });
+
+  it('finishes committed-phase cleanup before an actual note transition reads state', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-crash-'));
+    writeFileSync(path.join(root, '.build-card-state.json'), JSON.stringify({
+      messageId: 'om_1', title: 'Build', stages: ['Fetch', 'Build'], statuses: ['running', 'pending'], currentIndex: 0,
+      notes: ['old generation'], startedAt: '2026-07-16T10:00:00.000Z',
+    }, null, 2));
+    writeFileSync(path.join(root, 'note.md'), 'post-crash note');
+    const worker = path.join(import.meta.dirname, 'lark.crash-worker.ts');
+    const crash = spawnSync(process.execPath, [
+      '--experimental-strip-types', worker, root, 'journal:committed:none',
+    ], {encoding: 'utf8'});
+    expect(crash.signal).toBe('SIGKILL');
+    let patches = 0;
+
+    await executeReportCard({
+      repositoryRoot: root, action: 'note', options: {file: 'note.md'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => { patches += 1; return {code: 0}; },
+    });
+
+    expect(patches).toBe(1);
+    expect(persistedEnvelope(root)).toMatchObject({
+      schemaVersion: 1,
+      variant: 'ordered',
+      state: {notes: ['crashed generation', 'post-crash note']},
+    });
+    expect(atomicResidue(root)).toEqual([]);
+  });
+
+  it('persists exact state in a versioned envelope and supports a follow-up note', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-exact-'));
+    writeFileSync(path.join(root, 'exact.json'), JSON.stringify(exactInput()));
+    writeFileSync(path.join(root, 'note.md'), '# Exact note');
+    const patched: ExactCardState[] = [];
+    const dependencies: ReportCardDependencies = {
+      tokenProvider: async () => 'token',
+      requestJson: async (_url, options) => {
+        const body = JSON.parse(options.body) as {content: string};
+        const card = JSON.parse(body.content) as {header: {title: {content: string}}};
+        expect(card.header.title.content).toBe('Global Docs Build');
+        return {code: 0};
+      },
+    };
+    const environment = {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'};
+
+    await executeReportCard({repositoryRoot: root, action: 'advance', options: {stateFile: 'exact.json', messageId: 'om_1'}, environment}, dependencies);
+    expect(persistedEnvelope(root)).toMatchObject({schemaVersion: 1, variant: 'exact', state: {messageId: 'om_1'}});
+    const result = await executeReportCard({repositoryRoot: root, action: 'note', options: {file: 'note.md'}, environment}, dependencies);
+    patched.push(result as ExactCardState);
+
+    expect(patched[0].reports).toEqual([...exactInput().reports, {markdown: '# Exact note'}]);
+    expect(persistedEnvelope(root)).toMatchObject({
+      schemaVersion: 1, variant: 'exact', state: {reports: [...exactInput().reports, {markdown: '# Exact note'}]},
+    });
+  });
+
+  it('finishes an exact state without converting its persisted variant', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-exact-'));
+    writeFileSync(path.join(root, '.build-card-state.json'), JSON.stringify({
+      schemaVersion: 1, variant: 'exact', state: buildExactState({messageId: 'om_1', input: exactInput()}),
+    }, null, 2));
+    let patchedState: ExactCardState | null = null;
+
+    const result = await executeReportCard({
+      repositoryRoot: root, action: 'finish', options: {messageId: 'om_1', status: 'success', note: '# Final report'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async (_url, options) => {
+        const body = JSON.parse(options.body) as {content: string};
+        expect(body.content).toContain('Succeeded');
+        return {code: 0};
+      },
+    });
+    patchedState = result as ExactCardState;
+
+    expect(patchedState.overallStatus).toBe('success');
+    expect(patchedState.phases.every(phase => phase.status === 'completed' && phase.done === phase.total)).toBe(true);
+    expect(patchedState.manuals.every(manual => manual.status === 'completed')).toBe(true);
+    expect(patchedState.reports.at(-1)).toEqual({markdown: '# Final report'});
+    expect(persistedEnvelope(root)).toMatchObject({schemaVersion: 1, variant: 'exact', state: {overallStatus: 'success'}});
+  });
+
+  it('fails closed on an ordered advance against exact persisted state before network or mutation', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-exact-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const original = JSON.stringify({
+      schemaVersion: 1, variant: 'exact', state: buildExactState({messageId: 'om_1', input: exactInput()}),
+    }, null, 2);
+    writeFileSync(stateFile, original);
+    let network = false;
+
+    await expect(executeReportCard({
+      repositoryRoot: root, action: 'advance', options: {status: 'done'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => { network = true; return 'token'; },
+      requestJson: async () => { network = true; return {code: 0}; },
+    })).rejects.toThrow(/ordered advance.*exact.*unsupported/i);
+
+    expect(network).toBe(false);
+    expect(readFileSync(stateFile, 'utf8')).toBe(original);
+  });
+
+  it('rejects an invalid persisted state variant before network or mutation', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-exact-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const original = JSON.stringify({schemaVersion: 1, variant: 'unknown', state: {}}, null, 2);
+    writeFileSync(stateFile, original);
+    writeFileSync(path.join(root, 'note.md'), 'note');
+    let network = false;
+
+    await expect(executeReportCard({
+      repositoryRoot: root, action: 'note', options: {file: 'note.md'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => { network = true; return 'token'; },
+      requestJson: async () => { network = true; return {code: 0}; },
+    })).rejects.toThrow(/persisted card state variant/i);
+
+    expect(network).toBe(false);
+    expect(readFileSync(stateFile, 'utf8')).toBe(original);
+  });
+
+  it('rejects malformed persisted exact state before network or mutation', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-exact-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const original = JSON.stringify({
+      schemaVersion: 1,
+      variant: 'exact',
+      state: {
+        messageId: 'om_1', title: 'Build', startedAt: '2026-07-16T10:00:00.000Z', overallStatus: 'running',
+        phases: [{key: 'produce', label: 'Produce', done: 0, total: 1, status: 'pending'}], manuals: [], reports: [],
+      },
+    }, null, 2);
+    writeFileSync(stateFile, original);
+    writeFileSync(path.join(root, 'note.md'), 'note');
+    let network = false;
+
+    await expect(executeReportCard({
+      repositoryRoot: root, action: 'note', options: {file: 'note.md'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => { network = true; return 'token'; },
+      requestJson: async () => { network = true; return {code: 0}; },
+    })).rejects.toThrow(/phase status/i);
+
+    expect(network).toBe(false);
+    expect(readFileSync(stateFile, 'utf8')).toBe(original);
   });
 });

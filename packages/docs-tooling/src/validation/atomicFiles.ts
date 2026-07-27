@@ -367,7 +367,7 @@ function recoverJournal(root: string, journalPath: string, journal: TransactionJ
   fsyncDirectory(path.dirname(journalPath));
 }
 
-function recoverPendingTransactions(root: string): void {
+function recoverPendingTransactions(root: string, selectedPaths?: ReadonlySet<string>): void {
   const controlDirectory = path.join(root, CONTROL_DIRECTORY);
   if (!pathEntryExists(controlDirectory)) return;
   const stats = lstatSync(controlDirectory);
@@ -378,10 +378,15 @@ function recoverPendingTransactions(root: string): void {
     if (entry.isSymbolicLink()) throw new Error('Atomic report control files must not be symlinks');
     if (entry.name.startsWith(JOURNAL_PREFIX) && entry.name.endsWith('.journal.json')) {
       if (!entry.isFile()) throw new Error('Atomic report journal must be a regular file');
-      recoverJournal(root, target, parseJournal(readFileSync(target, 'utf8')));
-    } else if (entry.name.endsWith('.tmp') && entry.isFile()) {
+      const journal = parseJournal(readFileSync(target, 'utf8'));
+      if (!selectedPaths || journal.operations.some(operation => selectedPaths.has(operation.path))) {
+        recoverJournal(root, target, journal);
+      }
+    } else if (!selectedPaths && entry.name.endsWith('.tmp') && entry.isFile()) {
       unlinkSync(target);
       fsyncDirectory(controlDirectory);
+    } else if (selectedPaths && entry.name.endsWith('.tmp') && entry.isFile()) {
+      continue;
     } else {
       throw new Error(`Unexpected atomic report control entry: ${entry.name}`);
     }
@@ -390,6 +395,17 @@ function recoverPendingTransactions(root: string): void {
     rmdirSync(controlDirectory);
     fsyncDirectory(root);
   }
+}
+
+export function recoverPendingAtomicWrites(
+  repositoryRoot: string,
+  relativePaths: readonly string[],
+  label = 'Output',
+): void {
+  const root = assertRepositoryRoot(repositoryRoot, label);
+  if (relativePaths.length === 0) throw new Error(`${label} recovery requires at least one target`);
+  for (const relativePath of relativePaths) assertSafeRepositoryRelativePath(relativePath, label);
+  recoverPendingTransactions(root, new Set(relativePaths));
 }
 
 function cleanupControlDirectory(root: string, controlDirectory: string): void {

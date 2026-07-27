@@ -4,7 +4,7 @@ import {createRequire} from 'node:module';
 import path from 'node:path';
 
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
-import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';
+import {assertSafeAtomicWriteTargets, recoverPendingAtomicWrites, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';
 
 export type LegacyProgressStatus = 'pending' | 'running' | 'done' | 'fail';
 export type PhaseStatus = 'waiting' | 'running' | 'completed' | 'failed' | 'cancelled';
@@ -65,7 +65,12 @@ export interface PersistedCardStateWithMessage extends PersistedCardState {
   messageId: string;
 }
 
+export type OrderedCardState = PersistedCardState;
+export type PersistedExactCardState = ExactCardState & Readonly<{messageId: string}>;
 export type StoredCardState = PersistedCardState | ExactCardState;
+export type PersistedCardStateEnvelope =
+  | Readonly<{schemaVersion: 1; variant: 'ordered'; state: OrderedCardState}>
+  | Readonly<{schemaVersion: 1; variant: 'exact'; state: PersistedExactCardState}>;
 
 export interface CardElement {
   tag: string;
@@ -672,6 +677,63 @@ function buildFinishState({
   return state
 }
 
+function appendExactReports(reports: readonly CardReportInput[], notes: readonly unknown[]): CardReportInput[] {
+  const appended = [...reports];
+  for (const note of notes) {
+    const markdown = optionalString(note);
+    if (markdown) appended.push({markdown});
+  }
+  return appended;
+}
+
+function buildExactFinishState({
+  existingState,
+  messageId,
+  title,
+  status,
+  notes,
+  targetBranch,
+}: Readonly<{
+  existingState: ExactCardState;
+  messageId: string;
+  title?: unknown;
+  status?: unknown;
+  notes: readonly unknown[];
+  targetBranch?: unknown;
+}>): ExactCardState {
+  const parsedStatus = finishStatus(status);
+  const overallStatus: OverallStatus = parsedStatus === 'success' || parsedStatus === 'done'
+    ? 'success'
+    : parsedStatus === 'cancelled' ? 'cancelled' : 'failure';
+  if (existingState.messageId !== messageId) throw new Error('Exact card state message id does not match finish message id');
+  const phases = existingState.phases.map(phase => ({...phase}));
+  const manuals = existingState.manuals.map(manual => ({...manual}));
+  if (overallStatus === 'success') {
+    for (const phase of phases) {
+      phase.status = 'completed';
+      phase.done = phase.total;
+    }
+    for (const manual of manuals) manual.status = 'completed';
+  } else if (overallStatus === 'cancelled') {
+    for (const phase of phases) if (phase.status === 'running') phase.status = 'cancelled';
+    for (const manual of manuals) if (manual.status === 'running') manual.status = 'cancelled';
+  } else {
+    const activePhase = phases.find(phase => phase.status === 'running') ?? phases.find(phase => phase.status === 'waiting');
+    if (activePhase) activePhase.status = 'failed';
+    for (const manual of manuals) if (manual.status === 'running') manual.status = 'failed';
+  }
+  return {
+    ...existingState,
+    messageId,
+    title: optionalString(title) || existingState.title,
+    targetBranch: optionalString(targetBranch) || existingState.targetBranch,
+    overallStatus,
+    phases,
+    manuals,
+    reports: appendExactReports(existingState.reports, notes),
+  };
+}
+
 
 const CARD_STATE_FILE = '.build-card-state.json';
 const DEFAULT_RECEIVE_ID = 'oc_0e36909edb9247c7b6ecb437e99f1d68';
@@ -721,7 +783,38 @@ function parsePersistedCardState(value: unknown): PersistedCardState {
   };
 }
 
-function loadState(repositoryRoot: string): PersistedCardState | null {
+function parsePersistedExactCardState(value: unknown): ExactCardState {
+  if (!isRecord(value)) throw new Error('Exact card state must be an object');
+  const messageId = required(value.messageId, 'Exact card state message id');
+  scalarIdentifier(messageId, 'Exact card state message id');
+  return buildExactState({messageId, input: value});
+}
+
+function parseStoredCardState(value: unknown): StoredCardState {
+  if (!isRecord(value)) throw new Error('Persisted card state must be an object');
+  const envelopeLike = 'schemaVersion' in value || 'variant' in value || 'state' in value;
+  if (envelopeLike) {
+    if (value.schemaVersion !== 1) throw new Error('Persisted card state schemaVersion must be 1');
+    if (value.variant === 'ordered') return parsePersistedCardState(value.state);
+    if (value.variant === 'exact') return parsePersistedExactCardState(value.state);
+    throw new Error('Persisted card state variant must be ordered or exact');
+  }
+  if (Array.isArray(value.phases)) return parsePersistedExactCardState(value);
+  return parsePersistedCardState(value);
+}
+
+function isExactStoredState(state: StoredCardState): state is ExactCardState {
+  return 'phases' in state;
+}
+
+function stateEnvelope(state: StoredCardState): PersistedCardStateEnvelope {
+  if (!isExactStoredState(state)) return {schemaVersion: 1, variant: 'ordered', state};
+  const messageId = exactStateMessageId(state);
+  return {schemaVersion: 1, variant: 'exact', state: {...state, messageId}};
+}
+
+function loadState(repositoryRoot: string): StoredCardState | null {
+  recoverPendingAtomicWrites(repositoryRoot, [CARD_STATE_FILE], 'Card state');
   const target = statePath(repositoryRoot);
   if (!existsSync(target)) return null;
   let parsed: unknown;
@@ -730,11 +823,11 @@ function loadState(repositoryRoot: string): PersistedCardState | null {
   } catch (error) {
     throw new Error('Card state is not valid JSON', {cause: error});
   }
-  return parsePersistedCardState(parsed);
+  return parseStoredCardState(parsed);
 }
 
 function saveState(repositoryRoot: string, state: StoredCardState): void {
-  writeAtomicRepositoryFiles(repositoryRoot, [{path: CARD_STATE_FILE, contents: JSON.stringify(state, null, 2)}], 'Card state');
+  writeAtomicRepositoryFiles(repositoryRoot, [{path: CARD_STATE_FILE, contents: JSON.stringify(stateEnvelope(state), null, 2)}], 'Card state');
 }
 
 function responseMessageId(value: unknown): string | undefined {
@@ -800,13 +893,18 @@ function requireStateMessageId(state: PersistedCardState): asserts state is Pers
   scalarIdentifier(state.messageId, 'Card state message id');
 }
 
+function exactStateMessageId(state: ExactCardState): string {
+  const messageId = required(state.messageId, 'Exact card state message id');
+  return scalarIdentifier(messageId, 'Exact card state message id');
+}
+
 export type ReportCardResult = PersistedCardState | PersistedCardStateWithMessage | ExactCardState | null;
 
 export interface ReportCardActionResults {
   create: PersistedCardStateWithMessage;
   advance: PersistedCardState | ExactCardState | null;
-  note: PersistedCardStateWithMessage | null;
-  finish: PersistedCardState;
+  note: PersistedCardStateWithMessage | ExactCardState | null;
+  finish: PersistedCardState | ExactCardState;
 }
 
 export function executeReportCard(
@@ -826,6 +924,7 @@ export async function executeReportCard(
   if (!isReportCardAction(action)) {
     throw new Error('report-card action must be create, advance, note, or finish');
   }
+  recoverPendingAtomicWrites(repositoryRoot, [CARD_STATE_FILE], 'Card state');
   statePath(repositoryRoot);
   const auth = credentials(environment);
   const tokenProvider = dependencies.tokenProvider || defaultTokenProvider;
@@ -834,9 +933,18 @@ export async function executeReportCard(
   const write = dependencies.write || (message => process.stdout.write(`${message}\n`));
   const warn = dependencies.warn || (message => process.stderr.write(`${message}\n`));
   const randomUUID = dependencies.randomUUID || nodeRandomUUID;
-  const token = await tokenProvider(auth);
-  if (typeof token !== 'string' || !token) throw new Error('Feishu token is unavailable');
-  const client = createCardClient({...auth, tokenProvider: async () => token, requestJson, now});
+  let tokenPromise: Promise<string> | null = null;
+  const authorizedToken = async (): Promise<string> => {
+    tokenPromise ??= tokenProvider(auth);
+    const token = await tokenPromise;
+    if (typeof token !== 'string' || !token) throw new Error('Feishu token is unavailable');
+    return token;
+  };
+  const patchCard = async (messageId: string, state: StoredCardState): Promise<void> => {
+    const token = await authorizedToken();
+    const client = createCardClient({...auth, tokenProvider: async () => token, requestJson, now});
+    await client.patch({messageId, state});
+  };
   const noteText = optionsNote(repositoryRoot, options);
 
   if (action === 'create') {
@@ -850,6 +958,7 @@ export async function executeReportCard(
       startedAt: now().toISOString(),
       targetBranch: optionalString(options.targetBranch),
     };
+    const token = await authorizedToken();
     const data = await requestJson(`${auth.feishuHost}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}`},
@@ -878,15 +987,27 @@ export async function executeReportCard(
     const file = required(optionalString(options.file) || optionalString(options.noteFile), 'note file');
     const state = loadState(repositoryRoot);
     if (!state) { warn('[report-card] no card state - skipping note update'); return null; }
-    requireStateMessageId(state);
     const note = readFileSync(safeInput(repositoryRoot, file, 'Note file'), 'utf8').trim();
+    if (isExactStoredState(state)) {
+      const messageId = exactStateMessageId(state);
+      const nextState: ExactCardState = {
+        ...state,
+        phases: state.phases.map(phase => ({...phase})),
+        manuals: state.manuals.map(manual => ({...manual})),
+        reports: note ? [...state.reports, {markdown: note}] : [...state.reports],
+      };
+      await patchCard(messageId, nextState);
+      saveState(repositoryRoot, nextState);
+      return nextState;
+    }
+    requireStateMessageId(state);
     const nextState: PersistedCardStateWithMessage = {
       ...state,
       stages: [...state.stages],
       statuses: [...state.statuses],
       notes: note ? [...state.notes, note] : [...state.notes],
     };
-    await client.patch({messageId: nextState.messageId, state: nextState});
+    await patchCard(nextState.messageId, nextState);
     saveState(repositoryRoot, nextState);
     return nextState;
   }
@@ -902,7 +1023,7 @@ export async function executeReportCard(
       targetBranch: optionalString(options.targetBranch) || (isRecord(input) ? optionalString(input.targetBranch) : undefined),
       input,
     });
-    await client.patch({messageId, state});
+    await patchCard(messageId, state);
     saveState(repositoryRoot, state);
     return state;
   }
@@ -923,7 +1044,7 @@ export async function executeReportCard(
       note: noteText,
       targetBranch: options.targetBranch,
     });
-    await client.patch({messageId: explicitMessageId, state});
+    await patchCard(explicitMessageId, state);
     saveState(repositoryRoot, state);
     return state;
   }
@@ -931,6 +1052,7 @@ export async function executeReportCard(
   if (action === 'advance') {
     const state = loadState(repositoryRoot);
     if (!state) { warn('[report-card] no card state - skipping update'); return null; }
+    if (isExactStoredState(state)) throw new Error('Ordered advance against exact persisted card state is unsupported');
     requireStateMessageId(state);
     const status = phaseCompletionStatus(options.status ?? 'done');
     const statuses = [...state.statuses];
@@ -948,7 +1070,7 @@ export async function executeReportCard(
       currentIndex,
       notes,
     };
-    await client.patch({messageId: nextState.messageId, state: nextState});
+    await patchCard(nextState.messageId, nextState);
     saveState(repositoryRoot, nextState);
     return nextState;
   }
@@ -958,17 +1080,27 @@ export async function executeReportCard(
   const stages = parsedStages.length > 0 ? parsedStages : null;
   const notes = parseNotesJson(options.notesJson);
   if (noteText) notes.push(noteText);
-  const state = buildFinishState({
-    existingState: loadState(repositoryRoot),
-    messageId,
-    title: options.title || 'Build',
-    stages,
-    status: options.status,
-    startedAt: options.startedAt,
-    notes,
-    targetBranch: options.targetBranch,
-  });
-  await client.patch({messageId, state});
+  const existingState = loadState(repositoryRoot);
+  const state = existingState && isExactStoredState(existingState)
+    ? buildExactFinishState({
+        existingState,
+        messageId,
+        title: options.title,
+        status: options.status,
+        notes,
+        targetBranch: options.targetBranch,
+      })
+    : buildFinishState({
+        existingState: existingState && !isExactStoredState(existingState) ? existingState : null,
+        messageId,
+        title: options.title || 'Build',
+        stages,
+        status: options.status,
+        startedAt: options.startedAt,
+        notes,
+        targetBranch: options.targetBranch,
+      });
+  await patchCard(messageId, state);
   saveState(repositoryRoot, state);
   return state;
 }
