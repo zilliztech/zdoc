@@ -52,7 +52,10 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /run: pnpm build:zh-CN/);
   assert.match(workflow, /^  reference_coverage:$/m);
   assert.match(workflow, /pnpm docs-tooling validate-reference --site zh-CN/);
+  assert.match(workflow, /^  retirement:$/m);
+  assert.match(workflow, /run: pnpm test:retirement/);
   assert.match(workflow, /^  site_validation:$/m);
+  assert.match(workflow, /site_validation:[\s\S]*needs:[\s\S]*- retirement/);
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/);
   assert.doesNotMatch(workflow, /secrets\.|contents: write|git push/);
 });

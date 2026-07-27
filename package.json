@@ -25,6 +25,7 @@
     "test:profiles": "pnpm vitest run packages/site-config",
     "docs-tooling": "node --experimental-strip-types packages/docs-tooling/src/cli-main.ts",
     "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
+    "test:retirement": "node --test scripts/architecture/verify-retired-layout.test.mjs && node scripts/architecture/verify-retired-layout.mjs",
     "test:e2e": "playwright test --project=chromium",
     "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js && node --test scripts/translation/chunker.test.js scripts/translation/reportSummary.test.js scripts/translation/workflowReporting.test.js",
     "test:guides-coverage": "node --test scripts/validate-guides-coverage.test.js",
