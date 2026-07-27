@@ -177,7 +177,7 @@ describe('bootstrap and planning workflows', () => {
     expect(docs.fetches).toEqual([]);
   });
 
-  it('keeps a legacy receipt in the legacy hash domain when an engine is configured', async () => {
+  it('migrates an unchanged legacy receipt into the Engine hash domain', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-legacy-receipt-engine-'));
     const sourceXml = '<title id="source">Guide</title><p id="source-body">English body.</p>';
     const targetXml = '<title id="target">指南</title><p id="target-body">中文正文。</p>';
@@ -219,8 +219,65 @@ describe('bootstrap and planning workflows', () => {
     await expect(workflows.createPlan('pair-legacy-engine')).resolves.toMatchObject({
       state: 'completed', changes: [],
     });
-    expect(engine.requests).toEqual([]);
+    expect(engine.requests).toEqual([
+      {kind: 'docx', token: 'source-url'},
+      {kind: 'docx', token: 'target-url'},
+    ]);
     expect(docs.fetches).toEqual(['source-url', 'target-url']);
+    const migrated = await registry.getReceipt('pair-legacy-engine');
+    expect(migrated).toMatchObject({
+      runId: 'run-legacy-engine',
+      sourceHash: engine.documents.get('source-url')!.canonicalHash,
+      targetHash: engine.documents.get('target-url')!.canonicalHash,
+    });
+  });
+
+  it('rejects no-change legacy migration when recreated Engine identities lose a correspondence', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-legacy-correspondence-loss-'));
+    const sourceXml = '<title id="source">Guide</title><p id="source-body">English body.</p>';
+    const targetXml = '<title id="target">指南</title><p id="target-body">中文正文。</p>';
+    const source = parseFeishuDocument(sourceXml, {documentId: 'source', revisionId: 3});
+    const target = parseFeishuDocument(targetXml, {documentId: 'target', revisionId: 8});
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {documentId: 'source', revisionId: 3, content: sourceXml});
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 8, content: targetXml});
+    const engine = new MemoryEngine();
+    engine.documents.set('source-url', engineSnapshot('source', '3', 'Guide', [{
+      block_id: 'recreated-source-body', parent_id: 'source', block_type: 2,
+      text: {elements: [{text_run: {content: 'Engine representation changed.', text_element_style: {}}}]},
+    }]));
+    engine.documents.set('target-url', engineSnapshot('target', '8', '指南', [{
+      block_id: 'target-body', parent_id: 'target', block_type: 2,
+      text: {elements: [{text_run: {content: '中文正文。', text_element_style: {}}}]},
+    }]));
+    const registry = new LocalRegistryStore(cwd);
+    const snapshots = new LocalSnapshotStore(cwd);
+    const sourceSnapshotRef = await snapshots.putBundle({
+      runId: 'legacy-correspondence-baseline', files: {'source.xml': sourceXml, 'target.xml': targetXml},
+    });
+    await registry.savePair({
+      pairId: 'pair-legacy-correspondence', sourceLocale: 'en', targetLocale: 'zh-CN',
+      sourceDocUrl: 'source-url', targetDocUrl: 'target-url', mode: 'mirror', status: 'active',
+    });
+    await registry.saveReceipt({
+      pairId: 'pair-legacy-correspondence', sourceRevision: 3, sourceHash: source.canonicalHash,
+      sourceSnapshotRef, targetRevision: 8, targetHash: target.canonicalHash,
+      runId: 'legacy-correspondence-baseline', completedAt: '2026-07-15T00:00:00.000Z',
+      correspondences: [{sourceNodeId: source.nodes[1]!.nodeId, targetNodeId: target.nodes[1]!.nodeId}],
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), engine, docs,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')},
+      ids: {next: () => 'run-correspondence-loss'},
+    });
+
+    await expect(workflows.createPlan('pair-legacy-correspondence')).rejects.toMatchObject({
+      type: 'alignment_blocked', subtype: 'legacy_correspondence_migration_incomplete',
+    });
+    expect(await registry.getReceipt('pair-legacy-correspondence')).toMatchObject({
+      runId: 'legacy-correspondence-baseline', correspondences: [expect.any(Object)],
+    });
+    expect(await registry.getRun('run-correspondence-loss')).toBeUndefined();
   });
 
   it('plans changed native synced code as verify-only without translation requests', async () => {

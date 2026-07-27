@@ -9,6 +9,7 @@ import {
   canonicalWhiteboardRawHash,
   type DocumentSelector,
   type DocumentSnapshot,
+  type MutationIntent,
   type PreparedMutationBatch,
   type ResolvedOutputEvidence,
   type VerifiedOperationEvidence,
@@ -69,6 +70,15 @@ import {buildInitialPlanInputs} from '../domain/initial-plan.js';
 import {InitializationInspector, type InitializationDisposition} from './initialization-inspector.js';
 import {compileEngineBatch} from './engine-plan.js';
 import {EngineApplyJournal} from './engine-journal.js';
+import {
+  assertCurrentPlanVersion,
+  assertRecoveryOutcome,
+  inspectEngineRecovery,
+  inspectRecoveryPhase,
+  prepareLegacyReverse,
+  RecoveryApplyJournal,
+  verifyLegacyRecoveryResources,
+} from './legacy-recovery.js';
 import {
   manualSyncMarker,
   syncedReferencePlaceholder,
@@ -185,9 +195,11 @@ export interface ReversePreviewResult {
   approvalToken: string;
   currentTargetHash: string;
   restoreTargetHash: string;
+  engineSchemaVersion?: number;
+  batchFingerprint?: string;
   operations: Array<{
     operationId: string;
-    kind: 'replace' | 'insert' | 'delete' | 'whiteboard_restore';
+    kind: 'replace' | 'insert' | 'delete' | 'move' | 'assert' | 'whiteboard-overwrite' | 'whiteboard_restore';
     blockId?: string;
     blockIds?: string[];
     anchorBlockId?: string;
@@ -588,6 +600,77 @@ function planningDocumentFromFetch(fetched: FetchedDocument): PlanningDocument {
   };
 }
 
+function engineNodeForLegacy(node: SemanticNode, current: SemanticDocument): SemanticNode | undefined {
+  if (node.kind === 'title') return current.nodes.find((candidate) => candidate.kind === 'title');
+  const ids = node.remote.blockIds?.length
+    ? node.remote.blockIds
+    : node.remote.blockId ? [node.remote.blockId] : [];
+  const matches = current.nodes.filter((candidate) => {
+    const candidateIds = candidate.remote.blockIds?.length
+      ? candidate.remote.blockIds
+      : candidate.remote.blockId ? [candidate.remote.blockId] : [];
+    return ids.some((id) => candidateIds.includes(id));
+  });
+  return matches.length === 1 ? matches[0] : undefined;
+}
+
+function migrateLegacyChangesToEngine(
+  legacyChanges: SemanticChange[],
+  legacyCurrent: SemanticDocument,
+  engineCurrent: SemanticDocument,
+): SemanticChange[] {
+  return legacyChanges.map((change) => {
+    const after = change.after ? engineNodeForLegacy(change.after, engineCurrent) : undefined;
+    if (change.after && !after) {
+      throw new LocalizeError({
+        type: 'alignment_blocked', subtype: 'legacy_source_engine_identity_ambiguous',
+        message: `Legacy source block ${change.after.remote.blockId ?? change.after.nodeId} cannot be mapped uniquely into the Engine snapshot.`,
+      });
+    }
+    let previousSourceNodeId: string | undefined;
+    if (change.previousSourceNodeId) {
+      const predecessor = legacyCurrent.nodes.find((node) => node.nodeId === change.previousSourceNodeId);
+      previousSourceNodeId = predecessor ? engineNodeForLegacy(predecessor, engineCurrent)?.nodeId : undefined;
+      if (predecessor && !previousSourceNodeId) {
+        throw new LocalizeError({
+          type: 'alignment_blocked', subtype: 'legacy_source_engine_identity_ambiguous',
+          message: `Legacy insertion predecessor ${predecessor.remote.blockId ?? predecessor.nodeId} cannot be mapped into the Engine snapshot.`,
+        });
+      }
+    }
+    return {
+      ...change,
+      ...(after ? {after} : {}),
+      ...(previousSourceNodeId ? {previousSourceNodeId} : {}),
+    };
+  });
+}
+
+function rebaseCorrespondenceTargets(
+  values: StoredCorrespondence[],
+  legacyTarget: SemanticDocument,
+  engineTarget: SemanticDocument,
+): StoredCorrespondence[] {
+  const rebased = values.map((value) => {
+    const baseline = legacyTarget.nodes.find((node) => node.nodeId === value.targetNodeId);
+    const current = baseline ? engineNodeForLegacy(baseline, engineTarget) : undefined;
+    if (!baseline || !current) {
+      throw new LocalizeError({
+        type: 'alignment_blocked', subtype: 'legacy_target_correspondence_ambiguous',
+        message: `Legacy target correspondence ${value.targetNodeId} cannot be mapped uniquely into the Engine snapshot.`,
+      });
+    }
+    return {...value, targetNodeId: current.nodeId};
+  });
+  if (rebased.length !== values.length) {
+    throw new LocalizeError({
+      type: 'alignment_blocked', subtype: 'legacy_target_correspondence_ambiguous',
+      message: 'Legacy target correspondence migration lost verified identities.',
+    });
+  }
+  return rebased;
+}
+
 function runErrorProjection(error: LocalizeError): Pick<RunRecord, 'errorType' | 'errorDetail'> {
   return {
     errorType: error.subtype ?? error.type,
@@ -752,24 +835,116 @@ export class LocalizationWorkflows {
     const baselineSnapshot = baselineBundle.files['source.snapshot.json']
       ? JSON.parse(baselineBundle.files['source.snapshot.json']) as DocumentSnapshot
       : undefined;
-    const hashDomain: DocumentHashDomain = baselineSnapshot ? 'docx-engine-v1' : 'legacy-xml-v1';
-    const [sourceRead, targetRead] = await Promise.all([
-      this.readPlanningDocument(pair.sourceDocUrl, hashDomain),
-      this.readPlanningDocument(this.requireTarget(pair), hashDomain),
-    ]);
+    const legacyMigration = !baselineSnapshot && Boolean(this.dependencies.engine);
+    const hashDomain: DocumentHashDomain = baselineSnapshot || legacyMigration ? 'docx-engine-v1' : 'legacy-xml-v1';
+    let sourceRead: PlanningDocument;
+    let targetRead: PlanningDocument;
+    let baseline: SemanticDocument;
+    let changes: SemanticChange[];
+    let historicalCorrespondences: StoredCorrespondence[] = receipt.correspondences;
+    let currentCorrespondences: StoredCorrespondence[];
+    if (legacyMigration) {
+      let targetBaselineXml = baselineBundle.files['target.xml'];
+      const targetUrl = this.requireTarget(pair);
+      const [legacySourceFetch, sourceSnapshot, targetSnapshot, legacyTargetFetch] = await Promise.all([
+        this.dependencies.docs.fetch(pair.sourceDocUrl),
+        this.dependencies.engine!.snapshot(engineSelector(pair.sourceDocUrl)),
+        this.dependencies.engine!.snapshot(engineSelector(targetUrl)),
+        targetBaselineXml ? Promise.resolve(undefined) : this.dependencies.docs.fetch(targetUrl),
+      ]);
+      if (
+        sourceSnapshot.documentId !== legacySourceFetch.documentId
+        || sourceSnapshot.revision !== String(legacySourceFetch.revisionId)
+      ) {
+        throw new LocalizeError({
+          type: 'stale_plan', subtype: 'legacy_source_engine_revision_mismatch',
+          message: 'Legacy XML and Engine source reads did not observe the same revision.',
+        });
+      }
+      if (!targetBaselineXml) {
+        if (!legacyTargetFetch) {
+          throw new LocalizeError({
+            type: 'verification_failed', subtype: 'legacy_target_baseline_missing',
+            message: 'Legacy receipt migration has no target XML baseline to verify.',
+          });
+        }
+        const fetchedTarget = parseFeishuDocument(legacyTargetFetch.content, {
+          documentId: legacyTargetFetch.documentId,
+          revisionId: legacyTargetFetch.revisionId,
+        });
+        if (
+          legacyTargetFetch.revisionId !== receipt.targetRevision
+          || fetchedTarget.canonicalHash !== receipt.targetHash
+          || targetSnapshot.documentId !== legacyTargetFetch.documentId
+          || targetSnapshot.revision !== String(legacyTargetFetch.revisionId)
+        ) {
+          throw new LocalizeError({
+            type: 'verification_failed', subtype: 'legacy_target_baseline_unverified',
+            message: 'The live legacy target does not exactly match the receipt revision, hash, and Engine document identity.',
+          });
+        }
+        targetBaselineXml = legacyTargetFetch.content;
+      }
+      sourceRead = planningDocumentFromSnapshot(sourceSnapshot);
+      targetRead = planningDocumentFromSnapshot(targetSnapshot);
+      baseline = parseFeishuDocument(baselineXml, {
+        documentId: legacySourceFetch.documentId,
+        revisionId: receipt.sourceRevision,
+      });
+      const legacyCurrent = parseFeishuDocument(legacySourceFetch.content, {
+        documentId: legacySourceFetch.documentId,
+        revisionId: legacySourceFetch.revisionId,
+      });
+      const legacyChanges = diffDocuments(baseline, legacyCurrent);
+      const changedBaselineSourceIds = new Set(legacyChanges.flatMap((change) =>
+        (change.kind === 'delete' || change.kind === 'replace') && change.before
+          ? [change.before.nodeId]
+          : []));
+      changes = migrateLegacyChangesToEngine(legacyChanges, legacyCurrent, sourceRead.semantic);
+      const legacyTarget = parseFeishuDocument(targetBaselineXml, {
+        documentId: targetRead.semantic.documentId,
+        revisionId: receipt.targetRevision,
+      });
+      historicalCorrespondences = rebaseCorrespondenceTargets(
+        receipt.correspondences, legacyTarget, targetRead.semantic,
+      );
+      currentCorrespondences = rebaseCorrespondences(
+        historicalCorrespondences, baseline, sourceRead.semantic,
+      );
+      const requiredHistoricalCorrespondences = historicalCorrespondences.filter(
+        (value) => !changedBaselineSourceIds.has(value.sourceNodeId),
+      );
+      const requiredCurrentCorrespondences = rebaseCorrespondences(
+        requiredHistoricalCorrespondences, baseline, sourceRead.semantic,
+      );
+      if (
+        historicalCorrespondences.length !== receipt.correspondences.length
+        || requiredCurrentCorrespondences.length !== requiredHistoricalCorrespondences.length
+      ) {
+        throw new LocalizeError({
+          type: 'alignment_blocked', subtype: 'legacy_correspondence_migration_incomplete',
+          message: 'Legacy receipt migration could not preserve every verified source/target correspondence.',
+        });
+      }
+    } else {
+      [sourceRead, targetRead] = await Promise.all([
+        this.readPlanningDocument(pair.sourceDocUrl, hashDomain),
+        this.readPlanningDocument(this.requireTarget(pair), hashDomain),
+      ]);
+      baseline = baselineSnapshot
+        ? semanticDocumentFromSnapshot(baselineSnapshot)
+        : parseFeishuDocument(baselineXml, {
+            documentId: sourceRead.fetched.documentId,
+            revisionId: receipt.sourceRevision,
+          });
+      changes = diffDocuments(baseline, sourceRead.semantic);
+      currentCorrespondences = rebaseCorrespondences(receipt.correspondences, baseline, sourceRead.semantic);
+    }
     const sourceFetch = sourceRead.fetched;
     const targetFetch = targetRead.fetched;
-    const baseline = baselineSnapshot
-      ? semanticDocumentFromSnapshot(baselineSnapshot)
-      : parseFeishuDocument(baselineXml, {
-          documentId: sourceFetch.documentId,
-          revisionId: receipt.sourceRevision,
-        });
     const source = sourceRead.semantic;
     const target = targetRead.semantic;
     pair = await this.savePairTitles(pair, source.title, target.title);
-    const changes = diffDocuments(baseline, source);
-    const currentCorrespondences = rebaseCorrespondences(receipt.correspondences, baseline, source);
     const runId = this.dependencies.ids.next();
     const revisions = {
       sourceFromRevision: receipt.sourceRevision,
@@ -779,14 +954,43 @@ export class LocalizationWorkflows {
 
     const resourcePlanning = pair.mode === 'mirror'
       ? await this.createIncrementalResourceOperations(
-          changes, source, target, receipt.correspondences, currentCorrespondences,
+          changes, source, target, historicalCorrespondences, currentCorrespondences,
         )
       : {operations: [] as PlanOperation[], consumedChangeIds: new Set<string>()};
     const contentChanges = changes.filter((change) => !resourcePlanning.consumedChangeIds.has(change.changeId));
 
     if (contentChanges.length === 0 && resourcePlanning.operations.length === 0) {
+      if (legacyMigration) {
+        if (target.revisionId !== receipt.targetRevision) {
+          throw new LocalizeError({
+            type: 'stale_plan', subtype: 'legacy_target_changed_during_migration',
+            message: 'An unchanged legacy source receipt cannot adopt a target with a different revision.',
+          });
+        }
+        const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
+          runId,
+          files: {
+            ...documentArtifacts('source', source.rawXml, source),
+            ...documentArtifacts('target', target.rawXml, target),
+            'source.snapshot.json': `${JSON.stringify(sourceRead.snapshot, null, 2)}\n`,
+            'target.snapshot.json': `${JSON.stringify(targetRead.snapshot, null, 2)}\n`,
+          },
+        });
+        await this.dependencies.registry.saveReceipt({
+          pairId,
+          sourceRevision: source.revisionId,
+          sourceHash: source.canonicalHash,
+          sourceSnapshotRef,
+          targetRevision: target.revisionId,
+          targetHash: target.canonicalHash,
+          runId,
+          completedAt: this.dependencies.clock.now().toISOString(),
+          correspondences: currentCorrespondences,
+        });
+      }
       await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'completed', {
         kind: 'localization', noChanges: true, documentHashDomain: hashDomain,
+        ...(legacyMigration ? {legacyReceiptMigrated: true} : {}),
       }, revisions));
       return {runId, state: 'completed', changes, translationRequests: []};
     }
@@ -824,7 +1028,7 @@ export class LocalizationWorkflows {
     }
 
     const aligned = chainInsertionAnchors(resolveListReplacementAnchors(
-      alignChanges(contentChanges, target, receipt.correspondences, currentCorrespondences),
+      alignChanges(contentChanges, target, historicalCorrespondences, currentCorrespondences),
       target,
     ));
     const low = aligned.find((item) => item.confidence === 'low');
@@ -1384,10 +1588,17 @@ export class LocalizationWorkflows {
 
   async previewApply(runId: string, reviewPath: string): Promise<ApplyPreviewResult> {
     const run = await this.requireRun(runId);
+    const plan = await this.planForRun(run);
+    assertCurrentPlanVersion(plan.planVersion);
+    if (this.dependencies.engine && this.hashDomainForRun(run) === 'legacy-xml-v1') {
+      throw new LocalizeError({
+        type: 'stale_plan', subtype: 'legacy_plan_requires_regeneration',
+        message: 'A legacy-hash localization review must be regenerated through the Engine migration path.',
+      });
+    }
     if (run.state !== 'review_required' || !['localization', 'creation', 'initialization'].includes(String(run.metadata?.kind))) {
       throw new LocalizeError({type: 'validation', subtype: 'run_not_review_required', message: `Run ${runId} is not ready to apply.`});
     }
-    const plan = await this.planForRun(run);
     const approved = parseReview(await readFile(this.resolveWorkspacePath(reviewPath), 'utf8'), plan);
     const planBundle = await this.dependencies.snapshots.getBundle(run.metadata!.bundleRef as SnapshotReference);
     const requestJson = planBundle.files['translation-requests.json'];
@@ -3230,8 +3441,42 @@ export class LocalizationWorkflows {
     manualActionsVerified?: boolean;
     safeToRecover: boolean;
     recoveryToken?: string;
+    disposition?: 'resume_possible' | 'reverse_possible' | 'manual_inspection_required';
+    batchFingerprint?: string;
+    completedOperationIds?: string[];
+    pendingOperationIds?: string[];
+    inferredOperations?: unknown[];
+    reverseIntents?: unknown[];
+    reason?: string;
   }> {
     const run = await this.requireRun(runId);
+    if (run.metadata?.recoveryPhaseRef) {
+      if (!this.dependencies.engine) {
+        throw new LocalizeError({
+          type: 'configuration', subtype: 'docx_engine_missing',
+          message: 'Recovery-phase inspection requires the shared Docx engine.',
+        });
+      }
+      return inspectRecoveryPhase({
+        run,
+        engine: this.dependencies.engine,
+        snapshots: this.dependencies.snapshots,
+      });
+    }
+    const plan = await this.planForRun(run);
+    if (plan.planVersion === 3 && this.hashDomainForRun(run) === 'docx-engine-v1') {
+      if (!this.dependencies.engine) {
+        throw new LocalizeError({
+          type: 'configuration', subtype: 'docx_engine_missing',
+          message: 'Plan version 3 recovery requires the shared Docx engine.',
+        });
+      }
+      return inspectEngineRecovery({
+        run,
+        engine: this.dependencies.engine,
+        snapshots: this.dependencies.snapshots,
+      });
+    }
     const pair = await this.requirePair(run.pairId);
     const selector = typeof run.metadata?.createdDocumentId === 'string'
       ? run.metadata.createdDocumentId
@@ -3313,6 +3558,123 @@ export class LocalizationWorkflows {
   async previewReverse(runId: string): Promise<ReversePreviewResult> {
     const run = await this.requireRun(runId);
     const inspection = await this.inspectRecovery(runId);
+    const recoveryPhaseRef = run.metadata?.recoveryPhaseRef as SnapshotReference | undefined;
+    if (recoveryPhaseRef) {
+      if (inspection.disposition !== 'reverse_possible' || !inspection.reverseIntents || !inspection.batchFingerprint) {
+        throw new LocalizeError({
+          type: 'confirmation_required', subtype: 'reverse_not_proven_safe',
+          message: 'The active recovery phase is not proven exactly reversible.', details: inspection,
+        });
+      }
+      const engine = this.dependencies.engine;
+      if (!engine) throw new LocalizeError({type: 'configuration', subtype: 'docx_engine_missing', message: 'Recovery-phase reversal requires the shared Docx engine.'});
+      const pair = await this.requirePair(run.pairId);
+      const currentSnapshot = await engine.snapshot(engineSelector(this.requireTarget(pair)));
+      const reverseIntents = inspection.reverseIntents as MutationIntent[];
+      const actionBatch = engine.prepare({
+        snapshot: currentSnapshot,
+        operations: reverseIntents,
+        idempotencyNamespace: `recovery-phase:${runId}:${inspection.batchFingerprint}`,
+      });
+      const checkpointBundle = await this.dependencies.snapshots.getBundle(recoveryPhaseRef);
+      const prewriteJson = checkpointBundle.files['target-prewrite.snapshot.json'];
+      if (!prewriteJson) throw new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_prewrite_snapshot_missing', message: 'Recovery phase has no immutable prewrite snapshot.'});
+      const phasePrewrite = JSON.parse(prewriteJson) as DocumentSnapshot;
+      const completedPhaseEvidence = (run.metadata?.reverseEngineEvidence as VerifiedOperationEvidence[] | undefined) ?? [];
+      const restoreTargetHash = completedPhaseEvidence.at(-1)?.afterSnapshotHash ?? phasePrewrite.canonicalHash;
+      const recoveryPhaseActionRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          'recovery-phase-action-batch.json': `${JSON.stringify(actionBatch, null, 2)}\n`,
+          'recovery-phase-action-current.snapshot.json': `${JSON.stringify(currentSnapshot, null, 2)}\n`,
+          'recovery-phase-action-assessment.json': `${JSON.stringify(inspection, null, 2)}\n`,
+        },
+      });
+      const approvalToken = canonicalHash({
+        runId,
+        recoveryPhaseBatchFingerprint: inspection.batchFingerprint,
+        assessmentToken: inspection.recoveryToken,
+        currentSnapshotHash: currentSnapshot.canonicalHash,
+        currentRevision: currentSnapshot.revision,
+        actionBatchFingerprint: actionBatch.fingerprint,
+        restoreTargetHash,
+      });
+      await this.markRun(run, run.state, {
+        recoveryPhaseActionRef,
+        recoveryPhaseActionBatchFingerprint: actionBatch.fingerprint,
+      });
+      return {
+        runId,
+        state: 'confirmation_required',
+        approvalToken,
+        currentTargetHash: currentSnapshot.canonicalHash,
+        restoreTargetHash,
+        engineSchemaVersion: actionBatch.schemaVersion,
+        batchFingerprint: actionBatch.fingerprint,
+        operations: reverseIntents.map((intent) => ({operationId: intent.operationId, kind: intent.kind})),
+      };
+    }
+    const plan = await this.planForRun(run);
+    if (plan.planVersion === 3 && this.hashDomainForRun(run) === 'docx-engine-v1') {
+      if (inspection.disposition !== 'reverse_possible' || !inspection.reverseIntents || !inspection.batchFingerprint) {
+        throw new LocalizeError({
+          type: 'confirmation_required', subtype: 'reverse_not_proven_safe',
+          message: 'Engine recovery did not prove an exactly reversible active operation.', details: inspection,
+        });
+      }
+      const engine = this.dependencies.engine;
+      const pair = await this.requirePair(run.pairId);
+      if (!engine) throw new LocalizeError({type: 'configuration', subtype: 'docx_engine_missing', message: 'Engine recovery requires the shared Docx engine.'});
+      const currentSnapshot = await engine.snapshot(engineSelector(this.requireTarget(pair)));
+      const reverseIntents = inspection.reverseIntents as MutationIntent[];
+      const recoveryBatch = engine.prepare({
+        snapshot: currentSnapshot,
+        operations: reverseIntents,
+        idempotencyNamespace: `engine-recovery:${runId}:${inspection.batchFingerprint}`,
+      });
+      const prewriteRef = run.metadata?.prewriteRef as SnapshotReference;
+      const prewriteSnapshot = this.requireStoredSnapshot(
+        await this.dependencies.snapshots.getBundle(prewriteRef),
+        'target-prewrite',
+      );
+      const completed = (run.metadata?.engineEvidence as VerifiedOperationEvidence[] | undefined) ?? [];
+      const restoreTargetHash = completed.at(-1)?.afterSnapshotHash ?? prewriteSnapshot.canonicalHash;
+      const engineRecoveryPreviewRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          'engine-recovery-batch.json': `${JSON.stringify(recoveryBatch, null, 2)}\n`,
+          'engine-recovery-current.snapshot.json': `${JSON.stringify(currentSnapshot, null, 2)}\n`,
+          'engine-recovery-assessment.json': `${JSON.stringify(inspection, null, 2)}\n`,
+        },
+      });
+      const approvalToken = canonicalHash({
+        runId,
+        originalBatchFingerprint: inspection.batchFingerprint,
+        assessmentToken: inspection.recoveryToken,
+        currentSnapshotHash: currentSnapshot.canonicalHash,
+        currentRevision: currentSnapshot.revision,
+        recoveryBatchFingerprint: recoveryBatch.fingerprint,
+        restoreTargetHash,
+      });
+      await this.markRun(run, run.state, {
+        engineRecoveryPreviewRef,
+        reverseBatchFingerprint: recoveryBatch.fingerprint,
+        reverseCompletedPrefix: completed.length,
+      });
+      return {
+        runId,
+        state: 'confirmation_required',
+        approvalToken,
+        currentTargetHash: currentSnapshot.canonicalHash,
+        restoreTargetHash,
+        engineSchemaVersion: recoveryBatch.schemaVersion,
+        batchFingerprint: recoveryBatch.fingerprint,
+        operations: reverseIntents.map((intent) => ({
+          operationId: intent.operationId,
+          kind: intent.kind,
+        })),
+      };
+    }
     if (!['partial', 'manual_action_required'].includes(run.state) || !inspection.safeToRecover || !inspection.currentTargetHash) {
       throw new LocalizeError({
         type: 'confirmation_required',
@@ -3321,6 +3683,50 @@ export class LocalizationWorkflows {
         details: inspection,
       });
     }
+    if (this.hashDomainForRun(run) === 'legacy-xml-v1' && this.dependencies.engine) {
+      const pair = await this.requirePair(run.pairId);
+      const prepared = await prepareLegacyReverse({
+        run, pair, plan, engine: this.dependencies.engine,
+        docs: this.dependencies.docs, snapshots: this.dependencies.snapshots,
+        whiteboards: this.dependencies.whiteboards,
+      });
+      const reversePreviewBundleRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          'legacy-reverse-batch.json': `${JSON.stringify(prepared.batch, null, 2)}\n`,
+          'legacy-reverse-prewrite.snapshot.json': `${JSON.stringify(prepared.currentSnapshot, null, 2)}\n`,
+          'legacy-reverse-preview.json': `${JSON.stringify({
+            currentTargetHash: prepared.currentTargetHash,
+            restoreTargetHash: prepared.restoreTargetHash,
+            operations: prepared.operations,
+            resourceHashes: prepared.resourceHashes,
+          }, null, 2)}\n`,
+        },
+      });
+      const approvalToken = canonicalHash({
+        runId,
+        planHash: canonicalHash(plan),
+        currentTargetHash: prepared.currentTargetHash,
+        restoreTargetHash: prepared.restoreTargetHash,
+        batchFingerprint: prepared.batch.fingerprint,
+        operations: prepared.operations,
+        resourceHashes: prepared.resourceHashes,
+      });
+      await this.markRun(run, run.state, {
+        reversePreviewBundleRef,
+        reverseBatchFingerprint: prepared.batch.fingerprint,
+      });
+      return {
+        runId,
+        state: 'confirmation_required',
+        currentTargetHash: prepared.currentTargetHash,
+        restoreTargetHash: prepared.restoreTargetHash,
+        engineSchemaVersion: prepared.batch.schemaVersion,
+        batchFingerprint: prepared.batch.fingerprint,
+        operations: prepared.operations,
+        approvalToken,
+      };
+    }
     const prewriteRef = run.metadata!.prewriteRef as SnapshotReference;
     const prewriteBundle = await this.dependencies.snapshots.getBundle(prewriteRef);
     const targetPrewriteXml = prewriteBundle.files['target-prewrite.xml'];
@@ -3328,7 +3734,6 @@ export class LocalizationWorkflows {
       throw new LocalizeError({type: 'verification_failed', subtype: 'prewrite_target_missing', message: 'Recovery snapshot has no pre-write target document.'});
     }
     const prewrite = parseFeishuDocument(targetPrewriteXml, {documentId: 'target-prewrite', revisionId: 0});
-    const plan = await this.planForRun(run);
     const planById = new Map(plan.operations.map((operation) => [operation.operationId, operation]));
     const applyLog = [...((run.metadata?.applyLog as ApplyLogEntry[] | undefined) ?? [])];
     if (run.state === 'manual_action_required') {
@@ -3419,11 +3824,285 @@ export class LocalizationWorkflows {
     };
   }
 
-  async reversePartial(runId: string, approvalToken?: string): Promise<{runId: string; state: 'blocked'; restoredTargetHash: string}> {
+  async reversePartial(runId: string, approvalToken?: string): Promise<{runId: string; state: 'blocked' | 'partial'; restoredTargetHash: string}> {
     let run = await this.requireRun(runId);
     const preview = await this.previewReverse(runId);
     if (!approvalToken || approvalToken !== preview.approvalToken) {
       throw new LocalizeError({type: 'confirmation_required', subtype: 'reverse_approval_token_required', message: 'Reverse recovery requires the exact current reverse preview token.', details: preview});
+    }
+    const refreshedRun = await this.requireRun(runId);
+    const activeRecoveryPhaseRef = refreshedRun.metadata?.recoveryPhaseRef as SnapshotReference | undefined;
+    const recoveryPhaseActionRef = refreshedRun.metadata?.recoveryPhaseActionRef as SnapshotReference | undefined;
+    if (activeRecoveryPhaseRef && recoveryPhaseActionRef) {
+      const engine = this.dependencies.engine;
+      if (!engine) throw new LocalizeError({type: 'configuration', subtype: 'docx_engine_missing', message: 'Recovery-phase reversal requires the shared Docx engine.'});
+      const actionBundle = await this.dependencies.snapshots.getBundle(recoveryPhaseActionRef);
+      const batchJson = actionBundle.files['recovery-phase-action-batch.json'];
+      const actionPrewriteSnapshotJson = actionBundle.files['recovery-phase-action-current.snapshot.json'];
+      if (!batchJson || !actionPrewriteSnapshotJson) {
+        throw new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_batch_missing', message: 'Approved recovery-phase action is incomplete.'});
+      }
+      const activePhaseBundle = await this.dependencies.snapshots.getBundle(activeRecoveryPhaseRef);
+      const activePhaseBatchJson = activePhaseBundle.files['prepared-batch.json'];
+      const activePhasePrewriteJson = activePhaseBundle.files['target-prewrite.snapshot.json'];
+      if (!activePhaseBatchJson || !activePhasePrewriteJson) {
+        throw new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_batch_missing', message: 'The active recovery-phase checkpoint is incomplete.'});
+      }
+      const completedPhaseEvidence = (refreshedRun.metadata?.reverseEngineEvidence as VerifiedOperationEvidence[] | undefined) ?? [];
+      const batch = JSON.parse(batchJson) as PreparedMutationBatch;
+      if (batch.fingerprint !== preview.batchFingerprint || batch.fingerprint !== refreshedRun.metadata?.recoveryPhaseActionBatchFingerprint) {
+        throw new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_batch_mismatch', message: 'Recovery-phase action batch changed after preview.'});
+      }
+      run = await this.markRun(refreshedRun, 'recovering', {reversePreview: preview});
+      const journal = new RecoveryApplyJournal({
+        run,
+        operationIds: batch.steps.map((step) => step.operationId),
+        registry: this.dependencies.registry,
+        snapshots: this.dependencies.snapshots,
+        now: () => this.dependencies.clock.now(),
+        metadataKeys: {
+          evidence: 'recoveryPhaseActionEvidence',
+          evidenceRef: 'recoveryPhaseActionEvidenceRef',
+          appliedOperations: 'recoveryPhaseActionAppliedOperations',
+        },
+      });
+      try {
+        const outcome = await engine.apply({batch, journal});
+        assertRecoveryOutcome({
+          batch,
+          evidence: journal.verifiedEvidence(),
+          outcome,
+          expectedFinalSnapshotHash: preview.restoreTargetHash,
+        });
+        if (completedPhaseEvidence.length > 0) {
+          const remainingRecoveryPhaseRef = await this.dependencies.snapshots.putBundle({
+            runId,
+            files: {
+              'prepared-batch.json': activePhaseBatchJson,
+              'target-prewrite.snapshot.json': activePhasePrewriteJson,
+              'apply-evidence.json': `${JSON.stringify(completedPhaseEvidence, null, 2)}\n`,
+            },
+          });
+          await this.markRun(journal.currentRun(), 'partial', {
+            recoveryPhaseRef: remainingRecoveryPhaseRef,
+            recoveryPhaseBatchFingerprint: refreshedRun.metadata?.recoveryPhaseBatchFingerprint,
+            reverseEngineEvidence: completedPhaseEvidence,
+            reversePartialMutationEvidence: undefined,
+            recoveryPhaseActionRef: undefined,
+            recoveryPhaseActionBatchFingerprint: undefined,
+            recoveryPhaseActionEvidence: journal.verifiedEvidence(),
+            recoveryPhaseActionEvidenceRef: journal.currentEvidenceRef(),
+            recoveryPhaseActiveOperationReversed: true,
+            recoveryPhaseResolved: undefined,
+            restoredTargetHash: outcome.finalSnapshot.canonicalHash,
+            blocker: 'The active recovery operation was reversed, but the completed recovery prefix still requires reconciliation.',
+          });
+        } else {
+          await this.markRun(journal.currentRun(), 'partial', {
+            recoveryPhaseResolved: true,
+            resolvedRecoveryPhaseRef: activeRecoveryPhaseRef,
+            recoveryPhaseRef: undefined,
+            recoveryPhaseBatchFingerprint: undefined,
+            reversePartialMutationEvidence: undefined,
+            recoveryPhaseActionRef: undefined,
+            recoveryPhaseActionBatchFingerprint: undefined,
+            recoveryPhaseActionEvidence: journal.verifiedEvidence(),
+            recoveryPhaseActionEvidenceRef: journal.currentEvidenceRef(),
+            restoredTargetHash: outcome.finalSnapshot.canonicalHash,
+            blocker: 'The failed recovery attempt was reversed; reassess the original partial write.',
+          });
+        }
+        return {runId, state: 'partial', restoredTargetHash: outcome.finalSnapshot.canonicalHash};
+      } catch (error) {
+        const nextRecoveryPhaseRef = error instanceof PartialMutationError
+          ? await this.dependencies.snapshots.putBundle({
+              runId,
+              files: {
+                'prepared-batch.json': batchJson,
+                'target-prewrite.snapshot.json': actionPrewriteSnapshotJson,
+                'apply-evidence.json': `${JSON.stringify(journal.verifiedEvidence(), null, 2)}\n`,
+                'partial-mutation-evidence.json': `${JSON.stringify(error.evidence, null, 2)}\n`,
+              },
+            })
+          : undefined;
+        const localizeError = error instanceof PartialMutationError
+          ? new LocalizeError({type: 'partial_write', subtype: 'engine_recovery_phase_partial', message: error.message, details: error.evidence})
+          : error instanceof LocalizeError ? error
+            : new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_phase_failed', message: String(error)});
+        await this.markRun(journal.currentRun(), 'partial', {
+          recoveryPhaseActionEvidence: journal.verifiedEvidence(),
+          recoveryPhaseActionEvidenceRef: journal.currentEvidenceRef(),
+          ...(error instanceof PartialMutationError ? {
+            recoveryPhaseRef: nextRecoveryPhaseRef,
+            recoveryPhaseBatchFingerprint: batch.fingerprint,
+            reverseEngineEvidence: journal.verifiedEvidence(),
+            reverseEngineEvidenceRef: journal.currentEvidenceRef(),
+            reversePartialMutationEvidence: error.evidence,
+            recoveryPhaseActionRef: undefined,
+            recoveryPhaseActionBatchFingerprint: undefined,
+          } : {}),
+        }, localizeError);
+        throw localizeError;
+      }
+    }
+    const engineRecoveryPreviewRef = refreshedRun.metadata?.engineRecoveryPreviewRef as SnapshotReference | undefined;
+    if (engineRecoveryPreviewRef) {
+      const engine = this.dependencies.engine;
+      if (!engine) throw new LocalizeError({type: 'configuration', subtype: 'docx_engine_missing', message: 'Engine recovery requires the shared Docx engine.'});
+      const engineRecoveryPreviewBundle = await this.dependencies.snapshots.getBundle(engineRecoveryPreviewRef);
+      const batchJson = engineRecoveryPreviewBundle.files['engine-recovery-batch.json'];
+      if (!batchJson) throw new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_batch_missing', message: 'Engine recovery preview has no immutable batch.'});
+      const recoveryPrewriteSnapshotJson = engineRecoveryPreviewBundle.files['engine-recovery-current.snapshot.json'];
+      if (!recoveryPrewriteSnapshotJson) throw new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_prewrite_snapshot_missing', message: 'Engine recovery preview has no immutable current/prewrite snapshot.'});
+      const batch = JSON.parse(batchJson) as PreparedMutationBatch;
+      if (batch.fingerprint !== preview.batchFingerprint) throw new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_batch_mismatch', message: 'Engine recovery batch changed after preview.'});
+      run = await this.markRun(run, 'recovering', {reversePreview: preview, reverseAppliedOperations: 0});
+      const journal = new RecoveryApplyJournal({
+        run,
+        operationIds: batch.steps.map((step) => step.operationId),
+        registry: this.dependencies.registry,
+        snapshots: this.dependencies.snapshots,
+        now: () => this.dependencies.clock.now(),
+      });
+      let outcome: Awaited<ReturnType<LocalizationDocxEngine['apply']>>;
+      try {
+        outcome = await engine.apply({batch, journal});
+      } catch (error) {
+        const recoveryPhaseRef = error instanceof PartialMutationError
+          ? await this.dependencies.snapshots.putBundle({
+              runId,
+              files: {
+                'prepared-batch.json': batchJson,
+                'target-prewrite.snapshot.json': recoveryPrewriteSnapshotJson,
+                'apply-evidence.json': `${JSON.stringify(journal.verifiedEvidence(), null, 2)}\n`,
+                'partial-mutation-evidence.json': `${JSON.stringify(error.evidence, null, 2)}\n`,
+              },
+            })
+          : undefined;
+        const localizeError = error instanceof PartialMutationError
+          ? new LocalizeError({type: 'partial_write', subtype: 'engine_recovery_partial', message: error.message, details: error.evidence})
+          : error instanceof LocalizeError ? error : new LocalizeError({type: 'upstream', subtype: 'engine_recovery_failed', message: String(error)});
+        await this.markRun(journal.currentRun(), 'partial', {
+          reverseEngineEvidence: journal.verifiedEvidence(),
+          reverseEngineEvidenceRef: journal.currentEvidenceRef(),
+          ...(error instanceof PartialMutationError ? {
+            reversePartialMutationEvidence: error.evidence,
+            recoveryPhaseRef,
+            recoveryPhaseBatchFingerprint: batch.fingerprint,
+          } : {}),
+        }, localizeError);
+        throw localizeError;
+      }
+      const evidence = journal.verifiedEvidence();
+      try {
+        assertRecoveryOutcome({
+          batch,
+          evidence,
+          outcome,
+          expectedFinalSnapshotHash: preview.restoreTargetHash,
+        });
+      } catch (error) {
+        const recoveryError = error instanceof LocalizeError ? error : new LocalizeError({type: 'verification_failed', subtype: 'engine_recovery_outcome_mismatch', message: String(error)});
+        await this.markRun(journal.currentRun(), 'partial', {reverseEngineEvidence: evidence}, recoveryError);
+        throw recoveryError;
+      }
+      const completedPrefix = Number(refreshedRun.metadata?.reverseCompletedPrefix ?? 0);
+      const state = completedPrefix === 0 ? 'blocked' : 'partial';
+      await this.markRun(journal.currentRun(), state, {
+        reverseEngineEvidence: evidence,
+        reverseEngineEvidenceRef: journal.currentEvidenceRef(),
+        activeOperationReversed: true,
+        restoredTargetHash: outcome.finalSnapshot.canonicalHash,
+        ...(state === 'blocked'
+          ? {recoveryCompleted: true, blocker: 'Partial active operation was reversed; create a fresh localization plan.'}
+          : {blocker: 'The active operation was reversed, but the verified completed prefix still requires reconciliation.'}),
+      });
+      return {runId, state, restoredTargetHash: outcome.finalSnapshot.canonicalHash};
+    }
+    if (preview.batchFingerprint) {
+      const engine = this.dependencies.engine;
+      const reversePreviewBundleRef = (await this.requireRun(runId)).metadata?.reversePreviewBundleRef as SnapshotReference | undefined;
+      if (!engine || !reversePreviewBundleRef) {
+        throw new LocalizeError({type: 'verification_failed', subtype: 'legacy_reverse_batch_missing', message: 'Approved legacy reverse has no immutable Engine batch.'});
+      }
+      const reversePreviewBundle = await this.dependencies.snapshots.getBundle(reversePreviewBundleRef);
+      const batchJson = reversePreviewBundle.files['legacy-reverse-batch.json'];
+      if (!batchJson) throw new LocalizeError({type: 'verification_failed', subtype: 'legacy_reverse_batch_missing', message: 'Approved legacy reverse batch is missing.'});
+      const recoveryPrewriteSnapshotJson = reversePreviewBundle.files['legacy-reverse-prewrite.snapshot.json'];
+      if (!recoveryPrewriteSnapshotJson) throw new LocalizeError({type: 'verification_failed', subtype: 'legacy_reverse_prewrite_snapshot_missing', message: 'Approved legacy reverse has no immutable Engine prewrite snapshot.'});
+      const batch = JSON.parse(batchJson) as PreparedMutationBatch;
+      if (batch.fingerprint !== preview.batchFingerprint) {
+        throw new LocalizeError({type: 'verification_failed', subtype: 'legacy_reverse_batch_mismatch', message: 'Approved legacy reverse batch fingerprint changed.'});
+      }
+      run = await this.markRun(run, 'recovering', {reversePreview: preview, reverseAppliedOperations: 0});
+      const journal = new RecoveryApplyJournal({
+        run,
+        operationIds: batch.steps.map((step) => step.operationId),
+        registry: this.dependencies.registry,
+        snapshots: this.dependencies.snapshots,
+        now: () => this.dependencies.clock.now(),
+      });
+      let outcome: Awaited<ReturnType<LocalizationDocxEngine['apply']>>;
+      let writeCompleted = false;
+      try {
+        outcome = await engine.apply({batch, journal});
+        writeCompleted = true;
+        const pair = await this.requirePair(run.pairId);
+        const finalSnapshot = await engine.snapshot(engineSelector(this.requireTarget(pair)));
+        assertRecoveryOutcome({
+          batch,
+          evidence: journal.verifiedEvidence(),
+          outcome,
+          expectedFinalSnapshotHash: finalSnapshot.canonicalHash,
+        });
+        const fetched = await this.dependencies.docs.fetch(this.requireTarget(pair));
+        const restored = parseFeishuDocument(fetched.content, {documentId: fetched.documentId, revisionId: fetched.revisionId});
+        if (restored.canonicalHash !== preview.restoreTargetHash) {
+          throw new LocalizeError({type: 'verification_failed', subtype: 'reverse_final_hash_mismatch', message: 'Engine reverse did not restore the exact legacy prewrite target.'});
+        }
+        await verifyLegacyRecoveryResources({
+          run,
+          snapshots: this.dependencies.snapshots,
+          whiteboards: this.dependencies.whiteboards,
+        });
+        await this.markRun(journal.currentRun(), 'blocked', {
+          reverseAppliedOperations: journal.verifiedEvidence().length,
+          reverseEngineEvidence: journal.verifiedEvidence(),
+          reverseEngineEvidenceRef: journal.currentEvidenceRef(),
+          recoveryCompleted: true,
+          restoredTargetHash: restored.canonicalHash,
+          blocker: 'Partial write was reversed; create a fresh localization plan.',
+        });
+        return {runId, state: 'blocked', restoredTargetHash: restored.canonicalHash};
+      } catch (error) {
+        const recoveryPhaseRef = error instanceof PartialMutationError
+          ? await this.dependencies.snapshots.putBundle({
+              runId,
+              files: {
+                'prepared-batch.json': batchJson,
+                'target-prewrite.snapshot.json': recoveryPrewriteSnapshotJson,
+                'apply-evidence.json': `${JSON.stringify(journal.verifiedEvidence(), null, 2)}\n`,
+                'partial-mutation-evidence.json': `${JSON.stringify(error.evidence, null, 2)}\n`,
+              },
+            })
+          : undefined;
+        const localizeError = error instanceof PartialMutationError
+          ? new LocalizeError({type: 'partial_write', subtype: 'legacy_reverse_engine_partial', message: error.message, details: error.evidence})
+          : error instanceof LocalizeError ? error
+            : writeCompleted
+              ? new LocalizeError({type: 'verification_failed', subtype: 'legacy_reverse_postwrite_verification_failed', message: String(error)})
+              : new LocalizeError({type: 'upstream', subtype: 'legacy_reverse_engine_failed', message: String(error)});
+        await this.markRun(journal.currentRun(), 'partial', {
+          reverseEngineEvidence: journal.verifiedEvidence(),
+          reverseEngineEvidenceRef: journal.currentEvidenceRef(),
+          ...(error instanceof PartialMutationError ? {
+            reversePartialMutationEvidence: error.evidence,
+            recoveryPhaseRef,
+            recoveryPhaseBatchFingerprint: batch.fingerprint,
+          } : {}),
+        }, localizeError);
+        throw localizeError;
+      }
     }
     const pair = await this.requirePair(run.pairId);
     const targetUrl = this.requireTarget(pair);
