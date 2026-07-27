@@ -60,6 +60,19 @@ describe('translation candidates', () => {
     ]);
   });
 
+  it('adapts legacy Japanese cache keys to canonical content sources', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = 'content/en/guides/tutorials/stable.md';
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/stable.md';
+    write(repositoryRoot, sourcePath, '# stable\n');
+    write(repositoryRoot, targetPath, '# 安定\n');
+    writeJson(repositoryRoot, '.translation-cache/ja-JP.json', {files: {
+      'docs/tutorials/stable.md': {sourceHash: sha256('# stable\n'), targetPath},
+    }});
+
+    expect(buildTranslationCandidates({repositoryRoot, targetId: 'ja-JP'}).candidates).toEqual([]);
+  });
+
   it('uses the committed Chinese manifest instead of a second locale cache', () => {
     const repositoryRoot = fixture();
     const current = 'content/en/reference/current.md';
@@ -145,6 +158,28 @@ describe('translation candidates', () => {
       sourcePath: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
       targetPath: 'generated/zh-CN/sidebars/tools.sidebar.js',
       reason: 'missing_target',
+    }));
+  });
+
+  it('requeues the Tools sidebar when a visible English label changes', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools';
+    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js';
+    write(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js', `module.exports = [{
+      type: 'category', label: 'Updated Tools', key: 'category:tutorials/tools', items: [],
+    }]\n`);
+    write(repositoryRoot, targetPath, 'module.exports = []\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: [{
+      sourcePath,
+      targetPath,
+      sourceHash: sha256(JSON.stringify({type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: []})),
+      kind: 'sidebar',
+    }]});
+
+    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'}).candidates).toContainEqual(expect.objectContaining({
+      sourcePath,
+      targetPath,
+      reason: 'stale_source',
     }));
   });
 

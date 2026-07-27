@@ -124,6 +124,114 @@ function testChineseTargetsUseCommittedManifestStateInsteadOfLocaleCache() {
   })
 }
 
+function testToolsSidebarLabelChangeBecomesCandidate() {
+  withTempDir(siteDir => {
+    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'
+    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js'
+    const previous = {type: 'category', label: 'Old Tools', key: 'category:tutorials/tools', items: []}
+    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), `module.exports = ${JSON.stringify([
+      {...previous, label: 'Tools'},
+    ])}\n`)
+    write(path.join(siteDir, targetPath), 'module.exports = []\n')
+    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [{sourcePath, targetPath, sourceHash: hashContent(JSON.stringify(previous)), kind: 'sidebar'}],
+    }))
+
+    const manifest = buildManifest({siteDir, target: 'zh-CN-tools'})
+    assert.deepEqual(manifest.items.map(item => [item.sourcePath, item.targetPath, item.reason, item.type]), [[
+      sourcePath,
+      targetPath,
+      'stale_source',
+      'sidebar',
+    ]])
+  })
+}
+
+function testToolsSidebarRemovalRequiresExactRetirementApproval() {
+  withTempDir(siteDir => {
+    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'
+    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js'
+    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), 'module.exports = []\n')
+    write(path.join(siteDir, targetPath), 'module.exports = []\n')
+    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [{sourcePath, targetPath, sourceHash: 'a'.repeat(64), kind: 'sidebar'}],
+    }))
+
+    assert.throws(() => buildManifest({siteDir, target: 'zh-CN-tools'}), /retirement.*approval|required/i)
+    write(path.join(siteDir, 'config/tools-retirements.json'), JSON.stringify({schemaVersion: 1, retirements: [{
+      sourcePath,
+      targetPath,
+      reason: 'sidebar_removed',
+    }]}))
+    const approved = buildManifest({siteDir, target: 'zh-CN-tools'})
+    assert.deepEqual(approved.source_delta.retirement_candidates, [{sourcePath, targetPath, reason: 'sidebar_removed'}])
+    assert.deepEqual(approved.source_delta.deleted_i18n, [])
+  })
+}
+
+function testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries() {
+  for (const fixture of [
+    {
+      target: 'zh-CN-tools',
+      registry: 'config/tools-retirements.json',
+      candidate: {
+        sourcePath: 'content/en/guides/tutorials/tools/old.md',
+        targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
+        reason: 'source_deleted',
+      },
+    },
+    {
+      target: 'zh-CN-reference',
+      registry: 'config/reference-retirements.json',
+      candidate: {
+        sourcePath: 'content/en/reference/old.md',
+        targetPath: 'content/zh-CN/reference/old.md',
+        reason: 'source_renamed',
+      },
+    },
+  ]) withTempDir(siteDir => {
+    const sourceDelta = {changedEnglish: [], deletedI18n: [], renamed: [], retirementCandidates: [fixture.candidate]}
+    assert.throws(() => buildManifest({siteDir, target: fixture.target, sourceDelta}), /retirement.*approval|required/i)
+    write(path.join(siteDir, fixture.registry), JSON.stringify({schemaVersion: 1, retirements: [{
+      ...fixture.candidate,
+      reason: 'wrong_reason',
+    }]}))
+    assert.throws(() => buildManifest({siteDir, target: fixture.target, sourceDelta}), /retirement.*approval|required/i)
+    write(path.join(siteDir, fixture.registry), JSON.stringify({schemaVersion: 1, retirements: [fixture.candidate]}))
+    const approved = buildManifest({siteDir, target: fixture.target, sourceDelta})
+    assert.deepEqual(approved.source_delta.retirement_candidates, [fixture.candidate])
+    assert.deepEqual(approved.source_delta.deleted_i18n, [])
+  })
+}
+
+function testLegacyJapaneseCacheKeysMapToCanonicalSources() {
+  withTempDir(siteDir => {
+    const source = '# Stable\n'
+    const sourcePath = 'content/en/guides/tutorials/stable.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/stable.md'
+    write(path.join(siteDir, sourcePath), source)
+    write(path.join(siteDir, targetPath), '# 安定\n')
+    write(path.join(siteDir, '.translation-cache/ja-JP.json'), JSON.stringify({files: {
+      'docs/tutorials/stable.md': {sourceHash: hashContent(source), targetPath},
+    }}))
+
+    assert.deepEqual(buildManifest({siteDir, target: 'ja-JP'}).items, [])
+  })
+}
+
+function testRepositoryLegacyJapaneseCacheDoesNotMassRetranslate() {
+  const repositoryRoot = path.resolve(__dirname, '../..')
+  const cache = JSON.parse(fs.readFileSync(path.join(repositoryRoot, '.translation-cache/ja-JP.json'), 'utf8'))
+  const legacyCount = Object.keys(cache.files).filter(file => /^(docs|docs-byoc|reference)\//.test(file)).length
+  const manifest = buildManifest({siteDir: repositoryRoot, target: 'ja-JP', includeReference: true})
+  const staleCount = manifest.items.filter(item => item.reason === 'stale_source').length
+
+  assert.ok(legacyCount > 1000, `expected the real cache fixture to exercise legacy keys, got ${legacyCount}`)
+  assert.ok(staleCount < legacyCount / 3, `legacy cache migration still classified too many entries as stale: ${staleCount}/${legacyCount}`)
+}
+
 function testCheckpointedCacheRemovesCompletedFilesFromNextManifest() {
   withTempDir(siteDir => {
     const completed = '# Complete\n'
@@ -328,6 +436,11 @@ function run() {
   testSourceMappingsCanIncludeReference()
   testExplicitTargetsUseUnifiedContentRoots()
   testChineseTargetsUseCommittedManifestStateInsteadOfLocaleCache()
+  testToolsSidebarLabelChangeBecomesCandidate()
+  testToolsSidebarRemovalRequiresExactRetirementApproval()
+  testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries()
+  testLegacyJapaneseCacheKeysMapToCanonicalSources()
+  testRepositoryLegacyJapaneseCacheDoesNotMassRetranslate()
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()
   testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint()
   testGroupValidationAndLegacyCompatibility()

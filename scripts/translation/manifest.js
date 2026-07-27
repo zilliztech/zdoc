@@ -12,6 +12,8 @@ const CANDIDATE_REASON_ORDER = Object.freeze({
   missing_target: 1,
   stale_source: 2,
 })
+const TOOLS_SIDEBAR_SOURCE = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'
+const TOOLS_SIDEBAR_TARGET = 'generated/zh-CN/sidebars/tools.sidebar.js'
 
 function candidateReason({ changedEnglish, sourcePath, targetExists }) {
   if (changedEnglish?.has(sourcePath)) return 'current_delta'
@@ -21,6 +23,29 @@ function candidateReason({ changedEnglish, sourcePath, targetExists }) {
 
 function hashContent(text) {
   return crypto.createHash('sha256').update(text, 'utf8').digest('hex')
+}
+
+function findSidebarNode(value, key) {
+  if (Array.isArray(value)) {
+    for (const child of value) {
+      const found = findSidebarNode(child, key)
+      if (found !== undefined) return found
+    }
+    return undefined
+  }
+  if (!value || typeof value !== 'object') return undefined
+  if (value.key === key) return value
+  return findSidebarNode(value.items, key)
+}
+
+function readToolsSidebarFragment(siteDir) {
+  const [relativePath, key] = TOOLS_SIDEBAR_SOURCE.split('#')
+  const absolutePath = path.join(siteDir, relativePath)
+  if (!fs.existsSync(absolutePath)) return undefined
+  const resolved = require.resolve(absolutePath)
+  delete require.cache[resolved]
+  const loaded = require(resolved)
+  return findSidebarNode(loaded?.default ?? loaded, key)
 }
 
 function walkMarkdown(root) {
@@ -52,13 +77,29 @@ function readCache(siteDir, locale) {
   }
 }
 
+function canonicalJapaneseSourcePath(sourcePath) {
+  if (sourcePath.startsWith('docs/tutorials/')) return `content/en/guides/tutorials/${sourcePath.slice('docs/tutorials/'.length)}`
+  if (sourcePath.startsWith('docs-byoc/tutorials/')) return `content/en/byoc/tutorials/${sourcePath.slice('docs-byoc/tutorials/'.length)}`
+  if (sourcePath.startsWith('reference/')) return `content/en/reference/${sourcePath.slice('reference/'.length)}`
+  return sourcePath
+}
+
+function canonicalizeJapaneseCache(cache) {
+  const files = {}
+  for (const [sourcePath, record] of Object.entries(cache.files || {})) {
+    const canonicalPath = canonicalJapaneseSourcePath(sourcePath)
+    if (!Object.hasOwn(files, canonicalPath) || canonicalPath === sourcePath) files[canonicalPath] = record
+  }
+  return {...cache, files}
+}
+
 function writeCache(siteDir, locale, cache) {
   const cachePath = cachePathForLocale(siteDir, locale)
   writeJsonAtomic(cachePath, cache)
 }
 
 function readTargetState(siteDir, target, locale) {
-  if (target === 'ja-JP') return readCache(siteDir, locale)
+  if (target === 'ja-JP') return canonicalizeJapaneseCache(readCache(siteDir, locale))
   const relativePath = target === 'zh-CN-reference'
     ? 'generated/zh-CN/manifests/reference-translations.json'
     : 'generated/zh-CN/manifests/tools-translations.json'
@@ -67,6 +108,31 @@ function readTargetState(siteDir, target, locale) {
   const parsed = JSON.parse(fs.readFileSync(absolutePath, 'utf8'))
   const records = Array.isArray(parsed.records) ? parsed.records : []
   return {files: Object.fromEntries(records.filter(record => record.status !== 'retired').map(record => [record.sourcePath, record]))}
+}
+
+function retirementRegistryPath(target) {
+  if (target === 'zh-CN-reference') return 'config/reference-retirements.json'
+  if (target === 'zh-CN-tools') return 'config/tools-retirements.json'
+  return null
+}
+
+function retirementKey(record) {
+  return `${record.sourcePath}\0${record.targetPath}\0${record.reason}`
+}
+
+function requireRetirementApprovals(siteDir, target, candidates) {
+  if (candidates.length === 0) return
+  const registryPath = retirementRegistryPath(target)
+  if (!registryPath) throw new Error(`Retirement candidates are not valid for translation target ${target}`)
+  const absolutePath = path.join(siteDir, registryPath)
+  const registry = fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : {retirements: []}
+  const approved = new Set((registry.retirements || []).map(retirementKey))
+  const unapproved = candidates.filter(candidate => !approved.has(retirementKey(candidate)))
+  if (unapproved.length > 0) {
+    const error = new Error(`Translation retirement approval required for ${unapproved.length} candidate(s)`)
+    error.retirementCandidates = unapproved
+    throw error
+  }
 }
 
 function writeJsonAtomic(filePath, value) {
@@ -129,6 +195,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
   const changedEnglish = sourceDelta ? new Set(sourceDelta.changedEnglish || []) : null
   const cache = readTargetState(siteDir, target, locale)
   const items = []
+  const retirementCandidates = [...(sourceDelta?.retirementCandidates || [])]
 
   const targetMappings = target === 'ja-JP'
     ? sourceMappingsForLocale(locale, { includeReference })
@@ -158,12 +225,45 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
     }
   }
 
+  if (target === 'zh-CN-tools') {
+    const fragment = readToolsSidebarFragment(siteDir)
+    if (fragment !== undefined) {
+      const sourceHash = hashContent(JSON.stringify(fragment))
+      const cached = cache.files[TOOLS_SIDEBAR_SOURCE]
+      const targetExists = fs.existsSync(path.join(siteDir, TOOLS_SIDEBAR_TARGET))
+      if (!targetExists || cached?.sourceHash !== sourceHash) {
+        items.push({
+          sourcePath: TOOLS_SIDEBAR_SOURCE,
+          targetPath: TOOLS_SIDEBAR_TARGET,
+          sourceHash,
+          locale,
+          type: 'sidebar',
+          reason: candidateReason({changedEnglish, sourcePath: TOOLS_SIDEBAR_SOURCE, targetExists}),
+        })
+      }
+    } else if (cache.files[TOOLS_SIDEBAR_SOURCE]?.status !== 'retired' && cache.files[TOOLS_SIDEBAR_SOURCE]) {
+      retirementCandidates.push({
+        sourcePath: TOOLS_SIDEBAR_SOURCE,
+        targetPath: cache.files[TOOLS_SIDEBAR_SOURCE].targetPath || TOOLS_SIDEBAR_TARGET,
+        reason: 'sidebar_removed',
+      })
+    }
+  }
+
+  const uniqueRetirements = [...new Map(retirementCandidates.map(candidate => [retirementKey(candidate), candidate])).values()]
+    .sort((left, right) => left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath))
+  requireRetirementApprovals(siteDir, target, uniqueRetirements)
+
   items.sort((a, b) => (
     CANDIDATE_REASON_ORDER[a.reason] - CANDIDATE_REASON_ORDER[b.reason] ||
     a.sourcePath.localeCompare(b.sourcePath)
   ))
   const selectedItems = maxFiles > 0 ? items.slice(0, maxFiles) : items
-  return createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items: selectedItems })
+  const effectiveSourceDelta = sourceDelta || uniqueRetirements.length > 0 ? {...(sourceDelta || {})} : null
+  if (effectiveSourceDelta && (uniqueRetirements.length > 0 || (target !== 'ja-JP' && Object.hasOwn(sourceDelta || {}, 'retirementCandidates')))) {
+    effectiveSourceDelta.retirementCandidates = uniqueRetirements
+  }
+  return createManifest({ locale, group, sourceCheckpointSha, sourceDelta: effectiveSourceDelta, items: selectedItems })
 }
 
 function createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items }) {
@@ -173,6 +273,7 @@ function createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items
       deleted_i18n: [...(sourceDelta.deletedI18n || [])],
       renamed: [...(sourceDelta.renamed || [])],
     }
+    if (sourceDelta.retirementCandidates) manifest.source_delta.retirement_candidates = [...sourceDelta.retirementCandidates]
   }
   return manifest
 }

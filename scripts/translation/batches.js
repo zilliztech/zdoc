@@ -50,7 +50,9 @@ function createBatchSummary(manifest, batchSize) {
   assertBatchSize(batchSize)
   const pendingCount = manifest.items.length
   const hasReconciliationMutation = Boolean(
-    manifest.source_delta?.deleted_i18n?.length || manifest.source_delta?.renamed?.length,
+    manifest.source_delta?.deleted_i18n?.length
+    || manifest.source_delta?.renamed?.length
+    || manifest.source_delta?.retirement_candidates?.length,
   )
   const batchCount = pendingCount > 0 ? Math.ceil(pendingCount / batchSize) : hasReconciliationMutation ? 1 : 0
   return {

@@ -54,6 +54,25 @@ test('Chinese source deletions emit retirement candidates and never authorize ta
   }])
 })
 
+test('Chinese source renames emit retirement candidates without deletion authority', () => {
+  const result = classifySourceDelta({
+    target: 'zh-CN-reference',
+    changes: [{
+      status: 'R100',
+      oldPath: 'content/en/reference/old.md',
+      newPath: 'content/en/reference/new.md',
+    }],
+  })
+  assert.deepEqual(result.deletedI18n, [])
+  assert.deepEqual(result.renamed, [])
+  assert.deepEqual(result.changedEnglish, ['content/en/reference/new.md'])
+  assert.deepEqual(result.retirementCandidates, [{
+    sourcePath: 'content/en/reference/old.md',
+    targetPath: 'content/zh-CN/reference/old.md',
+    reason: 'source_renamed',
+  }])
+})
+
 test('parses added, modified, deleted, and renamed git name-status lines', () => {
   assert.deepEqual(parseGitNameStatus([
     'A\tcontent/en/guides/tutorials/new.md',

@@ -85,7 +85,7 @@ function classifySourceDelta({ group, target = 'ja-JP', changes }) {
       if (oldI18nPath && target === 'ja-JP') deletedI18n.add(oldI18nPath)
       if (oldI18nPath && target !== 'ja-JP') retirementCandidates.push({sourcePath: oldPath, targetPath: oldI18nPath, reason: 'source_renamed'})
       if (newI18nPath) changedEnglish.add(newPath)
-      if (oldI18nPath && newI18nPath) {
+      if (target === 'ja-JP' && oldI18nPath && newI18nPath) {
         renamed.push({ oldPath, newPath, oldI18nPath, newI18nPath })
       }
       continue

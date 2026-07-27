@@ -34,6 +34,13 @@ export class TranslationRetirementRequiredError extends Error {
 
 type PreviousRecord = Readonly<{sourcePath: string; targetPath?: string; sourceHash?: string; status?: string}>;
 
+function canonicalJapaneseSourcePath(sourcePath: string): string {
+  if (sourcePath.startsWith('docs/tutorials/')) return `content/en/guides/tutorials/${sourcePath.slice('docs/tutorials/'.length)}`;
+  if (sourcePath.startsWith('docs-byoc/tutorials/')) return `content/en/byoc/tutorials/${sourcePath.slice('docs-byoc/tutorials/'.length)}`;
+  if (sourcePath.startsWith('reference/')) return `content/en/reference/${sourcePath.slice('reference/'.length)}`;
+  return sourcePath;
+}
+
 function compareText(left: string, right: string): number {
   return left < right ? -1 : left > right ? 1 : 0;
 }
@@ -89,7 +96,12 @@ function previousRecords(target: TranslationTarget, value: unknown): PreviousRec
   let records: PreviousRecord[];
   if (target.state.kind === 'cache') {
     const files = (value as {files?: Record<string, {sourceHash?: string; targetPath?: string}>}).files ?? {};
-    records = Object.entries(files).map(([sourcePath, record]) => ({sourcePath, ...record}));
+    const canonical = new Map<string, PreviousRecord>();
+    for (const [sourcePath, record] of Object.entries(files)) {
+      const canonicalPath = canonicalJapaneseSourcePath(sourcePath);
+      if (!canonical.has(canonicalPath) || canonicalPath === sourcePath) canonical.set(canonicalPath, {sourcePath: canonicalPath, ...record});
+    }
+    records = [...canonical.values()];
   } else {
     records = Array.isArray((value as {records?: unknown[]}).records)
       ? (value as {records: PreviousRecord[]}).records

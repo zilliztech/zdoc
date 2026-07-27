@@ -99,6 +99,26 @@ test('creates one reconciliation-only batch for a deletion-only source delta', (
   assert.equal(selected.batch.pendingCount, 0)
 })
 
+test('creates one reconciliation-only batch for approved Chinese retirements', () => {
+  const source = {
+    ...manifest(0),
+    locale: 'zh-CN',
+    source_delta: {
+      deleted_i18n: [],
+      renamed: [],
+      retirement_candidates: [{
+        sourcePath: 'content/en/guides/tutorials/tools/old.md',
+        targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
+        reason: 'source_deleted',
+      }],
+    },
+  }
+  const summary = createBatchSummary(source, 30)
+  assert.equal(summary.pendingCount, 0)
+  assert.equal(summary.batchCount, 1)
+  assert.deepEqual(summary.matrix, { include: [{ batchIndex: 0, batchNumber: 1 }] })
+})
+
 test('includes source reconciliation metadata in the pending set identity', () => {
   const one = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/one.md'], renamed: [] } }
   const two = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/two.md'], renamed: [] } }
