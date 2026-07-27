@@ -205,11 +205,13 @@
         "@mdx-js/react"
       ],
       "replacementEntryPoints": [
-        "packages/docs-ui/embedded-markdown"
+        "apps/docs/plugins/embed-markdown/index.js",
+        "apps/docs/src/config/createDocusaurusConfig.test.ts",
+        "packages/docs-ui/src/docusaurus.test.ts"
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: pnpm test --filter embedded-markdown; this inventory does not claim it has passed."
+        "Contract gate: pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts packages/docs-ui/src/docusaurus.test.ts."
       ]
     },
     {
@@ -226,11 +228,12 @@
         "plugins/llms-txt"
       ],
       "replacementEntryPoints": [
-        "packages/docs-tooling/llms-txt"
+        "apps/docs/plugins/llms-txt/index.js",
+        "apps/docs/src/config/createDocusaurusConfig.test.ts"
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: node scripts/migration/verify-llms-txt.mjs; this inventory does not claim it has passed."
+        "Contract gate: pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts."
       ]
     },
     {
@@ -270,11 +273,12 @@
         "src/theme"
       ],
       "replacementEntryPoints": [
-        "packages/site-config/structured-data"
+        "apps/docs/plugins/structured-data/index.js",
+        "apps/docs/src/config/createDocusaurusConfig.test.ts"
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Required future gate: node scripts/migration/verify-structured-data.mjs; this inventory does not claim it has passed."
+        "Contract gate: pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts."
       ]
     },
     {

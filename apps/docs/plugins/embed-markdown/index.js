@@ -1,6 +1,26 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+function resolveSourceFolder(siteDir, folder) {
+  return path.isAbsolute(folder) ? folder : path.resolve(siteDir, folder);
+}
+
+function validateSources(sources) {
+  const ids = new Set();
+  for (const source of sources) {
+    for (const field of ['id', 'folder', 'route']) {
+      if (typeof source[field] !== 'string' || source[field].length === 0) {
+        throw new Error(`[embed-markdown] Source ${field} must be a non-empty string`);
+      }
+    }
+    if (ids.has(source.id)) {
+      throw new Error(`[embed-markdown] Duplicate source id: ${source.id}`);
+    }
+    ids.add(source.id);
+  }
+  return sources;
+}
+
 // Helper function to extract slug from markdown frontmatter
 function getSlugFromMarkdown(filePath) {
   try {
@@ -24,74 +44,22 @@ module.exports = function (context, options) {
   const {
     cursorMcpCommand = 'npx @zilliz/claude-context-mcp@latest',
     enableSourceView = true,
-    sources: customSources,
+    sources: customSources = [],
   } = options || {};
 
-  // Default sources if not provided
-  const defaultSources = [
-    { folder: 'docs', route: '/docs' },
-    { folder: 'reference', route: '/reference' },
-  ];
-
-  const sources = customSources || defaultSources;
-
-  // Helper function to scan a directory and build path map
-  function scanDirectory(siteDir, folderPath) {
-    const fullPath = path.join(siteDir, folderPath);
-    const pathMap = {};
-
-    if (!fs.existsSync(fullPath)) {
-      return pathMap;
-    }
-
-    const readFiles = (dir, relativePath = '') => {
-      const entries = fs.readdirSync(dir, { withFileTypes: true });
-
-      for (const entry of entries) {
-        const entryFullPath = path.join(dir, entry.name);
-        const entryRelPath = path.join(relativePath, entry.name);
-
-        if (entry.isDirectory()) {
-          readFiles(entryFullPath, entryRelPath);
-        } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))) {
-          const key = path.join(folderPath, entryRelPath);
-          pathMap[key] = entryFullPath;
-        }
-      }
-    };
-
-    readFiles(fullPath);
-    return pathMap;
-  }
+  const sources = validateSources(customSources);
 
   return {
     name: 'embed-markdown',
 
     async contentLoaded({ actions }) {
       const { setGlobalData } = actions;
-      const { siteDir = process.cwd() } = context;
 
-      const markdownPathMap = {};
-
-      // Build the path map for each source
-      for (const source of sources) {
-        const { folder } = source;
-        const folderPathMap = scanDirectory(siteDir, folder);
-
-        // Merge into the main path map
-        Object.assign(markdownPathMap, folderPathMap);
-
-        if (Object.keys(folderPathMap).length === 0) {
-          console.warn(`[embed-markdown] Source directory not found or empty: ${folder}`);
-        }
-      }
-
-      // Set global data with the path map and sources for CopyPage component
+      // Keep repository paths on the server; clients need only stable source IDs and routes.
       setGlobalData({
-        markdownPathMap,
         cursorMcpCommand,
         enableSourceView,
-        sources,
+        sources: sources.map(({ id, route }) => ({ id, route })),
       });
     },
 
@@ -107,7 +75,7 @@ module.exports = function (context, options) {
               // Build path map for dev server
               for (const source of sources) {
                 const { folder, route } = source;
-                const srcPath = path.join(siteDir, folder);
+                const srcPath = resolveSourceFolder(siteDir, folder);
 
                 if (!fs.existsSync(srcPath)) {
                   continue;
@@ -132,7 +100,7 @@ module.exports = function (context, options) {
                       } else {
                         // Fall back to file-based path
                         const relativeToFile = path.relative(srcPath, fullPath);
-                        const urlPath = relativeToFile.replace(/\.md$/, '');
+                        const urlPath = relativeToFile.replace(/\.mdx?$/, '');
                         fullUrlPath = `${route}/${urlPath}.md`;
                       }
 
@@ -188,7 +156,7 @@ module.exports = function (context, options) {
 
       for (const source of sources) {
         const { folder, route } = source;
-        const srcPath = path.join(siteDir, folder);
+        const srcPath = resolveSourceFolder(siteDir, folder);
 
         if (!fs.existsSync(srcPath)) {
           continue;
@@ -211,12 +179,12 @@ module.exports = function (context, options) {
                 slugToFileMap[slug] = fullPath;
 
                 // Also map with route prefix for lookup
-                const routeSlug = `${route}${slug}`.replace(/\/+/g, '/');
+                const routeSlug = `${route}/${slug.replace(/^\//, '')}`.replace(/\/+/g, '/');
                 slugToFileMap[routeSlug] = fullPath;
               } else {
                 // Fall back to file-based path
                 const relativeToFile = path.relative(srcPath, fullPath);
-                const urlPath = relativeToFile.replace(/\.md$/, '');
+                const urlPath = relativeToFile.replace(/\.mdx?$/, '');
                 const fullUrlPath = `${route}/${urlPath}`.replace(/\/+/g, '/');
 
                 slugToFileMap[fullUrlPath] = fullPath;
@@ -228,22 +196,28 @@ module.exports = function (context, options) {
       }
 
       // Build a reverse map from filesystem paths to URL paths
-      const sourceToUrlMap = {};
+      const sourceToUrlMap = [];
+      const defaultLocale = siteConfig.i18n?.defaultLocale;
+      const localizedLocales = (siteConfig.i18n?.locales || [])
+        .filter(locale => locale !== defaultLocale);
 
       for (const routePath of routesPaths) {
         // Remove trailing slash
-        let cleanPath = routePath.replace(/\/$/, '');
+        const cleanPath = routePath.replace(/\/$/, '');
+        const sourceRoutePath = localizedLocales.reduce((candidate, locale) => (
+          candidate.startsWith(`/${locale}/`) ? candidate.slice(locale.length + 1) : candidate
+        ), cleanPath);
 
         // Try to find the file using the slug map
-        let fullPath = slugToFileMap[cleanPath];
+        const fullPath = slugToFileMap[sourceRoutePath];
 
         if (fullPath) {
-          sourceToUrlMap[fullPath] = cleanPath + '.md';
+          sourceToUrlMap.push([fullPath, cleanPath + '.md']);
         }
       }
 
       // Copy files using the URL map
-      for (const [sourcePath, urlPath] of Object.entries(sourceToUrlMap)) {
+      for (const [sourcePath, urlPath] of sourceToUrlMap) {
         if (!fs.existsSync(sourcePath)) {
           continue;
         }

@@ -114,6 +114,19 @@ describe('docs UI Docusaurus integration', () => {
     );
   });
 
+  it('consumes sanitized embed-markdown plugin data in both copy-page implementations', () => {
+    const sharedRoot = path.join(process.cwd(), 'packages/docs-ui/src/shared');
+    for (const relativePath of [
+      'components/CopyPage/index.js',
+      'theme/Heading/CopyPageButton.tsx',
+    ]) {
+      const source = fs.readFileSync(path.join(sharedRoot, relativePath), 'utf8');
+      expect(source).toContain("usePluginData('embed-markdown')");
+      expect(source).toContain('pluginData?.sources');
+      expect(source).toContain('pluginData?.enableSourceView');
+    }
+  });
+
   it('keeps English standalone page routes thin and sources the home module from docs-ui', () => {
     const homeEntry = path.join(process.cwd(), 'apps/docs/src/pages/index.tsx');
     const markdownEntry = path.join(process.cwd(), 'apps/docs/src/pages/markdown-page.md');

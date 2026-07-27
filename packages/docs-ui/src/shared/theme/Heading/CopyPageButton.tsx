@@ -92,8 +92,14 @@ const MENU_ITEMS: MenuItem[] = [
 // ── Component ────────────────────────────────────────────────────────────────
 
 export default function CopyPageButton(): React.ReactElement {
-  const pluginData = usePluginData('embed-markdown') as { cursorMcpCommand?: string } | undefined;
+  const pluginData = usePluginData('embed-markdown') as {
+    cursorMcpCommand?: string;
+    enableSourceView?: boolean;
+    sources?: Array<{id: string; route: string}>;
+  } | undefined;
   const cursorMcpCommand = pluginData?.cursorMcpCommand ?? 'npx @zilliz/claude-context-mcp@latest';
+  const enableSourceView = pluginData?.enableSourceView !== false && (pluginData?.sources?.length ?? 0) > 0;
+  const menuItems = MENU_ITEMS.filter(item => enableSourceView || item.id !== 'viewSource');
 
   const { pathname } = useLocation();
   const { siteConfig } = useDocusaurusContext();
@@ -204,9 +210,9 @@ export default function CopyPageButton(): React.ReactElement {
 
   const handleItemKeyDown = (e: React.KeyboardEvent, idx: number) => {
     switch (e.key) {
-      case 'ArrowDown': e.preventDefault(); setFocusedIndex(Math.min(idx + 1, MENU_ITEMS.length - 1)); break;
+      case 'ArrowDown': e.preventDefault(); setFocusedIndex(Math.min(idx + 1, menuItems.length - 1)); break;
       case 'ArrowUp':   e.preventDefault(); idx === 0 ? (setFocusedIndex(-1), containerRef.current?.querySelector('button')?.focus()) : setFocusedIndex(idx - 1); break;
-      case 'Enter': case ' ': e.preventDefault(); execute(MENU_ITEMS[idx].id); break;
+      case 'Enter': case ' ': e.preventDefault(); execute(menuItems[idx].id); break;
       case 'Escape':    e.preventDefault(); setIsOpen(false); setFocusedIndex(-1); containerRef.current?.querySelector('button')?.focus(); break;
       case 'Tab':       setIsOpen(false); setFocusedIndex(-1); break;
     }
@@ -253,7 +259,7 @@ export default function CopyPageButton(): React.ReactElement {
 
       {isOpen && !isLoading && (
         <div className={styles.menu} role="menu" aria-label="Copy page options">
-          {MENU_ITEMS.map((item, idx) => (
+          {menuItems.map((item, idx) => (
             <div
               key={item.id}
               className={styles.menuItem}

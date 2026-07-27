@@ -1,10 +1,13 @@
-import {mkdtempSync, readFileSync} from 'node:fs';
+import {existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
 import os from 'node:os';
 import path from 'node:path';
 import {describe, expect, it, vi} from 'vitest';
 import type {SiteProfile} from '@zilliz/site-config';
 import {createDocusaurusConfig} from './createDocusaurusConfig';
 import {resolveMarkdownPolicy} from './markdownPolicy';
+
+const require = createRequire(import.meta.url);
 
 function profile(overrides: Partial<SiteProfile> = {}): SiteProfile {
   const defaults: SiteProfile = {
@@ -84,7 +87,191 @@ function docsPlugins(config: ReturnType<typeof createDocusaurusConfig>) {
   );
 }
 
+function applicationPlugin(
+  config: ReturnType<typeof createDocusaurusConfig>,
+  name: 'embed-markdown' | 'llms-txt' | 'structured-data',
+): [string, {sources: Array<Record<string, string>>}] | undefined {
+  return (config.plugins ?? []).find((plugin): plugin is [string, {sources: Array<Record<string, string>>}] => (
+    Array.isArray(plugin) && String(plugin[0]).replaceAll('\\', '/').endsWith(`/plugins/${name}`)
+  ));
+}
+
+function writeDoc(sourceDir: string, fileName: string, title: string, slug: string): void {
+  mkdirSync(sourceDir, {recursive: true});
+  writeFileSync(path.join(sourceDir, fileName), [
+    '---',
+    `title: ${title}`,
+    `slug: ${slug}`,
+    '---',
+    '',
+    `${title} fixture body.`,
+    '',
+  ].join('\n'));
+}
+
+function outputFiles(root: string): string[] {
+  const files: string[] = [];
+  const collect = (directory: string): void => {
+    for (const entry of readdirSync(directory, {withFileTypes: true})) {
+      const target = path.join(directory, entry.name);
+      if (entry.isDirectory()) collect(target);
+      else files.push(target);
+    }
+  };
+  collect(root);
+  return files.sort();
+}
+
 describe('createDocusaurusConfig', () => {
+  it('registers English build plugins with exact profile-derived source descriptors and no Japanese source tree', () => {
+    const english = profile({
+      content: [
+        {
+          id: 'default',
+          sourcePath: 'content/fixtures/cloud',
+          routeBasePath: '/guides',
+          sidebarPath: 'config/sidebars/fixtures/cloud.ts',
+        },
+        {
+          id: 'reference',
+          sourcePath: 'content/fixtures/sdk',
+          routeBasePath: 'api/sdk',
+          sidebarPath: 'config/sidebars/fixtures/sdk.ts',
+        },
+      ],
+    });
+    const config = createDocusaurusConfig(english);
+    const sources = [
+      {
+        id: 'default',
+        folder: path.resolve(process.cwd(), 'content/fixtures/cloud'),
+        route: '/guides',
+        outputFile: 'cloud-guides',
+        label: 'Cloud Guides',
+      },
+      {
+        id: 'reference',
+        folder: path.resolve(process.cwd(), 'content/fixtures/sdk'),
+        route: '/api/sdk',
+        outputFile: 'reference',
+        label: 'reference',
+      },
+    ];
+
+    for (const name of ['embed-markdown', 'llms-txt', 'structured-data'] as const) {
+      const plugin = applicationPlugin(config, name);
+      expect(plugin?.[0]).toBe(path.resolve(process.cwd(), `apps/docs/plugins/${name}`));
+      expect(plugin?.[1].sources).toEqual(sources);
+      expect(JSON.stringify(plugin?.[1].sources)).not.toContain('i18n/ja-JP');
+      expect(require(plugin![0])({}, plugin![1]).name).toBe(name);
+    }
+    expect(config.i18n?.locales).toEqual(['en', 'ja-JP']);
+    expect(docsPlugins(config)).toHaveLength(english.content.length);
+  });
+
+  it('keeps build plugins English-only to preserve the documented Chinese product difference', () => {
+    const chinese = createDocusaurusConfig(profile({
+      id: 'zh-CN',
+      language: 'zh-Hans',
+      outputDir: 'build/zh-CN',
+    }));
+
+    expect(applicationPlugin(chinese, 'embed-markdown')).toBeUndefined();
+    expect(applicationPlugin(chinese, 'llms-txt')).toBeUndefined();
+    expect(applicationPlugin(chinese, 'structured-data')).toBeUndefined();
+  });
+
+  it('writes deterministic LLMS artifacts from absolute profile source folders', async () => {
+    const fixture = mkdtempSync(path.join(os.tmpdir(), 'docs-llms-plugin-'));
+    const cloud = path.join(fixture, 'profile-content', 'cloud-source');
+    const sdk = path.join(fixture, 'profile-content', 'sdk-source');
+    writeDoc(cloud, 'start.md', 'Cloud Start', 'start');
+    writeDoc(sdk, 'client.md', 'SDK Client', 'client');
+    const sources = [
+      {id: 'default', folder: cloud, route: '/guides', outputFile: 'cloud-guides', label: 'Cloud Guides'},
+      {id: 'sdk', folder: sdk, route: '/api/sdk', outputFile: 'sdk', label: 'sdk'},
+    ];
+    const outDir = path.join(fixture, 'build', 'en');
+    const llmsPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/llms-txt'));
+
+    await llmsPlugin({}, {sources}).postBuild({
+      siteDir: path.join(fixture, 'legacy-site-root'),
+      outDir,
+      siteConfig: {url: 'https://docs.example.com', title: 'Docs', tagline: 'Documentation', customFields: {}},
+    });
+
+    expect(existsSync(path.join(outDir, 'llms.txt'))).toBe(true);
+    expect(existsSync(path.join(outDir, 'llms', 'cloud-guides.txt'))).toBe(true);
+    expect(existsSync(path.join(outDir, 'llms', 'sdk.txt'))).toBe(true);
+    expect(readFileSync(path.join(outDir, 'llms.txt'), 'utf8')).toContain(
+      '- [Cloud Guides](https://docs.example.com/llms/cloud-guides.txt)',
+    );
+    expect(readFileSync(path.join(outDir, 'llms', 'cloud-guides.txt'), 'utf8')).toContain(
+      'https://docs.example.com/guides/start.md',
+    );
+    const generated = outputFiles(outDir).map(file => readFileSync(file, 'utf8')).join('\n');
+    expect(generated).not.toContain(cloud);
+    expect(generated).not.toContain(sdk);
+    expect(generated).not.toContain('docs-byoc');
+  });
+
+  it('injects structured data into representative English and Japanese Docusaurus pages', async () => {
+    const fixture = mkdtempSync(path.join(os.tmpdir(), 'docs-structured-plugin-'));
+    const source = path.join(fixture, 'profile-content', 'cloud-source');
+    writeDoc(source, 'start.md', 'Cloud Start', 'start');
+    const outDir = path.join(fixture, 'build', 'en');
+    for (const localePrefix of ['', 'ja-JP']) {
+      const htmlDir = path.join(outDir, localePrefix, 'guides');
+      mkdirSync(htmlDir, {recursive: true});
+      writeFileSync(path.join(htmlDir, 'start.html'), '<html><head></head><body>Fixture</body></html>');
+    }
+    const structuredDataPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/structured-data'));
+
+    await structuredDataPlugin({}, {
+      sources: [
+        {id: 'default', folder: source, route: '/guides', outputFile: 'cloud-guides', label: 'Cloud Guides'},
+      ],
+    }).postBuild({
+      siteDir: path.join(fixture, 'legacy-site-root'),
+      outDir,
+      siteConfig: {
+        url: 'https://docs.example.com',
+        i18n: {defaultLocale: 'en', locales: ['en', 'ja-JP']},
+      },
+    });
+
+    const english = readFileSync(path.join(outDir, 'guides', 'start.html'), 'utf8');
+    const japanese = readFileSync(path.join(outDir, 'ja-JP', 'guides', 'start.html'), 'utf8');
+    expect(english).toContain('<script type="application/ld+json">');
+    expect(english).toContain('"url":"https://docs.example.com/guides/start"');
+    expect(japanese).toContain('<script type="application/ld+json">');
+    expect(japanese).toContain('"url":"https://docs.example.com/ja-JP/guides/start"');
+    expect(`${english}\n${japanese}`).not.toContain(source);
+  });
+
+  it('publishes sanitized embed-markdown data for docs UI consumers', async () => {
+    const fixture = mkdtempSync(path.join(os.tmpdir(), 'docs-embed-plugin-'));
+    const source = path.join(fixture, 'profile-content', 'cloud-source');
+    writeDoc(source, 'start.md', 'Cloud Start', 'start');
+    const sources = [
+      {id: 'default', folder: source, route: '/guides', outputFile: 'cloud-guides', label: 'Cloud Guides'},
+    ];
+    const embedMarkdownPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/embed-markdown'));
+    let pluginData: unknown;
+
+    await embedMarkdownPlugin({siteDir: path.join(fixture, 'legacy-site-root')}, {
+      sources,
+      enableSourceView: true,
+    }).contentLoaded({actions: {setGlobalData(data: unknown) { pluginData = data; }}});
+
+    expect(pluginData).toEqual(expect.objectContaining({
+      enableSourceView: true,
+      sources: [{id: 'default', route: '/guides'}],
+    }));
+    expect(JSON.stringify(pluginData)).not.toContain(source);
+    expect(JSON.stringify(pluginData)).not.toContain('legacy-site-root');
+  });
+
   it('registers only the English profile content and its configured locales', () => {
     const config = createDocusaurusConfig(profile());
 

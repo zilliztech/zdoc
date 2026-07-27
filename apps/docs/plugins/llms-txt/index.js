@@ -4,6 +4,26 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
+function resolveSourceFolder(siteDir, folder) {
+  return path.isAbsolute(folder) ? folder : path.resolve(siteDir, folder);
+}
+
+function validateSources(sources) {
+  const ids = new Set();
+  for (const source of sources) {
+    for (const field of ['id', 'folder', 'route', 'outputFile', 'label']) {
+      if (typeof source[field] !== 'string' || source[field].length === 0) {
+        throw new Error(`[llms-txt] Source ${field} must be a non-empty string`);
+      }
+    }
+    if (ids.has(source.id)) {
+      throw new Error(`[llms-txt] Duplicate source id: ${source.id}`);
+    }
+    ids.add(source.id);
+  }
+  return sources;
+}
+
 /**
  * Parse YAML frontmatter from a content string.
  * @param {string} content
@@ -340,10 +360,11 @@ function renderRoot(sources, outDirUrl, header, summary, mcpEndpoint) {
  */
 module.exports = function pluginLlmsTxt(context, options) {
   const {
-    sources = /** @type {{ folder: string, route: string, outputFile?: string, label?: string, sectionPrefix?: string, optional?: boolean }[]} */ ([]),
+    sources: configuredSources = /** @type {{ id: string, folder: string, route: string, outputFile: string, label: string, optional?: boolean }[]} */ ([]),
     outputDir = 'llms',
     outputPaths = /** @type {string[]} */ (['llms.txt']),
   } = options || {};
+  const sources = validateSources(configuredSources);
 
   return {
     name: 'llms-txt',
@@ -355,24 +376,18 @@ module.exports = function pluginLlmsTxt(context, options) {
       const outDirUrl = `${siteUrl}/${outputDir}`;
       const mcpEndpoint = siteConfig.customFields?.mcpEndpoint || '';
 
-      const normalized = sources.map((s) => ({
-        ...s,
-        outputFile: s.outputFile || path.basename(s.folder),
-        label: s.label || s.sectionPrefix || path.basename(s.folder),
-      }));
-
       let totalPages = 0;
-      for (const { folder, route, outputFile } of normalized) {
-        const sourceDir = path.join(siteDir, folder);
+      for (const { id, folder, route, outputFile } of sources) {
+        const sourceDir = resolveSourceFolder(siteDir, folder);
         const { content, count } = buildSectionSummary(sourceDir, route, siteUrl);
         const dest = path.join(outDir, outputDir, `${outputFile}.txt`);
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.writeFileSync(dest, content, 'utf-8');
         totalPages += count;
-        console.log(`[llms-txt] ${dest} — ${count} pages (summary)`);
+        console.log(`[llms-txt] ${id}: ${dest} — ${count} pages (summary)`);
       }
 
-      const rootContent = renderRoot(normalized, outDirUrl, header, summary, mcpEndpoint);
+      const rootContent = renderRoot(sources, outDirUrl, header, summary, mcpEndpoint);
       for (const rel of outputPaths) {
         const dest = path.join(outDir, rel);
         fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -382,7 +397,7 @@ module.exports = function pluginLlmsTxt(context, options) {
       const writtenPaths = outputPaths.map((rel) => path.join(outDir, rel));
       console.log(
         `[llms-txt] Root index: ${writtenPaths.join(', ')} — ` +
-        `${normalized.length} sections, ${totalPages} total pages.`
+        `${sources.length} sections, ${totalPages} total pages.`
       );
     },
   };

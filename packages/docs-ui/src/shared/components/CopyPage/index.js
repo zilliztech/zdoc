@@ -6,6 +6,8 @@ import styles from './styles.module.css';
 const CopyPage = () => {
   const pluginData = usePluginData('embed-markdown');
   const cursorMcpCommand = pluginData?.cursorMcpCommand || 'npx @zilliz/claude-context-mcp@latest';
+  const markdownSources = pluginData?.sources || [];
+  const enableSourceView = pluginData?.enableSourceView !== false && markdownSources.length > 0;
 
   const [isOpen, setIsOpen] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
@@ -148,6 +150,10 @@ const CopyPage = () => {
   };
 
   const viewRawMarkdown = () => {
+    if (!enableSourceView) {
+      showError('Source view is unavailable for this page.');
+      return;
+    }
     const currentPath = window.location.pathname;
     const markdownUrl = `${currentPath}.md`;
     window.open(markdownUrl, '_blank');

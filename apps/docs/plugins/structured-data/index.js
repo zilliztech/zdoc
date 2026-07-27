@@ -4,6 +4,26 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
+function resolveSourceFolder(siteDir, folder) {
+  return path.isAbsolute(folder) ? folder : path.resolve(siteDir, folder);
+}
+
+function validateSources(sources) {
+  const ids = new Set();
+  for (const source of sources) {
+    for (const field of ['id', 'folder', 'route']) {
+      if (typeof source[field] !== 'string' || source[field].length === 0) {
+        throw new Error(`[structured-data] Source ${field} must be a non-empty string`);
+      }
+    }
+    if (ids.has(source.id)) {
+      throw new Error(`[structured-data] Duplicate source id: ${source.id}`);
+    }
+    ids.add(source.id);
+  }
+  return sources;
+}
+
 /**
  * Parse YAML frontmatter from a markdown file.
  * @param {string} filePath
@@ -111,18 +131,22 @@ function walkMdFiles(dir) {
  * Docusaurus plugin: injects Schema.org JSON-LD structured data into doc pages.
  */
 module.exports = function pluginStructuredData(context, options) {
-  const { sources = [] } = options || {};
+  const { sources: configuredSources = [] } = options || {};
+  const sources = validateSources(configuredSources);
 
   return {
     name: 'structured-data',
 
     async postBuild({ siteDir, outDir, siteConfig }) {
       const siteUrl = siteConfig.url;
+      const defaultLocale = siteConfig.i18n?.defaultLocale;
+      const configuredLocales = siteConfig.i18n?.locales || [];
+      const locales = configuredLocales.length > 0 ? configuredLocales : [defaultLocale].filter(Boolean);
+      const outputLocales = locales.length > 0 ? locales : [undefined];
       let injected = 0;
 
       for (const { folder, route } of sources) {
-        const sourceDir = path.join(siteDir, folder);
-        const htmlDir = path.join(outDir, route.replace(/^\//, ''));
+        const sourceDir = resolveSourceFolder(siteDir, folder);
 
         const mdFiles = walkMdFiles(sourceDir);
 
@@ -134,13 +158,9 @@ module.exports = function pluginStructuredData(context, options) {
           const rel = path.relative(sourceDir, mdPath)
             .replace(/\.mdx?$/, '')
             .replace(/\\/g, '/');
-          const slug = fm.slug || rel;
-          const htmlPath = path.join(htmlDir, slug, 'index.html');
-
-          if (!fs.existsSync(htmlPath)) continue;
+          const slug = String(fm.slug || rel).replace(/^\//, '');
 
           const rawContent = fs.readFileSync(mdPath, 'utf-8');
-          const pageUrl = `${siteUrl}${route}/${slug}`.replace(/([^:])\/\/+/g, '$1/');
           const genre = getGenre(route);
 
           // Get file modification time as dateModified fallback
@@ -164,18 +184,29 @@ module.exports = function pluginStructuredData(context, options) {
             ? [].concat(fm.prerequisites).map(String)
             : undefined;
 
-          const jsonLd = buildJsonLd({
-            title, url: pageUrl, genre, dateModified, proficiencyLevel,
-            languages: languages.length ? languages : undefined,
-            prerequisites,
-          });
+          for (const locale of outputLocales) {
+            const localePrefix = locale && locale !== defaultLocale ? locale : '';
+            const htmlDir = path.join(outDir, localePrefix, route.replace(/^\//, ''));
+            const htmlPath = [
+              path.join(htmlDir, `${slug}.html`),
+              path.join(htmlDir, slug, 'index.html'),
+            ].find(candidate => fs.existsSync(candidate));
+            if (!htmlPath) continue;
 
-          // Inject JSON-LD script tag before </head>
-          let html = fs.readFileSync(htmlPath, 'utf-8');
-          const scriptTag = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
-          html = html.replace('</head>', `${scriptTag}\n</head>`);
-          fs.writeFileSync(htmlPath, html, 'utf-8');
-          injected++;
+            const pageUrl = `${siteUrl}/${localePrefix}${route}/${slug}`.replace(/([^:])\/+/g, '$1/');
+            const jsonLd = buildJsonLd({
+              title, url: pageUrl, genre, dateModified, proficiencyLevel,
+              languages: languages.length ? languages : undefined,
+              prerequisites,
+            });
+
+            // Inject JSON-LD script tag before </head>
+            let html = fs.readFileSync(htmlPath, 'utf-8');
+            const scriptTag = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
+            html = html.replace('</head>', `${scriptTag}\n</head>`);
+            fs.writeFileSync(htmlPath, html, 'utf-8');
+            injected++;
+          }
         }
       }
 

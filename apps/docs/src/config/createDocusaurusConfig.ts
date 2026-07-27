@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type {Config, PluginConfig} from '@docusaurus/types';
-import type {ContentPluginProfile, DeepReadonly, SiteProfile} from '@zilliz/site-config';
+import {canonicalRouteKey, type ContentPluginProfile, type DeepReadonly, type SiteProfile} from '@zilliz/site-config';
 import {chineseUiModules, englishUiModules, sharedUiModules} from '@zilliz/docs-ui';
 import {resolveMarkdownPolicy} from './markdownPolicy';
 
@@ -43,6 +43,24 @@ function contentPlugin(
       remarkPlugins: [...markdownPolicy.remarkPlugins],
       rehypePlugins: [...markdownPolicy.rehypePlugins],
     },
+  ];
+}
+
+function buildCapabilityPlugins(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
+  if (profile.id !== 'en') return [];
+
+  const sources = profile.content.map(content => ({
+    id: content.id,
+    folder: repositoryPath(content.sourcePath),
+    route: `/${canonicalRouteKey(content.routeBasePath)}`,
+    outputFile: content.id === 'default' ? 'cloud-guides' : content.id,
+    label: content.id === 'default' ? 'Cloud Guides' : content.id,
+  }));
+
+  return [
+    [repositoryPath('apps/docs/plugins/embed-markdown'), {sources}],
+    [repositoryPath('apps/docs/plugins/llms-txt'), {sources}],
+    [repositoryPath('apps/docs/plugins/structured-data'), {sources}],
   ];
 }
 
@@ -160,6 +178,7 @@ export function createDocusaurusConfig(
             {path: repositoryPath('packages/docs-ui/src/zh-CN/pages')},
           ] satisfies PluginConfig]),
       ...profile.content.map(content => contentPlugin(content, markdownPolicy)),
+      ...buildCapabilityPlugins(profile),
       ...redirectPlugin(profile),
       ...inkeepPlugin(profile, environment),
     ],
