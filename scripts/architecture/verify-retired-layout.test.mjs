@@ -60,6 +60,13 @@ for (const reference of ['docs/tutorials', 'docs-byoc/tutorials', 'reference/api
   });
 }
 
+test('rejects the exact repo-root path config/generated', async () => {
+  const root = await createFixture({
+    'scripts/validate.mjs': "const generated = 'config/generated';\n",
+  });
+  await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
+});
+
 test('allows a semantic reference identifier used by the site schema', async () => {
   const root = await createFixture({
     'packages/site-config/src/schema.ts': "export const section = z.enum(['reference']);\n",
@@ -101,6 +108,15 @@ test('rejects path.join from the repository root to a retired directory', async 
   });
   await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
 });
+
+for (const method of ['join', 'resolve']) {
+  test(`rejects path.${method} from the repository root to config/generated`, async () => {
+    const root = await createFixture({
+      'scripts/validate.mjs': `const target = path.${method}(repositoryRoot, 'config', 'generated');\n`,
+    });
+    await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
+  });
+}
 
 test('allows the canonical layout and migration evidence', async () => {
   const root = await createFixture({

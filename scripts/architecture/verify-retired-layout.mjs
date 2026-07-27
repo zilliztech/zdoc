@@ -25,12 +25,16 @@ const sourceReferenceExemptions = [
 const retiredReferenceRoots = [...retiredDirectories.slice(0, 3), ['config', 'generated'].join('/')];
 const retiredReferencePattern = retiredReferenceRoots.join('|');
 const rootPathReference = new RegExp(`(?:^|[\\s'"\\\`(=:])(?:${retiredReferencePattern})/`, 'm');
+const exactConfigGeneratedReference = new RegExp(
+  `(?:^|[\\s'"\\\`(=:])${retiredReferenceRoots.at(-1)}(?=$|['"\\\`\\s,;)}\\]])`,
+  'm',
+);
 const pathFieldReference = new RegExp(
   `\\b(?:sourcePath|sourceRoot|folder|cwd)(?:['"\\\`])?\\s*[:=]\\s*(?:['"\\\`])?(?:${retiredDirectories.slice(0, 3).join('|')})(?:['"\\\`])?(?=\\s*(?:[,;}\\]\\n]|$))`,
   'm',
 );
 const repositoryRootJoinReference = new RegExp(
-  `\\bpath\\.(?:join|resolve)\\(\\s*(?:repositoryRoot|repoRoot|root)\\s*,\\s*['"\\\`](?:${retiredDirectories.slice(0, 3).join('|')})['"\\\`]`,
+  `\\bpath\\.(?:join|resolve)\\(\\s*(?:repositoryRoot|repoRoot|root)\\s*,\\s*(?:['"\\\`](?:${retiredDirectories.slice(0, 3).join('|')})['"\\\`]|['"]config['"]\\s*,\\s*['"]generated['"])`,
   'm',
 );
 const quotedRelativeReference = /(['"`])(\.{1,2}\/[^'"`]+)\1/g;
@@ -59,6 +63,7 @@ function targetsRetiredRoot(relativePath) {
 function hasRetiredReference(relativePath, source) {
   if (/run-content-group\.js/.test(source)
     || rootPathReference.test(source)
+    || exactConfigGeneratedReference.test(source)
     || pathFieldReference.test(source)
     || repositoryRootJoinReference.test(source)) return true;
 
