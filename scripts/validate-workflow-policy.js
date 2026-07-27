@@ -555,13 +555,25 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === 'translate-codex.yml') {
       const requiredPatterns = [
         [/uses: \.\/\.github\/workflows\/translate-content\.yml/, 'must call the target-aware reusable translation workflow'],
-        [/target: ja-JP/, 'must preserve the Japanese compatibility target'],
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
       const called = workflow.jobs?.translate?.with || {}
+      const targets = ['ja-JP', 'zh-CN-reference', 'zh-CN-tools']
+      const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools']
+      if (inputs.target?.required !== true || JSON.stringify(inputs.target?.options) !== JSON.stringify(targets) || called.target !== '${{ inputs.target }}') {
+        errors.push(`${file}: compatibility boundary must expose and forward the selected translation target`)
+      }
+      if (inputs.group?.required !== true || JSON.stringify(inputs.group?.options) !== JSON.stringify(groups) || called.group !== '${{ inputs.group }}') {
+        errors.push(`${file}: compatibility boundary must expose and forward the selected translation group`)
+      }
+      if (!/ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/.test(source) ||
+        !/zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/.test(source) ||
+        !/zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/.test(source)) {
+        errors.push(`${file}: compatibility boundary must enforce exact target and group pairings`)
+      }
       if (['tooling_sha', 'source_sha'].some(input => inputs[input]?.required !== true || called[input] !== `\${{ inputs.${input} }}`)) errors.push(`${file}: compatibility boundary must require and forward exact immutable SHAs`)
     }
 

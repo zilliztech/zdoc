@@ -3,12 +3,18 @@ name: translate docs with Codex agents
 on:
   workflow_dispatch:
     inputs:
+      target:
+        description: Translation product
+        required: true
+        type: choice
+        default: ja-JP
+        options: [ja-JP, zh-CN-reference, zh-CN-tools]
       group:
-        description: Content group to translate to Japanese
+        description: Content group to translate
         required: true
         type: choice
         default: guides
-        options: [guides, python, java, node, go, cli, rest]
+        options: [guides, python, java, node, go, cli, rest, tools]
       max_files: { description: Maximum files, required: false, default: '500' }
       target_branch: { description: Publication branch, required: false, default: dev }
       tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
@@ -29,15 +35,25 @@ jobs:
     steps:
       - name: Validate immutable translation identities
         env:
+          TRANSLATION_TARGET: ${{ inputs.target }}
+          INPUT_GROUP: ${{ inputs.group }}
           TOOLING_SHA: ${{ inputs.tooling_sha }}
           SOURCE_SHA: ${{ inputs.source_sha }}
-        run: node -e 'for(const [name,value] of Object.entries(process.env))if(["TOOLING_SHA","SOURCE_SHA"].includes(name)&&!/^[0-9a-f]{40}$/.test(value))throw new Error(`${name} must be an exact lowercase 40-character SHA`)'
+        run: |
+          set -euo pipefail
+          node -e 'for(const [name,value] of Object.entries(process.env))if(["TOOLING_SHA","SOURCE_SHA"].includes(name)&&!/^[0-9a-f]{40}$/.test(value))throw new Error(`${name} must be an exact lowercase 40-character SHA`)'
+          case "$TRANSLATION_TARGET" in
+            ja-JP) [[ "$INPUT_GROUP" =~ ^(guides|python|java|node|go|cli|rest)$ ]] ;;
+            zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest)$ ]] ;;
+            zh-CN-tools) [[ "$INPUT_GROUP" == tools ]] ;;
+            *) exit 2 ;;
+          esac
 
   translate:
     needs: validate
     uses: ./.github/workflows/translate-content.yml
     with:
-      target: ja-JP
+      target: ${{ inputs.target }}
       group: ${{ inputs.group }}
       tooling_sha: ${{ inputs.tooling_sha }}
       source_sha: ${{ inputs.source_sha }}

@@ -41,9 +41,16 @@ test('translation workflows declare immutable target identity and exact target v
   assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
 
   const compatibility = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
-  for (const input of ['tooling_sha', 'source_sha']) assert.equal(compatibility.on.workflow_dispatch.inputs[input]?.required, true)
+  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
+  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.group.options, ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools'])
+  for (const input of ['target', 'group', 'tooling_sha', 'source_sha']) assert.equal(compatibility.on.workflow_dispatch.inputs[input]?.required, true)
+  assert.equal(compatibility.jobs.translate.with.target, '${{ inputs.target }}')
   assert.equal(compatibility.jobs.translate.with.tooling_sha, '${{ inputs.tooling_sha }}')
   assert.equal(compatibility.jobs.translate.with.source_sha, '${{ inputs.source_sha }}')
+  const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
+  assert.match(compatibilitySource, /ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/)
+  assert.match(compatibilitySource, /zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/)
+  assert.match(compatibilitySource, /zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/)
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP[\s\S]*build:en/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
@@ -141,6 +148,16 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
       file: 'translate-content.yml',
       mutate: source => source.replace("ref: '${{ inputs.tooling_sha }}'", 'ref: master'),
       expected: 'translate-content.yml: translation tooling checkout must use exact inputs.tooling_sha',
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('target: ${{ inputs.target }}', 'target: ja-JP'),
+      expected: 'translate-codex.yml: compatibility boundary must expose and forward the selected translation target',
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('zh-CN-tools) [[ "$INPUT_GROUP" == tools ]] ;;', 'zh-CN-tools) true ;;'),
+      expected: 'translate-codex.yml: compatibility boundary must enforce exact target and group pairings',
     },
     {
       file: '_publish-content-group.yml',
@@ -1524,7 +1541,7 @@ test('manual translation wrapper calls the target-aware reusable workflow withou
   assert.doesNotMatch(workflow, /workflow_run|git-auto-commit|git push/)
   assert.match(workflow, /workflow_dispatch:/)
   assert.match(workflow, /uses: \.\/.github\/workflows\/translate-content\.yml/)
-  assert.match(workflow, /target: ja-JP/)
+  assert.match(workflow, /target: \$\{\{ inputs\.target \}\}/)
   assert.doesNotMatch(workflow, /secrets: inherit/)
   assert.match(workflow, /secrets:\n      TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}\n      REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/)
   assert.match(workflow, /target_branch: \$\{\{ inputs\.target_branch \}\}/)
