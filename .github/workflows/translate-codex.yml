@@ -11,6 +11,8 @@ on:
         options: [guides, python, java, node, go, cli, rest]
       max_files: { description: Maximum files, required: false, default: '500' }
       target_branch: { description: Publication branch, required: false, default: dev }
+      tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
+      source_sha: { description: Exact source checkpoint SHA, required: true, type: string }
 
 permissions:
   actions: read
@@ -21,11 +23,24 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validate immutable translation identities
+        env:
+          TOOLING_SHA: ${{ inputs.tooling_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: node -e 'for(const [name,value] of Object.entries(process.env))if(["TOOLING_SHA","SOURCE_SHA"].includes(name)&&!/^[0-9a-f]{40}$/.test(value))throw new Error(`${name} must be an exact lowercase 40-character SHA`)'
+
   translate:
+    needs: validate
     uses: ./.github/workflows/translate-content.yml
     with:
       target: ja-JP
       group: ${{ inputs.group }}
+      tooling_sha: ${{ inputs.tooling_sha }}
+      source_sha: ${{ inputs.source_sha }}
       max_files: ${{ inputs.max_files }}
       target_branch: ${{ inputs.target_branch }}
     secrets:

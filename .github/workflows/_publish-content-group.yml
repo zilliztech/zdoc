@@ -78,6 +78,8 @@ jobs:
             "BASELINE_DOWNLOAD_DIR=$RUNNER_TEMP/baseline-download" \
             "BASELINE_EXTRACT_DIR=$RUNNER_TEMP/baseline-extracted" \
             "BASELINE_DIR=$RUNNER_TEMP/baseline-extracted/checkpoint-group" \
+            "CHECKPOINT_PREFLIGHT_MANIFEST=$RUNNER_TEMP/checkpoint-manifest.json" \
+            "BASELINE_PREFLIGHT_MANIFEST=$RUNNER_TEMP/baseline-manifest.json" \
             "PUBLISH_OUTPUT=$RUNNER_TEMP/publication-output.txt" >> "$GITHUB_ENV"
 
       - name: Validate publisher inputs
@@ -99,8 +101,15 @@ jobs:
           NODE
           git check-ref-format --branch "$TARGET_BRANCH"
 
-      - name: Check out immutable publisher tooling
-        if: ${{ inputs.should_publish }}
+      - name: Check out immutable translation tooling
+        if: ${{ inputs.should_publish && inputs.target != '' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tooling_sha }}
+          fetch-depth: 0
+
+      - name: Check out immutable source tooling
+        if: ${{ inputs.should_publish && inputs.target == '' }}
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.master_sha }}
@@ -154,32 +163,27 @@ jobs:
         run: |
           set -euo pipefail
           extract_checkpoint_archive() {
-            local archive=$1 extract_dir=$2 artifact_dir=$3 label=$4
-            local paths_file="$RUNNER_TEMP/${label}-archive-paths.txt"
-            local types_file="$RUNNER_TEMP/${label}-archive-types.txt"
-            [[ -f "$archive" ]]
-            tar -tf "$archive" > "$paths_file"
-            tar -tvf "$archive" > "$types_file"
-            ARCHIVE_PATHS_FILE="$paths_file" ARCHIVE_TYPES_FILE="$types_file" node - <<'NODE'
-          const fs = require('node:fs')
-          const paths = fs.readFileSync(process.env.ARCHIVE_PATHS_FILE, 'utf8').split('\n').filter(Boolean)
-          if (!paths.length) throw new Error('Checkpoint archive is empty')
-          for (const archiveName of paths) {
-            const name = archiveName.endsWith('/') ? archiveName.slice(0, -1) : archiveName
-            if (!name || name.startsWith('/') || name.split('/').some(part => part === '..' || part === '')) throw new Error(`Unsafe archive path: ${archiveName}`)
-            if (name !== 'checkpoint-group' && !name.startsWith('checkpoint-group/')) throw new Error(`Unexpected archive root: ${archiveName}`)
-          }
-          const lines = fs.readFileSync(process.env.ARCHIVE_TYPES_FILE, 'utf8').split('\n').filter(Boolean)
-          for (const line of lines) if (!['-', 'd'].includes(line[0])) throw new Error(`Unsafe archive entry type: ${line}`)
-          NODE
+            local archive=$1 extract_dir=$2 artifact_dir=$3 manifest_output=$4
+            identity_args=()
+            if [[ -n "$TRANSLATION_TARGET" ]]; then
+              target_site=zh-CN
+              [[ "$TRANSLATION_TARGET" == ja-JP ]] && target_site=en
+              identity_args=(--translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_SHA" --tooling-sha "$TOOLING_SHA" --source-site en --target-site "$target_site")
+            fi
+            node scripts/docs-workflow/preflight-checkpoint-archive.js \
+              --archive "$archive" \
+              --manifest-output "$manifest_output" \
+              --group "$GROUP" \
+              --master-sha "$MASTER_SHA" \
+              "${identity_args[@]}"
             mkdir -p "$extract_dir"
             tar -xf "$archive" -C "$extract_dir"
             [[ $(find "$extract_dir" -mindepth 1 -maxdepth 1 -print | wc -l) -eq 1 ]]
             [[ -d "$artifact_dir" && ! -L "$artifact_dir" ]]
           }
-          extract_checkpoint_archive "$DOWNLOAD_DIR/checkpoint-group.tar" "$EXTRACT_DIR" "$ARTIFACT_DIR" checkpoint
+          extract_checkpoint_archive "$DOWNLOAD_DIR/checkpoint-group.tar" "$EXTRACT_DIR" "$ARTIFACT_DIR" "$CHECKPOINT_PREFLIGHT_MANIFEST"
           if [[ -n "${{ inputs.baseline_artifact_name }}" ]]; then
-            extract_checkpoint_archive "$BASELINE_DOWNLOAD_DIR/checkpoint-group.tar" "$BASELINE_EXTRACT_DIR" "$BASELINE_DIR" baseline
+            extract_checkpoint_archive "$BASELINE_DOWNLOAD_DIR/checkpoint-group.tar" "$BASELINE_EXTRACT_DIR" "$BASELINE_DIR" "$BASELINE_PREFLIGHT_MANIFEST"
           fi
 
       - name: Validate checkpoint identity

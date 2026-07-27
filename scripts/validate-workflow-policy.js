@@ -50,6 +50,43 @@ function containsFullValidationCommand(source) {
   })
 }
 
+function containsForcePush(source) {
+  if (/push_options:\s*(?:[^\n]*\s)?(?:-f\b|--force(?:-with-lease)?\b)/.test(source)) return true
+  return executableShellLineEntries(source).some(({trimmed}) => {
+    if (!/\bgit\s+push\b/.test(trimmed)) return false
+    return /(?:^|\s)(?:-f|--force(?:-with-lease)?)(?:=\S+)?(?=\s|$)/.test(trimmed)
+  })
+}
+
+function translationCaseBranches(run) {
+  const results = { 'ja-JP': [], 'zh-CN-reference': [], 'zh-CN-tools': [] }
+  const lines = String(run || '').split('\n')
+  for (let index = 0; index < lines.length; index += 1) {
+    if (!/^\s*case "\$TRANSLATION_TARGET" in\s*$/.test(lines[index])) continue
+    let target = null
+    for (index += 1; index < lines.length && !/^\s*esac\s*$/.test(lines[index]); index += 1) {
+      const branch = lines[index].match(/^\s*(ja-JP|zh-CN-reference|zh-CN-tools)\)\s*(.*)$/)
+      if (branch) { target = branch[1]; if (branch[2]) results[target].push(branch[2]); continue }
+      if (target) results[target].push(lines[index])
+      if (/;;\s*$/.test(lines[index])) target = null
+    }
+  }
+  return Object.fromEntries(Object.entries(results).map(([target, body]) => [target, body.join('\n')]))
+}
+
+function validateTargetBranches(run, file, errors) {
+  const branches = translationCaseBranches(run)
+  const forbidden = {
+    'ja-JP': /content\/zh-CN|generated\/zh-CN/,
+    'zh-CN-reference': /i18n\/ja-JP|content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/(?:sidebars\/guides\.sidebar\.js|manifests\/tools-translations\.json)/,
+    'zh-CN-tools': /i18n\/ja-JP|content\/zh-CN\/reference|generated\/zh-CN\/manifests\/reference-translations\.json/,
+  }
+  for (const [target, pattern] of Object.entries(forbidden)) if (pattern.test(branches[target])) errors.push(`${file}: ${target} branch must not claim cross-target translation paths`)
+  if (/build:zh-CN/.test(branches['ja-JP']) || /build:en/.test(branches['zh-CN-reference']) || /build:en/.test(branches['zh-CN-tools'])) {
+    errors.push(`${file}: translation target branch contains a wrong-site build`)
+  }
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
@@ -96,8 +133,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (/::set-output\b/.test(source)) {
       errors.push(`${file}: write step outputs through GITHUB_OUTPUT`)
     }
-    if (/push_options:\s*--force/.test(source) || /git push\s+--force/.test(source)) {
+    if (containsForcePush(source)) {
       errors.push(`${file}: force-pushing generated documentation can discard concurrent updates`)
+    }
+
+    const immutableTranslationToolingFiles = new Set([
+      '_prepare-translation-batches.yml', '_translate-content-group.yml', '_translate-publish-batch.yml',
+      '_publish-translation-batches.yml', 'translate-content.yml',
+    ])
+    if (immutableTranslationToolingFiles.has(file)) {
+      const checkoutSteps = Object.values(workflow.jobs || {}).flatMap(job => Array.isArray(job?.steps) ? job.steps : [])
+        .filter(step => String(step?.uses || '').startsWith('actions/checkout@'))
+      if (checkoutSteps.length === 0 || checkoutSteps.some(step => step.with?.ref !== '${{ inputs.tooling_sha }}')) {
+        errors.push(`${file}: translation tooling checkout must use exact inputs.tooling_sha`)
+      }
     }
 
     if (publishingWorkflows.has(file)) {
@@ -172,6 +221,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const unbatchedCondition = String(unbatched?.if || '')
       const unbatchedRun = String(unbatched?.run || '')
       const checkpointRun = String(checkpoint?.run || '')
+      validateTargetBranches(steps.map(step => String(step?.run || '')).join('\n'), file, errors)
       const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
       const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
       const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
@@ -399,10 +449,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === '_publish-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
-        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out immutable publisher tooling'],
+        [/name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out exact translation tooling and separate source tooling'],
         [/actions\/download-artifact@v4/, 'must download the exact checkpoint artifact'],
         [/inputs\.baseline_artifact_name != ''[\s\S]*name: \$\{\{ inputs\.baseline_artifact_name \}\}/, 'must conditionally download the exact baseline artifact'],
-        [/tar -tf[\s\S]*tar -tvf/, 'must inspect archive paths and entry types before extraction'],
+        [/--translation-target[\s\S]*--source-checkpoint-sha[\s\S]*--tooling-sha[\s\S]*--source-site[\s\S]*--target-site[\s\S]*preflight-checkpoint-archive\.js[\s\S]*--manifest-output[\s\S]*tar -xf/, 'must verify the unique checkpoint manifest identity before full extraction'],
         [/extract_checkpoint_archive[\s\S]*extract_checkpoint_archive[\s\S]*manifest\.resolvedDir[\s\S]*payload[\s\S]*--baseline-dir/, 'must reuse safe extraction and pass the validated baseline payload directory'],
         [/validate-checkpoint-artifact\.js/, 'must validate checkpoint identity'],
         [/publish-checkpoint\.sh/, 'must invoke the checkpoint publisher'],
@@ -411,6 +461,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/^concurrency:/m.test(source)) errors.push(`${file}: reusable publisher must let the orchestrator serialize publication`)
       if (/git-auto-commit|git push[^\n]*--force/.test(source)) errors.push(`${file}: publisher must not auto-commit or force-push`)
+    }
+
+    if (file === '_translate-publish-batch.yml' && !/preflight-checkpoint-archive\.js[\s\S]*--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--tooling-sha "\$MASTER_SHA"[\s\S]*--source-site en[\s\S]*--target-site en[\s\S]*tar -xf/.test(source)) {
+      errors.push(`${file}: durable publisher must verify checkpoint manifests before full extraction`)
     }
 
     if (file === '_verify-docs.yml') {
@@ -441,10 +495,26 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
+      const inputs = workflow.on?.workflow_dispatch?.inputs || {}
+      const called = workflow.jobs?.translate?.with || {}
+      if (['tooling_sha', 'source_sha'].some(input => inputs[input]?.required !== true || called[input] !== `\${{ inputs.${input} }}`)) errors.push(`${file}: compatibility boundary must require and forward exact immutable SHAs`)
     }
 
     if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
       errors.push(`${file}: reusable target-aware workflow must not share its caller's publication concurrency group`)
+    }
+    if (file === 'translate-content.yml') {
+      const dispatchInputs = workflow.on?.workflow_dispatch?.inputs || {}
+      const callInputs = workflow.on?.workflow_call?.inputs || {}
+      if (['tooling_sha', 'source_sha'].some(input => dispatchInputs[input]?.required !== true || callInputs[input]?.required !== true)) errors.push(`${file}: public translation boundaries must require exact tooling and source SHAs`)
+      const steps = workflow.jobs?.prepare?.steps || []
+      const validationIndex = steps.findIndex(step => step?.name === 'Validate immutable translation identities')
+      const checkoutIndex = steps.findIndex(step => String(step?.uses || '').startsWith('actions/checkout@'))
+      if (validationIndex < 0 || checkoutIndex < 0 || validationIndex >= checkoutIndex || steps[checkoutIndex]?.with?.ref !== '${{ inputs.tooling_sha }}' || /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse[^\n]*TARGET_BRANCH/.test(source)) {
+        errors.push(`${file}: validate exact immutable SHAs before checkout without branch-tip fallback`)
+      }
+      const exactValidationCommand = "${{ inputs.target == 'ja-JP' && format('pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group {0} && pnpm run build:en', inputs.group) || inputs.target == 'zh-CN-reference' && 'pnpm docs-tooling validate-mdx --path content/zh-CN/reference && pnpm docs-tooling reference-manifest --write && pnpm docs-tooling validate-reference --site zh-CN && pnpm run build:zh-CN' || 'pnpm docs-tooling validate-mdx --path content/zh-CN/guides/tutorials/tools && pnpm docs-tooling validate-translation --target zh-CN-tools --group tools && pnpm docs-tooling validate-tools-sidebar && pnpm run build:zh-CN' }}"
+      if (workflow.jobs?.publish?.with?.validate_command !== exactValidationCommand) errors.push(`${file}: target publication must use the exact target-owned validation and build command`)
     }
   }
 

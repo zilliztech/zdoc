@@ -31,7 +31,19 @@ test('translation workflows declare immutable target identity and exact target v
 
   const wrapper = yaml.load(fs.readFileSync('.github/workflows/translate-content.yml', 'utf8'))
   assert.deepEqual(wrapper.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
+  for (const boundary of ['workflow_dispatch', 'workflow_call']) {
+    for (const input of ['tooling_sha', 'source_sha']) assert.equal(wrapper.on[boundary].inputs[input]?.required, true)
+  }
   assert.equal(wrapper.concurrency, undefined)
+  const wrapperSource = fs.readFileSync('.github/workflows/translate-content.yml', 'utf8')
+  assert.ok(wrapperSource.indexOf('name: Validate immutable translation identities') < wrapperSource.indexOf('uses: actions/checkout@v4'))
+  assert.match(wrapperSource, /ref: ['"]?\$\{\{ inputs\.tooling_sha \}\}['"]?/)
+  assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
+
+  const compatibility = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  for (const input of ['tooling_sha', 'source_sha']) assert.equal(compatibility.on.workflow_dispatch.inputs[input]?.required, true)
+  assert.equal(compatibility.jobs.translate.with.tooling_sha, '${{ inputs.tooling_sha }}')
+  assert.equal(compatibility.jobs.translate.with.source_sha, '${{ inputs.source_sha }}')
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP[\s\S]*build:en/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
@@ -58,6 +70,78 @@ test('workflow policy rejects Chinese source publication collisions with protect
     assert.ok(validateWorkflowPolicies(directory).includes('_fetch-content-group.yml: source publication workflow must not claim Chinese Tools protected paths'))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
+test('workflow policy rejects Task 8 translation safety mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    ...[
+      'git push -f origin HEAD:dev',
+      'git push origin -f HEAD:dev',
+      'git push --force origin HEAD:dev',
+      'git push --force-with-lease origin HEAD:dev',
+    ].map(command => ({
+      file: 'translate-content.yml',
+      mutate: source => `${source}\n# mutation\n# ${command}\nrun: ${command}\n`,
+      expected: 'translate-content.yml: force-pushing generated documentation can discard concurrent updates',
+    })),
+    {
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace('ref: ${{ inputs.tooling_sha }}', 'ref: master'),
+      expected: '_translate-content-group.yml: translation tooling checkout must use exact inputs.tooling_sha',
+    },
+    {
+      file: 'translate-content.yml',
+      mutate: source => source.replace("ref: '${{ inputs.tooling_sha }}'", 'ref: master'),
+      expected: 'translate-content.yml: translation tooling checkout must use exact inputs.tooling_sha',
+    },
+    {
+      file: '_publish-content-group.yml',
+      mutate: source => source.replace('name: Check out immutable translation tooling\n        if:', 'name: Check out immutable translation tooling\n        if:').replace('ref: ${{ inputs.tooling_sha }}', 'ref: ${{ inputs.master_sha }}'),
+      expected: '_publish-content-group.yml: must check out exact translation tooling and separate source tooling',
+    },
+    {
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace('ja-JP)\n              pnpm docs-tooling', 'ja-JP)\n              test -f content/zh-CN/reference/forbidden.md\n              pnpm docs-tooling'),
+      expected: '_translate-content-group.yml: ja-JP branch must not claim cross-target translation paths',
+    },
+    {
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace('zh-CN-reference)\n              pnpm docs-tooling', 'zh-CN-reference)\n              test -f i18n/ja-JP/forbidden.md\n              pnpm docs-tooling'),
+      expected: '_translate-content-group.yml: zh-CN-reference branch must not claim cross-target translation paths',
+    },
+    {
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace('zh-CN-tools)\n              pnpm docs-tooling', 'zh-CN-tools)\n              test -f content/zh-CN/reference/forbidden.md\n              pnpm docs-tooling'),
+      expected: '_translate-content-group.yml: zh-CN-tools branch must not claim cross-target translation paths',
+    },
+    ...[
+      ['ja-JP', 'pnpm run build:zh-CN'],
+      ['zh-CN-reference', 'pnpm run build:en'],
+      ['zh-CN-tools', 'pnpm run build:en'],
+    ].map(([target, command]) => ({
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace(`${target})\n              pnpm docs-tooling`, `${target})\n              ${command}\n              pnpm docs-tooling`),
+      expected: '_translate-content-group.yml: translation target branch contains a wrong-site build',
+    })),
+    {
+      file: 'translate-content.yml',
+      mutate: source => source.replace('pnpm run build:zh-CN\' || \'pnpm docs-tooling validate-mdx --path content/zh-CN/guides', 'pnpm run build:zh-CN && pnpm run build:en\' || \'pnpm docs-tooling validate-mdx --path content/zh-CN/guides'),
+      expected: 'translate-content.yml: target publication must use the exact target-owned validation and build command',
+    },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'task8-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, fixture.file)
+      const before = fs.readFileSync(file, 'utf8')
+      const after = fixture.mutate(before)
+      assert.notEqual(after, before, `${fixture.file} mutation must change source`)
+      fs.writeFileSync(file, after)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally { fs.rmSync(directory, {recursive: true, force: true}) }
   }
 })
 
@@ -955,12 +1039,13 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /^  contents: write$/m)
   assert.doesNotMatch(workflow, /APP_ID|APP_SECRET|report-live-card|card_id|card_started_at|card_stages|card_mode/)
   assert.doesNotMatch(workflow, /^concurrency:/m)
-  assert.match(workflow, /if: \$\{\{ inputs\.should_publish \}\}[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
+  assert.match(workflow, /name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
   assert.match(workflow, /actions\/download-artifact@v4[\s\S]*name: \$\{\{ inputs\.artifact_name \}\}/)
   assert.match(workflow, /publish batch \$\{number\} of \$\{count\}[\s\S]*publish translations[\s\S]*group\.commitMessage/)
   assert.match(workflow, /name: Download baseline artifact[\s\S]*if: \$\{\{ inputs\.should_publish && inputs\.baseline_artifact_name != '' \}\}[\s\S]*name: \$\{\{ inputs\.baseline_artifact_name \}\}[\s\S]*baseline-download/)
-  assert.match(workflow, /extract_checkpoint_archive "\$DOWNLOAD_DIR\/checkpoint-group\.tar" "\$EXTRACT_DIR" "\$ARTIFACT_DIR" checkpoint[\s\S]*extract_checkpoint_archive "\$BASELINE_DOWNLOAD_DIR\/checkpoint-group\.tar" "\$BASELINE_EXTRACT_DIR" "\$BASELINE_DIR" baseline/)
-  assert.match(workflow, /tar -tf "\$archive"[\s\S]*tar -tvf "\$archive"[\s\S]*checkpoint-group\.tar/)
+  assert.match(workflow, /extract_checkpoint_archive "\$DOWNLOAD_DIR\/checkpoint-group\.tar" "\$EXTRACT_DIR" "\$ARTIFACT_DIR" "\$CHECKPOINT_PREFLIGHT_MANIFEST"[\s\S]*extract_checkpoint_archive "\$BASELINE_DOWNLOAD_DIR\/checkpoint-group\.tar" "\$BASELINE_EXTRACT_DIR" "\$BASELINE_DIR" "\$BASELINE_PREFLIGHT_MANIFEST"/)
+  assert.match(workflow, /--translation-target[\s\S]*--source-checkpoint-sha[\s\S]*--tooling-sha[\s\S]*--source-site[\s\S]*--target-site[\s\S]*preflight-checkpoint-archive\.js[\s\S]*--manifest-output[\s\S]*tar -xf "\$archive"/)
+  assert.ok(workflow.indexOf('preflight-checkpoint-archive.js') < workflow.indexOf('tar -xf "$archive"'))
   assert.match(workflow, /validate-checkpoint-artifact\.js[\s\S]*--group "\$GROUP"[\s\S]*--master-sha "\$MASTER_SHA"/)
   assert.match(workflow, /publish-checkpoint\.sh[\s\S]*--artifact "\$ARTIFACT_DIR"[\s\S]*--branch "\$TARGET_BRANCH"[\s\S]*--message "\$COMMIT_MESSAGE"[\s\S]*--max-attempts 10[\s\S]*--validate-command "\$VALIDATE_COMMAND"/)
   assert.match(workflow, /id: baseline_validation[\s\S]*validateCheckpointArtifact[\s\S]*manifest\.resolvedDir[\s\S]*resolveTranslationTarget\(manifest\.translationTarget\)\.state\.path[\s\S]*baseline_dir=/)
