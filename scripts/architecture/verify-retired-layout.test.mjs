@@ -51,6 +51,23 @@ test('rejects production control-file references to retired layout', async () =>
   await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
 });
 
+for (const reference of ['docs', 'docs-byoc', 'reference', './docs/tutorials', './docs-byoc/tutorials', '../reference/api']) {
+  test(`rejects the production reference ${reference}`, async () => {
+    const root = await createFixture({
+      'scripts/validate.mjs': `const legacy = '${reference}';\n`,
+    });
+    await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
+  });
+}
+
+test('allows ordinary words and canonical content paths', async () => {
+  const root = await createFixture({
+    'scripts/validate.mjs': "const copy = 'documentation reference guide content/en/guides content/en/reference/api';\n",
+    'config/valid.json': '{"reference":"content/en/reference/api"}\n',
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
 test('allows the canonical layout and migration evidence', async () => {
   const root = await createFixture({
     'content/en/guides/content-manifest.json': '{}\n',

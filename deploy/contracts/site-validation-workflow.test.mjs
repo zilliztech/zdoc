@@ -5,6 +5,13 @@ import test from 'node:test';
 
 const repositoryRoot = path.resolve(import.meta.dirname, '../..');
 
+function jobBlock(workflow, jobName) {
+  const headers = [...workflow.matchAll(/^  ([a-zA-Z0-9_-]+):$/gm)];
+  const index = headers.findIndex(([, name]) => name === jobName);
+  if (index < 0) return '';
+  return workflow.slice(headers[index].index, headers[index + 1]?.index);
+}
+
 test('the repository pins one pnpm version for local, Docker, and GitHub Actions builds', async () => {
   const packageJson = JSON.parse(await readFile(path.join(repositoryRoot, 'package.json'), 'utf8'));
   assert.equal(packageJson.packageManager, 'pnpm@10.33.0');
@@ -55,9 +62,22 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /^  retirement:$/m);
   assert.match(workflow, /run: pnpm test:retirement/);
   assert.match(workflow, /^  site_validation:$/m);
-  assert.match(workflow, /site_validation:[\s\S]*needs:[\s\S]*- retirement/);
+  assert.match(jobBlock(workflow, 'site_validation'), /^      - retirement$/m);
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/);
   assert.doesNotMatch(workflow, /secrets\.|contents: write|git push/);
+});
+
+test('the aggregate retirement dependency cannot be supplied by a later workflow job', () => {
+  const workflow = [
+    'jobs:',
+    '  site_validation:',
+    '    needs:',
+    '      - classify',
+    '  unrelated:',
+    '    needs:',
+    '      - retirement',
+  ].join('\n');
+  assert.doesNotMatch(jobBlock(workflow, 'site_validation'), /^      - retirement$/m);
 });
 
 test('legacy content-production workflows name their English build explicitly', async () => {

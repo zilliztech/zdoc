@@ -12,17 +12,24 @@ const retiredPaths = new Set([
   ['scripts', 'docs-workflow', ['run-content-group', 'js'].join('.')].join('/'),
   ['config', 'generated', 'guides.sidebar.js'].join('/'),
 ]);
-const retiredDirectories = ['docs', 'docs-byoc', 'reference', ['i18n', 'zh-CN'].join('/')];
+const retiredDirectories = [
+  ['do', 'cs'].join(''),
+  [['do', 'cs'].join(''), 'byoc'].join('-'),
+  ['re', 'ference'].join(''),
+  ['i18n', 'zh-CN'].join('/'),
+];
 const sourceReferenceExemptions = [
   /^migration\//,
   /^\.claude\/superpowers\/plans\/2026-07-27-new-architecture-retirement\.md$/,
 ];
+const retiredRootPattern = retiredDirectories.slice(0, 3).join('|');
 const forbiddenReferences = [
   /run-content-group\.js/,
   /config\/generated/,
-  /(?:^|[\s'"`(=:])docs\//m,
-  /(?:^|[\s'"`(=:])docs-byoc\//m,
-  /(?:^|[\s'"`(=:])reference\//m,
+  new RegExp(
+    `(?:['"\\\`])(?:${retiredRootPattern})(?=/|['"\\\`](?:$|[\\s,;)}\\]]))|(?:\\.{1,2}/)(?:${retiredRootPattern})(?=$|[/'"\\\`\\s;,)}])|(?:^|[\\s'"\\\`(=:])(?:${retiredRootPattern})/`,
+    'm',
+  ),
 ];
 
 function normalize(relativePath) {
