@@ -1,8 +1,42 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-function resolveSourceFolder(siteDir, folder) {
-  return path.isAbsolute(folder) ? folder : path.resolve(siteDir, folder);
+function pluginTranslationDirectoryName(id) {
+  return id === 'default'
+    ? 'docusaurus-plugin-content-docs'
+    : `docusaurus-plugin-content-docs-${id}`;
+}
+
+function resolveSourceFolder(source, lifecycle) {
+  const currentLocale = lifecycle.i18n?.currentLocale;
+  const defaultLocale = lifecycle.i18n?.defaultLocale;
+  if (!currentLocale || currentLocale === defaultLocale) return source.folder;
+  if (!path.isAbsolute(lifecycle.localizationDir || '')) {
+    throw new Error('[embed-markdown] localizationDir must be absolute for localized builds');
+  }
+  return path.join(lifecycle.localizationDir, pluginTranslationDirectoryName(source.id), 'current');
+}
+
+function localizedRoute(baseUrl, route) {
+  return `${baseUrl || '/'}${route.replace(/^\//, '')}`.replace(/\/+/g, '/');
+}
+
+function routeWithinBase(routePath, baseUrl) {
+  if (!baseUrl || baseUrl === '/') return routePath;
+  const basePrefix = `/${baseUrl.replace(/^\/|\/$/g, '')}`;
+  return routePath === basePrefix ? '/' : routePath.startsWith(`${basePrefix}/`)
+    ? routePath.slice(basePrefix.length)
+    : routePath;
+}
+
+function containedDestination(outDir, routePath) {
+  const root = path.resolve(outDir);
+  const destination = path.resolve(root, routePath.replace(/^\//, ''));
+  const relative = path.relative(root, destination);
+  if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+    throw new Error(`[embed-markdown] Output route must stay within outDir: ${routePath}`);
+  }
+  return destination;
 }
 
 function validateSources(sources) {
@@ -15,6 +49,12 @@ function validateSources(sources) {
     }
     if (ids.has(source.id)) {
       throw new Error(`[embed-markdown] Duplicate source id: ${source.id}`);
+    }
+    if (!/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(source.id)) {
+      throw new Error(`[embed-markdown] Source id must be a stable safe token: ${source.id}`);
+    }
+    if (!path.isAbsolute(source.folder)) {
+      throw new Error(`[embed-markdown] Source folder must be absolute: ${source.folder}`);
     }
     ids.add(source.id);
   }
@@ -54,12 +94,13 @@ module.exports = function (context, options) {
 
     async contentLoaded({ actions }) {
       const { setGlobalData } = actions;
+      const baseUrl = context.baseUrl || context.siteConfig?.baseUrl || '/';
 
       // Keep repository paths on the server; clients need only stable source IDs and routes.
       setGlobalData({
         cursorMcpCommand,
         enableSourceView,
-        sources: sources.map(({ id, route }) => ({ id, route })),
+        sources: sources.map(({ id, route }) => ({ id, route: localizedRoute(baseUrl, route) })),
       });
     },
 
@@ -69,13 +110,13 @@ module.exports = function (context, options) {
         return {
           devServer: {
             setupMiddlewares: (middlewares, devServer) => {
-              const { siteDir = process.cwd() } = context;
+              const baseUrl = context.baseUrl || context.siteConfig?.baseUrl || '/';
               const pathMap = {};
 
               // Build path map for dev server
               for (const source of sources) {
-                const { folder, route } = source;
-                const srcPath = resolveSourceFolder(siteDir, folder);
+                const { route } = source;
+                const srcPath = resolveSourceFolder(source, context);
 
                 if (!fs.existsSync(srcPath)) {
                   continue;
@@ -105,7 +146,7 @@ module.exports = function (context, options) {
                       }
 
                       // Normalize URL path (remove double slashes)
-                      fullUrlPath = fullUrlPath.replace(/\/+/g, '/');
+                      fullUrlPath = localizedRoute(baseUrl, fullUrlPath);
 
                       if (fullUrlPath) {
                         pathMap[fullUrlPath] = fullPath;
@@ -145,18 +186,17 @@ module.exports = function (context, options) {
       }
     },
 
-    async postBuild({ outDir, routesPaths, siteConfig }) {
-
-      const baseUrl = siteConfig.baseUrl || '/';
-      const siteDir = context.siteDir || process.cwd();
+    async postBuild(lifecycle) {
+      const {outDir, routesPaths, siteConfig} = lifecycle;
+      const baseUrl = lifecycle.baseUrl || siteConfig.baseUrl || '/';
       let totalCopied = 0;
 
       // Build slug-based lookup: slug -> filesystem path
       const slugToFileMap = {};
 
       for (const source of sources) {
-        const { folder, route } = source;
-        const srcPath = resolveSourceFolder(siteDir, folder);
+        const {route} = source;
+        const srcPath = resolveSourceFolder(source, lifecycle);
 
         if (!fs.existsSync(srcPath)) {
           continue;
@@ -197,16 +237,11 @@ module.exports = function (context, options) {
 
       // Build a reverse map from filesystem paths to URL paths
       const sourceToUrlMap = [];
-      const defaultLocale = siteConfig.i18n?.defaultLocale;
-      const localizedLocales = (siteConfig.i18n?.locales || [])
-        .filter(locale => locale !== defaultLocale);
 
       for (const routePath of routesPaths) {
         // Remove trailing slash
         const cleanPath = routePath.replace(/\/$/, '');
-        const sourceRoutePath = localizedLocales.reduce((candidate, locale) => (
-          candidate.startsWith(`/${locale}/`) ? candidate.slice(locale.length + 1) : candidate
-        ), cleanPath);
+        const sourceRoutePath = routeWithinBase(cleanPath, baseUrl);
 
         // Try to find the file using the slug map
         const fullPath = slugToFileMap[sourceRoutePath];
@@ -222,13 +257,8 @@ module.exports = function (context, options) {
           continue;
         }
 
-        // Remove baseUrl prefix if present
-        let destPath = urlPath;
-        if (baseUrl !== '/' && destPath.startsWith(baseUrl)) {
-          destPath = destPath.substring(baseUrl.length);
-        }
-
-        const fullDestPath = path.join(outDir, destPath);
+        const destPath = routeWithinBase(urlPath, baseUrl);
+        const fullDestPath = containedDestination(outDir, destPath);
 
         // Ensure destination directory exists
         const destDir = path.dirname(fullDestPath);

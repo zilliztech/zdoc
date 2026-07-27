@@ -198,7 +198,7 @@
         "release engineering"
       ],
       "contracts": [
-        "Embedded Markdown and MDX render safely."
+        "Embedded Markdown is copied from the current Docusaurus locale source tree and exposed through sanitized plugin data."
       ],
       "legacyEntryPoints": [
         "src/components/Markdown",
@@ -211,7 +211,8 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Contract gate: pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts packages/docs-ui/src/docusaurus.test.ts."
+        "apps/docs/src/config/createDocusaurusConfig.test.ts invokes separate English and Japanese embed-markdown lifecycles and verifies canonical versus translated raw Markdown output for default, byoc, and reference IDs.",
+        "packages/docs-ui/src/docusaurus.test.ts verifies both copy-page implementations consume sanitized embed-markdown plugin data."
       ]
     },
     {
@@ -222,7 +223,7 @@
         "release engineering"
       ],
       "contracts": [
-        "llms.txt outputs are deterministic and route-complete."
+        "llms.txt outputs are deterministic, locale-correct, route-complete, and contained under the locale outDir."
       ],
       "legacyEntryPoints": [
         "plugins/llms-txt"
@@ -233,7 +234,7 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Contract gate: pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts."
+        "apps/docs/src/config/createDocusaurusConfig.test.ts invokes separate English and Japanese LLMS lifecycles, verifies per-source localized outputs, and rejects relative sources, traversal, absolute destinations, unsafe tokens, duplicates, and path collisions before writing."
       ]
     },
     {
@@ -266,7 +267,7 @@
         "release engineering"
       ],
       "contracts": [
-        "Structured data remains valid for published pages."
+        "Structured data uses current-locale source metadata, locale-adjusted URLs, and script-safe JSON serialization."
       ],
       "legacyEntryPoints": [
         "docusaurus.config.ts",
@@ -278,7 +279,7 @@
       ],
       "disposition": "preserve",
       "acceptanceEvidence": [
-        "Contract gate: pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts."
+        "apps/docs/src/config/createDocusaurusConfig.test.ts invokes separate English and Japanese structured-data lifecycles for default, byoc, and reference IDs and verifies translated title, description, URL, and safe handling of closing-script frontmatter."
       ]
     },
     {

@@ -4,8 +4,75 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
-function resolveSourceFolder(siteDir, folder) {
-  return path.isAbsolute(folder) ? folder : path.resolve(siteDir, folder);
+function pluginTranslationDirectoryName(id) {
+  return id === 'default'
+    ? 'docusaurus-plugin-content-docs'
+    : `docusaurus-plugin-content-docs-${id}`;
+}
+
+function resolveSourceFolder(source, lifecycle) {
+  const currentLocale = lifecycle.i18n?.currentLocale;
+  const defaultLocale = lifecycle.i18n?.defaultLocale;
+  if (!currentLocale || currentLocale === defaultLocale) return source.folder;
+  if (!path.isAbsolute(lifecycle.localizationDir || '')) {
+    throw new Error('[llms-txt] localizationDir must be absolute for localized builds');
+  }
+  return path.join(lifecycle.localizationDir, pluginTranslationDirectoryName(source.id), 'current');
+}
+
+function safeRelativePath(value, label) {
+  if (
+    typeof value !== 'string' ||
+    value.length === 0 ||
+    path.isAbsolute(value) ||
+    value.includes('\0') ||
+    value.includes('\\') ||
+    value.split('/').includes('..')
+  ) {
+    throw new Error(`[llms-txt] ${label} must be a safe relative path`);
+  }
+  const normalized = path.normalize(value);
+  if (normalized === '.' || normalized === '..' || normalized.startsWith(`..${path.sep}`)) {
+    throw new Error(`[llms-txt] ${label} must stay within outDir`);
+  }
+  return normalized;
+}
+
+function collisionKey(relativePath) {
+  return path.normalize(relativePath).replace(/\\/g, '/').toLowerCase();
+}
+
+function validateOutputOptions(sources, outputDir, outputPaths) {
+  const safeOutputDir = safeRelativePath(outputDir, 'outputDir');
+  if (!Array.isArray(outputPaths) || outputPaths.length === 0) {
+    throw new Error('[llms-txt] outputPaths must contain at least one safe relative path');
+  }
+  const safeOutputPaths = outputPaths.map(outputPath => safeRelativePath(outputPath, 'outputPaths entry'));
+  const destinations = [
+    ...sources.map(source => path.join(safeOutputDir, `${source.outputFile}.txt`)),
+    ...safeOutputPaths,
+  ];
+  const seen = new Set();
+  for (const destination of destinations) {
+    const key = collisionKey(destination);
+    if (seen.has(key)) throw new Error(`[llms-txt] Duplicate or colliding output path: ${destination}`);
+    seen.add(key);
+  }
+  return {outputDir: safeOutputDir, outputPaths: safeOutputPaths};
+}
+
+function containedOutputPath(outDir, relativePath) {
+  const root = path.resolve(outDir);
+  const destination = path.resolve(root, relativePath);
+  const relative = path.relative(root, destination);
+  if (relative === '' || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+    throw new Error(`[llms-txt] Output path must stay within outDir: ${relativePath}`);
+  }
+  return destination;
+}
+
+function publicUrl(siteUrl, baseUrl, relativePath) {
+  return new URL(relativePath.replace(/^\//, ''), new URL(baseUrl || '/', siteUrl)).toString();
 }
 
 function validateSources(sources) {
@@ -18,6 +85,15 @@ function validateSources(sources) {
     }
     if (ids.has(source.id)) {
       throw new Error(`[llms-txt] Duplicate source id: ${source.id}`);
+    }
+    if (!/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(source.id)) {
+      throw new Error(`[llms-txt] Source id must be a stable safe token: ${source.id}`);
+    }
+    if (!path.isAbsolute(source.folder)) {
+      throw new Error(`[llms-txt] Source folder must be absolute: ${source.folder}`);
+    }
+    if (!/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(source.outputFile)) {
+      throw new Error(`[llms-txt] Source outputFile must be a basename-only safe token: ${source.outputFile}`);
     }
     ids.add(source.id);
   }
@@ -253,9 +329,10 @@ function walkAllFiles(dir) {
  * @param {string} sourceDir
  * @param {string} route
  * @param {string} siteUrl
+ * @param {string} baseUrl
  * @returns {{ content: string, count: number }}
  */
-function buildSectionSummary(sourceDir, route, siteUrl) {
+function buildSectionSummary(sourceDir, route, siteUrl, baseUrl) {
   const files = walkAllFiles(sourceDir);
   const parts = [];
 
@@ -276,7 +353,7 @@ function buildSectionSummary(sourceDir, route, siteUrl) {
     const slug = fm.slug
       ? String(fm.slug).replace(/^\//, '')
       : path.relative(sourceDir, filePath).replace(/\.mdx?$/, '').replace(/\\/g, '/');
-    const mdUrl = `${siteUrl}${route}/${slug}.md`.replace(/([^:])\/\/+/g, '$1/');
+    const mdUrl = publicUrl(siteUrl, baseUrl, `${route}/${slug}.md`);
     const contentType = inferContentType(fm, filePath);
     const languages = fm.languages
       ? [].concat(fm.languages).map(l => String(l).toLowerCase())
@@ -365,22 +442,26 @@ module.exports = function pluginLlmsTxt(context, options) {
     outputPaths = /** @type {string[]} */ (['llms.txt']),
   } = options || {};
   const sources = validateSources(configuredSources);
+  const safeOutputs = validateOutputOptions(sources, outputDir, outputPaths);
 
   return {
     name: 'llms-txt',
 
-    async postBuild({ siteDir, outDir, siteConfig }) {
+    async postBuild(lifecycle) {
+      const {outDir, siteConfig} = lifecycle;
       const siteUrl = siteConfig.url;
+      const baseUrl = lifecycle.baseUrl || siteConfig.baseUrl || '/';
       const header = siteConfig.title;
       const summary = siteConfig.tagline || '';
-      const outDirUrl = `${siteUrl}/${outputDir}`;
+      const outDirUrl = publicUrl(siteUrl, baseUrl, safeOutputs.outputDir).replace(/\/$/, '');
       const mcpEndpoint = siteConfig.customFields?.mcpEndpoint || '';
 
       let totalPages = 0;
-      for (const { id, folder, route, outputFile } of sources) {
-        const sourceDir = resolveSourceFolder(siteDir, folder);
-        const { content, count } = buildSectionSummary(sourceDir, route, siteUrl);
-        const dest = path.join(outDir, outputDir, `${outputFile}.txt`);
+      for (const source of sources) {
+        const {id, route, outputFile} = source;
+        const sourceDir = resolveSourceFolder(source, lifecycle);
+        const {content, count} = buildSectionSummary(sourceDir, route, siteUrl, baseUrl);
+        const dest = containedOutputPath(outDir, path.join(safeOutputs.outputDir, `${outputFile}.txt`));
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.writeFileSync(dest, content, 'utf-8');
         totalPages += count;
@@ -388,13 +469,13 @@ module.exports = function pluginLlmsTxt(context, options) {
       }
 
       const rootContent = renderRoot(sources, outDirUrl, header, summary, mcpEndpoint);
-      for (const rel of outputPaths) {
-        const dest = path.join(outDir, rel);
+      for (const rel of safeOutputs.outputPaths) {
+        const dest = containedOutputPath(outDir, rel);
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.writeFileSync(dest, rootContent, 'utf-8');
       }
 
-      const writtenPaths = outputPaths.map((rel) => path.join(outDir, rel));
+      const writtenPaths = safeOutputs.outputPaths.map(rel => containedOutputPath(outDir, rel));
       console.log(
         `[llms-txt] Root index: ${writtenPaths.join(', ')} — ` +
         `${sources.length} sections, ${totalPages} total pages.`

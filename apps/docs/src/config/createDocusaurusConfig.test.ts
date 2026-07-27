@@ -96,17 +96,133 @@ function applicationPlugin(
   ));
 }
 
-function writeDoc(sourceDir: string, fileName: string, title: string, slug: string): void {
+function writeDoc(
+  sourceDir: string,
+  fileName: string,
+  title: string,
+  slug: string,
+  description = `${title} description.`,
+  body = `${title} fixture body.`,
+): void {
   mkdirSync(sourceDir, {recursive: true});
   writeFileSync(path.join(sourceDir, fileName), [
     '---',
-    `title: ${title}`,
+    `title: ${JSON.stringify(title)}`,
     `slug: ${slug}`,
+    `description: ${JSON.stringify(description)}`,
     '---',
     '',
-    `${title} fixture body.`,
+    body,
     '',
   ].join('\n'));
+}
+
+type PluginSourceFixture = {
+  id: 'default' | 'byoc' | 'reference';
+  folder: string;
+  route: string;
+  outputFile: string;
+  label: string;
+  slug: string;
+  englishTitle: string;
+  japaneseTitle: string;
+  japaneseDescription: string;
+  japaneseBody: string;
+};
+
+function translatedSourceFolder(localizationDir: string, id: PluginSourceFixture['id']): string {
+  const pluginDirectory = id === 'default'
+    ? 'docusaurus-plugin-content-docs'
+    : `docusaurus-plugin-content-docs-${id}`;
+  return path.join(localizationDir, pluginDirectory, 'current');
+}
+
+function createLocalePluginFixture(prefix: string) {
+  const root = mkdtempSync(path.join(os.tmpdir(), prefix));
+  const localizationDir = path.join(root, 'i18n', 'ja-JP');
+  const sources: PluginSourceFixture[] = [
+    {
+      id: 'default',
+      folder: path.join(root, 'profile-content', 'cloud'),
+      route: '/guides',
+      outputFile: 'cloud-guides',
+      label: 'Cloud Guides',
+      slug: 'cloud-start',
+      englishTitle: 'Cloud Start',
+      japaneseTitle: 'クラウド入門',
+      japaneseDescription: 'クラウドの日本語説明。',
+      japaneseBody: 'クラウドの日本語本文。',
+    },
+    {
+      id: 'byoc',
+      folder: path.join(root, 'profile-content', 'byoc'),
+      route: '/guides/byoc',
+      outputFile: 'byoc',
+      label: 'byoc',
+      slug: 'byoc-start',
+      englishTitle: 'BYOC Start',
+      japaneseTitle: 'BYOC 入門',
+      japaneseDescription: 'BYOC の日本語説明。',
+      japaneseBody: 'BYOC の日本語本文。',
+    },
+    {
+      id: 'reference',
+      folder: path.join(root, 'profile-content', 'reference'),
+      route: '/reference',
+      outputFile: 'reference',
+      label: 'reference',
+      slug: 'api-client',
+      englishTitle: 'API Client',
+      japaneseTitle: 'API クライアント',
+      japaneseDescription: 'API の日本語説明。',
+      japaneseBody: 'API の日本語本文。',
+    },
+  ];
+
+  for (const source of sources) {
+    writeDoc(source.folder, `${source.slug}.md`, source.englishTitle, source.slug);
+    writeDoc(
+      translatedSourceFolder(localizationDir, source.id),
+      `${source.slug}.md`,
+      source.japaneseTitle,
+      source.slug,
+      source.japaneseDescription,
+      source.japaneseBody,
+    );
+  }
+
+  return {root, localizationDir, sources};
+}
+
+function localeLifecycle(
+  fixture: ReturnType<typeof createLocalePluginFixture>,
+  locale: 'en' | 'ja-JP',
+) {
+  const baseUrl = locale === 'en' ? '/' : '/ja-JP/';
+  return {
+    siteDir: path.join(fixture.root, 'site'),
+    localizationDir: fixture.localizationDir,
+    outDir: path.join(fixture.root, 'build', 'en', locale === 'en' ? '' : locale),
+    baseUrl,
+    i18n: {defaultLocale: 'en', currentLocale: locale, locales: ['en', 'ja-JP']},
+    siteConfig: {
+      url: 'https://docs.example.com',
+      title: locale === 'en' ? 'Docs' : 'ドキュメント',
+      tagline: locale === 'en' ? 'Documentation' : '製品ドキュメント',
+      baseUrl,
+      customFields: {},
+    },
+  };
+}
+
+function localizedRoute(baseUrl: string, route: string, slug: string): string {
+  return `${baseUrl}${route.replace(/^\//, '')}/${slug}`.replace(/\/+/g, '/');
+}
+
+function jsonLdFromHtml(html: string): {raw: string; value: Record<string, unknown>} {
+  const match = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  expect(match).not.toBeNull();
+  return {raw: match![1], value: JSON.parse(match![1])};
 }
 
 function outputFiles(root: string): string[] {
@@ -181,72 +297,118 @@ describe('createDocusaurusConfig', () => {
     expect(applicationPlugin(chinese, 'structured-data')).toBeUndefined();
   });
 
-  it('writes deterministic LLMS artifacts from absolute profile source folders', async () => {
-    const fixture = mkdtempSync(path.join(os.tmpdir(), 'docs-llms-plugin-'));
-    const cloud = path.join(fixture, 'profile-content', 'cloud-source');
-    const sdk = path.join(fixture, 'profile-content', 'sdk-source');
-    writeDoc(cloud, 'start.md', 'Cloud Start', 'start');
-    writeDoc(sdk, 'client.md', 'SDK Client', 'client');
-    const sources = [
-      {id: 'default', folder: cloud, route: '/guides', outputFile: 'cloud-guides', label: 'Cloud Guides'},
-      {id: 'sdk', folder: sdk, route: '/api/sdk', outputFile: 'sdk', label: 'sdk'},
-    ];
-    const outDir = path.join(fixture, 'build', 'en');
+  it('writes separate English and Japanese LLMS artifacts from the current locale source tree', async () => {
+    const fixture = createLocalePluginFixture('docs-llms-plugin-');
     const llmsPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/llms-txt'));
+    const pluginSources = fixture.sources.map(({slug, englishTitle, japaneseTitle, japaneseDescription, japaneseBody, ...source}) => source);
+    const english = localeLifecycle(fixture, 'en');
+    const japanese = localeLifecycle(fixture, 'ja-JP');
 
-    await llmsPlugin({}, {sources}).postBuild({
-      siteDir: path.join(fixture, 'legacy-site-root'),
-      outDir,
-      siteConfig: {url: 'https://docs.example.com', title: 'Docs', tagline: 'Documentation', customFields: {}},
-    });
+    await llmsPlugin(english, {sources: pluginSources}).postBuild(english);
+    await llmsPlugin(japanese, {sources: pluginSources}).postBuild(japanese);
 
-    expect(existsSync(path.join(outDir, 'llms.txt'))).toBe(true);
-    expect(existsSync(path.join(outDir, 'llms', 'cloud-guides.txt'))).toBe(true);
-    expect(existsSync(path.join(outDir, 'llms', 'sdk.txt'))).toBe(true);
-    expect(readFileSync(path.join(outDir, 'llms.txt'), 'utf8')).toContain(
+    expect(existsSync(path.join(english.outDir, 'llms.txt'))).toBe(true);
+    expect(existsSync(path.join(japanese.outDir, 'llms.txt'))).toBe(true);
+    for (const source of fixture.sources) {
+      const englishSection = readFileSync(path.join(english.outDir, 'llms', `${source.outputFile}.txt`), 'utf8');
+      const japaneseSection = readFileSync(path.join(japanese.outDir, 'llms', `${source.outputFile}.txt`), 'utf8');
+      expect(englishSection).toContain(`## ${source.englishTitle}`);
+      expect(japaneseSection).toContain(`## ${source.japaneseTitle}`);
+      expect(japaneseSection).toContain(source.japaneseDescription);
+      expect(japaneseSection).toContain(
+        `https://docs.example.com/ja-JP${source.route}/${source.slug}.md`,
+      );
+      expect(japaneseSection).not.toContain(source.englishTitle);
+    }
+    expect(readFileSync(path.join(english.outDir, 'llms.txt'), 'utf8')).toContain(
       '- [Cloud Guides](https://docs.example.com/llms/cloud-guides.txt)',
     );
-    expect(readFileSync(path.join(outDir, 'llms', 'cloud-guides.txt'), 'utf8')).toContain(
-      'https://docs.example.com/guides/start.md',
+    expect(readFileSync(path.join(japanese.outDir, 'llms.txt'), 'utf8')).toContain(
+      '- [Cloud Guides](https://docs.example.com/ja-JP/llms/cloud-guides.txt)',
     );
-    const generated = outputFiles(outDir).map(file => readFileSync(file, 'utf8')).join('\n');
-    expect(generated).not.toContain(cloud);
-    expect(generated).not.toContain(sdk);
+    const generated = outputFiles(path.join(fixture.root, 'build'))
+      .map(file => readFileSync(file, 'utf8')).join('\n');
+    for (const source of fixture.sources) expect(generated).not.toContain(source.folder);
     expect(generated).not.toContain('docs-byoc');
   });
 
-  it('injects structured data into representative English and Japanese Docusaurus pages', async () => {
-    const fixture = mkdtempSync(path.join(os.tmpdir(), 'docs-structured-plugin-'));
-    const source = path.join(fixture, 'profile-content', 'cloud-source');
-    writeDoc(source, 'start.md', 'Cloud Start', 'start');
-    const outDir = path.join(fixture, 'build', 'en');
-    for (const localePrefix of ['', 'ja-JP']) {
-      const htmlDir = path.join(outDir, localePrefix, 'guides');
-      mkdirSync(htmlDir, {recursive: true});
-      writeFileSync(path.join(htmlDir, 'start.html'), '<html><head></head><body>Fixture</body></html>');
+  it('injects translated structured data during separate English and Japanese locale lifecycles', async () => {
+    const fixture = createLocalePluginFixture('docs-structured-plugin-');
+    const pluginSources = fixture.sources.map(({slug, englishTitle, japaneseTitle, japaneseDescription, japaneseBody, ...source}) => source);
+    const english = localeLifecycle(fixture, 'en');
+    const japanese = localeLifecycle(fixture, 'ja-JP');
+    for (const lifecycle of [english, japanese]) {
+      for (const source of fixture.sources) {
+        const htmlDir = path.join(lifecycle.outDir, source.route.replace(/^\//, ''));
+        mkdirSync(htmlDir, {recursive: true});
+        writeFileSync(path.join(htmlDir, `${source.slug}.html`), '<html><head></head><body>Fixture</body></html>');
+      }
     }
     const structuredDataPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/structured-data'));
 
-    await structuredDataPlugin({}, {
-      sources: [
-        {id: 'default', folder: source, route: '/guides', outputFile: 'cloud-guides', label: 'Cloud Guides'},
-      ],
-    }).postBuild({
-      siteDir: path.join(fixture, 'legacy-site-root'),
-      outDir,
-      siteConfig: {
-        url: 'https://docs.example.com',
-        i18n: {defaultLocale: 'en', locales: ['en', 'ja-JP']},
-      },
+    await structuredDataPlugin(english, {sources: pluginSources}).postBuild(english);
+    await structuredDataPlugin(japanese, {sources: pluginSources}).postBuild(japanese);
+
+    for (const source of fixture.sources) {
+      const englishHtml = readFileSync(
+        path.join(english.outDir, source.route.replace(/^\//, ''), `${source.slug}.html`),
+        'utf8',
+      );
+      const japaneseHtml = readFileSync(
+        path.join(japanese.outDir, source.route.replace(/^\//, ''), `${source.slug}.html`),
+        'utf8',
+      );
+      const englishData = jsonLdFromHtml(englishHtml).value;
+      const japaneseData = jsonLdFromHtml(japaneseHtml).value;
+      expect(englishData.name).toBe(source.englishTitle);
+      expect(japaneseData.name).toBe(source.japaneseTitle);
+      expect(japaneseData.description).toBe(source.japaneseDescription);
+      expect(japaneseData.url).toBe(`https://docs.example.com/ja-JP${source.route}/${source.slug}`);
+      expect(japaneseHtml).not.toContain(source.englishTitle);
+    }
+  });
+
+  it('copies canonical and translated Markdown during separate embed-markdown locale lifecycles', async () => {
+    const fixture = createLocalePluginFixture('docs-embed-locales-');
+    const pluginSources = fixture.sources.map(({slug, englishTitle, japaneseTitle, japaneseDescription, japaneseBody, ...source}) => source);
+    const english = localeLifecycle(fixture, 'en');
+    const japanese = localeLifecycle(fixture, 'ja-JP');
+    const embedMarkdownPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/embed-markdown'));
+
+    await embedMarkdownPlugin(english, {sources: pluginSources}).postBuild({
+      ...english,
+      routesPaths: fixture.sources.map(source => localizedRoute(english.baseUrl, source.route, source.slug)),
+    });
+    await embedMarkdownPlugin(japanese, {sources: pluginSources}).postBuild({
+      ...japanese,
+      routesPaths: fixture.sources.map(source => localizedRoute(japanese.baseUrl, source.route, source.slug)),
     });
 
-    const english = readFileSync(path.join(outDir, 'guides', 'start.html'), 'utf8');
-    const japanese = readFileSync(path.join(outDir, 'ja-JP', 'guides', 'start.html'), 'utf8');
-    expect(english).toContain('<script type="application/ld+json">');
-    expect(english).toContain('"url":"https://docs.example.com/guides/start"');
-    expect(japanese).toContain('<script type="application/ld+json">');
-    expect(japanese).toContain('"url":"https://docs.example.com/ja-JP/guides/start"');
-    expect(`${english}\n${japanese}`).not.toContain(source);
+    for (const source of fixture.sources) {
+      const englishMarkdown = readFileSync(
+        path.join(english.outDir, source.route.replace(/^\//, ''), `${source.slug}.md`),
+        'utf8',
+      );
+      const japaneseMarkdown = readFileSync(
+        path.join(japanese.outDir, source.route.replace(/^\//, ''), `${source.slug}.md`),
+        'utf8',
+      );
+      expect(englishMarkdown).toContain(source.englishTitle);
+      expect(japaneseMarkdown).toContain(source.japaneseTitle);
+      expect(japaneseMarkdown).toContain(source.japaneseBody);
+      expect(japaneseMarkdown).not.toContain(source.englishTitle);
+    }
+
+    let japanesePluginData: unknown;
+    await embedMarkdownPlugin(japanese, {sources: pluginSources}).contentLoaded({
+      actions: {setGlobalData(data: unknown) { japanesePluginData = data; }},
+    });
+    expect(japanesePluginData).toEqual(expect.objectContaining({
+      sources: fixture.sources.map(source => ({
+        id: source.id,
+        route: localizedRoute(japanese.baseUrl, source.route, '').replace(/\/$/, ''),
+      })),
+    }));
   });
 
   it('publishes sanitized embed-markdown data for docs UI consumers', async () => {
@@ -270,6 +432,91 @@ describe('createDocusaurusConfig', () => {
     }));
     expect(JSON.stringify(pluginData)).not.toContain(source);
     expect(JSON.stringify(pluginData)).not.toContain('legacy-site-root');
+  });
+
+  it('rejects relative source folders in every build plugin', () => {
+    const source = {
+      id: 'default',
+      folder: 'content/en/guides',
+      route: '/guides',
+      outputFile: 'cloud-guides',
+      label: 'Cloud Guides',
+    };
+
+    for (const name of ['embed-markdown', 'llms-txt', 'structured-data']) {
+      const plugin = require(path.resolve(process.cwd(), `apps/docs/plugins/${name}`));
+      expect(() => plugin({}, {sources: [source]})).toThrow(/absolute/i);
+    }
+  });
+
+  it('rejects unsafe LLMS destination options before writing output', () => {
+    const fixture = mkdtempSync(path.join(os.tmpdir(), 'docs-llms-safety-'));
+    const sourceFolder = path.join(fixture, 'source');
+    writeDoc(sourceFolder, 'start.md', 'Start', 'start');
+    const llmsPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/llms-txt'));
+    const source = {
+      id: 'default', folder: sourceFolder, route: '/guides', outputFile: 'cloud-guides', label: 'Cloud Guides',
+    };
+    const invalidOptions = [
+      {sources: [source], outputDir: '../escape'},
+      {sources: [source], outputDir: path.join(fixture, 'absolute-output')},
+      {sources: [source], outputPaths: ['../llms.txt']},
+      {sources: [source], outputPaths: [path.join(fixture, 'absolute-llms.txt')]},
+      {sources: [{...source, outputFile: '../escape'}]},
+      {sources: [{...source, outputFile: 'nested/file'}]},
+    ];
+
+    for (const options of invalidOptions) {
+      expect(() => llmsPlugin({}, options)).toThrow(/output|relative|safe|token|absolute/i);
+    }
+    expect(existsSync(path.join(fixture, 'build'))).toBe(false);
+  });
+
+  it('rejects duplicate or colliding LLMS output paths before writing output', () => {
+    const fixture = mkdtempSync(path.join(os.tmpdir(), 'docs-llms-collision-'));
+    const sourceFolder = path.join(fixture, 'source');
+    writeDoc(sourceFolder, 'start.md', 'Start', 'start');
+    const llmsPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/llms-txt'));
+    const source = {
+      id: 'default', folder: sourceFolder, route: '/guides', outputFile: 'cloud-guides', label: 'Cloud Guides',
+    };
+
+    expect(() => llmsPlugin({}, {
+      sources: [source, {...source, id: 'reference', outputFile: 'cloud-guides'}],
+    })).toThrow(/duplicate|collision/i);
+    expect(() => llmsPlugin({}, {
+      sources: [source], outputPaths: ['llms.txt', './llms.txt'],
+    })).toThrow(/duplicate|collision/i);
+    expect(() => llmsPlugin({}, {
+      sources: [source], outputPaths: ['llms/cloud-guides.txt'],
+    })).toThrow(/duplicate|collision/i);
+    expect(existsSync(path.join(fixture, 'build'))).toBe(false);
+  });
+
+  it('escapes structured-data JSON so frontmatter cannot terminate its script element', async () => {
+    const fixture = createLocalePluginFixture('docs-structured-escape-');
+    const dangerousTitle = 'Danger </script><script>alert(1)</script>';
+    const source = fixture.sources[0];
+    writeDoc(source.folder, `${source.slug}.md`, dangerousTitle, source.slug, 'Safe description');
+    const english = localeLifecycle(fixture, 'en');
+    const htmlDir = path.join(english.outDir, source.route.replace(/^\//, ''));
+    mkdirSync(htmlDir, {recursive: true});
+    writeFileSync(path.join(htmlDir, `${source.slug}.html`), '<html><head></head><body>Fixture</body></html>');
+    const structuredDataPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/structured-data'));
+
+    await structuredDataPlugin(english, {sources: [{
+      id: source.id,
+      folder: source.folder,
+      route: source.route,
+      outputFile: source.outputFile,
+      label: source.label,
+    }]}).postBuild(english);
+
+    const html = readFileSync(path.join(htmlDir, `${source.slug}.html`), 'utf8');
+    expect(html.match(/<\/script>/g)).toHaveLength(1);
+    const jsonLd = jsonLdFromHtml(html);
+    expect(jsonLd.raw).not.toContain('</script>');
+    expect(jsonLd.value.name).toBe(dangerousTitle);
   });
 
   it('registers only the English profile content and its configured locales', () => {

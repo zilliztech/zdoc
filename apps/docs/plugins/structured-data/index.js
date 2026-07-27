@@ -4,8 +4,24 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
-function resolveSourceFolder(siteDir, folder) {
-  return path.isAbsolute(folder) ? folder : path.resolve(siteDir, folder);
+function pluginTranslationDirectoryName(id) {
+  return id === 'default'
+    ? 'docusaurus-plugin-content-docs'
+    : `docusaurus-plugin-content-docs-${id}`;
+}
+
+function resolveSourceFolder(source, lifecycle) {
+  const currentLocale = lifecycle.i18n?.currentLocale;
+  const defaultLocale = lifecycle.i18n?.defaultLocale;
+  if (!currentLocale || currentLocale === defaultLocale) return source.folder;
+  if (!path.isAbsolute(lifecycle.localizationDir || '')) {
+    throw new Error('[structured-data] localizationDir must be absolute for localized builds');
+  }
+  return path.join(lifecycle.localizationDir, pluginTranslationDirectoryName(source.id), 'current');
+}
+
+function publicUrl(siteUrl, baseUrl, relativePath) {
+  return new URL(relativePath.replace(/^\//, ''), new URL(baseUrl || '/', siteUrl)).toString();
 }
 
 function validateSources(sources) {
@@ -18,6 +34,12 @@ function validateSources(sources) {
     }
     if (ids.has(source.id)) {
       throw new Error(`[structured-data] Duplicate source id: ${source.id}`);
+    }
+    if (!/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(source.id)) {
+      throw new Error(`[structured-data] Source id must be a stable safe token: ${source.id}`);
+    }
+    if (!path.isAbsolute(source.folder)) {
+      throw new Error(`[structured-data] Source folder must be absolute: ${source.folder}`);
     }
     ids.add(source.id);
   }
@@ -76,7 +98,7 @@ function getGenre(urlPath) {
 /**
  * Build a JSON-LD object for a single doc page.
  */
-function buildJsonLd({ title, url, genre, dateModified, proficiencyLevel, languages, prerequisites }) {
+function buildJsonLd({ title, description, url, genre, dateModified, proficiencyLevel, languages, prerequisites }) {
   const ld = {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
@@ -90,6 +112,9 @@ function buildJsonLd({ title, url, genre, dateModified, proficiencyLevel, langua
     },
   };
 
+  if (description) {
+    ld.description = description;
+  }
   if (proficiencyLevel) {
     ld.proficiencyLevel = proficiencyLevel;
   }
@@ -137,16 +162,15 @@ module.exports = function pluginStructuredData(context, options) {
   return {
     name: 'structured-data',
 
-    async postBuild({ siteDir, outDir, siteConfig }) {
+    async postBuild(lifecycle) {
+      const {outDir, siteConfig} = lifecycle;
       const siteUrl = siteConfig.url;
-      const defaultLocale = siteConfig.i18n?.defaultLocale;
-      const configuredLocales = siteConfig.i18n?.locales || [];
-      const locales = configuredLocales.length > 0 ? configuredLocales : [defaultLocale].filter(Boolean);
-      const outputLocales = locales.length > 0 ? locales : [undefined];
+      const baseUrl = lifecycle.baseUrl || siteConfig.baseUrl || '/';
       let injected = 0;
 
-      for (const { folder, route } of sources) {
-        const sourceDir = resolveSourceFolder(siteDir, folder);
+      for (const source of sources) {
+        const {route} = source;
+        const sourceDir = resolveSourceFolder(source, lifecycle);
 
         const mdFiles = walkMdFiles(sourceDir);
 
@@ -183,30 +207,31 @@ module.exports = function pluginStructuredData(context, options) {
           const prerequisites = fm.prerequisites
             ? [].concat(fm.prerequisites).map(String)
             : undefined;
+          const htmlDir = path.join(outDir, route.replace(/^\//, ''));
+          const htmlPath = [
+            path.join(htmlDir, `${slug}.html`),
+            path.join(htmlDir, slug, 'index.html'),
+          ].find(candidate => fs.existsSync(candidate));
+          if (!htmlPath) continue;
 
-          for (const locale of outputLocales) {
-            const localePrefix = locale && locale !== defaultLocale ? locale : '';
-            const htmlDir = path.join(outDir, localePrefix, route.replace(/^\//, ''));
-            const htmlPath = [
-              path.join(htmlDir, `${slug}.html`),
-              path.join(htmlDir, slug, 'index.html'),
-            ].find(candidate => fs.existsSync(candidate));
-            if (!htmlPath) continue;
+          const jsonLd = buildJsonLd({
+            title,
+            description: fm.description ? String(fm.description) : undefined,
+            url: publicUrl(siteUrl, baseUrl, `${route}/${slug}`),
+            genre,
+            dateModified,
+            proficiencyLevel,
+            languages: languages.length ? languages : undefined,
+            prerequisites,
+          });
 
-            const pageUrl = `${siteUrl}/${localePrefix}${route}/${slug}`.replace(/([^:])\/+/g, '$1/');
-            const jsonLd = buildJsonLd({
-              title, url: pageUrl, genre, dateModified, proficiencyLevel,
-              languages: languages.length ? languages : undefined,
-              prerequisites,
-            });
-
-            // Inject JSON-LD script tag before </head>
-            let html = fs.readFileSync(htmlPath, 'utf-8');
-            const scriptTag = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
-            html = html.replace('</head>', `${scriptTag}\n</head>`);
-            fs.writeFileSync(htmlPath, html, 'utf-8');
-            injected++;
-          }
+          // Escape HTML-significant characters inside JSON before embedding it in a script element.
+          const serializedJsonLd = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
+          let html = fs.readFileSync(htmlPath, 'utf-8');
+          const scriptTag = `<script type="application/ld+json">${serializedJsonLd}</script>`;
+          html = html.replace('</head>', `${scriptTag}\n</head>`);
+          fs.writeFileSync(htmlPath, html, 'utf-8');
+          injected++;
         }
       }
 
