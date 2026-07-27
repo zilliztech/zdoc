@@ -2,15 +2,15 @@
 title: "TopHits | Python | MilvusClient"
 slug: /python/python/Vector-TopHits
 sidebar_label: "TopHits"
-beta: PRIVATE
+beta: PUBLIC
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A `TopHits` instance defines the representative hits returned from each bucket in a search aggregation. It specifies how many hits to return per bucket and, optionally, how to sort hits within each bucket. | Python | MilvusClient"
+description: "A `TopHits` instance configures the representative entities returned from each `SearchAggregation` bucket. | Python | MilvusClient"
 type: docx
-token: EgeGdZL4LoCuv2xVUfFc9eDAnkd
-sidebar_position: 12
+token: PszSdqvtRo4t96xrW0ycWlVAnfc
+sidebar_position: 14
 keywords: 
   - milvus open source
   - how does milvus work
@@ -31,17 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # TopHits
 
-A `TopHits` instance defines the representative hits returned from each bucket in a search aggregation. It specifies how many hits to return per bucket and, optionally, how to sort hits within each bucket.
-
-This draft is based on the Search Aggregation API design inputs. Verify the final constructor signature, import path, validation rules, and property names against the PyMilvus source before publishing.
+A `TopHits` instance configures the representative entities returned from each `SearchAggregation` bucket.
 
 ```python
 class pymilvus.TopHits
 ```
 
 ## Constructor\{#constructor}
-
-Constructs a `TopHits` object for use in a `GroupBy` object.
 
 ```python
 TopHits(
@@ -52,76 +48,33 @@ TopHits(
 
 **PARAMETERS:**
 
-- **size** (*int*) -
+- **size** (*int*) **[REQUIRED]** -
 
-    **[REQUIRED]**
-
-    The number of representative hits to return from each bucket.
-
-    For example, `TopHits(size=3)` returns up to 3 hits from each bucket.
+    The maximum number of representative entities returned from each bucket. The value must be a positive integer.
 
 - **sort** (*list[dict[str, str]] | None*) -
 
-    A list of hit-level sorting rules.
-
-    Each item defines a field and an ordering direction:
-
-    ```python
-    sort=[{"field": "rating", "order": "desc"}]
-    ```
-
-    The `field` value must be a document-level field or `_score`. The `order` value must be `asc` or `desc`.
-
-    `sort` controls only the order of hits within a bucket. It does not affect which buckets are returned, how buckets are ordered, or how per-bucket metrics are computed.
-
-    If `sort` is omitted, hits are ordered by vector similarity score.
+    Hit ordering rules evaluated in list order. Each item is a single-key dictionary mapping a scalar field name or `_score` to `"asc"` or `"desc"`. If omitted, the server uses its default hit order.
 
 **RETURN TYPE:**
 
 *TopHits*
 
-**RETURNS:**
-
-A `TopHits` object.
-
 **EXCEPTIONS:**
 
-- **ParamError**
+- **ParamError** - Raised when `size` is not a positive integer or `sort` is not a list of single-key dictionaries with valid directions.
 
-    This exception may be raised when the `TopHits` specification is invalid. Examples include non-positive `size`, unsupported sort directions, unsupported sort fields, or use of bucket-level metric aliases in `sort`.
-
-    The final exception type is pending SDK confirmation.
-
-## Examples\{#examples}
+## Example\{#example}
 
 ```python
-from pymilvus import GroupBy, TopHits
+from pymilvus import SearchAggregation, TopHits
 
-# Return the top 3 hits from each bucket by vector similarity score.
-group_by = GroupBy(
-    fields=["brand"],
-    size=10,
-    top_hits=TopHits(size=3),
-)
-
-# Return the 3 highest-rated hits from each bucket.
-group_by = GroupBy(
+aggregation = SearchAggregation(
     fields=["brand"],
     size=10,
     top_hits=TopHits(
         size=3,
-        sort=[{"field": "rating", "order": "desc"}],
+        sort=[{"rating": "desc"}, {"_score": "desc"}],
     ),
-)
-
-# Return only bucket keys and metrics by omitting TopHits.
-group_by = GroupBy(
-    fields=["brand"],
-    size=10,
-    metrics={
-        "item_count": {"count": "*"},
-        "avg_price": {"avg": "price"},
-    },
-    order=[{"avg_price": "desc"}],
 )
 ```

@@ -737,9 +737,21 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy",
-            "label": "GroupBy",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-groupby"
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket",
+            "label": "AggregationBucket",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-aggregationbucket"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit",
+            "label": "AggregationHit",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-aggregationhit"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation",
+            "label": "SearchAggregation",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-searchaggregation"
           },
           {
             "type": "doc",
