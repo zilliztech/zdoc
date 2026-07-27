@@ -27,14 +27,15 @@ function canonicalBatchInput(batch = numberedBatch(), overrides = {}) {
     sourceCheckpointSha: SHA_B,
     batch,
     candidates: reconciliationOnly ? [] : [{
-      sourcePath: 'docs/tutorials/new.md',
+      sourcePath: 'content/en/guides/tutorials/new.md',
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
       sourceHash: 'd'.repeat(64),
     }],
     sourceDelta: reconciliationOnly ? {
       deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
       renamed: [],
-    } : { deletedI18n: [], renamed: [] },
+      retirementCandidates: [],
+    } : { deletedI18n: [], renamed: [], retirementCandidates: [] },
     ...overrides,
   };
 }
@@ -58,14 +59,14 @@ async function fixture() {
   const baselineDir = path.join(root, 'baseline');
   const workspace = path.join(root, 'workspace');
   const output = path.join(root, 'artifact');
-  await mkdir(path.join(baselineDir, 'reference/api/python/python'), { recursive: true });
-  await mkdir(path.join(workspace, 'reference/api/python/python'), { recursive: true });
+  await mkdir(path.join(baselineDir, 'content/en/reference/api/python/python'), { recursive: true });
+  await mkdir(path.join(workspace, 'content/en/reference/api/python/python'), { recursive: true });
   return { baselineDir, workspace, output };
 }
 
 test('creates a deterministic, sorted artifact with changed, new, binary, and deleted files', async () => {
   const f = await fixture();
-  const root = 'reference/api/python/python';
+  const root = 'content/en/reference/api/python/python';
   await writeFile(path.join(f.baselineDir, root, 'changed.md'), 'old');
   await writeFile(path.join(f.baselineDir, root, 'deleted.md'), 'gone');
   await writeFile(path.join(f.workspace, root, 'changed.md'), 'new');
@@ -247,7 +248,7 @@ test('translation artifact creation fails when workspace cache is absent and lea
 
 test('represents a baseline file changed into a directory', async () => {
   const f = await fixture();
-  const owned = 'reference/api/python/python/topic';
+  const owned = 'content/en/reference/api/python/python/topic';
   await writeFile(path.join(f.baselineDir, owned), 'old file');
   await mkdir(path.join(f.workspace, owned), { recursive: true });
   await writeFile(path.join(f.workspace, owned, 'index.md'), 'new child');
@@ -259,7 +260,7 @@ test('represents a baseline file changed into a directory', async () => {
 
 test('represents a baseline directory changed into a file', async () => {
   const f = await fixture();
-  const owned = 'reference/api/python/python/topic';
+  const owned = 'content/en/reference/api/python/python/topic';
   await mkdir(owned.split('/').reduce((base, part) => path.join(base, part), f.baselineDir), { recursive: true });
   await writeFile(path.join(f.baselineDir, owned, 'old.md'), 'old child');
   await writeFile(path.join(f.workspace, owned), 'new file');
@@ -314,10 +315,10 @@ test('rejects a symlink component even when the output already exists beyond it'
 
 test('preserves an existing complete artifact when staging fails', async () => {
   const f = await fixture();
-  await writeFile(path.join(f.workspace, 'reference/api/python/python/old.md'), 'old artifact');
+  await writeFile(path.join(f.workspace, 'content/en/reference/api/python/python/old.md'), 'old artifact');
   await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, createdAt: '2026-01-01T00:00:00.000Z' });
   const oldManifest = await readFile(path.join(f.output, 'manifest.json'), 'utf8');
-  await writeFile(path.join(f.workspace, 'reference/api/python/python/new.md'), 'new');
+  await writeFile(path.join(f.workspace, 'content/en/reference/api/python/python/new.md'), 'new');
   await assert.rejects(createCheckpointArtifact({
     group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
     testHooks: { beforeValidation() { throw new Error('injected staging failure'); } },
@@ -327,9 +328,9 @@ test('preserves an existing complete artifact when staging fails', async () => {
 
 test('pointer-swap readers see a complete old or new artifact and never a missing path', async () => {
   const f = await fixture();
-  await writeFile(path.join(f.workspace, 'reference/api/python/python/old.md'), 'old artifact');
+  await writeFile(path.join(f.workspace, 'content/en/reference/api/python/python/old.md'), 'old artifact');
   await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, createdAt: '2026-01-01T00:00:00.000Z' });
-  await writeFile(path.join(f.workspace, 'reference/api/python/python/new.md'), 'new');
+  await writeFile(path.join(f.workspace, 'content/en/reference/api/python/python/new.md'), 'new');
   const observations = [];
   await createCheckpointArtifact({
     group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
@@ -379,10 +380,10 @@ test('rejects a managed-looking pointer whose version target is itself a symlink
 
 test('retains the retired generation so readers pinned before swap remain valid', async () => {
   const f = await fixture();
-  await writeFile(path.join(f.workspace, 'reference/api/python/python/old.md'), 'old');
+  await writeFile(path.join(f.workspace, 'content/en/reference/api/python/python/old.md'), 'old');
   await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f });
   const oldTarget = await require('node:fs/promises').realpath(f.output);
-  await writeFile(path.join(f.workspace, 'reference/api/python/python/new.md'), 'new');
+  await writeFile(path.join(f.workspace, 'content/en/reference/api/python/python/new.md'), 'new');
   let cleanupAttempted = false;
   await createCheckpointArtifact({
     group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
@@ -390,10 +391,10 @@ test('retains the retired generation so readers pinned before swap remain valid'
   });
   assert.equal(cleanupAttempted, false);
   await assert.doesNotReject(validateCheckpointArtifact(oldTarget));
-  assert.equal(await readFile(path.join(oldTarget, 'payload/reference/api/python/python/old.md'), 'utf8'), 'old');
+  assert.equal(await readFile(path.join(oldTarget, 'payload/content/en/reference/api/python/python/old.md'), 'utf8'), 'old');
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
   assert.deepEqual((await validateCheckpointArtifact(f.output)).files.map((entry) => entry.path), [
-    'reference/api/python/python/new.md', 'reference/api/python/python/old.md',
+    'content/en/reference/api/python/python/new.md', 'content/en/reference/api/python/python/old.md',
   ]);
 });
 
@@ -414,7 +415,7 @@ test('rejects symlinks in owned workspace paths with a clear error', async () =>
   const f = await fixture();
   const target = path.join(f.workspace, 'target');
   await writeFile(target, 'secret');
-  await symlink(target, path.join(f.workspace, 'reference/api/python/python/link.md'));
+  await symlink(target, path.join(f.workspace, 'content/en/reference/api/python/python/link.md'));
   await assert.rejects(
     createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f }),
     /symlink.*not supported/i,
@@ -425,13 +426,13 @@ test('rejects symlinks in owned baseline paths', async () => {
   const f = await fixture();
   const target = path.join(f.baselineDir, 'target');
   await writeFile(target, 'secret');
-  await symlink(target, path.join(f.baselineDir, 'reference/api/python/python/link.md'));
+  await symlink(target, path.join(f.baselineDir, 'content/en/reference/api/python/python/link.md'));
   await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f }), /symlink.*not supported/i);
 });
 
 test('validates required arguments, group, and SHAs', async () => {
   const f = await fixture();
-  await assert.rejects(createCheckpointArtifact({ group: 'ruby', masterSha: SHA_A, devBaselineSha: SHA_B, ...f }), /Unknown content group/);
+  await assert.rejects(createCheckpointArtifact({ group: 'ruby', masterSha: SHA_A, devBaselineSha: SHA_B, ...f }), /Unknown (?:content|publication) group/);
   await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: 'bad', devBaselineSha: SHA_B, ...f }), /master.*SHA/i);
   await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: 'bad', ...f }), /dev baseline.*SHA/i);
   for (const validationCommands of ['node --test', [1], [null]]) {
@@ -475,5 +476,5 @@ test('translation workflow creates one numbered Guides batch input and passes it
   assert.match(workflow, /batch_input_args=\(\)[\s\S]*batch_input_args=\(--batch-input tmp\/translation-batch-input\.json\)/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*BASELINE_CHECKPOINT_DIR[^\n]*batch_input_args/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*CHECKPOINT_DIR[^\n]*batch_input_args[^\n]*validation_args/);
-  assert.match(workflow, /inputs\.batch_number[^\n]*== 0[^\n]*validation_args=\(--validation-command "pnpm run build"\)/);
+  assert.match(workflow, /inputs\.batch_number[^\n]*== 0[^\n]*validation_args=\(--validation-command "pnpm run build:en"\)/);
 });

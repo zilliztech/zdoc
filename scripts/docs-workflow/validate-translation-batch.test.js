@@ -27,14 +27,15 @@ function batchInput(batch = batchMetadata(), overrides = {}) {
     sourceCheckpointSha: DEV_SHA,
     batch,
     candidates: reconciliationOnly ? [] : [{
-      sourcePath: 'docs/tutorials/new.md',
+      sourcePath: 'content/en/guides/tutorials/new.md',
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
       sourceHash: 'd'.repeat(64),
     }],
     sourceDelta: reconciliationOnly ? {
       deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
       renamed: [],
-    } : { deletedI18n: [], renamed: [] },
+      retirementCandidates: [],
+    } : { deletedI18n: [], renamed: [], retirementCandidates: [] },
     ...overrides,
   }
 }
@@ -82,7 +83,7 @@ async function translationPair(options = {}) {
   const batch = options.batch || batchMetadata()
   const document = options.document || batchInput(batch)
   return {
-    artifact: await translationArtifact({ batch, document, cacheFiles: options.resultCache || { 'docs/tutorials/new.md': cacheEntry() }, manifest: options.resultManifest }),
+    artifact: await translationArtifact({ batch, document, cacheFiles: options.resultCache || { 'content/en/guides/tutorials/new.md': cacheEntry() }, manifest: options.resultManifest }),
     baseline: await translationArtifact({ batch, document, cacheFiles: options.baselineCache || {}, manifest: options.baselineManifest }),
   }
 }
@@ -146,7 +147,7 @@ test('requires byte-identical batch inputs and complete checkpoint identity', as
   let pair = await translationPair()
   const differentDocument = batchInput(batchMetadata(), {
     candidates: [{
-      sourcePath: 'docs/tutorials/other.md',
+      sourcePath: 'content/en/guides/tutorials/other.md',
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/other.md',
       sourceHash: 'e'.repeat(64),
     }],
@@ -161,7 +162,7 @@ test('requires byte-identical batch inputs and complete checkpoint identity', as
   const otherSource = 'e'.repeat(40)
   pair.artifact = await translationArtifact({
     document: batchInput(batchMetadata(), { sourceCheckpointSha: otherSource }),
-    cacheFiles: { 'docs/tutorials/new.md': cacheEntry() },
+    cacheFiles: { 'content/en/guides/tutorials/new.md': cacheEntry() },
     manifest: { devBaselineSha: otherSource },
   })
   await assert.rejects(validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }), /identity|baseline|source|mismatch/i)
@@ -175,8 +176,8 @@ test('enforces authorized translation cache changes from the shared batch input'
   }
   const changedStable = { ...stable, sourceHash: 'f'.repeat(64) }
   const pair = await translationPair({
-    baselineCache: { 'docs/tutorials/stable.md': stable },
-    resultCache: { 'docs/tutorials/new.md': cacheEntry(), 'docs/tutorials/stable.md': changedStable },
+    baselineCache: { 'content/en/guides/tutorials/stable.md': stable },
+    resultCache: { 'content/en/guides/tutorials/new.md': cacheEntry(), 'content/en/guides/tutorials/stable.md': changedStable },
   })
   await assert.rejects(
     validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }),
@@ -197,8 +198,8 @@ test('authorizes from authenticated cache buffers even if result cache path is r
         hookCalled = true
         const replacement = {
           files: {
-            'docs/tutorials/new.md': cacheEntry(),
-            'docs/tutorials/unauthorized.md': {
+            'content/en/guides/tutorials/new.md': cacheEntry(),
+            'content/en/guides/tutorials/unauthorized.md': {
               sourceHash: 'e'.repeat(64),
               targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/unauthorized.md',
               translatedAt: '2026-07-18T00:00:00.000Z',

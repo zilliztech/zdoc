@@ -260,7 +260,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
   ))
   const selectedItems = maxFiles > 0 ? items.slice(0, maxFiles) : items
   const effectiveSourceDelta = sourceDelta || uniqueRetirements.length > 0 ? {...(sourceDelta || {})} : null
-  if (effectiveSourceDelta && (uniqueRetirements.length > 0 || (target !== 'ja-JP' && Object.hasOwn(sourceDelta || {}, 'retirementCandidates')))) {
+  if (effectiveSourceDelta && (uniqueRetirements.length > 0 || Object.hasOwn(sourceDelta || {}, 'retirementCandidates'))) {
     effectiveSourceDelta.retirementCandidates = uniqueRetirements
   }
   return createManifest({ locale, group, sourceCheckpointSha, sourceDelta: effectiveSourceDelta, items: selectedItems })

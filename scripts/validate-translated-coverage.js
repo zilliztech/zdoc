@@ -32,7 +32,9 @@ function walkDocuments(cwd, relativeRoot) {
 function analyzeTranslatedCoverage({ group, cwd = process.cwd() }) {
   const paths = getGroupPaths(group)
   const englishRoots = paths.englishOutputs.filter(relativePath => (
-    relativePath === 'docs' || relativePath === 'docs-byoc' || relativePath.startsWith('reference/')
+    relativePath === 'content/en/guides' ||
+    relativePath === 'content/en/byoc' ||
+    relativePath.startsWith('content/en/reference/')
   ))
   const englishDocuments = englishRoots.flatMap(relativeRoot => walkDocuments(cwd, relativeRoot)).sort()
   const translatedDocuments = paths.translationOutputs.flatMap(relativeRoot => walkDocuments(cwd, relativeRoot)).sort()

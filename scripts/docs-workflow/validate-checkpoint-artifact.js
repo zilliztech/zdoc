@@ -30,9 +30,9 @@ function validPath(value) {
 function ownershipIsFile(owned) { return /\.[A-Za-z0-9]+$/.test(owned); }
 function isOwned(rel, ownedPaths, translationArtifact = false) {
   const translationPaths = translationArtifact ? ownedPaths.flatMap((owned) => {
-    if (owned === 'docs') return ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'];
-    if (owned === 'docs-byoc') return ['i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'];
-    if (owned.startsWith('reference/')) return [`i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${owned.slice('reference/'.length)}`];
+    if (owned === 'content/en/guides') return ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'];
+    if (owned === 'content/en/byoc') return ['i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'];
+    if (owned.startsWith('content/en/reference/')) return [`i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${owned.slice('content/en/reference/'.length)}`];
     return [];
   }) : [];
   return (translationArtifact && rel === '.translation-cache/ja-JP.json') || [...ownedPaths, ...translationPaths].some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));

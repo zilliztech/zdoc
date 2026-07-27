@@ -11,6 +11,9 @@ const {
   validateBatchInput,
   writeBatchInput,
 } = require('./translation-batch-input')
+const { buildManifest } = require('../translation/manifest')
+const { createBatchSummary, selectManifestBatch } = require('../translation/batches')
+const { classifySourceDelta } = require('../translation/sourceDelta')
 
 test('exports the translation batch input API', () => {
   assert.equal(typeof assertAuthorizedCacheChanges, 'function')
@@ -66,6 +69,7 @@ function selectedManifest(overrides = {}) {
     source_delta: {
       deleted_i18n: [renamed.oldI18nPath],
       renamed: [renamed],
+      retirement_candidates: [],
     },
     batch: {
       batchIndex: 0,
@@ -94,6 +98,7 @@ function batchInput(overrides = {}) {
     sourceDelta: {
       deletedI18n: [renamed.oldI18nPath],
       renamed: [renamed],
+      retirementCandidates: [],
     },
     ...overrides,
   }
@@ -101,6 +106,41 @@ function batchInput(overrides = {}) {
 
 test('creates exact canonical output and retains intrinsic rename overlaps', () => {
   assert.deepEqual(createBatchInput(selectedManifest()), batchInput())
+})
+
+test('creates durable batch input from a canonical unified Guides manifest', () => {
+  const siteDir = temporaryDirectory('translation-batch-unified-')
+  const sourcePath = 'content/en/guides/tutorials/new.md'
+  fs.mkdirSync(path.join(siteDir, path.dirname(sourcePath)), {recursive: true})
+  fs.writeFileSync(path.join(siteDir, sourcePath), '# New\n')
+  const sourceDelta = classifySourceDelta({group: 'guides', changes: [{status: 'A', path: sourcePath}]})
+  const manifest = buildManifest({siteDir, group: 'guides', sourceCheckpointSha: SHA, sourceDelta})
+  const summary = createBatchSummary(manifest, 10)
+  const selected = selectManifestBatch(manifest, {
+    batchIndex: 0,
+    batchSize: 10,
+    expectedPendingSetSha256: summary.pendingSetSha256,
+  })
+
+  const input = createBatchInput(selected)
+  assert.equal(input.candidates[0].sourcePath, sourcePath)
+  assert.deepEqual(input.sourceDelta.retirementCandidates, [])
+})
+
+test('preserves Chinese retirement metadata without granting deletion authority', () => {
+  const candidate = {
+    sourcePath: 'content/en/guides/tutorials/tools/old.md',
+    targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
+    reason: 'source_deleted',
+  }
+  const manifest = selectedManifest({
+    items: [],
+    source_delta: {deleted_i18n: [], renamed: [], retirement_candidates: [candidate]},
+    batch: {...selectedManifest().batch, pendingCount: 0},
+  })
+
+  const input = createBatchInput(manifest)
+  assert.deepEqual(input.sourceDelta, {deletedI18n: [], renamed: [], retirementCandidates: [candidate]})
 })
 
 test('sorts candidates, deletions, and renames deterministically', () => {
@@ -112,6 +152,7 @@ test('sorts candidates, deletions, and renames deterministically', () => {
     source_delta: {
       deleted_i18n: [zRename.oldI18nPath, aRename.oldI18nPath],
       renamed: [zRename, aRename],
+      retirement_candidates: [],
     },
   }))
   assert.deepEqual(actual.candidates.map(item => item.sourcePath), [aRename.newPath, zRename.newPath])
@@ -129,6 +170,7 @@ test('rejects unknown or missing keys at every manifest level', () => {
     value => { delete value.items[0].reason },
     value => { value.source_delta.extra = true },
     value => { delete value.source_delta.renamed },
+    value => { delete value.source_delta.retirement_candidates },
     value => { value.source_delta.renamed[0].extra = true },
     value => { delete value.source_delta.renamed[0].newPath },
   ]
@@ -149,6 +191,7 @@ test('rejects unknown or missing keys at every canonical input level', () => {
     value => { delete value.candidates[0].sourceHash },
     value => { value.sourceDelta.extra = true },
     value => { delete value.sourceDelta.deletedI18n },
+    value => { delete value.sourceDelta.retirementCandidates },
     value => { value.sourceDelta.renamed[0].extra = true },
     value => { delete value.sourceDelta.renamed[0].oldPath },
   ]
@@ -190,6 +233,7 @@ test('enforces selected item metadata and reconciliation batch arithmetic', () =
     sourceDelta: {
       deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md'],
       renamed: [],
+      retirementCandidates: [],
     },
   })
   assert.doesNotThrow(() => validateBatchInput(reconciliationOnly))
@@ -223,7 +267,7 @@ test('rejects unsafe paths, wrong roots, suffix mismatches, and invalid extensio
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/cafe\u0301.md',
       sourceHash: HASH_A,
     }],
-    sourceDelta: { deletedI18n: [], renamed: [] },
+    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
   })
   assert.throws(() => validateBatchInput(ambiguous), /normal|ambiguous|path/i)
 })
@@ -251,7 +295,7 @@ test('rejects duplicate entries, unrelated overlaps, and ancestor conflicts', ()
       { sourcePath: 'docs/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_A },
       { sourcePath: 'docs/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: HASH_B },
     ],
-    sourceDelta: { deletedI18n: [], renamed: [] },
+    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
   })
   assert.throws(() => validateBatchInput(ancestor), /ancestor|directory|conflict/i)
 
@@ -262,7 +306,7 @@ test('rejects duplicate entries, unrelated overlaps, and ancestor conflicts', ()
       { sourcePath: 'docs/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: 'c'.repeat(64) },
     ],
     batch: { ...selectedManifest().batch, pendingCount: 3 },
-    sourceDelta: { deletedI18n: [], renamed: [] },
+    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
   })
   assert.throws(() => validateBatchInput(nonAdjacentAncestor), /ancestor|directory|conflict/i)
 })
@@ -299,6 +343,7 @@ test('accepts only exact intrinsic rename overlaps and rejects near misses', () 
     sourceDelta: {
       deletedI18n: [],
       renamed: [rename('a.md', 'b.md'), rename('b.md', 'c.md')],
+      retirementCandidates: [],
     },
   })
   assert.throws(() => validateBatchInput(chainedRenames), /duplicate|overlap|conflict/i)
@@ -311,7 +356,7 @@ test('canonical validation rejects non-deterministic array ordering', () => {
       { sourcePath: 'docs/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_B },
     ],
     batch: { ...selectedManifest().batch, pendingCount: 2 },
-    sourceDelta: { deletedI18n: [], renamed: [] },
+    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
   })
   assert.throws(() => validateBatchInput(input), /canonical|sort|order/i)
 })
@@ -362,7 +407,7 @@ test('authorizes only candidate, rename, and deletion-derived cache changes', ()
   const renameOnly = batchInput({
     candidates: [],
     batch: { ...selectedManifest().batch, pendingCount: 0 },
-    sourceDelta: { deletedI18n: [], renamed: [rename()] },
+    sourceDelta: { deletedI18n: [], renamed: [rename()], retirementCandidates: [] },
   })
   const beforeRename = { files: { 'docs/tutorials/old.md': cacheEntry('docs/tutorials/old.md') } }
   const afterOldRemoval = { files: {} }

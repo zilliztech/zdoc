@@ -34,14 +34,16 @@ function assertNoSymlinkAncestors(cwd, relativePath) {
   }
 }
 
-function englishPathForI18n(i18nPath) {
+function englishPathsForI18n(i18nPath) {
   const mappings = [
-    ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/', 'docs/tutorials/'],
-    ['i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/', 'docs-byoc/tutorials/'],
-    ['i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/', 'reference/'],
+    ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/', 'content/en/guides/tutorials/', 'docs/tutorials/'],
+    ['i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/', 'content/en/byoc/tutorials/', 'docs-byoc/tutorials/'],
+    ['i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/', 'content/en/reference/', 'reference/'],
   ]
   const mapping = mappings.find(([prefix]) => i18nPath.startsWith(prefix))
-  return mapping ? `${mapping[1]}${i18nPath.slice(mapping[0].length)}` : null
+  if (!mapping) return []
+  const suffix = i18nPath.slice(mapping[0].length)
+  return mapping.slice(1).map(prefix => `${prefix}${suffix}`)
 }
 
 function readTranslationCache(cwd) {
@@ -94,8 +96,7 @@ function applySourceDelta({ cwd = process.cwd(), delta }) {
   const cacheKeys = new Set()
   for (const i18nPath of deletedPaths) {
     cacheKeys.add(i18nPath)
-    const englishPath = englishPathForI18n(i18nPath)
-    if (englishPath) cacheKeys.add(englishPath)
+    for (const englishPath of englishPathsForI18n(i18nPath)) cacheKeys.add(englishPath)
   }
   for (const rename of renames) cacheKeys.add(normalizeSafeRelative(rename.oldPath))
   for (const [sourcePath, entry] of Object.entries(cache.files)) {

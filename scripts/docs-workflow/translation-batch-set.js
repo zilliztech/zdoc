@@ -17,8 +17,8 @@ const MUTABLE_ROOTS = Object.freeze([
 ])
 const TRANSLATION_ROOTS = MUTABLE_ROOTS.slice(0, 2)
 const SOURCE_AUTHORITY = Object.freeze([
-  'docs',
-  'docs-byoc',
+  'content/en/guides',
+  'content/en/byoc',
   'config/generated/guides.sidebar.js',
   'config/generated/guides-byoc.sidebar.js',
   'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
@@ -189,7 +189,7 @@ function assertAuthorityRoots(repository, sha) {
     let type
     try { type = git(repository, ['cat-file', '-t', `${sha}:${relative}`]).trim() }
     catch { throw new Error(`Missing source authority path: ${relative}`) }
-    const expected = relative === 'docs' || relative === 'docs-byoc' ? 'tree' : 'blob'
+    const expected = relative === 'content/en/guides' || relative === 'content/en/byoc' ? 'tree' : 'blob'
     if (type !== expected) throw new Error(`Source authority path type mismatch: ${relative}`)
   }
 }

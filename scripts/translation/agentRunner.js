@@ -353,7 +353,10 @@ async function processManifestItem({
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
   const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
-  const restDocument = item.sourcePath.startsWith('reference/api/restful/restful/') ? parseRestDocument(sourceContent) : null
+  const restDocument = (
+    item.sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
+    item.sourcePath.startsWith('reference/api/restful/restful/')
+  ) ? parseRestDocument(sourceContent) : null
   if (restDocument) {
     const shell = await translateAndReviewUnit({
       sourcePath: item.sourcePath,

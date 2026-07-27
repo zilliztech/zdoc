@@ -78,7 +78,7 @@ async function testCorrectionRunsWhenReviewFails() {
 
 async function testRestSpecsUseStructuredLocaleTranslation() {
   await withTempDir(async siteDir => {
-    const sourcePath = 'reference/api/restful/restful/v1/search.mdx'
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/search.mdx'
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/search.mdx'
     write(path.join(siteDir, sourcePath), '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","example":{"message":"User has not authenticated"}}\nexport const endpoint = "/v1/search"\nexport const method = "post"\n')
     const callModel = async ({ agent, messages }) => {

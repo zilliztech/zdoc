@@ -161,7 +161,7 @@ async function createCheckpointArtifact(options) {
   const output = initialSafety.canonicalOutput;
   const translationPaths = groupName === 'guides'
     ? ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials']
-    : group.ownedPaths.filter((owned) => owned.startsWith('reference/')).map((owned) => `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${owned.slice('reference/'.length)}`);
+    : group.ownedPaths.filter((owned) => owned.startsWith('content/en/reference/')).map((owned) => `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${owned.slice('content/en/reference/'.length)}`);
   const ownedPaths = options.includeTranslationCache ? [...group.ownedPaths, ...translationPaths, '.translation-cache/ja-JP.json'] : group.ownedPaths;
   const [baseline, current] = await Promise.all([collect(baselineDir, ownedPaths), collect(workspace, ownedPaths)]);
   if (options.includeTranslationCache && !current.has('.translation-cache/ja-JP.json')) throw new Error('Workspace translation cache is required for translation artifacts');
