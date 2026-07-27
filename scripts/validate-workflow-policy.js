@@ -423,6 +423,29 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           Object.hasOwn(finalizeStep?.env || {}, 'TARGET_BRANCH')) {
         errors.push(`${file}: Guides translation finalizer must use only exact publisher status and commit outputs`)
       }
+      const barrierName = 'guides_translation_publication_barrier'
+      const barrier = workflow.jobs?.[barrierName]
+      const barrierNeeds = Array.isArray(barrier?.needs) ? barrier.needs : barrier?.needs ? [barrier.needs] : []
+      const barrierStep = barrier?.steps?.find(step => step.name === 'Accept completed Guides translation publication')
+      if (barrierNeeds.join(',') !== 'finalize_guides_translation' || barrier?.if !== '${{ always() }}' ||
+          barrierStep?.env?.FINALIZER_RESULT !== '${{ needs.finalize_guides_translation.result }}' ||
+          barrierStep?.env?.TRANSLATOR_STATUS !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
+          barrierStep?.env?.PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
+          !/translation_ready:published[\s\S]*translation_ready:no_changes[\s\S]*no_changes:no_changes[\s\S]*skipped:skipped/.test(barrierStep?.run || '')) {
+        errors.push(`${file}: Guides translation publication barrier must validate acceptable finalized publication states`)
+      }
+      const chinesePublishers = [
+        'translate_python_zh_reference', 'translate_java_zh_reference', 'translate_node_zh_reference',
+        'translate_go_zh_reference', 'translate_cli_zh_reference', 'translate_rest_zh_reference',
+        'translate_guides_zh_tools',
+      ]
+      if (chinesePublishers.some(jobName => {
+        const job = workflow.jobs?.[jobName]
+        const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
+        return !needs.includes(barrierName) || !String(job?.if || '').includes(`needs.${barrierName}.result == 'success'`)
+      })) {
+        errors.push(`${file}: every Chinese publisher must wait for the Guides translation publication barrier`)
+      }
       const aggregateStep = workflow.jobs?.aggregate?.steps?.find(step => step.id === 'aggregate')
       if (aggregateStep?.env?.GUIDES_TRANSLATOR !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
           aggregateStep?.env?.GUIDES_TRANSLATION !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||

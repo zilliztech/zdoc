@@ -1227,6 +1227,63 @@ test('translation publishers form a short queue with scoped validation', () => {
   }
 })
 
+test('Chinese publishers wait for the Guides translation publication barrier', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const barrierName = 'guides_translation_publication_barrier'
+  const barrier = workflow.jobs[barrierName]
+  assert.ok(workflow.jobs.finalize_guides_translation.needs.includes('publish_guides_translation_batches'))
+  assert.deepEqual(barrier.needs, ['finalize_guides_translation'])
+  assert.equal(barrier.if, '${{ always() }}')
+  const publishingJobs = [
+    'translate_python_zh_reference',
+    'translate_java_zh_reference',
+    'translate_node_zh_reference',
+    'translate_go_zh_reference',
+    'translate_cli_zh_reference',
+    'translate_rest_zh_reference',
+    'translate_guides_zh_tools',
+  ]
+  for (const jobName of publishingJobs) {
+    const job = workflow.jobs[jobName]
+    assert.ok(job.needs.includes(barrierName), `${jobName} must wait for the Guides publication barrier`)
+    assert.match(job.if, /needs\.guides_translation_publication_barrier\.result == 'success'/)
+  }
+  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+    assert.equal(
+      workflow.jobs[`translate_${group}_zh_reference`].with.source_sha,
+      `\${{ needs.publish_${group}.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}`,
+    )
+  }
+  assert.equal(
+    workflow.jobs.translate_guides_zh_tools.with.source_sha,
+    '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}',
+  )
+
+  const visiting = new Set(), visited = new Set()
+  const visit = jobName => {
+    if (visiting.has(jobName)) assert.fail(`dependency cycle at ${jobName}`)
+    if (visited.has(jobName)) return
+    visiting.add(jobName)
+    const needs = workflow.jobs[jobName].needs
+    for (const dependency of Array.isArray(needs) ? needs : needs ? [needs] : []) visit(dependency)
+    visiting.delete(jobName)
+    visited.add(jobName)
+  }
+  for (const jobName of Object.keys(workflow.jobs)) visit(jobName)
+
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'chinese-publication-barrier-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const mutated = yaml.load(fs.readFileSync(file, 'utf8'))
+    mutated.jobs.translate_python_zh_reference.needs = mutated.jobs.translate_python_zh_reference.needs.filter(need => need !== barrierName)
+    fs.writeFileSync(file, yaml.dump(mutated, {lineWidth: -1, noRefs: true}))
+    assert.ok(validateWorkflowPolicies(directory).includes('fetch-docs.yml: every Chinese publisher must wait for the Guides translation publication barrier'))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('reusable translation producer creates group-scoped checkpoint artifacts without publishing', () => {
   const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
   const workflow = yaml.load(source)

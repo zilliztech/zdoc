@@ -402,6 +402,24 @@ jobs:
           PUBLISHER_COMMIT_SHA: ${{ needs.publish_guides_translation_batches.outputs.commit_sha }}
         run: node scripts/docs-workflow/finalize-translation-batches.js
 
+  guides_translation_publication_barrier:
+    needs: [finalize_guides_translation]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Accept completed Guides translation publication
+        env:
+          FINALIZER_RESULT: ${{ needs.finalize_guides_translation.result }}
+          TRANSLATOR_STATUS: ${{ needs.finalize_guides_translation.outputs.translator_status }}
+          PUBLISHER_STATUS: ${{ needs.finalize_guides_translation.outputs.publisher_status }}
+        run: |
+          node - <<'NODE'
+          const pair = `${process.env.TRANSLATOR_STATUS}:${process.env.PUBLISHER_STATUS}`
+          const acceptable = new Set(['translation_ready:published', 'translation_ready:no_changes', 'no_changes:no_changes', 'skipped:skipped'])
+          if (process.env.FINALIZER_RESULT !== 'success' || !acceptable.has(pair)) throw new Error(`Guides translation publication did not complete acceptably: ${process.env.FINALIZER_RESULT} ${pair}`)
+          NODE
+
   publish_python:
     needs: [prepare, produce_python, publish_rest]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python') && needs.produce_python.outputs.status == 'artifact_ready' }}
@@ -673,43 +691,43 @@ jobs:
       validate_command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group rest && pnpm run build:en'
 
   translate_python_zh_reference:
-    needs: [prepare, publish_python]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes') }}
+    needs: [prepare, publish_python, guides_translation_publication_barrier]
+    if: ${{ always() && needs.guides_translation_publication_barrier.result == 'success' && needs.prepare.outputs.publish == 'true' && (needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes') }}
     uses: ./.github/workflows/translate-content.yml
     with: { target: zh-CN-reference, group: python, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_python.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
 
   translate_java_zh_reference:
-    needs: [prepare, publish_java]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes') }}
+    needs: [prepare, publish_java, guides_translation_publication_barrier]
+    if: ${{ always() && needs.guides_translation_publication_barrier.result == 'success' && needs.prepare.outputs.publish == 'true' && (needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes') }}
     uses: ./.github/workflows/translate-content.yml
     with: { target: zh-CN-reference, group: java, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_java.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
 
   translate_node_zh_reference:
-    needs: [prepare, publish_node]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes') }}
+    needs: [prepare, publish_node, guides_translation_publication_barrier]
+    if: ${{ always() && needs.guides_translation_publication_barrier.result == 'success' && needs.prepare.outputs.publish == 'true' && (needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes') }}
     uses: ./.github/workflows/translate-content.yml
     with: { target: zh-CN-reference, group: node, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_node.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
 
   translate_go_zh_reference:
-    needs: [prepare, publish_go]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes') }}
+    needs: [prepare, publish_go, guides_translation_publication_barrier]
+    if: ${{ always() && needs.guides_translation_publication_barrier.result == 'success' && needs.prepare.outputs.publish == 'true' && (needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes') }}
     uses: ./.github/workflows/translate-content.yml
     with: { target: zh-CN-reference, group: go, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_go.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
 
   translate_cli_zh_reference:
-    needs: [prepare, publish_cli]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes') }}
+    needs: [prepare, publish_cli, guides_translation_publication_barrier]
+    if: ${{ always() && needs.guides_translation_publication_barrier.result == 'success' && needs.prepare.outputs.publish == 'true' && (needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes') }}
     uses: ./.github/workflows/translate-content.yml
     with: { target: zh-CN-reference, group: cli, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_cli.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
 
   translate_rest_zh_reference:
-    needs: [prepare, publish_rest]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes') }}
+    needs: [prepare, publish_rest, guides_translation_publication_barrier]
+    if: ${{ always() && needs.guides_translation_publication_barrier.result == 'success' && needs.prepare.outputs.publish == 'true' && (needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes') }}
     uses: ./.github/workflows/translate-content.yml
     with: { target: zh-CN-reference, group: rest, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
@@ -734,8 +752,8 @@ jobs:
           echo "changed=$changed" >> "$GITHUB_OUTPUT"
 
   translate_guides_zh_tools:
-    needs: [prepare, publish_guides, detect_guides_tools_translation]
-    if: ${{ always() && needs.detect_guides_tools_translation.outputs.changed == 'true' }}
+    needs: [prepare, publish_guides, detect_guides_tools_translation, guides_translation_publication_barrier]
+    if: ${{ always() && needs.guides_translation_publication_barrier.result == 'success' && needs.detect_guides_tools_translation.outputs.changed == 'true' }}
     uses: ./.github/workflows/translate-content.yml
     with: { target: zh-CN-tools, group: tools, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
