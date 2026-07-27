@@ -5,9 +5,10 @@ const fs = require('node:fs')
 const crypto = require('node:crypto')
 const path = require('node:path')
 const { spawnSync: defaultSpawnSync } = require('node:child_process')
+const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts')
 
-function sidebarOutputs(site = process.env.ZDOC_SITE || 'en') {
-  if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
+function sidebarOutputs(site = resolveBootstrapSite(undefined)) {
+  site = resolveBootstrapSite(site)
   return Object.freeze([
     `tmp/docs-tooling/${site}/guides/generated/${site}/sidebars/guides.sidebar.js`,
     `tmp/docs-tooling/${site}/guides-byoc/generated/${site}/sidebars/guides-byoc.sidebar.js`,
@@ -261,7 +262,7 @@ function verifyManifestIdentity(identity, workspace, mediaManifest, fsImpl = fs)
   if (primaryError) throw primaryError
 }
 
-function generateGuidesSidebars({ workspace, mediaManifest, site = process.env.ZDOC_SITE || 'en', spawnSync = defaultSpawnSync, fsImpl = fs }) {
+function generateGuidesSidebars({ workspace, mediaManifest, site = resolveBootstrapSite(undefined), spawnSync = defaultSpawnSync, fsImpl = fs }) {
   if (!workspace) throw new Error('workspace is required')
   let identity
   let quarantined = []

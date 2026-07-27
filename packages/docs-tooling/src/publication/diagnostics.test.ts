@@ -13,7 +13,7 @@ import {
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 
 import {resolveManualPublication} from '../manuals/registry.ts';
 import {
@@ -144,6 +144,86 @@ describe('publication diagnostics filesystem boundary', () => {
     expect(lstatSync(firstPath).ino).toBe(firstInode);
     expect(publicationAnchorPath(root, identity, first.manifestSha256)).toBe(firstPath);
     expect(publicationAnchorPath(root, identity, second.manifestSha256)).toBe(secondPath);
+  });
+
+  it('propagates a non-collision failure after anchor installation while preserving complete bytes', () => {
+    const root = temporaryRoot();
+    const {diagnostics, identity} = fixture(root);
+
+    expect(() => writePublicationAnchor(root, identity, diagnostics, {
+      testing: {
+        afterRename() {
+          throw new Error('Injected anchor parent fsync failure');
+        },
+      },
+    })).toThrow(/injected anchor parent fsync failure/i);
+
+    const target = publicationAnchorPath(root, identity, diagnostics.manifestSha256);
+    expect(JSON.parse(readFileSync(target, 'utf8'))).toMatchObject({diagnosticsManifestSha256: diagnostics.manifestSha256});
+    expect(lstatSync(target).nlink).toBe(1);
+  });
+
+  it('installs an anchor without exposing a hard-link count of two', () => {
+    const root = temporaryRoot();
+    const {diagnostics, identity} = fixture(root);
+    const afterRename = vi.fn((target: string) => {
+      expect(lstatSync(target).nlink).toBe(1);
+    });
+
+    writePublicationAnchor(root, identity, diagnostics, {testing: {afterRename}});
+
+    expect(afterRename).toHaveBeenCalledOnce();
+  });
+
+  it('does not downgrade an interrupted anchor install to success until retry confirms parent durability', () => {
+    const root = temporaryRoot();
+    const {diagnostics, identity} = fixture(root);
+    expect(() => writePublicationAnchor(root, identity, diagnostics, {
+      testing: {afterRename() { throw new Error('Injected cleanup interruption'); }},
+    })).toThrow(/cleanup interruption/i);
+    const beforeParentFsync = vi.fn(() => { throw new Error('Injected retry durability failure'); });
+
+    expect(() => writePublicationAnchor(root, identity, diagnostics, {
+      testing: {beforeParentFsync},
+    })).toThrow(/retry durability failure/i);
+    expect(beforeParentFsync).toHaveBeenCalledOnce();
+    const target = publicationAnchorPath(root, identity, diagnostics.manifestSha256);
+    expect(lstatSync(target).nlink).toBe(1);
+    expect(JSON.parse(readFileSync(target, 'utf8'))).toMatchObject({diagnosticsManifestSha256: diagnostics.manifestSha256});
+  });
+
+  it('does not accept an identical EEXIST race until the fallback confirms parent durability', () => {
+    const templateRoot = temporaryRoot();
+    const template = fixture(templateRoot);
+    const templatePath = writePublicationAnchor(templateRoot, template.identity, template.diagnostics);
+    const identicalBytes = readFileSync(templatePath);
+    const root = temporaryRoot();
+    const {diagnostics, identity} = fixture(root);
+    const beforeParentFsync = vi.fn(() => { throw new Error('Injected EEXIST fallback durability failure'); });
+
+    expect(() => writePublicationAnchor(root, identity, diagnostics, {
+      testing: {
+        beforeRename(target: string) {
+          writeFileSync(target, identicalBytes, {mode: 0o600});
+          throw Object.assign(new Error('Injected identical install race'), {code: 'EEXIST'});
+        },
+        beforeParentFsync,
+      },
+    })).toThrow(/EEXIST fallback durability failure/i);
+
+    expect(beforeParentFsync).toHaveBeenCalledOnce();
+  });
+
+  it('rejects a differing pre-existing anchor collision without rewriting it', () => {
+    const root = temporaryRoot();
+    const {diagnostics, identity} = fixture(root);
+    const anchorRoot = path.join(root, 'tmp/docs-tooling/.publication-anchors');
+    mkdirSync(anchorRoot, {recursive: true});
+    const target = publicationAnchorPath(root, identity, diagnostics.manifestSha256);
+    writeFileSync(target, '{"foreign":true}\n');
+
+    expect(() => writePublicationAnchor(root, identity, diagnostics)).toThrow(/different bytes|anchor/i);
+    expect(readFileSync(target, 'utf8')).toBe('{"foreign":true}\n');
   });
 
   it('validates two interleaved fetch generations without anchor cross-contamination', () => {

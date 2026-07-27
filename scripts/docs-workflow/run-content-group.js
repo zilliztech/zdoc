@@ -2,11 +2,14 @@
 'use strict';
 
 const { spawnSync } = require('node:child_process');
-const { getContentGroup } = require('./content-groups');
+const { canonicalPublicationGroupForManual, getContentGroup } = require('./content-groups');
+
+const canonicalGroupForManual = manual => canonicalPublicationGroupForManual('en', manual);
 
 const tooling = (action, manual) => [
   'pnpm', 'docs-tooling', action,
   '--manual', manual,
+  '--group', canonicalGroupForManual(manual),
   '--site', 'en',
   '--stage', `tmp/docs-tooling/en/${manual}`,
 ];
@@ -81,4 +84,4 @@ if (require.main === module) {
   catch (error) { console.error(error.message); process.exitCode = 1; }
 }
 
-module.exports = { commandsFor, commandsForGuidesStage, parseArgs, runContentGroup };
+module.exports = { canonicalGroupForManual, commandsFor, commandsForGuidesStage, parseArgs, runContentGroup };

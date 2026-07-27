@@ -1,4 +1,5 @@
 import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {
   existsSync,
   linkSync,
@@ -24,6 +25,19 @@ import * as atomicPublication from './atomicReplace.ts';
 
 const {atomicReplace, ownedTreeCommit} = atomicPublication;
 
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record).sort().map(key => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+function checksummed<T extends Record<string, unknown>>(value: T): T & {checksum: string} {
+  return {...value, checksum: `sha256:${createHash('sha256').update(canonicalJson(value)).digest('hex')}`};
+}
+
 function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'atomic-publication-'));
 }
@@ -36,6 +50,52 @@ function writeTree(root: string, relative: string, contents: string): string {
 }
 
 describe('atomic publication replacement', () => {
+  it('rejects immediate same-process publication group fence reentry', async () => {
+    vi.useFakeTimers();
+    const root = temporaryRoot();
+    try {
+      const outer = (atomicPublication as unknown as {
+        withAtomicPublicationGroupFence<T>(root: string, site: string, group: string, writer: () => T | Promise<T>): Promise<T>;
+      }).withAtomicPublicationGroupFence(root, 'en', 'guides', async () => {
+        const nested = (atomicPublication as unknown as {
+          withAtomicPublicationGroupFence<T>(root: string, site: string, group: string, writer: () => T | Promise<T>): Promise<T>;
+        }).withAtomicPublicationGroupFence(root, 'en', 'guides', async () => undefined);
+        const rejected = expect(nested).rejects.toThrow(/reentrant/i);
+        await Promise.resolve();
+        expect(vi.getTimerCount()).toBe(0);
+        await rejected;
+      });
+      await outer;
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('fails closed with an actionable diagnostic for a stale publication group fence', async () => {
+    const root = temporaryRoot();
+    const scope = 'en\0guides';
+    const key = createHash('sha256').update(scope).digest('hex').slice(0, 24);
+    const fence = path.join(root, `.atomic-publication-group-${key}.lock`);
+    const stale = checksummed({
+      schemaVersion: 1,
+      kind: 'group-fence',
+      scope,
+      token: 'stale-owner',
+      pid: 999_999_999,
+      ownerIdentity: null,
+      createdAt: new Date(0).toISOString(),
+    });
+    writeFileSync(fence, `${JSON.stringify(stale)}\n`, {mode: 0o600});
+    const writer = vi.fn(async () => undefined);
+
+    await expect((atomicPublication as unknown as {
+      withAtomicPublicationGroupFence<T>(root: string, site: string, group: string, writer: () => T | Promise<T>): Promise<T>;
+    }).withAtomicPublicationGroupFence(root, 'en', 'guides', writer))
+      .rejects.toThrow(/stale.*group fence.*remove.*manually/i);
+    expect(writer).not.toHaveBeenCalled();
+    expect(readFileSync(fence, 'utf8')).toBe(`${JSON.stringify(stale)}\n`);
+  });
+
   it('fences a real multi-target reader across the complete publication window', async () => {
     const root = temporaryRoot();
     writeTree(root, 'content/manual/version.txt', 'old\n');

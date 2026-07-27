@@ -4,11 +4,11 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { spawnSync: defaultSpawnSync } = require('node:child_process')
+const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts')
 
 function tableOutputPath(entry) {
   if (!entry?.table_slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.table_slug)) throw new Error('Invalid Guides table slug')
-  const site = entry.site || process.env.ZDOC_SITE
-  if (site !== 'en' && site !== 'zh-CN') throw new Error('Guides table render requires site en or zh-CN')
+  const site = resolveBootstrapSite(entry.site)
   if (site === 'zh-CN' && entry.target === 'zilliz.saas' && entry.table_slug === 'tools') {
     throw new Error('Chinese Guides source publication cannot render the Agent-owned Tools table')
   }

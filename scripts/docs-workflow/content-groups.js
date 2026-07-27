@@ -1,6 +1,8 @@
 'use strict';
 
+const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts');
 const {
+  canonicalPublicationGroupForManual,
   listPublicationGroups,
   resolvePublicationGroupWorkflow,
 } = require('../../packages/docs-tooling/src/workflows/groups.ts');
@@ -32,7 +34,7 @@ function validateDisjointOwnership(groups) {
 }
 
 function defaultSite() {
-  return process.env.ZDOC_SITE || 'en';
+  return resolveBootstrapSite(undefined);
 }
 
 function listContentGroups(site = defaultSite()) {
@@ -59,4 +61,10 @@ function assertDisjointOwnership(site = defaultSite()) {
   validateDisjointOwnership(Object.fromEntries(listContentGroups(site).map((name) => [name, resolvePublicationGroupWorkflow(site, name).group.ownedPaths])));
 }
 
-module.exports = { assertDisjointOwnership, getContentGroup, listContentGroups, validateDisjointOwnership };
+module.exports = {
+  assertDisjointOwnership,
+  canonicalPublicationGroupForManual,
+  getContentGroup,
+  listContentGroups,
+  validateDisjointOwnership,
+};

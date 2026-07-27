@@ -131,6 +131,11 @@ export function resolvePublicationGroup(site: SiteId, group: string): Publicatio
   return REGISTRY[`${site}:${group}`];
 }
 
+export function canonicalPublicationGroupForManual(site: SiteId, manual: string): string {
+  resolveManualPublication(manual, site);
+  return manual === 'guides-byoc' ? 'guides' : manual;
+}
+
 function distinct(values: readonly (string | undefined)[]): readonly string[] {
   return Object.freeze([...new Set(values.filter((value): value is string => Boolean(value)))]);
 }

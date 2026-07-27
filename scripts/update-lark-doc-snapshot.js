@@ -2,6 +2,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const vm = require('node:vm')
 const larkDocScraper = require('../packages/docs-tooling/src/lark/larkDocScraper')
+const { resolveBootstrapSite } = require('../packages/site-config/src/resolve.ts')
 const {
   createSourceSnapshot,
   outputPathsByTokenFromDirs,
@@ -28,7 +29,7 @@ function loadLarkDocsConfig(configPath) {
     .replace(/const\s+(\w+)\s*:\s*Manual\s*=/g, 'const $1 =')
     .replace(/const\s+(\w+)\s*:\s*Targets\s*=/g, 'const $1 =')
     .replace(/export\s+default\s+/, 'module.exports = ')
-  const sandbox = { module: { exports: {} }, exports: {} }
+  const sandbox = { module: { exports: {} }, exports: {}, site: resolveBootstrapSite(undefined) }
   vm.runInNewContext(source, sandbox, { filename: configPath })
   return sandbox.module.exports
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import {spawnSync as nodeSpawnSync} from 'node:child_process';
 import {createHash, randomUUID} from 'node:crypto';
-import {closeSync, constants, copyFileSync, cpSync, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, renameSync, rmSync, unlinkSync, writeFileSync} from 'node:fs';
+import {closeSync, constants, existsSync, fsyncSync, lstatSync, mkdirSync, openSync, readFileSync, realpathSync, renameSync, unlinkSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
 
 import {
@@ -15,7 +15,7 @@ import {resolveSiteProfile} from '@zilliz/site-config';
 import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts';
 import {manualRegistry, publicationEntries} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
-import {atomicReplace, type AtomicReplaceOptions, type AtomicValidationSnapshot} from './publication/atomicReplace.ts';
+import {atomicReplace, withAtomicPublicationGroupFence, type AtomicReplaceOptions, type AtomicValidationSnapshot} from './publication/atomicReplace.ts';
 import {
   capturePublicationDiagnostics,
   publicationOwnedTargets,
@@ -25,6 +25,15 @@ import {
   type PublicationDiagnostics,
   type PublicationDiagnosticsIdentity,
 } from './publication/diagnostics.ts';
+import {
+  copySecureTree,
+  ensureSecureDirectory,
+  readSecureFile,
+  removeSecureStageTree,
+  resolveSecureRepositoryPath,
+  securePathExists,
+  writeSecureAtomicFile,
+} from './publication/stageControl.ts';
 import {validateStageFilesystem, type StageInventory} from './validation/filesystem.ts';
 import {
   buildReferenceManifests,
@@ -44,11 +53,13 @@ import {
   assertSafeRepositoryRelativePath,
   resolveOwnedRepositoryPath,
 } from './validation/ownership.ts';
+import {canonicalPublicationGroupForManual} from './workflows/groups.ts';
 
 export type DocsToolingCommand = 'fetch' | 'validate' | 'publish';
 
 export type CliRequest = Readonly<{
   command: DocsToolingCommand;
+  group: string;
   manual: string;
   site: SiteId;
   stage: string;
@@ -356,51 +367,37 @@ export async function executeReferenceDocsToolingCommand(
   throw new Error(`Unknown Reference command: ${argv[0] ?? '(missing)'}`);
 }
 
-const USAGE = 'Usage: docs-tooling <fetch|validate|publish> --manual <id> --site <en|zh-CN> --stage <dir>';
+const USAGE = 'Usage: docs-tooling <fetch|validate|publish> --manual <id> --group <id> --site <en|zh-CN> --stage <dir>';
 
 export function parseCliArgs(argv: readonly string[]): CliRequest {
   const command = argv[0];
   if (command !== 'fetch' && command !== 'validate' && command !== 'publish') throw new Error(`Unknown command: ${command ?? '(missing)'}. ${USAGE}`);
-  if (argv.length !== 7) throw new Error(USAGE);
+  if (argv.length !== 9) throw new Error(USAGE);
   const values: Record<string, string> = {};
   for (let index = 1; index < argv.length; index += 2) {
     const flag = argv[index];
-    if (!['--manual', '--site', '--stage'].includes(flag)) throw new Error(`Unknown argument: ${flag}. ${USAGE}`);
+    if (!['--manual', '--group', '--site', '--stage'].includes(flag)) throw new Error(`Unknown argument: ${flag}. ${USAGE}`);
     if (Object.hasOwn(values, flag)) throw new Error(`Duplicate argument: ${flag}`);
     const value = argv[index + 1];
     if (!value || value.startsWith('--')) throw new Error(`Missing value for ${flag}. ${USAGE}`);
     values[flag] = value;
   }
-  if (!values['--manual'] || !values['--site'] || !values['--stage']) throw new Error(USAGE);
+  if (!values['--manual'] || !values['--group'] || !values['--site'] || !values['--stage']) throw new Error(USAGE);
   if (values['--site'] !== 'en' && values['--site'] !== 'zh-CN') throw new Error(`Unknown site: ${values['--site']}`);
+  const canonicalGroup = canonicalPublicationGroupForManual(values['--site'], values['--manual']);
+  if (values['--group'] !== canonicalGroup) {
+    throw new Error(`Publication group mismatch: canonical group for ${values['--site']}/${values['--manual']} is ${canonicalGroup}`);
+  }
   assertSafeRepositoryRelativePath(values['--stage'], 'Stage path');
   const canonicalStage = `tmp/docs-tooling/${values['--site']}/${values['--manual']}`;
   if (values['--stage'] !== canonicalStage && !values['--stage'].startsWith(`${canonicalStage}/`)) {
     throw new Error(`Stage path must use the canonical ${canonicalStage} root or one of its descendants`);
   }
-  return {command, manual: values['--manual'], site: values['--site'], stage: values['--stage']};
+  return {command, manual: values['--manual'], group: values['--group'], site: values['--site'], stage: values['--stage']};
 }
 
 function pathsOverlap(left: string, right: string): boolean {
   return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
-}
-
-function assertPathAncestorsSafe(repositoryRoot: string, targetPath: string, label: string): void {
-  const repositoryReal = realpathSync(repositoryRoot);
-  const relative = path.relative(repositoryRoot, targetPath);
-  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) throw new Error(`${label} must stay below the repository root`);
-  let current = repositoryRoot;
-  for (const segment of relative.split(path.sep)) {
-    current = path.join(current, segment);
-    if (!existsSync(current)) continue;
-    const stats = lstatSync(current);
-    if (stats.isSymbolicLink()) throw new Error(`${label} has a symlink ancestor: ${path.relative(repositoryRoot, current)}`);
-    const currentReal = realpathSync(current);
-    if (currentReal !== repositoryReal && !currentReal.startsWith(`${repositoryReal}${path.sep}`)) {
-      throw new Error(`${label} escapes the repository through an ancestor: ${path.relative(repositoryRoot, current)}`);
-    }
-    if (current !== targetPath && !stats.isDirectory()) throw new Error(`${label} has a non-directory ancestor: ${path.relative(repositoryRoot, current)}`);
-  }
 }
 
 function assertSafeStageLocation(context: CommandContext): void {
@@ -417,9 +414,9 @@ function assertSafeStageLocation(context: CommandContext): void {
       throw new Error(`Stage path overlaps a protected repository path: ${protectedPath}`);
     }
   }
-  assertPathAncestorsSafe(context.repositoryRoot, context.stagePath, 'Stage path');
-  if (existsSync(context.stagePath) && !lstatSync(context.stagePath).isDirectory()) {
-    throw new Error(`Stage root must be a directory: ${context.request.stage}`);
+  const stagePath = resolveSecureRepositoryPath(context.repositoryRoot, context.stagePath, 'Stage path', {allowMissing: true});
+  if (securePathExists(context.repositoryRoot, stagePath, 'Stage path')) {
+    resolveSecureRepositoryPath(context.repositoryRoot, stagePath, 'Stage path', {finalKind: 'directory'});
   }
 }
 
@@ -432,26 +429,23 @@ function assertExistingSource(repositoryRoot: string, source: ManualSource): str
 
 export function publicationStagePaths(context: CommandContext): PublicationStagePaths {
   return {
-    contentRootPath: resolveOwnedRepositoryPath(context.stagePath, context.publication.contentRoot, 'Staged publication contentRoot'),
-    outputPath: resolveOwnedRepositoryPath(context.stagePath, context.publication.outputDir, 'Staged publication outputDir'),
-    sidebarPath: resolveOwnedRepositoryPath(context.stagePath, context.publication.sidebarPath, 'Staged publication sidebarPath'),
+    contentRootPath: resolveSecureRepositoryPath(context.stagePath, context.publication.contentRoot, 'Staged publication contentRoot', {allowMissing: true}),
+    outputPath: resolveSecureRepositoryPath(context.stagePath, context.publication.outputDir, 'Staged publication outputDir', {allowMissing: true}),
+    sidebarPath: resolveSecureRepositoryPath(context.stagePath, context.publication.sidebarPath, 'Staged publication sidebarPath', {allowMissing: true}),
   };
 }
 
 function resetStage(context: CommandContext): void {
   assertSafeStageLocation(context);
-  if (existsSync(context.stagePath)) {
-    rmSync(context.stagePath, {recursive: true, force: true});
-  }
-  mkdirSync(context.stagePath, {recursive: true});
+  removeSecureStageTree(context.repositoryRoot, context.stagePath, 'Stage path');
+  ensureSecureDirectory(context.repositoryRoot, context.stagePath, 'Stage path');
 }
 
 function stageExistingSidebar(context: CommandContext): void {
   const sourcePath = resolveOwnedRepositoryPath(context.repositoryRoot, context.publication.sidebarPath, 'Publication sidebarPath');
   if (!existsSync(sourcePath)) throw new Error(`Publication sidebar source is missing: ${context.publication.sidebarPath}`);
   const staged = publicationStagePaths(context).sidebarPath;
-  mkdirSync(path.dirname(staged), {recursive: true});
-  copyFileSync(sourcePath, staged);
+  writeSecureAtomicFile(context.repositoryRoot, staged, readSecureFile(context.repositoryRoot, sourcePath, 'Publication sidebar source'), 'Staged publication sidebar');
 }
 
 function stagePreservedPublicationFiles(context: CommandContext): void {
@@ -466,8 +460,7 @@ function stagePreservedPublicationFiles(context: CommandContext): void {
       throw new Error(`Preserved publication file is missing or is not a regular file: ${context.publication.outputDir}/${relativePath}`);
     }
     const targetPath = resolveOwnedRepositoryPath(outputPath, relativePath, 'Preserved staged publication file');
-    mkdirSync(path.dirname(targetPath), {recursive: true});
-    copyFileSync(sourcePath, targetPath);
+    writeSecureAtomicFile(context.repositoryRoot, targetPath, readSecureFile(context.repositoryRoot, sourcePath, 'Preserved publication source'), 'Preserved staged publication file');
   }
 }
 
@@ -542,9 +535,9 @@ function transformStagedMarkdown(context: CommandContext, selected: SelectedPubl
     const absolutePath = path.join(context.stagePath, file.path);
     const document = selected.registry.transformDocument(selected.ids, {
       path: file.path,
-      contents: readFileSync(absolutePath, 'utf8'),
+      contents: readSecureFile(context.repositoryRoot, absolutePath, 'Staged publication Markdown').toString('utf8'),
     }, adapterContext);
-    writeFileSync(absolutePath, document.contents);
+    writeSecureAtomicFile(context.repositoryRoot, absolutePath, document.contents, 'Staged publication Markdown', {replace: true});
   }
 }
 
@@ -558,13 +551,12 @@ async function validateSelectedPublicationAdapters(
 }
 
 async function validatePublicationFilesystem(root: string, publication: ManualPublication): Promise<StageInventory> {
-  const outputPath = path.join(root, publication.outputDir);
-  const sidebarPath = path.join(root, publication.sidebarPath);
-  if (!existsSync(outputPath)) throw new Error(`Publication content artifact is missing: ${publication.outputDir}`);
-  if (!existsSync(sidebarPath)) throw new Error(`Publication sidebar artifact is missing: ${publication.sidebarPath}`);
-  if (!lstatSync(sidebarPath).isFile() || lstatSync(sidebarPath).isSymbolicLink()) {
-    throw new Error(`Publication sidebar artifact must be a regular file: ${publication.sidebarPath}`);
-  }
+  const outputPath = resolveSecureRepositoryPath(root, publication.outputDir, 'Publication content artifact', {allowMissing: true});
+  const sidebarPath = resolveSecureRepositoryPath(root, publication.sidebarPath, 'Publication sidebar artifact', {allowMissing: true});
+  if (!securePathExists(root, outputPath, 'Publication content artifact')) throw new Error(`Publication content artifact is missing: ${publication.outputDir}`);
+  if (!securePathExists(root, sidebarPath, 'Publication sidebar artifact')) throw new Error(`Publication sidebar artifact is missing: ${publication.sidebarPath}`);
+  resolveSecureRepositoryPath(root, outputPath, 'Publication content artifact', {finalKind: 'directory'});
+  resolveSecureRepositoryPath(root, sidebarPath, 'Publication sidebar artifact', {finalKind: 'file'});
   const inventory = validateStageFilesystem(root);
   const integrity = await scanIntegrity(root, {
     repository: 'zdoc',
@@ -597,8 +589,7 @@ async function validatePublicationSnapshot(
 async function copyLocalSource(context: CommandContext): Promise<void> {
   const sourcePath = assertExistingSource(context.repositoryRoot, context.source as ManualSource);
   const outputPath = publicationStagePaths(context).outputPath;
-  mkdirSync(outputPath, {recursive: true});
-  cpSync(sourcePath, outputPath, {recursive: true, force: true, errorOnExist: false});
+  copySecureTree(context.repositoryRoot, path.relative(context.repositoryRoot, sourcePath).split(path.sep).join('/'), context.repositoryRoot, outputPath, 'Local publication source');
   stageExistingSidebar(context);
 }
 
@@ -700,7 +691,13 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
     }
     if (guidesSourceOnly) {
       const sourcePath = assertExistingSource(context.repositoryRoot, source);
-      cpSync(sourcePath, context.stagePath, {recursive: true, force: true, errorOnExist: false});
+      copySecureTree(
+        context.repositoryRoot,
+        path.relative(context.repositoryRoot, sourcePath).split(path.sep).join('/'),
+        context.repositoryRoot,
+        context.stagePath,
+        'Guides source stage',
+      );
       validateStageFilesystem(context.stagePath);
     } else {
       if (preparesSharedGuidesSource) {
@@ -759,9 +756,11 @@ async function defaultPublish(
   });
 }
 
-export async function executeDocsToolingCommand(argv: readonly string[], dependencies: CliDependencies = {}): Promise<CommandContext> {
-  const request = parseCliArgs(argv);
-  const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
+async function executeParsedDocsToolingCommand(
+  request: CliRequest,
+  dependencies: CliDependencies,
+  repositoryRoot: string,
+): Promise<CommandContext> {
   const stagePath = resolveOwnedRepositoryPath(repositoryRoot, request.stage, 'Stage path');
   const resolved = resolveManualPublication(request.manual, request.site);
   const environment = dependencies.environment ?? process.env;
@@ -813,4 +812,36 @@ export async function executeDocsToolingCommand(argv: readonly string[], depende
   }
   dependencies.write?.(`${request.command === 'publish' ? 'published' : 'validated'} ${request.manual}/${request.site} from ${request.stage}`);
   return validatedContext;
+}
+
+export type AlreadyFencedDocsToolingExecutor = (
+  argv: readonly string[],
+  dependencies?: CliDependencies,
+) => Promise<CommandContext>;
+
+export async function withDocsToolingGroupFence<T>(
+  repositoryRootInput: string,
+  site: SiteId,
+  group: string,
+  operation: (executeAlreadyFenced: AlreadyFencedDocsToolingExecutor) => T | Promise<T>,
+): Promise<T> {
+  const repositoryRoot = path.resolve(repositoryRootInput);
+  return withAtomicPublicationGroupFence(repositoryRoot, site, group, async () => {
+    const executeAlreadyFenced: AlreadyFencedDocsToolingExecutor = async (argv, dependencies = {}) => {
+      const request = parseCliArgs(argv);
+      if (request.site !== site || request.group !== group) {
+        throw new Error(`Already-fenced docs-tooling request identity mismatch: expected ${site}/${group}`);
+      }
+      return executeParsedDocsToolingCommand(request, dependencies, repositoryRoot);
+    };
+    return operation(executeAlreadyFenced);
+  });
+}
+
+export async function executeDocsToolingCommand(argv: readonly string[], dependencies: CliDependencies = {}): Promise<CommandContext> {
+  const request = parseCliArgs(argv);
+  const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
+  return withDocsToolingGroupFence(repositoryRoot, request.site, request.group, executeAlreadyFenced => (
+    executeAlreadyFenced(argv, dependencies)
+  ));
 }

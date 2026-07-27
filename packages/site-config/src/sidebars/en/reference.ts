@@ -1,7 +1,7 @@
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 // Generated sidebar files are produced through the docs-tooling manual pipeline.
-// Run `pnpm docs-tooling fetch|validate|publish --manual <name> --site en --stage <dir>`.
+// Run `pnpm docs-tooling fetch|validate|publish --manual <name> --group <group> --site en --stage <dir>`.
 // To customise without regenerating, edit the corresponding file in sidebar-overrides/en/.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function tryRequire(path: string): any[] {

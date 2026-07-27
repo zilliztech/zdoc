@@ -1,5 +1,6 @@
 'use strict';
 
+const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts');
 const { getContentGroup } = require('./content-groups');
 const { resolvePublicationGroupWorkflow } = require('../../packages/docs-tooling/src/workflows/groups.ts');
 
@@ -12,7 +13,7 @@ function referenceTranslationPath(ownedPath) {
   return `${REFERENCE_I18N_ROOT}/${ownedPath.slice(prefix.length)}`;
 }
 
-function getGroupPaths(groupName, site = process.env.ZDOC_SITE || 'en') {
+function getGroupPaths(groupName, site = resolveBootstrapSite(undefined)) {
   const group = getContentGroup(groupName, site);
   const publication = resolvePublicationGroupWorkflow(site, groupName).group;
   const englishOutputs = Object.freeze([...publication.ownedPaths]);

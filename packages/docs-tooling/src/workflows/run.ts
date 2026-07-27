@@ -1,12 +1,28 @@
 import {createHash} from 'node:crypto';
-import {copyFileSync, cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync} from 'node:fs';
+import {existsSync, lstatSync, readFileSync, readdirSync} from 'node:fs';
 import path from 'node:path';
 
-import {executeDocsToolingCommand, publicationStagePaths, type CliDependencies, type CommandContext} from '../cli.ts';
+import {
+  publicationStagePaths,
+  withDocsToolingGroupFence,
+  type AlreadyFencedDocsToolingExecutor,
+  type CliDependencies,
+  type CommandContext,
+} from '../cli.ts';
 import {resolveManualPublication} from '../manuals/registry.ts';
 import type {SiteId} from '../manuals/schema.ts';
 import {atomicReplace, ownedTreeCommit, type AtomicReplaceOptions} from '../publication/atomicReplace.ts';
 import {publicationOwnedTargets} from '../publication/diagnostics.ts';
+import {
+  captureSecureInventory,
+  copySecureTree,
+  ensureSecureDirectory,
+  readSecureFile,
+  removeSecureStageTree,
+  resolveSecureRepositoryPath,
+  writeSecureAtomicFile,
+  type SecureInventoryEntry,
+} from '../publication/stageControl.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
 import {validateStageFilesystem} from '../validation/filesystem.ts';
 import {
@@ -16,6 +32,7 @@ import {
 } from './groups.ts';
 
 const GROUP_DIAGNOSTICS_FILE = '.docs-tooling-publication-group.json';
+const VALIDATED_STAGE_ATTESTATION_FILE = '.docs-tooling-validated-stage.json';
 
 type PublishGroupRequest = Readonly<{
   site: SiteId;
@@ -23,13 +40,10 @@ type PublishGroupRequest = Readonly<{
   stage: PublicationGroupStage;
 }>;
 
-type ManualExecutor = (
-  argv: readonly string[],
-  dependencies: CliDependencies,
-) => Promise<CommandContext | void>;
-
 export type PublicationGroupDependencies = CliDependencies & Readonly<{
-  executeManual?: ManualExecutor;
+  testing?: Readonly<{
+    beforeManual?: (argv: readonly string[], dependencies: CliDependencies) => void | Promise<void>;
+  }>;
 }>;
 
 export type PublicationGroupResult = Readonly<{
@@ -54,6 +68,16 @@ type PublicationGroupDiagnostics = Readonly<{
   group: string;
   inventory: readonly InventoryEntry[];
 }>;
+type ValidatedStageIdentity = Readonly<{manual: string; stage: string}>;
+type ValidatedStageAttestation = Readonly<{
+  schemaVersion: 1;
+  kind: 'validated-stage';
+  site: SiteId;
+  group: string;
+  stages: readonly ValidatedStageIdentity[];
+  inventory: readonly SecureInventoryEntry[];
+  checksum: string;
+}>;
 
 const USAGE = 'Usage: docs-tooling publish-group --site <en|zh-CN> --group <name> --stage <fetch|validate|publish>';
 
@@ -65,12 +89,34 @@ function deepFreeze<T>(value: T): T {
   return value;
 }
 
+function frozenHookCopy<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return Object.freeze(value.map(entry => frozenHookCopy(entry))) as T;
+  }
+  if (value && typeof value === 'object') {
+    const prototype = Object.getPrototypeOf(value);
+    if (prototype === Object.prototype || prototype === null) {
+      const copy = Object.fromEntries(
+        Object.entries(value).map(([key, entry]) => [key, frozenHookCopy(entry)]),
+      );
+      return Object.freeze(copy) as T;
+    }
+  }
+  return value;
+}
+
 function pathOverlaps(left: string, right: string): boolean {
   return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
 }
 
 function protectedPath(group: PublicationGroup, candidate: string): string | undefined {
   return group.protectedPaths?.find(protectedTarget => pathOverlaps(candidate, protectedTarget));
+}
+
+function protectedInventoryPath(group: PublicationGroup, candidate: string): string | undefined {
+  return group.protectedPaths?.find(protectedTarget => (
+    candidate === protectedTarget || candidate.startsWith(`${protectedTarget}/`)
+  ));
 }
 
 function assertManifestFilePath(group: PublicationGroup, value: string): string {
@@ -138,8 +184,147 @@ function sha256(contents: Buffer | string): string {
   return createHash('sha256').update(contents).digest('hex');
 }
 
+function validatedStageAttestationPath(site: SiteId, group: string): string {
+  return `${publicationGroupStagePath(site, group)}/${VALIDATED_STAGE_ATTESTATION_FILE}`;
+}
+
+function validatedStageIdentity(group: PublicationGroup): readonly ValidatedStageIdentity[] {
+  return Object.freeze(group.manuals.map(manual => Object.freeze({
+    manual,
+    stage: manualStagePath(group.site, manual),
+  })));
+}
+
+function validatedStageInventoryRoots(group: PublicationGroup, groupName: string): readonly string[] {
+  return Object.freeze([
+    ...group.manuals.map(manual => manualStagePath(group.site, manual)),
+    publicationGroupStagePath(group.site, groupName),
+  ]);
+}
+
+function canonicalAttestationBody(value: Omit<ValidatedStageAttestation, 'checksum'>): string {
+  return JSON.stringify(value);
+}
+
+function createValidatedStageAttestation(
+  repositoryRoot: string,
+  group: PublicationGroup,
+  groupName: string,
+): ValidatedStageAttestation {
+  const attestationPath = validatedStageAttestationPath(group.site, groupName);
+  const body = {
+    schemaVersion: 1 as const,
+    kind: 'validated-stage' as const,
+    site: group.site,
+    group: groupName,
+    stages: validatedStageIdentity(group),
+    inventory: captureSecureInventory(
+      repositoryRoot,
+      validatedStageInventoryRoots(group, groupName),
+      'Validated publication stage inventory',
+      {exclude: [attestationPath]},
+    ),
+  };
+  return deepFreeze({...body, checksum: sha256(canonicalAttestationBody(body))});
+}
+
+function writeValidatedStageAttestation(repositoryRoot: string, group: PublicationGroup, groupName: string): void {
+  ensureSecureDirectory(repositoryRoot, publicationGroupStagePath(group.site, groupName), 'Publication group stage');
+  const attestation = createValidatedStageAttestation(repositoryRoot, group, groupName);
+  writeSecureAtomicFile(
+    repositoryRoot,
+    validatedStageAttestationPath(group.site, groupName),
+    `${JSON.stringify(attestation, null, 2)}\n`,
+    'Validated publication stage attestation',
+    {replace: true},
+  );
+}
+
+function parseValidatedStageAttestation(
+  contents: string,
+  group: PublicationGroup,
+  groupName: string,
+): ValidatedStageAttestation {
+  let input: unknown;
+  try {
+    input = JSON.parse(contents);
+  } catch (error) {
+    throw new Error(`Validated publication stage attestation is invalid JSON: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  if (!input || typeof input !== 'object' || Array.isArray(input)) {
+    throw new Error('Validated publication stage attestation must be an object');
+  }
+  const value = input as Record<string, unknown>;
+  const keys = Object.keys(value);
+  if (keys.length !== 7 || keys.some(key => !['schemaVersion', 'kind', 'site', 'group', 'stages', 'inventory', 'checksum'].includes(key))) {
+    throw new Error('Validated publication stage attestation schema is invalid');
+  }
+  if (value.schemaVersion !== 1 || value.kind !== 'validated-stage' || value.site !== group.site || value.group !== groupName
+    || !Array.isArray(value.stages) || !Array.isArray(value.inventory) || typeof value.checksum !== 'string') {
+    throw new Error('Validated publication stage attestation identity is invalid');
+  }
+  const stages = value.stages.map(entry => {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) throw new Error('Validated publication stage identity is invalid');
+    const record = entry as Record<string, unknown>;
+    if (Object.keys(record).length !== 2 || typeof record.manual !== 'string' || typeof record.stage !== 'string') {
+      throw new Error('Validated publication stage identity is invalid');
+    }
+    assertSafeRepositoryRelativePath(record.stage, 'Validated publication stage path');
+    return {manual: record.manual, stage: record.stage};
+  });
+  const expectedStages = validatedStageIdentity(group);
+  if (JSON.stringify(stages) !== JSON.stringify(expectedStages)) {
+    throw new Error('Validated publication stage attestation request identity does not match this site, group, manual, and stage');
+  }
+  const inventory = value.inventory.map(entry => {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) throw new Error('Validated publication stage inventory entry is invalid');
+    const record = entry as Record<string, unknown>;
+    if (Object.keys(record).length !== 3 || typeof record.path !== 'string' || typeof record.size !== 'number'
+      || !Number.isSafeInteger(record.size) || record.size < 0 || typeof record.sha256 !== 'string' || !/^[0-9a-f]{64}$/u.test(record.sha256)) {
+      throw new Error('Validated publication stage inventory entry is invalid');
+    }
+    assertSafeRepositoryRelativePath(record.path, 'Validated publication stage inventory path');
+    return {path: record.path, size: record.size, sha256: record.sha256};
+  });
+  const sorted = [...inventory].sort((left, right) => left.path.localeCompare(right.path, 'en'));
+  if (new Set(inventory.map(entry => entry.path)).size !== inventory.length || JSON.stringify(inventory) !== JSON.stringify(sorted)) {
+    throw new Error('Validated publication stage inventory must be unique and sorted');
+  }
+  const body = {
+    schemaVersion: 1 as const,
+    kind: 'validated-stage' as const,
+    site: group.site,
+    group: groupName,
+    stages,
+    inventory,
+  };
+  const expectedChecksum = sha256(canonicalAttestationBody(body));
+  if (value.checksum !== expectedChecksum) throw new Error('Validated publication stage attestation checksum is invalid');
+  return deepFreeze({...body, checksum: value.checksum});
+}
+
+function assertValidatedStageAttestation(repositoryRoot: string, group: PublicationGroup, groupName: string): void {
+  const relative = validatedStageAttestationPath(group.site, groupName);
+  const target = resolveSecureRepositoryPath(repositoryRoot, relative, 'Validated publication stage attestation', {allowMissing: true});
+  if (!existsSync(target)) throw new Error(`Validated publication stage attestation is missing: ${relative}`);
+  const attestation = parseValidatedStageAttestation(
+    readSecureFile(repositoryRoot, relative, 'Validated publication stage attestation').toString('utf8'),
+    group,
+    groupName,
+  );
+  const current = captureSecureInventory(
+    repositoryRoot,
+    validatedStageInventoryRoots(group, groupName),
+    'Validated publication stage inventory',
+    {exclude: [relative]},
+  );
+  if (JSON.stringify(current) !== JSON.stringify(attestation.inventory)) {
+    throw new Error(`Validated ${group.site}/${groupName} publication stage changed after validate`);
+  }
+}
+
 function inventoryFiles(repositoryRoot: string, relativePath: string, group: PublicationGroup): InventoryEntry[] {
-  if (protectedPath(group, relativePath)) return [];
+  if (protectedInventoryPath(group, relativePath)) return [];
   const target = resolveOwnedRepositoryPath(repositoryRoot, relativePath, 'Publication group inventory path');
   if (!existsSync(target)) return [];
   const stats = lstatSync(target);
@@ -158,7 +343,12 @@ function captureGroupInventory(repositoryRoot: string, group: PublicationGroup):
 }
 
 function groupDiagnosticsPath(repositoryRoot: string, site: SiteId, group: string): string {
-  return resolveOwnedRepositoryPath(repositoryRoot, `${publicationGroupStagePath(site, group)}/${GROUP_DIAGNOSTICS_FILE}`, 'Publication group diagnostics');
+  return resolveSecureRepositoryPath(
+    repositoryRoot,
+    `${publicationGroupStagePath(site, group)}/${GROUP_DIAGNOSTICS_FILE}`,
+    'Publication group diagnostics',
+    {allowMissing: true},
+  );
 }
 
 export function writePublicationGroupDiagnostics(repositoryRootInput: string, site: SiteId, groupName: string): void {
@@ -171,8 +361,7 @@ export function writePublicationGroupDiagnostics(repositoryRootInput: string, si
     inventory: captureGroupInventory(repositoryRoot, group),
   };
   const target = groupDiagnosticsPath(repositoryRoot, site, groupName);
-  mkdirSync(path.dirname(target), {recursive: true});
-  writeFileSync(target, `${JSON.stringify(diagnostics, null, 2)}\n`, 'utf8');
+  writeSecureAtomicFile(repositoryRoot, target, `${JSON.stringify(diagnostics, null, 2)}\n`, 'Publication group diagnostics', {replace: true});
 }
 
 function readPublicationGroupDiagnostics(repositoryRoot: string, site: SiteId, groupName: string): PublicationGroupDiagnostics {
@@ -180,7 +369,7 @@ function readPublicationGroupDiagnostics(repositoryRoot: string, site: SiteId, g
   if (!existsSync(target)) throw new Error(`Publication group diagnostics are missing: ${path.relative(repositoryRoot, target)}`);
   let input: unknown;
   try {
-    input = JSON.parse(readFileSync(target, 'utf8'));
+    input = JSON.parse(readSecureFile(repositoryRoot, target, 'Publication group diagnostics').toString('utf8'));
   } catch (error) {
     throw new Error(`Publication group diagnostics are invalid JSON: ${error instanceof Error ? error.message : String(error)}`);
   }
@@ -208,60 +397,60 @@ function assertUnchangedGroupInventory(repositoryRoot: string, groupName: string
   }
 }
 
-function walkStageFiles(root: string, relativePath: string): string[] {
-  const target = resolveOwnedRepositoryPath(root, relativePath, 'Staged publication path');
-  if (!existsSync(target)) throw new Error(`Staged publication path is missing: ${relativePath}`);
-  const stats = lstatSync(target);
-  if (stats.isSymbolicLink()) throw new Error(`Staged publication path must not be a symlink: ${relativePath}`);
-  if (stats.isFile()) return [relativePath];
-  if (!stats.isDirectory()) throw new Error(`Staged publication path must be a file or directory: ${relativePath}`);
-  return readdirSync(target, {withFileTypes: true})
-    .sort((left, right) => left.name.localeCompare(right.name, 'en'))
-    .flatMap(entry => walkStageFiles(root, `${relativePath}/${entry.name}`));
-}
-
 function stagedManifestFiles(repositoryRoot: string, group: PublicationGroup): readonly string[] {
   const files = group.manuals.flatMap(manual => {
     const publication = resolveManualPublication(manual, group.site).publication;
-    const stageRoot = resolveOwnedRepositoryPath(repositoryRoot, manualStagePath(group.site, manual), 'Manual stage root');
-    const content = walkStageFiles(stageRoot, publication.outputDir);
-    const sidebar = walkStageFiles(stageRoot, publication.sidebarPath);
-    return [...content, ...sidebar].map(relative => assertManifestFilePath(group, relative));
+    const stageRoot = manualStagePath(group.site, manual);
+    return captureSecureInventory(
+      repositoryRoot,
+      [`${stageRoot}/${publication.outputDir}`, `${stageRoot}/${publication.sidebarPath}`],
+      'Staged publication manifest inventory',
+    ).map(entry => {
+      const relative = entry.path.slice(`${stageRoot}/`.length);
+      return assertManifestFilePath(group, relative);
+    });
   });
   return Object.freeze([...files].sort((left, right) => left.localeCompare(right, 'en')));
 }
 
 function stagedManifestPath(repositoryRoot: string, group: PublicationGroup, groupName: string): string {
   if (!group.publicationManifest) throw new Error(`Publication group ${group.site}/${groupName} is not manifest-owned`);
-  return resolveOwnedRepositoryPath(
+  return resolveSecureRepositoryPath(
     repositoryRoot,
     `${publicationGroupStagePath(group.site, groupName)}/${group.publicationManifest}`,
     'Staged source publication manifest',
+    {allowMissing: true},
   );
 }
 
 function writeStagedManifest(repositoryRoot: string, group: PublicationGroup, groupName: string): void {
   const target = stagedManifestPath(repositoryRoot, group, groupName);
-  mkdirSync(path.dirname(target), {recursive: true});
-  writeFileSync(target, serializeSourcePublicationManifest(stagedManifestFiles(repositoryRoot, group)), 'utf8');
+  writeSecureAtomicFile(
+    repositoryRoot,
+    target,
+    serializeSourcePublicationManifest(stagedManifestFiles(repositoryRoot, group)),
+    'Staged source publication manifest',
+    {replace: true},
+  );
 }
 
 function readManifestAt(repositoryRoot: string, relativePath: string, group: PublicationGroup): SourcePublicationManifest {
-  const target = resolveOwnedRepositoryPath(repositoryRoot, relativePath, 'Chinese Guides source publication manifest');
-  if (!existsSync(target) || !lstatSync(target).isFile() || lstatSync(target).isSymbolicLink()) {
+  const target = resolveSecureRepositoryPath(repositoryRoot, relativePath, 'Chinese Guides source publication manifest', {allowMissing: true});
+  if (!existsSync(target)) {
     throw new Error(`Chinese Guides source publication manifest must be a regular file: ${relativePath}`);
   }
-  return parseSourcePublicationManifest(readFileSync(target, 'utf8'), group);
+  return parseSourcePublicationManifest(readSecureFile(repositoryRoot, target, 'Chinese Guides source publication manifest').toString('utf8'), group);
 }
 
 function sourceForManifestFile(repositoryRoot: string, group: PublicationGroup, target: string): string {
   for (const manual of group.manuals) {
     const publication = resolveManualPublication(manual, group.site).publication;
     if (target === publication.sidebarPath || target.startsWith(`${publication.contentRoot}/`)) {
-      return resolveOwnedRepositoryPath(
+      return resolveSecureRepositoryPath(
         repositoryRoot,
         `${manualStagePath(group.site, manual)}/${target}`,
         'Staged manifest-owned publication file',
+        {finalKind: 'file'},
       );
     }
   }
@@ -269,29 +458,23 @@ function sourceForManifestFile(repositoryRoot: string, group: PublicationGroup, 
 }
 
 function copyRegularPublicationFile(sourceRoot: string, stageRoot: string, relativePath: string): void {
-  const source = resolveOwnedRepositoryPath(sourceRoot, relativePath, 'Seeded publication source file');
-  if (!existsSync(source) || !lstatSync(source).isFile() || lstatSync(source).isSymbolicLink()) {
+  const source = resolveSecureRepositoryPath(sourceRoot, relativePath, 'Seeded publication source file', {
+    allowMissing: true,
+    finalKind: 'file',
+  });
+  if (!existsSync(source)) {
     throw new Error(`Seeded publication source must be a regular file: ${relativePath}`);
   }
-  const target = resolveOwnedRepositoryPath(stageRoot, relativePath, 'Seeded publication stage file');
-  mkdirSync(path.dirname(target), {recursive: true});
-  copyFileSync(source, target);
+  copySecureTree(sourceRoot, relativePath, stageRoot, relativePath, 'Seeded publication file');
 }
 
 function copyPublicationTarget(sourceRoot: string, stageRoot: string, relativePath: string): boolean {
-  const source = resolveOwnedRepositoryPath(sourceRoot, relativePath, 'Immutable baseline publication target');
+  const source = resolveSecureRepositoryPath(sourceRoot, relativePath, 'Immutable baseline publication target', {allowMissing: true});
   if (!existsSync(source)) return false;
   const stats = lstatSync(source);
-  if (stats.isSymbolicLink()) throw new Error(`Immutable baseline publication target must not be a symlink: ${relativePath}`);
-  const target = resolveOwnedRepositoryPath(stageRoot, relativePath, 'Staged immutable baseline publication target');
-  mkdirSync(path.dirname(target), {recursive: true});
-  if (stats.isFile()) {
-    copyFileSync(source, target);
-    return true;
-  }
-  if (!stats.isDirectory()) throw new Error(`Immutable baseline publication target must be a file or directory: ${relativePath}`);
-  validateStageFilesystem(source);
-  cpSync(source, target, {recursive: true, force: true, errorOnExist: false});
+  if (!stats.isFile() && !stats.isDirectory()) throw new Error(`Immutable baseline publication target must be a file or directory: ${relativePath}`);
+  if (stats.isDirectory()) validateStageFilesystem(source);
+  copySecureTree(sourceRoot, relativePath, stageRoot, relativePath, 'Immutable baseline publication target');
   return true;
 }
 
@@ -309,18 +492,18 @@ function seedCurrentPublicationStage(context: CommandContext, group: Publication
     throw new Error(`Live ${context.request.site}/${context.request.manual} publication does not match the immutable Guides baseline`);
   }
   const staged = publicationStagePaths(context);
-  mkdirSync(staged.outputPath, {recursive: true});
+  ensureSecureDirectory(context.repositoryRoot, staged.outputPath, 'Seeded publication output stage');
   if (manifest) {
     for (const file of targets) copyRegularPublicationFile(baselineRoot, context.stagePath, file);
     return;
   }
 
-  const sourceOutput = resolveOwnedRepositoryPath(baselineRoot, context.publication.outputDir, 'Seeded publication output');
+  const sourceOutput = resolveSecureRepositoryPath(baselineRoot, context.publication.outputDir, 'Seeded publication output', {allowMissing: true});
   if (!existsSync(sourceOutput) || !lstatSync(sourceOutput).isDirectory() || lstatSync(sourceOutput).isSymbolicLink()) {
     throw new Error(`Seeded publication output must be a real directory: ${context.publication.outputDir}`);
   }
   validateStageFilesystem(sourceOutput);
-  cpSync(sourceOutput, staged.outputPath, {recursive: true, force: true, errorOnExist: false});
+  copySecureTree(baselineRoot, context.publication.outputDir, context.repositoryRoot, staged.outputPath, 'Seeded publication output');
   copyRegularPublicationFile(baselineRoot, context.stagePath, context.publication.sidebarPath);
 }
 
@@ -334,29 +517,26 @@ async function prepareManifestOwnedBaseline(
   if (!group.publicationManifest) throw new Error(`Publication group ${group.site} is not manifest-owned`);
   const current = readManifestAt(repositoryRoot, group.publicationManifest, group);
   const baseline = readManifestAt(baselineRoot, group.publicationManifest, group);
-  const restoreStage = resolveOwnedRepositoryPath(
-    repositoryRoot,
-    `${publicationGroupStagePath(group.site, groupName)}/baseline-restore`,
-    'Immutable baseline restore stage',
-  );
-  rmSync(restoreStage, {recursive: true, force: true});
-  for (const file of baseline.files) copyRegularPublicationFile(baselineRoot, restoreStage, file);
-  copyRegularPublicationFile(baselineRoot, restoreStage, group.publicationManifest);
-  const replacements = [
-    ...baseline.files.map(target => ({
-      source: resolveOwnedRepositoryPath(restoreStage, target, 'Staged immutable baseline publication file'),
-      target,
-    })),
-    {
-      source: resolveOwnedRepositoryPath(restoreStage, group.publicationManifest, 'Staged immutable baseline publication manifest'),
-      target: group.publicationManifest,
-    },
-  ];
-  const next = new Set(baseline.files);
-  const removals = current.files.filter(file => !next.has(file));
-  const ownedTargets = [...new Set([...replacements.map(entry => entry.target), ...removals])]
-    .sort((left, right) => left.localeCompare(right, 'en'));
+  const restoreStageRelative = `${publicationGroupStagePath(group.site, groupName)}/baseline-restore`;
+  removeSecureStageTree(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
   try {
+    const restoreStage = ensureSecureDirectory(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
+    for (const file of baseline.files) copyRegularPublicationFile(baselineRoot, restoreStage, file);
+    copyRegularPublicationFile(baselineRoot, restoreStage, group.publicationManifest);
+    const replacements = [
+      ...baseline.files.map(target => ({
+        source: resolveOwnedRepositoryPath(restoreStage, target, 'Staged immutable baseline publication file'),
+        target,
+      })),
+      {
+        source: resolveOwnedRepositoryPath(restoreStage, group.publicationManifest, 'Staged immutable baseline publication manifest'),
+        target: group.publicationManifest,
+      },
+    ];
+    const next = new Set(baseline.files);
+    const removals = current.files.filter(file => !next.has(file));
+    const ownedTargets = [...new Set([...replacements.map(entry => entry.target), ...removals])]
+      .sort((left, right) => left.localeCompare(right, 'en'));
     await replace({
       publicationRoot: repositoryRoot,
       baselineCommit: ownedTreeCommit(repositoryRoot, ownedTargets),
@@ -374,7 +554,7 @@ async function prepareManifestOwnedBaseline(
       },
     });
   } finally {
-    rmSync(restoreStage, {recursive: true, force: true});
+    removeSecureStageTree(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
   }
 }
 
@@ -389,26 +569,23 @@ async function prepareTreeOwnedBaseline(
     const publication = resolveManualPublication(manual, group.site).publication;
     return publicationOwnedTargets(group.site, publication);
   }))].sort((left, right) => left.localeCompare(right, 'en'));
-  const restoreStage = resolveOwnedRepositoryPath(
-    repositoryRoot,
-    `${publicationGroupStagePath(group.site, groupName)}/baseline-restore`,
-    'Immutable baseline restore stage',
-  );
-  rmSync(restoreStage, {recursive: true, force: true});
-  const replacements: {source: string; target: string}[] = [];
-  const removals: string[] = [];
-  for (const target of targets) {
-    if (copyPublicationTarget(baselineRoot, restoreStage, target)) {
-      replacements.push({
-        source: resolveOwnedRepositoryPath(restoreStage, target, 'Staged immutable baseline publication target'),
-        target,
-      });
-    } else {
-      removals.push(target);
-    }
-  }
-  const expectedCommit = ownedTreeCommit(baselineRoot, targets);
+  const restoreStageRelative = `${publicationGroupStagePath(group.site, groupName)}/baseline-restore`;
+  removeSecureStageTree(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
   try {
+    const restoreStage = ensureSecureDirectory(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
+    const replacements: {source: string; target: string}[] = [];
+    const removals: string[] = [];
+    for (const target of targets) {
+      if (copyPublicationTarget(baselineRoot, restoreStage, target)) {
+        replacements.push({
+          source: resolveOwnedRepositoryPath(restoreStage, target, 'Staged immutable baseline publication target'),
+          target,
+        });
+      } else {
+        removals.push(target);
+      }
+    }
+    const expectedCommit = ownedTreeCommit(baselineRoot, targets);
     await replace({
       publicationRoot: repositoryRoot,
       baselineCommit: ownedTreeCommit(repositoryRoot, targets),
@@ -421,7 +598,7 @@ async function prepareTreeOwnedBaseline(
       },
     });
   } finally {
-    rmSync(restoreStage, {recursive: true, force: true});
+    removeSecureStageTree(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
   }
 }
 
@@ -433,10 +610,7 @@ function validateStagedManifest(repositoryRoot: string, group: PublicationGroup,
     throw new Error('Chinese Guides staged files must exactly match the authoritative source publication manifest');
   }
   for (const file of manifest.files) {
-    const source = sourceForManifestFile(repositoryRoot, group, file);
-    if (!existsSync(source) || !lstatSync(source).isFile() || lstatSync(source).isSymbolicLink()) {
-      throw new Error(`Manifest-owned staged publication file must be a regular file: ${file}`);
-    }
+    sourceForManifestFile(repositoryRoot, group, file);
   }
   return manifest;
 }
@@ -502,9 +676,10 @@ export function parsePublishGroupArgs(argv: readonly string[]): PublishGroupRequ
   return {site: values['--site'], group: values['--group'], stage: values['--stage'] as PublicationGroupStage};
 }
 
-export async function executePublicationGroup(
+async function executePublicationGroupAlreadyFenced(
   request: PublishGroupRequest,
-  dependencies: PublicationGroupDependencies = {},
+  dependencies: PublicationGroupDependencies,
+  executeAlreadyFenced: AlreadyFencedDocsToolingExecutor,
 ): Promise<PublicationGroupResult> {
   const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
   const workflow = resolvePublicationGroupWorkflow(request.site, request.group);
@@ -515,8 +690,7 @@ export async function executePublicationGroup(
   const baselineRoot = seedBaseline ? path.resolve(environment.DOCS_TOOLING_BASELINE_ROOT ?? repositoryRoot) : repositoryRoot;
   const finalizeAssembly = request.stage === 'validate' && request.group === 'guides' && environment.DOCS_TOOLING_GUIDES_STAGE === 'assembled';
   const manuals = sourceOnly ? group.manuals.slice(0, 1) : group.manuals;
-  const executeManual = dependencies.executeManual ?? executeDocsToolingCommand;
-  const {executeManual: _executeManual, ...manualDependencies} = dependencies;
+  const {testing, ...manualDependencies} = dependencies;
 
   if (seedBaseline && baselineRoot !== repositoryRoot) {
     const replace = dependencies.atomicReplace ?? atomicReplace;
@@ -539,33 +713,46 @@ export async function executePublicationGroup(
     writePublicationGroupDiagnostics(repositoryRoot, request.site, request.group);
   }
 
-  if (request.stage === 'publish' && group.publicationManifest) {
-    await publishManifestOwnedGroup(repositoryRoot, group, request.group, dependencies.atomicReplace ?? atomicReplace);
-  } else {
+  const executeManualStagesAlreadyFenced = async (): Promise<void> => {
     if (finalizeAssembly && group.publicationManifest) writeStagedManifest(repositoryRoot, group, request.group);
     for (const [index, manual] of manuals.entries()) {
       const command = [
         request.stage,
         '--manual', manual,
+        '--group', request.group,
         '--site', request.site,
         '--stage', manualStagePath(request.site, manual),
       ];
       const commandEnvironment = request.stage === 'fetch' && request.group === 'guides' && index > 0
         ? {...environment, DOCS_TOOLING_REUSE_LARK_SOURCE: '1'}
         : environment;
-      await executeManual(command, {
+      const commandDependencies: CliDependencies = {
         ...manualDependencies,
         repositoryRoot,
         environment: commandEnvironment,
         ...(seedBaseline ? {fetch: (context: CommandContext) => seedCurrentPublicationStage(context, group, baselineRoot)} : {}),
-      });
+      };
+      await testing?.beforeManual?.(frozenHookCopy(command), frozenHookCopy(commandDependencies));
+      await executeAlreadyFenced(command, commandDependencies);
     }
+  };
+
+  if (request.stage === 'publish') {
+    assertValidatedStageAttestation(repositoryRoot, group, request.group);
+    if (group.publicationManifest) {
+      await publishManifestOwnedGroup(repositoryRoot, group, request.group, dependencies.atomicReplace ?? atomicReplace);
+    } else {
+      await executeManualStagesAlreadyFenced();
+    }
+  } else {
+    await executeManualStagesAlreadyFenced();
   }
 
   if (group.publicationManifest && !sourceOnly) {
     if (request.stage === 'fetch') writeStagedManifest(repositoryRoot, group, request.group);
     if (request.stage === 'validate') validateStagedManifest(repositoryRoot, group, request.group);
   }
+  if (request.stage === 'validate') writeValidatedStageAttestation(repositoryRoot, group, request.group);
 
   return deepFreeze({
     request,
@@ -574,4 +761,14 @@ export async function executePublicationGroup(
     ownedPaths: group.ownedPaths,
     sourceSnapshots: workflow.sourceSnapshots,
   });
+}
+
+export async function executePublicationGroup(
+  request: PublishGroupRequest,
+  dependencies: PublicationGroupDependencies = {},
+): Promise<PublicationGroupResult> {
+  const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
+  return withDocsToolingGroupFence(repositoryRoot, request.site, request.group, executeAlreadyFenced => (
+    executePublicationGroupAlreadyFenced(request, {...dependencies, repositoryRoot}, executeAlreadyFenced)
+  ));
 }

@@ -1,3 +1,5 @@
+import {resolveBootstrapSite} from '../packages/site-config/src/resolve';
+
 interface TargetConfig {
     outputDir: string;
     contentRoot?: string;
@@ -23,9 +25,10 @@ interface Manual {
     contentRoot?: string;
 }
 
+const site = resolveBootstrapSite(undefined);
+
 // guides ========================
 
-const site = process.env.ZDOC_SITE === 'zh-CN' ? 'zh-CN' : 'en';
 const guidesStage = `tmp/docs-tooling/${site}/guides`;
 const guidesByocStage = `tmp/docs-tooling/${site}/guides-byoc`;
 

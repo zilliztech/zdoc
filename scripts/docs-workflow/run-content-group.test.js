@@ -1,14 +1,20 @@
 const assert = require('node:assert/strict');
 const { test } = require('node:test');
-const { commandsFor, commandsForGuidesStage, parseArgs, runContentGroup } = require('./run-content-group');
+const { canonicalGroupForManual, commandsFor, commandsForGuidesStage, parseArgs, runContentGroup } = require('./run-content-group');
 
 const tooling = (action, manual, stage = `tmp/docs-tooling/en/${manual}`) => [
   'pnpm', 'docs-tooling', action,
   '--manual', manual,
+  '--group', manual === 'guides-byoc' ? 'guides' : manual,
   '--site', 'en',
   '--stage', stage,
 ];
 const pipeline = manual => [tooling('fetch', manual), tooling('validate', manual), tooling('publish', manual)];
+
+test('legacy commands derive canonical manual groups from the shared publication registry', () => {
+  assert.equal(canonicalGroupForManual('guides-byoc'), 'guides');
+  assert.equal(canonicalGroupForManual('python'), 'python');
+});
 
 for (const manual of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
   test(`${manual} commands use the docs-tooling compatibility CLI`, () => {
@@ -107,7 +113,7 @@ test('runContentGroup wraps spawn errors with group, command, original message, 
     () => runContentGroup('rest', { spawnSync() { return { error: cause }; } }),
     error => {
       assert.match(error.message, /rest/);
-      assert.match(error.message, /pnpm docs-tooling fetch --manual rest --site en --stage tmp\/docs-tooling\/en\/rest/);
+      assert.match(error.message, /pnpm docs-tooling fetch --manual rest --group rest --site en --stage tmp\/docs-tooling\/en\/rest/);
       assert.match(error.message, /spawn broke/);
       assert.equal(error.cause, cause);
       return true;
@@ -120,7 +126,7 @@ test('runContentGroup rejects signal-only results descriptively', () => {
 });
 
 test('unknown groups and malformed CLI arguments fail clearly', () => {
-  assert.throws(() => commandsFor('unknown'), /Unknown content group: unknown/);
+  assert.throws(() => commandsFor('unknown'), /Unknown (?:content|publication) group(?: for site en)?: unknown/);
   assert.deepEqual(parseArgs(['--group', 'java']), { group: 'java', stage: null });
   assert.deepEqual(parseArgs(['--group', 'guides', '--stage', 'saas']), { group: 'guides', stage: 'saas' });
   assert.throws(() => parseArgs([]), /--group/);

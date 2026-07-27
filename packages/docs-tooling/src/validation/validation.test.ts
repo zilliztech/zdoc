@@ -101,6 +101,16 @@ describe('stage filesystem validation', () => {
     expect(() => assertPathSetIntegrity(['Guide.md', 'guide.md'])).toThrow(/case collision/i);
   });
 
+  it('rejects a hard-linked inventoried stage file without changing its outside peer', () => {
+    const root = temporaryRoot();
+    const outside = path.join(temporaryRoot(), 'outside.md');
+    writeFileSync(outside, '# outside\n');
+    linkSync(outside, path.join(root, 'page.md'));
+
+    expect(() => validateStageFilesystem(root)).toThrow(/hard.?link|linked/i);
+    expect(readFileSync(outside, 'utf8')).toBe('# outside\n');
+  });
+
   it('rejects executable drift, CRLF, reserved names, and oversized files', () => {
     const executableRoot = temporaryRoot();
     writeFileSync(path.join(executableRoot, 'page.md'), '# page\n', {mode: 0o755});
@@ -147,7 +157,7 @@ describe('docs-tooling CLI boundary', () => {
     };
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
+      ['fetch', '--manual', 'guides', '--group', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
       {repositoryRoot, fetch},
     );
 
@@ -168,7 +178,7 @@ describe('docs-tooling CLI boundary', () => {
       mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
       writeFileSync(paths.sidebarPath, 'module.exports = []\n');
     };
-    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    const args = ['--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
 
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot, fetch, aliyunOssValidator});
 
@@ -189,7 +199,7 @@ describe('docs-tooling CLI boundary', () => {
       mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
       writeFileSync(paths.sidebarPath, 'module.exports = []\n');
     };
-    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    const args = ['--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
 
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot, fetch});
     expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/content/zh-CN/reference/api/python/python/page.md'), 'utf8'))
@@ -225,7 +235,7 @@ describe('docs-tooling CLI boundary', () => {
     };
 
     await executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
       {repositoryRoot, aliyunOssValidator} as never,
     );
 
@@ -256,7 +266,7 @@ describe('docs-tooling CLI boundary', () => {
     };
 
     await expect(executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
       {repositoryRoot, aliyunOssValidator} as never,
     )).rejects.toThrow('snapshot validator rejection');
 
@@ -275,7 +285,7 @@ describe('docs-tooling CLI boundary', () => {
     const aliyunOssValidator = {validatePublication: vi.fn(async () => { throw new Error('validator rejection'); })};
 
     await expect(executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
       {repositoryRoot, aliyunOssValidator, publish},
     )).rejects.toThrow('validator rejection');
 
@@ -294,11 +304,11 @@ describe('docs-tooling CLI boundary', () => {
     };
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'rest', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/rest'],
+      ['fetch', '--manual', 'rest', '--group', 'rest', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/rest'],
       {repositoryRoot, fetch},
     );
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, fetch},
     );
 
@@ -316,7 +326,7 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(liveOutput, 'page.md'), '# fetched baseline\n');
     mkdirSync(path.dirname(liveSidebar), {recursive: true});
     writeFileSync(liveSidebar, 'module.exports = ["baseline"]\n');
-    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    const args = ['--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
     const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
 
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
@@ -340,7 +350,7 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(liveOutput, 'page.md'), '# baseline A\n');
     mkdirSync(path.dirname(liveSidebar), {recursive: true});
     writeFileSync(liveSidebar, 'module.exports = ["A"]\n');
-    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    const args = ['--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
     const stageRoot = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python');
     const diagnosticsPath = path.join(stageRoot, '.publication-diagnostics.json');
@@ -371,7 +381,7 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(liveOutput, 'page.md'), '# old\n');
     mkdirSync(path.dirname(liveSidebar), {recursive: true});
     writeFileSync(liveSidebar, 'module.exports = ["old"]\n');
-    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    const args = ['--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
     const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
 
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
@@ -402,7 +412,7 @@ describe('docs-tooling CLI boundary', () => {
     const diagnosticsBytes = readFileSync(diagnosticsPath, 'utf8');
 
     await expect(executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {
         repositoryRoot,
         atomicReplace: async options => {
@@ -445,7 +455,7 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(liveOutput, 'page.md'), '# live\n');
     mkdirSync(path.dirname(liveSidebar), {recursive: true});
     writeFileSync(liveSidebar, 'module.exports = []\n');
-    const args = ['--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
+    const args = ['--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'];
     await executeDocsToolingCommand(['fetch', ...args], {repositoryRoot});
     const diagnosticsPath = path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/python/.publication-diagnostics.json');
     mutate(diagnosticsPath);
@@ -464,7 +474,7 @@ describe('docs-tooling CLI boundary', () => {
     const spawnSync = vi.fn(() => ({status: 0}));
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
+      ['fetch', '--manual', 'guides', '--group', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
       {repositoryRoot, environment: {DOCS_TOOLING_GUIDES_STAGE: 'source'}, spawnSync},
     );
 
@@ -473,17 +483,20 @@ describe('docs-tooling CLI boundary', () => {
   });
 
   it('parses only the closed command shape', () => {
-    expect(parseCliArgs(['validate', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'])).toEqual({
+    expect(parseCliArgs(['validate', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'])).toEqual({
       command: 'validate',
       manual: 'python',
+      group: 'python',
       site: 'en',
       stage: 'tmp/docs-tooling/en/python',
     });
-    expect(() => parseCliArgs(['remove', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'])).toThrow(/unknown command/i);
-    expect(() => parseCliArgs(['validate', '--manual', 'python', '--site', 'fr', '--stage', 'tmp/docs-tooling/en/python'])).toThrow(/unknown site/i);
-    expect(() => parseCliArgs(['validate', '--manual', 'python', '--site', 'en', '--stage', '../escape'])).toThrow(/unsafe|normalized/i);
-    expect(() => parseCliArgs(['validate', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python', '--extra'])).toThrow(/unknown argument|usage/i);
-    expect(parseCliArgs(['validate', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python/render'])).toMatchObject({stage: 'tmp/docs-tooling/en/python/render'});
+    expect(() => parseCliArgs(['validate', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'])).toThrow(/group|usage/i);
+    expect(() => parseCliArgs(['validate', '--manual', 'python', '--group', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'])).toThrow(/canonical group|mismatch/i);
+    expect(() => parseCliArgs(['remove', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'])).toThrow(/unknown command/i);
+    expect(() => parseCliArgs(['validate', '--manual', 'python', '--group', 'python', '--site', 'fr', '--stage', 'tmp/docs-tooling/en/python'])).toThrow(/unknown site/i);
+    expect(() => parseCliArgs(['validate', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', '../escape'])).toThrow(/unsafe|normalized/i);
+    expect(() => parseCliArgs(['validate', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python', '--extra'])).toThrow(/unknown argument|usage/i);
+    expect(parseCliArgs(['validate', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python/render'])).toMatchObject({stage: 'tmp/docs-tooling/en/python/render'});
     for (const unsafeStage of [
       '.git',
       '/tmp/absolute',
@@ -494,8 +507,44 @@ describe('docs-tooling CLI boundary', () => {
       'content/en/reference/api/python/python',
       'packages/docs-tooling/src/lark/meta/sources/python/v3.0.x',
     ]) {
-      expect(() => parseCliArgs(['fetch', '--manual', 'python', '--site', 'en', '--stage', unsafeStage])).toThrow(/stage|unsafe|canonical|normalized/i);
+      expect(() => parseCliArgs(['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', unsafeStage])).toThrow(/stage|unsafe|canonical|normalized/i);
     }
+  });
+
+  it('serializes concurrent direct CLI commands through the canonical site and group fence', async () => {
+    const repositoryRoot = temporaryRoot();
+    const argv = ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'];
+    let releaseFirst!: () => void;
+    const firstBlocked = new Promise<void>(resolve => { releaseFirst = resolve; });
+    let firstEntered!: () => void;
+    const firstStarted = new Promise<void>(resolve => { firstEntered = resolve; });
+    let active = 0;
+    let maximumActive = 0;
+    const fetch = vi.fn(async (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
+      active += 1;
+      maximumActive = Math.max(maximumActive, active);
+      if (fetch.mock.calls.length === 1) {
+        firstEntered();
+        await firstBlocked;
+      }
+      const staged = publicationStagePaths(context);
+      mkdirSync(staged.outputPath, {recursive: true});
+      writeFileSync(path.join(staged.outputPath, 'page.md'), '# staged\n');
+      mkdirSync(path.dirname(staged.sidebarPath), {recursive: true});
+      writeFileSync(staged.sidebarPath, 'module.exports = []\n');
+      active -= 1;
+    });
+
+    const first = executeDocsToolingCommand(argv, {repositoryRoot, fetch});
+    await firstStarted;
+    const second = executeDocsToolingCommand(argv, {repositoryRoot, fetch});
+    await new Promise(resolve => setTimeout(resolve, 40));
+    expect(fetch).toHaveBeenCalledTimes(1);
+    releaseFirst();
+    await Promise.all([first, second]);
+
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(maximumActive).toBe(1);
   });
 
   it('fails closed on unknown manuals and missing local sources', async () => {
@@ -504,12 +553,12 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/unknown/page.md'), '# page\n');
 
     await expect(executeDocsToolingCommand(
-      ['validate', '--manual', 'unknown', '--site', 'en', '--stage', 'tmp/docs-tooling/en/unknown'],
+      ['validate', '--manual', 'unknown', '--group', 'unknown', '--site', 'en', '--stage', 'tmp/docs-tooling/en/unknown'],
       {repositoryRoot},
     )).rejects.toThrow(/unknown manual/i);
 
     await expect(executeDocsToolingCommand(
-      ['fetch', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
       {repositoryRoot},
     )).rejects.toThrow(/source.*missing/i);
   });
@@ -549,7 +598,7 @@ describe('docs-tooling CLI boundary', () => {
     });
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, spawnSync},
     );
 
@@ -574,7 +623,7 @@ describe('docs-tooling CLI boundary', () => {
     });
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, spawnSync},
     );
 
@@ -618,7 +667,7 @@ describe('docs-tooling CLI boundary', () => {
     });
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides/source'],
+      ['fetch', '--manual', 'guides', '--group', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides/source'],
       {
         repositoryRoot,
         spawnSync,
@@ -652,9 +701,9 @@ describe('docs-tooling CLI boundary', () => {
       return {status: 0};
     });
 
-    await executeDocsToolingCommand(['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'], {repositoryRoot, spawnSync});
+    await executeDocsToolingCommand(['fetch', '--manual', 'guides', '--group', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'], {repositoryRoot, spawnSync});
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'guides-byoc', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides-byoc'],
+      ['fetch', '--manual', 'guides-byoc', '--group', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides-byoc'],
       {repositoryRoot, spawnSync, environment: {DOCS_TOOLING_REUSE_LARK_SOURCE: '1'}},
     );
 
@@ -688,7 +737,7 @@ describe('docs-tooling CLI boundary', () => {
     const spawnSync = vi.fn((_command: string, _args: readonly string[]) => ({status: 9}));
 
     await expect(executeDocsToolingCommand(
-      ['fetch', '--manual', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
+      ['fetch', '--manual', 'guides', '--group', 'guides', '--site', 'en', '--stage', 'tmp/docs-tooling/en/guides'],
       {repositoryRoot, spawnSync},
     )).rejects.toThrow(/guides.*generator.*status 9/i);
     expect(spawnSync).toHaveBeenCalledOnce();
@@ -700,7 +749,7 @@ describe('docs-tooling CLI boundary', () => {
     const spawnSync = vi.fn(() => ({status: 7}));
 
     await expect(executeDocsToolingCommand(
-      ['fetch', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, spawnSync},
     )).rejects.toThrow(/python.*generator.*status 7/i);
     expect(spawnSync).toHaveBeenCalledOnce();
@@ -713,10 +762,25 @@ describe('docs-tooling CLI boundary', () => {
     symlinkSync(outside, path.join(repositoryRoot, 'tmp'));
 
     await expect(executeDocsToolingCommand(
-      ['fetch', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, spawnSync: vi.fn()},
     )).rejects.toThrow(/symlink|ancestor|stage/i);
     expect(readFileSync(path.join(outside, 'sentinel'), 'utf8')).toBe('keep\n');
+  });
+
+  it('rejects a symlinked manual stage root before reset and leaves its outside target untouched', async () => {
+    const repositoryRoot = temporaryRoot();
+    const outside = temporaryRoot();
+    writeFileSync(path.join(outside, 'sentinel'), 'keep\n');
+    mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en'), {recursive: true});
+    symlinkSync(outside, path.join(repositoryRoot, 'tmp/docs-tooling/en/python'));
+
+    await expect(executeDocsToolingCommand(
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      {repositoryRoot, spawnSync: vi.fn()},
+    )).rejects.toThrow(/symlink|stage|unsafe/i);
+    expect(readFileSync(path.join(outside, 'sentinel'), 'utf8')).toBe('keep\n');
+    expect(existsSync(path.join(outside, '.publication-diagnostics.json'))).toBe(false);
   });
 
   it('rejects destructive stage aliases before touching repository metadata, source, or publication trees', async () => {
@@ -732,7 +796,7 @@ describe('docs-tooling CLI boundary', () => {
       writeFileSync(path.join(repositoryRoot, protectedPath), 'keep\n');
     }
     for (const stage of ['.git', 'packages/docs-tooling/src/lark/meta/sources/python/v3.0.x', 'content/en/reference/api/python/python', 'generated/en/sidebars']) {
-      await expect(executeDocsToolingCommand(['fetch', '--manual', 'python', '--site', 'en', '--stage', stage], {repositoryRoot})).rejects.toThrow(/stage|canonical|unsafe/i);
+      await expect(executeDocsToolingCommand(['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', stage], {repositoryRoot})).rejects.toThrow(/stage|canonical|unsafe/i);
     }
     for (const protectedPath of protectedPaths) expect(readFileSync(path.join(repositoryRoot, protectedPath), 'utf8')).toBe('keep\n');
   });
@@ -758,7 +822,7 @@ describe('docs-tooling CLI boundary', () => {
     });
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'rest', '--site', 'en', '--stage', 'tmp/docs-tooling/en/rest'],
+      ['fetch', '--manual', 'rest', '--group', 'rest', '--site', 'en', '--stage', 'tmp/docs-tooling/en/rest'],
       {repositoryRoot, spawnSync},
     );
 
@@ -775,7 +839,7 @@ describe('docs-tooling CLI boundary', () => {
     const spawnSync = vi.fn();
 
     await executeDocsToolingCommand(
-      ['fetch', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python'],
       {repositoryRoot, spawnSync},
     );
 
@@ -793,7 +857,7 @@ describe('docs-tooling CLI boundary', () => {
     const publish = vi.fn();
 
     await expect(executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, publish},
     )).rejects.toThrow(/symlink/i);
     expect(publish).not.toHaveBeenCalled();
@@ -808,7 +872,7 @@ describe('docs-tooling CLI boundary', () => {
     writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python');
 
     await executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot},
     );
 
@@ -835,7 +899,7 @@ describe('docs-tooling CLI boundary', () => {
     const replace = vi.fn(realAtomicReplace);
 
     await executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, atomicReplace: replace},
     );
 
@@ -865,7 +929,7 @@ describe('docs-tooling CLI boundary', () => {
     }
     writeDiagnosticsFixture(repositoryRoot, 'cli', 'en', 'tmp/docs-tooling/en/cli');
 
-    await executeDocsToolingCommand(['publish', '--manual', 'cli', '--site', 'en', '--stage', 'tmp/docs-tooling/en/cli'], {repositoryRoot});
+    await executeDocsToolingCommand(['publish', '--manual', 'cli', '--group', 'cli', '--site', 'en', '--stage', 'tmp/docs-tooling/en/cli'], {repositoryRoot});
 
     expect(existsSync(path.join(repositoryRoot, 'content/en/reference/cli/cli/stale.md'))).toBe(false);
     expect(readFileSync(path.join(repositoryRoot, 'content/en/reference/cli/cli/fresh.md'), 'utf8')).toBe('# fresh\n');
@@ -887,7 +951,7 @@ describe('docs-tooling CLI boundary', () => {
     writeDiagnosticsFixture(repositoryRoot, 'python', 'en', 'tmp/docs-tooling/en/python');
     linkSync(external, path.join(repositoryRoot, 'generated/en/sidebars/python.sidebar.js'));
 
-    await expect(executeDocsToolingCommand(['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'], {repositoryRoot})).rejects.toThrow(/hard.?link|link count|owned target/i);
+    await expect(executeDocsToolingCommand(['publish', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'], {repositoryRoot})).rejects.toThrow(/hard.?link|link count|owned target/i);
     expect(readFileSync(path.join(repositoryRoot, 'content/en/reference/api/python/python/old.md'), 'utf8')).toBe('# old\n');
     expect(readFileSync(external, 'utf8')).toBe('module.exports = ["old"]\n');
   });
@@ -904,7 +968,7 @@ describe('docs-tooling CLI boundary', () => {
     const publish = vi.fn();
 
     await expect(executeDocsToolingCommand(
-      ['publish', '--manual', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      ['publish', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
       {repositoryRoot, publish},
     )).rejects.toThrow(/secret|credential|private key|token|traversal|integrity/i);
     expect(publish).not.toHaveBeenCalled();
@@ -921,14 +985,14 @@ describe('docs-tooling CLI boundary', () => {
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/generated/en/sidebars/restful.sidebar.js'), 'module.exports = []\n');
 
     await expect(executeDocsToolingCommand(
-      ['fetch', '--manual', 'rest', '--site', 'en', '--stage', 'tmp/docs-tooling/en/rest'],
+      ['fetch', '--manual', 'rest', '--group', 'rest', '--site', 'en', '--stage', 'tmp/docs-tooling/en/rest'],
       {repositoryRoot, spawnSync: vi.fn(() => ({status: 9}))},
     )).rejects.toThrow(/rest.*status 9/i);
     expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/stale.md'))).toBe(false);
 
     const publish = vi.fn();
     await expect(executeDocsToolingCommand(
-      ['publish', '--manual', 'rest', '--site', 'en', '--stage', 'tmp/docs-tooling/en/rest'],
+      ['publish', '--manual', 'rest', '--group', 'rest', '--site', 'en', '--stage', 'tmp/docs-tooling/en/rest'],
       {repositoryRoot, publish},
     )).rejects.toThrow(/content artifact|sidebar artifact|missing/i);
     expect(publish).not.toHaveBeenCalled();

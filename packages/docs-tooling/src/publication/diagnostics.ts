@@ -1,18 +1,4 @@
-import {createHash, randomUUID} from 'node:crypto';
-import {
-  constants,
-  closeSync,
-  fstatSync,
-  fsyncSync,
-  linkSync,
-  lstatSync,
-  mkdirSync,
-  openSync,
-  readFileSync,
-  realpathSync,
-  unlinkSync,
-  writeFileSync,
-} from 'node:fs';
+import {createHash} from 'node:crypto';
 import path from 'node:path';
 
 import {z} from 'zod';
@@ -20,6 +6,15 @@ import {z} from 'zod';
 import type {SourceEntry} from '../manuals/registry.ts';
 import type {ManualPublication, ManualSource, SiteId} from '../manuals/schema.ts';
 import {ownedTreeCommit} from './atomicReplace.ts';
+import {
+  ensureSecureDirectory,
+  confirmSecureFileDurability,
+  readSecureFile,
+  resolveSecureRepositoryPath,
+  securePathExists,
+  writeSecureAtomicFile,
+  writeSecureFencedImmutableFile,
+} from './stageControl.ts';
 
 export const PUBLICATION_DIAGNOSTICS_FILE = '.publication-diagnostics.json';
 export const PUBLICATION_ANCHOR_ROOT = 'tmp/docs-tooling/.publication-anchors';
@@ -102,16 +97,6 @@ export type PublicationDiagnosticsIdentity = Readonly<{
   publication: PublicationIdentityInput;
   sourceChain: readonly SourceEntry[];
 }>;
-
-function pathEntryExists(target: string): boolean {
-  try {
-    lstatSync(target);
-    return true;
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return false;
-    throw error;
-  }
-}
 
 function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
@@ -258,23 +243,12 @@ function assertSelfConsistentAnchor(anchor: z.infer<typeof PublicationAnchorSche
 }
 
 function resolveAnchorRoot(repositoryRootInput: string, create: boolean): string {
-  const repositoryInput = path.resolve(repositoryRootInput);
-  const repositoryStats = lstatSync(repositoryInput);
-  if (repositoryStats.isSymbolicLink() || !repositoryStats.isDirectory()) throw new Error('Publication anchor repository root must be a non-symlink directory');
-  const repositoryRoot = realpathSync(repositoryInput);
-  let current = repositoryInput;
-  for (const segment of PUBLICATION_ANCHOR_ROOT.split('/')) {
-    current = path.join(current, segment);
-    if (!pathEntryExists(current)) {
-      if (!create) throw new Error(`Publication diagnostics trusted anchor root is missing: ${current}`);
-      mkdirSync(current, {mode: 0o700});
-    }
-    const stats = lstatSync(current);
-    if (stats.isSymbolicLink() || !stats.isDirectory()) throw new Error(`Publication diagnostics trusted anchor root is unsafe: ${current}`);
+  if (create) return ensureSecureDirectory(repositoryRootInput, PUBLICATION_ANCHOR_ROOT, 'Publication diagnostics trusted anchor root');
+  if (!securePathExists(repositoryRootInput, PUBLICATION_ANCHOR_ROOT, 'Publication diagnostics trusted anchor root')) {
+    throw new Error(`Publication diagnostics trusted anchor root is missing: ${PUBLICATION_ANCHOR_ROOT}`);
   }
-  const anchorRoot = realpathSync(current);
-  if (!anchorRoot.startsWith(`${repositoryRoot}${path.sep}`)) throw new Error('Publication diagnostics trusted anchor root escapes the repository');
-  return anchorRoot;
+  resolveSecureRepositoryPath(repositoryRootInput, PUBLICATION_ANCHOR_ROOT, 'Publication diagnostics trusted anchor root', {finalKind: 'directory'});
+  return ensureSecureDirectory(repositoryRootInput, PUBLICATION_ANCHOR_ROOT, 'Publication diagnostics trusted anchor root');
 }
 
 function anchorFileName(input: PublicationDiagnosticsIdentity, diagnosticsManifestSha256: string): string {
@@ -287,36 +261,12 @@ export function publicationAnchorPath(repositoryRoot: string, input: Publication
 }
 
 function resolveStageRoot(repositoryRootInput: string, stageRootInput: string): string {
-  const repositoryInput = path.resolve(repositoryRootInput);
-  const stageInput = path.resolve(stageRootInput);
-  const relative = path.relative(repositoryInput, stageInput);
-  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) throw new Error('Publication diagnostics stage must stay below the repository root');
-  const repositoryStats = lstatSync(repositoryInput);
-  if (repositoryStats.isSymbolicLink() || !repositoryStats.isDirectory()) throw new Error('Publication diagnostics repository root must be a non-symlink directory');
-  const repositoryRoot = realpathSync(repositoryInput);
-  let current = repositoryInput;
-  for (const segment of relative.split(path.sep)) {
-    current = path.join(current, segment);
-    if (!pathEntryExists(current)) throw new Error(`Publication diagnostics stage is missing: ${stageRootInput}`);
-    const stats = lstatSync(current);
-    if (stats.isSymbolicLink()) throw new Error(`Publication diagnostics stage has a symlink ancestor: ${current}`);
-    if (!stats.isDirectory()) throw new Error(`Publication diagnostics stage ancestor must be a directory: ${current}`);
-  }
-  const stageRoot = realpathSync(stageInput);
-  if (!stageRoot.startsWith(`${repositoryRoot}${path.sep}`)) throw new Error('Publication diagnostics stage escapes the repository root');
-  return stageRoot;
-}
-
-function fsyncDirectory(directory: string): void {
-  const descriptor = openSync(directory, 'r');
-  try {
-    fsyncSync(descriptor);
-  } catch (error) {
-    const code = (error as NodeJS.ErrnoException).code;
-    if (code !== 'EINVAL' && code !== 'EBADF' && code !== 'EISDIR') throw error;
-  } finally {
-    closeSync(descriptor);
-  }
+  return resolveSecureRepositoryPath(
+    repositoryRootInput,
+    stageRootInput,
+    'Publication diagnostics stage',
+    {finalKind: 'directory'},
+  );
 }
 
 export function writePublicationDiagnostics(
@@ -328,30 +278,20 @@ export function writePublicationDiagnostics(
   assertSelfConsistentDiagnostics(parsed);
   const stageRoot = resolveStageRoot(repositoryRoot, stageRootInput);
   const target = path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE);
-  if (pathEntryExists(target)) throw new Error(`Publication diagnostics manifest already exists: ${target}`);
-  const temporary = path.join(stageRoot, `.${PUBLICATION_DIAGNOSTICS_FILE}.tmp-${process.pid}-${randomUUID()}`);
-  const descriptor = openSync(temporary, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
-  try {
-    writeFileSync(descriptor, `${JSON.stringify(parsed, null, 2)}\n`);
-    fsyncSync(descriptor);
-  } finally {
-    closeSync(descriptor);
-  }
-  try {
-    linkSync(temporary, target);
-    unlinkSync(temporary);
-    fsyncDirectory(stageRoot);
-  } catch (error) {
-    if (pathEntryExists(temporary)) unlinkSync(temporary);
-    throw error;
-  }
-  return target;
+  return writeSecureAtomicFile(repositoryRoot, target, `${JSON.stringify(parsed, null, 2)}\n`, 'Publication diagnostics manifest');
 }
 
 export function writePublicationAnchor(
   repositoryRoot: string,
   expectedIdentity: PublicationDiagnosticsIdentity,
   diagnostics: PublicationDiagnostics,
+  options: Readonly<{
+    testing?: Readonly<{
+      afterRename?: (target: string) => void;
+      beforeRename?: (target: string) => void;
+      beforeParentFsync?: (parent: string) => void;
+    }>;
+  }> = {},
 ): string {
   const parsedDiagnostics = PublicationDiagnosticsSchema.parse(diagnostics);
   assertSelfConsistentDiagnostics(parsedDiagnostics);
@@ -362,101 +302,51 @@ export function writePublicationAnchor(
   const anchor = PublicationAnchorSchema.parse(createPublicationAnchor(expectedIdentity, parsedDiagnostics));
   assertSelfConsistentAnchor(anchor);
   const anchorRoot = resolveAnchorRoot(repositoryRoot, true);
-  const anchorRootIdentity = lstatSync(anchorRoot);
   const target = path.join(anchorRoot, anchorFileName(expectedIdentity, parsedDiagnostics.manifestSha256));
   const serialized = `${JSON.stringify(anchor, null, 2)}\n`;
-  if (pathEntryExists(target)) {
-    const current = lstatSync(target);
-    if (current.isSymbolicLink() || !current.isFile() || current.nlink !== 1) {
-      throw new Error('Publication diagnostics trusted anchor must be a regular non-linked file');
+  if (securePathExists(repositoryRoot, target, 'Publication diagnostics trusted anchor')) {
+    if (readSecureFile(repositoryRoot, target, 'Publication diagnostics trusted anchor').toString('utf8') !== serialized) {
+      throw new Error('Publication diagnostics trusted anchor generation already exists with different bytes');
     }
-    if (readFileSync(target, 'utf8') !== serialized) throw new Error('Publication diagnostics trusted anchor generation already exists with different bytes');
+    confirmSecureFileDurability(repositoryRoot, target, 'Publication diagnostics trusted anchor', options.testing);
     return target;
   }
-  const temporary = path.join(anchorRoot, `.${path.basename(target)}.tmp-${process.pid}-${randomUUID()}`);
-  const descriptor = openSync(temporary, constants.O_CREAT | constants.O_EXCL | constants.O_WRONLY | constants.O_NOFOLLOW, 0o600);
   try {
-    writeFileSync(descriptor, serialized);
-    fsyncSync(descriptor);
-  } finally {
-    closeSync(descriptor);
-  }
-  try {
-    const beforeCommit = lstatSync(anchorRoot);
-    if (beforeCommit.dev !== anchorRootIdentity.dev || beforeCommit.ino !== anchorRootIdentity.ino || beforeCommit.isSymbolicLink()) {
-      throw new Error('Publication diagnostics trusted anchor root identity changed before commit');
-    }
-    linkSync(temporary, target);
-    unlinkSync(temporary);
-    fsyncDirectory(anchorRoot);
+    return writeSecureFencedImmutableFile(repositoryRoot, target, serialized, 'Publication diagnostics trusted anchor', 0o600, options);
   } catch (error) {
-    if (pathEntryExists(temporary)) unlinkSync(temporary);
-    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
-      const current = lstatSync(target);
-      if (current.isSymbolicLink() || !current.isFile() || current.nlink !== 1 || readFileSync(target, 'utf8') !== serialized) {
-        throw new Error('Publication diagnostics trusted anchor generation was concurrently replaced with unsafe or different bytes', {cause: error});
-      }
+    if ((error as NodeJS.ErrnoException).code === 'EEXIST'
+      && securePathExists(repositoryRoot, target, 'Publication diagnostics trusted anchor')
+      && readSecureFile(repositoryRoot, target, 'Publication diagnostics trusted anchor').toString('utf8') === serialized) {
+      confirmSecureFileDurability(repositoryRoot, target, 'Publication diagnostics trusted anchor', options.testing);
       return target;
     }
     throw error;
   }
-  return target;
 }
 
 function readDiagnosticsFile(repositoryRoot: string, stageRootInput: string): unknown {
   const stageRoot = resolveStageRoot(repositoryRoot, stageRootInput);
   const target = path.join(stageRoot, PUBLICATION_DIAGNOSTICS_FILE);
-  if (!pathEntryExists(target)) throw new Error(`Publication diagnostics manifest is missing: ${target}`);
-  const before = lstatSync(target);
-  if (before.isSymbolicLink() || !before.isFile()) throw new Error('Publication diagnostics manifest must be a regular non-symlink file');
-  if (before.nlink !== 1) throw new Error('Publication diagnostics manifest must not be hard-linked');
-  if (before.size > 1024 * 1024) throw new Error('Publication diagnostics manifest exceeds the size limit');
-  const descriptor = openSync(target, constants.O_RDONLY | constants.O_NOFOLLOW);
+  if (!securePathExists(repositoryRoot, target, 'Publication diagnostics manifest')) throw new Error(`Publication diagnostics manifest is missing: ${target}`);
   try {
-    const opened = fstatSync(descriptor);
-    if (!opened.isFile() || opened.nlink !== 1 || opened.dev !== before.dev || opened.ino !== before.ino) {
-      throw new Error('Publication diagnostics manifest identity changed while opening');
-    }
-    const text = readFileSync(descriptor, 'utf8');
-    const after = lstatSync(target);
-    if (after.dev !== opened.dev || after.ino !== opened.ino || after.size !== opened.size) {
-      throw new Error('Publication diagnostics manifest identity changed while reading');
-    }
-    try {
-      return JSON.parse(text);
-    } catch (error) {
-      throw new Error('Publication diagnostics manifest is not valid JSON', {cause: error});
-    }
-  } finally {
-    closeSync(descriptor);
+    const contents = readSecureFile(repositoryRoot, target, 'Publication diagnostics manifest');
+    if (contents.byteLength > 1024 * 1024) throw new Error('Publication diagnostics manifest exceeds the size limit');
+    return JSON.parse(contents.toString('utf8'));
+  } catch (error) {
+    if (error instanceof SyntaxError) throw new Error('Publication diagnostics manifest is not valid JSON', {cause: error});
+    throw error;
   }
 }
 
 function readAnchorFile(repositoryRoot: string, expectedIdentity: PublicationDiagnosticsIdentity, diagnosticsManifestSha256: string): unknown {
   const target = publicationAnchorPath(repositoryRoot, expectedIdentity, diagnosticsManifestSha256);
-  if (!pathEntryExists(target)) throw new Error(`Publication diagnostics trusted anchor is missing: ${target}`);
-  const before = lstatSync(target);
-  if (before.isSymbolicLink() || !before.isFile()) throw new Error('Publication diagnostics trusted anchor must be a regular non-symlink file');
-  if (before.nlink !== 1) throw new Error('Publication diagnostics trusted anchor must not be hard-linked');
-  if (before.size > 1024 * 1024) throw new Error('Publication diagnostics trusted anchor exceeds the size limit');
-  const descriptor = openSync(target, constants.O_RDONLY | constants.O_NOFOLLOW);
+  if (!securePathExists(repositoryRoot, target, 'Publication diagnostics trusted anchor')) throw new Error(`Publication diagnostics trusted anchor is missing: ${target}`);
+  const contents = readSecureFile(repositoryRoot, target, 'Publication diagnostics trusted anchor');
+  if (contents.byteLength > 1024 * 1024) throw new Error('Publication diagnostics trusted anchor exceeds the size limit');
   try {
-    const opened = fstatSync(descriptor);
-    if (!opened.isFile() || opened.nlink !== 1 || opened.dev !== before.dev || opened.ino !== before.ino) {
-      throw new Error('Publication diagnostics trusted anchor identity changed while opening');
-    }
-    const text = readFileSync(descriptor, 'utf8');
-    const after = lstatSync(target);
-    if (after.dev !== opened.dev || after.ino !== opened.ino || after.size !== opened.size) {
-      throw new Error('Publication diagnostics trusted anchor identity changed while reading');
-    }
-    try {
-      return JSON.parse(text);
-    } catch (error) {
-      throw new Error('Publication diagnostics trusted anchor is not valid JSON', {cause: error});
-    }
-  } finally {
-    closeSync(descriptor);
+    return JSON.parse(contents.toString('utf8'));
+  } catch (error) {
+    throw new Error('Publication diagnostics trusted anchor is not valid JSON', {cause: error});
   }
 }
 

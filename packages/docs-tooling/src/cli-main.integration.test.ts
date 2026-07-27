@@ -33,7 +33,7 @@ function prepareChineseStage(repositoryRoot: string): void {
 function run(repositoryRoot: string, provider?: string) {
   return spawnSync(process.execPath, [
     '--experimental-strip-types', cliMain,
-    'validate', '--manual', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python',
+    'validate', '--manual', 'python', '--group', 'python', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/python',
   ], {
     cwd: repositoryRoot,
     encoding: 'utf8',

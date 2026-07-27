@@ -2,7 +2,7 @@ import {readFileSync} from 'node:fs';
 import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 
-import {resolveSiteProfile} from './resolve';
+import {resolveBootstrapSite, resolveSiteProfile} from './resolve';
 import type {DeepReadonly} from './immutable';
 import {
   BaseUrlSchema,
@@ -27,6 +27,28 @@ import {enProfile} from './sites/en';
 import {zhCNProfile} from './sites/zh-CN';
 
 describe('site profile resolution', () => {
+  it('resolves bootstrap site identity from explicit input, environment, or the English default', () => {
+    expect(resolveBootstrapSite('en', {})).toBe('en');
+    expect(resolveBootstrapSite('zh-CN', {})).toBe('zh-CN');
+    expect(resolveBootstrapSite(undefined, {ZDOC_SITE: 'zh-CN'})).toBe('zh-CN');
+    expect(resolveBootstrapSite(undefined, {})).toBe('en');
+  });
+
+  it('rejects unsupported bootstrap site identities', () => {
+    expect(() => resolveBootstrapSite('fr', {})).toThrow(/Unsupported site: fr/);
+    expect(() => resolveBootstrapSite(undefined, {ZDOC_SITE: 'fr'})).toThrow(/Unsupported site: fr/);
+  });
+
+  it('does not read the environment when the caller supplies an explicit site', () => {
+    const environment = Object.defineProperty({}, 'ZDOC_SITE', {
+      get() {
+        throw new Error('environment must not be read');
+      },
+    });
+
+    expect(resolveBootstrapSite('zh-CN', environment)).toBe('zh-CN');
+  });
+
   it('resolves only named site profiles', () => {
     expect(resolveSiteProfile('en').id).toBe('en');
     expect(resolveSiteProfile('zh-CN').id).toBe('zh-CN');

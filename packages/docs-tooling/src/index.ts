@@ -24,7 +24,6 @@ export {
   publicationAnchorPath,
   readAndValidatePublicationDiagnostics,
   writePublicationDiagnostics,
-  writePublicationAnchor,
 } from './publication/diagnostics.ts';
 export type {PublicationAnchor, PublicationDiagnostics, PublicationDiagnosticsIdentity} from './publication/diagnostics.ts';
 export * from './mdx/index.ts';

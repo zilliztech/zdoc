@@ -60,6 +60,7 @@ export function validateStageFilesystem(
         continue;
       }
       if (!stats.isFile()) throw new Error(`Stage contains a non-regular file: ${relative}`);
+      if (stats.nlink !== 1) throw new Error(`Stage file must not be hard-linked: ${relative}`);
       if ((stats.mode & 0o111) !== 0) throw new Error(`Stage file has an unexpected executable bit: ${relative}`);
       if (stats.size > maxFileSize) throw new Error(`Stage file size exceeds limit ${maxFileSize}: ${relative}`);
       const bytes = readFileSync(absolute);

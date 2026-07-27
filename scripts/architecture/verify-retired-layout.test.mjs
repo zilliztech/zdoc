@@ -330,7 +330,6 @@ test('repository findings include live filesystem dependencies and exclude seman
   });
   for (const live of [
     'config/lark-docs.config.ts',
-    'scripts/docs-workflow/render-guides-table.js',
     'packages/docs-tooling/src/reference/rest/index.js',
   ]) assert.match(error.message, new RegExp(live.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   for (const semantic of [

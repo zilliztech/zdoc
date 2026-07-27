@@ -1,5 +1,6 @@
 import {spawnSync} from 'node:child_process';
 import {createHash, randomUUID} from 'node:crypto';
+import {AsyncLocalStorage} from 'node:async_hooks';
 import {
   constants,
   closeSync,
@@ -118,6 +119,17 @@ type ReaderLock = Readonly<{
   checksum: string;
 }>;
 
+type GroupFence = Readonly<{
+  schemaVersion: 1;
+  kind: 'group-fence';
+  scope: string;
+  token: string;
+  pid: number;
+  ownerIdentity: string | null;
+  createdAt: string;
+  checksum: string;
+}>;
+
 type JournalPhase = 'preparing' | 'backup' | 'install' | 'committed';
 
 type TransactionJournal = Readonly<{
@@ -136,6 +148,7 @@ type TransactionJournal = Readonly<{
 const LOCK_WAIT_TIMEOUT_MS = 30_000;
 const LOCK_POLL_MS = 10;
 const CONTROL_FILE_LIMIT = 1024 * 1024;
+const groupFenceContext = new AsyncLocalStorage<ReadonlySet<string>>();
 
 function pathEntryExists(target: string): boolean {
   try {
@@ -405,6 +418,11 @@ function readerPrefix(key: string): string {
   return `.atomic-publication-${key}.reader-`;
 }
 
+function groupFencePath(root: string, scope: string): string {
+  const key = createHash('sha256').update(scope).digest('hex').slice(0, 24);
+  return path.join(root, `.atomic-publication-group-${key}.lock`);
+}
+
 function readControlFile(target: string, label: string): Record<string, unknown> {
   const before = identityOf(target, label);
   if (before.kind !== 'file') throw new Error(`${label} must be a regular file`);
@@ -463,6 +481,16 @@ function readReaderLock(target: string): ReaderLock {
   if (value.schemaVersion !== 1 || value.kind !== 'reader' || typeof value.transactionKey !== 'string' || typeof value.token !== 'string'
     || typeof value.pid !== 'number' || !(typeof value.ownerIdentity === 'string' || value.ownerIdentity === null)) throw new Error('Publication reader lock schema validation failed');
   return value as unknown as ReaderLock;
+}
+
+function readGroupFence(target: string): GroupFence {
+  const value = readControlFile(target, 'Publication group fence');
+  if (value.schemaVersion !== 1 || value.kind !== 'group-fence' || typeof value.scope !== 'string'
+    || typeof value.token !== 'string' || typeof value.pid !== 'number'
+    || !(typeof value.ownerIdentity === 'string' || value.ownerIdentity === null)) {
+    throw new Error('Publication group fence schema validation failed');
+  }
+  return value as unknown as GroupFence;
 }
 
 function readJournal(target: string): TransactionJournal {
@@ -813,6 +841,66 @@ export async function withAtomicPublicationReads<T>(
     return await reader(root);
   } finally {
     for (const lock of locks.reverse()) removeControlFile(root, lock, 'Publication reader lock');
+  }
+}
+
+export async function withAtomicPublicationGroupFence<T>(
+  publicationRoot: string,
+  site: string,
+  group: string,
+  writer: (canonicalPublicationRoot: string) => T | Promise<T>,
+): Promise<T> {
+  if (!/^(?:en|zh-CN)$/u.test(site) || !/^[a-z][a-z0-9-]*$/u.test(group)) {
+    throw new Error('Publication group fence requires a validated site and group');
+  }
+  const root = canonicalRoot(publicationRoot);
+  const scope = `${site}\0${group}`;
+  const inheritedScopes = groupFenceContext.getStore();
+  if (inheritedScopes?.has(scope)) {
+    throw new Error(`Publication group fence is not reentrant: ${site}/${group}`);
+  }
+  const target = groupFencePath(root, scope);
+  const deadline = Date.now() + LOCK_WAIT_TIMEOUT_MS;
+  let owned: GroupFence | undefined;
+  while (!owned && Date.now() < deadline) {
+    if (pathEntryExists(target)) {
+      const current = readGroupFence(target);
+      if (current.scope !== scope) throw new Error('Publication group fence scope mismatch');
+      if (processOwnsRecord(current.pid, current.ownerIdentity)) {
+        await sleep(LOCK_POLL_MS);
+        continue;
+      }
+      throw new Error(
+        `Stale publication group fence blocks ${site}/${group}; inspect ${target} and remove it manually only after confirming no publisher is active`,
+      );
+    }
+    const token = `${process.pid}-${randomUUID()}`;
+    const candidate = checksummed({
+      schemaVersion: 1 as const,
+      kind: 'group-fence' as const,
+      scope,
+      token,
+      pid: process.pid,
+      ownerIdentity: processIdentity(process.pid),
+      createdAt: new Date().toISOString(),
+    }) as GroupFence;
+    try {
+      writeExclusiveControlFile(target, candidate as unknown as Record<string, unknown>);
+      owned = candidate;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'EEXIST') throw error;
+      await sleep(LOCK_POLL_MS);
+    }
+  }
+  if (!owned) throw new Error(`Timed out waiting for publication group fence: ${site}/${group}`);
+  try {
+    return await groupFenceContext.run(new Set([...(inheritedScopes ?? []), scope]), () => writer(root));
+  } finally {
+    const current = readGroupFence(target);
+    if (current.scope !== owned.scope || current.token !== owned.token) {
+      throw new Error('Publication group fence identity changed before release');
+    }
+    removeControlFile(root, target, 'Publication group fence');
   }
 }
 
