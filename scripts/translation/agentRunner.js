@@ -678,7 +678,7 @@ function targetFileHash(siteDir, targetPath) {
   return crypto.createHash('sha256').update(fs.readFileSync(path.join(siteDir, targetPath))).digest('hex')
 }
 
-function updateReferenceProgressState(siteDir, progressState, manifest, result) {
+function updateReferenceProgressState(siteDir, progressState, result) {
   const sourceManifest = parseReferenceSourceManifest(readJsonIfPresent(
     siteDir,
     'generated/en/manifests/reference.json',
@@ -688,17 +688,15 @@ function updateReferenceProgressState(siteDir, progressState, manifest, result) 
   const sourceRecord = sourceManifest.records.find(record => record.sourcePath === result.sourcePath)
   const manual = sourceRecord?.manual || previous?.manual
   if (!manual) throw new Error(`Reference source manifest is missing translated path ${result.sourcePath}`)
-  const sourceCommit = /^[0-9a-f]{40}$/.test(manifest.sourceCheckpointSha || '')
-    ? manifest.sourceCheckpointSha
-    : previous?.sourceCommit || sourceManifest.sourceCommit
+  const targetHash = targetFileHash(siteDir, result.targetPath)
   const record = {
     manual,
     sourcePath: result.sourcePath,
     targetPath: result.targetPath,
-    sourceCommit,
+    sourceCommit: sourceManifest.sourceCommit,
     sourceHash: result.sourceHash,
-    targetHash: targetFileHash(siteDir, result.targetPath),
-    status: 'translated',
+    targetHash,
+    status: result.sourceHash === targetHash ? 'unchanged' : 'translated',
   }
   progressState.value = parseReferenceTranslationManifest({
     ...progressState.value,
@@ -735,7 +733,7 @@ function updateToolsProgressState(progressState, result) {
   }
 }
 
-function updateProgressState(siteDir, progressState, manifest, result, translatedAt) {
+function updateProgressState(siteDir, progressState, result, translatedAt) {
   if (progressState.kind === 'cache') {
     progressState.value.files[result.sourcePath] = {
       sourceHash: result.sourceHash,
@@ -745,7 +743,7 @@ function updateProgressState(siteDir, progressState, manifest, result, translate
     return
   }
   if (progressState.kind === 'reference-manifest') {
-    updateReferenceProgressState(siteDir, progressState, manifest, result)
+    updateReferenceProgressState(siteDir, progressState, result)
     return
   }
   updateToolsProgressState(progressState, result)
@@ -803,7 +801,6 @@ function createProgressCoordinator(options) {
     if (targetResult.status === 'translated') updateProgressState(
       options.siteDir,
       progressState,
-      options.manifest,
       targetResult,
       new Date(options.now?.() || Date.now()).toISOString(),
     )

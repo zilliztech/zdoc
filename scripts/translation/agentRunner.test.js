@@ -26,6 +26,7 @@ const {
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
+const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
 function withTempDir(callback) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-agent-'))
@@ -848,24 +849,37 @@ async function testJapaneseProgressStatePreservesExistingLocaleCache() {
 async function testChineseProgressStateUsesIndependentTargetManifests() {
   await withTempDir(async siteDir => {
     const sourceCommit = 'c'.repeat(40)
-    const referenceSourcePath = 'content/en/reference/api/python/page.md'
-    const referenceTargetPath = 'content/zh-CN/reference/api/python/page.md'
-    const referenceSource = '# Reference\n'
-    const referenceTarget = '# 参考\n'
-    write(path.join(siteDir, referenceSourcePath), referenceSource)
-    write(path.join(siteDir, referenceTargetPath), referenceTarget)
-    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+    const workflowSha = 'a'.repeat(40)
+    const changedSourcePath = 'content/en/reference/api/python/changed.md'
+    const changedTargetPath = 'content/zh-CN/reference/api/python/changed.md'
+    const unchangedSourcePath = 'content/en/reference/api/python/unchanged.md'
+    const unchangedTargetPath = 'content/zh-CN/reference/api/python/unchanged.md'
+    const changedSource = '# Changed Reference\n'
+    const changedTarget = '# 已更改的参考\n'
+    const unchanged = '# Same Reference\n'
+    write(path.join(siteDir, changedSourcePath), changedSource)
+    write(path.join(siteDir, changedTargetPath), changedTarget)
+    write(path.join(siteDir, unchangedSourcePath), unchanged)
+    write(path.join(siteDir, unchangedTargetPath), unchanged)
+    const referenceSourceManifest = {
       schemaVersion: 1,
       sourceCommit,
-      records: [{manual: 'python', sourcePath: referenceSourcePath, sourceHash: sha256(referenceSource)}],
-    }))
+      records: [
+        {manual: 'python', sourcePath: changedSourcePath, sourceHash: sha256(changedSource)},
+        {manual: 'python', sourcePath: unchangedSourcePath, sourceHash: sha256(unchanged)},
+      ],
+    }
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify(referenceSourceManifest))
+    const retiredTargetPath = 'content/zh-CN/reference/api/python/retired.md'
+    const retiredTarget = '# 退役\n'
+    write(path.join(siteDir, retiredTargetPath), retiredTarget)
     const retiredReference = {
       manual: 'python',
       sourcePath: 'content/en/reference/api/python/retired.md',
-      targetPath: 'content/zh-CN/reference/api/python/retired.md',
+      targetPath: retiredTargetPath,
       sourceCommit,
-      sourceHash: 'd'.repeat(64),
-      targetHash: 'e'.repeat(64),
+      sourceHash: sha256(''),
+      targetHash: sha256(retiredTarget),
       status: 'retired',
     }
     write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
@@ -876,15 +890,25 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
     const referenceManifest = {
       target: 'zh-CN-reference',
       locale: 'zh-CN',
-      sourceCheckpointSha: sourceCommit,
-      items: [{
-        sourcePath: referenceSourcePath,
-        targetPath: referenceTargetPath,
-        sourceHash: sha256(referenceSource),
-        locale: 'zh-CN',
-        type: 'reference',
-        reason: 'missing_target',
-      }],
+      sourceCheckpointSha: workflowSha,
+      items: [
+        {
+          sourcePath: changedSourcePath,
+          targetPath: changedTargetPath,
+          sourceHash: sha256(changedSource),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+        {
+          sourcePath: unchangedSourcePath,
+          targetPath: unchangedTargetPath,
+          sourceHash: sha256(unchanged),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+      ],
     }
     const referenceCoordinator = createProgressCoordinator({
       siteDir,
@@ -894,6 +918,7 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
       checkpointFiles: 1,
     })
     await referenceCoordinator.record({...referenceManifest.items[0], status: 'translated'}, 0)
+    await referenceCoordinator.record({...referenceManifest.items[1], status: 'translated'}, 1)
     await referenceCoordinator.checkpoint(true)
 
     const toolsSourcePath = 'content/en/guides/tutorials/tools/tool.md'
@@ -937,12 +962,21 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
     assert.equal(fs.existsSync(path.join(siteDir, '.translation-cache/zh-CN.json')), false)
     const referenceState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
     const toolsState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), 'utf8'))
-    assert.deepEqual(referenceState.records.map(record => record.sourcePath), [referenceSourcePath, retiredReference.sourcePath])
+    assert.deepEqual(referenceState.records.map(record => record.sourcePath), [
+      changedSourcePath,
+      retiredReference.sourcePath,
+      unchangedSourcePath,
+    ])
     assert.equal(referenceState.records[0].manual, 'python')
     assert.equal(referenceState.records[0].sourceCommit, sourceCommit)
-    assert.equal(referenceState.records[0].sourceHash, sha256(referenceSource))
-    assert.equal(referenceState.records[0].targetHash, sha256(referenceTarget))
+    assert.equal(referenceState.records[0].sourceHash, sha256(changedSource))
+    assert.equal(referenceState.records[0].targetHash, sha256(changedTarget))
+    assert.equal(referenceState.records[0].status, 'translated')
     assert.equal(referenceState.records[1].status, 'retired')
+    assert.equal(referenceState.records[2].sourceCommit, sourceCommit)
+    assert.equal(referenceState.records[2].sourceHash, sha256(unchanged))
+    assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
+    assert.equal(referenceState.records[2].status, 'unchanged')
     assert.deepEqual(toolsState.records.map(record => record.sourcePath), [retiredTool.sourcePath, toolsSourcePath])
     assert.equal(toolsState.records[0].status, 'retired')
     assert.equal(toolsState.records[1].sourceHash, sha256(toolsSource))
@@ -959,6 +993,13 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
     assert.equal(toolsReport.checkpoint.target, 'zh-CN-tools')
     assert.ok(referenceReport.results.every(result => result.target === 'zh-CN-reference'))
     assert.ok(toolsReport.results.every(result => result.target === 'zh-CN-tools'))
+    assert.doesNotThrow(() => validateReferenceTranslation({
+      repositoryRoot: siteDir,
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: referenceSourceManifest,
+      translationManifest: referenceState,
+    }))
   })
 }
 
