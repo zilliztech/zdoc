@@ -7,6 +7,8 @@ const root = resolve(scriptDir, '..');
 const packageJson = JSON.parse(await readFile(resolve(root, 'packages/zdoc-localize/package.json'), 'utf8'));
 const compatibility = JSON.parse(await readFile(resolve(root, 'skills/zdoc-localization/references/compatibility.json'), 'utf8'));
 const skill = await readFile(resolve(root, 'skills/zdoc-localization/SKILL.md'), 'utf8');
+const workflow = await readFile(resolve(root, 'skills/zdoc-localization/references/workflow.md'), 'utf8');
+const errors = await readFile(resolve(root, 'skills/zdoc-localization/references/errors.md'), 'utf8');
 const program = await readFile(resolve(root, 'packages/zdoc-localize/src/cli/program.ts'), 'utf8');
 
 function versionTuple(value) {
@@ -29,20 +31,37 @@ const missingCommands = compatibility.requiredCommands.filter((command) =>
   !program.includes(`'${command}'`) && !program.includes(`"${command}"`),
 );
 const missingFeatures = compatibility.requiredFeatures.filter((feature) => !program.includes(`'${feature}'`));
+const missingSkillFeatures = compatibility.requiredSkillFeatures.filter((feature) => !skill.includes(`\`${feature}\``));
 const safetyStatements = [
   'Never run a write without explicit document-level approval',
   'Never retry `confirmation_required` with a confirmation flag automatically',
 ];
-const unsafeRoutes = safetyStatements.filter((statement) => !skill.includes(statement));
+const workflowContracts = [
+  ['remote-baseline', skill, 'Remote English and remote Chinese are the localization inputs'],
+  ['structured-slots', workflow, 'structured slots'],
+  ['engine-fingerprint', workflow, 'exact Engine batch fingerprint'],
+  ['engine-recovery', errors, 'Engine recovery assessment'],
+  ['legacy-routing', errors, 'legacy plan'],
+  ['separate-markdown-routing', skill, 'Only route a separate English Markdown publishing task to `$feishu-md-sync`'],
+  ['no-internal-feishu-md-sync', skill, 'The localization workflow never invokes the `feishu-md-sync` executable internally'],
+];
+const unsafeRoutes = [
+  ...safetyStatements.filter((statement) => !skill.includes(statement)),
+  ...workflowContracts
+    .filter(([, document, statement]) => !document.toLowerCase().includes(statement.toLowerCase()))
+    .map(([id]) => id),
+];
 const compatible = inInitialRange(packageJson.version, compatibility.cliRange)
   && missingCommands.length === 0
   && missingFeatures.length === 0
+  && missingSkillFeatures.length === 0
   && unsafeRoutes.length === 0;
 
 process.stdout.write(`${JSON.stringify({
   compatible,
   missingCommands,
   missingFeatures,
+  missingSkillFeatures,
   unsafeRoutes,
   cliVersion: packageJson.version,
   acceptedRange: compatibility.cliRange,

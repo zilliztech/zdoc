@@ -17,6 +17,14 @@
     "write-preview-v1",
     "existing-empty-target-initialization-v1",
     "manual-synced-reference-v1",
-    "whiteboard-mirror-v1"
+    "whiteboard-mirror-v1",
+    "docx-engine-v1",
+    "structured-list-localization-v1",
+    "native-table-localization-v1"
+  ],
+  "requiredSkillFeatures": [
+    "docx-engine-v1",
+    "structured-list-localization-v1",
+    "native-table-localization-v1"
   ]
 }

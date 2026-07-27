@@ -5,7 +5,9 @@ description: Localize registered ZDoc English Feishu documents into Chinese with
 
 # ZDoc Localization
 
-Use `zdoc-localize` as the deterministic engine. Generate translations conversationally, but leave document state, diffing, alignment, plan validation, writes, and verification to the CLI.
+Use `zdoc-localize` as the deterministic workflow. Generate translations conversationally, but leave document state, diffing, alignment, structured content, plan validation, Engine batch preparation, writes, and verification to the CLI.
+
+Remote English and remote Chinese are the localization inputs. The verified receipt holds the prior English and Chinese snapshots plus their correspondences; local Markdown is not part of this baseline. The localization workflow never invokes the `feishu-md-sync` executable internally. Only route a separate English Markdown publishing task to `$feishu-md-sync`.
 
 Skill version: `1.0.0`. Compatible CLI: `>=0.1.0 <0.2.0`.
 
@@ -28,12 +30,15 @@ Require these feature flags for the existing-empty-target workflow:
 - `existing-empty-target-initialization-v1`
 - `manual-synced-reference-v1`
 - `whiteboard-mirror-v1`
+- `docx-engine-v1`
+- `structured-list-localization-v1`
+- `native-table-localization-v1`
 
 Before the first Feishu-mode initialization for a registry, run `"$ZL" registry schema --format json`, then inspect the live Base tables and fields. Require exact field names and compatible types; controlled mode, status, disposition, scope type, record type, and run state fields must be single-select Labels. Treat view-creation limitations as warnings, but block on missing or incompatible fields.
 
 ## Route the Request
 
-- Local English Markdown publication or English local/remote reconciliation → use `$feishu-md-sync`.
+- A separate local English Markdown publication or English local/remote reconciliation task → use `$feishu-md-sync`; do not run it inside the localization workflow.
 - Registered remote English → remote Chinese localization → continue here.
 - Ad hoc remote-only Chinese editing unrelated to an English diff → use `$lark-doc`.
 - Authentication, user identity, or missing scopes → use `$lark-shared`.
@@ -48,13 +53,13 @@ Before the first Feishu-mode initialization for a registry, run `"$ZL" registry 
 6. Present every request warning, especially missing Chinese link mappings and unresolved English anchors. Never resolve an anchor by guesswork.
 7. Run `plan complete --run <id> --translations <relative-file> --format json`.
 8. Present the generated `review.md`. The user may edit only the marked translation regions.
-9. Run `apply --run <id> --review <relative-file> --preview --format json` and present the exact block-level write preview and approval token.
+9. Run `apply --run <id> --review <relative-file> --preview --format json` and present the Engine version/schema, exact Engine batch fingerprint, operation summaries, and approval token. Keep every warning reported during planning visible with the preview.
 10. Never run a write without explicit document-level approval of that exact current preview.
 11. After approval, run `apply --run <id> --review <relative-file> --approval-token <token> --format json`.
 12. When apply returns `manual_action_required`, present every manual action. The user replaces each protected placeholder with a native Feishu synced reference in the UI, then run `manual verify --run <id>`. Never flatten native synced code into an ordinary code block.
 13. Verify `state=completed` and report the validation path. Do not claim completion from a successful write call alone, and never claim completion while the run is `manual_action_required`.
 
-Whiteboards are copied as independent raw-node mirrors. Do not translate their contents. Incremental runs refresh a changed source Whiteboard through the CLI and verify its canonical hash.
+Whiteboards are copied as independent raw-node mirrors. Do not translate their contents. Incremental runs refresh a changed source Whiteboard through the Engine and verify its canonical hash.
 
 All file arguments must remain inside the current workspace. Use JSON output for machine decisions.
 
@@ -63,7 +68,7 @@ All file arguments must remain inside the current workspace. Use JSON output for
 - Return exactly one response for every operation ID and no unknown IDs.
 - Preserve code, commands, variables, URLs, citations, and resource tokens exactly.
 - Apply approved glossary terms; treat candidate terms as suggestions only.
-- Translate a whole paragraph or list block while using full section context.
+- Translate every editable structured slot for a list or native table while using the full list/table and section context. Preserve slot IDs and never flatten, reorder, add, or remove structural nodes.
 - For deletion requests, return the explicit `delete` decision instead of translated prose.
 - Do not invent operations, targets, block IDs, or anchors.
 

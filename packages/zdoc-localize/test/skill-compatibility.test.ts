@@ -11,6 +11,7 @@ describe('Codex Skill compatibility', () => {
       compatible: boolean;
       missingCommands: string[];
       missingFeatures: string[];
+      missingSkillFeatures: string[];
       unsafeRoutes: string[];
       cliVersion: string;
       acceptedRange: string;
@@ -20,6 +21,7 @@ describe('Codex Skill compatibility', () => {
       compatible: true,
       missingCommands: [],
       missingFeatures: [],
+      missingSkillFeatures: [],
       unsafeRoutes: [],
       cliVersion: '0.1.1',
       acceptedRange: '>=0.1.0 <0.2.0',

@@ -152,7 +152,7 @@ Only titles, headings, paragraphs, lists, quotes, and restricted callouts are st
 
 A synced-source container does not get that exception. It becomes `resource` or, with the current real tag spelling, `opaque`, so new-target creation is blocked as report-only content. This is safer than silently flattening the synced relationship.
 
-The document adapter supports fetch, ordinary block replace/insert/delete, and full document creation through `lark-cli`; it has no method to create or bind a synced reference. See [`lark-docs-adapter.ts`](../src/adapters/lark-docs-adapter.ts).
+The current runtime reads legacy DocxXML through the narrow [`lark-legacy-document-reader.ts`](../src/adapters/lark-legacy-document-reader.ts), creates a missing target through [`lark-document-creation-adapter.ts`](../src/adapters/lark-document-creation-adapter.ts), and delegates all document mutation to `feishu-docx-engine`. Neither the Engine nor the creation gateway exposes a supported method to create or bind a synced reference.
 
 ### Recommended design behavior
 
