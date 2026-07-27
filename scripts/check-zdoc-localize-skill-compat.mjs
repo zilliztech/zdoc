@@ -10,6 +10,10 @@ const skill = await readFile(resolve(root, 'skills/zdoc-localization/SKILL.md'),
 const workflow = await readFile(resolve(root, 'skills/zdoc-localization/references/workflow.md'), 'utf8');
 const errors = await readFile(resolve(root, 'skills/zdoc-localization/references/errors.md'), 'utf8');
 const program = await readFile(resolve(root, 'packages/zdoc-localize/src/cli/program.ts'), 'utf8');
+const declaredCliVersion = /export const CLI_VERSION = ['"]([^'"]+)['"]/.exec(program)?.[1];
+const skillDeclaration = /Skill version: `([^`]+)`\. Compatible CLI: `([^`]+)`\./.exec(skill);
+const declaredSkillVersion = skillDeclaration?.[1];
+const declaredRange = skillDeclaration?.[2];
 
 function versionTuple(value) {
   const match = /^(\d+)\.(\d+)\.(\d+)/.exec(value);
@@ -51,11 +55,18 @@ const unsafeRoutes = [
     .filter(([, document, statement]) => !document.toLowerCase().includes(statement.toLowerCase()))
     .map(([id]) => id),
 ];
+const contractMismatches = [
+  ...(declaredCliVersion === packageJson.version ? [] : ['package-cli-version']),
+  ...(declaredSkillVersion === compatibility.skillVersion ? [] : ['skill-version']),
+  ...(declaredRange === compatibility.cliRange ? [] : ['skill-cli-range']),
+  ...(packageJson.dependencies?.['feishu-docx-engine'] === '0.2.0' ? [] : ['engine-version']),
+];
 const compatible = inInitialRange(packageJson.version, compatibility.cliRange)
   && missingCommands.length === 0
   && missingFeatures.length === 0
   && missingSkillFeatures.length === 0
-  && unsafeRoutes.length === 0;
+  && unsafeRoutes.length === 0
+  && contractMismatches.length === 0;
 
 process.stdout.write(`${JSON.stringify({
   compatible,
@@ -63,6 +74,11 @@ process.stdout.write(`${JSON.stringify({
   missingFeatures,
   missingSkillFeatures,
   unsafeRoutes,
+  contractMismatches,
   cliVersion: packageJson.version,
+  declaredCliVersion,
+  skillVersion: compatibility.skillVersion,
+  declaredSkillVersion,
   acceptedRange: compatibility.cliRange,
+  declaredRange,
 })}\n`);

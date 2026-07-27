@@ -9,7 +9,7 @@ Use `zdoc-localize` as the deterministic workflow. Generate translations convers
 
 Remote English and remote Chinese are the localization inputs. The verified receipt holds the prior English and Chinese snapshots plus their correspondences; local Markdown is not part of this baseline. The localization workflow never invokes the `feishu-md-sync` executable internally. Only route a separate English Markdown publishing task to `$feishu-md-sync`.
 
-Skill version: `1.0.0`. Compatible CLI: `>=0.1.0 <0.2.0`.
+Skill version: `1.1.0`. Compatible CLI: `>=0.2.0 <0.3.0`.
 
 ## Check Compatibility
 

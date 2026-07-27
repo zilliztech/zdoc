@@ -1,6 +1,6 @@
 {
-  "skillVersion": "1.0.0",
-  "cliRange": ">=0.1.0 <0.2.0",
+  "skillVersion": "1.1.0",
+  "cliRange": ">=0.2.0 <0.3.0",
   "requiredCommands": [
     "doctor",
     "pair",

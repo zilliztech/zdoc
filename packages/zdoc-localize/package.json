@@ -1,6 +1,6 @@
 {
   "name": "zdoc-localize",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Stale-safe localization planning and Feishu block updates for ZDoc.",
   "type": "module",
   "bin": {
@@ -10,7 +10,8 @@
   "types": "dist/cli/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=20"

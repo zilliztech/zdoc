@@ -13,8 +13,13 @@ describe('Codex Skill compatibility', () => {
       missingFeatures: string[];
       missingSkillFeatures: string[];
       unsafeRoutes: string[];
+      contractMismatches: string[];
       cliVersion: string;
+      declaredCliVersion: string;
+      skillVersion: string;
+      declaredSkillVersion: string;
       acceptedRange: string;
+      declaredRange: string;
     };
 
     expect(report).toEqual({
@@ -23,8 +28,13 @@ describe('Codex Skill compatibility', () => {
       missingFeatures: [],
       missingSkillFeatures: [],
       unsafeRoutes: [],
-      cliVersion: '0.1.1',
-      acceptedRange: '>=0.1.0 <0.2.0',
+      contractMismatches: [],
+      cliVersion: '0.2.0',
+      declaredCliVersion: '0.2.0',
+      skillVersion: '1.1.0',
+      declaredSkillVersion: '1.1.0',
+      acceptedRange: '>=0.2.0 <0.3.0',
+      declaredRange: '>=0.2.0 <0.3.0',
     });
   });
 });

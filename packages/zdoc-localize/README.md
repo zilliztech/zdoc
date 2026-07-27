@@ -100,7 +100,7 @@ Historical receipts are migrated at the next plan boundary by rebinding their le
 
 ## Version compatibility
 
-CLI `0.1.x` is compatible with Skill `1.0.0`. Validate the checked-in pairing with:
+CLI `0.2.x` is compatible with Skill `1.1.0` and uses the exact `feishu-docx-engine 0.2.0` schema-v2 contract. Validate the checked-in pairing with:
 
 ```bash
 node scripts/check-zdoc-localize-skill-compat.mjs

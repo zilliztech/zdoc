@@ -25,7 +25,7 @@ describe('CLI contract', () => {
     expect(JSON.parse(result.stdout)).toEqual({
       ok: true,
       data: {
-        cliVersion: '0.1.1',
+        cliVersion: '0.2.0',
         schemaVersion: 1,
         docxEngine: {
           version: '0.2.0',
