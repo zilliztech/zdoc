@@ -10,7 +10,7 @@ notebook: false
 description: "This operation performs a hybrid search that combines results from multiple ANN requests, each targeting a different vector field or index type. Use a reranker to merge and reorder the results. | Go | v2"
 type: docx
 token: VneHdph9ZoSf9wxQdKBc0046nBT
-sidebar_position: 5
+sidebar_position: 10
 keywords: 
   - Audio search
   - what is semantic search

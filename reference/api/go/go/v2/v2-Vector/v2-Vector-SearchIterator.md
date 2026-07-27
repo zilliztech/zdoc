@@ -10,7 +10,7 @@ notebook: false
 description: "This operation creates an iterator for paginating through large search result sets. | Go | v2"
 type: docx
 token: K6obdWvXyoNLbMxNkggc9JyMnPd
-sidebar_position: 13
+sidebar_position: 18
 keywords: 
   - Vector retrieval
   - Audio similarity search

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation performs an approximate nearest neighbor (ANN) search on a specified collection. You can use `NewSearchOption` for vector-based search or `NewSearchByIDsOption` to search by primary key IDs. | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
-sidebar_position: 12
+sidebar_position: 17
 keywords: 
   - Vector index
   - vector database open source

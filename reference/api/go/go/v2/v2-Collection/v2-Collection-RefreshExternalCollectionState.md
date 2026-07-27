@@ -10,7 +10,7 @@ notebook: false
 description: "This type represents the state of a refresh external collection job. | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
-sidebar_position: 29
+sidebar_position: 30
 keywords: 
   - vector search algorithms
   - Question answering system

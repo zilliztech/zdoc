@@ -74,7 +74,7 @@ entity.NewField().
 
     Sets the description of the field.
 
-- `WithDataType(dataType [FieldType](./v2-Collection-FieldType))`
+- `WithDataType(dataType FieldType)`
 
     Sets the data type of the field (e.g., Int64, VarChar, FloatVector).
 
@@ -142,7 +142,7 @@ entity.NewField().
 
     Sets the maximum character length for varchar fields.
 
-- `WithElementType(eleType [FieldType](./v2-Collection-FieldType))`
+- `WithElementType(eleType FieldType)`
 
     Sets the element type for array fields.
 

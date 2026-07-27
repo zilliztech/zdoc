@@ -10,7 +10,7 @@ notebook: false
 description: "This operation returns the progress of a specified external collection refresh job. | Go | v2"
 type: docx
 token: OTM3db7aroAXAYxrTy4cyVbwnGG
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
   - cheap vector database
   - Managed vector database

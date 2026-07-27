@@ -10,7 +10,7 @@ notebook: false
 description: "Contains the result of an Upsert operation including the count and IDs of affected entities. | Go | v2"
 type: docx
 token: KlfGdGLbxo7zfNxin91cgFxWnQO
-sidebar_position: 15
+sidebar_position: 20
 keywords: 
   - Video similarity search
   - Vector retrieval

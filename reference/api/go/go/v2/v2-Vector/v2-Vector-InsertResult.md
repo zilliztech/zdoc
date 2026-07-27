@@ -10,7 +10,7 @@ notebook: false
 description: "Contains the result of an Insert operation including the count and IDs of inserted entities. | Go | v2"
 type: docx
 token: EqKvdT96PoSVzzxyEF7civIgnDh
-sidebar_position: 7
+sidebar_position: 12
 keywords: 
   - cheap vector database
   - Managed vector database

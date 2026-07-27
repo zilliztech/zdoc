@@ -10,7 +10,7 @@ notebook: false
 description: "This operation retrieves entities by their primary key values. | Go | v2"
 type: docx
 token: FLBRdxZqWojjpXxuwJZc5APKncC
-sidebar_position: 4
+sidebar_position: 9
 keywords: 
   - milvus
   - Zilliz

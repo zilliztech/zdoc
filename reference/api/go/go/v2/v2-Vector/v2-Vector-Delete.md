@@ -10,7 +10,7 @@ notebook: false
 description: "This operation deletes entities from a collection by primary key values or filter expression. | Go | v2"
 type: docx
 token: ZIm2dVn5noFLpAxRkjbc6jiSnee
-sidebar_position: 2
+sidebar_position: 7
 keywords: 
   - Vectorization
   - k nearest neighbor algorithm

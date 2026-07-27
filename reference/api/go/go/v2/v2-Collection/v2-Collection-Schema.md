@@ -4,10 +4,10 @@ slug: /go/go/v2-Collection-Schema
 sidebar_label: "Schema"
 beta: false
 added_since: v2.6.x
-last_modified: v3.0.0
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Represents the schema of a collection, including field definitions, functions, and dynamic field settings. | Go | v2"
+description: "Defines a Milvus v3 collection schema, validates struct-array fields, and supports external collection source configuration. | Go | v2"
 type: docx
 token: Du2ZdjCWIorDg4xdwercNnYgnJb
 sidebar_position: 23
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Schema
 
-Represents the schema of a collection, including field definitions, functions, and dynamic field settings.
+Defines a Milvus v3 collection schema, validates struct-array fields, and supports external collection source configuration.
 
 ```go
 type Schema struct {
@@ -41,25 +41,64 @@ type Schema struct {
     Fields []*Field
     EnableDynamicField bool
     Functions []*Function
+    ExternalSource string
+    ExternalSpec string
 }
 ```
 
-## Constructor\{#constructor}
+## Request Syntax\{#request-syntax}
+
+Creates an empty collection schema.
 
 ```go
-entity.NewSchema().
-    WithName(name).
-    WithDescription(desc).
-    WithAutoID(autoID).
-    WithDynamicFieldEnabled(dynamicEnabled).
-    // ...
+entity.NewSchema()
 ```
 
-**BUILDER METHODS:**
+**METHODS:**
 
-- `WithName(name string)`
+- `WithName(name string) *Schema`
 
-    This sets the name value of schema, returns schema itself.
+    This sets the collection name.
+
+- `WithDescription(desc string) *Schema`
+
+    This sets the collection description.
+
+- `WithAutoID(autoID bool) *Schema`
+
+    This sets whether Milvus automatically generates primary keys.
+
+- `WithDynamicFieldEnabled(dynamicEnabled bool) *Schema`
+
+    This enables or disables the dynamic field.
+
+- `WithExternalSource(externalSource string) *Schema`
+
+    This sets the external data source URI.
+
+- `WithExternalSpec(externalSpec string) *Schema`
+
+    This sets the external source configuration as JSON.
+
+- `WithField(field *Field) *Schema`
+
+    This appends a field definition to the schema.
+
+- `WithFunction(function *Function) *Schema`
+
+    This appends a built-in function definition to the schema.
+
+- `Validate() error`
+
+    This validates struct-array sub-fields and returns an error for unsupported nesting or top-level-only flags.
+
+- `PKFieldName() string`
+
+    This returns the primary-key field name.
+
+- `PKField() *Field`
+
+    This returns the primary-key field definition.
 
 - `WithExternalSource(externalSource string)`
 
@@ -75,51 +114,70 @@ entity.NewSchema().
 
         Possible values are `parquet`, `vortex`, `lance-table`, and `iceberg-table`.
 
-- `WithDescription(desc string)`
+**RETURN TYPE:**
 
-    This sets the description value of schema, returns schema itself.
+*Schema*
 
-- `WithAutoID(autoID bool)`
+**RETURNS:**
 
-    This enables or disables auto ID generation for the collection. This does not apply to external collections.
+Represents the schema of a collection, including field definitions, functions, and dynamic field settings.
 
-- `WithDynamicFieldEnabled(dynamicEnabled bool)`
+- **CollectionName** (*string*) -
 
-    This enables or disables dynamic field support for flexible data insertion.
+    This stores the collection name.
 
-- `WithField(f *[Field](./v2-Collection-Field))`
+- **Description** (*string*) -
 
-    This adds a field into schema and returns schema itself.
+    This stores the collection description.
 
-- `WithFunction(f *[Function](./v2-Collection-Function))`
+- **AutoID** (*bool*) -
 
-    This adds a function definition (e.g., BM25, text embedding) to the schema. This does not apply to external collections.
+    This indicates whether Milvus automatically generates primary keys.
 
-**METHODS:**
+- **Fields** (*[]*Field*) -
 
-- `PKFieldName() string`
+    This contains the collection field definitions.
 
-    PKFieldName returns pk field name for this schemapb.
+- **EnableDynamicField** (*bool*) -
 
-- `PKField() *[Field`](./v2-Collection-Field)
+    This indicates whether the dynamic field is enabled.
 
-    PKField returns PK Field schema for this schema.
+- **Functions** (*[]*Function*) -
+
+    This contains the built-in function definitions.
+
+- **ExternalSource** (*string*) -
+
+    External data source (e.g., "s3://bucket/path").
+
+- **ExternalSpec** (*string*) -
+
+    External source config (JSON).
 
 ## Example\{#example}
 
+Demonstrates Schema usage.
+
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v3/entity"
 )
 
+structSchema := entity.NewStructSchema().
+	WithField(entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(8))
+
 schema := entity.NewSchema().
-    WithName("my_collection").
-    WithField(entity.NewField().
-        WithName("id").
-        WithDataType(entity.FieldTypeInt64).
-        WithIsPrimaryKey(true)).
-    WithField(entity.NewField().
-        WithName("embedding").
-        WithDataType(entity.FieldTypeFloatVector).
-        WithDim(768))
+	WithField(entity.NewField().WithName("chunks").WithDataType(entity.FieldTypeArray).WithElementType(entity.FieldTypeStruct).WithStructSchema(structSchema))
+
+err := schema.Validate()
+fmt.Println(err)
 ```
+
+## Notes\{#notes}
+
+- Struct-array decoding preserves nullable state and restores `max_capacity` from sub-fields when the parent does not carry it.
+
+- `ExternalSource` and `ExternalSpec` describe external collection storage and configuration.
+

@@ -4,12 +4,12 @@ slug: /go/go/v2-Collection-FieldType
 sidebar_label: "FieldType"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Enumerates the supported data types for collection fields. | Go | v2"
+description: "Enumerates supported Milvus field data types and provides helpers for identifying vector types. | Go | v2"
 type: docx
-token: Xq9Ydn3OJoYrHmxMVOLcMn9onHc
+token: V6aWdRUh3o1alDxmCo5c29hRnic
 sidebar_position: 16
 keywords: 
   - IVF
@@ -31,118 +31,121 @@ import Admonition from '@theme/Admonition';
 
 # FieldType
 
+Enumerates supported Milvus field data types and provides helpers for identifying vector types.
+
+**RETURN TYPE:**
+
+*FieldType*
+
+**RETURNS:**
+
 Enumerates the supported data types for collection fields.
 
-```go
-type FieldType int32
-```
+- **FieldTypeNone** (*int32*) -
 
-**VALUES:**
+    Default: `0`
 
-- **FieldTypeNone** = 0
+    zero value place holder.
 
-    No type specified.
+- **FieldTypeBool** (*int32*) -
 
-- **FieldTypeBool** = 1
+    Default: `1`
 
-    Boolean type.
+- **FieldTypeInt8** (*int32*) -
 
-- **FieldTypeInt8** = 2
+    Default: `2`
 
-    8-bit integer type.
+- **FieldTypeInt16** (*int32*) -
 
-- **FieldTypeInt16** = 3
+    Default: `3`
 
-    16-bit integer type.
+- **FieldTypeInt32** (*int32*) -
 
-- **FieldTypeInt32** = 4
+    Default: `4`
 
-    32-bit integer type.
+- **FieldTypeInt64** (*int32*) -
 
-- **FieldTypeInt64** = 5
+    Default: `5`
 
-    64-bit integer type.
+- **FieldTypeFloat** (*int32*) -
 
-- **FieldTypeFloat** = 10
+    Default: `10`
 
-    32-bit floating point type.
+- **FieldTypeDouble** (*int32*) -
 
-- **FieldTypeDouble** = 11
+    Default: `11`
 
-    64-bit floating point type.
+- **FieldTypeString** (*int32*) -
 
-- **FieldTypeTimestamptz** = 15
+    Default: `20`
 
-    Timezone-aware timestamp type.
+- **FieldTypeVarChar** (*int32*) -
 
-- **FieldTypeString** = 20
+    Default: `21`
 
-    String type (alias for VarChar).
+    variable-length strings with a specified maximum length.
 
-- **FieldTypeVarChar** = 21
+- **FieldTypeArray** (*int32*) -
 
-    Variable-length string type.
+    Default: `22`
 
-- **FieldTypeArray** = 22
+- **FieldTypeJSON** (*int32*) -
 
-    Array type with a fixed element type.
+    Default: `23`
 
-- **FieldTypeJSON** = 23
+- **FieldTypeGeometry** (*int32*) -
 
-    JSON document type.
+    Default: `24`
 
-- **FieldTypeGeometry** = 24
+- **FieldTypeTimestamptz** (*int32*) -
 
-    Geometry spatial type.
+    Default: `26`
 
-- **FieldTypeBinaryVector** = 100
+- **FieldTypeBinaryVector** (*int32*) -
 
-    Binary vector type.
+    Default: `100`
 
-- **FieldTypeFloatVector** = 101
+- **FieldTypeFloatVector** (*int32*) -
 
-    32-bit float vector type.
+    Default: `101`
 
-- **FieldTypeFloat16Vector** = 102
+- **FieldTypeFloat16Vector** (*int32*) -
 
-    16-bit float vector type.
+    Default: `102`
 
-- **FieldTypeBFloat16Vector** = 103
+- **FieldTypeBFloat16Vector** (*int32*) -
 
-    Brain floating-point 16-bit vector type.
+    Default: `103`
 
-- **FieldTypeSparseVector** = 104
+- **FieldTypeSparseVector** (*int32*) -
 
-    Sparse vector type.
+    Default: `104`
 
-- **FieldTypeInt8Vector** = 105
+- **FieldTypeInt8Vector** (*int32*) -
 
-    8-bit integer vector type.
+    Default: `105`
 
-- **FieldTypeStruct** = 201
+- **FieldTypeStruct** (*int32*) -
 
-    Struct type with nested fields.
+    Default: `201`
 
 ## Example\{#example}
 
+Demonstrates FieldType usage.
+
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v3/entity"
 )
 
-// Use FieldType when defining collection fields
-vectorField := entity.NewField().
-    WithName("embedding").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(768)
-
-pkField := entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true)
-
-varcharField := entity.NewField().
-    WithName("category").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(256)
+fieldType := entity.FieldTypeFloatVector
+fmt.Println(fieldType.Name())
+fmt.Println(fieldType.IsVectorType())
 ```
+
+## Notes\{#notes}
+
+- `IsVectorType()` returns true for binary, float, float16, bfloat16, sparse, and int8 vector field types.
+

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation retrieves entities that match a boolean filter expression. | Go | v2"
 type: docx
 token: P84bd17ncosvh4xuahpcFGzoneb
-sidebar_position: 8
+sidebar_position: 13
 keywords: 
   - open source vector db
   - vector database example

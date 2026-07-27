@@ -10,7 +10,7 @@ notebook: false
 description: "This type contains information about a refresh external collection job. | Go | v2"
 type: docx
 token: TxIQdcx34oB2CUxHIRMcRGPNnic
-sidebar_position: 28
+sidebar_position: 29
 keywords: 
   - vector db comparison
   - openai vector db

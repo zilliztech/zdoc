@@ -308,6 +308,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Collection/v2-Collection-StructSchema",
+        "label": "StructSchema",
+        "key": "doc:api/go/go/v2/v2-Collection/v2-collection-structschema"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection",
         "label": "TruncateCollection()",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-truncatecollection"
@@ -428,6 +434,36 @@ module.exports = [
             "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newautoannparam"
           }
         ]
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray",
+        "label": "ColumnBFloat16VectorArray",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-columnbfloat16vectorarray"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray",
+        "label": "ColumnBinaryVectorArray",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-columnbinaryvectorarray"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray",
+        "label": "ColumnFloat16VectorArray",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-columnfloat16vectorarray"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray",
+        "label": "ColumnFloatVectorArray",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-columnfloatvectorarray"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray",
+        "label": "ColumnInt8VectorArray",
+        "key": "doc:api/go/go/v2/v2-Vector/v2-vector-columnint8vectorarray"
       },
       {
         "type": "doc",
