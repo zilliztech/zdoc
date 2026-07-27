@@ -503,6 +503,15 @@ function decodeNode(
         attributes: {lang: structure.language},
       };
     }
+    if (node.kind === 'callout') {
+      return {
+        kind: 'callout',
+        text: textFromDescendants(node, nodesById),
+        xml: `<callout provider-block-id="${escapeXml(node.blockId)}"></callout>`,
+        writable: false,
+        blockIds: descendantBlockIds(node, nodesById),
+      };
+    }
     if (node.kind === 'whiteboard') {
       const token = requiredRecord(node.raw.board, `${node.blockId}.board`).token;
       if (typeof token !== 'string' || !token) throw new Error(`${node.blockId}.board.token must be a string.`);

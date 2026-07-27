@@ -4,7 +4,9 @@ import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 import {
+  canonicalWhiteboardRawHash,
   createDocumentSnapshot,
+  prepareMutationBatch,
   type DocumentSelector,
   type DocumentSnapshot,
   type ProviderBlock,
@@ -23,6 +25,7 @@ import {LocalizationWorkflows} from '../src/application/workflows.js';
 import type {FetchedDocument} from '../src/adapters/lark-docs-adapter.js';
 import {LocalRegistryStore} from '../src/storage/local-registry-store.js';
 import {LocalSnapshotStore} from '../src/storage/local-snapshot-store.js';
+import {canonicalHash} from '../src/domain/hash.js';
 import {canonicalWhiteboard} from '../src/domain/whiteboard.js';
 import {parseFeishuDocument} from '../src/domain/xml-parser.js';
 
@@ -34,6 +37,21 @@ class MemoryTranslationMemory implements TranslationMemory {
   async recordApproved(entry: TranslationMemoryEntry): Promise<void> { this.entries.push(entry); }
   async findExact(_query: TranslationMemoryQuery): Promise<TranslationMemoryEntry | undefined> { return this.example; }
   async close(): Promise<void> {}
+}
+
+class StructuredSlotMemory extends MemoryTranslationMemory {
+  readonly queries: TranslationMemoryQuery[] = [];
+  constructor(private readonly reusableSourceHash: string) { super(); }
+  override async findExact(query: TranslationMemoryQuery): Promise<TranslationMemoryEntry | undefined> {
+    this.queries.push(query);
+    if (query.sourceHash !== this.reusableSourceHash) return undefined;
+    return {
+      sourceHash: query.sourceHash, targetLocale: 'zh-CN', glossaryHash: query.glossaryHash,
+      headingPath: query.headingPath, sourceText: 'remembered source', targetText: '记忆译文',
+      pairId: 'memory-pair', runId: 'memory-run', verifiedRunId: 'memory-run',
+      approvedAt: '2026-07-20T00:00:00.000Z',
+    };
+  }
 }
 
 class MutableDocs {
@@ -57,7 +75,7 @@ class MemoryEngine implements LocalizationDocxEngine {
     if (!result) throw new Error(`Missing fake engine document ${key}`);
     return result;
   }
-  prepare(): never { throw new Error('not used'); }
+  prepare: LocalizationDocxEngine['prepare'] = prepareMutationBatch;
   async apply(): Promise<never> { throw new Error('not used'); }
   async assessRecovery(): Promise<never> { throw new Error('not used'); }
 }
@@ -179,6 +197,7 @@ describe('bootstrap and planning workflows', () => {
     }]));
     const registry = new LocalRegistryStore(cwd);
     const snapshots = new LocalSnapshotStore(cwd);
+    const memory = new MemoryTranslationMemory();
     const sourceSnapshotRef = await snapshots.putBundle({
       runId: 'legacy-baseline', files: {'source.xml': sourceXml},
     });
@@ -192,7 +211,7 @@ describe('bootstrap and planning workflows', () => {
       runId: 'legacy-baseline', completedAt: '2026-07-15T00:00:00.000Z', correspondences: [],
     });
     const workflows = new LocalizationWorkflows({
-      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), engine, docs,
+      cwd, registry, snapshots, memory, engine, docs,
       clock: {now: () => new Date('2026-07-16T00:00:00.000Z')},
       ids: {next: () => 'run-legacy-engine'},
     });
@@ -217,6 +236,7 @@ describe('bootstrap and planning workflows', () => {
     docs.documents.set('target-url', {documentId: 'target', revisionId: 5, content: targetXml});
     const registry = new LocalRegistryStore(cwd);
     const snapshots = new LocalSnapshotStore(cwd);
+    const memory = new MemoryTranslationMemory();
     const baseline = parseFeishuDocument(baselineXml, {documentId: 'source', revisionId: 1});
     const target = parseFeishuDocument(targetXml, {documentId: 'target', revisionId: 5});
     const sourceSync = baseline.nodes.find((node) => node.kind === 'synced_source')!;
@@ -393,7 +413,7 @@ describe('bootstrap and planning workflows', () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-empty-target-plan-'));
     const docs = new MutableDocs();
     const engine = new MemoryEngine();
-    engine.documents.set('source-url', engineSnapshot('source', '31', 'Hugging Face', [{
+    engine.documents.set('https://example.com/source', engineSnapshot('source', '31', 'Hugging Face', [{
       block_id: 'intro', parent_id: 'source', block_type: 2,
       text: {elements: [{text_run: {content: 'English body.', text_element_style: {}}}]},
     }, {
@@ -417,14 +437,20 @@ describe('bootstrap and planning workflows', () => {
       },
     }]));
     engine.documents.set('target-url', engineSnapshot('target', '4', 'Hugging Face'));
+    const whiteboards = new MemoryWhiteboards();
+    const boardRaw = {
+      nodes: [{id: 'volatile-node-id', type: 'text', text: 'Workflow', created_at: '2026-07-27T00:00:00Z'}],
+    };
+    whiteboards.values.set('board-source', boardRaw);
+    expect(canonicalWhiteboard(boardRaw).hash).not.toBe(canonicalWhiteboardRawHash(boardRaw));
     const registry = new LocalRegistryStore(cwd);
     await registry.savePair({
-      pairId: 'pair-empty-plan', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      pairId: 'pair-empty-plan', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'https://example.com/source',
       targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
     });
     const workflows = new LocalizationWorkflows({
       cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(),
-      engine, docs,
+      engine, docs, whiteboards,
       clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'run-empty-plan'},
     });
 
@@ -437,7 +463,12 @@ describe('bootstrap and planning workflows', () => {
       expect.objectContaining({policy: 'translation', targetNodeKind: 'title', kind: 'replace'}),
       expect.objectContaining({policy: 'translation', targetNodeKind: 'paragraph', kind: 'insert'}),
       expect.objectContaining({policy: 'verbatim_code', targetNodeKind: 'code', sourceXml: expect.stringContaining('<pre')}),
-      expect.objectContaining({policy: 'whiteboard_mirror', sourceResourceToken: 'board-source'}),
+      expect.objectContaining({
+        policy: 'whiteboard_mirror',
+        sourceResourceToken: 'board-source',
+        sourceResourceHash: canonicalWhiteboard(boardRaw).hash,
+        sourceResourceRawHash: canonicalWhiteboardRawHash(boardRaw),
+      }),
       expect.objectContaining({
         policy: 'manual_synced_reference', sourceDocumentId: 'source', sourceBlockId: 'sync-source',
       }),
@@ -463,11 +494,25 @@ describe('bootstrap and planning workflows', () => {
     expect(docs.fetches).toEqual([]);
 
     const preview = await workflows.previewApply(result.runId, completed.reviewPath);
-    await expect(workflows.apply(result.runId, completed.reviewPath, preview.approvalToken))
-      .rejects.toMatchObject({
-        type: 'compatibility',
-        subtype: 'engine_apply_pending',
-      });
+    expect(preview).toMatchObject({
+      engineSchemaVersion: 2,
+      batchFingerprint: expect.stringMatching(/^[a-f0-9]{64}$/),
+    });
+    const previewRun = await registry.getRun(result.runId);
+    const previewBundle = await new LocalSnapshotStore(cwd).getBundle(
+      previewRun?.metadata?.previewBundleRef as SnapshotReference,
+    );
+    expect(previewBundle.files['prepared-batch.json']).toContain('ZDOC-MANUAL-SYNC:');
+    expect(JSON.parse(previewBundle.files['prepared-batch.json']!).steps).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        kind: 'whiteboard-create',
+        intent: expect.objectContaining({
+          content: expect.objectContaining({
+            expectedSourceRawHash: canonicalWhiteboardRawHash(boardRaw),
+          }),
+        }),
+      }),
+    ]));
     expect(docs.fetches).toEqual([]);
   });
 
@@ -475,17 +520,31 @@ describe('bootstrap and planning workflows', () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-structured-empty-target-'));
     const docs = new MutableDocs();
     const engine = new MemoryEngine();
-    engine.documents.set('source-url', await supportedHuggingFaceSnapshot());
+    const sourceSnapshot = await supportedHuggingFaceSnapshot();
+    engine.documents.set('source-url', sourceSnapshot);
     engine.documents.set('target-url', engineSnapshot('target', '4', 'Hugging Face'));
     const registry = new LocalRegistryStore(cwd);
     const snapshots = new LocalSnapshotStore(cwd);
+    const nestedList = sourceSnapshot.nodes.find((node) => node.blockId === 'nested-parent')!;
+    const reusableSlotHash = canonicalHash({
+      sourceNodeHash: nestedList.canonicalHash,
+      slotId: 'item-0/text',
+      sourceText: 'Create a Hugging Face account.',
+    });
+    expect(reusableSlotHash).not.toBe(canonicalHash({
+      sourceNodeHash: nestedList.canonicalHash,
+      operationId: 'different-prior-change-id',
+      slotId: 'item-0/text',
+      sourceText: 'Create a Hugging Face account.',
+    }));
+    const memory = new StructuredSlotMemory(reusableSlotHash);
     await registry.savePair({
       pairId: 'hugging-face-en-zh', sourceLocale: 'en', targetLocale: 'zh-CN',
       sourceDocUrl: 'source-url', targetDocUrl: 'target-url', mode: 'mirror',
       status: 'needs_bootstrap',
     });
     const workflows = new LocalizationWorkflows({
-      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), engine, docs,
+      cwd, registry, snapshots, memory, engine, docs,
       clock: {now: () => new Date('2026-07-22T00:00:00.000Z')},
       ids: {next: () => 'run-hugging-face-structured'},
     });
@@ -519,6 +578,10 @@ describe('bootstrap and planning workflows', () => {
       ],
     });
     expect(table?.structured?.slots).not.toContainEqual(expect.objectContaining({sourceText: '`model_name`'}));
+    expect(list?.structured?.slots[0]?.memoryExamples).toEqual([
+      expect.objectContaining({target: '记忆译文'}),
+    ]);
+    expect(memory.queries.some((query) => query.sourceHash === reusableSlotHash)).toBe(true);
     expect(run?.metadata).toMatchObject({planVersion: 3});
     expect(bundle.files).toMatchObject({
       'source-snapshot.json': expect.stringContaining('nested-parent'),

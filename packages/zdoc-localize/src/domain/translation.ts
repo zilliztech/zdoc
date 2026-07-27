@@ -25,6 +25,7 @@ export interface StructuredTranslationSlot {
   sourceText: string;
   targetCurrent?: string;
   preserved: PreservedToken[];
+  memoryExamples?: TranslationMemoryExample[];
 }
 
 export interface StructuredTranslationShape {

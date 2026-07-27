@@ -24,14 +24,27 @@ export function manualSyncMarker(operationId: string): string {
   return `ZDOC-MANUAL-SYNC:${operationId}`;
 }
 
+export function manualSyncPlaceholderDetails(operation: PlanOperation, sourceUrl: string): {
+  marker: string;
+  sourceBlockUrl: string;
+  sourceDocumentId: string;
+  sourceBlockId: string;
+} {
+  return {
+    marker: manualSyncMarker(operation.operationId),
+    sourceBlockUrl: `${sourceUrl.split('#')[0]}#${operation.sourceBlockId}`,
+    sourceDocumentId: operation.sourceDocumentId ?? '',
+    sourceBlockId: operation.sourceBlockId ?? '',
+  };
+}
+
 export function syncedReferencePlaceholder(operation: PlanOperation, sourceUrl: string): string {
-  const marker = manualSyncMarker(operation.operationId);
-  const sourceBlockUrl = `${sourceUrl.split('#')[0]}#${operation.sourceBlockId}`;
+  const details = manualSyncPlaceholderDetails(operation, sourceUrl);
   return `<callout emoji="🧩" background-color="light-yellow" border-color="yellow">`
     + '<p><b>需要人工插入飞书同步块</b></p>'
-    + `<p><code>${escapeXml(marker)}</code></p>`
-    + `<p><a href="${escapeXml(sourceBlockUrl)}">打开英文同步源</a></p>`
-    + `<p>Source document: <code>${escapeXml(operation.sourceDocumentId ?? '')}</code><br/>`
-    + `Source block: <code>${escapeXml(operation.sourceBlockId ?? '')}</code></p>`
+    + `<p><code>${escapeXml(details.marker)}</code></p>`
+    + `<p><a href="${escapeXml(details.sourceBlockUrl)}">打开英文同步源</a></p>`
+    + `<p>Source document: <code>${escapeXml(details.sourceDocumentId)}</code><br/>`
+    + `Source block: <code>${escapeXml(details.sourceBlockId)}</code></p>`
     + '</callout>';
 }

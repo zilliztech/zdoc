@@ -1,7 +1,18 @@
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {join, relative, resolve, sep} from 'node:path';
 
-import type {DocumentSelector, DocumentSnapshot} from 'feishu-docx-engine';
+import {
+  ENGINE_SCHEMA_VERSION,
+  ENGINE_VERSION,
+  PartialMutationError,
+  assertPreparedMutationBatchIntegrity,
+  canonicalWhiteboardRawHash,
+  type DocumentSelector,
+  type DocumentSnapshot,
+  type PreparedMutationBatch,
+  type ResolvedOutputEvidence,
+  type VerifiedOperationEvidence,
+} from 'feishu-docx-engine';
 
 import type {
   Clock,
@@ -28,6 +39,7 @@ import {findReverseInsertionAnchor} from '../domain/recovery.js';
 import {resolveGlossary, type ResolvedGlossaryTerm} from '../domain/glossary.js';
 import {transitionRun} from '../domain/state-machine.js';
 import {
+  applySlotTranslations,
   extractTranslationSlots,
   structuredTopologyHash,
   type StructuredContent,
@@ -56,6 +68,7 @@ import {isStrictlyEmptyTarget} from '../domain/initialization.js';
 import {buildInitialPlanInputs} from '../domain/initial-plan.js';
 import {InitializationInspector, type InitializationDisposition} from './initialization-inspector.js';
 import {compileEngineBatch} from './engine-plan.js';
+import {EngineApplyJournal} from './engine-journal.js';
 import {
   manualSyncMarker,
   syncedReferencePlaceholder,
@@ -364,6 +377,14 @@ function buildRequest(
   };
 }
 
+function structuredMemorySourceHash(
+  sourceNodeHash: string,
+  slotId: string,
+  sourceText: string,
+): string {
+  return canonicalHash({sourceNodeHash, slotId, sourceText});
+}
+
 function structuredContent(node: SemanticNode | undefined): StructuredContent | undefined {
   if (!node || (node.kind !== 'list' && node.kind !== 'table')) return undefined;
   return node.structure?.kind === node.kind ? node.structure : undefined;
@@ -492,6 +513,42 @@ function engineSelector(value: string): DocumentSelector {
   return /^https?:\/\//.test(value)
     ? {kind: 'url', url: value}
     : {kind: 'docx', token: value};
+}
+
+function verifiedWhiteboardRawHash(raw: unknown, context: string): string {
+  try {
+    return canonicalWhiteboardRawHash(raw);
+  } catch (error) {
+    throw new LocalizeError({
+      type: 'verification_failed', subtype: 'whiteboard_raw_invalid',
+      message: `${context} returned invalid or empty Whiteboard raw state.`, details: String(error),
+    });
+  }
+}
+
+function snapshotOutsideSubtrees(snapshot: DocumentSnapshot, excludedRoots: string[]): string {
+  const byId = new Map(snapshot.nodes.map((node) => [node.blockId, node]));
+  const excluded = new Set<string>();
+  const exclude = (blockId: string): void => {
+    if (excluded.has(blockId)) return;
+    excluded.add(blockId);
+    byId.get(blockId)?.childBlockIds.forEach(exclude);
+  };
+  excludedRoots.forEach(exclude);
+  return canonicalHash(snapshot.nodes
+    .filter((node) => !excluded.has(node.blockId))
+    .map((node) => {
+      const childBlockIds = node.childBlockIds.filter((blockId) => !excluded.has(blockId));
+      if (childBlockIds.length === node.childBlockIds.length) {
+        return {blockId: node.blockId, parentBlockId: node.parentBlockId, canonicalHash: node.canonicalHash};
+      }
+      const {children: _children, ...rawWithoutChildren} = node.raw;
+      return {
+        blockId: node.blockId,
+        parentBlockId: node.parentBlockId,
+        canonicalHash: canonicalHash({raw: rawWithoutChildren, childBlockIds}),
+      };
+    }));
 }
 
 function isDocumentSnapshot(value: InitializationDocument): value is DocumentSnapshot {
@@ -922,6 +979,7 @@ export class LocalizationWorkflows {
         targetBlockId: targetNode.remote.blockId,
         targetNodeHash: targetNode.fingerprint,
         sourceResourceToken: sourceNode.remote.token,
+        sourceResourceRawHash: verifiedWhiteboardRawHash(sourceBoard.raw, `Source Whiteboard ${sourceNode.remote.token}`),
         sourceResourceHash: sourceBoard.hash,
         targetResourceToken: targetNode.remote.token,
       });
@@ -1055,6 +1113,20 @@ export class LocalizationWorkflows {
       }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes: initial.changes, translationRequests: [], blocker};
     }
+    const initialOperations = await Promise.all(initial.operations.map(async (operation): Promise<PlanOperation> => {
+      if (
+        operation.policy !== 'whiteboard_mirror'
+        || operation.sourceResourceRawHash
+        || !operation.sourceResourceToken
+        || !this.dependencies.whiteboards
+      ) return operation;
+      const sourceBoard = await new WhiteboardMirror(this.dependencies.whiteboards).snapshot(operation.sourceResourceToken);
+      return {
+        ...operation,
+        sourceResourceRawHash: verifiedWhiteboardRawHash(sourceBoard.raw, `Source Whiteboard ${operation.sourceResourceToken}`),
+        sourceResourceHash: sourceBoard.hash,
+      };
+    }));
     const translationInputs = await this.createTranslationInputs(pair, initial.translatableAligned, source, target);
     const translationRequestsPath = await this.persistPlanArtifacts(
       runId,
@@ -1064,7 +1136,7 @@ export class LocalizationWorkflows {
       translationInputs.requests,
       {source, target},
     );
-    const initialOperationsText = `${JSON.stringify(initial.operations, null, 2)}\n`;
+    const initialOperationsText = `${JSON.stringify(initialOperations, null, 2)}\n`;
     const bundleRef = await this.dependencies.snapshots.putBundle({
       runId,
       files: {
@@ -1092,7 +1164,7 @@ export class LocalizationWorkflows {
       targetHash: target.canonicalHash,
       changes: initial.changes,
       aligned: initial.translatableAligned,
-      initialOperations: initial.operations,
+      initialOperations,
       glossaryHash: translationInputs.glossaryHash,
       planVersion: 3,
       documentHashDomain: hashDomain,
@@ -1349,6 +1421,7 @@ export class LocalizationWorkflows {
         approved,
         targetSnapshot: JSON.parse(targetSnapshotJson) as DocumentSnapshot,
         engine,
+        sourceUrl: (await this.dependencies.registry.getPair(run.pairId))?.sourceDocUrl,
       });
       const approvalToken = canonicalHash({
         runId,
@@ -1491,7 +1564,8 @@ export class LocalizationWorkflows {
     const requests = JSON.parse(requestJson) as TranslationRequest[];
     const requestById = new Map(requests.map((request) => [request.operationId, request]));
     validateTranslations(requests, approvedTranslationResponses(approved.operations, requestById));
-    if (approved.operations.some((operation) => 'approvedSlots' in operation)) {
+    const hashDomain = this.hashDomainForRun(run);
+    if (hashDomain !== 'docx-engine-v1' && approved.operations.some((operation) => 'approvedSlots' in operation)) {
       throw new LocalizeError({
         type: 'compatibility',
         subtype: 'engine_preview_pending',
@@ -1499,7 +1573,6 @@ export class LocalizationWorkflows {
         hint: 'Complete the plan v3 engine preview compiler before applying this review.',
       });
     }
-    const hashDomain = this.hashDomainForRun(run);
     const [sourceRead, targetRead] = await Promise.all([
       this.readPlanningDocument(pair.sourceDocUrl, hashDomain),
       this.readPlanningDocument(targetUrl, hashDomain),
@@ -1538,12 +1611,359 @@ export class LocalizationWorkflows {
     }
 
     if (hashDomain === 'docx-engine-v1') {
-      throw new LocalizeError({
-        type: 'compatibility',
-        subtype: 'engine_apply_pending',
-        message: 'Engine-backed stale checks passed, but physical apply is disabled until the prepared-batch apply path is installed.',
-        hint: 'Complete the shared Docx engine preview/apply migration before writing this run.',
+      const engine = this.dependencies.engine;
+      const targetSnapshot = targetRead.snapshot;
+      const sourceSnapshot = sourceRead.snapshot;
+      if (!engine || !targetSnapshot || !sourceSnapshot) {
+        throw new LocalizeError({
+          type: 'configuration', subtype: 'docx_engine_missing',
+          message: 'This Engine-backed run cannot apply without exact source and target snapshots.',
+        });
+      }
+      const previewBundleRef = run.metadata?.previewBundleRef as SnapshotReference | undefined;
+      if (!previewBundleRef) {
+        throw new LocalizeError({
+          type: 'verification_failed', subtype: 'engine_preview_bundle_missing',
+          message: 'The approved Engine preview has no immutable preview bundle reference.',
+        });
+      }
+      const previewBundle = await this.dependencies.snapshots.getBundle(previewBundleRef);
+      const storedBatchJson = previewBundle.files['prepared-batch.json'];
+      const storedApprovedJson = previewBundle.files['approved-review.json'];
+      if (!storedBatchJson || !storedApprovedJson) {
+        throw new LocalizeError({
+          type: 'verification_failed', subtype: 'engine_preview_bundle_incomplete',
+          message: 'The immutable Engine preview bundle is missing its batch or approved review.',
+        });
+      }
+      const storedBatch = JSON.parse(storedBatchJson) as PreparedMutationBatch;
+      const storedApproved = JSON.parse(storedApprovedJson) as typeof approved;
+      if (canonicalHash(storedApproved) !== canonicalHash(approved)) {
+        throw new LocalizeError({
+          type: 'stale_plan', subtype: 'engine_approved_review_changed',
+          message: 'The approved review no longer matches the immutable Engine preview.',
+        });
+      }
+      const regenerated = compileEngineBatch({
+        runId,
+        plan,
+        approved,
+        targetSnapshot,
+        engine,
+        sourceUrl: pair.sourceDocUrl,
+      }).batch;
+      const expectedApprovalToken = canonicalHash({
+        runId,
+        planHash: approved.planHash,
+        approvedOperations: approved.operations,
+        engineSchemaVersion: regenerated.schemaVersion,
+        engineVersion: regenerated.engineVersion,
+        batchFingerprint: regenerated.fingerprint,
       });
+      if (
+        expectedApprovalToken !== approvalToken
+        || expectedApprovalToken !== preview.approvalToken
+        || storedBatch.schemaVersion !== 2
+        || storedBatch.fingerprint !== regenerated.fingerprint
+        || canonicalHash(storedBatch) !== canonicalHash(regenerated)
+        || run.metadata?.engineBatchFingerprint !== storedBatch.fingerprint
+        || run.metadata?.engineVersion !== storedBatch.engineVersion
+        || run.metadata?.engineSchemaVersion !== storedBatch.schemaVersion
+      ) {
+        throw new LocalizeError({
+          type: 'stale_plan', subtype: 'engine_preview_batch_changed',
+          message: 'The exact approved Engine batch no longer matches the regenerated current preview.',
+        });
+      }
+
+      const prewriteRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          'target-prewrite.snapshot.json': `${JSON.stringify(targetSnapshot, null, 2)}\n`,
+          'plan.json': `${JSON.stringify(plan, null, 2)}\n`,
+          'approved-review.json': `${JSON.stringify(approved, null, 2)}\n`,
+          'prepared-batch.json': storedBatchJson,
+          'preview-bundle-ref.json': `${JSON.stringify(previewBundleRef, null, 2)}\n`,
+        },
+      });
+      run = await this.markRun(run, 'applying', {
+        prewriteRef,
+        previewBundleRef,
+        engineBatchFingerprint: storedBatch.fingerprint,
+        engineEvidence: [],
+        appliedOperations: 0,
+        lastVerifiedTargetHash: targetSnapshot.canonicalHash,
+      });
+      const journal = new EngineApplyJournal({
+        run,
+        operationIds: storedBatch.steps.map((step) => step.operationId),
+        registry: this.dependencies.registry,
+        snapshots: this.dependencies.snapshots,
+        now: () => this.dependencies.clock.now(),
+      });
+      let outcome: Awaited<ReturnType<LocalizationDocxEngine['apply']>>;
+      try {
+        outcome = await engine.apply({batch: storedBatch, journal});
+      } catch (error) {
+        run = journal.currentRun();
+        if (error instanceof PartialMutationError) {
+          const completedOperationIds = error.evidence.completedOperations.map((item) => item.operationId);
+          const journalOperationIds = journal.verifiedEvidence().map((item) => item.operationId);
+          const expectedFailedOperationId = storedBatch.steps[journalOperationIds.length]?.operationId;
+          const expectedPendingIds = storedBatch.steps.slice(journalOperationIds.length + 1).map((step) => step.operationId);
+          if (
+            error.evidence.batchFingerprint !== storedBatch.fingerprint
+            || error.evidence.beforeSnapshotHash !== storedBatch.beforeSnapshotHash
+            || canonicalHash(error.evidence.completedOperations) !== canonicalHash(journal.verifiedEvidence())
+            || JSON.stringify(completedOperationIds) !== JSON.stringify(journalOperationIds)
+            || error.evidence.failedOperation.operationId !== expectedFailedOperationId
+            || JSON.stringify(error.evidence.pendingOperationIds) !== JSON.stringify(expectedPendingIds)
+          ) {
+            const invalidEvidenceError = new LocalizeError({
+              type: 'verification_failed', subtype: 'engine_partial_evidence_mismatch',
+              message: 'Engine partial-mutation evidence does not match the approved batch and durable journal.',
+              details: error.evidence,
+            });
+            await this.markRun(run, 'partial', {
+              prewriteRef, previewBundleRef, engineBatchFingerprint: storedBatch.fingerprint,
+              engineEvidence: journal.verifiedEvidence(), engineEvidenceRef: journal.currentEvidenceRef(),
+              appliedOperations: journal.verifiedEvidence().length,
+            }, invalidEvidenceError);
+            throw invalidEvidenceError;
+          }
+          const partialMutationEvidenceRef = await this.dependencies.snapshots.putBundle({
+            runId,
+            files: {
+              'partial-mutation-evidence.json': `${JSON.stringify(error.evidence, null, 2)}\n`,
+              'prepared-batch.json': storedBatchJson,
+              'target-prewrite.snapshot.json': `${JSON.stringify(targetSnapshot, null, 2)}\n`,
+            },
+          });
+          const partialError = new LocalizeError({
+            type: 'partial_write', subtype: 'engine_partial_mutation',
+            message: `Engine apply stopped at ${error.evidence.failedOperation.operationId}.`,
+            details: error.evidence,
+          });
+          await this.markRun(run, 'partial', {
+            prewriteRef,
+            previewBundleRef,
+            engineBatchFingerprint: storedBatch.fingerprint,
+            engineEvidence: journal.verifiedEvidence(),
+            engineEvidenceRef: journal.currentEvidenceRef(),
+            enginePartialMutationEvidence: error.evidence,
+            enginePartialMutationEvidenceRef: partialMutationEvidenceRef,
+            appliedOperations: journal.verifiedEvidence().length,
+          }, partialError);
+          throw partialError;
+        }
+        const localizeError = error instanceof LocalizeError
+          ? error
+          : new LocalizeError({type: 'upstream', subtype: 'engine_apply_failed', message: String(error)});
+        await this.markRun(
+          run,
+          journal.verifiedEvidence().length > 0 ? 'partial' : 'blocked',
+          {
+            prewriteRef,
+            previewBundleRef,
+            engineBatchFingerprint: storedBatch.fingerprint,
+            engineEvidence: journal.verifiedEvidence(),
+            engineEvidenceRef: journal.currentEvidenceRef(),
+            appliedOperations: journal.verifiedEvidence().length,
+          },
+          localizeError,
+        );
+        throw localizeError;
+      }
+
+      run = journal.currentRun();
+      const journalEvidence = journal.verifiedEvidence();
+      const batchOperationIds = storedBatch.steps.map((step) => step.operationId);
+      const journalOperationIds = journalEvidence.map((item) => item.operationId);
+      const outcomeOperationIds = outcome.operations.map((item) => item.operationId);
+      if (
+        JSON.stringify(journalOperationIds) !== JSON.stringify(batchOperationIds)
+        || JSON.stringify(outcomeOperationIds) !== JSON.stringify(batchOperationIds)
+        || canonicalHash(outcome.operations) !== canonicalHash(journalEvidence)
+        || outcome.finalSnapshot.documentId !== targetSnapshot.documentId
+        || (journalEvidence.length > 0
+          && journalEvidence.at(-1)?.afterSnapshotHash !== outcome.finalSnapshot.canonicalHash)
+      ) {
+        const error = new LocalizeError({
+          type: 'verification_failed', subtype: 'engine_outcome_evidence_mismatch',
+          message: 'The Engine outcome does not match the durably journaled operation evidence.',
+        });
+        await this.markRun(run, 'partial', {prewriteRef, engineEvidence: journalEvidence}, error);
+        throw error;
+      }
+
+      let activeTarget: SemanticDocument;
+      try {
+        activeTarget = semanticDocumentFromSnapshot(outcome.finalSnapshot);
+      } catch (error) {
+        const localizeError = new LocalizeError({
+          type: 'verification_failed', subtype: 'engine_final_snapshot_invalid',
+          message: 'The Engine returned an invalid final semantic snapshot.', details: String(error),
+        });
+        await this.markRun(run, 'partial', {
+          prewriteRef, previewBundleRef, engineBatchFingerprint: storedBatch.fingerprint,
+          engineEvidence: journalEvidence, engineEvidenceRef: journal.currentEvidenceRef(),
+          appliedOperations: journalEvidence.length,
+        }, localizeError);
+        throw localizeError;
+      }
+      const resolvedTargetBlockIds = new Map<string, string>();
+      const resourceEvidence = new Map<string, ApplyResourceEvidence>();
+      for (const evidence of journalEvidence) {
+        const outputs: ResolvedOutputEvidence[] = 'outputs' in evidence ? evidence.outputs : [];
+        const roots = outputs.find((output) => output.kind === 'block-roots');
+        if (roots?.rootBlockIds[0]) resolvedTargetBlockIds.set(evidence.operationId, roots.rootBlockIds[0]);
+        const resource = outputs.find((output) => output.kind === 'resource');
+        const operation = plan.operations.find((candidate) => candidate.operationId === evidence.operationId);
+        if (resource?.kind === 'resource' && operation) {
+          resolvedTargetBlockIds.set(evidence.operationId, resource.ownerBlockId);
+          resourceEvidence.set(evidence.operationId, {
+            sourceResourceHash: operation.sourceResourceHash,
+            targetResourceToken: resource.token,
+          });
+        }
+      }
+
+      const manualActions: ManualSyncedReferenceAction[] = [];
+      for (const operation of plan.operations) {
+        if (operation.policy !== 'manual_synced_reference') continue;
+        const placeholderBlockId = resolvedTargetBlockIds.get(operation.operationId);
+        const placeholder = placeholderBlockId
+          ? activeTarget.nodes.find((node) => node.remote.blockId === placeholderBlockId)
+          : undefined;
+        if (!placeholderBlockId || !placeholder || placeholder.kind !== 'callout'
+          || !placeholder.text.includes(manualSyncMarker(operation.operationId))) {
+          const error = new LocalizeError({
+            type: 'verification_failed', subtype: 'manual_placeholder_missing',
+            message: `Engine-created placeholder ${operation.operationId} is not verifiable.`,
+          });
+          await this.markRun(run, 'partial', {
+            prewriteRef, previewBundleRef, engineBatchFingerprint: storedBatch.fingerprint,
+            engineEvidence: journalEvidence, engineEvidenceRef: journal.currentEvidenceRef(),
+            appliedOperations: journalEvidence.length,
+          }, error);
+          throw error;
+        }
+        const index = activeTarget.nodes.indexOf(placeholder);
+        const predecessorBlockId = index > 0 ? activeTarget.nodes[index - 1]?.remote.blockId : undefined;
+        const successorBlockId = index >= 0 ? activeTarget.nodes[index + 1]?.remote.blockId : undefined;
+        manualActions.push({
+          operationId: operation.operationId,
+          marker: manualSyncMarker(operation.operationId),
+          placeholderBlockId,
+          sourceNodeId: this.requireBlockId(operation.sourceNodeId, operation.operationId),
+          sourceDocumentId: this.requireBlockId(operation.sourceDocumentId, operation.operationId),
+          sourceBlockId: this.requireBlockId(operation.sourceBlockId, operation.operationId),
+          sourceUrl: `${pair.sourceDocUrl.split('#')[0]}#${operation.sourceBlockId}`,
+          ...(predecessorBlockId ? {predecessorBlockId} : {}),
+          ...(successorBlockId ? {successorBlockId} : {}),
+        });
+      }
+      if (manualActions.length > 0) {
+        const manualActionsText = `${JSON.stringify(manualActions, null, 2)}\n`;
+        const manualActionsPath = await this.writeRunFile(runId, 'manual-actions.json', manualActionsText);
+        const postAutomaticRef = await this.dependencies.snapshots.putBundle({
+          runId,
+          files: {
+            'target-after-automatic-apply.xml': activeTarget.rawXml,
+            'target-after-automatic-apply.snapshot.json': `${JSON.stringify(outcome.finalSnapshot, null, 2)}\n`,
+            'manual-actions.json': manualActionsText,
+          },
+        });
+        await this.markRun(run, 'manual_action_required', {
+          prewriteRef, postAutomaticRef, previewBundleRef,
+          engineEvidence: journalEvidence,
+          engineEvidenceRef: journal.currentEvidenceRef(),
+          appliedOperations: journalEvidence.length,
+          lastVerifiedTargetHash: activeTarget.canonicalHash,
+          manualActions, manualActionsPath,
+        });
+        return {runId, state: 'manual_action_required', manualActionsPath};
+      }
+
+      const verification = verifyPlan(
+        plan, approved.operations, activeTarget, resolvedTargetBlockIds, resourceEvidence,
+      );
+      if (!verification.ok) {
+        const error = new LocalizeError({
+          type: 'verification_failed', subtype: 'target_readback_mismatch',
+          message: 'The Engine final snapshot did not match the approved localization plan.',
+          details: verification,
+        });
+        await this.markRun(run, 'partial', {
+          prewriteRef,
+          previewBundleRef,
+          engineBatchFingerprint: storedBatch.fingerprint,
+          engineEvidence: journalEvidence,
+          engineEvidenceRef: journal.currentEvidenceRef(),
+          appliedOperations: journalEvidence.length,
+          verification,
+        }, error);
+        throw error;
+      }
+
+      const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          ...documentArtifacts('source', sourceFetch.content, source),
+          ...documentArtifacts('target', activeTarget.rawXml, activeTarget),
+          'source.snapshot.json': `${JSON.stringify(sourceSnapshot, null, 2)}\n`,
+          'target.snapshot.json': `${JSON.stringify(outcome.finalSnapshot, null, 2)}\n`,
+        },
+      });
+      const previousReceipt = await this.dependencies.registry.getReceipt(run.pairId);
+      const currentCorrespondences = planBundle.files['current-correspondences.json']
+        ? JSON.parse(planBundle.files['current-correspondences.json']) as HistoricalCorrespondence[]
+        : previousReceipt?.correspondences ?? [];
+      const correspondences = updateCorrespondences(
+        currentCorrespondences, plan, activeTarget, approved.operations,
+        resolvedTargetBlockIds, resourceEvidence,
+      );
+      const completedAt = this.dependencies.clock.now().toISOString();
+      const pendingReceipt: LocalizationReceipt = {
+        pairId: run.pairId,
+        sourceRevision: source.revisionId,
+        sourceHash: source.canonicalHash,
+        sourceSnapshotRef,
+        targetRevision: activeTarget.revisionId,
+        targetHash: activeTarget.canonicalHash,
+        runId,
+        completedAt,
+        correspondences,
+      };
+      const pendingPair: DocumentPair = {...pair, status: 'active'};
+      run = await this.markRun(run, 'verifying', {
+        prewriteRef,
+        engineEvidence: journalEvidence,
+        engineEvidenceRef: journal.currentEvidenceRef(),
+        appliedOperations: journalEvidence.length,
+        pendingReceipt,
+        pendingPair,
+        verification,
+      });
+      await this.dependencies.registry.saveReceipt(pendingReceipt);
+      await this.dependencies.registry.savePair(pendingPair);
+      const translationMemoryWarning = await this.recordEngineTranslationMemory(
+        run, plan, approved, completedAt,
+      );
+      const validationPath = await this.writeRunFile(
+        runId,
+        'validation-report.json',
+        `${JSON.stringify({ok: true, operations: verification.operations}, null, 2)}\n`,
+      );
+      await this.markRun(run, 'completed', {
+        prewriteRef,
+        engineEvidence: journalEvidence,
+        engineEvidenceRef: journal.currentEvidenceRef(),
+        appliedOperations: journalEvidence.length,
+        validationPath,
+        ...(translationMemoryWarning ? {translationMemoryWarning} : {}),
+      });
+      return {runId, state: 'completed', validationPath};
     }
 
     const prewriteRef = await this.dependencies.snapshots.putBundle({
@@ -1975,6 +2395,9 @@ export class LocalizationWorkflows {
     const targetUrl = this.requireTarget(pair);
     const plan = await this.planForRun(run);
     const planBundle = await this.dependencies.snapshots.getBundle(run.metadata!.bundleRef as SnapshotReference);
+    if (this.hashDomainForRun(run) === 'docx-engine-v1') {
+      return this.verifyEngineManualActions(run, pair, targetUrl, plan, planBundle);
+    }
     const plannedSourceXml = planBundle.files['source-current.xml'];
     if (!plannedSourceXml) {
       throw new LocalizeError({
@@ -2117,8 +2540,8 @@ export class LocalizationWorkflows {
       verification,
       manualVerification: {correspondences: manualVerification.correspondences},
     });
-    await this.dependencies.registry.savePair(pendingPair);
     await this.dependencies.registry.saveReceipt(pendingReceipt);
+    await this.dependencies.registry.savePair(pendingPair);
 
     let translationMemoryWarning: string | undefined;
     const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
@@ -2156,9 +2579,170 @@ export class LocalizationWorkflows {
     return {runId, state: 'completed', validationPath};
   }
 
+  private async verifyEngineManualActions(
+    run: RunRecord,
+    pair: DocumentPair,
+    targetUrl: string,
+    plan: LocalizationPlan,
+    planBundle: SnapshotBundle,
+  ): Promise<ApplyResult> {
+    const sourceSnapshotJson = planBundle.files['source-current.snapshot.json'];
+    const postAutomaticRef = run.metadata?.postAutomaticRef as SnapshotReference | undefined;
+    const prewriteRef = run.metadata?.prewriteRef as SnapshotReference | undefined;
+    if (!sourceSnapshotJson || !postAutomaticRef || !prewriteRef) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'manual_target_snapshot_missing',
+        message: 'The Engine manual-action run is missing immutable source, target, or review evidence.',
+      });
+    }
+    const [postAutomaticBundle, prewriteBundle, sourceRead, targetRead] = await Promise.all([
+      this.dependencies.snapshots.getBundle(postAutomaticRef),
+      this.dependencies.snapshots.getBundle(prewriteRef),
+      this.readPlanningDocument(pair.sourceDocUrl, 'docx-engine-v1'),
+      this.readPlanningDocument(targetUrl, 'docx-engine-v1'),
+    ]);
+    const plannedTargetJson = postAutomaticBundle.files['target-after-automatic-apply.snapshot.json'];
+    const approvedJson = prewriteBundle.files['approved-review.json'];
+    const actions = (run.metadata?.manualActions as ManualSyncedReferenceAction[] | undefined) ?? [];
+    if (!plannedTargetJson || !approvedJson || actions.length === 0 || !sourceRead.snapshot || !targetRead.snapshot) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'manual_actions_missing',
+        message: 'The Engine manual-action run has incomplete immutable action evidence.',
+      });
+    }
+    const plannedSourceSnapshot = JSON.parse(sourceSnapshotJson) as DocumentSnapshot;
+    const plannedTargetSnapshot = JSON.parse(plannedTargetJson) as DocumentSnapshot;
+    const plannedSource = semanticDocumentFromSnapshot(plannedSourceSnapshot);
+    const plannedTarget = semanticDocumentFromSnapshot(plannedTargetSnapshot);
+    const source = sourceRead.semantic;
+    const target = targetRead.semantic;
+    if (!manualSourceChangeIsSafe(plannedSource, source, actions)) {
+      throw new LocalizeError({
+        type: 'stale_plan', subtype: 'manual_source_changed',
+        message: 'The English source changed outside the planned native synced blocks while manual action was pending.',
+      });
+    }
+    const approved = JSON.parse(approvedJson) as ReturnType<typeof parseReview>;
+    const manualVerification = verifyManualSyncedReferences(actions, plannedTarget, target);
+    if (snapshotOutsideSubtrees(
+      plannedTargetSnapshot,
+      actions.map((action) => action.placeholderBlockId),
+    ) !== snapshotOutsideSubtrees(
+      targetRead.snapshot,
+      [...manualVerification.resolvedBlockIds.values()],
+    )) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'manual_target_changed',
+        message: 'The Engine target changed outside the exact manual synced-reference replacement subtrees.',
+      });
+    }
+    const resolvedTargetBlockIds = new Map<string, string>();
+    const resourceEvidence = new Map<string, ApplyResourceEvidence>();
+    const engineEvidence = await this.loadVerifiedEngineEvidence(run, plannedTarget.canonicalHash);
+    for (const evidence of engineEvidence) {
+      const outputs = 'outputs' in evidence ? evidence.outputs : [];
+      const roots = outputs.find((output) => output.kind === 'block-roots');
+      if (roots?.rootBlockIds[0]) resolvedTargetBlockIds.set(evidence.operationId, roots.rootBlockIds[0]);
+      const resource = outputs.find((output) => output.kind === 'resource');
+      const operation = plan.operations.find((candidate) => candidate.operationId === evidence.operationId);
+      if (resource?.kind === 'resource' && operation) {
+        if (!this.dependencies.whiteboards) {
+          throw new LocalizeError({
+            type: 'configuration', subtype: 'whiteboard_gateway_missing',
+            message: `Manual verification cannot re-read Whiteboard ${resource.token}.`,
+          });
+        }
+        let currentResourceRaw: unknown;
+        try {
+          currentResourceRaw = await this.dependencies.whiteboards.queryRaw(resource.token);
+        } catch (error) {
+          throw new LocalizeError({
+            type: 'upstream', subtype: 'whiteboard_readback_failed',
+            message: `Failed to re-read Whiteboard ${resource.token}.`, details: String(error),
+          });
+        }
+        if (verifiedWhiteboardRawHash(currentResourceRaw, `Whiteboard ${resource.token}`) !== resource.rawHash) {
+          throw new LocalizeError({
+            type: 'verification_failed', subtype: 'manual_whiteboard_changed',
+            message: `Whiteboard ${resource.token} changed while manual synced-reference action was pending.`,
+          });
+        }
+        resolvedTargetBlockIds.set(evidence.operationId, resource.ownerBlockId);
+        resourceEvidence.set(evidence.operationId, {
+          sourceResourceHash: operation.sourceResourceHash,
+          targetResourceToken: resource.token,
+        });
+      }
+    }
+    for (const [operationId, blockId] of manualVerification.resolvedBlockIds) {
+      resolvedTargetBlockIds.set(operationId, blockId);
+    }
+    const verification = verifyPlan(
+      plan, approved.operations, target, resolvedTargetBlockIds, resourceEvidence,
+    );
+    if (!verification.ok) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'target_readback_mismatch',
+        message: 'The Engine target does not match the approved automatic and manual localization plan.',
+        details: verification,
+      });
+    }
+    const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
+      runId: run.runId,
+      files: {
+        ...documentArtifacts('source', source.rawXml, source),
+        ...documentArtifacts('target', target.rawXml, target),
+        'source.snapshot.json': `${JSON.stringify(sourceRead.snapshot, null, 2)}\n`,
+        'target.snapshot.json': `${JSON.stringify(targetRead.snapshot, null, 2)}\n`,
+      },
+    });
+    const previousReceipt = await this.dependencies.registry.getReceipt(run.pairId);
+    const currentCorrespondences = planBundle.files['current-correspondences.json']
+      ? JSON.parse(planBundle.files['current-correspondences.json']) as StoredCorrespondence[]
+      : previousReceipt?.correspondences ?? [];
+    const completedAt = this.dependencies.clock.now().toISOString();
+    const pendingReceipt: LocalizationReceipt = {
+      pairId: run.pairId,
+      sourceRevision: source.revisionId,
+      sourceHash: source.canonicalHash,
+      sourceSnapshotRef,
+      targetRevision: target.revisionId,
+      targetHash: target.canonicalHash,
+      runId: run.runId,
+      completedAt,
+      correspondences: updateCorrespondences(
+        currentCorrespondences, plan, target, approved.operations,
+        resolvedTargetBlockIds, resourceEvidence,
+      ),
+    };
+    const pendingPair: DocumentPair = {...pair, status: 'active'};
+    run = await this.markRun(run, 'verifying', {
+      pendingReceipt, pendingPair, verification,
+      manualVerification: {correspondences: manualVerification.correspondences},
+    });
+    await this.dependencies.registry.saveReceipt(pendingReceipt);
+    await this.dependencies.registry.savePair(pendingPair);
+    const translationMemoryWarning = await this.recordEngineTranslationMemory(run, plan, approved, completedAt);
+    const validationPath = await this.writeRunFile(
+      run.runId, 'validation-report.json',
+      `${JSON.stringify({ok: true, operations: verification.operations}, null, 2)}\n`,
+    );
+    await this.markRun(run, 'completed', {
+      validationPath,
+      ...(translationMemoryWarning ? {translationMemoryWarning} : {}),
+    });
+    return {runId: run.runId, state: 'completed', validationPath};
+  }
+
   async finalizeVerified(runId: string): Promise<ApplyResult> {
     let run = await this.requireRun(runId);
-    if (run.state !== 'verifying' && !(run.state === 'applying' && run.metadata?.kind === 'creation')) {
+    if (
+      run.state !== 'verifying'
+      && !(run.state === 'applying' && (
+        run.metadata?.kind === 'creation'
+        || this.hashDomainForRun(run) === 'docx-engine-v1'
+      ))
+    ) {
       throw new LocalizeError({
         type: 'validation',
         subtype: 'run_not_pending_finalization',
@@ -2177,9 +2761,9 @@ export class LocalizationWorkflows {
         ...(reconstructed.pair ? {pendingPair: reconstructed.pair} : {}),
       });
     }
-    if (reconstructed.pair) await this.dependencies.registry.savePair(reconstructed.pair);
     const pendingReceipt = reconstructed.receipt;
     await this.dependencies.registry.saveReceipt(pendingReceipt);
+    if (reconstructed.pair) await this.dependencies.registry.savePair(reconstructed.pair);
     const validationPath = typeof run.metadata?.validationPath === 'string'
       ? run.metadata.validationPath
       : await this.writeRunFile(runId, 'validation-report.json', `${JSON.stringify({
@@ -2193,6 +2777,147 @@ export class LocalizationWorkflows {
       translationMemoryWarning: 'Translation memory was not updated during receipt-only finalization and remains rebuildable.',
     });
     return {runId, state: 'completed', validationPath};
+  }
+
+  private async reconstructEngineVerifiedFinalization(
+    run: RunRecord,
+    pair: DocumentPair,
+    plan: LocalizationPlan,
+    bundle: SnapshotBundle,
+    approved: ReturnType<typeof parseReview>,
+  ): Promise<{receipt: LocalizationReceipt; pair: DocumentPair}> {
+    const sourceSnapshotJson = bundle.files['source-current.snapshot.json'];
+    if (!sourceSnapshotJson) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'finalization_source_missing',
+        message: 'Cannot reconstruct Engine finalization without the planned source snapshot.',
+      });
+    }
+    const plannedSourceSnapshot = JSON.parse(sourceSnapshotJson) as DocumentSnapshot;
+    const plannedSource = semanticDocumentFromSnapshot(plannedSourceSnapshot);
+    if (plannedSource.canonicalHash !== plan.sourceHash) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'finalization_source_hash_mismatch',
+        message: 'The immutable Engine source snapshot does not match the approved plan.',
+      });
+    }
+    const targetRead = await this.readPlanningDocument(this.requireTarget(pair), 'docx-engine-v1');
+    if (!targetRead.snapshot) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'finalization_target_snapshot_missing',
+        message: 'Cannot reconstruct Engine finalization without the current target snapshot.',
+      });
+    }
+    const previewBundleRef = run.metadata?.previewBundleRef as SnapshotReference | undefined;
+    const previewBundle = previewBundleRef
+      ? await this.dependencies.snapshots.getBundle(previewBundleRef)
+      : undefined;
+    const preparedBatchJson = previewBundle?.files['prepared-batch.json'];
+    if (!preparedBatchJson) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'finalization_engine_batch_missing',
+        message: 'Cannot reconstruct Engine finalization without the exact prepared batch.',
+      });
+    }
+    const preparedBatch = JSON.parse(preparedBatchJson) as PreparedMutationBatch;
+    const resolvedTargetBlockIds = new Map<string, string>();
+    const resourceEvidence = new Map<string, ApplyResourceEvidence>();
+    const engineEvidence = await this.loadVerifiedEngineEvidence(run);
+    const lastVerifiedEvidence = engineEvidence.at(-1);
+    if (
+      !lastVerifiedEvidence
+      || lastVerifiedEvidence.afterSnapshotHash !== targetRead.snapshot.canonicalHash
+      || lastVerifiedEvidence.revision !== targetRead.snapshot.revision
+    ) {
+      throw new LocalizeError({
+        type: 'stale_plan', subtype: 'finalization_target_changed',
+        message: 'Target changed after Engine verification and before receipt finalization.',
+      });
+    }
+    if (
+      preparedBatch.fingerprint !== run.metadata?.engineBatchFingerprint
+      || JSON.stringify(preparedBatch.steps.map((step) => step.operationId))
+        !== JSON.stringify(engineEvidence.map((item) => item.operationId))
+    ) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'finalization_engine_evidence_incomplete',
+        message: 'Engine finalization evidence does not cover the exact approved batch.',
+      });
+    }
+    for (const evidence of engineEvidence) {
+      const outputs = 'outputs' in evidence ? evidence.outputs : [];
+      const roots = outputs.find((output) => output.kind === 'block-roots');
+      if (roots?.rootBlockIds[0]) resolvedTargetBlockIds.set(evidence.operationId, roots.rootBlockIds[0]);
+      const resource = outputs.find((output) => output.kind === 'resource');
+      const operation = plan.operations.find((candidate) => candidate.operationId === evidence.operationId);
+      if (resource?.kind === 'resource' && operation) {
+        if (!this.dependencies.whiteboards) {
+          throw new LocalizeError({
+            type: 'configuration', subtype: 'whiteboard_gateway_missing',
+            message: `Finalization cannot re-read Whiteboard ${resource.token}.`,
+          });
+        }
+        let currentResourceRaw: unknown;
+        try {
+          currentResourceRaw = await this.dependencies.whiteboards.queryRaw(resource.token);
+        } catch (error) {
+          throw new LocalizeError({
+            type: 'upstream', subtype: 'whiteboard_readback_failed',
+            message: `Failed to re-read Whiteboard ${resource.token}.`, details: String(error),
+          });
+        }
+        if (verifiedWhiteboardRawHash(currentResourceRaw, `Whiteboard ${resource.token}`) !== resource.rawHash) {
+          throw new LocalizeError({
+            type: 'verification_failed', subtype: 'finalization_whiteboard_changed',
+            message: `Whiteboard ${resource.token} changed before receipt finalization.`,
+          });
+        }
+        resolvedTargetBlockIds.set(evidence.operationId, resource.ownerBlockId);
+        resourceEvidence.set(evidence.operationId, {
+          sourceResourceHash: operation.sourceResourceHash,
+          targetResourceToken: resource.token,
+        });
+      }
+    }
+    const verification = verifyPlan(
+      plan, approved.operations, targetRead.semantic, resolvedTargetBlockIds, resourceEvidence,
+    );
+    if (!verification.ok) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'target_readback_mismatch',
+        message: 'Current Engine target no longer matches the verified reviewed plan.', details: verification,
+      });
+    }
+    const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
+      runId: run.runId,
+      files: {
+        ...documentArtifacts('source', plannedSource.rawXml, plannedSource),
+        ...documentArtifacts('target', targetRead.semantic.rawXml, targetRead.semantic),
+        'source.snapshot.json': `${JSON.stringify(plannedSourceSnapshot, null, 2)}\n`,
+        'target.snapshot.json': `${JSON.stringify(targetRead.snapshot, null, 2)}\n`,
+      },
+    });
+    const previousReceipt = await this.dependencies.registry.getReceipt(run.pairId);
+    const currentCorrespondences = bundle.files['current-correspondences.json']
+      ? JSON.parse(bundle.files['current-correspondences.json']) as StoredCorrespondence[]
+      : previousReceipt?.correspondences ?? [];
+    return {
+      pair: {...pair, status: 'active'},
+      receipt: {
+        pairId: run.pairId,
+        sourceRevision: plannedSource.revisionId,
+        sourceHash: plannedSource.canonicalHash,
+        sourceSnapshotRef,
+        targetRevision: targetRead.semantic.revisionId,
+        targetHash: targetRead.semantic.canonicalHash,
+        runId: run.runId,
+        completedAt: this.dependencies.clock.now().toISOString(),
+        correspondences: updateCorrespondences(
+          currentCorrespondences, plan, targetRead.semantic, approved.operations,
+          resolvedTargetBlockIds, resourceEvidence,
+        ),
+      },
+    };
   }
 
   private async reconstructVerifiedFinalization(run: RunRecord): Promise<{receipt: LocalizationReceipt; pair?: DocumentPair}> {
@@ -2209,6 +2934,9 @@ export class LocalizationWorkflows {
     const approved = approvedJson
       ? JSON.parse(approvedJson) as ReturnType<typeof parseReview>
       : parseReview(reviewText!, plan);
+    if (this.hashDomainForRun(run) === 'docx-engine-v1') {
+      return this.reconstructEngineVerifiedFinalization(run, pair, plan, bundle, approved);
+    }
     const sourceXml = bundle.files['source-current.xml'];
     if (!sourceXml) throw new LocalizeError({type: 'verification_failed', subtype: 'finalization_source_missing', message: 'Cannot reconstruct finalization without the planned source snapshot.'});
     const source = parseFeishuDocument(sourceXml, {documentId: 'planned-source', revisionId: plan.sourceRevision});
@@ -2904,7 +3632,27 @@ export class LocalizationWorkflows {
         target: exact.targetText,
         headingPath: exact.headingPath,
       }] : [];
-      requests.push(buildRequest(item, source, target, glossary, memoryExamples, linkMappings));
+      const request = buildRequest(item, source, target, glossary, memoryExamples, linkMappings);
+      if (request.structured) {
+        for (const slot of request.structured.slots) {
+          const slotMemory = await this.dependencies.memory.findExact({
+            sourceHash: structuredMemorySourceHash(
+              sourceNode.fingerprint, slot.slotId, slot.sourceText,
+            ),
+            targetLocale: pair.targetLocale,
+            glossaryHash,
+            headingPath: sourceNode.headingPath,
+          });
+          if (slotMemory) {
+            slot.memoryExamples = [{
+              source: slotMemory.sourceText,
+              target: slotMemory.targetText,
+              headingPath: slotMemory.headingPath,
+            }];
+          }
+        }
+      }
+      requests.push(request);
     }
     return {requests, glossaryHash};
   }
@@ -3019,6 +3767,131 @@ export class LocalizationWorkflows {
       await this.dependencies.registry.savePair(updated);
     }
     return updated;
+  }
+
+  private async recordEngineTranslationMemory(
+    run: RunRecord,
+    plan: LocalizationPlan,
+    approved: ReturnType<typeof parseReview>,
+    completedAt: string,
+  ): Promise<string | undefined> {
+    const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
+    try {
+      for (const operation of plan.operations) {
+        if (operation.kind === 'delete') continue;
+        const reviewOperation = approvedById.get(operation.operationId);
+        if (!reviewOperation) continue;
+        if ('approvedText' in reviewOperation && operation.sourceAfter) {
+          await this.dependencies.memory.recordApproved({
+            sourceHash: operation.sourceNodeHash ?? canonicalHash(operation.sourceAfter),
+            targetLocale: 'zh-CN',
+            glossaryHash: String(run.metadata?.glossaryHash ?? ''),
+            headingPath: operation.sourceHeadingPath ?? [],
+            sourceText: operation.sourceAfter,
+            targetText: reviewOperation.approvedText,
+            pairId: run.pairId, runId: run.runId, verifiedRunId: run.runId, approvedAt: completedAt,
+          });
+        } else if ('approvedSlots' in reviewOperation && operation.structured) {
+          const sourceBySlot = new Map(operation.structured.slots.map((slot) => [slot.slotId, slot.sourceText]));
+          for (const slot of reviewOperation.approvedSlots) {
+            const sourceText = sourceBySlot.get(slot.slotId);
+            if (sourceText === undefined) continue;
+            await this.dependencies.memory.recordApproved({
+              sourceHash: structuredMemorySourceHash(
+                operation.sourceNodeHash ?? '', slot.slotId, sourceText,
+              ),
+              targetLocale: 'zh-CN',
+              glossaryHash: String(run.metadata?.glossaryHash ?? ''),
+              headingPath: operation.sourceHeadingPath ?? [],
+              sourceText,
+              targetText: slot.approvedText,
+              pairId: run.pairId, runId: run.runId, verifiedRunId: run.runId, approvedAt: completedAt,
+            });
+          }
+        }
+      }
+      return undefined;
+    } catch (error) {
+      return `Verified localization completed, but rebuildable translation memory was not updated: ${String(error)}`;
+    }
+  }
+
+  private async loadVerifiedEngineEvidence(
+    run: RunRecord,
+    expectedFinalSnapshotHash?: string,
+  ): Promise<VerifiedOperationEvidence[]> {
+    const evidence = (run.metadata?.engineEvidence as VerifiedOperationEvidence[] | undefined) ?? [];
+    const evidenceRef = run.metadata?.engineEvidenceRef as SnapshotReference | undefined;
+    if (!evidenceRef) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'engine_evidence_bundle_missing',
+        message: 'Engine run has no immutable apply-evidence bundle.',
+      });
+    }
+    const bundle = await this.dependencies.snapshots.getBundle(evidenceRef);
+    const evidenceJson = bundle.files['apply-evidence.json'];
+    let immutableEvidence: unknown;
+    try {
+      immutableEvidence = evidenceJson ? JSON.parse(evidenceJson) : undefined;
+    } catch (error) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'engine_evidence_bundle_invalid',
+        message: 'Engine apply-evidence JSON is malformed.', details: String(error),
+      });
+    }
+    if (
+      !immutableEvidence
+      || canonicalHash(immutableEvidence) !== canonicalHash(evidence)
+      || evidence.some((item) => item.verified !== true)
+    ) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'engine_evidence_bundle_mismatch',
+        message: 'Engine metadata evidence does not match the immutable apply-evidence bundle.',
+      });
+    }
+    const previewBundleRef = run.metadata?.previewBundleRef as SnapshotReference | undefined;
+    const previewBundle = previewBundleRef
+      ? await this.dependencies.snapshots.getBundle(previewBundleRef)
+      : undefined;
+    const preparedBatchJson = previewBundle?.files['prepared-batch.json'];
+    if (!preparedBatchJson) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'engine_preview_bundle_missing',
+        message: 'Engine evidence has no exact immutable prepared batch.',
+      });
+    }
+    let preparedBatch: PreparedMutationBatch;
+    try {
+      preparedBatch = JSON.parse(preparedBatchJson) as PreparedMutationBatch;
+    } catch (error) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'engine_preview_bundle_invalid',
+        message: 'Engine prepared-batch JSON is malformed.', details: String(error),
+      });
+    }
+    try {
+      assertPreparedMutationBatchIntegrity(preparedBatch);
+    } catch (error) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'engine_preview_batch_integrity_mismatch',
+        message: 'Engine prepared batch failed deterministic integrity verification.', details: String(error),
+      });
+    }
+    if (
+      preparedBatch.schemaVersion !== ENGINE_SCHEMA_VERSION
+      || preparedBatch.engineVersion !== ENGINE_VERSION
+      || preparedBatch.fingerprint !== run.metadata?.engineBatchFingerprint
+      || JSON.stringify(preparedBatch.steps.map((step) => step.operationId))
+        !== JSON.stringify(evidence.map((item) => item.operationId))
+      || expectedFinalSnapshotHash !== undefined
+        && evidence.at(-1)?.afterSnapshotHash !== expectedFinalSnapshotHash
+    ) {
+      throw new LocalizeError({
+        type: 'verification_failed', subtype: 'engine_evidence_batch_mismatch',
+        message: 'Engine evidence does not exactly cover the approved prepared batch and final snapshot.',
+      });
+    }
+    return evidence;
   }
 
   private async requireRun(runId: string): Promise<RunRecord> {
@@ -3351,6 +4224,25 @@ function verifyPlan(
         ),
       };
     }
+    if (reviewOperation && 'approvedSlots' in reviewOperation && operation.structured) {
+      const expectedStructure = applySlotTranslations(
+        operation.structured.sourceStructure,
+        reviewOperation.approvedSlots.map((slot) => ({
+          slotId: slot.slotId,
+          translatedText: slot.approvedText,
+        })),
+        operation.structured.topologyHash,
+      );
+      return {
+        operationId: operation.operationId,
+        ok: Boolean(
+          node
+          && node.kind === operation.targetNodeKind
+          && node.structure
+          && canonicalHash(node.structure) === canonicalHash(expectedStructure)
+        ),
+      };
+    }
     const expected = policy === 'verbatim_code'
       ? plainApproved(operation.proposedText, operation.targetNodeKind)
       : reviewOperation && 'approvedText' in reviewOperation
@@ -3379,7 +4271,10 @@ function updateCorrespondences(
     if (operation.kind === 'delete' || !operation.sourceNodeId) continue;
     const policy = operation.policy ?? 'translation';
     const reviewOperation = approvedById.get(operation.operationId);
-    if (policy === 'translation' && (!reviewOperation || !('approvedText' in reviewOperation))) continue;
+    if (
+      policy === 'translation'
+      && (!reviewOperation || !('approvedText' in reviewOperation) && !('approvedSlots' in reviewOperation))
+    ) continue;
     const blockId = resolvedTargetBlockIds.get(operation.operationId) ?? operation.targetBlockId;
     const targetNode = blockId
       ? target.nodes.find((node) => node.remote.blockId === blockId)

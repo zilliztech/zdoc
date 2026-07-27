@@ -12,6 +12,7 @@ import type {
 
 import {LocalizeError} from '../domain/errors.js';
 import {canonicalHash} from '../domain/hash.js';
+import {manualSyncPlaceholderDetails} from './manual-actions.js';
 import type {ApprovedReview, LocalizationPlan, PlanOperation} from '../domain/review.js';
 import {
   applySlotTranslations,
@@ -37,6 +38,7 @@ interface CompileEngineBatchInput {
   approved: ApprovedReview;
   targetSnapshot: DocumentSnapshot;
   engine: Pick<FeishuDocxEngine, 'prepare'>;
+  sourceUrl?: string;
 }
 
 function compilationError(subtype: string, message: string, details?: unknown): LocalizeError {
@@ -125,21 +127,34 @@ function desiredTextNode(operation: PlanOperation, approvedText: string): Desire
 function desiredForOperation(
   operation: PlanOperation,
   approved: ApprovedReview['operations'][number],
+  sourceUrl?: string,
 ): DesiredNode {
   if ('approvedSlots' in approved) return desiredStructured(operation, approved.approvedSlots);
   if ('approvedText' in approved) return desiredTextNode(operation, approved.approvedText);
   if (operation.policy === 'verbatim_code') return desiredTextNode(operation, operation.proposedText);
   if (operation.policy === 'manual_synced_reference') {
-    const marker = operation.proposedText || [
-      'ZDoc manual action required.',
-      `Source document: ${operation.sourceDocumentId ?? '(missing)'}`,
-      `Source block: ${operation.sourceBlockId ?? '(missing)'}`,
-    ].join('\n');
+    if (!sourceUrl) {
+      throw compilationError(
+        'manual_sync_source_url_missing',
+        `Manual synced-reference operation ${operation.operationId} has no source document URL.`,
+      );
+    }
+    const details = manualSyncPlaceholderDetails(operation, sourceUrl);
     return {
       kind: 'callout',
       calloutType: 'warning',
       title: 'Manual synced-code reference required',
-      children: [{kind: 'paragraph', content: [{kind: 'text', text: marker}]}],
+      children: [
+        {kind: 'paragraph', content: [{kind: 'text', text: '需要人工插入飞书同步块', bold: true}]},
+        {kind: 'paragraph', content: [{kind: 'code', text: details.marker}]},
+        {kind: 'paragraph', content: [{kind: 'link', text: '打开英文同步源', url: details.sourceBlockUrl}]},
+        {kind: 'paragraph', content: [
+          {kind: 'text', text: 'Source document: '},
+          {kind: 'code', text: details.sourceDocumentId},
+          {kind: 'text', text: ' Source block: '},
+          {kind: 'code', text: details.sourceBlockId},
+        ]},
+      ],
     };
   }
   throw compilationError(
@@ -186,6 +201,7 @@ function insertionBoundary(
   operation: PlanOperation,
   parentByOperation: ReadonlyMap<string, string>,
   beforeByOperation: ReadonlyMap<string, string | undefined>,
+  afterByOperation: ReadonlyMap<string, BlockRef>,
 ): {parentBlockId: string; after: BlockRef; before?: SnapshotBlockRef} {
   if (operation.anchorOperationId) {
     const parentBlockId = parentByOperation.get(operation.anchorOperationId);
@@ -198,7 +214,7 @@ function insertionBoundary(
     const beforeBlockId = beforeByOperation.get(operation.anchorOperationId);
     return {
       parentBlockId,
-      after: operationRef(operation.anchorOperationId),
+      after: afterByOperation.get(operation.anchorOperationId) ?? operationRef(operation.anchorOperationId),
       ...(beforeBlockId ? {before: snapshotRef(beforeBlockId)} : {}),
     };
   }
@@ -241,6 +257,7 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
   const approvedById = new Map(input.approved.operations.map((operation) => [operation.operationId, operation]));
   const parentByOperation = new Map<string, string>();
   const beforeByOperation = new Map<string, string | undefined>();
+  const afterByOperation = new Map<string, BlockRef>();
   const intents: MutationIntentV2[] = [];
   const summaries: EngineOperationSummary[] = [];
 
@@ -264,18 +281,25 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
         target: snapshotRef(operation.targetBlockId),
         expectedHash: operation.targetNodeHash,
       });
+      const target = nodeById(input.targetSnapshot, operation.targetBlockId);
+      const parentBlockId = target.parentBlockId ?? target.blockId;
+      const parent = nodeById(input.targetSnapshot, parentBlockId);
+      const index = target.blockId === parentBlockId ? -1 : parent.childBlockIds.indexOf(target.blockId);
+      parentByOperation.set(operation.operationId, parentBlockId);
+      beforeByOperation.set(operation.operationId, parent.childBlockIds[index + 1]);
+      afterByOperation.set(operation.operationId, snapshotRef(target.blockId));
       summaries.push({operationId: operation.operationId, kind: operation.kind, nodeKind: operation.targetNodeKind, createdSubtreeCount: 0});
       continue;
     }
 
     if (policy === 'whiteboard_mirror') {
-      if (!operation.sourceResourceToken || !operation.sourceResourceHash) {
+      if (!operation.sourceResourceToken || !operation.sourceResourceRawHash) {
         throw compilationError('whiteboard_source_evidence_missing', `Whiteboard operation ${operation.operationId} has no verified source hash.`);
       }
       const content = {
         kind: 'copy-token' as const,
         sourceToken: operation.sourceResourceToken,
-        expectedSourceRawHash: operation.sourceResourceHash,
+        expectedSourceRawHash: operation.sourceResourceRawHash,
       };
       if (operation.targetBlockId) {
         const target = nodeById(input.targetSnapshot, operation.targetBlockId);
@@ -289,8 +313,14 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
           },
           content,
         });
+        const parentBlockId = target.parentBlockId ?? target.blockId;
+        const parent = nodeById(input.targetSnapshot, parentBlockId);
+        const index = target.blockId === parentBlockId ? -1 : parent.childBlockIds.indexOf(target.blockId);
+        parentByOperation.set(operation.operationId, parentBlockId);
+        beforeByOperation.set(operation.operationId, parent.childBlockIds[index + 1]);
+        afterByOperation.set(operation.operationId, snapshotRef(target.blockId));
       } else {
-        const boundary = insertionBoundary(input.targetSnapshot, operation, parentByOperation, beforeByOperation);
+        const boundary = insertionBoundary(input.targetSnapshot, operation, parentByOperation, beforeByOperation, afterByOperation);
         intents.push({
           operationId: operation.operationId,
           kind: 'whiteboard-create',
@@ -301,6 +331,7 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
         });
         parentByOperation.set(operation.operationId, boundary.parentBlockId);
         beforeByOperation.set(operation.operationId, boundary.before?.blockId);
+        afterByOperation.set(operation.operationId, operationRef(operation.operationId));
       }
       summaries.push({operationId: operation.operationId, kind: operation.kind, nodeKind: operation.targetNodeKind, createdSubtreeCount: operation.targetBlockId ? 0 : 1});
       continue;
@@ -325,7 +356,7 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
       continue;
     }
 
-    const desired = desiredForOperation(operation, approved);
+    const desired = desiredForOperation(operation, approved, input.sourceUrl);
     if (operation.kind === 'replace') {
       const blockIds = targetBlockIds(operation);
       if (blockIds.length === 0) {
@@ -340,6 +371,11 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
           expectedHash: operation.targetNodeHash ?? target.canonicalHash,
           desired,
         });
+        const parentBlockId = target.parentBlockId ?? target.blockId;
+        const parent = nodeById(input.targetSnapshot, parentBlockId);
+        const index = target.blockId === parentBlockId ? -1 : parent.childBlockIds.indexOf(target.blockId);
+        parentByOperation.set(operation.operationId, parentBlockId);
+        beforeByOperation.set(operation.operationId, parent.childBlockIds[index + 1]);
       } else {
         const parentBlockId = commonParent(input.targetSnapshot, blockIds, operation.operationId);
         intents.push({
@@ -352,13 +388,18 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
           }),
           desired,
         });
+        const parent = nodeById(input.targetSnapshot, parentBlockId);
+        const lastTargetIndex = Math.max(...blockIds.map((blockId) => parent.childBlockIds.indexOf(blockId)));
+        parentByOperation.set(operation.operationId, parentBlockId);
+        beforeByOperation.set(operation.operationId, parent.childBlockIds[lastTargetIndex + 1]);
       }
+      afterByOperation.set(operation.operationId, operationRef(operation.operationId));
       summaries.push({operationId: operation.operationId, kind: operation.kind, nodeKind: operation.targetNodeKind, createdSubtreeCount: 0});
       continue;
     }
 
     if (operation.kind === 'insert') {
-      const boundary = insertionBoundary(input.targetSnapshot, operation, parentByOperation, beforeByOperation);
+      const boundary = insertionBoundary(input.targetSnapshot, operation, parentByOperation, beforeByOperation, afterByOperation);
       intents.push({
         operationId: operation.operationId,
         kind: 'insert',
@@ -369,6 +410,7 @@ export function compileEngineBatch(input: CompileEngineBatchInput): CompiledEngi
       });
       parentByOperation.set(operation.operationId, boundary.parentBlockId);
       beforeByOperation.set(operation.operationId, boundary.before?.blockId);
+      afterByOperation.set(operation.operationId, operationRef(operation.operationId));
       summaries.push({
         operationId: operation.operationId,
         kind: operation.kind,

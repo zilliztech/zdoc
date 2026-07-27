@@ -108,6 +108,12 @@ describe('semanticDocumentFromSnapshot', () => {
       fingerprint: snapshot.nodes.find((node) => node.blockId === 'example-code')!.canonicalHash,
       structure: {kind: 'code', language: 'python', caption: undefined},
     });
+    expect(document.nodes.find((node) => node.remote.blockId === 'note-callout')).toMatchObject({
+      kind: 'callout',
+      writable: false,
+      text: 'Notes\nKeep the token private.',
+      remote: {blockIds: ['note-callout', 'callout-title', 'callout-body']},
+    });
     expect(document.nodes.find((node) => node.remote.blockId === 'architecture-board')).toMatchObject({
       kind: 'whiteboard',
       remote: {token: 'whiteboard-stable-token'},

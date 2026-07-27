@@ -51,6 +51,7 @@ export interface PlanOperation {
   sourceDocumentId?: string;
   sourceBlockId?: string;
   sourceResourceToken?: string;
+  sourceResourceRawHash?: string;
   sourceResourceHash?: string;
   targetResourceToken?: string;
   sourceXml?: string;

@@ -1,4 +1,5 @@
 import {LocalizeError} from './errors.js';
+import {canonicalHash} from './hash.js';
 import type {SemanticDocument, SemanticNode} from './model.js';
 
 export interface LegacyCorrespondence {
@@ -48,7 +49,13 @@ function blockId(node: SemanticNode | undefined): string | undefined {
 function sequence(document: SemanticDocument, excluded: Set<string>): string {
   return JSON.stringify(document.nodes
     .filter((node) => !node.remote.blockId || !excluded.has(node.remote.blockId))
-    .map((node) => ({blockId: node.remote.blockId ?? null, kind: node.kind, fingerprint: node.fingerprint})));
+    .map((node) => ({
+      blockId: node.remote.blockId ?? null,
+      kind: node.kind,
+      fingerprint: node.kind === 'title'
+        ? canonicalHash({kind: node.kind, xml: node.xml})
+        : node.fingerprint,
+    })));
 }
 
 function atExpectedPosition(
