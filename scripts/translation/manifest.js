@@ -57,6 +57,18 @@ function writeCache(siteDir, locale, cache) {
   writeJsonAtomic(cachePath, cache)
 }
 
+function readTargetState(siteDir, target, locale) {
+  if (target === 'ja-JP') return readCache(siteDir, locale)
+  const relativePath = target === 'zh-CN-reference'
+    ? 'generated/zh-CN/manifests/reference-translations.json'
+    : 'generated/zh-CN/manifests/tools-translations.json'
+  const absolutePath = path.join(siteDir, relativePath)
+  if (!fs.existsSync(absolutePath)) return { files: {} }
+  const parsed = JSON.parse(fs.readFileSync(absolutePath, 'utf8'))
+  const records = Array.isArray(parsed.records) ? parsed.records : []
+  return {files: Object.fromEntries(records.filter(record => record.status !== 'retired').map(record => [record.sourcePath, record]))}
+}
+
 function writeJsonAtomic(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   const temporaryPath = `${filePath}.tmp`
@@ -65,41 +77,63 @@ function writeJsonAtomic(filePath, value) {
 }
 
 function sourceMappingsForLocale(locale, { includeReference = false } = {}) {
-  const mappings = [
+  const mappings = sourceMappingsForTarget(locale === 'ja-JP' ? 'ja-JP' : locale)
+  return includeReference ? mappings : mappings.filter(mapping => mapping.type !== 'reference')
+}
+
+function sourceMappingsForTarget(target) {
+  if (target === 'ja-JP') return [
     {
-      type: 'docs',
-      sourceRoot: 'docs/tutorials',
-      targetRoot: `i18n/${locale}/docusaurus-plugin-content-docs/current/tutorials`,
+      type: 'guides',
+      sourceRoot: 'content/en/guides/tutorials',
+      targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
     },
     {
       type: 'byoc',
-      sourceRoot: 'docs-byoc/tutorials',
-      targetRoot: `i18n/${locale}/docusaurus-plugin-content-docs-byoc/current/tutorials`,
+      sourceRoot: 'content/en/byoc/tutorials',
+      targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
+    },
+    {
+      type: 'reference',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current',
     },
   ]
-  if (includeReference) {
-    mappings.push({
-      type: 'reference',
-      sourceRoot: 'reference',
-      targetRoot: `i18n/${locale}/docusaurus-plugin-content-docs-reference/current`,
-    })
-  }
-  return mappings
+  if (target === 'zh-CN-reference') return [{
+    type: 'reference',
+    sourceRoot: 'content/en/reference',
+    targetRoot: 'content/zh-CN/reference',
+  }]
+  if (target === 'zh-CN-tools') return [{
+    type: 'tools',
+    sourceRoot: 'content/en/guides/tutorials/tools',
+    targetRoot: 'content/zh-CN/guides/tutorials/tools',
+  }]
+  throw new Error(`Unknown translation target: ${target}`)
 }
 
-function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null, sourceDelta = null }) {
+function localeForTarget(target) {
+  if (target === 'ja-JP') return 'ja-JP'
+  if (target === 'zh-CN-reference' || target === 'zh-CN-tools') return 'zh-CN'
+  throw new Error(`Unknown translation target: ${target}`)
+}
+
+function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' ? 'ja-JP' : 'zh-CN', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null, sourceDelta = null }) {
   let ownedPrefixes = null
   if (group) {
     const definition = getContentGroup(group)
     if (!SHA.test(sourceCheckpointSha || '')) throw new Error('A valid 40-character source checkpoint SHA is required with --group')
-    ownedPrefixes = definition.ownedPaths.filter(prefix => prefix === 'docs' || prefix === 'docs-byoc' || prefix.startsWith('reference/'))
+    ownedPrefixes = definition.ownedPaths.filter(prefix => prefix.startsWith('content/en/'))
     includeReference = group !== 'guides'
   }
   const changedEnglish = sourceDelta ? new Set(sourceDelta.changedEnglish || []) : null
-  const cache = readCache(siteDir, locale)
+  const cache = readTargetState(siteDir, target, locale)
   const items = []
 
-  for (const mapping of sourceMappingsForLocale(locale, { includeReference })) {
+  const targetMappings = target === 'ja-JP'
+    ? sourceMappingsForLocale(locale, { includeReference })
+    : sourceMappingsForTarget(target)
+  for (const mapping of targetMappings) {
     const absSourceRoot = path.join(siteDir, mapping.sourceRoot)
     for (const absSourcePath of walkMarkdown(absSourceRoot)) {
       const relativeToRoot = path.relative(absSourceRoot, absSourcePath)
@@ -149,7 +183,8 @@ function main() {
     args.set(process.argv[i], process.argv[i + 1])
   }
   const siteDir = process.cwd()
-  const locale = args.get('--locale') || process.env.TRANSLATION_LOCALE || 'ja-JP'
+  const target = args.get('--target') || process.env.TRANSLATION_TARGET || 'ja-JP'
+  const locale = args.get('--locale') || process.env.TRANSLATION_LOCALE || localeForTarget(target)
   const output = args.get('--output') || 'tmp/translation-manifest.json'
   const includeReference = process.env.TRANSLATE_REFERENCE === 'true' || args.get('--include-reference') === 'true'
   const maxFiles = Number(args.get('--max-files') || process.env.TRANSLATION_MAX_FILES || 0)
@@ -160,7 +195,7 @@ function main() {
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
   const presentBatchFlags = batchFlags.filter(flag => args.has(flag))
   if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
-  let manifest = buildManifest({ siteDir, locale, includeReference, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta })
+  let manifest = buildManifest({ siteDir, target, locale, includeReference, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta })
   if (presentBatchFlags.length) {
     manifest = selectManifestBatch(manifest, {
       batchIndex: Number(args.get('--batch-index')),
@@ -181,8 +216,11 @@ module.exports = {
   cachePathForLocale,
   candidateReason,
   hashContent,
+  localeForTarget,
   readCache,
+  readTargetState,
   sourceMappingsForLocale,
+  sourceMappingsForTarget,
   walkMarkdown,
   writeCache,
   writeJsonAtomic,

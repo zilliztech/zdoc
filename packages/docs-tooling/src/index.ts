@@ -56,3 +56,19 @@ export type {
   TranslationRecord,
 } from './reference/translationManifest.ts';
 export {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
+export {
+  parseTranslationTargets,
+  resolveTranslationTarget,
+  translationTargets,
+} from './translation/targets.ts';
+export {
+  TranslationRetirementRequiredError,
+  buildTranslationCandidates,
+  validateTranslatedSidebarFragment,
+} from './translation/candidates.ts';
+export type {
+  TranslationCandidateReason,
+  TranslationTarget,
+  TranslationTargetId,
+} from './translation/schema.ts';
+export type {RetirementCandidate, TranslationCandidate} from './translation/candidates.ts';

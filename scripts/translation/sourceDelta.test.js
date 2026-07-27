@@ -6,37 +6,66 @@ const test = require('node:test')
 const {
   classifySourceDelta,
   mapEnglishToI18nPath,
+  mapSourcePathForTarget,
   parseGitNameStatus,
 } = require('./sourceDelta')
 
 test('maps docs and reference paths to ja-JP i18n paths', () => {
   assert.equal(
-    mapEnglishToI18nPath('docs/tutorials/get-started/a.md'),
+    mapEnglishToI18nPath('content/en/guides/tutorials/get-started/a.md'),
     'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/a.md',
   )
   assert.equal(
-    mapEnglishToI18nPath('docs-byoc/tutorials/deployment/a.md'),
+    mapEnglishToI18nPath('content/en/byoc/tutorials/deployment/a.md'),
     'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/a.md',
   )
   assert.equal(
-    mapEnglishToI18nPath('reference/api/restful/restful/v2/a.mdx'),
+    mapEnglishToI18nPath('content/en/reference/api/restful/restful/v2/a.mdx'),
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/a.mdx',
   )
   assert.equal(mapEnglishToI18nPath('config/generated/restful.sidebar.js'), null)
 })
 
+test('maps unified sources for all explicit translation targets', () => {
+  assert.equal(
+    mapSourcePathForTarget('ja-JP', 'content/en/guides/tutorials/tools/a.md'),
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/a.md',
+  )
+  assert.equal(
+    mapSourcePathForTarget('zh-CN-reference', 'content/en/reference/api/a.md'),
+    'content/zh-CN/reference/api/a.md',
+  )
+  assert.equal(
+    mapSourcePathForTarget('zh-CN-tools', 'content/en/guides/tutorials/tools/a.md'),
+    'content/zh-CN/guides/tutorials/tools/a.md',
+  )
+})
+
+test('Chinese source deletions emit retirement candidates and never authorize target deletion', () => {
+  const result = classifySourceDelta({
+    target: 'zh-CN-tools',
+    changes: [{status: 'D', path: 'content/en/guides/tutorials/tools/old.md'}],
+  })
+  assert.deepEqual(result.deletedI18n, [])
+  assert.deepEqual(result.retirementCandidates, [{
+    sourcePath: 'content/en/guides/tutorials/tools/old.md',
+    targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
+    reason: 'source_deleted',
+  }])
+})
+
 test('parses added, modified, deleted, and renamed git name-status lines', () => {
   assert.deepEqual(parseGitNameStatus([
-    'A\tdocs/tutorials/new.md',
-    'M\treference/api/python/python/changed.md',
-    'D\treference/api/restful/restful/old.mdx',
-    'R100\tdocs/tutorials/old.md\tdocs/tutorials/moved.md',
+    'A\tcontent/en/guides/tutorials/new.md',
+    'M\tcontent/en/reference/api/python/python/changed.md',
+    'D\tcontent/en/reference/api/restful/restful/old.mdx',
+    'R100\tcontent/en/guides/tutorials/old.md\tcontent/en/guides/tutorials/moved.md',
     '',
   ].join('\n')), [
-    { status: 'A', path: 'docs/tutorials/new.md' },
-    { status: 'M', path: 'reference/api/python/python/changed.md' },
-    { status: 'D', path: 'reference/api/restful/restful/old.mdx' },
-    { status: 'R100', oldPath: 'docs/tutorials/old.md', newPath: 'docs/tutorials/moved.md' },
+    { status: 'A', path: 'content/en/guides/tutorials/new.md' },
+    { status: 'M', path: 'content/en/reference/api/python/python/changed.md' },
+    { status: 'D', path: 'content/en/reference/api/restful/restful/old.mdx' },
+    { status: 'R100', oldPath: 'content/en/guides/tutorials/old.md', newPath: 'content/en/guides/tutorials/moved.md' },
   ])
 })
 
@@ -44,9 +73,9 @@ test('classifies deleted and changed files for a selected group', () => {
   const result = classifySourceDelta({
     group: 'rest',
     changes: [
-      { status: 'D', path: 'reference/api/restful/restful/old.mdx' },
-      { status: 'A', path: 'reference/api/restful/restful/new.mdx' },
-      { status: 'M', path: 'reference/api/python/python/other.md' },
+      { status: 'D', path: 'content/en/reference/api/restful/restful/old.mdx' },
+      { status: 'A', path: 'content/en/reference/api/restful/restful/new.mdx' },
+      { status: 'M', path: 'content/en/reference/api/python/python/other.md' },
     ],
   })
 
@@ -54,7 +83,7 @@ test('classifies deleted and changed files for a selected group', () => {
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/old.mdx',
   ])
   assert.deepEqual(result.changedEnglish, [
-    'reference/api/restful/restful/new.mdx',
+    'content/en/reference/api/restful/restful/new.mdx',
   ])
   assert.deepEqual(result.renamed, [])
 })
@@ -64,24 +93,24 @@ test('classifies a rename as an old i18n deletion and a new translation', () => 
     group: 'guides',
     changes: [{
       status: 'R095',
-      oldPath: 'docs/tutorials/old.md',
-      newPath: 'docs/tutorials/new.md',
+      oldPath: 'content/en/guides/tutorials/old.md',
+      newPath: 'content/en/guides/tutorials/new.md',
     }],
   })
 
   assert.deepEqual(result.deletedI18n, [
     'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md',
   ])
-  assert.deepEqual(result.changedEnglish, ['docs/tutorials/new.md'])
+  assert.deepEqual(result.changedEnglish, ['content/en/guides/tutorials/new.md'])
   assert.deepEqual(result.renamed, [{
-    oldPath: 'docs/tutorials/old.md',
-    newPath: 'docs/tutorials/new.md',
+    oldPath: 'content/en/guides/tutorials/old.md',
+    newPath: 'content/en/guides/tutorials/new.md',
     oldI18nPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md',
     newI18nPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
   }])
 })
 
 test('rejects malformed name-status input', () => {
-  assert.throws(() => parseGitNameStatus('X\tdocs/tutorials/a.md\n'), /Unsupported git status/)
-  assert.throws(() => parseGitNameStatus('R100\tdocs/tutorials/a.md\n'), /Malformed rename/)
+  assert.throws(() => parseGitNameStatus('X\tcontent/en/guides/tutorials/a.md\n'), /Unsupported git status/)
+  assert.throws(() => parseGitNameStatus('R100\tcontent/en/guides/tutorials/a.md\n'), /Malformed rename/)
 })
