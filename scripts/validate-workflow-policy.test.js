@@ -760,6 +760,8 @@ test('reusable final verification uses immutable master tooling against exact fi
   const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')
   const workflow = fs.readFileSync(workflowPath, 'utf8')
+  const rootPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'))
+  assert.equal(rootPackage.scripts['test:typescript-runtime-boundary'], 'node --test scripts/typescript-runtime-boundary.test.js')
   for (const input of ['final_dev_sha', 'master_sha', 'target_branch']) assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   assert.match(workflow, /^  contents: read$/m)
   assert.match(workflow, /timeout-minutes: 180/)
@@ -774,6 +776,7 @@ test('reusable final verification uses immutable master tooling against exact fi
   assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en"/)
   assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en" --skipCardReporting/)
   const verificationStep = workflow.slice(workflow.indexOf('name: Verify final documentation state'), workflow.indexOf('name: Upload final verification reports'))
+  assert.match(verificationStep, /pnpm test:typescript-runtime-boundary[^\n]*\| tee tmp\/final-verification-reports\/typescript-runtime-boundary\.log/)
   assert.match(verificationStep, /run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/)
   assert.ok(verificationStep.indexOf('set -euo pipefail') < verificationStep.indexOf('validate-generated-sidebars.js'))
   assert.match(workflow, /validate-workflow-policy\.js/)
@@ -784,6 +787,22 @@ test('reusable final verification uses immutable master tooling against exact fi
   assert.doesNotMatch(workflow, /contents: write|git push/)
   const verificationBody = workflow.slice(workflow.indexOf('name: Verify final documentation state'), workflow.indexOf('name: Report verification phase'))
   assert.doesNotMatch(verificationBody, /secrets\./)
+})
+
+test('workflow policy rejects final verification without the TypeScript runtime boundary regression', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'typescript-runtime-boundary-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const file = path.join(directory, '_verify-docs.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const requiredCommand = 'pnpm test:typescript-runtime-boundary'
+    assert.ok(source.includes(requiredCommand))
+    fs.writeFileSync(file, source.replace(requiredCommand, 'pnpm test:workflow-policy'))
+    assert.ok(validateWorkflowPolicies(directory).includes('_verify-docs.yml: must test CommonJS TypeScript loading without native stripping'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
 })
 
 test('reusable content producer is immutable, read-only, and publishes a validated checkpoint artifact', () => {

@@ -542,6 +542,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
         [/for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/, 'must validate translated coverage for every translatable group'],
         [/run-doc-build-stage\.js --build "pnpm run build:en"/, 'must run the documentation build stage'],
+        [/pnpm test:typescript-runtime-boundary/, 'must test CommonJS TypeScript loading without native stripping'],
         [/name: Verify final documentation state[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/, 'must propagate failures from verification commands piped to report logs'],
         [/validate-workflow-policy\.js/, 'must validate workflow policy'],
         [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
