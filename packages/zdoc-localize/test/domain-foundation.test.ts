@@ -3,8 +3,6 @@ import {describe, expect, it} from 'vitest';
 import {LocalizeError, toErrorEnvelope} from '../src/domain/errors.js';
 import {canonicalHash} from '../src/domain/hash.js';
 import {transitionRun} from '../src/domain/state-machine.js';
-import {findReverseInsertionAnchor} from '../src/domain/recovery.js';
-import {parseFeishuDocument} from '../src/domain/xml-parser.js';
 
 describe('domain foundations', () => {
   it('hashes object keys canonically while preserving array order', () => {
@@ -77,14 +75,5 @@ describe('domain foundations', () => {
         details: {expected: 10, actual: 11},
       },
     });
-  });
-
-  it('anchors consecutive deleted blocks after the nearest predecessor that still exists', () => {
-    const document = parseFeishuDocument(
-      '<p id="a">A</p><p id="b">B</p><p id="c">C</p>',
-      {documentId: 'zh', revisionId: 1},
-    );
-
-    expect(findReverseInsertionAnchor(document, 'c', new Set(['b', 'c']))).toBe('a');
   });
 });

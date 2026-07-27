@@ -1,17 +1,12 @@
 import {describe, expect, it} from 'vitest';
 
-import type {WhiteboardGateway} from '../src/application/ports.js';
+import type {WhiteboardReadGateway} from '../src/application/ports.js';
 import {WhiteboardMirror} from '../src/application/whiteboard-mirror.js';
 import {canonicalWhiteboard, normalizeWhiteboardRaw} from '../src/domain/whiteboard.js';
 
-class MemoryWhiteboards implements WhiteboardGateway {
+class MemoryWhiteboards implements WhiteboardReadGateway {
   readonly values = new Map<string, unknown>();
-  readonly updates: Array<{token: string; raw: unknown; idempotencyToken: string}> = [];
   async queryRaw(token: string): Promise<unknown> { return this.values.get(token); }
-  async overwriteRaw(input: {token: string; raw: unknown; idempotencyToken: string}): Promise<void> {
-    this.updates.push(input);
-    this.values.set(input.token, structuredClone(input.raw));
-  }
 }
 
 describe('Whiteboard mirroring', () => {
@@ -37,17 +32,14 @@ describe('Whiteboard mirroring', () => {
     expect(normalizeWhiteboardRaw(target)).toMatchObject({board_token: '<board-token>'});
   });
 
-  it('overwrites and verifies a target Whiteboard', async () => {
+  it('reads a canonical Whiteboard snapshot without exposing mutation behavior', async () => {
     const gateway = new MemoryWhiteboards();
     gateway.values.set('source', {nodes: [{id: 'source-node', type: 'text', text: 'Hello'}]});
-    gateway.values.set('target', {nodes: []});
     const mirror = new WhiteboardMirror(gateway);
 
-    const result = await mirror.mirror('source', 'target', 'run-1-board-1');
+    const result = await mirror.snapshot('source');
 
-    expect(result.source.hash).toBe(result.target.hash);
-    expect(gateway.updates).toEqual([expect.objectContaining({
-      token: 'target', idempotencyToken: 'run-1-board-1',
-    })]);
+    expect(result.hash).toBe(canonicalWhiteboard(gateway.values.get('source')).hash);
+    expect(mirror).not.toHaveProperty('mirror');
   });
 });

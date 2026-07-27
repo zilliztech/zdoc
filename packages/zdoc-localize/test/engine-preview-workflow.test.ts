@@ -18,7 +18,7 @@ import {
 import {describe, expect, it} from 'vitest';
 
 import type {
-  DocumentGateway,
+  DocumentReadGateway,
   LocalizationDocxEngine,
   TranslationMemory,
   TranslationMemoryEntry,
@@ -37,12 +37,8 @@ class MemoryTranslationMemory implements TranslationMemory {
   async close(): Promise<void> {}
 }
 
-class UnusedDocs implements DocumentGateway {
+class UnusedDocs implements DocumentReadGateway {
   async fetch(): Promise<never> { throw new Error('not used'); }
-  async replaceBlock(): Promise<never> { throw new Error('not used'); }
-  async insertAfter(): Promise<never> { throw new Error('not used'); }
-  async deleteBlocks(): Promise<never> { throw new Error('not used'); }
-  async createDocument(): Promise<never> { throw new Error('not used'); }
 }
 
 class PreviewEngine implements LocalizationDocxEngine {

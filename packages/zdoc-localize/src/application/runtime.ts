@@ -5,9 +5,10 @@ import {join} from 'node:path';
 import {createFeishuDocxEngine, LarkCliTransport} from 'feishu-docx-engine';
 
 import {LarkBaseRegistry} from '../adapters/lark-base-registry.js';
-import {LarkDocsAdapter} from '../adapters/lark-docs-adapter.js';
+import {LarkDocumentCreationAdapter} from '../adapters/lark-document-creation-adapter.js';
 import {LarkDriveSnapshotStore} from '../adapters/lark-drive-snapshots.js';
-import {LarkWhiteboardAdapter} from '../adapters/lark-whiteboard-adapter.js';
+import {LarkLegacyDocumentReader} from '../adapters/lark-legacy-document-reader.js';
+import {LarkWhiteboardReader} from '../adapters/lark-whiteboard-reader.js';
 import {NodeProcessRunner} from '../adapters/process-runner.js';
 import {LocalizeError} from '../domain/errors.js';
 import {ConfigStore} from '../storage/config-store.js';
@@ -27,8 +28,6 @@ export interface Runtime {
   snapshots: SnapshotStore;
   engine: LocalizationDocxEngine;
   documentCreation: DocumentCreationGateway;
-  docs: LarkDocsAdapter;
-  whiteboards: LarkWhiteboardAdapter;
   workflows: LocalizationWorkflows;
   close(): Promise<void>;
 }
@@ -36,11 +35,12 @@ export interface Runtime {
 export async function createRuntime(cwd: string): Promise<Runtime> {
   const config = await new ConfigStore(cwd).read();
   const runner = new NodeProcessRunner();
-  const docs = new LarkDocsAdapter(runner);
+  const documents = new LarkLegacyDocumentReader(runner);
+  const documentCreation = new LarkDocumentCreationAdapter(runner);
   const engine = createFeishuDocxEngine({
     transport: new LarkCliTransport({identity: 'user'}),
   });
-  const whiteboards = new LarkWhiteboardAdapter(runner);
+  const whiteboards = new LarkWhiteboardReader(runner);
   let registry: RegistryStore;
   let snapshots: SnapshotStore;
 
@@ -73,8 +73,8 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
     snapshots,
     memory,
     engine,
-    docs,
-    documentCreation: docs,
+    docs: documents,
+    documentCreation,
     whiteboards,
     clock: {now: () => new Date()},
     ids: {next: () => randomUUID()},
@@ -84,9 +84,7 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
     registry,
     snapshots,
     engine,
-    documentCreation: docs,
-    docs,
-    whiteboards,
+    documentCreation,
     workflows,
     close: () => memory.close(),
   };

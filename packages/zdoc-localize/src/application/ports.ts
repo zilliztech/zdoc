@@ -10,11 +10,8 @@ export interface FetchedDocument {
   content: string;
 }
 
-export interface DocumentGateway extends DocumentCreationGateway {
+export interface DocumentReadGateway {
   fetch(doc: string, revisionId?: number): Promise<FetchedDocument>;
-  replaceBlock(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<DocumentWriteResult>;
-  insertAfter(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<DocumentWriteResult>;
-  deleteBlocks(input: {doc: string; blockIds: string[]; revisionId: number}): Promise<DocumentWriteResult>;
 }
 
 export type LocalizationDocxEngine = Pick<
@@ -30,22 +27,8 @@ export interface DocumentCreationGateway {
   }>;
 }
 
-export interface NewDocumentBlock {
-  blockId: string;
-  blockType: string;
-  blockToken?: string;
-}
-
-export interface DocumentWriteResult {
-  revisionId?: number;
-  updatedBlocksCount?: number;
-  warnings?: string[];
-  newBlocks?: NewDocumentBlock[];
-}
-
-export interface WhiteboardGateway {
+export interface WhiteboardReadGateway {
   queryRaw(token: string): Promise<unknown>;
-  overwriteRaw(input: {token: string; raw: unknown; idempotencyToken: string}): Promise<void>;
 }
 
 export interface LocalizationReceipt {

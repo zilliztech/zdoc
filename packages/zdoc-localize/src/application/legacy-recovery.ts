@@ -27,12 +27,12 @@ import type {LocalizationPlan} from '../domain/review.js';
 import {verifyManualSyncedReferences} from '../domain/native-sync.js';
 import type {ManualSyncedReferenceAction} from './manual-actions.js';
 import type {
-  DocumentGateway,
+  DocumentReadGateway,
   LocalizationDocxEngine,
   RegistryStore,
   SnapshotReference,
   SnapshotStore,
-  WhiteboardGateway,
+  WhiteboardReadGateway,
 } from './ports.js';
 
 export interface EngineRecoveryInspection {
@@ -521,9 +521,9 @@ export async function prepareLegacyReverse(input: {
   pair: DocumentPair;
   plan: LocalizationPlan;
   engine: LocalizationDocxEngine;
-  docs: Pick<DocumentGateway, 'fetch'>;
+  docs: DocumentReadGateway;
   snapshots: SnapshotStore;
-  whiteboards?: Pick<WhiteboardGateway, 'queryRaw'>;
+  whiteboards?: WhiteboardReadGateway;
 }): Promise<PreparedLegacyReverse> {
   const targetUrl = input.pair.targetDocUrl;
   if (!targetUrl) throw new LocalizeError({type: 'configuration', subtype: 'target_missing', message: 'Legacy recovery has no target document.'});
@@ -743,7 +743,7 @@ export async function prepareLegacyReverse(input: {
 export async function verifyLegacyRecoveryResources(input: {
   run: RunRecord;
   snapshots: SnapshotStore;
-  whiteboards?: Pick<WhiteboardGateway, 'queryRaw'>;
+  whiteboards?: WhiteboardReadGateway;
 }): Promise<void> {
   const applyLog = (input.run.metadata?.applyLog as Array<{
     operationId: string;

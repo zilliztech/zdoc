@@ -20,12 +20,12 @@ import {
 import {describe, expect, it} from 'vitest';
 
 import type {
-  DocumentGateway,
+  DocumentReadGateway,
   LocalizationDocxEngine,
   TranslationMemory,
   TranslationMemoryEntry,
   TranslationMemoryQuery,
-  WhiteboardGateway,
+  WhiteboardReadGateway,
 } from '../src/application/ports.js';
 import {LocalizationWorkflows} from '../src/application/workflows.js';
 import {
@@ -45,7 +45,7 @@ class MemoryTranslationMemory implements TranslationMemory {
   async close(): Promise<void> {}
 }
 
-class MemoryDocs implements DocumentGateway {
+class MemoryDocs implements DocumentReadGateway {
   readonly documents = new Map<string, {documentId: string; revisionId: number; content: string}>();
   readonly mutations: string[] = [];
   async fetch(doc: string) {
@@ -53,10 +53,6 @@ class MemoryDocs implements DocumentGateway {
     if (!value) throw new Error(`Missing document ${doc}`);
     return {...value};
   }
-  async replaceBlock(): Promise<never> { this.mutations.push('replace'); throw new Error('legacy writer used'); }
-  async insertAfter(): Promise<never> { this.mutations.push('insert'); throw new Error('legacy writer used'); }
-  async deleteBlocks(): Promise<never> { this.mutations.push('delete'); throw new Error('legacy writer used'); }
-  async createDocument(): Promise<never> { throw new Error('not used'); }
 }
 
 class RecoveryEngine implements LocalizationDocxEngine {
@@ -89,14 +85,10 @@ class RecoveryEngine implements LocalizationDocxEngine {
   }
 }
 
-class MemoryWhiteboards implements WhiteboardGateway {
+class MemoryWhiteboards implements WhiteboardReadGateway {
   readonly values = new Map<string, unknown>();
   readonly updates: Array<{token: string; raw: unknown; idempotencyToken: string}> = [];
   async queryRaw(token: string): Promise<unknown> { return structuredClone(this.values.get(token)); }
-  async overwriteRaw(input: {token: string; raw: unknown; idempotencyToken: string}): Promise<void> {
-    this.updates.push(input);
-    this.values.set(input.token, structuredClone(input.raw));
-  }
 }
 
 function snapshot(documentId: string, revision: string, title: string, children: ProviderBlock[] = []): DocumentSnapshot {

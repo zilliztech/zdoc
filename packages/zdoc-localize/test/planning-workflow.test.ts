@@ -15,14 +15,14 @@ import {describe, expect, it} from 'vitest';
 
 import type {
   LocalizationDocxEngine,
+  FetchedDocument,
   SnapshotReference,
   TranslationMemory,
   TranslationMemoryEntry,
   TranslationMemoryQuery,
-  WhiteboardGateway,
+  WhiteboardReadGateway,
 } from '../src/application/ports.js';
 import {LocalizationWorkflows} from '../src/application/workflows.js';
-import type {FetchedDocument} from '../src/adapters/lark-docs-adapter.js';
 import {LocalRegistryStore} from '../src/storage/local-registry-store.js';
 import {LocalSnapshotStore} from '../src/storage/local-snapshot-store.js';
 import {canonicalHash} from '../src/domain/hash.js';
@@ -132,12 +132,9 @@ async function supportedHuggingFaceSnapshot(): Promise<DocumentSnapshot> {
   });
 }
 
-class MemoryWhiteboards implements WhiteboardGateway {
+class MemoryWhiteboards implements WhiteboardReadGateway {
   readonly values = new Map<string, unknown>();
   async queryRaw(token: string): Promise<unknown> { return this.values.get(token); }
-  async overwriteRaw(input: {token: string; raw: unknown}): Promise<void> {
-    this.values.set(input.token, structuredClone(input.raw));
-  }
 }
 
 describe('bootstrap and planning workflows', () => {

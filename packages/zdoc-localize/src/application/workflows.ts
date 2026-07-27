@@ -18,7 +18,7 @@ import {
 import type {
   Clock,
   DocumentCreationGateway,
-  DocumentGateway,
+  DocumentReadGateway,
   FetchedDocument,
   IdGenerator,
   LocalizationDocxEngine,
@@ -28,7 +28,7 @@ import type {
   SnapshotReference,
   SnapshotStore,
   TranslationMemory,
-  WhiteboardGateway,
+  WhiteboardReadGateway,
 } from './ports.js';
 import {alignChanges, rebaseCorrespondences} from '../domain/alignment.js';
 import {diffDocuments} from '../domain/diff.js';
@@ -36,7 +36,6 @@ import {semanticDocumentFromSnapshot} from '../domain/docx-semantic.js';
 import {LocalizeError} from '../domain/errors.js';
 import {canonicalHash} from '../domain/hash.js';
 import {renderDiagnosticMarkdown} from '../domain/markdown-renderer.js';
-import {findReverseInsertionAnchor} from '../domain/recovery.js';
 import {resolveGlossary, type ResolvedGlossaryTerm} from '../domain/glossary.js';
 import {transitionRun} from '../domain/state-machine.js';
 import {
@@ -81,7 +80,6 @@ import {
 } from './legacy-recovery.js';
 import {
   manualSyncMarker,
-  syncedReferencePlaceholder,
   type ManualSyncedReferenceAction,
 } from './manual-actions.js';
 import {WhiteboardMirror} from './whiteboard-mirror.js';
@@ -104,9 +102,9 @@ export interface WorkflowDependencies {
   snapshots: SnapshotStore;
   memory: TranslationMemory;
   engine?: LocalizationDocxEngine;
-  docs: DocumentGateway;
+  docs: DocumentReadGateway;
   documentCreation?: DocumentCreationGateway;
-  whiteboards?: WhiteboardGateway;
+  whiteboards?: WhiteboardReadGateway;
   clock: Clock;
   ids: IdGenerator;
 }
@@ -199,16 +197,7 @@ export interface ReversePreviewResult {
   batchFingerprint?: string;
   operations: Array<{
     operationId: string;
-    kind: 'replace' | 'insert' | 'delete' | 'move' | 'assert' | 'whiteboard-overwrite' | 'whiteboard_restore';
-    blockId?: string;
-    blockIds?: string[];
-    anchorBlockId?: string;
-    xml?: string;
-    expectedText?: string;
-    targetNodeKind?: PlanOperation['targetNodeKind'];
-    targetResourceToken?: string;
-    resourceSnapshotRef?: SnapshotReference;
-    expectedResourceHash?: string;
+    kind: 'replace' | 'insert' | 'delete' | 'move' | 'assert' | 'whiteboard-overwrite';
   }>;
 }
 
@@ -1789,7 +1778,6 @@ export class LocalizationWorkflows {
       this.readPlanningDocument(targetUrl, hashDomain),
     ]);
     const sourceFetch = sourceRead.fetched;
-    const targetFetch = targetRead.fetched;
     const source = sourceRead.semantic;
     const target = targetRead.semantic;
     if (source.revisionId !== plan.sourceRevision || source.canonicalHash !== plan.sourceHash) {
@@ -2177,410 +2165,11 @@ export class LocalizationWorkflows {
       return {runId, state: 'completed', validationPath};
     }
 
-    const prewriteRef = await this.dependencies.snapshots.putBundle({
-      runId,
-      files: {
-        'target-prewrite.xml': targetFetch.content,
-        'plan.json': `${JSON.stringify(plan, null, 2)}\n`,
-        'approved-review.json': `${JSON.stringify(approved, null, 2)}\n`,
-      },
+    throw new LocalizeError({
+      type: 'stale_plan', subtype: 'legacy_plan_requires_regeneration',
+      message: 'Legacy localization reviews cannot use the retired direct document writer.',
+      hint: 'Create a fresh Engine-backed plan and obtain a new review approval.',
     });
-    run = await this.markRun(run, 'applying', {
-      prewriteRef,
-      appliedOperations: 0,
-      lastVerifiedTargetHash: target.canonicalHash,
-      applyLog: [],
-    });
-    let activeTarget = target;
-    let activeRevision = target.revisionId;
-    let appliedOperations = 0;
-    const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
-    const resolvedTargetBlockIds = new Map<string, string>();
-    const applyLog: ApplyLogEntry[] = [];
-    const pendingManualActions: Array<Omit<ManualSyncedReferenceAction, 'placeholderBlockId' | 'predecessorBlockId' | 'successorBlockId'>> = [];
-    let potentialResourceWrite = false;
-
-    try {
-      for (const operation of plan.operations) {
-        const reviewOperation = approvedById.get(operation.operationId)!;
-        const beforeWrite = activeTarget;
-        let effectiveOperation = operation;
-        if (operation.kind === 'insert' && operation.anchorOperationId) {
-          const resolvedAnchor = resolvedTargetBlockIds.get(operation.anchorOperationId);
-          if (!resolvedAnchor) {
-            throw new LocalizeError({
-              type: 'verification_failed',
-              subtype: 'chained_insertion_anchor_missing',
-              message: `Insertion ${operation.operationId} depends on unresolved operation ${operation.anchorOperationId}.`,
-            });
-          }
-          effectiveOperation = {...operation, anchorBlockId: resolvedAnchor};
-        }
-        const policy = effectiveOperation.policy
-          ?? (effectiveOperation.kind === 'delete' ? 'delete' : 'translation');
-        let writeResult: Awaited<ReturnType<DocumentGateway['insertAfter']>> | undefined;
-        let sourceResourceHash: string | undefined;
-        let targetResourceToken: string | undefined;
-        if (policy === 'verify_synced_reference') {
-          const targetNode = effectiveOperation.targetBlockId
-            ? activeTarget.nodes.find((node) => node.remote.blockId === effectiveOperation.targetBlockId)
-            : undefined;
-          const sourceNode = source.nodes.find((node) =>
-            node.kind === 'synced_source'
-            && (node.remote.sourceDocumentId ?? source.documentId) === effectiveOperation.sourceDocumentId
-            && (node.remote.sourceBlockId ?? node.remote.blockId) === effectiveOperation.sourceBlockId,
-          );
-          if (
-            !sourceNode
-            || !targetNode
-            || targetNode.kind !== 'synced_reference'
-            || targetNode.remote.sourceDocumentId !== effectiveOperation.sourceDocumentId
-            || targetNode.remote.sourceBlockId !== effectiveOperation.sourceBlockId
-          ) {
-            throw new LocalizeError({
-              type: 'verification_failed',
-              subtype: 'native_synced_reference_mismatch',
-              message: `Native synced reference ${operation.operationId} no longer points to the planned English source.`,
-            });
-          }
-          const resolvedBlockId = this.requireBlockId(targetNode.remote.blockId, operation.operationId);
-          resolvedTargetBlockIds.set(operation.operationId, resolvedBlockId);
-          applyLog.push({
-            operationId: operation.operationId,
-            kind: operation.kind,
-            policy,
-            resolvedBlockId,
-            targetHash: activeTarget.canonicalHash,
-          });
-          run = await this.markRun(run, 'applying', {
-            prewriteRef,
-            appliedOperations,
-            lastVerifiedTargetHash: activeTarget.canonicalHash,
-            applyLog,
-          });
-          continue;
-        } else if (policy === 'whiteboard_mirror' && effectiveOperation.kind === 'replace') {
-          const sourceToken = effectiveOperation.sourceResourceToken;
-          const plannedSourceHash = effectiveOperation.sourceResourceHash;
-          const existingTargetToken = effectiveOperation.targetResourceToken;
-          if (!sourceToken || !plannedSourceHash || !existingTargetToken || !this.dependencies.whiteboards) {
-            throw new LocalizeError({
-              type: 'verification_failed',
-              subtype: 'whiteboard_target_missing',
-              message: `Whiteboard operation ${operation.operationId} is missing its planned source hash or target token.`,
-            });
-          }
-          const mirror = new WhiteboardMirror(this.dependencies.whiteboards);
-          const sourceSnapshot = await mirror.snapshot(sourceToken);
-          if (sourceSnapshot.hash !== plannedSourceHash) {
-            throw new LocalizeError({
-              type: 'stale_plan',
-              subtype: 'whiteboard_source_changed',
-              message: `Source Whiteboard for ${operation.operationId} changed after planning.`,
-              hint: 'Regenerate the localization plan and preview.',
-            });
-          }
-          const targetPrewrite = await mirror.snapshot(existingTargetToken);
-          const targetResourcePrewriteRef = await this.dependencies.snapshots.putBundle({
-            runId,
-            files: {
-              [`whiteboard-${operation.operationId}-prewrite.json`]: `${JSON.stringify(targetPrewrite.raw, null, 2)}\n`,
-            },
-          });
-          const provisionalLog: ApplyLogEntry = {
-            operationId: operation.operationId,
-            kind: operation.kind,
-            policy,
-            resolvedBlockId: this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId),
-            targetHash: activeTarget.canonicalHash,
-            sourceResourceHash: sourceSnapshot.hash,
-            targetResourceToken: existingTargetToken,
-            targetResourcePrewriteRef,
-            targetResourcePrewriteHash: targetPrewrite.hash,
-          };
-          applyLog.push(provisionalLog);
-          potentialResourceWrite = true;
-          run = await this.markRun(run, 'applying', {
-            prewriteRef,
-            appliedOperations,
-            lastVerifiedTargetHash: activeTarget.canonicalHash,
-            applyLog,
-          });
-          const mirrored = await mirror.mirrorSnapshot(
-            sourceSnapshot,
-            existingTargetToken,
-            `${runId}-${operation.operationId}`,
-          );
-          sourceResourceHash = mirrored.source.hash;
-          targetResourceToken = existingTargetToken;
-          const resolvedBlockId = this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId);
-          resolvedTargetBlockIds.set(operation.operationId, resolvedBlockId);
-          appliedOperations += 1;
-          applyLog[applyLog.length - 1] = {
-            operationId: operation.operationId,
-            kind: operation.kind,
-            policy,
-            resolvedBlockId,
-            targetHash: activeTarget.canonicalHash,
-            sourceResourceHash,
-            targetResourceToken,
-            targetResourcePrewriteRef,
-            targetResourcePrewriteHash: targetPrewrite.hash,
-          };
-          potentialResourceWrite = false;
-          run = await this.markRun(run, 'applying', {
-            prewriteRef,
-            appliedOperations,
-            lastVerifiedTargetHash: activeTarget.canonicalHash,
-            applyLog,
-          });
-          continue;
-        } else if (effectiveOperation.kind === 'replace' && policy === 'translation') {
-          writeResult = await this.dependencies.docs.replaceBlock({
-            doc: targetUrl,
-            blockId: this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId),
-            revisionId: activeRevision,
-            xml: xmlForOperation(effectiveOperation, 'approvedText' in reviewOperation ? reviewOperation.approvedText : ''),
-          });
-        } else if (effectiveOperation.kind === 'insert') {
-          let xml: string;
-          if (policy === 'translation') {
-            xml = xmlForOperation(effectiveOperation, 'approvedText' in reviewOperation ? reviewOperation.approvedText : '');
-          } else if (policy === 'verbatim_code') {
-            if (!effectiveOperation.sourceXml) {
-              throw new LocalizeError({
-                type: 'verification_failed',
-                subtype: 'verbatim_code_xml_missing',
-                message: `Verbatim code operation ${operation.operationId} has no protected source XML.`,
-              });
-            }
-            xml = effectiveOperation.sourceXml;
-          } else if (policy === 'whiteboard_mirror') {
-            xml = '<whiteboard type="blank"></whiteboard>';
-          } else if (policy === 'manual_synced_reference') {
-            xml = syncedReferencePlaceholder(effectiveOperation, pair.sourceDocUrl);
-          } else {
-            throw new LocalizeError({
-              type: 'unsupported_content',
-              subtype: 'operation_policy_not_writable',
-              message: `Operation policy ${policy} is not writable.`,
-            });
-          }
-          writeResult = await this.dependencies.docs.insertAfter({
-            doc: targetUrl,
-            blockId: this.requireBlockId(effectiveOperation.anchorBlockId, operation.operationId),
-            revisionId: activeRevision,
-            xml,
-          });
-          if (policy === 'whiteboard_mirror') {
-            const sourceToken = effectiveOperation.sourceResourceToken;
-            const targetToken = writeResult.newBlocks?.find((block) => block.blockToken)?.blockToken;
-            if (!sourceToken || !targetToken || !this.dependencies.whiteboards) {
-              throw new LocalizeError({
-                type: 'verification_failed',
-                subtype: 'whiteboard_target_missing',
-                message: `Whiteboard operation ${operation.operationId} did not return a target Whiteboard token.`,
-              });
-            }
-            const mirrored = await new WhiteboardMirror(this.dependencies.whiteboards).mirror(
-              sourceToken,
-              targetToken,
-              `${runId}-${operation.operationId}`,
-            );
-            sourceResourceHash = mirrored.source.hash;
-            targetResourceToken = targetToken;
-            effectiveOperation = {...effectiveOperation, targetResourceToken: targetToken};
-          }
-        } else if (effectiveOperation.kind === 'delete') {
-          writeResult = await this.dependencies.docs.deleteBlocks({
-            doc: targetUrl,
-            blockIds: effectiveOperation.targetBlockIds?.length
-              ? effectiveOperation.targetBlockIds
-              : [this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId)],
-            revisionId: activeRevision,
-          });
-        } else {
-          throw new LocalizeError({type: 'unsupported_content', subtype: 'move_not_writable', message: 'Move operations are report-only.'});
-        }
-        appliedOperations += 1;
-        const refreshed = await this.dependencies.docs.fetch(targetUrl);
-        activeRevision = refreshed.revisionId;
-        const refreshedTarget = parseFeishuDocument(refreshed.content, {documentId: refreshed.documentId, revisionId: refreshed.revisionId});
-        const progression = policy === 'manual_synced_reference'
-          ? verifyManualPlaceholderProgression(effectiveOperation, beforeWrite, refreshedTarget)
-          : verifyOperationProgression(
-              effectiveOperation,
-              policy === 'verbatim_code'
-                ? {operationId: operation.operationId, approvedText: operation.proposedText}
-                : reviewOperation,
-              beforeWrite,
-              refreshedTarget,
-            );
-        if (!progression.ok) {
-          throw new LocalizeError({
-            type: 'verification_failed',
-            subtype: 'operation_progression_mismatch',
-            message: `Readback after ${operation.operationId} did not match the exact planned block operation.`,
-            details: progression,
-          });
-        }
-        if (progression.resolvedBlockId) resolvedTargetBlockIds.set(operation.operationId, progression.resolvedBlockId);
-        if (policy === 'manual_synced_reference' && progression.resolvedBlockId) {
-          pendingManualActions.push({
-            operationId: operation.operationId,
-            marker: manualSyncMarker(operation.operationId),
-            sourceDocumentId: this.requireBlockId(operation.sourceDocumentId, operation.operationId),
-            sourceBlockId: this.requireBlockId(operation.sourceBlockId, operation.operationId),
-            sourceNodeId: this.requireBlockId(operation.sourceNodeId, operation.operationId),
-            sourceUrl: `${pair.sourceDocUrl.split('#')[0]}#${operation.sourceBlockId}`,
-          });
-        }
-        activeTarget = refreshedTarget;
-        applyLog.push({
-          operationId: operation.operationId,
-          kind: operation.kind,
-          ...(operation.policy ? {policy: operation.policy} : {}),
-          ...(progression.resolvedBlockId ? {resolvedBlockId: progression.resolvedBlockId} : {}),
-          ...(progression.resolvedBlockIds?.length ? {resolvedBlockIds: progression.resolvedBlockIds} : {}),
-          targetHash: activeTarget.canonicalHash,
-          ...(sourceResourceHash ? {sourceResourceHash} : {}),
-          ...(targetResourceToken ? {targetResourceToken} : {}),
-        });
-        run = await this.markRun(run, 'applying', {
-          prewriteRef,
-          appliedOperations,
-          lastVerifiedTargetHash: activeTarget.canonicalHash,
-          applyLog,
-        });
-      }
-    } catch (error) {
-      const localizeError = error instanceof LocalizeError ? error : new LocalizeError({type: 'upstream', message: String(error)});
-      const state = appliedOperations > 0 || potentialResourceWrite || localizeError.type === 'partial_write' ? 'partial' : 'blocked';
-      await this.markRun(run, state, {prewriteRef, appliedOperations, applyError: localizeError.message}, localizeError);
-      throw localizeError;
-    }
-
-    if (pendingManualActions.length > 0) {
-      const manualActions: ManualSyncedReferenceAction[] = pendingManualActions.map((action) => {
-        const placeholderBlockId = this.requireBlockId(
-          resolvedTargetBlockIds.get(action.operationId),
-          action.operationId,
-        );
-        const index = activeTarget.nodes.findIndex((node) => node.remote.blockId === placeholderBlockId);
-        const predecessorBlockId = index > 0 ? activeTarget.nodes[index - 1]?.remote.blockId : undefined;
-        const successorBlockId = index >= 0 ? activeTarget.nodes[index + 1]?.remote.blockId : undefined;
-        return {
-          ...action,
-          placeholderBlockId,
-          ...(predecessorBlockId ? {predecessorBlockId} : {}),
-          ...(successorBlockId ? {successorBlockId} : {}),
-        };
-      });
-      const manualActionsText = `${JSON.stringify(manualActions, null, 2)}\n`;
-      const manualActionsPath = await this.writeRunFile(runId, 'manual-actions.json', manualActionsText);
-      const postAutomaticRef = await this.dependencies.snapshots.putBundle({
-        runId,
-        files: {
-          'target-after-automatic-apply.xml': activeTarget.rawXml,
-          'manual-actions.json': manualActionsText,
-        },
-      });
-      await this.markRun(run, 'manual_action_required', {
-        prewriteRef,
-        postAutomaticRef,
-        appliedOperations,
-        lastVerifiedTargetHash: activeTarget.canonicalHash,
-        applyLog,
-        manualActions,
-        manualActionsPath,
-      });
-      return {runId, state: 'manual_action_required', manualActionsPath};
-    }
-
-    run = await this.markRun(run, 'verifying', {prewriteRef, appliedOperations});
-    const resourceEvidence = resourceEvidenceFromApplyLog(applyLog);
-    const verification = verifyPlan(
-      plan, approved.operations, activeTarget, resolvedTargetBlockIds, resourceEvidence,
-    );
-    if (!verification.ok) {
-      const error = new LocalizeError({
-        type: 'verification_failed',
-        subtype: 'target_readback_mismatch',
-        message: 'The updated Chinese document did not match the approved plan.',
-        details: verification,
-      });
-      await this.markRun(run, 'blocked', {prewriteRef, appliedOperations, verification}, error);
-      throw error;
-    }
-
-    const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
-      runId,
-      files: {
-        ...documentArtifacts('source', sourceFetch.content, source),
-        ...documentArtifacts('target', activeTarget.rawXml, activeTarget),
-      },
-    });
-    const previousReceipt = await this.dependencies.registry.getReceipt(run.pairId);
-    const currentCorrespondences = planBundle.files['current-correspondences.json']
-      ? JSON.parse(planBundle.files['current-correspondences.json']) as HistoricalCorrespondence[]
-      : previousReceipt?.correspondences ?? [];
-    const correspondences = updateCorrespondences(
-      currentCorrespondences,
-      plan,
-      activeTarget,
-      approved.operations,
-      resolvedTargetBlockIds,
-      resourceEvidence,
-    );
-    const completedAt = this.dependencies.clock.now().toISOString();
-    const pendingReceipt: LocalizationReceipt = {
-      pairId: run.pairId,
-      sourceRevision: source.revisionId,
-      sourceHash: source.canonicalHash,
-      sourceSnapshotRef,
-      targetRevision: activeTarget.revisionId,
-      targetHash: activeTarget.canonicalHash,
-      runId,
-      completedAt,
-      correspondences,
-    };
-    run = await this.markRun(run, 'verifying', {
-      prewriteRef,
-      appliedOperations,
-      pendingReceipt,
-      verification,
-    });
-    await this.dependencies.registry.saveReceipt(pendingReceipt);
-    let translationMemoryWarning: string | undefined;
-    try {
-      for (const operation of plan.operations) {
-        if (operation.kind === 'delete' || !operation.sourceAfter) continue;
-        const reviewOperation = approvedById.get(operation.operationId)!;
-        if (!('approvedText' in reviewOperation)) continue;
-        await this.dependencies.memory.recordApproved({
-          sourceHash: operation.sourceNodeHash ?? canonicalHash(operation.sourceAfter),
-          targetLocale: 'zh-CN',
-          glossaryHash: String(run.metadata?.glossaryHash ?? ''),
-          headingPath: operation.sourceHeadingPath ?? [],
-          sourceText: operation.sourceAfter,
-          targetText: reviewOperation.approvedText,
-          pairId: run.pairId,
-          runId,
-          verifiedRunId: runId,
-          approvedAt: completedAt,
-        });
-      }
-    } catch (error) {
-      translationMemoryWarning = `Verified localization completed, but rebuildable translation memory was not updated: ${String(error)}`;
-    }
-    const validationPath = await this.writeRunFile(runId, 'validation-report.json', `${JSON.stringify({ok: true, operations: verification.operations}, null, 2)}\n`);
-    await this.markRun(run, 'completed', {
-      prewriteRef,
-      appliedOperations,
-      validationPath,
-      ...(translationMemoryWarning ? {translationMemoryWarning} : {}),
-    });
-    return {runId, state: 'completed', validationPath};
   }
 
   async verifyManualActions(runId: string): Promise<ApplyResult> {
@@ -3324,7 +2913,13 @@ export class LocalizationWorkflows {
     run = await this.markRun(run, 'applying', {prewriteRef: creationSnapshot, appliedOperations: 0});
     let created: {documentId: string; documentUrl?: string; revisionId?: number};
     try {
-      created = await (this.dependencies.documentCreation ?? this.dependencies.docs).createDocument({
+      if (!this.dependencies.documentCreation) {
+        throw new LocalizeError({
+          type: 'configuration', subtype: 'document_creation_gateway_missing',
+          message: 'Document creation requires the dedicated create-only adapter.',
+        });
+      }
+      created = await this.dependencies.documentCreation.createDocument({
         title,
         parentToken: pair.targetParentToken,
         xml: body.join(''),
@@ -3683,10 +3278,17 @@ export class LocalizationWorkflows {
         details: inspection,
       });
     }
-    if (this.hashDomainForRun(run) === 'legacy-xml-v1' && this.dependencies.engine) {
+    if (this.hashDomainForRun(run) === 'legacy-xml-v1') {
+      const engine = this.dependencies.engine;
+      if (!engine) {
+        throw new LocalizeError({
+          type: 'compatibility', subtype: 'legacy_reverse_requires_engine',
+          message: 'Legacy recovery requires the shared Docx Engine.',
+        });
+      }
       const pair = await this.requirePair(run.pairId);
       const prepared = await prepareLegacyReverse({
-        run, pair, plan, engine: this.dependencies.engine,
+        run, pair, plan, engine,
         docs: this.dependencies.docs, snapshots: this.dependencies.snapshots,
         whiteboards: this.dependencies.whiteboards,
       });
@@ -3727,101 +3329,10 @@ export class LocalizationWorkflows {
         approvalToken,
       };
     }
-    const prewriteRef = run.metadata!.prewriteRef as SnapshotReference;
-    const prewriteBundle = await this.dependencies.snapshots.getBundle(prewriteRef);
-    const targetPrewriteXml = prewriteBundle.files['target-prewrite.xml'];
-    if (!targetPrewriteXml) {
-      throw new LocalizeError({type: 'verification_failed', subtype: 'prewrite_target_missing', message: 'Recovery snapshot has no pre-write target document.'});
-    }
-    const prewrite = parseFeishuDocument(targetPrewriteXml, {documentId: 'target-prewrite', revisionId: 0});
-    const planById = new Map(plan.operations.map((operation) => [operation.operationId, operation]));
-    const applyLog = [...((run.metadata?.applyLog as ApplyLogEntry[] | undefined) ?? [])];
-    if (run.state === 'manual_action_required') {
-      const pair = await this.requirePair(run.pairId);
-      const fetched = await this.dependencies.docs.fetch(this.requireTarget(pair));
-      const currentTarget = parseFeishuDocument(fetched.content, {
-        documentId: fetched.documentId,
-        revisionId: fetched.revisionId,
-      });
-      const postAutomaticRef = run.metadata?.postAutomaticRef as SnapshotReference;
-      const postAutomaticBundle = await this.dependencies.snapshots.getBundle(postAutomaticRef);
-      const plannedTargetXml = postAutomaticBundle.files['target-after-automatic-apply.xml'];
-      if (!plannedTargetXml) {
-        throw new LocalizeError({type: 'verification_failed', subtype: 'manual_target_snapshot_missing', message: 'Manual recovery has no post-automatic target snapshot.'});
-      }
-      const plannedTarget = parseFeishuDocument(plannedTargetXml, {
-        documentId: fetched.documentId,
-        revisionId: fetched.revisionId,
-      });
-      const manual = verifyManualSyncedReferences(
-        (run.metadata?.manualActions as ManualSyncedReferenceAction[] | undefined) ?? [],
-        plannedTarget,
-        currentTarget,
-      );
-      for (const entry of applyLog) {
-        const resolved = manual.resolvedBlockIds.get(entry.operationId);
-        if (resolved) {
-          entry.resolvedBlockId = resolved;
-          entry.resolvedBlockIds = [resolved];
-        }
-      }
-    }
-    const appliedDeletedBlockIds = new Set(applyLog.flatMap((entry) => {
-      const operation = planById.get(entry.operationId);
-      return operation?.kind === 'delete'
-        ? operation.targetBlockIds?.length ? operation.targetBlockIds : operation.targetBlockId ? [operation.targetBlockId] : []
-        : [];
-    }));
-    const operations: ReversePreviewResult['operations'] = [];
-    for (const entry of [...applyLog].reverse()) {
-      const operation = planById.get(entry.operationId);
-      if (!operation) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_operation_missing', message: `Applied operation ${entry.operationId} is missing from the plan.`});
-      if (operation.policy === 'verify_synced_reference') {
-        continue;
-      } else if (operation.policy === 'whiteboard_mirror' && operation.kind === 'replace') {
-        if (!entry.targetResourceToken || !entry.targetResourcePrewriteRef || !entry.targetResourcePrewriteHash) {
-          throw new LocalizeError({
-            type: 'verification_failed', subtype: 'whiteboard_recovery_snapshot_missing',
-            message: `Whiteboard operation ${operation.operationId} has no durable pre-write resource snapshot.`,
-          });
-        }
-        operations.push({
-          operationId: operation.operationId,
-          kind: 'whiteboard_restore',
-          targetResourceToken: entry.targetResourceToken,
-          resourceSnapshotRef: entry.targetResourcePrewriteRef,
-          expectedResourceHash: entry.targetResourcePrewriteHash,
-        });
-      } else if (operation.kind === 'replace') {
-        const blockId = this.requireBlockId(operation.targetBlockId, operation.operationId);
-        const node = prewrite.nodes.find((candidate) => candidate.remote.blockId === blockId);
-        if (!node) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_prewrite_block_missing', message: `Pre-write block ${blockId} is missing.`});
-        operations.push({operationId: operation.operationId, kind: 'replace', blockId, xml: node.xml, expectedText: node.text, targetNodeKind: node.kind});
-      } else if (operation.kind === 'insert') {
-        const blockIds = entry.resolvedBlockIds?.length
-          ? entry.resolvedBlockIds
-          : entry.resolvedBlockId ? [entry.resolvedBlockId] : [];
-        if (blockIds.length === 0) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_insert_block_missing', message: `Inserted block for ${operation.operationId} was not recorded.`});
-        operations.push({operationId: operation.operationId, kind: 'delete', blockId: blockIds[0], blockIds});
-      } else if (operation.kind === 'delete') {
-        const deletedBlockId = this.requireBlockId(operation.targetBlockId, operation.operationId);
-        const index = prewrite.nodes.findIndex((node) => node.remote.blockId === deletedBlockId);
-        const node = index >= 0 ? prewrite.nodes[index] : undefined;
-        const anchorBlockId = findReverseInsertionAnchor(prewrite, deletedBlockId, appliedDeletedBlockIds);
-        if (!node || !anchorBlockId) {
-          throw new LocalizeError({type: 'unsupported_content', subtype: 'reverse_delete_without_anchor', message: `Deleted block ${deletedBlockId} cannot be safely reinserted at the document start.`});
-        }
-        operations.push({operationId: operation.operationId, kind: 'insert', anchorBlockId, xml: node.xml, expectedText: node.text, targetNodeKind: node.kind});
-      }
-    }
-    return {
-      runId,
-      state: 'confirmation_required',
-      currentTargetHash: inspection.currentTargetHash,
-      restoreTargetHash: prewrite.canonicalHash,
-      operations,
-      approvalToken: canonicalHash({runId, currentTargetHash: inspection.currentTargetHash, restoreTargetHash: prewrite.canonicalHash, operations}),
-    };
+    throw new LocalizeError({
+      type: 'compatibility', subtype: 'legacy_reverse_requires_engine',
+      message: 'Recovery metadata cannot be converted into an Engine-owned reverse preview.',
+    });
   }
 
   async reversePartial(runId: string, approvalToken?: string): Promise<{runId: string; state: 'blocked' | 'partial'; restoredTargetHash: string}> {
@@ -4104,90 +3615,11 @@ export class LocalizationWorkflows {
         throw localizeError;
       }
     }
-    const pair = await this.requirePair(run.pairId);
-    const targetUrl = this.requireTarget(pair);
-    run = await this.markRun(run, 'recovering', {reversePreview: preview, reverseAppliedOperations: 0});
-    let fetched = await this.dependencies.docs.fetch(targetUrl);
-    let active = parseFeishuDocument(fetched.content, {documentId: fetched.documentId, revisionId: fetched.revisionId});
-    let reverseAppliedOperations = 0;
-    try {
-      for (const reverse of preview.operations) {
-        const before = active;
-        if (reverse.kind === 'whiteboard_restore') {
-          if (!this.dependencies.whiteboards || !reverse.targetResourceToken || !reverse.resourceSnapshotRef || !reverse.expectedResourceHash) {
-            throw new LocalizeError({
-              type: 'verification_failed', subtype: 'whiteboard_recovery_snapshot_missing',
-              message: `Whiteboard reverse operation ${reverse.operationId} is incomplete.`,
-            });
-          }
-          const bundle = await this.dependencies.snapshots.getBundle(reverse.resourceSnapshotRef);
-          const rawJson = Object.values(bundle.files)[0];
-          if (!rawJson) {
-            throw new LocalizeError({
-              type: 'verification_failed', subtype: 'whiteboard_recovery_snapshot_missing',
-              message: `Whiteboard reverse operation ${reverse.operationId} has no raw snapshot payload.`,
-            });
-          }
-          await this.dependencies.whiteboards.overwriteRaw({
-            token: reverse.targetResourceToken,
-            raw: JSON.parse(rawJson) as unknown,
-            idempotencyToken: `${runId}-${reverse.operationId}-reverse`,
-          });
-          const restored = await new WhiteboardMirror(this.dependencies.whiteboards).snapshot(reverse.targetResourceToken);
-          if (restored.hash !== reverse.expectedResourceHash) {
-            throw new LocalizeError({
-              type: 'verification_failed', subtype: 'whiteboard_reverse_verification_mismatch',
-              message: `Whiteboard reverse operation ${reverse.operationId} did not restore its pre-write hash.`,
-            });
-          }
-          reverseAppliedOperations += 1;
-          run = await this.markRun(run, 'recovering', {
-            reverseAppliedOperations,
-            lastVerifiedTargetHash: active.canonicalHash,
-          });
-          continue;
-        }
-        let synthetic: PlanOperation;
-        let reviewOperation: ReturnType<typeof parseReview>['operations'][number];
-        if (reverse.kind === 'replace') {
-          await this.dependencies.docs.replaceBlock({doc: targetUrl, blockId: reverse.blockId!, revisionId: active.revisionId, xml: reverse.xml!});
-          synthetic = {operationId: reverse.operationId, kind: 'replace', confidence: 'high', proposedText: reverse.expectedText!, targetNodeKind: reverse.targetNodeKind!, targetBlockId: reverse.blockId};
-          reviewOperation = {operationId: reverse.operationId, approvedText: reverse.expectedText!};
-        } else if (reverse.kind === 'delete') {
-          const blockIds = reverse.blockIds?.length ? reverse.blockIds : [reverse.blockId!];
-          await this.dependencies.docs.deleteBlocks({doc: targetUrl, blockIds, revisionId: active.revisionId});
-          synthetic = {operationId: reverse.operationId, kind: 'delete', confidence: 'high', proposedText: 'DELETE', targetNodeKind: 'paragraph', targetBlockId: blockIds[0], targetBlockIds: blockIds};
-          reviewOperation = {operationId: reverse.operationId, decision: 'delete'};
-        } else {
-          await this.dependencies.docs.insertAfter({doc: targetUrl, blockId: reverse.anchorBlockId!, revisionId: active.revisionId, xml: reverse.xml!});
-          synthetic = {operationId: reverse.operationId, kind: 'insert', confidence: 'high', proposedText: reverse.expectedText!, targetNodeKind: reverse.targetNodeKind!, anchorBlockId: reverse.anchorBlockId};
-          reviewOperation = {operationId: reverse.operationId, approvedText: reverse.expectedText!};
-        }
-        reverseAppliedOperations += 1;
-        fetched = await this.dependencies.docs.fetch(targetUrl);
-        const after = parseFeishuDocument(fetched.content, {documentId: fetched.documentId, revisionId: fetched.revisionId});
-        const progression = verifyOperationProgression(synthetic, reviewOperation, before, after);
-        if (!progression.ok) throw new LocalizeError({type: 'verification_failed', subtype: 'reverse_progression_mismatch', message: `Reverse operation ${reverse.operationId} did not match its preview.`, details: progression});
-        active = after;
-        run = await this.markRun(run, 'recovering', {reverseAppliedOperations, lastVerifiedTargetHash: active.canonicalHash});
-      }
-    } catch (error) {
-      const localizeError = error instanceof LocalizeError ? error : new LocalizeError({type: 'upstream', message: String(error)});
-      await this.markRun(run, 'partial', {reverseAppliedOperations, reverseError: localizeError.message}, localizeError);
-      throw localizeError;
-    }
-    if (active.canonicalHash !== preview.restoreTargetHash) {
-      const error = new LocalizeError({type: 'verification_failed', subtype: 'reverse_final_hash_mismatch', message: 'Reverse recovery did not restore the exact pre-write target.'});
-      await this.markRun(run, 'partial', {reverseAppliedOperations, reverseError: 'final_hash_mismatch'}, error);
-      throw error;
-    }
-    await this.markRun(run, 'blocked', {
-      reverseAppliedOperations,
-      recoveryCompleted: true,
-      restoredTargetHash: active.canonicalHash,
-      blocker: 'Partial write was reversed; create a fresh localization plan.',
+    throw new LocalizeError({
+      type: 'compatibility', subtype: 'legacy_reverse_requires_engine',
+      message: 'Legacy recovery cannot fall back to direct Feishu document mutations.',
+      hint: 'Configure the shared Docx Engine and regenerate the exact reverse preview.',
     });
-    return {runId, state: 'blocked', restoredTargetHash: active.canonicalHash};
   }
 
   async restartFromCurrent(runId: string): Promise<PlanningResult> {
@@ -4756,11 +4188,6 @@ function plainApproved(value: string, kind: PlanOperation['targetNodeKind']): st
   return result.replace(/\s+/g, ' ').trim();
 }
 
-function nodeSequence(document: SemanticDocument, excludedBlockIds: Set<string> = new Set()): string {
-  return JSON.stringify(document.nodes
-    .filter((node) => remoteBlockIds(node).every((blockId) => !excludedBlockIds.has(blockId)))
-    .map((node) => ({blockId: node.remote.blockId ?? null, kind: node.kind, fingerprint: node.fingerprint})));
-}
 
 function remoteBlockIds(node: SemanticNode): string[] {
   return node.remote.blockIds?.length
@@ -4768,96 +4195,6 @@ function remoteBlockIds(node: SemanticNode): string[] {
     : node.remote.blockId ? [node.remote.blockId] : [];
 }
 
-function verifyOperationProgression(
-  operation: PlanOperation,
-  approved: ReturnType<typeof parseReview>['operations'][number],
-  before: SemanticDocument,
-  after: SemanticDocument,
-): {ok: boolean; reason?: string; resolvedBlockId?: string; resolvedBlockIds?: string[]} {
-  const expected = 'approvedText' in approved
-    ? plainApproved(approved.approvedText, operation.targetNodeKind)
-    : '';
-  if (operation.kind === 'replace') {
-    const blockId = operation.targetBlockId;
-    if (!blockId) return {ok: false, reason: 'planned target block ID is missing'};
-    const node = after.nodes.find((candidate) => candidate.remote.blockId === blockId);
-    if (!node || node.kind !== operation.targetNodeKind || plainApproved(node.text, node.kind) !== expected) {
-      return {ok: false, reason: 'planned target block did not receive the approved content'};
-    }
-    const excluded = new Set([blockId]);
-    if (nodeSequence(before, excluded) !== nodeSequence(after, excluded)) {
-      return {ok: false, reason: 'an unplanned block changed during replacement'};
-    }
-    return {ok: true, resolvedBlockId: blockId};
-  }
-  if (operation.kind === 'delete') {
-    const blockIds = operation.targetBlockIds?.length
-      ? operation.targetBlockIds
-      : operation.targetBlockId ? [operation.targetBlockId] : [];
-    if (blockIds.length === 0) return {ok: false, reason: 'planned delete block ID is missing'};
-    const deleted = new Set(blockIds);
-    if (after.nodes.some((node) => remoteBlockIds(node).some((blockId) => deleted.has(blockId)))) {
-      return {ok: false, reason: 'planned target block still exists after deletion'};
-    }
-    const excluded = deleted;
-    if (nodeSequence(before, excluded) !== nodeSequence(after)) {
-      return {ok: false, reason: 'an unplanned block changed during deletion'};
-    }
-    return {ok: true};
-  }
-  if (operation.kind === 'insert') {
-    const anchorBlockId = operation.anchorBlockId;
-    if (!anchorBlockId) return {ok: false, reason: 'planned insertion anchor block ID is missing'};
-    const beforeIds = new Set(before.nodes.flatMap((node) => node.remote.blockId ? [node.remote.blockId] : []));
-    const inserted = after.nodes.filter((node) => node.remote.blockId && !beforeIds.has(node.remote.blockId));
-    if (inserted.length !== 1) return {ok: false, reason: 'insertion did not create exactly one new block'};
-    const insertedNode = inserted[0]!;
-    if (
-      insertedNode.kind !== operation.targetNodeKind
-      || plainApproved(insertedNode.text, insertedNode.kind) !== expected
-    ) {
-      return {ok: false, reason: 'inserted block does not match approved content'};
-    }
-    const anchorIndex = after.nodes.findIndex((node) => node.remote.blockId === anchorBlockId);
-    const insertedIndex = after.nodes.findIndex((node) => node.remote.blockId === insertedNode.remote.blockId);
-    if (anchorIndex < 0 || insertedIndex !== anchorIndex + 1) {
-      return {ok: false, reason: 'inserted block is not immediately after the planned anchor'};
-    }
-    const insertedId = insertedNode.remote.blockId!;
-    if (nodeSequence(before) !== nodeSequence(after, new Set([insertedId]))) {
-      return {ok: false, reason: 'an unplanned block changed during insertion'};
-    }
-    const insertedIds = remoteBlockIds(insertedNode);
-    return {ok: true, resolvedBlockId: insertedId, resolvedBlockIds: insertedIds};
-  }
-  return {ok: false, reason: 'move operations are not writable'};
-}
-
-function verifyManualPlaceholderProgression(
-  operation: PlanOperation,
-  before: SemanticDocument,
-  after: SemanticDocument,
-): {ok: boolean; reason?: string; resolvedBlockId?: string; resolvedBlockIds?: string[]} {
-  const anchorBlockId = operation.anchorBlockId;
-  if (!anchorBlockId) return {ok: false, reason: 'planned placeholder anchor block ID is missing'};
-  const beforeIds = new Set(before.nodes.flatMap((node) => node.remote.blockId ? [node.remote.blockId] : []));
-  const inserted = after.nodes.filter((node) => node.remote.blockId && !beforeIds.has(node.remote.blockId));
-  if (inserted.length !== 1) return {ok: false, reason: 'placeholder insertion did not create exactly one new block'};
-  const placeholder = inserted[0]!;
-  if (placeholder.kind !== 'callout' || !placeholder.text.includes(manualSyncMarker(operation.operationId))) {
-    return {ok: false, reason: 'inserted block is not the protected manual-sync placeholder'};
-  }
-  const anchorIndex = after.nodes.findIndex((node) => node.remote.blockId === anchorBlockId);
-  const placeholderIndex = after.nodes.findIndex((node) => node.remote.blockId === placeholder.remote.blockId);
-  if (anchorIndex < 0 || placeholderIndex !== anchorIndex + 1) {
-    return {ok: false, reason: 'manual-sync placeholder is not immediately after the planned anchor'};
-  }
-  const placeholderId = placeholder.remote.blockId!;
-  if (nodeSequence(before) !== nodeSequence(after, new Set([placeholderId]))) {
-    return {ok: false, reason: 'an unplanned block changed during placeholder insertion'};
-  }
-  return {ok: true, resolvedBlockId: placeholderId, resolvedBlockIds: remoteBlockIds(placeholder)};
-}
 
 function verifyPlan(
   plan: LocalizationPlan,

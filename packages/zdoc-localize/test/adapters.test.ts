@@ -1,14 +1,15 @@
-import {mkdtemp} from 'node:fs/promises';
+import {mkdtemp, readFile, readdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 
 import {describe, expect, it} from 'vitest';
 
-import {FeishuMdSyncAdapter} from '../src/adapters/feishu-md-sync-adapter.js';
 import {LarkBaseRegistry} from '../src/adapters/lark-base-registry.js';
-import {LarkDocsAdapter} from '../src/adapters/lark-docs-adapter.js';
+import {LarkDocumentCreationAdapter} from '../src/adapters/lark-document-creation-adapter.js';
 import {LarkDriveSnapshotStore} from '../src/adapters/lark-drive-snapshots.js';
-import {LarkWhiteboardAdapter} from '../src/adapters/lark-whiteboard-adapter.js';
+import {LarkLegacyDocumentReader} from '../src/adapters/lark-legacy-document-reader.js';
+import {LarkWhiteboardReader} from '../src/adapters/lark-whiteboard-reader.js';
 import type {ProcessCall, ProcessResult, ProcessRunner} from '../src/adapters/process-runner.js';
 
 class FakeRunner implements ProcessRunner {
@@ -31,15 +32,92 @@ const ok = (data: unknown): ProcessResult => ({
   stderr: '',
 });
 
-describe('Lark document adapter', () => {
-  it('fetches full XML with user identity and stable JSON output', async () => {
-    const runner = new FakeRunner([ok({document: {document_id: 'doc-en', revision_id: 12, content: '<p id="p1">Hello</p>'}})]);
-    const docs = new LarkDocsAdapter(runner);
+const packageRoot = fileURLToPath(new URL('..', import.meta.url));
 
-    await expect(docs.fetch('https://example.feishu.cn/docx/source')).resolves.toEqual({
-      documentId: 'doc-en',
-      revisionId: 12,
-      content: '<p id="p1">Hello</p>',
+async function typescriptSources(directory: string): Promise<string[]> {
+  const entries = await readdir(directory, {withFileTypes: true});
+  const nested = await Promise.all(entries.map(async (entry) => {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) return typescriptSources(path);
+    return entry.isFile() && entry.name.endsWith('.ts') ? [path] : [];
+  }));
+  return nested.flat();
+}
+
+describe('document mutation ownership', () => {
+  it('keeps direct document and Whiteboard mutations inside feishu-docx-engine', async () => {
+    const sourceRoot = join(packageRoot, 'src');
+    const files = await typescriptSources(sourceRoot);
+    const findings: Array<{file: string; rule: string}> = [];
+    const forbidden = [
+      {rule: 'docs +update', pattern: /(['"])docs\1\s*,\s*(['"])\+update\2/g},
+      {rule: 'block_replace', pattern: /(['"])block_replace\1/g},
+      {rule: 'block_insert_after', pattern: /(['"])block_insert_after\1/g},
+      {rule: 'block_delete', pattern: /(['"])block_delete\1/g},
+      {rule: 'whiteboard +update', pattern: /(['"])whiteboard\1\s*,\s*(['"])\+update\2/g},
+      {rule: 'feishu-md-sync executable', pattern: /feishu-md-sync/g},
+      {rule: 'direct replaceBlock call', pattern: /\.replaceBlock\s*\(/g},
+      {rule: 'direct insertAfter call', pattern: /\.insertAfter\s*\(/g},
+      {rule: 'direct deleteBlocks call', pattern: /\.deleteBlocks\s*\(/g},
+      {rule: 'direct overwriteRaw call', pattern: /\.overwriteRaw\s*\(/g},
+      {rule: 'retired DocumentGateway', pattern: /\bDocumentGateway\b/g},
+      {rule: 'retired WhiteboardGateway', pattern: /\bWhiteboardGateway\b/g},
+      {rule: 'retired LarkDocsAdapter', pattern: /\bLarkDocsAdapter\b/g},
+      {rule: 'retired LarkWhiteboardAdapter', pattern: /\bLarkWhiteboardAdapter\b/g},
+      {rule: 'retired FeishuMdSyncAdapter', pattern: /\bFeishuMdSyncAdapter\b/g},
+    ];
+    const creationAdapter = join(sourceRoot, 'adapters', 'lark-document-creation-adapter.ts');
+    const legacyReader = join(sourceRoot, 'adapters', 'lark-legacy-document-reader.ts');
+    const whiteboardReader = join(sourceRoot, 'adapters', 'lark-whiteboard-reader.ts');
+    const directLarkAllowlist = new Set([
+      creationAdapter,
+      legacyReader,
+      whiteboardReader,
+      join(sourceRoot, 'adapters', 'lark-base-registry.ts'),
+      join(sourceRoot, 'adapters', 'lark-drive-snapshots.ts'),
+      join(sourceRoot, 'cli', 'program.ts'),
+    ]);
+    for (const file of files) {
+      const source = await readFile(file, 'utf8');
+      for (const rule of forbidden) {
+        if (rule.pattern.test(source)) findings.push({file, rule: rule.rule});
+        rule.pattern.lastIndex = 0;
+      }
+      const createsDocument = /(['"])docs\1\s*,\s*(['"])\+create\2/.test(source);
+      if (createsDocument && file !== creationAdapter) findings.push({file, rule: 'docs +create outside creation adapter'});
+      const fetchesLegacyXml = /(['"])docs\1\s*,\s*(['"])[+]fetch\2/.test(source);
+      if (fetchesLegacyXml && file !== legacyReader) findings.push({file, rule: 'docs +fetch outside legacy reader'});
+      const queriesWhiteboard = /(['"])whiteboard\1\s*,\s*(['"])[+]query\2/.test(source);
+      if (queriesWhiteboard && file !== whiteboardReader) findings.push({file, rule: 'whiteboard +query outside read-only reader'});
+      if (/executable:\s*(['"])lark-cli\1/.test(source) && !directLarkAllowlist.has(file)) {
+        findings.push({file, rule: 'direct lark-cli outside explicit adapter/doctor allowlist'});
+      }
+    }
+    expect(findings).toEqual([]);
+    await expect(readFile(creationAdapter, 'utf8')).resolves.toMatch(/(['"])docs\1\s*,\s*(['"])\+create\2/);
+    await expect(readFile(legacyReader, 'utf8')).resolves.toMatch(/(['"])docs\1\s*,\s*(['"])[+]fetch\2/);
+    await expect(readFile(whiteboardReader, 'utf8')).resolves.toMatch(/(['"])whiteboard\1\s*,\s*(['"])[+]query\2/);
+  });
+
+  it('cleans ignored build output before compiling the package', async () => {
+    const packageJson = JSON.parse(await readFile(join(packageRoot, 'package.json'), 'utf8')) as {
+      scripts?: Record<string, string>;
+    };
+    expect(packageJson.scripts?.build).toBe('node scripts/clean-dist.mjs && tsc -p tsconfig.json');
+    expect(packageJson.scripts?.prepack).toBe('pnpm run build');
+    expect(packageJson.scripts?.['pack:check']).toBe('node scripts/package-artifact-guard.mjs');
+    await expect(readFile(join(packageRoot, 'scripts', 'clean-dist.mjs'), 'utf8')).resolves.toContain("rmSync(dist, {recursive: true, force: true})");
+    await expect(readFile(join(packageRoot, 'scripts', 'package-artifact-guard.mjs'), 'utf8')).resolves.toContain('retired-writer-sentinel.js');
+  });
+});
+
+describe('Lark document access adapters', () => {
+  it('fetches legacy XML through an explicitly read-only adapter', async () => {
+    const runner = new FakeRunner([ok({document: {document_id: 'doc-en', revision_id: 12, content: '<p id="p1">Hello</p>'}})]);
+    const documents = new LarkLegacyDocumentReader(runner);
+
+    await expect(documents.fetch('https://example.feishu.cn/docx/source')).resolves.toEqual({
+      documentId: 'doc-en', revisionId: 12, content: '<p id="p1">Hello</p>',
     });
     expect(runner.calls[0]).toEqual({
       executable: 'lark-cli',
@@ -51,92 +129,39 @@ describe('Lark document adapter', () => {
     });
   });
 
-  it('writes XML through stdin with the planned revision', async () => {
-    const runner = new FakeRunner([ok({
-      document: {
-        revision_id: 13,
-        new_blocks: [{block_id: 'wb-block', block_type: 'whiteboard', block_token: 'board-target'}],
-      },
-      result: 'success',
-      updated_blocks_count: 1,
-      warnings: [],
-    })]);
-    const docs = new LarkDocsAdapter(runner);
+  it('creates documents only through the dedicated creation adapter', async () => {
+    const runner = new FakeRunner([ok({document: {
+      document_id: 'doc-zh', revision_id: 1, document_url: 'https://example.feishu.cn/docx/doc-zh',
+    }})]);
+    const creation = new LarkDocumentCreationAdapter(runner);
 
-    await expect(docs.replaceBlock({
-      doc: 'doc-zh',
-      blockId: 'blk-1',
-      revisionId: 12,
-      xml: '<p>更新后</p>',
-    })).resolves.toMatchObject({
-      revisionId: 13,
-      newBlocks: [{blockId: 'wb-block', blockType: 'whiteboard', blockToken: 'board-target'}],
+    await expect(creation.createDocument({
+      title: '中文指南', parentToken: 'folder-1', xml: '<p>正文</p>',
+    })).resolves.toEqual({
+      documentId: 'doc-zh', revisionId: 1, documentUrl: 'https://example.feishu.cn/docx/doc-zh',
     });
-
     expect(runner.calls[0]).toEqual(expect.objectContaining({
       executable: 'lark-cli',
-      args: ['docs', '+update', '--doc', 'doc-zh', '--command', 'block_replace', '--block-id', 'blk-1', '--revision-id', '12', '--doc-format', 'xml', '--content', '-', '--format', 'json', '--as', 'user'],
-      stdin: '<p>更新后</p>',
+      args: ['docs', '+create', '--title', '中文指南', '--parent-token', 'folder-1', '--doc-format', 'xml', '--content', '-', '--format', 'json', '--as', 'user'],
+      stdin: '<p>正文</p>',
     }));
   });
 
-  it('maps confirmation and partial-write results to stable errors', async () => {
-    const confirmation = new FakeRunner([{
-      exitCode: 10,
-      stdout: '',
-      stderr: JSON.stringify({ok: false, error: {type: 'confirmation_required', message: 'confirm', risk: {action: 'docs +update'}}}),
-    }]);
-    await expect(new LarkDocsAdapter(confirmation).deleteBlocks({
-      doc: 'doc-zh',
-      blockIds: ['blk-1'],
-      revisionId: 12,
-    })).rejects.toMatchObject({type: 'confirmation_required', exitCode: 10});
-
-    const partial = new FakeRunner([ok({result: 'partial_success', updated_blocks_count: 1, warnings: ['one failed']})]);
-    await expect(new LarkDocsAdapter(partial).deleteBlocks({
-      doc: 'doc-zh',
-      blockIds: ['blk-1', 'blk-2'],
-      revisionId: 12,
-    })).rejects.toMatchObject({type: 'partial_write', subtype: 'lark_partial_success'});
-  });
-
-  it('queries and overwrites raw Whiteboard nodes without shell interpolation', async () => {
+  it('queries Whiteboards without exposing a mutation method', async () => {
     const raw = {nodes: [{id: 'node-1', type: 'text', text: 'Hello'}]};
-    const runner = new FakeRunner([ok(raw), ok({result: 'success'})]);
-    const whiteboards = new LarkWhiteboardAdapter(runner);
+    const runner = new FakeRunner([ok(raw)]);
+    const whiteboards = new LarkWhiteboardReader(runner);
 
     await expect(whiteboards.queryRaw('source-board')).resolves.toEqual(raw);
-    await whiteboards.overwriteRaw({
-      token: 'target-board', raw, idempotencyToken: 'run-1-board-1',
-    });
-
     expect(runner.calls[0]).toEqual(expect.objectContaining({
       executable: 'lark-cli',
       args: ['whiteboard', '+query', '--whiteboard-token', 'source-board', '--output_as', 'raw', '--format', 'json', '--as', 'user'],
     }));
-    expect(runner.calls[1]).toEqual(expect.objectContaining({
-      executable: 'lark-cli',
-      args: [
-        'whiteboard', '+update', '--whiteboard-token', 'target-board', '--input_format', 'raw',
-        '--source', '-', '--overwrite', '--idempotent-token', 'run-1-board-1', '--format', 'json', '--as', 'user',
-      ],
-      stdin: JSON.stringify(raw),
-    }));
+    expect(whiteboards).not.toHaveProperty('overwriteRaw');
   });
 });
 
 describe('supporting adapters', () => {
-  it('requires a compatible feishu-md-sync version', async () => {
-    const compatible = new FakeRunner([{exitCode: 0, stdout: '0.3.0\n', stderr: ''}]);
-    await expect(new FeishuMdSyncAdapter(compatible).checkCompatibility()).resolves.toBe('0.3.0');
-
-    const incompatible = new FakeRunner([{exitCode: 0, stdout: '0.4.0\n', stderr: ''}]);
-    await expect(new FeishuMdSyncAdapter(incompatible).checkCompatibility()).rejects.toMatchObject({
-      type: 'compatibility',
-      subtype: 'feishu_md_sync_version',
-    });
-  });
-
   it('constructs Base record list and upsert calls without shell interpolation', async () => {
     const runner = new FakeRunner([
       ok({items: []}),
