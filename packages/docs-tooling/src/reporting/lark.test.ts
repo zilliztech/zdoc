@@ -1,4 +1,4 @@
-import {mkdtempSync, readFileSync, symlinkSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -237,6 +237,7 @@ function exactInput(overrides = {}) {
     phases: [{ key: 'produce', label: 'Produce', done: 1, total: 2, status: 'running' }],
     manuals: [{ group: 'rest', label: 'REST API', phase: 'produce', status: 'running', currentTask: 'Fetch content group', detail: null }],
     reports: [{ title: 'Report', markdown: '# Report', attention: false }],
+    startedAt: '2026-07-13T00:00:34.000Z',
     targetBranch: 'release-test',
     ...overrides,
   }
@@ -394,6 +395,55 @@ describe('report-card client and command behavior', () => {
     expect(writes).toContain('om_123');
   });
 
+  it('rejects control characters in a created message id before local persistence or GitHub export', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const githubOutput = path.join(root, 'github-output.txt');
+    const githubEnv = path.join(root, 'github-env.txt');
+    writeFileSync(githubOutput, 'existing=value\n');
+    writeFileSync(githubEnv, 'EXISTING=value\n');
+
+    await expect(executeReportCard({
+      repositoryRoot: root, action: 'create', options: {title: 'Build', stages: 'Build'},
+      environment: {
+        APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn',
+        GITHUB_OUTPUT: githubOutput, GITHUB_ENV: githubEnv,
+      },
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => ({data: {message_id: 'om_123\nINJECTED=value'}}),
+    })).rejects.toThrow(/message id.*control character/i);
+
+    expect(existsSync(path.join(root, '.build-card-state.json'))).toBe(false);
+    expect(readFileSync(githubOutput, 'utf8')).toBe('existing=value\n');
+    expect(readFileSync(githubEnv, 'utf8')).toBe('EXISTING=value\n');
+  });
+
+  it('exports arbitrary title and stage text with collision-safe multiline delimiters', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const githubOutput = path.join(root, 'github-output.txt');
+    const title = 'Build\nINJECTED=value\n__ZDOC_uuid_0__\r\nTail';
+    writeFileSync(githubOutput, '');
+
+    await executeReportCard({
+      repositoryRoot: root, action: 'create', options: {title, stages: 'Fetch,Build\nSTAGE_INJECTED=value'},
+      environment: {
+        APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn', GITHUB_OUTPUT: githubOutput,
+      },
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => ({data: {message_id: 'om_123'}}),
+      randomUUID: () => 'uuid',
+    });
+
+    const output = readFileSync(githubOutput, 'utf8');
+    expect(output).toMatch(/^card_id=om_123$/m);
+    expect(output).toMatch(/^card_stages<<__ZDOC_uuid_0__$/m);
+    expect(output).toMatch(/^card_title<<__ZDOC_uuid_1__$/m);
+    expect(output.match(/^INJECTED=value$/gm)).toHaveLength(1);
+    expect(output.match(/^STAGE_INJECTED=value$/gm)).toHaveLength(1);
+    expect(output).not.toMatch(/^card_title=Build$/m);
+  });
+
   it('rejects missing credentials before network access', async () => {
     let requested = false;
     await expect(executeReportCard({repositoryRoot: mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-')), action: 'create', options: {title: 'Build', stages: 'Build'}, environment: {APP_ID: 'visible-id', APP_SECRET: 'do-not-print'}}, {
@@ -485,5 +535,160 @@ describe('report-card client and command behavior', () => {
     })).rejects.toThrow(/status.*done or fail/i);
 
     expect(JSON.parse(readFileSync(stateFile, 'utf8'))).toEqual(persisted);
+  });
+
+  it.each([
+    [{messageId: 'om_1', stages: 'Fetch,Build', stage: 'Fetch\nINJECTED=value', status: 'done'}, /stage.*control character/i],
+    [{messageId: 'om_1', stages: 'Fetch,Build', stage: 'Fetch', status: 'done\nINJECTED=value'}, /status.*control character/i],
+  ])('rejects control characters in scalar transition identifiers', async (options, expected) => {
+    let requested = false;
+    await expect(executeReportCard({
+      repositoryRoot: mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-')),
+      action: 'advance',
+      options,
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => { requested = true; return {code: 0}; },
+    })).rejects.toThrow(expected);
+    expect(requested).toBe(false);
+  });
+
+  it('commits an ordered transition only after PATCH succeeds and retries it once', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const persisted: PersistedCardState = {
+      messageId: 'om_1', title: 'Build', stages: ['Fetch', 'Build'], statuses: ['running', 'pending'], currentIndex: 0,
+      notes: ['Existing'], startedAt: '2026-07-16T10:00:00.000Z',
+    };
+    const original = JSON.stringify(persisted, null, 2);
+    writeFileSync(stateFile, original);
+    let attempts = 0;
+    const dependencies: ReportCardDependencies = {
+      tokenProvider: async () => 'token',
+      requestJson: async () => {
+        attempts += 1;
+        if (attempts === 1) throw new Error('patch failed');
+        return {code: 0};
+      },
+    };
+    const request = {
+      repositoryRoot: root, action: 'advance', options: {status: 'done', note: 'Completed fetch'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    };
+
+    await expect(executeReportCard(request, dependencies)).rejects.toThrow(/patch failed/);
+    expect(readFileSync(stateFile, 'utf8')).toBe(original);
+
+    await executeReportCard(request, dependencies);
+    expect(JSON.parse(readFileSync(stateFile, 'utf8'))).toMatchObject({
+      statuses: ['done', 'running'], currentIndex: 1, notes: ['Existing', 'Completed fetch'],
+    });
+    expect(attempts).toBe(2);
+  });
+
+  it('commits exact state only after PATCH succeeds and retries idempotently', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const inputFile = path.join(root, 'next-state.json');
+    const original = JSON.stringify({
+      messageId: 'om_old', title: 'Old', stages: ['Old'], statuses: ['running'], currentIndex: 0, notes: [],
+      startedAt: '2026-07-16T09:00:00.000Z',
+    }, null, 2);
+    const next = exactInput({overallStatus: 'success'});
+    writeFileSync(stateFile, original);
+    writeFileSync(inputFile, JSON.stringify(next));
+    let fail = true;
+    const dependencies: ReportCardDependencies = {
+      tokenProvider: async () => 'token',
+      requestJson: async () => {
+        if (fail) throw new Error('patch failed');
+        return {code: 0};
+      },
+    };
+    const request = {
+      repositoryRoot: root, action: 'advance', options: {stateFile: 'next-state.json', messageId: 'om_1'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    };
+
+    await expect(executeReportCard(request, dependencies)).rejects.toThrow(/patch failed/);
+    expect(readFileSync(stateFile, 'utf8')).toBe(original);
+
+    fail = false;
+    await executeReportCard(request, dependencies);
+    const committed = readFileSync(stateFile, 'utf8');
+    await executeReportCard(request, dependencies);
+    expect(readFileSync(stateFile, 'utf8')).toBe(committed);
+    expect(JSON.parse(committed)).toMatchObject({messageId: 'om_1', overallStatus: 'success'});
+  });
+
+  it('does not persist create state or GitHub outputs when remote creation fails', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const githubOutput = path.join(root, 'github-output.txt');
+    writeFileSync(githubOutput, 'existing=value\n');
+
+    await expect(executeReportCard({
+      repositoryRoot: root, action: 'create', options: {title: 'Build', stages: 'Build'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn', GITHUB_OUTPUT: githubOutput},
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => { throw new Error('create failed'); },
+    })).rejects.toThrow(/create failed/);
+
+    expect(existsSync(path.join(root, '.build-card-state.json'))).toBe(false);
+    expect(readFileSync(githubOutput, 'utf8')).toBe('existing=value\n');
+  });
+
+  it('commits a note only after PATCH succeeds', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const persisted: PersistedCardState = {
+      messageId: 'om_1', title: 'Build', stages: ['Build'], statuses: ['running'], currentIndex: 0,
+      notes: [], startedAt: '2026-07-16T10:00:00.000Z',
+    };
+    const original = JSON.stringify(persisted, null, 2);
+    writeFileSync(stateFile, original);
+    writeFileSync(path.join(root, 'note.md'), 'New note');
+    let fail = true;
+    const dependencies: ReportCardDependencies = {
+      tokenProvider: async () => 'token',
+      requestJson: async () => { if (fail) throw new Error('patch failed'); return {code: 0}; },
+    };
+    const request = {
+      repositoryRoot: root, action: 'note', options: {file: 'note.md'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    };
+
+    await expect(executeReportCard(request, dependencies)).rejects.toThrow(/patch failed/);
+    expect(readFileSync(stateFile, 'utf8')).toBe(original);
+    fail = false;
+    await executeReportCard(request, dependencies);
+    expect(JSON.parse(readFileSync(stateFile, 'utf8')).notes).toEqual(['New note']);
+  });
+
+  it('commits finish state only after PATCH succeeds', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const persisted: PersistedCardState = {
+      messageId: 'om_1', title: 'Build', stages: ['Build'], statuses: ['running'], currentIndex: 0,
+      notes: [], startedAt: '2026-07-16T10:00:00.000Z',
+    };
+    const original = JSON.stringify(persisted, null, 2);
+    writeFileSync(stateFile, original);
+    let fail = true;
+    const dependencies: ReportCardDependencies = {
+      tokenProvider: async () => 'token',
+      requestJson: async () => { if (fail) throw new Error('patch failed'); return {code: 0}; },
+    };
+    const request = {
+      repositoryRoot: root, action: 'finish', options: {messageId: 'om_1', status: 'success'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    };
+
+    await expect(executeReportCard(request, dependencies)).rejects.toThrow(/patch failed/);
+    expect(readFileSync(stateFile, 'utf8')).toBe(original);
+    fail = false;
+    await executeReportCard(request, dependencies);
+    expect(JSON.parse(readFileSync(stateFile, 'utf8')).statuses).toEqual(['done']);
   });
 });

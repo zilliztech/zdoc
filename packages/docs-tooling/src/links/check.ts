@@ -10,7 +10,7 @@ import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../valid
 type Site = 'en' | 'zh-CN';
 type LinkEntry = {url: string; page?: string; pages?: string[]; status?: number; error?: string};
 type FetchResponse = {ok: boolean; status: number; text(): Promise<string>};
-type FetchLike = (url: string | URL, init?: {method?: string; headers?: Record<string, string>}) => Promise<FetchResponse>;
+type FetchLike = (url: string | URL, init?: {method?: string; headers?: Record<string, string>; signal?: AbortSignal}) => Promise<FetchResponse>;
 
 const sleep = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
 
@@ -102,11 +102,18 @@ function htmlPagesUnder(repositoryRoot: string, directory: string): string[] {
   return pages;
 }
 
-function collectExternalLinkEntries(repositoryRoot: string, outputDir: string): LinkEntry[] {
-  const pages = [
-    ...htmlPagesUnder(repositoryRoot, `${outputDir}/docs`),
-    ...htmlPagesUnder(repositoryRoot, `${outputDir}/reference`),
-  ];
+export function contentRouteRoots(routeBasePaths: readonly string[]): string[] {
+  const normalized = [...new Set(routeBasePaths.map(routeBasePath => {
+    const trimmed = routeBasePath.replace(/^\/+|\/+$/gu, '');
+    return trimmed === '.' ? '' : trimmed;
+  }))];
+  return normalized.filter(candidate => !normalized.some(ancestor => (
+    ancestor !== candidate && (ancestor === '' || candidate.startsWith(`${ancestor}/`))
+  )));
+}
+
+function collectExternalLinkEntries(repositoryRoot: string, outputDir: string, routeRoots: readonly string[]): LinkEntry[] {
+  const pages = routeRoots.flatMap(routeRoot => htmlPagesUnder(repositoryRoot, path.posix.join(outputDir, routeRoot)));
   const entries: LinkEntry[] = [];
   for (const page of pages) {
     const content = readFileSync(path.join(repositoryRoot, page), 'utf8');
@@ -125,6 +132,35 @@ function uniqueLinkEntries(entries: LinkEntry[]): LinkEntry[] {
     byUrl.set(entry.url, existing);
   }
   return [...byUrl.values()];
+}
+
+async function forEachConcurrent<T>(items: readonly T[], concurrency: number, visit: (item: T) => Promise<void>): Promise<void> {
+  let nextIndex = 0;
+  const worker = async (): Promise<void> => {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      await visit(items[index]);
+    }
+  };
+  await Promise.all(Array.from({length: Math.min(concurrency, items.length)}, worker));
+}
+
+async function fetchExternalLink(url: string, fetcher: FetchLike, timeoutMs: number): Promise<FetchResponse> {
+  const controller = new AbortController();
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, timeoutMs);
+  try {
+    return await fetcher(url, {method: 'HEAD', signal: controller.signal});
+  } catch (error) {
+    if (timedOut) throw new Error(`External link request timed out after ${timeoutMs}ms`);
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function groupBrokenExternalLinks(externalLinks: LinkEntry[]) {
@@ -188,7 +224,7 @@ export function renderLinkCheckMarkdown(report: any): string {
   return lines.join('\n');
 }
 
-export async function checkLinks(options: {repositoryRoot: string; site: string; output: string}, dependencies: {fetch?: FetchLike; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>} = {}): Promise<any> {
+export async function checkLinks(options: {repositoryRoot: string; site: string; output: string}, dependencies: {fetch?: FetchLike; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>; externalLinkConcurrency?: number; externalLinkTimeoutMs?: number} = {}): Promise<any> {
   assertSite(options.site);
   const profile = resolveSiteProfile(options.site);
   const output = resolveOutput(options.repositoryRoot, options.output);
@@ -207,16 +243,21 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
   const localSource = environment.LINK_CHECKS_LOCAL_SITEMAP || `${profile.outputDir}/sitemap.xml`;
   const remote = await listUrls(remoteSource, options.repositoryRoot, fetcher);
   const local = await listUrls(localSource, options.repositoryRoot, fetcher);
-  const externalLinks = uniqueLinkEntries(collectExternalLinkEntries(options.repositoryRoot, profile.outputDir));
+  const routeRoots = contentRouteRoots(profile.content.map(item => item.routeBasePath));
+  const externalLinks = uniqueLinkEntries(collectExternalLinkEntries(options.repositoryRoot, profile.outputDir, routeRoots));
   const broken: LinkEntry[] = [];
-  await Promise.all(externalLinks.map(async link => {
+  const concurrency = dependencies.externalLinkConcurrency ?? 8;
+  const timeoutMs = dependencies.externalLinkTimeoutMs ?? 15_000;
+  if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error('External link concurrency must be a positive integer');
+  if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) throw new Error('External link timeout must be positive');
+  await forEachConcurrent(externalLinks, concurrency, async link => {
     try {
-      const response = await fetcher(link.url.split('|')[0], {method: 'HEAD'});
+      const response = await fetchExternalLink(link.url.split('|')[0], fetcher, timeoutMs);
       if (response.status >= 400) broken.push({...link, status: response.status});
     } catch (error) {
       broken.push({...link, error: error instanceof Error ? error.message : String(error)});
     }
-  }));
+  });
   const report = buildLinkCheckReport({
     generatedAt: now.toISOString(),
     remoteSitemapSource: remoteSource,

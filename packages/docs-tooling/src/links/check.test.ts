@@ -4,7 +4,9 @@ import path from 'node:path';
 
 import {describe, expect, it} from 'vitest';
 
-import {buildLinkCheckReport, checkLinks, renderLinkCheckMarkdown, resolveWorkflowRunUrl} from './check.ts';
+import {resolveSiteProfile} from '@zilliz/site-config';
+
+import {buildLinkCheckReport, checkLinks, contentRouteRoots, renderLinkCheckMarkdown, resolveWorkflowRunUrl} from './check.ts';
 
 function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-links-'));
@@ -30,6 +32,16 @@ const linkCheckDependencies = {
 };
 
 describe('link-check reporting', () => {
+  it('derives minimal scan roots from every declared site content route', () => {
+    expect(contentRouteRoots(resolveSiteProfile('en').content.map(item => item.routeBasePath))).toEqual(['docs', 'reference']);
+    expect(contentRouteRoots(resolveSiteProfile('zh-CN').content.map(item => item.routeBasePath))).toEqual(['docs', 'on-premise', 'reference']);
+  });
+
+  it('deduplicates nested route roots and safely collapses a root route', () => {
+    expect(contentRouteRoots(['docs/byoc', '/docs/', 'reference', 'reference'])).toEqual(['docs', 'reference']);
+    expect(contentRouteRoots(['docs', '/', 'reference'])).toEqual(['']);
+  });
+
   it('builds a GitHub Actions run URL from environment', () => {
     expect(resolveWorkflowRunUrl({GITHUB_SERVER_URL: 'https://github.com', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_RUN_ID: '28835409913'}))
       .toBe('https://github.com/zilliztech/zdoc/actions/runs/28835409913');
@@ -74,6 +86,86 @@ describe('link-check reporting', () => {
     const report = JSON.parse(readFileSync(path.join(root, 'tmp/link-report.json'), 'utf8'));
     expect(report.summary).toEqual({deleted_links: 1, added_links: 1, external_links: 1, broken_external_links: 1});
     expect(readFileSync(path.join(root, 'tmp/link-report.md'), 'utf8')).toMatch(/https:\/\/bad\.example\.com/);
+  });
+
+  it('checks external links under the Chinese on-premise content route', async () => {
+    const root = temporaryRoot();
+    mkdirSync(path.join(root, 'build/zh-CN/on-premise'), {recursive: true});
+    writeFileSync(path.join(root, 'build/zh-CN/sitemap.xml'), '<urlset/>');
+    writeFileSync(path.join(root, 'build/zh-CN/on-premise/install.html'), '<a class="external" href="https://broken-on-prem.example.com">Broken</a>');
+    const checked: string[] = [];
+
+    const report = await checkLinks({repositoryRoot: root, site: 'zh-CN', output: 'tmp/link-report.md'}, {
+      fetch: async (url, init) => {
+        if (init?.method === 'HEAD') {
+          checked.push(String(url));
+          return {ok: false, status: 503, text: async () => ''};
+        }
+        return {ok: true, status: 200, text: async () => '<urlset/>'};
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+    });
+
+    expect(checked).toEqual(['https://broken-on-prem.example.com']);
+    expect(report.broken_external_links).toEqual([expect.objectContaining({
+      url: 'https://broken-on-prem.example.com',
+      pages: ['on-premise/install.html'],
+      status: 503,
+    })]);
+  });
+
+  it('bounds concurrent external-link requests', async () => {
+    const root = temporaryRoot();
+    mkdirSync(path.join(root, 'build/en/docs'), {recursive: true});
+    writeFileSync(path.join(root, 'build/en/sitemap.xml'), '<urlset/>');
+    writeFileSync(path.join(root, 'build/en/docs/links.html'), Array.from({length: 5}, (_, index) => (
+      `<a class="external" href="https://external-${index}.example.com">Link</a>`
+    )).join('\n'));
+    let active = 0;
+    let maximumActive = 0;
+
+    await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (init?.method !== 'HEAD') return {ok: true, status: 200, text: async () => '<urlset/>'};
+        active += 1;
+        maximumActive = Math.max(maximumActive, active);
+        await new Promise(resolve => setTimeout(resolve, 5));
+        active -= 1;
+        return {ok: true, status: 200, text: async () => ''};
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+      externalLinkConcurrency: 2,
+      externalLinkTimeoutMs: 100,
+    });
+
+    expect(maximumActive).toBe(2);
+  });
+
+  it('aborts and reports an external-link request after its timeout', async () => {
+    const root = temporaryRoot();
+    linkCheckFixture(root);
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init?: {method?: string; signal?: AbortSignal}) => {
+        if (init?.method !== 'HEAD') return {ok: true, status: 200, text: async () => '<urlset/>'};
+        if (!init.signal) throw new Error('missing abort signal');
+        return await new Promise((_resolve, reject) => {
+          init.signal?.addEventListener('abort', () => reject(new Error('request aborted')), {once: true});
+        });
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+      externalLinkTimeoutMs: 10,
+    });
+
+    expect(report.broken_external_links).toEqual([expect.objectContaining({
+      url: 'https://bad.example.com',
+      error: 'External link request timed out after 10ms',
+    })]);
   });
 
   it.each([

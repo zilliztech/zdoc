@@ -65,6 +65,8 @@ export interface PersistedCardStateWithMessage extends PersistedCardState {
   messageId: string;
 }
 
+export type StoredCardState = PersistedCardState | ExactCardState;
+
 export interface CardElement {
   tag: string;
   content?: string;
@@ -143,6 +145,23 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function optionalString(value: unknown): string | undefined {
   return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+function scalarIdentifier(value: string, label: string): string {
+  if (/[\u0000-\u001f\u007f]/u.test(value)) throw new Error(`${label} must not contain control characters`);
+  return value;
+}
+
+function githubMultilineEntry(name: string, value: string, randomUUID: () => string): string {
+  const base = randomUUID();
+  const lines = value.split(/\r?\n/u);
+  let index = 0;
+  let delimiter = `__ZDOC_${base}_${index}__`;
+  while (lines.includes(delimiter)) {
+    index += 1;
+    delimiter = `__ZDOC_${base}_${index}__`;
+  }
+  return `${name}<<${delimiter}\n${value}\n${delimiter}\n`;
 }
 
 function isLegacyProgressStatus(value: unknown): value is LegacyProgressStatus {
@@ -526,6 +545,7 @@ export type BuildPhaseStateOptions = Readonly<{
 }>;
 
 function phaseCompletionStatus(value: unknown): PhaseCompletionStatus {
+  if (typeof value === 'string') scalarIdentifier(value, 'phase status');
   if (value !== 'done' && value !== 'fail') throw new Error('phase status must be done or fail');
   return value;
 }
@@ -578,10 +598,12 @@ function buildExactState({messageId, title, startedAt, targetBranch, input}: Bui
   const phases = input.phases.map(parseCardPhase);
   const manuals = input.manuals.map(parseExactManual);
   const reports = input.reports.map(parseCardReport);
+  const effectiveStartedAt = optionalString(startedAt) || optionalString(input.startedAt);
+  if (!effectiveStartedAt) throw new Error('startedAt is required for exact card state');
   return {
     messageId: optionalString(messageId),
     title: optionalString(title) || optionalString(input.title) || 'Global Docs Build',
-    startedAt: optionalString(startedAt) || optionalString(input.startedAt) || new Date().toISOString(),
+    startedAt: effectiveStartedAt,
     targetBranch: optionalString(targetBranch) || optionalString(input.targetBranch),
     overallStatus: input.overallStatus,
     phases,
@@ -624,7 +646,12 @@ function buildFinishState({
   const matchingState = existingState && (!parsedMessageId || existingState.messageId === parsedMessageId)
     ? existingState
     : null
-  const state = matchingState || {
+  const state: PersistedCardState = matchingState ? {
+    ...matchingState,
+    stages: [...matchingState.stages],
+    statuses: [...matchingState.statuses],
+    notes: [...matchingState.notes],
+  } : {
     messageId: parsedMessageId,
     title: optionalString(title) || 'Build',
     stages: [...effectiveStages],
@@ -656,8 +683,8 @@ function required(value: unknown, label: string): string {
 
 function safeInput(repositoryRoot: string, relativePath: string, label: string): string {
   assertSafeRepositoryRelativePath(relativePath, label);
-  const target = resolveOwnedRepositoryPath(repositoryRoot, relativePath, label);
   const root = realpathSync(repositoryRoot);
+  const target = resolveOwnedRepositoryPath(root, relativePath, label);
   let current = root;
   for (const segment of path.relative(root, target).split(path.sep)) {
     current = path.join(current, segment);
@@ -706,13 +733,16 @@ function loadState(repositoryRoot: string): PersistedCardState | null {
   return parsePersistedCardState(parsed);
 }
 
-function saveState(repositoryRoot: string, state: PersistedCardState): void {
+function saveState(repositoryRoot: string, state: StoredCardState): void {
   writeAtomicRepositoryFiles(repositoryRoot, [{path: CARD_STATE_FILE, contents: JSON.stringify(state, null, 2)}], 'Card state');
 }
 
 function responseMessageId(value: unknown): string | undefined {
   if (!isRecord(value) || !isRecord(value.data)) return undefined;
-  return optionalString(value.data.message_id);
+  const messageId = value.data.message_id;
+  if (typeof messageId !== 'string' || !messageId.trim()) return undefined;
+  scalarIdentifier(messageId, 'Feishu message id');
+  return messageId.trim();
 }
 
 async function defaultTokenProvider(credentials: FeishuCredentials): Promise<string> {
@@ -734,7 +764,7 @@ export function createCardClient({feishuHost, appId, appSecret, tokenProvider = 
   if (typeof requestJson !== 'function') throw new Error('requestJson is required');
   return {
     async patch({messageId, state}: {messageId: unknown; state: unknown}): Promise<unknown> {
-      const id = required(messageId, 'messageId');
+      const id = scalarIdentifier(required(messageId, 'messageId'), 'messageId');
       const token = await tokenProvider(credentials);
       if (typeof token !== 'string' || !token) throw new Error('Feishu token is unavailable');
       return requestJson(`${host}/open-apis/im/v1/messages/${encodeURIComponent(id)}`, {
@@ -767,6 +797,7 @@ function commaSeparatedStrings(value: unknown): string[] {
 
 function requireStateMessageId(state: PersistedCardState): asserts state is PersistedCardStateWithMessage {
   if (!state.messageId) throw new Error('Card state message id is required');
+  scalarIdentifier(state.messageId, 'Card state message id');
 }
 
 export type ReportCardResult = PersistedCardState | PersistedCardStateWithMessage | ExactCardState | null;
@@ -802,6 +833,7 @@ export async function executeReportCard(
   const now = dependencies.now || (() => new Date());
   const write = dependencies.write || (message => process.stdout.write(`${message}\n`));
   const warn = dependencies.warn || (message => process.stderr.write(`${message}\n`));
+  const randomUUID = dependencies.randomUUID || nodeRandomUUID;
   const token = await tokenProvider(auth);
   if (typeof token !== 'string' || !token) throw new Error('Feishu token is unavailable');
   const client = createCardClient({...auth, tokenProvider: async () => token, requestJson, now});
@@ -825,7 +857,7 @@ export async function executeReportCard(
         receive_id: optionalString(options.receiveId) || environment.LARK_RECEIVE_ID || DEFAULT_RECEIVE_ID,
         msg_type: 'interactive',
         content: JSON.stringify(buildCardV2(state, {now: now()})),
-        uuid: (dependencies.randomUUID || nodeRandomUUID)(),
+        uuid: randomUUID(),
       }),
     }, 'report-to-lark create card');
     const messageId = responseMessageId(data);
@@ -833,7 +865,9 @@ export async function executeReportCard(
     const createdState: PersistedCardStateWithMessage = {...state, messageId};
     saveState(repositoryRoot, createdState);
     if (environment.GITHUB_OUTPUT) {
-      appendFileSync(environment.GITHUB_OUTPUT, `card_id=${messageId}\ncard_started_at=${createdState.startedAt}\ncard_stages=${stages.join(',')}\ncard_title=${createdState.title}\n`);
+      appendFileSync(environment.GITHUB_OUTPUT, `card_id=${messageId}\ncard_started_at=${scalarIdentifier(createdState.startedAt, 'Card startedAt')}\n`);
+      appendFileSync(environment.GITHUB_OUTPUT, githubMultilineEntry('card_stages', stages.join(','), randomUUID));
+      appendFileSync(environment.GITHUB_OUTPUT, githubMultilineEntry('card_title', createdState.title, randomUUID));
     }
     if (environment.GITHUB_ENV) appendFileSync(environment.GITHUB_ENV, `CARD_MSG_ID=${messageId}\n`);
     write(messageId);
@@ -846,10 +880,15 @@ export async function executeReportCard(
     if (!state) { warn('[report-card] no card state - skipping note update'); return null; }
     requireStateMessageId(state);
     const note = readFileSync(safeInput(repositoryRoot, file, 'Note file'), 'utf8').trim();
-    if (note) state.notes.push(note);
-    saveState(repositoryRoot, state);
-    await client.patch({messageId: state.messageId, state});
-    return state;
+    const nextState: PersistedCardStateWithMessage = {
+      ...state,
+      stages: [...state.stages],
+      statuses: [...state.statuses],
+      notes: note ? [...state.notes, note] : [...state.notes],
+    };
+    await client.patch({messageId: nextState.messageId, state: nextState});
+    saveState(repositoryRoot, nextState);
+    return nextState;
   }
 
   const stateFile = optionalString(options.stateFile);
@@ -864,13 +903,16 @@ export async function executeReportCard(
       input,
     });
     await client.patch({messageId, state});
+    saveState(repositoryRoot, state);
     return state;
   }
 
   const explicitMessageId = optionalString(options.messageId);
   const explicitStages = commaSeparatedStrings(options.stages);
   if (action === 'advance' && explicitMessageId && explicitStages.length > 0 && (options.stage !== undefined || options.stageIndex !== undefined)) {
-    const stageIndex = options.stageIndex === undefined ? explicitStages.indexOf(optionalString(options.stage) || '') : Number(options.stageIndex);
+    const selectedStage = optionalString(options.stage);
+    if (selectedStage) scalarIdentifier(selectedStage, 'stage');
+    const stageIndex = options.stageIndex === undefined ? explicitStages.indexOf(selectedStage || '') : Number(options.stageIndex);
     const state = buildPhaseState({
       messageId: explicitMessageId,
       title: options.title,
@@ -882,6 +924,7 @@ export async function executeReportCard(
       targetBranch: options.targetBranch,
     });
     await client.patch({messageId: explicitMessageId, state});
+    saveState(repositoryRoot, state);
     return state;
   }
 
@@ -890,15 +933,24 @@ export async function executeReportCard(
     if (!state) { warn('[report-card] no card state - skipping update'); return null; }
     requireStateMessageId(state);
     const status = phaseCompletionStatus(options.status ?? 'done');
-    state.statuses[state.currentIndex] = status;
-    if (noteText) state.notes.push(noteText);
-    if (status !== 'fail' && state.currentIndex + 1 < state.stages.length) {
-      state.currentIndex += 1;
-      state.statuses[state.currentIndex] = 'running';
+    const statuses = [...state.statuses];
+    const notes = noteText ? [...state.notes, noteText] : [...state.notes];
+    let currentIndex = state.currentIndex;
+    statuses[currentIndex] = status;
+    if (status !== 'fail' && currentIndex + 1 < state.stages.length) {
+      currentIndex += 1;
+      statuses[currentIndex] = 'running';
     }
-    saveState(repositoryRoot, state);
-    await client.patch({messageId: state.messageId, state});
-    return state;
+    const nextState: PersistedCardStateWithMessage = {
+      ...state,
+      stages: [...state.stages],
+      statuses,
+      currentIndex,
+      notes,
+    };
+    await client.patch({messageId: nextState.messageId, state: nextState});
+    saveState(repositoryRoot, nextState);
+    return nextState;
   }
 
   const messageId = required(options.messageId, 'message id');
@@ -917,6 +969,7 @@ export async function executeReportCard(
     targetBranch: options.targetBranch,
   });
   await client.patch({messageId, state});
+  saveState(repositoryRoot, state);
   return state;
 }
 
