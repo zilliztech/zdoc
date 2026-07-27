@@ -6,8 +6,167 @@ import path from 'node:path';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
 import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';
 
+export type LegacyProgressStatus = 'pending' | 'running' | 'done' | 'fail';
+export type PhaseStatus = 'waiting' | 'running' | 'completed' | 'failed' | 'cancelled';
+export type ManualStatus = PhaseStatus;
+export type OverallStatus = 'running' | 'success' | 'failure' | 'cancelled';
+export type PhaseCompletionStatus = 'done' | 'fail';
+export type FinishStatus = 'success' | 'done' | 'failure' | 'fail' | 'cancelled';
+export type ReportCardAction = 'create' | 'advance' | 'note' | 'finish';
+
+export interface CardPhase {
+  key: string;
+  label: string;
+  done: number;
+  total: number;
+  status: PhaseStatus;
+}
+
+export interface CardManual {
+  group: string;
+  label: string;
+  phase: string;
+  status: ManualStatus;
+  currentTask: string;
+  detail: string | null;
+}
+
+export interface CardReport {
+  markdown: string;
+  title?: string;
+  attention?: boolean;
+}
+
+export type CardReportInput = string | CardReport;
+
+export interface ExactCardState {
+  messageId?: string;
+  title: string;
+  startedAt: string;
+  targetBranch?: string;
+  overallStatus: OverallStatus;
+  phases: CardPhase[];
+  manuals: CardManual[];
+  reports: CardReportInput[];
+}
+
+export interface PersistedCardState {
+  messageId?: string;
+  title: string;
+  stages: string[];
+  statuses: LegacyProgressStatus[];
+  currentIndex: number;
+  notes: string[];
+  startedAt: string;
+  targetBranch?: string;
+}
+
+export interface PersistedCardStateWithMessage extends PersistedCardState {
+  messageId: string;
+}
+
+export interface CardElement {
+  tag: string;
+  content?: string;
+  text_size?: string;
+  expanded?: boolean;
+  columns?: CardElement[];
+  elements?: CardElement[];
+  header?: {title: {tag: string; content: string}; [key: string]: unknown};
+  border?: {color: string; [key: string]: unknown};
+  [key: string]: unknown;
+}
+
+export interface CardV2 {
+  schema: '2.0';
+  config: {wide_screen_mode: true};
+  header: {
+    title: {tag: 'plain_text'; content: string};
+    subtitle: {tag: 'plain_text'; content: string};
+    template: string;
+    text_tag_list: Array<{tag: 'text_tag'; text: {tag: 'plain_text'; content: string}; color: string}>;
+  };
+  body: {direction: 'vertical'; padding: string; elements: CardElement[]};
+}
+
+export type FeishuCredentials = Readonly<{appId: string; appSecret: string; feishuHost: string}>;
+export type FeishuRequestOptions = Readonly<{method: string; headers: Record<string, string>; body: string}>;
+export type TokenProvider = (credentials: FeishuCredentials) => Promise<string>;
+export type RequestJson = (url: string, options: FeishuRequestOptions, label: string) => Promise<unknown>;
+
+export interface CardClientDependencies extends Partial<FeishuCredentials> {
+  tokenProvider?: TokenProvider;
+  requestJson?: RequestJson;
+  now?: () => Date;
+}
+
+export interface ReportCardOptions {
+  [key: string]: unknown;
+  title?: unknown;
+  stages?: unknown;
+  targetBranch?: unknown;
+  receiveId?: unknown;
+  file?: unknown;
+  noteFile?: unknown;
+  note?: unknown;
+  stateFile?: unknown;
+  messageId?: unknown;
+  startedAt?: unknown;
+  stage?: unknown;
+  stageIndex?: unknown;
+  status?: unknown;
+  notesJson?: unknown;
+}
+
+export interface ReportCardRequest {
+  repositoryRoot: string;
+  action: string;
+  options?: ReportCardOptions;
+  environment?: NodeJS.ProcessEnv;
+}
+
+export interface ReportCardDependencies {
+  tokenProvider?: TokenProvider;
+  requestJson?: RequestJson;
+  now?: () => Date;
+  write?: (message: string) => void;
+  warn?: (message: string) => void;
+  randomUUID?: () => string;
+}
+
+type NormalizedCardState = ExactCardState;
+export type BuildCardOptions = Readonly<{now?: Date; branch?: string; workflowUrl?: string | null}>;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function optionalString(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+function isLegacyProgressStatus(value: unknown): value is LegacyProgressStatus {
+  return value === 'pending' || value === 'running' || value === 'done' || value === 'fail';
+}
+
+function isPhaseStatus(value: unknown): value is PhaseStatus {
+  return value === 'waiting' || value === 'running' || value === 'completed' || value === 'failed' || value === 'cancelled';
+}
+
+function isOverallStatus(value: unknown): value is OverallStatus {
+  return value === 'running' || value === 'success' || value === 'failure' || value === 'cancelled';
+}
+
+function isReportCardAction(value: string): value is ReportCardAction {
+  return value === 'create' || value === 'advance' || value === 'note' || value === 'finish';
+}
+
 const require = createRequire(import.meta.url);
-const {fetchFeishuJsonWithRetry} = require('../lark/feishuFetch.js');
+const feishuFetchModule: unknown = require('../lark/feishuFetch.js');
+if (!isRecord(feishuFetchModule) || typeof feishuFetchModule.fetchFeishuJsonWithRetry !== 'function') {
+  throw new Error('Feishu request module is unavailable');
+}
+const fetchFeishuJsonWithRetry = feishuFetchModule.fetchFeishuJsonWithRetry as RequestJson;
 
 const STATUS = Object.freeze({
   waiting: { label: 'Waiting', color: 'grey', icon: '○', background: 'grey-50' },
@@ -24,14 +183,14 @@ const OVERALL = Object.freeze({
   cancelled: { template: 'red', label: 'Cancelled', color: 'red' },
 })
 
-const LEGACY_STATUS = Object.freeze({
+const LEGACY_STATUS: Readonly<Record<LegacyProgressStatus, PhaseStatus>> = Object.freeze({
   pending: 'waiting',
   running: 'running',
   done: 'completed',
   fail: 'failed',
 })
 
-const PHASE_LABELS = Object.freeze({
+const PHASE_LABELS: Readonly<Record<string, string>> = Object.freeze({
   produce: 'Produce',
   publish: 'Publish',
   source: 'Publish',
@@ -40,7 +199,7 @@ const PHASE_LABELS = Object.freeze({
   verify: 'Verify',
 })
 
-function elapsedText(startedAt, now = new Date()) {
+function elapsedText(startedAt: string, now = new Date()): string {
   const start = Date.parse(startedAt)
   if (Number.isNaN(start)) return 'elapsed time unavailable'
   const seconds = Math.max(0, Math.round((now.getTime() - start) / 1000))
@@ -48,7 +207,7 @@ function elapsedText(startedAt, now = new Date()) {
   return `${Math.floor(seconds / 60)}m ${seconds % 60}s elapsed`
 }
 
-function escapeCardText(value) {
+function escapeCardText(value: unknown): string {
   return String(value ?? '')
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
@@ -56,73 +215,113 @@ function escapeCardText(value) {
     .replace(/([\\`*_[\]()])/g, '\\$1')
 }
 
-function bounded(value, limit) {
+function bounded(value: unknown, limit: number): string {
   const text = String(value ?? '').trim()
   return text.length <= limit ? text : `${text.slice(0, Math.max(0, limit - 1))}…`
 }
 
-function legacyPhase(name, status, index) {
+function legacyPhase(name: unknown, status: LegacyProgressStatus | undefined, index: number): CardPhase {
   const text = String(name || '').trim()
   const count = text.match(/\((\d+)\/(\d+)\)\s*$/)
   const label = count ? text.slice(0, count.index).trim() : text
   return {
     key: `legacy-${index}`,
     label,
-    done: count ? Number(count[1]) : LEGACY_STATUS[status] === 'completed' ? 1 : 0,
+    done: count ? Number(count[1]) : status && LEGACY_STATUS[status] === 'completed' ? 1 : 0,
     total: count ? Number(count[2]) : 1,
-    status: LEGACY_STATUS[status] || 'waiting',
+    status: status ? LEGACY_STATUS[status] : 'waiting',
   }
 }
 
-function legacyManual(manual) {
-  if (manual.status) return manual
-  const entries = [
-    ['produce', manual.produce],
-    ['publish', manual.publish || manual.source],
-    ['translate', manual.translate],
-    ['translation', manual.translation],
-  ].map(([phase, status]) => [phase, LEGACY_STATUS[status] || 'waiting'])
+function legacyManual(value: unknown): CardManual {
+  const manual = isRecord(value) ? value : {};
+  if (isPhaseStatus(manual.status)) {
+    return {
+      group: optionalString(manual.group) || 'unknown',
+      label: optionalString(manual.label) || optionalString(manual.group) || 'Unknown manual',
+      phase: optionalString(manual.phase) || 'produce',
+      status: manual.status,
+      currentTask: optionalString(manual.currentTask) || 'Waiting to start',
+      detail: optionalString(manual.detail) || null,
+    };
+  }
+  const entries: Array<[string, PhaseStatus]> = [
+    ['produce', isLegacyProgressStatus(manual.produce) ? LEGACY_STATUS[manual.produce] : 'waiting'],
+    ['publish', isLegacyProgressStatus(manual.publish) ? LEGACY_STATUS[manual.publish] : isLegacyProgressStatus(manual.source) ? LEGACY_STATUS[manual.source] : 'waiting'],
+    ['translate', isLegacyProgressStatus(manual.translate) ? LEGACY_STATUS[manual.translate] : 'waiting'],
+    ['translation', isLegacyProgressStatus(manual.translation) ? LEGACY_STATUS[manual.translation] : 'waiting'],
+  ]
   const failed = entries.find(([, status]) => status === 'failed')
   const running = entries.find(([, status]) => status === 'running')
   const waiting = entries.find(([, status]) => status === 'waiting')
   const selected = failed || running || waiting || entries.at(-1)
   return {
-    group: manual.group,
-    label: manual.label || manual.group,
+    group: optionalString(manual.group) || 'unknown',
+    label: optionalString(manual.label) || optionalString(manual.group) || 'Unknown manual',
     phase: selected[0],
     status: failed ? 'failed' : running ? 'running' : waiting ? 'waiting' : 'completed',
-    currentTask: manual.currentTask || PHASE_LABELS[selected[0]],
-    detail: manual.detail || null,
+    currentTask: optionalString(manual.currentTask) || PHASE_LABELS[selected[0]],
+    detail: optionalString(manual.detail) || null,
   }
 }
 
-function normalizeCardState(state) {
-  if (Array.isArray(state?.phases)) {
+function parseCardPhase(value: unknown): CardPhase {
+  if (!isRecord(value) || !isPhaseStatus(value.status)) throw new Error('phase status is invalid');
+  return {
+    key: optionalString(value.key) || 'phase',
+    label: optionalString(value.label) || 'Phase',
+    done: typeof value.done === 'number' && Number.isFinite(value.done) ? value.done : 0,
+    total: typeof value.total === 'number' && Number.isFinite(value.total) ? value.total : 1,
+    status: value.status,
+  };
+}
+
+function parseCardReport(value: unknown): CardReportInput {
+  if (typeof value === 'string') return value;
+  if (!isRecord(value) || typeof value.markdown !== 'string') throw new Error('report is invalid');
+  return {
+    markdown: value.markdown,
+    ...(optionalString(value.title) ? {title: optionalString(value.title)} : {}),
+    ...(typeof value.attention === 'boolean' ? {attention: value.attention} : {}),
+  };
+}
+
+function normalizeCardState(input: unknown): NormalizedCardState {
+  const state = isRecord(input) ? input : {};
+  if (Array.isArray(state.phases)) {
     return {
-      ...state,
+      messageId: optionalString(state.messageId),
+      title: optionalString(state.title) || 'Build Progress',
+      startedAt: optionalString(state.startedAt) || new Date().toISOString(),
+      targetBranch: optionalString(state.targetBranch),
+      overallStatus: isOverallStatus(state.overallStatus) ? state.overallStatus : 'running',
+      phases: state.phases.map(parseCardPhase),
       manuals: Array.isArray(state.manuals) ? state.manuals.map(legacyManual) : [],
       reports: Array.isArray(state.reports)
-        ? state.reports
-        : (state.notes || []).map(markdown => ({ markdown })),
+        ? state.reports.map(parseCardReport)
+        : (Array.isArray(state.notes) ? state.notes : []).filter((note): note is string => typeof note === 'string').map(markdown => ({markdown})),
     }
   }
-  const statuses = Array.isArray(state?.statuses) ? state.statuses : []
+  const statuses = Array.isArray(state.statuses) ? state.statuses.filter(isLegacyProgressStatus) : []
   const overallStatus = statuses.includes('fail')
     ? 'failure'
     : statuses.length > 0 && statuses.every(status => status === 'done')
       ? 'success'
       : 'running'
   return {
-    ...state,
+    messageId: optionalString(state.messageId),
+    title: optionalString(state.title) || 'Build Progress',
+    startedAt: optionalString(state.startedAt) || new Date().toISOString(),
+    targetBranch: optionalString(state.targetBranch),
     overallStatus,
-    phases: (state?.stages || []).map((name, index) => legacyPhase(name, statuses[index], index)),
-    manuals: Array.isArray(state?.manuals) ? state.manuals.map(legacyManual) : [],
-    reports: (state?.notes || []).filter(note => typeof note === 'string' && note.trim()).map(markdown => ({ markdown })),
+    phases: (Array.isArray(state.stages) ? state.stages : []).map((name, index) => legacyPhase(name, statuses[index], index)),
+    manuals: Array.isArray(state.manuals) ? state.manuals.map(legacyManual) : [],
+    reports: (Array.isArray(state.notes) ? state.notes : []).filter((note): note is string => typeof note === 'string' && Boolean(note.trim())).map(markdown => ({markdown})),
   }
 }
 
-function phaseColumn(phase) {
-  const presentation = STATUS[phase.status] || STATUS.waiting
+function phaseColumn(phase: CardPhase): CardElement {
+  const presentation = STATUS[phase.status]
   const progress = Number(phase.total) > 1 ? `\n${Number(phase.done) || 0}/${phase.total}` : ''
   return {
     tag: 'column',
@@ -140,7 +339,7 @@ function phaseColumn(phase) {
   }
 }
 
-function phaseRow(phases) {
+function phaseRow(phases: CardPhase[]): CardElement {
   return {
     tag: 'column_set',
     flex_mode: 'flow',
@@ -149,12 +348,12 @@ function phaseRow(phases) {
   }
 }
 
-function phaseLabel(phase) {
+function phaseLabel(phase: string): string {
   return PHASE_LABELS[phase] || bounded(phase, 40) || 'Current phase'
 }
 
-function manualBlock(manual) {
-  const presentation = STATUS[manual.status] || STATUS.waiting
+function manualBlock(manual: CardManual): CardElement {
+  const presentation = STATUS[manual.status]
   const label = escapeCardText(bounded(manual.label || manual.group, 80))
   const task = escapeCardText(bounded(manual.currentTask || 'Waiting to start', 160))
   const detail = manual.detail ? `\n${escapeCardText(bounded(manual.detail, 240))}` : ''
@@ -176,7 +375,7 @@ function manualBlock(manual) {
   }
 }
 
-function completedPanel(manuals) {
+function completedPanel(manuals: CardManual[]): CardElement {
   return {
     tag: 'collapsible_panel',
     expanded: false,
@@ -196,22 +395,22 @@ function completedPanel(manuals) {
   }
 }
 
-function reportTitle(markdown, index) {
+function reportTitle(markdown: string, index: number): string {
   const heading = String(markdown).match(/^\s*#{1,6}\s+(.+?)\s*$/m)
   return heading ? heading[1].replace(/[*_`]/g, '').trim() : `Report ${index + 1}`
 }
 
-function hasPositiveMetric(markdown, names) {
+function hasPositiveMetric(markdown: string, names: string[]): boolean {
   return names.some(name => new RegExp(`(?:^|\\n)\\s*[-*]?\\s*${name}\\s*:\\s*([1-9]\\d*)`, 'i').test(markdown))
 }
 
-function reportNeedsAttention(markdown) {
+function reportNeedsAttention(markdown: unknown): boolean {
   const text = String(markdown)
   return hasPositiveMetric(text, ['warnings?', 'errors?', 'failures?', 'broken(?: content)? links?', 'broken references?']) ||
     /^\s*#{1,6}\s+.*\b(?:warning|failed?|error)\b/im.test(text)
 }
 
-function reportPanel(report, index) {
+function reportPanel(report: CardReportInput, index: number): CardElement {
   const markdown = bounded(typeof report === 'string' ? report : report?.markdown, 12000)
   const title = bounded(typeof report === 'object' && report?.title ? report.title : reportTitle(markdown, index), 120)
   const attention = typeof report === 'object' && typeof report?.attention === 'boolean'
@@ -232,15 +431,15 @@ function reportPanel(report, index) {
   }
 }
 
-function buildCardV2(input, options = {}) {
-  const state = normalizeCardState(input || {})
-  const presentation = OVERALL[state.overallStatus] || OVERALL.running
+function buildCardV2(input: unknown, options: BuildCardOptions = {}): CardV2 {
+  const state = normalizeCardState(input)
+  const presentation = OVERALL[state.overallStatus]
   const now = options.now || new Date()
   const branch = options.branch || state.targetBranch || process.env.GITHUB_REF_NAME || process.env.GITHUB_HEAD_REF || 'branch unavailable'
   const workflowUrl = options.workflowUrl || (process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
     ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
     : null)
-  const elements = []
+  const elements: CardElement[] = []
   if (state.phases.length) elements.push(phaseRow(state.phases.slice(0, 3)))
   if (state.phases.length > 3) elements.push(phaseRow(state.phases.slice(3, 5)))
 
@@ -277,7 +476,11 @@ function buildCardV2(input, options = {}) {
 }
 
 
-function finishStatuses(stages, success, existingStatuses = null) {
+function finishStatuses(
+  stages: readonly string[],
+  success: boolean,
+  existingStatuses: readonly LegacyProgressStatus[] | null = null,
+): LegacyProgressStatus[] {
   if (success) return stages.map(() => 'done')
 
   if (existingStatuses) {
@@ -291,10 +494,10 @@ function finishStatuses(stages, success, existingStatuses = null) {
   return stages.map((_, i) => i === 0 ? 'fail' : 'pending')
 }
 
-function parseNotesJson(value) {
-  if (!value) return []
+function parseNotesJson(value: unknown): string[] {
+  if (typeof value !== 'string' || !value) return []
   try {
-    const parsed = JSON.parse(value)
+    const parsed: unknown = JSON.parse(value)
     if (!Array.isArray(parsed)) return []
     return parsed
       .filter(item => typeof item === 'string' && item.trim())
@@ -304,53 +507,104 @@ function parseNotesJson(value) {
   }
 }
 
-function appendNotes(state, notes) {
-  if (!state.notes) state.notes = []
-  for (const note of notes || []) {
+function appendNotes<T extends {notes: string[]}>(state: T, notes: readonly unknown[]): T {
+  for (const note of notes) {
     if (typeof note === 'string' && note.trim()) state.notes.push(note.trim())
   }
   return state
 }
 
-function buildPhaseState({ messageId, title, stages, stageIndex, status, startedAt, note, targetBranch }) {
+export type BuildPhaseStateOptions = Readonly<{
+  messageId?: unknown;
+  title?: unknown;
+  stages: readonly string[];
+  stageIndex: number;
+  status: unknown;
+  startedAt?: unknown;
+  note?: unknown;
+  targetBranch?: unknown;
+}>;
+
+function phaseCompletionStatus(value: unknown): PhaseCompletionStatus {
+  if (value !== 'done' && value !== 'fail') throw new Error('phase status must be done or fail');
+  return value;
+}
+
+function buildPhaseState({messageId, title, stages, stageIndex, status: rawStatus, startedAt, note, targetBranch}: BuildPhaseStateOptions): PersistedCardState {
   if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
   if (!Number.isInteger(stageIndex) || stageIndex < 0 || stageIndex >= stages.length) throw new Error('stageIndex is out of range')
-  if (!['done', 'fail'].includes(status)) throw new Error('phase status must be done or fail')
-  const statuses = stages.map((_, index) => index < stageIndex ? 'done' : 'pending')
+  const status = phaseCompletionStatus(rawStatus)
+  const statuses: LegacyProgressStatus[] = stages.map((_, index) => index < stageIndex ? 'done' : 'pending')
   statuses[stageIndex] = status
   const currentIndex = status === 'done' && stageIndex + 1 < stages.length ? stageIndex + 1 : stageIndex
   if (currentIndex !== stageIndex) statuses[currentIndex] = 'running'
   return {
-    messageId,
-    title: title || 'Build',
-    stages,
+    messageId: optionalString(messageId),
+    title: optionalString(title) || 'Build',
+    stages: [...stages],
     statuses,
     currentIndex,
-    notes: note && note.trim() ? [note.trim()] : [],
-    startedAt: startedAt || new Date().toISOString(),
-    targetBranch: targetBranch || undefined,
+    notes: optionalString(note) ? [optionalString(note)!] : [],
+    startedAt: optionalString(startedAt) || new Date().toISOString(),
+    targetBranch: optionalString(targetBranch),
   }
 }
 
-function buildExactState({ messageId, title, startedAt, targetBranch, input }) {
-  if (!input || !['running', 'success', 'failure', 'cancelled'].includes(input.overallStatus)) throw new Error('overallStatus is invalid')
+export type BuildExactStateOptions = Readonly<{
+  messageId?: unknown;
+  title?: unknown;
+  startedAt?: unknown;
+  targetBranch?: unknown;
+  input: unknown;
+}>;
+
+function parseExactManual(value: unknown): CardManual {
+  if (!isRecord(value) || !isPhaseStatus(value.status)) throw new Error('manual status is invalid');
+  return {
+    group: optionalString(value.group) || 'unknown',
+    label: optionalString(value.label) || optionalString(value.group) || 'Unknown manual',
+    phase: optionalString(value.phase) || 'produce',
+    status: value.status,
+    currentTask: optionalString(value.currentTask) || 'Waiting to start',
+    detail: optionalString(value.detail) || null,
+  };
+}
+
+function buildExactState({messageId, title, startedAt, targetBranch, input}: BuildExactStateOptions): ExactCardState {
+  if (!isRecord(input) || !isOverallStatus(input.overallStatus)) throw new Error('overallStatus is invalid')
   if (!Array.isArray(input.phases)) throw new Error('phases must be an array')
   if (!Array.isArray(input.manuals)) throw new Error('manuals must be an array')
   if (!Array.isArray(input.reports)) throw new Error('reports must be an array')
-  const manualStatuses = new Set(['failed', 'running', 'waiting', 'completed', 'cancelled'])
-  for (const manual of input.manuals) {
-    if (!manual || !manualStatuses.has(manual.status)) throw new Error('manual status is invalid')
-  }
+  const phases = input.phases.map(parseCardPhase);
+  const manuals = input.manuals.map(parseExactManual);
+  const reports = input.reports.map(parseCardReport);
   return {
-    messageId,
-    title: title || input.title || 'Global Docs Build',
-    startedAt: startedAt || input.startedAt || new Date().toISOString(),
-    targetBranch: targetBranch || input.targetBranch,
+    messageId: optionalString(messageId),
+    title: optionalString(title) || optionalString(input.title) || 'Global Docs Build',
+    startedAt: optionalString(startedAt) || optionalString(input.startedAt) || new Date().toISOString(),
+    targetBranch: optionalString(targetBranch) || optionalString(input.targetBranch),
     overallStatus: input.overallStatus,
-    phases: input.phases,
-    manuals: input.manuals,
-    reports: input.reports,
+    phases,
+    manuals,
+    reports,
   }
+}
+
+export type BuildFinishStateOptions = Readonly<{
+  existingState: PersistedCardState | null;
+  messageId?: unknown;
+  title?: unknown;
+  stages?: readonly string[] | null;
+  status?: unknown;
+  startedAt?: unknown;
+  notes?: readonly unknown[];
+  targetBranch?: unknown;
+}>;
+
+function finishStatus(value: unknown): FinishStatus {
+  if (value === undefined) return 'failure';
+  if (value === 'success' || value === 'done' || value === 'failure' || value === 'fail' || value === 'cancelled') return value;
+  throw new Error('finish status must be success, done, failure, fail, or cancelled');
 }
 
 function buildFinishState({
@@ -362,26 +616,29 @@ function buildFinishState({
   startedAt,
   notes = [],
   targetBranch,
-}) {
-  const success = status === 'success' || status === 'done'
+}: BuildFinishStateOptions): PersistedCardState {
+  const parsedStatus = finishStatus(status)
+  const success = parsedStatus === 'success' || parsedStatus === 'done'
   const effectiveStages = stages && stages.length ? stages : [success ? 'Build succeeded' : 'Build failed']
-  const matchingState = existingState && (!messageId || existingState.messageId === messageId)
+  const parsedMessageId = optionalString(messageId)
+  const matchingState = existingState && (!parsedMessageId || existingState.messageId === parsedMessageId)
     ? existingState
     : null
   const state = matchingState || {
-    messageId,
-    title: title || 'Build',
-    stages: effectiveStages,
+    messageId: parsedMessageId,
+    title: optionalString(title) || 'Build',
+    stages: [...effectiveStages],
     statuses: finishStatuses(effectiveStages, success),
     currentIndex: 0,
     notes: [],
-    startedAt: startedAt || new Date().toISOString(),
-    targetBranch: targetBranch || undefined,
+    startedAt: optionalString(startedAt) || new Date().toISOString(),
+    targetBranch: optionalString(targetBranch),
   }
 
   if (matchingState) {
     state.statuses = finishStatuses(state.stages, success, state.statuses)
-    if (targetBranch) state.targetBranch = targetBranch
+    const branch = optionalString(targetBranch)
+    if (branch) state.targetBranch = branch
   }
 
   appendNotes(state, notes)
@@ -392,12 +649,12 @@ function buildFinishState({
 const CARD_STATE_FILE = '.build-card-state.json';
 const DEFAULT_RECEIVE_ID = 'oc_0e36909edb9247c7b6ecb437e99f1d68';
 
-function required(value, label) {
+function required(value: unknown, label: string): string {
   if (typeof value !== 'string' || !value.trim()) throw new Error(`${label} is required`);
   return value.trim();
 }
 
-function safeInput(repositoryRoot, relativePath, label) {
+function safeInput(repositoryRoot: string, relativePath: string, label: string): string {
   assertSafeRepositoryRelativePath(relativePath, label);
   const target = resolveOwnedRepositoryPath(repositoryRoot, relativePath, label);
   const root = realpathSync(repositoryRoot);
@@ -411,39 +668,72 @@ function safeInput(repositoryRoot, relativePath, label) {
   return target;
 }
 
-function statePath(repositoryRoot) {
+function statePath(repositoryRoot: string): string {
   return assertSafeAtomicWriteTargets(repositoryRoot, [CARD_STATE_FILE], 'Card state')[0].finalPath;
 }
 
-function loadState(repositoryRoot) {
-  const target = statePath(repositoryRoot);
-  if (!existsSync(target)) return null;
-  try { return JSON.parse(readFileSync(target, 'utf8')); } catch { return null; }
+function parsePersistedCardState(value: unknown): PersistedCardState {
+  if (!isRecord(value)) throw new Error('Card state must be an object');
+  if (!Array.isArray(value.stages) || value.stages.some(stage => typeof stage !== 'string')) throw new Error('Card state stages are invalid');
+  if (!Array.isArray(value.statuses) || value.statuses.some(status => !isLegacyProgressStatus(status))) throw new Error('Card state statuses are invalid');
+  if (typeof value.currentIndex !== 'number' || !Number.isInteger(value.currentIndex) || value.currentIndex < 0) throw new Error('Card state currentIndex is invalid');
+  if (!Array.isArray(value.notes) || value.notes.some(note => typeof note !== 'string')) throw new Error('Card state notes are invalid');
+  if (value.statuses.length !== value.stages.length) throw new Error('Card state stage/status lengths do not match');
+  if ((value.stages.length === 0 && value.currentIndex !== 0) || (value.stages.length > 0 && value.currentIndex >= value.stages.length)) {
+    throw new Error('Card state currentIndex is out of range');
+  }
+  return {
+    messageId: optionalString(value.messageId),
+    title: required(value.title, 'Card state title'),
+    stages: [...value.stages],
+    statuses: [...value.statuses] as LegacyProgressStatus[],
+    currentIndex: value.currentIndex,
+    notes: [...value.notes] as string[],
+    startedAt: required(value.startedAt, 'Card state startedAt'),
+    targetBranch: optionalString(value.targetBranch),
+  };
 }
 
-function saveState(repositoryRoot, state) {
+function loadState(repositoryRoot: string): PersistedCardState | null {
+  const target = statePath(repositoryRoot);
+  if (!existsSync(target)) return null;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(readFileSync(target, 'utf8')) as unknown;
+  } catch (error) {
+    throw new Error('Card state is not valid JSON', {cause: error});
+  }
+  return parsePersistedCardState(parsed);
+}
+
+function saveState(repositoryRoot: string, state: PersistedCardState): void {
   writeAtomicRepositoryFiles(repositoryRoot, [{path: CARD_STATE_FILE, contents: JSON.stringify(state, null, 2)}], 'Card state');
 }
 
-async function defaultTokenProvider(credentials) {
+function responseMessageId(value: unknown): string | undefined {
+  if (!isRecord(value) || !isRecord(value.data)) return undefined;
+  return optionalString(value.data.message_id);
+}
+
+async function defaultTokenProvider(credentials: FeishuCredentials): Promise<string> {
   const data = await fetchFeishuJsonWithRetry(`${credentials.feishuHost}/open-apis/auth/v3/tenant_access_token/internal/`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({app_id: credentials.appId, app_secret: credentials.appSecret}),
   }, 'fetch tenant access token');
-  if (data?.code !== 0 || typeof data.tenant_access_token !== 'string' || !data.tenant_access_token) {
+  if (!isRecord(data) || data.code !== 0 || typeof data.tenant_access_token !== 'string' || !data.tenant_access_token) {
     throw new Error('Feishu tenant token is unavailable');
   }
   return data.tenant_access_token;
 }
 
-export function createCardClient({feishuHost, appId, appSecret, tokenProvider = defaultTokenProvider, requestJson = fetchFeishuJsonWithRetry, now = () => new Date()}) {
+export function createCardClient({feishuHost, appId, appSecret, tokenProvider = defaultTokenProvider, requestJson = fetchFeishuJsonWithRetry, now = () => new Date()}: CardClientDependencies) {
   const host = required(feishuHost, 'feishuHost').replace(/\/$/, '');
   const credentials = {appId: required(appId, 'appId'), appSecret: required(appSecret, 'appSecret'), feishuHost: host};
   if (typeof tokenProvider !== 'function') throw new Error('tokenProvider is required');
   if (typeof requestJson !== 'function') throw new Error('requestJson is required');
   return {
-    async patch({messageId, state}) {
+    async patch({messageId, state}: {messageId: unknown; state: unknown}): Promise<unknown> {
       const id = required(messageId, 'messageId');
       const token = await tokenProvider(credentials);
       if (typeof token !== 'string' || !token) throw new Error('Feishu token is unavailable');
@@ -456,12 +746,13 @@ export function createCardClient({feishuHost, appId, appSecret, tokenProvider = 
   };
 }
 
-function optionsNote(repositoryRoot, options) {
-  if (options.noteFile) return readFileSync(safeInput(repositoryRoot, options.noteFile, 'Note file'), 'utf8').trim();
+function optionsNote(repositoryRoot: string, options: ReportCardOptions): string | null {
+  const noteFile = optionalString(options.noteFile);
+  if (noteFile) return readFileSync(safeInput(repositoryRoot, noteFile, 'Note file'), 'utf8').trim();
   return typeof options.note === 'string' && options.note.trim() ? options.note.trim() : null;
 }
 
-function credentials(environment) {
+function credentials(environment: NodeJS.ProcessEnv): FeishuCredentials {
   return {
     appId: required(environment.APP_ID, 'APP_ID'),
     appSecret: required(environment.APP_SECRET, 'APP_SECRET'),
@@ -469,9 +760,39 @@ function credentials(environment) {
   };
 }
 
-export async function executeReportCard(request, dependencies = {}) {
+function commaSeparatedStrings(value: unknown): string[] {
+  if (value === undefined || value === null || value === false) return [];
+  return String(value).split(',').map(item => item.trim()).filter(Boolean);
+}
+
+function requireStateMessageId(state: PersistedCardState): asserts state is PersistedCardStateWithMessage {
+  if (!state.messageId) throw new Error('Card state message id is required');
+}
+
+export type ReportCardResult = PersistedCardState | PersistedCardStateWithMessage | ExactCardState | null;
+
+export interface ReportCardActionResults {
+  create: PersistedCardStateWithMessage;
+  advance: PersistedCardState | ExactCardState | null;
+  note: PersistedCardStateWithMessage | null;
+  finish: PersistedCardState;
+}
+
+export function executeReportCard(
+  request: ReportCardRequest & {action: 'create'},
+  dependencies?: ReportCardDependencies,
+): Promise<PersistedCardStateWithMessage>;
+export function executeReportCard(
+  request: ReportCardRequest,
+  dependencies?: ReportCardDependencies,
+): Promise<ReportCardResult>;
+
+export async function executeReportCard(
+  request: ReportCardRequest,
+  dependencies: ReportCardDependencies = {},
+): Promise<ReportCardResult> {
   const {repositoryRoot, action, options = {}, environment = process.env} = request;
-  if (!['create', 'advance', 'note', 'finish'].includes(action)) {
+  if (!isReportCardAction(action)) {
     throw new Error('report-card action must be create, advance, note, or finish');
   }
   statePath(repositoryRoot);
@@ -487,42 +808,43 @@ export async function executeReportCard(request, dependencies = {}) {
   const noteText = optionsNote(repositoryRoot, options);
 
   if (action === 'create') {
-    const stages = String(options.stages || '').split(',').map(value => value.trim()).filter(Boolean);
-    const state = {
-      title: options.title || 'Build Progress',
+    const stages = commaSeparatedStrings(options.stages);
+    const state: PersistedCardState = {
+      title: optionalString(options.title) || 'Build Progress',
       stages,
-      statuses: stages.map((_, index) => index === 0 ? 'running' : 'pending'),
+      statuses: stages.map<LegacyProgressStatus>((_, index) => index === 0 ? 'running' : 'pending'),
       currentIndex: 0,
       notes: [],
       startedAt: now().toISOString(),
-      targetBranch: options.targetBranch || undefined,
+      targetBranch: optionalString(options.targetBranch),
     };
     const data = await requestJson(`${auth.feishuHost}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}`},
       body: JSON.stringify({
-        receive_id: options.receiveId || environment.LARK_RECEIVE_ID || DEFAULT_RECEIVE_ID,
+        receive_id: optionalString(options.receiveId) || environment.LARK_RECEIVE_ID || DEFAULT_RECEIVE_ID,
         msg_type: 'interactive',
         content: JSON.stringify(buildCardV2(state, {now: now()})),
         uuid: (dependencies.randomUUID || nodeRandomUUID)(),
       }),
     }, 'report-to-lark create card');
-    const messageId = data?.data?.message_id;
-    if (typeof messageId !== 'string' || !messageId) throw new Error('Feishu card creation did not return a message id');
-    state.messageId = messageId;
-    saveState(repositoryRoot, state);
+    const messageId = responseMessageId(data);
+    if (!messageId) throw new Error('Feishu card creation did not return a message id');
+    const createdState: PersistedCardStateWithMessage = {...state, messageId};
+    saveState(repositoryRoot, createdState);
     if (environment.GITHUB_OUTPUT) {
-      appendFileSync(environment.GITHUB_OUTPUT, `card_id=${messageId}\ncard_started_at=${state.startedAt}\ncard_stages=${stages.join(',')}\ncard_title=${state.title}\n`);
+      appendFileSync(environment.GITHUB_OUTPUT, `card_id=${messageId}\ncard_started_at=${createdState.startedAt}\ncard_stages=${stages.join(',')}\ncard_title=${createdState.title}\n`);
     }
     if (environment.GITHUB_ENV) appendFileSync(environment.GITHUB_ENV, `CARD_MSG_ID=${messageId}\n`);
     write(messageId);
-    return state;
+    return createdState;
   }
 
   if (action === 'note') {
-    const file = required(options.file || options.noteFile, 'note file');
+    const file = required(optionalString(options.file) || optionalString(options.noteFile), 'note file');
     const state = loadState(repositoryRoot);
     if (!state) { warn('[report-card] no card state - skipping note update'); return null; }
+    requireStateMessageId(state);
     const note = readFileSync(safeInput(repositoryRoot, file, 'Note file'), 'utf8').trim();
     if (note) state.notes.push(note);
     saveState(repositoryRoot, state);
@@ -530,41 +852,44 @@ export async function executeReportCard(request, dependencies = {}) {
     return state;
   }
 
-  if (action === 'advance' && options.stateFile) {
+  const stateFile = optionalString(options.stateFile);
+  if (action === 'advance' && stateFile) {
     const messageId = required(options.messageId, 'message id');
-    const input = JSON.parse(readFileSync(safeInput(repositoryRoot, options.stateFile, 'Card state input'), 'utf8'));
+    const input: unknown = JSON.parse(readFileSync(safeInput(repositoryRoot, stateFile, 'Card state input'), 'utf8'));
     const state = buildExactState({
       messageId,
       title: options.title,
       startedAt: options.startedAt,
-      targetBranch: options.targetBranch || input.targetBranch,
+      targetBranch: optionalString(options.targetBranch) || (isRecord(input) ? optionalString(input.targetBranch) : undefined),
       input,
     });
     await client.patch({messageId, state});
     return state;
   }
 
-  if (action === 'advance' && options.messageId && options.stages && (options.stage !== undefined || options.stageIndex !== undefined)) {
-    const stages = String(options.stages).split(',').map(value => value.trim()).filter(Boolean);
-    const stageIndex = options.stageIndex === undefined ? stages.indexOf(options.stage) : Number(options.stageIndex);
+  const explicitMessageId = optionalString(options.messageId);
+  const explicitStages = commaSeparatedStrings(options.stages);
+  if (action === 'advance' && explicitMessageId && explicitStages.length > 0 && (options.stage !== undefined || options.stageIndex !== undefined)) {
+    const stageIndex = options.stageIndex === undefined ? explicitStages.indexOf(optionalString(options.stage) || '') : Number(options.stageIndex);
     const state = buildPhaseState({
-      messageId: options.messageId,
+      messageId: explicitMessageId,
       title: options.title,
-      stages,
+      stages: explicitStages,
       stageIndex,
       status: options.status || 'done',
       startedAt: options.startedAt,
       note: noteText,
       targetBranch: options.targetBranch,
     });
-    await client.patch({messageId: options.messageId, state});
+    await client.patch({messageId: explicitMessageId, state});
     return state;
   }
 
   if (action === 'advance') {
     const state = loadState(repositoryRoot);
     if (!state) { warn('[report-card] no card state - skipping update'); return null; }
-    const status = options.status || 'done';
+    requireStateMessageId(state);
+    const status = phaseCompletionStatus(options.status ?? 'done');
     state.statuses[state.currentIndex] = status;
     if (noteText) state.notes.push(noteText);
     if (status !== 'fail' && state.currentIndex + 1 < state.stages.length) {
@@ -577,7 +902,8 @@ export async function executeReportCard(request, dependencies = {}) {
   }
 
   const messageId = required(options.messageId, 'message id');
-  const stages = options.stages ? String(options.stages).split(',').map(value => value.trim()).filter(Boolean) : null;
+  const parsedStages = commaSeparatedStrings(options.stages);
+  const stages = parsedStages.length > 0 ? parsedStages : null;
   const notes = parseNotesJson(options.notesJson);
   if (noteText) notes.push(noteText);
   const state = buildFinishState({

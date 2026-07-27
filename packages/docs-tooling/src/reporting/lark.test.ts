@@ -6,8 +6,9 @@ import assert from 'node:assert/strict';
 import {describe, expect, it, test} from 'vitest';
 
 import {appendNotes, buildCardV2, buildExactState, buildFinishState, buildPhaseState, createCardClient, executeReportCard, finishStatuses, normalizeCardState, parseNotesJson, reportNeedsAttention} from './lark.ts';
+import type {CardClientDependencies, ExactCardState, PersistedCardState, ReportCardDependencies, RequestJson} from './lark.ts';
 
-function sampleState(overrides = {}) {
+function sampleState(overrides: Partial<ExactCardState> = {}): ExactCardState {
   return {
     title: 'Global Docs Build', overallStatus: 'running',
     phases: [{key: 'produce', label: 'Produce', done: 6, total: 7, status: 'running'}, {key: 'publish', label: 'Publish', done: 3, total: 7, status: 'running'}],
@@ -39,7 +40,7 @@ describe('report-card state and Card V2 rendering', () => {
 });
 
 // Ported regression coverage from the retired Docusaurus report-to-lark plugin.
-function state() {
+function state(): ExactCardState {
   return {
     title: 'Build',
     overallStatus: 'running',
@@ -52,7 +53,7 @@ function state() {
 }
 
 test('patches one Card V2 message with an injected token and request client', async () => {
-  const calls = []
+  const calls: Parameters<RequestJson>[] = []
   const client = createCardClient({
     feishuHost: 'https://open.feishu.cn',
     appId: 'app-id',
@@ -80,7 +81,7 @@ test('patches one Card V2 message with an injected token and request client', as
 
 test('rejects missing configuration and message identifiers before network access', async () => {
   let called = false
-  const dependencies = {
+  const dependencies: Pick<CardClientDependencies, 'tokenProvider' | 'requestJson'> = {
     tokenProvider: async () => { called = true; return 'token' },
     requestJson: async () => { called = true },
   }
@@ -109,7 +110,7 @@ test('rejects an empty token without sending the card request', async () => {
   assert.equal(requested, false)
 })
 
-function portedCardState(overrides = {}) {
+function portedCardState(overrides: Partial<ExactCardState> = {}): ExactCardState {
   return {
     title: 'Global Docs Build',
     overallStatus: 'running',
@@ -173,7 +174,8 @@ test('places a collapsed grey Completed panel after active manuals and before re
   assert.equal(completed.border.color, 'grey')
   assert.match(completed.elements[0].content, /Go SDK · Publish translations/)
   assert.deepEqual(panels.slice(1).map(panel => panel.expanded), [false, true])
-  assert.ok(card.body.elements.indexOf(completed) > card.body.elements.findLastIndex(element => element.tag === 'column_set'))
+  const lastColumnSetIndex = card.body.elements.map(element => element.tag).lastIndexOf('column_set')
+  assert.ok(card.body.elements.indexOf(completed) > lastColumnSetIndex)
   assert.ok(card.body.elements.indexOf(completed) < card.body.elements.indexOf(panels[1]))
   assert.equal(descendants(completed).some(node => node.tag === 'table'), false)
 })
@@ -256,6 +258,7 @@ test('buildExactState preserves the complete centralized snapshot', () => {
 test('buildExactState rejects malformed centralized state', () => {
   assert.throws(() => buildExactState({ input: {} }), /overallStatus/)
   assert.throws(() => buildExactState({ input: exactInput({ phases: null }) }), /phases/)
+  assert.throws(() => buildExactState({ input: exactInput({ phases: [{ ...exactInput().phases[0], status: 'pending' }] }) }), /phase status/)
   assert.throws(() => buildExactState({ input: exactInput({ manuals: [{ ...exactInput().manuals[0], status: 'pending' }] }) }), /manual status/)
   assert.throws(() => buildExactState({ input: exactInput({ reports: null }) }), /reports/)
 })
@@ -341,6 +344,7 @@ test('buildFinishState ignores persisted state from a different Feishu message',
       title: 'Old build',
       stages: ['Old stage'],
       statuses: ['done'],
+      currentIndex: 0,
       notes: ['Old link report'],
       startedAt: '2026-07-11T10:30:51.737Z',
     },
@@ -367,7 +371,7 @@ test('finishStatuses marks first unfinished stage failed', () => {
 
 describe('report-card client and command behavior', () => {
   it('patches a Card V2 message with injected credentials and request client', async () => {
-    const calls: unknown[][] = [];
+    const calls: Parameters<RequestJson>[] = [];
     const client = createCardClient({
       feishuHost: 'https://open.feishu.cn', appId: 'app-id', appSecret: 'app-secret',
       tokenProvider: async credentials => { expect(credentials).toEqual({appId: 'app-id', appSecret: 'app-secret', feishuHost: 'https://open.feishu.cn'}); return 'tenant-token'; },
@@ -375,16 +379,17 @@ describe('report-card client and command behavior', () => {
     });
     await client.patch({messageId: 'om_123/a', state: sampleState()});
     expect(calls[0][0]).toBe('https://open.feishu.cn/open-apis/im/v1/messages/om_123%2Fa');
-    expect((calls[0][1] as {headers: {Authorization: string}}).headers.Authorization).toBe('Bearer tenant-token');
+    expect(calls[0][1].headers.Authorization).toBe('Bearer tenant-token');
   });
 
   it('creates, persists, and exports a progress card', async () => {
     const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
     const writes: string[] = [];
-    await executeReportCard({repositoryRoot: root, action: 'create', options: {title: 'Build', stages: 'Fetch,Build', targetBranch: 'dev'}, environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'}}, {
+    const dependencies: ReportCardDependencies = {
       tokenProvider: async () => 'token', requestJson: async () => ({data: {message_id: 'om_123'}}),
       now: () => new Date('2026-07-16T10:00:00.000Z'), randomUUID: () => 'uuid', write: message => writes.push(message),
-    });
+    };
+    await executeReportCard({repositoryRoot: root, action: 'create', options: {title: 'Build', stages: 'Fetch,Build', targetBranch: 'dev'}, environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'}}, dependencies);
     expect(JSON.parse(readFileSync(path.join(root, '.build-card-state.json'), 'utf8'))).toMatchObject({messageId: 'om_123', statuses: ['running', 'pending']});
     expect(writes).toContain('om_123');
   });
@@ -436,5 +441,49 @@ describe('report-card client and command behavior', () => {
 
     expect(requested).toBe(false);
     expect(readFileSync(outside, 'utf8')).toBe('outside sentinel');
+  });
+
+  it('rejects persisted state without a message id before mutating it', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const persisted: PersistedCardState = {
+      title: 'Build', stages: ['Build'], statuses: ['running'], currentIndex: 0, notes: [],
+      startedAt: '2026-07-16T10:00:00.000Z',
+    };
+    writeFileSync(stateFile, JSON.stringify(persisted));
+
+    await expect(executeReportCard({
+      repositoryRoot: root,
+      action: 'advance',
+      options: {status: 'done'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => ({code: 0}),
+    })).rejects.toThrow(/message.?id/i);
+
+    expect(JSON.parse(readFileSync(stateFile, 'utf8'))).toEqual(persisted);
+  });
+
+  it('rejects invalid transition statuses without mutating persisted state', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'docs-tooling-card-'));
+    const stateFile = path.join(root, '.build-card-state.json');
+    const persisted: PersistedCardState = {
+      messageId: 'om_1', title: 'Build', stages: ['Build'], statuses: ['running'], currentIndex: 0, notes: [],
+      startedAt: '2026-07-16T10:00:00.000Z',
+    };
+    writeFileSync(stateFile, JSON.stringify(persisted));
+
+    await expect(executeReportCard({
+      repositoryRoot: root,
+      action: 'advance',
+      options: {status: 'pending'},
+      environment: {APP_ID: 'app-id', APP_SECRET: 'app-secret', FEISHU_HOST: 'https://open.feishu.cn'},
+    }, {
+      tokenProvider: async () => 'token',
+      requestJson: async () => ({code: 0}),
+    })).rejects.toThrow(/status.*done or fail/i);
+
+    expect(JSON.parse(readFileSync(stateFile, 'utf8'))).toEqual(persisted);
   });
 });
