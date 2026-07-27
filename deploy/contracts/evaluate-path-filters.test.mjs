@@ -36,6 +36,59 @@ test('site-owned changes require only their owned site build', () => {
   });
 });
 
+test('Japanese localization changes require only the English build', () => {
+  assert.deepEqual(evaluateChangedPaths([
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/home.md',
+    '.translation-cache/ja-JP.json',
+  ], filters), {
+    checks: ['build:en'],
+    matchedRules: ['japaneseLocalization'],
+    unclassifiedPaths: [],
+  });
+});
+
+test('English Tools source content and its sidebar source select both builds', () => {
+  assert.deepEqual(evaluateChangedPaths([
+    'content/en/guides/tutorials/tools/agents-and-prompts.md',
+    'generated/en/sidebars/guides.sidebar.js',
+  ], filters), {
+    checks: ['build:en', 'build:zh-CN'],
+    matchedRules: ['canonicalEnglishTools'],
+    unclassifiedPaths: [],
+  });
+  assert.deepEqual(evaluateChangedPaths(['content/en/guides/tutorials/quick-start.md'], filters), {
+    checks: ['build:en'],
+    matchedRules: ['siteOwned.en'],
+    unclassifiedPaths: [],
+  });
+});
+
+test('Chinese Tools release inputs select only the Chinese build', () => {
+  assert.deepEqual(evaluateChangedPaths([
+    'content/zh-CN/guides/tutorials/tools/tool.md',
+    'generated/zh-CN/manifests/tools-translations.json',
+    'generated/zh-CN/sidebars/tools.sidebar.js',
+    'config/tools-retirements.json',
+  ], filters), {
+    checks: ['build:zh-CN'],
+    matchedRules: ['zhToolsTranslation'],
+    unclassifiedPaths: [],
+  });
+});
+
+test('shared Agent translation engine changes run both builds and both Chinese coverage gates', () => {
+  assert.deepEqual(evaluateChangedPaths(['packages/docs-tooling/src/translation/targets.ts'], filters), {
+    checks: [
+      'build:en',
+      'build:zh-CN',
+      'zh-reference-translation-coverage',
+      'zh-tools-translation-coverage',
+    ],
+    matchedRules: ['sharedAgentEngine'],
+    unclassifiedPaths: [],
+  });
+});
+
 test('unclassified paths fail closed to both site builds', () => {
   assert.deepEqual(evaluateChangedPaths(['README.md'], filters), {
     checks: ['build:en', 'build:zh-CN'],
@@ -80,6 +133,7 @@ test('GitHub outputs expose stable booleans and audit data', () => {
     'build_en=false',
     'build_zh_cn=true',
     'reference_coverage=true',
+    'tools_coverage=false',
     'checks=["build:zh-CN","zh-reference-translation-coverage"]',
     'matched_rules=["zhReferenceTranslation"]',
     'unclassified_paths=[]',

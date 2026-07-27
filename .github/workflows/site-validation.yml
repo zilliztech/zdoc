@@ -27,6 +27,7 @@ jobs:
       build_en: ${{ steps.filters.outputs.build_en }}
       build_zh_cn: ${{ steps.filters.outputs.build_zh_cn }}
       reference_coverage: ${{ steps.filters.outputs.reference_coverage }}
+      tools_coverage: ${{ steps.filters.outputs.tools_coverage }}
     steps:
       - name: Check out candidate
         uses: actions/checkout@v4
@@ -63,6 +64,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:en
+      - name: Require Japanese home output
+        run: test -s build/en/ja-JP/docs/home.html
 
   build_zh_cn:
     name: Build Chinese site
@@ -82,6 +85,16 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build:zh-CN
+      - name: Verify Chinese Tools release reachability
+        run: >-
+          node --input-type=module -e "
+          import fs from 'node:fs';
+          const provenance = JSON.parse(fs.readFileSync('build/zh-CN/build-provenance.json', 'utf8'));
+          const tools = provenance.routeInventories?.tools ?? [];
+          const reachable = provenance.routeInventories?.toolsSidebarReachable ?? [];
+          if (JSON.stringify(tools) !== JSON.stringify(reachable)) throw new Error('Chinese Tools routes are not sidebar reachable');
+          if ((provenance.routes ?? []).some(route => route === '/docs-agents' || route.startsWith('/docs-agents/'))) throw new Error('docs-agents route was reintroduced');
+          "
 
   reference_coverage:
     name: Validate Chinese Reference coverage
@@ -100,6 +113,20 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm docs-tooling validate-reference --site zh-CN
+
+  tools_coverage:
+    name: Validate Chinese Tools coverage
+    needs:
+      - classify
+      - build_zh_cn
+    if: ${{ always() && needs.classify.outputs.tools_coverage == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ZH_CN_RESULT: ${{ needs.build_zh_cn.result }}
+    steps:
+      - name: Require the provenance-enforced Chinese Tools build
+        run: test "$ZH_CN_RESULT" = success
 
   retirement:
     name: Verify retired layout
@@ -122,6 +149,7 @@ jobs:
       - build_en
       - build_zh_cn
       - reference_coverage
+      - tools_coverage
       - retirement
     if: ${{ always() }}
     runs-on: ubuntu-latest
@@ -131,12 +159,13 @@ jobs:
       EN_RESULT: ${{ needs.build_en.result }}
       ZH_CN_RESULT: ${{ needs.build_zh_cn.result }}
       REFERENCE_RESULT: ${{ needs.reference_coverage.result }}
+      TOOLS_RESULT: ${{ needs.tools_coverage.result }}
       RETIREMENT_RESULT: ${{ needs.retirement.result }}
     steps:
       - name: Require every selected validation to pass
         run: |
           test "$CLASSIFY_RESULT" = success
           test "$RETIREMENT_RESULT" = success
-          for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT"; do
+          for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do
             test "$result" = success || test "$result" = skipped
           done

@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 
-import {insertToolsSidebarFragment} from './guides.ts';
+import {insertToolsSidebarFragment} from './guides-layout.ts';
 
 describe('Chinese Guides Tools navigation position', () => {
   it('inserts the owned fragment after the existing Chinese Tools slot without replacing other sections', () => {

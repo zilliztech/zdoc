@@ -1,6 +1,10 @@
 {
-  "version": 3,
+  "version": 4,
   "precedence": [
+    "japaneseLocalization",
+    "canonicalEnglishTools",
+    "zhToolsTranslation",
+    "sharedAgentEngine",
     "canonicalEnglishReference",
     "zhReferenceTranslation",
     "siteOwned.en",
@@ -8,6 +12,36 @@
     "shared"
   ],
   "rules": {
+    "japaneseLocalization": {
+      "include": [
+        ".translation-cache/ja-JP.json",
+        "i18n/ja-JP/**"
+      ],
+      "checks": ["build:en"]
+    },
+    "canonicalEnglishTools": {
+      "include": [
+        "content/en/guides/tutorials/tools/**",
+        "generated/en/sidebars/guides.sidebar.js"
+      ],
+      "checks": ["build:en", "build:zh-CN"]
+    },
+    "zhToolsTranslation": {
+      "include": [
+        "content/zh-CN/guides/tutorials/tools/**",
+        "generated/zh-CN/manifests/tools-translations.json",
+        "generated/zh-CN/sidebars/tools.sidebar.js",
+        "config/tools-retirements.json"
+      ],
+      "checks": ["build:zh-CN"]
+    },
+    "sharedAgentEngine": {
+      "include": [
+        "packages/docs-tooling/src/translation/**",
+        "scripts/translation/**"
+      ],
+      "checks": ["build:en", "build:zh-CN", "zh-reference-translation-coverage", "zh-tools-translation-coverage"]
+    },
     "canonicalEnglishReference": {
       "include": [
         "content/en/reference/**",
@@ -34,7 +68,11 @@
         "generated/en/sidebars/**",
         "deploy/en/**"
       ],
-      "exclude": ["content/en/reference/**"],
+      "exclude": [
+        "content/en/reference/**",
+        "content/en/guides/tutorials/tools/**",
+        "generated/en/sidebars/guides.sidebar.js"
+      ],
       "checks": ["build:en"]
     },
     "siteOwned.zh-CN": {
@@ -45,6 +83,10 @@
         "sidebar-overrides/zh-CN/**",
         "generated/zh-CN/sidebars/**",
         "deploy/zh-CN/**"
+      ],
+      "exclude": [
+        "content/zh-CN/guides/tutorials/tools/**",
+        "generated/zh-CN/sidebars/tools.sidebar.js"
       ],
       "checks": ["build:zh-CN"]
     },
@@ -71,7 +113,9 @@
         "packages/site-config/src/sidebars/en/**",
         "packages/site-config/src/sidebars/zh-CN/**",
         "packages/docs-tooling/src/reference/**",
-        "packages/docs-tooling/src/validation/translation.ts"
+        "packages/docs-tooling/src/validation/translation.ts",
+        "packages/docs-tooling/src/translation/**",
+        "scripts/translation/**"
       ],
       "checks": ["build:en", "build:zh-CN"]
     }

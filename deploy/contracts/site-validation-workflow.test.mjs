@@ -55,6 +55,7 @@ test('site validation selects checks from the versioned path-filter contract', a
   assert.match(workflow, /build_en: \$\{\{ steps\.filters\.outputs\.build_en \}\}/);
   assert.match(workflow, /build_zh_cn: \$\{\{ steps\.filters\.outputs\.build_zh_cn \}\}/);
   assert.match(workflow, /reference_coverage: \$\{\{ steps\.filters\.outputs\.reference_coverage \}\}/);
+  assert.match(workflow, /tools_coverage: \$\{\{ steps\.filters\.outputs\.tools_coverage \}\}/);
 });
 
 test('site validation runs isolated named builds and a stable aggregate gate', async () => {
@@ -62,14 +63,24 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /^  build_en:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_en == 'true'/);
   assert.match(workflow, /run: pnpm build:en/);
+  assert.match(workflow, /test -s build\/en\/ja-JP\/docs\/home\.html/);
   assert.match(workflow, /^  build_zh_cn:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
   assert.match(workflow, /run: pnpm build:zh-CN/);
+  assert.match(workflow, /build\/zh-CN\/build-provenance\.json/);
+  assert.match(workflow, /toolsSidebarReachable/);
+  assert.match(workflow, /docs-agents/);
   assert.match(workflow, /^  reference_coverage:$/m);
   assert.match(workflow, /pnpm docs-tooling validate-reference --site zh-CN/);
+  assert.match(workflow, /^  tools_coverage:$/m);
+  assert.match(workflow, /if: \$\{\{ always\(\) && needs\.classify\.outputs\.tools_coverage == 'true' \}\}/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /ZH_CN_RESULT: \$\{\{ needs\.build_zh_cn\.result \}\}/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /test "\$ZH_CN_RESULT" = success/);
   assert.match(workflow, /^  retirement:$/m);
   assert.match(workflow, /^  site_validation:$/m);
   assertRetirementContract(workflow);
+  assert.match(jobBlock(workflow, 'site_validation'), /^      - tools_coverage$/m);
+  assert.match(jobBlock(workflow, 'site_validation'), /TOOLS_RESULT: \$\{\{ needs\.tools_coverage\.result \}\}/);
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/);
   assert.doesNotMatch(workflow, /secrets\.|contents: write|git push/);
 });
@@ -132,8 +143,8 @@ test('legacy content-production workflows name their English build explicitly', 
   for (const file of ['_fetch-content-group.yml', '_assemble-guides.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     assert.match(
       await readFile(path.join(workflowDirectory, file), 'utf8'),
-      /pnpm run build:en/,
-      `${file} must retain explicit English canonical-content validation`,
+      /pnpm run build:(?:en|\$SITE|\$\{SITE\})/,
+      `${file} must retain an explicit named site build`,
     );
   }
 });

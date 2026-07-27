@@ -2,7 +2,7 @@ type RuntimeSidebarItem = string | Record<string, unknown>;
 
 function adaptItem(item: RuntimeSidebarItem): RuntimeSidebarItem | null {
   if (typeof item === 'string') return item;
-  const {key: _internalTranslationKey, items, ...runtimeItem} = item;
+  const {items, ...runtimeItem} = item;
   if (!Array.isArray(items)) return runtimeItem;
   const runtimeItems = items
     .map(child => adaptItem(child as RuntimeSidebarItem))

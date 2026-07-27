@@ -176,6 +176,8 @@ test('smoke script verifies labels, health, representative routes, rejection, an
   for (const label of Object.values(labelNames)) assert.match(contents, new RegExp(label.replaceAll('.', '\\.')));
   assert.match(contents, /\/healthz/);
   assert.match(contents, /\/docs\/home/);
+  assert.match(contents, /en\)[\s\S]*\/ja-JP\/docs\/home/);
+  assert.match(contents, /zh-CN\)[\s\S]*\/ja-JP\/docs\/home[\s\S]*404/);
   assert.doesNotMatch(contents, /zh-CN\) REPRESENTATIVE_ROUTE=\/home\//);
   assert.match(contents, /curl[^\n]*--location[^\n]*--fail/);
   assert.match(contents, /http_code/);
@@ -232,7 +234,26 @@ test('both site-owned images route chat directly to the private agent runtime', 
     assert.match(nginx, /location = \/api\/chat\/interrupt\s*\{[\s\S]*?proxy_pass http:\/\/docs_agent\/api\/chat\/interrupt;/);
     assert.equal((nginx.match(/proxy_set_header Authorization "";/g) ?? []).length, 2);
     assert.ok(nginx.indexOf('location = /api/chat') < nginx.indexOf('location /api/'));
+    assert.match(nginx, /location \/api\/\s*\{[\s\S]*?proxy_pass http:\/\/\$chat_proxy_upstream/);
+    assert.match(nginx, /chat-proxy\.zdocs\.svc\.cluster\.local:9000/);
   }
+});
+
+test('browser chat assets keep UI and SSE ownership in docs-ui without server-only configuration', () => {
+  const chatRoot = path.join(repositoryRoot, 'packages/docs-ui/src/shared/components/ChatPanel');
+  const sources = fs.readdirSync(chatRoot)
+    .filter(file => /\.(?:ts|tsx)$/u.test(file) && !file.includes('.test.'))
+    .map(file => read(`packages/docs-ui/src/shared/components/ChatPanel/${file}`))
+    .join('\n');
+  assert.match(sources, /DEFAULT_CHAT_ENDPOINT\s*=\s*['"]\/api\/chat['"]/);
+  assert.match(sources, /Accept:\s*['"]text\/event-stream['"]/);
+  assert.match(sources, /ReadableStream|getReader\(/);
+  assert.doesNotMatch(sources, /\.svc\.cluster\.local|cloud-ai-assistant-|Bearer\s+[A-Za-z0-9._-]+|CHAT_AGENT_AUTH_TOKEN|DATABASE_PASSWORD/);
+  const appWrappers = fs.readdirSync(path.join(repositoryRoot, 'apps/docs/src/components/ChatPanel'))
+    .map(file => read(`apps/docs/src/components/ChatPanel/${file}`))
+    .join('\n');
+  assert.match(appWrappers, /@zilliz\/docs-ui\/runtime/);
+  assert.doesNotMatch(appWrappers, /fetch\(|ReadableStream|getReader\(|text\/event-stream/);
 });
 
 test('package scripts expose the container contract without changing the default site build', () => {

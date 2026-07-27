@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import {writeBuildProvenance} from './write-provenance.mjs';
+import {assertNoInputPathCollisions, writeBuildProvenance} from './write-provenance.mjs';
 
 function write(root, name, contents, mode) {
   const target = path.join(root, name);
@@ -23,18 +23,29 @@ function fixture() {
   write(root, 'migration/dependencies.json', '{"dependencies":[]}\n');
   write(root, 'migration/legacy-files.json', '{"files":[]}\n');
   write(root, 'content/en/guides/content-manifest.json', contentManifest('default', 'docs'));
+  write(root, '.translation-cache/ja-JP.json', '{"files":{}}\n');
+  write(root, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md', '# Home\n');
+  write(root, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n');
   write(root, 'generated/en/manifests/reference.json', '{"revision":"en-1"}\n');
   write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"zh-1"}\n');
+  write(root, 'generated/zh-CN/manifests/tools-translations.json', '{"schemaVersion":1,"records":[]}\n');
+  write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', 'module.exports = []\n');
+  write(root, 'config/tools-retirements.json', '{"schemaVersion":1,"retirements":[]}\n');
   write(root, 'tracked.txt', 'tracked\n');
   execFileSync('git', ['add', '.'], {cwd: root});
   execFileSync('git', ['commit', '-qm', 'fixture'], {cwd: root});
   write(root, 'build/en/index.html', '<html>home</html>');
   write(root, 'build/en/docs/index.html', '<html>docs</html>', 0o644);
+  write(root, 'build/en/ja-JP/docs/home/index.html', '<html>日本語</html>');
   return root;
 }
 
 const profile = Object.freeze({
   id: 'en', language: 'en', title: 'Docs', url: 'https://docs.example.com', baseUrl: '/', outputDir: 'build/en',
+  localization: {
+    defaultLocale: 'en', translationRoot: 'i18n',
+    locales: [{id: 'en', htmlLang: 'en', source: 'canonical'}, {id: 'ja-JP', htmlLang: 'ja-JP', source: 'docusaurus-i18n'}],
+  },
   content: [{id: 'default', sourcePath: 'content/en/guides', routeBasePath: 'docs', sidebarPath: 'config/sidebar.ts'}],
   manuals: [], navigation: {items: [], secondaryItems: []},
   features: {
@@ -50,6 +61,10 @@ const zhProfile = Object.freeze({
   id: 'zh-CN',
   language: 'zh-Hans',
   outputDir: 'build/zh-CN',
+  localization: {
+    defaultLocale: 'zh-CN', translationRoot: 'i18n',
+    locales: [{id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'}],
+  },
   content: [],
 });
 
@@ -102,6 +117,40 @@ function run(root, overrides = {}) {
   });
 }
 
+function commitZhReleaseInputs(root) {
+  write(root, 'content/zh-CN/guides/tutorials/tools/tool.md', '# 工具\n');
+  write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', [
+    "'use strict'",
+    "module.exports = [{type: 'doc', id: 'tutorials/tools/tool', label: '工具'}]",
+    '',
+  ].join('\n'));
+  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
+    schemaVersion: 1,
+    records: [{
+      sourcePath: 'content/en/guides/tutorials/tools/tool.md',
+      targetPath: 'content/zh-CN/guides/tutorials/tools/tool.md',
+      sourceHash: 'd'.repeat(64),
+    }],
+  }));
+  write(root, 'config/tools-retirements.json', '{"schemaVersion":1,"retirements":[]}\n');
+  execFileSync('git', ['add', '.'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'Chinese Tools inputs'], {cwd: root});
+  write(root, 'build/zh-CN/docs/tutorials/tools/tool/index.html', '<html>工具</html>');
+}
+
+function runZh(root, overrides = {}) {
+  return writeBuildProvenance({
+    repositoryRoot: root,
+    site: 'zh-CN',
+    buildDirectory: path.join(root, 'build/zh-CN'),
+    profile: zhProfile,
+    contentManifests: [],
+    environment: {},
+    pnpmVersion: '10.13.1',
+    ...overrides,
+  });
+}
+
 test('writes canonical byte-identical provenance with required components and no secret values', () => {
   const root = fixture();
   const first = run(root);
@@ -116,7 +165,7 @@ test('writes canonical byte-identical provenance with required components and no
   assert.equal(manifest.site, 'en');
   assert.equal(manifest.workingTree, 'clean');
   assert.deepEqual(Object.keys(manifest.componentHashes).sort(), [
-    'contentManifests', 'dependencies', 'environment', 'legacyFiles', 'lockfile', 'profile', 'routes',
+    'contentManifests', 'dependencies', 'environment', 'legacyFiles', 'localizationInputs', 'lockfile', 'profile', 'routeInventories', 'routes',
   ]);
   assert.deepEqual(manifest.environmentFields, ['CI', 'NODE_ENV']);
   assert.equal(manifest.contentManifests.mode, 'explicit');
@@ -124,11 +173,62 @@ test('writes canonical byte-identical provenance with required components and no
     'content/en/guides/content-manifest.json',
   ]);
   assert.match(manifest.contentManifests.records[0].sha256, /^[0-9a-f]{64}$/);
-  assert.deepEqual(manifest.routes, ['/', '/docs']);
+  assert.deepEqual(manifest.localizationInputs.records.map(record => record.path), [
+    '.translation-cache/ja-JP.json',
+    'generated/en/sidebars/guides.sidebar.js',
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
+  ]);
+  assert.ok(manifest.localizationInputs.records.every(record => Number.isInteger(record.mode) && /^[0-9a-f]{64}$/u.test(record.sha256)));
+  assert.deepEqual(manifest.routeInventories, {
+    en: ['/', '/docs'],
+    jaJP: ['/ja-JP/docs/home'],
+  });
+  assert.deepEqual(manifest.routes, ['/', '/docs', '/ja-JP/docs/home']);
   assert.deepEqual(manifest.toolchain, {node: process.versions.node, pnpm: '10.13.1'});
   assert.match(manifest.artifactHash, /^[0-9a-f]{64}$/);
   assert.equal(bytes.includes('do-not-record'), false);
   assert.equal(bytes.includes('DATABASE_PASSWORD'), false);
+});
+
+test('Chinese provenance hashes the Tools release inputs and final sidebar-reachable routes', () => {
+  const root = fixture();
+  commitZhReleaseInputs(root);
+  const {manifest} = runZh(root);
+  assert.deepEqual(manifest.localizationInputs.records.map(record => record.path), [
+    'config/tools-retirements.json',
+    'content/zh-CN/guides/tutorials/tools/tool.md',
+    'generated/zh-CN/manifests/tools-translations.json',
+    'generated/zh-CN/sidebars/tools.sidebar.js',
+  ]);
+  assert.deepEqual(manifest.routeInventories, {
+    tools: ['/docs/tutorials/tools/tool'],
+    toolsSidebarReachable: ['/docs/tutorials/tools/tool'],
+  });
+});
+
+test('localization inputs reject untracked files and symlinks', () => {
+  const untrackedRoot = fixture();
+  write(untrackedRoot, 'i18n/ja-JP/untracked.md', '# untracked\n');
+  assert.throws(() => run(untrackedRoot), /localization input.*untracked|untracked.*localization input/i);
+
+  const symlinkRoot = fixture();
+  const localized = path.join(symlinkRoot, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md');
+  fs.rmSync(localized);
+  fs.symlinkSync(path.join(symlinkRoot, 'tracked.txt'), localized);
+  assert.throws(() => run(symlinkRoot), /localization input.*symbolic link|symbolic link.*localization input/i);
+});
+
+test('localization inputs reject tracked case and Unicode normalization collisions', () => {
+  const root = fixture();
+  const object = execFileSync('git', ['hash-object', '-w', '--stdin'], {cwd: root, input: 'collision\n', encoding: 'utf8'}).trim();
+  for (const relativePath of ['i18n/ja-JP/Case.md', 'i18n/ja-JP/case.md']) {
+    execFileSync('git', ['update-index', '--add', '--cacheinfo', `100644,${object},${relativePath}`], {cwd: root});
+  }
+  assert.throws(() => run(root), /localization input.*collision|collision.*localization input/i);
+  assert.throws(
+    () => assertNoInputPathCollisions(['i18n/ja-JP/caf\u00e9.md', 'i18n/ja-JP/cafe\u0301.md']),
+    /localization input.*collision|collision.*localization input/i,
+  );
 });
 
 test('changes the artifact hash when artifact bytes change and self-excludes provenance', () => {

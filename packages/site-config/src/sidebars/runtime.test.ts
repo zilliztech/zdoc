@@ -3,7 +3,7 @@ import {describe, expect, it} from 'vitest';
 import {toDocusaurusSidebar} from './runtime';
 
 describe('runtime sidebar adaptation', () => {
-  it('removes internal translation keys without mutating the publication artifact', () => {
+  it('preserves stable translation keys without mutating the publication artifact', () => {
     const published = [{
       type: 'category',
       label: 'Development',
@@ -20,10 +20,12 @@ describe('runtime sidebar adaptation', () => {
     expect(toDocusaurusSidebar(published)).toEqual([{
       type: 'category',
       label: 'Development',
+      key: 'category:tutorials/development',
       items: [{
         type: 'doc',
         id: 'tutorials/development/database',
         label: 'Database',
+        key: 'doc:tutorials/development/database',
         customProps: {badge: 'new'},
       }],
     }]);
@@ -36,7 +38,7 @@ describe('runtime sidebar adaptation', () => {
       {type: 'category', label: 'Empty', key: 'category:empty', items: []},
       {type: 'category', label: 'Landing', key: 'category:landing', link: {type: 'doc', id: 'landing'}, items: []},
     ])).toEqual([
-      {type: 'category', label: 'Landing', link: {type: 'doc', id: 'landing'}, items: []},
+      {type: 'category', label: 'Landing', key: 'category:landing', link: {type: 'doc', id: 'landing'}, items: []},
     ]);
   });
 });

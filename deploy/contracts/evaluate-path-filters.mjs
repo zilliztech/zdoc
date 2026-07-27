@@ -10,6 +10,7 @@ const CHECK_ORDER = Object.freeze([
   'build:en',
   'build:zh-CN',
   'zh-reference-translation-coverage',
+  'zh-tools-translation-coverage',
 ]);
 const FAIL_CLOSED_CHECKS = Object.freeze(['build:en', 'build:zh-CN']);
 const GIT_SHA = /^[0-9a-f]{40}$/;
@@ -62,6 +63,7 @@ export function formatGithubOutputs(result) {
     `build_en=${result.checks.includes('build:en')}`,
     `build_zh_cn=${result.checks.includes('build:zh-CN')}`,
     `reference_coverage=${result.checks.includes('zh-reference-translation-coverage')}`,
+    `tools_coverage=${result.checks.includes('zh-tools-translation-coverage')}`,
     `checks=${JSON.stringify(result.checks)}`,
     `matched_rules=${JSON.stringify(result.matchedRules)}`,
     `unclassified_paths=${JSON.stringify(result.unclassifiedPaths)}`,

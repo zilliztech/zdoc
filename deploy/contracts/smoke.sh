@@ -18,7 +18,16 @@ trim() {
 
 representative_route() {
   case "$1" in
-    en|zh-CN) printf '%s\n' /docs/home ;;
+    en) printf '%s\n' /docs/home /ja-JP/docs/home ;;
+    zh-CN) printf '%s\n' /docs/home ;;
+    *) die "unexpected site: $1" ;;
+  esac
+}
+
+rejected_route() {
+  case "$1" in
+    en) return 0 ;;
+    zh-CN) printf '%s\n' /ja-JP/docs/home ;;
     *) die "unexpected site: $1" ;;
   esac
 }
@@ -56,6 +65,15 @@ http_200_nonempty() {
   return 1
 }
 
+http_expect_status() {
+  local url=$1 expected=$2 output status
+  output=$(mktemp "${TMPDIR:-/tmp}/zdoc-smoke-response.XXXXXX")
+  status=$(curl --location --silent --show-error \
+    --output "$output" --write-out '%{http_code}' "$url")
+  rm -f "$output"
+  [[ "$status" == "$expected" ]] || die "expected HTTP $expected from $url, received $status"
+}
+
 cleanup() {
   docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
 }
@@ -63,8 +81,6 @@ cleanup() {
 main() {
   IMAGE=${1:?usage: smoke.sh IMAGE SITE}
   local expected_site=${2:?usage: smoke.sh IMAGE SITE}
-  local representative
-  representative=$(representative_route "$expected_site")
 
   validate_labels \
     "$(label "$SOURCE_LABEL")" \
@@ -87,7 +103,12 @@ main() {
     sleep 1
   done
 
-  http_200_nonempty "http://127.0.0.1:$port$representative"
+  while IFS= read -r representative; do
+    http_200_nonempty "http://127.0.0.1:$port$representative"
+  done < <(representative_route "$expected_site")
+  while IFS= read -r rejected; do
+    [[ -n "$rejected" ]] && http_expect_status "http://127.0.0.1:$port$rejected" 404
+  done < <(rejected_route "$expected_site")
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

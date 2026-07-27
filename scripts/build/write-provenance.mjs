@@ -164,6 +164,100 @@ function trackedFiles(repositoryRoot) {
     .split('\0').filter(Boolean);
 }
 
+function pathInRoot(relativePath, root) {
+  return relativePath === root || relativePath.startsWith(`${root}/`);
+}
+
+function walkReleaseInputRoot(repositoryRoot, relativeRoot, files = []) {
+  const absoluteRoot = confinedPath(repositoryRoot, relativeRoot, 'localization input root');
+  if (!fs.existsSync(absoluteRoot)) return files;
+  const rootStat = assertSafePathChain(repositoryRoot, absoluteRoot, 'localization input root');
+  if (!rootStat.isDirectory()) throw new Error(`Localization input root must be a directory: ${relativeRoot}`);
+  const visit = (current) => {
+    for (const child of fs.readdirSync(current).sort(compareBinary)) {
+      const absolutePath = path.join(current, child);
+      const relativePath = normalizeRelativePath(path.relative(repositoryRoot, absolutePath));
+      const stat = fs.lstatSync(absolutePath);
+      if (stat.isSymbolicLink()) throw new Error(`Localization input must not be a symbolic link: ${relativePath}`);
+      if (stat.isDirectory()) visit(absolutePath);
+      else if (stat.isFile()) files.push(relativePath);
+      else throw new Error(`Localization input contains an unsupported entry: ${relativePath}`);
+    }
+  };
+  visit(absoluteRoot);
+  return files;
+}
+
+function releaseInputDefinition(site) {
+  if (site === 'en') {
+    return {
+      roots: ['generated/en/sidebars', 'i18n/ja-JP'],
+      required: ['.translation-cache/ja-JP.json'],
+    };
+  }
+  return {
+    roots: ['content/zh-CN/guides/tutorials/tools'],
+    required: [
+      'config/tools-retirements.json',
+      'generated/zh-CN/manifests/tools-translations.json',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
+    ],
+  };
+}
+
+export function assertNoInputPathCollisions(relativePaths) {
+  const casePaths = new Map();
+  const nfcPaths = new Map();
+  for (const relativePath of relativePaths) {
+    const caseKey = relativePath.toLocaleLowerCase('en-US');
+    const caseExisting = casePaths.get(caseKey);
+    if (caseExisting && caseExisting !== relativePath) {
+      throw new Error(`Localization input case collision: ${caseExisting} and ${relativePath}`);
+    }
+    casePaths.set(caseKey, relativePath);
+
+    const nfcKey = relativePath.normalize('NFC');
+    const nfcExisting = nfcPaths.get(nfcKey);
+    if (nfcExisting && nfcExisting !== relativePath) {
+      throw new Error(`Localization input Unicode normalization collision: ${nfcExisting} and ${relativePath}`);
+    }
+    nfcPaths.set(nfcKey, relativePath);
+  }
+}
+
+function hashLocalizationInputs(repositoryRoot, site, {externalSnapshot = false} = {}) {
+  const definition = releaseInputDefinition(site);
+  const discovered = [
+    ...definition.roots.flatMap(root => walkReleaseInputRoot(repositoryRoot, root)),
+    ...definition.required,
+  ];
+  const actual = [...new Set(discovered)].sort(compareBinary);
+  const tracked = externalSnapshot ? undefined : new Set(trackedFiles(repositoryRoot));
+  const selected = tracked
+    ? [...tracked].filter(relativePath => (
+      definition.required.includes(relativePath) ||
+      definition.roots.some(root => pathInRoot(relativePath, root))
+    )).sort(compareBinary)
+    : actual;
+  assertNoInputPathCollisions(selected);
+  if (tracked) {
+    const actualSet = new Set(actual);
+    const untracked = actual.filter(relativePath => !tracked.has(relativePath));
+    if (untracked.length > 0) {
+      throw new Error(`Localization input must be tracked: ${untracked[0]}`);
+    }
+    const missing = selected.filter(relativePath => !actualSet.has(relativePath));
+    if (missing.length > 0) throw new Error(`Missing tracked localization input: ${missing[0]}`);
+  }
+  for (const required of definition.required) {
+    if (!selected.includes(required)) throw new Error(`Missing required localization input: ${required}`);
+  }
+  return selected.map(relativePath => {
+    const {bytes, mode} = secureReadRegularFile(repositoryRoot, relativePath, 'localization input');
+    return {path: relativePath, mode, sha256: hashBytes(bytes)};
+  });
+}
+
 function hashRequiredFile(repositoryRoot, relativePath, label) {
   return hashBytes(secureReadRegularFile(repositoryRoot, relativePath, label).bytes);
 }
@@ -264,6 +358,55 @@ function routeForHtml(relativePath) {
   if (normalized === 'index.html') return '/';
   if (normalized.endsWith('/index.html')) return `/${normalized.slice(0, -'/index.html'.length)}`;
   return `/${normalized.slice(0, -'.html'.length)}`;
+}
+
+function routeInventories(site, routes, repositoryRoot) {
+  if (site === 'en') {
+    return {
+      en: routes.filter(route => !pathInRoot(route, '/ja-JP')),
+      jaJP: routes.filter(route => pathInRoot(route, '/ja-JP')),
+    };
+  }
+  const toolsRoot = 'content/zh-CN/guides/tutorials/tools';
+  const toolFiles = walkReleaseInputRoot(repositoryRoot, toolsRoot)
+    .filter(relativePath => /\.mdx?$/u.test(relativePath));
+  const sidebarPath = 'generated/zh-CN/sidebars/tools.sidebar.js';
+  const sidebarAbsolute = confinedPath(repositoryRoot, sidebarPath, 'Tools sidebar');
+  secureReadRegularFile(repositoryRoot, sidebarPath, 'Tools sidebar');
+  const resolvedSidebar = requireFromApp.resolve(sidebarAbsolute);
+  delete requireFromApp.cache[resolvedSidebar];
+  const loaded = requireFromApp(resolvedSidebar);
+  const sidebar = loaded?.default ?? loaded;
+  const sidebarDocIds = new Set();
+  const visitSidebar = value => {
+    if (Array.isArray(value)) {
+      for (const child of value) visitSidebar(child);
+      return;
+    }
+    if (!value || typeof value !== 'object') return;
+    if (value.type === 'doc' && typeof value.id === 'string') sidebarDocIds.add(value.id);
+    visitSidebar(value.items);
+  };
+  visitSidebar(sidebar);
+  if ([...sidebarDocIds].some(id => id === 'docs-agents' || id.startsWith('docs-agents/'))) {
+    throw new Error('Chinese Tools sidebar must not contain a docs-agents node');
+  }
+  const routeSet = new Set(routes);
+  if (routes.some(route => route === '/docs-agents' || route.startsWith('/docs-agents/'))) {
+    throw new Error('Chinese build must not contain a docs-agents route');
+  }
+  const tools = toolFiles.map(relativePath => {
+    const text = secureReadRegularFile(repositoryRoot, relativePath, 'Chinese Tools document').bytes.toString('utf8');
+    const frontmatter = /^---\s*\n([\s\S]*?)\n---(?:\s*\n|$)/u.exec(text)?.[1] ?? '';
+    const rawSlug = /^slug:\s*['"]?([^'"\n]+)['"]?\s*$/mu.exec(frontmatter)?.[1]?.trim();
+    const docId = relativePath.slice('content/zh-CN/guides/'.length).replace(/\.mdx?$/u, '');
+    if (!sidebarDocIds.has(docId)) throw new Error(`Chinese Tools document is not reachable from the composed sidebar: ${relativePath}`);
+    const slug = rawSlug ? rawSlug.replace(/^\/+|\/+$/gu, '') : docId;
+    const route = `/docs/${slug}`.replace(/\/{2,}/gu, '/');
+    if (!routeSet.has(route)) throw new Error(`Chinese Tools document route is missing from the final build: ${route}`);
+    return route;
+  }).sort(compareBinary);
+  return {tools, toolsSidebarReachable: [...tools]};
 }
 
 function walkArtifactTree(repositoryRoot, root, current = root, records = [], routeSources = new Map()) {
@@ -424,6 +567,10 @@ export function writeBuildProvenance({
     snapshotDeclaredManifests,
   );
   const {records: artifactRecords, routes} = walkArtifactTree(root, buildRoot);
+  const localizationInputRecords = hashLocalizationInputs(root, site, {
+    externalSnapshot: Boolean(externalSnapshot),
+  });
+  const finalRouteInventories = routeInventories(site, routes, root);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
       .filter(name => environment[name] !== undefined)
@@ -445,13 +592,19 @@ export function writeBuildProvenance({
       mode: selectionMode,
       records: contentManifestRecords,
     },
+    localizationInputs: {
+      records: localizationInputRecords,
+    },
+    routeInventories: finalRouteInventories,
     componentHashes: {
       profile: hashCanonical(parsedProfile),
       lockfile: hashRequiredFile(root, 'pnpm-lock.yaml', 'pnpm lockfile'),
       dependencies: hashRequiredFile(root, 'migration/dependencies.json', 'dependency ledger'),
       legacyFiles: hashRequiredFile(root, 'migration/legacy-files.json', 'legacy file ledger'),
       contentManifests: hashCanonical(contentManifestRecords),
+      localizationInputs: hashCanonical(localizationInputRecords),
       routes: hashCanonical(routes),
+      routeInventories: hashCanonical(finalRouteInventories),
       environment: hashCanonical(selectedEnvironment),
     },
     environmentFields: Object.keys(selectedEnvironment).sort(),
