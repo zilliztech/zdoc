@@ -18,6 +18,9 @@ on:
       master_sha:
         required: true
         type: string
+      target: { required: false, type: string, default: '' }
+      tooling_sha: { required: false, type: string, default: '' }
+      source_sha: { required: false, type: string, default: '' }
       validate_command:
         required: false
         type: string
@@ -53,6 +56,9 @@ jobs:
     env:
       GROUP: ${{ inputs.group }}
       MASTER_SHA: ${{ inputs.master_sha }}
+      TRANSLATION_TARGET: ${{ inputs.target }}
+      TOOLING_SHA: ${{ inputs.tooling_sha }}
+      SOURCE_SHA: ${{ inputs.source_sha }}
       ARTIFACT_NAME: ${{ inputs.artifact_name }}
       COMMIT_MESSAGE: ${{ inputs.commit_message }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
@@ -81,6 +87,10 @@ jobs:
           set -euo pipefail
           node - <<'NODE'
           if (!/^[0-9a-f]{40}$/.test(process.env.MASTER_SHA)) throw new Error('master_sha must be a lowercase 40-character Git SHA')
+          if (process.env.TRANSLATION_TARGET) {
+            if (!['ja-JP', 'zh-CN-reference', 'zh-CN-tools'].includes(process.env.TRANSLATION_TARGET)) throw new Error('invalid translation target')
+            for (const [name, value] of [['tooling_sha', process.env.TOOLING_SHA], ['source_sha', process.env.SOURCE_SHA]]) if (!/^[0-9a-f]{40}$/.test(value)) throw new Error(`${name} must be a lowercase 40-character Git SHA`)
+          }
           for (const [name, value] of [['artifact_name', process.env.ARTIFACT_NAME], ['commit_message', process.env.COMMIT_MESSAGE], ['validate_command', process.env.VALIDATE_COMMAND]]) {
             if (!value || /[\r\n]/.test(value)) throw new Error(`${name} must be non-empty and single-line`)
           }
@@ -102,7 +112,11 @@ jobs:
           node - <<'NODE'
           const group = require('./scripts/docs-workflow/content-groups.js').getContentGroup(process.env.GROUP)
           const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
-          const allowed = number > 0 ? `i18n(${process.env.GROUP}): publish batch ${number} of ${count}` : `i18n(${process.env.GROUP}): publish translations`
+          const allowed = process.env.TRANSLATION_TARGET === 'zh-CN-tools'
+            ? 'i18n(zh-CN-tools): publish tools translations'
+            : process.env.TRANSLATION_TARGET
+              ? `i18n(${process.env.TRANSLATION_TARGET}): publish ${process.env.GROUP} translations`
+              : number > 0 ? `i18n(${process.env.GROUP}): publish batch ${number} of ${count}` : `i18n(${process.env.GROUP}): publish translations`
           if (process.env.COMMIT_MESSAGE !== group.commitMessage && process.env.COMMIT_MESSAGE !== allowed) throw new Error('commit_message must equal a permitted content group message')
           NODE
 
@@ -171,10 +185,12 @@ jobs:
       - name: Validate checkpoint identity
         if: ${{ inputs.should_publish }}
         run: |
-          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
+          identity_args=()
+          if [[ -n "$TRANSLATION_TARGET" ]]; then identity_args=(--translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_SHA" --tooling-sha "$TOOLING_SHA"); fi
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" "${identity_args[@]}"
           node - <<'NODE'
           const { validateCheckpointArtifact } = require('./scripts/docs-workflow/validate-checkpoint-artifact.js')
-          validateCheckpointArtifact(process.env.ARTIFACT_DIR).then(manifest => {
+          validateCheckpointArtifact(process.env.ARTIFACT_DIR, process.env.TRANSLATION_TARGET ? {translationTarget: process.env.TRANSLATION_TARGET, sourceCheckpointSha: process.env.SOURCE_SHA, toolingSha: process.env.TOOLING_SHA} : {}).then(manifest => {
             const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
             if (number > 0 && (manifest.batch?.batchNumber !== number || manifest.batch?.batchCount !== count)) throw new Error('checkpoint translation batch identity mismatch')
             if (number === 0 && manifest.batch !== undefined) throw new Error('unexpected checkpoint translation batch identity')
@@ -190,9 +206,10 @@ jobs:
           const fs = require('node:fs/promises')
           const path = require('node:path')
           const { validateCheckpointArtifact } = require('./scripts/docs-workflow/validate-checkpoint-artifact.js')
-          validateCheckpointArtifact(process.env.BASELINE_DIR).then(async manifest => {
+          const { resolveTranslationTarget } = require('./packages/docs-tooling/src/translation/targets.ts')
+          validateCheckpointArtifact(process.env.BASELINE_DIR, {translationTarget: process.env.TRANSLATION_TARGET, sourceCheckpointSha: process.env.SOURCE_SHA, toolingSha: process.env.TOOLING_SHA}).then(async manifest => {
             const baselineDir = path.join(manifest.resolvedDir, 'payload')
-            const cache = path.join(baselineDir, '.translation-cache/ja-JP.json')
+            const cache = path.join(baselineDir, resolveTranslationTarget(manifest.translationTarget).state.path)
             const stat = await fs.lstat(cache)
             if (!stat.isFile() || stat.isSymbolicLink()) throw new Error('Baseline translation cache must be a regular file')
             await fs.appendFile(process.env.GITHUB_OUTPUT, `baseline_dir=${baselineDir}\n`)

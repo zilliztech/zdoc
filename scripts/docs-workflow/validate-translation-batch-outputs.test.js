@@ -27,12 +27,13 @@ function candidate() {
 
 function manifest(overrides = {}) {
   return {
+    target: 'ja-JP',
     locale: 'ja-JP',
     group: 'guides',
     sourceCheckpointSha: SOURCE_SHA,
     generatedAt: '2026-07-18T00:00:00.000Z',
     items: [candidate()],
-    source_delta: { deleted_i18n: [], renamed: [] },
+    source_delta: { deleted_i18n: [], renamed: [], retirement_candidates: [] },
     batch: {
       batchIndex: 0,
       batchNumber: 1,
@@ -273,6 +274,7 @@ test('accepts reconciliation-only batches only with skipped agents, zero counts,
     source_delta: {
       deleted_i18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
       renamed: [],
+      retirement_candidates: [],
     },
     batch: {
       batchIndex: 0,

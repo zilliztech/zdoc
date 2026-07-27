@@ -9,7 +9,7 @@ const SHA256 = /^[0-9a-f]{64}$/
 const MARKDOWN = /\.(?:md|mdx)$/
 const REASONS = new Set(['current_delta', 'missing_target', 'stale_source'])
 const ROOT_KEYS = ['schemaVersion', 'group', 'sourceCheckpointSha', 'batch', 'candidates', 'sourceDelta']
-const MANIFEST_KEYS = ['locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch']
+const MANIFEST_KEYS = ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch']
 const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256']
 const ITEM_KEYS = ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason']
 const CANDIDATE_KEYS = ['sourcePath', 'targetPath', 'sourceHash']
@@ -235,6 +235,7 @@ function validateBatchInput(input) {
 
 function assertSelectedManifest(manifest) {
   assertExactKeys(manifest, MANIFEST_KEYS, 'selected translation manifest')
+  if (manifest.target !== 'ja-JP') throw new Error('selected manifest target must be ja-JP')
   if (manifest.locale !== 'ja-JP') throw new Error('selected manifest locale must be ja-JP')
   if (manifest.group !== 'guides') throw new Error('selected manifest group must be guides')
   if (!SHA1.test(manifest.sourceCheckpointSha || '')) throw new Error('selected manifest source checkpoint SHA is invalid')

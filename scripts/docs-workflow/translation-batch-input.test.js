@@ -61,6 +61,7 @@ function rename(oldName = 'old.md', newName = 'new.md', oldRoot = 'docs', newRoo
 function selectedManifest(overrides = {}) {
   const renamed = rename()
   return {
+    target: 'ja-JP',
     locale: 'ja-JP',
     group: 'guides',
     sourceCheckpointSha: SHA,

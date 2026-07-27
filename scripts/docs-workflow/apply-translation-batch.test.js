@@ -59,8 +59,8 @@ async function repositoryFixture() {
     'content/en/guides/tutorials/folder/child.md': '# Child\n',
     'content/en/byoc/tutorials/byoc.md': '# BYOC\n',
   })) write(sourceRepository, relative, bytes)
-  write(sourceRepository, 'config/generated/guides.sidebar.js', 'module.exports = []\n')
-  write(sourceRepository, 'config/generated/guides-byoc.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'generated/en/sidebars/guides-byoc.sidebar.js', 'module.exports = []\n')
   write(sourceRepository, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', '{"ok":true}\n')
   write(sourceRepository, 'packages/docs-tooling/src/lark/meta/assembly/guides.json', '{"version":1}\n')
   write(sourceRepository, `${SAAS_ROOT}/old.md`, '# 古い\n')

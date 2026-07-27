@@ -1,0 +1,95 @@
+name: translate content
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Translation product
+        required: true
+        type: choice
+        options: [ja-JP, zh-CN-reference, zh-CN-tools]
+      group: { description: Translation group, required: true, type: string }
+      max_files: { description: Maximum files, required: false, default: '500' }
+      target_branch: { description: Existing publication branch, required: false, default: dev }
+  workflow_call:
+    inputs:
+      target: { required: true, type: string }
+      group: { required: true, type: string }
+      max_files: { required: false, type: string, default: '500' }
+      target_branch: { required: false, type: string, default: dev }
+      tooling_sha: { required: false, type: string, default: '' }
+      source_sha: { required: false, type: string, default: '' }
+    secrets:
+      TRANSLATION_AGENT_API_KEY: { required: true }
+      REVIEW_AGENT_API_KEY: { required: true }
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      tooling_sha: ${{ steps.refs.outputs.tooling_sha }}
+      source_sha: ${{ steps.refs.outputs.source_sha }}
+      source_group: ${{ steps.refs.outputs.source_group }}
+      target_branch: ${{ steps.refs.outputs.target_branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: refs
+        env:
+          TRANSLATION_TARGET: ${{ inputs.target }}
+          INPUT_GROUP: ${{ inputs.group }}
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+          REQUESTED_TOOLING_SHA: ${{ inputs.tooling_sha }}
+          REQUESTED_SOURCE_SHA: ${{ inputs.source_sha }}
+        run: |
+          set -euo pipefail
+          case "$TRANSLATION_TARGET" in
+            ja-JP) source_group="$INPUT_GROUP" ;;
+            zh-CN-reference) [[ "$INPUT_GROUP" != guides && "$INPUT_GROUP" != tools ]]; source_group="$INPUT_GROUP" ;;
+            zh-CN-tools) [[ "$INPUT_GROUP" == tools ]]; source_group=guides ;;
+            *) exit 2 ;;
+          esac
+          git check-ref-format --branch "$TARGET_BRANCH"
+          git fetch --no-tags origin "refs/heads/master:refs/remotes/origin/master" "refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          tooling_sha=${REQUESTED_TOOLING_SHA:-$(git rev-parse refs/remotes/origin/master)}
+          source_sha=${REQUESTED_SOURCE_SHA:-$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH")}
+          git fetch --no-tags origin "$tooling_sha" "$source_sha"
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ ]]
+          printf 'tooling_sha=%s\nsource_sha=%s\nsource_group=%s\ntarget_branch=%s\n' "$tooling_sha" "$source_sha" "$source_group" "$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
+
+  translate:
+    needs: prepare
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      target: ${{ inputs.target }}
+      group: ${{ needs.prepare.outputs.source_group }}
+      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_sha: ${{ needs.prepare.outputs.source_sha }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_commit_sha: ${{ needs.prepare.outputs.source_sha }}
+      should_translate: true
+      max_files: ${{ inputs.max_files }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+
+  publish:
+    needs: [prepare, translate]
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      target: ${{ inputs.target }}
+      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_sha: ${{ needs.prepare.outputs.source_sha }}
+      group: ${{ needs.prepare.outputs.source_group }}
+      artifact_name: ${{ needs.translate.outputs.artifact_name }}
+      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
+      commit_message: "${{ inputs.target == 'zh-CN-tools' && 'i18n(zh-CN-tools): publish tools translations' || format('i18n({0}): publish {1} translations', inputs.target, inputs.group) }}"
+      should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      validate_command: "${{ inputs.target == 'ja-JP' && format('pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group {0} && pnpm run build:en', inputs.group) || inputs.target == 'zh-CN-reference' && 'pnpm docs-tooling validate-mdx --path content/zh-CN/reference && pnpm docs-tooling reference-manifest --write && pnpm docs-tooling validate-reference --site zh-CN && pnpm run build:zh-CN' || 'pnpm docs-tooling validate-mdx --path content/zh-CN/guides/tutorials/tools && pnpm docs-tooling validate-translation --target zh-CN-tools --group tools && pnpm docs-tooling validate-tools-sidebar && pnpm run build:zh-CN' }}"

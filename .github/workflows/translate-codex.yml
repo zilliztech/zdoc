@@ -4,13 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       group:
-        description: Content group to translate
+        description: Content group to translate to Japanese
         required: true
         type: choice
         default: guides
         options: [guides, python, java, node, go, cli, rest]
       max_files: { description: Maximum files, required: false, default: '500' }
-      include_reference: { description: Legacy compatibility input, required: false, default: 'false' }
       target_branch: { description: Publication branch, required: false, default: dev }
 
 permissions:
@@ -22,55 +21,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  prepare:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    outputs:
-      master_sha: ${{ steps.refs.outputs.master_sha }}
-      source_sha: ${{ steps.refs.outputs.source_sha }}
-      target_branch: ${{ steps.refs.outputs.target_branch }}
-    steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - id: refs
-        env:
-          TARGET_BRANCH_INPUT: ${{ inputs.target_branch }}
-        run: |
-          set -euo pipefail
-          target_branch="${TARGET_BRANCH_INPUT:-dev}"
-          if [[ "$target_branch" == *$'\n'* || "$target_branch" == *$'\r'* || "$target_branch" == -* || "$target_branch" == *:* ]]; then
-            echo "Invalid target branch" >&2
-            exit 2
-          fi
-          git check-ref-format --branch "$target_branch" >/dev/null
-          git remote get-url origin >/dev/null
-          git fetch --no-tags origin \
-            "refs/heads/master:refs/remotes/origin/master" \
-            "refs/heads/$target_branch:refs/remotes/origin/$target_branch"
-          master_sha="$(git rev-parse "refs/remotes/origin/master")"
-          source_sha="$(git rev-parse "refs/remotes/origin/$target_branch")"
-          printf 'master_sha=%s\nsource_sha=%s\ntarget_branch=%s\n' "$master_sha" "$source_sha" "$target_branch" >> "$GITHUB_OUTPUT"
   translate:
-    needs: prepare
-    uses: ./.github/workflows/_translate-content-group.yml
+    uses: ./.github/workflows/translate-content.yml
     with:
+      target: ja-JP
       group: ${{ inputs.group }}
-      source_commit_sha: ${{ needs.prepare.outputs.source_sha }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: true
       max_files: ${{ inputs.max_files }}
+      target_branch: ${{ inputs.target_branch }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-  publish:
-    needs: [prepare, translate]
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: ${{ inputs.group }}
-      artifact_name: ${{ needs.translate.outputs.artifact_name }}
-      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
-      commit_message: "${{ inputs.group == 'guides' && 'i18n(guides): publish translations' || inputs.group == 'python' && 'i18n(python): publish translations' || inputs.group == 'java' && 'i18n(java): publish translations' || inputs.group == 'node' && 'i18n(node): publish translations' || inputs.group == 'go' && 'i18n(go): publish translations' || inputs.group == 'cli' && 'i18n(cli): publish translations' || 'i18n(rest): publish translations' }}"
-      should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "${{ inputs.group }}"'

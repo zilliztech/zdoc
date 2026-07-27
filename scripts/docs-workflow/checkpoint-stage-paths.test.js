@@ -72,64 +72,64 @@ async function repoFixture({ tracked = {}, artifactFiles = {}, artifactDeletions
 test('selects files that exist and deletions still tracked at HEAD', async () => {
   const fixture = await repoFixture({
     tracked: {
-      'docs/deleted.md': 'old',
-      'docs/changed.md': 'old',
+      'content/en/guides/deleted.md': 'old',
+      'content/en/guides/changed.md': 'old',
     },
     artifactFiles: {
-      'docs/changed.md': 'new',
-      'docs/new.md': 'new',
+      'content/en/guides/changed.md': 'new',
+      'content/en/guides/new.md': 'new',
     },
-    artifactDeletions: ['docs/deleted.md'],
+    artifactDeletions: ['content/en/guides/deleted.md'],
   });
-  await rm(path.join(fixture.worktree, 'docs/deleted.md'));
-  await writeFile(path.join(fixture.worktree, 'docs/changed.md'), 'new');
-  await writeFile(path.join(fixture.worktree, 'docs/new.md'), 'new');
+  await rm(path.join(fixture.worktree, 'content/en/guides/deleted.md'));
+  await writeFile(path.join(fixture.worktree, 'content/en/guides/changed.md'), 'new');
+  await writeFile(path.join(fixture.worktree, 'content/en/guides/new.md'), 'new');
 
   const result = await selectCheckpointStagePaths({ artifactDir: fixture.artifact, worktree: fixture.worktree });
 
-  assert.deepEqual(result.stageable, ['docs/changed.md', 'docs/deleted.md', 'docs/new.md']);
+  assert.deepEqual(result.stageable, ['content/en/guides/changed.md', 'content/en/guides/deleted.md', 'content/en/guides/new.md']);
   assert.deepEqual(result.alreadyApplied, []);
   assert.equal(Object.isFrozen(result), true);
 });
 
 test('classifies an absent untracked repeated deletion as already applied', async () => {
   const fixture = await repoFixture({
-    tracked: { 'docs/removed.md': 'old' },
-    artifactFiles: { 'docs/batch-two.md': 'translated' },
-    artifactDeletions: ['docs/removed.md'],
+    tracked: { 'content/en/guides/removed.md': 'old' },
+    artifactFiles: { 'content/en/guides/batch-two.md': 'translated' },
+    artifactDeletions: ['content/en/guides/removed.md'],
   });
-  await rm(path.join(fixture.worktree, 'docs/removed.md'));
+  await rm(path.join(fixture.worktree, 'content/en/guides/removed.md'));
   git(fixture.worktree, 'add', '--all');
   git(fixture.worktree, 'commit', '-m', 'publish batch one deletion');
-  await writeFile(path.join(fixture.worktree, 'docs/batch-two.md'), 'translated');
+  await writeFile(path.join(fixture.worktree, 'content/en/guides/batch-two.md'), 'translated');
 
   const result = await selectCheckpointStagePaths({ artifactDir: fixture.artifact, worktree: fixture.worktree });
 
-  assert.deepEqual(result.stageable, ['docs/batch-two.md']);
-  assert.deepEqual(result.alreadyApplied, ['docs/removed.md']);
+  assert.deepEqual(result.stageable, ['content/en/guides/batch-two.md']);
+  assert.deepEqual(result.alreadyApplied, ['content/en/guides/removed.md']);
 });
 
 test('uses literal NUL-delimited pathspecs for glob-like filenames', async () => {
   const fixture = await repoFixture({
-    tracked: { 'docs/[draft].md': 'old', 'docs/d.md': 'untouched' },
-    artifactFiles: { 'docs/[draft].md': 'new' },
+    tracked: { 'content/en/guides/[draft].md': 'old', 'content/en/guides/d.md': 'untouched' },
+    artifactFiles: { 'content/en/guides/[draft].md': 'new' },
   });
-  await writeFile(path.join(fixture.worktree, 'docs/[draft].md'), 'new');
+  await writeFile(path.join(fixture.worktree, 'content/en/guides/[draft].md'), 'new');
   const output = path.join(fixture.root, 'stage-paths.bin');
 
   await writeStagePathFile({ artifactDir: fixture.artifact, worktree: fixture.worktree, output });
 
-  assert.deepEqual((await readFile(output)).toString().split('\0').filter(Boolean), [':(literal)docs/[draft].md']);
+  assert.deepEqual((await readFile(output)).toString().split('\0').filter(Boolean), [':(literal)content/en/guides/[draft].md']);
 });
 
 test('keeps a tracked directory deletion stageable', async () => {
-  const fixture = await repoFixture({ tracked: { 'docs/old/a.md': 'a', 'docs/old/b.md': 'b' } });
-  const artifact = await writeArtifact(fixture.root, { deletions: ['docs/old'] });
-  await rm(path.join(fixture.worktree, 'docs/old'), { recursive: true });
+  const fixture = await repoFixture({ tracked: { 'content/en/guides/old/a.md': 'a', 'content/en/guides/old/b.md': 'b' } });
+  const artifact = await writeArtifact(fixture.root, { deletions: ['content/en/guides/old'] });
+  await rm(path.join(fixture.worktree, 'content/en/guides/old'), { recursive: true });
 
   const result = await selectCheckpointStagePaths({ artifactDir: artifact.artifactDir, worktree: fixture.worktree });
 
-  assert.deepEqual(result.stageable, ['docs/old']);
+  assert.deepEqual(result.stageable, ['content/en/guides/old']);
   assert.deepEqual(result.alreadyApplied, []);
 });
 
@@ -141,7 +141,7 @@ test('rejects invalid and overlapping paths through checkpoint validation', asyn
     /invalid path/i,
   );
 
-  const overlap = await writeArtifact(fixture.root, { files: { 'docs/a.md': 'a' }, deletions: ['docs/a.md'] });
+  const overlap = await writeArtifact(fixture.root, { files: { 'content/en/guides/a.md': 'a' }, deletions: ['content/en/guides/a.md'] });
   await assert.rejects(
     selectCheckpointStagePaths({ artifactDir: overlap.artifactDir, worktree: fixture.worktree }),
     /overlap/i,
@@ -150,20 +150,20 @@ test('rejects invalid and overlapping paths through checkpoint validation', asyn
 
 test('verifies staged paths remain within declared manifest scope', async () => {
   const fixture = await repoFixture({
-    tracked: { 'docs/changed.md': 'old', 'docs/unrelated.md': 'old' },
-    artifactFiles: { 'docs/changed.md': 'new' },
+    tracked: { 'content/en/guides/changed.md': 'old', 'content/en/guides/unrelated.md': 'old' },
+    artifactFiles: { 'content/en/guides/changed.md': 'new' },
   });
-  await writeFile(path.join(fixture.worktree, 'docs/changed.md'), 'new');
-  git(fixture.worktree, 'add', 'docs/changed.md');
+  await writeFile(path.join(fixture.worktree, 'content/en/guides/changed.md'), 'new');
+  git(fixture.worktree, 'add', 'content/en/guides/changed.md');
   assert.deepEqual(
     await verifyStagedCheckpointPaths({ artifactDir: fixture.artifact, worktree: fixture.worktree }),
-    { stagedPaths: ['docs/changed.md'] },
+    { stagedPaths: ['content/en/guides/changed.md'] },
   );
 
-  await writeFile(path.join(fixture.worktree, 'docs/unrelated.md'), 'changed');
-  git(fixture.worktree, 'add', 'docs/unrelated.md');
+  await writeFile(path.join(fixture.worktree, 'content/en/guides/unrelated.md'), 'changed');
+  git(fixture.worktree, 'add', 'content/en/guides/unrelated.md');
   await assert.rejects(
     verifyStagedCheckpointPaths({ artifactDir: fixture.artifact, worktree: fixture.worktree }),
-    /outside checkpoint manifest scope: docs\/unrelated\.md/i,
+    /outside checkpoint manifest scope: content\/en\/guides\/unrelated\.md/i,
   );
 });

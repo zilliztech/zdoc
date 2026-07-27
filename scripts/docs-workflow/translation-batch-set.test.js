@@ -74,8 +74,8 @@ async function repositoryFixture() {
     'content/en/byoc/tutorials/byoc.md': '# BYOC\n',
   }
   for (const [relative, bytes] of Object.entries(english)) write(sourceRepository, relative, bytes)
-  write(sourceRepository, 'config/generated/guides.sidebar.js', 'module.exports = []\n')
-  write(sourceRepository, 'config/generated/guides-byoc.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'generated/en/sidebars/guides-byoc.sidebar.js', 'module.exports = []\n')
   write(sourceRepository, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', '{"ok":true}\n')
   write(sourceRepository, 'packages/docs-tooling/src/lark/meta/assembly/guides.json', '{"version":1}\n')
   write(sourceRepository, `${SAAS_ROOT}/old.md`, '# 古い\n')
@@ -352,9 +352,11 @@ test('rejects baseline disagreement and baseline drift from source checkpoint tr
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /source checkpoint|baseline.*tree|mismatch/i)
 })
 
-test('rejects English payload changes while ignoring unchanged full English payload', async () => {
+test('excludes English workspace changes from translation artifacts', async () => {
   const state = await twoPairFixture({}, { mutateResult(root) { write(root, 'content/en/guides/tutorials/a.md', '# changed English\n') } })
-  await assert.rejects(planFor(state.fixture, [state.first, state.second]), /english|owned.*baseline|source payload/i)
+  const resultManifest = JSON.parse(fs.readFileSync(path.join(state.second.artifactDir, 'manifest.json'), 'utf8'))
+  assert.equal(resultManifest.files.some(entry => entry.path.startsWith('content/en/')), false)
+  await assert.doesNotReject(planFor(state.fixture, [state.first, state.second]))
 })
 
 test('rejects direct tutorial writes and deletions absent from batch authority', async () => {

@@ -12,6 +12,32 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('translation workflows declare immutable target identity and exact target validation', () => {
+  const reusableFiles = [
+    '_prepare-translation-batches.yml',
+    '_translate-content-group.yml',
+    '_translate-publish-batch.yml',
+    '_publish-translation-batches.yml',
+  ]
+  for (const file of reusableFiles) {
+    const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
+    const inputs = workflow.on.workflow_call.inputs
+    for (const input of ['target', 'tooling_sha', 'source_sha']) {
+      assert.equal(inputs[input]?.required, true, `${file} must require ${input}`)
+    }
+  }
+  const publisherInputs = yaml.load(fs.readFileSync('.github/workflows/_publish-content-group.yml', 'utf8')).on.workflow_call.inputs
+  for (const input of ['target', 'tooling_sha', 'source_sha']) assert.ok(publisherInputs[input], `_publish-content-group.yml must declare ${input}`)
+
+  const wrapper = yaml.load(fs.readFileSync('.github/workflows/translate-content.yml', 'utf8'))
+  assert.deepEqual(wrapper.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
+  assert.equal(wrapper.concurrency, undefined)
+  const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
+  assert.match(source, /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP[\s\S]*build:en/)
+  assert.match(source, /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
+  assert.match(source, /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/)
+})
+
 test('source publication workflows require site-owned publish-group contracts', () => {
   for (const file of ['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml']) {
     const source = fs.readFileSync(path.join('.github/workflows', file), 'utf8')
@@ -937,7 +963,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /tar -tf "\$archive"[\s\S]*tar -tvf "\$archive"[\s\S]*checkpoint-group\.tar/)
   assert.match(workflow, /validate-checkpoint-artifact\.js[\s\S]*--group "\$GROUP"[\s\S]*--master-sha "\$MASTER_SHA"/)
   assert.match(workflow, /publish-checkpoint\.sh[\s\S]*--artifact "\$ARTIFACT_DIR"[\s\S]*--branch "\$TARGET_BRANCH"[\s\S]*--message "\$COMMIT_MESSAGE"[\s\S]*--max-attempts 10[\s\S]*--validate-command "\$VALIDATE_COMMAND"/)
-  assert.match(workflow, /id: baseline_validation[\s\S]*validateCheckpointArtifact[\s\S]*manifest\.resolvedDir[\s\S]*payload[\s\S]*\.translation-cache\/ja-JP\.json[\s\S]*baseline_dir=/)
+  assert.match(workflow, /id: baseline_validation[\s\S]*validateCheckpointArtifact[\s\S]*manifest\.resolvedDir[\s\S]*resolveTranslationTarget\(manifest\.translationTarget\)\.state\.path[\s\S]*baseline_dir=/)
   assert.match(workflow, /BASELINE_PAYLOAD_DIR: \$\{\{ steps\.baseline_validation\.outputs\.baseline_dir \}\}[\s\S]*baseline_args=\(\)[\s\S]*baseline_args=\(--baseline-dir "\$BASELINE_PAYLOAD_DIR"\)[\s\S]*"\$\{baseline_args\[@\]\}"/)
   assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*status=failed[\s\S]*status=skipped[\s\S]*published[\s\S]*no_changes/)
   assert.match(workflow, /commit_sha=/)
@@ -982,7 +1008,7 @@ test('Guides translation batches publish through one validated staging ref', () 
     assert.equal(reusable.on.workflow_call.outputs[output].value, `\${{ jobs.publish.outputs.${output} }}`)
     assert.equal(reusable.jobs.publish.outputs[output], `\${{ steps.result.outputs.${output} }}`)
   }
-  assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with.ref, '${{ inputs.master_sha }}')
+  assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with.ref, '${{ inputs.tooling_sha }}')
   assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with['fetch-depth'], 0)
   const capture = steps.find(step => step.name === 'Capture Guides translation publication identities')
   const initialize = steps.find(step => step.name === 'Initialize Guides translation publisher')
@@ -1112,7 +1138,7 @@ test('translation publishers form a short queue with scoped validation', () => {
     const job = workflow.jobs[`publish_${group}_translation`]
     const predecessor = index === 0 ? 'publish_guides_translation_batches' : `publish_${groups[index - 1]}_translation`
     assert.ok(job.needs.includes(predecessor))
-    assert.equal(job.with.validate_command, `node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "${group}"`)
+    assert.equal(job.with.validate_command, `pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group ${group} && pnpm run build:en`)
   }
 })
 
@@ -1124,15 +1150,15 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
   const checkpoint = steps.find(step => step.name === 'Create validated translation checkpoints')
 
-  for (const input of ['group', 'source_commit_sha', 'master_sha', 'should_translate']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
+  for (const input of ['target', 'group', 'tooling_sha', 'source_sha', 'source_commit_sha', 'master_sha', 'should_translate']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
   for (const output of ['status', 'artifact_name', 'baseline_artifact_name', 'translated_count']) assert.match(source, new RegExp(`^      ${output}:`, 'm'))
   assert.match(source, /^  contents: read$/m)
-  assert.match(source, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
+  assert.match(source, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}/)
   assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_COMMIT_SHA"/)
   assert.match(source, /git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/)
   assert.match(source, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
   assert.match(source, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(source, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(source, /sourceDelta\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
   assert.match(source, /applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
   assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
   assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
@@ -1154,10 +1180,12 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(unbatched.if, /inputs\.batch_number == 0/)
   assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
   assert.match(unbatched.run, /validate-mdx/)
-  assert.match(unbatched.run, /validate-translated-coverage\.js --group "\$GROUP"/)
-  assert.match(unbatched.run, /pnpm run build:en/)
+  assert.match(unbatched.run, /validate-translation --target ja-JP --group "\$GROUP"[\s\S]*pnpm run build:en/)
+  assert.match(unbatched.run, /reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*pnpm run build:zh-CN/)
+  assert.match(unbatched.run, /validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*pnpm run build:zh-CN/)
 
   assert.match(checkpoint.run, /--include-translation-cache/)
+  assert.match(checkpoint.run, /--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--tooling-sha "\$MASTER_SHA"/)
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/)
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/)
   assert.match(checkpoint.run, /if \(\( \$\{\{ inputs\.batch_number \}\} > 0 \)\) && \[\[ "\$GROUP" == guides \]\]; then[\s\S]*validate-translation-batch\.js[\s\S]*--artifact "\$CHECKPOINT_DIR"[\s\S]*--baseline "\$BASELINE_CHECKPOINT_DIR"[\s\S]*--batch-number "\$\{\{ inputs\.batch_number \}\}"[\s\S]*--batch-count "\$\{\{ inputs\.batch_count \}\}"[\s\S]*\n\s*fi/)
@@ -1199,46 +1227,6 @@ test('workflow policy rejects numbered translation batch validation regressions'
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\npnpm run build:en' },
-      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
-    },
-    {
-      mutate(steps) {
-        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
-        step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
-          '# if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
-        )
-      },
-      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
-    },
-    {
-      mutate(steps) {
-        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
-        step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
-          'cat <<\'ATTESTATION\'\nif (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi\nATTESTATION',
-        )
-      },
-      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
-    },
-    {
-      mutate(steps) {
-        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
-        step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
-          'echo \'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi\'',
-        )
-      },
-      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
-    },
-    {
-      mutate(steps) {
-        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
-        step.run = step.run.replace(
-          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi',
-          '\'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi\'',
-        )
-      },
       expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
     },
     {
@@ -1292,29 +1280,17 @@ test('durable translation batch preparation uses the same source delta as batch 
   assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/)
   assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
   assert.match(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(workflow, /sourceDelta\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
   assert.match(workflow, /manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/)
 })
 
-test('manual translation wrapper calls reusable translation then publisher without legacy automation', () => {
+test('manual translation wrapper calls the target-aware reusable workflow without legacy automation', () => {
   const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8')
   assert.doesNotMatch(workflow, /workflow_run|git-auto-commit|git push/)
   assert.match(workflow, /workflow_dispatch:/)
-  assert.match(workflow, /uses: \.\/.github\/workflows\/_translate-content-group\.yml/)
-  assert.match(workflow, /uses: \.\/.github\/workflows\/_publish-content-group\.yml/)
-  assert.match(workflow, /baseline_artifact_name: \$\{\{ needs\.translate\.outputs\.baseline_artifact_name \}\}/)
+  assert.match(workflow, /uses: \.\/.github\/workflows\/translate-content\.yml/)
+  assert.match(workflow, /target: ja-JP/)
   assert.doesNotMatch(workflow, /secrets: inherit/)
   assert.match(workflow, /secrets:\n      TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}\n      REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/)
-  assert.match(workflow, /commit_message: "\$\{\{ inputs\.group == 'guides' && 'i18n\(guides\): publish translations'[\s\S]*'i18n\(rest\): publish translations' \}\}"/)
-  assert.match(workflow, /TARGET_BRANCH_INPUT: \$\{\{ inputs\.target_branch \}\}/)
-  const resolverStep = workflow.slice(workflow.indexOf('- id: refs'), workflow.indexOf('  translate:'))
-  const resolver = resolverStep.slice(resolverStep.indexOf('        run: |'))
-  assert.doesNotMatch(resolver, /\$\{\{ inputs\.target_branch \}\}/)
-  assert.match(resolver, /git check-ref-format --branch "\$target_branch"/)
-  assert.match(resolver, /"\$target_branch" == -\*/)
-  assert.match(resolver, /"\$target_branch" == \*:\*/)
-  assert.match(resolver, /refs\/heads\/\$target_branch:refs\/remotes\/origin\/\$target_branch/)
-  assert.match(resolver, /git rev-parse "refs\/remotes\/origin\/\$target_branch"/)
-  assert.doesNotMatch(resolver, /inputs\.target_branch|\$\{\{[^\n]*target_branch/)
-  assert.match(resolver, /\*\$'\\n'\*|\*\$'\\r'\*/)
+  assert.match(workflow, /target_branch: \$\{\{ inputs\.target_branch \}\}/)
 })

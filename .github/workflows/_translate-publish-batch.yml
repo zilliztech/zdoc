@@ -8,6 +8,9 @@ on:
   workflow_call:
     inputs:
       group: { required: true, type: string }
+      target: { required: true, type: string }
+      tooling_sha: { required: true, type: string }
+      source_sha: { required: true, type: string }
       source_commit_sha: { required: true, type: string }
       master_sha: { required: true, type: string }
       target_branch: { required: true, type: string }
@@ -33,6 +36,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: ${{ inputs.group }}
+      target: ${{ inputs.target }}
+      tooling_sha: ${{ inputs.tooling_sha }}
+      source_sha: ${{ inputs.source_sha }}
       source_commit_sha: ${{ inputs.source_commit_sha }}
       master_sha: ${{ inputs.master_sha }}
       should_translate: true
@@ -61,13 +67,15 @@ jobs:
       commit_sha: ${{ steps.result.outputs.commit_sha }}
     env:
       GROUP: ${{ inputs.group }}
-      MASTER_SHA: ${{ inputs.master_sha }}
+      TRANSLATION_TARGET: ${{ inputs.target }}
+      SOURCE_COMMIT_SHA: ${{ inputs.source_sha }}
+      MASTER_SHA: ${{ inputs.tooling_sha }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
       BATCH_NUMBER: ${{ inputs.batch_number }}
       BATCH_COUNT: ${{ inputs.batch_count }}
       ARTIFACT_NAME: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
       BASELINE_ARTIFACT_NAME: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
-      COMMIT_MESSAGE: "i18n(${{ inputs.group }}): publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }}"
+      COMMIT_MESSAGE: "i18n(${{ inputs.target }}): publish ${{ inputs.group }} translations"
     steps:
       - name: Initialize publication paths
         shell: bash
@@ -100,7 +108,7 @@ jobs:
       - name: Check out immutable publisher tooling
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.master_sha }}
+          ref: ${{ inputs.tooling_sha }}
           fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
@@ -159,8 +167,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
-          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --tooling-sha "$MASTER_SHA"
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --tooling-sha "$MASTER_SHA"
           node - <<'NODE'
           const fs = require('node:fs/promises')
           const path = require('node:path')

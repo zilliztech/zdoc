@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const { cp, lstat, mkdir, mkdtemp, open, realpath, rename, rm, rmdir, statfs } = require('node:fs/promises');
 const path = require('node:path');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
+const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts');
 
 const CACHE = '.translation-cache/ja-JP.json';
 function insideOrEqual(parent, child) { const rel = path.relative(parent, child); return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel)); }
@@ -81,6 +82,29 @@ function mergeCache(baseline, artifact, target) {
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
 }
 
+function recordsBySource(manifest, label) {
+  if (!Array.isArray(manifest.records)) throw new Error(`${label} translation manifest records must be an array`);
+  const records = {};
+  for (const record of manifest.records) {
+    if (!record || typeof record !== 'object' || Array.isArray(record) || typeof record.sourcePath !== 'string' || !record.sourcePath) throw new Error(`${label} translation manifest record requires sourcePath`);
+    if (Object.hasOwn(records, record.sourcePath)) throw new Error(`${label} translation manifest has duplicate sourcePath: ${record.sourcePath}`);
+    records[record.sourcePath] = record;
+  }
+  return records;
+}
+
+function mergeManifest(baseline, artifact, target) {
+  const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== 'records')));
+  const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
+  result.records = Object.values(mergeRecord(
+    recordsBySource(baseline, 'Baseline'),
+    recordsBySource(artifact, 'Artifact'),
+    recordsBySource(target, 'Target'),
+    'records.',
+  )).sort((left, right) => left.sourcePath.localeCompare(right.sourcePath));
+  return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
+}
+
 async function atomicWrite(target, bytes) {
   const temporary = path.join(path.dirname(target), `.${path.basename(target)}.${process.pid}.${Date.now()}.tmp`);
   const handle = await open(temporary, fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | (fs.constants.O_NOFOLLOW || 0), 0o600);
@@ -120,9 +144,9 @@ async function verifyGuard(identities) {
 function minimalPaths(paths) { return [...new Set(paths)].sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)).filter((rel, i, all) => !all.slice(0, i).some((parent) => rel.startsWith(`${parent}/`))); }
 async function pathSize(full) { const stat = await maybeLstat(full); if (!stat) return 0; if (stat.isSymbolicLink()) throw new Error(`Symlink cannot be journaled: ${full}`); if (stat.isFile()) return stat.size; let total = 0; for (const name of await require('node:fs/promises').readdir(full)) total += await pathSize(path.join(full, name)); return total; }
 
-async function readCacheNoFollow(root, kind, hooks) {
-  await assertSafeAncestors(root, CACHE);
-  return readNoFollow(path.join(root, CACHE), undefined, () => hooks?.afterCacheLstat?.({ kind, file: path.join(root, CACHE) }));
+async function readStateNoFollow(root, statePath, kind, hooks) {
+  await assertSafeAncestors(root, statePath);
+  return readNoFollow(path.join(root, statePath), undefined, () => hooks?.afterCacheLstat?.({ kind, file: path.join(root, statePath) }));
 }
 
 async function applyCheckpointArtifact(options = {}) {
@@ -138,17 +162,19 @@ async function applyCheckpointArtifact(options = {}) {
   for (const entry of manifest.files) payloadStats.set(entry.path, await lstat(path.join(payload, entry.path)));
 
   let mergedCache = null;
-  const cacheEntry = manifest.files.find((entry) => entry.path === CACHE);
+  const statePath = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget).state.path : null;
+  const cacheEntry = statePath ? manifest.files.find((entry) => entry.path === statePath) : null;
   if (cacheEntry) {
     if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('baselineDir is required for translation cache merge');
     const baseline = await safeTarget(options.baselineDir);
     if (insideOrEqual(target, baseline) || insideOrEqual(baseline, target) || insideOrEqual(artifact, baseline) || insideOrEqual(baseline, artifact)) throw new Error('Baseline must not overlap artifact or target');
     const [a, b, t] = await Promise.all([
-      readNoFollow(path.join(payload, CACHE), payloadStats.get(CACHE), () => hooks?.afterCacheLstat?.({ kind: 'artifact', file: path.join(payload, CACHE) })),
-      readCacheNoFollow(baseline, 'baseline', hooks),
-      readCacheNoFollow(target, 'target', hooks),
+      readNoFollow(path.join(payload, statePath), payloadStats.get(statePath), () => hooks?.afterCacheLstat?.({ kind: 'artifact', file: path.join(payload, statePath) })),
+      readStateNoFollow(baseline, statePath, 'baseline', hooks),
+      readStateNoFollow(target, statePath, 'target', hooks),
     ]);
-    mergedCache = mergeCache(parseObject(b, 'Baseline translation cache'), parseObject(a, 'Artifact translation cache'), parseObject(t, 'Target translation cache'));
+    const parsed = [parseObject(b, 'Baseline translation state'), parseObject(a, 'Artifact translation state'), parseObject(t, 'Target translation state')];
+    mergedCache = manifest.translationTarget === 'ja-JP' ? mergeCache(...parsed) : mergeManifest(...parsed);
   }
 
   const mutationPaths = minimalPaths([...manifest.deletions, ...manifest.files.map((entry) => entry.path)]);
@@ -179,7 +205,7 @@ async function applyCheckpointArtifact(options = {}) {
       const existing = await maybeLstat(destination);
       if (existing?.isSymbolicLink()) throw new Error(`Target symlink is not allowed: ${rel}`);
       if (existing?.isDirectory()) { if (!manifest.deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); }
-      const bytes = rel === CACHE ? mergedCache : await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
+      const bytes = rel === statePath ? mergedCache : await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
       await hooks?.beforeCommit?.({ rel }); await verifyGuard(guard); await atomicWrite(destination, bytes); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); await hooks?.afterCopy?.({ rel });
     }
     complete = true;

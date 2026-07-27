@@ -19,8 +19,8 @@ const TRANSLATION_ROOTS = MUTABLE_ROOTS.slice(0, 2)
 const SOURCE_AUTHORITY = Object.freeze([
   'content/en/guides',
   'content/en/byoc',
-  'config/generated/guides.sidebar.js',
-  'config/generated/guides-byoc.sidebar.js',
+  'generated/en/sidebars/guides.sidebar.js',
+  'generated/en/sidebars/guides-byoc.sidebar.js',
   'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
   'packages/docs-tooling/src/lark/meta/assembly/guides.json',
 ])

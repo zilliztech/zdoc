@@ -54,6 +54,11 @@ async function schema2Artifact(options = {}) {
     group: 'guides',
     masterSha: A,
     devBaselineSha: B,
+    translationTarget: 'ja-JP',
+    sourceSite: 'en',
+    targetSite: 'en',
+    sourceCheckpointSha: B,
+    toolingSha: A,
     createdAt: '2026-07-18T00:00:00.000Z',
     ownershipVersion: 1,
     files: [{ path: cachePath, sha256: crypto.createHash('sha256').update(cache).digest('hex'), size: cache.length }],
@@ -63,6 +68,7 @@ async function schema2Artifact(options = {}) {
     batchInput: { path: 'batch-input.json', size: inputBytes.length, sha256: crypto.createHash('sha256').update(inputBytes).digest('hex') },
     ...(options.manifest || {}),
   };
+  if (options.omitIdentity) for (const key of ['translationTarget', 'sourceSite', 'targetSite', 'sourceCheckpointSha', 'toolingSha']) delete manifest[key];
   await writeFile(path.join(dir, 'manifest.json'), JSON.stringify(manifest));
   return { dir, payload, manifest, batch, document, inputBytes, cachePath };
 }
@@ -81,6 +87,13 @@ async function artifact(overrides = {}) {
     deletions: [], snapshotManual: 'pymilvus30', validation: { commands: ['node --test'], passed: true },
     ...overrides,
   };
+  if (manifest.stage === 'translation') Object.assign(manifest, {
+    translationTarget: overrides.translationTarget || 'ja-JP',
+    sourceSite: overrides.sourceSite || 'en',
+    targetSite: overrides.targetSite || 'en',
+    sourceCheckpointSha: overrides.sourceCheckpointSha || B,
+    toolingSha: overrides.toolingSha || A,
+  });
   await writeFile(path.join(dir, 'manifest.json'), JSON.stringify(manifest));
   return { dir, payload, manifest, rel };
 }
@@ -116,6 +129,20 @@ test('validates schema 2 numbered translation identity and returns immutable bat
   exposedCache[0] = 0;
   assert.deepEqual(result.translationCacheBytes, expectedCache);
   assert.equal(Object.keys(result).includes('translationCacheBytes'), false);
+});
+
+test('translation checkpoints require immutable target and site identity before payload validation', async () => {
+  const missingIdentity = await schema2Artifact({omitIdentity: true});
+  await assert.rejects(validateCheckpointArtifact(missingIdentity.dir), /translationTarget|sourceSite|targetSite|sourceCheckpointSha|toolingSha/);
+
+  const invalidIdentity = await schema2Artifact({ manifest: {
+    translationTarget: 'zh-CN-tools',
+    sourceSite: 'en',
+    targetSite: 'en',
+    sourceCheckpointSha: 'not-a-sha',
+    toolingSha: A,
+  } });
+  await assert.rejects(validateCheckpointArtifact(invalidIdentity.dir), /targetSite|sourceCheckpointSha|translation target identity/i);
 });
 
 test('rejects symlinked manifest files before parsing for schema 1 and managed schema 2 artifacts', async () => {

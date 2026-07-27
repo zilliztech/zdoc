@@ -8,6 +8,7 @@ const workflowDirectory = path.join(process.cwd(), '.github', 'workflows')
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
+  'translate-content.yml',
   '_publish-content-group.yml',
   '_publish-translation-batches.yml',
   '_translate-publish-batch.yml',
@@ -100,7 +101,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
+      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', 'translate-content.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
       if (!/^  contents: write$/m.test(source)) {
@@ -143,7 +144,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/, 'must recover source checkpoint ancestry after generated-state restore'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must verify the source checkpoint parent before deriving durable batches'],
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive durable batches from the immutable source checkpoint diff'],
-        [/sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must build the durable pending set from the source delta'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
@@ -154,7 +155,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/, 'must recover source checkpoint ancestry after generated-state restore'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must verify the source checkpoint parent before translation reconciliation'],
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive translation reconciliation from the immutable source checkpoint diff'],
-        [/sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
         [/applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'must apply translated output and cache deletions before manifest creation'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
@@ -191,19 +192,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
       }
-      if (!/validate-mdx/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build:en/.test(unbatchedRun)) {
-        errors.push(`${file}: unbatched translations must retain full MDX, coverage, and build validation`)
+      const targetValidation = /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP --group "\$GROUP"[\s\S]*build:en/.test(unbatchedRun)
+        && /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/.test(unbatchedRun)
+        && /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/.test(unbatchedRun)
+      if (!targetValidation) {
+        errors.push(`${file}: unbatched translations must retain exact target validation and build commands`)
       }
       for (const step of steps) {
         if (step === unbatched || step === checkpoint) continue
         if (containsFullValidationCommand(step?.run)) errors.push(`${file}: full validation and build commands must exist only in the exact unbatched validation path`)
       }
-      const checkpointAttestation = 'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build:en"); fi'
       const checkpointLines = checkpointRun.split('\n')
-      const attestationEntries = executableShellLineEntries(checkpointRun).filter(entry => entry.trimmed === checkpointAttestation)
+      const attestationEntries = executableShellLineEntries(checkpointRun).filter(entry => /validation_args=\(--validation-command "pnpm run build:(?:en|zh-CN)"\)/.test(entry.trimmed))
       const attestationIndexes = new Set(attestationEntries.map(entry => entry.index))
       const checkpointWithoutAttestation = checkpointLines.filter((line, index) => !attestationIndexes.has(index)).join('\n')
-      if (attestationEntries.length !== 1 || containsFullValidationCommand(checkpointWithoutAttestation)) {
+      if (attestationEntries.length !== 2 || !/if \(\( \$\{\{ inputs\.batch_number \}\} == 0 \)\); then/.test(checkpointRun) || containsFullValidationCommand(checkpointWithoutAttestation)) {
         errors.push(`${file}: checkpoint build attestation must remain restricted to unbatched runs`)
       }
       if (!/validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/.test(checkpointRun) || !/validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/.test(checkpointRun)) {
@@ -432,15 +435,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === 'translate-codex.yml') {
       const requiredPatterns = [
-        [/TARGET_BRANCH_INPUT: \$\{\{ inputs\.target_branch \}\}/, 'must pass the branch input through the step environment'],
-        [/git check-ref-format --branch "\$target_branch"/, 'must validate the target branch before fetching'],
-        [/refs\/heads\/\$target_branch:refs\/remotes\/origin\/\$target_branch/, 'must fetch the validated branch with an explicit refspec'],
+        [/uses: \.\/\.github\/workflows\/translate-content\.yml/, 'must call the target-aware reusable translation workflow'],
+        [/target: ja-JP/, 'must preserve the Japanese compatibility target'],
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
-      const resolver = source.slice(source.indexOf('- id: refs'), source.indexOf('  translate:'))
-      if (/run: \|[\s\S]*\$\{\{ inputs\.target_branch \}\}/.test(resolver)) errors.push(`${file}: target branch input must not be interpolated into shell source`)
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
+    }
+
+    if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
+      errors.push(`${file}: reusable target-aware workflow must not share its caller's publication concurrency group`)
     }
   }
 

@@ -62,6 +62,11 @@ async function translationArtifact({ batch = batchMetadata(), document = batchIn
     group: 'guides',
     masterSha: MASTER_SHA,
     devBaselineSha: DEV_SHA,
+    translationTarget: 'ja-JP',
+    sourceSite: 'en',
+    targetSite: 'en',
+    sourceCheckpointSha: DEV_SHA,
+    toolingSha: MASTER_SHA,
     createdAt: '2026-07-15T00:00:00.000Z',
     ownershipVersion: 1,
     files: [{

@@ -44,30 +44,30 @@ function publish(s, artifactDir, baseline) {
 test('sequential stale Python and Java source artifacts preserve remote and each other', () => {
   const s = setup();
   try {
-    put(s.seed, 'reference/api/python/python/keep.md', 'python old\n'); put(s.seed, 'reference/api/python/python/delete.md', 'delete\n');
-    put(s.seed, 'reference/api/java/java/v2/keep.md', 'java old\n'); put(s.seed, 'reference/api/java/java/v2/delete.md', 'delete\n');
-    put(s.seed, 'config/generated/python.sidebar.js', 'python old sidebar\n'); put(s.seed, 'config/generated/java.sidebar.js', 'java old sidebar\n');
+    put(s.seed, 'content/en/reference/api/python/python/keep.md', 'python old\n'); put(s.seed, 'content/en/reference/api/python/python/delete.md', 'delete\n');
+    put(s.seed, 'content/en/reference/api/java/java/v2/keep.md', 'java old\n'); put(s.seed, 'content/en/reference/api/java/java/v2/delete.md', 'delete\n');
+    put(s.seed, 'generated/en/sidebars/python.sidebar.js', 'python old sidebar\n'); put(s.seed, 'generated/en/sidebars/java.sidebar.js', 'java old sidebar\n');
     put(s.seed, 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json', '{"old":true}\n');
     put(s.seed, 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json', '{"old":true}\n');
     put(s.seed, 'docs/unrelated.md', 'guide old\n');
     const baselineSha = commitSeed(s), baseline = path.join(s.root, 'baseline'), python = path.join(s.root, 'python'), java = path.join(s.root, 'java');
     copy(s.seed, baseline); copy(s.seed, python); copy(s.seed, java);
-    put(python, 'reference/api/python/python/keep.md', 'python new\n'); fs.unlinkSync(path.join(python, 'reference/api/python/python/delete.md'));
-    put(python, 'config/generated/python.sidebar.js', 'python new sidebar\n'); put(python, 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json', '{"python":true}\n');
-    put(java, 'reference/api/java/java/v2/keep.md', 'java new\n'); fs.unlinkSync(path.join(java, 'reference/api/java/java/v2/delete.md'));
-    put(java, 'config/generated/java.sidebar.js', 'java new sidebar\n'); put(java, 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json', '{"java":true}\n');
+    put(python, 'content/en/reference/api/python/python/keep.md', 'python new\n'); fs.unlinkSync(path.join(python, 'content/en/reference/api/python/python/delete.md'));
+    put(python, 'generated/en/sidebars/python.sidebar.js', 'python new sidebar\n'); put(python, 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json', '{"python":true}\n');
+    put(java, 'content/en/reference/api/java/java/v2/keep.md', 'java new\n'); fs.unlinkSync(path.join(java, 'content/en/reference/api/java/java/v2/delete.md'));
+    put(java, 'generated/en/sidebars/java.sidebar.js', 'java new sidebar\n'); put(java, 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json', '{"java":true}\n');
     const pythonArtifact = artifact(s, 'python', baseline, python), javaArtifact = artifact(s, 'java', baseline, java);
     put(s.seed, 'docs/unrelated.md', 'guide remote\n'); git(s.seed, 'add', '.'); git(s.seed, 'commit', '-m', 'remote guide'); git(s.seed, 'push', 'origin', 'dev');
     const remoteGuideSha = git(s.seed, 'rev-parse', 'HEAD');
     for (const a of [pythonArtifact, javaArtifact]) { const result = publish(s, a); assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`); }
     git(s.seed, 'fetch', 'origin', 'dev');
     assert.equal(git(s.seed, 'show', 'origin/dev:docs/unrelated.md'), 'guide remote');
-    assert.equal(git(s.seed, 'show', 'origin/dev:reference/api/python/python/keep.md'), 'python new');
-    assert.equal(git(s.seed, 'show', 'origin/dev:reference/api/java/java/v2/keep.md'), 'java new');
-    assertGitObjectMissing(s.seed, 'origin/dev:reference/api/python/python/delete.md');
-    assertGitObjectMissing(s.seed, 'origin/dev:reference/api/java/java/v2/delete.md');
-    assert.equal(git(s.seed, 'show', 'origin/dev:config/generated/python.sidebar.js'), 'python new sidebar');
-    assert.equal(git(s.seed, 'show', 'origin/dev:config/generated/java.sidebar.js'), 'java new sidebar');
+    assert.equal(git(s.seed, 'show', 'origin/dev:content/en/reference/api/python/python/keep.md'), 'python new');
+    assert.equal(git(s.seed, 'show', 'origin/dev:content/en/reference/api/java/java/v2/keep.md'), 'java new');
+    assertGitObjectMissing(s.seed, 'origin/dev:content/en/reference/api/python/python/delete.md');
+    assertGitObjectMissing(s.seed, 'origin/dev:content/en/reference/api/java/java/v2/delete.md');
+    assert.equal(git(s.seed, 'show', 'origin/dev:generated/en/sidebars/python.sidebar.js'), 'python new sidebar');
+    assert.equal(git(s.seed, 'show', 'origin/dev:generated/en/sidebars/java.sidebar.js'), 'java new sidebar');
     assert.equal(git(s.seed, 'show', 'origin/dev:packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json'), '{"python":true}');
     assert.equal(git(s.seed, 'show', 'origin/dev:packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json'), '{"java":true}');
     const commits = git(s.seed, 'rev-list', '--first-parent', 'origin/dev', `^${baselineSha}`).split('\n');

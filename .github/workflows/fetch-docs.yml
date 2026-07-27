@@ -330,6 +330,9 @@ jobs:
     uses: ./.github/workflows/_prepare-translation-batches.yml
     with:
       group: guides
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
 
@@ -343,6 +346,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: guides
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: true
@@ -364,6 +370,9 @@ jobs:
     uses: ./.github/workflows/_publish-translation-batches.yml
     with:
       group: guides
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       expected_target_sha: ${{ needs.publish_guides.outputs.commit_sha }}
@@ -411,6 +420,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: python
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_python.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_python.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes') }}
@@ -424,13 +436,16 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: python
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_python.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       artifact_name: ${{ needs.translate_python.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_python.outputs.baseline_artifact_name || '' }}
-      commit_message: 'i18n(python): publish translations'
+      commit_message: 'i18n(ja-JP): publish python translations'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_python.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "python"'
+      validate_command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group python && pnpm run build:en'
 
   publish_java:
     needs: [prepare, produce_java]
@@ -450,6 +465,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: java
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_java.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_java.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes') }}
@@ -463,13 +481,16 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: java
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_java.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       artifact_name: ${{ needs.translate_java.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_java.outputs.baseline_artifact_name || '' }}
-      commit_message: 'i18n(java): publish translations'
+      commit_message: 'i18n(ja-JP): publish java translations'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_java.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "java"'
+      validate_command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group java && pnpm run build:en'
 
   publish_node:
     needs: [prepare, produce_node, publish_java]
@@ -489,6 +510,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: node
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_node.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_node.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes') }}
@@ -502,13 +526,16 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: node
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_node.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       artifact_name: ${{ needs.translate_node.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_node.outputs.baseline_artifact_name || '' }}
-      commit_message: 'i18n(node): publish translations'
+      commit_message: 'i18n(ja-JP): publish node translations'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_node.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "node"'
+      validate_command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group node && pnpm run build:en'
 
   publish_go:
     needs: [prepare, produce_go, publish_node]
@@ -528,6 +555,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: go
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_go.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_go.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes') }}
@@ -541,13 +571,16 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: go
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_go.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       artifact_name: ${{ needs.translate_go.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_go.outputs.baseline_artifact_name || '' }}
-      commit_message: 'i18n(go): publish translations'
+      commit_message: 'i18n(ja-JP): publish go translations'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_go.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "go"'
+      validate_command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group go && pnpm run build:en'
 
   publish_cli:
     needs: [prepare, produce_cli, publish_go]
@@ -567,6 +600,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: cli
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_cli.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_cli.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes') }}
@@ -580,13 +616,16 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: cli
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_cli.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       artifact_name: ${{ needs.translate_cli.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_cli.outputs.baseline_artifact_name || '' }}
-      commit_message: 'i18n(cli): publish translations'
+      commit_message: 'i18n(ja-JP): publish cli translations'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_cli.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "cli"'
+      validate_command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group cli && pnpm run build:en'
 
   publish_rest:
     needs: [prepare, produce_rest, publish_cli]
@@ -606,6 +645,9 @@ jobs:
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: rest
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       source_commit_sha: ${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes') }}
@@ -619,15 +661,87 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: rest
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_sha: ${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       artifact_name: ${{ needs.translate_rest.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_rest.outputs.baseline_artifact_name || '' }}
-      commit_message: 'i18n(rest): publish translations'
+      commit_message: 'i18n(ja-JP): publish rest translations'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_rest.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "rest"'
+      validate_command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group rest && pnpm run build:en'
+
+  translate_python_zh_reference:
+    needs: [prepare, publish_python]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes') }}
+    uses: ./.github/workflows/translate-content.yml
+    with: { target: zh-CN-reference, group: python, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_python.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
+    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
+
+  translate_java_zh_reference:
+    needs: [prepare, publish_java]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes') }}
+    uses: ./.github/workflows/translate-content.yml
+    with: { target: zh-CN-reference, group: java, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_java.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
+    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
+
+  translate_node_zh_reference:
+    needs: [prepare, publish_node]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes') }}
+    uses: ./.github/workflows/translate-content.yml
+    with: { target: zh-CN-reference, group: node, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_node.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
+    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
+
+  translate_go_zh_reference:
+    needs: [prepare, publish_go]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes') }}
+    uses: ./.github/workflows/translate-content.yml
+    with: { target: zh-CN-reference, group: go, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_go.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
+    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
+
+  translate_cli_zh_reference:
+    needs: [prepare, publish_cli]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes') }}
+    uses: ./.github/workflows/translate-content.yml
+    with: { target: zh-CN-reference, group: cli, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_cli.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
+    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
+
+  translate_rest_zh_reference:
+    needs: [prepare, publish_rest]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes') }}
+    uses: ./.github/workflows/translate-content.yml
+    with: { target: zh-CN-reference, group: rest, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
+    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
+
+  detect_guides_tools_translation:
+    needs: [prepare, publish_guides]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs: { changed: '${{ steps.diff.outputs.changed }}' }
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
+      - id: diff
+        env: { SOURCE_SHA: '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}' }
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=2 origin "$SOURCE_SHA"
+          git cat-file -e "$SOURCE_SHA^"
+          changed=false
+          if git diff --name-only "$SOURCE_SHA^" "$SOURCE_SHA" | grep -Eq '^(content/en/guides/tutorials/tools/|generated/en/sidebars/guides\.sidebar\.js$)'; then changed=true; fi
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+
+  translate_guides_zh_tools:
+    needs: [prepare, publish_guides, detect_guides_tools_translation]
+    if: ${{ always() && needs.detect_guides_tools_translation.outputs.changed == 'true' }}
+    uses: ./.github/workflows/translate-content.yml
+    with: { target: zh-CN-tools, group: tools, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}' }
+    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
+
   resolve_final:
-    needs: [prepare, finalize_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation]
+    needs: [prepare, finalize_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation, translate_python_zh_reference, translate_java_zh_reference, translate_node_zh_reference, translate_go_zh_reference, translate_cli_zh_reference, translate_rest_zh_reference, translate_guides_zh_tools]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15

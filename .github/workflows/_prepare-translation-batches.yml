@@ -4,6 +4,9 @@ on:
   workflow_call:
     inputs:
       group: { required: true, type: string }
+      target: { required: true, type: string }
+      tooling_sha: { required: true, type: string }
+      source_sha: { required: true, type: string }
       source_commit_sha: { required: true, type: string }
       master_sha: { required: true, type: string }
     outputs:
@@ -30,11 +33,12 @@ jobs:
       candidate_counts: ${{ steps.summary.outputs.candidate_counts }}
     env:
       GROUP: ${{ inputs.group }}
-      SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
-      MASTER_SHA: ${{ inputs.master_sha }}
+      TRANSLATION_TARGET: ${{ inputs.target }}
+      SOURCE_COMMIT_SHA: ${{ inputs.source_sha }}
+      MASTER_SHA: ${{ inputs.tooling_sha }}
     steps:
       - uses: actions/checkout@v4
-        with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
+        with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
       - name: Materialize immutable translation source
         run: |
           set -euo pipefail
@@ -45,12 +49,12 @@ jobs:
           mkdir -p .translation-cache tmp
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
           git diff --name-status "$SOURCE_COMMIT_SHA^" "$SOURCE_COMMIT_SHA" > tmp/source-name-status.txt
-          node scripts/translation/sourceDelta.js --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
+          node scripts/translation/sourceDelta.js --target "$TRANSLATION_TARGET" --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
       - id: summary
         name: Build deterministic batch matrix
         run: |
           set -euo pipefail
-          node scripts/translation/manifest.js --locale ja-JP --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json
           node - <<'NODE'
           const fs = require('node:fs')
           const { getContentGroup } = require('./scripts/docs-workflow/content-groups')

@@ -7,10 +7,13 @@ const { lstat, open, readlink, realpath, readdir } = require('node:fs/promises')
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
 const { validateBatchInput } = require('./translation-batch-input');
+const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts');
 
 const COMMON_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual'];
+const TRANSLATION_IDENTITY_KEYS = ['translationTarget', 'sourceSite', 'targetSite', 'sourceCheckpointSha', 'toolingSha'];
 const SCHEMA_1_KEYS = [...COMMON_KEYS, 'validation'];
-const SCHEMA_2_KEYS = [...COMMON_KEYS, 'batch', 'batchInput'];
+const SCHEMA_1_TRANSLATION_KEYS = [...SCHEMA_1_KEYS, ...TRANSLATION_IDENTITY_KEYS];
+const SCHEMA_2_KEYS = [...COMMON_KEYS, 'batch', 'batchInput', ...TRANSLATION_IDENTITY_KEYS];
 const FILE_KEYS = ['path', 'sha256', 'size'];
 const VALIDATION_KEYS = ['commands', 'passed'];
 const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256'];
@@ -28,14 +31,32 @@ function validPath(value) {
 }
 
 function ownershipIsFile(owned) { return /\.[A-Za-z0-9]+$/.test(owned); }
-function isOwned(rel, ownedPaths, translationArtifact = false) {
-  const translationPaths = translationArtifact ? ownedPaths.flatMap((owned) => {
-    if (owned === 'content/en/guides') return ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'];
-    if (owned === 'content/en/byoc') return ['i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'];
-    if (owned.startsWith('content/en/reference/')) return [`i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${owned.slice('content/en/reference/'.length)}`];
-    return [];
-  }) : [];
-  return (translationArtifact && rel === '.translation-cache/ja-JP.json') || [...ownedPaths, ...translationPaths].some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
+function translationOwnedPaths(targetId, group) {
+  const target = resolveTranslationTarget(targetId);
+  if (target.id === 'ja-JP') {
+    const roots = group.ownedPaths.flatMap((owned) => target.mappings.flatMap((mapping) => {
+      if (owned === mapping.sourceRoot) return [mapping.targetRoot];
+      if (owned.startsWith(`${mapping.sourceRoot}/`)) return [`${mapping.targetRoot}/${owned.slice(mapping.sourceRoot.length + 1)}`];
+      if (mapping.sourceRoot.startsWith(`${owned}/`)) return [mapping.targetRoot];
+      return [];
+    }));
+    return [...new Set([...roots, target.state.path])];
+  }
+  if (target.id === 'zh-CN-reference') {
+    const roots = group.ownedPaths.flatMap((owned) => {
+      if (owned === target.sourceRoot) return [target.targetRoot];
+      if (owned.startsWith(`${target.sourceRoot}/`)) return [`${target.targetRoot}/${owned.slice(target.sourceRoot.length + 1)}`];
+      if (target.sourceRoot.startsWith(`${owned}/`)) return [target.targetRoot];
+      return [];
+    });
+    if (roots.length === 0) throw new Error(`Translation target ${target.id} is not compatible with group ${group.snapshotManual}`);
+    return [...new Set([...roots, target.state.path])];
+  }
+  if (group.snapshotManual !== 'guides') throw new Error(`Translation target ${target.id} requires Guides ownership`);
+  return [target.targetRoot, target.sidebarTarget, target.state.path];
+}
+function isOwned(rel, ownedPaths) {
+  return ownedPaths.some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
 }
 function sorted(values) { return values.every((value, i) => i === 0 || values[i - 1] < value); }
 function pathsConflict(one, two) { return one === two || one.startsWith(`${two}/`) || two.startsWith(`${one}/`); }
@@ -115,7 +136,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   if (manifestStat.isSymbolicLink() || !manifestStat.isFile()) throw new Error('Manifest must be a regular non-symlink file');
   const manifest = JSON.parse((await readRegularNoFollow(manifestPath, 'Manifest')).toString('utf8'));
   await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
-  if (manifest.schemaVersion === 1) exactKeys(manifest, SCHEMA_1_KEYS, 'manifest');
+  if (manifest.schemaVersion === 1) exactKeys(manifest, manifest.stage === 'translation' ? SCHEMA_1_TRANSLATION_KEYS : SCHEMA_1_KEYS, 'manifest');
   else if (manifest.schemaVersion === 2) {
     exactKeys(manifest, SCHEMA_2_KEYS, 'manifest');
     await validateSchema2Root(pinnedArtifactDir);
@@ -127,6 +148,17 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   const group = getContentGroup(manifest.group);
   if (manifest.stage === 'translation' && !group.translate) throw new Error('Translation stage is not enabled for this group');
   const translationArtifact = manifest.stage === 'translation' && group.translate;
+  let ownedPaths = group.ownedPaths;
+  if (translationArtifact) {
+    const target = resolveTranslationTarget(manifest.translationTarget);
+    const expectedTargetSite = target.targetSite || target.sourceSite;
+    if (manifest.sourceSite !== target.sourceSite || manifest.targetSite !== expectedTargetSite) throw new Error('Invalid translation target identity: site mismatch');
+    const sha = /^[0-9a-f]{40}$/;
+    if (!sha.test(manifest.sourceCheckpointSha) || !sha.test(manifest.toolingSha)) throw new Error('Invalid translation target identity SHA');
+    if (manifest.sourceCheckpointSha !== manifest.devBaselineSha) throw new Error('Translation source checkpoint/dev baseline mismatch');
+    if (manifest.toolingSha !== manifest.masterSha) throw new Error('Translation tooling/master SHA mismatch');
+    ownedPaths = translationOwnedPaths(target.id, group);
+  }
   if (manifest.schemaVersion === 2) {
     if (!translationArtifact || manifest.stage !== 'translation') throw new Error('Schema 2 is only allowed for numbered translation artifacts');
     if (manifest.group !== 'guides') throw new Error('Schema 2 numbered translation artifacts currently require group guides');
@@ -145,22 +177,22 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     if (!Array.isArray(manifest.validation.commands) || !manifest.validation.commands.every((x) => typeof x === 'string') || manifest.validation.passed !== true) throw new Error('Invalid validation');
   }
   if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('files and deletions must be arrays');
-  const cachePath = '.translation-cache/ja-JP.json';
-  const cacheFileCount = manifest.files.filter((entry) => entry?.path === cachePath).length;
-  const cacheDeletionCount = manifest.deletions.filter((rel) => rel === cachePath).length;
-  if (manifest.stage === 'translation' && cacheDeletionCount) throw new Error('Translation stage must not list translation cache deletion');
-  if (manifest.stage === 'translation' && cacheFileCount !== 1) throw new Error('Translation stage must contain exactly one translation cache payload file');
-  if (manifest.stage === 'source' && (cacheFileCount || cacheDeletionCount)) throw new Error('Source stage must not contain translation cache');
+  const statePath = translationArtifact ? resolveTranslationTarget(manifest.translationTarget).state.path : '.translation-cache/ja-JP.json';
+  const stateFileCount = manifest.files.filter((entry) => entry?.path === statePath).length;
+  const stateDeletionCount = manifest.deletions.filter((rel) => rel === statePath).length;
+  if (manifest.stage === 'translation' && stateDeletionCount) throw new Error('Translation stage must not list translation state deletion');
+  if (manifest.stage === 'translation' && stateFileCount !== 1) throw new Error('Translation stage must contain exactly one translation state payload file');
+  if (manifest.stage === 'source' && (stateFileCount || stateDeletionCount)) throw new Error('Source stage must not contain translation state');
   for (const entry of manifest.files) {
     exactKeys(entry, FILE_KEYS, 'file');
     if (!validPath(entry.path)) throw new Error(`Invalid path: ${entry.path}`);
-    if (!isOwned(entry.path, group.ownedPaths, translationArtifact)) throw new Error(`Path is not owned by group allowlist or translation stage: ${entry.path}`);
+    if (!isOwned(entry.path, ownedPaths)) throw new Error(`Path is not owned by group allowlist or translation target: ${entry.path}`);
     if (!/^[0-9a-f]{64}$/.test(entry.sha256)) throw new Error(`Invalid checksum: ${entry.path}`);
     if (!Number.isSafeInteger(entry.size) || entry.size < 0) throw new Error(`Invalid size: ${entry.path}`);
   }
   for (const rel of manifest.deletions) {
     if (!validPath(rel)) throw new Error(`Invalid path: ${rel}`);
-    if (!isOwned(rel, group.ownedPaths, translationArtifact)) throw new Error(`Path is not owned by group allowlist or translation stage: ${rel}`);
+    if (!isOwned(rel, ownedPaths)) throw new Error(`Path is not owned by group allowlist or translation target: ${rel}`);
   }
   const filePaths = manifest.files.map((x) => x.path);
   if (new Set(filePaths).size !== filePaths.length) throw new Error('Duplicate file path');
@@ -175,6 +207,9 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   if (expected.group !== undefined && expected.group !== manifest.group) throw new Error('Expected group mismatch');
   if (expected.masterSha !== undefined && expected.masterSha !== manifest.masterSha) throw new Error('Expected master SHA mismatch');
   if (expected.devBaselineSha !== undefined && expected.devBaselineSha !== manifest.devBaselineSha) throw new Error('Expected dev baseline SHA mismatch');
+  if (expected.translationTarget !== undefined && expected.translationTarget !== manifest.translationTarget) throw new Error('Expected translation target mismatch');
+  if (expected.sourceCheckpointSha !== undefined && expected.sourceCheckpointSha !== manifest.sourceCheckpointSha) throw new Error('Expected source checkpoint SHA mismatch');
+  if (expected.toolingSha !== undefined && expected.toolingSha !== manifest.toolingSha) throw new Error('Expected tooling SHA mismatch');
 
   const payloadRoot = path.join(pinnedArtifactDir, 'payload');
   const directories = [];
@@ -187,7 +222,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     const bytes = await readRegularNoFollow(path.join(payloadRoot, ...entry.path.split('/')));
     if (bytes.length !== entry.size) throw new Error(`Payload size mismatch: ${entry.path}`);
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== entry.sha256) throw new Error(`Payload checksum mismatch: ${entry.path}`);
-    if (entry.path === cachePath) translationCacheBytes = Buffer.from(bytes);
+    if (entry.path === statePath) translationCacheBytes = Buffer.from(bytes);
   }
   let parsedBatchInput = null;
   let batchInputBytes = null;
@@ -226,12 +261,12 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   return deepFreeze(manifest);
 }
 
-function usage() { return 'Usage: node validate-checkpoint-artifact.js --artifact <dir> [--group <group>] [--master-sha <sha>] [--dev-baseline-sha <sha>]'; }
+function usage() { return 'Usage: node validate-checkpoint-artifact.js --artifact <dir> [--group <group>] [--master-sha <sha>] [--dev-baseline-sha <sha>] [--translation-target <target>] [--source-checkpoint-sha <sha>] [--tooling-sha <sha>]'; }
 function parseArgs(args) {
   if (args.length === 1 && args[0] === '--help') return { help: true };
   if (args.includes('--help')) throw new Error('--help must be used alone');
   const map = {};
-  const allowed = new Set(['artifact', 'group', 'master-sha', 'dev-baseline-sha']);
+  const allowed = new Set(['artifact', 'group', 'master-sha', 'dev-baseline-sha', 'translation-target', 'source-checkpoint-sha', 'tooling-sha']);
   for (let i = 0; i < args.length; i += 2) {
     if (!args[i].startsWith('--') || args[i + 1] === undefined) throw new Error(usage());
     const key = args[i].slice(2);
@@ -240,11 +275,11 @@ function parseArgs(args) {
     map[key] = args[i + 1];
   }
   if (!map.artifact) throw new Error(usage());
-  return { artifact: map.artifact, expected: { group: map.group, masterSha: map['master-sha'], devBaselineSha: map['dev-baseline-sha'] } };
+  return { artifact: map.artifact, expected: { group: map.group, masterSha: map['master-sha'], devBaselineSha: map['dev-baseline-sha'], translationTarget: map['translation-target'], sourceCheckpointSha: map['source-checkpoint-sha'], toolingSha: map['tooling-sha'] } };
 }
 if (require.main === module) {
   (async () => { const args = parseArgs(process.argv.slice(2)); if (args.help) console.log(usage()); else await validateCheckpointArtifact(args.artifact, args.expected); })()
     .catch((error) => { console.error(`Checkpoint artifact validation failed: ${error.message}`); process.exitCode = 1; });
 }
 
-module.exports = { validateCheckpointArtifact };
+module.exports = { translationOwnedPaths, validateCheckpointArtifact };

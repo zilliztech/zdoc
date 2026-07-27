@@ -151,7 +151,8 @@ test('numbered Guides artifact creation requires batch input and records exact s
   assert.deepEqual(await readFile(path.join(f.output, 'batch-input.json')), input.bytes);
   assert.deepEqual(Object.keys(manifest).sort(), [
     'batch', 'batchInput', 'createdAt', 'deletions', 'devBaselineSha', 'files', 'group', 'masterSha',
-    'ownershipVersion', 'schemaVersion', 'snapshotManual', 'stage',
+    'ownershipVersion', 'schemaVersion', 'snapshotManual', 'sourceCheckpointSha', 'sourceSite', 'stage',
+    'targetSite', 'toolingSha', 'translationTarget',
   ].sort());
 });
 
@@ -242,7 +243,7 @@ test('translation artifact creation fails when workspace cache is absent and lea
   await mkdir(path.join(f.baselineDir, '.translation-cache'), { recursive: true }); await mkdir(path.join(target, '.translation-cache'), { recursive: true });
   await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"doc":{"baseline":1}}');
   await writeFile(path.join(target, '.translation-cache/ja-JP.json'), '{"doc":{"target":2}}');
-  await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true }), /workspace translation cache.*required|missing.*translation cache/i);
+  await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true }), /workspace translation (?:cache|state).*required|missing.*translation (?:cache|state)/i);
   assert.equal(await readFile(path.join(target, '.translation-cache/ja-JP.json'), 'utf8'), '{"doc":{"target":2}}');
 });
 
@@ -462,7 +463,9 @@ test('creation CLI accepts a complete numbered Guides batch input', async () => 
   const result = spawnSync(process.execPath, [cli,
     '--group', 'guides', '--master-sha', SHA_A, '--dev-baseline-sha', SHA_B,
     '--baseline-dir', f.baselineDir, '--workspace', f.workspace, '--output', f.output,
-    '--include-translation-cache', '--batch-index', '0', '--batch-number', '1', '--batch-count', '1',
+    '--include-translation-cache', '--translation-target', 'ja-JP', '--source-site', 'en', '--target-site', 'en',
+    '--source-checkpoint-sha', SHA_B, '--tooling-sha', SHA_A,
+    '--batch-index', '0', '--batch-number', '1', '--batch-count', '1',
     '--batch-size', '30', '--pending-count', '1', '--pending-set-sha256', HASH,
     '--batch-input', input.file,
   ], { encoding: 'utf8' });
@@ -476,5 +479,6 @@ test('translation workflow creates one numbered Guides batch input and passes it
   assert.match(workflow, /batch_input_args=\(\)[\s\S]*batch_input_args=\(--batch-input tmp\/translation-batch-input\.json\)/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*BASELINE_CHECKPOINT_DIR[^\n]*batch_input_args/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*CHECKPOINT_DIR[^\n]*batch_input_args[^\n]*validation_args/);
-  assert.match(workflow, /inputs\.batch_number[^\n]*== 0[^\n]*validation_args=\(--validation-command "pnpm run build:en"\)/);
+  assert.match(workflow, /inputs\.batch_number[^\n]*== 0[\s\S]*TRANSLATION_TARGET[^\n]*ja-JP[^\n]*validation_args=\(--validation-command "pnpm run build:en"\)/);
+  assert.match(workflow, /else validation_args=\(--validation-command "pnpm run build:zh-CN"\)/);
 });
