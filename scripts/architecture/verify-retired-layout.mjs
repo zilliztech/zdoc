@@ -30,7 +30,6 @@ const nonProductionRoles = [
 const productionRoots = [/^\.github\//, /^scripts\//, /^config\//, /^deploy\//, /^apps\//, /^packages\//, /^plugins\//];
 const pathValuedField = /(?:^|[{,\n])\s*["']?(sourcePath|sourceRoot|folder|cwd|working-directory)["']?\s*[:=]\s*(?:(["'`])([^"'`\n]+)\2|([^\s,;}\]]+))/gm;
 const shellChangeDirectory = /\bcd\s+(?:(["'])([^"']+)\1|([^\s;&|]+))/g;
-const rootedPathReference = /(?:^|[\s(=:])((?:docs|docs-byoc|reference)\/[^\s'"`;,)}\]]+|config\/generated(?:\/[^\s'"`;,)}\]]+)?|i18n\/zh-CN(?:\/[^\s'"`;,)}\]]+)?)/gm;
 const quotedString = /(["'`])([^"'`\n]+)\1/g;
 const repositoryRootPathCall = /\bpath\.(?:join|resolve)\(\s*(?:repositoryRoot|repoRoot|root|process\.cwd\(\))\s*,([\s\S]*?)\)/g;
 
@@ -72,10 +71,6 @@ function hasRetiredReference(relativePath, source) {
   const retiredRunner = /run-content-group\.js/.exec(source);
   if (retiredRunner) return finding(source, retiredRunner, retiredRunner[0]);
 
-  for (const match of source.matchAll(rootedPathReference)) {
-    if (targetsRetiredRoot(match[1])) return finding(source, match, match[1]);
-  }
-
   for (const match of source.matchAll(pathValuedField)) {
     const reference = match[3] ?? match[4];
     if (targetsRetiredRoot(reference)) return finding(source, match, `${match[1]}: ${reference}`);
@@ -97,8 +92,6 @@ function hasRetiredReference(relativePath, source) {
     if (reference.startsWith('./') || reference.startsWith('../')) {
       const destination = path.posix.normalize(path.posix.join(path.posix.dirname(relativePath), reference));
       if (targetsRetiredRoot(destination)) return finding(source, match, reference);
-    } else if (reference.includes('/') && targetsRetiredRoot(reference)) {
-      return finding(source, match, reference);
     }
   }
   return null;

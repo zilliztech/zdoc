@@ -60,31 +60,25 @@ for (const retiredPath of retiredPaths) {
 
 test('rejects production control-file references to retired layout', async () => {
   const root = await createFixture({
-    'scripts/validate.mjs': [
-      'scripts/docs-workflow/run-content-group.js',
-      'config/generated/guides.sidebar.js',
-      'docs/tutorials/example.md',
-      'docs-byoc/tutorials/example.md',
-      'reference/api/example.md',
-    ].join('\n'),
+    'scripts/validate.mjs': "const runner = 'scripts/docs-workflow/run-content-group.js';\n",
   });
   await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
 });
 
 for (const reference of ['docs/tutorials', 'docs-byoc/tutorials', 'reference/api', 'config/generated/guides.sidebar.js']) {
-  test(`rejects the repo-root path ${reference}`, async () => {
+  test(`rejects sourcePath at the repo-root path ${reference}`, async () => {
     const root = await createFixture({
-      'scripts/validate.mjs': `const legacy = '${reference}';\n`,
+      'config/paths.json': `{\"sourcePath\":\"${reference}\"}\n`,
     });
-    await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
+    await assert.rejects(() => verifyRetiredLayout(root), /config\/paths\.json/);
   });
 }
 
 test('rejects the exact repo-root path config/generated', async () => {
   const root = await createFixture({
-    'scripts/validate.mjs': "const generated = 'config/generated';\n",
+    'config/paths.json': '{"sourceRoot":"config/generated"}\n',
   });
-  await assert.rejects(() => verifyRetiredLayout(root), /scripts\/validate\.mjs/);
+  await assert.rejects(() => verifyRetiredLayout(root), /config\/paths\.json/);
 });
 
 test('allows a semantic reference identifier used by the site schema', async () => {
@@ -97,6 +91,34 @@ test('allows a semantic reference identifier used by the site schema', async () 
 test('allows a nested reference import used by the docs tooling CLI', async () => {
   const root = await createFixture({
     'packages/docs-tooling/src/cli.ts': "import './reference/commands.js';\n",
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('allows a URL routeBasePath that uses docs/byoc', async () => {
+  const root = await createFixture({
+    'packages/site-config/src/sites/en.ts': "export const site = {routeBasePath: 'docs/byoc'};\n",
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('allows a plugin-relative dirName that uses docs/ops', async () => {
+  const root = await createFixture({
+    'packages/site-config/src/sites/zh-CN.ts': "export const plugin = {dirName: 'docs/ops'};\n",
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('allows a manuals registry fragment later prefixed with content/site', async () => {
+  const root = await createFixture({
+    'packages/docs-tooling/src/manuals/registry.ts': "export const fragment = 'reference/cli/cli';\n",
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+});
+
+test('allows diagnostic prose that mentions sidebar docs/refs', async () => {
+  const root = await createFixture({
+    'scripts/validate.mjs': "const message = 'invalid sidebar docs/refs entry';\n",
   });
   await assert.doesNotReject(() => verifyRetiredLayout(root));
 });
@@ -175,7 +197,7 @@ test('allows path.resolve from process.cwd() to a live nested source directory',
 
 test('scans live controls but excludes historical and generated evidence roles', async () => {
   const root = await createFixture({
-    'scripts/live.mjs': "const legacy = 'docs/tutorials';\n",
+    'scripts/live.mjs': "const legacy = path.resolve(process.cwd(), 'docs', 'tutorials');\n",
     '.claude/plans/history.md': 'docs/tutorials\n',
     '.claude/specs/history.md': 'reference/api\n',
     'migration/reports/history.json': '{"path":"docs/tutorials"}\n',
