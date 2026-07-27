@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict')
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -24,19 +25,28 @@ const {
   withTimeout,
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
+const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 
 function withTempDir(callback) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-agent-'))
   try {
-    return callback(dir)
-  } finally {
+    const result = callback(dir)
+    if (result && typeof result.then === 'function') return result.finally(() => fs.rmSync(dir, { recursive: true, force: true }))
     fs.rmSync(dir, { recursive: true, force: true })
+    return result
+  } catch (error) {
+    fs.rmSync(dir, { recursive: true, force: true })
+    throw error
   }
 }
 
 function write(filePath, content) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   fs.writeFileSync(filePath, content, 'utf8')
+}
+
+function sha256(content) {
+  return crypto.createHash('sha256').update(content).digest('hex')
 }
 
 function testSelectsPromptsByTranslationTarget() {
@@ -760,6 +770,7 @@ async function testWorkerPoolStopsAssigningNewItems() {
 async function testProgressCoordinatorCheckpointsCacheAndReport() {
   await withTempDir(async siteDir => {
     const manifest = {
+      target: 'ja-JP',
       locale: 'ja-JP',
       items: Array.from({ length: 4 }, (_, index) => ({
         sourcePath: `docs/${index}.md`,
@@ -788,10 +799,166 @@ async function testProgressCoordinatorCheckpointsCacheAndReport() {
     const cache = JSON.parse(fs.readFileSync(path.join(siteDir, '.translation-cache/ja-JP.json'), 'utf8'))
     assert.deepEqual(Object.keys(cache.files).sort(), ['docs/0.md', 'docs/1.md', 'docs/3.md'])
     const report = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/report.json'), 'utf8'))
+    assert.equal(report.target, 'ja-JP')
+    assert.equal(report.locale, 'ja-JP')
+    assert.equal(report.checkpoint.target, 'ja-JP')
     assert.equal(report.checkpoint.processed, 4)
     assert.equal(report.checkpoint.remaining, 0)
     assert.deepEqual(report.results.map(item => item.sourcePath), ['docs/0.md', 'docs/1.md', 'docs/2.md', 'docs/3.md'])
     assert.equal(fs.existsSync(path.join(siteDir, 'tmp/report.json.tmp')), false)
+  })
+}
+
+async function testJapaneseProgressStatePreservesExistingLocaleCache() {
+  await withTempDir(async siteDir => {
+    write(path.join(siteDir, '.translation-cache/ja-JP.json'), JSON.stringify({files: {
+      'content/en/guides/tutorials/existing.md': {
+        sourceHash: 'a'.repeat(64),
+        targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/existing.md',
+        translatedAt: '2026-07-01T00:00:00.000Z',
+      },
+    }}))
+    const manifest = {
+      target: 'ja-JP',
+      locale: 'ja-JP',
+      items: [{
+        sourcePath: 'content/en/guides/tutorials/new.md',
+        targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+        sourceHash: 'b'.repeat(64),
+      }],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      reportPath: 'tmp/ja-report.json',
+      checkpointFiles: 1,
+      now: () => Date.parse('2026-07-27T00:00:00.000Z'),
+    })
+    await coordinator.record({...manifest.items[0], status: 'translated'}, 0)
+    const cache = JSON.parse(fs.readFileSync(path.join(siteDir, '.translation-cache/ja-JP.json'), 'utf8'))
+    assert.deepEqual(Object.keys(cache.files).sort(), [
+      'content/en/guides/tutorials/existing.md',
+      'content/en/guides/tutorials/new.md',
+    ])
+    assert.equal(cache.files['content/en/guides/tutorials/existing.md'].translatedAt, '2026-07-01T00:00:00.000Z')
+    assert.equal(cache.files['content/en/guides/tutorials/new.md'].translatedAt, '2026-07-27T00:00:00.000Z')
+  })
+}
+
+async function testChineseProgressStateUsesIndependentTargetManifests() {
+  await withTempDir(async siteDir => {
+    const sourceCommit = 'c'.repeat(40)
+    const referenceSourcePath = 'content/en/reference/api/python/page.md'
+    const referenceTargetPath = 'content/zh-CN/reference/api/python/page.md'
+    const referenceSource = '# Reference\n'
+    const referenceTarget = '# 参考\n'
+    write(path.join(siteDir, referenceSourcePath), referenceSource)
+    write(path.join(siteDir, referenceTargetPath), referenceTarget)
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit,
+      records: [{manual: 'python', sourcePath: referenceSourcePath, sourceHash: sha256(referenceSource)}],
+    }))
+    const retiredReference = {
+      manual: 'python',
+      sourcePath: 'content/en/reference/api/python/retired.md',
+      targetPath: 'content/zh-CN/reference/api/python/retired.md',
+      sourceCommit,
+      sourceHash: 'd'.repeat(64),
+      targetHash: 'e'.repeat(64),
+      status: 'retired',
+    }
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [retiredReference],
+    }))
+
+    const referenceManifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      sourceCheckpointSha: sourceCommit,
+      items: [{
+        sourcePath: referenceSourcePath,
+        targetPath: referenceTargetPath,
+        sourceHash: sha256(referenceSource),
+        locale: 'zh-CN',
+        type: 'reference',
+        reason: 'missing_target',
+      }],
+    }
+    const referenceCoordinator = createProgressCoordinator({
+      siteDir,
+      manifest: referenceManifest,
+      cache: {files: {}},
+      reportPath: 'tmp/reference-report.json',
+      checkpointFiles: 1,
+    })
+    await referenceCoordinator.record({...referenceManifest.items[0], status: 'translated'}, 0)
+    await referenceCoordinator.checkpoint(true)
+
+    const toolsSourcePath = 'content/en/guides/tutorials/tools/tool.md'
+    const toolsTargetPath = 'content/zh-CN/guides/tutorials/tools/tool.md'
+    const toolsSource = '# Tool\n'
+    write(path.join(siteDir, toolsSourcePath), toolsSource)
+    write(path.join(siteDir, toolsTargetPath), '# 工具\n')
+    const retiredTool = {
+      sourcePath: 'content/en/guides/tutorials/tools/retired.md',
+      targetPath: 'content/zh-CN/guides/tutorials/tools/retired.md',
+      sourceHash: 'f'.repeat(64),
+      status: 'retired',
+    }
+    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [retiredTool],
+    }))
+    const toolsManifest = {
+      target: 'zh-CN-tools',
+      locale: 'zh-CN',
+      sourceCheckpointSha: sourceCommit,
+      items: [{
+        sourcePath: toolsSourcePath,
+        targetPath: toolsTargetPath,
+        sourceHash: sha256(toolsSource),
+        locale: 'zh-CN',
+        type: 'tools',
+        reason: 'missing_target',
+      }],
+    }
+    const toolsCoordinator = createProgressCoordinator({
+      siteDir,
+      manifest: toolsManifest,
+      cache: {files: {}},
+      reportPath: 'tmp/tools-report.json',
+      checkpointFiles: 1,
+    })
+    await toolsCoordinator.record({...toolsManifest.items[0], status: 'translated'}, 0)
+    await toolsCoordinator.checkpoint(true)
+
+    assert.equal(fs.existsSync(path.join(siteDir, '.translation-cache/zh-CN.json')), false)
+    const referenceState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
+    const toolsState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), 'utf8'))
+    assert.deepEqual(referenceState.records.map(record => record.sourcePath), [referenceSourcePath, retiredReference.sourcePath])
+    assert.equal(referenceState.records[0].manual, 'python')
+    assert.equal(referenceState.records[0].sourceCommit, sourceCommit)
+    assert.equal(referenceState.records[0].sourceHash, sha256(referenceSource))
+    assert.equal(referenceState.records[0].targetHash, sha256(referenceTarget))
+    assert.equal(referenceState.records[1].status, 'retired')
+    assert.deepEqual(toolsState.records.map(record => record.sourcePath), [retiredTool.sourcePath, toolsSourcePath])
+    assert.equal(toolsState.records[0].status, 'retired')
+    assert.equal(toolsState.records[1].sourceHash, sha256(toolsSource))
+    assert.ok(referenceState.records.every(record => record.sourcePath.startsWith('content/en/reference/')))
+    assert.ok(toolsState.records.every(record => record.sourcePath.startsWith('content/en/guides/tutorials/tools/')))
+    assert.deepEqual(buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-reference'}).candidates, [])
+    assert.deepEqual(buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-tools'}).candidates, [])
+
+    const referenceReport = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/reference-report.json'), 'utf8'))
+    const toolsReport = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/tools-report.json'), 'utf8'))
+    assert.equal(referenceReport.target, 'zh-CN-reference')
+    assert.equal(toolsReport.target, 'zh-CN-tools')
+    assert.equal(referenceReport.checkpoint.target, 'zh-CN-reference')
+    assert.equal(toolsReport.checkpoint.target, 'zh-CN-tools')
+    assert.ok(referenceReport.results.every(result => result.target === 'zh-CN-reference'))
+    assert.ok(toolsReport.results.every(result => result.target === 'zh-CN-tools'))
   })
 }
 
@@ -827,7 +994,9 @@ async function run() {
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
+  await testChineseProgressStateUsesIndependentTargetManifests()
   await testProgressCoordinatorCheckpointsCacheAndReport()
+  await testJapaneseProgressStatePreservesExistingLocaleCache()
   console.log('translation agent runner tests passed')
 }
 

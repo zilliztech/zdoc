@@ -1,5 +1,6 @@
 'use strict'
 
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
@@ -9,7 +10,11 @@ const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const { resolveTranslationTarget } = require('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = require('../../packages/docs-tooling/src/validation/ownership.ts')
-const { assertSafeRepositoryPathChain } = require('../../packages/docs-tooling/src/reference/translationManifest.ts')
+const {
+  assertSafeRepositoryPathChain,
+  parseReferenceSourceManifest,
+  parseReferenceTranslationManifest,
+} = require('../../packages/docs-tooling/src/reference/translationManifest.ts')
 const { validateTranslatedSidebarFragment } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
@@ -645,9 +650,118 @@ async function runWorkerPool(items, options) {
   return results
 }
 
+function readJsonIfPresent(siteDir, relativePath, fallback) {
+  const absolutePath = path.join(siteDir, relativePath)
+  return fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : fallback
+}
+
+function loadProgressState(siteDir, manifest, cacheOverride) {
+  const target = resolveTranslationTarget(manifest.target)
+  if (target.state.kind === 'cache') {
+    return {
+      kind: 'cache',
+      path: target.state.path,
+      target,
+      value: cacheOverride || readCache(siteDir, target.locale),
+    }
+  }
+  const value = readJsonIfPresent(siteDir, target.state.path, {schemaVersion: 1, records: []})
+  return {
+    kind: target.state.kind,
+    path: target.state.path,
+    target,
+    value: target.state.kind === 'reference-manifest' ? parseReferenceTranslationManifest(value) : value,
+  }
+}
+
+function targetFileHash(siteDir, targetPath) {
+  return crypto.createHash('sha256').update(fs.readFileSync(path.join(siteDir, targetPath))).digest('hex')
+}
+
+function updateReferenceProgressState(siteDir, progressState, manifest, result) {
+  const sourceManifest = parseReferenceSourceManifest(readJsonIfPresent(
+    siteDir,
+    'generated/en/manifests/reference.json',
+    null,
+  ))
+  const previous = progressState.value.records.find(record => record.sourcePath === result.sourcePath)
+  const sourceRecord = sourceManifest.records.find(record => record.sourcePath === result.sourcePath)
+  const manual = sourceRecord?.manual || previous?.manual
+  if (!manual) throw new Error(`Reference source manifest is missing translated path ${result.sourcePath}`)
+  const sourceCommit = /^[0-9a-f]{40}$/.test(manifest.sourceCheckpointSha || '')
+    ? manifest.sourceCheckpointSha
+    : previous?.sourceCommit || sourceManifest.sourceCommit
+  const record = {
+    manual,
+    sourcePath: result.sourcePath,
+    targetPath: result.targetPath,
+    sourceCommit,
+    sourceHash: result.sourceHash,
+    targetHash: targetFileHash(siteDir, result.targetPath),
+    status: 'translated',
+  }
+  progressState.value = parseReferenceTranslationManifest({
+    ...progressState.value,
+    records: [
+      ...progressState.value.records.filter(existing => existing.sourcePath !== result.sourcePath),
+      record,
+    ].sort((left, right) => (
+      left.manual.localeCompare(right.manual) ||
+      left.sourcePath.localeCompare(right.sourcePath) ||
+      left.targetPath.localeCompare(right.targetPath)
+    )),
+  })
+}
+
+function updateToolsProgressState(progressState, result) {
+  const previous = progressState.value.records.find(record => record.sourcePath === result.sourcePath) || {}
+  const record = {
+    ...previous,
+    sourcePath: result.sourcePath,
+    targetPath: result.targetPath,
+    sourceHash: result.sourceHash,
+    status: 'translated',
+    ...(result.type === 'sidebar' ? {kind: 'sidebar'} : {}),
+  }
+  progressState.value = {
+    ...progressState.value,
+    schemaVersion: 1,
+    records: [
+      ...progressState.value.records.filter(existing => existing.sourcePath !== result.sourcePath),
+      record,
+    ].sort((left, right) => (
+      left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath)
+    )),
+  }
+}
+
+function updateProgressState(siteDir, progressState, manifest, result, translatedAt) {
+  if (progressState.kind === 'cache') {
+    progressState.value.files[result.sourcePath] = {
+      sourceHash: result.sourceHash,
+      targetPath: result.targetPath,
+      translatedAt,
+    }
+    return
+  }
+  if (progressState.kind === 'reference-manifest') {
+    updateReferenceProgressState(siteDir, progressState, manifest, result)
+    return
+  }
+  updateToolsProgressState(progressState, result)
+}
+
+function writeProgressState(siteDir, progressState) {
+  if (progressState.kind === 'cache') {
+    writeCache(siteDir, progressState.target.locale, progressState.value)
+    return
+  }
+  writeJsonAtomic(path.join(siteDir, progressState.path), progressState.value)
+}
+
 function createProgressCoordinator(options) {
   const results = new Array(options.manifest.items.length)
-  const cache = options.cache
+  const progressState = loadProgressState(options.siteDir, options.manifest, options.cache)
   const checkpointFiles = parsePositiveInteger(options.checkpointFiles, 10)
   const checkpointIntervalMs = parsePositiveInteger(options.checkpointIntervalMs, 300000)
   const absReportPath = path.join(options.siteDir, options.reportPath)
@@ -657,6 +771,7 @@ function createProgressCoordinator(options) {
   function metadata() {
     const processed = results.filter(Boolean).length
     return {
+      target: options.manifest.target,
       processed,
       remaining: options.manifest.items.length - processed,
       translated: results.filter(result => result?.status === 'translated').length,
@@ -669,8 +784,9 @@ function createProgressCoordinator(options) {
     const currentTime = options.now?.() || Date.now()
     if (!force && completedSinceCheckpoint < checkpointFiles && currentTime - lastCheckpointAt < checkpointIntervalMs) return false
     const checkpointMetadata = metadata()
-    writeCache(options.siteDir, options.manifest.locale, cache)
+    writeProgressState(options.siteDir, progressState)
     writeJsonAtomic(absReportPath, {
+      target: options.manifest.target,
       locale: options.manifest.locale,
       results: results.filter(Boolean),
       checkpoint: checkpointMetadata,
@@ -682,19 +798,26 @@ function createProgressCoordinator(options) {
   }
 
   async function record(result, index) {
-    results[index] = result
-    if (result.status === 'translated') {
-      cache.files[result.sourcePath] = {
-        sourceHash: result.sourceHash,
-        targetPath: result.targetPath,
-        translatedAt: new Date(options.now?.() || Date.now()).toISOString(),
-      }
-    }
+    const targetResult = {...result, target: options.manifest.target}
+    results[index] = targetResult
+    if (targetResult.status === 'translated') updateProgressState(
+      options.siteDir,
+      progressState,
+      options.manifest,
+      targetResult,
+      new Date(options.now?.() || Date.now()).toISOString(),
+    )
     completedSinceCheckpoint += 1
     await checkpoint(false)
   }
 
-  return { cache, checkpoint, metadata, record, results }
+  return {
+    cache: progressState.kind === 'cache' ? progressState.value : undefined,
+    checkpoint,
+    metadata,
+    record,
+    results,
+  }
 }
 
 async function main() {
@@ -722,11 +845,9 @@ async function main() {
     maxRetries: maxProviderRetries,
     timeoutMs: providerTimeoutMs,
   })
-  const cache = readCache(siteDir, manifest.locale)
   const coordinator = createProgressCoordinator({
     siteDir,
     manifest,
-    cache,
     reportPath,
     checkpointFiles,
     checkpointIntervalMs,
@@ -750,13 +871,14 @@ async function main() {
       shouldStopAssigning: () => stopRequested || Date.now() - startedAt >= softDeadlineMs,
       processItem: async item => {
         console.log(`[translation-agent] ${item.sourcePath}`)
-        const result = await processItemWithRetry(item, {
+        const targetItem = {...item, target: manifest.target}
+        const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           log: console,
           processItem: () => withTimeout(
             processManifestItem({
               siteDir,
-              item: {...item, target: manifest.target},
+              item: targetItem,
               callModel,
               maxReviewRounds,
               chunkTargetChars: chunkLimits.targetChars,
