@@ -56,6 +56,7 @@ async function createGuidesTableArtifact({ workspace, output, entry, masterSha, 
   }
   const manifest = {
     schemaVersion: 1, manual: 'guides', artifactType: 'table', id: artifactId(entry),
+    site: entry.site,
     table_id: entry.table_id, table_name: entry.table_name, table_slug: entry.table_slug,
     target: entry.target, target_name: entry.target_name, cleanup: Boolean(entry.cleanup), ownedPath,
     masterSha, devBaselineSha, sourceArtifactSha256, files,
@@ -68,10 +69,12 @@ async function createGuidesTableArtifact({ workspace, output, entry, masterSha, 
 async function validateGuidesTableArtifact(directory, expected = null) {
   const manifest = JSON.parse(await fs.readFile(path.join(directory, 'manifest.json'), 'utf8'))
   if (manifest.schemaVersion !== 1 || manifest.manual !== 'guides' || manifest.artifactType !== 'table') throw new Error('Invalid Guides table artifact identity')
+  if (manifest.site !== 'en' && manifest.site !== 'zh-CN') throw new Error('Invalid Guides table artifact site')
   if (!SHA.test(manifest.masterSha) || !SHA.test(manifest.devBaselineSha) || !SHA256.test(manifest.sourceArtifactSha256 || '')) throw new Error('Invalid Guides table artifact hashes')
   const ownedPath = tableOutputPath(manifest)
   if (manifest.ownedPath !== ownedPath || manifest.id !== artifactId(manifest)) throw new Error('Invalid Guides table artifact ownership identity')
   if (expected && artifactId(manifest) !== artifactId(expected)) throw new Error(`Unexpected Guides table artifact: ${manifest.id}`)
+  if (expected && manifest.site !== expected.site) throw new Error(`Guides table site identity mismatch: ${manifest.id}`)
   if (expected && Boolean(manifest.cleanup) !== Boolean(expected.cleanup)) throw new Error(`Guides table cleanup identity mismatch: ${manifest.id}`)
   const seen = new Set()
   for (const file of manifest.files || []) {

@@ -12,6 +12,29 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('source publication workflows require site-owned publish-group contracts', () => {
+  for (const file of ['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml']) {
+    const source = fs.readFileSync(path.join('.github/workflows', file), 'utf8')
+    const workflow = yaml.load(source)
+    assert.equal(workflow.on.workflow_call.inputs.site.required, true, `${file} must require site`)
+    assert.match(source, /pnpm docs-tooling publish-group --site/, `${file} must use publish-group`)
+    assert.doesNotMatch(source, /run-content-group\.js|config\/generated|(?:^|[\s"'])docs\/tutorials|(?:^|[\s"'])docs-byoc(?:\/|[\s"'])|(?:^|[\s"'])reference\/api/, `${file} must not use legacy publication roots`)
+  }
+})
+
+test('workflow policy rejects Chinese source publication collisions with protected Tools ownership', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'tools-source-collision-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, '_fetch-content-group.yml')
+    fs.appendFileSync(file, '\n# content/zh-CN/guides/tutorials/tools/forbidden.md\n')
+    assert.ok(validateWorkflowPolicies(directory).includes('_fetch-content-group.yml: source publication workflow must not claim Chinese Tools protected paths'))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('jobs that execute docs-tooling use its supported Node runtime', () => {
   const requirements = [
     ['check-404.yml', 'Check-404'],
@@ -597,7 +620,7 @@ test('reusable content producer is immutable, read-only, and publishes a validat
 
   assert.match(workflow, /^name: fetch docs content group$/m)
   assert.match(workflow, /^  workflow_call:$/m)
-  for (const input of ['group', 'master_sha', 'dev_baseline_sha', 'artifact_retention_days']) {
+  for (const input of ['site', 'group', 'master_sha', 'dev_baseline_sha', 'artifact_retention_days']) {
     assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   }
   for (const secret of ['APP_ID', 'APP_SECRET', 'SPACE_ID', 'FIGMA_API_KEY', 'MODEL_API_KEY', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY']) {
@@ -610,7 +633,7 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/)
   assert.match(workflow, /name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*name: Fetch content group/)
-  assert.match(workflow, /prepare-content-group-workspace\.js "\$GROUP"/)
+  assert.match(workflow, /prepare-content-group-workspace\.js "\$SITE" "\$GROUP"/)
   assert.match(workflow, /create-checkpoint-artifact\.js[\s\S]*--baseline-dir "\$BASELINE_DIR"[\s\S]*--workspace "\$GITHUB_WORKSPACE"/)
   assert.match(workflow, /validate-checkpoint-artifact\.js/)
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*docs-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
@@ -630,6 +653,12 @@ test('guides source and table render expose jobs for the central monitor without
   const render = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_render-guides-table.yml'), 'utf8')
   assert.doesNotMatch(source, /report-live-card|card_id|card_mode|card_started_at/)
   assert.doesNotMatch(render, /report-live-card|secrets\./)
+  assert.equal(yaml.load(source).on.workflow_call.inputs.site.required, true)
+  assert.equal(yaml.load(render).on.workflow_call.inputs.site.required, true)
+  const caller = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
+  assert.equal(caller.jobs.produce_guides_sources.with.site, 'en')
+  assert.equal(caller.jobs.render_guides_tables.with.site, 'en')
+  assert.equal(caller.jobs.produce_guides.with.site, 'en')
   assert.match(source, /name: Create Guides progress metadata[\s\S]*continue-on-error: true/)
   assert.match(source, /name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/)
   const metadataSteps = source.slice(source.indexOf('name: Create Guides progress metadata'), source.indexOf('name: Create shared source artifact'))
@@ -645,7 +674,7 @@ test('Tools table is the only Agents producer while Releases keeps its sidebar',
   assert.doesNotMatch(config, /const agents: Manual|agents,/)
   assert.match(profile, /sidebarPath: 'generated\/en\/sidebars\/guides\.sidebar\.js'/)
   assert.doesNotMatch(sidebars, /agentsSidebar|agents\.sidebar/)
-  assert.match(sidebars, /releasesSidebar/)
+  assert.match(sidebars, /"label": "Release notes"[\s\S]*tutorials\/get-started\/release-notes/)
   assert.match(items, /"label": "Tools"/)
   assert.doesNotMatch(workflows, /produce_guides_agents|guides-agents|merge-agents-sidebar/)
 })
@@ -710,13 +739,13 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(source, /guides-source-cache-generation\.js promote/)
   assert.match(source, /packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
   assert.match(source, /--media-manifest "?packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json"?/)
-  assert.match(source, /--force-full-fetch/)
+  assert.match(source, /export DOCS_TOOLING_FORCE_FULL_FETCH=1/)
   assert.match(source, /id: source_cache_result[\s\S]*source_valid[\s\S]*media_valid[\s\S]*cache_version[\s\S]*cache_save_required/)
   assert.match(source, /guides-cache-save-decision\.js decide[\s\S]*--cache-version "\$cache_version"[\s\S]*--prefetch-mode[\s\S]*--candidate "\$candidate"[\s\S]*--baseline "\$baseline"/)
   assert.doesNotMatch(source, /candidate_key|baseline_key/)
   assert.match(source, /cache_state=invalid/)
-  assert.match(source, /steps\.source_cache_check\.outputs\.source_valid[\s\S]*args\+=\(--force-full-fetch\)/)
-  assert.doesNotMatch(source, /media_valid[^\n]*[\s\S]{0,180}args\+=\(--force-full-fetch\)/)
+  assert.match(source, /steps\.source_cache_check\.outputs\.source_valid[\s\S]*export DOCS_TOOLING_FORCE_FULL_FETCH=1/)
+  assert.doesNotMatch(source, /media_valid[^\n]*[\s\S]{0,180}DOCS_TOOLING_FORCE_FULL_FETCH/)
   assert.match(caller, /produce_guides:[\s\S]*cache_version: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_version \}\}[\s\S]*cache_save_required: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_save_required \}\}/)
   assert.match(assemble, /cache_version: \{ required: true, type: string \}/)
   assert.match(assemble, /cache_save_required: \{ required: true, type: string \}/)
@@ -744,7 +773,7 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /--report packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-media-prefetch\.json/)
   assert.match(source, /if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
   assert.match(source, /--previous-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
-  assert.match(source, /--bootstrap-docs docs,docs-byoc/)
+  assert.match(source, /--bootstrap-docs content\/\$\{\{ inputs\.site \}\}\/guides,content\/\$\{\{ inputs\.site \}\}\/byoc/)
   assert.match(source, /media cache unavailable; rebuilding complete canonical media coverage/i)
   assert.match(source, /else[\s\S]*cache_state="\$\{\{ steps\.source_cache_check\.outputs\.cache_state \}\}"[\s\S]*--mode recovery[\s\S]*--cache-state "\$cache_state"[\s\S]*node scripts\/docs-workflow\/guides-media-prefetch\.js "\$\{args\[@\]\}"/)
   const recoveryBranch = source.slice(source.indexOf('else\n            echo "[source-cache] Media cache unavailable'), source.indexOf('node scripts/docs-workflow/guides-media-prefetch.js'))
@@ -810,13 +839,13 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   const validation = assemble.slice(indices[0], indices[1])
   assert.match(validation, /decision-sha/)
   assert.match(validation, /guides-assembly-decision\.json/)
-  assert.match(validation, /baseline\/config\/generated\/guides\.sidebar\.js|\$RUNNER_TEMP\/baseline[\s\S]*config\/generated\/guides\.sidebar\.js/)
+  assert.match(validation, /generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js/)
   const finalValidation = assemble.slice(indices[2], indices[3])
   assert.match(finalValidation, /validate-generated-sidebars\.js/)
   assert.match(finalValidation, /run-doc-build-stage\.js --build "pnpm run build:en"/)
   const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
-  assert.match(finalize, /saas=config\/generated\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
-  assert.match(finalize, /byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
+  assert.match(finalize, /saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
+  assert.match(finalize, /byoc=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
   assert.match(finalize, /write-descriptor[\s\S]*--expected-decision-sha256/)
   assert.match(finalize, /verify-descriptor/)
   assert.match(finalize, /write-result[\s\S]*guides-assembly-result\.json/)

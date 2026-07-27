@@ -5,7 +5,7 @@ const path = require('node:path')
 const { test } = require('node:test')
 const yaml = require('js-yaml')
 
-const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'
+const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks --skipCardReporting'
 
 function assertGuidesAssemblySnapshotLifecycle(source) {
   const workflow = yaml.load(source)
@@ -40,7 +40,10 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
 test('SDK reference compatibility wrapper invokes content groups in order', () => {
   const fetchScript = fs.readFileSync('scripts/fetch-sdk-reference-docs.sh', 'utf8')
   assert.match(fetchScript, /for group in python java node go cli rest/)
-  assert.match(fetchScript, /run-content-group\.js --group "\$group"/)
+  assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage fetch/)
+  assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage validate/)
+  assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage publish/)
+  assert.doesNotMatch(fetchScript, /run-content-group\.js/)
   assert.doesNotMatch(fetchScript, /report-to-lark/)
 })
 
@@ -48,15 +51,23 @@ test('every workflow that invokes docs-tooling uses a native TypeScript-capable 
   const workflowDirectory = path.join(process.cwd(), '.github/workflows')
   const invoking = fs.readdirSync(workflowDirectory)
     .filter(file => file.endsWith('.yml'))
-    .filter(file => /run-content-group\.js|pnpm docs-tooling|generate-guides-sidebars\.js/.test(fs.readFileSync(path.join(workflowDirectory, file), 'utf8')))
+    .filter(file => /pnpm docs-tooling/.test(fs.readFileSync(path.join(workflowDirectory, file), 'utf8')))
     .sort()
-  assert.deepEqual(invoking, ['_assemble-guides.yml', '_fetch-content-group.yml', '_fetch-guides-sources.yml'])
+  assert.deepEqual(invoking, [
+    '_assemble-guides.yml',
+    '_fetch-content-group.yml',
+    '_fetch-guides-sources.yml',
+    '_translate-content-group.yml',
+    'check-404.yml',
+    'fetch-docs.yml',
+    'site-validation.yml',
+  ])
   for (const file of invoking) {
     const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
     assert.match(source, /node-version:\s*['"]?22['"]?/, `${file} must use Node 22 for --experimental-strip-types`)
   }
   const rootPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-  assert.equal(rootPackage.scripts['docs-tooling'], 'node --experimental-strip-types packages/docs-tooling/src/cli.ts')
+  assert.equal(rootPackage.scripts['docs-tooling'], 'node --experimental-strip-types packages/docs-tooling/src/cli-main.ts')
 })
 
 test('SDK reference snapshots are updated after successful build', () => {
@@ -75,7 +86,7 @@ test('SDK snapshot wrapper clearly rejects groups without an SDK Lark snapshot',
   for (const group of ['rest', 'unknown']) {
     const result = spawnSync('bash', ['scripts/update-sdk-reference-snapshots.sh', group], { encoding: 'utf8' })
     assert.notEqual(result.status, 0)
-    assert.match(result.stderr, group === 'rest' ? /rest.*no SDK Lark snapshot/i : /Unknown content group: unknown/)
+    assert.match(result.stderr, group === 'rest' ? /rest.*no SDK Lark snapshot/i : /Unknown publication group.*unknown/)
   }
 })
 

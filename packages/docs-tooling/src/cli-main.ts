@@ -11,6 +11,7 @@ import {checkLinks} from './links/check.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './validation/ownership.ts';
+import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
 
 const ALIYUN_VALIDATOR_PROVIDER = 'DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER';
 
@@ -135,6 +136,18 @@ async function main(): Promise<void> {
     if (await executeExplicitCommand(argv, repositoryRoot)) return;
     if (argv[0] === 'reference-manifest' || argv[0] === 'validate-reference') {
       await executeReferenceDocsToolingCommand(argv, {write: message => process.stdout.write(`${message}\n`)});
+      return;
+    }
+    if (argv[0] === 'publish-group') {
+      const request = parsePublishGroupArgs(argv);
+      const aliyunOssValidator = request.site === 'zh-CN'
+        ? await loadAliyunOssValidator(repositoryRoot, process.env)
+        : undefined;
+      await executePublicationGroup(request, {
+        repositoryRoot,
+        aliyunOssValidator,
+        write: message => process.stdout.write(`${message}\n`),
+      });
       return;
     }
     const request = parseCliArgs(argv);

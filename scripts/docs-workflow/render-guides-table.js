@@ -7,10 +7,15 @@ const { spawnSync: defaultSpawnSync } = require('node:child_process')
 
 function tableOutputPath(entry) {
   if (!entry?.table_slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.table_slug)) throw new Error('Invalid Guides table slug')
+  const site = entry.site || process.env.ZDOC_SITE
+  if (site !== 'en' && site !== 'zh-CN') throw new Error('Guides table render requires site en or zh-CN')
+  if (site === 'zh-CN' && entry.target === 'zilliz.saas' && entry.table_slug === 'tools') {
+    throw new Error('Chinese Guides source publication cannot render the Agent-owned Tools table')
+  }
   const root = entry.target === 'zilliz.saas'
-    ? 'docs/tutorials'
+    ? `tmp/docs-tooling/${site}/guides/content/${site}/guides/tutorials`
     : entry.target === 'zilliz.paas'
-      ? 'docs-byoc/tutorials'
+      ? `tmp/docs-tooling/${site}/guides-byoc/content/${site}/byoc/tutorials`
       : null
   if (!root) throw new Error(`Invalid Guides target: ${entry.target}`)
   return `${root}/${entry.table_slug}`

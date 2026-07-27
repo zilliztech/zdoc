@@ -3,6 +3,7 @@ name: fetch shared guides sources
 on:
   workflow_call:
     inputs:
+      site: { required: true, type: string }
       master_sha: { required: true, type: string }
       dev_baseline_sha: { required: true, type: string }
       artifact_retention_days: { required: false, type: number, default: 3 }
@@ -33,6 +34,8 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    env:
+      ZDOC_SITE: ${{ inputs.site }}
     outputs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: guides-sources-${{ github.run_id }}
@@ -294,12 +297,11 @@ jobs:
           echo "[source-cache] source=$source_valid media=$media_valid version=$cache_version state=$cache_state"
       - name: Fetch shared guides sources
         run: |
-          args=(--group guides --stage source)
           if [[ "${{ steps.source_cache_check.outputs.source_valid }}" != true ]]; then
             echo "[source-cache] Source graph unavailable; forcing full bootstrap fetch."
-            args+=(--force-full-fetch)
+            export DOCS_TOOLING_FORCE_FULL_FETCH=1
           fi
-          node scripts/docs-workflow/run-content-group.js "${args[@]}"
+          DOCS_TOOLING_GUIDES_STAGE=source pnpm docs-tooling publish-group --site "${{ inputs.site }}" --group guides --stage fetch
         env:
           DOCS_BUILD_ENV: uat
           APP_ID: ${{ secrets.APP_ID }}
@@ -318,7 +320,7 @@ jobs:
             --output packages/docs-tooling/src/lark/meta/media-cache/guides.json
             --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
             --report packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json
-            --bootstrap-docs docs,docs-byoc
+            --bootstrap-docs content/${{ inputs.site }}/guides,content/${{ inputs.site }}/byoc
             --concurrency 4
           )
           if [[ "${{ steps.source_cache_check.outputs.media_valid }}" == true ]]; then
@@ -384,8 +386,8 @@ jobs:
             --candidate-snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
             --incremental-plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
             --baseline-descriptor packages/docs-tooling/src/lark/meta/assembly/guides.json \
-            --baseline-saas-sidebar config/generated/guides.sidebar.js \
-            --baseline-byoc-sidebar config/generated/guides-byoc.sidebar.js \
+            --baseline-saas-sidebar generated/${{ inputs.site }}/sidebars/guides.sidebar.js \
+            --baseline-byoc-sidebar generated/${{ inputs.site }}/sidebars/guides-byoc.sidebar.js \
             --master-sha "${{ inputs.master_sha }}" \
             --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" \
             --baseline-source-sha "$baseline_source_sha" \

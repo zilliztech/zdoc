@@ -6,10 +6,15 @@ const crypto = require('node:crypto')
 const path = require('node:path')
 const { spawnSync: defaultSpawnSync } = require('node:child_process')
 
-const SIDEBAR_OUTPUTS = Object.freeze([
-  'config/generated/guides.sidebar.js',
-  'config/generated/guides-byoc.sidebar.js',
-])
+function sidebarOutputs(site = process.env.ZDOC_SITE || 'en') {
+  if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
+  return Object.freeze([
+    `tmp/docs-tooling/${site}/guides/generated/${site}/sidebars/guides.sidebar.js`,
+    `tmp/docs-tooling/${site}/guides-byoc/generated/${site}/sidebars/guides-byoc.sidebar.js`,
+  ])
+}
+
+const SIDEBAR_OUTPUTS = sidebarOutputs('en')
 
 function parseArgs(argv) {
   if (argv.length !== 2) throw new Error('Exactly one --media-manifest argument is required')
@@ -151,10 +156,10 @@ function removeEntryPathIfPresent(entry, target, fsImpl) {
   verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
 }
 
-function quarantineSidebarOutputs(workspace, fsImpl = fs) {
+function quarantineSidebarOutputs(workspace, fsImpl = fs, outputs = SIDEBAR_OUTPUTS) {
   const entries = []
   try {
-    for (const relativePath of SIDEBAR_OUTPUTS) {
+    for (const relativePath of outputs) {
       const finalPath = ensureSafeOutputPath(workspace, relativePath, fsImpl)
       const directoryIdentity = recordOutputDirectoryIdentity(workspace, finalPath, fsImpl)
       const entry = { relativePath, finalPath, backupPath: null, backupMade: false, hadOriginal: false, directoryIdentity }
@@ -256,7 +261,7 @@ function verifyManifestIdentity(identity, workspace, mediaManifest, fsImpl = fs)
   if (primaryError) throw primaryError
 }
 
-function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultSpawnSync, fsImpl = fs }) {
+function generateGuidesSidebars({ workspace, mediaManifest, site = process.env.ZDOC_SITE || 'en', spawnSync = defaultSpawnSync, fsImpl = fs }) {
   if (!workspace) throw new Error('workspace is required')
   let identity
   let quarantined = []
@@ -264,7 +269,8 @@ function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultS
   let committed = false
   try {
     identity = openManifestIdentity(workspace, mediaManifest, fsImpl)
-    quarantined = quarantineSidebarOutputs(workspace, fsImpl)
+    const outputs = sidebarOutputs(site)
+    quarantined = quarantineSidebarOutputs(workspace, fsImpl, outputs)
     const args = [
       'docusaurus', 'fetch-lark-docs',
       '--manual', 'guides',
@@ -321,7 +327,7 @@ function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultS
     }
   }
   if (primaryError) throw primaryError
-  return { outputs: [...SIDEBAR_OUTPUTS] }
+  return { outputs: [...sidebarOutputs(site)] }
 }
 
 if (require.main === module) {
@@ -339,6 +345,7 @@ module.exports = {
   parseArgs,
   requireRepoRelativeRegularFile,
   SIDEBAR_OUTPUTS,
+  sidebarOutputs,
   openManifestIdentity,
   quarantineSidebarOutputs,
 }

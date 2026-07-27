@@ -52,6 +52,7 @@ function containsFullValidationCommand(source) {
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
+  const sourcePublicationWorkflows = new Set(['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml'])
 
   for (const file of files) {
     const source = fs.readFileSync(path.join(directory, file), 'utf8')
@@ -65,6 +66,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     for (const job of Object.values(workflow.jobs || {})) {
       if (Object.values(job?.env || {}).some(value => String(value).includes('${{ runner.temp }}'))) {
         errors.push(`${file}: job-level env must not reference runner.temp`)
+      }
+    }
+    if (sourcePublicationWorkflows.has(file)) {
+      if (workflow.on?.workflow_call?.inputs?.site?.required !== true) {
+        errors.push(`${file}: source publication workflow must require site input`)
+      }
+      if (!/pnpm docs-tooling publish-group --site/.test(source)) {
+        errors.push(`${file}: source publication workflow must use docs-tooling publish-group`)
+      }
+      if (/run-content-group\.js|config\/generated|(?:^|[\s"'])docs\/tutorials|(?:^|[\s"'])docs-byoc(?:\/|[\s"'])|(?:^|[\s"'])reference\/api/m.test(source)) {
+        errors.push(`${file}: source publication workflow must not use legacy publication roots`)
+      }
+      if (/content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/sidebars\/tools\.sidebar\.js|generated\/zh-CN\/manifests\/tools-translations\.json/.test(source)) {
+        errors.push(`${file}: source publication workflow must not claim Chinese Tools protected paths`)
       }
     }
     if (!/^permissions:\n(?:  .+\n)+/m.test(source)) {
@@ -109,7 +124,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
         [/restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/, 'must exactly restore generated state from the immutable baseline SHA'],
-        [/name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*prepare-content-group-workspace\.js "\$GROUP"[\s\S]*name: Fetch content group/, 'must prepare the selected group after baseline restore and before generation'],
+        [/name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*prepare-content-group-workspace\.js "\$SITE" "\$GROUP"[\s\S]*name: Fetch content group/, 'must prepare the selected site group after baseline restore and before generation'],
         [/create-checkpoint-artifact\.js/, 'must create a checkpoint artifact'],
         [/validate-checkpoint-artifact\.js/, 'must validate the checkpoint artifact'],
         [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],
@@ -275,6 +290,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/inputs\.table_count != '0'[\s\S]*pattern: guides-table-/, 'must skip table artifact download for an empty matrix'],
         [/restore-guides-table-artifacts\.js/, 'must restore validated table artifacts'],
         [/generate-guides-sidebars\.js --media-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/, 'must generate both combined sidebars through the offline wrapper'],
+        [/publish-group --site[\s\S]*DOCS_TOOLING_GUIDES_STAGE: baseline/, 'must seed canonical Guides stages through docs-tooling'],
+        [/publish-group --site[\s\S]*DOCS_TOOLING_GUIDES_STAGE: assembled/, 'must validate assembled canonical stages through docs-tooling'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       const steps = workflow.jobs?.assemble?.steps || []
@@ -305,7 +322,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const validationStep = steps[validateIndex]
       if (!/validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "pnpm run build:en"/.test(validationStep?.run || '')) errors.push(`${file}: combined sidebar and full build validation must run before descriptor promotion`)
       const finalizeStep = steps[finalizeIndex]
-      if (!/saas=config\/generated\/guides\.sidebar\.js[\s\S]*byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
+      if (!/saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*byoc=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
       if (/npx docusaurus fetch-lark-docs[\s\S]*-sidebar/.test(source) || /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/.test(source)) errors.push(`${file}: observe-only assembly must not restore sidebars or use the legacy split generators`)
       if (/--output packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-assembly-decision\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must never mutate the immutable assembly decision`)
       const selection = stepById.get('promoted_snapshot')

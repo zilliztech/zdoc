@@ -1,5 +1,6 @@
 interface TargetConfig {
     outputDir: string;
+    contentRoot?: string;
     imageDir: string;
     sidebarPath?: string;
     overridePath?: string;
@@ -24,26 +25,32 @@ interface Manual {
 
 // guides ========================
 
+const site = process.env.ZDOC_SITE === 'zh-CN' ? 'zh-CN' : 'en';
+const guidesStage = `tmp/docs-tooling/${site}/guides`;
+const guidesByocStage = `tmp/docs-tooling/${site}/guides-byoc`;
+
 const guides: Manual = {
     root: 'Tg6mwbRGDitPQ3kLUQzc44I7nth',
     base: 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*',
     sourceType: 'wiki',
     displayedSidebar: 'default',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/guides',
-    sidebarPath: './config/generated/guides.sidebar.js',
-    overridePath: './config/sidebar-overrides/guides.json',
-    contentRoot: 'docs',
+    sidebarPath: `./${guidesStage}/generated/${site}/sidebars/guides.sidebar.js`,
+    overridePath: `./sidebar-overrides/${site}/guides.json`,
+    contentRoot: `${guidesStage}/content/${site}/guides`,
     targets: {
         zilliz: {
             saas: {
-                outputDir: 'docs/tutorials',
+                outputDir: `${guidesStage}/content/${site}/guides/tutorials`,
+                contentRoot: `${guidesStage}/content/${site}/guides`,
                 imageDir: 'static/img',
             },
             paas: {
-                outputDir: 'docs-byoc/tutorials',
+                outputDir: `${guidesByocStage}/content/${site}/byoc/tutorials`,
+                contentRoot: `${guidesByocStage}/content/${site}/byoc`,
                 imageDir: 'static/img',
-                sidebarPath: './config/generated/guides-byoc.sidebar.js',
-                overridePath: './config/sidebar-overrides/guides-byoc.json',
+                sidebarPath: `./${guidesByocStage}/generated/${site}/sidebars/guides-byoc.sidebar.js`,
+                overridePath: `./sidebar-overrides/${site}/guides-byoc.json`,
             },
         },
     },

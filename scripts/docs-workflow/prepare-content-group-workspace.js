@@ -7,15 +7,6 @@ const { spawnSync } = require('node:child_process');
 
 const { getGroupPaths } = require('./group-paths');
 
-const REST_OUTPUT_ROOT = 'reference/api/restful/restful';
-const REST_GENERATED_TREES = Object.freeze([
-  `${REST_OUTPUT_ROOT}/v1/control-plane`,
-  `${REST_OUTPUT_ROOT}/v1/data-plane`,
-  `${REST_OUTPUT_ROOT}/v2/control-plane`,
-  `${REST_OUTPUT_ROOT}/v2/data-plane`,
-]);
-const REST_SIDEBAR = 'config/generated/restful.sidebar.js';
-
 function resolveOwnedPath(root, relativePath) {
   if (
     typeof relativePath !== 'string'
@@ -54,56 +45,68 @@ function restorePreservedFiles({ root, relativePaths, contentByPath }) {
   return restored;
 }
 
-function prepareContentGroupWorkspace({ group, cwd = process.cwd(), restSidebarContent = null, preservedContentByPath = null }) {
+function prepareContentGroupWorkspace({ site = 'en', group, cwd = process.cwd(), restSidebarContent = null, preservedContentByPath = null }) {
   const root = path.resolve(cwd);
   const removed = [];
-  const groupPaths = getGroupPaths(group);
+  const groupPaths = getGroupPaths(group, site);
   const restored = restorePreservedFiles({
     root,
     relativePaths: groupPaths.preservedEnglish,
     contentByPath: preservedContentByPath,
   });
   if (group !== 'rest') {
-    return { group, removed, restored };
+    return { site, group, removed, restored };
   }
   if (typeof restSidebarContent !== 'string') throw new Error('REST preparation requires current master sidebar content');
 
+  const restOutputRoot = groupPaths.englishOutputs.find(relativePath => relativePath.startsWith(`content/${site}/reference/`));
+  const restSidebar = groupPaths.sidebars[0];
+  if (!restOutputRoot || !restSidebar) throw new Error(`REST publication paths are missing for site ${site}`);
+  const restGeneratedTrees = [
+    `${restOutputRoot}/v1/control-plane`,
+    `${restOutputRoot}/v1/data-plane`,
+    `${restOutputRoot}/v2/control-plane`,
+    `${restOutputRoot}/v2/data-plane`,
+  ];
+
   let removedGeneratedDocs = false;
-  for (const relativePath of REST_GENERATED_TREES) {
+  for (const relativePath of restGeneratedTrees) {
     const target = resolveOwnedPath(root, relativePath);
     if (!fs.existsSync(target)) continue;
     fs.rmSync(target, { recursive: true, force: true });
     removedGeneratedDocs = true;
   }
-  if (removedGeneratedDocs) removed.push(REST_OUTPUT_ROOT);
-  fs.mkdirSync(resolveOwnedPath(root, REST_OUTPUT_ROOT), { recursive: true });
+  if (removedGeneratedDocs) removed.push(restOutputRoot);
+  fs.mkdirSync(resolveOwnedPath(root, restOutputRoot), { recursive: true });
 
-  const sidebarPath = resolveOwnedPath(root, REST_SIDEBAR);
+  const sidebarPath = resolveOwnedPath(root, restSidebar);
   if (fs.existsSync(sidebarPath)) {
     fs.rmSync(sidebarPath, { force: true });
-    removed.push(REST_SIDEBAR);
+    removed.push(restSidebar);
   }
   fs.mkdirSync(path.dirname(sidebarPath), { recursive: true });
   fs.writeFileSync(sidebarPath, restSidebarContent, 'utf8');
-  restored.push(REST_SIDEBAR);
+  restored.push(restSidebar);
 
-  return { group, removed, restored };
+  return { site, group, removed, restored };
 }
 
 function main() {
-  const group = process.argv[2];
-  if (!group || process.argv.length !== 3) {
-    throw new Error('Usage: prepare-content-group-workspace.js <group>');
+  const [site, group] = process.argv.slice(2);
+  if (!site || !group || process.argv.length !== 4) {
+    throw new Error('Usage: prepare-content-group-workspace.js <site> <group>');
   }
+  const groupPaths = getGroupPaths(group, site);
+  const restSidebar = groupPaths.sidebars[0];
   const restSidebarContent = group === 'rest'
-    ? readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath: REST_SIDEBAR })
+    ? readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath: restSidebar })
     : null;
-  const preservedContentByPath = new Map(getGroupPaths(group).preservedEnglish.map((relativePath) => [
+  const preservedContentByPath = new Map(groupPaths.preservedEnglish.map((relativePath) => [
     relativePath,
     readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath }),
   ]));
-  const result = prepareContentGroupWorkspace({ group, restSidebarContent, preservedContentByPath });
-  console.log(`[prepare-content-group] ${group}: removed ${result.removed.length} restored path(s)`);
+  const result = prepareContentGroupWorkspace({ site, group, restSidebarContent, preservedContentByPath });
+  console.log(`[prepare-content-group] ${site}/${group}: removed ${result.removed.length} restored path(s)`);
   for (const relativePath of result.removed) console.log(`- ${relativePath}`);
   for (const relativePath of result.restored) console.log(`+ ${relativePath} (master)`);
 }

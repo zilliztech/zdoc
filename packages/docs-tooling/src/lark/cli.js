@@ -97,6 +97,7 @@ function runtimeManual(options) {
   const staged = value => path.posix.join(stage, value)
   const targetConfig = {
     outputDir: options.outputDir ? staged(options.outputDir) : stage,
+    ...(options.contentRoot ? {contentRoot: staged(options.contentRoot)} : {}),
     imageDir: path.join(stage, '.assets'),
     ...(options.sidebarPath ? {sidebarPath: staged(options.sidebarPath)} : {}),
     ...(options.overridePath ? {overridePath: options.overridePath} : {}),

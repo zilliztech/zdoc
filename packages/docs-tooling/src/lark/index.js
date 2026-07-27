@@ -394,7 +394,10 @@ async function generateSidebarTargets(options) {
         }
 
         for (const { writer, targetName, targetConfig } of writers) {
-            const sidebarItems = await writer.generate_sidebar(targetConfig.outputDir, targetConfig.outputDir.split('/')[0])
+            const sidebarItems = await writer.generate_sidebar(
+                targetConfig.outputDir,
+                targetConfig.contentRoot ?? manual.contentRoot ?? targetConfig.outputDir.split('/')[0],
+            )
             generated.push({
                 targetName,
                 sidebarPath: targetConfig.sidebarPath ?? manual.sidebarPath,

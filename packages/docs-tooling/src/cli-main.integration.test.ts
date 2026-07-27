@@ -45,6 +45,18 @@ function run(repositoryRoot: string, provider?: string) {
 }
 
 describe('docs-tooling executable composition root', () => {
+  it('routes publish-group through the typed site-aware registry', () => {
+    const repositoryRoot = temporaryRoot();
+    const result = spawnSync(process.execPath, [
+      '--experimental-strip-types', cliMain,
+      'publish-group', '--site', 'zh-CN', '--group', 'tools', '--stage', 'fetch',
+    ], {cwd: repositoryRoot, encoding: 'utf8', env: process.env});
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/Agent-produced Chinese Tools/i);
+    expect(result.stderr).not.toMatch(/Unknown command/i);
+  });
+
   it('loads the configured repository-local validator provider for Chinese validation', () => {
     const repositoryRoot = temporaryRoot();
     prepareChineseStage(repositoryRoot);

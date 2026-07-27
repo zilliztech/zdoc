@@ -11,21 +11,24 @@ const { generateSidebarTargets, writeSidebarPairTransactional } = require('../..
 const { generateGuidesSidebars, parseArgs } = require('./generate-guides-sidebars')
 
 function manualFixture(root = '.') {
+  const guidesStage = 'tmp/docs-tooling/en/guides'
+  const byocStage = 'tmp/docs-tooling/en/guides-byoc'
   return {
     root: 'root-token',
     base: 'base-token:*',
     sourceType: 'wiki',
     displayedSidebar: 'default',
     docSourceDir: path.join(root, 'sources'),
-    contentRoot: 'docs',
-    sidebarPath: './config/generated/guides.sidebar.js',
+    contentRoot: `${guidesStage}/content/en/guides`,
+    sidebarPath: `${guidesStage}/generated/en/sidebars/guides.sidebar.js`,
     targets: {
       zilliz: {
-        saas: { outputDir: 'docs/tutorials', imageDir: 'static/img' },
+        saas: { outputDir: `${guidesStage}/content/en/guides/tutorials`, contentRoot: `${guidesStage}/content/en/guides`, imageDir: 'static/img' },
         paas: {
-          outputDir: 'docs-byoc/tutorials',
+          outputDir: `${byocStage}/content/en/byoc/tutorials`,
+          contentRoot: `${byocStage}/content/en/byoc`,
           imageDir: 'static/img',
-          sidebarPath: './config/generated/guides-byoc.sidebar.js',
+          sidebarPath: `${byocStage}/generated/en/sidebars/guides-byoc.sidebar.js`,
         },
       },
     },
@@ -85,10 +88,13 @@ test('generateSidebarTargets creates distinct writers sharing one index and writ
   assert.notEqual(writers[0].mutable, writers[1].mutable)
   assert.deepEqual(writers.map(writer => writer.args[5]), ['zilliz.saas', 'zilliz.paas'])
   assert.deepEqual(writes.map(write => write.sidebarPath), [
-    './config/generated/guides.sidebar.js',
-    './config/generated/guides-byoc.sidebar.js',
+    'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js',
+    'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js',
   ])
-  assert.deepEqual(writes.map(write => write.sidebarItems[0].contentRoot), ['docs', 'docs-byoc'])
+  assert.deepEqual(writes.map(write => write.sidebarItems[0].contentRoot), [
+    'tmp/docs-tooling/en/guides/content/en/guides',
+    'tmp/docs-tooling/en/guides-byoc/content/en/byoc',
+  ])
   assert.deepEqual(writers.map(writer => writer.destroyed), [true, true])
 })
 
@@ -159,8 +165,8 @@ test('generateSidebarTargets requires the complete immutable source index API', 
 
 function sidebarPair() {
   return [
-    { sidebarPath: './config/generated/guides.sidebar.js', sidebarItems: [{ id: 'saas' }] },
-    { sidebarPath: './config/generated/guides-byoc.sidebar.js', sidebarItems: [{ id: 'paas' }] },
+    { sidebarPath: 'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js', sidebarItems: [{ id: 'saas' }] },
+    { sidebarPath: 'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js', sidebarItems: [{ id: 'paas' }] },
   ]
 }
 
@@ -169,10 +175,10 @@ function sidebarFiles(workspace) {
 }
 
 function transactionResidue(workspace) {
-  const dir = path.join(workspace, 'config/generated')
-  return fs.existsSync(dir)
-    ? fs.readdirSync(dir).filter(name => name.includes('.tmp-') || name.includes('.backup-'))
-    : []
+  return [...new Set(sidebarFiles(workspace).map(file => path.dirname(file)))]
+    .flatMap(dir => fs.existsSync(dir)
+      ? fs.readdirSync(dir).filter(name => name.includes('.tmp-') || name.includes('.backup-'))
+      : [])
 }
 
 function captureThrown(operation) {
@@ -192,7 +198,7 @@ function errorText(error) {
 test('transactional sidebar pair writes exact bytes and replaces both existing files without residue', () => {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-'))
   const files = sidebarFiles(workspace)
-  fs.mkdirSync(path.dirname(files[0]), { recursive: true })
+  for (const file of files) fs.mkdirSync(path.dirname(file), { recursive: true })
   fs.writeFileSync(files[0], 'old saas')
   fs.writeFileSync(files[1], 'old paas')
   try {
@@ -210,7 +216,7 @@ test('transactional sidebar pair rolls back both originals on staged write and s
     await t.test(failure, () => {
       const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-rollback-'))
       const files = sidebarFiles(workspace)
-      fs.mkdirSync(path.dirname(files[0]), { recursive: true })
+      for (const file of files) fs.mkdirSync(path.dirname(file), { recursive: true })
       fs.writeFileSync(files[0], 'old saas')
       fs.writeFileSync(files[1], 'old paas')
       let writeCalls = 0
@@ -248,7 +254,7 @@ test('transactional sidebar pair rolls back both originals on staged write and s
 test('transactional sidebar pair preserves committed outputs when backup cleanup fails', () => {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-cleanup-'))
   const files = sidebarFiles(workspace)
-  fs.mkdirSync(path.dirname(files[0]), { recursive: true })
+  for (const file of files) fs.mkdirSync(path.dirname(file), { recursive: true })
   fs.writeFileSync(files[0], 'old saas')
   fs.writeFileSync(files[1], 'old paas')
   let backupRemovals = 0
@@ -283,7 +289,7 @@ test('transactional sidebar pair preserves committed outputs when backup cleanup
 test('transactional sidebar pair aggregates primary and rollback rename failures without deleting the backup', () => {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-recovery-'))
   const files = sidebarFiles(workspace)
-  fs.mkdirSync(path.dirname(files[0]), { recursive: true })
+  for (const file of files) fs.mkdirSync(path.dirname(file), { recursive: true })
   fs.writeFileSync(files[0], 'old saas')
   fs.writeFileSync(files[1], 'old paas')
   let commitRenames = 0
@@ -295,7 +301,7 @@ test('transactional sidebar pair aggregates primary and rollback rename failures
           commitRenames += 1
           if (commitRenames === 2) throw new Error(`injected second commit failure: ${source} -> ${destination}`)
         }
-        if (source.includes('guides.sidebar.js.backup-') && destination.endsWith('/config/generated/guides.sidebar.js')) {
+        if (source.includes('guides.sidebar.js.backup-') && destination.endsWith('/tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js')) {
           failedBackup = source
           throw new Error(`injected rollback rename failure: ${source} -> ${destination}`)
         }
@@ -355,7 +361,7 @@ test('transactional sidebar pair rejects a replaced output parent during staging
   const files = sidebarFiles(workspace)
   const generated = path.dirname(files[0])
   const displaced = `${generated}.displaced`
-  fs.mkdirSync(generated, { recursive: true })
+  for (const file of files) fs.mkdirSync(path.dirname(file), { recursive: true })
   fs.writeFileSync(files[0], 'old saas')
   fs.writeFileSync(files[1], 'old paas')
   let swapped = false
@@ -386,7 +392,7 @@ test('transactional sidebar pair rejects symlink final files and symlink ancesto
   await t.test('final file', () => {
     const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-symlink-'))
     const files = sidebarFiles(workspace)
-    fs.mkdirSync(path.dirname(files[0]), { recursive: true })
+    for (const file of files) fs.mkdirSync(path.dirname(file), { recursive: true })
     fs.writeFileSync(path.join(workspace, 'target.js'), 'target')
     fs.symlinkSync(path.join(workspace, 'target.js'), files[0])
     try {
@@ -399,8 +405,8 @@ test('transactional sidebar pair rejects symlink final files and symlink ancesto
   await t.test('ancestor directory', () => {
     const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-parent-symlink-'))
     const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-outside-'))
-    fs.mkdirSync(path.join(workspace, 'config'))
-    fs.symlinkSync(outside, path.join(workspace, 'config/generated'))
+    fs.mkdirSync(path.join(workspace, 'tmp'))
+    fs.symlinkSync(outside, path.join(workspace, 'tmp/docs-tooling'))
     try {
       assert.throws(() => writeSidebarPairTransactional({ workspace, outputs: sidebarPair() }), /symlink/i)
     } finally {
@@ -541,9 +547,9 @@ test('combined action keeps validation and canonical audit flags on the path to 
     assert.equal(events.filter(event => event[0] === 'index-load').length, 1)
     assert.deepEqual(events.filter(event => event[0] === 'generate').map(event => event[1]), ['zilliz.saas', 'zilliz.paas'])
     assert.equal(events.filter(event => event[0] === 'destroy').length, 2)
-    assert.equal(fs.readFileSync(path.join(workspace, 'config/generated/guides.sidebar.js'), 'utf8'),
+    assert.equal(fs.readFileSync(path.join(workspace, 'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js'), 'utf8'),
       'module.exports = [\n  {\n    "target": "zilliz.saas"\n  }\n]\n')
-    assert.equal(fs.readFileSync(path.join(workspace, 'config/generated/guides-byoc.sidebar.js'), 'utf8'),
+    assert.equal(fs.readFileSync(path.join(workspace, 'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js'), 'utf8'),
       'module.exports = [\n  {\n    "target": "zilliz.paas"\n  }\n]\n')
 
     const eventCount = events.length
@@ -573,7 +579,7 @@ function wrapperFixture() {
 }
 
 function writeSidebarOutputs(workspace) {
-  for (const output of ['config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js']) {
+  for (const output of ['tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js', 'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js']) {
     fs.mkdirSync(path.join(workspace, path.dirname(output)), { recursive: true })
     fs.writeFileSync(path.join(workspace, output), 'module.exports = []\n')
   }
@@ -666,7 +672,7 @@ test('wrapper requires both sidebar outputs to be regular non-symlink files afte
         ...fixture,
         spawnSync() {
           writeSidebarOutputs(fixture.workspace)
-          const target = path.join(fixture.workspace, 'config/generated/guides-byoc.sidebar.js')
+          const target = path.join(fixture.workspace, 'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js')
           if (invalidOutput === 'missing') fs.rmSync(target)
           if (invalidOutput === 'directory') {
             fs.rmSync(target)
@@ -674,7 +680,7 @@ test('wrapper requires both sidebar outputs to be regular non-symlink files afte
           }
           if (invalidOutput === 'symlink') {
             fs.rmSync(target)
-            fs.symlinkSync(path.join(fixture.workspace, 'config/generated/guides.sidebar.js'), target)
+            fs.symlinkSync(path.join(fixture.workspace, 'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js'), target)
           }
           return { status: 0, signal: null }
         },
@@ -688,8 +694,8 @@ test('wrapper requires both sidebar outputs to be regular non-symlink files afte
 test('wrapper rejects a symlink sidebar output ancestor before spawn', () => {
   const fixture = wrapperFixture()
   const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'wrapper-sidebar-parent-'))
-  fs.mkdirSync(path.join(fixture.workspace, 'config'))
-  fs.symlinkSync(outside, path.join(fixture.workspace, 'config/generated'))
+  fs.mkdirSync(path.join(fixture.workspace, 'tmp'))
+  fs.symlinkSync(outside, path.join(fixture.workspace, 'tmp/docs-tooling'))
   try {
     assert.throws(() => generateGuidesSidebars({
       ...fixture,
@@ -702,8 +708,8 @@ test('wrapper rejects a symlink sidebar output ancestor before spawn', () => {
 })
 
 function writeOriginalSidebars(workspace) {
-  const outputs = ['config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js']
-  fs.mkdirSync(path.join(workspace, 'config/generated'), { recursive: true })
+  const outputs = ['tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js', 'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js']
+  for (const output of outputs) fs.mkdirSync(path.dirname(path.join(workspace, output)), { recursive: true })
   fs.writeFileSync(path.join(workspace, outputs[0]), 'original saas')
   fs.writeFileSync(path.join(workspace, outputs[1]), 'original paas')
   return outputs.map(output => path.join(workspace, output))
@@ -715,8 +721,8 @@ function assertOriginalSidebars(files) {
 }
 
 function wrapperResidue(workspace) {
-  const dir = path.join(workspace, 'config/generated')
-  return fs.existsSync(dir) ? fs.readdirSync(dir).filter(name => name.includes('.backup-')) : []
+  return [...new Set(sidebarFiles(workspace).map(file => path.dirname(file)))]
+    .flatMap(dir => fs.existsSync(dir) ? fs.readdirSync(dir).filter(name => name.includes('.backup-')) : [])
 }
 
 test('wrapper zero-exit no-op and one-output children fail and restore quarantined originals', async t => {
@@ -857,7 +863,7 @@ test('wrapper aggregates child and restore rename failures while preserving the 
   const fsImpl = new Proxy(fs, {
     get(target, property) {
       if (property === 'renameSync') return function (source, destination) {
-        if (source.includes('guides.sidebar.js.backup-') && destination.endsWith('/config/generated/guides.sidebar.js')) {
+        if (source.includes('guides.sidebar.js.backup-') && destination.endsWith('/tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js')) {
           failedBackup = source
           throw new Error(`injected wrapper restore rename failure: ${source} -> ${destination}`)
         }
@@ -894,7 +900,7 @@ test('wrapper reports fresh-output cleanup residue with its exact path', () => {
   const fsImpl = new Proxy(fs, {
     get(target, property) {
       if (property === 'rmSync') return function (targetPath, options) {
-        if (!cleanupFailureInjected && targetPath.endsWith('/config/generated/guides.sidebar.js')) {
+        if (!cleanupFailureInjected && targetPath.endsWith('/tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js')) {
           cleanupFailureInjected = true
           throw new Error(`injected fresh output cleanup failure: ${targetPath}`)
         }
@@ -941,7 +947,7 @@ test('wrapper rejects a replaced output parent and reports recovery debt', () =>
     assert.match(errorText(error), /directory.*identity|identity.*directory/i)
     assert.match(errorText(error), /recover|restore|residue|debt/i)
     assert.equal(fs.readFileSync(files[0], 'utf8'), 'fresh saas')
-    assert.equal(fs.readFileSync(files[1], 'utf8'), 'fresh paas')
+    assert.equal(fs.readFileSync(files[1], 'utf8'), 'original paas')
   } finally {
     fs.rmSync(fixture.workspace, { recursive: true, force: true })
   }

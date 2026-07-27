@@ -9,23 +9,23 @@ test('rest group paths include English outputs and translated reference root', (
   const paths = getGroupPaths('rest');
 
   assert.deepEqual(paths.englishOutputs, [
-    'reference/api/restful/restful',
-    'config/generated/restful.sidebar.js',
+    'content/en/reference/api/restful',
+    'generated/en/sidebars/restful.sidebar.js',
   ]);
   assert.deepEqual(paths.translationOutputs, [
-    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful',
   ]);
-  assert.deepEqual(paths.sidebars, ['config/generated/restful.sidebar.js']);
+  assert.deepEqual(paths.sidebars, ['generated/en/sidebars/restful.sidebar.js']);
   assert.equal(paths.snapshot, null);
 });
 
 test('guides group paths include SaaS, BYOC, and translated docs roots', () => {
   const paths = getGroupPaths('guides');
 
-  assert.ok(paths.englishOutputs.includes('docs'));
-  assert.ok(paths.englishOutputs.includes('docs-byoc'));
-  assert.ok(paths.englishOutputs.includes('config/generated/guides.sidebar.js'));
-  assert.ok(paths.englishOutputs.includes('config/generated/guides-byoc.sidebar.js'));
+  assert.ok(paths.englishOutputs.includes('content/en/guides'));
+  assert.ok(paths.englishOutputs.includes('content/en/byoc'));
+  assert.ok(paths.englishOutputs.includes('generated/en/sidebars/guides.sidebar.js'));
+  assert.ok(paths.englishOutputs.includes('generated/en/sidebars/guides-byoc.sidebar.js'));
   assert.deepEqual(paths.translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
     'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
@@ -39,33 +39,35 @@ test('reference groups map reference outputs into docs-reference i18n', () => {
   ]);
   assert.deepEqual(getGroupPaths('java').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2',
-    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v1',
   ]);
   assert.deepEqual(getGroupPaths('node').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs',
   ]);
   assert.deepEqual(getGroupPaths('go').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2',
-    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v1',
   ]);
   assert.deepEqual(getGroupPaths('cli').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/v0.1',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/v1.3',
   ]);
 });
 
 test('SDK and CLI groups declare master-owned landing pages to preserve', () => {
-  assert.deepEqual(getGroupPaths('python').preservedEnglish, ['reference/api/python/python/python.md']);
-  assert.deepEqual(getGroupPaths('java').preservedEnglish, ['reference/api/java/java/java.md']);
-  assert.deepEqual(getGroupPaths('node').preservedEnglish, ['reference/api/nodejs/nodejs/nodejs.md']);
-  assert.deepEqual(getGroupPaths('go').preservedEnglish, ['reference/api/go/go/go.md']);
-  assert.deepEqual(getGroupPaths('cli').preservedEnglish, ['reference/cli/cli/Overview.md']);
-  assert.deepEqual(getGroupPaths('guides').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('python').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('java').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('node').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('go').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('cli').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('guides').preservedEnglish, ['content/en/guides/tutorials/home.md']);
   assert.deepEqual(getGroupPaths('rest').preservedEnglish, []);
 });
 
 test('reference translation mapping rejects non-reference paths', () => {
-  assert.equal(referenceTranslationPath('docs/tutorials'), null);
-  assert.equal(referenceTranslationPath('config/generated/python.sidebar.js'), null);
+  assert.equal(referenceTranslationPath('content/en/guides/tutorials'), null);
+  assert.equal(referenceTranslationPath('generated/en/sidebars/python.sidebar.js'), null);
 });
 
 test('returned path metadata cannot be mutated by callers', () => {

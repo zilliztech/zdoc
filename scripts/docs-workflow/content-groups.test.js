@@ -19,15 +19,27 @@ test('defines the Python content group ownership contract', () => {
   assert.deepEqual(python.manuals, ['python', 'pymilvus25', 'pymilvus26', 'pymilvus30']);
   assert.equal(python.snapshotManual, 'pymilvus30');
   assert.deepEqual(python.ownedPaths, [
-    'reference/api/python/python',
-    'config/generated/python.sidebar.js',
+    'content/en/reference/api/python/python',
+    'generated/en/sidebars/python.sidebar.js',
     'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
   ]);
 });
 
-test('owns Java and Go landing pages outside their generated v2 roots', () => {
-  assert.ok(getContentGroup('java').ownedPaths.includes('reference/api/java/java/java.md'));
-  assert.ok(getContentGroup('go').ownedPaths.includes('reference/api/go/go/go.md'));
+test('consumes the Chinese manifest-owned Guides registry contract', () => {
+  const guides = getContentGroup('guides', 'zh-CN');
+  assert.deepEqual(guides.ownedPaths.slice(0, 5), [
+    'content/zh-CN/guides',
+    'content/zh-CN/byoc',
+    'generated/zh-CN/sidebars/guides.sidebar.js',
+    'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
+    'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+  ]);
+  assert.equal(guides.publicationManifest, 'generated/zh-CN/manifests/guides-source-publication.json');
+});
+
+test('derives preservation metadata without a legacy path map', () => {
+  assert.deepEqual(getContentGroup('java').preservedPaths, []);
+  assert.deepEqual(getContentGroup('go').preservedPaths, []);
 });
 
 test('configures durable translation batches for Guides only', () => {
@@ -51,9 +63,9 @@ test('production ownership is disjoint', () => {
 });
 
 test('rejects an unknown content group', () => {
-  assert.throws(() => getContentGroup('ruby'), /Unknown content group: ruby/);
-  assert.throws(() => getContentGroup('constructor'), /Unknown content group: constructor/);
-  assert.throws(() => getContentGroup('__proto__'), /Unknown content group: __proto__/);
+  assert.throws(() => getContentGroup('ruby'), /Unknown publication group for site en: ruby/);
+  assert.throws(() => getContentGroup('constructor'), /Unknown publication group for site en: constructor/);
+  assert.throws(() => getContentGroup('__proto__'), /Unknown publication group for site en: __proto__/);
 });
 
 test('definitions and returned arrays cannot be mutated by callers', () => {
@@ -68,28 +80,28 @@ test('definitions and returned arrays cannot be mutated by callers', () => {
 
 test('rejects exact and directory-prefix ownership overlaps', () => {
   assert.throws(
-    () => validateDisjointOwnership({ one: ['docs'], two: ['docs'] }),
+    () => validateDisjointOwnership({ one: ['content/en/guides'], two: ['content/en/guides'] }),
     /ownership overlap/i,
   );
   assert.throws(
-    () => validateDisjointOwnership({ one: ['docs'], two: ['docs/tutorials'] }),
+    () => validateDisjointOwnership({ one: ['content/en/guides'], two: ['content/en/guides/tutorials'] }),
     /ownership overlap/i,
   );
   assert.doesNotThrow(
-    () => validateDisjointOwnership({ one: ['docs'], two: ['docs-byoc'] }),
+    () => validateDisjointOwnership({ one: ['content/en/guides'], two: ['content/en/byoc'] }),
   );
 });
 
 test('rejects a slash-delimited ancestor overlap without changing production definitions', () => {
   assert.throws(
-    () => validateDisjointOwnership({ broad: ['reference/api/python'], python: ['reference/api/python/python'] }),
+    () => validateDisjointOwnership({ broad: ['content/en/reference/api/python'], python: ['content/en/reference/api/python/python'] }),
     /ownership overlap/i,
   );
   assert.doesNotThrow(() => assertDisjointOwnership());
 });
 
 test('rejects ambiguous or unsafe ownership paths', () => {
-  for (const path of ['', '/docs', 'docs/', 'docs//guide', 'docs/./guide', 'docs/../guide']) {
+  for (const path of ['', '/content', 'content/', 'content//guide', 'content/./guide', 'content/../guide']) {
     assert.throws(() => validateDisjointOwnership({ one: [path] }), /Invalid ownership path/);
   }
 });

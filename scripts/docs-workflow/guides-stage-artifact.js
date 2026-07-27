@@ -25,13 +25,16 @@ const STAGE_PATHS = Object.freeze({
     ASSEMBLY_DECISION,
   ],
   saas: [
-    'docs',
-    'config/generated/guides.sidebar.js',
+    'tmp/docs-tooling/en/guides/content/en/guides',
+    'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js',
     'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
     'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md',
     'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv',
   ],
-  byoc: ['docs-byoc', 'config/generated/guides-byoc.sidebar.js'],
+  byoc: [
+    'tmp/docs-tooling/en/guides-byoc/content/en/byoc',
+    'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js',
+  ],
 })
 const REQUIRED_STAGE_FILES = Object.freeze({
   source: [

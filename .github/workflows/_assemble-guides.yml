@@ -3,6 +3,7 @@ name: assemble guides checkpoint
 on:
   workflow_call:
     inputs:
+      site: { required: true, type: string }
       source_artifact_name: { required: true, type: string }
       table_matrix: { required: true, type: string }
       table_count: { required: true, type: string }
@@ -24,6 +25,8 @@ jobs:
   assemble:
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    env:
+      ZDOC_SITE: ${{ inputs.site }}
     outputs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: docs-checkpoint-guides-${{ github.run_id }}
@@ -51,6 +54,11 @@ jobs:
         run: |
           tar -xf "$RUNNER_TEMP/source-download/guides-source.tar" -C "$RUNNER_TEMP/source-download"
           node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage source --artifact "$RUNNER_TEMP/source-download/guides-source" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+      - name: Seed canonical Guides publication stages
+        run: pnpm docs-tooling publish-group --site "${{ inputs.site }}" --group guides --stage fetch
+        env:
+          DOCS_TOOLING_GUIDES_STAGE: baseline
+          DOCS_TOOLING_BASELINE_ROOT: ${{ runner.temp }}/baseline
       - name: Restore validated Guides table artifacts
         if: ${{ inputs.table_count != '0' }}
         run: |
@@ -85,8 +93,8 @@ jobs:
             node scripts/docs-workflow/guides-assembly-identity.js verify-descriptor \
               --repository-root "$RUNNER_TEMP/baseline" \
               --descriptor packages/docs-tooling/src/lark/meta/assembly/guides.json \
-              --saas-sidebar config/generated/guides.sidebar.js \
-              --byoc-sidebar config/generated/guides-byoc.sidebar.js
+              --saas-sidebar generated/${{ inputs.site }}/sidebars/guides.sidebar.js \
+              --byoc-sidebar generated/${{ inputs.site }}/sidebars/guides-byoc.sidebar.js
             node - "$decision" "$RUNNER_TEMP/baseline" <<'NODE'
           const crypto = require('node:crypto')
           const fs = require('node:fs')
@@ -95,8 +103,8 @@ jobs:
           const baseline = process.argv[3]
           const facts = [
             ['packages/docs-tooling/src/lark/meta/assembly/guides.json', 'baselineDescriptorSha256'],
-            ['config/generated/guides.sidebar.js', 'baselineSaasSidebarSha256'],
-            ['config/generated/guides-byoc.sidebar.js', 'baselineByocSidebarSha256'],
+            ['generated/${{ inputs.site }}/sidebars/guides.sidebar.js', 'baselineSaasSidebarSha256'],
+            ['generated/${{ inputs.site }}/sidebars/guides-byoc.sidebar.js', 'baselineByocSidebarSha256'],
           ]
           for (const [relative, key] of facts) {
             const actual = crypto.createHash('sha256').update(fs.readFileSync(path.join(baseline, relative))).digest('hex')
@@ -111,6 +119,12 @@ jobs:
           DOCS_BUILD_ENV: uat
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
           NO_UPDATE_NOTIFIER: '1'
+      - name: Publish assembled Guides through docs-tooling
+        run: |
+          pnpm docs-tooling publish-group --site "${{ inputs.site }}" --group guides --stage validate
+          pnpm docs-tooling publish-group --site "${{ inputs.site }}" --group guides --stage publish
+        env:
+          DOCS_TOOLING_GUIDES_STAGE: assembled
       - name: Validate combined guides output
         run: |
           node scripts/validate-generated-sidebars.js
@@ -119,8 +133,8 @@ jobs:
         run: |
           decision=packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json
           descriptor=packages/docs-tooling/src/lark/meta/assembly/guides.json
-          saas=config/generated/guides.sidebar.js
-          byoc=config/generated/guides-byoc.sidebar.js
+          saas=generated/${{ inputs.site }}/sidebars/guides.sidebar.js
+          byoc=generated/${{ inputs.site }}/sidebars/guides-byoc.sidebar.js
           saas_equal=null
           byoc_equal=null
           if [[ "${{ steps.assembly_decision.outputs.mode }}" == reuse ]]; then

@@ -3,6 +3,9 @@ name: fetch docs content group
 on:
   workflow_call:
     inputs:
+      site:
+        required: true
+        type: string
       group:
         required: true
         type: string
@@ -54,6 +57,8 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: ${{ format('docs-checkpoint-{0}-{1}', inputs.group, github.run_id) }}
     env:
+      ZDOC_SITE: ${{ inputs.site }}
+      SITE: ${{ inputs.site }}
       GROUP: ${{ inputs.group }}
       MASTER_SHA: ${{ inputs.master_sha }}
       DEV_BASELINE_SHA: ${{ inputs.dev_baseline_sha }}
@@ -86,7 +91,7 @@ jobs:
           fetch-depth: 0
 
       - name: Validate content group
-        run: node -e 'require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP)'
+        run: node -e 'require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP, process.env.SITE)'
 
       - uses: pnpm/action-setup@v4
 
@@ -110,10 +115,13 @@ jobs:
         run: bash scripts/restore-generated-state.sh --exact --ref "$DEV_BASELINE_SHA"
 
       - name: Prepare selected content group workspace
-        run: node scripts/docs-workflow/prepare-content-group-workspace.js "$GROUP"
+        run: node scripts/docs-workflow/prepare-content-group-workspace.js "$SITE" "$GROUP"
 
       - name: Fetch content group
-        run: node scripts/docs-workflow/run-content-group.js --group "$GROUP"
+        run: |
+          pnpm docs-tooling publish-group --site "$SITE" --group "$GROUP" --stage fetch
+          pnpm docs-tooling publish-group --site "$SITE" --group "$GROUP" --stage validate
+          pnpm docs-tooling publish-group --site "$SITE" --group "$GROUP" --stage publish
         env:
           DOCS_BUILD_ENV: uat
           APP_ID: ${{ secrets.APP_ID }}
@@ -135,9 +143,9 @@ jobs:
           set -euo pipefail
           node scripts/validate-generated-sidebars.js
           if [[ "$GROUP" == guides ]]; then
-            node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipLinkChecks
+            node scripts/run-doc-build-stage.js --build "pnpm run build:$SITE" --skipLinkChecks
           else
-            node scripts/run-doc-build-stage.js --build "pnpm run build:en"
+            node scripts/run-doc-build-stage.js --build "pnpm run build:$SITE"
           fi
         env:
           DOCS_BUILD_ENV: uat
@@ -153,7 +161,9 @@ jobs:
       - name: Update content snapshots
         run: |
           set -euo pipefail
-          if [[ "$GROUP" == guides ]]; then
+          if [[ "$SITE" != en ]]; then
+            echo "Snapshot promotion for $SITE/$GROUP is owned by its site publication workflow."
+          elif [[ "$GROUP" == guides ]]; then
             node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch "$TARGET_BRANCH" --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
           elif [[ "$GROUP" != rest ]]; then
             DOCS_SOURCE_BRANCH="$TARGET_BRANCH" bash scripts/update-sdk-reference-snapshots.sh "$GROUP"
@@ -168,7 +178,7 @@ jobs:
 
       - name: Create source checkpoint artifact
         run: |
-          validation_command='node scripts/run-doc-build-stage.js --build "pnpm run build:en"'
+          validation_command="node scripts/run-doc-build-stage.js --build \"pnpm run build:$SITE\""
           if [[ "$GROUP" == guides ]]; then
             validation_command+=' --skipLinkChecks'
           fi

@@ -3,6 +3,7 @@ name: render guides table
 on:
   workflow_call:
     inputs:
+      site: { required: true, type: string }
       table_id: { required: true, type: string }
       table_name: { required: true, type: string }
       table_slug: { required: true, type: string }
@@ -25,6 +26,8 @@ jobs:
   render:
     runs-on: ubuntu-latest
     timeout-minutes: 180
+    env:
+      ZDOC_SITE: ${{ inputs.site }}
     outputs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: guides-table-${{ inputs.target_name }}-${{ inputs.table_slug }}-${{ github.run_id }}
@@ -33,7 +36,7 @@ jobs:
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: pnpm }
+        with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Prepare immutable baseline
         run: |
