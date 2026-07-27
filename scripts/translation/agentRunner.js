@@ -3,7 +3,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
-const { applyMdxPatches, validateMdxStructure } = require('../../apps/docs/plugins/mdx-parse/mdxPatcher')
+const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, parseRestDocument, translateRestSpecs } = require('./restSpecLocalization')

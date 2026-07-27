@@ -27,6 +27,18 @@ export {
   writePublicationAnchor,
 } from './publication/diagnostics.ts';
 export type {PublicationAnchor, PublicationDiagnostics, PublicationDiagnosticsIdentity} from './publication/diagnostics.ts';
+export * from './mdx/index.ts';
+export {buildLinkCheckReport, checkLinks, renderLinkCheckMarkdown, resolveWorkflowRunUrl} from './links/check.ts';
+export {
+  buildCardV2,
+  buildExactState,
+  buildFinishState,
+  buildPhaseState,
+  createCardClient,
+  executeReportCard,
+  normalizeCardState,
+  reportNeedsAttention,
+} from './reporting/lark.ts';
 export {
   buildReferenceManifests,
   captureReferenceTree,

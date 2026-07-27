@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./mdx": "./src/mdx/index.ts",
+    "./mdx/validate.cjs": "./src/mdx/validate.cjs",
+    "./links": "./src/links/check.ts",
+    "./reporting/lark": "./src/reporting/lark.ts"
   },
   "engines": {
     "node": ">=22.6.0"

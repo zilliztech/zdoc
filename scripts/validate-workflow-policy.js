@@ -32,7 +32,7 @@ function executableShellLineEntries(source) {
 
 function containsFullValidationCommand(source) {
   return executableShellLineEntries(source).some(({ trimmed }) => {
-    if (/\b(?:mdx-parse|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed)) return true
+    if (/\b(?:mdx-parse|validate-mdx|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed)) return true
     const segments = trimmed.split(/\s*(?:&&|\|\||;|\|)\s*/)
     return segments.some(segment => {
       const command = segment.trim().replace(/^(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)*/, '')
@@ -163,7 +163,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!numbered || normalizeCondition(numberedCondition) !== normalizeCondition(expectedNumberedCondition)) {
         errors.push(`${file}: numbered Guides batches must use the dedicated mutation-aware local validation step`)
       }
-      if (/mdx-parse/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree MDX parsing`)
+      if (/mdx-parse|validate-mdx/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree MDX parsing`)
       if (/validate-translated-coverage/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree translated coverage`)
       if (/pnpm\s+run\s+build/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run a full documentation build`)
       if (!/translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/.test(numberedRun)) {
@@ -176,7 +176,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
       }
-      if (!/mdx-parse/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build:en/.test(unbatchedRun)) {
+      if (!/validate-mdx/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build:en/.test(unbatchedRun)) {
         errors.push(`${file}: unbatched translations must retain full MDX, coverage, and build validation`)
       }
       for (const step of steps) {
@@ -470,7 +470,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml',
     '_translate-publish-batch.yml', '_verify-docs.yml',
   ]
-  const distributedPattern = /report-live-card\.sh|report-to-lark --card-(?:phase|finish|state-file|advance)/
+  const distributedPattern = /report-live-card\.sh|report-to-lark --card-(?:phase|finish|state-file|advance)|docs-tooling report-card (?:advance|finish|note)/
   for (const file of distributedFiles) {
     const source = readWorkflow(file)
     if (distributedPattern.test(source)) errors.push(`${file}: distributed card update is forbidden`)

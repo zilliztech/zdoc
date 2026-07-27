@@ -12,6 +12,24 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('jobs that execute docs-tooling use its supported Node runtime', () => {
+  const requirements = [
+    ['check-404.yml', 'Check-404'],
+    ['_translate-content-group.yml', 'translate'],
+    ['fetch-docs.yml', 'prepare'],
+    ['fetch-docs.yml', 'finalize_card_fallback'],
+    ['_monitor-docs-progress.yml', 'monitor'],
+    ['_verify-docs.yml', 'verify'],
+    ['_publish-translation-batches.yml', 'publish'],
+  ]
+  for (const [file, jobName] of requirements) {
+    const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
+    const setup = workflow.jobs[jobName].steps.find(step => String(step.uses || '').startsWith('actions/setup-node@'))
+    const version = String(setup?.with?.['node-version'] || '')
+    assert.ok(version === '22' || /^22\.(?:[6-9]|[1-9][0-9])(?:\.|$)/.test(version), `${file}:${jobName} must use Node 22.6 or newer`)
+  }
+})
+
 test('workflow policy rejects checkpoint publishers without idempotent scoped staging', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-policy-'))
   const publisherPath = path.join(directory, 'publish-checkpoint.sh')
@@ -1045,14 +1063,14 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(numbered.if, /steps\.agents\.outputs\.translated_count \|\| '0'/)
   assert.match(numbered.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
   assert.match(numbered.if, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
-  assert.doesNotMatch(numbered.run, /mdx-parse|validate-translated-coverage|pnpm run build:en/)
+  assert.doesNotMatch(numbered.run, /mdx-parse|validate-mdx|validate-translated-coverage|pnpm run build:en/)
   assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
   assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
 
   assert.ok(unbatched, 'unbatched translations need their existing full validation')
   assert.match(unbatched.if, /inputs\.batch_number == 0/)
   assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
-  assert.match(unbatched.run, /mdx-parse/)
+  assert.match(unbatched.run, /validate-mdx/)
   assert.match(unbatched.run, /validate-translated-coverage\.js --group "\$GROUP"/)
   assert.match(unbatched.run, /pnpm run build:en/)
 

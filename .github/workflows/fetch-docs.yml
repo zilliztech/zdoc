@@ -109,11 +109,11 @@ jobs:
           printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: pnpm }
+        with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: card
         name: Create progress card
-        run: npx docusaurus report-to-lark --card-create --title "$CARD_TITLE" --stages "$CARD_STAGES" --target-branch "$TARGET_BRANCH"
+        run: pnpm docs-tooling report-card create --title "$CARD_TITLE" --stages "$CARD_STAGES" --target-branch "$TARGET_BRANCH"
         env:
           CARD_STAGES: ${{ steps.refs.outputs.card_stages }}
           CARD_TITLE: ${{ steps.refs.outputs.publish == 'true' && 'Global Docs Build' || 'Global Docs Artifact-Only Build' }}
@@ -719,7 +719,7 @@ jobs:
           set -euo pipefail
           if [[ "$FINAL_DEV_SHA" =~ ^[0-9a-f]{40}$ ]]; then
             git fetch --no-tags origin "$FINAL_DEV_SHA"
-            for report_dir in packages/docs-tooling/src/lark/meta/reports apps/docs/plugins/link-checks/meta/reports; do
+            for report_dir in packages/docs-tooling/src/lark/meta/reports packages/docs-tooling/src/links/meta/reports; do
               if git cat-file -e "$FINAL_DEV_SHA:$report_dir" 2>/dev/null; then
                 rm -rf "$report_dir"
                 git checkout "$FINAL_DEV_SHA" -- "$report_dir"
@@ -810,7 +810,7 @@ jobs:
         with: { ref: '${{ needs.prepare.outputs.master_sha }}' }
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: pnpm }
+        with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - uses: actions/download-artifact@v4
         continue-on-error: true

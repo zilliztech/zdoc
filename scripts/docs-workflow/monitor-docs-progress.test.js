@@ -8,6 +8,12 @@ const test = require('node:test')
 const yaml = require('js-yaml')
 const { createDocsProgressMonitor, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
 
+test('production monitor patches cards through docs-tooling instead of the retired plugin', () => {
+  const source = fs.readFileSync('scripts/docs-workflow/monitor-docs-progress.js', 'utf8')
+  assert.doesNotMatch(source, /plugins\/report-to-lark/)
+  assert.match(source, /docs-tooling['"],?\s*['"]report-card['"],?\s*['"]advance/)
+})
+
 test('aggregate downloads exact Guides publication evidence before collecting notes', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const steps = workflow.jobs.aggregate.steps

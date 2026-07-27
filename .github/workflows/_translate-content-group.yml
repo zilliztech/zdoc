@@ -68,7 +68,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: pnpm }
+        with: { node-version: '22.6', cache: pnpm }
       - name: Install current master tooling
         run: pnpm install --frozen-lockfile
       - name: Materialize source checkpoint and baseline
@@ -123,8 +123,8 @@ jobs:
         if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           case "$GROUP" in
-            guides) for d in i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials; do test ! -d "$d" || npx docusaurus mdx-parse -d "$d"; done ;;
-            *) test ! -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current || npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ;;
+            guides) for d in i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials; do test ! -d "$d" || pnpm docs-tooling validate-mdx --path "$d"; done ;;
+            *) test ! -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current || pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ;;
           esac
           node scripts/validate-translated-coverage.js --group "$GROUP"
           pnpm run build:en

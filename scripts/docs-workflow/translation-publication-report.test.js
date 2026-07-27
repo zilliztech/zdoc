@@ -19,10 +19,10 @@ const TARGET = 'b'.repeat(40)
 const STAGED = 'c'.repeat(40)
 const REF = 'refs/heads/docs-translation-staging/guides/42-2-0123456789ab'
 const RECEIPTS = [
-  ['english-saas-mdx', 'npx docusaurus mdx-parse -d docs'],
-  ['english-byoc-mdx', 'npx docusaurus mdx-parse -d docs-byoc'],
-  ['ja-saas-mdx', 'npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs/current'],
-  ['ja-byoc-mdx', 'npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current'],
+  ['english-saas-mdx', 'pnpm docs-tooling validate-mdx --path docs'],
+  ['english-byoc-mdx', 'pnpm docs-tooling validate-mdx --path docs-byoc'],
+  ['ja-saas-mdx', 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs/current'],
+  ['ja-byoc-mdx', 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current'],
   ['sidebars', 'node scripts/validate-generated-sidebars.js'],
   ['coverage', 'node scripts/validate-translated-coverage.js --group guides'],
   ['build', "node scripts/run-doc-build-stage.js --build 'pnpm run build' --skipCardReporting"],

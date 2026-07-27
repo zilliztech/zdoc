@@ -9,10 +9,10 @@ const STATUSES = new Set(['no_changes', 'composition_failed', 'staged', 'validat
 const CLEANUP_STATUSES = new Set(['not_required', 'pending', 'deleted', 'debt'])
 const FAILURE_GATES = new Set(['composition', 'validation', 'promotion', 'cancelled'])
 const VALIDATION_SPECS = Object.freeze([
-  Object.freeze({ id: 'english-saas-mdx', command: 'npx docusaurus mdx-parse -d docs', executable: 'npx', args: Object.freeze(['docusaurus', 'mdx-parse', '-d', 'docs']) }),
-  Object.freeze({ id: 'english-byoc-mdx', command: 'npx docusaurus mdx-parse -d docs-byoc', executable: 'npx', args: Object.freeze(['docusaurus', 'mdx-parse', '-d', 'docs-byoc']) }),
-  Object.freeze({ id: 'ja-saas-mdx', command: 'npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs/current', executable: 'npx', args: Object.freeze(['docusaurus', 'mdx-parse', '-d', 'i18n/ja-JP/docusaurus-plugin-content-docs/current']) }),
-  Object.freeze({ id: 'ja-byoc-mdx', command: 'npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current', executable: 'npx', args: Object.freeze(['docusaurus', 'mdx-parse', '-d', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current']) }),
+  Object.freeze({ id: 'english-saas-mdx', command: 'pnpm docs-tooling validate-mdx --path docs', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'docs']) }),
+  Object.freeze({ id: 'english-byoc-mdx', command: 'pnpm docs-tooling validate-mdx --path docs-byoc', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'docs-byoc']) }),
+  Object.freeze({ id: 'ja-saas-mdx', command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs/current', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP/docusaurus-plugin-content-docs/current']) }),
+  Object.freeze({ id: 'ja-byoc-mdx', command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current']) }),
   Object.freeze({ id: 'sidebars', command: 'node scripts/validate-generated-sidebars.js', executable: 'node', args: Object.freeze(['scripts/validate-generated-sidebars.js']) }),
   Object.freeze({ id: 'coverage', command: 'node scripts/validate-translated-coverage.js --group guides', executable: 'node', args: Object.freeze(['scripts/validate-translated-coverage.js', '--group', 'guides']) }),
   Object.freeze({ id: 'build', command: "node scripts/run-doc-build-stage.js --build 'pnpm run build' --skipCardReporting", executable: 'node', args: Object.freeze(['scripts/run-doc-build-stage.js', '--build', 'pnpm run build', '--skipCardReporting']) }),
