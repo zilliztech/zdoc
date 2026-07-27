@@ -17,6 +17,38 @@ function resolveSourceFolder(source, lifecycle) {
   return path.join(lifecycle.localizationDir, pluginTranslationDirectoryName(source.id), 'current');
 }
 
+function walkCanonicalMarkdownFiles(root, directory = root) {
+  let entries;
+  try {
+    entries = fs.readdirSync(directory, {withFileTypes: true});
+  } catch {
+    return [];
+  }
+  const files = [];
+  for (const entry of entries) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...walkCanonicalMarkdownFiles(root, fullPath));
+    } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))) {
+      files.push(path.relative(root, fullPath));
+    }
+  }
+  return files;
+}
+
+function sourceFileEntries(source, lifecycle) {
+  const localizedFolder = resolveSourceFolder(source, lifecycle);
+  return walkCanonicalMarkdownFiles(source.folder).map(relativePath => {
+    const localizedPath = path.join(localizedFolder, relativePath);
+    return {
+      relativePath,
+      filePath: localizedFolder !== source.folder && fs.existsSync(localizedPath)
+        ? localizedPath
+        : path.join(source.folder, relativePath),
+    };
+  });
+}
+
 function localizedRoute(baseUrl, route) {
   return `${baseUrl || '/'}${route.replace(/^\//, '')}`.replace(/\/+/g, '/');
 }
@@ -116,45 +148,20 @@ module.exports = function (context, options) {
               // Build path map for dev server
               for (const source of sources) {
                 const { route } = source;
-                const srcPath = resolveSourceFolder(source, context);
+                for (const {filePath, relativePath} of sourceFileEntries(source, context)) {
+                  const slug = getSlugFromMarkdown(filePath);
+                  let fullUrlPath;
 
-                if (!fs.existsSync(srcPath)) {
-                  continue;
-                }
-
-                const readFiles = (dir, relativePath = '') => {
-                  const entries = fs.readdirSync(dir, { withFileTypes: true });
-                  for (const entry of entries) {
-                    const fullPath = path.join(dir, entry.name);
-                    const relPath = path.join(relativePath, entry.name);
-
-                    if (entry.isDirectory()) {
-                      readFiles(fullPath, relPath);
-                    } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))) {
-                      // Try to get slug from frontmatter first
-                      const slug = getSlugFromMarkdown(fullPath);
-                      let fullUrlPath;
-
-                      if (slug) {
-                        // Use the slug from frontmatter
-                        fullUrlPath = `${route}/${slug.replace(/^\//, '')}.md`;
-                      } else {
-                        // Fall back to file-based path
-                        const relativeToFile = path.relative(srcPath, fullPath);
-                        const urlPath = relativeToFile.replace(/\.mdx?$/, '');
-                        fullUrlPath = `${route}/${urlPath}.md`;
-                      }
-
-                      // Normalize URL path (remove double slashes)
-                      fullUrlPath = localizedRoute(baseUrl, fullUrlPath);
-
-                      if (fullUrlPath) {
-                        pathMap[fullUrlPath] = fullPath;
-                      }
-                    }
+                  if (slug) {
+                    fullUrlPath = `${route}/${slug.replace(/^\//, '')}.md`;
+                  } else {
+                    const urlPath = relativePath.replace(/\.mdx?$/, '');
+                    fullUrlPath = `${route}/${urlPath}.md`;
                   }
-                };
-                readFiles(srcPath);
+
+                  fullUrlPath = localizedRoute(baseUrl, fullUrlPath);
+                  pathMap[fullUrlPath] = filePath;
+                }
               }
 
 
@@ -196,43 +203,19 @@ module.exports = function (context, options) {
 
       for (const source of sources) {
         const {route} = source;
-        const srcPath = resolveSourceFolder(source, lifecycle);
+        for (const {filePath, relativePath} of sourceFileEntries(source, lifecycle)) {
+          const slug = getSlugFromMarkdown(filePath);
 
-        if (!fs.existsSync(srcPath)) {
-          continue;
-        }
-
-        const readFiles = (dir, relativePath = '') => {
-          const entries = fs.readdirSync(dir, { withFileTypes: true });
-          for (const entry of entries) {
-            const fullPath = path.join(dir, entry.name);
-            const relPath = path.join(relativePath, entry.name);
-
-            if (entry.isDirectory()) {
-              readFiles(fullPath, relPath);
-            } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))) {
-              const slug = getSlugFromMarkdown(fullPath);
-
-              if (slug) {
-                // Use the slug from frontmatter
-                // Map: slug -> file
-                slugToFileMap[slug] = fullPath;
-
-                // Also map with route prefix for lookup
-                const routeSlug = `${route}/${slug.replace(/^\//, '')}`.replace(/\/+/g, '/');
-                slugToFileMap[routeSlug] = fullPath;
-              } else {
-                // Fall back to file-based path
-                const relativeToFile = path.relative(srcPath, fullPath);
-                const urlPath = relativeToFile.replace(/\.mdx?$/, '');
-                const fullUrlPath = `${route}/${urlPath}`.replace(/\/+/g, '/');
-
-                slugToFileMap[fullUrlPath] = fullPath;
-              }
-            }
+          if (slug) {
+            slugToFileMap[slug] = filePath;
+            const routeSlug = `${route}/${slug.replace(/^\//, '')}`.replace(/\/+/g, '/');
+            slugToFileMap[routeSlug] = filePath;
+          } else {
+            const urlPath = relativePath.replace(/\.mdx?$/, '');
+            const fullUrlPath = `${route}/${urlPath}`.replace(/\/+/g, '/');
+            slugToFileMap[fullUrlPath] = filePath;
           }
-        };
-        readFiles(srcPath);
+        }
       }
 
       // Build a reverse map from filesystem paths to URL paths

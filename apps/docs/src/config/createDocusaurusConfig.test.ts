@@ -104,8 +104,9 @@ function writeDoc(
   description = `${title} description.`,
   body = `${title} fixture body.`,
 ): void {
-  mkdirSync(sourceDir, {recursive: true});
-  writeFileSync(path.join(sourceDir, fileName), [
+  const target = path.join(sourceDir, fileName);
+  mkdirSync(path.dirname(target), {recursive: true});
+  writeFileSync(target, [
     '---',
     `title: ${JSON.stringify(title)}`,
     `slug: ${slug}`,
@@ -128,6 +129,13 @@ type PluginSourceFixture = {
   japaneseTitle: string;
   japaneseDescription: string;
   japaneseBody: string;
+  fallbackSlug: string;
+  fallbackTitle: string;
+  fallbackDescription: string;
+  fallbackBody: string;
+  orphanSlug: string;
+  orphanTitle: string;
+  orphanBody: string;
 };
 
 function translatedSourceFolder(localizationDir: string, id: PluginSourceFixture['id']): string {
@@ -152,6 +160,13 @@ function createLocalePluginFixture(prefix: string) {
       japaneseTitle: 'クラウド入門',
       japaneseDescription: 'クラウドの日本語説明。',
       japaneseBody: 'クラウドの日本語本文。',
+      fallbackSlug: 'cloud-fallback',
+      fallbackTitle: 'Cloud Fallback',
+      fallbackDescription: 'Cloud fallback description.',
+      fallbackBody: 'Cloud fallback English body.',
+      orphanSlug: 'cloud-orphan',
+      orphanTitle: 'クラウド孤立翻訳',
+      orphanBody: 'クラウド孤立翻訳本文。',
     },
     {
       id: 'byoc',
@@ -164,6 +179,13 @@ function createLocalePluginFixture(prefix: string) {
       japaneseTitle: 'BYOC 入門',
       japaneseDescription: 'BYOC の日本語説明。',
       japaneseBody: 'BYOC の日本語本文。',
+      fallbackSlug: 'byoc-fallback',
+      fallbackTitle: 'BYOC Fallback',
+      fallbackDescription: 'BYOC fallback description.',
+      fallbackBody: 'BYOC fallback English body.',
+      orphanSlug: 'byoc-orphan',
+      orphanTitle: 'BYOC 孤立翻訳',
+      orphanBody: 'BYOC 孤立翻訳本文。',
     },
     {
       id: 'reference',
@@ -176,11 +198,26 @@ function createLocalePluginFixture(prefix: string) {
       japaneseTitle: 'API クライアント',
       japaneseDescription: 'API の日本語説明。',
       japaneseBody: 'API の日本語本文。',
+      fallbackSlug: 'api-fallback',
+      fallbackTitle: 'API Fallback',
+      fallbackDescription: 'API fallback description.',
+      fallbackBody: 'API fallback English body.',
+      orphanSlug: 'api-orphan',
+      orphanTitle: 'API 孤立翻訳',
+      orphanBody: 'API 孤立翻訳本文。',
     },
   ];
 
   for (const source of sources) {
     writeDoc(source.folder, `${source.slug}.md`, source.englishTitle, source.slug);
+    writeDoc(
+      source.folder,
+      path.join('fallback', `${source.fallbackSlug}.md`),
+      source.fallbackTitle,
+      source.fallbackSlug,
+      source.fallbackDescription,
+      source.fallbackBody,
+    );
     writeDoc(
       translatedSourceFolder(localizationDir, source.id),
       `${source.slug}.md`,
@@ -189,9 +226,23 @@ function createLocalePluginFixture(prefix: string) {
       source.japaneseDescription,
       source.japaneseBody,
     );
+    writeDoc(
+      translatedSourceFolder(localizationDir, source.id),
+      path.join('orphan', `${source.orphanSlug}.md`),
+      source.orphanTitle,
+      source.orphanSlug,
+      `${source.orphanTitle} description.`,
+      source.orphanBody,
+    );
   }
 
   return {root, localizationDir, sources};
+}
+
+function pluginSourceOptions(fixture: ReturnType<typeof createLocalePluginFixture>) {
+  return fixture.sources.map(({id, folder, route, outputFile, label}) => ({
+    id, folder, route, outputFile, label,
+  }));
 }
 
 function localeLifecycle(
@@ -297,10 +348,10 @@ describe('createDocusaurusConfig', () => {
     expect(applicationPlugin(chinese, 'structured-data')).toBeUndefined();
   });
 
-  it('writes separate English and Japanese LLMS artifacts from the current locale source tree', async () => {
+  it('writes LLMS artifacts with Docusaurus locale fallback and no translation-only routes', async () => {
     const fixture = createLocalePluginFixture('docs-llms-plugin-');
     const llmsPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/llms-txt'));
-    const pluginSources = fixture.sources.map(({slug, englishTitle, japaneseTitle, japaneseDescription, japaneseBody, ...source}) => source);
+    const pluginSources = pluginSourceOptions(fixture);
     const english = localeLifecycle(fixture, 'en');
     const japanese = localeLifecycle(fixture, 'ja-JP');
 
@@ -315,10 +366,17 @@ describe('createDocusaurusConfig', () => {
       expect(englishSection).toContain(`## ${source.englishTitle}`);
       expect(japaneseSection).toContain(`## ${source.japaneseTitle}`);
       expect(japaneseSection).toContain(source.japaneseDescription);
+      expect(japaneseSection).toContain(`## ${source.fallbackTitle}`);
+      expect(japaneseSection).toContain(source.fallbackDescription);
       expect(japaneseSection).toContain(
         `https://docs.example.com/ja-JP${source.route}/${source.slug}.md`,
       );
+      expect(japaneseSection).toContain(
+        `https://docs.example.com/ja-JP${source.route}/${source.fallbackSlug}.md`,
+      );
       expect(japaneseSection).not.toContain(source.englishTitle);
+      expect(japaneseSection).not.toContain(source.orphanTitle);
+      expect(japaneseSection).not.toContain(source.orphanBody);
     }
     expect(readFileSync(path.join(english.outDir, 'llms.txt'), 'utf8')).toContain(
       '- [Cloud Guides](https://docs.example.com/llms/cloud-guides.txt)',
@@ -332,9 +390,9 @@ describe('createDocusaurusConfig', () => {
     expect(generated).not.toContain('docs-byoc');
   });
 
-  it('injects translated structured data during separate English and Japanese locale lifecycles', async () => {
+  it('injects structured data with Docusaurus locale fallback and no translation-only routes', async () => {
     const fixture = createLocalePluginFixture('docs-structured-plugin-');
-    const pluginSources = fixture.sources.map(({slug, englishTitle, japaneseTitle, japaneseDescription, japaneseBody, ...source}) => source);
+    const pluginSources = pluginSourceOptions(fixture);
     const english = localeLifecycle(fixture, 'en');
     const japanese = localeLifecycle(fixture, 'ja-JP');
     for (const lifecycle of [english, japanese]) {
@@ -342,6 +400,8 @@ describe('createDocusaurusConfig', () => {
         const htmlDir = path.join(lifecycle.outDir, source.route.replace(/^\//, ''));
         mkdirSync(htmlDir, {recursive: true});
         writeFileSync(path.join(htmlDir, `${source.slug}.html`), '<html><head></head><body>Fixture</body></html>');
+        writeFileSync(path.join(htmlDir, `${source.fallbackSlug}.html`), '<html><head></head><body>Fixture</body></html>');
+        writeFileSync(path.join(htmlDir, `${source.orphanSlug}.html`), '<html><head></head><body>Orphan fixture</body></html>');
       }
     }
     const structuredDataPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/structured-data'));
@@ -365,23 +425,45 @@ describe('createDocusaurusConfig', () => {
       expect(japaneseData.description).toBe(source.japaneseDescription);
       expect(japaneseData.url).toBe(`https://docs.example.com/ja-JP${source.route}/${source.slug}`);
       expect(japaneseHtml).not.toContain(source.englishTitle);
+      const japaneseFallbackHtml = readFileSync(
+        path.join(japanese.outDir, source.route.replace(/^\//, ''), `${source.fallbackSlug}.html`),
+        'utf8',
+      );
+      const japaneseFallbackData = jsonLdFromHtml(japaneseFallbackHtml).value;
+      expect(japaneseFallbackData.name).toBe(source.fallbackTitle);
+      expect(japaneseFallbackData.description).toBe(source.fallbackDescription);
+      expect(japaneseFallbackData.url).toBe(
+        `https://docs.example.com/ja-JP${source.route}/${source.fallbackSlug}`,
+      );
+      const japaneseOrphanHtml = readFileSync(
+        path.join(japanese.outDir, source.route.replace(/^\//, ''), `${source.orphanSlug}.html`),
+        'utf8',
+      );
+      expect(japaneseOrphanHtml).not.toContain('application/ld+json');
     }
   });
 
-  it('copies canonical and translated Markdown during separate embed-markdown locale lifecycles', async () => {
+  it('copies Markdown with Docusaurus locale fallback and no translation-only routes', async () => {
     const fixture = createLocalePluginFixture('docs-embed-locales-');
-    const pluginSources = fixture.sources.map(({slug, englishTitle, japaneseTitle, japaneseDescription, japaneseBody, ...source}) => source);
+    const pluginSources = pluginSourceOptions(fixture);
     const english = localeLifecycle(fixture, 'en');
     const japanese = localeLifecycle(fixture, 'ja-JP');
     const embedMarkdownPlugin = require(path.resolve(process.cwd(), 'apps/docs/plugins/embed-markdown'));
 
     await embedMarkdownPlugin(english, {sources: pluginSources}).postBuild({
       ...english,
-      routesPaths: fixture.sources.map(source => localizedRoute(english.baseUrl, source.route, source.slug)),
+      routesPaths: fixture.sources.flatMap(source => [
+        localizedRoute(english.baseUrl, source.route, source.slug),
+        localizedRoute(english.baseUrl, source.route, source.fallbackSlug),
+      ]),
     });
     await embedMarkdownPlugin(japanese, {sources: pluginSources}).postBuild({
       ...japanese,
-      routesPaths: fixture.sources.map(source => localizedRoute(japanese.baseUrl, source.route, source.slug)),
+      routesPaths: fixture.sources.flatMap(source => [
+        localizedRoute(japanese.baseUrl, source.route, source.slug),
+        localizedRoute(japanese.baseUrl, source.route, source.fallbackSlug),
+        localizedRoute(japanese.baseUrl, source.route, source.orphanSlug),
+      ]),
     });
 
     for (const source of fixture.sources) {
@@ -397,6 +479,15 @@ describe('createDocusaurusConfig', () => {
       expect(japaneseMarkdown).toContain(source.japaneseTitle);
       expect(japaneseMarkdown).toContain(source.japaneseBody);
       expect(japaneseMarkdown).not.toContain(source.englishTitle);
+      const japaneseFallbackMarkdown = readFileSync(
+        path.join(japanese.outDir, source.route.replace(/^\//, ''), `${source.fallbackSlug}.md`),
+        'utf8',
+      );
+      expect(japaneseFallbackMarkdown).toContain(source.fallbackTitle);
+      expect(japaneseFallbackMarkdown).toContain(source.fallbackBody);
+      expect(existsSync(
+        path.join(japanese.outDir, source.route.replace(/^\//, ''), `${source.orphanSlug}.md`),
+      )).toBe(false);
     }
 
     let japanesePluginData: unknown;
@@ -489,6 +580,9 @@ describe('createDocusaurusConfig', () => {
     })).toThrow(/duplicate|collision/i);
     expect(() => llmsPlugin({}, {
       sources: [source], outputPaths: ['llms/cloud-guides.txt'],
+    })).toThrow(/duplicate|collision/i);
+    expect(() => llmsPlugin({}, {
+      sources: [source], outputPaths: ['llms'],
     })).toThrow(/duplicate|collision/i);
     expect(existsSync(path.join(fixture, 'build'))).toBe(false);
   });

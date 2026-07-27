@@ -55,7 +55,11 @@ function validateOutputOptions(sources, outputDir, outputPaths) {
   const seen = new Set();
   for (const destination of destinations) {
     const key = collisionKey(destination);
-    if (seen.has(key)) throw new Error(`[llms-txt] Duplicate or colliding output path: ${destination}`);
+    if ([...seen].some(existing => (
+      key === existing || key.startsWith(`${existing}/`) || existing.startsWith(`${key}/`)
+    ))) {
+      throw new Error(`[llms-txt] Duplicate or colliding output path: ${destination}`);
+    }
     seen.add(key);
   }
   return {outputDir: safeOutputDir, outputPaths: safeOutputPaths};
@@ -332,11 +336,25 @@ function walkAllFiles(dir) {
  * @param {string} baseUrl
  * @returns {{ content: string, count: number }}
  */
-function buildSectionSummary(sourceDir, route, siteUrl, baseUrl) {
-  const files = walkAllFiles(sourceDir);
+function sourceFilesForLocale(source, lifecycle) {
+  const localizedDir = resolveSourceFolder(source, lifecycle);
+  return walkAllFiles(source.folder).map(canonicalPath => {
+    const relativePath = path.relative(source.folder, canonicalPath);
+    const localizedPath = path.join(localizedDir, relativePath);
+    return {
+      relativePath,
+      filePath: localizedDir !== source.folder && fs.existsSync(localizedPath)
+        ? localizedPath
+        : canonicalPath,
+    };
+  });
+}
+
+function buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl) {
+  const files = sourceFilesForLocale(source, lifecycle);
   const parts = [];
 
-  for (const filePath of files) {
+  for (const {filePath, relativePath} of files) {
     let raw;
     try {
       raw = fs.readFileSync(filePath, 'utf-8');
@@ -352,7 +370,7 @@ function buildSectionSummary(sourceDir, route, siteUrl, baseUrl) {
     // Build .md URL directly from route + slug
     const slug = fm.slug
       ? String(fm.slug).replace(/^\//, '')
-      : path.relative(sourceDir, filePath).replace(/\.mdx?$/, '').replace(/\\/g, '/');
+      : relativePath.replace(/\.mdx?$/, '').replace(/\\/g, '/');
     const mdUrl = publicUrl(siteUrl, baseUrl, `${route}/${slug}.md`);
     const contentType = inferContentType(fm, filePath);
     const languages = fm.languages
@@ -459,8 +477,7 @@ module.exports = function pluginLlmsTxt(context, options) {
       let totalPages = 0;
       for (const source of sources) {
         const {id, route, outputFile} = source;
-        const sourceDir = resolveSourceFolder(source, lifecycle);
-        const {content, count} = buildSectionSummary(sourceDir, route, siteUrl, baseUrl);
+        const {content, count} = buildSectionSummary(source, lifecycle, route, siteUrl, baseUrl);
         const dest = containedOutputPath(outDir, path.join(safeOutputs.outputDir, `${outputFile}.txt`));
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.writeFileSync(dest, content, 'utf-8');

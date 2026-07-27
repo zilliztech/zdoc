@@ -152,6 +152,20 @@ function walkMdFiles(dir) {
   return result;
 }
 
+function sourceFilesForLocale(source, lifecycle) {
+  const localizedDir = resolveSourceFolder(source, lifecycle);
+  return walkMdFiles(source.folder).map(canonicalPath => {
+    const relativePath = path.relative(source.folder, canonicalPath);
+    const localizedPath = path.join(localizedDir, relativePath);
+    return {
+      relativePath,
+      filePath: localizedDir !== source.folder && fs.existsSync(localizedPath)
+        ? localizedPath
+        : canonicalPath,
+    };
+  });
+}
+
 /**
  * Docusaurus plugin: injects Schema.org JSON-LD structured data into doc pages.
  */
@@ -170,16 +184,14 @@ module.exports = function pluginStructuredData(context, options) {
 
       for (const source of sources) {
         const {route} = source;
-        const sourceDir = resolveSourceFolder(source, lifecycle);
+        const mdFiles = sourceFilesForLocale(source, lifecycle);
 
-        const mdFiles = walkMdFiles(sourceDir);
-
-        for (const mdPath of mdFiles) {
+        for (const {filePath: mdPath, relativePath} of mdFiles) {
           const fm = parseFrontmatter(mdPath);
           const title = fm.sidebar_label || fm.title;
           if (!title) continue;
 
-          const rel = path.relative(sourceDir, mdPath)
+          const rel = relativePath
             .replace(/\.mdx?$/, '')
             .replace(/\\/g, '/');
           const slug = String(fm.slug || rel).replace(/^\//, '');
