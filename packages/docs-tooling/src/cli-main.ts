@@ -10,6 +10,8 @@ import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliA
 import {checkLinks} from './links/check.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
+import {validateToolsSidebar, validateTranslationCoverage} from './translation/validate.ts';
+import {TranslationTargetIdSchema} from './translation/schema.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './validation/ownership.ts';
 import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
 
@@ -73,6 +75,22 @@ async function validateMdxDirectory(repositoryRoot: string, relativePath: string
 }
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
+  if (argv[0] === 'validate-translation') {
+    const options = parseOptions(argv.slice(1));
+    validateTranslationCoverage({
+      repositoryRoot,
+      targetId: TranslationTargetIdSchema.parse(requiredOption(options, 'target')),
+      group: requiredOption(options, 'group'),
+    });
+    process.stdout.write('Translation coverage validated.\n');
+    return true;
+  }
+  if (argv[0] === 'validate-tools-sidebar') {
+    if (argv.length !== 1) throw new Error('validate-tools-sidebar does not accept arguments');
+    validateToolsSidebar(repositoryRoot);
+    process.stdout.write('Chinese Tools sidebar validated.\n');
+    return true;
+  }
   if (argv[0] === 'validate-mdx') {
     const options = parseOptions(argv.slice(1));
     await validateMdxDirectory(repositoryRoot, requiredOption(options, 'path'), options.verbose === true);

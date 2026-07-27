@@ -72,3 +72,4 @@ export type {
   TranslationTargetId,
 } from './translation/schema.ts';
 export type {RetirementCandidate, TranslationCandidate} from './translation/candidates.ts';
+export {validateToolsSidebar, validateTranslationCoverage} from './translation/validate.ts';

@@ -22,7 +22,8 @@ RUN test -n "$ZDOC_SHA" \
     && test "$ZDOC_SITE" = "en" \
     && test -n "$JENKINS_BUILD_ID"
 ENV ZDOC_PROVENANCE_COMMIT=${ZDOC_SHA} \
-    ZDOC_PROVENANCE_WORKTREE=external-snapshot
+    ZDOC_PROVENANCE_WORKTREE=external-snapshot \
+    ZDOC_PROVENANCE_TRACKED_INPUTS=deploy/contracts/localization-inputs.inventory.json
 RUN pnpm run build:en
 
 FROM nginx:1.28-alpine

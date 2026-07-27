@@ -11,6 +11,8 @@
     "build": "pnpm run build:en",
     "build:en": "pnpm --filter @zilliz/docs-site run build:en",
     "build:zh-CN": "pnpm --filter @zilliz/docs-site run build:zh-CN",
+    "generate:localization-input-inventory": "node scripts/build/write-localization-input-inventory.mjs",
+    "check:localization-input-inventory": "node scripts/build/write-localization-input-inventory.mjs --check",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",

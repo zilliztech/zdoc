@@ -99,6 +99,7 @@ for (const site of ['en', 'zh-CN']) {
     assert.match(activeContents, /ZDOC_SHA#\*\[!0-9a-f\]/);
     assert.match(activeContents, /ZDOC_PROVENANCE_COMMIT=\$\{ZDOC_SHA\}/);
     assert.match(activeContents, /ZDOC_PROVENANCE_WORKTREE=external-snapshot/);
+    assert.match(activeContents, /ZDOC_PROVENANCE_TRACKED_INPUTS=deploy\/contracts\/localization-inputs\.inventory\.json/);
 
     assert.equal(occurrences(contents, /RUN\s+pnpm install --frozen-lockfile\b/g), 1);
     assert.equal(occurrences(contents, /RUN\s+pnpm run build:(?:en|zh-CN)\b/g), 1);
@@ -153,8 +154,29 @@ for (const site of ['en', 'zh-CN']) {
     assert.ok(runtime.includes('COPY --chmod=755 deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh'));
     assert.equal(runtime.filter(instruction => instruction.startsWith('COPY ')).length, 3);
     assert.doesNotMatch(runtime.join('\n'), /(?:node|pnpm|npm|yarn|node_modules|package\.json|pnpm-lock|COPY \.)/i);
+    assert.doesNotMatch(runtime.join('\n'), /localization-inputs\.inventory\.json/);
   });
 }
+
+test('the Docker build uses a fresh bounded localization input inventory', () => {
+  const inventory = JSON.parse(read('deploy/contracts/localization-inputs.inventory.json'));
+  assert.equal(inventory.schemaVersion, 1);
+  assert.ok(Array.isArray(inventory.paths));
+  assert.ok(inventory.paths.length > 0);
+  assert.ok(inventory.paths.every(relativePath =>
+    relativePath === '.translation-cache/ja-JP.json' ||
+    relativePath === 'config/tools-retirements.json' ||
+    relativePath.startsWith('generated/en/sidebars/') ||
+    relativePath.startsWith('generated/zh-CN/manifests/tools-') ||
+    relativePath.startsWith('generated/zh-CN/sidebars/tools.') ||
+    relativePath.startsWith('i18n/ja-JP/') ||
+    relativePath.startsWith('content/zh-CN/guides/tutorials/tools/')));
+  const result = spawnSync('node', ['scripts/build/write-localization-input-inventory.mjs', '--check'], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+});
 
 test('the image-label schema defines the complete inspectable label contract', () => {
   const schema = JSON.parse(read('deploy/contracts/image-labels.schema.json'));
@@ -259,6 +281,7 @@ test('browser chat assets keep UI and SSE ownership in docs-ui without server-on
 test('package scripts expose the container contract without changing the default site build', () => {
   const packageJson = JSON.parse(read('package.json'));
   assert.equal(packageJson.scripts['test:containers'], 'node --test deploy/contracts/container.test.mjs');
+  assert.equal(packageJson.scripts['check:localization-input-inventory'], 'node scripts/build/write-localization-input-inventory.mjs --check');
   assert.equal(packageJson.scripts.build, 'pnpm run build:en');
 });
 

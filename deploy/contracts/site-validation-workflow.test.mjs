@@ -63,10 +63,12 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /^  build_en:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_en == 'true'/);
   assert.match(workflow, /run: pnpm build:en/);
+  assert.match(jobBlock(workflow, 'build_en'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:en/);
   assert.match(workflow, /test -s build\/en\/ja-JP\/docs\/home\.html/);
   assert.match(workflow, /^  build_zh_cn:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
   assert.match(workflow, /run: pnpm build:zh-CN/);
+  assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:zh-CN/);
   assert.match(workflow, /build\/zh-CN\/build-provenance\.json/);
   assert.match(workflow, /toolsSidebarReachable/);
   assert.match(workflow, /docs-agents/);
@@ -76,6 +78,12 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /if: \$\{\{ always\(\) && needs\.classify\.outputs\.tools_coverage == 'true' \}\}/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /ZH_CN_RESULT: \$\{\{ needs\.build_zh_cn\.result \}\}/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /test "\$ZH_CN_RESULT" = success/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /uses: actions\/checkout@v4/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /uses: pnpm\/action-setup@v4/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /node-version: ['"]22['"]/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm install --frozen-lockfile/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm docs-tooling validate-translation --target zh-CN-tools --group tools/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm docs-tooling validate-tools-sidebar/);
   assert.match(workflow, /^  retirement:$/m);
   assert.match(workflow, /^  site_validation:$/m);
   assertRetirementContract(workflow);

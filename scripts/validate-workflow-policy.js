@@ -169,6 +169,28 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
     }
 
+    if (file === 'site-validation.yml') {
+      const toolsCoverage = workflow.jobs?.tools_coverage
+      const commands = (toolsCoverage?.steps || []).map(step => String(step?.run || '').trim())
+      if (!commands.includes('pnpm docs-tooling validate-translation --target zh-CN-tools --group tools') ||
+        !commands.includes('pnpm docs-tooling validate-tools-sidebar')) {
+        errors.push(`${file}: Chinese Tools coverage must run exact translation and sidebar validators`)
+      }
+      const siteBuilds = [
+        ['build_en', 'pnpm build:en'],
+        ['build_zh_cn', 'pnpm build:zh-CN'],
+      ]
+      const freshnessCommand = 'pnpm check:localization-input-inventory'
+      if (siteBuilds.some(([jobName, buildCommand]) => {
+        const runs = (workflow.jobs?.[jobName]?.steps || []).map(step => String(step?.run || '').trim())
+        const freshnessIndex = runs.indexOf(freshnessCommand)
+        const buildIndex = runs.indexOf(buildCommand)
+        return freshnessIndex < 0 || buildIndex < 0 || freshnessIndex > buildIndex
+      })) {
+        errors.push(`${file}: both site builds must check the localization input inventory before building`)
+      }
+    }
+
     if (file === '_fetch-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],

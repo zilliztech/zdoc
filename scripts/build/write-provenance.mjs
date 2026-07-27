@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 
 const provenanceFile = 'build-provenance.json';
 const externalSnapshotWorktree = 'external-snapshot';
+export const localizationInputInventoryFile = 'deploy/contracts/localization-inputs.inventory.json';
 const toolRepositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const requireFromApp = createRequire(path.join(toolRepositoryRoot, 'apps/docs/package.json'));
 const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefault: true});
@@ -206,49 +207,77 @@ function releaseInputDefinition(site) {
 }
 
 export function assertNoInputPathCollisions(relativePaths) {
-  const casePaths = new Map();
-  const nfcPaths = new Map();
+  const canonicalPaths = new Map();
   for (const relativePath of relativePaths) {
-    const caseKey = relativePath.toLocaleLowerCase('en-US');
-    const caseExisting = casePaths.get(caseKey);
-    if (caseExisting && caseExisting !== relativePath) {
-      throw new Error(`Localization input case collision: ${caseExisting} and ${relativePath}`);
+    const canonicalKey = relativePath.normalize('NFC').toLocaleLowerCase('en-US');
+    const existing = canonicalPaths.get(canonicalKey);
+    if (existing && existing !== relativePath) {
+      throw new Error(`Localization input canonical path collision: ${existing} and ${relativePath}`);
     }
-    casePaths.set(caseKey, relativePath);
-
-    const nfcKey = relativePath.normalize('NFC');
-    const nfcExisting = nfcPaths.get(nfcKey);
-    if (nfcExisting && nfcExisting !== relativePath) {
-      throw new Error(`Localization input Unicode normalization collision: ${nfcExisting} and ${relativePath}`);
-    }
-    nfcPaths.set(nfcKey, relativePath);
+    canonicalPaths.set(canonicalKey, relativePath);
   }
 }
 
-function hashLocalizationInputs(repositoryRoot, site, {externalSnapshot = false} = {}) {
+function isLocalizationInputPath(relativePath, definition) {
+  return definition.required.includes(relativePath) ||
+    definition.roots.some(root => pathInRoot(relativePath, root));
+}
+
+export function localizationInputInventoryPaths(repositoryRoot) {
+  const definitions = [releaseInputDefinition('en'), releaseInputDefinition('zh-CN')];
+  return [...new Set(trackedFiles(repositoryRoot).filter(relativePath =>
+    definitions.some(definition => isLocalizationInputPath(relativePath, definition))))]
+    .sort(compareBinary);
+}
+
+function readLocalizationInputInventory(repositoryRoot, relativePath) {
+  const {bytes} = secureReadRegularFile(repositoryRoot, relativePath, 'localization tracked inventory');
+  let inventory;
+  try {
+    inventory = JSON.parse(bytes.toString('utf8'));
+  } catch {
+    throw new Error(`Localization tracked inventory is not valid JSON: ${relativePath}`);
+  }
+  assertExactKeys(inventory, ['schemaVersion', 'paths'], 'localization tracked inventory');
+  if (inventory.schemaVersion !== 1) throw new Error('Localization tracked inventory schemaVersion must be 1');
+  if (!Array.isArray(inventory.paths) || inventory.paths.some(entry => typeof entry !== 'string')) {
+    throw new Error('Localization tracked inventory paths must be an array of strings');
+  }
+  const sorted = [...inventory.paths].sort(compareBinary);
+  if (JSON.stringify(sorted) !== JSON.stringify(inventory.paths) || new Set(inventory.paths).size !== inventory.paths.length) {
+    throw new Error('Localization tracked inventory paths must be unique and binary sorted');
+  }
+  const definitions = [releaseInputDefinition('en'), releaseInputDefinition('zh-CN')];
+  for (const entry of inventory.paths) {
+    if (normalizeRelativePath(entry) !== entry || path.isAbsolute(entry) || entry.startsWith('../') ||
+      !definitions.some(definition => isLocalizationInputPath(entry, definition))) {
+      throw new Error(`Localization tracked inventory contains an out-of-scope path: ${entry}`);
+    }
+  }
+  assertNoInputPathCollisions(inventory.paths);
+  return inventory.paths;
+}
+
+function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory} = {}) {
   const definition = releaseInputDefinition(site);
   const discovered = [
     ...definition.roots.flatMap(root => walkReleaseInputRoot(repositoryRoot, root)),
     ...definition.required,
   ];
   const actual = [...new Set(discovered)].sort(compareBinary);
-  const tracked = externalSnapshot ? undefined : new Set(trackedFiles(repositoryRoot));
-  const selected = tracked
-    ? [...tracked].filter(relativePath => (
-      definition.required.includes(relativePath) ||
-      definition.roots.some(root => pathInRoot(relativePath, root))
-    )).sort(compareBinary)
-    : actual;
+  const tracked = new Set(trackedInputInventory
+    ? readLocalizationInputInventory(repositoryRoot, trackedInputInventory)
+    : trackedFiles(repositoryRoot));
+  const selected = [...tracked].filter(relativePath => isLocalizationInputPath(relativePath, definition))
+    .sort(compareBinary);
   assertNoInputPathCollisions(selected);
-  if (tracked) {
-    const actualSet = new Set(actual);
-    const untracked = actual.filter(relativePath => !tracked.has(relativePath));
-    if (untracked.length > 0) {
-      throw new Error(`Localization input must be tracked: ${untracked[0]}`);
-    }
-    const missing = selected.filter(relativePath => !actualSet.has(relativePath));
-    if (missing.length > 0) throw new Error(`Missing tracked localization input: ${missing[0]}`);
+  const actualSet = new Set(actual);
+  const untracked = actual.filter(relativePath => !tracked.has(relativePath));
+  if (untracked.length > 0) {
+    throw new Error(`Localization input must be tracked: ${untracked[0]}`);
   }
+  const missing = selected.filter(relativePath => !actualSet.has(relativePath));
+  if (missing.length > 0) throw new Error(`Missing tracked localization input: ${missing[0]}`);
   for (const required of definition.required) {
     if (!selected.includes(required)) throw new Error(`Missing required localization input: ${required}`);
   }
@@ -520,7 +549,11 @@ function resolveExternalSnapshot(environment) {
   if (!/^[0-9a-f]{40}$/u.test(commit)) {
     throw new Error('External snapshot provenance commit must be a 40-character lowercase Git SHA');
   }
-  return {commit, workingTree};
+  const trackedInputInventory = String(environment.ZDOC_PROVENANCE_TRACKED_INPUTS ?? '');
+  if (!trackedInputInventory) {
+    throw new Error('External snapshot provenance requires a localization tracked inventory');
+  }
+  return {commit, workingTree, trackedInputInventory};
 }
 
 function declaredContentManifests(profile) {
@@ -568,7 +601,7 @@ export function writeBuildProvenance({
   );
   const {records: artifactRecords, routes} = walkArtifactTree(root, buildRoot);
   const localizationInputRecords = hashLocalizationInputs(root, site, {
-    externalSnapshot: Boolean(externalSnapshot),
+    trackedInputInventory: externalSnapshot?.trackedInputInventory,
   });
   const finalRouteInventories = routeInventories(site, routes, root);
   const selectedEnvironment = Object.fromEntries(

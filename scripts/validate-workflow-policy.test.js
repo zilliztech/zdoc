@@ -73,6 +73,52 @@ test('workflow policy rejects Chinese source publication collisions with protect
   }
 })
 
+test('workflow policy rejects missing or miswired site-validation Tools validators', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      from: 'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
+      to: 'pnpm docs-tooling validate-translation --target zh-CN-reference --group tools',
+    },
+    {
+      from: 'pnpm docs-tooling validate-tools-sidebar',
+      to: 'pnpm docs-tooling validate-reference --site zh-CN',
+    },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'site-tools-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, 'site-validation.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(fixture.from), `site-validation.yml must contain ${fixture.from}`)
+      fs.writeFileSync(file, source.replace(fixture.from, fixture.to))
+      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: Chinese Tools coverage must run exact translation and sidebar validators'))
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
+test('workflow policy requires localization inventory freshness before both site builds', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'inventory-freshness-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, 'site-validation.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const withEnglishOnly = source.replace(
+      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm build:zh-CN',
+      '      - run: pnpm build:zh-CN',
+    )
+    assert.notEqual(withEnglishOnly, source)
+    fs.writeFileSync(file, withEnglishOnly)
+    assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: both site builds must check the localization input inventory before building'))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('workflow policy rejects Task 8 translation safety mutations', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
@@ -802,7 +848,7 @@ test('Tools table is the only Agents producer while Releases keeps its sidebar',
   const items = fs.readFileSync('generated/en/sidebars/guides.items.js', 'utf8')
   const workflows = fs.readdirSync('.github/workflows').map(file => fs.readFileSync(path.join('.github/workflows', file), 'utf8')).join('\n')
   assert.doesNotMatch(config, /const agents: Manual|agents,/)
-  assert.match(profile, /sidebarPath: 'generated\/en\/sidebars\/guides\.sidebar\.js'/)
+  assert.match(profile, /sidebarPath: 'packages\/site-config\/src\/sidebars\/en\/guides\.legacy\.ts'/)
   assert.doesNotMatch(sidebars, /agentsSidebar|agents\.sidebar/)
   assert.match(sidebars, /"label": "Release notes"[\s\S]*tutorials\/get-started\/release-notes/)
   assert.match(items, /"label": "Tools"/)

@@ -63,6 +63,7 @@ jobs:
           node-version: '22'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm check:localization-input-inventory
       - run: pnpm build:en
       - name: Require Japanese home output
         run: test -s build/en/ja-JP/docs/home.html
@@ -84,6 +85,7 @@ jobs:
           node-version: '22'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm check:localization-input-inventory
       - run: pnpm build:zh-CN
       - name: Verify Chinese Tools release reachability
         run: >-
@@ -127,6 +129,19 @@ jobs:
     steps:
       - name: Require the provenance-enforced Chinese Tools build
         run: test "$ZH_CN_RESULT" = success
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate Chinese Tools translation coverage
+        run: pnpm docs-tooling validate-translation --target zh-CN-tools --group tools
+      - name: Validate Chinese Tools sidebar ownership
+        run: pnpm docs-tooling validate-tools-sidebar
 
   retirement:
     name: Verify retired layout

@@ -229,6 +229,10 @@ test('localization inputs reject tracked case and Unicode normalization collisio
     () => assertNoInputPathCollisions(['i18n/ja-JP/caf\u00e9.md', 'i18n/ja-JP/cafe\u0301.md']),
     /localization input.*collision|collision.*localization input/i,
   );
+  assert.throws(
+    () => assertNoInputPathCollisions(['i18n/ja-JP/Caf\u00e9.md', 'i18n/ja-JP/cafe\u0301.md']),
+    /localization input.*collision|collision.*localization input/i,
+  );
 });
 
 test('changes the artifact hash when artifact bytes change and self-excludes provenance', () => {
@@ -364,6 +368,17 @@ test('truthfully records a dirty working tree without timestamps', () => {
 
 test('external container snapshots are explicit, fail closed, and do not require Git metadata', () => {
   const root = fixture();
+  write(root, 'deploy/contracts/localization-inputs.inventory.json', JSON.stringify({
+    schemaVersion: 1,
+    paths: [
+      '.translation-cache/ja-JP.json',
+      'config/tools-retirements.json',
+      'generated/en/sidebars/guides.sidebar.js',
+      'generated/zh-CN/manifests/tools-translations.json',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
+      'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
+    ],
+  }));
   fs.rmSync(path.join(root, '.git'), {recursive: true});
 
   assert.throws(() => run(root), /git|snapshot|provenance commit/i);
@@ -382,6 +397,13 @@ test('external container snapshots are explicit, fail closed, and do not require
       ZDOC_PROVENANCE_WORKTREE: 'clean',
     },
   }), /external-snapshot|worktree|mode/i);
+  assert.throws(() => run(root, {
+    contentManifests: undefined,
+    environment: {
+      ZDOC_PROVENANCE_COMMIT: 'd'.repeat(40),
+      ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+    },
+  }), /tracked.*inventory|inventory.*required/i);
 
   const result = run(root, {
     contentManifests: undefined,
@@ -389,6 +411,7 @@ test('external container snapshots are explicit, fail closed, and do not require
       CI: 'true',
       ZDOC_PROVENANCE_COMMIT: 'd'.repeat(40),
       ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+      ZDOC_PROVENANCE_TRACKED_INPUTS: 'deploy/contracts/localization-inputs.inventory.json',
     },
   });
   assert.equal(result.manifest.commit, 'd'.repeat(40));
@@ -397,6 +420,35 @@ test('external container snapshots are explicit, fail closed, and do not require
   assert.deepEqual(result.manifest.contentManifests.records.map(record => record.path), [
     'content/en/guides/content-manifest.json',
   ]);
+});
+
+test('Docker-context snapshots reject untracked Japanese and Chinese Tools inputs', () => {
+  const root = fixture();
+  write(root, 'deploy/contracts/localization-inputs.inventory.json', JSON.stringify({
+    schemaVersion: 1,
+    paths: [
+      '.translation-cache/ja-JP.json',
+      'config/tools-retirements.json',
+      'generated/en/sidebars/guides.sidebar.js',
+      'generated/zh-CN/manifests/tools-translations.json',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
+      'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
+    ],
+  }));
+  fs.rmSync(path.join(root, '.git'), {recursive: true});
+  const environment = {
+    ZDOC_PROVENANCE_COMMIT: 'd'.repeat(40),
+    ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+    ZDOC_PROVENANCE_TRACKED_INPUTS: 'deploy/contracts/localization-inputs.inventory.json',
+  };
+
+  write(root, 'i18n/ja-JP/untracked.md', '# untracked\n');
+  assert.throws(() => run(root, {contentManifests: undefined, environment}), /localization input must be tracked.*untracked\.md/i);
+  fs.rmSync(path.join(root, 'i18n/ja-JP/untracked.md'));
+
+  write(root, 'content/zh-CN/guides/tutorials/tools/untracked.txt', 'untracked\n');
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
+  assert.throws(() => runZh(root, {environment}), /localization input must be tracked.*untracked\.txt/i);
 });
 
 test('rejects wrong sites, escaped paths, symlinks, and missing required inputs', () => {
