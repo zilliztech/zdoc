@@ -19,4 +19,5 @@ chat-proxy
 test-results
 playwright-report
 .playwright-cli
-.translation-cache
+**/.translation-cache/*
+!.translation-cache/ja-JP.json

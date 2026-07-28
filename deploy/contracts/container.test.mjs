@@ -43,7 +43,10 @@ function isIgnored(relativePath, entries = dockerignoreEntries()) {
     let pattern = '';
     for (let index = 0; index < candidate.length; index += 1) {
       const character = candidate[index];
-      if (character === '*' && candidate[index + 1] === '*') {
+      if (character === '*' && candidate[index + 1] === '*' && candidate[index + 2] === '/') {
+        pattern += '(?:.*/)?';
+        index += 2;
+      } else if (character === '*' && candidate[index + 1] === '*') {
         pattern += '.*';
         index += 1;
       } else if (character === '*') pattern += '[^/]*';
@@ -176,6 +179,36 @@ test('the Docker build uses a fresh bounded localization input inventory', () =>
     encoding: 'utf8',
   });
   assert.equal(result.status, 0, result.stderr || result.stdout);
+});
+
+test('every localization provenance input is tracked and available in the Docker build context', () => {
+  const inventory = JSON.parse(read('deploy/contracts/localization-inputs.inventory.json'));
+  const trackedResult = spawnSync('git', ['ls-files', '-z'], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+  });
+  assert.equal(trackedResult.status, 0, trackedResult.stderr || trackedResult.stdout);
+  const trackedPaths = new Set(trackedResult.stdout.split('\0').filter(Boolean));
+
+  for (const relativePath of inventory.paths) {
+    assert.equal(fs.existsSync(path.join(repositoryRoot, relativePath)), true,
+      `missing localization provenance input: ${relativePath}`);
+    assert.equal(trackedPaths.has(relativePath), true,
+      `untracked localization provenance input: ${relativePath}`);
+    assert.equal(isIgnored(relativePath), false,
+      `localization provenance input excluded by .dockerignore: ${relativePath}`);
+  }
+  for (const mutableCachePath of [
+    '.translation-cache/zh-CN.json',
+    '.translation-cache/ja-JP.json.backup',
+    '.translation-cache/archive/ja-JP.json',
+    'apps/probe/.translation-cache/secret.txt',
+    'apps/probe/.translation-cache/archive/cache.json',
+    'packages/example/nested/.translation-cache/session',
+  ]) {
+    assert.equal(isIgnored(mutableCachePath), true,
+      `mutable translation cache must remain excluded from the Docker build context: ${mutableCachePath}`);
+  }
 });
 
 test('the image-label schema defines the complete inspectable label contract', () => {
