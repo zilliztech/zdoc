@@ -1,15 +1,4 @@
 {
-  "inject": [
-    {
-      "prepend": true,
-      "item": {
-        "type": "doc",
-        "id": "api/restful/restful/restful",
-        "label": "Overview",
-        "customProps": { "icon": "overview" }
-      }
-    }
-  ],
   "overrideCategories": {
     "Import Operations (V2)":    { "label": "Import (V2)",     "customProps": { "icon": "import-ref"      } },
     "Volume Operations (V2)":    { "label": "Volume (V2)",     "customProps": { "icon": "storage-ref"     } },

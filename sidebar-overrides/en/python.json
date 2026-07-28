@@ -1,16 +1,5 @@
 {
   "linkSameNameChildren": true,
-  "inject": [
-    {
-      "prepend": true,
-      "item": {
-        "type": "doc",
-        "id": "api/python/python/python",
-        "label": "Overview",
-        "customProps": { "icon": "overview" }
-      }
-    }
-  ],
   "overrideCategories": {
     "DataImport":      { "customProps": { "icon": "import-ref"      } },
     "EmbeddingModels": { "customProps": { "icon": "embed-ref"        } },

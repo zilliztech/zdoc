@@ -1,15 +1,4 @@
 {
-  "inject": [
-    {
-      "prepend": true,
-      "item": {
-        "type": "doc",
-        "id": "api/go/go/go",
-        "label": "Overview",
-        "customProps": { "icon": "overview" }
-      }
-    }
-  ],
   "overrideCategories": {
     "Data Import":  { "customProps": { "icon": "import-ref"      } },
     "Authentication": { "customProps": { "icon": "auth"          } },

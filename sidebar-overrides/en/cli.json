@@ -1,15 +1,4 @@
 {
-  "inject": [
-    {
-      "prepend": true,
-      "item": {
-        "type": "doc",
-        "id": "cli/cli/Overview",
-        "label": "Overview",
-        "customProps": { "icon": "quickstarts" }
-      }
-    }
-  ],
   "overrideCategories": {
     "Cloud Management": { "customProps": { "icon": "cloud-ctrl" }, "collapsed": false },
     "Configuration": { "customProps": { "icon": "administration" }, "collapsed": false },

@@ -1,15 +1,4 @@
 {
-  "inject": [
-    {
-      "prepend": true,
-      "item": {
-        "type": "doc",
-        "id": "api/nodejs/nodejs/nodejs",
-        "label": "Overview",
-        "customProps": { "icon": "overview" }
-      }
-    }
-  ],
   "overrideCategories": {
     "Authentication": { "customProps": { "icon": "auth"            } },
     "Client":         { "customProps": { "icon": "client-code"     } },
