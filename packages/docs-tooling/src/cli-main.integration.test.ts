@@ -86,6 +86,37 @@ function prepareToolsTranslation(repositoryRoot: string): void {
   writeFileSync(retirements, '{"schemaVersion":1,"retirements":[]}\n');
 }
 
+function prepareToolsCategoryLandingTranslation(repositoryRoot: string): void {
+  const landingId = 'tutorials/tools/agents-and-prompts/agents-and-prompts';
+  const sourceSidebar = [{
+    type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: [{
+      type: 'category',
+      label: 'Agents and prompts',
+      key: 'category:tutorials/tools/agents-and-prompts',
+      link: {type: 'doc', id: landingId},
+      items: [],
+    }],
+  }];
+  const targetSidebar = [{
+    type: 'category', label: '工具', key: 'category:tutorials/tools', items: [{
+      type: 'category',
+      label: '智能体和提示词',
+      key: 'category:tutorials/tools/agents-and-prompts',
+      link: {type: 'doc', id: landingId},
+      items: [],
+    }],
+  }];
+  for (const [relativePath, contents] of [
+    ['content/zh-CN/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md', '# 智能体和提示词\n'],
+    ['generated/en/sidebars/guides.sidebar.js', `module.exports = ${JSON.stringify(sourceSidebar)}\n`],
+    ['generated/zh-CN/sidebars/tools.sidebar.js', `module.exports = ${JSON.stringify(targetSidebar)}\n`],
+  ]) {
+    const absolutePath = path.join(repositoryRoot, relativePath);
+    mkdirSync(path.dirname(absolutePath), {recursive: true});
+    writeFileSync(absolutePath, contents);
+  }
+}
+
 describe('docs-tooling executable composition root', () => {
   it('runs Chinese Tools translation coverage and sidebar validators', () => {
     const repositoryRoot = temporaryRoot();
@@ -101,6 +132,16 @@ describe('docs-tooling executable composition root', () => {
       });
       expect(result.status, result.stderr || result.stdout).toBe(0);
     }
+  });
+
+  it('treats category doc links as reachable Tools landing pages', () => {
+    const repositoryRoot = temporaryRoot();
+    prepareToolsCategoryLandingTranslation(repositoryRoot);
+    const result = spawnSync(process.execPath, [
+      '--experimental-strip-types', cliMain, 'validate-tools-sidebar',
+    ], {cwd: repositoryRoot, encoding: 'utf8', env: process.env});
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
   });
 
   it('fails Chinese Tools coverage when tracked translation state is incomplete', () => {

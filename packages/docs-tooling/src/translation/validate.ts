@@ -39,8 +39,12 @@ function sidebarDocIds(value: unknown, ids = new Set<string>()): Set<string> {
     return ids;
   }
   if (!value || typeof value !== 'object') return ids;
-  const node = value as {type?: unknown; id?: unknown; items?: unknown};
+  const node = value as {type?: unknown; id?: unknown; link?: unknown; items?: unknown};
   if (node.type === 'doc' && typeof node.id === 'string') ids.add(node.id);
+  if (node.type === 'category' && node.link && typeof node.link === 'object') {
+    const link = node.link as {type?: unknown; id?: unknown};
+    if (link.type === 'doc' && typeof link.id === 'string') ids.add(link.id);
+  }
   sidebarDocIds(node.items, ids);
   return ids;
 }
