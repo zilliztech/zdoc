@@ -101,6 +101,17 @@ describe('docs UI Docusaurus integration', () => {
     expect(webpack.resolve?.alias?.['@site/config/generated/guides.sidebar$']).toMatch(/generated.en.sidebars.guides\.sidebar\.js$/);
   });
 
+  it('selects the Chinese Guides sidebar for the complete Chinese module selection', () => {
+    const plugin = docsUiPlugin({}, {
+      modules: ['shared-theme', 'shared-components', 'chinese-home'],
+    });
+    const webpack = plugin.configureWebpack?.({} as never, false, {} as never, {} as never) as {
+      resolve?: {alias?: Record<string, string>};
+    };
+
+    expect(webpack.resolve?.alias?.['@site/config/generated/guides.sidebar$']).toMatch(/generated.zh-CN.sidebars.guides\.sidebar\.js$/);
+  });
+
   it('keeps the legacy RestSpecs MDX import as a thin docs-ui runtime wrapper', () => {
     const wrapperPath = path.join(process.cwd(), 'apps/docs/src/components/RestSpecs/index.ts');
     expect(fs.existsSync(wrapperPath)).toBe(true);

@@ -55,6 +55,12 @@ export default function docsUiPlugin(_context: unknown, options: Options): Plugi
   const repositoryRoot = findRepositoryRoot(__dirname);
   const sharedRoot = path.join(__dirname, 'shared');
   const englishNavigationSelected = selectedEnglishModules.length === englishUiModules.length;
+  const chineseHomeSelected = selectedChineseModules.length === chineseUiModules.length;
+  const guidesSidebar = englishNavigationSelected
+    ? path.join(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js')
+    : chineseHomeSelected
+      ? path.join(repositoryRoot, 'generated/zh-CN/sidebars/guides.sidebar.js')
+      : undefined;
   const aliases = {
     ...exactModuleAliases('@site/src/components', path.join(sharedRoot, 'components')),
     ...exactModuleAliases('@site/src/theme', path.join(sharedRoot, 'theme')),
@@ -67,9 +73,9 @@ export default function docsUiPlugin(_context: unknown, options: Options): Plugi
             'en/theme/Navbar/MobileSidebar/SecondaryMenu/index.tsx',
           ),
           '@theme/DocSidebar$': path.join(__dirname, 'en/theme/DocSidebar/index.tsx'),
-          '@site/config/generated/guides.sidebar$': path.join(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js'),
         }
       : {}),
+    ...(guidesSidebar ? {'@site/config/generated/guides.sidebar$': guidesSidebar} : {}),
   };
   return {
     name: 'zilliz-docs-ui',
