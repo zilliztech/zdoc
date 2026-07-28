@@ -12,6 +12,7 @@ export type ReferenceNavigationTarget = Readonly<{
 export type ManualReferenceNavigation = Readonly<{
   clientLibrariesLabel: string;
   toolsLabel: string;
+  installSdksLabel: string;
   installSdksHref: string;
   toolsHref: string;
   targets: readonly ReferenceNavigationTarget[];
@@ -30,11 +31,13 @@ function target(
 function navigation(
   clientLibrariesLabel: string,
   toolsLabel: string,
+  installSdksLabel: string,
   labels: readonly string[],
 ): ManualReferenceNavigation {
   return Object.freeze({
     clientLibrariesLabel,
     toolsLabel,
+    installSdksLabel,
     installSdksHref: '/docs/install-sdks',
     toolsHref: '/docs/agents-and-prompts',
     targets: Object.freeze([
@@ -51,7 +54,7 @@ function navigation(
   });
 }
 
-const englishNavigation = navigation('Client Libraries', 'Tools', [
+const englishNavigation = navigation('Client Libraries', 'Tools', 'Install SDKs', [
   'Python',
   'Java',
   'Go',
@@ -60,7 +63,7 @@ const englishNavigation = navigation('Client Libraries', 'Tools', [
   'CLI',
 ]);
 
-const chineseNavigation = navigation('客户端参考', '工具', [
+const chineseNavigation = navigation('客户端参考', '工具', '安装 SDK', [
   'Python SDK',
   'Java SDK',
   'Go SDK',

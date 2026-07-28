@@ -421,7 +421,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
     s.href === withLocalePrefix('/docs/register-with-zilliz-cloud', route));
   const clientLibraryItems = [
     {
-      label: 'Install SDKs',
+      label: referenceNavigation.installSdksLabel,
       href: withLocalePrefix(referenceNavigation.installSdksHref, route),
       isParent: true,
     },

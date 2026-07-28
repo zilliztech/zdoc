@@ -7,6 +7,7 @@ describe('getManualReferenceNavigation', () => {
 
     expect(navigation.clientLibrariesLabel).toBe('Client Libraries');
     expect(navigation.toolsLabel).toBe('Tools');
+    expect(navigation.installSdksLabel).toBe('Install SDKs');
     expect(navigation.installSdksHref).toBe('/docs/install-sdks');
     expect(navigation.toolsHref).toBe('/docs/agents-and-prompts');
     expect(navigation.targets.map(target => [target.kind, target.label])).toEqual([
@@ -42,6 +43,7 @@ describe('getManualReferenceNavigation', () => {
 
     expect(navigation.clientLibrariesLabel).toBe('客户端参考');
     expect(navigation.toolsLabel).toBe('工具');
+    expect(navigation.installSdksLabel).toBe('安装 SDK');
     expect(navigation.installSdksHref).toBe('/docs/install-sdks');
     expect(navigation.toolsHref).toBe('/docs/agents-and-prompts');
     expect(navigation.targets.map(target => [target.kind, target.label])).toEqual([
