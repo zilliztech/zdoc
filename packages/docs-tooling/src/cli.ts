@@ -285,15 +285,20 @@ export async function executeReferenceDocsToolingCommand(
 ): Promise<void> {
   const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
   if (argv[0] === 'reference-manifest') {
-    if (argv.length !== 8 || argv[7] !== '--write') throw new Error('Usage: docs-tooling reference-manifest --source <dir> --target <dir> --source-commit <revision> --write');
-    const values: Record<string, string> = {};
-    for (let index = 1; index < 7; index += 2) {
-      const flag = argv[index];
-      if (!['--source', '--target', '--source-commit'].includes(flag)) throw new Error(`Unknown reference-manifest argument: ${flag}`);
-      if (values[flag]) throw new Error(`Duplicate reference-manifest argument: ${flag}`);
-      const value = argv[index + 1];
-      if (!value || value.startsWith('--')) throw new Error(`Missing value for ${flag}`);
-      values[flag] = value;
+    const shorthand = argv.length === 2 && argv[1] === '--write';
+    const values: Record<string, string> = shorthand
+      ? {'--source': REFERENCE_SOURCE_ROOT, '--target': REFERENCE_TARGET_ROOT, '--source-commit': 'HEAD'}
+      : {};
+    if (!shorthand) {
+      if (argv.length !== 8 || argv[7] !== '--write') throw new Error('Usage: docs-tooling reference-manifest --source <dir> --target <dir> --source-commit <revision> --write');
+      for (let index = 1; index < 7; index += 2) {
+        const flag = argv[index];
+        if (!['--source', '--target', '--source-commit'].includes(flag)) throw new Error(`Unknown reference-manifest argument: ${flag}`);
+        if (values[flag]) throw new Error(`Duplicate reference-manifest argument: ${flag}`);
+        const value = argv[index + 1];
+        if (!value || value.startsWith('--')) throw new Error(`Missing value for ${flag}`);
+        values[flag] = value;
+      }
     }
     if (values['--source'] !== REFERENCE_SOURCE_ROOT || values['--target'] !== REFERENCE_TARGET_ROOT || !values['--source-commit']) {
       throw new Error(`Reference manifests must use ${REFERENCE_SOURCE_ROOT} and ${REFERENCE_TARGET_ROOT}`);

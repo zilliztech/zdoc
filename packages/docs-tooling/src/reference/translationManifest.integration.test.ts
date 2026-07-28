@@ -34,11 +34,21 @@ function repository(): string {
   return root;
 }
 
-function generate(repositoryRoot: string) {
+function runReferenceManifest(repositoryRoot: string, args: readonly string[]) {
   return spawnSync(process.execPath, [
     '--experimental-strip-types', cliMain,
-    'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', 'HEAD', '--write',
+    ...args,
   ], {cwd: repositoryRoot, encoding: 'utf8'});
+}
+
+function generate(repositoryRoot: string) {
+  return runReferenceManifest(repositoryRoot, [
+    'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', 'HEAD', '--write',
+  ]);
+}
+
+function generateWithWorkflowShorthand(repositoryRoot: string) {
+  return runReferenceManifest(repositoryRoot, ['reference-manifest', '--write']);
 }
 
 function validateChinese(repositoryRoot: string) {
@@ -74,6 +84,34 @@ function retiredRepository(): string {
 }
 
 describe('Reference manifest executable security boundary', () => {
+  it('supports the exact workflow shorthand and publishes manifests plus all six sidebars', () => {
+    const root = repository();
+
+    const result = generateWithWorkflowShorthand(root);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8')).records).toHaveLength(1);
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8')).records).toHaveLength(1);
+    for (const manual of referenceSidebarNames) {
+      expect(readFileSync(path.join(root, `generated/zh-CN/sidebars/${manual}.sidebar.js`), 'utf8')).toContain('module.exports');
+    }
+  });
+
+  it.each([
+    ['reference-manifest'],
+    ['reference-manifest', '--write', 'extra'],
+    ['reference-manifest', '--source', 'content/en/reference', '--write'],
+    ['reference-manifest', '--target', 'content/zh-CN/reference', '--write'],
+    ['reference-manifest', '--source-commit', 'HEAD', '--write'],
+  ])('rejects the noncanonical partial form %j', (...args) => {
+    const root = repository();
+
+    const result = runReferenceManifest(root, args);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/usage: docs-tooling reference-manifest/i);
+  });
+
   it('requires English sidebar templates while bootstrapping manifests from content, commit, and the retirement registry', () => {
     const root = repository();
     rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
