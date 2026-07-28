@@ -100,7 +100,7 @@ jobs:
           mkdir -p tmp
           git diff --name-status "$SOURCE_COMMIT_SHA^" "$SOURCE_COMMIT_SHA" > tmp/source-name-status.txt
           node scripts/translation/sourceDelta.js --target "$TRANSLATION_TARGET" --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
-          node scripts/translation/applySourceDelta.js --delta tmp/source-delta.json --report tmp/source-delta-report.json
+          node scripts/translation/applySourceDelta.js --target "$TRANSLATION_TARGET" --delta tmp/source-delta.json --report tmp/source-delta-report.json
           echo "has_mutation=$(node -p "require('./tmp/source-delta-report.json').hasTranslationMutation ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
       - name: Build group translation manifest
         id: manifest

@@ -55,6 +55,7 @@ test('translation workflows declare immutable target identity and exact target v
   assert.match(source, /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP[\s\S]*build:en/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/)
+  assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
   for (const name of [
     'ZDOC_PROVENANCE_CANDIDATE_TARGET',
     'ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA',
@@ -171,6 +172,11 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
       file: '_translate-content-group.yml',
       mutate: source => source.replace('          ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_sha }}\n', ''),
       expected: '_translate-content-group.yml: candidate provenance must receive exact target, tooling, and source identities only in unbatched validation',
+    },
+    {
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace('applySourceDelta.js --target "$TRANSLATION_TARGET"', 'applySourceDelta.js'),
+      expected: '_translate-content-group.yml: source delta application must receive the exact translation target',
     },
     {
       file: 'translate-content.yml',
@@ -1507,7 +1513,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(source, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
   assert.match(source, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
   assert.match(source, /sourceDelta\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
-  assert.match(source, /applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
   assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
   assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
   assert.match(source, /\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/)

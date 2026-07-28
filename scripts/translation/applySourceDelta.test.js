@@ -114,6 +114,45 @@ test('does not delete a Japanese target owned by a canonical unified source', ()
   assert.deepEqual(result.removedCacheKeys, [])
 })
 
+test('Chinese targets never reconcile Japanese files or cache state', () => {
+  for (const target of ['zh-CN-reference', 'zh-CN-tools']) {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-target-delta-'))
+    const orphanTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/orphan.md'
+    const cachePath = path.join(root, '.translation-cache/ja-JP.json')
+    write(path.join(root, orphanTarget), '# Japanese orphan\n')
+    write(cachePath, JSON.stringify({files: {
+      'content/en/guides/tutorials/orphan.md': {sourceHash: 'old', targetPath: orphanTarget},
+    }}, null, 2))
+    const before = fs.readFileSync(cachePath)
+
+    const result = applySourceDelta({
+      cwd: root,
+      target,
+      delta: {
+        group: 'guides',
+        deletedI18n: [],
+        renamed: [],
+        retirementCandidates: [{
+          sourcePath: 'content/en/guides/tutorials/tools/retired.md',
+          targetPath: 'content/zh-CN/guides/tutorials/tools/retired.md',
+          reason: 'source_deleted',
+        }],
+      },
+    })
+
+    assert.equal(fs.existsSync(path.join(root, orphanTarget)), true, target)
+    assert.deepEqual(fs.readFileSync(cachePath), before, target)
+    assert.deepEqual(result, {
+      target,
+      deletedI18n: [],
+      renamedI18n: [],
+      removedCacheKeys: [],
+      cacheChanged: false,
+      hasTranslationMutation: false,
+    })
+  }
+})
+
 test('rejects deletion paths outside ja-JP i18n and symlink ancestors', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-i18n-safe-'))
   write(path.join(root, '.translation-cache/ja-JP.json'), '{"files":{}}')

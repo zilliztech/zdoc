@@ -227,7 +227,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must verify the source checkpoint parent before translation reconciliation'],
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive translation reconciliation from the immutable source checkpoint diff'],
         [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
-        [/applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'must apply translated output and cache deletions before manifest creation'],
+        [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
         [/\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/, 'must create checkpoints for batches that only record failed translations'],

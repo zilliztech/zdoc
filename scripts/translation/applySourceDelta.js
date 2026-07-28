@@ -7,6 +7,7 @@ const { analyzeTranslatedCoverage } = require('../validate-translated-coverage')
 
 const CACHE_PATH = '.translation-cache/ja-JP.json'
 const I18N_PREFIX = 'i18n/ja-JP/'
+const TARGETS = new Set(['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
 
 function normalizeSafeRelative(filePath, requiredPrefix = null) {
   if (typeof filePath !== 'string' || !filePath || path.isAbsolute(filePath)) {
@@ -63,10 +64,24 @@ function writeJsonAtomic(filePath, value) {
   fs.renameSync(temporary, filePath)
 }
 
-function applySourceDelta({ cwd = process.cwd(), delta }) {
+function applySourceDelta({ cwd = process.cwd(), target = 'ja-JP', delta }) {
   if (!delta || typeof delta !== 'object' || Array.isArray(delta)) throw new Error('Source delta must be an object')
+  if (!TARGETS.has(target)) throw new Error(`Unknown translation target: ${target}`)
   const declaredDeletions = Array.isArray(delta.deletedI18n) ? delta.deletedI18n : []
   const renames = Array.isArray(delta.renamed) ? delta.renamed : []
+  if (target !== 'ja-JP') {
+    if (declaredDeletions.length > 0 || renames.length > 0) {
+      throw new Error(`${target} source delta must not contain Japanese deletion or rename operations`)
+    }
+    return {
+      target,
+      deletedI18n: [],
+      renamedI18n: [],
+      removedCacheKeys: [],
+      cacheChanged: false,
+      hasTranslationMutation: false,
+    }
+  }
   const deletedPaths = new Set(declaredDeletions.map(filePath => normalizeSafeRelative(filePath, I18N_PREFIX)))
   const renamedI18n = []
 
@@ -112,6 +127,7 @@ function applySourceDelta({ cwd = process.cwd(), delta }) {
   if (removedCacheKeys.length) writeJsonAtomic(path.join(cwd, CACHE_PATH), cache)
 
   return {
+    target,
     deletedI18n,
     renamedI18n,
     removedCacheKeys,
@@ -126,18 +142,18 @@ function parseArgs(argv) {
     const flag = argv[index]
     const value = argv[index + 1]
     if (!flag?.startsWith('--') || value === undefined || args.has(flag)) {
-      throw new Error('Usage: node scripts/translation/applySourceDelta.js --delta <path> --report <path>')
+      throw new Error('Usage: node scripts/translation/applySourceDelta.js --target <target> --delta <path> --report <path>')
     }
     args.set(flag, value)
   }
-  for (const flag of ['--delta', '--report']) if (!args.has(flag)) throw new Error(`Missing required argument: ${flag}`)
+  for (const flag of ['--target', '--delta', '--report']) if (!args.has(flag)) throw new Error(`Missing required argument: ${flag}`)
   return args
 }
 
 function main() {
   const args = parseArgs(process.argv.slice(2))
   const delta = JSON.parse(fs.readFileSync(args.get('--delta'), 'utf8'))
-  const result = applySourceDelta({ delta })
+  const result = applySourceDelta({ target: args.get('--target'), delta })
   writeJsonAtomic(path.resolve(args.get('--report')), result)
   console.log(`[translation-source-delta] applied ${result.deletedI18n.length} deletion(s), removed ${result.removedCacheKeys.length} cache key(s)`)
 }
