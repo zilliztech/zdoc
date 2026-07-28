@@ -50,7 +50,7 @@ test('SDK reference compatibility wrapper invokes content groups in order', () =
   assert.doesNotMatch(fetchScript, /report-to-lark/)
 })
 
-test('every workflow that invokes docs-tooling uses a native TypeScript-capable Node runtime', () => {
+test('every workflow that invokes docs-tooling uses its supported Node runtime', () => {
   const workflowDirectory = path.join(process.cwd(), '.github/workflows')
   const invoking = fs.readdirSync(workflowDirectory)
     .filter(file => file.endsWith('.yml'))
@@ -67,10 +67,13 @@ test('every workflow that invokes docs-tooling uses a native TypeScript-capable 
   ])
   for (const file of invoking) {
     const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
-    assert.match(source, /node-version:\s*['"]?22['"]?/, `${file} must use Node 22 for --experimental-strip-types`)
+    assert.match(source, /node-version:\s*['"]?22['"]?/, `${file} must use the supported Node 22 runtime`)
   }
+})
+
+test('root docs-tooling command uses the shared TypeScript launcher', () => {
   const rootPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-  assert.equal(rootPackage.scripts['docs-tooling'], 'node --experimental-strip-types packages/docs-tooling/src/cli-main.ts')
+  assert.equal(rootPackage.scripts['docs-tooling'], 'node scripts/docs-tooling.js')
 })
 
 test('SDK reference snapshots are updated after successful build', () => {
