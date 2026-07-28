@@ -1003,6 +1003,80 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
   })
 }
 
+async function testReferenceProgressStateUsesCanonicalRawLexicalOrder() {
+  await withTempDir(async siteDir => {
+    const sourceCommit = 'c'.repeat(40)
+    const importSourcePath = 'content/en/reference/api/go/v2-DataImport.md'
+    const databaseSourcePath = 'content/en/reference/api/go/v2-Database.md'
+    const importTargetPath = 'content/zh-CN/reference/api/go/v2-DataImport.md'
+    const databaseTargetPath = 'content/zh-CN/reference/api/go/v2-Database.md'
+    const importSource = '# Data Import\n'
+    const databaseSource = '# Database\n'
+
+    write(path.join(siteDir, importSourcePath), importSource)
+    write(path.join(siteDir, databaseSourcePath), databaseSource)
+    write(path.join(siteDir, importTargetPath), '# 数据导入\n')
+    write(path.join(siteDir, databaseTargetPath), '# 数据库\n')
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit,
+      records: [
+        {manual: 'go', sourcePath: importSourcePath, sourceHash: sha256(importSource)},
+        {manual: 'go', sourcePath: databaseSourcePath, sourceHash: sha256(databaseSource)},
+      ],
+    }))
+
+    const manifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      sourceCheckpointSha: sourceCommit,
+      items: [
+        {
+          sourcePath: importSourcePath,
+          targetPath: importTargetPath,
+          sourceHash: sha256(importSource),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+        {
+          sourcePath: databaseSourcePath,
+          targetPath: databaseTargetPath,
+          sourceHash: sha256(databaseSource),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+      ],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      reportPath: 'tmp/reference-order-report.json',
+      checkpointFiles: 1,
+    })
+
+    await runWorkerPool(manifest.items, {
+      concurrency: 2,
+      processItem: async (item, index) => {
+        if (index === 0) await new Promise(resolve => setTimeout(resolve, 5))
+        return {...item, status: 'translated'}
+      },
+      onResult: coordinator.record,
+    })
+    await coordinator.checkpoint(true)
+
+    const referenceState = JSON.parse(fs.readFileSync(
+      path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'),
+      'utf8',
+    ))
+    assert.deepEqual(referenceState.records.map(record => record.sourcePath), [
+      importSourcePath,
+      databaseSourcePath,
+    ])
+  })
+}
+
 async function run() {
   testSelectsPromptsByTranslationTarget()
   testMessageBuildersSelectPromptsFromTarget()
@@ -1036,6 +1110,7 @@ async function run() {
   await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseProgressStateUsesIndependentTargetManifests()
+  await testReferenceProgressStateUsesCanonicalRawLexicalOrder()
   await testProgressCoordinatorCheckpointsCacheAndReport()
   await testJapaneseProgressStatePreservesExistingLocaleCache()
   console.log('translation agent runner tests passed')

@@ -679,6 +679,10 @@ function targetFileHash(siteDir, targetPath) {
   return crypto.createHash('sha256').update(fs.readFileSync(path.join(siteDir, targetPath))).digest('hex')
 }
 
+function compareCanonicalText(left, right) {
+  return left < right ? -1 : left > right ? 1 : 0
+}
+
 function updateReferenceProgressState(siteDir, progressState, result) {
   const sourceManifest = parseReferenceSourceManifest(readJsonIfPresent(
     siteDir,
@@ -705,9 +709,9 @@ function updateReferenceProgressState(siteDir, progressState, result) {
       ...progressState.value.records.filter(existing => existing.sourcePath !== result.sourcePath),
       record,
     ].sort((left, right) => (
-      left.manual.localeCompare(right.manual) ||
-      left.sourcePath.localeCompare(right.sourcePath) ||
-      left.targetPath.localeCompare(right.targetPath)
+      compareCanonicalText(left.manual, right.manual) ||
+      compareCanonicalText(left.sourcePath, right.sourcePath) ||
+      compareCanonicalText(left.targetPath, right.targetPath)
     )),
   })
 }
