@@ -189,6 +189,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       })) {
         errors.push(`${file}: both site builds must check the localization input inventory before building`)
       }
+      const referenceCommand = 'pnpm docs-tooling validate-reference --site zh-CN'
+      const zhBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '').trim())
+      const referenceRuns = (workflow.jobs?.reference_coverage?.steps || []).map(step => String(step?.run || '').trim())
+      const referenceIndex = zhBuildRuns.indexOf(referenceCommand)
+      const zhBuildIndex = zhBuildRuns.indexOf('pnpm build:zh-CN')
+      if (referenceIndex < 0 || zhBuildIndex < 0 || referenceIndex > zhBuildIndex || !referenceRuns.includes(referenceCommand)) {
+        errors.push(`${file}: Chinese Reference validation must run before the Chinese build and in focused coverage`)
+      }
     }
 
     if (file === '_fetch-content-group.yml') {

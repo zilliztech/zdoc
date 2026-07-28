@@ -69,11 +69,12 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
   assert.match(workflow, /run: pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:zh-CN/);
+  assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm docs-tooling validate-reference --site zh-CN[\s\S]*pnpm build:zh-CN/);
   assert.match(workflow, /build\/zh-CN\/build-provenance\.json/);
   assert.match(workflow, /toolsSidebarReachable/);
   assert.match(workflow, /docs-agents/);
   assert.match(workflow, /^  reference_coverage:$/m);
-  assert.match(workflow, /pnpm docs-tooling validate-reference --site zh-CN/);
+  assert.match(jobBlock(workflow, 'reference_coverage'), /pnpm docs-tooling validate-reference --site zh-CN/);
   assert.match(workflow, /^  tools_coverage:$/m);
   assert.match(workflow, /if: \$\{\{ always\(\) && needs\.classify\.outputs\.tools_coverage == 'true' \}\}/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /ZH_CN_RESULT: \$\{\{ needs\.build_zh_cn\.result \}\}/);

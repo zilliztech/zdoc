@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "precedence": [
     "japaneseLocalization",
     "canonicalEnglishTools",
@@ -46,6 +46,7 @@
       "include": [
         "content/en/reference/**",
         "generated/en/manifests/reference.json",
+        "config/reference-navigation.json",
         "packages/docs-tooling/src/reference/**",
         "packages/docs-tooling/src/validation/translation.ts",
         "scripts/reference/**"
@@ -55,7 +56,12 @@
     "zhReferenceTranslation": {
       "include": [
         "generated/zh-CN/manifests/reference-translations.json",
+        "generated/zh-CN/sidebars/**",
+        "packages/site-config/src/sidebars/zh-CN/reference.ts",
         "config/reference-retirements.json"
+      ],
+      "exclude": [
+        "generated/zh-CN/sidebars/tools.sidebar.js"
       ],
       "checks": ["build:zh-CN", "zh-reference-translation-coverage"]
     },
@@ -86,7 +92,8 @@
       ],
       "exclude": [
         "content/zh-CN/guides/tutorials/tools/**",
-        "generated/zh-CN/sidebars/tools.sidebar.js"
+        "generated/zh-CN/sidebars/**",
+        "packages/site-config/src/sidebars/zh-CN/reference.ts"
       ],
       "checks": ["build:zh-CN"]
     },

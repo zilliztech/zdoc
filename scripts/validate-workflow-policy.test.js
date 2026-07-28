@@ -150,14 +150,40 @@ test('workflow policy requires localization inventory freshness before both site
     const file = path.join(directory, 'site-validation.yml')
     const source = fs.readFileSync(file, 'utf8')
     const withEnglishOnly = source.replace(
-      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm build:zh-CN',
-      '      - run: pnpm build:zh-CN',
+      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
+      '      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
     )
     assert.notEqual(withEnglishOnly, source)
     fs.writeFileSync(file, withEnglishOnly)
     assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: both site builds must check the localization input inventory before building'))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
+test('workflow policy requires Chinese Reference validation before the build and in focused coverage', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const validSource = fs.readFileSync(path.join(sourceDirectory, 'site-validation.yml'), 'utf8')
+  assert.match(validSource, /pnpm docs-tooling validate-reference --site zh-CN[\s\S]*pnpm build:zh-CN/)
+  const cases = [
+    validSource.replace(
+      '      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
+      '      - run: pnpm build:zh-CN',
+    ),
+    validSource.replace(
+      '      - run: pnpm docs-tooling validate-reference --site zh-CN\n\n  tools_coverage:',
+      '      - run: echo missing focused Reference validation\n\n  tools_coverage:',
+    ),
+  ]
+  for (const mutated of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'site-reference-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      fs.writeFileSync(path.join(directory, 'site-validation.yml'), mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: Chinese Reference validation must run before the Chinese build and in focused coverage'))
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
   }
 })
 

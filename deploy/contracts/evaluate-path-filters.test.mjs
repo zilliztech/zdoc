@@ -25,6 +25,29 @@ test('canonical English Reference changes require both builds and Chinese covera
   });
 });
 
+test('Reference navigation inputs select the required builds and focused coverage', () => {
+  assert.deepEqual(evaluateChangedPaths(['packages/docs-ui/src/shared/navigation/docsRoute.ts'], filters), {
+    checks: ['build:en', 'build:zh-CN'],
+    matchedRules: ['shared'],
+    unclassifiedPaths: [],
+  });
+  assert.deepEqual(evaluateChangedPaths(['config/reference-navigation.json'], filters), {
+    checks: ['build:en', 'build:zh-CN', 'zh-reference-translation-coverage'],
+    matchedRules: ['canonicalEnglishReference'],
+    unclassifiedPaths: [],
+  });
+  assert.deepEqual(evaluateChangedPaths(['generated/zh-CN/sidebars/python.sidebar.js'], filters), {
+    checks: ['build:zh-CN', 'zh-reference-translation-coverage'],
+    matchedRules: ['zhReferenceTranslation'],
+    unclassifiedPaths: [],
+  });
+  assert.deepEqual(evaluateChangedPaths(['packages/site-config/src/sidebars/zh-CN/reference.ts'], filters), {
+    checks: ['build:zh-CN', 'zh-reference-translation-coverage'],
+    matchedRules: ['zhReferenceTranslation'],
+    unclassifiedPaths: [],
+  });
+});
+
 test('site-owned changes require only their owned site build', () => {
   assert.deepEqual(evaluateChangedPaths([
     'content/en/guides/get-started.md',
