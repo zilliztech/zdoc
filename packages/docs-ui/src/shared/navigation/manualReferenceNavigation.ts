@@ -43,7 +43,7 @@ function navigation(
       target('go', labels[2], '/reference/go'),
       target('nodejs', labels[3], '/reference/nodejs', ['/reference/nodejs', '/reference/node']),
       target('restful', labels[4], '/reference/restful'),
-      target('cli', labels[5], '/reference/cli/cli/overview', ['/reference/cli']),
+      target('cli', labels[5], '/reference/cli'),
     ]),
     entryRedirects: Object.freeze({
       '/reference/cli/overview': '/reference/cli/cli/overview',

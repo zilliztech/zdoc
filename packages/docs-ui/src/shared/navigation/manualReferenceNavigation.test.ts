@@ -21,6 +21,10 @@ describe('getManualReferenceNavigation', () => {
       landingHref: '/reference/nodejs',
       hrefPrefixes: ['/reference/nodejs', '/reference/node'],
     });
+    expect(navigation.targets.find(target => target.kind === 'cli')).toMatchObject({
+      landingHref: '/reference/cli',
+      hrefPrefixes: ['/reference/cli'],
+    });
     expect(navigation.entryRedirects).toEqual({
       '/reference/cli/overview': '/reference/cli/cli/overview',
     });
