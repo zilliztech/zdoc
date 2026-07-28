@@ -555,6 +555,9 @@ function routeInventories(site, routes, repositoryRoot) {
     }
     if (!value || typeof value !== 'object') return;
     if (value.type === 'doc' && typeof value.id === 'string') sidebarDocIds.add(value.id);
+    if (value.type === 'category' && value.link?.type === 'doc' && typeof value.link.id === 'string') {
+      sidebarDocIds.add(value.link.id);
+    }
     visitSidebar(value.items);
   };
   visitSidebar(sidebar);

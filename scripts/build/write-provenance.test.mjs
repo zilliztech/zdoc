@@ -215,6 +215,68 @@ test('Chinese provenance hashes the Tools release inputs and final sidebar-reach
   });
 });
 
+test('Chinese provenance counts category doc links as sidebar-reachable Tools landing pages', () => {
+  const root = fixture();
+  const targetPath = 'content/zh-CN/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md';
+  write(root, targetPath, [
+    '---',
+    'slug: /agents-and-prompts',
+    '---',
+    '# 智能体和提示词',
+    '',
+  ].join('\n'));
+  write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', [
+    "'use strict'",
+    "module.exports = [{type: 'category', label: '智能体和提示词', link: {type: 'doc', id: 'tutorials/tools/agents-and-prompts/agents-and-prompts'}, items: []}]",
+    '',
+  ].join('\n'));
+  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
+    schemaVersion: 1,
+    records: [{
+      sourcePath: 'content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md',
+      targetPath,
+      sourceHash: 'd'.repeat(64),
+    }],
+  }));
+  execFileSync('git', ['add', '.'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'Chinese Tools category landing'], {cwd: root});
+  write(root, 'build/zh-CN/docs/agents-and-prompts/index.html', '<html>智能体和提示词</html>');
+
+  const {manifest} = runZh(root);
+
+  assert.deepEqual(manifest.routeInventories, {
+    tools: ['/docs/agents-and-prompts'],
+    toolsSidebarReachable: ['/docs/agents-and-prompts'],
+  });
+});
+
+test('Chinese provenance rejects doc links attached to non-category sidebar nodes', () => {
+  const root = fixture();
+  const targetPath = 'content/zh-CN/guides/tutorials/tools/invalid.md';
+  write(root, targetPath, '# 无效节点\n');
+  write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', [
+    "'use strict'",
+    "module.exports = [{type: 'html', value: '<span>无效</span>', link: {type: 'doc', id: 'tutorials/tools/invalid'}}]",
+    '',
+  ].join('\n'));
+  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
+    schemaVersion: 1,
+    records: [{
+      sourcePath: 'content/en/guides/tutorials/tools/invalid.md',
+      targetPath,
+      sourceHash: 'd'.repeat(64),
+    }],
+  }));
+  execFileSync('git', ['add', '.'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'Invalid Tools sidebar link'], {cwd: root});
+  write(root, 'build/zh-CN/docs/tutorials/tools/invalid/index.html', '<html>无效节点</html>');
+
+  assert.throws(
+    () => runZh(root),
+    /Chinese Tools document is not reachable from the composed sidebar/,
+  );
+});
+
 test('localization inputs reject untracked files and symlinks', () => {
   const untrackedRoot = fixture();
   write(untrackedRoot, 'i18n/ja-JP/untracked.md', '# untracked\n');
