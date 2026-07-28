@@ -52,9 +52,14 @@ while (( attempt <= max_attempts )); do
   git fetch --no-tags "$remote" "+refs/heads/$branch:refs/remotes/$remote/$branch"
   active_worktree=$(mktemp -d "$root/docs-publish.XXXXXX"); temp_files="$temp_files"$'\n'"$active_worktree"; rmdir "$active_worktree"
   git worktree add --detach "$active_worktree" "refs/remotes/$remote/$branch" >/dev/null
-  if [[ ! -e "$active_worktree/node_modules" && -d "$repo_root/node_modules" ]]; then
-    ln -s "$repo_root/node_modules" "$active_worktree/node_modules"
-  fi
+  for dependency_dir in "$repo_root/node_modules" "$repo_root"/apps/*/node_modules "$repo_root"/packages/*/node_modules; do
+    [[ -d "$dependency_dir" ]] || continue
+    relative_dependency_dir=${dependency_dir#"$repo_root/"}
+    validation_dependency_dir="$active_worktree/$relative_dependency_dir"
+    [[ -e "$validation_dependency_dir" || -L "$validation_dependency_dir" ]] && continue
+    mkdir -p "$(dirname "$validation_dependency_dir")"
+    ln -s "$dependency_dir" "$validation_dependency_dir"
+  done
   apply_args=(--artifact "$artifact" --target "$active_worktree"); [[ -z "$baseline_dir" ]] || apply_args+=(--baseline-dir "$baseline_dir")
   node "$script_dir/apply-checkpoint-artifact.js" "${apply_args[@]}"
   (cd "$active_worktree" && bash -o errexit -o nounset -o pipefail -c "$validate_command")

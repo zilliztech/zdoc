@@ -127,13 +127,24 @@ test('validation failure does not push', () => {
 
 test('validation worktree can use dependencies installed in the publisher checkout', () => {
   const s = setup(), work = path.join(s.root, 'work');
-  mkdirSync(path.join(s.seed, 'node_modules', '.bin'), { recursive: true });
-  writeFileSync(path.join(s.seed, 'node_modules', '.bin', 'docusaurus'), '#!/usr/bin/env bash\nexit 0\n');
-  chmodSync(path.join(s.seed, 'node_modules', '.bin', 'docusaurus'), 0o755);
+  mkdirSync(path.join(s.seed, 'apps', 'docs'), { recursive: true });
+  writeFileSync(path.join(s.seed, 'apps', 'docs', 'package.json'), '{"private":true}\n');
+  writeFileSync(path.join(s.seed, 'validate.js'), [
+    "const {createRequire} = require('node:module')",
+    "const path = require('node:path')",
+    "const requireFromDocsApp = createRequire(path.join(process.cwd(), 'apps/docs/package.json'))",
+    "requireFromDocsApp('fixture-dependency')",
+    '',
+  ].join('\n'));
+  git(s.seed, 'add', 'apps/docs/package.json', 'validate.js');
+  git(s.seed, 'commit', '-m', 'add workspace validation fixture');
+  git(s.seed, 'push', 'origin', 'dev');
+  mkdirSync(path.join(s.seed, 'apps', 'docs', 'node_modules', 'fixture-dependency'), { recursive: true });
+  writeFileSync(path.join(s.seed, 'apps', 'docs', 'node_modules', 'fixture-dependency', 'index.js'), 'module.exports = true\n');
   execFileSync('cp', ['-R', s.seed, work]);
   writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
   const publishArgs = args(artifact(s.root, s.seed, work));
-  publishArgs[publishArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'test -x node_modules/.bin/docusaurus';
+  publishArgs[publishArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'node validate.js';
 
   const result = publish(s.seed, publishArgs);
 
