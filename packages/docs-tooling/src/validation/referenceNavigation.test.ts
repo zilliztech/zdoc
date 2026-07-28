@@ -247,4 +247,32 @@ describe('validateReferenceNavigation', () => {
     expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'}))
       .toThrow(targetError(target, /document-resolution/, new RegExp(`documentId=${retiredId}`)));
   });
+
+  it('resolves retired document IDs that remain only in the English comparison sidebar', () => {
+    const root = fixture();
+    const target = targets[0];
+    const retiredId = `${target.documentIdPrefix}/operation`;
+    writeSidebar(root, 'zh-CN', target, [{
+      type: 'category',
+      label: '已翻译标签',
+      items: [{type: 'doc', id: documentId(target.landingPage), label: '首页'}],
+    }]);
+    writeJson(root, 'config/reference-retirements.json', {
+      schemaVersion: 1,
+      retirements: [{
+        manual: target.manual,
+        sourcePath: `content/en/reference/${retiredId}.md`,
+        targetPath: `content/zh-CN/reference/${retiredId}.md`,
+        reason: 'Deliberate fixture retirement',
+      }],
+    });
+    unlinkSync(path.join(root, `content/en/reference/${retiredId}.md`));
+
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).toThrow(
+      new RegExp(
+        `site=en.*manual=${target.manual}.*sidebar=generated/en/sidebars/${target.sidebar}\\.sidebar\\.js.*documentId=${retiredId}.*invariant=document-resolution`,
+        'is',
+      ),
+    );
+  });
 });

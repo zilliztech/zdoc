@@ -362,7 +362,9 @@ function validateTarget(
       sidebarPath: englishSidebarPath,
       retiredIds,
     });
-    for (const documentId of english.documentIds) assertOwnedDocumentId(site, target, englishSidebarPath, documentId);
+    for (const documentId of english.documentIds) {
+      resolveDocument(repositoryRoot, 'en', target, englishSidebarPath, documentId);
+    }
     if (JSON.stringify(selected.signature) !== JSON.stringify(english.signature)) {
       throw targetError(site, target, selectedSidebarPath, '(structure)', 'locale-structure', 'English and Chinese category/document structure differs outside explicit retirements');
     }
