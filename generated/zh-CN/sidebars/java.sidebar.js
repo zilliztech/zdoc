@@ -2,7 +2,7 @@ module.exports = [
   {
     "type": "doc",
     "id": "api/java/java/java",
-    "label": "JAVA SDK 参考"
+    "label": "概述"
   },
   {
     "type": "category",

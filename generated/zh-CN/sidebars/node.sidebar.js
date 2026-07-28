@@ -2,7 +2,7 @@ module.exports = [
   {
     "type": "doc",
     "id": "api/nodejs/nodejs/nodejs",
-    "label": "Node.js SDK 参考"
+    "label": "概览"
   },
   {
     "type": "category",

@@ -2,7 +2,7 @@ module.exports = [
   {
     "type": "doc",
     "id": "api/go/go/go",
-    "label": "Go SDK 参考"
+    "label": "概览"
   },
   {
     "type": "category",

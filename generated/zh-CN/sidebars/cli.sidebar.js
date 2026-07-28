@@ -2,7 +2,7 @@ module.exports = [
   {
     "type": "doc",
     "id": "cli/cli/Overview",
-    "label": "Overview"
+    "label": "概述"
   },
   {
     "type": "category",

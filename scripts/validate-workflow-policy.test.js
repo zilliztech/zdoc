@@ -63,7 +63,7 @@ test('translation workflows declare immutable target identity and exact target v
   ]) {
     assert.ok(source.includes(`validate-mdx --path ${landing} --write`))
   }
-  assert.match(source, /validate-mdx --path content\/zh-CN\/reference --check[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
+  assert.match(source, /validate-mdx --path content\/zh-CN\/reference --check[\s\S]*reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_COMMIT_SHA" --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
   assert.doesNotMatch(source, /validate-mdx --path content\/zh-CN\/reference --write/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/)
   assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
@@ -1549,7 +1549,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
   assert.match(unbatched.run, /validate-mdx/)
   assert.match(unbatched.run, /validate-translation --target ja-JP --group "\$GROUP"[\s\S]*pnpm run build:en/)
-  assert.match(unbatched.run, /reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*pnpm run build:zh-CN/)
+  assert.match(unbatched.run, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_COMMIT_SHA" --write[\s\S]*validate-reference --site zh-CN[\s\S]*pnpm run build:zh-CN/)
   assert.match(unbatched.run, /validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*pnpm run build:zh-CN/)
 
   assert.match(checkpoint.run, /--include-translation-cache/)

@@ -151,7 +151,7 @@ jobs:
                 pnpm docs-tooling validate-mdx --path content/zh-CN/reference/cli/cli/Overview.md --write
               fi
               pnpm docs-tooling validate-mdx --path content/zh-CN/reference --check
-              pnpm docs-tooling reference-manifest --write
+              pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_COMMIT_SHA" --write
               pnpm docs-tooling validate-reference --site zh-CN
               pnpm run build:zh-CN
               ;;
