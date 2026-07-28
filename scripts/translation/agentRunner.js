@@ -23,6 +23,51 @@ const DEFAULT_PROVIDER_RETRIES = 3
 const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
+const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
+const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.2
+
+let referenceLandingContracts
+
+function loadReferenceLandingContracts() {
+  if (referenceLandingContracts) return referenceLandingContracts
+  const configPath = path.resolve(__dirname, '../../config/reference-navigation.json')
+  const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
+  if (!Array.isArray(config?.targets)) throw new Error('Reference navigation config must contain a targets array')
+  const contracts = new Map()
+  for (const target of config.targets) {
+    if (
+      typeof target?.landingPage !== 'string' ||
+      !Number.isInteger(target.minimumProseCharacters) || target.minimumProseCharacters <= 0 ||
+      !Number.isInteger(target.minimumHeadingCount) || target.minimumHeadingCount <= 0
+    ) {
+      throw new Error('Reference navigation landing contracts must declare valid paths, prose minimums, and heading minimums')
+    }
+    const sourcePath = `${REFERENCE_LANDING_SOURCE_ROOT}${target.landingPage}`
+    if (contracts.has(sourcePath)) throw new Error(`Duplicate Reference landing contract: ${sourcePath}`)
+    contracts.set(sourcePath, {
+      minimumHeadingCount: target.minimumHeadingCount,
+      minimumProseCharacters: target.minimumProseCharacters,
+      targetProseCharacters: Math.ceil(target.minimumProseCharacters * REFERENCE_LANDING_PROSE_SAFETY_FACTOR),
+    })
+  }
+  referenceLandingContracts = contracts
+  return contracts
+}
+
+function formatReferenceLandingContract(target, sourcePath) {
+  if (target !== 'zh-CN-reference') return ''
+  const contract = loadReferenceLandingContracts().get(sourcePath)
+  if (!contract) return ''
+  return [
+    'Reference landing-page contract from config/reference-navigation.json:',
+    `- The final translated file must contain at least ${contract.minimumHeadingCount} Markdown headings.`,
+    `- Validator minimum meaningful prose: ${contract.minimumProseCharacters} Unicode letters or digits after front matter, code fences, imports, and standalone JSX tags are excluded.`,
+    `- Aim for at least ${contract.targetProseCharacters} meaningful prose characters (20% safety margin) without repetitive filler.`,
+    '- Preserve all source facts and structure while expanding concise phrasing naturally when needed.',
+    '- The reviewer must return pass=false if the translated draft does not satisfy this contract.',
+    '',
+  ].join('\n')
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -210,7 +255,7 @@ function formatDocumentContext(chunkContext) {
 }
 
 function buildTranslationMessages({ target, sourcePath, sourceContent, locale, chunkContext }) {
-  const context = formatDocumentContext(chunkContext)
+  const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const instruction = chunkContext
     ? 'Translate this consecutive MDX/Markdown section:'
     : 'Translate this complete MDX/Markdown file:'
@@ -224,7 +269,7 @@ function buildTranslationMessages({ target, sourcePath, sourceContent, locale, c
 }
 
 function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
-  const context = formatDocumentContext(chunkContext)
+  const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   return [
     { role: 'system', content: loadPrompt(promptNamesFor(target).review) },
     {
@@ -240,7 +285,7 @@ function correctionPromptFor(target) {
 }
 
 function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
-  const context = formatDocumentContext(chunkContext)
+  const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   return [
     {
       role: 'system',

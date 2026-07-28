@@ -87,6 +87,46 @@ function testMessageBuildersSelectPromptsFromTarget() {
   })[0].content, /Correction Agent for Japanese/)
 }
 
+function testReferenceLandingMessagesContainNavigationContract() {
+  const common = {
+    target: 'zh-CN-reference',
+    sourcePath: 'content/en/reference/api/go/go/go.md',
+    sourceContent: '# Go SDK\n\n## Install\n\nUse the Go SDK.\n',
+    locale: 'zh-CN',
+  }
+  const messages = [
+    buildTranslationMessages(common).at(-1).content,
+    buildReviewMessages({...common, translatedContent: '# Go SDK\n\n## 安装\n\n使用 Go SDK。\n'}).at(-1).content,
+    buildCorrectionMessages({
+      ...common,
+      translatedContent: '# Go SDK\n\n## 安装\n\n使用 Go SDK。\n',
+      review: {pass: false, issues: []},
+    }).at(-1).content,
+  ]
+
+  for (const message of messages) {
+    assert.match(message, /Reference landing-page contract.*config\/reference-navigation\.json/is)
+    assert.match(message, /at least 2 Markdown headings/i)
+    assert.match(message, /validator minimum meaningful prose: 250/i)
+    assert.match(message, /aim for at least 300 meaningful prose characters/i)
+    assert.match(message, /reviewer must return pass=false/i)
+  }
+
+  const ordinaryReference = buildTranslationMessages({
+    ...common,
+    sourcePath: 'content/en/reference/api/go/go/client.md',
+  }).at(-1).content
+  assert.doesNotMatch(ordinaryReference, /Reference landing-page contract/i)
+
+  const cliLanding = buildTranslationMessages({
+    ...common,
+    sourcePath: 'content/en/reference/cli/cli/Overview.md',
+  }).at(-1).content
+  assert.match(cliLanding, /at least 3 Markdown headings/i)
+  assert.match(cliLanding, /validator minimum meaningful prose: 400/i)
+  assert.match(cliLanding, /aim for at least 480 meaningful prose characters/i)
+}
+
 function validManifest(overrides = {}) {
   return {
     target: 'zh-CN-reference',
@@ -1080,6 +1120,7 @@ async function testReferenceProgressStateUsesCanonicalRawLexicalOrder() {
 async function run() {
   testSelectsPromptsByTranslationTarget()
   testMessageBuildersSelectPromptsFromTarget()
+  testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
