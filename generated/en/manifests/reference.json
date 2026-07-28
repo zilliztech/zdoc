@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "e3ada1e75a755deaa377661d93a3b85a2d5e3af8",
+  "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
   "records": [
     {
       "manual": "cli",
@@ -5030,7 +5030,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/restful.md",
-      "sourceHash": "ec44601b7579c712e31709829f18f10a89b51c79df0a1b45d295b001d6a46ffa"
+      "sourceHash": "56b7ca9fcdd13bf807b254e99a4b298b0b400e882662fb1fc5404db52711012c"
     },
     {
       "manual": "rest",
