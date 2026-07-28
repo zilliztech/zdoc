@@ -48,6 +48,7 @@ import {
   type ReferenceTreeSnapshot,
 } from './reference/translationManifest.ts';
 import {deriveReferenceSidebarPublicationEntries} from './reference/sidebarDerivation.ts';
+import {validateReferenceNavigation} from './validation/referenceNavigation.ts';
 import {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
 import {
@@ -117,6 +118,7 @@ export type ReferenceCommandDependencies = Readonly<{
   verifySourceRevision?: (commit: string, sourceRoot: string) => void;
   manualForPath?: (repositoryRelativePath: string) => string;
   retirementRegistry?: ReferenceRetirementRegistry;
+  validateReferenceNavigation?: typeof validateReferenceNavigation;
   write?: (message: string) => void;
 }>;
 
@@ -373,6 +375,8 @@ export async function executeReferenceDocsToolingCommand(
         manualForPath,
       });
     }
+    const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
+    validateNavigation({repositoryRoot, site: argv[2]});
     dependencies.write?.(`validated Reference provenance for ${argv[2]}`);
     return;
   }

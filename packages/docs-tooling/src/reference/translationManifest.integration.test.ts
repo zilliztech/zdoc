@@ -306,4 +306,21 @@ describe('Reference manifest executable security boundary', () => {
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/manual|ownership/i);
   });
+
+  it('rejects a placeholder Chinese Reference landing page', () => {
+    const root = repository();
+    writeFileSync(path.join(root, 'content/zh-CN/reference/api/python/landing.md'), '# TODO\n');
+    const config = navigationConfig();
+    writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify({
+      ...config,
+      targets: config.targets.map(target => ({...target, minimumProseCharacters: 20})),
+    }, null, 2)}\n`);
+    expect(generate(root).status).toBe(0);
+
+    const result = validateChinese(root);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/landing page/i);
+    expect(result.stderr).toMatch(/python/i);
+  });
 });

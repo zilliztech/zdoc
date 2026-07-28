@@ -3,7 +3,7 @@ import {existsSync, mkdirSync, mkdtempSync, readFileSync, symlinkSync, writeFile
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 
 import {
   buildReferenceManifests,
@@ -366,12 +366,14 @@ describe('Reference translation provenance', () => {
     writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
     writeMinimalReferenceSidebarTemplates(roots.repositoryRoot);
     const verifiedRevisions: string[] = [];
+    const validateReferenceNavigationSpy = vi.fn();
     const dependencies = {
       repositoryRoot: roots.repositoryRoot,
       resolveSourceCommit: () => 'a'.repeat(40),
       verifySourceRevision: (commit: string) => { verifiedRevisions.push(commit); },
       manualForPath: () => 'python',
       retirementRegistry: {schemaVersion: 1 as const, retirements: []},
+      validateReferenceNavigation: validateReferenceNavigationSpy,
     };
 
     await executeReferenceDocsToolingCommand([
@@ -385,6 +387,7 @@ describe('Reference translation provenance', () => {
     expect(existsSync(path.join(roots.repositoryRoot, 'content-sources/reference'))).toBe(false);
     expect(existsSync(path.join(roots.repositoryRoot, 'translations/zh-CN/reference'))).toBe(false);
     expect(verifiedRevisions).toEqual(Array.from({length: 3}, () => 'a'.repeat(40)));
+    expect(validateReferenceNavigationSpy).toHaveBeenCalledWith({repositoryRoot: roots.repositoryRoot, site: 'zh-CN'});
   });
 
   it('fails when an English Reference sidebar template is missing', async () => {
