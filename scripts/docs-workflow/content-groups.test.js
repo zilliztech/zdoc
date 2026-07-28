@@ -25,6 +25,24 @@ test('defines the Python content group ownership contract', () => {
   ]);
 });
 
+test('defines a bounded translation-only Reference landing group', () => {
+  const landings = getContentGroup('reference-landings');
+  assert.deepEqual(landings.manuals, []);
+  assert.equal(landings.snapshotManual, 'reference-landings');
+  assert.equal(landings.translate, true);
+  assert.deepEqual(landings.ownedPaths, [
+    'content/en/reference/api/python/python/python.md',
+    'content/en/reference/api/java/java/java.md',
+    'content/en/reference/api/nodejs/nodejs/nodejs.md',
+    'content/en/reference/api/go/go/go.md',
+    'content/en/reference/cli/cli/Overview.md',
+  ]);
+  assert.deepEqual(landings.forceTranslationPaths, landings.ownedPaths);
+  assert.equal(Object.isFrozen(landings.forceTranslationPaths), true);
+  for (const group of listContentGroups()) assert.equal(getContentGroup(group).forceTranslationPaths, undefined, group);
+  assert.deepEqual(listContentGroups(), ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
+});
+
 test('consumes the Chinese manifest-owned Guides registry contract', () => {
   const guides = getContentGroup('guides', 'zh-CN');
   assert.deepEqual(guides.ownedPaths.slice(0, 5), [

@@ -191,10 +191,13 @@ function localeForTarget(target) {
 
 function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' ? 'ja-JP' : 'zh-CN', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null, sourceDelta = null }) {
   let ownedPrefixes = null
+  let forceTranslationPaths = new Set()
   if (group) {
     const definition = getContentGroup(group)
     if (!SHA.test(sourceCheckpointSha || '')) throw new Error('A valid 40-character source checkpoint SHA is required with --group')
+    if (definition.forceTranslationPaths?.length && target !== 'zh-CN-reference') throw new Error('Forced Reference landing translation requires target zh-CN-reference')
     ownedPrefixes = definition.ownedPaths.filter(prefix => prefix.startsWith('content/en/'))
+    forceTranslationPaths = new Set(definition.forceTranslationPaths || [])
     includeReference = group !== 'guides'
   }
   const changedEnglish = sourceDelta ? new Set(sourceDelta.changedEnglish || []) : null
@@ -219,7 +222,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
       const cached = cache.files[sourcePath]
       const targetExists = fs.existsSync(path.join(siteDir, targetPath))
 
-      if (targetExists && cached?.sourceHash === sourceHash) continue
+      if (targetExists && cached?.sourceHash === sourceHash && !forceTranslationPaths.has(sourcePath)) continue
 
       items.push({
         sourcePath,

@@ -8,6 +8,28 @@ const {
   resolvePublicationGroupWorkflow,
 } = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts');
 
+const REFERENCE_LANDING_PATHS = Object.freeze([
+  'content/en/reference/api/python/python/python.md',
+  'content/en/reference/api/java/java/java.md',
+  'content/en/reference/api/nodejs/nodejs/nodejs.md',
+  'content/en/reference/api/go/go/go.md',
+  'content/en/reference/cli/cli/Overview.md',
+]);
+
+const REFERENCE_LANDINGS_GROUP = Object.freeze({
+  site: 'en',
+  manuals: Object.freeze([]),
+  snapshotManual: 'reference-landings',
+  translate: true,
+  durableTranslationBatchSize: 0,
+  ownedPaths: REFERENCE_LANDING_PATHS,
+  forceTranslationPaths: REFERENCE_LANDING_PATHS,
+  preservedPaths: Object.freeze([]),
+  protectedPaths: Object.freeze([]),
+  publicationManifest: null,
+  commitMessage: 'i18n(zh-CN): complete reference landing pages',
+});
+
 function normalizeOwnershipPath(path) {
   if (typeof path !== 'string' || path === '' || path.startsWith('/') || path.endsWith('/')) {
     throw new Error(`Invalid ownership path: ${path}`);
@@ -43,6 +65,7 @@ function listContentGroups(site = defaultSite()) {
 }
 
 function getContentGroup(name, site = defaultSite()) {
+  if (site === 'en' && name === 'reference-landings') return REFERENCE_LANDINGS_GROUP;
   const workflow = resolvePublicationGroupWorkflow(site, name);
   return Object.freeze({
     site,

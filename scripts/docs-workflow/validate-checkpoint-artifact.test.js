@@ -8,7 +8,7 @@ const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 
-const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
+const { translationOwnedPaths, validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
 const A = 'a'.repeat(40), B = 'b'.repeat(40);
 const PENDING = 'c'.repeat(64);
 
@@ -108,6 +108,17 @@ test('validates and deeply freezes a valid artifact', async () => {
   assert.equal(result.resolvedDir, await realpath(f.dir));
   assert.equal(Object.keys(result).includes('resolvedDir'), false);
   assert.equal(Object.hasOwn(result, 'translationCacheBytes'), false);
+});
+
+test('maps the Reference landing group to five exact Chinese targets plus translation state', () => {
+  assert.deepEqual(translationOwnedPaths('zh-CN-reference', require('./content-groups').getContentGroup('reference-landings')), [
+    'content/zh-CN/reference/api/python/python/python.md',
+    'content/zh-CN/reference/api/java/java/java.md',
+    'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
+    'content/zh-CN/reference/api/go/go/go.md',
+    'content/zh-CN/reference/cli/cli/Overview.md',
+    'generated/zh-CN/manifests/reference-translations.json',
+  ]);
 });
 
 test('validates schema 2 numbered translation identity and returns immutable batch input facts', async () => {

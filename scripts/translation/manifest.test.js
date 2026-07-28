@@ -230,6 +230,43 @@ function testExplicitlyRetiredReferenceTargetsAreExcludedFromWorkflowManifest() 
   })
 }
 
+function testReferenceLandingGroupForcesExactlyFiveCurrentTargets() {
+  withTempDir(siteDir => {
+    const landings = [
+      'content/en/reference/api/python/python/python.md',
+      'content/en/reference/api/java/java/java.md',
+      'content/en/reference/api/nodejs/nodejs/nodejs.md',
+      'content/en/reference/api/go/go/go.md',
+      'content/en/reference/cli/cli/Overview.md',
+    ]
+    const records = []
+    for (const sourcePath of landings) {
+      const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/')
+      const source = `# ${sourcePath}\n`
+      write(path.join(siteDir, sourcePath), source)
+      write(path.join(siteDir, targetPath), `# translated ${sourcePath}\n`)
+      records.push({sourcePath, targetPath, sourceHash: hashContent(source), status: 'translated'})
+    }
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({schemaVersion: 1, records}))
+
+    const manifest = buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      group: 'reference-landings',
+      sourceCheckpointSha: 'f'.repeat(40),
+    })
+
+    assert.deepEqual(manifest.items.map(item => item.sourcePath), [...landings].sort())
+    assert.ok(manifest.items.every(item => item.reason === 'stale_source'))
+    assert.throws(() => buildManifest({
+      siteDir,
+      target: 'ja-JP',
+      group: 'reference-landings',
+      sourceCheckpointSha: 'f'.repeat(40),
+    }), /requires target zh-CN-reference/i)
+  })
+}
+
 function testLegacyJapaneseCacheKeysMapToCanonicalSources() {
   withTempDir(siteDir => {
     const source = '# Stable\n'
@@ -464,6 +501,7 @@ function run() {
   testToolsSidebarRemovalRequiresExactRetirementApproval()
   testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries()
   testExplicitlyRetiredReferenceTargetsAreExcludedFromWorkflowManifest()
+  testReferenceLandingGroupForcesExactlyFiveCurrentTargets()
   testLegacyJapaneseCacheKeysMapToCanonicalSources()
   testRepositoryLegacyJapaneseCacheDoesNotMassRetranslate()
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()

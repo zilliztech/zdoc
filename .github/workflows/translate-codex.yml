@@ -14,7 +14,7 @@ on:
         required: true
         type: choice
         default: guides
-        options: [guides, python, java, node, go, cli, rest, tools]
+        options: [guides, python, java, node, go, cli, rest, tools, reference-landings]
       max_files: { description: Maximum files, required: false, default: '500' }
       target_branch: { description: Publication branch, required: false, default: dev }
       tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
@@ -44,7 +44,7 @@ jobs:
           node -e 'for(const [name,value] of Object.entries(process.env))if(["TOOLING_SHA","SOURCE_SHA"].includes(name)&&!/^[0-9a-f]{40}$/.test(value))throw new Error(`${name} must be an exact lowercase 40-character SHA`)'
           case "$TRANSLATION_TARGET" in
             ja-JP) [[ "$INPUT_GROUP" =~ ^(guides|python|java|node|go|cli|rest)$ ]] ;;
-            zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest)$ ]] ;;
+            zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest|reference-landings)$ ]] ;;
             zh-CN-tools) [[ "$INPUT_GROUP" == tools ]] ;;
             *) exit 2 ;;
           esac

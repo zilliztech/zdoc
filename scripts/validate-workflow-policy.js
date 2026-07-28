@@ -598,7 +598,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
       const called = workflow.jobs?.translate?.with || {}
       const targets = ['ja-JP', 'zh-CN-reference', 'zh-CN-tools']
-      const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools']
+      const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools', 'reference-landings']
       if (inputs.target?.required !== true || JSON.stringify(inputs.target?.options) !== JSON.stringify(targets) || called.target !== '${{ inputs.target }}') {
         errors.push(`${file}: compatibility boundary must expose and forward the selected translation target`)
       }
@@ -606,7 +606,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: compatibility boundary must expose and forward the selected translation group`)
       }
       if (!/ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/.test(source) ||
-        !/zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/.test(source) ||
+        !/zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/.test(source) ||
         !/zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/.test(source)) {
         errors.push(`${file}: compatibility boundary must enforce exact target and group pairings`)
       }
