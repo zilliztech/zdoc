@@ -1,5 +1,6 @@
 import React, {type ReactNode, useEffect, useMemo, useRef, useState} from 'react';
 import {useLocation, useHistory} from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import DocSidebarItems from '@theme/DocSidebarItems';
 import DocSidebar from '@theme-init/DocSidebar';
 import type DocSidebarType from '@theme/DocSidebar';
@@ -52,6 +53,17 @@ import {
 } from 'lucide-react';
 import IconButton from '../../../shared/components/IconButton';
 import SidebarIconVisibilityContext from '../../../shared/theme/DocSidebarItem/iconVisibility';
+import {
+  parseDocsRoute,
+  withLocalePrefix,
+  type DocsLocale,
+  type DocsRouteContext,
+} from '../../../shared/navigation/docsRoute';
+import {
+  getManualReferenceNavigation,
+  type DocsSite,
+  type ManualReferenceNavigation,
+} from '../../../shared/navigation/manualReferenceNavigation';
 
 import styles from './styles.module.css';
 
@@ -210,38 +222,22 @@ function normalizePath(path: string): string {
   return path.replace(/\/$/, '');
 }
 
-/** When inside a language/protocol sub-reference, the gray title shown atop the
- *  page list (e.g. /reference/java → "Java"). */
-const REF_SUBNAV_LABELS: Record<string, string> = {
-  restful: 'RESTful API',
-  python: 'Python',
-  java: 'Java',
-  go: 'Go',
-  nodejs: 'Node.js',
-  cpp: 'C++',
-};
-
-// Some languages serve their docs under a URL slug that differs from the landing
-// slug (e.g. Node.js landing is /reference/nodejs but its docs live under
-// /reference/node/…). Map those doc slugs back so inner pages still resolve to
-// the language — otherwise the sidebar drops out of the drill view on navigation.
-const REF_SLUG_ALIASES: Record<string, string> = {
-  node: 'nodejs',
-};
-
-export function getRefSubnavLabel(pathname: string): string | null {
-  const m = pathname.match(/^\/reference\/([^/]+)/);
-  if (!m) return null;
-  const slug = REF_SLUG_ALIASES[m[1]] ?? m[1];
-  return REF_SUBNAV_LABELS[slug] ?? null;
+export function getRefSubnavLabel(
+  route: DocsRouteContext,
+  navigation: ManualReferenceNavigation,
+): string | null {
+  if (!route.referenceTarget) return null;
+  return navigation.targets.find(target => target.kind === route.referenceTarget)?.label ?? null;
 }
 
-/** Parent panel of the Client Libraries drill: the landing + each
- *  language/protocol, in display order. */
-const CLIENT_LIB_ITEMS: {label: string; href: string}[] = [
-  {label: 'Install SDKs', href: '/docs/install-sdks'},
-  ...Object.entries(REF_SUBNAV_LABELS).map(([key, label]) => ({label, href: `/reference/${key}`})),
-];
+function resolveDocsSite(value: unknown): DocsSite {
+  return value === 'zh-CN' ? 'zh-CN' : 'en';
+}
+
+function resolveDocsLocale(value: string, site: DocsSite): DocsLocale {
+  if (value === 'ja-JP') return 'ja-JP';
+  return site === 'zh-CN' ? 'zh-CN' : 'en';
+}
 
 function getItemHref(item: PropSidebarItem): string | undefined {
   if (item.type === 'link') return item.href;
@@ -323,6 +319,11 @@ function useMergedMode(): boolean {
 function TwoLevelSidebar(props: Props): ReactNode {
   const {pathname} = useLocation();
   const history = useHistory();
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const site = resolveDocsSite(siteConfig.customFields?.site);
+  const locale = resolveDocsLocale(i18n.currentLocale, site);
+  const route = parseDocsRoute(pathname, locale);
+  const referenceNavigation = getManualReferenceNavigation(site);
   const docsSidebar = useDocsSidebar();
   const [tooltip, setTooltip] = useState<SidebarTooltipState | null>(null);
   const merged = useMergedMode();
@@ -350,7 +351,17 @@ function TwoLevelSidebar(props: Props): ReactNode {
   // Inside a language/protocol reference (Python, Java, …) the primary rail gets
   // a "back to Client Libraries" link + the language title on top; the tree
   // splits into the normal two-level (primary rail + secondary panel).
-  const subnavLabel = getRefSubnavLabel(pathname);
+  const referenceTarget = referenceNavigation.targets.find(target => target.kind === route.referenceTarget);
+  const subnavLabel = getRefSubnavLabel(route, referenceNavigation);
+  const referenceBackHref = withLocalePrefix(
+    referenceTarget?.kind === 'cli'
+      ? referenceNavigation.toolsHref
+      : referenceNavigation.installSdksHref,
+    route,
+  );
+  const referenceBackLabel = referenceTarget?.kind === 'cli'
+    ? referenceNavigation.toolsLabel
+    : referenceNavigation.clientLibrariesLabel;
   // Mirror the drill-in with a leftward slide when leaving a language reference.
   // The back link sets a sessionStorage flag (survives its full-page reload);
   // on the destination we play the slide once, then clear the flag.
@@ -371,7 +382,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
   // drills between the language list and a language's tree. Cross-plugin navigation
   // remounts the sidebar, so the slide is a mount-time keyframe driven by a
   // direction flag set on the triggering click (read once, synchronously).
-  const isInstallSdks = normalizePath(pathname) === '/docs/install-sdks';
+  const isInstallSdks = route.normalizedPathname === referenceNavigation.installSdksHref;
   const inRefContext = !!subnavLabel || isInstallSdks;
   const [pushNav] = useState<{dir: 'forward' | 'back'; label: string} | null>(() => {
     try {
@@ -397,11 +408,31 @@ function TwoLevelSidebar(props: Props): ReactNode {
     const latest = guides.versions.find(v => v.isLast) ?? guides.versions[0];
     const docPath: Record<string, string> = {};
     for (const d of latest?.docs ?? []) docPath[d.id] = d.path;
-    return buildGuidesRail(docPath);
-  }, [allDocsData]);
-  const clientLibsIndex = guidesRail.findIndex(s => s.label === 'Client Libraries');
+    return buildGuidesRail(docPath).map(section => ({
+      ...section,
+      href: section.href ? withLocalePrefix(section.href, route) : undefined,
+    }));
+  }, [allDocsData, route.localePrefix]);
+  const clientLibsIndex = guidesRail.findIndex(s => s.label === referenceNavigation.clientLibrariesLabel);
+  const toolsIndex = guidesRail.findIndex(s => s.label === referenceNavigation.toolsLabel);
+  const referenceRailIndex = referenceTarget?.kind === 'cli' ? toolsIndex : clientLibsIndex;
   const isReleasesSidebar = docsSidebar?.name === 'releasesSidebar';
-  const releasesRailActiveIndex = guidesRail.findIndex(s => s.label === 'Get Started');
+  const releasesRailActiveIndex = guidesRail.findIndex(s =>
+    s.href === withLocalePrefix('/docs/register-with-zilliz-cloud', route));
+  const clientLibraryItems = [
+    {
+      label: 'Install SDKs',
+      href: withLocalePrefix(referenceNavigation.installSdksHref, route),
+      isParent: true,
+    },
+    ...referenceNavigation.targets
+      .filter(target => target.kind !== 'cli')
+      .map(target => ({
+        label: target.label,
+        href: withLocalePrefix(target.landingHref, route),
+        isParent: false,
+      })),
+  ];
   // Only open a secondary panel when the selected primary item has children, so
   // flat leaf entries like "Overview" stay one-level (no empty second panel).
   const selectedHasChildren = selectedItem?.type === 'category' && selectedItem.items.length > 0;
@@ -424,9 +455,9 @@ function TwoLevelSidebar(props: Props): ReactNode {
     // "Overview" entry. Show the language title + the FULL tree instead so the nav
     // never disappears on narrow / zoomed viewports.
     const refMode = !!subnavLabel;
-    const refDropdownIndex = clientLibsIndex >= 0 ? clientLibsIndex : 0;
+    const refDropdownIndex = referenceRailIndex >= 0 ? referenceRailIndex : 0;
     const mergedDropdownLabel = refMode && guidesRail.length > 0
-      ? (guidesRail[refDropdownIndex]?.label ?? 'Client Libraries')
+      ? (guidesRail[refDropdownIndex]?.label ?? referenceBackLabel)
       : selectedLabel;
     return (
       <div className={styles.mergedSidebar}>
@@ -489,8 +520,8 @@ function TwoLevelSidebar(props: Props): ReactNode {
         {refMode && (
           <a
             className={styles.refHeaderRow}
-            href="/docs/install-sdks"
-            aria-label="Back to Client Libraries"
+            href={referenceBackHref}
+            aria-label={`Back to ${referenceBackLabel}`}
             onClick={(e) => {
               e.preventDefault();
               try {
@@ -498,7 +529,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
                 sessionStorage.setItem('zd-nav-back-label', subnavLabel);
                 sessionStorage.setItem('zd-nav-back', '1');
               } catch { /* ignore */ }
-              history.push('/docs/install-sdks');
+              history.push(referenceBackHref);
             }}>
             <svg className={styles.refHeaderRowArrow} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
@@ -581,7 +612,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
         <div className={styles.twoLevelBody}>
           <nav className={styles.primaryRail} aria-label="Documentation sections">
             {guidesRail.map((section, index) => {
-              const isActive = index === clientLibsIndex;
+              const isActive = index === referenceRailIndex;
               return (
                 <button
                   key={`${section.label}-${index}`}
@@ -611,15 +642,15 @@ function TwoLevelSidebar(props: Props): ReactNode {
                   <>
                     <a
                       className={styles.refHeaderRow}
-                      href="/docs/install-sdks"
-                      aria-label="Back to Client Libraries"
+                      href={referenceBackHref}
+                      aria-label={`Back to ${referenceBackLabel}`}
                       onClick={(e) => {
                         e.preventDefault();
                         try {
                           sessionStorage.setItem('zd-nav-dir', 'back');
                           sessionStorage.setItem('zd-nav-back-label', childLabel);
                         } catch { /* ignore */ }
-                        history.push('/docs/install-sdks');
+                        history.push(referenceBackHref);
                       }}>
                       <svg className={styles.refHeaderRowArrow} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
@@ -645,8 +676,8 @@ function TwoLevelSidebar(props: Props): ReactNode {
                   <div className={styles.refPanelScroll}>
                     <div className={styles.secondarySidebarContent}>
                       <ul className="menu__list">
-                        {CLIENT_LIB_ITEMS.map((it) => {
-                          const active = normalizePath(it.href) === normalizePath(pathname);
+                        {clientLibraryItems.map((it) => {
+                          const active = normalizePath(it.href) === normalizePath(route.pathname);
                           return (
                             <li className="menu__list-item" key={it.href}>
                               <a
@@ -657,13 +688,13 @@ function TwoLevelSidebar(props: Props): ReactNode {
                                   // Only the language refs actually drill in; "Install SDKs" is
                                   // the parent list itself, so it must NOT trigger the drill
                                   // animation (that caused the jitter on click).
-                                  if (it.href !== '/docs/install-sdks') {
+                                  if (!it.isParent) {
                                     try { sessionStorage.setItem('zd-nav-dir', 'forward'); } catch { /* ignore */ }
                                   }
                                   history.push(it.href);
                                 }}>
                                 <span>{it.label}</span>
-                                {it.href !== '/docs/install-sdks' && (
+                                {!it.isParent && (
                                   <svg className={styles.refListCaret} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                                     <path d="M5 8H13M9.5 4.5L13 8 9.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
                                   </svg>
@@ -693,7 +724,8 @@ function TwoLevelSidebar(props: Props): ReactNode {
 
   if (isReleasesSidebar && guidesRail.length > 0) {
     const activeReleasesRailIndex = releasesRailActiveIndex >= 0 ? releasesRailActiveIndex : 0;
-    const releasesBackHref = guidesRail[activeReleasesRailIndex]?.href ?? '/docs/register-with-zilliz-cloud';
+    const releasesBackHref = guidesRail[activeReleasesRailIndex]?.href
+      ?? withLocalePrefix('/docs/register-with-zilliz-cloud', route);
     return (
       <div
         className={styles.twoLevelSidebar}
@@ -785,11 +817,11 @@ function TwoLevelSidebar(props: Props): ReactNode {
       onBlur={hideTooltip}>
       {subnavLabel && (
         <div className={styles.refHeaderBar}>
-          <a className={styles.refBack} href="/docs/install-sdks" onClick={() => { try { sessionStorage.setItem('zd-nav-back', '1'); } catch { /* ignore */ } }}>
+          <a className={styles.refBack} href={referenceBackHref} onClick={() => { try { sessionStorage.setItem('zd-nav-back', '1'); } catch { /* ignore */ } }}>
             <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
             </svg>
-            Client Libraries
+            {referenceBackLabel}
           </a>
           <div className={styles.refTitle}>{subnavLabel}</div>
         </div>
@@ -866,8 +898,43 @@ function TwoLevelSidebar(props: Props): ReactNode {
   );
 }
 
-export default function DocSidebarWrapper(props: Props): ReactNode {
+function MobileDocSidebar(props: Props): ReactNode {
   const {pathname} = useLocation();
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const site = resolveDocsSite(siteConfig.customFields?.site);
+  const locale = resolveDocsLocale(i18n.currentLocale, site);
+  const route = parseDocsRoute(pathname, locale);
+  const referenceNavigation = getManualReferenceNavigation(site);
+  const mobileSubnav = getRefSubnavLabel(route, referenceNavigation);
+  const target = referenceNavigation.targets.find(item => item.kind === route.referenceTarget);
+  const backHref = withLocalePrefix(
+    target?.kind === 'cli' ? referenceNavigation.toolsHref : referenceNavigation.installSdksHref,
+    route,
+  );
+  const backLabel = target?.kind === 'cli'
+    ? referenceNavigation.toolsLabel
+    : referenceNavigation.clientLibrariesLabel;
+
+  return (
+    <>
+      {mobileSubnav && (
+        <a className={styles.refBack} href={backHref} style={{padding: '12px 16px 4px'}}>
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
+          </svg>
+          {backLabel}
+        </a>
+      )}
+      <div className={styles.sidebarScroll}>
+        <SidebarIconVisibilityContext.Provider value={false}>
+          <DocSidebar {...props} />
+        </SidebarIconVisibilityContext.Provider>
+      </div>
+    </>
+  );
+}
+
+export default function DocSidebarWrapper(props: Props): ReactNode {
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.innerWidth <= 767 : false,
   );
@@ -889,24 +956,5 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
     return <TwoLevelSidebar {...props} />;
   }
 
-  // Inside a language/protocol reference on mobile, offer a way back to the
-  // Client Libraries index (the desktop two-level layout's back link is absent here).
-  const mobileSubnav = getRefSubnavLabel(pathname);
-  return (
-    <>
-      {mobileSubnav && (
-        <a className={styles.refBack} href="/docs/install-sdks" style={{padding: '12px 16px 4px'}}>
-          <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
-          </svg>
-          Client Libraries
-        </a>
-      )}
-      <div className={styles.sidebarScroll}>
-        <SidebarIconVisibilityContext.Provider value={false}>
-          <DocSidebar {...props} />
-        </SidebarIconVisibilityContext.Provider>
-      </div>
-    </>
-  );
+  return <MobileDocSidebar {...props} />;
 }

@@ -1,4 +1,14 @@
 import type {PropSidebarItem} from '@docusaurus/plugin-content-docs';
+import {
+  withLocalePrefix,
+  type DocsRouteContext,
+  type ReferenceTarget,
+} from '../../../shared/navigation/docsRoute';
+import {
+  getManualReferenceNavigation,
+  type DocsSite,
+  type ReferenceNavigationTarget,
+} from '../../../shared/navigation/manualReferenceNavigation';
 
 export type ManualReferenceOrigin = {
   backHref: string;
@@ -7,93 +17,44 @@ export type ManualReferenceOrigin = {
   sidebar: PropSidebarItem[];
 };
 
-export type ManualReferenceTarget = {
-  kind: 'python' | 'java' | 'go' | 'nodejs' | 'restful' | 'cli';
-  hrefPrefix: string;
-};
+export type ManualReferenceTarget = ReferenceNavigationTarget;
 
 const STORAGE_KEY = 'zdoc.manualReferenceSidebarOrigin';
-
-const REFERENCE_TARGETS: ManualReferenceTarget[] = [
-  {kind: 'python', hrefPrefix: '/reference/python'},
-  {kind: 'java', hrefPrefix: '/reference/java'},
-  {kind: 'go', hrefPrefix: '/reference/go'},
-  {kind: 'nodejs', hrefPrefix: '/reference/nodejs'},
-  {kind: 'restful', hrefPrefix: '/reference/restful'},
-  {kind: 'cli', hrefPrefix: '/reference/cli'},
-];
-
-const REFERENCE_ENTRY_REDIRECTS: Record<string, string> = {
-  '/reference/cli/overview': '/reference/cli/cli/overview',
-};
-
-const CLOUD_GUIDES_PRIMARY_SIDEBAR: PropSidebarItem[] = [
-  {
-    type: 'category',
-    label: 'Get Started',
-    href: '/docs/register-with-zilliz-cloud',
-    items: [],
-    collapsed: false,
-    collapsible: true,
-  },
-  {
-    type: 'category',
-    label: 'Development',
-    href: '/docs/single-vector-search',
-    items: [],
-    collapsed: false,
-    collapsible: true,
-  },
-  {
-    type: 'category',
-    label: 'Management',
-    href: '/docs/organization-users',
-    items: [],
-    collapsed: false,
-    collapsible: true,
-  },
-  {
-    type: 'category',
-    label: 'Client Libraries',
-    href: '/docs/install-sdks',
-    items: [],
-    collapsed: false,
-    collapsible: true,
-  },
-  {
-    type: 'category',
-    label: 'Tools',
-    href: '/docs/agents-and-prompts',
-    items: [],
-    collapsed: false,
-    collapsible: true,
-  },
-  {
-    type: 'category',
-    label: 'AI Models',
-    href: '/docs/integrate-with-model-providers',
-    items: [],
-    collapsed: false,
-    collapsible: true,
-  },
-  {
-    type: 'category',
-    label: 'Architecture',
-    href: '/docs/data-resilience',
-    items: [],
-    collapsed: false,
-    collapsible: true,
-  },
-];
 
 function normalizePath(pathname: string): string {
   return pathname.replace(/\/$/, '') || '/';
 }
 
-function startsWithPath(pathname: string, prefix: string): boolean {
-  const path = normalizePath(pathname);
-  const normalizedPrefix = normalizePath(prefix);
-  return path === normalizedPrefix || path.startsWith(`${normalizedPrefix}/`);
+function withoutLocalePrefix(href: string, context: DocsRouteContext): string {
+  if (context.localePrefix && href.startsWith(`${context.localePrefix}/`)) {
+    return href.slice(context.localePrefix.length);
+  }
+  return href;
+}
+
+function createCloudGuidesPrimarySidebar(
+  context: DocsRouteContext,
+  site: DocsSite,
+): PropSidebarItem[] {
+  const navigation = getManualReferenceNavigation(site);
+  const category = (label: string, href: string): PropSidebarItem => ({
+    type: 'category',
+    label,
+    href: withLocalePrefix(href, context),
+    items: [],
+    collapsed: false,
+    collapsible: true,
+  });
+
+  return [
+    category('Get Started', '/docs/register-with-zilliz-cloud'),
+    category('Development', '/docs/single-vector-search'),
+    category('Management', '/docs/organization-users'),
+    category(navigation.clientLibrariesLabel, navigation.installSdksHref),
+    category(navigation.toolsLabel, navigation.toolsHref),
+    category('AI Models', '/docs/integrate-with-model-providers'),
+    category('Architecture', '/docs/data-resilience'),
+  ];
 }
 
 function isManualReferenceOrigin(value: unknown): value is ManualReferenceOrigin {
@@ -107,42 +68,57 @@ function isManualReferenceOrigin(value: unknown): value is ManualReferenceOrigin
   );
 }
 
-export function getManualReferenceTarget(pathname: string): ManualReferenceTarget | undefined {
-  return REFERENCE_TARGETS.find(target => startsWithPath(pathname, target.hrefPrefix));
+export function getManualReferenceTarget(
+  context: DocsRouteContext,
+  site: DocsSite,
+): ReferenceNavigationTarget | undefined {
+  if (!context.referenceTarget) return undefined;
+  return getManualReferenceNavigation(site).targets.find(target => target.kind === context.referenceTarget);
 }
 
-export function getReferenceNavigationHref(href: string): string {
-  const normalizedHref = normalizePath(href);
-  return REFERENCE_ENTRY_REDIRECTS[normalizedHref] ?? href;
+export function getReferenceNavigationHref(
+  href: string,
+  context: DocsRouteContext,
+  site: DocsSite,
+): string {
+  const navigation = getManualReferenceNavigation(site);
+  const unprefixedHref = withoutLocalePrefix(href, context);
+  const normalizedHref = normalizePath(unprefixedHref);
+  const targetHref = navigation.entryRedirects[normalizedHref] ?? unprefixedHref;
+  return withLocalePrefix(targetHref, context);
 }
 
 export function getDefaultManualReferenceOrigin(
-  target: ManualReferenceTarget,
+  target: ReferenceTarget,
+  context: DocsRouteContext,
+  site: DocsSite,
 ): ManualReferenceOrigin {
-  if (target.kind === 'cli') {
+  const navigation = getManualReferenceNavigation(site);
+  if (target === 'cli') {
     return {
-      backHref: '/docs/agents-and-prompts',
-      backLabel: 'Tools',
-      selectedLabel: 'Tools',
-      sidebar: CLOUD_GUIDES_PRIMARY_SIDEBAR,
+      backHref: withLocalePrefix(navigation.toolsHref, context),
+      backLabel: navigation.toolsLabel,
+      selectedLabel: navigation.toolsLabel,
+      sidebar: createCloudGuidesPrimarySidebar(context, site),
     };
   }
 
   return {
-    backHref: '/docs/install-sdks',
-    backLabel: 'Client Libraries',
-    selectedLabel: 'Client Libraries',
-    sidebar: CLOUD_GUIDES_PRIMARY_SIDEBAR,
+    backHref: withLocalePrefix(navigation.installSdksHref, context),
+    backLabel: navigation.clientLibrariesLabel,
+    selectedLabel: navigation.clientLibrariesLabel,
+    sidebar: createCloudGuidesPrimarySidebar(context, site),
   };
 }
 
 export function shouldClearManualReferenceOrigin(
-  pathname: string,
+  context: DocsRouteContext,
   origin: ManualReferenceOrigin | undefined,
 ): boolean {
   if (!origin) return false;
-  if (getManualReferenceTarget(pathname)) return false;
-  return normalizePath(pathname) !== normalizePath(origin.backHref);
+  if (context.referenceTarget) return false;
+  const normalizedBackHref = normalizePath(withoutLocalePrefix(origin.backHref, context));
+  return context.normalizedPathname !== normalizedBackHref;
 }
 
 export function readManualReferenceOrigin(): ManualReferenceOrigin | undefined {

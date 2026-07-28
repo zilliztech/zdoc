@@ -1,7 +1,17 @@
 import React, {type ReactNode, useEffect, useLayoutEffect, useState} from 'react';
 import {useNavbarSecondaryMenu, useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import {useHistory, useLocation} from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {getRefSubnavLabel} from '../../../DocSidebar';
+import {
+  parseDocsRoute,
+  withLocalePrefix,
+  type DocsRouteContext,
+} from '../../../../../shared/navigation/docsRoute';
+import {
+  getManualReferenceNavigation,
+  type ManualReferenceNavigation,
+} from '../../../../../shared/navigation/manualReferenceNavigation';
 
 const useBrowserLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
@@ -214,33 +224,39 @@ function shouldKeepLinkInsideMobileNav(link: HTMLAnchorElement) {
   return normalized.key.startsWith('/docs/') || normalized.key.startsWith('/reference/');
 }
 
-const MOBILE_SUBNAV_ENTRY_HREFS = new Set([
-  '/reference/restful',
-  '/reference/python',
-  '/reference/java',
-  '/reference/go',
-  '/reference/nodejs',
-  '/reference/cpp',
-]);
-
-function isMobileSubnavEntry(pathKey: string) {
-  return MOBILE_SUBNAV_ENTRY_HREFS.has(pathKey.replace(/\/$/, ''));
+function isMobileSubnavEntry(pathKey: string, navigation: ManualReferenceNavigation) {
+  const normalizedPathKey = pathKey.replace(/\/$/, '');
+  return navigation.targets.some(target =>
+    target.hrefPrefixes.some(prefix => prefix === normalizedPathKey));
 }
 
 // Inside a client-library reference (Python, Java, …) the mobile doc nav gets a
 // back link to Client Libraries + the language title, mirroring desktop.
-function MobileRefHeader() {
-  const {pathname} = useLocation();
+function MobileRefHeader({
+  route,
+  navigation,
+}: {
+  route: DocsRouteContext;
+  navigation: ManualReferenceNavigation;
+}) {
   const history = useHistory();
-  const subnav = getRefSubnavLabel(pathname);
+  const subnav = getRefSubnavLabel(route, navigation);
   if (!subnav) return null;
+  const target = navigation.targets.find(item => item.kind === route.referenceTarget);
+  const backHref = withLocalePrefix(
+    target?.kind === 'cli' ? navigation.toolsHref : navigation.installSdksHref,
+    route,
+  );
+  const backLabel = target?.kind === 'cli'
+    ? navigation.toolsLabel
+    : navigation.clientLibrariesLabel;
 
   const handleBackClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
-    keepMobileNavOpenOnRouteChange('/docs/install-sdks', 'back');
-    history.push('/docs/install-sdks');
+    keepMobileNavOpenOnRouteChange(backHref, 'back');
+    history.push(backHref);
   };
 
   return (
@@ -252,7 +268,7 @@ function MobileRefHeader() {
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path d="M13 8H3.5M7 4.5L3.5 8l3.5 3.5" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        Client Libraries
+        {backLabel}
       </button>
       <div className="mobile-ref-title">{subnav}</div>
     </div>
@@ -263,6 +279,12 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
   const secondaryMenu = useNavbarSecondaryMenu();
   const mobileSidebar = useNavbarMobileSidebar();
   const history = useHistory();
+  const {pathname} = useLocation();
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const site = siteConfig.customFields?.site === 'zh-CN' ? 'zh-CN' : 'en';
+  const locale = i18n.currentLocale === 'ja-JP' ? 'ja-JP' : site;
+  const route = parseDocsRoute(pathname, locale);
+  const referenceNavigation = getManualReferenceNavigation(site);
   const drillDirection = useMobileDrillDirection();
 
   const keepDrillInNav = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -278,7 +300,7 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
       // Non-collapsible category that navigates to a deeper level (has a ">"
       // caret) — drill in place and keep the nav open, don't treat it as a leaf.
       link.hasAttribute('data-sidebar-drill') ||
-      isMobileSubnavEntry(normalized.key);
+      isMobileSubnavEntry(normalized.key, referenceNavigation);
     if (!shouldDrillInNav) {
       try {
         window.sessionStorage.removeItem('zdoc-mobile-nav-keep-open');
@@ -313,7 +335,7 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
       <MobileActionToolbar />
       <div className="mobile-secondary-menu-content">
         <div className={`mobile-secondary-menu-stage${drillDirection ? ` mobile-secondary-menu-stage--${drillDirection}` : ''}`}>
-          <MobileRefHeader />
+          <MobileRefHeader route={route} navigation={referenceNavigation} />
           {secondaryMenu.content}
         </div>
       </div>
