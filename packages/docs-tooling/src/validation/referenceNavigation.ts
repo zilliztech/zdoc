@@ -208,8 +208,8 @@ function sidebarAnalysis(options: Readonly<{
     if (typeof id !== 'string' || id.length === 0) {
       throw targetError(options.site, options.target, options.sidebarPath, '(invalid)', 'sidebar-structure', 'document item requires a non-empty string ID');
     }
-    if (options.retiredIds.has(id)) return null;
     documentIds.add(id);
+    if (options.retiredIds.has(id)) return null;
     return {type: 'doc', id};
   };
 
@@ -234,8 +234,8 @@ function sidebarAnalysis(options: Readonly<{
       if (categoryLink.type !== 'doc' || typeof categoryLink.id !== 'string') {
         throw targetError(options.site, options.target, options.sidebarPath, '(invalid)', 'sidebar-structure', 'category links must use a document ID');
       }
+      documentIds.add(categoryLink.id);
       if (!options.retiredIds.has(categoryLink.id)) {
-        documentIds.add(categoryLink.id);
         link = categoryLink.id;
       }
     }

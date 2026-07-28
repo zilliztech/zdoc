@@ -228,4 +228,23 @@ describe('validateReferenceNavigation', () => {
     });
     expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
   });
+
+  it('still resolves a retired document ID when it remains in the selected sidebar', () => {
+    const root = fixture();
+    const target = targets[0];
+    const retiredId = `${target.documentIdPrefix}/operation`;
+    writeJson(root, 'config/reference-retirements.json', {
+      schemaVersion: 1,
+      retirements: [{
+        manual: target.manual,
+        sourcePath: `content/en/reference/${retiredId}.md`,
+        targetPath: `content/zh-CN/reference/${retiredId}.md`,
+        reason: 'Deliberate fixture retirement',
+      }],
+    });
+    unlinkSync(path.join(root, `content/zh-CN/reference/${retiredId}.md`));
+
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'}))
+      .toThrow(targetError(target, /document-resolution/, new RegExp(`documentId=${retiredId}`)));
+  });
 });
