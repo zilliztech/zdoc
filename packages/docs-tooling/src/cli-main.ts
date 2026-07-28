@@ -47,9 +47,8 @@ function assertNoSymlinkedInput(repositoryRoot: string, relativePath: string): s
   return target;
 }
 
-async function validateMdxDirectory(repositoryRoot: string, relativePath: string, verbose: boolean): Promise<void> {
-  const directory = assertNoSymlinkedInput(repositoryRoot, relativePath);
-  if (!lstatSync(directory).isDirectory()) throw new Error(`MDX input path must be a directory: ${relativePath}`);
+async function validateMdxPath(repositoryRoot: string, relativePath: string, verbose: boolean, write: boolean): Promise<void> {
+  const input = assertNoSymlinkedInput(repositoryRoot, relativePath);
   const files: string[] = [];
   const visit = (current: string): void => {
     for (const entry of readdirSync(current, {withFileTypes: true})) {
@@ -59,19 +58,27 @@ async function validateMdxDirectory(repositoryRoot: string, relativePath: string
       else if (entry.isFile() && /\.mdx?$/u.test(entry.name)) files.push(target);
     }
   };
-  visit(directory);
+  const inputStats = lstatSync(input);
+  if (inputStats.isDirectory()) visit(input);
+  else if (inputStats.isFile() && /\.mdx?$/u.test(input)) files.push(input);
+  else throw new Error(`MDX input path must be a Markdown file or directory: ${relativePath}`);
   let patched = 0;
   for (const file of files) {
     if (verbose) process.stdout.write(`Processing ${path.relative(repositoryRoot, file)}...\n`);
     const original = readFileSync(file, 'utf8');
     const result = await applyMdxPatches(original);
     if (result !== original) {
-      writeFileSync(file, result);
-      process.stdout.write(`Patched: ${path.relative(repositoryRoot, file)}\n`);
+      if (write) {
+        writeFileSync(file, result);
+        process.stdout.write(`Patched: ${path.relative(repositoryRoot, file)}\n`);
+      } else if (verbose) {
+        process.stdout.write(`Requires patch: ${path.relative(repositoryRoot, file)}\n`);
+      }
       patched += 1;
     }
   }
-  process.stdout.write(`MDX validation completed. ${patched}/${files.length} files patched.\n`);
+  const outcome = write ? 'patched' : 'require patches';
+  process.stdout.write(`MDX validation completed. ${patched}/${files.length} files ${outcome}.\n`);
 }
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
@@ -93,7 +100,8 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
   }
   if (argv[0] === 'validate-mdx') {
     const options = parseOptions(argv.slice(1));
-    await validateMdxDirectory(repositoryRoot, requiredOption(options, 'path'), options.verbose === true);
+    if (options.check === true && options.write === true) throw new Error('validate-mdx accepts either --check or --write, not both');
+    await validateMdxPath(repositoryRoot, requiredOption(options, 'path'), options.verbose === true, options.check !== true);
     return true;
   }
   if (argv[0] === 'check-links') {

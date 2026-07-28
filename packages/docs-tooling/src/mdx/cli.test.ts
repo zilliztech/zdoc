@@ -61,6 +61,37 @@ describe('docs-tooling validate-mdx', () => {
     expect(readFileSync(path.join(root, 'content/page.md'), 'utf8')).toBe('{/* category: SDK */}\n');
   });
 
+  it('patches only one explicitly selected Markdown file with --write', () => {
+    const root = temporaryRoot();
+    mkdirSync(path.join(root, 'content'), {recursive: true});
+    writeFileSync(path.join(root, 'content/page.md'), '<!-- category: SDK -->\n');
+    writeFileSync(path.join(root, 'content/unrelated.md'), '<!-- category: SDK -->\n');
+    const result = run(root, 'validate-mdx', '--path', 'content/page.md', '--write');
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(result.stdout).toMatch(/1\/1 files patched/);
+    expect(readFileSync(path.join(root, 'content/page.md'), 'utf8')).toBe('{/* category: SDK */}\n');
+    expect(readFileSync(path.join(root, 'content/unrelated.md'), 'utf8')).toBe('<!-- category: SDK -->\n');
+  });
+
+  it('checks recursively without mutating files with --check', () => {
+    const root = temporaryRoot();
+    mkdirSync(path.join(root, 'content'), {recursive: true});
+    writeFileSync(path.join(root, 'content/page.md'), '<!-- category: SDK -->\n');
+    const result = run(root, 'validate-mdx', '--path', 'content', '--check');
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(result.stdout).toMatch(/1\/1 files require patches/);
+    expect(readFileSync(path.join(root, 'content/page.md'), 'utf8')).toBe('<!-- category: SDK -->\n');
+  });
+
+  it('rejects conflicting MDX write modes', () => {
+    const root = temporaryRoot();
+    mkdirSync(path.join(root, 'content'), {recursive: true});
+    writeFileSync(path.join(root, 'content/page.md'), '# Page\n');
+    const result = run(root, 'validate-mdx', '--path', 'content', '--check', '--write');
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/check.*write|write.*check/i);
+  });
+
   it('rejects paths outside the repository', () => {
     const result = run(temporaryRoot(), 'validate-mdx', '--path', '../outside');
     expect(result.status).not.toBe(0);

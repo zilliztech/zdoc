@@ -143,7 +143,14 @@ jobs:
               pnpm run build:en
               ;;
             zh-CN-reference)
-              pnpm docs-tooling validate-mdx --path content/zh-CN/reference
+              if [[ "$GROUP" == reference-landings ]]; then
+                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/python/python/python.md --write
+                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/java/java/java.md --write
+                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/nodejs/nodejs/nodejs.md --write
+                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/go/go/go.md --write
+                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/cli/cli/Overview.md --write
+              fi
+              pnpm docs-tooling validate-mdx --path content/zh-CN/reference --check
               pnpm docs-tooling reference-manifest --write
               pnpm docs-tooling validate-reference --site zh-CN
               pnpm run build:zh-CN

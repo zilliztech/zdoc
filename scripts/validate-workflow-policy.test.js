@@ -38,6 +38,7 @@ test('translation workflows declare immutable target identity and exact target v
   const wrapperSource = fs.readFileSync('.github/workflows/translate-content.yml', 'utf8')
   assert.ok(wrapperSource.indexOf('name: Validate immutable translation identities') < wrapperSource.indexOf('uses: actions/checkout@v4'))
   assert.match(wrapperSource, /ref: ['"]?\$\{\{ inputs\.tooling_sha \}\}['"]?/)
+  assert.match(wrapperSource, /validate-mdx --path content\/zh-CN\/reference --check/)
   assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
 
   const compatibility = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
@@ -53,7 +54,17 @@ test('translation workflows declare immutable target identity and exact target v
   assert.match(compatibilitySource, /zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/)
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP[\s\S]*build:en/)
-  assert.match(source, /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
+  for (const landing of [
+    'content/zh-CN/reference/api/python/python/python.md',
+    'content/zh-CN/reference/api/java/java/java.md',
+    'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
+    'content/zh-CN/reference/api/go/go/go.md',
+    'content/zh-CN/reference/cli/cli/Overview.md',
+  ]) {
+    assert.ok(source.includes(`validate-mdx --path ${landing} --write`))
+  }
+  assert.match(source, /validate-mdx --path content\/zh-CN\/reference --check[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
+  assert.doesNotMatch(source, /validate-mdx --path content\/zh-CN\/reference --write/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/)
   assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
   for (const name of [
@@ -210,7 +221,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: '_translate-content-group.yml',
-      mutate: source => source.replace('zh-CN-reference)\n              pnpm docs-tooling', 'zh-CN-reference)\n              test -f i18n/ja-JP/forbidden.md\n              pnpm docs-tooling'),
+      mutate: source => source.replace('zh-CN-reference)\n              if [[ "$GROUP" == reference-landings ]]; then', 'zh-CN-reference)\n              test -f i18n/ja-JP/forbidden.md\n              if [[ "$GROUP" == reference-landings ]]; then'),
       expected: '_translate-content-group.yml: zh-CN-reference branch must not claim cross-target translation paths',
     },
     {
@@ -224,7 +235,10 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
       ['zh-CN-tools', 'pnpm run build:en'],
     ].map(([target, command]) => ({
       file: '_translate-content-group.yml',
-      mutate: source => source.replace(`${target})\n              pnpm docs-tooling`, `${target})\n              ${command}\n              pnpm docs-tooling`),
+      mutate: source => {
+        const firstCommand = target === 'zh-CN-reference' ? 'if [[ "$GROUP" == reference-landings ]]; then' : 'pnpm docs-tooling'
+        return source.replace(`${target})\n              ${firstCommand}`, `${target})\n              ${command}\n              ${firstCommand}`)
+      },
       expected: '_translate-content-group.yml: translation target branch contains a wrong-site build',
     })),
     {
