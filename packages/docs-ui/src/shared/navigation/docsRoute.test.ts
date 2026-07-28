@@ -31,14 +31,23 @@ describe('parseDocsRoute', () => {
     });
   });
 
-  it('normalizes Chinese CLI routes with trailing slashes, queries, and hashes', () => {
-    expect(parseDocsRoute('/reference/cli/?page=1#install', 'zh-CN')).toMatchObject({
+  it('normalizes nested Chinese CLI routes with trailing slashes, queries, and hashes', () => {
+    expect(parseDocsRoute('/reference/cli/cli/overview/?page=1#install', 'zh-CN')).toMatchObject({
       locale: 'zh-CN',
       localePrefix: '',
-      pathname: '/reference/cli',
-      normalizedPathname: '/reference/cli',
+      pathname: '/reference/cli/cli/overview',
+      normalizedPathname: '/reference/cli/cli/overview',
       manual: 'reference',
       referenceTarget: 'cli',
+    });
+  });
+
+  it('does not strip a Japanese-looking path for non-Japanese contexts', () => {
+    expect(parseDocsRoute('/ja-JP/reference/python', 'en')).toMatchObject({
+      locale: 'en',
+      pathname: '/ja-JP/reference/python',
+      normalizedPathname: '/ja-JP/reference/python',
+      manual: 'unknown',
     });
   });
 });

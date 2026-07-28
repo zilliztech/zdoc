@@ -44,9 +44,9 @@ function referenceTargetFor(pathname: string): ReferenceTarget | undefined {
 
 export function parseDocsRoute(pathname: string, locale: DocsLocale): DocsRouteContext {
   const normalizedInput = normalizePathname(pathname);
-  const normalizedPathname = normalizedInput === '/ja-JP'
-    ? '/'
-    : normalizedInput.replace(/^\/ja-JP(?=\/)/, '') || '/';
+  const normalizedPathname = locale === 'ja-JP'
+    ? (normalizedInput === '/ja-JP' ? '/' : normalizedInput.replace(/^\/ja-JP(?=\/)/, '') || '/')
+    : normalizedInput;
   const manual = classifyManual(normalizedPathname);
   const referenceTarget = manual === 'reference' ? referenceTargetFor(normalizedPathname) : undefined;
 
