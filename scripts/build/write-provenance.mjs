@@ -14,6 +14,9 @@ const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefa
 const {SiteProfileSchema, resolveSiteProfile} = jiti(
   path.join(toolRepositoryRoot, 'packages/site-config/src/index.ts'),
 );
+const {resolveTranslationTarget, translationTargets} = jiti(
+  path.join(toolRepositoryRoot, 'packages/docs-tooling/src/translation/targets.ts'),
+);
 const allowedEnvironmentFields = Object.freeze([
   'BUILD_ID',
   'BUILD_NUMBER',
@@ -150,7 +153,7 @@ function secureReadRegularFile(repositoryRoot, relativePath, label) {
     if (postStat.dev !== stat.dev || postStat.ino !== stat.ino) {
       throw new Error(`${label} changed while it was being read: ${relativePath}`);
     }
-    return {bytes, mode: stat.mode & 0o777};
+    return {bytes, mode: stat.mode & 0o777, nlink: stat.nlink};
   } finally {
     fs.closeSync(descriptor);
   }
@@ -163,6 +166,21 @@ function trackedFiles(repositoryRoot) {
     stdio: ['ignore', 'pipe', 'pipe'],
   })
     .split('\0').filter(Boolean);
+}
+
+function gitPathList(repositoryRoot, args) {
+  return execFileSync('git', args, {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  }).split('\0').filter(Boolean);
+}
+
+function dirtyFiles(repositoryRoot) {
+  return [...new Set([
+    ...gitPathList(repositoryRoot, ['diff', '--name-only', '-z', '--no-renames', 'HEAD', '--']),
+    ...gitPathList(repositoryRoot, ['ls-files', '--others', '--exclude-standard', '-z']),
+  ])].sort(compareBinary);
 }
 
 function pathInRoot(relativePath, root) {
@@ -206,6 +224,68 @@ function releaseInputDefinition(site) {
   };
 }
 
+function translationTargetInputDefinition(target) {
+  if (target.id === 'ja-JP') {
+    return {
+      site: target.sourceSite,
+      roots: target.mappings.map(mapping => mapping.targetRoot),
+      required: [target.state.path],
+    };
+  }
+  return {
+    site: target.targetSite,
+    roots: [target.targetRoot],
+    required: target.id === 'zh-CN-tools'
+      ? [target.sidebarTarget, target.state.path]
+      : [target.state.path],
+  };
+}
+
+function isInputPath(relativePath, definition) {
+  return definition.required.includes(relativePath) ||
+    definition.roots.some(root => pathInRoot(relativePath, root));
+}
+
+function discoverInputDefinitionPaths(repositoryRoot, definition) {
+  return [...new Set([
+    ...definition.roots.flatMap(root => walkReleaseInputRoot(repositoryRoot, root)),
+    ...definition.required.filter(relativePath => fs.existsSync(confinedPath(
+      repositoryRoot,
+      relativePath,
+      'translation target input',
+    ))),
+  ])].sort(compareBinary);
+}
+
+function resolveCandidateWorkspace(environment, site, externalSnapshot) {
+  const raw = {
+    target: String(environment.ZDOC_PROVENANCE_CANDIDATE_TARGET ?? ''),
+    toolingSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA ?? ''),
+    sourceSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA ?? ''),
+  };
+  if (Object.values(raw).every(value => value === '')) return undefined;
+  if (Object.values(raw).some(value => value === '')) {
+    throw new Error('Candidate workspace provenance requires target, tooling SHA, and source SHA');
+  }
+  if (externalSnapshot) {
+    throw new Error('Candidate workspace provenance is forbidden for external snapshots');
+  }
+  if (!/^[0-9a-f]{40}$/u.test(raw.toolingSha) || !/^[0-9a-f]{40}$/u.test(raw.sourceSha)) {
+    throw new Error('Candidate workspace provenance identities must be 40-character lowercase Git SHAs');
+  }
+  let target;
+  try {
+    target = resolveTranslationTarget(raw.target);
+  } catch (error) {
+    throw new Error(`Candidate workspace translation target is invalid: ${raw.target}`, {cause: error});
+  }
+  const definition = translationTargetInputDefinition(target);
+  if (definition.site !== site) {
+    throw new Error(`Candidate workspace translation target ${target.id} does not belong to site ${site}`);
+  }
+  return {...raw, definition};
+}
+
 export function assertNoInputPathCollisions(relativePaths) {
   const canonicalPaths = new Map();
   for (const relativePath of relativePaths) {
@@ -219,8 +299,7 @@ export function assertNoInputPathCollisions(relativePaths) {
 }
 
 function isLocalizationInputPath(relativePath, definition) {
-  return definition.required.includes(relativePath) ||
-    definition.roots.some(root => pathInRoot(relativePath, root));
+  return isInputPath(relativePath, definition);
 }
 
 export function localizationInputInventoryPaths(repositoryRoot) {
@@ -258,7 +337,7 @@ function readLocalizationInputInventory(repositoryRoot, relativePath) {
   return inventory.paths;
 }
 
-function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory} = {}) {
+function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, candidateWorkspace} = {}) {
   const definition = releaseInputDefinition(site);
   const discovered = [
     ...definition.roots.flatMap(root => walkReleaseInputRoot(repositoryRoot, root)),
@@ -268,11 +347,57 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory} = 
   const tracked = new Set(trackedInputInventory
     ? readLocalizationInputInventory(repositoryRoot, trackedInputInventory)
     : trackedFiles(repositoryRoot));
-  const selected = [...tracked].filter(relativePath => isLocalizationInputPath(relativePath, definition))
-    .sort(compareBinary);
+  let candidateActual = [];
+  let candidateDirty = [];
+  let candidateDeleted = [];
+  if (candidateWorkspace) {
+    const targetDefinitions = translationTargets.map(target => ({
+      target,
+      definition: translationTargetInputDefinition(target),
+    }));
+    for (const required of candidateWorkspace.definition.required) {
+      if (!fs.existsSync(confinedPath(repositoryRoot, required, 'candidate workspace required input'))) {
+        throw new Error(`Missing required candidate workspace input: ${required}`);
+      }
+    }
+    candidateActual = discoverInputDefinitionPaths(repositoryRoot, candidateWorkspace.definition);
+    const dirty = dirtyFiles(repositoryRoot);
+    const localizationDefinitions = [
+      {label: 'English release', definition: releaseInputDefinition('en')},
+      {label: 'Chinese release', definition: releaseInputDefinition('zh-CN')},
+      ...targetDefinitions.map(({target, definition: targetDefinition}) => ({
+        label: target.id,
+        definition: targetDefinition,
+      })),
+    ];
+    const unrelated = dirty.map(relativePath => ({
+      relativePath,
+      owner: localizationDefinitions.find(entry => isInputPath(relativePath, entry.definition)),
+    })).find(({relativePath, owner}) => owner && !isInputPath(relativePath, candidateWorkspace.definition));
+    if (unrelated) {
+      throw new Error(`Candidate workspace ${candidateWorkspace.target} cannot accept dirty ${unrelated.owner.label} input: ${unrelated.relativePath}`);
+    }
+    candidateDirty = dirty.filter(relativePath => isInputPath(relativePath, candidateWorkspace.definition));
+    candidateDeleted = candidateDirty.filter(relativePath => !fs.existsSync(confinedPath(
+      repositoryRoot,
+      relativePath,
+      'candidate workspace input',
+    )));
+    const targetOwnedTracked = [...tracked].filter(relativePath => targetDefinitions.some(
+      entry => isInputPath(relativePath, entry.definition),
+    ));
+    assertNoInputPathCollisions([...new Set([...targetOwnedTracked, ...candidateActual])]);
+  }
+  const allowedCandidates = new Set(candidateDirty);
+  const candidateDeletedSet = new Set(candidateDeleted);
+  const selected = [...new Set([
+    ...[...tracked].filter(relativePath =>
+      isLocalizationInputPath(relativePath, definition) && !candidateDeletedSet.has(relativePath)),
+    ...actual.filter(relativePath => allowedCandidates.has(relativePath)),
+  ])].sort(compareBinary);
   assertNoInputPathCollisions(selected);
   const actualSet = new Set(actual);
-  const untracked = actual.filter(relativePath => !tracked.has(relativePath));
+  const untracked = actual.filter(relativePath => !tracked.has(relativePath) && !allowedCandidates.has(relativePath));
   if (untracked.length > 0) {
     throw new Error(`Localization input must be tracked: ${untracked[0]}`);
   }
@@ -281,10 +406,26 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory} = 
   for (const required of definition.required) {
     if (!selected.includes(required)) throw new Error(`Missing required localization input: ${required}`);
   }
-  return selected.map(relativePath => {
-    const {bytes, mode} = secureReadRegularFile(repositoryRoot, relativePath, 'localization input');
+  const records = selected.map(relativePath => {
+    const {bytes, mode, nlink} = secureReadRegularFile(repositoryRoot, relativePath, 'localization input');
+    if (candidateWorkspace && allowedCandidates.has(relativePath) && nlink !== 1) {
+      throw new Error(`Candidate workspace localization input must not be a hard link: ${relativePath}`);
+    }
     return {path: relativePath, mode, sha256: hashBytes(bytes)};
   });
+  return {
+    records,
+    candidateRecords: candidateWorkspace
+      ? candidateDirty
+        .filter(relativePath => !candidateDeletedSet.has(relativePath))
+        .map(relativePath => {
+          const {bytes, mode, nlink} = secureReadRegularFile(repositoryRoot, relativePath, 'candidate workspace input');
+          if (nlink !== 1) throw new Error(`Candidate workspace localization input must not be a hard link: ${relativePath}`);
+          return {path: relativePath, mode, sha256: hashBytes(bytes)};
+        })
+      : undefined,
+    candidateDeleted: candidateWorkspace ? candidateDeleted : undefined,
+  };
 }
 
 function hashRequiredFile(repositoryRoot, relativePath, label) {
@@ -582,6 +723,7 @@ export function writeBuildProvenance({
     throw new Error(`Resolved profile outputDir must be build/${site}`);
   }
   const externalSnapshot = resolveExternalSnapshot(environment);
+  const candidateWorkspace = resolveCandidateWorkspace(environment, site, externalSnapshot);
   const requestedBuildRelative = path.relative(requestedRoot, path.resolve(buildDirectory));
   const buildRoot = resolveBuildDirectory(root, site, path.resolve(root, requestedBuildRelative));
   const selectionMode = contentManifests === undefined
@@ -600,9 +742,22 @@ export function writeBuildProvenance({
     snapshotDeclaredManifests,
   );
   const {records: artifactRecords, routes} = walkArtifactTree(root, buildRoot);
-  const localizationInputRecords = hashLocalizationInputs(root, site, {
+  const {records: localizationInputRecords, candidateRecords, candidateDeleted} = hashLocalizationInputs(root, site, {
     trackedInputInventory: externalSnapshot?.trackedInputInventory,
+    candidateWorkspace,
   });
+  const localizationInputs = {
+    records: localizationInputRecords,
+    ...(candidateWorkspace ? {
+      candidateWorkspace: {
+        target: candidateWorkspace.target,
+        toolingSha: candidateWorkspace.toolingSha,
+        sourceSha: candidateWorkspace.sourceSha,
+        records: candidateRecords,
+        deleted: candidateDeleted,
+      },
+    } : {}),
+  };
   const finalRouteInventories = routeInventories(site, routes, root);
   const selectedEnvironment = Object.fromEntries(
     allowedEnvironmentFields
@@ -625,9 +780,7 @@ export function writeBuildProvenance({
       mode: selectionMode,
       records: contentManifestRecords,
     },
-    localizationInputs: {
-      records: localizationInputRecords,
-    },
+    localizationInputs,
     routeInventories: finalRouteInventories,
     componentHashes: {
       profile: hashCanonical(parsedProfile),
@@ -635,7 +788,7 @@ export function writeBuildProvenance({
       dependencies: hashRequiredFile(root, 'migration/dependencies.json', 'dependency ledger'),
       legacyFiles: hashRequiredFile(root, 'migration/legacy-files.json', 'legacy file ledger'),
       contentManifests: hashCanonical(contentManifestRecords),
-      localizationInputs: hashCanonical(localizationInputRecords),
+      localizationInputs: hashCanonical(localizationInputs),
       routes: hashCanonical(routes),
       routeInventories: hashCanonical(finalRouteInventories),
       environment: hashCanonical(selectedEnvironment),

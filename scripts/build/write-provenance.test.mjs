@@ -151,6 +151,15 @@ function runZh(root, overrides = {}) {
   });
 }
 
+function candidateEnvironment(overrides = {}) {
+  return {
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'zh-CN-tools',
+    ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: 'e'.repeat(40),
+    ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: 'f'.repeat(40),
+    ...overrides,
+  };
+}
+
 test('writes canonical byte-identical provenance with required components and no secret values', () => {
   const root = fixture();
   const first = run(root);
@@ -216,6 +225,137 @@ test('localization inputs reject untracked files and symlinks', () => {
   fs.rmSync(localized);
   fs.symlinkSync(path.join(symlinkRoot, 'tracked.txt'), localized);
   assert.throws(() => run(symlinkRoot), /localization input.*symbolic link|symbolic link.*localization input/i);
+});
+
+test('candidate workspace accepts only exact untracked inputs owned by the declared translation target', () => {
+  const root = fixture();
+  write(root, 'content/zh-CN/guides/tutorials/tools/generated.md', '# 候选工具\n');
+  write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', [
+    "'use strict'",
+    "module.exports = [{type: 'doc', id: 'tutorials/tools/generated', label: '候选工具'}]",
+    '',
+  ].join('\n'));
+  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
+    schemaVersion: 1,
+    records: [{
+      sourcePath: 'content/en/guides/tutorials/tools/generated.md',
+      targetPath: 'content/zh-CN/guides/tutorials/tools/generated.md',
+      sourceHash: 'd'.repeat(64),
+    }],
+  }));
+  write(root, 'build/zh-CN/docs/tutorials/tools/generated/index.html', '<html>候选工具</html>');
+
+  const {manifest} = runZh(root, {environment: candidateEnvironment()});
+
+  assert.deepEqual(manifest.localizationInputs.candidateWorkspace, {
+    target: 'zh-CN-tools',
+    toolingSha: 'e'.repeat(40),
+    sourceSha: 'f'.repeat(40),
+    records: manifest.localizationInputs.candidateWorkspace.records,
+    deleted: [],
+  });
+  assert.deepEqual(
+    manifest.localizationInputs.candidateWorkspace.records.map(record => record.path),
+    [
+      'content/zh-CN/guides/tutorials/tools/generated.md',
+      'generated/zh-CN/manifests/tools-translations.json',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
+    ],
+  );
+  assert.ok(manifest.localizationInputs.candidateWorkspace.records.every(
+    record => Number.isInteger(record.mode) && /^[0-9a-f]{64}$/u.test(record.sha256),
+  ));
+});
+
+test('candidate workspace rejects untracked localization inputs owned by another target', () => {
+  const root = fixture();
+  write(root, 'content/zh-CN/reference/unrelated.md', '# 不相关参考文档\n');
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
+
+  assert.throws(
+    () => runZh(root, {environment: candidateEnvironment()}),
+    /candidate workspace.*zh-CN-reference.*unrelated\.md|unrelated\.md.*zh-CN-tools/i,
+  );
+});
+
+test('candidate workspace hashes Chinese Reference files and state owned by its target contract', () => {
+  const root = fixture();
+  write(root, 'content/zh-CN/reference/generated.md', '# 候选参考文档\n');
+  write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"candidate"}\n');
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
+
+  const {manifest} = runZh(root, {environment: candidateEnvironment({
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'zh-CN-reference',
+  })});
+
+  assert.deepEqual(manifest.localizationInputs.candidateWorkspace.records.map(record => record.path), [
+    'content/zh-CN/reference/generated.md',
+    'generated/zh-CN/manifests/reference-translations.json',
+  ]);
+  assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, []);
+});
+
+test('candidate workspace records target-owned tracked deletions without treating them as missing inputs', () => {
+  const root = fixture();
+  commitZhReleaseInputs(root);
+  fs.rmSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/tool.md'));
+
+  const {manifest} = runZh(root, {environment: candidateEnvironment()});
+
+  assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [
+    'content/zh-CN/guides/tutorials/tools/tool.md',
+  ]);
+});
+
+test('candidate workspace rejects tracked modifications owned by another translation target', () => {
+  const root = fixture();
+  fs.appendFileSync(
+    path.join(root, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md'),
+    '\ntracked cross-target mutation\n',
+  );
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
+
+  assert.throws(
+    () => runZh(root, {environment: candidateEnvironment()}),
+    /candidate workspace.*zh-CN-tools.*ja-JP|ja-JP.*cross-target|another translation target/i,
+  );
+});
+
+test('candidate workspace requires an exact target and two immutable Git identities', () => {
+  const root = fixture();
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
+  const cases = [
+    candidateEnvironment({ZDOC_PROVENANCE_CANDIDATE_TARGET: 'unknown'}),
+    candidateEnvironment({ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: 'not-a-sha'}),
+    candidateEnvironment({ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ''}),
+  ];
+  for (const environment of cases) {
+    assert.throws(() => runZh(root, {environment}), /candidate workspace|translation target|40-character.*SHA/i);
+  }
+});
+
+test('candidate workspace rejects hard-linked target files and missing target state', () => {
+  const hardlinkRoot = fixture();
+  fs.mkdirSync(path.join(hardlinkRoot, 'content/zh-CN/guides/tutorials/tools'), {recursive: true});
+  fs.linkSync(
+    path.join(hardlinkRoot, 'tracked.txt'),
+    path.join(hardlinkRoot, 'content/zh-CN/guides/tutorials/tools/hardlink.md'),
+  );
+  write(hardlinkRoot, 'build/zh-CN/index.html', '<html>zh</html>');
+  assert.throws(
+    () => runZh(hardlinkRoot, {environment: candidateEnvironment()}),
+    /candidate workspace.*hard link|hard link.*hardlink\.md/i,
+  );
+
+  const missingStateRoot = fixture();
+  fs.rmSync(path.join(missingStateRoot, 'generated/zh-CN/manifests/reference-translations.json'));
+  write(missingStateRoot, 'build/zh-CN/index.html', '<html>zh</html>');
+  assert.throws(
+    () => runZh(missingStateRoot, {environment: candidateEnvironment({
+      ZDOC_PROVENANCE_CANDIDATE_TARGET: 'zh-CN-reference',
+    })}),
+    /missing required candidate workspace input.*reference-translations\.json/i,
+  );
 });
 
 test('localization inputs reject tracked case and Unicode normalization collisions', () => {
@@ -416,6 +556,7 @@ test('external container snapshots are explicit, fail closed, and do not require
   });
   assert.equal(result.manifest.commit, 'd'.repeat(40));
   assert.equal(result.manifest.workingTree, 'external-snapshot');
+  assert.equal(result.manifest.localizationInputs.candidateWorkspace, undefined);
   assert.equal(result.manifest.contentManifests.mode, 'profile-declared');
   assert.deepEqual(result.manifest.contentManifests.records.map(record => record.path), [
     'content/en/guides/content-manifest.json',

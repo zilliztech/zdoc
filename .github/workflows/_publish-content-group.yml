@@ -227,6 +227,9 @@ jobs:
         shell: bash
         env:
           BASELINE_PAYLOAD_DIR: ${{ steps.baseline_validation.outputs.baseline_dir }}
+          ZDOC_PROVENANCE_CANDIDATE_TARGET: ${{ inputs.target }}
+          ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: ${{ inputs.tooling_sha }}
+          ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_sha }}
         run: |
           set -o pipefail
           baseline_args=()

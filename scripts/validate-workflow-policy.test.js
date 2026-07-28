@@ -55,6 +55,29 @@ test('translation workflows declare immutable target identity and exact target v
   assert.match(source, /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP[\s\S]*build:en/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
   assert.match(source, /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/)
+  for (const name of [
+    'ZDOC_PROVENANCE_CANDIDATE_TARGET',
+    'ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA',
+    'ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA',
+  ]) {
+    assert.equal(
+      yaml.load(source).jobs.translate.steps.find(step => step.name === 'Validate unbatched translated group').env[name],
+      name.endsWith('TARGET') ? '${{ inputs.target }}' : name.endsWith('TOOLING_SHA') ? '${{ inputs.tooling_sha }}' : '${{ inputs.source_sha }}',
+    )
+  }
+
+  const publisher = yaml.load(fs.readFileSync('.github/workflows/_publish-content-group.yml', 'utf8'))
+  const publisherStep = publisher.jobs.publish.steps.find(step => step.name === 'Publish checkpoint')
+  assert.equal(publisherStep.env.ZDOC_PROVENANCE_CANDIDATE_TARGET, '${{ inputs.target }}')
+  assert.equal(publisherStep.env.ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA, '${{ inputs.tooling_sha }}')
+  assert.equal(publisherStep.env.ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA, '${{ inputs.source_sha }}')
+})
+
+test('candidate provenance authorization is absent from Docker and general site validation builds', () => {
+  for (const file of ['deploy/en/Dockerfile', 'deploy/zh-CN/Dockerfile', '.github/workflows/site-validation.yml']) {
+    const source = fs.readFileSync(file, 'utf8')
+    assert.doesNotMatch(source, /ZDOC_PROVENANCE_CANDIDATE_/u, `${file} must retain strict tracked-input provenance`)
+  }
 })
 
 test('source publication workflows require site-owned publish-group contracts', () => {
@@ -145,6 +168,11 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
       expected: '_translate-content-group.yml: translation tooling checkout must use exact inputs.tooling_sha',
     },
     {
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace('          ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_sha }}\n', ''),
+      expected: '_translate-content-group.yml: candidate provenance must receive exact target, tooling, and source identities only in unbatched validation',
+    },
+    {
       file: 'translate-content.yml',
       mutate: source => source.replace("ref: '${{ inputs.tooling_sha }}'", 'ref: master'),
       expected: 'translate-content.yml: translation tooling checkout must use exact inputs.tooling_sha',
@@ -163,6 +191,11 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
       file: '_publish-content-group.yml',
       mutate: source => source.replace('name: Check out immutable translation tooling\n        if:', 'name: Check out immutable translation tooling\n        if:').replace('ref: ${{ inputs.tooling_sha }}', 'ref: ${{ inputs.master_sha }}'),
       expected: '_publish-content-group.yml: must check out exact translation tooling and separate source tooling',
+    },
+    {
+      file: '_publish-content-group.yml',
+      mutate: source => source.replace('          ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: ${{ inputs.tooling_sha }}\n', ''),
+      expected: '_publish-content-group.yml: checkpoint validation must receive exact candidate provenance identities',
     },
     {
       file: '_translate-content-group.yml',

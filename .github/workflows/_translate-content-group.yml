@@ -131,6 +131,10 @@ jobs:
           TRANSLATION_ALLOW_PARTIAL: "true"
       - name: Validate unbatched translated group
         if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        env:
+          ZDOC_PROVENANCE_CANDIDATE_TARGET: ${{ inputs.target }}
+          ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: ${{ inputs.tooling_sha }}
+          ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_sha }}
         run: |
           case "$TRANSLATION_TARGET" in
             ja-JP)

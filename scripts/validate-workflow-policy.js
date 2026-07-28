@@ -243,6 +243,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const unbatchedCondition = String(unbatched?.if || '')
       const unbatchedRun = String(unbatched?.run || '')
       const checkpointRun = String(checkpoint?.run || '')
+      const candidateIdentity = {
+        ZDOC_PROVENANCE_CANDIDATE_TARGET: '${{ inputs.target }}',
+        ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: '${{ inputs.tooling_sha }}',
+        ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: '${{ inputs.source_sha }}',
+      }
       validateTargetBranches(steps.map(step => String(step?.run || '')).join('\n'), file, errors)
       const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
       const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
@@ -263,6 +268,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
       if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
+      }
+      const candidateNames = Object.keys(candidateIdentity)
+      const candidateIdentityIsExact = candidateNames.every(name => unbatched?.env?.[name] === candidateIdentity[name])
+      const leaksCandidateIdentity = steps.some(step => step !== unbatched && candidateNames.some(name =>
+        Object.hasOwn(step?.env || {}, name) || String(step?.run || '').includes(name)))
+      if (!candidateIdentityIsExact || leaksCandidateIdentity) {
+        errors.push(`${file}: candidate provenance must receive exact target, tooling, and source identities only in unbatched validation`)
       }
       const targetValidation = /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP --group "\$GROUP"[\s\S]*build:en/.test(unbatchedRun)
         && /validate-mdx --path content\/zh-CN\/reference[\s\S]*reference-manifest --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/.test(unbatchedRun)
@@ -346,6 +358,18 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (/git push[^\n]*(?:--force(?:\s|$)|-f(?:\s|$))/.test(source)) errors.push(`${file}: staging publisher must not force-update the target`)
       if (/APP_ID|APP_SECRET|FEISHU|report-live-card/.test(source)) errors.push(`${file}: staging publisher must not receive Feishu credentials`)
       if (/sed -n ['"]s\/\^status=|tee [^\n]*(?:publication|state)|tail -1/.test(source)) errors.push(`${file}: staging publisher must not derive state from logs`)
+    }
+
+    if (file === '_publish-content-group.yml') {
+      const publisher = (workflow.jobs?.publish?.steps || []).find(step => step.name === 'Publish checkpoint')
+      const expected = {
+        ZDOC_PROVENANCE_CANDIDATE_TARGET: '${{ inputs.target }}',
+        ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: '${{ inputs.tooling_sha }}',
+        ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: '${{ inputs.source_sha }}',
+      }
+      if (!publisher || Object.entries(expected).some(([name, value]) => publisher.env?.[name] !== value)) {
+        errors.push(`${file}: checkpoint validation must receive exact candidate provenance identities`)
+      }
     }
 
     if (file === '_render-guides-table.yml') {
