@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "precedence": [
     "japaneseLocalization",
     "canonicalEnglishTools",
@@ -46,6 +46,12 @@
       "include": [
         "content/en/reference/**",
         "generated/en/manifests/reference.json",
+        "generated/en/sidebars/python.sidebar.js",
+        "generated/en/sidebars/java.sidebar.js",
+        "generated/en/sidebars/node.sidebar.js",
+        "generated/en/sidebars/go.sidebar.js",
+        "generated/en/sidebars/restful.sidebar.js",
+        "generated/en/sidebars/cli.sidebar.js",
         "config/reference-navigation.json",
         "packages/docs-tooling/src/reference/**",
         "packages/docs-tooling/src/validation/translation.ts",
@@ -77,7 +83,13 @@
       "exclude": [
         "content/en/reference/**",
         "content/en/guides/tutorials/tools/**",
-        "generated/en/sidebars/guides.sidebar.js"
+        "generated/en/sidebars/guides.sidebar.js",
+        "generated/en/sidebars/python.sidebar.js",
+        "generated/en/sidebars/java.sidebar.js",
+        "generated/en/sidebars/node.sidebar.js",
+        "generated/en/sidebars/go.sidebar.js",
+        "generated/en/sidebars/restful.sidebar.js",
+        "generated/en/sidebars/cli.sidebar.js"
       ],
       "checks": ["build:en"]
     },

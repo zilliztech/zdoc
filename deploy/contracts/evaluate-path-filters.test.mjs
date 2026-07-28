@@ -48,6 +48,16 @@ test('Reference navigation inputs select the required builds and focused coverag
   });
 });
 
+test('English Reference sidebar templates select both builds and Chinese coverage', () => {
+  for (const sidebar of ['python', 'java', 'node', 'go', 'restful', 'cli']) {
+    assert.deepEqual(evaluateChangedPaths([`generated/en/sidebars/${sidebar}.sidebar.js`], filters), {
+      checks: ['build:en', 'build:zh-CN', 'zh-reference-translation-coverage'],
+      matchedRules: ['canonicalEnglishReference'],
+      unclassifiedPaths: [],
+    });
+  }
+});
+
 test('site-owned changes require only their owned site build', () => {
   assert.deepEqual(evaluateChangedPaths([
     'content/en/guides/get-started.md',
