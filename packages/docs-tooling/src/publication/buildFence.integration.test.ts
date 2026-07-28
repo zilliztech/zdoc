@@ -1,10 +1,14 @@
 import {mkdirSync, mkdtempSync, readFileSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
+import {EventEmitter} from 'node:events';
 
 import {describe, expect, it, vi} from 'vitest';
 
-import {withSitePublicationReadFence} from '../../../../scripts/build/run-with-publication-read-fence.mjs';
+import {
+  runBuildWithPublicationReadFence,
+  withSitePublicationReadFence,
+} from '../../../../scripts/build/run-with-publication-read-fence.mjs';
 import {resolveManualPublication} from '../manuals/registry.ts';
 import {atomicReplace, ownedTreeCommit} from './atomicReplace.ts';
 import {publicationOwnedTargets} from './diagnostics.ts';
@@ -63,5 +67,58 @@ describe('official Docusaurus build publication reader', () => {
     releaseRename();
     await publication;
     expect(await buildRead).toEqual(['new\n', 'new\n']);
+  });
+
+  it('forwards termination and holds the fence until the build child exits', async () => {
+    const root = temporaryRoot();
+    const signalSource = new EventEmitter();
+    const child = new EventEmitter() as EventEmitter & {kill: ReturnType<typeof vi.fn>};
+    child.kill = vi.fn(() => true);
+    const spawnProcess = vi.fn(() => child);
+    let settled = false;
+
+    const build = runBuildWithPublicationReadFence({
+      root,
+      site: 'en',
+      command: 'docusaurus',
+      spawnProcess: spawnProcess as unknown as typeof import('node:child_process').spawn,
+      signalSource: signalSource as unknown as NodeJS.Process,
+    });
+    void build.then(
+      () => { settled = true; },
+      () => { settled = true; },
+    );
+    await vi.waitFor(() => expect(signalSource.listenerCount('SIGTERM')).toBe(1));
+
+    signalSource.emit('SIGTERM');
+    expect(child.kill).toHaveBeenCalledOnce();
+    expect(child.kill).toHaveBeenCalledWith('SIGTERM');
+    await Promise.resolve();
+    expect(settled).toBe(false);
+
+    child.emit('exit', null, 'SIGTERM');
+    await expect(build).rejects.toThrow('Build command terminated by SIGTERM');
+    expect(signalSource.listenerCount('SIGINT')).toBe(0);
+    expect(signalSource.listenerCount('SIGTERM')).toBe(0);
+  });
+
+  it('removes temporary termination handlers when child startup fails', async () => {
+    const root = temporaryRoot();
+    const signalSource = new EventEmitter();
+    const child = new EventEmitter();
+
+    const build = runBuildWithPublicationReadFence({
+      root,
+      site: 'en',
+      command: 'docusaurus',
+      spawnProcess: (() => child) as unknown as typeof import('node:child_process').spawn,
+      signalSource: signalSource as unknown as NodeJS.Process,
+    });
+    await vi.waitFor(() => expect(signalSource.listenerCount('SIGINT')).toBe(1));
+
+    child.emit('error', new Error('spawn failed'));
+    await expect(build).rejects.toThrow('spawn failed');
+    expect(signalSource.listenerCount('SIGINT')).toBe(0);
+    expect(signalSource.listenerCount('SIGTERM')).toBe(0);
   });
 });

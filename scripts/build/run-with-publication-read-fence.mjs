@@ -25,7 +25,7 @@ export async function withSitePublicationReadFence(root, site, reader) {
   return await withAtomicPublicationReads(root, publicationSetsForSite(site), reader);
 }
 
-export async function runBuildWithPublicationReadFence({root = repositoryRoot, site, command, args = [], cwd = process.cwd(), env = process.env, spawnProcess = spawn}) {
+export async function runBuildWithPublicationReadFence({root = repositoryRoot, site, command, args = [], cwd = process.cwd(), env = process.env, spawnProcess = spawn, signalSource = process}) {
   if (typeof command !== 'string' || command.length === 0) throw new Error('A build command is required after --');
   return await withSitePublicationReadFence(root, site, async () => await new Promise((resolve, reject) => {
     const child = spawnProcess(command, args, {
@@ -33,11 +33,31 @@ export async function runBuildWithPublicationReadFence({root = repositoryRoot, s
       env: {...env, ZDOC_SITE: site},
       stdio: 'inherit',
     });
-    child.once('error', reject);
+
+    let settled = false;
+    const forwardSignal = signal => child.kill(signal);
+    const onSigint = () => forwardSignal('SIGINT');
+    const onSigterm = () => forwardSignal('SIGTERM');
+    const cleanup = () => {
+      signalSource.removeListener('SIGINT', onSigint);
+      signalSource.removeListener('SIGTERM', onSigterm);
+    };
+    const settle = action => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      action();
+    };
+
+    signalSource.on('SIGINT', onSigint);
+    signalSource.on('SIGTERM', onSigterm);
+    child.once('error', error => settle(() => reject(error)));
     child.once('exit', (code, signal) => {
-      if (signal) reject(new Error(`Build command terminated by ${signal}`));
-      else if (code !== 0) reject(new Error(`Build command exited with status ${code}`));
-      else resolve();
+      settle(() => {
+        if (signal) reject(new Error(`Build command terminated by ${signal}`));
+        else if (code !== 0) reject(new Error(`Build command exited with status ${code}`));
+        else resolve();
+      });
     });
   }));
 }
