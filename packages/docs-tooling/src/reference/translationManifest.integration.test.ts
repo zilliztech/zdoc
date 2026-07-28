@@ -6,6 +6,7 @@ import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 
 const cliMain = path.resolve(import.meta.dirname, '../cli-main.ts');
+const referenceSidebarNames = ['python', 'java', 'node', 'go', 'restful', 'cli'] as const;
 
 function git(repositoryRoot: string, args: string[]): void {
   const result = spawnSync('git', args, {cwd: repositoryRoot, encoding: 'utf8'});
@@ -17,8 +18,12 @@ function repository(): string {
   mkdirSync(path.join(root, 'content/en/reference/api/python'), {recursive: true});
   mkdirSync(path.join(root, 'content/zh-CN/reference/api/python'), {recursive: true});
   mkdirSync(path.join(root, 'config'), {recursive: true});
+  mkdirSync(path.join(root, 'generated/en/sidebars'), {recursive: true});
   writeFileSync(path.join(root, 'content/en/reference/api/python/page.md'), '# source\n');
   writeFileSync(path.join(root, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+  for (const manual of referenceSidebarNames) {
+    writeFileSync(path.join(root, `generated/en/sidebars/${manual}.sidebar.js`), 'module.exports = ["api/python/page"]\n');
+  }
   writeFileSync(path.join(root, 'config/reference-retirements.json'), '{\n  "schemaVersion": 1,\n  "retirements": []\n}\n');
   writeFileSync(path.join(root, '.gitignore'), '.DS_Store\n');
   git(root, ['init', '--quiet']);
@@ -69,7 +74,7 @@ function retiredRepository(): string {
 }
 
 describe('Reference manifest executable security boundary', () => {
-  it('bootstraps from content, commit, and the retirement registry without generated input', () => {
+  it('requires English sidebar templates while bootstrapping manifests from content, commit, and the retirement registry', () => {
     const root = repository();
     rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
     writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
@@ -83,7 +88,8 @@ describe('Reference manifest executable security boundary', () => {
     }, null, 2) + '\n');
     git(root, ['add', '-A']);
     git(root, ['commit', '--quiet', '-m', 'retire source']);
-    rmSync(path.join(root, 'generated'), {recursive: true, force: true});
+    rmSync(path.join(root, 'generated/en/manifests'), {recursive: true, force: true});
+    rmSync(path.join(root, 'generated/zh-CN'), {recursive: true, force: true});
 
     const result = generate(root);
 
@@ -92,6 +98,16 @@ describe('Reference manifest executable security boundary', () => {
     const translations = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
     expect(translations.records).toHaveLength(1);
     expect(translations.records[0].status).toBe('retired');
+  });
+
+  it('fails through the executable when an English Reference sidebar template is missing', () => {
+    const root = repository();
+    rmSync(path.join(root, 'generated/en/sidebars/python.sidebar.js'));
+
+    const result = generate(root);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/cannot load English Reference sidebar template.*python\.sidebar\.js/i);
   });
 
   it('rejects an ignored source file absent from the declared commit tree', () => {
