@@ -1257,7 +1257,7 @@ function parseRemovalJournal(contents: Buffer, root: string, relative: string, l
   return {...checksummed, hmac: value.hmac};
 }
 
-function removeSecureFile(repositoryRoot: string, relative: string, label: string): void {
+export function removeSecureFile(repositoryRoot: string, relative: string, label: string): void {
   const root = canonicalRoot(repositoryRoot, label);
   const target = resolveSecureRepositoryPath(root, relative, label, {finalKind: 'file'});
   const parentRelative = path.posix.dirname(relative);

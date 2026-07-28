@@ -729,6 +729,83 @@ describe('docs-tooling CLI boundary', () => {
     expect(calls[2]).toContain('--reuse-source');
   });
 
+  it('isolates canonical Tools from the Chinese Guides source publication stage', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/guides/tutorials');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/guides.sidebar.js');
+    const translatedTools = Buffer.from('---\ntitle: 已翻译工具\n---\n\n# 已翻译工具\n');
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'home.md'), '# 首页\n');
+    mkdirSync(path.join(liveOutput, 'tools'), {recursive: true});
+    writeFileSync(path.join(liveOutput, 'tools/translated.md'), translatedTools);
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = []\n');
+    const canonicalTool = path.join(repositoryRoot, 'content/en/guides/tutorials/tools/terraform-provider.md');
+    mkdirSync(path.dirname(canonicalTool), {recursive: true});
+    writeFileSync(canonicalTool, '# Terraform\n');
+
+    const context = await executeDocsToolingCommand(
+      ['fetch', '--manual', 'guides', '--group', 'guides', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/guides'],
+      {
+        repositoryRoot,
+        async fetch(fetchContext) {
+          const staged = publicationStagePaths(fetchContext);
+          expect(readFileSync(path.join(staged.outputPath, 'tools/translated.md'))).toEqual(translatedTools);
+          writeFileSync(path.join(staged.outputPath, 'tools/translated.md'), '# generator overwrite\n');
+          writeFileSync(path.join(staged.outputPath, 'tools/generator-only.md'), '# generator-owned\n');
+          mkdirSync(staged.outputPath, {recursive: true});
+          writeFileSync(path.join(staged.outputPath, 'terraform-provider.md'), '# 旧中文来源\n');
+          writeFileSync(path.join(staged.outputPath, 'keep.md'), '# 中文产品文档\n');
+          mkdirSync(path.dirname(staged.sidebarPath), {recursive: true});
+          writeFileSync(staged.sidebarPath, `module.exports = ${JSON.stringify([
+            {type: 'category', label: '工具', items: [{type: 'doc', id: 'tutorials/terraform-provider'}]},
+            {type: 'doc', id: 'tutorials/keep'},
+          ])}\n`);
+        },
+      },
+    );
+
+    const staged = publicationStagePaths(context);
+    expect(existsSync(path.join(staged.outputPath, 'terraform-provider.md'))).toBe(false);
+    expect(readFileSync(path.join(staged.outputPath, 'keep.md'), 'utf8')).toContain('中文产品文档');
+    expect(readFileSync(path.join(staged.outputPath, 'tools/translated.md'))).toEqual(translatedTools);
+    expect(existsSync(path.join(staged.outputPath, 'tools/generator-only.md'))).toBe(false);
+    const require = createRequire(import.meta.url);
+    delete require.cache[require.resolve(staged.sidebarPath)];
+    expect(require(staged.sidebarPath)).toEqual([{type: 'doc', id: 'tutorials/keep'}]);
+
+    const replace = vi.fn(async options => {
+      const contentReplacement = options.replacements.find(replacement => replacement.target === 'content/zh-CN/guides/tutorials');
+      expect(contentReplacement).toBeDefined();
+      expect(readFileSync(path.join(contentReplacement!.source, 'tools/translated.md'))).toEqual(translatedTools);
+    });
+    await executeDocsToolingCommand(
+      ['publish', '--manual', 'guides', '--group', 'guides', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/guides'],
+      {repositoryRoot, atomicReplace: replace, aliyunOssValidator: {validatePublication: vi.fn().mockResolvedValue(undefined)}},
+    );
+    expect(replace).toHaveBeenCalledOnce();
+  });
+
+  it('rejects symlinked live Chinese Tools translations before running the Guides generator', async () => {
+    const repositoryRoot = temporaryRoot();
+    const liveOutput = path.join(repositoryRoot, 'content/zh-CN/guides/tutorials');
+    const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/guides.sidebar.js');
+    const outside = temporaryRoot();
+    mkdirSync(liveOutput, {recursive: true});
+    writeFileSync(path.join(liveOutput, 'home.md'), '# 首页\n');
+    writeFileSync(path.join(outside, 'translated.md'), '# outside\n');
+    symlinkSync(outside, path.join(liveOutput, 'tools'));
+    mkdirSync(path.dirname(liveSidebar), {recursive: true});
+    writeFileSync(liveSidebar, 'module.exports = []\n');
+    const fetch = vi.fn();
+
+    await expect(executeDocsToolingCommand(
+      ['fetch', '--manual', 'guides', '--group', 'guides', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/guides'],
+      {repositoryRoot, fetch},
+    )).rejects.toThrow(/symlink/i);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
   it('stops a Guides clean run when the shared source fetch fails before either render', async () => {
     const repositoryRoot = temporaryRoot();
     const guidesOutput = path.join(repositoryRoot, 'content/en/guides/tutorials');
