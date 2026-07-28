@@ -5001,9 +5001,9 @@
       "translatedAt": "2026-07-13T11:01:30.676Z"
     },
     "reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md": {
-      "sourceHash": "6d08debce44d25b4da54883d88977518340488d52885c2d5d5aa1bedcd0b0fac",
+      "sourceHash": "01c847c74b971b0a13c51f8dc29881276207f492516abd549050019a10ee9345",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
-      "translatedAt": "2026-07-13T11:01:46.207Z"
+      "translatedAt": "2026-07-28T18:52:50.549Z"
     },
     "reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateReq.md": {
       "sourceHash": "02476a5af27cee5e12a35bc4e75c82ec8e5d08d6266a9f2a50158f8e62eb3c58",
