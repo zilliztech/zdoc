@@ -47,6 +47,7 @@ import {
   type ReferenceRetirementRegistry,
   type ReferenceTreeSnapshot,
 } from './reference/translationManifest.ts';
+import {deriveZhCnReferenceSidebarEntries} from './reference/sidebarDerivation.ts';
 import {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
 import {
@@ -327,9 +328,16 @@ export async function executeReferenceDocsToolingCommand(
     });
     assertSnapshotsEqual(sourceSnapshot, captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT), 'Reference source snapshot changed during generation');
     assertSnapshotsEqual(targetSnapshot, captureReferenceTree(repositoryRoot, REFERENCE_TARGET_ROOT), 'Reference target snapshot changed during generation');
+    const retiredTargetIds = new Set(retirementRegistry.retirements
+      .filter(record => !targetSnapshot.has(record.targetPath))
+      .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
+    const sidebarEntries = existsSync(path.join(repositoryRoot, 'generated/en/sidebars'))
+      ? deriveZhCnReferenceSidebarEntries(repositoryRoot, retiredTargetIds)
+      : [];
     writeManifestPair(repositoryRoot, [
       [REFERENCE_SOURCE_MANIFEST, serializeReferenceManifest(manifests.sourceManifest)],
       [REFERENCE_TRANSLATION_MANIFEST, serializeReferenceManifest(manifests.translationManifest)],
+      ...sidebarEntries,
     ]);
     dependencies.write?.(`wrote Reference manifests for ${sourceCommit}`);
     return;

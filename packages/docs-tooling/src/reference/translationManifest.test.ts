@@ -349,4 +349,44 @@ describe('Reference translation provenance', () => {
     expect(existsSync(path.join(roots.repositoryRoot, 'translations/zh-CN/reference'))).toBe(false);
     expect(verifiedRevisions).toEqual(Array.from({length: 3}, () => 'a'.repeat(40)));
   });
+
+  it('regenerates Chinese Reference sidebars when writing the translation manifest', async () => {
+    const roots = fixture();
+    const manuals = [
+      ['python', 'api/python/python'],
+      ['java', 'api/java/java/v2'],
+      ['node', 'api/nodejs/nodejs'],
+      ['go', 'api/go/go/v2'],
+      ['restful', 'api/restful/restful'],
+      ['cli', 'cli/cli'],
+    ] as const;
+    for (const [manual, prefix] of manuals) {
+      mkdirSync(path.join(roots.repositoryRoot, roots.sourceRoot, prefix), {recursive: true});
+      mkdirSync(path.join(roots.repositoryRoot, roots.targetRoot, prefix), {recursive: true});
+      writeFileSync(path.join(roots.repositoryRoot, roots.sourceRoot, prefix, 'page.md'), `# ${manual} English\n`);
+      writeFileSync(path.join(roots.repositoryRoot, roots.targetRoot, prefix, 'page.md'), `# ${manual} 中文\n`);
+      mkdirSync(path.join(roots.repositoryRoot, 'generated/en/sidebars'), {recursive: true});
+      writeFileSync(
+        path.join(roots.repositoryRoot, `generated/en/sidebars/${manual}.sidebar.js`),
+        `module.exports = [{type: 'doc', id: '${prefix}/page', label: '${manual} English'}]\n`,
+      );
+    }
+
+    await executeReferenceDocsToolingCommand([
+      'reference-manifest', '--source', roots.sourceRoot, '--target', roots.targetRoot, '--source-commit', 'HEAD', '--write',
+    ], {
+      repositoryRoot: roots.repositoryRoot,
+      resolveSourceCommit: () => 'a'.repeat(40),
+      verifySourceRevision: () => undefined,
+      manualForPath: filePath => manuals.find(([, prefix]) => filePath.includes(`/${prefix}/`))?.[0] ?? 'python',
+      retirementRegistry: {schemaVersion: 1, retirements: []},
+    });
+
+    for (const [manual] of manuals) {
+      expect(readFileSync(
+        path.join(roots.repositoryRoot, `generated/zh-CN/sidebars/${manual}.sidebar.js`),
+        'utf8',
+      )).toContain(`"label": "${manual} 中文"`);
+    }
+  });
 });
