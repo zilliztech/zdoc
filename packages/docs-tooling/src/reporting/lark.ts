@@ -907,15 +907,6 @@ export interface ReportCardActionResults {
   finish: PersistedCardState | ExactCardState;
 }
 
-export function executeReportCard(
-  request: ReportCardRequest & {action: 'create'},
-  dependencies?: ReportCardDependencies,
-): Promise<PersistedCardStateWithMessage>;
-export function executeReportCard(
-  request: ReportCardRequest,
-  dependencies?: ReportCardDependencies,
-): Promise<ReportCardResult>;
-
 export async function executeReportCard(
   request: ReportCardRequest,
   dependencies: ReportCardDependencies = {},

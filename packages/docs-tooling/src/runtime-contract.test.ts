@@ -33,6 +33,11 @@ describe('docs-tooling runtime contract', () => {
     expect(rootManifest.scripts?.['docs-tooling']).toBe('node --experimental-strip-types packages/docs-tooling/src/cli-main.ts');
   });
 
+  it('keeps the report-card entrypoint compatible with Node 22.6 type stripping', () => {
+    const source = readFileSync(path.join(packageRoot, 'src/reporting/lark.ts'), 'utf8');
+    expect(source).not.toMatch(/export function executeReportCard\([\s\S]*?\): Promise<[^;\n]+>;/u);
+  });
+
   it('declares every direct runtime package in the owning workspace package', () => {
     const manifest = JSON.parse(readFileSync(path.join(packageRoot, 'package.json'), 'utf8')) as {
       dependencies?: Record<string, string>;
