@@ -634,6 +634,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const readWorkflow = (file) => fs.existsSync(path.join(directory, file))
     ? fs.readFileSync(path.join(directory, file), 'utf8')
     : ''
+  const translationWorkflow = yaml.load(readWorkflow('_translate-content-group.yml'))
+  const publisherWorkflow = yaml.load(readWorkflow('_publish-content-group.yml'))
+  const nodeVersion = (workflow, jobName) => (workflow?.jobs?.[jobName]?.steps || [])
+    .find(step => step?.uses === 'actions/setup-node@v4')?.with?.['node-version']
+  const translationNodeVersion = nodeVersion(translationWorkflow, 'translate')
+  const publisherNodeVersion = nodeVersion(publisherWorkflow, 'publish')
+  if (!translationNodeVersion || publisherNodeVersion !== translationNodeVersion) {
+    errors.push('_publish-content-group.yml: publisher Node runtime must match the translation runtime')
+  }
   const callerSource = readWorkflow('fetch-docs.yml')
   if (callerSource) {
     let caller
