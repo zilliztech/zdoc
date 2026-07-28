@@ -1,96 +1,17 @@
 {
-  "generated_at": "2026-07-28T11:01:09.210Z",
+  "generated_at": "2026-07-28T18:53:47.571Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlW0B32Y5js",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "VectorDB Audit Logs",
-      "labels": "VectorDB Audit Logs",
-      "slug": "audit-logs",
-      "doc_token": "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/M5dXwsGOOiPdAjkWLZUc2Pxonuh",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-  ],
-  "expanded_tokens": [
-    "BClgwKlHaiushBkPPssclTkYnef",
-    "FSUqwEEIii9k2sklkcLcIFJJnbf",
-    "GBfswoqhviHfTVk2qhHc4eGXnfh",
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe",
-    "INoRwFTjfiindPkaNlwc9XAgnkh",
-    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
-    "JNWZwEqkwiDmeSkVPBlc4hnanEe",
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "Nby4wCqNviuLg3kEZpkcdKtnnnb",
-    "NeUWwqRl2iwn4HkZg3ocjLjmnth",
-    "PAViwMSb3iVMzuk56z3c1zfRnwh",
-    "PharwAysCiBzvgkuqqecmNzunQf",
-    "SIhBwKFJri4u2CkyD3ucnO7an3g"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh": [
-      "wiki node edit time changed"
-    ],
-    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
-      "outgoing reference from M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ": [
-      "outgoing reference from M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "INoRwFTjfiindPkaNlwc9XAgnkh": [
-      "outgoing reference from M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "GBfswoqhviHfTVk2qhHc4eGXnfh": [
-      "outgoing reference from M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "NeUWwqRl2iwn4HkZg3ocjLjmnth": [
-      "outgoing reference from M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "Nby4wCqNviuLg3kEZpkcdKtnnnb": [
-      "outgoing reference from M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "PharwAysCiBzvgkuqqecmNzunQf": [
-      "outgoing reference from M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "BClgwKlHaiushBkPPssclTkYnef": [
-      "incoming reference to M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "FSUqwEEIii9k2sklkcLcIFJJnbf": [
-      "incoming reference to M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe": [
-      "incoming reference to M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "JNWZwEqkwiDmeSkVPBlc4hnanEe": [
-      "incoming reference to M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ],
-    "SIhBwKFJri4u2CkyD3ucnO7an3g": [
-      "incoming reference to M5dXwsGOOiPdAjkWLZUc2Pxonuh"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ",
-    "tblh7utKxg0dgdTo"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -176,7 +97,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-07-23T18:45:49.455Z",
+    "generated_at": "2026-07-28T11:01:55.558Z",
     "records": 373
   },
   "source_scope": "partial"
