@@ -7,8 +7,8 @@ import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
 import type {PropSidebarItem, PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
 import {findFirstSidebarItemLink, useAllDocsData, useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
-// @ts-expect-error Resolved by the site-owned webpack alias configured in docsUiPlugin.
-import guidesSidebarRaw from '@site/config/generated/guides.sidebar';
+// @ts-expect-error Resolved by the site-selected webpack alias configured in docsUiPlugin.
+import guidesSidebarRaw from '@zilliz/docs-ui/guides-sidebar';
 import {
   Rocket,
   Database,

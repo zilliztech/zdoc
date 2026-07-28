@@ -15,6 +15,77 @@ const runtimeSingletons = [
 
 const sourceExtensions = ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'] as const;
 
+type WebpackResolveConfig = {
+  extensions?: string[];
+  alias?: Record<string, string>;
+};
+
+type WebpackConfig = {
+  mode?: 'development';
+  resolve?: WebpackResolveConfig;
+};
+
+function docusaurusCoreRequire() {
+  const appRequire = createRequire(path.join(process.cwd(), 'apps/docs/package.json'));
+  const coreRoot = path.dirname(appRequire.resolve('@docusaurus/core/package.json'));
+  return {coreRequire: createRequire(path.join(coreRoot, 'package.json')), coreRoot};
+}
+
+function applyDocusaurusWebpackConfig(
+  plugin: ReturnType<typeof docsUiPlugin>,
+  config: WebpackConfig,
+): WebpackConfig {
+  const {coreRequire, coreRoot} = docusaurusCoreRequire();
+  const {applyConfigureWebpack} = coreRequire(path.join(coreRoot, 'lib/webpack/configure.js')) as {
+    applyConfigureWebpack(options: {
+      configureWebpack: NonNullable<typeof plugin.configureWebpack>;
+      config: WebpackConfig;
+      isServer: boolean;
+      configureWebpackUtils: Record<string, never>;
+      content: undefined;
+    }): WebpackConfig;
+  };
+  return applyConfigureWebpack({
+    configureWebpack: plugin.configureWebpack!,
+    config,
+    isServer: false,
+    configureWebpackUtils: {},
+    content: undefined,
+  });
+}
+
+async function resolveWithWebpack(config: WebpackConfig, importer: string, request: string): Promise<string> {
+  type Resolver = {
+    resolve(
+      context: Record<string, never>,
+      importer: string,
+      request: string,
+      resolveContext: Record<string, never>,
+      callback: (error?: Error | null, result?: string | false) => void,
+    ): void;
+  };
+  type Compiler = {
+    options: {resolve: WebpackResolveConfig};
+    resolverFactory: {get(type: 'normal', options: WebpackResolveConfig): Resolver};
+    close(callback: (error?: Error | null) => void): void;
+  };
+  const {coreRequire} = docusaurusCoreRequire();
+  const webpack = coreRequire('webpack') as (options: WebpackConfig) => Compiler;
+  const compiler = webpack({mode: 'development', resolve: config.resolve});
+  const resolver = compiler.resolverFactory.get('normal', compiler.options.resolve);
+
+  return new Promise((resolve, reject) => {
+    resolver.resolve({}, importer, request, {}, (resolveError, result) => {
+      compiler.close(closeError => {
+        if (resolveError) reject(resolveError);
+        else if (closeError) reject(closeError);
+        else if (!result) reject(new Error(`Webpack did not resolve ${request}`));
+        else resolve(result);
+      });
+    });
+  });
+}
+
 function resolveRelativeImport(importer: string, specifier: string): string | undefined {
   const candidate = path.resolve(path.dirname(importer), specifier);
   const candidates = [
@@ -77,7 +148,7 @@ describe('docs UI Docusaurus integration', () => {
     expect(webpack.resolve?.alias).not.toHaveProperty('@theme/Navbar/Content$');
     expect(webpack.resolve?.alias).not.toHaveProperty('@theme/Navbar/MobileSidebar/SecondaryMenu$');
     expect(webpack.resolve?.alias).not.toHaveProperty('@theme/DocSidebar$');
-    expect(webpack.resolve?.alias).not.toHaveProperty('@site/config/generated/guides.sidebar$');
+    expect(webpack.resolve?.alias).not.toHaveProperty('@zilliz/docs-ui/guides-sidebar$');
 
     const sharedRoot = path.join(process.cwd(), 'packages/docs-ui/src/shared');
     expect(fs.readFileSync(path.join(sharedRoot, 'theme/Navbar/Content/index.tsx'), 'utf8')).toContain(
@@ -98,7 +169,7 @@ describe('docs UI Docusaurus integration', () => {
     expect(webpack.resolve?.alias?.['@theme/Navbar/Content$']).toMatch(/docs-ui[/\\]src[/\\]en[/\\]theme[/\\]Navbar[/\\]Content[/\\]index\.tsx$/);
     expect(webpack.resolve?.alias?.['@theme/Navbar/MobileSidebar/SecondaryMenu$']).toMatch(/docs-ui[/\\]src[/\\]en[/\\]theme[/\\]Navbar[/\\]MobileSidebar[/\\]SecondaryMenu[/\\]index\.tsx$/);
     expect(webpack.resolve?.alias?.['@theme/DocSidebar$']).toMatch(/docs-ui[/\\]src[/\\]en[/\\]theme[/\\]DocSidebar[/\\]index\.tsx$/);
-    expect(webpack.resolve?.alias?.['@site/config/generated/guides.sidebar$']).toMatch(/generated.en.sidebars.guides\.sidebar\.js$/);
+    expect(webpack.resolve?.alias?.['@zilliz/docs-ui/guides-sidebar$']).toMatch(/generated.en.sidebars.guides\.sidebar\.js$/);
   });
 
   it('selects the Chinese Guides sidebar for the complete Chinese module selection', () => {
@@ -109,7 +180,25 @@ describe('docs UI Docusaurus integration', () => {
       resolve?: {alias?: Record<string, string>};
     };
 
-    expect(webpack.resolve?.alias?.['@site/config/generated/guides.sidebar$']).toMatch(/generated.zh-CN.sidebars.guides\.sidebar\.js$/);
+    expect(webpack.resolve?.alias?.['@zilliz/docs-ui/guides-sidebar$']).toMatch(/generated.zh-CN.sidebars.guides\.sidebar\.js$/);
+  });
+
+  it('resolves the Chinese Guides sidebar without colliding with Docusaurus site aliases', async () => {
+    const plugin = docsUiPlugin({}, {
+      modules: ['shared-theme', 'shared-components', 'chinese-home'],
+    });
+    const config = applyDocusaurusWebpackConfig(plugin, {
+      resolve: {
+        extensions: ['.js', '.ts', '.tsx'],
+        alias: {'@site': path.join(process.cwd(), 'apps/docs')},
+      },
+    });
+
+    await expect(resolveWithWebpack(
+      config,
+      path.join(process.cwd(), 'packages/docs-ui/src/en/theme/DocSidebar'),
+      '@zilliz/docs-ui/guides-sidebar',
+    )).resolves.toBe(path.join(process.cwd(), 'generated/zh-CN/sidebars/guides.sidebar.js'));
   });
 
   it('keeps the legacy RestSpecs MDX import as a thin docs-ui runtime wrapper', () => {

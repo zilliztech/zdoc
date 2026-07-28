@@ -75,7 +75,7 @@ export default function docsUiPlugin(_context: unknown, options: Options): Plugi
           '@theme/DocSidebar$': path.join(__dirname, 'en/theme/DocSidebar/index.tsx'),
         }
       : {}),
-    ...(guidesSidebar ? {'@site/config/generated/guides.sidebar$': guidesSidebar} : {}),
+    ...(guidesSidebar ? {'@zilliz/docs-ui/guides-sidebar$': guidesSidebar} : {}),
   };
   return {
     name: 'zilliz-docs-ui',
