@@ -185,6 +185,12 @@ function registeredRetirements(repositoryRoot: string, targetId: TranslationTarg
   return new Set((registry?.retirements ?? []).map(record => `${record.sourcePath}\0${record.targetPath}\0${record.reason}`));
 }
 
+function registeredRetirementTargets(repositoryRoot: string, targetId: TranslationTargetId): Set<string> {
+  const registryPath = retirementRegistryPath(targetId);
+  const registry = registryPath ? readJson(repositoryRoot, registryPath) as {retirements?: RetirementCandidate[]} | undefined : undefined;
+  return new Set((registry?.retirements ?? []).map(record => record.targetPath));
+}
+
 function withoutLabels(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(withoutLabels);
   if (!value || typeof value !== 'object') return value;
@@ -209,11 +215,13 @@ export function buildTranslationCandidates(options: Readonly<{
   const previousBySource = new Map(previous.map(record => [record.sourcePath, record]));
   const activeSources = new Set<string>();
   const candidates: TranslationCandidate[] = [];
+  const retiredTargets = registeredRetirementTargets(options.repositoryRoot, target.id);
 
   for (const mapping of mappings(target)) {
     for (const [sourcePath, sourceHash] of sourceFiles(options.repositoryRoot, mapping.sourceRoot)) {
       activeSources.add(sourcePath);
       const targetPath = mappedTarget(sourcePath, mapping);
+      if (retiredTargets.has(targetPath)) continue;
       const targetExists = targetIsRegular(options.repositoryRoot, targetPath);
       const prior = previousBySource.get(sourcePath);
       if (targetExists && prior?.sourceHash === sourceHash) continue;

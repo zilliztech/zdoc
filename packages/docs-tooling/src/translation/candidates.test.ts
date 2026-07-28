@@ -92,6 +92,34 @@ describe('translation candidates', () => {
     ]);
   });
 
+  it('excludes explicitly retired Reference targets from translation candidates', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = 'content/en/reference/api/python/retired.md';
+    const targetPath = 'content/zh-CN/reference/api/python/retired.md';
+    const sourceContents = '# Retired source\n';
+    write(repositoryRoot, sourcePath, sourceContents);
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: sha256(sourceContents),
+      targetHash: sha256(''),
+      status: 'retired',
+    }]});
+    writeJson(repositoryRoot, 'config/reference-retirements.json', {schemaVersion: 1, retirements: [{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      reason: 'Imported baseline retirement from the clean-room Reference migration',
+    }]});
+
+    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-reference'})).toEqual({
+      candidates: [],
+      retirementCandidates: [],
+    });
+  });
+
   it('blocks a Chinese deletion until the exact retirement pair and reason are registered', () => {
     const repositoryRoot = fixture();
     const sourcePath = 'content/en/reference/removed.md';
