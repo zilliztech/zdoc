@@ -1,5 +1,10 @@
 module.exports = [
   {
+    "type": "doc",
+    "id": "api/restful/restful/restful",
+    "label": "RESTful API 参考"
+  },
+  {
     "type": "category",
     "label": "V2",
     "items": [

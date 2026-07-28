@@ -31,12 +31,40 @@ function fixture(): {repositoryRoot: string; sourceRoot: string; targetRoot: str
   return {repositoryRoot, sourceRoot, targetRoot};
 }
 
+const sidebarTargets = [
+  {manual: 'python', sidebarKey: 'pythonSidebar', sidebar: 'python'},
+  {manual: 'java', sidebarKey: 'javaSidebar', sidebar: 'java'},
+  {manual: 'node', sidebarKey: 'nodeSidebar', sidebar: 'node'},
+  {manual: 'go', sidebarKey: 'goSidebar', sidebar: 'go'},
+  {manual: 'rest', sidebarKey: 'restfulSidebar', sidebar: 'restful'},
+  {manual: 'cli', sidebarKey: 'cliSidebar', sidebar: 'cli'},
+] as const;
+
+function writeReferenceNavigationConfig(
+  repositoryRoot: string,
+  landingPages: Readonly<Record<string, string>> = {},
+): void {
+  mkdirSync(path.join(repositoryRoot, 'config'), {recursive: true});
+  writeFileSync(path.join(repositoryRoot, 'config/reference-navigation.json'), `${JSON.stringify({
+    schemaVersion: 1,
+    targets: sidebarTargets.map(target => ({
+      ...target,
+      documentIdPrefix: path.posix.dirname(landingPages[target.sidebar] ?? 'api/python/page.md'),
+      landingPage: landingPages[target.sidebar] ?? 'api/python/page.md',
+      minimumProseCharacters: 1,
+      minimumHeadingCount: 1,
+      requireSourceDifference: false,
+    })),
+  }, null, 2)}\n`);
+}
+
 function writeMinimalReferenceSidebarTemplates(repositoryRoot: string): void {
   const directory = path.join(repositoryRoot, 'generated/en/sidebars');
   mkdirSync(directory, {recursive: true});
   for (const manual of ['python', 'java', 'node', 'go', 'restful', 'cli']) {
     writeFileSync(path.join(directory, `${manual}.sidebar.js`), 'module.exports = ["api/python/page"]\n');
   }
+  writeReferenceNavigationConfig(repositoryRoot);
 }
 
 function sourceManifest(overrides: Partial<ReferenceSourceManifest> = {}): ReferenceSourceManifest {
@@ -363,6 +391,7 @@ describe('Reference translation provenance', () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
     writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+    writeReferenceNavigationConfig(roots.repositoryRoot);
 
     await expect(executeReferenceDocsToolingCommand([
       'reference-manifest', '--source', roots.sourceRoot, '--target', roots.targetRoot, '--source-commit', 'HEAD', '--write',
@@ -396,6 +425,9 @@ describe('Reference translation provenance', () => {
         `module.exports = [{type: 'doc', id: '${prefix}/page', label: '${manual} English'}]\n`,
       );
     }
+    writeReferenceNavigationConfig(roots.repositoryRoot, Object.fromEntries(
+      manuals.map(([manual, prefix]) => [manual, `${prefix}/page.md`]),
+    ));
 
     await executeReferenceDocsToolingCommand([
       'reference-manifest', '--source', roots.sourceRoot, '--target', roots.targetRoot, '--source-commit', 'HEAD', '--write',

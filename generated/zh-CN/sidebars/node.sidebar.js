@@ -1,5 +1,10 @@
 module.exports = [
   {
+    "type": "doc",
+    "id": "api/nodejs/nodejs/nodejs",
+    "label": "Node.js SDK 参考"
+  },
+  {
     "type": "category",
     "label": "Client",
     "key": "category:api/nodejs/nodejs/client",

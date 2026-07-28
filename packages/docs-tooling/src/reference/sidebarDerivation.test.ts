@@ -1,4 +1,5 @@
 import {mkdirSync, mkdtempSync, rmSync, writeFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -7,6 +8,7 @@ import {afterEach, describe, expect, it} from 'vitest';
 import {deriveReferenceSidebar, deriveZhCnReferenceSidebarEntries} from './sidebarDerivation';
 
 const roots: string[] = [];
+const require = createRequire(import.meta.url);
 
 function fixture(): string {
   const root = mkdtempSync(path.join(tmpdir(), 'reference-sidebar-'));
@@ -74,6 +76,24 @@ describe('Chinese Reference sidebar derivation', () => {
         {type: 'doc', id: 'api/python/python/Collection/drop', label: '删除集合', key: 'doc:drop'},
       ],
     }]);
+  });
+
+  it('keeps every configured landing exactly once in the checked-in locale sidebars', () => {
+    const repositoryRoot = path.resolve(import.meta.dirname, '../../../..');
+    const config = require(path.join(repositoryRoot, 'config/reference-navigation.json')) as {
+      targets: Array<{sidebar: string; landingPage: string}>;
+    };
+
+    for (const target of config.targets) {
+      const landingId = target.landingPage.replace(/\.mdx?$/u, '');
+      for (const locale of ['en', 'zh-CN']) {
+        const sidebarPath = path.join(repositoryRoot, `generated/${locale}/sidebars/${target.sidebar}.sidebar.js`);
+        delete require.cache[require.resolve(sidebarPath)];
+        const sidebar = require(sidebarPath) as unknown;
+        expect(JSON.stringify(sidebar).match(new RegExp(landingId.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'gu')))
+          .toHaveLength(1);
+      }
+    }
   });
 
   it('fails when a template document has no Chinese target', () => {

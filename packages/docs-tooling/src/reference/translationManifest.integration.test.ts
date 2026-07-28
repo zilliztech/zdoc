@@ -8,6 +8,27 @@ import {describe, expect, it} from 'vitest';
 const cliMain = path.resolve(import.meta.dirname, '../cli-main.ts');
 const referenceSidebarNames = ['python', 'java', 'node', 'go', 'restful', 'cli'] as const;
 
+function navigationConfig(landingPage = 'api/python/landing.md') {
+  return {
+    schemaVersion: 1,
+    targets: [
+      {manual: 'python', sidebarKey: 'pythonSidebar', sidebar: 'python'},
+      {manual: 'java', sidebarKey: 'javaSidebar', sidebar: 'java'},
+      {manual: 'node', sidebarKey: 'nodeSidebar', sidebar: 'node'},
+      {manual: 'go', sidebarKey: 'goSidebar', sidebar: 'go'},
+      {manual: 'rest', sidebarKey: 'restfulSidebar', sidebar: 'restful'},
+      {manual: 'cli', sidebarKey: 'cliSidebar', sidebar: 'cli'},
+    ].map(target => ({
+      ...target,
+      documentIdPrefix: 'api/python',
+      landingPage,
+      minimumProseCharacters: 1,
+      minimumHeadingCount: 1,
+      requireSourceDifference: false,
+    })),
+  };
+}
+
 function git(repositoryRoot: string, args: string[]): void {
   const result = spawnSync('git', args, {cwd: repositoryRoot, encoding: 'utf8'});
   if (result.status !== 0) throw new Error(result.stderr || `git ${args.join(' ')} failed`);
@@ -21,9 +42,12 @@ function repository(): string {
   mkdirSync(path.join(root, 'generated/en/sidebars'), {recursive: true});
   writeFileSync(path.join(root, 'content/en/reference/api/python/page.md'), '# source\n');
   writeFileSync(path.join(root, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+  writeFileSync(path.join(root, 'content/en/reference/api/python/landing.md'), '---\nsidebar_label: English Landing\n---\n# English landing\n');
+  writeFileSync(path.join(root, 'content/zh-CN/reference/api/python/landing.md'), '---\nsidebar_label: 中文首页\n---\n# 中文首页\n');
   for (const manual of referenceSidebarNames) {
     writeFileSync(path.join(root, `generated/en/sidebars/${manual}.sidebar.js`), 'module.exports = ["api/python/page"]\n');
   }
+  writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify(navigationConfig(), null, 2)}\n`);
   writeFileSync(path.join(root, 'config/reference-retirements.json'), '{\n  "schemaVersion": 1,\n  "retirements": []\n}\n');
   writeFileSync(path.join(root, '.gitignore'), '.DS_Store\n');
   git(root, ['init', '--quiet']);
@@ -90,10 +114,62 @@ describe('Reference manifest executable security boundary', () => {
     const result = generateWithWorkflowShorthand(root);
 
     expect(result.status, result.stderr || result.stdout).toBe(0);
-    expect(JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8')).records).toHaveLength(1);
-    expect(JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8')).records).toHaveLength(1);
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8')).records).toHaveLength(2);
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8')).records).toHaveLength(2);
     for (const manual of referenceSidebarNames) {
       expect(readFileSync(path.join(root, `generated/zh-CN/sidebars/${manual}.sidebar.js`), 'utf8')).toContain('module.exports');
+    }
+  });
+
+  it('adds each configured landing once to English and Chinese sidebars and is idempotent', () => {
+    const root = repository();
+    writeFileSync(path.join(root, 'content/en/reference/api/python/landing-two.md'), [
+      '---',
+      'sidebar_label: English Landing',
+      '---',
+      '# English landing',
+      '',
+    ].join('\n'));
+    writeFileSync(path.join(root, 'content/zh-CN/reference/api/python/landing-two.md'), [
+      '---',
+      'sidebar_label: 中文首页',
+      '---',
+      '# 中文首页',
+      '',
+    ].join('\n'));
+    writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify(navigationConfig('api/python/landing-two.md'), null, 2)}\n`);
+    writeFileSync(path.join(root, 'generated/en/sidebars/python.sidebar.js'), [
+      'module.exports = [',
+      '  {type: "doc", id: "api/python/landing-two", label: "stale duplicate"},',
+      '  "api/python/page",',
+      '  "api/python/landing-two",',
+      '  {type: "category", label: "Keep empty", items: []}',
+      ']',
+      '',
+    ].join('\n'));
+    git(root, ['add', '.']);
+    git(root, ['commit', '--quiet', '-m', 'landing fixture']);
+
+    const first = generateWithWorkflowShorthand(root);
+
+    expect(first.status, first.stderr || first.stdout).toBe(0);
+    const firstPublication = new Map<string, string>();
+    for (const locale of ['en', 'zh-CN']) {
+      for (const manual of referenceSidebarNames) {
+        const relativePath = `generated/${locale}/sidebars/${manual}.sidebar.js`;
+        const contents = readFileSync(path.join(root, relativePath), 'utf8');
+        firstPublication.set(relativePath, contents);
+        expect(contents.match(/api\/python\/landing-two/gu)).toHaveLength(1);
+        expect(contents).toContain(locale === 'en' ? 'English Landing' : '中文首页');
+        if (locale === 'en' && manual === 'python') expect(contents).toContain('Keep empty');
+      }
+    }
+
+    const second = generateWithWorkflowShorthand(root);
+
+    expect(second.status, second.stderr || second.stdout).toBe(0);
+    for (const [relativePath, contents] of firstPublication) {
+      expect(readFileSync(path.join(root, relativePath), 'utf8')).toBe(contents);
     }
   });
 
@@ -132,10 +208,10 @@ describe('Reference manifest executable security boundary', () => {
     const result = generate(root);
 
     expect(result.status, result.stderr || result.stdout).toBe(0);
-    expect(JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8')).records).toHaveLength(0);
+    expect(JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8')).records).toHaveLength(1);
     const translations = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
-    expect(translations.records).toHaveLength(1);
-    expect(translations.records[0].status).toBe('retired');
+    expect(translations.records).toHaveLength(2);
+    expect(translations.records.find((record: {sourcePath: string}) => record.sourcePath.endsWith('/page.md'))?.status).toBe('retired');
   });
 
   it('fails through the executable when an English Reference sidebar template is missing', () => {

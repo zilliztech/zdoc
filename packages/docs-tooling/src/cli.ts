@@ -47,7 +47,7 @@ import {
   type ReferenceRetirementRegistry,
   type ReferenceTreeSnapshot,
 } from './reference/translationManifest.ts';
-import {deriveZhCnReferenceSidebarEntries} from './reference/sidebarDerivation.ts';
+import {deriveReferenceSidebarPublicationEntries} from './reference/sidebarDerivation.ts';
 import {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
 import {
@@ -336,7 +336,7 @@ export async function executeReferenceDocsToolingCommand(
     const retiredTargetIds = new Set(retirementRegistry.retirements
       .filter(record => !targetSnapshot.has(record.targetPath))
       .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
-    const sidebarEntries = deriveZhCnReferenceSidebarEntries(repositoryRoot, retiredTargetIds);
+    const sidebarEntries = deriveReferenceSidebarPublicationEntries(repositoryRoot, retiredTargetIds);
     writeManifestPair(repositoryRoot, [
       [REFERENCE_SOURCE_MANIFEST, serializeReferenceManifest(manifests.sourceManifest)],
       [REFERENCE_TRANSLATION_MANIFEST, serializeReferenceManifest(manifests.translationManifest)],

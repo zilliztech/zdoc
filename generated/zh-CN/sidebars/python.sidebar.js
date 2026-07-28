@@ -1,5 +1,10 @@
 module.exports = [
   {
+    "type": "doc",
+    "id": "api/python/python/python",
+    "label": "Python SDK 参考"
+  },
+  {
     "type": "category",
     "label": "DataImport",
     "key": "category:api/python/python/dataimport",

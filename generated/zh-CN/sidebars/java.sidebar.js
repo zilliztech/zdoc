@@ -1,5 +1,10 @@
 module.exports = [
   {
+    "type": "doc",
+    "id": "api/java/java/java",
+    "label": "JAVA SDK 参考"
+  },
+  {
     "type": "category",
     "label": "Authentication",
     "key": "category:api/java/java/v2/v2-authentication",

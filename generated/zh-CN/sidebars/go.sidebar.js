@@ -1,5 +1,10 @@
 module.exports = [
   {
+    "type": "doc",
+    "id": "api/go/go/go",
+    "label": "Go SDK 参考"
+  },
+  {
     "type": "category",
     "label": "Authentication",
     "key": "category:api/go/go/v2/v2-authentication",
