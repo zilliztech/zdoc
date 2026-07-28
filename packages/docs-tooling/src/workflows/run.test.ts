@@ -552,6 +552,9 @@ describe('Chinese Guides source publication', () => {
     ];
     for (const file of currentFiles) write(root, file, `current ${file}\n`);
     for (const file of baselineFiles) write(baselineRoot, file, `baseline ${file}\n`);
+    write(root, 'generated/zh-CN/sidebars/guides.sidebar.js', 'module.exports = []\n');
+    write(baselineRoot, 'generated/zh-CN/sidebars/guides.sidebar.js', 'module.exports = []\n');
+    write(root, 'content/en/guides/tutorials/tools/keep.md', 'canonical English Tools content\n');
     write(root, 'content/zh-CN/guides/tutorials/tools/keep.md', 'agent-owned live content\n');
     write(baselineRoot, 'content/zh-CN/guides/tutorials/tools/keep.md', 'stale protected baseline content\n');
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles));

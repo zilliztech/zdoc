@@ -1,5 +1,4 @@
 packages:
-  - 'chat-proxy'
   - 'apps/*'
   - 'packages/*'
 

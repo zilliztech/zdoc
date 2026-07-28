@@ -10,9 +10,33 @@ const retiredPaths = new Set([
   'nginx.conf',
   'docker-entrypoint.d/40-zdoc-env.sh',
   'scripts/docs-workflow/run-content-group.js',
+  'scripts/docs-workflow/run-content-group.test.js',
+  'packages/docs-tooling/src/lark/meta/docs.json',
+  'packages/docs-tooling/src/lark/meta/pages.json',
+  'packages/docs-tooling/src/lark/meta/test.json',
+  'tmp/job-83096402914.log',
+  'tmp/job-83132738004.log',
   'config/generated/guides.sidebar.js',
 ]);
-const retiredRoots = ['docs', 'docs-byoc', 'reference', 'config/generated', 'i18n/zh-CN'];
+const retiredRoots = [
+  'docs',
+  'docs-byoc',
+  'reference',
+  'config/generated',
+  'i18n/zh-CN',
+  'blog',
+  'plugins/fastsearch',
+  'plugins/nb-to-mdx',
+  'plugins/vectorize-docs',
+  'plugins/report-to-lark',
+  'apps/docs/plugins/mdx-parse',
+  'apps/docs/plugins/link-checks',
+];
+const soleEntrypoints = new Map([
+  ['docusaurus.config.ts', 'apps/docs/docusaurus.config.ts'],
+  ['Dockerfile', new Set(['deploy/en/Dockerfile', 'deploy/zh-CN/Dockerfile'])],
+  ['40-zdoc-env.sh', 'deploy/runtime/40-zdoc-env.sh'],
+]);
 const sourceReferenceExemptions = [
   /^scripts\/architecture\/verify-retired-layout\.mjs$/,
   /^migration\//,
@@ -48,8 +72,12 @@ function normalize(relativePath) {
 }
 
 function isRetiredPath(relativePath) {
-  return retiredPaths.has(relativePath)
-    || retiredRoots.some(root => relativePath === root || relativePath.startsWith(`${root}/`));
+  if (retiredPaths.has(relativePath)
+    || retiredRoots.some(root => relativePath === root || relativePath.startsWith(`${root}/`))
+  ) return true;
+  const allowed = soleEntrypoints.get(path.posix.basename(relativePath));
+  if (!allowed) return false;
+  return typeof allowed === 'string' ? relativePath !== allowed : !allowed.has(relativePath);
 }
 
 function isReferenceExempt(relativePath) {
@@ -103,6 +131,8 @@ function functionBody(source, functionName) {
 function hasRetiredReference(relativePath, source) {
   const retiredRunner = /run-content-group\.js/.exec(source);
   if (retiredRunner) return finding(source, retiredRunner, retiredRunner[0]);
+  const retiredPlugin = /apps\/docs\/plugins\/(?:mdx-parse|link-checks)|\b(?:pnpm|npm\s+run)\s+(?:mdx-parse|link-checks)\b/.exec(source);
+  if (retiredPlugin) return finding(source, retiredPlugin, retiredPlugin[0]);
 
   for (const match of source.matchAll(pathValuedField)) {
     const reference = match[3] ?? match[4];

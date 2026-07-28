@@ -1,5 +1,7 @@
 # Unified English and Chinese Site Profiles Implementation Plan
 
+> **Superseded execution plan:** This file remains as migration audit history. Remaining implementation and retirement work is governed by `.claude/superpowers/plans/2026-07-27-new-architecture-retirement.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Replace the two-repository English/Chinese assembly workflow with one auditable `zdoc` repository that independently builds and deploys English and Chinese product-documentation sites from explicit site profiles.

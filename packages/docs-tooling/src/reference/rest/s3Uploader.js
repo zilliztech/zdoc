@@ -149,7 +149,7 @@ class S3Uploader {
   }
 
   updateAboutPage(urls) {
-    const aboutPath = 'reference/api/restful/restful/restful.md'
+    const aboutPath = 'content/en/reference/api/restful/restful/restful.md'
     if (!fs.existsSync(aboutPath)) {
       console.warn(`About page not found at ${aboutPath}`)
       return

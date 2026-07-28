@@ -43,9 +43,6 @@ k8s/**/secret.yaml
 # Lark-docs pre-fetched source JSON (generated build artifacts)
 /packages/docs-tooling/src/lark/meta/sources/
 
-# Eval results (generated)
-chat-proxy/scripts/eval/results/
-
 # Local scratch files and build logs
 tmp/
 /.atomic-publication-state/

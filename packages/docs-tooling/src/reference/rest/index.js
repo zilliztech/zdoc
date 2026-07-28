@@ -10,7 +10,7 @@ function registerCommand(command) {
         .description('Fetch and generate API reference docs from Apifox')
         .option('-s, --specifications <specifications>', 'Specifications of the API')
         .option('-l, --lang <lang>', 'Language of the API Reference', 'en-US')
-        .option('-o, --output_path <target_path>', 'Target path of the API Reference', 'reference/api/restful/restful')
+        .option('-o, --output_path <target_path>', 'Target path of the API Reference', 'content/en/reference/api/restful/restful')
         .option('-i, --strings <strings>', 'Localization strings for Chinese docs')
         .option('-t, --target <string>', 'Publication target of the API Reference', 'zilliz')
         .option('--upload-s3', 'Upload merged OpenAPI specs to S3 and update about page', false)

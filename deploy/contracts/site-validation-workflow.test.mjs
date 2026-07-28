@@ -37,7 +37,7 @@ test('the repository pins one pnpm version for local, Docker, and GitHub Actions
     );
   }
 
-  for (const dockerfile of ['Dockerfile', 'deploy/en/Dockerfile', 'deploy/zh-CN/Dockerfile']) {
+  for (const dockerfile of ['deploy/en/Dockerfile', 'deploy/zh-CN/Dockerfile']) {
     assert.match(await readFile(path.join(repositoryRoot, dockerfile), 'utf8'), /pnpm@10\.33\.0/);
   }
 });

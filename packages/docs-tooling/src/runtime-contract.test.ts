@@ -30,7 +30,7 @@ describe('docs-tooling runtime contract', () => {
     const rootManifest = JSON.parse(readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8')) as {
       scripts?: Record<string, string>;
     };
-    expect(rootManifest.scripts?.['docs-tooling']).toBe('node scripts/docs-tooling.js');
+    expect(rootManifest.scripts?.['docs-tooling']).toBe('node --experimental-strip-types packages/docs-tooling/src/cli-main.ts');
   });
 
   it('declares every direct runtime package in the owning workspace package', () => {

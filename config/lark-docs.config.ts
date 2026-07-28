@@ -74,7 +74,7 @@ const python : Manual =  {
             imageDir: 'milvus/reference/python/images'
         },
         zilliz: {
-            outputDir: 'reference/api/python/python',
+            outputDir: `content/${site}/reference/api/python/python`,
             imageDir: 'static/img',
         }
     }
@@ -94,7 +94,7 @@ const pymilvus25 : Manual = {
             imageDir: 'milvus/reference/python/images'
         },
         zilliz: {
-            outputDir: 'reference/api/python/python',
+            outputDir: `content/${site}/reference/api/python/python`,
             imageDir: 'static/img',
         }
     }
@@ -108,12 +108,12 @@ const pymilvus26: Manual = {
     displayedSidebar: 'pythonSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/python/v2.6.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/python/v2.5.x',
-    sidebarPath: './config/generated/python.sidebar.js',
-    overridePath: './config/sidebar-overrides/python.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/python.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/python.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/python/python',
+            outputDir: `content/${site}/reference/api/python/python`,
             imageDir: 'static/img',
         },
     },
@@ -127,12 +127,12 @@ const pymilvus30: Manual = {
     displayedSidebar: 'pythonSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/python/v3.0.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/python/v2.6.x',
-    sidebarPath: './config/generated/python.sidebar.js',
-    overridePath: './config/sidebar-overrides/python.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/python.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/python.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/python/python',
+            outputDir: `content/${site}/reference/api/python/python`,
             imageDir: 'static/img',
         },
     },
@@ -155,7 +155,7 @@ const javaV1 : Manual = {
             imageDir: 'milvus/reference/java/images'
         },
         zilliz: {
-            outputDir: 'reference/api/java/java/v1',
+            outputDir: `content/${site}/reference/api/java/java/v1`,
             imageDir: 'static/img',
         }
     }
@@ -176,7 +176,7 @@ const javaV2 : Manual = {
             imageDir: 'milvus/reference/java/images'
         },
         zilliz: {
-            outputDir: 'reference/api/java/java/v2',
+            outputDir: `content/${site}/reference/api/java/java/v2`,
             imageDir: 'static/img',
         }
     }
@@ -196,7 +196,7 @@ const javaV225 : Manual = {
             imageDir: 'milvus/reference/java/images'
         },
         zilliz: {
-            outputDir: 'reference/api/java/java/v2',
+            outputDir: `content/${site}/reference/api/java/java/v2`,
             imageDir: 'static/img',
         }
     }
@@ -210,12 +210,12 @@ const javaV226: Manual = {
     version: 'v2.6.x',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.6.x/v2',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.5.x/v2',
-    sidebarPath: './config/generated/java.sidebar.js',
-    overridePath: './config/sidebar-overrides/java.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/java.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/java.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/java/java/v2',
+            outputDir: `content/${site}/reference/api/java/java/v2`,
             imageDir: 'static/img',
         },
     },
@@ -229,12 +229,12 @@ const javaV230: Manual = {
     version: 'v3.0.x',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v3.0.x/v2',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.6.x/v2',
-    sidebarPath: './config/generated/java.sidebar.js',
-    overridePath: './config/sidebar-overrides/java.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/java.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/java.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/java/java/v2',
+            outputDir: `content/${site}/reference/api/java/java/v2`,
             imageDir: 'static/img',
         },
     },
@@ -255,7 +255,7 @@ const node : Manual = {
             imageDir: 'milvus/reference/node/images'
         },
         zilliz: {
-            outputDir: 'reference/api/nodejs/nodejs',
+            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
             imageDir: 'static/img',
         }
     }
@@ -275,7 +275,7 @@ const nodejs25 : Manual = {
             imageDir: 'milvus/reference/node/images'
         },
         zilliz: {
-            outputDir: 'reference/api/nodejs/nodejs',
+            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
             imageDir: 'static/img',
         }
     }
@@ -289,12 +289,12 @@ const nodejs26: Manual = {
     displayedSidebar: 'nodeSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.6.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.5.x',
-    sidebarPath: './config/generated/node.sidebar.js',
-    overridePath: './config/sidebar-overrides/node.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/node.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/node.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/nodejs/nodejs',
+            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
             imageDir: 'static/img',
         },
     },
@@ -308,12 +308,12 @@ const nodejs30: Manual = {
     displayedSidebar: 'nodeSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v3.0.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.6.x',
-    sidebarPath: './config/generated/node.sidebar.js',
-    overridePath: './config/sidebar-overrides/node.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/node.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/node.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/nodejs/nodejs',
+            outputDir: `content/${site}/reference/api/nodejs/nodejs`,
             imageDir: 'static/img',
         },
     },
@@ -334,7 +334,7 @@ const gov1 : Manual = {
             imageDir: 'milvus/reference/go/images'
         },
         zilliz: {
-            outputDir: 'reference/api/go/go/v1',
+            outputDir: `content/${site}/reference/api/go/go/v1`,
             imageDir: 'static/img',
         }
     }
@@ -347,12 +347,12 @@ const gov226: Manual = {
     version: 'v2.6.x',
     displayedSidebar: 'goSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/go/v2.6.x',
-    sidebarPath: './config/generated/go.sidebar.js',
-    overridePath: './config/sidebar-overrides/go.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/go.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/go.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/go/go/v2',
+            outputDir: `content/${site}/reference/api/go/go/v2`,
             imageDir: 'static/img',
         },
     },
@@ -366,12 +366,12 @@ const gov230: Manual = {
     displayedSidebar: 'goSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/go/v3.0.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/go/v2.6.x',
-    sidebarPath: './config/generated/go.sidebar.js',
-    overridePath: './config/sidebar-overrides/go.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/go.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/go.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/api/go/go/v2',
+            outputDir: `content/${site}/reference/api/go/go/v2`,
             imageDir: 'static/img',
         },
     },
@@ -384,12 +384,12 @@ const cliv13: Manual = {
     version: 'v1.3.x',
     displayedSidebar: 'cliSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/cli/v1.3.x',
-    sidebarPath: './config/generated/cli.sidebar.js',
-    overridePath: './config/sidebar-overrides/cli.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/cli.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/cli.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/cli/cli',
+            outputDir: `content/${site}/reference/cli/cli`,
             imageDir: 'static/img',
         },
     },
@@ -403,12 +403,12 @@ const cliv14 : Manual = {
     displayedSidebar: 'cliSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/cli/v1.4.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/cli/v1.3.x',
-    sidebarPath: './config/generated/cli.sidebar.js',
-    overridePath: './config/sidebar-overrides/cli.json',
-    contentRoot: 'reference',
+    sidebarPath: `generated/${site}/sidebars/cli.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/cli.json`,
+    contentRoot: `content/${site}/reference`,
     targets: {
         zilliz: {
-            outputDir: 'reference/cli/cli',
+            outputDir: `content/${site}/reference/cli/cli`,
             imageDir: 'static/img',
         }
     }

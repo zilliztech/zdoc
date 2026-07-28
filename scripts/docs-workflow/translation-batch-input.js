@@ -31,16 +31,6 @@ const GUIDES_MAPPINGS = Object.freeze([
     targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
     type: 'byoc',
   },
-  {
-    sourceRoot: 'docs/tutorials',
-    targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
-    type: 'docs',
-  },
-  {
-    sourceRoot: 'docs-byoc/tutorials',
-    targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
-    type: 'byoc',
-  },
 ])
 
 function isObject(value) {

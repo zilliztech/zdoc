@@ -1,5 +1,7 @@
 # Docs Agent Chat Integration Implementation Plan
 
+> **Superseded deployment paths:** This plan remains as audit history. Current Chat UI code lives under `packages/docs-ui`, site-owned container and Nginx definitions live under `deploy/en` and `deploy/zh-CN`, and the runtime environment entrypoint is `deploy/runtime/40-zdoc-env.sh`. Do not restore the retired root `Dockerfile`, `nginx.conf`, `docusaurus.config.ts`, or `docker-entrypoint.d` paths described below.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Connect the existing zdoc chat panel to the internal `cloud-ai-assistant` Kubernetes service through zdoc Nginx, with `site: "docs.zilliz.com"`, streamed responses, session affinity, remote interruption, and UAT verification.

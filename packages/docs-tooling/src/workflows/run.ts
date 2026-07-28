@@ -405,9 +405,9 @@ function stagedManifestFiles(repositoryRoot: string, group: PublicationGroup): r
       repositoryRoot,
       [`${stageRoot}/${publication.outputDir}`, `${stageRoot}/${publication.sidebarPath}`],
       'Staged publication manifest inventory',
-    ).map(entry => {
+    ).flatMap(entry => {
       const relative = entry.path.slice(`${stageRoot}/`.length);
-      return assertManifestFilePath(group, relative);
+      return protectedInventoryPath(group, relative) ? [] : [assertManifestFilePath(group, relative)];
     });
   });
   return Object.freeze([...files].sort((left, right) => left.localeCompare(right, 'en')));

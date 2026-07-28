@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
-import {mkdtemp, mkdir, rm, symlink, unlink, writeFile} from 'node:fs/promises';
+import {access, mkdtemp, mkdir, readFile, rm, symlink, unlink, writeFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test, {afterEach} from 'node:test';
@@ -42,7 +42,20 @@ const retiredPaths = [
   'Dockerfile',
   'nginx.conf',
   'docker-entrypoint.d/40-zdoc-env.sh',
+  'blog/legacy.md',
+  'plugins/fastsearch/index.js',
+  'plugins/nb-to-mdx/index.js',
+  'plugins/vectorize-docs/index.js',
+  'plugins/report-to-lark/index.js',
+  'apps/docs/plugins/mdx-parse/index.js',
+  'apps/docs/plugins/link-checks/index.js',
   'scripts/docs-workflow/run-content-group.js',
+  'scripts/docs-workflow/run-content-group.test.js',
+  'packages/docs-tooling/src/lark/meta/docs.json',
+  'packages/docs-tooling/src/lark/meta/pages.json',
+  'packages/docs-tooling/src/lark/meta/test.json',
+  'tmp/job-83096402914.log',
+  'tmp/job-83132738004.log',
   'config/generated/guides.sidebar.js',
   'docs/tutorials/example.md',
   'docs-byoc/tutorials/example.md',
@@ -58,6 +71,68 @@ for (const retiredPath of retiredPaths) {
     );
   });
 }
+
+test('allows only the site-owned Docusaurus config and image/runtime entrypoints', async () => {
+  const root = await createFixture({
+    'apps/docs/docusaurus.config.ts': 'export default {};\n',
+    'deploy/en/Dockerfile': 'FROM nginx\n',
+    'deploy/zh-CN/Dockerfile': 'FROM nginx\n',
+    'deploy/en/nginx.conf': 'events {}\n',
+    'deploy/zh-CN/nginx.conf': 'events {}\n',
+    'deploy/runtime/40-zdoc-env.sh': '#!/bin/sh\n',
+  });
+  await assert.doesNotReject(() => verifyRetiredLayout(root));
+
+  for (const unexpected of [
+    'legacy/docusaurus.config.ts',
+    'containers/Dockerfile',
+    'legacy/40-zdoc-env.sh',
+  ]) {
+    const duplicateRoot = await createFixture({
+      'apps/docs/docusaurus.config.ts': 'export default {};\n',
+      'deploy/en/Dockerfile': 'FROM nginx\n',
+      'deploy/zh-CN/Dockerfile': 'FROM nginx\n',
+      'deploy/runtime/40-zdoc-env.sh': '#!/bin/sh\n',
+      [unexpected]: 'legacy\n',
+    });
+    await assert.rejects(() => verifyRetiredLayout(duplicateRoot), new RegExp(path.basename(unexpected).replace('.', '\\.')));
+  }
+});
+
+test('rejects production imports from the retired MDX parser plugin', async () => {
+  const root = await createFixture({
+    'packages/docs-tooling/src/legacy.ts': "import '../../../apps/docs/plugins/mdx-parse/index.js';\n",
+  });
+  await assert.rejects(() => verifyRetiredLayout(root), /mdx-parse|legacy\.ts/);
+});
+
+test('rejects workflow calls to removed plugin commands', async () => {
+  const root = await createFixture({
+    '.github/workflows/site.yml': 'steps:\n  - run: pnpm mdx-parse\n  - run: pnpm link-checks\n',
+  });
+  await assert.rejects(() => verifyRetiredLayout(root), /mdx-parse|link-checks|site\.yml/);
+});
+
+test('keeps the live Chat and site-owned deployment architecture', async () => {
+  for (const livePath of [
+    'packages/chat-ui',
+    'packages/docs-ui/src/shared/components/ChatPanel',
+    'deploy/en/nginx.conf',
+    'deploy/zh-CN/nginx.conf',
+    'deploy/runtime/40-zdoc-env.sh',
+    'scripts/chat-agent-nginx.test.js',
+  ]) {
+    await assert.doesNotReject(() => access(path.join(repositoryRoot, livePath)));
+  }
+  const [workspace, englishNginx, chineseNginx] = await Promise.all([
+    readFile(path.join(repositoryRoot, 'pnpm-workspace.yaml'), 'utf8'),
+    readFile(path.join(repositoryRoot, 'deploy/en/nginx.conf'), 'utf8'),
+    readFile(path.join(repositoryRoot, 'deploy/zh-CN/nginx.conf'), 'utf8'),
+  ]);
+  assert.doesNotMatch(workspace, /^\s*- ['"]?chat-proxy['"]?\s*$/m);
+  assert.match(englishNginx, /chat-proxy\.zdocs\.svc\.cluster\.local/);
+  assert.match(chineseNginx, /chat-proxy\.zdocs\.svc\.cluster\.local/);
+});
 
 test('rejects production control-file references to retired layout', async () => {
   const root = await createFixture({
@@ -322,20 +397,6 @@ test('rejects the retired Chinese i18n layout', async () => {
   await assert.rejects(() => verifyRetiredLayout(root), /i18n\/zh-CN/);
 });
 
-test('repository findings include live filesystem dependencies and exclude semantic examples', async () => {
-  let error;
-  await assert.rejects(() => verifyRetiredLayout(repositoryRoot), value => {
-    error = value;
-    return true;
-  });
-  for (const live of [
-    'config/lark-docs.config.ts',
-    'packages/docs-tooling/src/reference/rest/index.js',
-  ]) assert.match(error.message, new RegExp(live.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-  for (const semantic of [
-    'packages/site-config/src/sites/en.ts',
-    'packages/site-config/src/sites/zh-CN.ts',
-    'packages/docs-tooling/src/manuals/registry.ts',
-  ]) assert.doesNotMatch(error.message, new RegExp(semantic.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-  assert.doesNotMatch(error.message, /\(docs\/refs\)/);
+test('repository has no retired layout findings', async () => {
+  await assert.doesNotReject(() => verifyRetiredLayout(repositoryRoot));
 });
