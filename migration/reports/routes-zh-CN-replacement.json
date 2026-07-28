@@ -13,16 +13,6 @@
       "canonical": "https://docs.zilliz.com.cn/404.html"
     },
     {
-      "route": "/docs/access-connection-endpoints",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/access-connection-endpoints"
-    },
-    {
-      "route": "/docs/access-control",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/access-control"
-    },
-    {
       "route": "/docs/access-control-overview",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/access-control-overview"
@@ -38,109 +28,29 @@
       "canonical": "https://docs.zilliz.com.cn/docs/access-log-reference"
     },
     {
-      "route": "/docs/access-logs",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/access-logs"
-    },
-    {
       "route": "/docs/add-fields-to-an-existing-collection",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/add-fields-to-an-existing-collection"
     },
     {
-      "route": "/docs/advance-pay",
+      "route": "/docs/agent-plugins-and-extensions",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/advance-pay"
+      "canonical": "https://docs.zilliz.com.cn/docs/agent-plugins-and-extensions"
     },
     {
-      "route": "/docs/agents/agents-and-prompts",
+      "route": "/docs/agents-and-prompts",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/agents-and-prompts"
+      "canonical": "https://docs.zilliz.com.cn/docs/agents-and-prompts"
     },
     {
-      "route": "/docs/agents/zilliz-access-control-prompts",
+      "route": "/docs/aliyun-marketplace",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-access-control-prompts"
+      "canonical": "https://docs.zilliz.com.cn/docs/aliyun-marketplace"
     },
     {
-      "route": "/docs/agents/zilliz-ai-prompts",
+      "route": "/docs/aliyun-private-link",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-ai-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-base-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-base-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-cluster-connection-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-cluster-connection-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-gemini-extension",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-gemini-extension"
-    },
-    {
-      "route": "/docs/agents/zilliz-import-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-import-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-integrations-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-integrations-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-migration-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-migration-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-plugin",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-plugin"
-    },
-    {
-      "route": "/docs/agents/zilliz-plugin-capabilities",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-plugin-capabilities"
-    },
-    {
-      "route": "/docs/agents/zilliz-plugin-examples",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-plugin-examples"
-    },
-    {
-      "route": "/docs/agents/zilliz-plugin-setup",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-plugin-setup"
-    },
-    {
-      "route": "/docs/agents/zilliz-pricing-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-pricing-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-resource-planning-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-resource-planning-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-schema-design-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-schema-design-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-search-prompts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-search-prompts"
-    },
-    {
-      "route": "/docs/agents/zilliz-skill",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/agents/zilliz-skill"
+      "canonical": "https://docs.zilliz.com.cn/docs/aliyun-private-link"
     },
     {
       "route": "/docs/alphanumonly-filter",
@@ -153,19 +63,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/alter-collection-field"
     },
     {
+      "route": "/docs/amazon-marketplace-cn",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/amazon-marketplace-cn"
+    },
+    {
       "route": "/docs/analyze-cost",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/analyze-cost"
-    },
-    {
-      "route": "/docs/analyzer",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/analyzer"
-    },
-    {
-      "route": "/docs/analyzer-filters",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/analyzer-filters"
     },
     {
       "route": "/docs/analyzer-overview",
@@ -173,24 +78,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/analyzer-overview"
     },
     {
-      "route": "/docs/analyzer-tokenizers",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/analyzer-tokenizers"
-    },
-    {
-      "route": "/docs/ann-search-explained",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/ann-search-explained"
-    },
-    {
       "route": "/docs/api-comparison",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/api-comparison"
-    },
-    {
-      "route": "/docs/api-sdks",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/api-sdks"
     },
     {
       "route": "/docs/array-filtering-operators",
@@ -218,24 +108,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/audit-logs-ref"
     },
     {
-      "route": "/docs/auditing",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/auditing"
-    },
-    {
-      "route": "/docs/authentication",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/authentication"
-    },
-    {
       "route": "/docs/autoindex-explained",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/autoindex-explained"
     },
     {
-      "route": "/docs/backup-and-restore",
+      "route": "/docs/backfill-and-schema-iteration",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/backup-and-restore"
+      "canonical": "https://docs.zilliz.com.cn/docs/backfill-and-schema-iteration"
     },
     {
       "route": "/docs/backup-to-other-regions",
@@ -246,11 +126,6 @@
       "route": "/docs/basic-filtering-operators",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/basic-filtering-operators"
-    },
-    {
-      "route": "/docs/best-practices",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/best-practices"
     },
     {
       "route": "/docs/bitmap-index-type",
@@ -268,24 +143,34 @@
       "canonical": "https://docs.zilliz.com.cn/docs/boost-ranker"
     },
     {
-      "route": "/docs/built-in-analyzer",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/built-in-analyzer"
-    },
-    {
-      "route": "/docs/byoc/access-control",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/access-control"
-    },
-    {
       "route": "/docs/byoc/access-control-overview",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/access-control-overview"
     },
     {
+      "route": "/docs/byoc/access-log-overview",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/access-log-overview"
+    },
+    {
+      "route": "/docs/byoc/access-log-reference",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/access-log-reference"
+    },
+    {
       "route": "/docs/byoc/add-fields-to-an-existing-collection",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/add-fields-to-an-existing-collection"
+    },
+    {
+      "route": "/docs/byoc/agent-plugins-and-extensions",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/agent-plugins-and-extensions"
+    },
+    {
+      "route": "/docs/byoc/agents-and-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/agents-and-prompts"
     },
     {
       "route": "/docs/byoc/alphanumonly-filter",
@@ -298,39 +183,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/alter-collection-field"
     },
     {
-      "route": "/docs/byoc/analyzer",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/analyzer"
-    },
-    {
-      "route": "/docs/byoc/analyzer-filters",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/analyzer-filters"
-    },
-    {
       "route": "/docs/byoc/analyzer-overview",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/analyzer-overview"
     },
     {
-      "route": "/docs/byoc/analyzer-tokenizers",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/analyzer-tokenizers"
-    },
-    {
-      "route": "/docs/byoc/ann-search-explained",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/ann-search-explained"
-    },
-    {
       "route": "/docs/byoc/api-comparison",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/api-comparison"
-    },
-    {
-      "route": "/docs/byoc/api-sdks",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/api-sdks"
     },
     {
       "route": "/docs/byoc/array-filtering-operators",
@@ -353,24 +213,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/audit-logs-ref"
     },
     {
-      "route": "/docs/byoc/auditing",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/auditing"
-    },
-    {
-      "route": "/docs/byoc/authentication",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/authentication"
-    },
-    {
       "route": "/docs/byoc/autoindex-explained",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/autoindex-explained"
-    },
-    {
-      "route": "/docs/byoc/backup-and-restore",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/backup-and-restore"
     },
     {
       "route": "/docs/byoc/basic-filtering-operators",
@@ -378,9 +223,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/basic-filtering-operators"
     },
     {
-      "route": "/docs/byoc/best-practices",
+      "route": "/docs/byoc/bitmap-index-type",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/best-practices"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/bitmap-index-type"
     },
     {
       "route": "/docs/byoc/bm25-function",
@@ -391,11 +236,6 @@
       "route": "/docs/byoc/boost-ranker",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/boost-ranker"
-    },
-    {
-      "route": "/docs/byoc/built-in-analyzer",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/built-in-analyzer"
     },
     {
       "route": "/docs/byoc/byoc-intro",
@@ -413,9 +253,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/choose-the-right-analyzer-for-your-use-case"
     },
     {
-      "route": "/docs/byoc/cluster",
+      "route": "/docs/byoc/cli-and-agent-integration-guide",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/cluster"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/cli-and-agent-integration-guide"
     },
     {
       "route": "/docs/byoc/cluster-credentials",
@@ -458,14 +298,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/cncharonly-filter"
     },
     {
-      "route": "/docs/byoc/collection",
+      "route": "/docs/byoc/configure-access-logs",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/collection"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/configure-access-logs"
     },
     {
-      "route": "/docs/byoc/connect-to-cluster",
+      "route": "/docs/byoc/connect-to-clusters",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/connect-to-cluster"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/connect-to-clusters"
+    },
+    {
+      "route": "/docs/byoc/connect-to-serving-cluster",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/connect-to-serving-cluster"
     },
     {
       "route": "/docs/byoc/consistency-level",
@@ -478,14 +323,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/count-entities"
     },
     {
-      "route": "/docs/byoc/create-cluster-byoc",
+      "route": "/docs/byoc/create-backup",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/create-cluster-byoc"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/create-backup"
     },
     {
-      "route": "/docs/byoc/create-snapshot",
+      "route": "/docs/byoc/create-cluster",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/create-snapshot"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/create-cluster"
+    },
+    {
+      "route": "/docs/byoc/create-struct-array",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/create-struct-array"
     },
     {
       "route": "/docs/byoc/cron-expression",
@@ -496,26 +346,6 @@
       "route": "/docs/byoc/cu-types-explained",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/cu-types-explained"
-    },
-    {
-      "route": "/docs/byoc/data",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/data"
-    },
-    {
-      "route": "/docs/byoc/data-export",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/data-export"
-    },
-    {
-      "route": "/docs/byoc/data-import",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/data-import"
-    },
-    {
-      "route": "/docs/byoc/data-import-export",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/data-import-export"
     },
     {
       "route": "/docs/byoc/data-import-format-options",
@@ -548,24 +378,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/data-import-zero-to-hero"
     },
     {
-      "route": "/docs/byoc/data-resilience",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/data-resilience"
-    },
-    {
-      "route": "/docs/byoc/data-security",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/data-security"
-    },
-    {
       "route": "/docs/byoc/database",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/database"
-    },
-    {
-      "route": "/docs/byoc/decay-ranker",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/decay-ranker"
     },
     {
       "route": "/docs/byoc/decay-ranker-oveview",
@@ -576,6 +391,11 @@
       "route": "/docs/byoc/decompounder-filter",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/decompounder-filter"
+    },
+    {
+      "route": "/docs/byoc/default-fields",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/default-fields"
     },
     {
       "route": "/docs/byoc/delete-entities",
@@ -608,19 +428,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/english-analyzer"
     },
     {
-      "route": "/docs/byoc/environment-isolation",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/environment-isolation"
-    },
-    {
       "route": "/docs/byoc/exponential-decay",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/exponential-decay"
-    },
-    {
-      "route": "/docs/byoc/export-backup-files",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/export-backup-files"
     },
     {
       "route": "/docs/byoc/export-data-iterators",
@@ -688,19 +498,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/faq-users-and-roles"
     },
     {
-      "route": "/docs/byoc/faqs",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/faqs"
-    },
-    {
       "route": "/docs/byoc/filtered-search",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/filtered-search"
     },
     {
-      "route": "/docs/byoc/filtering",
+      "route": "/docs/byoc/filtered-search-with-struct-arrays",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/filtering"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/filtered-search-with-struct-arrays"
     },
     {
       "route": "/docs/byoc/filtering-overview",
@@ -716,11 +521,6 @@
       "route": "/docs/byoc/full-text-search",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/full-text-search"
-    },
-    {
-      "route": "/docs/byoc/function-and-model-inference",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/function-and-model-inference"
     },
     {
       "route": "/docs/byoc/function-and-model-inference-overview",
@@ -743,14 +543,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/get-and-scalar-query"
     },
     {
-      "route": "/docs/byoc/get-started",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/get-started"
-    },
-    {
       "route": "/docs/byoc/grouping-search",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/grouping-search"
+    },
+    {
+      "route": "/docs/byoc/grouping-search-with-struct-array",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/grouping-search-with-struct-array"
     },
     {
       "route": "/docs/byoc/hybrid-search",
@@ -758,9 +558,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/hybrid-search"
     },
     {
-      "route": "/docs/byoc/hybrid-search-rankers",
+      "route": "/docs/byoc/hybrid-search-with-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/hybrid-search-rankers"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/hybrid-search-with-struct-array"
     },
     {
       "route": "/docs/byoc/icu-tokenizer",
@@ -788,14 +588,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/import-data-via-sdks"
     },
     {
-      "route": "/docs/byoc/index-scalar-fields",
+      "route": "/docs/byoc/index-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/index-scalar-fields"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/index-struct-array"
     },
     {
-      "route": "/docs/byoc/index-vector-fields",
+      "route": "/docs/byoc/indexes",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/index-vector-fields"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/indexes"
     },
     {
       "route": "/docs/byoc/insert-entities",
@@ -803,9 +603,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/insert-entities"
     },
     {
-      "route": "/docs/byoc/insert-update-delete",
+      "route": "/docs/byoc/insert-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/insert-update-delete"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/insert-struct-array"
     },
     {
       "route": "/docs/byoc/install-sdks",
@@ -813,24 +613,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/install-sdks"
     },
     {
-      "route": "/docs/byoc/integrate-with-amazon-s3",
+      "route": "/docs/byoc/inverted-index-type",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/integrate-with-amazon-s3"
-    },
-    {
-      "route": "/docs/byoc/integrate-with-model-providers",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/integrate-with-model-providers"
-    },
-    {
-      "route": "/docs/byoc/integrate-with-storage-bucket",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/integrate-with-storage-bucket"
-    },
-    {
-      "route": "/docs/byoc/integrate-with-third-parties",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/integrate-with-third-parties"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/inverted-index-type"
     },
     {
       "route": "/docs/byoc/jieba-tokenizer",
@@ -876,11 +661,6 @@
       "route": "/docs/byoc/limits",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/limits"
-    },
-    {
-      "route": "/docs/byoc/limits-and-restrictions",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/limits-and-restrictions"
     },
     {
       "route": "/docs/byoc/lindera-tokenizer",
@@ -938,9 +718,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/manage-collections-sdks"
     },
     {
-      "route": "/docs/byoc/manage-indexes",
+      "route": "/docs/byoc/manage-file-resources",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/manage-indexes"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/manage-file-resources"
     },
     {
       "route": "/docs/byoc/manage-notification-channels",
@@ -973,14 +753,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/manage-replica"
     },
     {
+      "route": "/docs/byoc/managed-volume",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/managed-volume"
+    },
+    {
       "route": "/docs/byoc/metrics-alerts-reference",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/metrics-alerts-reference"
     },
     {
-      "route": "/docs/byoc/metrics-and-alerts",
+      "route": "/docs/byoc/migrate-between-clusters",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/metrics-and-alerts"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/migrate-between-clusters"
     },
     {
       "route": "/docs/byoc/migrate-from-milvus",
@@ -988,19 +773,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/migrate-from-milvus"
     },
     {
-      "route": "/docs/byoc/migrations",
+      "route": "/docs/byoc/minhash-function",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/migrations"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/minhash-function"
     },
     {
-      "route": "/docs/byoc/model-based-functions",
+      "route": "/docs/byoc/minhash-lsh",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/model-based-functions"
-    },
-    {
-      "route": "/docs/byoc/model-ranker",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/model-ranker"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/minhash-lsh"
     },
     {
       "route": "/docs/byoc/modify-collections",
@@ -1018,24 +798,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/multi-language-analyzers"
     },
     {
-      "route": "/docs/byoc/multi-tenancy",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/multi-tenancy"
-    },
-    {
-      "route": "/docs/byoc/network-and-security",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/network-and-security"
-    },
-    {
       "route": "/docs/byoc/ngram-index-type",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/ngram-index-type"
     },
     {
-      "route": "/docs/byoc/nullable-and-default",
+      "route": "/docs/byoc/nullable-fields",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/nullable-and-default"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/nullable-fields"
+    },
+    {
+      "route": "/docs/byoc/offline-migration",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/offline-migration"
     },
     {
       "route": "/docs/byoc/organization-settings",
@@ -1048,9 +823,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/organization-users"
     },
     {
-      "route": "/docs/byoc/organizations",
+      "route": "/docs/byoc/payment-billing",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/organizations"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/payment-billing"
     },
     {
       "route": "/docs/byoc/phrase-match",
@@ -1068,14 +843,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/primary-field-auto-id"
     },
     {
+      "route": "/docs/byoc/primary-key-search",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/primary-key-search"
+    },
+    {
       "route": "/docs/byoc/project-users",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/project-users"
-    },
-    {
-      "route": "/docs/byoc/projects",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/projects"
     },
     {
       "route": "/docs/byoc/prometheus-monitoring",
@@ -1098,6 +873,11 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/range-search"
     },
     {
+      "route": "/docs/byoc/range-search-with-struct-arrays",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/range-search-with-struct-arrays"
+    },
+    {
       "route": "/docs/byoc/regex-filter",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/regex-filter"
@@ -1113,11 +893,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/remove-punct-filter"
     },
     {
-      "route": "/docs/byoc/reranking",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/reranking"
-    },
-    {
       "route": "/docs/byoc/reranking-rrf",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/reranking-rrf"
@@ -1128,24 +903,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/reranking-weighted-reranker"
     },
     {
-      "route": "/docs/byoc/resource-planning",
+      "route": "/docs/byoc/restore-from-backup-files",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/resource-planning"
-    },
-    {
-      "route": "/docs/byoc/restore-from-snapshot",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/restore-from-snapshot"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/restore-from-backup-files"
     },
     {
       "route": "/docs/byoc/rtree-index-type",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/rtree-index-type"
-    },
-    {
-      "route": "/docs/byoc/rule-based-rankers",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/rule-based-rankers"
     },
     {
       "route": "/docs/byoc/scale-cluster",
@@ -1161,16 +926,6 @@
       "route": "/docs/byoc/schedule-automatic-backups",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/schedule-automatic-backups"
-    },
-    {
-      "route": "/docs/byoc/schema-best-practices",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/schema-best-practices"
-    },
-    {
-      "route": "/docs/byoc/schema-data-fields",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/schema-data-fields"
     },
     {
       "route": "/docs/byoc/schema-design-hands-on",
@@ -1193,14 +948,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/search-metrics-explained"
     },
     {
-      "route": "/docs/byoc/search-query-get",
+      "route": "/docs/byoc/search-with-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/search-query-get"
-    },
-    {
-      "route": "/docs/byoc/security",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/security"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/search-with-struct-array"
     },
     {
       "route": "/docs/byoc/set-collection-ttl",
@@ -1213,24 +963,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/setup-console-ip-allowlist"
     },
     {
-      "route": "/docs/byoc/shared-responsibilities",
+      "route": "/docs/byoc/single-sign-on-with-okta",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/shared-responsibilities"
-    },
-    {
-      "route": "/docs/byoc/siliconflow",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/siliconflow"
-    },
-    {
-      "route": "/docs/byoc/siliconflow-model-ranker",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/siliconflow-model-ranker"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/single-sign-on-with-okta"
     },
     {
       "route": "/docs/byoc/single-vector-search",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/single-vector-search"
+    },
+    {
+      "route": "/docs/byoc/slt-sort-index-type",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/slt-sort-index-type"
     },
     {
       "route": "/docs/byoc/standard-analyzer",
@@ -1253,6 +998,16 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/stop-filter"
     },
     {
+      "route": "/docs/byoc/struct-array-filtering",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/struct-array-filtering"
+    },
+    {
+      "route": "/docs/byoc/struct-array-limits",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/struct-array-limits"
+    },
+    {
       "route": "/docs/byoc/terraform-provider",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/terraform-provider"
@@ -1268,6 +1023,11 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/text-match"
     },
     {
+      "route": "/docs/byoc/truncate-collection",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/truncate-collection"
+    },
+    {
       "route": "/docs/byoc/tune-index-build-level",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/tune-index-build-level"
@@ -1278,24 +1038,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/tune-recall-rate"
     },
     {
+      "route": "/docs/byoc/tutorial-colbert-colpali",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/tutorial-colbert-colpali"
+    },
+    {
       "route": "/docs/byoc/tutorial-implement-time-based-ranking",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/tutorial-implement-time-based-ranking"
     },
     {
-      "route": "/docs/byoc/understand-basics",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/understand-basics"
-    },
-    {
       "route": "/docs/byoc/upsert-entities",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/upsert-entities"
-    },
-    {
-      "route": "/docs/byoc/use-array-fields",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/use-array-fields"
     },
     {
       "route": "/docs/byoc/use-array-of-structs",
@@ -1321,11 +1076,6 @@
       "route": "/docs/byoc/use-geometry-field",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/use-geometry-field"
-    },
-    {
-      "route": "/docs/byoc/use-json-fields",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/use-json-fields"
     },
     {
       "route": "/docs/byoc/use-mmap",
@@ -1363,9 +1113,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/use-timestamptz-field"
     },
     {
-      "route": "/docs/byoc/via-endpoint",
+      "route": "/docs/byoc/via-backup-files",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/via-endpoint"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/via-backup-files"
     },
     {
       "route": "/docs/byoc/view-activities",
@@ -1393,19 +1143,84 @@
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/with-iterators"
     },
     {
+      "route": "/docs/byoc/zilliz-access-control-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-access-control-prompts"
+    },
+    {
+      "route": "/docs/byoc/zilliz-ai-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-ai-prompts"
+    },
+    {
+      "route": "/docs/byoc/zilliz-base-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-base-prompts"
+    },
+    {
       "route": "/docs/byoc/zilliz-cloud-ips",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-cloud-ips"
     },
     {
-      "route": "/docs/byoc/zilliz-mcp-server",
+      "route": "/docs/byoc/zilliz-gemini-extension",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-mcp-server"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-gemini-extension"
     },
     {
-      "route": "/docs/changelogs",
+      "route": "/docs/byoc/zilliz-import-prompts",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/changelogs"
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-import-prompts"
+    },
+    {
+      "route": "/docs/byoc/zilliz-integrations-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-integrations-prompts"
+    },
+    {
+      "route": "/docs/byoc/zilliz-migration-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-migration-prompts"
+    },
+    {
+      "route": "/docs/byoc/zilliz-plugin",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-plugin"
+    },
+    {
+      "route": "/docs/byoc/zilliz-plugin-capabilities",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-plugin-capabilities"
+    },
+    {
+      "route": "/docs/byoc/zilliz-plugin-examples",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-plugin-examples"
+    },
+    {
+      "route": "/docs/byoc/zilliz-plugin-setup",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-plugin-setup"
+    },
+    {
+      "route": "/docs/byoc/zilliz-schema-design-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-schema-design-prompts"
+    },
+    {
+      "route": "/docs/byoc/zilliz-search-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-search-prompts"
+    },
+    {
+      "route": "/docs/byoc/zilliz-skill",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/byoc/zilliz-skill"
+    },
+    {
+      "route": "/docs/cash-recharge",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/cash-recharge"
     },
     {
       "route": "/docs/chinese-analyzer",
@@ -1426,11 +1241,6 @@
       "route": "/docs/cloud-providers-and-regions",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/cloud-providers-and-regions"
-    },
-    {
-      "route": "/docs/cluster",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/cluster"
     },
     {
       "route": "/docs/cluster-credentials",
@@ -1473,24 +1283,29 @@
       "canonical": "https://docs.zilliz.com.cn/docs/cncharonly-filter"
     },
     {
-      "route": "/docs/collection",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/collection"
-    },
-    {
       "route": "/docs/configure-access-logs",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/configure-access-logs"
     },
     {
-      "route": "/docs/connect-to-cluster",
+      "route": "/docs/connect-for-on-demand-search",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/connect-to-cluster"
+      "canonical": "https://docs.zilliz.com.cn/docs/connect-for-on-demand-search"
+    },
+    {
+      "route": "/docs/connect-to-clusters",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/connect-to-clusters"
     },
     {
       "route": "/docs/connect-to-global-cluster",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/connect-to-global-cluster"
+    },
+    {
+      "route": "/docs/connect-to-serving-cluster",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/connect-to-serving-cluster"
     },
     {
       "route": "/docs/consistency-level",
@@ -1508,19 +1323,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/count-entities"
     },
     {
+      "route": "/docs/create-backup",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/create-backup"
+    },
+    {
       "route": "/docs/create-cluster",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/create-cluster"
-    },
-    {
-      "route": "/docs/create-cluster-on-demand",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/create-cluster-on-demand"
-    },
-    {
-      "route": "/docs/create-cluster-pre-paid",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/create-cluster-pre-paid"
     },
     {
       "route": "/docs/create-external-collection",
@@ -1533,9 +1343,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/create-global-cluster"
     },
     {
-      "route": "/docs/create-snapshot",
+      "route": "/docs/create-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/create-snapshot"
+      "canonical": "https://docs.zilliz.com.cn/docs/create-struct-array"
     },
     {
       "route": "/docs/cron-expression",
@@ -1546,26 +1356,6 @@
       "route": "/docs/cu-types-explained",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/cu-types-explained"
-    },
-    {
-      "route": "/docs/data",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/data"
-    },
-    {
-      "route": "/docs/data-export",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/data-export"
-    },
-    {
-      "route": "/docs/data-import",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/data-import"
-    },
-    {
-      "route": "/docs/data-import-export",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/data-import-export"
     },
     {
       "route": "/docs/data-import-format-options",
@@ -1598,16 +1388,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/data-import-zero-to-hero"
     },
     {
-      "route": "/docs/data-resilience",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/data-resilience"
-    },
-    {
-      "route": "/docs/data-security",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/data-security"
-    },
-    {
       "route": "/docs/data-transfer-cost",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/data-transfer-cost"
@@ -1623,11 +1403,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/database-concept"
     },
     {
-      "route": "/docs/decay-ranker",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/decay-ranker"
-    },
-    {
       "route": "/docs/decay-ranker-oveview",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/decay-ranker-oveview"
@@ -1641,6 +1416,11 @@
       "route": "/docs/dedicated-cluster-cost",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/dedicated-cluster-cost"
+    },
+    {
+      "route": "/docs/default-fields",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/default-fields"
     },
     {
       "route": "/docs/delete-entities",
@@ -1678,14 +1458,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/english-analyzer"
     },
     {
-      "route": "/docs/enterprise-certification",
+      "route": "/docs/enterprise-verification",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/enterprise-certification"
-    },
-    {
-      "route": "/docs/environment-isolation",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/environment-isolation"
+      "canonical": "https://docs.zilliz.com.cn/docs/enterprise-verification"
     },
     {
       "route": "/docs/exponential-decay",
@@ -1703,11 +1478,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/export-data-iterators"
     },
     {
-      "route": "/docs/external-collection",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/external-collection"
-    },
-    {
       "route": "/docs/external-collection-limits",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/external-collection-limits"
@@ -1723,9 +1493,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/external-volume"
     },
     {
-      "route": "/docs/extract-transform-and-load",
+      "route": "/docs/failed-payments-organization-recovery",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/extract-transform-and-load"
+      "canonical": "https://docs.zilliz.com.cn/docs/failed-payments-organization-recovery"
     },
     {
       "route": "/docs/faq-account",
@@ -1798,24 +1568,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/faq-users-and-roles"
     },
     {
-      "route": "/docs/faqs",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/faqs"
-    },
-    {
-      "route": "/docs/feature-availability",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/feature-availability"
-    },
-    {
       "route": "/docs/filtered-search",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/filtered-search"
     },
     {
-      "route": "/docs/filtering",
+      "route": "/docs/filtered-search-with-struct-arrays",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/filtering"
+      "canonical": "https://docs.zilliz.com.cn/docs/filtered-search-with-struct-arrays"
     },
     {
       "route": "/docs/filtering-overview",
@@ -1838,11 +1598,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/full-text-search"
     },
     {
-      "route": "/docs/function-and-model-inference",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/function-and-model-inference"
-    },
-    {
       "route": "/docs/function-and-model-inference-overview",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/function-and-model-inference-overview"
@@ -1863,16 +1618,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/get-and-scalar-query"
     },
     {
-      "route": "/docs/get-started",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/get-started"
-    },
-    {
-      "route": "/docs/global-cluster",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/global-cluster"
-    },
-    {
       "route": "/docs/global-cluster-explained",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/global-cluster-explained"
@@ -1883,14 +1628,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/grouping-search"
     },
     {
+      "route": "/docs/grouping-search-with-struct-array",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/grouping-search-with-struct-array"
+    },
+    {
       "route": "/docs/home",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/home"
-    },
-    {
-      "route": "/docs/hosted-models",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/hosted-models"
     },
     {
       "route": "/docs/hybrid-search",
@@ -1898,9 +1643,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/hybrid-search"
     },
     {
-      "route": "/docs/hybrid-search-rankers",
+      "route": "/docs/hybrid-search-with-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/hybrid-search-rankers"
+      "canonical": "https://docs.zilliz.com.cn/docs/hybrid-search-with-struct-array"
     },
     {
       "route": "/docs/icu-tokenizer",
@@ -1928,14 +1673,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/import-data-via-sdks"
     },
     {
-      "route": "/docs/index-scalar-fields",
+      "route": "/docs/index-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/index-scalar-fields"
+      "canonical": "https://docs.zilliz.com.cn/docs/index-struct-array"
     },
     {
-      "route": "/docs/index-vector-fields",
+      "route": "/docs/indexes",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/index-vector-fields"
+      "canonical": "https://docs.zilliz.com.cn/docs/indexes"
     },
     {
       "route": "/docs/insert-entities",
@@ -1943,9 +1688,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/insert-entities"
     },
     {
-      "route": "/docs/insert-update-delete",
+      "route": "/docs/insert-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/insert-update-delete"
+      "canonical": "https://docs.zilliz.com.cn/docs/insert-struct-array"
     },
     {
       "route": "/docs/install-sdks",
@@ -1953,9 +1698,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/install-sdks"
     },
     {
-      "route": "/docs/integrate-with-amazon-s3",
+      "route": "/docs/integrate-with-alibaba-cloud-oss",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/integrate-with-amazon-s3"
+      "canonical": "https://docs.zilliz.com.cn/docs/integrate-with-alibaba-cloud-oss"
+    },
+    {
+      "route": "/docs/integrate-with-amazon-s3-cn",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/integrate-with-amazon-s3-cn"
     },
     {
       "route": "/docs/integrate-with-model-providers",
@@ -1963,24 +1713,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/integrate-with-model-providers"
     },
     {
-      "route": "/docs/integrate-with-storage-bucket",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/integrate-with-storage-bucket"
-    },
-    {
-      "route": "/docs/integrate-with-third-parties",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/integrate-with-third-parties"
-    },
-    {
       "route": "/docs/inverted-index-type",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/inverted-index-type"
-    },
-    {
-      "route": "/docs/invoice",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/invoice"
     },
     {
       "route": "/docs/jieba-tokenizer",
@@ -2026,11 +1761,6 @@
       "route": "/docs/limits",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/limits"
-    },
-    {
-      "route": "/docs/limits-and-restrictions",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/limits-and-restrictions"
     },
     {
       "route": "/docs/lindera-tokenizer",
@@ -2093,14 +1823,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/manage-external-collections-console"
     },
     {
+      "route": "/docs/manage-file-resources",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/manage-file-resources"
+    },
+    {
       "route": "/docs/manage-global-cluster",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/manage-global-cluster"
     },
     {
-      "route": "/docs/manage-indexes",
+      "route": "/docs/manage-invoice",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/manage-indexes"
+      "canonical": "https://docs.zilliz.com.cn/docs/manage-invoice"
     },
     {
       "route": "/docs/manage-notification-channels",
@@ -2108,9 +1843,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/manage-notification-channels"
     },
     {
-      "route": "/docs/manage-order",
+      "route": "/docs/manage-on-demand-clusters",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/manage-order"
+      "canonical": "https://docs.zilliz.com.cn/docs/manage-on-demand-clusters"
+    },
+    {
+      "route": "/docs/manage-orders",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/manage-orders"
     },
     {
       "route": "/docs/manage-organization-alerts",
@@ -2128,9 +1868,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/manage-project-alerts"
     },
     {
+      "route": "/docs/manage-projects",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/manage-projects"
+    },
+    {
       "route": "/docs/manage-replica",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/manage-replica"
+    },
+    {
+      "route": "/docs/manage-snapshots",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/manage-snapshots"
     },
     {
       "route": "/docs/managed-volume",
@@ -2138,19 +1888,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/managed-volume"
     },
     {
-      "route": "/docs/merge-data",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/merge-data"
-    },
-    {
       "route": "/docs/metrics-alerts-reference",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/metrics-alerts-reference"
-    },
-    {
-      "route": "/docs/metrics-and-alerts",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/metrics-and-alerts"
     },
     {
       "route": "/docs/migrate-between-clusters",
@@ -2161,11 +1901,6 @@
       "route": "/docs/migrate-from-elasticsearch",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/migrate-from-elasticsearch"
-    },
-    {
-      "route": "/docs/migrate-from-external-sources",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/migrate-from-external-sources"
     },
     {
       "route": "/docs/migrate-from-milvus",
@@ -2183,29 +1918,39 @@
       "canonical": "https://docs.zilliz.com.cn/docs/migrate-from-pgvector"
     },
     {
+      "route": "/docs/migrate-from-pinecone",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/migrate-from-pinecone"
+    },
+    {
       "route": "/docs/migrate-from-qdrant",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/migrate-from-qdrant"
     },
     {
-      "route": "/docs/migrate-from-tencent-cloud-vectordb",
+      "route": "/docs/migrate-from-tencent-cloud",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/migrate-from-tencent-cloud-vectordb"
+      "canonical": "https://docs.zilliz.com.cn/docs/migrate-from-tencent-cloud"
     },
     {
-      "route": "/docs/migrations",
+      "route": "/docs/minhash-function",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/migrations"
+      "canonical": "https://docs.zilliz.com.cn/docs/minhash-function"
     },
     {
-      "route": "/docs/model-ranker",
+      "route": "/docs/minhash-lsh",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/model-ranker"
+      "canonical": "https://docs.zilliz.com.cn/docs/minhash-lsh"
     },
     {
       "route": "/docs/modify-collections",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/modify-collections"
+    },
+    {
+      "route": "/docs/monitor-billing-alerts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/monitor-billing-alerts"
     },
     {
       "route": "/docs/monitor-global-cluster",
@@ -2223,24 +1968,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/multi-language-analyzers"
     },
     {
-      "route": "/docs/multi-tenancy",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/multi-tenancy"
-    },
-    {
-      "route": "/docs/network-and-security",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/network-and-security"
-    },
-    {
       "route": "/docs/ngram-index-type",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/ngram-index-type"
     },
     {
-      "route": "/docs/notice-on-config-changes",
+      "route": "/docs/nullable-fields",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/notice-on-config-changes"
+      "canonical": "https://docs.zilliz.com.cn/docs/nullable-fields"
     },
     {
       "route": "/docs/offline-migration",
@@ -2253,11 +1988,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/on-demand-cluster"
     },
     {
-      "route": "/docs/on-demand-compute",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/on-demand-compute"
-    },
-    {
       "route": "/docs/on-demand-compute-cost",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/on-demand-compute-cost"
@@ -2268,14 +1998,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/on-demand-database"
     },
     {
+      "route": "/docs/on-demand-search",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/on-demand-search"
+    },
+    {
+      "route": "/docs/organization-settings",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/organization-settings"
+    },
+    {
       "route": "/docs/organization-users",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/organization-users"
-    },
-    {
-      "route": "/docs/organizations",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/organizations"
     },
     {
       "route": "/docs/payment-billing",
@@ -2308,14 +2043,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/project-users"
     },
     {
-      "route": "/docs/projects",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/projects"
-    },
-    {
       "route": "/docs/prometheus-monitoring",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/prometheus-monitoring"
+    },
+    {
+      "route": "/docs/quick-start",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/quick-start"
+    },
+    {
+      "route": "/docs/quick-start-to-external-data-lake-search",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/quick-start-to-external-data-lake-search"
     },
     {
       "route": "/docs/quick-start-to-on-demand-search",
@@ -2333,6 +2073,11 @@
       "canonical": "https://docs.zilliz.com.cn/docs/range-search"
     },
     {
+      "route": "/docs/range-search-with-struct-arrays",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/range-search-with-struct-arrays"
+    },
+    {
       "route": "/docs/regex-filter",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/regex-filter"
@@ -2343,144 +2088,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/register-with-zilliz-cloud"
     },
     {
-      "route": "/docs/release-notes-200",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-200"
-    },
-    {
-      "route": "/docs/release-notes-210",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-210"
-    },
-    {
-      "route": "/docs/release-notes-2100",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2100"
-    },
-    {
-      "route": "/docs/release-notes-2110",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2110"
-    },
-    {
-      "route": "/docs/release-notes-2120",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2120"
-    },
-    {
-      "route": "/docs/release-notes-2130",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2130"
-    },
-    {
-      "route": "/docs/release-notes-2140",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2140"
-    },
-    {
-      "route": "/docs/release-notes-2150",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2150"
-    },
-    {
-      "route": "/docs/release-notes-2170",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2170"
-    },
-    {
-      "route": "/docs/release-notes-2180",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2180"
-    },
-    {
-      "route": "/docs/release-notes-220",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-220"
-    },
-    {
-      "route": "/docs/release-notes-221",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-221"
-    },
-    {
-      "route": "/docs/release-notes-230",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-230"
-    },
-    {
-      "route": "/docs/release-notes-240",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-240"
-    },
-    {
-      "route": "/docs/release-notes-2508",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2508"
-    },
-    {
-      "route": "/docs/release-notes-2510",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2510"
-    },
-    {
-      "route": "/docs/release-notes-2511",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2511"
-    },
-    {
-      "route": "/docs/release-notes-2512",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2512"
-    },
-    {
-      "route": "/docs/release-notes-260",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-260"
-    },
-    {
-      "route": "/docs/release-notes-2601",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2601"
-    },
-    {
-      "route": "/docs/release-notes-2602",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2602"
-    },
-    {
-      "route": "/docs/release-notes-2604",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-2604"
-    },
-    {
-      "route": "/docs/release-notes-270",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-270"
-    },
-    {
-      "route": "/docs/release-notes-280",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-280"
-    },
-    {
-      "route": "/docs/release-notes-290",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-290"
-    },
-    {
-      "route": "/docs/release-notes-291",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/release-notes-291"
-    },
-    {
       "route": "/docs/remove-punct-filter",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/remove-punct-filter"
     },
     {
-      "route": "/docs/reranking",
+      "route": "/docs/renewal",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/reranking"
+      "canonical": "https://docs.zilliz.com.cn/docs/renewal"
     },
     {
       "route": "/docs/reranking-rrf",
@@ -2493,24 +2108,14 @@
       "canonical": "https://docs.zilliz.com.cn/docs/reranking-weighted-reranker"
     },
     {
-      "route": "/docs/resource-planning",
+      "route": "/docs/restore-from-backup-files",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/resource-planning"
-    },
-    {
-      "route": "/docs/restore-from-snapshot",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/restore-from-snapshot"
+      "canonical": "https://docs.zilliz.com.cn/docs/restore-from-backup-files"
     },
     {
       "route": "/docs/rtree-index-type",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/rtree-index-type"
-    },
-    {
-      "route": "/docs/rule-based-rankers",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/rule-based-rankers"
     },
     {
       "route": "/docs/scale-cluster",
@@ -2533,16 +2138,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/schedule-automatic-backups"
     },
     {
-      "route": "/docs/schema-best-practices",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/schema-best-practices"
-    },
-    {
-      "route": "/docs/schema-data-fields",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/schema-data-fields"
-    },
-    {
       "route": "/docs/schema-design-hands-on",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/schema-design-hands-on"
@@ -2563,14 +2158,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/search-metrics-explained"
     },
     {
-      "route": "/docs/search-query-get",
+      "route": "/docs/search-with-struct-array",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/search-query-get"
-    },
-    {
-      "route": "/docs/security",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/security"
+      "canonical": "https://docs.zilliz.com.cn/docs/search-with-struct-array"
     },
     {
       "route": "/docs/select-zilliz-cloud-service-plans",
@@ -2593,24 +2183,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/set-collection-ttl"
     },
     {
-      "route": "/docs/setup-a-private-link",
+      "route": "/docs/setup-a-private-link-aws",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/setup-a-private-link"
-    },
-    {
-      "route": "/docs/setup-a-private-link-alicloud",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/setup-a-private-link-alicloud"
-    },
-    {
-      "route": "/docs/setup-a-private-link-amazon-cloud",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/setup-a-private-link-amazon-cloud"
-    },
-    {
-      "route": "/docs/setup-a-private-link-tencent-cloud",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/setup-a-private-link-tencent-cloud"
+      "canonical": "https://docs.zilliz.com.cn/docs/setup-a-private-link-aws"
     },
     {
       "route": "/docs/setup-console-ip-allowlist",
@@ -2623,9 +2198,19 @@
       "canonical": "https://docs.zilliz.com.cn/docs/setup-whitelist"
     },
     {
+      "route": "/docs/siliconflow",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/siliconflow"
+    },
+    {
       "route": "/docs/siliconflow-model-ranker",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/siliconflow-model-ranker"
+    },
+    {
+      "route": "/docs/single-sign-on-with-okta",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/single-sign-on-with-okta"
     },
     {
       "route": "/docs/single-vector-search",
@@ -2636,6 +2221,11 @@
       "route": "/docs/slt-sort-index-type",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/slt-sort-index-type"
+    },
+    {
+      "route": "/docs/snapshots",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/snapshots"
     },
     {
       "route": "/docs/standard-analyzer",
@@ -2668,19 +2258,24 @@
       "canonical": "https://docs.zilliz.com.cn/docs/storage-request-cost"
     },
     {
-      "route": "/docs/subscribe-on-aliyun-marketplace",
+      "route": "/docs/struct-array-filtering",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/subscribe-on-aliyun-marketplace"
+      "canonical": "https://docs.zilliz.com.cn/docs/struct-array-filtering"
     },
     {
-      "route": "/docs/subscribe-on-amazon-marketplace",
+      "route": "/docs/struct-array-limits",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/subscribe-on-amazon-marketplace"
+      "canonical": "https://docs.zilliz.com.cn/docs/struct-array-limits"
     },
     {
       "route": "/docs/switchover-and-failover",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/switchover-and-failover"
+    },
+    {
+      "route": "/docs/tencent-private-link",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/tencent-private-link"
     },
     {
       "route": "/docs/terraform-provider",
@@ -2698,6 +2293,11 @@
       "canonical": "https://docs.zilliz.com.cn/docs/text-match"
     },
     {
+      "route": "/docs/truncate-collection",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/truncate-collection"
+    },
+    {
       "route": "/docs/tune-index-build-level",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/tune-index-build-level"
@@ -2708,29 +2308,24 @@
       "canonical": "https://docs.zilliz.com.cn/docs/tune-recall-rate"
     },
     {
+      "route": "/docs/tutorial-colbert-colpali",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/tutorial-colbert-colpali"
+    },
+    {
       "route": "/docs/tutorial-implement-time-based-ranking",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/tutorial-implement-time-based-ranking"
     },
     {
-      "route": "/docs/understand-basics",
+      "route": "/docs/update-billing-profile",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/understand-basics"
-    },
-    {
-      "route": "/docs/understand-cost",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/understand-cost"
+      "canonical": "https://docs.zilliz.com.cn/docs/update-billing-profile"
     },
     {
       "route": "/docs/upsert-entities",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/upsert-entities"
-    },
-    {
-      "route": "/docs/use-array-fields",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/use-array-fields"
     },
     {
       "route": "/docs/use-array-of-structs",
@@ -2758,9 +2353,9 @@
       "canonical": "https://docs.zilliz.com.cn/docs/use-geometry-field"
     },
     {
-      "route": "/docs/use-json-fields",
+      "route": "/docs/use-large-topk",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/use-json-fields"
+      "canonical": "https://docs.zilliz.com.cn/docs/use-large-topk"
     },
     {
       "route": "/docs/use-mmap",
@@ -2833,11 +2428,6 @@
       "canonical": "https://docs.zilliz.com.cn/docs/view-invoice"
     },
     {
-      "route": "/docs/volume",
-      "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/volume"
-    },
-    {
       "route": "/docs/whitespace-tokenizer",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/whitespace-tokenizer"
@@ -2848,14 +2438,94 @@
       "canonical": "https://docs.zilliz.com.cn/docs/with-iterators"
     },
     {
+      "route": "/docs/zilliz-access-control-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-access-control-prompts"
+    },
+    {
+      "route": "/docs/zilliz-ai-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-ai-prompts"
+    },
+    {
+      "route": "/docs/zilliz-base-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-base-prompts"
+    },
+    {
       "route": "/docs/zilliz-cloud-ips",
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/docs/zilliz-cloud-ips"
     },
     {
-      "route": "/docs/zilliz-mcp-server",
+      "route": "/docs/zilliz-cluster-connection-prompts",
       "kind": "page",
-      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-mcp-server"
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-cluster-connection-prompts"
+    },
+    {
+      "route": "/docs/zilliz-gemini-extension",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-gemini-extension"
+    },
+    {
+      "route": "/docs/zilliz-import-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-import-prompts"
+    },
+    {
+      "route": "/docs/zilliz-integrations-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-integrations-prompts"
+    },
+    {
+      "route": "/docs/zilliz-migration-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-migration-prompts"
+    },
+    {
+      "route": "/docs/zilliz-plugin",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-plugin"
+    },
+    {
+      "route": "/docs/zilliz-plugin-capabilities",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-plugin-capabilities"
+    },
+    {
+      "route": "/docs/zilliz-plugin-examples",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-plugin-examples"
+    },
+    {
+      "route": "/docs/zilliz-plugin-setup",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-plugin-setup"
+    },
+    {
+      "route": "/docs/zilliz-pricing-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-pricing-prompts"
+    },
+    {
+      "route": "/docs/zilliz-resource-planning-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-resource-planning-prompts"
+    },
+    {
+      "route": "/docs/zilliz-schema-design-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-schema-design-prompts"
+    },
+    {
+      "route": "/docs/zilliz-search-prompts",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-search-prompts"
+    },
+    {
+      "route": "/docs/zilliz-skill",
+      "kind": "page",
+      "canonical": "https://docs.zilliz.com.cn/docs/zilliz-skill"
     },
     {
       "route": "/home",
@@ -8431,5 +8101,328 @@
       "kind": "page",
       "canonical": "https://docs.zilliz.com.cn/search"
     }
-  ]
+  ],
+  "evidenceRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+  "comparison": {
+    "baseline": "migration/reports/routes-zh-CN-legacy.json",
+    "baselineCount": 1686,
+    "canonicalCount": 1620,
+    "differences": 314,
+    "approvedDifferenceMatchers": [
+      "extra:/docs/agent-plugins-and-extensions",
+      "extra:/docs/agents-and-prompts",
+      "extra:/docs/aliyun-marketplace",
+      "extra:/docs/aliyun-private-link",
+      "extra:/docs/amazon-marketplace-cn",
+      "extra:/docs/backfill-and-schema-iteration",
+      "extra:/docs/byoc/access-log-overview",
+      "extra:/docs/byoc/access-log-reference",
+      "extra:/docs/byoc/agent-plugins-and-extensions",
+      "extra:/docs/byoc/agents-and-prompts",
+      "extra:/docs/byoc/bitmap-index-type",
+      "extra:/docs/byoc/cli-and-agent-integration-guide",
+      "extra:/docs/byoc/configure-access-logs",
+      "extra:/docs/byoc/connect-to-clusters",
+      "extra:/docs/byoc/connect-to-serving-cluster",
+      "extra:/docs/byoc/create-backup",
+      "extra:/docs/byoc/create-cluster",
+      "extra:/docs/byoc/create-struct-array",
+      "extra:/docs/byoc/default-fields",
+      "extra:/docs/byoc/filtered-search-with-struct-arrays",
+      "extra:/docs/byoc/grouping-search-with-struct-array",
+      "extra:/docs/byoc/hybrid-search-with-struct-array",
+      "extra:/docs/byoc/index-struct-array",
+      "extra:/docs/byoc/indexes",
+      "extra:/docs/byoc/insert-struct-array",
+      "extra:/docs/byoc/inverted-index-type",
+      "extra:/docs/byoc/manage-file-resources",
+      "extra:/docs/byoc/managed-volume",
+      "extra:/docs/byoc/migrate-between-clusters",
+      "extra:/docs/byoc/minhash-function",
+      "extra:/docs/byoc/minhash-lsh",
+      "extra:/docs/byoc/nullable-fields",
+      "extra:/docs/byoc/offline-migration",
+      "extra:/docs/byoc/payment-billing",
+      "extra:/docs/byoc/primary-key-search",
+      "extra:/docs/byoc/range-search-with-struct-arrays",
+      "extra:/docs/byoc/restore-from-backup-files",
+      "extra:/docs/byoc/search-with-struct-array",
+      "extra:/docs/byoc/single-sign-on-with-okta",
+      "extra:/docs/byoc/slt-sort-index-type",
+      "extra:/docs/byoc/struct-array-filtering",
+      "extra:/docs/byoc/struct-array-limits",
+      "extra:/docs/byoc/truncate-collection",
+      "extra:/docs/byoc/tutorial-colbert-colpali",
+      "extra:/docs/byoc/via-backup-files",
+      "extra:/docs/byoc/zilliz-access-control-prompts",
+      "extra:/docs/byoc/zilliz-ai-prompts",
+      "extra:/docs/byoc/zilliz-base-prompts",
+      "extra:/docs/byoc/zilliz-gemini-extension",
+      "extra:/docs/byoc/zilliz-import-prompts",
+      "extra:/docs/byoc/zilliz-integrations-prompts",
+      "extra:/docs/byoc/zilliz-migration-prompts",
+      "extra:/docs/byoc/zilliz-plugin",
+      "extra:/docs/byoc/zilliz-plugin-capabilities",
+      "extra:/docs/byoc/zilliz-plugin-examples",
+      "extra:/docs/byoc/zilliz-plugin-setup",
+      "extra:/docs/byoc/zilliz-schema-design-prompts",
+      "extra:/docs/byoc/zilliz-search-prompts",
+      "extra:/docs/byoc/zilliz-skill",
+      "extra:/docs/cash-recharge",
+      "extra:/docs/connect-for-on-demand-search",
+      "extra:/docs/connect-to-clusters",
+      "extra:/docs/connect-to-serving-cluster",
+      "extra:/docs/create-backup",
+      "extra:/docs/create-struct-array",
+      "extra:/docs/default-fields",
+      "extra:/docs/enterprise-verification",
+      "extra:/docs/failed-payments-organization-recovery",
+      "extra:/docs/filtered-search-with-struct-arrays",
+      "extra:/docs/grouping-search-with-struct-array",
+      "extra:/docs/hybrid-search-with-struct-array",
+      "extra:/docs/index-struct-array",
+      "extra:/docs/indexes",
+      "extra:/docs/insert-struct-array",
+      "extra:/docs/integrate-with-alibaba-cloud-oss",
+      "extra:/docs/integrate-with-amazon-s3-cn",
+      "extra:/docs/manage-file-resources",
+      "extra:/docs/manage-invoice",
+      "extra:/docs/manage-on-demand-clusters",
+      "extra:/docs/manage-orders",
+      "extra:/docs/manage-projects",
+      "extra:/docs/manage-snapshots",
+      "extra:/docs/migrate-from-pinecone",
+      "extra:/docs/migrate-from-tencent-cloud",
+      "extra:/docs/minhash-function",
+      "extra:/docs/minhash-lsh",
+      "extra:/docs/monitor-billing-alerts",
+      "extra:/docs/nullable-fields",
+      "extra:/docs/on-demand-search",
+      "extra:/docs/organization-settings",
+      "extra:/docs/quick-start",
+      "extra:/docs/quick-start-to-external-data-lake-search",
+      "extra:/docs/range-search-with-struct-arrays",
+      "extra:/docs/renewal",
+      "extra:/docs/restore-from-backup-files",
+      "extra:/docs/search-with-struct-array",
+      "extra:/docs/setup-a-private-link-aws",
+      "extra:/docs/siliconflow",
+      "extra:/docs/single-sign-on-with-okta",
+      "extra:/docs/snapshots",
+      "extra:/docs/struct-array-filtering",
+      "extra:/docs/struct-array-limits",
+      "extra:/docs/tencent-private-link",
+      "extra:/docs/truncate-collection",
+      "extra:/docs/tutorial-colbert-colpali",
+      "extra:/docs/update-billing-profile",
+      "extra:/docs/use-large-topk",
+      "extra:/docs/zilliz-access-control-prompts",
+      "extra:/docs/zilliz-ai-prompts",
+      "extra:/docs/zilliz-base-prompts",
+      "extra:/docs/zilliz-cluster-connection-prompts",
+      "extra:/docs/zilliz-gemini-extension",
+      "extra:/docs/zilliz-import-prompts",
+      "extra:/docs/zilliz-integrations-prompts",
+      "extra:/docs/zilliz-migration-prompts",
+      "extra:/docs/zilliz-plugin",
+      "extra:/docs/zilliz-plugin-capabilities",
+      "extra:/docs/zilliz-plugin-examples",
+      "extra:/docs/zilliz-plugin-setup",
+      "extra:/docs/zilliz-pricing-prompts",
+      "extra:/docs/zilliz-resource-planning-prompts",
+      "extra:/docs/zilliz-schema-design-prompts",
+      "extra:/docs/zilliz-search-prompts",
+      "extra:/docs/zilliz-skill",
+      "missing:/docs/access-connection-endpoints",
+      "missing:/docs/access-control",
+      "missing:/docs/access-logs",
+      "missing:/docs/advance-pay",
+      "missing:/docs/agents/agents-and-prompts",
+      "missing:/docs/agents/zilliz-access-control-prompts",
+      "missing:/docs/agents/zilliz-ai-prompts",
+      "missing:/docs/agents/zilliz-base-prompts",
+      "missing:/docs/agents/zilliz-cluster-connection-prompts",
+      "missing:/docs/agents/zilliz-gemini-extension",
+      "missing:/docs/agents/zilliz-import-prompts",
+      "missing:/docs/agents/zilliz-integrations-prompts",
+      "missing:/docs/agents/zilliz-migration-prompts",
+      "missing:/docs/agents/zilliz-plugin",
+      "missing:/docs/agents/zilliz-plugin-capabilities",
+      "missing:/docs/agents/zilliz-plugin-examples",
+      "missing:/docs/agents/zilliz-plugin-setup",
+      "missing:/docs/agents/zilliz-pricing-prompts",
+      "missing:/docs/agents/zilliz-resource-planning-prompts",
+      "missing:/docs/agents/zilliz-schema-design-prompts",
+      "missing:/docs/agents/zilliz-search-prompts",
+      "missing:/docs/agents/zilliz-skill",
+      "missing:/docs/analyzer",
+      "missing:/docs/analyzer-filters",
+      "missing:/docs/analyzer-tokenizers",
+      "missing:/docs/ann-search-explained",
+      "missing:/docs/api-sdks",
+      "missing:/docs/auditing",
+      "missing:/docs/authentication",
+      "missing:/docs/backup-and-restore",
+      "missing:/docs/best-practices",
+      "missing:/docs/built-in-analyzer",
+      "missing:/docs/byoc/access-control",
+      "missing:/docs/byoc/analyzer",
+      "missing:/docs/byoc/analyzer-filters",
+      "missing:/docs/byoc/analyzer-tokenizers",
+      "missing:/docs/byoc/ann-search-explained",
+      "missing:/docs/byoc/api-sdks",
+      "missing:/docs/byoc/auditing",
+      "missing:/docs/byoc/authentication",
+      "missing:/docs/byoc/backup-and-restore",
+      "missing:/docs/byoc/best-practices",
+      "missing:/docs/byoc/built-in-analyzer",
+      "missing:/docs/byoc/cluster",
+      "missing:/docs/byoc/collection",
+      "missing:/docs/byoc/connect-to-cluster",
+      "missing:/docs/byoc/create-cluster-byoc",
+      "missing:/docs/byoc/create-snapshot",
+      "missing:/docs/byoc/data",
+      "missing:/docs/byoc/data-export",
+      "missing:/docs/byoc/data-import",
+      "missing:/docs/byoc/data-import-export",
+      "missing:/docs/byoc/data-resilience",
+      "missing:/docs/byoc/data-security",
+      "missing:/docs/byoc/decay-ranker",
+      "missing:/docs/byoc/environment-isolation",
+      "missing:/docs/byoc/export-backup-files",
+      "missing:/docs/byoc/faqs",
+      "missing:/docs/byoc/filtering",
+      "missing:/docs/byoc/function-and-model-inference",
+      "missing:/docs/byoc/get-started",
+      "missing:/docs/byoc/hybrid-search-rankers",
+      "missing:/docs/byoc/index-scalar-fields",
+      "missing:/docs/byoc/index-vector-fields",
+      "missing:/docs/byoc/insert-update-delete",
+      "missing:/docs/byoc/integrate-with-amazon-s3",
+      "missing:/docs/byoc/integrate-with-model-providers",
+      "missing:/docs/byoc/integrate-with-storage-bucket",
+      "missing:/docs/byoc/integrate-with-third-parties",
+      "missing:/docs/byoc/limits-and-restrictions",
+      "missing:/docs/byoc/manage-indexes",
+      "missing:/docs/byoc/metrics-and-alerts",
+      "missing:/docs/byoc/migrations",
+      "missing:/docs/byoc/model-based-functions",
+      "missing:/docs/byoc/model-ranker",
+      "missing:/docs/byoc/multi-tenancy",
+      "missing:/docs/byoc/network-and-security",
+      "missing:/docs/byoc/nullable-and-default",
+      "missing:/docs/byoc/organizations",
+      "missing:/docs/byoc/projects",
+      "missing:/docs/byoc/reranking",
+      "missing:/docs/byoc/resource-planning",
+      "missing:/docs/byoc/restore-from-snapshot",
+      "missing:/docs/byoc/rule-based-rankers",
+      "missing:/docs/byoc/schema-best-practices",
+      "missing:/docs/byoc/schema-data-fields",
+      "missing:/docs/byoc/search-query-get",
+      "missing:/docs/byoc/security",
+      "missing:/docs/byoc/shared-responsibilities",
+      "missing:/docs/byoc/siliconflow",
+      "missing:/docs/byoc/siliconflow-model-ranker",
+      "missing:/docs/byoc/understand-basics",
+      "missing:/docs/byoc/use-array-fields",
+      "missing:/docs/byoc/use-json-fields",
+      "missing:/docs/byoc/via-endpoint",
+      "missing:/docs/byoc/zilliz-mcp-server",
+      "missing:/docs/changelogs",
+      "missing:/docs/cluster",
+      "missing:/docs/collection",
+      "missing:/docs/connect-to-cluster",
+      "missing:/docs/create-cluster-on-demand",
+      "missing:/docs/create-cluster-pre-paid",
+      "missing:/docs/create-snapshot",
+      "missing:/docs/data",
+      "missing:/docs/data-export",
+      "missing:/docs/data-import",
+      "missing:/docs/data-import-export",
+      "missing:/docs/data-resilience",
+      "missing:/docs/data-security",
+      "missing:/docs/decay-ranker",
+      "missing:/docs/enterprise-certification",
+      "missing:/docs/environment-isolation",
+      "missing:/docs/external-collection",
+      "missing:/docs/extract-transform-and-load",
+      "missing:/docs/faqs",
+      "missing:/docs/feature-availability",
+      "missing:/docs/filtering",
+      "missing:/docs/function-and-model-inference",
+      "missing:/docs/get-started",
+      "missing:/docs/global-cluster",
+      "missing:/docs/hosted-models",
+      "missing:/docs/hybrid-search-rankers",
+      "missing:/docs/index-scalar-fields",
+      "missing:/docs/index-vector-fields",
+      "missing:/docs/insert-update-delete",
+      "missing:/docs/integrate-with-amazon-s3",
+      "missing:/docs/integrate-with-storage-bucket",
+      "missing:/docs/integrate-with-third-parties",
+      "missing:/docs/invoice",
+      "missing:/docs/limits-and-restrictions",
+      "missing:/docs/manage-indexes",
+      "missing:/docs/manage-order",
+      "missing:/docs/merge-data",
+      "missing:/docs/metrics-and-alerts",
+      "missing:/docs/migrate-from-external-sources",
+      "missing:/docs/migrate-from-tencent-cloud-vectordb",
+      "missing:/docs/migrations",
+      "missing:/docs/model-ranker",
+      "missing:/docs/multi-tenancy",
+      "missing:/docs/network-and-security",
+      "missing:/docs/notice-on-config-changes",
+      "missing:/docs/on-demand-compute",
+      "missing:/docs/organizations",
+      "missing:/docs/projects",
+      "missing:/docs/release-notes-200",
+      "missing:/docs/release-notes-210",
+      "missing:/docs/release-notes-2100",
+      "missing:/docs/release-notes-2110",
+      "missing:/docs/release-notes-2120",
+      "missing:/docs/release-notes-2130",
+      "missing:/docs/release-notes-2140",
+      "missing:/docs/release-notes-2150",
+      "missing:/docs/release-notes-2170",
+      "missing:/docs/release-notes-2180",
+      "missing:/docs/release-notes-220",
+      "missing:/docs/release-notes-221",
+      "missing:/docs/release-notes-230",
+      "missing:/docs/release-notes-240",
+      "missing:/docs/release-notes-2508",
+      "missing:/docs/release-notes-2510",
+      "missing:/docs/release-notes-2511",
+      "missing:/docs/release-notes-2512",
+      "missing:/docs/release-notes-260",
+      "missing:/docs/release-notes-2601",
+      "missing:/docs/release-notes-2602",
+      "missing:/docs/release-notes-2604",
+      "missing:/docs/release-notes-270",
+      "missing:/docs/release-notes-280",
+      "missing:/docs/release-notes-290",
+      "missing:/docs/release-notes-291",
+      "missing:/docs/reranking",
+      "missing:/docs/resource-planning",
+      "missing:/docs/restore-from-snapshot",
+      "missing:/docs/rule-based-rankers",
+      "missing:/docs/schema-best-practices",
+      "missing:/docs/schema-data-fields",
+      "missing:/docs/search-query-get",
+      "missing:/docs/security",
+      "missing:/docs/setup-a-private-link",
+      "missing:/docs/setup-a-private-link-alicloud",
+      "missing:/docs/setup-a-private-link-amazon-cloud",
+      "missing:/docs/setup-a-private-link-tencent-cloud",
+      "missing:/docs/subscribe-on-aliyun-marketplace",
+      "missing:/docs/subscribe-on-amazon-marketplace",
+      "missing:/docs/understand-basics",
+      "missing:/docs/understand-cost",
+      "missing:/docs/use-array-fields",
+      "missing:/docs/use-json-fields",
+      "missing:/docs/volume",
+      "missing:/docs/zilliz-mcp-server"
+    ]
+  }
 }

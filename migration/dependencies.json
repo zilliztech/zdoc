@@ -69,7 +69,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "@docusaurus/core",
@@ -114,7 +117,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@docusaurus/faster",
@@ -159,7 +165,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@docusaurus/plugin-content-docs",
@@ -204,7 +213,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@docusaurus/preset-classic",
@@ -249,7 +261,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@docusaurus/theme-common",
@@ -294,7 +309,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@easyops-cn/docusaurus-search-local",
@@ -339,7 +360,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@inkeep/cxkit-docusaurus",
@@ -384,7 +411,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@inkeep/cxkit-react",
@@ -429,7 +460,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@inkeep/docusaurus",
@@ -474,7 +508,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@mdx-js/mdx",
@@ -519,7 +559,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "@mdx-js/react",
@@ -564,7 +608,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@smithy/node-http-handler",
@@ -609,7 +656,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "@zdoc/chat-ui",
@@ -654,7 +704,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "axios",
@@ -699,7 +752,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "bottleneck",
@@ -744,7 +803,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "cheerio",
@@ -789,7 +851,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "clsx",
@@ -834,7 +899,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "docusaurus-gtm-plugin",
@@ -879,7 +947,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "docusaurus-plugin-image-zoom",
@@ -924,7 +998,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "dotenv",
@@ -969,7 +1049,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "inquirer",
@@ -1014,7 +1098,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "js-yaml",
@@ -1059,7 +1146,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "lodash",
@@ -1104,7 +1195,12 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "lucide-react",
@@ -1149,7 +1245,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "node-fetch",
@@ -1194,7 +1294,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "nunjucks",
@@ -1239,7 +1343,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "playwright",
@@ -1284,7 +1391,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "prism-react-renderer",
@@ -1329,7 +1442,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "prismjs",
@@ -1374,7 +1493,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "react",
@@ -1419,7 +1541,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "react-dom",
@@ -1464,7 +1590,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "react-markdown",
@@ -1509,7 +1639,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "rehype-katex",
@@ -1554,7 +1688,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "remark-gfm",
@@ -1599,7 +1736,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "remark-math",
@@ -1644,7 +1785,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "sharp",
@@ -1689,7 +1834,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "showdown",
@@ -1734,7 +1882,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "slugify",
@@ -1779,7 +1931,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "unist-util-visit",
@@ -1824,7 +1979,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "xml2js",
@@ -1869,7 +2027,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "zod",
@@ -1914,7 +2075,12 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui",
+        "packages/site-config"
+      ]
     },
     {
       "package": "zod-to-json-schema",
@@ -1959,7 +2125,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@docusaurus/module-type-aliases",
@@ -2004,7 +2173,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@docusaurus/tsconfig",
@@ -2049,7 +2224,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@docusaurus/types",
@@ -2094,7 +2275,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@playwright/test",
@@ -2139,7 +2324,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@testing-library/jest-dom",
@@ -2184,7 +2375,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@testing-library/react",
@@ -2229,7 +2426,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@types/node",
@@ -2274,7 +2474,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@vitest/coverage-v8",
@@ -2319,7 +2525,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "jsdom",
@@ -2364,7 +2576,13 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "typescript",
@@ -2409,7 +2627,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "vitest",
@@ -2454,7 +2675,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "lucide-react",
@@ -2499,7 +2723,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "react-markdown",
@@ -2544,7 +2772,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "remark-gfm",
@@ -2589,7 +2821,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@types/react",
@@ -2634,7 +2870,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "@types/react-dom",
@@ -2679,7 +2918,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "@vitejs/plugin-react",
@@ -2724,7 +2966,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "react",
@@ -2769,7 +3014,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "react-dom",
@@ -2814,7 +3063,11 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "typescript",
@@ -2859,7 +3112,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "vite",
@@ -2904,7 +3160,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "vite-plugin-dts",
@@ -2949,7 +3208,10 @@
           "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "@docusaurus/core",
@@ -2995,7 +3257,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@docusaurus/faster",
@@ -3041,7 +3306,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@docusaurus/preset-classic",
@@ -3087,7 +3355,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@easyops-cn/docusaurus-search-local",
@@ -3133,7 +3404,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@inkeep/cxkit-docusaurus",
@@ -3179,7 +3456,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@inkeep/cxkit-react",
@@ -3225,7 +3506,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@inkeep/docusaurus",
@@ -3271,7 +3555,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@mdx-js/react",
@@ -3317,7 +3607,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "@node-rs/jieba",
@@ -3363,7 +3656,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "ali-oss",
@@ -3409,7 +3708,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "bottleneck",
@@ -3455,7 +3757,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "clsx",
@@ -3501,7 +3806,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "docusaurus-gtm-plugin",
@@ -3547,7 +3855,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "dotenv",
@@ -3593,7 +3907,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "fast-xml-parser",
@@ -3639,7 +3957,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "inquirer",
@@ -3685,7 +4006,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "lodash",
@@ -3731,7 +4055,12 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "lucide-react",
@@ -3777,7 +4106,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "node-fetch",
@@ -3823,7 +4156,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "nunjucks",
@@ -3869,7 +4206,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "prism-react-renderer",
@@ -3915,7 +4255,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "react",
@@ -3961,7 +4307,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "react-dom",
@@ -4007,7 +4357,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
     },
     {
       "package": "rehype-katex",
@@ -4053,7 +4407,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "remark-math",
@@ -4099,7 +4456,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "sharp",
@@ -4145,7 +4506,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "showdown",
@@ -4191,7 +4555,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "slugify",
@@ -4237,7 +4605,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
     },
     {
       "package": "uuid",
@@ -4283,7 +4654,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "xml2js",
@@ -4329,7 +4706,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
     },
     {
       "package": "zod",
@@ -4375,7 +4755,12 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui",
+        "packages/site-config"
+      ]
     },
     {
       "package": "zod-to-json-schema",
@@ -4421,7 +4806,10 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "@docusaurus/module-type-aliases",
@@ -4467,7 +4855,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@docusaurus/types",
@@ -4513,7 +4907,11 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
     },
     {
       "package": "husky",
@@ -4559,7 +4957,13 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     },
     {
       "package": "@node-rs/jieba-linux-x64-gnu",
@@ -4605,7 +5009,17 @@
           "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
         ]
       },
-      "reviewStatus": "pending"
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
     }
-  ]
+  ],
+  "currentImportReview": {
+    "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+    "scope": "Direct dependencies declared by current apps/* and packages/* manifests."
+  }
 }

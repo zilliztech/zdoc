@@ -2,41 +2,71 @@
   "schemaVersion": 1,
   "site": "zh-CN",
   "sourceRepository": "zdoc",
-  "sourceSha": "f3c889e01e6e462156e3080ce46baeb394364805",
-  "reviewedMasterSha": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+  "sourceSha": "758adc2dad38bd5f89e9f3d077a109777a431632",
+  "evidenceRecordedAt": "2026-07-28T14:10:00+08:00",
   "localImage": {
-    "reference": "zdoc-zh-cn:shadow",
-    "imageId": "sha256:53c7f49e734aebc9f1cd105e6ce91619356385734befcc6569b6b27fd7d5e3fe",
-    "sizeBytes": 910914619,
-    "createdAt": "2026-07-26T15:50:16.75495145+08:00",
-    "jenkinsBuildIdentityLabel": "local-shadow-zh"
+    "status": "not-built",
+    "imageId": null,
+    "sizeBytes": null,
+    "reason": "Task 12 owns clean-checkout image acceptance. Reusing any previous image would be stale, and building from this evidence-editing worktree would not be clean evidence."
   },
   "build": {
-    "command": "docker build --progress=plain -f deploy/zh-CN/Dockerfile --build-arg ZDOC_SHA=f3c889e01e6e462156e3080ce46baeb394364805 --build-arg JENKINS_BUILD_ID=local-shadow-zh -t zdoc-zh-cn:shadow .",
+    "status": "site-build-passed",
+    "command": "pnpm build:zh-CN",
     "exitStatus": 0,
-    "dependencyInstall": "pnpm install --frozen-lockfile",
-    "siteCommand": "pnpm build:zh-CN",
+    "artifact": "build/zh-CN",
+    "artifactHash": "4f2cdcc4d61f6df2af308211c80899adba0e8b2f6368406e99d2eecbc0e6d8ab",
+    "provenance": "build/zh-CN/build-provenance.json",
+    "dependencyInstall": "existing frozen-lockfile workspace install",
     "publicationNetworkFence": true,
-    "ssgMemoryControl": "DOCUSAURUS_SSG_WORKER_THREAD_COUNT=2 with Docusaurus worker recycling and a 4096 MiB V8 heap"
+    "ssgMemoryControl": "DOCUSAURUS_SSG_WORKER_THREAD_COUNT=2 with a 4096 MiB V8 heap",
+    "imageBuildCommandRequiredByTask12": "docker build --progress=plain -f deploy/zh-CN/Dockerfile --build-arg ZDOC_SHA=<task-11-commit> --build-arg JENKINS_BUILD_ID=task12-clean-zh -t zdoc-zh-cn:task12 ."
   },
   "localSmoke": {
-    "command": "deploy/contracts/smoke.sh zdoc-zh-cn:shadow zh-CN",
-    "exitStatus": 0,
-    "checks": ["OCI source label", "revision label", "site label", "Jenkins identity label", "/healthz", "/docs/home", "temporary container cleanup"]
+    "status": "route-artifact-passed-image-smoke-pending",
+    "imageCommand": "deploy/contracts/smoke.sh zdoc-zh-cn:task12 zh-CN",
+    "imageExitStatus": null,
+    "artifactChecks": [
+      "build/zh-CN/index.html exists",
+      "build/zh-CN/docs/home.html exists",
+      "replacement inventory contains 1620 Chinese routes",
+      "Chinese build contains no /ja-JP route inventory"
+    ],
+    "pendingImageChecks": [
+      "OCI source and revision labels",
+      "Jenkins identity label",
+      "/healthz",
+      "/docs/home",
+      "representative guide, BYOC, on-premise, Agent, and reference routes",
+      "/ja-JP/docs/home returns 404",
+      "temporary container cleanup"
+    ]
   },
   "differential": {
     "legacyRoutes": 1686,
-    "replacementRoutes": 1686,
-    "differences": 0,
-    "evidence": ["migration/reports/routes-zh-CN-legacy.json", "migration/reports/routes-zh-CN-replacement.json"]
+    "replacementRoutes": 1620,
+    "approvedExactDifferences": 314,
+    "evidence": [
+      "migration/reports/routes-zh-CN-legacy.json",
+      "migration/reports/routes-zh-CN-replacement.json",
+      "migration/approved-differences.json"
+    ]
   },
   "warnings": [
-    "Existing broken-link, broken-anchor, one-page HTML-minifier, KaTeX Unicode, and lunr registration diagnostics remain non-blocking and are not classified as migration differences."
+    "Known broken-link, broken-anchor, one-page HTML-minifier, KaTeX Unicode, and lunr diagnostics remained non-blocking during the current site build.",
+    "No current image ID or image size is claimed; Task 12 must fill these from a clean checkout."
   ],
   "externalShadow": {
     "status": "not-executed",
     "uatPipeline": "zilliz-docs-cn-dev",
-    "blocker": "The externally managed zilliz-docs-cn-dev pipeline, registry, non-production Chinese hostname, CDN/Nginx environment, deployment credentials, and environment owners are outside this repository's control.",
-    "requiredEvidence": ["registry digest", "Chinese UAT release record", "shadow hostname", "synthetic-check output", "observation window", "owner approval"]
+    "blocker": "The externally managed pipeline, registry, non-production Chinese hostname, CDN/Nginx environment, deployment credentials, and environment owners are outside repository control.",
+    "requiredEvidence": [
+      "registry digest for the exact Task 11 commit",
+      "Chinese UAT release record",
+      "shadow hostname",
+      "Chinese synthetic-check output",
+      "observation window",
+      "owner approval"
+    ]
   }
 }

@@ -35,14 +35,14 @@ test('keeps valid adjacent Chinese prose and bold spans intact', () => {
 
 test('does not retain cross-paired bold corruption in imported Guides and BYOC data documents', () => {
   const targets = [
-    'content/zh-CN/guides/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md',
-    'content/zh-CN/guides/tutorials/data/search-query-get/consistency-level.md',
-    'content/zh-CN/guides/tutorials/data/search-query-get/phrase-match.md',
-    'content/zh-CN/guides/tutorials/data/search-query-get/range-search.md',
-    'content/zh-CN/byoc/tutorials/data/schema-data-fields/analyzer/analyzer-tokenizers/language-identifier-tokenizer.md',
-    'content/zh-CN/byoc/tutorials/data/search-query-get/consistency-level.md',
-    'content/zh-CN/byoc/tutorials/data/search-query-get/phrase-match.md',
-    'content/zh-CN/byoc/tutorials/data/search-query-get/range-search.md',
+    'content/zh-CN/guides/tutorials/analyzer/tokenizer/language-identifier-tokenizer.md',
+    'content/zh-CN/guides/tutorials/search-and-query/consistency-level.md',
+    'content/zh-CN/guides/tutorials/search-and-query/phrase-match.md',
+    'content/zh-CN/guides/tutorials/search-and-query/range-search.md',
+    'content/zh-CN/byoc/tutorials/analyzer/tokenizer/language-identifier-tokenizer.md',
+    'content/zh-CN/byoc/tutorials/search-and-query/consistency-level.md',
+    'content/zh-CN/byoc/tutorials/search-and-query/phrase-match.md',
+    'content/zh-CN/byoc/tutorials/search-and-query/range-search.md',
   ];
 
   for (const target of targets) {

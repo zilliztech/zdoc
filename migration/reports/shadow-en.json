@@ -2,40 +2,72 @@
   "schemaVersion": 1,
   "site": "en",
   "sourceRepository": "zdoc",
-  "sourceSha": "f3c889e01e6e462156e3080ce46baeb394364805",
-  "reviewedMasterSha": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+  "sourceSha": "758adc2dad38bd5f89e9f3d077a109777a431632",
+  "evidenceRecordedAt": "2026-07-28T14:10:00+08:00",
   "localImage": {
-    "reference": "zdoc-en:shadow",
-    "imageId": "sha256:44934669298c728b53aad9b66c9aa91da7d4562e831f50e74f13eaf047a24d2a",
-    "sizeBytes": 317214851,
-    "createdAt": "2026-07-26T15:52:49.72941225+08:00",
-    "jenkinsBuildIdentityLabel": "local-shadow-en"
+    "status": "not-built",
+    "imageId": null,
+    "sizeBytes": null,
+    "reason": "Task 12 owns clean-checkout image acceptance. Reusing any previous image would be stale, and building from this evidence-editing worktree would not be clean evidence."
   },
   "build": {
-    "command": "docker build --progress=plain -f deploy/en/Dockerfile --build-arg ZDOC_SHA=f3c889e01e6e462156e3080ce46baeb394364805 --build-arg JENKINS_BUILD_ID=local-shadow-en -t zdoc-en:shadow .",
+    "status": "site-build-passed",
+    "command": "pnpm build:en",
     "exitStatus": 0,
-    "dependencyInstall": "pnpm install --frozen-lockfile",
-    "siteCommand": "pnpm build:en",
-    "publicationNetworkFence": true
+    "artifact": "build/en",
+    "artifactHash": "d0e7323fe35b7e395f101c74f1ab5b646a349870b09c250547aebabd1b435c8d",
+    "provenance": "build/en/build-provenance.json",
+    "dependencyInstall": "existing frozen-lockfile workspace install",
+    "publicationNetworkFence": true,
+    "imageBuildCommandRequiredByTask12": "docker build --progress=plain -f deploy/en/Dockerfile --build-arg ZDOC_SHA=<task-11-commit> --build-arg JENKINS_BUILD_ID=task12-clean-en -t zdoc-en:task12 ."
   },
   "localSmoke": {
-    "command": "deploy/contracts/smoke.sh zdoc-en:shadow en",
-    "exitStatus": 0,
-    "checks": ["OCI source label", "revision label", "site label", "Jenkins identity label", "/healthz", "/docs/home", "temporary container cleanup"]
+    "status": "route-artifact-passed-image-smoke-pending",
+    "imageCommand": "deploy/contracts/smoke.sh zdoc-en:task12 en",
+    "imageExitStatus": null,
+    "artifactChecks": [
+      "build/en/index.html exists",
+      "build/en/docs/home.html exists",
+      "build/en/ja-JP/docs/home.html exists",
+      "Japanese and canonical English inventories each contain 1885 routes"
+    ],
+    "pendingImageChecks": [
+      "OCI source and revision labels",
+      "Jenkins identity label",
+      "/healthz",
+      "/docs/home",
+      "/ja-JP/docs/home",
+      "temporary container cleanup"
+    ]
   },
   "differential": {
-    "legacyRoutes": 1868,
-    "replacementRoutes": 1868,
-    "differences": 0,
-    "evidence": ["migration/reports/routes-en-legacy.json", "migration/reports/routes-en-replacement.json"]
+    "legacyCanonicalRoutes": 1868,
+    "replacementCanonicalRoutes": 1885,
+    "japaneseRoutes": 1885,
+    "approvedCanonicalDifferences": 23,
+    "japaneseMissing": 0,
+    "japaneseExtra": 0,
+    "evidence": [
+      "migration/reports/routes-en-legacy.json",
+      "migration/reports/routes-en-replacement.json",
+      "migration/approved-differences.json"
+    ]
   },
   "warnings": [
-    "Existing Docusaurus broken-link and broken-anchor diagnostics remain non-blocking and are not classified as migration differences."
+    "Known Docusaurus broken-link and broken-anchor diagnostics remained non-blocking during the current site build.",
+    "No current image ID or image size is claimed; Task 12 must fill these from a clean checkout."
   ],
   "externalShadow": {
     "status": "not-executed",
     "uatPipeline": "zilliz-docs-dev",
-    "blocker": "The externally managed zilliz-docs-dev pipeline, registry, non-production hostname, CDN/Nginx environment, deployment credentials, and environment owners are outside this repository's control.",
-    "requiredEvidence": ["registry digest", "UAT release record", "shadow hostname", "synthetic-check output", "observation window", "owner approval"]
+    "blocker": "The externally managed pipeline, registry, non-production hostname, CDN/Nginx environment, deployment credentials, and environment owners are outside repository control.",
+    "requiredEvidence": [
+      "registry digest for the exact Task 11 commit",
+      "UAT release record",
+      "shadow hostname",
+      "English and Japanese synthetic-check output",
+      "observation window",
+      "owner approval"
+    ]
   }
 }

@@ -5,6 +5,9 @@
     {
       "id": "zdoc",
       "revision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+      "treeObjectId": "c16c105e95f4acc1de096887bfbbe632cda6a5dd",
+      "inventoryEntryCount": 4285,
+      "inventorySha256": "85ba00b2d3069ced9e9382577e01b6a072bb3419a8e28c667500052555cff3a0",
       "lockfilePath": "pnpm-lock.yaml",
       "lockConsistency": "verified",
       "evidence": [
@@ -14,6 +17,11 @@
     {
       "id": "zdoc_cn",
       "revision": "b1900473dddf8db2d56c11387211a7014b54c160",
+      "treeObjectId": "b26eee4357443f08d656b82eb3261fd40407b213",
+      "inventoryEntryCount": 2826,
+      "inventorySha256": "ce9fef5989ece272e38314bae72de76365773d40e26fd13ea51e38edc3b858ae",
+      "treeInventoryPath": "migration/source-tree-inventories/zdoc_cn.json",
+      "treeInventorySha256": "23841f5da959604d628a9c529bbf90f727d01f4c34bb7971e918460542fef4a5",
       "lockfilePath": "package-lock.json",
       "lockConsistency": "stale",
       "evidence": [

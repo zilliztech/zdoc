@@ -80,6 +80,7 @@ test('uses only bounded matching approvals for the requested site', () => {
   const difference = {
     site: 'en', capability: 'routes.extra', matcher: 'extra:/new', category: 'intentional-change',
     reason: 'Published English landing page', approvedBy: 'docs-platform', expiresWhen: 'content launch completed',
+    rationale: {type: 'addition', detail: 'Adds the reviewed English launch route /new.'},
   };
   const result = compareRouteInventories({
     legacy: inventory([]), replacement: inventory([page('/new')]),
@@ -97,11 +98,31 @@ test('rejects malformed, expired, and unused approvals', () => {
   const base = {
     site: 'en', capability: 'routes.extra', matcher: 'extra:/new', category: 'intentional-change',
     reason: 'Published English landing page', approvedBy: 'docs-platform',
+    rationale: {type: 'addition', detail: 'Adds the reviewed English launch route /new.'},
   };
   const args = {legacy: inventory([]), replacement: inventory([]), site: 'en'};
   assert.throws(() => compareRouteInventories({...args, approved: {schemaVersion: 1, differences: [{...base, matcher: 'extra:*'}]}}), /bounded/i);
   assert.throws(() => compareRouteInventories({...args, approved: {schemaVersion: 1, differences: [{...base, expiresWhen: '2020-01-01'}]}}), /expired/i);
   assert.throws(() => compareRouteInventories({...args, approved: {schemaVersion: 1, differences: [base]}}), /unused/i);
+  assert.throws(() => compareRouteInventories({
+    legacy: inventory([]), replacement: inventory([page('/new')]), site: 'en',
+    approved: {schemaVersion: 1, differences: [{...base, rationale: undefined}]},
+  }), /rationale/i);
+  assert.throws(() => compareRouteInventories({
+    legacy: inventory([page('/old')]), replacement: inventory([page('/new')]), site: 'en',
+    approved: {schemaVersion: 1, differences: [
+      {...base, matcher: 'missing:/old', rationale: {type: 'rename', from: '/wrong', to: '/new'}},
+      {...base, matcher: 'extra:/new', rationale: {type: 'rename', from: '/old', to: '/new'}},
+    ]},
+  }), /rationale/i);
+  assert.throws(() => compareRouteInventories({
+    legacy: inventory([page('/old')]), replacement: inventory([]), site: 'en',
+    approved: {schemaVersion: 1, differences: [{
+      ...base,
+      matcher: 'missing:/old',
+      rationale: {type: 'rename', from: '/old', to: '/new'},
+    }]},
+  }), /paired/i);
 });
 
 test('rejects mismatched inventory sites', () => {

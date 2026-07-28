@@ -6,11 +6,13 @@ Rollback for sustained health failures, critical route or asset loss, incorrect 
 
 ## Required immutable inputs
 
-- Failed candidate source SHA: `f3c889e01e6e462156e3080ce46baeb394364805`
+- Failed candidate source SHA: record the exact Task 11 evidence commit accepted by Task 12 and deployed by UAT/Prod; do not reuse an older local validation SHA.
 - Failed candidate registry digest: record at deployment time; do not substitute the local image ID.
 - Rollback target: a `finalDeployedDigest` from a prior successful Chinese Prod release record.
 - Archive staging location: `.claude/archives/zdoc-cn-pre-merge.bundle`
 - Archive SHA-256: `56cfb5d87da352e31b2d84451c299c8beaa1f0729bce4e72daa0ff80fb874e44`
+- Task 11 verified that digest, verified the complete 28-ref bundle, and restored `package.json` from source head `b1900473dddf8db2d56c11387211a7014b54c160` in a temporary clone (restored file SHA-256 `d85578f89bc9fcbf753048311c8fe606c17bce10c0bf92d5ae22b878768ec489`).
+- The local protected bundle remains staging evidence only; rollback readiness still requires the approved immutable external archive copy.
 
 ## Procedure
 

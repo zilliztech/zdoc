@@ -3,13 +3,15 @@
 ## Scope and immutable candidate
 
 - Source repository: `zdoc`
-- Local validation source SHA: `f3c889e01e6e462156e3080ce46baeb394364805`
+- Current repository evidence SHA: `758adc2dad38bd5f89e9f3d077a109777a431632`
+- Final image candidate SHA: the Task 11 evidence commit produced after this report; Task 12 must build it from a clean checkout and record the exact SHA before UAT.
 - External candidate source SHA: the exact reviewed commit selected for `zilliz-docs-cn-dev`; record it before starting UAT and require every later release record to match it.
-- Reviewed master incorporated: `9ae596fd95b092d07f146aacb45d6ef52e934f2c`
-- Local candidate image ID: `sha256:53c7f49e734aebc9f1cd105e6ce91619356385734befcc6569b6b27fd7d5e3fe`
-- Local image ID is evidence only. Cutover must use the immutable registry digest produced by `zilliz-docs-cn-dev`.
+- Local candidate image ID: not yet available. Task 12 owns the clean-checkout image build and smoke gate; no older image ID is reusable.
+- Any future local image ID is evidence only. Cutover must use the immutable registry digest produced by `zilliz-docs-cn-dev`.
 - Legacy archive staging location: `.claude/archives/zdoc-cn-pre-merge.bundle`
 - Legacy archive SHA-256: `56cfb5d87da352e31b2d84451c299c8beaa1f0729bce4e72daa0ff80fb874e44`
+- Task 11 archive verification: `git bundle verify` reported a complete 28-ref bundle; SHA-256 matched the recorded digest; cloning it into `/private/tmp` restored `package.json` at source head `b1900473dddf8db2d56c11387211a7014b54c160` with SHA-256 `d85578f89bc9fcbf753048311c8fe606c17bce10c0bf92d5ae22b878768ec489`.
+- This local restore proves recoverability only. It does not satisfy the required copy to approved immutable archival storage.
 
 ## Owners
 
@@ -23,7 +25,7 @@ Names, ticket IDs, Jenkins build numbers, registry digests, and hostnames must b
 
 ## Preconditions
 
-1. `git rev-parse HEAD` equals the externally selected candidate SHA and the worktree is clean.
+1. Task 12 has built from a clean checkout, `git rev-parse HEAD` equals the externally selected candidate SHA, and the resulting image/build evidence has been copied into the release record.
 2. `zilliz-docs-cn-dev` builds from `zdoc` with `pnpm build:zh-CN`; it must not clone, assemble, patch, or read `zdoc_cn`.
 3. UAT publishes a successful release record whose site is `zh-CN`, source SHA matches, and final image is an immutable registry digest.
 4. `node deploy/contracts/verify-image.mjs` validates evidence from the kernel-enforced read-only `VDC_JENKINS_EVIDENCE_ROOT`.

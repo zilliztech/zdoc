@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 
 const REQUIRED_APPROVAL_FIELDS = ['site', 'capability', 'matcher', 'category', 'reason', 'approvedBy'];
 const CATEGORIES = new Set(['intentional-change', 'legacy-defect-fixed', 'nondeterministic']);
+const RATIONALE_TYPES = new Set(['addition', 'retirement', 'rename', 'consolidation', 'behavior-change']);
 const TYPE_ORDER = new Map([['extra', 0], ['missing', 1], ['changed', 2]]);
 
 function validateInventory(inventory, site, label) {
@@ -30,8 +31,35 @@ function validateApprovals(manifest) {
     if (!/^(extra|missing|changed):\/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*$/.test(approval.matcher)) {
       throw new Error(`Approval matcher must be bounded to one exact route difference: ${approval.matcher}`);
     }
+    const rationale = approval.rationale;
+    if (!rationale || typeof rationale !== 'object' || !RATIONALE_TYPES.has(rationale.type)) {
+      throw new Error(`Approved difference requires a structured rationale: ${approval.matcher}`);
+    }
+    const [differenceType, route] = approval.matcher.split(':', 2);
+    if (rationale.type === 'rename' || rationale.type === 'consolidation') {
+      if (typeof rationale.from !== 'string' || typeof rationale.to !== 'string'
+        || !rationale.from.startsWith('/') || !rationale.to.startsWith('/')) {
+        throw new Error(`Paired route rationale requires bounded from/to routes: ${approval.matcher}`);
+      }
+      if ((differenceType === 'missing' && rationale.from !== route)
+        || (differenceType === 'extra' && rationale.to !== route)) {
+        throw new Error(`Paired route rationale does not match approval route: ${approval.matcher}`);
+      }
+    } else if (typeof rationale.detail !== 'string' || !rationale.detail.includes(route)) {
+      throw new Error(`Route rationale must explicitly name ${route}: ${approval.matcher}`);
+    }
     if (/^\d{4}-\d{2}-\d{2}$/.test(approval.expiresWhen ?? '') && approval.expiresWhen < new Date().toISOString().slice(0, 10)) {
       throw new Error(`Approved difference expired: ${approval.matcher}`);
+    }
+  }
+  for (const approval of manifest.differences.filter(item => item.rationale?.type === 'rename')) {
+    const pair = manifest.differences.filter(item => item.site === approval.site
+      && item.rationale?.type === 'rename'
+      && item.rationale.from === approval.rationale.from
+      && item.rationale.to === approval.rationale.to);
+    if (!pair.some(item => item.matcher === `missing:${approval.rationale.from}`)
+      || !pair.some(item => item.matcher === `extra:${approval.rationale.to}`)) {
+      throw new Error(`Rename rationale requires paired missing and extra approvals: ${approval.matcher}`);
     }
   }
 }
