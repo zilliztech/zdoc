@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 import {spawn} from 'node:child_process';
+import {createRequire} from 'node:module';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-import {
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const requireFromApp = createRequire(path.join(repositoryRoot, 'apps/docs/package.json'));
+const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefault: true});
+const {
   manualRegistry,
   publicationEntries,
   publicationOwnedTargets,
   withAtomicPublicationReads,
-} from '../../packages/docs-tooling/src/index.ts';
-
-const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+} = jiti(path.join(repositoryRoot, 'packages/docs-tooling/src/index.ts'));
 
 function publicationSetsForSite(site) {
   if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported documentation site: ${site}`);

@@ -48,6 +48,20 @@ test('docs-tooling CLI launcher works without Node native TypeScript stripping',
   assert.doesNotMatch(result.stderr, /ERR_UNKNOWN_FILE_EXTENSION|SyntaxError|Unexpected token/u)
 })
 
+test('publication read-fence launcher loads and reports usage without Node native TypeScript stripping', () => {
+  const result = spawnSync(process.execPath, [
+    '--no-experimental-strip-types',
+    path.join(repositoryRoot, 'scripts/build/run-with-publication-read-fence.mjs'),
+  ], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+  })
+
+  assert.equal(result.status, 1, result.stderr || result.stdout)
+  assert.match(result.stderr, /Usage: run-with-publication-read-fence\.mjs/u)
+  assert.doesNotMatch(result.stderr, /ERR_UNKNOWN_FILE_EXTENSION|SyntaxError|Unexpected token/u)
+})
+
 test('root docs-tooling package script uses the shared launcher', () => {
   const packageJson = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8'))
 
