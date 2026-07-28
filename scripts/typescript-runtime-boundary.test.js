@@ -2,6 +2,7 @@
 
 const assert = require('node:assert/strict')
 const { spawnSync } = require('node:child_process')
+const fs = require('node:fs')
 const path = require('node:path')
 const test = require('node:test')
 
@@ -31,3 +32,24 @@ for (const entry of productionEntries) {
     assert.equal(result.status, 0, result.stderr || result.stdout)
   })
 }
+
+test('docs-tooling CLI launcher works without Node native TypeScript stripping', () => {
+  const result = spawnSync(process.execPath, [
+    '--no-experimental-strip-types',
+    path.join(repositoryRoot, 'scripts/docs-tooling.js'),
+    'definitely-not-a-command',
+  ], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+  })
+
+  assert.equal(result.status, 1, result.stderr || result.stdout)
+  assert.match(result.stderr, /Unknown command: definitely-not-a-command/u)
+  assert.doesNotMatch(result.stderr, /ERR_UNKNOWN_FILE_EXTENSION|SyntaxError|Unexpected token/u)
+})
+
+test('root docs-tooling package script uses the shared launcher', () => {
+  const packageJson = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8'))
+
+  assert.equal(packageJson.scripts['docs-tooling'], 'node scripts/docs-tooling.js')
+})
