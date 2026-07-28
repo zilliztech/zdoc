@@ -25,6 +25,8 @@ Zilliz Cloud offers RESTful APIs for you to manipulate your clusters, collection
 
 Zilliz Cloud uses the control plane to centralize the management of clusters and related resources, while the data plane is responsible for data storage and processing within a specific collection.
 
+## Control Plane APIs
+
 - When using the Control Plane APIs, you need to use **a valid API key** to authenticate your requests.
 
     The following is an example of listing all the available cloud providers.
@@ -38,6 +40,8 @@ Zilliz Cloud uses the control plane to centralize the management of clusters and
         --header "accept: application/json" \
         --header "content-type: application/json"
     ```
+
+## Data Plane APIs
 
 - When using the Data Plane APIs, you can use **either a valid API key or a valid pair of cluster username and password** to authenticate your requests.
 
