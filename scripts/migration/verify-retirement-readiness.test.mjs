@@ -12,6 +12,8 @@ import {
   loadRetirementEvidence,
 } from './verify-retirement-readiness.mjs';
 
+const TASK12_IMAGE_SHA = '63d0a0825ef0305c1f4c109597171d55b4bcac60';
+
 function cloneEvidence(evidence) {
   return structuredClone(evidence);
 }
@@ -71,6 +73,7 @@ function cleanCheckout(t) {
   const cloned = spawnSync('git', ['clone', '--shared', sourceRoot, checkout], {encoding: 'utf8'});
   assert.equal(cloned.status, 0, cloned.stderr);
   for (const relative of [
+    'migration/capabilities.json',
     'migration/source-snapshots.json',
     'scripts/migration/verify-retirement-readiness.mjs',
     'migration/source-tree-inventories/zdoc_cn.json',
@@ -125,10 +128,20 @@ function retirementEvidenceFixture(mutator) {
   return pathToFileURL(`${root}${path.sep}`);
 }
 
-test('repository retirement evidence has no deferred or unverified work', async () => {
+test('repository retirement evidence including accepted Task 12 reports has no readiness errors', async () => {
   const evidence = await loadRetirementEvidence(new URL('../..', import.meta.url));
   const summary = collectRetirementReadiness(evidence);
 
+  for (const [capabilityId, site] of [['content.english', 'en'], ['content.chinese', 'zh-CN']]) {
+    const capability = evidence.capabilities.capabilities.find(({id}) => id === capabilityId);
+    assert.equal(capability.verificationStatus, 'verified');
+    assert.equal(capability.verifiedAtRevision, TASK12_IMAGE_SHA);
+    assert.equal(capability.verificationScope, 'task12-local-image-acceptance');
+    assert.equal(capability.releaseGateStatus, 'local-accepted-external-release-pending');
+    assert.match(capability.acceptanceEvidence.join('\n'), /clean-checkout[^\n]*site build[^\n]*image build[^\n]*image smoke[^\n]*runtime inspection[^\n]*passed/i);
+    assert.match(capability.acceptanceEvidence.join('\n'), /registry digest[^\n]*UAT[^\n]*shadow observation[^\n]*archive[^\n]*owner acceptance[^\n]*pending/i);
+    assert.equal(evidence.shadows[site].localImage.status, 'built-and-smoked');
+  }
   assert.equal(summary.deferredEntries, 0);
   assert.equal(summary.missingReplacementEvidence, 0);
   assert.equal(summary.retiredRuntimeImports, 0);
@@ -350,10 +363,164 @@ test('retired providers require a reviewed capability link and concrete replacem
 
 test('rejects capability image claims that contradict pending shadow evidence', async () => {
   const evidence = cloneEvidence(await loadRetirementEvidence(new URL('../..', import.meta.url)));
-  const english = evidence.capabilities.capabilities.find(({ id }) => id === 'content.english');
-  english.acceptanceEvidence.push('The current English image build and smoke passed.');
+  evidence.shadows.en.localImage = {
+    status: 'not-built',
+    imageId: null,
+    sizeBytes: null,
+    reason: 'Adversarial fixture keeps image acceptance pending.',
+  };
+  assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+});
+
+test('rejects external release claims while registry, UAT, and shadow evidence are pending', async () => {
+  const evidence = cloneEvidence(await loadRetirementEvidence(new URL('../..', import.meta.url)));
+  const english = evidence.capabilities.capabilities.find(({id}) => id === 'content.english');
+  english.acceptanceEvidence.push('The registry image, UAT release, and external shadow observation are accepted.');
 
   assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+});
+
+test('rejects Task 12 capability evidence pinned to a different shadow source revision', async () => {
+  const evidence = cloneEvidence(await loadRetirementEvidence(new URL('../..', import.meta.url)));
+  evidence.shadows['zh-CN'].sourceSha = '0'.repeat(40);
+
+  assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+});
+
+test('rejects every malformed Task 12 local acceptance field', async t => {
+  const baseline = await loadRetirementEvidence(new URL('../..', import.meta.url));
+  const mutations = [
+    ['builder toolchain present', evidence => { evidence.shadows.en.localImage.runtimeInspection.builderToolchainAbsent = false; }],
+    ['repository source roots present', evidence => { evidence.shadows.en.localImage.runtimeInspection.repositorySourceRootsAbsent = false; }],
+    ['forbidden state present', evidence => { evidence.shadows.en.localImage.runtimeInspection.forbiddenStateAbsent = false; }],
+    ['runtime inspection failed', evidence => { evidence.shadows.en.localImage.runtimeInspection.status = 'failed'; }],
+    ['local smoke exit nonzero', evidence => { evidence.shadows.en.localSmoke.imageExitStatus = 1; }],
+    ['local smoke status failed', evidence => { evidence.shadows.en.localSmoke.status = 'image-smoke-failed'; }],
+    ['site build exit nonzero', evidence => { evidence.shadows.en.build.exitStatus = 1; }],
+    ['site build status failed', evidence => { evidence.shadows.en.build.status = 'site-build-failed'; }],
+    ['configuration digest malformed', evidence => { evidence.shadows.en.localImage.configDigest = 'sha256:not-a-digest'; }],
+    ['configuration digest differs from image ID', evidence => { evidence.shadows.en.localImage.configDigest = `sha256:${'1'.repeat(64)}`; }],
+    ['embedded provenance hash malformed', evidence => { evidence.shadows.en.localImage.embeddedProvenanceArtifactHash = 'not-a-hash'; }],
+    ['source and capability revisions malformed', evidence => {
+      evidence.shadows.en.sourceSha = 'A'.repeat(40);
+      evidence.capabilities.capabilities.find(({id}) => id === 'content.english').verifiedAtRevision = 'A'.repeat(40);
+    }],
+    ['image size is zero', evidence => { evidence.shadows.en.localImage.sizeBytes = 0; }],
+    ['image size is not an integer', evidence => { evidence.shadows.en.localImage.sizeBytes = 1.5; }],
+    ['image ID malformed', evidence => { evidence.shadows.en.localImage.imageId = 'sha256:not-a-digest'; }],
+    ['build ID empty', evidence => { evidence.shadows.en.localImage.buildId = ''; }],
+    ['site identity wrong', evidence => { evidence.shadows.en.site = 'zh-CN'; }],
+    ['source repository wrong', evidence => { evidence.shadows.en.sourceRepository = 'zdoc_cn'; }],
+    ['repository digest claimed before external release evidence', evidence => { evidence.shadows.en.localImage.repoDigest = `sha256:${'2'.repeat(64)}`; }],
+    ['external shadow marked complete', evidence => { evidence.shadows.en.externalShadow.status = 'completed'; }],
+    ['external required evidence omitted', evidence => { evidence.shadows.en.externalShadow.requiredEvidence = []; }],
+  ];
+
+  for (const [name, mutate] of mutations) {
+    await t.test(name, () => {
+      const evidence = cloneEvidence(baseline);
+      mutate(evidence);
+      assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+    });
+  }
+});
+
+test('rejects each contradictory external completion statement', async t => {
+  const baseline = await loadRetirementEvidence(new URL('../..', import.meta.url));
+  for (const statement of [
+    'External release complete.',
+    'Archive owner acceptance complete.',
+    'Registry digest recorded.',
+  ]) {
+    await t.test(statement, () => {
+      const evidence = cloneEvidence(baseline);
+      evidence.capabilities.capabilities.find(({id}) => id === 'content.english').acceptanceEvidence.push(statement);
+      assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+    });
+  }
+});
+
+test('rejects malformed per-site Task 12 shadow report contracts', async t => {
+  const baseline = await loadRetirementEvidence(new URL('../..', import.meta.url));
+  const mutations = [
+    ['unknown top-level field', 'en', shadow => { shadow.unreviewed = true; }],
+    ['missing required top-level field', 'zh-CN', shadow => { delete shadow.evidenceRecordedAt; }],
+    ['schema version has wrong type', 'en', shadow => { shadow.schemaVersion = '1'; }],
+    ['evidence timestamp malformed', 'zh-CN', shadow => { shadow.evidenceRecordedAt = 'July 28'; }],
+    ['build artifact hash malformed', 'en', shadow => { shadow.build.artifactHash = 'not-a-hash'; }],
+    ['publication network fence disabled', 'zh-CN', shadow => { shadow.build.publicationNetworkFence = false; }],
+    ['build command wrong', 'en', shadow => { shadow.build.command = 'pnpm build'; }],
+    ['build artifact path wrong', 'zh-CN', shadow => { shadow.build.artifact = 'build/en'; }],
+    ['build provenance path wrong', 'en', shadow => { shadow.build.provenance = 'build/provenance.json'; }],
+    ['dependency installation statement wrong', 'zh-CN', shadow => { shadow.build.dependencyInstall = 'pnpm install'; }],
+    ['image build command inconsistent', 'en', shadow => { shadow.build.imageBuildCommand = shadow.build.imageBuildCommand.replace('ZDOC_SITE=en', 'ZDOC_SITE=zh-CN'); }],
+    ['English build has unexpected zh-only memory control', 'en', shadow => { shadow.build.ssgMemoryControl = 'unexpected'; }],
+    ['Chinese build omits memory control', 'zh-CN', shadow => { delete shadow.build.ssgMemoryControl; }],
+    ['local image tag wrong', 'en', shadow => { shadow.localImage.tag = 'zdoc-en:other'; }],
+    ['local smoke command wrong', 'zh-CN', shadow => { shadow.localSmoke.imageCommand = 'bash deploy/contracts/smoke.sh zdoc-en:retirement en'; }],
+    ['artifact checks contain an unreviewed item', 'en', shadow => { shadow.localSmoke.artifactChecks.push('unchecked'); }],
+    ['completed image checks omit a required item', 'zh-CN', shadow => { shadow.localSmoke.completedImageChecks.pop(); }],
+    ['differential count has wrong type', 'en', shadow => { shadow.differential.legacyCanonicalRoutes = '1868'; }],
+    ['differential evidence path wrong', 'zh-CN', shadow => { shadow.differential.evidence[0] = 'migration/reports/other.json'; }],
+    ['local-only registry warning omitted', 'en', shadow => { shadow.warnings = shadow.warnings.filter(item => !/local-only/i.test(item)); }],
+    ['English embed-markdown warning omitted', 'en', shadow => { shadow.warnings = shadow.warnings.filter(item => !/embed-markdown/i.test(item)); }],
+    ['external pending warning omitted', 'zh-CN', shadow => { shadow.warnings = shadow.warnings.filter(item => !/External UAT/i.test(item)); }],
+    ['UAT pipeline arbitrary', 'en', shadow => { shadow.externalShadow.uatPipeline = 'arbitrary-pipeline'; }],
+    ['Chinese immutable archive requirement omitted', 'zh-CN', shadow => { shadow.externalShadow.requiredEvidence.pop(); }],
+    ['unknown nested field', 'en', shadow => { shadow.localImage.runtimeInspection.unreviewed = true; }],
+    ['required nested field missing', 'zh-CN', shadow => { delete shadow.localImage.tag; }],
+  ];
+
+  for (const [name, site, mutate] of mutations) {
+    await t.test(name, () => {
+      const evidence = cloneEvidence(baseline);
+      mutate(evidence.shadows[site]);
+      assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+    });
+  }
+});
+
+test('rejects shadow differential values that do not reconcile with route evidence', async t => {
+  const baseline = await loadRetirementEvidence(new URL('../..', import.meta.url));
+  const mutations = [
+    ['English legacy canonical count wrong', 'en', differential => { differential.legacyCanonicalRoutes = 0; }],
+    ['English replacement canonical count wrong', 'en', differential => { differential.replacementCanonicalRoutes = 0; }],
+    ['English approved difference count wrong', 'en', differential => { differential.approvedCanonicalDifferences = 0; }],
+    ['Japanese route count wrong', 'en', differential => { differential.japaneseRoutes = 0; }],
+    ['Japanese missing parity wrong', 'en', differential => { differential.japaneseMissing = 1; }],
+    ['Japanese extra parity wrong', 'en', differential => { differential.japaneseExtra = 1; }],
+    ['Chinese legacy route count wrong', 'zh-CN', differential => { differential.legacyRoutes = 0; }],
+    ['Chinese replacement route count wrong', 'zh-CN', differential => { differential.replacementRoutes = 0; }],
+    ['Chinese approved difference count wrong', 'zh-CN', differential => { differential.approvedExactDifferences = 0; }],
+  ];
+
+  for (const [name, site, mutate] of mutations) {
+    await t.test(name, () => {
+      const evidence = cloneEvidence(baseline);
+      mutate(evidence.shadows[site].differential);
+      assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+    });
+  }
+});
+
+test('requires the exact canonical warning array for each shadow report', async t => {
+  const baseline = await loadRetirementEvidence(new URL('../..', import.meta.url));
+  const mutations = [
+    ['extra contradictory warning', warnings => { warnings.push('External registry, UAT, and shadow release are complete.'); }],
+    ['required warning removed', warnings => { warnings.shift(); }],
+    ['warnings reordered', warnings => { warnings.reverse(); }],
+    ['warning modified', warnings => { warnings[0] = `${warnings[0]} Modified.`; }],
+  ];
+
+  for (const site of ['en', 'zh-CN']) {
+    for (const [name, mutate] of mutations) {
+      await t.test(`${site}: ${name}`, () => {
+        const evidence = cloneEvidence(baseline);
+        mutate(evidence.shadows[site].warnings);
+        assert.ok(collectRetirementReadiness(evidence).unverifiedCapabilities > 0);
+      });
+    }
+  }
 });
 
 test('validates approved route evidence and explicit rename pairs', async () => {

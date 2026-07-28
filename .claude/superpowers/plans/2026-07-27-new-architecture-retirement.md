@@ -1193,13 +1193,16 @@ Run:
 ```bash
 pnpm build:en
 pnpm build:zh-CN
-test -s build/en/docs/home/index.html
-test -s build/en/ja-JP/docs/home/index.html
-test -s build/zh-CN/docs/home/index.html
+test -s build/en/docs/home.html
+test -s build/en/ja-JP/docs/home.html
+test -s build/zh-CN/docs/home.html
+test ! -e build/en/docs/home/index.html
+test ! -e build/en/ja-JP/docs/home/index.html
+test ! -e build/zh-CN/docs/home/index.html
 test -s content/zh-CN/guides/tutorials/tools/terraform-provider.md
 ```
 
-Expected: PASS. English output contains Japanese; Chinese output does not contain a `ja-JP` directory; every tracked Chinese Tools translation is represented in the Chinese build and reachable through the composed Tools sidebar fragment.
+Expected: PASS. The application intentionally sets Docusaurus `trailingSlash: false`, so the public routes `/docs/home` and `/ja-JP/docs/home` are emitted as nonempty `docs/home.html` files and served at those extensionless URLs; no `home/index.html` output is expected. English output contains Japanese; Chinese output does not contain a `ja-JP` directory; every tracked Chinese Tools translation is represented in the Chinese build and reachable through the composed Tools sidebar fragment.
 
 - [ ] **Step 5: Build and smoke both final images**
 

@@ -96,12 +96,13 @@
       "disposition": "preserve",
       "acceptanceEvidence": [
         "Task 11 site build and bounded route comparison passed for zh-CN; see migration/reports/routes-zh-CN-replacement.json and migration/approved-differences.json.",
-        "Image build, image size, image smoke, and release acceptance remain a separate Task 12 clean-checkout gate; see migration/reports/shadow-zh-CN.json."
+        "Task 12 clean-checkout site build, local image build, image smoke, and runtime inspection passed at source SHA 63d0a0825ef0305c1f4c109597171d55b4bcac60; see migration/reports/shadow-zh-CN.json.",
+        "External registry digest, UAT release, shadow observation, and approved immutable external archive storage and owner acceptance remain pending."
       ],
       "verificationStatus": "verified",
-      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
-      "verificationScope": "task11-site-build-and-routes",
-      "releaseGateStatus": "pending-task12-image-acceptance"
+      "verifiedAtRevision": "63d0a0825ef0305c1f4c109597171d55b4bcac60",
+      "verificationScope": "task12-local-image-acceptance",
+      "releaseGateStatus": "local-accepted-external-release-pending"
     },
     {
       "id": "content.english",
@@ -126,12 +127,13 @@
       "disposition": "preserve",
       "acceptanceEvidence": [
         "Task 11 site build and bounded route comparison passed for en; see migration/reports/routes-en-replacement.json and migration/approved-differences.json.",
-        "Image build, image size, image smoke, and release acceptance remain a separate Task 12 clean-checkout gate; see migration/reports/shadow-en.json."
+        "Task 12 clean-checkout site build, local image build, image smoke, and runtime inspection passed at source SHA 63d0a0825ef0305c1f4c109597171d55b4bcac60; see migration/reports/shadow-en.json.",
+        "External registry digest, UAT release, shadow observation, and approved immutable external archive storage and owner acceptance remain pending."
       ],
       "verificationStatus": "verified",
-      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
-      "verificationScope": "task11-site-build-and-routes",
-      "releaseGateStatus": "pending-task12-image-acceptance"
+      "verifiedAtRevision": "63d0a0825ef0305c1f4c109597171d55b4bcac60",
+      "verificationScope": "task12-local-image-acceptance",
+      "releaseGateStatus": "local-accepted-external-release-pending"
     },
     {
       "id": "content.japanese",

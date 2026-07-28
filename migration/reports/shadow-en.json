@@ -2,42 +2,53 @@
   "schemaVersion": 1,
   "site": "en",
   "sourceRepository": "zdoc",
-  "sourceSha": "758adc2dad38bd5f89e9f3d077a109777a431632",
-  "evidenceRecordedAt": "2026-07-28T14:10:00+08:00",
+  "sourceSha": "63d0a0825ef0305c1f4c109597171d55b4bcac60",
+  "evidenceRecordedAt": "2026-07-28T17:59:34+08:00",
   "localImage": {
-    "status": "not-built",
-    "imageId": null,
-    "sizeBytes": null,
-    "reason": "Task 12 owns clean-checkout image acceptance. Reusing any previous image would be stale, and building from this evidence-editing worktree would not be clean evidence."
+    "status": "built-and-smoked",
+    "tag": "zdoc-en:retirement",
+    "imageId": "sha256:bb1c23724e606cba60f64361c8a4833acd67a04ef8950926f14357aaa1a0047c",
+    "configDigest": "sha256:bb1c23724e606cba60f64361c8a4833acd67a04ef8950926f14357aaa1a0047c",
+    "repoDigest": null,
+    "sizeBytes": 646344682,
+    "buildId": "local-retirement-en",
+    "embeddedProvenanceArtifactHash": "9570861784d92a934a48f361030a3ee3031cba26aeb69cec1ff0a0f39c23501c",
+    "runtimeInspection": {
+      "status": "passed",
+      "builderToolchainAbsent": true,
+      "repositorySourceRootsAbsent": true,
+      "forbiddenStateAbsent": true
+    }
   },
   "build": {
     "status": "site-build-passed",
     "command": "pnpm build:en",
     "exitStatus": 0,
     "artifact": "build/en",
-    "artifactHash": "d0e7323fe35b7e395f101c74f1ab5b646a349870b09c250547aebabd1b435c8d",
+    "artifactHash": "dc96324a7319f2cb5edc612f6e17ce0df97b4d7b2dd7bce8f9454688b3a13eab",
     "provenance": "build/en/build-provenance.json",
-    "dependencyInstall": "existing frozen-lockfile workspace install",
+    "dependencyInstall": "pnpm install --frozen-lockfile in a brand-new detached clean worktree",
     "publicationNetworkFence": true,
-    "imageBuildCommandRequiredByTask12": "docker build --progress=plain -f deploy/en/Dockerfile --build-arg ZDOC_SHA=<task-11-commit> --build-arg JENKINS_BUILD_ID=task12-clean-en -t zdoc-en:task12 ."
+    "imageBuildCommand": "docker build --file deploy/en/Dockerfile --build-arg ZDOC_SHA=63d0a0825ef0305c1f4c109597171d55b4bcac60 --build-arg ZDOC_SITE=en --build-arg JENKINS_BUILD_ID=local-retirement-en --tag zdoc-en:retirement ."
   },
   "localSmoke": {
-    "status": "route-artifact-passed-image-smoke-pending",
-    "imageCommand": "deploy/contracts/smoke.sh zdoc-en:task12 en",
-    "imageExitStatus": null,
+    "status": "image-smoke-passed",
+    "imageCommand": "bash deploy/contracts/smoke.sh zdoc-en:retirement en",
+    "imageExitStatus": 0,
     "artifactChecks": [
       "build/en/index.html exists",
       "build/en/docs/home.html exists",
       "build/en/ja-JP/docs/home.html exists",
       "Japanese and canonical English inventories each contain 1885 routes"
     ],
-    "pendingImageChecks": [
+    "completedImageChecks": [
       "OCI source and revision labels",
       "Jenkins identity label",
       "/healthz",
       "/docs/home",
       "/ja-JP/docs/home",
-      "temporary container cleanup"
+      "temporary container cleanup",
+      "runtime image excludes /app, Node, npm, pnpm, node_modules, .git, translation caches, reports, migration evidence, and repository source roots"
     ]
   },
   "differential": {
@@ -55,14 +66,16 @@
   },
   "warnings": [
     "Known Docusaurus broken-link and broken-anchor diagnostics remained non-blocking during the current site build.",
-    "No current image ID or image size is claimed; Task 12 must fill these from a clean checkout."
+    "No repository source roots or builder tools are present in the runtime image; the 3764 route-aligned .md files under /usr/share/nginx/html are intentional embed-markdown static outputs copied from build/en for CopyPage and View source functionality.",
+    "The image is local-only, so no registry repository digest is claimed.",
+    "External UAT, shadow observation, and approved immutable external archive acceptance remain pending."
   ],
   "externalShadow": {
     "status": "not-executed",
     "uatPipeline": "zilliz-docs-dev",
     "blocker": "The externally managed pipeline, registry, non-production hostname, CDN/Nginx environment, deployment credentials, and environment owners are outside repository control.",
     "requiredEvidence": [
-      "registry digest for the exact Task 11 commit",
+      "registry digest for exact source SHA 63d0a0825ef0305c1f4c109597171d55b4bcac60",
       "UAT release record",
       "shadow hostname",
       "English and Japanese synthetic-check output",

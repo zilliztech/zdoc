@@ -12,6 +12,7 @@ import {compareRouteInventories} from './compare-routes.mjs';
 const TARGET_PREFIXES = ['content/', 'generated/', 'i18n/ja-JP/', 'apps/docs/', 'packages/'];
 const OID = /^[0-9a-f]{40}$/;
 const SHA256 = /^[0-9a-f]{64}$/;
+const OCI_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const RETIREMENT_REASON_CODES = new Set([
   'site-owned-dockerfiles-replace-root-image', 'site-owned-runtime-replaces-root-runtime',
   'docusaurus-sample-content-retired', 'content-inventory-reviewed', 'profile-configuration-replaced',
@@ -366,19 +367,236 @@ function routeEvidenceErrors(evidence) {
   return errors;
 }
 
+function expectedTask12CapabilityEvidence(site, sourceSha) {
+  const locale = site === 'en' ? 'en' : 'zh-CN';
+  const shadowReport = site === 'en' ? 'shadow-en.json' : 'shadow-zh-CN.json';
+  const routeReport = site === 'en' ? 'routes-en-replacement.json' : 'routes-zh-CN-replacement.json';
+  return [
+    `Task 11 site build and bounded route comparison passed for ${locale}; see migration/reports/${routeReport} and migration/approved-differences.json.`,
+    `Task 12 clean-checkout site build, local image build, image smoke, and runtime inspection passed at source SHA ${sourceSha}; see migration/reports/${shadowReport}.`,
+    'External registry digest, UAT release, shadow observation, and approved immutable external archive storage and owner acceptance remain pending.',
+  ];
+}
+
+function isPlainRecord(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null);
+}
+
+function hasExactKeys(value, expected) {
+  if (!isPlainRecord(value)) return false;
+  const actual = Object.keys(value).sort();
+  const wanted = [...expected].sort();
+  return actual.length === wanted.length && actual.every((key, index) => key === wanted[index]);
+}
+
+function exactArray(actual, expected) {
+  return Array.isArray(actual) && JSON.stringify(actual) === JSON.stringify(expected);
+}
+
+function exactStringSet(actual, expected) {
+  return Array.isArray(actual) && actual.length === expected.length
+    && actual.every(item => typeof item === 'string')
+    && new Set(actual).size === actual.length
+    && [...actual].sort().every((item, index) => item === [...expected].sort()[index]);
+}
+
+function task12ShadowContract(site, sourceSha) {
+  const english = site === 'en';
+  const tag = english ? 'zdoc-en:retirement' : 'zdoc-zh-cn:retirement';
+  const buildId = `local-retirement-${site}`;
+  const artifact = `build/${site}`;
+  return {
+    tag,
+    buildId,
+    buildKeys: ['status', 'command', 'exitStatus', 'artifact', 'artifactHash', 'provenance', 'dependencyInstall',
+      'publicationNetworkFence', ...(english ? [] : ['ssgMemoryControl']), 'imageBuildCommand'],
+    buildCommand: `pnpm build:${site}`,
+    artifact,
+    provenance: `${artifact}/build-provenance.json`,
+    imageBuildCommand: `docker build --file deploy/${site}/Dockerfile --build-arg ZDOC_SHA=${sourceSha} --build-arg ZDOC_SITE=${site} --build-arg JENKINS_BUILD_ID=${buildId} --tag ${tag} .`,
+    smokeCommand: `bash deploy/contracts/smoke.sh ${tag} ${site}`,
+    artifactChecks: english ? [
+      'build/en/index.html exists',
+      'build/en/docs/home.html exists',
+      'build/en/ja-JP/docs/home.html exists',
+      'Japanese and canonical English inventories each contain 1885 routes',
+    ] : [
+      'build/zh-CN/index.html exists',
+      'build/zh-CN/docs/home.html exists',
+      'replacement inventory contains 1620 Chinese routes',
+      'Chinese build contains no /ja-JP route inventory',
+    ],
+    completedImageChecks: english ? [
+      'OCI source and revision labels',
+      'Jenkins identity label',
+      '/healthz',
+      '/docs/home',
+      '/ja-JP/docs/home',
+      'temporary container cleanup',
+      'runtime image excludes /app, Node, npm, pnpm, node_modules, .git, translation caches, reports, migration evidence, and repository source roots',
+    ] : [
+      'OCI source and revision labels',
+      'Jenkins identity label',
+      '/healthz',
+      '/docs/home',
+      'representative guide, BYOC, on-premise, Agent, and reference routes',
+      '/ja-JP/docs/home returns 404',
+      'temporary container cleanup',
+      'runtime image excludes /app, Node, npm, pnpm, node_modules, Markdown, .git, translation caches, reports, migration evidence, and repository source roots',
+    ],
+    differentialKeys: english
+      ? ['legacyCanonicalRoutes', 'replacementCanonicalRoutes', 'japaneseRoutes', 'approvedCanonicalDifferences', 'japaneseMissing', 'japaneseExtra', 'evidence']
+      : ['legacyRoutes', 'replacementRoutes', 'approvedExactDifferences', 'evidence'],
+    differentialEvidence: english ? [
+      'migration/reports/routes-en-legacy.json',
+      'migration/reports/routes-en-replacement.json',
+      'migration/approved-differences.json',
+    ] : [
+      'migration/reports/routes-zh-CN-legacy.json',
+      'migration/reports/routes-zh-CN-replacement.json',
+      'migration/approved-differences.json',
+    ],
+    warnings: english ? [
+      'Known Docusaurus broken-link and broken-anchor diagnostics remained non-blocking during the current site build.',
+      'No repository source roots or builder tools are present in the runtime image; the 3764 route-aligned .md files under /usr/share/nginx/html are intentional embed-markdown static outputs copied from build/en for CopyPage and View source functionality.',
+      'The image is local-only, so no registry repository digest is claimed.',
+      'External UAT, shadow observation, and approved immutable external archive acceptance remain pending.',
+    ] : [
+      'Known broken-link, broken-anchor, one-page HTML-minifier, KaTeX Unicode, and lunr diagnostics remained non-blocking during the current site build.',
+      'The runtime image contains no repository Markdown or source roots and no builder tools or mutable repository state.',
+      'The image is local-only, so no registry repository digest is claimed.',
+      'External UAT, shadow observation, and approved immutable external archive storage and owner acceptance remain pending.',
+    ],
+    uatPipeline: english ? 'zilliz-docs-dev' : 'zilliz-docs-cn-dev',
+    requiredEvidence: english ? [
+      `registry digest for exact source SHA ${sourceSha}`,
+      'UAT release record',
+      'shadow hostname',
+      'English and Japanese synthetic-check output',
+      'observation window',
+      'owner approval',
+    ] : [
+      `registry digest for exact source SHA ${sourceSha}`,
+      'Chinese UAT release record',
+      'shadow hostname',
+      'Chinese synthetic-check output',
+      'observation window',
+      'owner approval',
+      'approved immutable external archive location with reverified archive SHA-256 and owner acceptance',
+    ],
+  };
+}
+
+function expectedShadowDifferential(evidence, site) {
+  try {
+    if (site === 'en') {
+      const canonicalReplacement = {
+        ...evidence.routes.en.replacement,
+        routes: evidence.routes.en.replacement.routes.filter(item => !item.route.startsWith('/ja-JP')),
+      };
+      const comparison = compareRouteInventories({
+        legacy: evidence.routes.en.legacy,
+        replacement: canonicalReplacement,
+        approved: evidence.approvedDifferences,
+        site,
+        failOnDifferences: true,
+      });
+      const canonicalRoutes = new Set(canonicalReplacement.routes.map(item => item.route));
+      const japaneseRoutes = new Set(evidence.routes.en.replacement.routes.filter(item => item.route.startsWith('/ja-JP'))
+        .map(item => item.route.slice('/ja-JP'.length) || '/'));
+      return {
+        legacyCanonicalRoutes: evidence.routes.en.legacy.routes.length,
+        replacementCanonicalRoutes: canonicalReplacement.routes.length,
+        japaneseRoutes: japaneseRoutes.size,
+        approvedCanonicalDifferences: comparison.approvalsUsed.length,
+        japaneseMissing: [...canonicalRoutes].filter(route => !japaneseRoutes.has(route)).length,
+        japaneseExtra: [...japaneseRoutes].filter(route => !canonicalRoutes.has(route)).length,
+      };
+    }
+    const comparison = compareRouteInventories({
+      legacy: evidence.routes['zh-CN'].legacy,
+      replacement: evidence.routes['zh-CN'].replacement,
+      approved: evidence.approvedDifferences,
+      site,
+      failOnDifferences: true,
+    });
+    return {
+      legacyRoutes: evidence.routes['zh-CN'].legacy.routes.length,
+      replacementRoutes: evidence.routes['zh-CN'].replacement.routes.length,
+      approvedExactDifferences: comparison.approvalsUsed.length,
+    };
+  } catch (_) {
+    return null;
+  }
+}
+
+function task12ShadowReportIsValid(shadow, site, evidence) {
+  if (!hasExactKeys(shadow, ['schemaVersion', 'site', 'sourceRepository', 'sourceSha', 'evidenceRecordedAt',
+    'localImage', 'build', 'localSmoke', 'differential', 'warnings', 'externalShadow'])
+    || shadow.schemaVersion !== 1 || shadow.site !== site || shadow.sourceRepository !== 'zdoc'
+    || !OID.test(shadow.sourceSha || '')
+    || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/.test(shadow.evidenceRecordedAt || '')
+    || !Number.isFinite(Date.parse(shadow.evidenceRecordedAt))) return false;
+  const contract = task12ShadowContract(site, shadow.sourceSha);
+  const localImage = shadow.localImage;
+  const runtime = localImage?.runtimeInspection;
+  if (!hasExactKeys(localImage, ['status', 'tag', 'imageId', 'configDigest', 'repoDigest', 'sizeBytes', 'buildId',
+    'embeddedProvenanceArtifactHash', 'runtimeInspection'])
+    || !hasExactKeys(runtime, ['status', 'builderToolchainAbsent', 'repositorySourceRootsAbsent', 'forbiddenStateAbsent'])
+    || localImage.status !== 'built-and-smoked' || localImage.tag !== contract.tag
+    || !OCI_DIGEST.test(localImage.imageId || '') || !OCI_DIGEST.test(localImage.configDigest || '')
+    || localImage.configDigest !== localImage.imageId || localImage.repoDigest !== null
+    || !Number.isSafeInteger(localImage.sizeBytes) || localImage.sizeBytes <= 0
+    || localImage.buildId !== contract.buildId
+    || !SHA256.test(localImage.embeddedProvenanceArtifactHash || '')
+    || runtime.status !== 'passed' || runtime.builderToolchainAbsent !== true
+    || runtime.repositorySourceRootsAbsent !== true || runtime.forbiddenStateAbsent !== true) return false;
+  const build = shadow.build;
+  if (!hasExactKeys(build, contract.buildKeys)
+    || build.status !== 'site-build-passed' || build.command !== contract.buildCommand || build.exitStatus !== 0
+    || build.artifact !== contract.artifact || !SHA256.test(build.artifactHash || '')
+    || build.provenance !== contract.provenance
+    || build.dependencyInstall !== 'pnpm install --frozen-lockfile in a brand-new detached clean worktree'
+    || build.publicationNetworkFence !== true || build.imageBuildCommand !== contract.imageBuildCommand
+    || (site === 'zh-CN' && build.ssgMemoryControl !== 'DOCUSAURUS_SSG_WORKER_THREAD_COUNT=2 with a 4096 MiB V8 heap')) return false;
+  const smoke = shadow.localSmoke;
+  if (!hasExactKeys(smoke, ['status', 'imageCommand', 'imageExitStatus', 'artifactChecks', 'completedImageChecks'])
+    || smoke.status !== 'image-smoke-passed' || smoke.imageCommand !== contract.smokeCommand || smoke.imageExitStatus !== 0
+    || !exactArray(smoke.artifactChecks, contract.artifactChecks)
+    || !exactArray(smoke.completedImageChecks, contract.completedImageChecks)) return false;
+  const differential = shadow.differential;
+  const countKeys = contract.differentialKeys.filter(key => key !== 'evidence');
+  const expectedDifferential = expectedShadowDifferential(evidence, site);
+  if (!hasExactKeys(differential, contract.differentialKeys)
+    || !expectedDifferential
+    || countKeys.some(key => !Number.isSafeInteger(differential[key]) || differential[key] < 0
+      || differential[key] !== expectedDifferential[key])
+    || !exactArray(differential.evidence, contract.differentialEvidence)) return false;
+  if (!exactArray(shadow.warnings, contract.warnings)) return false;
+  const external = shadow.externalShadow;
+  return hasExactKeys(external, ['status', 'uatPipeline', 'blocker', 'requiredEvidence'])
+    && external.status === 'not-executed' && external.uatPipeline === contract.uatPipeline
+    && typeof external.blocker === 'string' && external.blocker.length >= 50 && external.blocker.length <= 500
+    && /outside repository control/i.test(external.blocker)
+    && exactStringSet(external.requiredEvidence, contract.requiredEvidence);
+}
+
 function capabilityVerificationErrors(evidence) {
   const errors = new Set(evidence.capabilities.capabilities
     .filter(capability => capability.verificationStatus !== 'verified').map(capability => capability.id));
   for (const [capabilityId, site] of [['content.english', 'en'], ['content.chinese', 'zh-CN']]) {
     const capability = evidence.capabilities.capabilities.find(({id}) => id === capabilityId);
     const shadow = evidence.shadows?.[site];
-    if (!capability || !shadow || capability.verificationScope !== 'task11-site-build-and-routes'
-      || capability.releaseGateStatus !== 'pending-task12-image-acceptance'
-      || shadow.build?.status !== 'site-build-passed') errors.add(capabilityId);
-    if (shadow?.localImage?.status !== 'built-and-smoked'
-      && capability?.acceptanceEvidence.some(item => /image[^.\n]*(?:build|smoke)[^.\n]*(?:pass|success)|build and smoke passed/i.test(item))) {
-      errors.add(capabilityId);
-    }
+    const acceptanceEvidenceMatches = Array.isArray(capability?.acceptanceEvidence)
+      && OID.test(capability?.verifiedAtRevision || '')
+      && JSON.stringify(capability.acceptanceEvidence) === JSON.stringify(expectedTask12CapabilityEvidence(site, capability.verifiedAtRevision));
+    if (!capability || !shadow || capability.verificationStatus !== 'verified'
+      || capability.verificationScope !== 'task12-local-image-acceptance'
+      || capability.releaseGateStatus !== 'local-accepted-external-release-pending'
+      || shadow.sourceSha !== capability.verifiedAtRevision
+      || !task12ShadowReportIsValid(shadow, site, evidence)
+      || !acceptanceEvidenceMatches) errors.add(capabilityId);
   }
   return [...errors];
 }
