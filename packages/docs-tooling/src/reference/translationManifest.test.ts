@@ -31,6 +31,14 @@ function fixture(): {repositoryRoot: string; sourceRoot: string; targetRoot: str
   return {repositoryRoot, sourceRoot, targetRoot};
 }
 
+function writeMinimalReferenceSidebarTemplates(repositoryRoot: string): void {
+  const directory = path.join(repositoryRoot, 'generated/en/sidebars');
+  mkdirSync(directory, {recursive: true});
+  for (const manual of ['python', 'java', 'node', 'go', 'restful', 'cli']) {
+    writeFileSync(path.join(directory, `${manual}.sidebar.js`), 'module.exports = ["api/python/page"]\n');
+  }
+}
+
 function sourceManifest(overrides: Partial<ReferenceSourceManifest> = {}): ReferenceSourceManifest {
   return {
     schemaVersion: 1,
@@ -328,6 +336,7 @@ describe('Reference translation provenance', () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
     writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+    writeMinimalReferenceSidebarTemplates(roots.repositoryRoot);
     const verifiedRevisions: string[] = [];
     const dependencies = {
       repositoryRoot: roots.repositoryRoot,
@@ -348,6 +357,22 @@ describe('Reference translation provenance', () => {
     expect(existsSync(path.join(roots.repositoryRoot, 'content-sources/reference'))).toBe(false);
     expect(existsSync(path.join(roots.repositoryRoot, 'translations/zh-CN/reference'))).toBe(false);
     expect(verifiedRevisions).toEqual(Array.from({length: 3}, () => 'a'.repeat(40)));
+  });
+
+  it('fails when an English Reference sidebar template is missing', async () => {
+    const roots = fixture();
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+
+    await expect(executeReferenceDocsToolingCommand([
+      'reference-manifest', '--source', roots.sourceRoot, '--target', roots.targetRoot, '--source-commit', 'HEAD', '--write',
+    ], {
+      repositoryRoot: roots.repositoryRoot,
+      resolveSourceCommit: () => 'a'.repeat(40),
+      verifySourceRevision: () => undefined,
+      manualForPath: () => 'python',
+      retirementRegistry: {schemaVersion: 1, retirements: []},
+    })).rejects.toThrow(/cannot load English Reference sidebar template.*python\.sidebar\.js/i);
   });
 
   it('regenerates Chinese Reference sidebars when writing the translation manifest', async () => {

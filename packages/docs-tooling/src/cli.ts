@@ -331,9 +331,7 @@ export async function executeReferenceDocsToolingCommand(
     const retiredTargetIds = new Set(retirementRegistry.retirements
       .filter(record => !targetSnapshot.has(record.targetPath))
       .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
-    const sidebarEntries = existsSync(path.join(repositoryRoot, 'generated/en/sidebars'))
-      ? deriveZhCnReferenceSidebarEntries(repositoryRoot, retiredTargetIds)
-      : [];
+    const sidebarEntries = deriveZhCnReferenceSidebarEntries(repositoryRoot, retiredTargetIds);
     writeManifestPair(repositoryRoot, [
       [REFERENCE_SOURCE_MANIFEST, serializeReferenceManifest(manifests.sourceManifest)],
       [REFERENCE_TRANSLATION_MANIFEST, serializeReferenceManifest(manifests.translationManifest)],
