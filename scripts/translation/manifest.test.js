@@ -207,6 +207,29 @@ function testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries()
   })
 }
 
+function testExplicitlyRetiredReferenceTargetsAreExcludedFromWorkflowManifest() {
+  withTempDir(siteDir => {
+    const sourcePath = 'content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md'
+    const targetPath = 'content/zh-CN/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md'
+    write(path.join(siteDir, sourcePath), '# VolumeBulkWriter\n')
+    write(path.join(siteDir, 'config/reference-retirements.json'), JSON.stringify({schemaVersion: 1, retirements: [{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      reason: 'Imported baseline retirement from the clean-room Reference migration',
+    }]}))
+
+    const manifest = buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      group: 'python',
+      sourceCheckpointSha: 'e'.repeat(40),
+    })
+
+    assert.deepEqual(manifest.items, [])
+  })
+}
+
 function testLegacyJapaneseCacheKeysMapToCanonicalSources() {
   withTempDir(siteDir => {
     const source = '# Stable\n'
@@ -440,6 +463,7 @@ function run() {
   testToolsSidebarLabelChangeBecomesCandidate()
   testToolsSidebarRemovalRequiresExactRetirementApproval()
   testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries()
+  testExplicitlyRetiredReferenceTargetsAreExcludedFromWorkflowManifest()
   testLegacyJapaneseCacheKeysMapToCanonicalSources()
   testRepositoryLegacyJapaneseCacheDoesNotMassRetranslate()
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()

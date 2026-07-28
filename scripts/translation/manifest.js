@@ -120,12 +120,17 @@ function retirementKey(record) {
   return `${record.sourcePath}\0${record.targetPath}\0${record.reason}`
 }
 
+function readRetirementRegistry(siteDir, target) {
+  const registryPath = retirementRegistryPath(target)
+  if (!registryPath) return {retirements: []}
+  const absolutePath = path.join(siteDir, registryPath)
+  return fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : {retirements: []}
+}
+
 function requireRetirementApprovals(siteDir, target, candidates) {
   if (candidates.length === 0) return
-  const registryPath = retirementRegistryPath(target)
-  if (!registryPath) throw new Error(`Retirement candidates are not valid for translation target ${target}`)
-  const absolutePath = path.join(siteDir, registryPath)
-  const registry = fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : {retirements: []}
+  if (!retirementRegistryPath(target)) throw new Error(`Retirement candidates are not valid for translation target ${target}`)
+  const registry = readRetirementRegistry(siteDir, target)
   const approved = new Set((registry.retirements || []).map(retirementKey))
   const unapproved = candidates.filter(candidate => !approved.has(retirementKey(candidate)))
   if (unapproved.length > 0) {
@@ -196,6 +201,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
   const cache = readTargetState(siteDir, target, locale)
   const items = []
   const retirementCandidates = [...(sourceDelta?.retirementCandidates || [])]
+  const retiredTargets = new Set((readRetirementRegistry(siteDir, target).retirements || []).map(record => record.targetPath))
 
   const targetMappings = target === 'ja-JP'
     ? sourceMappingsForLocale(locale, { includeReference })
@@ -207,6 +213,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
       const sourcePath = path.join(mapping.sourceRoot, relativeToRoot).replace(/\\/g, '/')
       if (ownedPrefixes && !ownedPrefixes.some(prefix => sourcePath === prefix || sourcePath.startsWith(`${prefix}/`))) continue
       const targetPath = path.join(mapping.targetRoot, relativeToRoot).replace(/\\/g, '/')
+      if (retiredTargets.has(targetPath)) continue
       const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
       const sourceHash = hashContent(sourceContent)
       const cached = cache.files[sourcePath]
