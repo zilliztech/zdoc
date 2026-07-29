@@ -398,8 +398,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!/! -L "\$trusted_root"/.test(initialize) || !/realpath -e -- "\$trusted_root"/.test(initialize) || !/stat -c '%u' -- "\$trusted_root"/.test(initialize) || !/id -u/.test(initialize)) errors.push(`${file}: publisher trusted root must be real, private, and owned by the runner user`)
       const capture = byName.get('Capture Guides translation publication identities')
       const captureIndex = steps.indexOf(capture)
+      const installIndex = steps.findIndex(step => step.name === 'Install immutable master tooling')
       const downloadIndex = steps.findIndex(step => step.name === 'Download Guides translation checkpoints')
-      if (!capture || captureIndex < 0 || downloadIndex < 0 || captureIndex >= downloadIndex || !/createInitialPublisherState/.test(capture.run || '') || !/SOURCE_COMMIT_SHA/.test(capture.run || '') || !/EXPECTED_TARGET_SHA/.test(capture.run || '') || !/refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}/.test(capture.run || '')) errors.push(`${file}: publisher must authenticate and persist source and target identities before artifact download`)
+      if (!capture || captureIndex < 0 || installIndex < 0 || downloadIndex < 0 || installIndex >= captureIndex || captureIndex >= downloadIndex || !/createInitialPublisherState/.test(capture.run || '') || !/SOURCE_COMMIT_SHA/.test(capture.run || '') || !/EXPECTED_TARGET_SHA/.test(capture.run || '') || !/refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}/.test(capture.run || '')) errors.push(`${file}: publisher must install tooling, then authenticate and persist source and target identities before artifact download`)
       for (const name of requiredNames.slice(5)) if (String(byName.get(name)?.if || '') !== '${{ always() }}') errors.push(`${file}: cleanup, report, upload, and result steps must always run`)
 
       const identities = String(byName.get(requiredNames[0])?.run || '')

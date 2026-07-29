@@ -168,6 +168,14 @@ function trackedFiles(repositoryRoot) {
     .split('\0').filter(Boolean);
 }
 
+function headTrackedFiles(repositoryRoot) {
+  return execFileSync('git', ['ls-tree', '-rz', '--name-only', 'HEAD'], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  }).split('\0').filter(Boolean);
+}
+
 function gitPathList(repositoryRoot, args) {
   return execFileSync('git', args, {
     cwd: repositoryRoot,
@@ -363,7 +371,7 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
     }
     candidateActual = discoverInputDefinitionPaths(repositoryRoot, candidateWorkspace.definition);
     const dirty = dirtyFiles(repositoryRoot);
-    const targetOwnedTracked = [...tracked].filter(relativePath => targetDefinitions.some(
+    const targetOwnedTracked = [...new Set([...tracked, ...headTrackedFiles(repositoryRoot)])].filter(relativePath => targetDefinitions.some(
       entry => isInputPath(relativePath, entry.definition),
     ));
     const localizationDefinitions = [

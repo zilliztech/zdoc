@@ -1511,11 +1511,13 @@ test('Guides translation batches publish through one validated staging ref', () 
   assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with.ref, '${{ inputs.tooling_sha }}')
   assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with['fetch-depth'], 0)
   const capture = steps.find(step => step.name === 'Capture Guides translation publication identities')
+  const install = steps.find(step => step.name === 'Install immutable master tooling')
   const initialize = steps.find(step => step.name === 'Initialize Guides translation publisher')
   assert.match(initialize.run, /! -L "\$trusted_root"[\s\S]*realpath -e -- "\$trusted_root"[\s\S]*stat -c '%u' -- "\$trusted_root"[\s\S]*id -u/)
   assert.match(capture.run, /createInitialPublisherState/)
   assert.match(capture.run, /SOURCE_COMMIT_SHA[\s\S]*EXPECTED_TARGET_SHA/)
   assert.match(capture.run, /refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}[\s\S]*EXPECTED_TARGET_SHA/)
+  assert.ok(steps.indexOf(install) < steps.indexOf(capture))
   assert.ok(steps.indexOf(capture) < steps.findIndex(step => step.name === 'Download Guides translation checkpoints'))
 
   const byName = new Map(steps.map(step => [step.name, step]))
@@ -1581,7 +1583,7 @@ test('workflow policy rejects unsafe Guides staging publisher mutations', () => 
     },
     {
       mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Capture Guides translation publication identities').run = 'true' },
-      expected: `${workflowName}: publisher must authenticate and persist source and target identities before artifact download`,
+      expected: `${workflowName}: publisher must install tooling, then authenticate and persist source and target identities before artifact download`,
     },
     {
       mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run = workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run.replace("if (state.status === 'no_changes') process.exit(0)\n", '') },

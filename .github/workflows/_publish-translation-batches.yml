@@ -72,6 +72,12 @@ jobs:
           ref: ${{ inputs.tooling_sha }}
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22.6', cache: pnpm }
+      - name: Install immutable master tooling
+        run: pnpm install --frozen-lockfile
+
       - name: Capture Guides translation publication identities
         shell: bash
         run: |
@@ -100,12 +106,6 @@ jobs:
           git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
           [[ "$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")" == "$EXPECTED_TARGET_SHA" ]]
           git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
-
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '22.6', cache: pnpm }
-      - name: Install immutable master tooling
-        run: pnpm install --frozen-lockfile
 
       - name: Download Guides translation checkpoints
         uses: actions/download-artifact@v4

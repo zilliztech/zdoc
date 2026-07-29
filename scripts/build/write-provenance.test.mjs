@@ -387,6 +387,22 @@ test('Japanese candidate workspace records skip-worktree target deletions', () =
   assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [deletedPath]);
 });
 
+test('Japanese candidate workspace records staged BYOC target deletions', () => {
+  const root = fixture();
+  const deletedPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/volume/managed-volume.md';
+  write(root, deletedPath, '# deleted BYOC page\n');
+  execFileSync('git', ['add', deletedPath], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'Add Japanese BYOC candidate deletion'], {cwd: root});
+  fs.rmSync(path.join(root, deletedPath));
+  execFileSync('git', ['add', '-u', '--', deletedPath], {cwd: root});
+
+  const {manifest} = run(root, {environment: candidateEnvironment({
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
+  })});
+
+  assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [deletedPath]);
+});
+
 test('candidate workspace rejects tracked modifications owned by another translation target', () => {
   const root = fixture();
   fs.appendFileSync(
