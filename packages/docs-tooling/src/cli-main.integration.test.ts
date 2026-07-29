@@ -1,6 +1,6 @@
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {mkdtempSync, mkdirSync, readFileSync, symlinkSync, writeFileSync} from 'node:fs';
+import {mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -14,6 +14,66 @@ const cliMain = path.resolve(import.meta.dirname, 'cli-main.ts');
 
 function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-cli-main-'));
+}
+
+function writeJson(repositoryRoot: string, relativePath: string, value: unknown): void {
+  const absolutePath = path.join(repositoryRoot, relativePath);
+  mkdirSync(path.dirname(absolutePath), {recursive: true});
+  writeFileSync(absolutePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function runCli(repositoryRoot: string, args: string[]) {
+  return spawnSync(process.execPath, ['--experimental-strip-types', cliMain, ...args], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+    env: process.env,
+  });
+}
+
+function revisionInventory(group: string, records: unknown[] = []) {
+  return {
+    schemaVersion: 1,
+    group,
+    complete: true,
+    generatedAt: '2026-07-28T00:00:00.000Z',
+    sourceRunId: 'baseline-run',
+    records,
+  };
+}
+
+const revisionRecord = (canonicalToken: string, revisionId = '1') => ({
+  canonicalToken,
+  title: `Title ${canonicalToken}`,
+  contentPath: `content/${canonicalToken}.md`,
+  objectToken: `object-${canonicalToken}`,
+  parentToken: 'parent',
+  revisionId,
+  objectEditTime: '1785254400',
+});
+
+const sourceRecord = (docToken: string, revisionId = '1', fetchError?: string) => ({
+  doc_token: docToken,
+  title: `Title ${docToken}`,
+  output_paths: [`content/${docToken}.md`],
+  node_metadata: {
+    obj_token: `object-${docToken}`,
+    parent_node_token: 'parent',
+    revision_id: revisionId,
+    obj_edit_time: '1785254400',
+    ...(fetchError ? {fetch_error: fetchError} : {}),
+  },
+});
+
+function revisionBuildArgs(group: string, extra: string[] = []): string[] {
+  return [
+    'revision-inventory', 'build', '--group', group,
+    '--baseline', `generated/en/manifests/lark-revisions/${group}.json`,
+    '--output', `generated/en/manifests/lark-revisions/${group}.json`,
+    '--report-dir', 'tmp/revision-reports',
+    '--source-run-id', 'candidate-run',
+    '--generated-at', '2026-07-29T12:00:00.000Z',
+    ...extra,
+  ];
 }
 
 function prepareChineseStage(repositoryRoot: string): void {
@@ -118,6 +178,122 @@ function prepareToolsCategoryLandingTranslation(repositoryRoot: string): void {
 }
 
 describe('docs-tooling executable composition root', () => {
+  it('builds an updated revision inventory and deterministic JSON and Markdown reports', () => {
+    const repositoryRoot = temporaryRoot();
+    writeJson(repositoryRoot, 'generated/en/manifests/lark-revisions/python.json', revisionInventory('python', [revisionRecord('a')]));
+    writeJson(repositoryRoot, 'tmp/snapshots/python.json', {records: [sourceRecord('a', '2'), sourceRecord('b')]});
+
+    const result = runCli(repositoryRoot, revisionBuildArgs('python', ['--snapshot', 'tmp/snapshots/python.json']));
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(JSON.parse(readFileSync(path.join(repositoryRoot, 'generated/en/manifests/lark-revisions/python.json'), 'utf8'))).toMatchObject({
+      group: 'python', complete: true, generatedAt: '2026-07-29T12:00:00.000Z', sourceRunId: 'candidate-run',
+    });
+    expect(JSON.parse(readFileSync(path.join(repositoryRoot, 'tmp/revision-reports/python.json'), 'utf8'))).toMatchObject({
+      group: 'python',
+      changes: [{type: 'updated', canonicalToken: 'a'}, {type: 'created', canonicalToken: 'b'}],
+      editedToday: [{canonicalToken: 'a'}, {canonicalToken: 'b'}],
+    });
+    expect(readFileSync(path.join(repositoryRoot, 'tmp/revision-reports/python.md'), 'utf8')).toContain('| updated | Title a | 1 | 2 |');
+  });
+
+  it('builds an initial inventory when the safe baseline path is absent', () => {
+    const repositoryRoot = temporaryRoot();
+    writeJson(repositoryRoot, 'tmp/snapshots/guides.json', {records: [sourceRecord('guide')]});
+
+    const result = runCli(repositoryRoot, revisionBuildArgs('guides', ['--snapshot', 'tmp/snapshots/guides.json']));
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(JSON.parse(readFileSync(path.join(repositoryRoot, 'tmp/revision-reports/guides.json'), 'utf8')).changes)
+      .toMatchObject([{type: 'created', canonicalToken: 'guide'}]);
+  });
+
+  it('builds a complete empty REST inventory without snapshots', () => {
+    const repositoryRoot = temporaryRoot();
+    const result = runCli(repositoryRoot, revisionBuildArgs('rest'));
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(JSON.parse(readFileSync(path.join(repositoryRoot, 'generated/en/manifests/lark-revisions/rest.json'), 'utf8')))
+      .toMatchObject({group: 'rest', complete: true, records: []});
+  });
+
+  it('refuses to infer deletion from an incomplete snapshot candidate', () => {
+    const repositoryRoot = temporaryRoot();
+    writeJson(repositoryRoot, 'generated/en/manifests/lark-revisions/java.json', revisionInventory('java', [revisionRecord('missing')]));
+    writeJson(repositoryRoot, 'tmp/snapshots/java.json', {records: [sourceRecord('failed', '1', 'rate limited')]});
+
+    const result = runCli(repositoryRoot, revisionBuildArgs('java', ['--snapshot', 'tmp/snapshots/java.json']));
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/incomplete.*deletion/i);
+  });
+
+  it.each([
+    ['absolute snapshot', ['--snapshot', '/tmp/snapshot.json']],
+    ['traversing baseline', ['--snapshot', 'tmp/snapshot.json', '--baseline', '../baseline.json']],
+  ])('rejects an unsafe %s path', (_label, extra) => {
+    const repositoryRoot = temporaryRoot();
+    writeJson(repositoryRoot, 'tmp/snapshot.json', {records: []});
+    const args = revisionBuildArgs('python', extra);
+    const result = runCli(repositoryRoot, args);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/unsafe|repository-relative/i);
+  });
+
+  it('rejects a symlinked snapshot path', () => {
+    const repositoryRoot = temporaryRoot();
+    writeJson(repositoryRoot, 'outside.json', {records: []});
+    mkdirSync(path.join(repositoryRoot, 'tmp'), {recursive: true});
+    symlinkSync(path.join(repositoryRoot, 'outside.json'), path.join(repositoryRoot, 'tmp/snapshot.json'));
+
+    const result = runCli(repositoryRoot, revisionBuildArgs('python', ['--snapshot', 'tmp/snapshot.json']));
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/symlink/i);
+  });
+
+  it('validates all seven committed English revision inventories', () => {
+    const repositoryRoot = temporaryRoot();
+    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+      writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
+    }
+
+    const result = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'en']);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(result.stdout).toMatch(/validated/i);
+  });
+
+  it.each([
+    ['missing', undefined, /missing|does not exist/i],
+    ['malformed', '{', /json|unexpected|property/i],
+    ['wrong group', revisionInventory('java'), /group/i],
+  ])('fails revision inventory validation for a %s file', (_kind, replacement, expected) => {
+    const repositoryRoot = temporaryRoot();
+    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+      writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
+    }
+    const target = path.join(repositoryRoot, 'generated/en/manifests/lark-revisions/python.json');
+    if (replacement === undefined) {
+      rmSync(target);
+    } else if (typeof replacement === 'string') {
+      writeFileSync(target, replacement);
+    } else {
+      writeFileSync(target, `${JSON.stringify(replacement)}\n`);
+    }
+
+    const result = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'en']);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(expected);
+  });
+
+  it('rejects revision inventory validation for sites other than English', () => {
+    const result = runCli(temporaryRoot(), ['validate-revision-inventory', '--site', 'zh-CN']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/site.*en/i);
+  });
+
   it('runs Chinese Tools translation coverage and sidebar validators', () => {
     const repositoryRoot = temporaryRoot();
     prepareToolsTranslation(repositoryRoot);

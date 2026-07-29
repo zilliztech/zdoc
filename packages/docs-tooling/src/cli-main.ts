@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import {existsSync, lstatSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
+import {existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
+import {stripTypeScriptTypes} from 'node:module';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
@@ -10,12 +11,30 @@ import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliA
 import {checkLinks} from './links/check.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
+import type {
+  RevisionGroup,
+  RevisionInventory,
+  SourceSnapshot,
+} from './lark/revisionInventory.ts';
 import {validateToolsSidebar, validateTranslationCoverage} from './translation/validate.ts';
 import {TranslationTargetIdSchema} from './translation/schema.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './validation/ownership.ts';
 import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
 
 const ALIYUN_VALIDATOR_PROVIDER = 'DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER';
+const REVISION_GROUPS = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'] as const;
+
+type RevisionInventoryModule = typeof import('./lark/revisionInventory.ts');
+
+let revisionInventoryModule: Promise<RevisionInventoryModule> | undefined;
+
+function loadRevisionInventoryModule(): Promise<RevisionInventoryModule> {
+  revisionInventoryModule ??= import(`data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(
+    readFileSync(path.join(import.meta.dirname, 'lark/revisionInventory.ts'), 'utf8'),
+    {mode: 'strip'},
+  )).toString('base64')}`) as Promise<RevisionInventoryModule>;
+  return revisionInventoryModule;
+}
 
 function parseOptions(argv: string[]): Record<string, string | boolean> {
   const options: Record<string, string | boolean> = {};
@@ -33,6 +52,118 @@ function requiredOption(options: Record<string, string | boolean>, key: string):
   const value = options[key];
   if (typeof value !== 'string' || !value) throw new Error(`--${key.replace(/[A-Z]/gu, letter => `-${letter.toLowerCase()}`)} is required`);
   return value;
+}
+
+function revisionGroup(value: string): RevisionGroup {
+  if (!REVISION_GROUPS.includes(value as RevisionGroup)) throw new Error(`Unsupported revision inventory group: ${value}`);
+  return value as RevisionGroup;
+}
+
+function resolveSafeRevisionPath(
+  repositoryRoot: string,
+  relativePath: string,
+  label: string,
+  mustExist: boolean,
+): string {
+  const target = resolveOwnedRepositoryPath(repositoryRoot, relativePath, label);
+  let current = path.resolve(repositoryRoot);
+  for (const segment of relativePath.split('/')) {
+    current = path.join(current, segment);
+    if (!existsSync(current)) break;
+    if (lstatSync(current).isSymbolicLink()) throw new Error(`${label} must not use symlinks: ${relativePath}`);
+  }
+  if (mustExist && !existsSync(target)) throw new Error(`${label} is missing: ${relativePath}`);
+  return target;
+}
+
+function readJsonFile(file: string, label: string): unknown {
+  try {
+    return JSON.parse(readFileSync(file, 'utf8')) as unknown;
+  } catch (error) {
+    throw new Error(`${label} is malformed JSON: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+function readSourceSnapshot(repositoryRoot: string, relativePath: string): SourceSnapshot {
+  const value = readJsonFile(resolveSafeRevisionPath(repositoryRoot, relativePath, 'Revision snapshot path', true), 'Revision snapshot');
+  if (typeof value !== 'object' || value === null || Array.isArray(value) || !Array.isArray((value as {records?: unknown}).records)) {
+    throw new Error(`Revision snapshot must be a container with a records array: ${relativePath}`);
+  }
+  return value as SourceSnapshot;
+}
+
+async function readRevisionInventory(file: string, label: string): Promise<RevisionInventory> {
+  const value = readJsonFile(file, label);
+  const {validateRevisionInventory} = await loadRevisionInventoryModule();
+  validateRevisionInventory(value);
+  return value as RevisionInventory;
+}
+
+function writeRepositoryFile(repositoryRoot: string, relativePath: string, contents: string, label: string): void {
+  const file = resolveSafeRevisionPath(repositoryRoot, relativePath, label, false);
+  mkdirSync(path.dirname(file), {recursive: true});
+  writeFileSync(file, contents);
+}
+
+async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: string): Promise<void> {
+  if (argv[1] !== 'build') throw new Error('revision-inventory action must be build');
+  const options = parseOptions(argv.slice(2));
+  const group = revisionGroup(requiredOption(options, 'group'));
+  const snapshotOption = options.snapshot;
+  if (group !== 'rest' && (typeof snapshotOption !== 'string' || !snapshotOption)) throw new Error('--snapshot is required');
+  const snapshotPaths = typeof snapshotOption === 'string' ? snapshotOption.split(',') : [];
+  if (snapshotPaths.some(value => !value)) throw new Error('--snapshot must contain repository-relative paths');
+  const baselinePath = requiredOption(options, 'baseline');
+  const outputPath = requiredOption(options, 'output');
+  const reportDir = requiredOption(options, 'reportDir');
+  assertSafeRepositoryRelativePath(reportDir, 'Revision report directory');
+  const generatedAt = requiredOption(options, 'generatedAt');
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/u.test(generatedAt)
+    || !Number.isFinite(Date.parse(generatedAt))) {
+    throw new Error('--generated-at must be an ISO date string');
+  }
+
+  const snapshots = snapshotPaths.map(value => readSourceSnapshot(repositoryRoot, value));
+  const complete = snapshots.every(snapshot => snapshot.records.every(record => !record.node_metadata?.fetch_error));
+  const baselineFile = resolveSafeRevisionPath(repositoryRoot, baselinePath, 'Revision baseline path', false);
+  const baselineBytes = existsSync(baselineFile) ? readFileSync(baselineFile, 'utf8') : undefined;
+  const baseline = baselineBytes === undefined ? null : await readRevisionInventory(baselineFile, 'Revision baseline');
+  if (baseline && baseline.group !== group) throw new Error(`Revision baseline group must be ${group}`);
+  const {
+    buildRevisionInventory,
+    diffRevisionInventories,
+    editedToday,
+    renderRevisionDiffMarkdown,
+    serializeRevisionInventory,
+  } = await loadRevisionInventoryModule();
+  const candidate = buildRevisionInventory({
+    group,
+    complete,
+    generatedAt,
+    sourceRunId: requiredOption(options, 'sourceRunId'),
+    snapshots,
+  });
+  const changes = diffRevisionInventories(baseline, candidate);
+  const inventoryBytes = serializeRevisionInventory(candidate, baseline && baselineBytes !== undefined
+    ? {inventory: baseline, bytes: baselineBytes}
+    : undefined);
+  const report = {group, changes, editedToday: editedToday(candidate.records, new Date(generatedAt))};
+  writeRepositoryFile(repositoryRoot, outputPath, inventoryBytes, 'Revision inventory output path');
+  writeRepositoryFile(repositoryRoot, `${reportDir}/${group}.json`, `${JSON.stringify(report, null, 2)}\n`, 'Revision JSON report path');
+  writeRepositoryFile(repositoryRoot, `${reportDir}/${group}.md`, renderRevisionDiffMarkdown(group, changes), 'Revision Markdown report path');
+  process.stdout.write(`Revision inventory built for ${group}.\n`);
+}
+
+async function validateCommittedRevisionInventories(argv: string[], repositoryRoot: string): Promise<void> {
+  const options = parseOptions(argv.slice(1));
+  if (requiredOption(options, 'site') !== 'en') throw new Error('Revision inventory validation supports only --site en');
+  for (const group of REVISION_GROUPS) {
+    const relativePath = `generated/en/manifests/lark-revisions/${group}.json`;
+    const file = resolveSafeRevisionPath(repositoryRoot, relativePath, 'Revision inventory path', true);
+    const inventory = await readRevisionInventory(file, `Revision inventory ${group}`);
+    if (inventory.group !== group) throw new Error(`Revision inventory ${group} has group ${inventory.group}`);
+  }
+  process.stdout.write('Revision inventories validated.\n');
 }
 
 function assertNoSymlinkedInput(repositoryRoot: string, relativePath: string): string {
@@ -82,6 +213,14 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 }
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
+  if (argv[0] === 'revision-inventory') {
+    await executeRevisionInventoryBuild(argv, repositoryRoot);
+    return true;
+  }
+  if (argv[0] === 'validate-revision-inventory') {
+    await validateCommittedRevisionInventories(argv, repositoryRoot);
+    return true;
+  }
   if (argv[0] === 'validate-translation') {
     const options = parseOptions(argv.slice(1));
     validateTranslationCoverage({
