@@ -95,6 +95,42 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.doesNotMatch(workflow, /secrets\.|contents: write|git push/);
 });
 
+test('final verification separates the revision waterline from ordered two-site validation', async () => {
+  const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/_verify-docs.yml'), 'utf8');
+  assert.match(workflow, /^      revision_status:\n        description: passed or failed\n        value: \$\{\{ jobs\.verify\.outputs\.revision_status \}\}$/m);
+  assert.match(workflow, /^      revision_status: \$\{\{ steps\.revision_result\.outputs\.status \}\}$/m);
+  assert.match(workflow, /name: Verify revision waterline[\s\S]*id: revision[\s\S]*continue-on-error: true/);
+  assert.match(workflow, /pnpm check:localization-input-inventory[\s\S]*pnpm docs-tooling validate-revision-inventory --site en/);
+
+  const revisionIndex = workflow.indexOf('name: Verify revision waterline');
+  const siteIndex = workflow.indexOf('name: Verify final documentation state');
+  const reportIndex = workflow.indexOf('name: Upload final verification reports');
+  assert.ok(revisionIndex > workflow.indexOf('name: Materialize exact final dev state'));
+  assert.ok(siteIndex > revisionIndex);
+  assert.ok(reportIndex > siteIndex);
+
+  const siteVerification = workflow.slice(siteIndex, reportIndex);
+  const orderedCommands = [
+    'pnpm docs-tooling validate-reference --site zh-CN',
+    'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
+    'pnpm docs-tooling validate-tools-sidebar',
+    'node scripts/validate-generated-sidebars.js',
+    'node scripts/validate-translated-coverage.js --group "$group"',
+    'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',
+    'node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting',
+    'node scripts/validate-workflow-policy.js',
+    'pnpm test:typescript-runtime-boundary',
+  ];
+  let previous = -1;
+  for (const command of orderedCommands) {
+    const index = siteVerification.indexOf(command);
+    assert.ok(index > previous, `${command} must appear in site verification order`);
+    previous = index;
+  }
+  assert.match(workflow, /steps\.revision\.outcome.*steps\.verification\.outcome[\s\S]*status=passed/);
+  assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*git worktree add --detach "\$RUNNER_TEMP\/final-dev" "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/);
+});
+
 test('a retirement command in a later job cannot satisfy the aggregate contract', () => {
   const workflow = [
     'jobs:',

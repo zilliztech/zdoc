@@ -633,6 +633,53 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const outputs = workflow.on?.workflow_call?.outputs || {}
+      const jobOutputs = workflow.jobs?.verify?.outputs || {}
+      if (outputs.revision_status?.value !== '${{ jobs.verify.outputs.revision_status }}' ||
+        jobOutputs.revision_status !== '${{ steps.revision_result.outputs.status }}') {
+        errors.push(`${file}: must expose revision status separately from overall status`)
+      }
+      const steps = workflow.jobs?.verify?.steps || []
+      const byName = new Map(steps.map(step => [step?.name, step]))
+      const revision = byName.get('Verify revision waterline')
+      const revisionRun = String(revision?.run || '')
+      if (revision?.id !== 'revision' || revision?.['continue-on-error'] !== true ||
+        !/set -euo pipefail/.test(revisionRun) ||
+        !/pnpm check:localization-input-inventory[\s\S]*pnpm docs-tooling validate-revision-inventory --site en/.test(revisionRun) ||
+        !/tmp\/final-verification-reports/.test(revisionRun)) {
+        errors.push(`${file}: revision waterline must validate localization and revision inventories`)
+      }
+      const materializeIndex = steps.findIndex(step => step?.name === 'Materialize exact final dev state')
+      const revisionIndex = steps.indexOf(revision)
+      const verification = byName.get('Verify final documentation state')
+      const verificationIndex = steps.indexOf(verification)
+      const verificationRun = String(verification?.run || '')
+      const orderedSiteCommands = [
+        'pnpm docs-tooling validate-reference --site zh-CN',
+        'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
+        'pnpm docs-tooling validate-tools-sidebar',
+        'node scripts/validate-generated-sidebars.js',
+        'node scripts/validate-translated-coverage.js --group "$group"',
+        'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',
+        'node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting',
+        'node scripts/validate-workflow-policy.js',
+        'pnpm test:typescript-runtime-boundary',
+      ]
+      let commandIndex = -1
+      const orderedSiteValidation = orderedSiteCommands.every(command => {
+        const nextIndex = verificationRun.indexOf(command)
+        if (nextIndex <= commandIndex) return false
+        commandIndex = nextIndex
+        return true
+      })
+      if (!(materializeIndex >= 0 && materializeIndex < revisionIndex && revisionIndex < verificationIndex) ||
+        verification?.id !== 'verification' || verification?.['continue-on-error'] !== true || !orderedSiteValidation) {
+        errors.push(`${file}: site verification must run ordered Chinese validators before both site builds`)
+      }
+      const resultRun = String(byName.get('Emit verification result')?.run || '')
+      if (!/steps\.revision\.outcome[^\n]*steps\.verification\.outcome/.test(resultRun)) {
+        errors.push(`${file}: overall status must require revision and site verification success`)
+      }
       if (/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
       if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
     }
