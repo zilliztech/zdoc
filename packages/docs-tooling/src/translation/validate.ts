@@ -3,9 +3,28 @@ import {existsSync, lstatSync, readdirSync} from 'node:fs';
 import path from 'node:path';
 
 import {assertSafeRepositoryPathChain} from '../reference/translationManifest.ts';
+import {resolvePublicationGroup} from '../workflows/groups.ts';
 import {buildTranslationCandidates, validateTranslatedSidebarFragment} from './candidates.ts';
 import {resolveTranslationTarget} from './targets.ts';
 import type {TranslationTargetId} from './schema.ts';
+
+const REFERENCE_LANDING_SOURCE_PATHS = Object.freeze([
+  'content/en/reference/api/python/python/python.md',
+  'content/en/reference/api/java/java/java.md',
+  'content/en/reference/api/nodejs/nodejs/nodejs.md',
+  'content/en/reference/api/go/go/go.md',
+  'content/en/reference/cli/cli/Overview.md',
+]);
+
+function ownedTranslationSourcePaths(targetId: TranslationTargetId, group: string): readonly string[] {
+  if (targetId === 'zh-CN-tools') return ['content/en/guides/tutorials/tools', 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'];
+  if (group === 'reference-landings') return REFERENCE_LANDING_SOURCE_PATHS;
+  return resolvePublicationGroup('en', group).ownedPaths.filter(candidate => candidate.startsWith('content/en/'));
+}
+
+function ownedByAny(sourcePath: string, ownedPaths: readonly string[]): boolean {
+  return ownedPaths.some(ownedPath => sourcePath === ownedPath || sourcePath.startsWith(`${ownedPath}/`));
+}
 
 function loadSidebarModule(repositoryRoot: string, relativePath: string, label: string): unknown {
   const absolutePath = assertSafeRepositoryPathChain(repositoryRoot, relativePath, label);
@@ -79,10 +98,12 @@ export function validateTranslationCoverage(options: Readonly<{
     throw new Error('Chinese Tools translation coverage requires group tools');
   }
   resolveTranslationTarget(options.targetId);
-  const {candidates} = buildTranslationCandidates({
+  const ownership = ownedTranslationSourcePaths(options.targetId, options.group);
+  const {candidates: allCandidates} = buildTranslationCandidates({
     repositoryRoot: options.repositoryRoot,
     targetId: options.targetId,
   });
+  const candidates = allCandidates.filter(candidate => ownedByAny(candidate.sourcePath, ownership));
   if (candidates.length > 0) {
     const reasonCounts = new Map<string, number>();
     for (const candidate of candidates) {
