@@ -39,6 +39,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22.6', cache: pnpm }
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Materialize immutable translation source
         run: |
           set -euo pipefail

@@ -1881,6 +1881,12 @@ test('workflow policy rejects numbered translation batch validation regressions'
 
 test('durable translation batch preparation uses the same source delta as batch execution', () => {
   const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_prepare-translation-batches.yml'), 'utf8')
+  const steps = yaml.load(workflow).jobs.prepare.steps
+  const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v4')
+  const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v4')
+  const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
+  const materializeIndex = steps.findIndex(step => step.name === 'Materialize immutable translation source')
+  assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < materializeIndex)
   assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/)
   assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
   assert.match(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
