@@ -20,7 +20,7 @@ on:
         type: boolean
         default: true
       tooling_ref:
-        description: Non-production tooling ref override
+        description: Tooling ref override; exact SHA allowed for controlled dev publication
         type: string
         default: master
   schedule:
@@ -68,7 +68,7 @@ jobs:
           fi
           git check-ref-format --branch "$TARGET_BRANCH"
           tooling_ref="$TOOLING_REF"
-          if [[ "$PUBLISH" == true && "$TARGET_BRANCH" == dev ]]; then
+          if [[ "$PUBLISH" == true && "$TARGET_BRANCH" == dev && ! "$tooling_ref" =~ ^[0-9a-f]{40}$ ]]; then
             tooling_ref=master
           fi
           if [[ "$tooling_ref" =~ ^[0-9a-f]{40}$ ]]; then
