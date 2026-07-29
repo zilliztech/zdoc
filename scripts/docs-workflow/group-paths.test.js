@@ -62,7 +62,7 @@ test('SDK and CLI groups declare master-owned landing pages to preserve', () => 
   assert.deepEqual(getGroupPaths('go').preservedEnglish, []);
   assert.deepEqual(getGroupPaths('cli').preservedEnglish, []);
   assert.deepEqual(getGroupPaths('guides').preservedEnglish, ['content/en/guides/tutorials/home.md']);
-  assert.deepEqual(getGroupPaths('rest').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('rest').preservedEnglish, ['content/en/reference/api/restful/restful/restful.md']);
 });
 
 test('reference translation mapping rejects non-reference paths', () => {

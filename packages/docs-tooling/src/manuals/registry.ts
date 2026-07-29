@@ -345,8 +345,8 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['canonical', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'canonical', 'reference/api/restful/restful', 'reference', 'restful'),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful/restful', 'reference', 'restful'),
+      en: publication('en', 'canonical', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, ['restful.md']),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, ['restful.md']),
     },
   },
 ];

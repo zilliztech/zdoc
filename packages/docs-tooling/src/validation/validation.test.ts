@@ -295,6 +295,8 @@ describe('docs-tooling CLI boundary', () => {
 
   it('applies REST replacements only to the REST manual and leaves English publication unchanged', async () => {
     const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'content/zh-CN/reference/api/restful/restful'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'content/zh-CN/reference/api/restful/restful/restful.md'), '# REST API\n');
     const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
       const paths = publicationStagePaths(context);
       mkdirSync(paths.outputPath, {recursive: true});
@@ -880,6 +882,8 @@ describe('docs-tooling CLI boundary', () => {
 
   it('dispatches the English REST source to the moved REST generator', async () => {
     const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful/restful.md'), '# REST API\n');
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
     mkdirSync(path.join(repositoryRoot, 'generated/en/sidebars'), {recursive: true});
@@ -1054,6 +1058,8 @@ describe('docs-tooling CLI boundary', () => {
 
   it('clears stale REST stages before generation and leaves failures unpublishable', async () => {
     const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful/restful.md'), '# REST API\n');
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
     mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'), {recursive: true});

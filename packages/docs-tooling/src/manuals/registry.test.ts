@@ -283,8 +283,10 @@ describe('manual registry contract', () => {
     const chinese = resolveManualPublication('rest', 'zh-CN');
 
     expect(english.publication.outputDir).toBe('content/en/reference/api/restful/restful');
+    expect(english.publication.preservedFiles).toEqual(['restful.md']);
     expect(chinese.source.sourceDir).toBe('content/zh-CN/reference/api/restful/restful');
     expect(chinese.publication.outputDir).toBe('content/zh-CN/reference/api/restful/restful');
+    expect(chinese.publication.preservedFiles).toEqual(['restful.md']);
   });
 
   it('rejects retired paths that overlap any active publication target', () => {
