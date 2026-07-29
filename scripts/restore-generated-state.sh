@@ -88,6 +88,7 @@ paths=(
   "i18n"
   ".translation-cache"
   "config/generated"
+  "generated/en/manifests/lark-revisions"
   "packages/docs-tooling/src/lark/meta/snapshots"
   "packages/docs-tooling/src/lark/meta/assembly"
   "packages/docs-tooling/src/lark/meta/reports"

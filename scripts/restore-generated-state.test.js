@@ -10,6 +10,7 @@ const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-
 const { RESTORE_PATHS } = require('./docs-workflow/validate-guides-translation-staging')
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
+const revisionInventoryRoot = 'generated/en/manifests/lark-revisions'
 const restorePaths = [
   'docs',
   'docs-byoc',
@@ -17,6 +18,7 @@ const restorePaths = [
   'i18n',
   '.translation-cache',
   'config/generated',
+  revisionInventoryRoot,
   'packages/docs-tooling/src/lark/meta/snapshots',
   'packages/docs-tooling/src/lark/meta/assembly',
   'packages/docs-tooling/src/lark/meta/reports',
@@ -58,7 +60,7 @@ function createFixture() {
   git(source, 'config', 'user.email', 'test@example.com')
   git(source, 'remote', 'add', 'origin', origin)
 
-  for (const restorePath of restorePaths) {
+  for (const restorePath of RESTORE_PATHS) {
     write(source, path.join(restorePath, 'state.txt'), `old:${restorePath}\n`)
   }
   git(source, 'add', '.')
@@ -99,7 +101,7 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
-  assert.deepEqual(actualPaths, RESTORE_PATHS)
+  assert.deepEqual(actualPaths.filter((entry) => entry !== revisionInventoryRoot), RESTORE_PATHS)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
@@ -186,6 +188,50 @@ test('exact immutable ref mode makes the index equal a source tree that deletes 
       indexInventory(fixture.work, 'docs'),
       treeInventory(fixture.work, sourceSha, 'docs'),
     )
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref restores revision inventories from the target commit', () => {
+  const fixture = createFixture()
+  const inventory = 'generated/en/manifests/lark-revisions/python.json'
+  try {
+    write(fixture.source, inventory, '{"source":"final-dev"}\n')
+    git(fixture.source, 'add', inventory)
+    git(fixture.source, 'commit', '-m', 'advance revision inventory')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, inventory, '{"source":"master-tooling"}\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, inventory), 'utf8'), '{"source":"final-dev"}\n')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref removes absent revision inventories without claiming unrelated generated paths', () => {
+  const fixture = createFixture()
+  const inventoryRoot = 'generated/en/manifests/lark-revisions'
+  const unrelated = 'generated/en/sidebars/unmanaged.txt'
+  try {
+    write(fixture.source, `${inventoryRoot}/keep.json`, '{"keep":true}\n')
+    git(fixture.source, 'add', '-A', inventoryRoot)
+    git(fixture.source, 'commit', '-m', 'remove stale revision inventory')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, `${inventoryRoot}/state.txt`, 'stale workspace inventory\n')
+    write(fixture.work, unrelated, 'outside restore contract\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(fixture.work, inventoryRoot, 'state.txt')), false)
+    assert.equal(fs.readFileSync(path.join(fixture.work, inventoryRoot, 'keep.json'), 'utf8'), '{"keep":true}\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, unrelated), 'utf8'), 'outside restore contract\n')
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }
