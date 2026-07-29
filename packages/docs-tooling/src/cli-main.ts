@@ -30,7 +30,11 @@ let revisionInventoryModule: Promise<RevisionInventoryModule> | undefined;
 
 function loadRevisionInventoryModule(): Promise<RevisionInventoryModule> {
   if (!revisionInventoryModule) {
-    const source = readFileSync(path.join(import.meta.dirname, 'lark/revisionInventory.ts'), 'utf8');
+    const injected = (globalThis as typeof globalThis & {
+      __DOCS_TOOLING_REVISION_INVENTORY__?: RevisionInventoryModule
+    }).__DOCS_TOOLING_REVISION_INVENTORY__;
+    if (injected) return Promise.resolve(injected);
+    const source = readFileSync(path.join(path.dirname(process.argv[1]), 'lark/revisionInventory.ts'), 'utf8');
     const javascript = ts.transpileModule(source, {
       compilerOptions: {module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022},
     }).outputText;

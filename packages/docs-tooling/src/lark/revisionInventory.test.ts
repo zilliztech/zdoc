@@ -80,9 +80,22 @@ describe('revision inventory projection', () => {
     ])
   })
 
-  it('rejects missing and duplicate canonical tokens', () => {
+  it('rejects missing tokens and conflicting duplicate canonical tokens', () => {
     expect(() => buildRevisionInventory({group: 'guides', complete: true, generatedAt: 'x', sourceRunId: 'x', snapshots: [snapshot(source(''))]})).toThrow(/missing.*token/i)
-    expect(() => buildRevisionInventory({group: 'guides', complete: true, generatedAt: 'x', sourceRunId: 'x', snapshots: [snapshot(source('a')), snapshot(source('a'))]})).toThrow(/duplicate.*a/i)
+    expect(() => buildRevisionInventory({
+      group: 'guides', complete: true, generatedAt: 'x', sourceRunId: 'x',
+      snapshots: [snapshot(source('a')), snapshot(source('a', {title: 'Conflicting title'}))],
+    })).toThrow(/conflicting duplicate.*a/i)
+  })
+
+  it('collapses identical duplicate source records to one canonical revision record', () => {
+    expect(buildRevisionInventory({
+      group: 'node', complete: true, generatedAt: 'x', sourceRunId: 'x',
+      snapshots: [snapshot(source('a')), snapshot(source('a'))],
+    }).records).toEqual([{
+      canonicalToken: 'a', title: 'Title a', contentPath: 'a/a.md', objectToken: 'object-a',
+      parentToken: 'parent', revisionId: '1', objectEditTime: '1785254400',
+    }])
   })
 
   it('builds a complete empty REST inventory', () => {

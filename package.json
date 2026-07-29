@@ -17,7 +17,7 @@
     "test:frontend": "vitest run",
     "test:containers": "node --test deploy/contracts/container.test.mjs",
     "test:profiles": "pnpm vitest run packages/site-config",
-    "docs-tooling": "node --experimental-strip-types packages/docs-tooling/src/cli-main.ts",
+    "docs-tooling": "node scripts/docs-tooling.js",
     "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
     "test:retirement": "node --test scripts/architecture/verify-retired-layout.test.mjs && node scripts/architecture/verify-retired-layout.mjs",
     "test:e2e": "playwright test --project=chromium",

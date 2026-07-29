@@ -73,7 +73,7 @@ const optionalString = (value: unknown): string | undefined =>
 const compareTokens = (left: string, right: string): number => left < right ? -1 : left > right ? 1 : 0
 
 export function buildRevisionInventory(input: BuildRevisionInventoryInput): RevisionInventory {
-  const records = input.snapshots.flatMap(snapshot => snapshot.records).map(record => {
+  const projected = input.snapshots.flatMap(snapshot => snapshot.records).map(record => {
     const canonicalToken = optionalString(record.doc_token)
     if (!canonicalToken) throw new Error('Source snapshot record is missing doc_token')
     const metadata = record.node_metadata
@@ -88,6 +88,15 @@ export function buildRevisionInventory(input: BuildRevisionInventoryInput): Revi
       fetchError: optionalString(metadata?.fetch_error),
     }
   }).sort((a, b) => compareTokens(a.canonicalToken, b.canonicalToken))
+
+  const records = projected.filter((record, index) => {
+    const previous = projected[index - 1]
+    if (!previous || previous.canonicalToken !== record.canonicalToken) return true
+    if (JSON.stringify(previous) !== JSON.stringify(record)) {
+      throw new Error(`Conflicting duplicate canonical token: ${record.canonicalToken}`)
+    }
+    return false
+  })
 
   const result: RevisionInventory = {
     schemaVersion: 1,
