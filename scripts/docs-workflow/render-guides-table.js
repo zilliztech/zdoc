@@ -30,12 +30,13 @@ function renderGuidesTable(options) {
   if (options.cleanup) return { outputPath, cleanup: true }
 
   const args = [
-    'docusaurus', 'fetch-lark-docs', '-man', 'guides', '-tar', options.target,
+    path.join(workspace, 'packages/docs-tooling/src/lark/standalone-cli.js'),
+    'fetch-lark-docs', '-man', 'guides', '-tar', options.target,
     '-token', `base:${options.table_id}`, '-skipS', '--buildEnv', 'uat',
     '--snapshotCandidatePath', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     '--offline', '--mediaManifest', 'packages/docs-tooling/src/lark/meta/media-cache/guides.json',
   ]
-  const result = spawnSync('npx', args, { cwd: workspace, stdio: 'inherit', env: process.env })
+  const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
   if (result.error) throw new Error(`Guides table render could not start: ${result.error.message}`)
   if (result.status !== 0) throw new Error(`Guides table render failed with status ${result.status}`)
   return { outputPath, cleanup: false }

@@ -9,11 +9,11 @@ test('rest group paths include English outputs and translated reference root', (
   const paths = getGroupPaths('rest');
 
   assert.deepEqual(paths.englishOutputs, [
-    'content/en/reference/api/restful',
+    'content/en/reference/api/restful/restful',
     'generated/en/sidebars/restful.sidebar.js',
   ]);
   assert.deepEqual(paths.translationOutputs, [
-    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful',
   ]);
   assert.deepEqual(paths.sidebars, ['generated/en/sidebars/restful.sidebar.js']);
   assert.equal(paths.snapshot, null);

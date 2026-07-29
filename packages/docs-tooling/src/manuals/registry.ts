@@ -341,12 +341,12 @@ const definitions: ManualDefinition[] = [
     kind: 'reference',
     sources: {
       canonical: rest('packages/docs-tooling/src/reference/rest/meta/openapi'),
-      chineseTranslation: local('content/zh-CN/reference/api/restful'),
+      chineseTranslation: local('content/zh-CN/reference/api/restful/restful'),
     },
     sourceOrder: ['canonical', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'canonical', 'reference/api/restful', 'reference', 'restful'),
-      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful', 'reference', 'restful'),
+      en: publication('en', 'canonical', 'reference/api/restful/restful', 'reference', 'restful'),
+      'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful/restful', 'reference', 'restful'),
     },
   },
 ];

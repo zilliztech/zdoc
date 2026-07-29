@@ -39,7 +39,11 @@ test('table render clears only its directory and renders the Base table subtree'
   assert.equal(fs.existsSync(path.join(owned, 'agents/agent.md')), true)
   assert.equal(fs.existsSync(path.join(owned, 'agents/link.md')), false)
   assert.equal(fs.existsSync(path.join(workspace, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/management/keep.md')), true)
-  assert.deepEqual(command.slice(0, 8), ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'guides', '-tar', 'zilliz.saas', '-token'])
+  assert.deepEqual(command.slice(0, 7), [
+    process.execPath,
+    path.join(workspace, 'packages/docs-tooling/src/lark/standalone-cli.js'),
+    'fetch-lark-docs', '-man', 'guides', '-tar', 'zilliz.saas',
+  ])
   assert.equal(command.includes('base:tbl-tools'), true)
   assert.equal(command.includes('--offline'), true)
   assert.equal(command.includes('--mediaManifest'), true)

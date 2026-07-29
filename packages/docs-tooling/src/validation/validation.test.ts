@@ -312,7 +312,7 @@ describe('docs-tooling CLI boundary', () => {
       {repositoryRoot, fetch},
     );
 
-    expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/rest/content/zh-CN/reference/api/restful/page.md'), 'utf8'))
+    expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/zh-CN/rest/content/zh-CN/reference/api/restful/restful/page.md'), 'utf8'))
       .toContain('https://{cluster-id}.{region}.vectordb.zilliz.com.cn:19530');
     expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python/content/en/reference/api/python/python/page.md'), 'utf8'))
       .toBe('Sales: https://www.zilliz.com/contact-sales\nEndpoint: YOUR_CLUSTER_ENDPOINT\n');
@@ -889,12 +889,12 @@ describe('docs-tooling CLI boundary', () => {
       expect(args).toEqual([
         path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/index.js'),
         '--specifications', path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'),
-        '--output_path', path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful'),
+        '--output_path', path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'),
         '--lang', 'en-US',
         '--target', 'zilliz',
       ]);
-      mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful'), {recursive: true});
-      writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/page.md'), '# generated\n');
+      mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'), {recursive: true});
+      writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful/page.md'), '# generated\n');
       return {status: 0};
     });
 
@@ -1056,8 +1056,8 @@ describe('docs-tooling CLI boundary', () => {
     const repositoryRoot = temporaryRoot();
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
-    mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful'), {recursive: true});
-    writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/stale.md'), '# stale\n');
+    mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful/stale.md'), '# stale\n');
     mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/generated/en/sidebars'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/generated/en/sidebars/restful.sidebar.js'), 'module.exports = []\n');
 
@@ -1065,7 +1065,7 @@ describe('docs-tooling CLI boundary', () => {
       ['fetch', '--manual', 'rest', '--group', 'rest', '--site', 'en', '--stage', 'tmp/docs-tooling/en/rest'],
       {repositoryRoot, spawnSync: vi.fn(() => ({status: 9}))},
     )).rejects.toThrow(/rest.*status 9/i);
-    expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/stale.md'))).toBe(false);
+    expect(existsSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful/stale.md'))).toBe(false);
 
     const publish = vi.fn();
     await expect(executeDocsToolingCommand(

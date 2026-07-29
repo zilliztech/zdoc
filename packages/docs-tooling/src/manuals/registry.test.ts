@@ -278,6 +278,15 @@ describe('manual registry contract', () => {
     ])).toThrow(/publication output.*overlap/i);
   });
 
+  it('publishes REST documents at the generator document-id root', () => {
+    const english = resolveManualPublication('rest', 'en');
+    const chinese = resolveManualPublication('rest', 'zh-CN');
+
+    expect(english.publication.outputDir).toBe('content/en/reference/api/restful/restful');
+    expect(chinese.source.sourceDir).toBe('content/zh-CN/reference/api/restful/restful');
+    expect(chinese.publication.outputDir).toBe('content/zh-CN/reference/api/restful/restful');
+  });
+
   it('rejects retired paths that overlap any active publication target', () => {
     const retiring = manual({
       id: 'retiring',

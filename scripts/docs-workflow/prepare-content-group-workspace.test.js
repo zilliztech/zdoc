@@ -15,8 +15,8 @@ function write(file, text = 'x') {
 
 test('rest preparation removes restored English REST outputs and preserves i18n', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-rest-prepare-'));
-  write(path.join(root, 'content/en/reference/api/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2.mdx'));
-  write(path.join(root, 'content/en/reference/api/restful/versioning.md'), '# Versioning\n');
+  write(path.join(root, 'content/en/reference/api/restful/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2.mdx'));
+  write(path.join(root, 'content/en/reference/api/restful/restful/versioning.md'), '# Versioning\n');
   write(path.join(root, 'generated/en/sidebars/restful.sidebar.js'), 'module.exports=["stale"]\n');
   write(path.join(root, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/old.md'));
 
@@ -27,12 +27,12 @@ test('rest preparation removes restored English REST outputs and preserves i18n'
   });
 
   assert.equal(fs.existsSync(path.join(root, 'content/en/reference/api/restful')), true);
-  assert.equal(fs.existsSync(path.join(root, 'content/en/reference/api/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2.mdx')), false);
-  assert.equal(fs.readFileSync(path.join(root, 'content/en/reference/api/restful/versioning.md'), 'utf8'), '# Versioning\n');
+  assert.equal(fs.existsSync(path.join(root, 'content/en/reference/api/restful/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2.mdx')), false);
+  assert.equal(fs.readFileSync(path.join(root, 'content/en/reference/api/restful/restful/versioning.md'), 'utf8'), '# Versioning\n');
   assert.equal(fs.readFileSync(path.join(root, 'generated/en/sidebars/restful.sidebar.js'), 'utf8'), 'module.exports=["master"]\n');
   assert.equal(fs.existsSync(path.join(root, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/old.md')), true);
   assert.deepEqual(result.removed.sort(), [
-    'content/en/reference/api/restful',
+    'content/en/reference/api/restful/restful',
     'generated/en/sidebars/restful.sidebar.js',
   ]);
   assert.deepEqual(result.restored, ['generated/en/sidebars/restful.sidebar.js']);
