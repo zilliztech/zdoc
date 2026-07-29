@@ -23,12 +23,12 @@ export interface SourceSnapshot {
 
 export interface RevisionInventoryRecord {
   canonicalToken: string
-  title?: string
-  contentPath?: string
-  objectToken?: string
-  parentToken?: string
-  revisionId?: string
-  objectEditTime?: string
+  title: string
+  contentPath: string | null
+  objectToken: string | null
+  parentToken: string | null
+  revisionId: string | null
+  objectEditTime: string | null
   fetchError?: string
 }
 
@@ -60,11 +60,11 @@ export type RevisionDiffClassification =
 export interface RevisionChange {
   type: RevisionDiffClassification
   canonicalToken: string
-  title?: string
-  previousRevisionId?: string
-  revisionId?: string
-  objectEditTime?: string
-  contentPath?: string
+  title: string
+  previousRevisionId: string | null
+  revisionId: string | null
+  objectEditTime: string | null
+  contentPath: string | null
 }
 
 const optionalString = (value: unknown): string | undefined =>
@@ -79,12 +79,12 @@ export function buildRevisionInventory(input: BuildRevisionInventoryInput): Revi
     const metadata = record.node_metadata
     return {
       canonicalToken,
-      title: optionalString(record.title),
-      contentPath: record.output_paths?.slice().sort()[0],
-      objectToken: optionalString(metadata?.obj_token),
-      parentToken: optionalString(metadata?.parent_node_token),
-      revisionId: optionalString(metadata?.revision_id),
-      objectEditTime: optionalString(metadata?.obj_edit_time),
+      title: optionalString(record.title) ?? canonicalToken,
+      contentPath: record.output_paths?.slice().sort()[0] ?? null,
+      objectToken: optionalString(metadata?.obj_token) ?? null,
+      parentToken: optionalString(metadata?.parent_node_token) ?? null,
+      revisionId: optionalString(metadata?.revision_id) ?? null,
+      objectEditTime: optionalString(metadata?.obj_edit_time) ?? null,
       fetchError: optionalString(metadata?.fetch_error),
     }
   }).sort((a, b) => compareTokens(a.canonicalToken, b.canonicalToken))
@@ -135,16 +135,16 @@ export function serializeRevisionInventory(
 }
 
 export function diffRevisionInventories(
-  baseline: RevisionInventory,
+  baseline: RevisionInventory | null,
   candidate: RevisionInventory,
 ): RevisionChange[] {
-  validateRevisionInventory(baseline)
+  if (baseline) validateRevisionInventory(baseline)
   validateRevisionInventory(candidate)
-  if (baseline.group !== candidate.group) throw new Error('Cannot diff inventories from different groups')
+  if (baseline && baseline.group !== candidate.group) throw new Error('Cannot diff inventories from different groups')
 
-  const before = new Map(baseline.records.map(record => [record.canonicalToken, record]))
+  const before = new Map((baseline?.records ?? []).map(record => [record.canonicalToken, record]))
   const after = new Map(candidate.records.map(record => [record.canonicalToken, record]))
-  const missing = baseline.records.filter(record => !after.has(record.canonicalToken))
+  const missing = (baseline?.records ?? []).filter(record => !after.has(record.canonicalToken))
   if (!candidate.complete && missing.length > 0) {
     throw new Error('Incomplete candidate inventory cannot be used to infer deletion')
   }
@@ -180,8 +180,8 @@ function change(
     type,
     canonicalToken: record.canonicalToken,
     title: record.title,
-    previousRevisionId: prior?.revisionId,
-    revisionId: deleted ? undefined : record.revisionId,
+    previousRevisionId: prior?.revisionId ?? null,
+    revisionId: deleted ? null : record.revisionId,
     objectEditTime: record.objectEditTime,
     contentPath: record.contentPath,
   }
@@ -213,13 +213,13 @@ const MARKDOWN_ORDER: RevisionDiffClassification[] = [
   'created', 'updated', 'moved', 'renamed', 'deleted', 'fetch_failed',
 ]
 
-export function renderRevisionDiffMarkdown(changes: RevisionChange[]): string {
+export function renderRevisionDiffMarkdown(group: RevisionGroup, changes: RevisionChange[]): string {
   const rank = new Map(MARKDOWN_ORDER.map((type, index) => [type, index]))
   const sorted = changes.slice().sort((left, right) =>
     (rank.get(left.type) ?? Number.MAX_SAFE_INTEGER) - (rank.get(right.type) ?? Number.MAX_SAFE_INTEGER)
       || compareTokens(left.canonicalToken, right.canonicalToken))
   const lines = [
-    '# Revision inventory diff',
+    `# ${group} Feishu revision changes`,
     '',
     '| Change | Title | Previous revision | Revision | Edit time | Content path | Token |',
     '| --- | --- | --- | --- | --- | --- | --- |',
@@ -230,6 +230,6 @@ export function renderRevisionDiffMarkdown(changes: RevisionChange[]): string {
   return `${lines.join('\n')}\n`
 }
 
-function markdownCell(value: string | undefined): string {
+function markdownCell(value: string | null | undefined): string {
   return (value ?? '').replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/[\r\n]+/g, ' ')
 }

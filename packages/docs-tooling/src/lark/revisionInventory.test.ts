@@ -9,6 +9,7 @@ import {
   serializeRevisionInventory,
   validateRevisionInventory,
   type RevisionInventory,
+  type RevisionInventoryRecord,
   type SourceSnapshot,
   type SourceSnapshotRecord,
 } from './revisionInventory'
@@ -29,8 +30,20 @@ const source = (
   ...overrides,
 })
 
+const revisionRecord = (
+  record: Partial<RevisionInventoryRecord> & Pick<RevisionInventoryRecord, 'canonicalToken'>,
+): RevisionInventoryRecord => ({
+    title: record.canonicalToken,
+    contentPath: null,
+    objectToken: null,
+    parentToken: null,
+    revisionId: null,
+    objectEditTime: null,
+    ...record,
+  })
+
 const inventory = (
-  records: RevisionInventory['records'],
+  records: Array<Partial<RevisionInventoryRecord> & Pick<RevisionInventoryRecord, 'canonicalToken'>>,
   overrides: Partial<RevisionInventory> = {},
 ): RevisionInventory => ({
   schemaVersion: 1,
@@ -38,7 +51,7 @@ const inventory = (
   complete: true,
   generatedAt: '2026-07-29T00:00:00.000Z',
   sourceRunId: 'run-1',
-  records,
+  records: records.map(revisionRecord),
   ...overrides,
 })
 
@@ -77,6 +90,22 @@ describe('revision inventory projection', () => {
       schemaVersion: 1, group: 'rest', complete: true, generatedAt: 'now', sourceRunId: 'rest-1', records: [],
     })
   })
+
+  it('projects absent source values as explicit nulls and falls back title to the token', () => {
+    expect(buildRevisionInventory({
+      group: 'guides', complete: true, generatedAt: 'now', sourceRunId: 'run',
+      snapshots: [snapshot({doc_token: 'token-only'})],
+    }).records).toEqual([{
+      canonicalToken: 'token-only',
+      title: 'token-only',
+      contentPath: null,
+      objectToken: null,
+      parentToken: null,
+      revisionId: null,
+      objectEditTime: null,
+      fetchError: undefined,
+    }])
+  })
 })
 
 describe('stable serialization', () => {
@@ -89,6 +118,17 @@ describe('stable serialization', () => {
 })
 
 describe('diff classification', () => {
+  it('classifies every non-error record as created without a baseline', () => {
+    const candidate = inventory([
+      {canonicalToken: 'created', title: 'Created', revisionId: '1'},
+      {canonicalToken: 'failed', title: 'Failed', fetchError: 'unavailable'},
+    ], {complete: false})
+    expect(diffRevisionInventories(null, candidate).map(change => [change.type, change.canonicalToken])).toEqual([
+      ['created', 'created'],
+      ['fetch_failed', 'failed'],
+    ])
+  })
+
   it('classifies created, revision-updated, moved, renamed, and deleted records', () => {
     const baseline = inventory([
       {canonicalToken: 'deleted', title: 'Deleted', revisionId: '1'},
@@ -121,7 +161,7 @@ describe('diff classification', () => {
     expect(diffRevisionInventories(baseline, candidate)).toEqual([
       {
         type: 'fetch_failed', canonicalToken: 'failed', title: 'Failed',
-        previousRevisionId: '1', revisionId: undefined, objectEditTime: undefined, contentPath: undefined,
+        previousRevisionId: '1', revisionId: null, objectEditTime: null, contentPath: null,
       },
     ])
   })
@@ -134,18 +174,18 @@ describe('diff classification', () => {
   })
 
   it('renders deterministic Markdown', () => {
-    const markdown = renderRevisionDiffMarkdown([
+    const markdown = renderRevisionDiffMarkdown('python', [
       {
         type: 'updated', canonicalToken: 'b', title: 'Bee | docs', previousRevisionId: '1',
         revisionId: '2', objectEditTime: '1785254400', contentPath: 'reference/b.md',
       },
       {
-        type: 'created', canonicalToken: 'a', title: 'Aye', previousRevisionId: undefined,
+        type: 'created', canonicalToken: 'a', title: 'Aye', previousRevisionId: null,
         revisionId: '1', objectEditTime: '1785168000', contentPath: 'reference/a.md',
       },
     ])
     expect(markdown).toBe([
-      '# Revision inventory diff',
+      '# python Feishu revision changes',
       '',
       '| Change | Title | Previous revision | Revision | Edit time | Content path | Token |',
       '| --- | --- | --- | --- | --- | --- | --- |',
@@ -162,7 +202,7 @@ describe('editedToday', () => {
       {canonicalToken: 'today', objectEditTime: '1785254400'}, // 2026-07-28 16:00 UTC = Jul 29 Shanghai
       {canonicalToken: 'yesterday', objectEditTime: '1785167999'},
       {canonicalToken: 'invalid', objectEditTime: 'nope'},
-    ]
+    ].map(revisionRecord)
     expect(editedToday(records, new Date('2026-07-29T12:00:00Z')).map(record => record.canonicalToken)).toEqual(['today'])
   })
 })
