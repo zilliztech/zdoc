@@ -101,12 +101,37 @@ export function buildRevisionInventory(input: BuildRevisionInventoryInput): Revi
   return result
 }
 
-export function validateRevisionInventory(value: RevisionInventory): true {
-  if (value.schemaVersion !== 1) throw new Error(`Unsupported inventory schema version: ${value.schemaVersion}`)
-  if (!REVISION_GROUPS.includes(value.group)) throw new Error(`Unsupported inventory group: ${value.group}`)
+export function validateRevisionInventory(value: unknown): value is RevisionInventory {
+  if (!isObject(value)) throw new Error('Revision inventory must be an object')
+  rejectUnknownKeys(value, ['schemaVersion', 'group', 'complete', 'generatedAt', 'sourceRunId', 'records'], 'inventory')
+  if (value.schemaVersion !== 1) throw new Error(`Unsupported inventory schema version: ${String(value.schemaVersion)}`)
+  if (typeof value.group !== 'string' || !REVISION_GROUPS.includes(value.group as RevisionGroup)) {
+    throw new Error(`Unsupported inventory group: ${String(value.group)}`)
+  }
+  if (typeof value.complete !== 'boolean') throw new Error('Inventory complete must be a boolean')
+  if (typeof value.generatedAt !== 'string') throw new Error('Inventory generatedAt must be a string')
+  if (typeof value.sourceRunId !== 'string') throw new Error('Inventory sourceRunId must be a string')
+  if (!Array.isArray(value.records)) throw new Error('Inventory records must be an array')
+
   let previous: string | undefined
-  for (const record of value.records) {
-    if (!record.canonicalToken) throw new Error('Inventory record is missing canonical token')
+  for (const [index, record] of value.records.entries()) {
+    if (!isObject(record)) throw new Error(`Inventory record ${index} must be an object`)
+    rejectUnknownKeys(record, [
+      'canonicalToken', 'title', 'contentPath', 'objectToken', 'parentToken',
+      'revisionId', 'objectEditTime', 'fetchError',
+    ], `inventory record ${index}`)
+    if (typeof record.canonicalToken !== 'string' || !record.canonicalToken) {
+      throw new Error('Inventory record is missing canonical token')
+    }
+    if (typeof record.title !== 'string') throw new Error(`Inventory record ${index} title must be a string`)
+    for (const field of ['contentPath', 'objectToken', 'parentToken', 'revisionId', 'objectEditTime'] as const) {
+      if (record[field] !== null && typeof record[field] !== 'string') {
+        throw new Error(`Inventory record ${index} ${field} must be a string or null`)
+      }
+    }
+    if (record.fetchError !== undefined && typeof record.fetchError !== 'string') {
+      throw new Error(`Inventory record ${index} fetchError must be a string`)
+    }
     if (record.canonicalToken === previous) throw new Error(`Duplicate canonical token: ${record.canonicalToken}`)
     if (previous !== undefined && compareTokens(previous, record.canonicalToken) > 0) {
       throw new Error('Inventory records must be sorted by canonical token')
@@ -117,6 +142,15 @@ export function validateRevisionInventory(value: RevisionInventory): true {
     throw new Error('A complete inventory cannot contain fetch errors')
   }
   return true
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function rejectUnknownKeys(value: Record<string, unknown>, allowed: readonly string[], label: string): void {
+  const unknown = Object.keys(value).find(key => !allowed.includes(key))
+  if (unknown) throw new Error(`Unknown ${label} field: ${unknown}`)
 }
 
 export function serializeRevisionInventory(

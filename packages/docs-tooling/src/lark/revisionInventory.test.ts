@@ -221,4 +221,21 @@ describe('validation', () => {
   ])('rejects invalid inventory %#', (value, error) => {
     expect(() => validateRevisionInventory(value)).toThrow(error)
   })
+
+  it.each([
+    [null, /object/i],
+    [{schemaVersion: 1, group: 'guides', complete: 'false', generatedAt: 'now', sourceRunId: 'run', records: []}, /complete.*boolean/i],
+    [{schemaVersion: 1, group: 'guides', complete: true, generatedAt: 'now', sourceRunId: 'run', records: {}}, /records.*array/i],
+    [{schemaVersion: 1, group: 'guides', complete: true, generatedAt: 'now', sourceRunId: 'run', records: [{canonicalToken: 'a'}]}, /title.*string/i],
+    [{
+      schemaVersion: 1, group: 'guides', complete: true, generatedAt: 'now', sourceRunId: 'run',
+      records: [{canonicalToken: 'a', title: 'A', contentPath: null, objectToken: undefined, parentToken: null, revisionId: null, objectEditTime: null}],
+    }, /objectToken.*string.*null/i],
+    [{
+      schemaVersion: 1, group: 'guides', complete: false, generatedAt: 'now', sourceRunId: 'run',
+      records: [{canonicalToken: 'a', title: 'A', contentPath: null, objectToken: null, parentToken: null, revisionId: null, objectEditTime: null, fetchError: 500}],
+    }, /fetchError.*string/i],
+  ] as const)('rejects malformed runtime JSON %#', (value, error) => {
+    expect(() => validateRevisionInventory(value)).toThrow(error)
+  })
 })
