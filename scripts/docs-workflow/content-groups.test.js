@@ -22,7 +22,17 @@ test('defines the Python content group ownership contract', () => {
     'content/en/reference/api/python/python',
     'generated/en/sidebars/python.sidebar.js',
     'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
+    'generated/en/manifests/lark-revisions/python.json',
   ]);
+});
+
+test('appends the exact revision inventory owned by each English publication group', () => {
+  for (const group of listContentGroups()) {
+    const revisionInventory = `generated/en/manifests/lark-revisions/${group}.json`;
+    const revisionPaths = getContentGroup(group).ownedPaths.filter((owned) => owned.startsWith('generated/en/manifests/lark-revisions/'));
+    assert.deepEqual(revisionPaths, [revisionInventory], group);
+    assert.equal(getContentGroup(group).ownedPaths.at(-1), revisionInventory, group);
+  }
 });
 
 test('defines a bounded translation-only Reference landing group', () => {
@@ -53,6 +63,13 @@ test('consumes the Chinese manifest-owned Guides registry contract', () => {
     'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
   ]);
   assert.equal(guides.publicationManifest, 'generated/zh-CN/manifests/guides-source-publication.json');
+  for (const group of ['guides', 'onpremise']) {
+    assert.equal(
+      getContentGroup(group, 'zh-CN').ownedPaths.some((owned) => owned.startsWith('generated/en/manifests/lark-revisions/')),
+      false,
+      group,
+    );
+  }
 });
 
 test('derives preservation metadata without a legacy path map', () => {
