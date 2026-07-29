@@ -1,0 +1,187 @@
+name: site validation
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - master
+  push:
+    branches:
+      - dev
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  classify:
+    name: Classify changed site inputs
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      build_en: ${{ steps.filters.outputs.build_en }}
+      build_zh_cn: ${{ steps.filters.outputs.build_zh_cn }}
+      reference_coverage: ${{ steps.filters.outputs.reference_coverage }}
+      tools_coverage: ${{ steps.filters.outputs.tools_coverage }}
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Evaluate versioned path filters
+        id: filters
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+          HEAD_SHA: ${{ github.sha }}
+        run: >-
+          node deploy/contracts/evaluate-path-filters.mjs
+          --base "$BASE_SHA"
+          --head "$HEAD_SHA"
+          --filters deploy/contracts/path-filters.json
+          --github-output "$GITHUB_OUTPUT"
+
+  build_en:
+    name: Build English site
+    needs: classify
+    if: needs.classify.outputs.build_en == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check:localization-input-inventory
+      - run: pnpm build:en
+      - name: Require Japanese home output
+        run: test -s build/en/ja-JP/docs/home.html
+
+  build_zh_cn:
+    name: Build Chinese site
+    needs: classify
+    if: needs.classify.outputs.build_zh_cn == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+      DOCUSAURUS_SSG_WORKER_THREAD_COUNT: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check:localization-input-inventory
+      - run: pnpm docs-tooling validate-reference --site zh-CN
+      - run: pnpm build:zh-CN
+      - name: Verify Chinese Tools release reachability
+        run: >-
+          node --input-type=module -e "
+          import fs from 'node:fs';
+          const provenance = JSON.parse(fs.readFileSync('build/zh-CN/build-provenance.json', 'utf8'));
+          const tools = provenance.routeInventories?.tools ?? [];
+          const reachable = provenance.routeInventories?.toolsSidebarReachable ?? [];
+          if (JSON.stringify(tools) !== JSON.stringify(reachable)) throw new Error('Chinese Tools routes are not sidebar reachable');
+          if ((provenance.routes ?? []).some(route => route === '/docs-agents' || route.startsWith('/docs-agents/'))) throw new Error('docs-agents route was reintroduced');
+          "
+
+  reference_coverage:
+    name: Validate Chinese Reference coverage
+    needs: classify
+    if: needs.classify.outputs.reference_coverage == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm docs-tooling validate-reference --site zh-CN
+
+  tools_coverage:
+    name: Validate Chinese Tools coverage
+    needs:
+      - classify
+      - build_zh_cn
+    if: ${{ always() && needs.classify.outputs.tools_coverage == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      ZH_CN_RESULT: ${{ needs.build_zh_cn.result }}
+    steps:
+      - name: Require the provenance-enforced Chinese Tools build
+        run: test "$ZH_CN_RESULT" = success
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate Chinese Tools translation coverage
+        run: pnpm docs-tooling validate-translation --target zh-CN-tools --group tools
+      - name: Validate Chinese Tools sidebar ownership
+        run: pnpm docs-tooling validate-tools-sidebar
+
+  retirement:
+    name: Verify retired layout
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:retirement
+
+  site_validation:
+    name: Site validation gate
+    needs:
+      - classify
+      - build_en
+      - build_zh_cn
+      - reference_coverage
+      - tools_coverage
+      - retirement
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CLASSIFY_RESULT: ${{ needs.classify.result }}
+      EN_RESULT: ${{ needs.build_en.result }}
+      ZH_CN_RESULT: ${{ needs.build_zh_cn.result }}
+      REFERENCE_RESULT: ${{ needs.reference_coverage.result }}
+      TOOLS_RESULT: ${{ needs.tools_coverage.result }}
+      RETIREMENT_RESULT: ${{ needs.retirement.result }}
+    steps:
+      - name: Require every selected validation to pass
+        run: |
+          test "$CLASSIFY_RESULT" = success
+          test "$RETIREMENT_RESULT" = success
+          for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do
+            test "$result" = success || test "$result" = skipped
+          done
