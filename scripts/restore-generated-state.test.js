@@ -237,7 +237,7 @@ test('exact immutable ref removes absent revision inventories without claiming u
   }
 })
 
-test('exact restore carries the Guides descriptor and translation checkpoints do not delete it', async () => {
+test('exact restore carries the unchanged Guides descriptor without checkpoint payload churn', async () => {
   const fixture = createFixture()
   const descriptor = 'packages/docs-tooling/src/lark/meta/assembly/guides.json'
   try {
@@ -263,7 +263,7 @@ test('exact restore carries the Guides descriptor and translation checkpoints do
       group: 'guides', masterSha: 'a'.repeat(40), devBaselineSha: sourceSha,
       baselineDir, workspace, output, includeTranslationCache: true,
     })
-    assert.equal(manifest.files.some((file) => file.path === descriptor), true)
+    assert.equal(manifest.files.some((file) => file.path === descriptor), false)
     assert.equal(manifest.deletions.includes(descriptor), false)
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
