@@ -273,7 +273,8 @@ function generateGuidesSidebars({ workspace, mediaManifest, site = resolveBootst
     const outputs = sidebarOutputs(site)
     quarantined = quarantineSidebarOutputs(workspace, fsImpl, outputs)
     const args = [
-      'docusaurus', 'fetch-lark-docs',
+      path.join(workspace, 'packages/docs-tooling/src/lark/standalone-cli.js'),
+      'fetch-lark-docs',
       '--manual', 'guides',
       '--sidebarOnly',
       '--skipSourceDown',
@@ -281,7 +282,7 @@ function generateGuidesSidebars({ workspace, mediaManifest, site = resolveBootst
       '--sidebarTargets', 'zilliz.saas,zilliz.paas',
       '--mediaManifest', mediaManifest,
     ]
-    const result = spawnSync('npx', args, { cwd: workspace, stdio: 'inherit', env: process.env })
+    const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
     if (result.error) throw new Error(`Guides sidebar generation could not spawn: ${result.error.message}`)
     if (result.signal) throw new Error(`Guides sidebar generation failed with signal ${result.signal}`)
     if (result.status !== 0) throw new Error(`Guides sidebar generation failed with status ${result.status}`)

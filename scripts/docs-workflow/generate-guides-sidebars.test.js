@@ -597,9 +597,10 @@ test('wrapper spawns the exact combined Guides command and validates both output
         return { status: 0, signal: null }
       },
     })
-    assert.equal(command.bin, 'npx')
+    assert.equal(command.bin, process.execPath)
     assert.deepEqual(command.args, [
-      'docusaurus', 'fetch-lark-docs',
+      path.join(fixture.workspace, 'packages/docs-tooling/src/lark/standalone-cli.js'),
+      'fetch-lark-docs',
       '--manual', 'guides',
       '--sidebarOnly',
       '--skipSourceDown',
