@@ -10,7 +10,7 @@ test('Japanese Reference keeps the locale and full Python tree', async ({page}) 
 
   await expect(page.getByRole('link', {name: 'Zilliz Logo'})).toBeVisible();
   await expect(page.getByRole('navigation', {name: 'Documentation sections'})).toBeVisible();
-  await expect(page.getByRole('link', {name: 'Python SDK Reference'})).toBeVisible();
+  await expect(page.getByRole('link', {name: 'Python SDK Reference'}).first()).toBeVisible();
   await expect(page.getByRole('link', {name: 'Back to Client Libraries'})).toHaveAttribute(
     'href',
     /\/ja-JP\/docs\/install-sdks$/,
