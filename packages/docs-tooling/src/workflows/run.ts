@@ -478,7 +478,12 @@ function copyPublicationTarget(sourceRoot: string, stageRoot: string, relativePa
   return true;
 }
 
-function seedCurrentPublicationStage(context: CommandContext, group: PublicationGroup, baselineRootInput: string): void {
+function seedCurrentPublicationStage(
+  context: CommandContext,
+  group: PublicationGroup,
+  baselineRootInput: string,
+  expectedTreeOwnedCommit?: string,
+): void {
   const baselineRoot = path.resolve(baselineRootInput);
   const manifest = group.publicationManifest ? readManifestAt(baselineRoot, group.publicationManifest, group) : null;
   const targets = manifest
@@ -487,7 +492,9 @@ function seedCurrentPublicationStage(context: CommandContext, group: Publication
       ))
     : publicationOwnedTargets(context.request.site, context.publication);
   const liveCommit = ownedTreeCommit(context.repositoryRoot, targets);
-  const baselineCommit = ownedTreeCommit(baselineRoot, targets);
+  const baselineCommit = manifest
+    ? ownedTreeCommit(baselineRoot, targets)
+    : expectedTreeOwnedCommit ?? ownedTreeCommit(baselineRoot, targets);
   if (liveCommit !== baselineCommit) {
     throw new Error(`Live ${context.request.site}/${context.request.manual} publication does not match the immutable Guides baseline`);
   }
@@ -498,13 +505,14 @@ function seedCurrentPublicationStage(context: CommandContext, group: Publication
     return;
   }
 
-  const sourceOutput = resolveSecureRepositoryPath(baselineRoot, context.publication.outputDir, 'Seeded publication output', {allowMissing: true});
+  const sourceRoot = expectedTreeOwnedCommit ? context.repositoryRoot : baselineRoot;
+  const sourceOutput = resolveSecureRepositoryPath(sourceRoot, context.publication.outputDir, 'Seeded publication output', {allowMissing: true});
   if (!existsSync(sourceOutput) || !lstatSync(sourceOutput).isDirectory() || lstatSync(sourceOutput).isSymbolicLink()) {
     throw new Error(`Seeded publication output must be a real directory: ${context.publication.outputDir}`);
   }
   validateStageFilesystem(sourceOutput);
-  copySecureTree(baselineRoot, context.publication.outputDir, context.repositoryRoot, staged.outputPath, 'Seeded publication output');
-  copyRegularPublicationFile(baselineRoot, context.stagePath, context.publication.sidebarPath);
+  copySecureTree(sourceRoot, context.publication.outputDir, context.repositoryRoot, staged.outputPath, 'Seeded publication output');
+  copyRegularPublicationFile(sourceRoot, context.stagePath, context.publication.sidebarPath);
 }
 
 async function prepareManifestOwnedBaseline(
@@ -585,7 +593,17 @@ async function prepareTreeOwnedBaseline(
         removals.push(target);
       }
     }
-    const expectedCommit = ownedTreeCommit(baselineRoot, targets);
+    for (const manual of group.manuals) {
+      const publication = resolveManualPublication(manual, group.site).publication;
+      for (const relativePath of publication.preservedFiles ?? []) {
+        copyRegularPublicationFile(
+          repositoryRoot,
+          restoreStage,
+          `${publication.outputDir}/${relativePath}`,
+        );
+      }
+    }
+    const expectedCommit = ownedTreeCommit(restoreStage, targets);
     await replace({
       publicationRoot: repositoryRoot,
       baselineCommit: ownedTreeCommit(repositoryRoot, targets),
@@ -709,6 +727,13 @@ async function executePublicationGroupAlreadyFenced(
     }
   }
 
+  const expectedTreeOwnedCommits = seedBaseline && !group.publicationManifest
+    ? new Map(group.manuals.map(manual => {
+        const publication = resolveManualPublication(manual, group.site).publication;
+        return [manual, ownedTreeCommit(repositoryRoot, publicationOwnedTargets(group.site, publication))] as const;
+      }))
+    : null;
+
   if (request.stage === 'fetch' && group.publicationManifest && !sourceOnly) {
     writePublicationGroupDiagnostics(repositoryRoot, request.site, request.group);
   }
@@ -730,7 +755,14 @@ async function executePublicationGroupAlreadyFenced(
         ...manualDependencies,
         repositoryRoot,
         environment: commandEnvironment,
-        ...(seedBaseline ? {fetch: (context: CommandContext) => seedCurrentPublicationStage(context, group, baselineRoot)} : {}),
+        ...(seedBaseline ? {
+          fetch: (context: CommandContext) => seedCurrentPublicationStage(
+            context,
+            group,
+            baselineRoot,
+            expectedTreeOwnedCommits?.get(manual),
+          ),
+        } : {}),
       };
       await testing?.beforeManual?.(frozenHookCopy(command), frozenHookCopy(commandDependencies));
       await executeAlreadyFenced(command, commandDependencies);

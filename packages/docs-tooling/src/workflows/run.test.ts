@@ -275,8 +275,37 @@ describe('typed publication group execution', () => {
 
     expect(readFileSync(path.join(root, 'content/en/guides/tutorials/baseline.md'), 'utf8')).toBe('# Baseline\n');
     expect(() => readFileSync(path.join(root, 'content/en/guides/tutorials/current.md'), 'utf8')).toThrow();
-    expect(readFileSync(path.join(root, 'content/en/guides/tutorials/home.md'), 'utf8')).toBe('# Baseline home\n');
+    expect(readFileSync(path.join(root, 'content/en/guides/tutorials/home.md'), 'utf8')).toBe('# Current home\n');
     expect(readFileSync(path.join(root, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/baseline.md'), 'utf8')).toBe('# Baseline\n');
+    expect(readFileSync(path.join(root, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/home.md'), 'utf8')).toBe('# Current home\n');
+  });
+
+  it('retains a preserved Guides landing page that is absent from the immutable baseline', async () => {
+    const root = temporaryRoot();
+    const baselineRoot = temporaryRoot();
+    write(root, 'content/en/guides/tutorials/home.md', '# PR home\n');
+    write(root, 'content/en/guides/tutorials/current.md', '# Current\n');
+    write(root, 'content/en/byoc/tutorials/current.md', '# Current BYOC\n');
+    write(root, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = ["current"]\n');
+    write(root, 'generated/en/sidebars/guides-byoc.sidebar.js', 'module.exports = ["current"]\n');
+    write(baselineRoot, 'content/en/guides/tutorials/baseline.md', '# Baseline\n');
+    write(baselineRoot, 'content/en/byoc/tutorials/baseline.md', '# Baseline BYOC\n');
+    write(baselineRoot, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = ["baseline"]\n');
+    write(baselineRoot, 'generated/en/sidebars/guides-byoc.sidebar.js', 'module.exports = ["baseline"]\n');
+
+    await executePublicationGroup(
+      {site: 'en', group: 'guides', stage: 'fetch'},
+      {
+        repositoryRoot: root,
+        environment: {
+          DOCS_TOOLING_GUIDES_STAGE: 'baseline',
+          DOCS_TOOLING_BASELINE_ROOT: baselineRoot,
+        },
+      },
+    );
+
+    expect(readFileSync(path.join(root, 'content/en/guides/tutorials/home.md'), 'utf8')).toBe('# PR home\n');
+    expect(readFileSync(path.join(root, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/home.md'), 'utf8')).toBe('# PR home\n');
   });
 });
 
