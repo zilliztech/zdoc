@@ -70,6 +70,7 @@ function getContentGroup(name, site = defaultSite()) {
   return Object.freeze({
     site,
     manuals: workflow.sourceManuals,
+    sourceSnapshots: workflow.sourceSnapshots,
     snapshotManual: workflow.snapshotManual,
     translate: workflow.translate,
     durableTranslationBatchSize: workflow.durableTranslationBatchSize,

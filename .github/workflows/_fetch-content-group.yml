@@ -176,6 +176,51 @@ jobs:
           MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           MODEL_ID: ${{ vars.MODEL_ID }}
 
+      - name: Generate revision inventory
+        if: ${{ inputs.site == 'en' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          SNAPSHOTS="$(node -e 'const group = require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP, process.env.SITE); process.stdout.write(group.sourceSnapshots.join(","))')"
+          if [[ "$GROUP" != rest && -z "$SNAPSHOTS" ]]; then
+            echo "Publication group $GROUP must resolve at least one source snapshot" >&2
+            exit 1
+          fi
+
+          baseline_path="tmp/docs-tooling/revision-baseline/$GROUP.json"
+          mkdir -p "$(dirname "$baseline_path")" tmp/docs-tooling/revision-diff
+          baseline_source="$BASELINE_DIR/generated/en/manifests/lark-revisions/$GROUP.json"
+          if [[ -f "$baseline_source" ]]; then
+            cp -- "$baseline_source" "$baseline_path"
+          fi
+
+          GENERATED_AT="$(node -p 'new Date().toISOString()')"
+          inventory_args=(
+            revision-inventory build
+            --group "$GROUP"
+            --baseline "tmp/docs-tooling/revision-baseline/$GROUP.json"
+            --output "generated/en/manifests/lark-revisions/$GROUP.json"
+            --report-dir "tmp/docs-tooling/revision-diff"
+            --source-run-id "$GITHUB_RUN_ID"
+            --generated-at "$GENERATED_AT"
+          )
+          if [[ -n "$SNAPSHOTS" ]]; then
+            inventory_args+=(--snapshot "$SNAPSHOTS")
+          fi
+          pnpm docs-tooling "${inventory_args[@]}"
+
+      - name: Upload revision inventory report
+        if: ${{ inputs.site == 'en' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-checkpoint-${{ inputs.group }}-${{ github.run_id }}-revision-report
+          path: |
+            generated/en/manifests/lark-revisions/${{ inputs.group }}.json
+            tmp/docs-tooling/revision-diff/${{ inputs.group }}.json
+            tmp/docs-tooling/revision-diff/${{ inputs.group }}.md
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: error
+
       - name: Create source checkpoint artifact
         run: |
           validation_command="node scripts/run-doc-build-stage.js --build \"pnpm run build:$SITE\""
@@ -209,7 +254,7 @@ jobs:
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: error
 
-      - name: Upload content group reports
+      - name: Upload Guides content reports
         if: ${{ always() && inputs.group == 'guides' }}
         uses: actions/upload-artifact@v4
         with:

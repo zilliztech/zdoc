@@ -905,11 +905,31 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/)
   assert.match(workflow, /name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*name: Fetch content group/)
   assert.match(workflow, /prepare-content-group-workspace\.js "\$SITE" "\$GROUP"/)
+  const inventoryStart = workflow.indexOf('name: Generate revision inventory')
+  assert.ok(inventoryStart > workflow.indexOf('name: Update content snapshots'))
+  assert.ok(inventoryStart < workflow.indexOf('name: Create source checkpoint artifact'))
+  const inventoryEnd = workflow.indexOf('\n      - name:', inventoryStart + 1)
+  const inventoryStep = workflow.slice(inventoryStart, inventoryEnd)
+  assert.match(inventoryStep, /if: \$\{\{ inputs\.site == 'en' \}\}/)
+  assert.match(inventoryStep, /tmp\/docs-tooling\/revision-baseline\/\$GROUP\.json/)
+  assert.match(inventoryStep, /getContentGroup\(process\.env\.GROUP, process\.env\.SITE\)/)
+  assert.match(inventoryStep, /group\.sourceSnapshots\.join\(","\)/)
+  assert.match(inventoryStep, /inventory_args=\([\s\S]*revision-inventory build/)
+  assert.match(inventoryStep, /pnpm docs-tooling "\$\{inventory_args\[@\]\}"/)
+  assert.match(inventoryStep, /--snapshot "\$SNAPSHOTS"/)
+  assert.match(inventoryStep, /--baseline "tmp\/docs-tooling\/revision-baseline\/\$GROUP\.json"/)
+  assert.match(inventoryStep, /--output "generated\/en\/manifests\/lark-revisions\/\$GROUP\.json"/)
+  assert.match(inventoryStep, /--report-dir "tmp\/docs-tooling\/revision-diff"/)
+  assert.match(inventoryStep, /--source-run-id "\$GITHUB_RUN_ID"/)
+  assert.match(inventoryStep, /--generated-at "\$GENERATED_AT"/)
+  assert.doesNotMatch(inventoryStep, /APP_ID|APP_SECRET|fetch-lark|publish-group|update-lark-doc-snapshot|update-sdk-reference-snapshots/)
   assert.match(workflow, /create-checkpoint-artifact\.js[\s\S]*--baseline-dir "\$BASELINE_DIR"[\s\S]*--workspace "\$GITHUB_WORKSPACE"/)
   assert.match(workflow, /validate-checkpoint-artifact\.js/)
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*docs-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(workflow, /artifact_name: \$\{\{ format\('docs-checkpoint-\{0\}-\{1\}', inputs\.group, github\.run_id\) \}\}/)
   assert.match(workflow, /id: checkpoint_upload[\s\S]*uses: actions\/upload-artifact@v4/)
+  assert.match(workflow, /name: Upload revision inventory report[\s\S]*if: \$\{\{ inputs\.site == 'en' \}\}[\s\S]*generated\/en\/manifests\/lark-revisions\/\$\{\{ inputs\.group \}\}\.json[\s\S]*tmp\/docs-tooling\/revision-diff\/\$\{\{ inputs\.group \}\}\.json[\s\S]*tmp\/docs-tooling\/revision-diff\/\$\{\{ inputs\.group \}\}\.md[\s\S]*if-no-files-found: error/)
+  assert.match(workflow, /name: Upload Guides content reports[\s\S]*inputs\.group == 'guides'/)
   assert.match(workflow, /name: Emit producer result\n        id: result\n        if: \$\{\{ always\(\) \}\}[\s\S]*steps\.checkpoint_upload\.outcome[\s\S]*artifact_ready[\s\S]*failed/)
   const jobEnv = workflow.match(/^    env:\n([\s\S]*?)^    steps:$/m)?.[1] || ''
   assert.doesNotMatch(jobEnv, /secrets\./, 'producer secrets must be scoped to individual steps')
@@ -917,6 +937,33 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.doesNotMatch(sourceUpload, /^        env:/m, 'artifact upload must not receive credentials')
   assert.match(workflow, /name: Install dependencies\n        id: install\n        run: pnpm install --frozen-lockfile/)
   assert.doesNotMatch(workflow, /report-live-card|card_id|card_started_at|card_stages|card_mode/)
+})
+
+test('workflow policy rejects revision inventory producer mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const fixtures = [
+    { mutate: source => source.replace('name: Generate revision inventory', 'name: Generate missing inventory'), expected: '_fetch-content-group.yml: English producer must generate the selected revision inventory' },
+    { mutate: source => source.replace('name: Update content snapshots', 'name: __TEMP_STEP__').replace('name: Generate revision inventory', 'name: Update content snapshots').replace('name: __TEMP_STEP__', 'name: Generate revision inventory'), expected: '_fetch-content-group.yml: English producer must generate the selected revision inventory' },
+    { mutate: source => source.replace("if: ${{ inputs.site == 'en' }}", "if: ${{ inputs.site != 'en' }}"), expected: '_fetch-content-group.yml: revision inventory generation and report upload must be English-only' },
+    { mutate: source => source.replace('tmp/docs-tooling/revision-baseline/$GROUP.json', 'generated/en/manifests/lark-revisions/$GROUP.json'), expected: '_fetch-content-group.yml: revision inventory baseline must use the exact safe repository-relative path' },
+    { mutate: source => source.replace('name: Generate revision inventory', 'name: Generate revision inventory\n        env:\n          APP_ID: ${{ secrets.APP_ID }}'), expected: '_fetch-content-group.yml: revision inventory step must not receive Feishu credentials or fetch source metadata' },
+    { mutate: source => source.replace('          pnpm docs-tooling "${inventory_args[@]}"', '          pnpm docs-tooling publish-group --site "$SITE" --group "$GROUP" --stage fetch\n          pnpm docs-tooling "${inventory_args[@]}"'), expected: '_fetch-content-group.yml: revision inventory step must not receive Feishu credentials or fetch source metadata' },
+    { mutate: source => source.replace('name: Upload revision inventory report', 'name: Upload missing revision report'), expected: '_fetch-content-group.yml: English producer must upload revision JSON and Markdown reports' },
+  ]
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'revision-producer-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, '_fetch-content-group.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = fixture.mutate(source)
+      assert.notEqual(mutated, source, 'mutation must change workflow source')
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
 })
 
 test('guides source and table render expose jobs for the central monitor without patching cards', () => {

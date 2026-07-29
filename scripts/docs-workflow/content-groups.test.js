@@ -18,12 +18,23 @@ test('defines the Python content group ownership contract', () => {
   const python = getContentGroup('python');
   assert.deepEqual(python.manuals, ['python', 'pymilvus25', 'pymilvus26', 'pymilvus30']);
   assert.equal(python.snapshotManual, 'pymilvus30');
+  assert.deepEqual(python.sourceSnapshots, [
+    'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
+  ]);
   assert.deepEqual(python.ownedPaths, [
     'content/en/reference/api/python/python',
     'generated/en/sidebars/python.sidebar.js',
     'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
     'generated/en/manifests/lark-revisions/python.json',
   ]);
+});
+
+test('exposes publication-registry snapshots for revision inventory generation', () => {
+  assert.equal(getContentGroup('rest').sourceSnapshots.length, 0);
+  for (const group of listContentGroups().filter((name) => name !== 'rest')) {
+    assert.ok(getContentGroup(group).sourceSnapshots.length > 0, group);
+    assert.equal(Object.isFrozen(getContentGroup(group).sourceSnapshots), true, group);
+  }
 });
 
 test('appends the exact revision inventory owned by each English publication group', () => {

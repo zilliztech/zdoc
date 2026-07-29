@@ -210,6 +210,47 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const steps = workflow.jobs?.produce?.steps || []
+      const snapshotIndex = steps.findIndex(step => step.name === 'Update content snapshots')
+      const inventoryIndex = steps.findIndex(step => step.name === 'Generate revision inventory')
+      const checkpointIndex = steps.findIndex(step => step.name === 'Create source checkpoint artifact')
+      const inventory = steps[inventoryIndex]
+      const inventoryRun = String(inventory?.run || '')
+      const report = steps.find(step => step.name === 'Upload revision inventory report')
+      const reportPaths = String(report?.with?.path || '')
+      const englishCondition = "${{ inputs.site == 'en' }}"
+      if (!(snapshotIndex >= 0 && snapshotIndex < inventoryIndex && inventoryIndex < checkpointIndex) ||
+        !/pnpm docs-tooling "\$\{inventory_args\[@\]\}"/.test(inventoryRun) ||
+        !/revision-inventory build/.test(inventoryRun) ||
+        !/--output "generated\/en\/manifests\/lark-revisions\/\$GROUP\.json"/.test(inventoryRun) ||
+        !/--report-dir "tmp\/docs-tooling\/revision-diff"/.test(inventoryRun) ||
+        !/--source-run-id "\$GITHUB_RUN_ID"/.test(inventoryRun) ||
+        !/--generated-at "\$GENERATED_AT"/.test(inventoryRun)) {
+        errors.push(`${file}: English producer must generate the selected revision inventory`)
+      }
+      if (String(inventory?.if || '').trim() !== englishCondition || String(report?.if || '').trim() !== englishCondition) {
+        errors.push(`${file}: revision inventory generation and report upload must be English-only`)
+      }
+      if (!/baseline_path="tmp\/docs-tooling\/revision-baseline\/\$GROUP\.json"/.test(inventoryRun) ||
+        !/baseline_source="\$BASELINE_DIR\/generated\/en\/manifests\/lark-revisions\/\$GROUP\.json"/.test(inventoryRun) ||
+        !/if \[\[ -f "\$baseline_source" \]\]; then[\s\S]*cp -- "\$baseline_source" "\$baseline_path"/.test(inventoryRun) ||
+        !/--baseline "tmp\/docs-tooling\/revision-baseline\/\$GROUP\.json"/.test(inventoryRun)) {
+        errors.push(`${file}: revision inventory baseline must use the exact safe repository-relative path`)
+      }
+      if (!/getContentGroup\(process\.env\.GROUP, process\.env\.SITE\)/.test(inventoryRun) ||
+        !/group\.sourceSnapshots\.join\(","\)/.test(inventoryRun) ||
+        !/\[\[ "\$GROUP" != rest && -z "\$SNAPSHOTS" \]\]/.test(inventoryRun) ||
+        !/inventory_args\+\=\(--snapshot "\$SNAPSHOTS"\)/.test(inventoryRun) ||
+        /APP_ID|APP_SECRET|fetch-lark|publish-group|update-lark-doc-snapshot|update-sdk-reference-snapshots/.test(inventoryRun) ||
+        Object.keys(inventory?.env || {}).some(name => /APP_ID|APP_SECRET|FEISHU/i.test(name))) {
+        errors.push(`${file}: revision inventory step must not receive Feishu credentials or fetch source metadata`)
+      }
+      if (!report || report.uses !== 'actions/upload-artifact@v4' || report.with?.['if-no-files-found'] !== 'error' ||
+        !reportPaths.includes('generated/en/manifests/lark-revisions/${{ inputs.group }}.json') ||
+        !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.json') ||
+        !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.md')) {
+        errors.push(`${file}: English producer must upload revision JSON and Markdown reports`)
+      }
       if (/git-auto-commit|git push(?:\s+--force|[^\n]*\s--force)|git push\b/.test(source)) {
         errors.push(`${file}: producer must not publish or push content`)
       }
