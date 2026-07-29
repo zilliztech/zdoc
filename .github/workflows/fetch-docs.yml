@@ -824,6 +824,7 @@ jobs:
           MODE: ${{ needs.prepare.outputs.publish == 'true' && 'publish' || 'artifact_only' }}
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
           FINAL_VERIFICATION: ${{ needs.verify.outputs.status || 'failed' }}
+          REVISION_RECONCILIATION: ${{ needs.verify.outputs.revision_status }}
           GUIDES_PRODUCER: ${{ needs.produce_guides.outputs.status }}
           GUIDES_SOURCE: ${{ needs.publish_guides.outputs.status }}
           GUIDES_SOURCE_SHA: ${{ needs.publish_guides.outputs.commit_sha }}

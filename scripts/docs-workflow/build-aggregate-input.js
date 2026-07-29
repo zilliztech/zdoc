@@ -51,7 +51,13 @@ function buildAggregateInput(env) {
     }
     groups[group] = entry
   }
-  return { mode, requestedGroups, groups, finalVerification: mode === 'artifact_only' ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed') }
+  return {
+    mode,
+    requestedGroups,
+    groups,
+    revisionReconciliation: mode === 'artifact_only' ? 'skipped' : (env.REVISION_RECONCILIATION === 'passed' ? 'passed' : 'failed'),
+    finalVerification: mode === 'artifact_only' ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed'),
+  }
 }
 
 function main() {

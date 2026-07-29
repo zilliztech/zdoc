@@ -933,6 +933,22 @@ test('workflow policy rejects final verification waterline and two-site mutation
   }
 })
 
+test('workflow policy requires exact revision reconciliation aggregation wiring', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'revision-aggregate-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const file = path.join(directory, 'fetch-docs.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const required = '          REVISION_RECONCILIATION: ${{ needs.verify.outputs.revision_status }}\n'
+    assert.ok(source.includes(required))
+    fs.writeFileSync(file, source.replace(required, ''))
+    assert.ok(validateWorkflowPolicies(directory).includes('fetch-docs.yml: aggregate must consume revision reconciliation separately from overall verification'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
 test('workflow policy binds final verification reports and deterministic revision evidence to exact steps', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [

@@ -20,16 +20,17 @@ function payload(overrides = {}) {
       guides: { source: 'source_published', translation: 'translation_published', translationRequested: true, sourceCommitSha: SHA_A, translationCommitSha: SHA_B, translationCandidates: GUIDES_TRANSLATION_CANDIDATES },
       python: { source: 'no_changes', translation: 'skipped', translationRequested: false },
     },
+    revisionReconciliation: 'passed',
     finalVerification: 'passed',
     ...overrides,
   };
 }
 
 test('artifact-only mode succeeds only when every requested producer uploaded an artifact', () => {
-  const success = aggregateResults({ mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } }, finalVerification: 'skipped' });
+  const success = aggregateResults({ mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } }, revisionReconciliation: 'skipped', finalVerification: 'skipped' });
   assert.equal(success.overallStatus, 'success');
   assert.match(success.markdown, /Mode: artifact_only/);
-  const failure = aggregateResults({ mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'fetch_failed', translation: 'skipped', translationRequested: false } }, finalVerification: 'skipped' });
+  const failure = aggregateResults({ mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'fetch_failed', translation: 'skipped', translationRequested: false } }, revisionReconciliation: 'skipped', finalVerification: 'skipped' });
   assert.equal(failure.overallStatus, 'failure');
 });
 
@@ -39,7 +40,9 @@ test('aggregates final terminal results and ignores earlier failed attempts', ()
   assert.equal(result.summaryText, 'Documentation workflow succeeded.');
   assert.match(result.markdown, /\| guides \| source_published \| translation_published \| a{40} \| b{40} \|/);
   assert.match(result.markdown, /Guides translation candidates: 163 total — 15 current English changes, 18 missing Japanese targets, 130 stale translations\./);
+  assert.match(result.markdown, /Revision reconciliation: passed/);
   assert.ok(result.markdown.indexOf('Guides translation candidates:') < result.markdown.indexOf('Final verification:'));
+  assert.ok(result.markdown.indexOf('Revision reconciliation: passed') < result.markdown.indexOf('Final verification: passed'));
   assert.match(result.markdown, /Final verification: passed/);
   assert.match(result.markdown, /Overall status: success/);
 });
@@ -60,12 +63,14 @@ test('renders an optional verified no_changes translation SHA without requiring 
   const withSha = aggregateResults({
     requestedGroups: ['guides'],
     groups: { guides: { source: 'no_changes', translation: 'no_changes', translationRequested: true, translationCommitSha: SHA_B } },
+    revisionReconciliation: 'passed',
     finalVerification: 'passed',
   });
   assert.match(withSha.markdown, new RegExp(`\\| guides \\| no_changes \\| no_changes \\|  \\| ${SHA_B} \\|`));
   const withoutSha = aggregateResults({
     requestedGroups: ['guides'],
     groups: { guides: { source: 'no_changes', translation: 'no_changes', translationRequested: true } },
+    revisionReconciliation: 'passed',
     finalVerification: 'passed',
   });
   assert.equal(withoutSha.overallStatus, 'success');
@@ -76,13 +81,13 @@ test('fails for any unsuccessful requested source or requested translation', () 
     ['guides', { source: 'publish_failed', translation: 'skipped', translationRequested: false }],
     ['guides', { source: 'source_published', translation: 'translation_failed', translationRequested: true, sourceCommitSha: SHA_A }],
   ]) {
-    const result = aggregateResults({ requestedGroups: [group], groups: { [group]: entry }, finalVerification: 'passed' });
+    const result = aggregateResults({ requestedGroups: [group], groups: { [group]: entry }, revisionReconciliation: 'passed', finalVerification: 'passed' });
     assert.equal(result.overallStatus, 'failure');
   }
 });
 
 test('fails an explicitly skipped requested translation', () => {
-  const result = aggregateResults({ requestedGroups: ['guides'], groups: { guides: { source: 'no_changes', translation: 'skipped', translationRequested: true } }, finalVerification: 'passed' });
+  const result = aggregateResults({ requestedGroups: ['guides'], groups: { guides: { source: 'no_changes', translation: 'skipped', translationRequested: true } }, revisionReconciliation: 'passed', finalVerification: 'passed' });
   assert.equal(result.overallStatus, 'failure');
 });
 
@@ -95,6 +100,18 @@ test('treats final verification failure or skip as a separate overall failure', 
   for (const finalVerification of ['failed', 'skipped']) {
     assert.equal(aggregateResults(payload({ finalVerification })).overallStatus, 'failure');
   }
+});
+
+test('requires passed revision reconciliation for publish success', () => {
+  assert.equal(aggregateResults(payload({ revisionReconciliation: 'failed' })).overallStatus, 'failure');
+});
+
+test('validates revision reconciliation state and mode consistency strictly', () => {
+  for (const revisionReconciliation of [undefined, 'unknown', null, true]) {
+    assert.throws(() => aggregateResults(payload({ revisionReconciliation })), /revisionReconciliation/i);
+  }
+  assert.throws(() => aggregateResults(payload({ mode: 'artifact_only', revisionReconciliation: 'passed', finalVerification: 'skipped', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } } })), /revisionReconciliation/i);
+  assert.throws(() => aggregateResults(payload({ revisionReconciliation: 'skipped' })), /revisionReconciliation/i);
 });
 
 test('rejects invalid schema, states, groups, extras, duplicates, and SHAs', () => {
@@ -151,6 +168,7 @@ test('renders deterministic ordered markdown and escapes table cells', () => {
       python: { source: 'no_changes', translation: 'skipped', translationRequested: false },
       guides: { source: 'source_published', translation: 'translation_published', translationRequested: true, sourceCommitSha: SHA_A, translationCommitSha: SHA_B },
     },
+    revisionReconciliation: 'passed',
     finalVerification: 'passed',
   });
   assert.ok(result.markdown.indexOf('| guides |') < result.markdown.indexOf('| python |'));
@@ -164,7 +182,7 @@ test('retains every requested continuation outcome when an earlier fetch failed'
     java: { source: 'no_changes', translation: 'skipped', translationRequested: false },
   };
   for (const finalVerification of ['passed', 'failed']) {
-    const result = aggregateResults({ requestedGroups: ['guides', 'python', 'java'], groups, finalVerification });
+    const result = aggregateResults({ requestedGroups: ['guides', 'python', 'java'], groups, revisionReconciliation: 'passed', finalVerification });
     assert.equal(result.overallStatus, 'failure');
     assert.ok(result.markdown.indexOf('| guides |') < result.markdown.indexOf('| python |'));
     assert.ok(result.markdown.indexOf('| python |') < result.markdown.indexOf('| java |'));

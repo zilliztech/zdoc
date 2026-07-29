@@ -10,20 +10,29 @@ const GUIDES_TRANSLATION_CANDIDATES = JSON.stringify({ total: 163, current_delta
 
 test('builds selected terminal result rows and includes SHAs only for publications', () => {
   const result = buildAggregateInput({
-    MODE: 'publish', SELECTED_GROUP: 'python', FINAL_VERIFICATION: 'passed',
+    MODE: 'publish', SELECTED_GROUP: 'python', FINAL_VERIFICATION: 'passed', REVISION_RECONCILIATION: 'passed',
     PYTHON_PRODUCER: 'artifact_ready', PYTHON_SOURCE: 'published', PYTHON_SOURCE_SHA: 'a'.repeat(40),
     PYTHON_TRANSLATOR: 'translation_ready', PYTHON_TRANSLATION: 'published', PYTHON_TRANSLATION_SHA: 'b'.repeat(40),
   })
   assert.deepEqual(result, { mode: 'publish', requestedGroups: ['python'], groups: { python: {
     source: 'source_published', translation: 'translation_published', translationRequested: true,
     sourceCommitSha: 'a'.repeat(40), translationCommitSha: 'b'.repeat(40),
-  } }, finalVerification: 'passed' })
+  } }, revisionReconciliation: 'passed', finalVerification: 'passed' })
 })
 
 test('builds artifact-only rows directly from producer terminal states', () => {
   assert.deepEqual(buildAggregateInput({ MODE: 'artifact_only', SELECTED_GROUP: 'guides', GUIDES_PRODUCER: 'artifact_ready' }), {
-    mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } }, finalVerification: 'skipped',
+    mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } }, revisionReconciliation: 'skipped', finalVerification: 'skipped',
   })
+})
+
+test('maps revision reconciliation exactly by workflow mode', () => {
+  const base = { SELECTED_GROUP: 'python', PYTHON_PRODUCER: 'artifact_ready', PYTHON_SOURCE: 'no_changes' }
+  assert.equal(buildAggregateInput({ ...base, MODE: 'publish', REVISION_RECONCILIATION: 'passed' }).revisionReconciliation, 'passed')
+  for (const value of ['failed', 'skipped', 'PASS', '', undefined]) {
+    assert.equal(buildAggregateInput({ ...base, MODE: 'publish', REVISION_RECONCILIATION: value }).revisionReconciliation, 'failed')
+  }
+  assert.equal(buildAggregateInput({ ...base, MODE: 'artifact_only', REVISION_RECONCILIATION: 'passed' }).revisionReconciliation, 'skipped')
 })
 
 test('includes optional Guides translation candidate counts when supplied', () => {
@@ -48,6 +57,8 @@ test('workflow passes the exact publisher result through finalization and aggreg
   assert.equal(finalize.env.TARGET_BRANCH, undefined)
 
   const aggregate = workflow.jobs.aggregate.steps.find(step => step.id === 'aggregate')
+  assert.equal(aggregate.env.REVISION_RECONCILIATION, '${{ needs.verify.outputs.revision_status }}')
+  assert.notEqual(aggregate.env.REVISION_RECONCILIATION, aggregate.env.FINAL_VERIFICATION)
   assert.equal(aggregate.env.GUIDES_TRANSLATOR, '${{ needs.finalize_guides_translation.outputs.translator_status }}')
   assert.equal(aggregate.env.GUIDES_TRANSLATION, '${{ needs.finalize_guides_translation.outputs.publisher_status }}')
   assert.equal(aggregate.env.GUIDES_TRANSLATION_SHA, '${{ needs.finalize_guides_translation.outputs.commit_sha }}')
