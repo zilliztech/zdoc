@@ -890,6 +890,7 @@ test('workflow policy rejects final verification waterline and two-site mutation
     ['      revision_status:\n        description: passed or failed\n        value: ${{ jobs.verify.outputs.revision_status }}\n', '', '_verify-docs.yml: must expose revision status separately from overall status'],
     ['pnpm check:localization-input-inventory', 'echo skipped revision inventory', '_verify-docs.yml: revision waterline must validate localization and revision inventories'],
     ['pnpm docs-tooling validate-reference --site zh-CN', 'echo skipped Chinese reference', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
+    ['pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log', "echo 'pnpm docs-tooling validate-reference --site zh-CN' 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log", '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
     [
       '          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log\n          pnpm docs-tooling validate-translation --target zh-CN-tools --group tools 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-translation.log',
       '          pnpm docs-tooling validate-translation --target zh-CN-tools --group tools 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-translation.log\n          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log',
@@ -897,6 +898,11 @@ test('workflow policy rejects final verification waterline and two-site mutation
     ],
     ['node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting', 'echo skipped Chinese build', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
     ['steps.revision.outcome }}" == success && "${{ steps.verification.outcome', 'steps.verification.outcome }}" == success && "${{ steps.verification.outcome', '_verify-docs.yml: overall status must require revision and site verification success'],
+    [
+      '          if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',
+      '          # ${{ steps.revision.outcome }} and ${{ steps.verification.outcome }} retained as inert evidence\n          echo "status=passed" >> "$GITHUB_OUTPUT"',
+      '_verify-docs.yml: overall status must require revision and site verification success',
+    ],
     ['fetch-depth: 0', 'fetch-depth: 1', '_verify-docs.yml: must check out immutable master tooling'],
     ['git worktree add --detach "$RUNNER_TEMP/final-dev" "$FINAL_DEV_SHA"', 'git worktree add --detach "$RUNNER_TEMP/final-dev" origin/dev', '_verify-docs.yml: must materialize the exact final dev SHA'],
     ['restore-generated-state.sh --exact --ref "$FINAL_DEV_SHA"', 'restore-generated-state.sh --ref "$FINAL_DEV_SHA"', '_verify-docs.yml: must restore generated content from the exact final dev SHA'],

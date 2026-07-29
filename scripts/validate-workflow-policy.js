@@ -91,6 +91,21 @@ function namedJobStep(workflow, jobName, stepName) {
   return (workflow?.jobs?.[jobName]?.steps || []).find(step => step?.name === stepName)
 }
 
+function executableCommandLines(run) {
+  return executableShellLineEntries(run).map(({ trimmed }) =>
+    trimmed.replace(/\s+2>&1\s*\|\s*tee\s+\S+\s*$/, ''))
+}
+
+function commandsAppearInOrder(actual, required) {
+  let previous = -1
+  return required.every(command => {
+    const index = actual.indexOf(command, previous + 1)
+    if (index < 0) return false
+    previous = index
+    return true
+  })
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
@@ -646,9 +661,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const steps = workflow.jobs?.verify?.steps || []
       const revision = namedJobStep(workflow, 'verify', 'Verify revision waterline')
       const revisionRun = String(revision?.run || '')
+      const revisionCommands = executableCommandLines(revisionRun)
       if (revision?.id !== 'revision' || revision?.['continue-on-error'] !== true ||
-        !/set -euo pipefail/.test(revisionRun) ||
-        !/pnpm check:localization-input-inventory[\s\S]*pnpm docs-tooling validate-revision-inventory --site en/.test(revisionRun) ||
+        !commandsAppearInOrder(revisionCommands, [
+          'set -euo pipefail',
+          'pnpm check:localization-input-inventory',
+          'pnpm docs-tooling validate-revision-inventory --site en',
+        ]) ||
         !/tmp\/final-verification-reports/.test(revisionRun)) {
         errors.push(`${file}: revision waterline must validate localization and revision inventories`)
       }
@@ -660,9 +679,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: revision waterline commands must preserve exact report logs`)
       }
       const revisionResult = namedJobStep(workflow, 'verify', 'Emit revision reconciliation result')
-      const revisionResultRun = String(revisionResult?.run || '')
+      const revisionResultCommands = executableCommandLines(revisionResult?.run)
+      const expectedRevisionResult = [
+        'if [[ "${{ steps.revision.outcome }}" == success ]]; then',
+        'echo "status=passed" >> "$GITHUB_OUTPUT"',
+        'else',
+        'echo "status=failed" >> "$GITHUB_OUTPUT"',
+        'fi',
+      ]
       if (revisionResult?.id !== 'revision_result' || String(revisionResult?.if || '').trim() !== '${{ always() }}' ||
-        !/if \[\[ "\$\{\{ steps\.revision\.outcome \}\}" == success \]\]; then\s+echo "status=passed" >> "\$GITHUB_OUTPUT"\s+else\s+echo "status=failed" >> "\$GITHUB_OUTPUT"\s+fi/.test(revisionResultRun)) {
+        JSON.stringify(revisionResultCommands) !== JSON.stringify(expectedRevisionResult)) {
         errors.push(`${file}: revision reconciliation result must deterministically emit passed or failed`)
       }
       const materializeIndex = steps.findIndex(step => step?.name === 'Materialize exact final dev state')
@@ -670,6 +696,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const verification = namedJobStep(workflow, 'verify', 'Verify final documentation state')
       const verificationIndex = steps.indexOf(verification)
       const verificationRun = String(verification?.run || '')
+      const verificationCommands = executableCommandLines(verificationRun)
       const orderedSiteCommands = [
         'pnpm docs-tooling validate-reference --site zh-CN',
         'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
@@ -681,13 +708,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         'node scripts/validate-workflow-policy.js',
         'pnpm test:typescript-runtime-boundary',
       ]
-      let commandIndex = -1
-      const orderedSiteValidation = orderedSiteCommands.every(command => {
-        const nextIndex = verificationRun.indexOf(command)
-        if (nextIndex <= commandIndex) return false
-        commandIndex = nextIndex
-        return true
-      })
+      const orderedSiteValidation = commandsAppearInOrder(verificationCommands, orderedSiteCommands)
       if (!(materializeIndex >= 0 && materializeIndex < revisionIndex && revisionIndex < verificationIndex) ||
         verification?.id !== 'verification' || verification?.['continue-on-error'] !== true || !orderedSiteValidation) {
         errors.push(`${file}: site verification must run ordered Chinese validators before both site builds`)
@@ -696,8 +717,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (String(uploadReports?.if || '').trim() !== '${{ always() }}') {
         errors.push(`${file}: final verification report upload must always run`)
       }
-      const resultRun = String(namedJobStep(workflow, 'verify', 'Emit verification result')?.run || '')
-      if (!/steps\.revision\.outcome[^\n]*steps\.verification\.outcome/.test(resultRun)) {
+      const resultCommands = executableCommandLines(namedJobStep(workflow, 'verify', 'Emit verification result')?.run)
+      const expectedResult = [
+        'if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then',
+        'echo "status=passed" >> "$GITHUB_OUTPUT"',
+        'else',
+        'echo "status=failed" >> "$GITHUB_OUTPUT"',
+        'fi',
+      ]
+      if (JSON.stringify(resultCommands) !== JSON.stringify(expectedResult)) {
         errors.push(`${file}: overall status must require revision and site verification success`)
       }
       if (/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
