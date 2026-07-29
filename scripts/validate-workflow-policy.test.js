@@ -889,6 +889,11 @@ test('workflow policy rejects final verification waterline and two-site mutation
   const cases = [
     ['      revision_status:\n        description: passed or failed\n        value: ${{ jobs.verify.outputs.revision_status }}\n', '', '_verify-docs.yml: must expose revision status separately from overall status'],
     ['pnpm check:localization-input-inventory', 'echo skipped revision inventory', '_verify-docs.yml: revision waterline must validate localization and revision inventories'],
+    [
+      '      - name: Verify revision waterline\n        id: revision\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n',
+      '      - name: Verify revision waterline\n        id: revision\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n          exit 0\n',
+      '_verify-docs.yml: revision waterline must not terminate before validation completes',
+    ],
     ['pnpm docs-tooling validate-reference --site zh-CN', 'echo skipped Chinese reference', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
     ['pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log', "echo 'pnpm docs-tooling validate-reference --site zh-CN' 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log", '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
     [
@@ -897,6 +902,11 @@ test('workflow policy rejects final verification waterline and two-site mutation
       '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds',
     ],
     ['node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting', 'echo skipped Chinese build', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
+    [
+      '      - name: Verify final documentation state\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n',
+      '      - name: Verify final documentation state\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n          exit 0\n',
+      '_verify-docs.yml: site verification must not terminate before validation completes',
+    ],
     ['steps.revision.outcome }}" == success && "${{ steps.verification.outcome', 'steps.verification.outcome }}" == success && "${{ steps.verification.outcome', '_verify-docs.yml: overall status must require revision and site verification success'],
     [
       '          if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',

@@ -106,6 +106,12 @@ function commandsAppearInOrder(actual, required) {
   })
 }
 
+function terminatesBeforeCommand(actual, finalCommand) {
+  const finalIndex = actual.lastIndexOf(finalCommand)
+  if (finalIndex < 0) return false
+  return actual.slice(0, finalIndex).some(command => /^(?:exit|return|exec)(?:\s|$)/.test(command))
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
@@ -671,6 +677,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/tmp\/final-verification-reports/.test(revisionRun)) {
         errors.push(`${file}: revision waterline must validate localization and revision inventories`)
       }
+      if (terminatesBeforeCommand(revisionCommands, 'pnpm docs-tooling validate-revision-inventory --site en')) {
+        errors.push(`${file}: revision waterline must not terminate before validation completes`)
+      }
       const exactRevisionLogs = [
         'pnpm check:localization-input-inventory 2>&1 | tee tmp/final-verification-reports/localization-input-inventory.log',
         'pnpm docs-tooling validate-revision-inventory --site en 2>&1 | tee tmp/final-verification-reports/revision-inventory.log',
@@ -712,6 +721,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(materializeIndex >= 0 && materializeIndex < revisionIndex && revisionIndex < verificationIndex) ||
         verification?.id !== 'verification' || verification?.['continue-on-error'] !== true || !orderedSiteValidation) {
         errors.push(`${file}: site verification must run ordered Chinese validators before both site builds`)
+      }
+      if (terminatesBeforeCommand(verificationCommands, orderedSiteCommands.at(-1))) {
+        errors.push(`${file}: site verification must not terminate before validation completes`)
       }
       const uploadReports = namedJobStep(workflow, 'verify', 'Upload final verification reports')
       if (String(uploadReports?.if || '').trim() !== '${{ always() }}') {
