@@ -1,9 +1,13 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
 const test = require('node:test')
 
 const {
+  appendGitHubOutputs,
   createGitHubAdapter,
   evaluateDocsIngestion,
 } = require('./docs-ingestion-watchdog')
@@ -142,4 +146,47 @@ test('GitHub adapter surfaces API failure', async () => {
     fetch: async () => ({ ok: false, status: 503, text: async () => 'unavailable' }),
   })
   await assert.rejects(adapter.inspectRecentRuns(), /GitHub API request failed \(503\): unavailable/)
+})
+
+test('GitHub outputs encode multiline API failures without injecting output keys', async () => {
+  const injectedSha = 'f'.repeat(40)
+  const adapter = createGitHubAdapter({
+    repository: 'acme/docs',
+    token: 'secret',
+    fetch: async () => ({
+      ok: false,
+      status: 503,
+      text: async () => `unavailable\r\nok=true\nfinal_sha=${injectedSha}`,
+    }),
+  })
+  let error
+  try {
+    await adapter.inspectRecentRuns()
+    assert.fail('expected GitHub API failure')
+  } catch (caught) {
+    error = caught
+  }
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'watchdog-outputs-'))
+  const output = path.join(directory, 'github-output')
+  try {
+    appendGitHubOutputs({
+      ok: false,
+      reason: `GitHub API failure: ${error.message}`,
+      run_url: 'https://github.example/runs/42\nok=true',
+      last_successful_at: null,
+      final_sha: null,
+    }, output)
+    const lines = fs.readFileSync(output, 'utf8').trimEnd().split('\n')
+    assert.deepEqual(lines, [
+      'ok=false',
+      `reason=GitHub API failure: GitHub API request failed (503): unavailable ok=true final_sha=${injectedSha}`,
+      'run_url=https://github.example/runs/42 ok=true',
+      'last_successful_at=',
+      'final_sha=',
+    ])
+    assert.equal(lines.filter(line => line.startsWith('ok=')).length, 1)
+    assert.equal(lines.filter(line => line.startsWith('final_sha=')).length, 1)
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
 })

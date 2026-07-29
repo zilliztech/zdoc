@@ -139,12 +139,18 @@ function safeOutputPath(value, root = process.cwd()) {
 
 function appendGitHubOutputs(result, outputFile = process.env.GITHUB_OUTPUT) {
   if (!outputFile) return
+  const encode = value => String(value ?? '')
+    .replace(/[\r\n]+/g, ' ')
+    .replace(/[\u0000-\u001f\u007f]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 2000)
   const lines = [
-    `ok=${result.ok}`,
-    `reason=${result.reason}`,
-    `run_url=${result.run_url || ''}`,
-    `last_successful_at=${result.last_successful_at || ''}`,
-    `final_sha=${result.final_sha || ''}`,
+    `ok=${encode(result.ok)}`,
+    `reason=${encode(result.reason)}`,
+    `run_url=${encode(result.run_url)}`,
+    `last_successful_at=${encode(result.last_successful_at)}`,
+    `final_sha=${encode(result.final_sha)}`,
   ]
   fs.appendFileSync(outputFile, `${lines.join('\n')}\n`)
 }
@@ -170,6 +176,7 @@ async function main(argv = process.argv.slice(2)) {
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1 })
 
 module.exports = {
+  appendGitHubOutputs,
   createGitHubAdapter,
   evaluateDocsIngestion,
   main,
