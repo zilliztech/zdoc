@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 
-import {listPublicationGroups, resolvePublicationGroup} from './groups.ts';
+import {listPublicationGroups, resolvePublicationGroup, resolvePublicationGroupWorkflow} from './groups.ts';
 
 describe('site-owned publication groups', () => {
   it('defines the exact English Guides ownership contract', () => {
@@ -70,5 +70,23 @@ describe('site-owned publication groups', () => {
     expect(Object.isFrozen(group.ownedPaths)).toBe(true);
     expect(Object.isFrozen(group.protectedPaths)).toBe(true);
     expect(() => (group.manuals as string[]).push('other')).toThrow(TypeError);
+  });
+
+  it('checkpoints each English publication group revision inventory', () => {
+    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+      const revisionInventory = `generated/en/manifests/lark-revisions/${group}.json`;
+      const checkpointPaths = resolvePublicationGroupWorkflow('en', group).checkpointPaths;
+      expect(checkpointPaths.filter(path => path.startsWith('generated/en/manifests/lark-revisions/'))).toEqual([
+        revisionInventory,
+      ]);
+    }
+  });
+
+  it('does not checkpoint English revision inventories for Chinese publication groups', () => {
+    for (const group of ['guides', 'onpremise']) {
+      expect(resolvePublicationGroupWorkflow('zh-CN', group).checkpointPaths).not.toContainEqual(
+        expect.stringMatching(/^generated\/en\/manifests\/lark-revisions\//),
+      );
+    }
   });
 });

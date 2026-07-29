@@ -153,11 +153,12 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     snapshotManual: sourceManuals.at(-1) ?? null,
     translate: site === 'en',
     durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 30 : 0,
-    checkpointPaths: Object.freeze([
+    checkpointPaths: distinct([
       ...group.ownedPaths,
       ...sourceSnapshots,
       ...(groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
       ...(group.publicationManifest ? [group.publicationManifest] : []),
+      ...(site === 'en' ? [`generated/en/manifests/lark-revisions/${groupName}.json`] : []),
     ]),
     preservedPaths,
     commitMessage: COMMIT_MESSAGES[groupName as keyof typeof COMMIT_MESSAGES],
