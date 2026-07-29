@@ -103,6 +103,13 @@ for (const site of ['en', 'zh-CN']) {
     assert.match(activeContents, /ZDOC_PROVENANCE_COMMIT=\$\{ZDOC_SHA\}/);
     assert.match(activeContents, /ZDOC_PROVENANCE_WORKTREE=external-snapshot/);
     assert.match(activeContents, /ZDOC_PROVENANCE_TRACKED_INPUTS=deploy\/contracts\/localization-inputs\.inventory\.json/);
+    if (site === 'zh-CN') {
+      assert.match(activeContents, /^ARG ZDOC_REFERENCE_SOURCE_SHA$/m);
+      assert.match(activeContents, /test -n "?\$ZDOC_REFERENCE_SOURCE_SHA"?/);
+      assert.match(activeContents, /test "?\$\{#ZDOC_REFERENCE_SOURCE_SHA\}"? -eq 40/);
+      assert.match(activeContents, /ZDOC_REFERENCE_SOURCE_SHA#\*\[!0-9a-f\]/);
+      assert.match(activeContents, /ZDOC_REFERENCE_SOURCE_SHA=\$\{ZDOC_REFERENCE_SOURCE_SHA\}/);
+    }
 
     assert.equal(occurrences(contents, /RUN\s+pnpm install --frozen-lockfile\b/g), 1);
     assert.equal(occurrences(contents, /RUN\s+pnpm run build:(?:en|zh-CN)\b/g), 1);
@@ -122,7 +129,13 @@ for (const site of ['en', 'zh-CN']) {
       .map(instruction => instruction.slice('RUN '.length));
     assert.equal(validations.length, 2);
     const execute = (command, sha) => spawnSync('sh', ['-c', command], {
-      env: {...process.env, ZDOC_SHA: sha, ZDOC_SITE: site, JENKINS_BUILD_ID: 'test-build'},
+      env: {
+        ...process.env,
+        ZDOC_SHA: sha,
+        ZDOC_SITE: site,
+        JENKINS_BUILD_ID: 'test-build',
+        ...(site === 'zh-CN' ? {ZDOC_REFERENCE_SOURCE_SHA: 'b'.repeat(40)} : {}),
+      },
     }).status;
     for (const validation of validations) {
       assert.equal(execute(validation, 'a'.repeat(40)), 0);

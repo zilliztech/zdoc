@@ -114,6 +114,7 @@ export type GeneratorRunner = (
 
 export type ReferenceCommandDependencies = Readonly<{
   repositoryRoot?: string;
+  environment?: NodeJS.ProcessEnv;
   resolveSourceCommit?: (revision: string) => string;
   verifySourceRevision?: (commit: string, sourceRoot: string) => void;
   manualForPath?: (repositoryRelativePath: string) => string;
@@ -167,6 +168,26 @@ function assertSnapshotsEqual(expected: ReferenceTreeSnapshot, actual: Reference
 
 function verifyGitSourceRevision(repositoryRoot: string, commit: string, sourceRoot: string, snapshot: ReferenceTreeSnapshot): void {
   assertSnapshotsEqual(gitCommitSnapshot(repositoryRoot, commit, sourceRoot), snapshot, 'Reference source commit tree');
+}
+
+function verifyReferenceSourceRevision(
+  repositoryRoot: string,
+  commit: string,
+  sourceRoot: string,
+  snapshot: ReferenceTreeSnapshot,
+  environment: NodeJS.ProcessEnv,
+): void {
+  if (environment.ZDOC_PROVENANCE_WORKTREE !== 'external-snapshot') {
+    verifyGitSourceRevision(repositoryRoot, commit, sourceRoot, snapshot);
+    return;
+  }
+  const sourceSha = environment.ZDOC_REFERENCE_SOURCE_SHA ?? '';
+  if (!/^[a-f0-9]{40}$/u.test(sourceSha)) {
+    throw new Error('External snapshot Reference source SHA must be a 40-character lowercase Git SHA');
+  }
+  if (sourceSha !== commit) {
+    throw new Error('External snapshot Reference source SHA must match the manifest source commit');
+  }
 }
 
 function defaultReferenceManualForPath(filePath: string): string {
@@ -354,7 +375,13 @@ export async function executeReferenceDocsToolingCommand(
     const sourceManifest = parseReferenceSourceManifest(readJson(repositoryRoot, REFERENCE_SOURCE_MANIFEST));
     const sourceSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT);
     if (dependencies.verifySourceRevision) dependencies.verifySourceRevision(sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT);
-    else verifyGitSourceRevision(repositoryRoot, sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT, sourceSnapshot);
+    else verifyReferenceSourceRevision(
+      repositoryRoot,
+      sourceManifest.sourceCommit,
+      REFERENCE_SOURCE_ROOT,
+      sourceSnapshot,
+      dependencies.environment ?? process.env,
+    );
     const manualForPath = dependencies.manualForPath ?? defaultReferenceManualForPath;
     validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest, manualForPath});
     if (argv[2] === 'en') {

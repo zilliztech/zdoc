@@ -390,6 +390,46 @@ describe('Reference translation provenance', () => {
     expect(validateReferenceNavigationSpy).toHaveBeenCalledWith({repositoryRoot: roots.repositoryRoot, site: 'zh-CN'});
   });
 
+  it('validates an immutable external snapshot without Git metadata', async () => {
+    const roots = fixture();
+    const sourceCommit = 'a'.repeat(40);
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+    writeMinimalReferenceSidebarTemplates(roots.repositoryRoot);
+
+    await executeReferenceDocsToolingCommand([
+      'reference-manifest', '--source', roots.sourceRoot, '--target', roots.targetRoot, '--source-commit', 'HEAD', '--write',
+    ], {
+      repositoryRoot: roots.repositoryRoot,
+      resolveSourceCommit: () => sourceCommit,
+      verifySourceRevision: () => undefined,
+      manualForPath: () => 'python',
+      retirementRegistry: {schemaVersion: 1, retirements: []},
+    });
+
+    const dependencies = {
+      repositoryRoot: roots.repositoryRoot,
+      environment: {
+        ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+        ZDOC_REFERENCE_SOURCE_SHA: sourceCommit,
+      },
+      manualForPath: () => 'python',
+      retirementRegistry: {schemaVersion: 1 as const, retirements: []},
+      validateReferenceNavigation: vi.fn(),
+    };
+    await expect(executeReferenceDocsToolingCommand(
+      ['validate-reference', '--site', 'zh-CN'],
+      dependencies,
+    )).resolves.toBeUndefined();
+    await expect(executeReferenceDocsToolingCommand(
+      ['validate-reference', '--site', 'zh-CN'],
+      {
+        ...dependencies,
+        environment: {...dependencies.environment, ZDOC_REFERENCE_SOURCE_SHA: 'b'.repeat(40)},
+      },
+    )).rejects.toThrow(/external snapshot.*source sha.*manifest source commit/i);
+  });
+
   it('fails when an English Reference sidebar template is missing', async () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
