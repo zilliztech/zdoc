@@ -63,3 +63,11 @@ node deploy/contracts/verify-image.mjs verify-specified-image \
 - The Chinese Reference translation manifest and retirement registry require the Chinese build plus translation-coverage validation.
 
 The `site validation` GitHub Actions workflow is a read-only build gate: it does not deploy, use deployment secrets, publish documentation, or replace Jenkins approvals. After it passes, external UAT validation runs through `zilliz-docs-dev` for English and `zilliz-docs-cn-dev` for Chinese. Jenkins remains responsible for registry access, deployment credentials, immutable UAT evidence, environment checks, and approvals.
+
+## Daily revision waterline
+
+The direct, grouped publication workflow runs three times daily and publishes to `dev`. Each English group derives its revision inventory from the repository's existing source snapshot, then checkpoints content and its waterline together. A metadata fetch failure marks the inventory incomplete and cannot authorize deletion.
+
+Final verification pins one immutable Git SHA, validates the revision inventory and localization inputs, validates Chinese Reference and Tools coverage, and builds English, Japanese, and Chinese sites. Jenkins remains the deployment owner; this repository does not synchronize these results to `zdoc_cn`.
+
+The watchdog is a read-only 24-hour freshness alert. It does not fetch, rerun, dispatch, deploy, or write repository content. To locate changed documents, open the publication run's revision report artifact: its comparison is authoritative, and “today” is evaluated in `Asia/Shanghai`.

@@ -1,0 +1,1944 @@
+{
+  "schemaVersion": 1,
+  "group": "java",
+  "complete": true,
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "sourceRunId": "clean-room-seed",
+  "records": [
+    {
+      "canonicalToken": "A6Vld2dJToRXs8xhq0wcGdiRnDc",
+      "title": "alterCollectionFunction()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "A6dgdXJdRoxwKAxGB1hctKXvnZg",
+      "title": "dropCollectionFunction()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AAudd8xDRoRfNLx6OpgcsfkpnVb",
+      "title": "updateUser()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AG2odswpoomo3ZxyLJvcdGSInrb",
+      "title": "createResourceGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AIRDdrhZloIQCrxCfc8cvxe4nmh",
+      "title": "addCollectionFunction()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ANw4d8gGEo46B4xxde3cC0xqndf",
+      "title": "search()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ARw0dIb0hojCNbxKkOacs1K7nQf",
+      "title": "dropAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ASeZdN2rToBNCFx7dYMcLHD3nXc",
+      "title": "checkHealth()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AUQvd5EdFomWEWx3DrwcffYHnmb",
+      "title": "getTotalRowCount()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AXWod56QkoprlXxOXkwcPXfonHg",
+      "title": "getField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AXt2dvFmQoP04wx9zlVciuitnQf",
+      "title": "runAnalyzer()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Al6Fdx294o4Yi6xtwe0cdq1cnnh",
+      "title": "updateResourceGroups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AnuCd3jgDojhA8x2kNFcddCynLh",
+      "title": "updatePassword()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AtkCfVN4Ll6GqMdVJfxcybHanDf",
+      "title": "Data Import",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Au6Wda1HUonyXOx5Pfzc0Cpjnab",
+      "title": "FunctionScore",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "B4CpdqvN7oZy3zxB9fscTAG8n7E",
+      "title": "batchDescribeCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BBYgdwIV5onkWxxowAhcCl5rnzc",
+      "title": "pinSnapshotData()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BDNBdbEOioqnlKxRd3DcY7wRncg",
+      "title": "getCompactionPlans()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BDqGdp4uqo3XRexslRNcts9knmd",
+      "title": "describeAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BLFEde4BuoCjTSxjYSUcZerEnOb",
+      "title": "getBatchFiles()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Bjs5dej7ZoBKhXxZzMjclPCynmd",
+      "title": "listPartitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BujpdsEJnozVT4xY3NFczyfrnDe",
+      "title": "createAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ByKadzyxVodrkxxhaGuc4HtFnWh",
+      "title": "close()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CIYQd12MNoiC4QxW97mcQLWYnYd",
+      "title": "dropPrivilegeGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CJEzd0riyoJkcUxdYvjcKPoWn3c",
+      "title": "describeSnapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CN9sdiCicoERZpx9GhmcLa4Wn7g",
+      "title": "listImportJobs()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CSaVdr3zao9zFpxaJBgcCTCYnPd",
+      "title": "dropPartition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CW06d3MZQo2AzuxIv2ycCFpsn4b",
+      "title": "Function",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Cde1dlUbDosa86xjuShcoKgQnvg",
+      "title": "listVolumes()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "D0UGdkudVo5vtLxlZw3c6cdqnmc",
+      "title": "getPlaceholderType()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DAIfdXKk5oCHeNxOUvCc1KcpnNh",
+      "title": "CreateSchema()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DCszdG9rCoZxhfxfAuOcNsXRnOc",
+      "title": "StructFieldSchema",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DHQNdSiMxooV99xSdPZc4Yv9nzg",
+      "title": "dropResourceGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DK7ZdxRCyoepyxx0odzcH66xnu3",
+      "title": "VolumeFileManager",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DMr4dKSItoNvtYx2XFscQA8RnWf",
+      "title": "createUser()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DQpifjFvilUwaFdB7sGcYZo9nYg",
+      "title": "Snapshots",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DUJsdflImor0joxV14ecSwpnnDb",
+      "title": "getParams()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DZcddGCD3oh29txhnB5cuxzzn4d",
+      "title": "getName()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "E27SdesNPoKA8zx6jHkcejt0nWg",
+      "title": "getCollectionStats()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EVpQfxDmQloZX4dVW63c5h9mnHd",
+      "title": "Management",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EXcNdtZrro7Ufkxp3G6cUArOn7b",
+      "title": "EmbeddingList",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EeWldhw4AoT5WqxO8GgcSfjEnpb",
+      "title": "dropSnapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EfM3drSXlo4Yzyxq2GpcmvoHnTm",
+      "title": "listUsers()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Efi4dCKhFoYpEZxRfWRcvFEXnBg",
+      "title": "createVolume()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EjnFdC5EfoIkoExSBOxcEC2hnbg",
+      "title": "getImportProgress()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ErNidktYPodbDxxow0xcV5qHnof",
+      "title": "ConnectConfig",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "F7kifoqZzl3jgndMDoacjl9Unce",
+      "title": "Resource Group",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FGO8dhjlTovfOdxpOw0c3wyNntc",
+      "title": "addField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FGZadH85KoLEhRxkbLxcc1zbn4c",
+      "title": "BulkFileType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FIzIdKrRNooFttxaf3Pc1vOlnnc",
+      "title": "getFields()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FNrudeYHboY6p5xYWIKcodvYnnH",
+      "title": "dumpMessages()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FZN8dtlIRoMSGBxF7b1cWX48n0b",
+      "title": "revokePrivilegeV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FmMhdGH69oXzkyxGVtycx4u0nHb",
+      "title": "transferReplica()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FuDHdadxHoX9qSxe4aac4wzNnRh",
+      "title": "getServerVersion()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FuSTdeSCdojDu0xSBEmcYgv9n4g",
+      "title": "RRFRanker",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Fv8EdYIt4oThstxgpzqcm7C0nug",
+      "title": "alterAlias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FzEydqTwRoajhnxZOftcKxKpndg",
+      "title": "getRefreshExternalCollectionProgress()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G7F9dQ8DwoZsaVxExdnc7K6an3g",
+      "title": "LocalBulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G7sndcjgfo12MmxngpPc31Xvnq1",
+      "title": "getPersistentSegmentInfo()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G8JydoIzPoKb2MxASemcW2spnbe",
+      "title": "refreshExternalCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GE25dbBmMoU8glxCWbJckYObnN1",
+      "title": "uploadFilesAsync",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GEcrdVWnboOetOx08RrcRHVhn3g",
+      "title": "MetricType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GEvkd6lHion0nUxgdIRcxtqqnHb",
+      "title": "createCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GoMYdKZRforUT0x23CDcyDKgnFf",
+      "title": "getVolumeUploadResult()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "H0kadFay8oD1d0xserJcuL8wnhf",
+      "title": "addFileResource()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HPs6dFV29ovzyBxpgUacXnnjngd",
+      "title": "addFunction()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HRicdDwU4oUDWEx6DrlcARGrn1c",
+      "title": "waitForCollectionRelease()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HSYzdg59FoBzeIxymrLc0EbBnyd",
+      "title": "dropDatabaseProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HcMEdTL7uog3MXx36ONcpaOlnfe",
+      "title": "updateReplicateConfiguration()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HnxQdhvGQotpwfxgo4pcviKNn4g",
+      "title": "queryIterator()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I1sMd0t6qoNuIWx3mjecEfjwnyc",
+      "title": "clientIsReady()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I5yTdfJXNoHDICxSwWXcNjwxnoc",
+      "title": "removeFileResource()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I7UWdVnAJobbSSxSPdHc024unMe",
+      "title": "upsert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I98vddTeco48kYxHEkOccG9ynYe",
+      "title": "listRestoreSnapshotJobs()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IHoodknUJohFAbxMFg3c0q8un6f",
+      "title": "listDatabases()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ITkydrfmroQyLLxusZtc6t1nnjf",
+      "title": "alterIndexProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IW5SdBOhUop0P8xBslCc6OHLnse",
+      "title": "ModelRanker",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IXVHdXVncoEp64xD6vdcvUJwnlH",
+      "title": "CollectionSchema",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IdNAdlMhjoM40pxjpKecpc7inbd",
+      "title": "dropIndexProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IeOWd0yR2onm5Ex6XyqcrGjKnpS",
+      "title": "MilvusClientV2",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IqQudFVIKot4mVxWD4xclJymn8g",
+      "title": "createDatabase()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IzfldHDU4o8dDRx377ecqJmlnSf",
+      "title": "createRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JB90dbBNRoz1I2xZY5rcSmJ1nSb",
+      "title": "grantRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JEgudTxxYocs2VxLjgccpB7SnOb",
+      "title": "getLoadStateV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JLCudD7MYoQdxQxLwlpcbBnpn8c",
+      "title": "createIndex()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JQ4QdTaadoIDSPxDJRZcSDu3n5g",
+      "title": "alterCollectionProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ja2Wf1J9glm6oCdCxfDc9BzPnoc",
+      "title": "Database",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JbG0d6GAdoOpkixsVUpcE0YMnPd",
+      "title": "listFileResources()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JgY9doHQjoNBfMxVnpfcZeHongb",
+      "title": "getTotalRowCount()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JhCEdppKrowJIqxFusBc2TXsnSg",
+      "title": "createSnapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JiLLdfLlPoKWL6xEgOAcdCU3nol",
+      "title": "truncateCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JukBfPwp8luly7dRHdWc1MEBnge",
+      "title": "Partitions",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "K5t2dl0XloN4VHx1lcpc6Uq3nye",
+      "title": "releaseCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "K6akf7IbXl5Jj1dFV8Fca62Inkd",
+      "title": "Collections",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "K9E6dtYlJojtOCxTG0EcGBVnnKe",
+      "title": "WaitForDropCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KJSvdrks9o6WOsxr0rZcPXe5ngn",
+      "title": "getStructField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KQqgduahOo13yOxiRMgcfXQxnxd",
+      "title": "flushAll()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KVSUdHV0ho7nnwxeQKMcEL47nKe",
+      "title": "hasPartition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KXdUdGpt7oD3dkxHZcfcIAQBnNg",
+      "title": "getRestoreSnapshotState()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KaW0dGLZ9os1SExEsbqcHM4yn8c",
+      "title": "getData()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KmIDdh1g3oiiTkxAMNacwpxsnH9",
+      "title": "getReplicateConfiguration()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KrSgdfCaJosFp5xwHIAcV0tAnec",
+      "title": "getServerVersionV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Krd6dVuQbohTF5xFHGYcomHsnEg",
+      "title": "LexicalHighlighter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LAJHdQKQQoPjmYxcfQgcvjvLnqh",
+      "title": "useDatabase()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LDQsdzUJQotV2GxWGaqcFkDenuq",
+      "title": "compact()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LEj1fTFKLlUKSZdZjYEcnYgGnuh",
+      "title": "Authentication",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LMsOdAVFQopadPx1N2UcOn0unCf",
+      "title": "waitForLoadCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LNRldueDGotZ1kx5wwlc63SDnLe",
+      "title": "SemanticHighlighter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LaHmdGNGZog0JbxA8amcblpsnDR",
+      "title": "addCollectionField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Lvl9dsIf7oWnA4xpsNDc7hNOnwe",
+      "title": "revokePrivilege()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LwqSdN6s5oZBhAxzQsxcnXswnah",
+      "title": "dropDatabase()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LxwIdeFiGoYaRAxKS72cdjNkneh",
+      "title": "listIndexes()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M4DndSyVQoGNnUxtt0Xcugign6g",
+      "title": "transferNode()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MF3tdne4DoEiC0xlAe0ctyxHn9g",
+      "title": "createPrivilegeGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MFv3drbbXouqVxxE1OicBBl5ndf",
+      "title": "grantPrivilegeV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MH8cdNxkgoliJ5xU0f9cBKqunYe",
+      "title": "loadPartitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MJjHd3uGcoxEYBx0laKcAIKNnhg",
+      "title": "describeDatabase()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MPJ0dxzDIoNKYPxGA5PcD2F8nRb",
+      "title": "getDataType()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "N4R0dHR6MoiW2Rx9ClGc9MSlnOe",
+      "title": "flush()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NIm8dRx2Aozt4Qxv1Q6cAm3Fn97",
+      "title": "BulkImport",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NTCHdGKwNo9kl2xFzgKcjo8wndg",
+      "title": "delete()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NtxedWgOpof2Qtx8BU2ckktunWc",
+      "title": "VolumeBulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "O3E9duLvfoMC26x8AmDcomlWneh",
+      "title": "dropCollectionFieldProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "O6ngfC8y5lIhIWdEGDAcXHzcntl",
+      "title": "Volume",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OALCf8g9Ql2zqfdv0bxcDbagnTc",
+      "title": "CDC",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OEcUdoX1yoc94axfwpjcdA2jnEf",
+      "title": "close()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OLVbdsTOAoQwybx7oLPcZE3wnCf",
+      "title": "dropRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OPPHd2AabonMIzxzfupcyNS9n1a",
+      "title": "dropCollectionProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OUhTdWnXBoHqKdxTA0HcdMY5n4b",
+      "title": "commit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OalndLUMRoUqpMxr2QscYTCenre",
+      "title": "deleteVolume()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OgXWdeRGhoxMYqxzNSrcSZAknIb",
+      "title": "appendRow()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OjPkdoUiLo7R5fx6UcdcamQqnkg",
+      "title": "grantPrivilege()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OokbdVWhmog9aixBzg7cHUKvnHb",
+      "title": "describeResourceGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OtrZdy7OtoC9N9xb8TjcCtM7nfc",
+      "title": "alterCollectionField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "P9MFdEHMKoAfshxQhamcWrGknWg",
+      "title": "listRefreshExternalCollectionJobs()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PAs7dwIIrop4OixCUr8ctHVLnXc",
+      "title": "getLoadState()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PBYIdLALvoHd0pxwI8Ec4JsTnBX",
+      "title": "alterDatabaseProperties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PLJTd37DWozRwbx74AIcQyh4nmc",
+      "title": "appendRow()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PSdEdxU7ZoTxelx7sLzcAAXsnQH",
+      "title": "getMaxCapacity()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PUOBd229uoQGUIxnHLWcMSidnQh",
+      "title": "add()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PvRGdribPou7PHxcoSWcRK3unUc",
+      "title": "getElementType()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Q8IidbqKMopplgxSxaicS2o9nwc",
+      "title": "ConsistencyLevel",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QH3hdlzwDoxHjTxPj39c6qMSnbg",
+      "title": "getTotalRowCount()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QHyGdm4FyoFwCzxDgUUc9yQrnPf",
+      "title": "VolumeManager",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QIpldgpB1oP5IYxNSSdcyRNcn1c",
+      "title": "DecayRanker",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QO5ldltYOoo5uFxS4ZJc24JWnUh",
+      "title": "BoostRanker",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QbfPdyw7EoXpGwxSkGgcytBBnAb",
+      "title": "getDescription()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Qbntdds6XoByxcxrG1acL7IxnQe",
+      "title": "removePrivilegesFromGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "R1NDdFPnVo4wTuxvHjFcozc8nMa",
+      "title": "hybridSearch()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RFv2dtZ1qoP9XQxJEGqcgLGUnhc",
+      "title": "dropUser()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RQT1dGVPloPOLAx8G2mcifFEnCc",
+      "title": "addCollectionStructField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RZ8idPxaho5yMoxJzGdc7QAcnNf",
+      "title": "DataType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RaBJd4clVo6KX4xjGJoc3Mz7nhg",
+      "title": "hasCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RcJhdfB29okLpcx3w8KcvcL7nU9",
+      "title": "IndexType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RsqKdZaMnoHbaRxYr1fcqRbRnth",
+      "title": "getFunctions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "S0ITdsnpYoDpH9xKv9fcBhe5nWA",
+      "title": "bulkImport()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "S0Iudxn6NoqusZx4xjRcLWLpnGc",
+      "title": "getStructFields()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SF5wdcArioRIsxxVzNjcgIhJnrc",
+      "title": "restoreSnapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SJ3ndk2d7oQbAOxP5iHcGtr1nrb",
+      "title": "commit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SW6Cdt9QeoY1J1x9SYQcZrc6nbg",
+      "title": "dropCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SXgodgq99ozZoHxfnakc0fpCnJh",
+      "title": "IndexParam",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SachdJS5AopAZyxEfloceBnnnqg",
+      "title": "unpinSnapshotData()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SgJ7dKfisomLkqx1E3BccMO7nqf",
+      "title": "describeIndex()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "T9Jqd5JfdoW5Jxxwx1eckCOCn6c",
+      "title": "addPrivilegesToGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TCw7d7brCovAUpxA5D8cjOIGn1b",
+      "title": "refreshLoad()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TGsXduN5OoAjVyxZTvRc8HR2nse",
+      "title": "listPrivilegeGroups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TR9OdLX5PoMZbMx4l2tcWKVmn3b",
+      "title": "describeUser()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TfLbdZoRvoa4RyxUWwncTDm2nHh",
+      "title": "appendRow()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TuyKdaa1SoOstTx9DglcWfzknTh",
+      "title": "shutdownGracefully()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U55Vd0IR9oz8m9xS76scr4KDnNh",
+      "title": "getFlushAllState()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U7Ipdm0FTo8FCVxaxbZcwMygnWd",
+      "title": "renameCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U7eQdBzB0opJOXxRUcncnRDInSf",
+      "title": "query()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UCpTdpkNEoHDyjxxCqqcZLSXnAe",
+      "title": "currentUsedDatabase()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UJg8dnXiUoB6FnxanBicIzcLnsb",
+      "title": "getFunctionList()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ue0tdSQeTo7vqsxve1EcNZ7VnKb",
+      "title": "listResourceGroups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ufpqdh2gaossHmxZ4CacIO0Hnyc",
+      "title": "alterRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UrjHd9KZKo1Rlfxfj8AcmXNinlg",
+      "title": "MilvusClientV2Pool",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V39Ady6thoD9cCxBcopcquFKnzc",
+      "title": "commit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V5KXdwdO0oqkhnxsKb9c3xaKn4c",
+      "title": "createSchema()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V9YUdnfxDoc5Gmx80Wec9P6Sn2d",
+      "title": "WeightedRanker",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Va2Fd7J6EoKmKCxaww0caOdInpF",
+      "title": "FunctionType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VlvQdg0fHoy8Uhxr8d6cpUnLn5y",
+      "title": "getBatchFiles()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VsyQdDkXnoloWYxfjXNchc0dnng",
+      "title": "releasePartitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Vv41dSgcVovb2Xx1z6ScVRFsnLh",
+      "title": "getCompactionState()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Vv4NdWVa5o5BSrx11OZcNVnQnbh",
+      "title": "listCollections()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "W5gwfoADilawLFd64CWcpuFMn0g",
+      "title": "File Resources",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WE4gduIjooCgQUxcKyLcwQe1n3g",
+      "title": "createPartition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WEE6ddFntowCIixVMCmc3pESnug",
+      "title": "describeCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WI76dwejQosQWcxuhkccHOl7nXf",
+      "title": "addFunction()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WRSYdEZwroNY1Txpk2DcI1sSnVg",
+      "title": "describeReplicas()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WY4idJdzCozGGnxmLoFcIjC2ndw",
+      "title": "ListCollectionsV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "X6JXdPN7IoRffJxnaZccBvRanIM",
+      "title": "listAliases()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "X7Ybdk6yRoVRPZxeHklct1i2n8c",
+      "title": "searchIterator()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XAIndF6XWoQzvRxDvpLcgEE1nEb",
+      "title": "RemoteBulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XB9idvIRPo2fEix50dvcAsQHnCg",
+      "title": "addField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XHyydLsEAoPwB2xNhcwc9KBwn7g",
+      "title": "dropIndex()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XIIyd3bMzoAVx3xVsoLcnQ2pnKh",
+      "title": "listRoles()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XNDudZqpgo0Fj3xnXYnckQlYn3d",
+      "title": "close()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Xl3QdxmFxo3MNCxWlrxc9jFbnFc",
+      "title": "get()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XoUqdHpskoe2mOxPtITcHpPUnHg",
+      "title": "isEnableDynamicField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XssmdFjdZoXgyXxMDxWceywrnud",
+      "title": "getFieldSchemaList()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XzmYdQU59oMUagxiKVicyG8zn6f",
+      "title": "Highlighter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Y0N1dL4bVoyUnXxfSu7cjrgRnlc",
+      "title": "insert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Y3q1d5FzmoSiNkxsWDLcHnAlnQf",
+      "title": "loadCollection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YlpQdEUnKoFR3xxizt2cCV8UnZb",
+      "title": "getBatchFiles()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YyNNfpZsKlOCstdX7xRcXT4an6e",
+      "title": "Client",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZCESd1IrfoFHByx125kcd38Zndg",
+      "title": "getPartitionStats()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZVhHdijY5oYhxYxk4TgcjmGanle",
+      "title": "getQuerySegmentInfo()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZfBtfDoOplTRNfdOiq9cNxIvn8e",
+      "title": "Vector",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZhiOdVH0uoMI0axpcYMcfhQXnkf",
+      "title": "listSnapshots()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZmeDd4zoPo7EynxnyGOckvzvnsh",
+      "title": "describeRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Znb7dcNoeobIkkxGLGfcpVfUnIX",
+      "title": "revokeRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZouQdklUsoSZEDxWkJvc90pvnmg",
+      "title": "SearchIteratorV2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZwKPdk2rzoQUU7xm4CHcPiZqnjh",
+      "title": "FieldSchema",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZxS0dHiVEoKVSOxUU0Acy7BWnz5",
+      "title": "getReplicateInfo()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    }
+  ]
+}
