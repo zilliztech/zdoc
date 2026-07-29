@@ -17,14 +17,18 @@ export interface SourceSnapshotRecord {
   node_metadata?: SourceNodeMetadata | null
 }
 
+export interface SourceSnapshot {
+  records: SourceSnapshotRecord[]
+}
+
 export interface RevisionInventoryRecord {
   canonicalToken: string
   title?: string
   contentPath?: string
-  objToken?: string
-  parentNodeToken?: string
+  objectToken?: string
+  parentToken?: string
   revisionId?: string
-  objEditTime?: string
+  objectEditTime?: string
   fetchError?: string
 }
 
@@ -42,7 +46,7 @@ export interface BuildRevisionInventoryInput {
   complete: boolean
   generatedAt: string
   sourceRunId: string
-  snapshots: SourceSnapshotRecord[]
+  snapshots: SourceSnapshot[]
 }
 
 export type RevisionDiffClassification =
@@ -53,10 +57,14 @@ export type RevisionDiffClassification =
   | 'deleted'
   | 'fetch_failed'
 
-export interface RevisionDiffEntry {
-  classification: RevisionDiffClassification
+export interface RevisionChange {
+  type: RevisionDiffClassification
   canonicalToken: string
   title?: string
+  previousRevisionId?: string
+  revisionId?: string
+  objectEditTime?: string
+  contentPath?: string
 }
 
 const optionalString = (value: unknown): string | undefined =>
@@ -65,18 +73,18 @@ const optionalString = (value: unknown): string | undefined =>
 const compareTokens = (left: string, right: string): number => left < right ? -1 : left > right ? 1 : 0
 
 export function buildRevisionInventory(input: BuildRevisionInventoryInput): RevisionInventory {
-  const records = input.snapshots.map(snapshot => {
-    const canonicalToken = optionalString(snapshot.doc_token)
+  const records = input.snapshots.flatMap(snapshot => snapshot.records).map(record => {
+    const canonicalToken = optionalString(record.doc_token)
     if (!canonicalToken) throw new Error('Source snapshot record is missing doc_token')
-    const metadata = snapshot.node_metadata
+    const metadata = record.node_metadata
     return {
       canonicalToken,
-      title: optionalString(snapshot.title),
-      contentPath: snapshot.output_paths?.slice().sort()[0],
-      objToken: optionalString(metadata?.obj_token),
-      parentNodeToken: optionalString(metadata?.parent_node_token),
+      title: optionalString(record.title),
+      contentPath: record.output_paths?.slice().sort()[0],
+      objectToken: optionalString(metadata?.obj_token),
+      parentToken: optionalString(metadata?.parent_node_token),
       revisionId: optionalString(metadata?.revision_id),
-      objEditTime: optionalString(metadata?.obj_edit_time),
+      objectEditTime: optionalString(metadata?.obj_edit_time),
       fetchError: optionalString(metadata?.fetch_error),
     }
   }).sort((a, b) => compareTokens(a.canonicalToken, b.canonicalToken))
@@ -129,7 +137,7 @@ export function serializeRevisionInventory(
 export function diffRevisionInventories(
   baseline: RevisionInventory,
   candidate: RevisionInventory,
-): RevisionDiffEntry[] {
+): RevisionChange[] {
   validateRevisionInventory(baseline)
   validateRevisionInventory(candidate)
   if (baseline.group !== candidate.group) throw new Error('Cannot diff inventories from different groups')
@@ -141,29 +149,42 @@ export function diffRevisionInventories(
     throw new Error('Incomplete candidate inventory cannot be used to infer deletion')
   }
 
-  const changes: RevisionDiffEntry[] = []
+  const changes: RevisionChange[] = []
   for (const record of candidate.records) {
     const prior = before.get(record.canonicalToken)
     if (record.fetchError) {
-      changes.push(change('fetch_failed', record))
+      changes.push(change('fetch_failed', record, prior))
     } else if (!prior) {
       changes.push(change('created', record))
     } else if (record.revisionId !== prior.revisionId) {
-      changes.push(change('updated', record))
-    } else if (record.parentNodeToken !== prior.parentNodeToken) {
-      changes.push(change('moved', record))
+      changes.push(change('updated', record, prior))
+    } else if (record.parentToken !== prior.parentToken) {
+      changes.push(change('moved', record, prior))
     } else if (record.title !== prior.title) {
-      changes.push(change('renamed', record))
+      changes.push(change('renamed', record, prior))
     }
   }
   if (candidate.complete) {
-    for (const record of missing) changes.push(change('deleted', record))
+    for (const record of missing) changes.push(change('deleted', record, record, true))
   }
   return changes.sort((a, b) => compareTokens(a.canonicalToken, b.canonicalToken))
 }
 
-function change(classification: RevisionDiffClassification, record: RevisionInventoryRecord): RevisionDiffEntry {
-  return {classification, canonicalToken: record.canonicalToken, title: record.title}
+function change(
+  type: RevisionDiffClassification,
+  record: RevisionInventoryRecord,
+  prior?: RevisionInventoryRecord,
+  deleted = false,
+): RevisionChange {
+  return {
+    type,
+    canonicalToken: record.canonicalToken,
+    title: record.title,
+    previousRevisionId: prior?.revisionId,
+    revisionId: deleted ? undefined : record.revisionId,
+    objectEditTime: record.objectEditTime,
+    contentPath: record.contentPath,
+  }
 }
 
 export function editedToday<T extends RevisionInventoryRecord>(
@@ -173,8 +194,8 @@ export function editedToday<T extends RevisionInventoryRecord>(
 ): T[] {
   const day = dateKey(now, timeZone)
   return records.filter(record => {
-    if (!record.objEditTime) return false
-    const seconds = Number(record.objEditTime)
+    if (!record.objectEditTime) return false
+    const seconds = Number(record.objectEditTime)
     return Number.isFinite(seconds) && dateKey(new Date(seconds * 1000), timeZone) === day
   })
 }
@@ -192,18 +213,23 @@ const MARKDOWN_ORDER: RevisionDiffClassification[] = [
   'created', 'updated', 'moved', 'renamed', 'deleted', 'fetch_failed',
 ]
 
-export function renderRevisionDiffMarkdown(changes: RevisionDiffEntry[]): string {
-  const lines = ['# Revision inventory diff']
-  for (const classification of MARKDOWN_ORDER) {
-    const entries = changes
-      .filter(change => change.classification === classification)
-      .sort((a, b) => compareTokens(a.canonicalToken, b.canonicalToken))
-    if (entries.length === 0) continue
-    const heading = classification.split('_').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
-    lines.push('', `## ${heading}`, '')
-    for (const entry of entries) {
-      lines.push(`- \`${entry.canonicalToken}\`${entry.title ? ` — ${entry.title}` : ''}`)
-    }
+export function renderRevisionDiffMarkdown(changes: RevisionChange[]): string {
+  const rank = new Map(MARKDOWN_ORDER.map((type, index) => [type, index]))
+  const sorted = changes.slice().sort((left, right) =>
+    (rank.get(left.type) ?? Number.MAX_SAFE_INTEGER) - (rank.get(right.type) ?? Number.MAX_SAFE_INTEGER)
+      || compareTokens(left.canonicalToken, right.canonicalToken))
+  const lines = [
+    '# Revision inventory diff',
+    '',
+    '| Change | Title | Previous revision | Revision | Edit time | Content path | Token |',
+    '| --- | --- | --- | --- | --- | --- | --- |',
+  ]
+  for (const entry of sorted) {
+    lines.push(`| ${entry.type} | ${markdownCell(entry.title)} | ${markdownCell(entry.previousRevisionId)} | ${markdownCell(entry.revisionId)} | ${markdownCell(entry.objectEditTime)} | ${markdownCell(entry.contentPath)} | \`${markdownCell(entry.canonicalToken)}\` |`)
   }
   return `${lines.join('\n')}\n`
+}
+
+function markdownCell(value: string | undefined): string {
+  return (value ?? '').replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/[\r\n]+/g, ' ')
 }
