@@ -659,6 +659,25 @@ async function testRepairsUnescapedHeadingAnchorsAfterTranslation() {
   })
 }
 
+async function testRepairsTranslatedProseThatLooksLikeInvalidMdxEsm() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/python/import-jobs.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/import-jobs.md'
+    write(path.join(siteDir, sourcePath), '# Import jobs\n\nReturns import jobs and pagination details.\n')
+    const callModel = async ({ agent }) => agent === 'translation'
+      ? '# インポートジョブ\n\nimport jobs の一覧とページネーション情報を含む HTTP レスポンス。\n'
+      : '{"pass":true,"issues":[]}'
+    const result = await processManifestItem({
+      siteDir,
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'import-prose-hash', locale: 'ja-JP', type: 'reference' },
+      callModel,
+      maxReviewRounds: 0,
+    })
+    assert.equal(result.status, 'translated')
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /`import` jobs/)
+  })
+}
+
 async function testRejectsChangedHeadingAnchorIdentity() {
   await withTempDir(async siteDir => {
     const sourcePath = 'docs/tutorials/anchor-changed.md'
@@ -1143,6 +1162,7 @@ async function run() {
   testProtectsEsmBeforeModelTranslation()
   await testRestoresSourceImportsBeforeValidation()
   await testRepairsUnescapedHeadingAnchorsAfterTranslation()
+  await testRepairsTranslatedProseThatLooksLikeInvalidMdxEsm()
   await testRejectsChangedHeadingAnchorIdentity()
   await testFailedChunkDoesNotWritePartialTarget()
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()

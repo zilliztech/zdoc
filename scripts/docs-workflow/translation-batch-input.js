@@ -265,8 +265,12 @@ function cacheTargetForSource(sourcePath) {
     return targetPath
   }
   assertSafeRelativePath(sourcePath, 'cache source path')
-  if (!sourcePath.startsWith('reference/') || !MARKDOWN.test(sourcePath)) throw new Error('cache source path is outside known translation roots')
-  return `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${sourcePath.slice('reference/'.length)}`
+  for (const sourceRoot of ['content/en/reference', 'reference']) {
+    if (sourcePath.startsWith(`${sourceRoot}/`) && MARKDOWN.test(sourcePath)) {
+      return `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${sourcePath.slice(sourceRoot.length + 1)}`
+    }
+  }
+  throw new Error('cache source path is outside known translation roots')
 }
 
 function validateCache(cache, label) {

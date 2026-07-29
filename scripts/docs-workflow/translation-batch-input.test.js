@@ -374,6 +374,8 @@ function cacheEntry(sourcePath, hash = HASH_A) {
     targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/${sourcePath.slice('docs/tutorials/'.length)}`
   } else if (sourcePath.startsWith('docs-byoc/tutorials/')) {
     targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/${sourcePath.slice('docs-byoc/tutorials/'.length)}`
+  } else if (sourcePath.startsWith('content/en/reference/')) {
+    targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${sourcePath.slice('content/en/reference/'.length)}`
   } else {
     targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${sourcePath.slice('reference/'.length)}`
   }
@@ -415,6 +417,25 @@ test('authorizes only candidate, rename, and deletion-derived cache changes', ()
   assert.doesNotThrow(() => assertAuthorizedCacheChanges(beforeRename, afterOldRemoval, renameOnly))
   const afterNewAddition = { files: { 'docs/tutorials/new.md': cacheEntry('docs/tutorials/new.md') } }
   assert.throws(() => assertAuthorizedCacheChanges({ files: {} }, afterNewAddition, renameOnly), /unauthorized|cache|change/i)
+})
+
+test('accepts unchanged unified reference entries in a Guides batch cache', () => {
+  const referencePath = 'content/en/reference/api/python/python/example.md'
+  const before = { files: { [referencePath]: cacheEntry(referencePath) } }
+  const after = structuredClone(before)
+  const input = {
+    schemaVersion: 1,
+    group: 'guides',
+    sourceCheckpointSha: SHA,
+    batch: {batchIndex: 0, batchNumber: 1, batchCount: 1, batchSize: 10, pendingCount: 1, pendingSetSha256: HASH_B},
+    candidates: [{
+      sourcePath: 'content/en/guides/tutorials/new.md',
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+      sourceHash: HASH_A,
+    }],
+    sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: []},
+  }
+  assert.doesNotThrow(() => assertAuthorizedCacheChanges(before, after, input))
 })
 
 test('binds candidate cache additions and changes to exact batch values', () => {

@@ -360,12 +360,14 @@ test('candidate workspace hashes Chinese Reference files and state owned by its 
 test('candidate workspace records target-owned tracked deletions without treating them as missing inputs', () => {
   const root = fixture();
   commitZhReleaseInputs(root);
-  fs.rmSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/tool.md'));
+  const deletedPath = 'content/zh-CN/guides/tutorials/tools/tool.md';
+  execFileSync('git', ['update-index', '--skip-worktree', deletedPath], {cwd: root});
+  fs.rmSync(path.join(root, deletedPath));
 
   const {manifest} = runZh(root, {environment: candidateEnvironment()});
 
   assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [
-    'content/zh-CN/guides/tutorials/tools/tool.md',
+    deletedPath,
   ]);
 });
 

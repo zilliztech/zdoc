@@ -551,7 +551,7 @@ async function processManifestItem({
 
   const translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
     restoreEsmStatements(sourceContent, translatedChunks.join('')),
-  ))
+  ), { repairInvalidMdxEsmProse: true })
 
   const validationErrors = [
     ...validateHeadingAnchorIdentity(sourceContent, translatedContent),

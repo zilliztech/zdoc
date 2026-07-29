@@ -756,7 +756,7 @@ function validateMdxStructure(content) {
 }
 
 // Function to apply MDX patches as per the larkDocWriter.js implementation
-async function applyMdxPatches(content) {
+async function applyMdxPatches(content, options = {}) {
     try {
         // Dynamically import the MDX compile function due to ES module restrictions
         const { compile } = await import('@mdx-js/mdx');
@@ -807,6 +807,13 @@ async function applyMdxPatches(content) {
                             error.place?.line &&
                             isMdxEsmLine(patchedContent.split('\n')[error.place.line - 1] || '')
                         ) {
+                            if (options.repairInvalidMdxEsmProse) {
+                                const lines = patchedContent.split('\n');
+                                const lineIndex = error.place.line - 1;
+                                lines[lineIndex] = lines[lineIndex].replace(/^(\s*)(import|export)\b/, '$1`$2`');
+                                patchedContent = lines.join('\n');
+                                madeChanges = true;
+                            }
                             break;
                         }
 

@@ -362,6 +362,9 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
     }
     candidateActual = discoverInputDefinitionPaths(repositoryRoot, candidateWorkspace.definition);
     const dirty = dirtyFiles(repositoryRoot);
+    const targetOwnedTracked = [...tracked].filter(relativePath => targetDefinitions.some(
+      entry => isInputPath(relativePath, entry.definition),
+    ));
     const localizationDefinitions = [
       {label: 'English release', definition: releaseInputDefinition('en')},
       {label: 'Chinese release', definition: releaseInputDefinition('zh-CN')},
@@ -378,14 +381,11 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
       throw new Error(`Candidate workspace ${candidateWorkspace.target} cannot accept dirty ${unrelated.owner.label} input: ${unrelated.relativePath}`);
     }
     candidateDirty = dirty.filter(relativePath => isInputPath(relativePath, candidateWorkspace.definition));
-    candidateDeleted = candidateDirty.filter(relativePath => !fs.existsSync(confinedPath(
-      repositoryRoot,
-      relativePath,
-      'candidate workspace input',
-    )));
-    const targetOwnedTracked = [...tracked].filter(relativePath => targetDefinitions.some(
-      entry => isInputPath(relativePath, entry.definition),
-    ));
+    const candidateActualSet = new Set(candidateActual);
+    candidateDeleted = targetOwnedTracked
+      .filter(relativePath => isInputPath(relativePath, candidateWorkspace.definition))
+      .filter(relativePath => !candidateActualSet.has(relativePath))
+      .sort(compareBinary);
     assertNoInputPathCollisions([...new Set([...targetOwnedTracked, ...candidateActual])]);
   }
   const allowedCandidates = new Set(candidateDirty);

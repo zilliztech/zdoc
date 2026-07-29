@@ -60,6 +60,7 @@ const restSpecsExportWithHtmlAndTemplateBraces = [
     'export const endpoint = "/v2/example"',
 ].join('\n');
 const invalidMdxEsmExport = 'export const specs = {"schema":\\{"type":"string"}}';
+const translatedImportProse = 'import jobs の一覧とページネーション情報を含む HTTP レスポンス。';
 const indentedFencedJavaCode = [
     '<TabItem value="java">',
     '',
@@ -257,6 +258,12 @@ async function testInvalidMdxEsmExportIsNotMutated() {
     assert.equal(patched, invalidMdxEsmExport);
 }
 
+async function testTranslatedImportProseCanBeRepaired() {
+    const patched = await applyMdxPatches(translatedImportProse, { repairInvalidMdxEsmProse: true });
+    assert.equal(patched, '`import` jobs の一覧とページネーション情報を含む HTTP レスポンス。');
+    await compileToString(patched);
+}
+
 async function testIndentedFencedCodeIsPreserved() {
     const patched = await applyMdxPatches(indentedFencedJavaCode);
     assert.equal(patched, indentedFencedJavaCode);
@@ -290,6 +297,7 @@ async function run() {
     await testHtmlBreakAfterUppercaseTextIsPreserved();
     await testMdxEsmExportsArePreserved();
     await testInvalidMdxEsmExportIsNotMutated();
+    await testTranslatedImportProseCanBeRepaired();
     await testIndentedFencedCodeIsPreserved();
     await testConsecutivePlaintextFencesAreNotWidened();
     console.log('mdxPatcher regression tests passed');
