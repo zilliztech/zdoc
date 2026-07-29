@@ -353,6 +353,9 @@ importers:
       slugify:
         specifier: ^1.6.6
         version: 1.6.9
+      typescript:
+        specifier: ~5.6.2
+        version: 5.6.3
       zod:
         specifier: ^3.25.13
         version: 3.25.76

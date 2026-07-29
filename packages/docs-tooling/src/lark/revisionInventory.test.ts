@@ -20,6 +20,8 @@ const source = (
 ): SourceSnapshotRecord => ({
   doc_token,
   title: `Title ${doc_token}`,
+  source_file: `${doc_token}.json`,
+  source_hash: `hash-${doc_token}`,
   output_paths: [`z/${doc_token}.md`, `a/${doc_token}.md`],
   node_metadata: {
     obj_token: `object-${doc_token}`,
@@ -96,6 +98,17 @@ describe('revision inventory projection', () => {
       canonicalToken: 'a', title: 'Title a', contentPath: 'a/a.md', objectToken: 'object-a',
       parentToken: 'parent', revisionId: '1', objectEditTime: '1785254400',
     }])
+  })
+
+  it.each([
+    ['source hash', {source_hash: 'different-hash'}],
+    ['source file', {source_file: 'different.json'}],
+    ['later output path', {output_paths: ['a/a.md', 'different/a.md']}],
+  ])('rejects duplicate canonical tokens with conflicting %s evidence', (_label, overrides) => {
+    expect(() => buildRevisionInventory({
+      group: 'node', complete: true, generatedAt: 'x', sourceRunId: 'x',
+      snapshots: [snapshot(source('a')), snapshot(source('a', overrides))],
+    })).toThrow(/conflicting duplicate.*a/i)
   })
 
   it('builds a complete empty REST inventory', () => {

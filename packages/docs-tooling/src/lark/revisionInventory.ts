@@ -13,6 +13,8 @@ export interface SourceNodeMetadata {
 export interface SourceSnapshotRecord {
   doc_token?: string | null
   title?: string | null
+  source_file?: string | null
+  source_hash?: string | null
   output_paths?: string[] | null
   node_metadata?: SourceNodeMetadata | null
 }
@@ -77,26 +79,38 @@ export function buildRevisionInventory(input: BuildRevisionInventoryInput): Revi
     const canonicalToken = optionalString(record.doc_token)
     if (!canonicalToken) throw new Error('Source snapshot record is missing doc_token')
     const metadata = record.node_metadata
+    const outputPaths = record.output_paths?.slice().sort() ?? []
     return {
-      canonicalToken,
-      title: optionalString(record.title) ?? canonicalToken,
-      contentPath: record.output_paths?.slice().sort()[0] ?? null,
-      objectToken: optionalString(metadata?.obj_token) ?? null,
-      parentToken: optionalString(metadata?.parent_node_token) ?? null,
-      revisionId: optionalString(metadata?.revision_id) ?? null,
-      objectEditTime: optionalString(metadata?.obj_edit_time) ?? null,
-      fetchError: optionalString(metadata?.fetch_error),
+      record: {
+        canonicalToken,
+        title: optionalString(record.title) ?? canonicalToken,
+        contentPath: outputPaths[0] ?? null,
+        objectToken: optionalString(metadata?.obj_token) ?? null,
+        parentToken: optionalString(metadata?.parent_node_token) ?? null,
+        revisionId: optionalString(metadata?.revision_id) ?? null,
+        objectEditTime: optionalString(metadata?.obj_edit_time) ?? null,
+        fetchError: optionalString(metadata?.fetch_error),
+      },
+      evidence: {
+        sourceFile: optionalString(record.source_file),
+        sourceHash: optionalString(record.source_hash),
+        outputPaths,
+      },
     }
-  }).sort((a, b) => compareTokens(a.canonicalToken, b.canonicalToken))
+  }).sort((a, b) => compareTokens(a.record.canonicalToken, b.record.canonicalToken))
 
-  const records = projected.filter((record, index) => {
+  const records = projected.filter((entry, index) => {
     const previous = projected[index - 1]
-    if (!previous || previous.canonicalToken !== record.canonicalToken) return true
-    if (JSON.stringify(previous) !== JSON.stringify(record)) {
-      throw new Error(`Conflicting duplicate canonical token: ${record.canonicalToken}`)
+    if (!previous || previous.record.canonicalToken !== entry.record.canonicalToken) return true
+    const evidenceComplete = entry.evidence.sourceFile && entry.evidence.sourceHash
+      && previous.evidence.sourceFile && previous.evidence.sourceHash
+    if (!evidenceComplete
+      || JSON.stringify(previous.record) !== JSON.stringify(entry.record)
+      || JSON.stringify(previous.evidence) !== JSON.stringify(entry.evidence)) {
+      throw new Error(`Conflicting duplicate canonical token: ${entry.record.canonicalToken}`)
     }
     return false
-  })
+  }).map(entry => entry.record)
 
   const result: RevisionInventory = {
     schemaVersion: 1,

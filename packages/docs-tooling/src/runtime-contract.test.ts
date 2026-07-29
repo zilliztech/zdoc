@@ -30,7 +30,7 @@ describe('docs-tooling runtime contract', () => {
     const rootManifest = JSON.parse(readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8')) as {
       scripts?: Record<string, string>;
     };
-    expect(rootManifest.scripts?.['docs-tooling']).toBe('node --experimental-strip-types packages/docs-tooling/src/cli-main.ts');
+    expect(rootManifest.scripts?.['docs-tooling']).toBe('node scripts/docs-tooling.js');
   });
 
   it('keeps the report-card entrypoint compatible with Node 22.6 type stripping', () => {
@@ -64,6 +64,7 @@ describe('docs-tooling runtime contract', () => {
       'sharp',
       'showdown',
       'slugify',
+      'typescript',
       'zod',
     ]);
     expect(manifest.engines?.node).toBe('>=22.6.0');
