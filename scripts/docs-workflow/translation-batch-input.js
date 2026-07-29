@@ -33,6 +33,19 @@ const GUIDES_MAPPINGS = Object.freeze([
   },
 ])
 
+const LEGACY_GUIDES_CACHE_MAPPINGS = Object.freeze([
+  {
+    sourceRoot: 'docs/tutorials',
+    targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
+  },
+  {
+    sourceRoot: 'docs-byoc/tutorials',
+    targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
+  },
+])
+
+const GUIDES_CACHE_MAPPINGS = Object.freeze([...GUIDES_MAPPINGS, ...LEGACY_GUIDES_CACHE_MAPPINGS])
+
 function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
@@ -259,10 +272,12 @@ function createBatchInput(manifest) {
 }
 
 function cacheTargetForSource(sourcePath) {
-  const guides = matchingGuideMapping(sourcePath)
+  const guides = GUIDES_CACHE_MAPPINGS.find(mapping => sourcePath.startsWith(`${mapping.sourceRoot}/`))
   if (guides) {
-    const { targetPath } = expectedGuideTarget(sourcePath, 'cache source path')
-    return targetPath
+    assertSafeRelativePath(sourcePath, 'cache source path')
+    const suffix = sourcePath.slice(guides.sourceRoot.length + 1)
+    if (!suffix || !MARKDOWN.test(suffix)) throw new Error('cache source path must have a .md or .mdx extension')
+    return `${guides.targetRoot}/${suffix}`
   }
   assertSafeRelativePath(sourcePath, 'cache source path')
   for (const sourceRoot of ['content/en/reference', 'reference']) {
@@ -290,13 +305,13 @@ function cacheSourceIdentities(sourcePath) {
   const mapping = matchingGuideMapping(sourcePath)
   if (!mapping) return [sourcePath]
   const suffix = sourcePath.slice(mapping.sourceRoot.length + 1)
-  return GUIDES_MAPPINGS
+  return GUIDES_CACHE_MAPPINGS
     .filter(item => item.targetRoot === mapping.targetRoot)
     .map(item => `${item.sourceRoot}/${suffix}`)
 }
 
 function sourcesForDeletedI18n(targetPath) {
-  const mappings = GUIDES_MAPPINGS.filter(item => targetPath.startsWith(`${item.targetRoot}/`))
+  const mappings = GUIDES_CACHE_MAPPINGS.filter(item => targetPath.startsWith(`${item.targetRoot}/`))
   if (!mappings.length) throw new Error('Deletion is outside exact Guides target roots')
   return mappings.map(mapping => `${mapping.sourceRoot}/${targetPath.slice(mapping.targetRoot.length + 1)}`)
 }

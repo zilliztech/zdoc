@@ -371,6 +371,22 @@ test('candidate workspace records target-owned tracked deletions without treatin
   ]);
 });
 
+test('Japanese candidate workspace records skip-worktree target deletions', () => {
+  const root = fixture();
+  const deletedPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md';
+  write(root, deletedPath, '# deleted\n');
+  execFileSync('git', ['add', deletedPath], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'Add Japanese candidate deletion'], {cwd: root});
+  execFileSync('git', ['update-index', '--skip-worktree', deletedPath], {cwd: root});
+  fs.rmSync(path.join(root, deletedPath));
+
+  const {manifest} = run(root, {environment: candidateEnvironment({
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
+  })});
+
+  assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [deletedPath]);
+});
+
 test('candidate workspace rejects tracked modifications owned by another translation target', () => {
   const root = fixture();
   fs.appendFileSync(

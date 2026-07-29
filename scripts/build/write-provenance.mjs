@@ -355,9 +355,10 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
       target,
       definition: translationTargetInputDefinition(target),
     }));
-    for (const required of candidateWorkspace.definition.required) {
-      if (!fs.existsSync(confinedPath(repositoryRoot, required, 'candidate workspace required input'))) {
-        throw new Error(`Missing required candidate workspace input: ${required}`);
+    if (candidateWorkspace.target === 'zh-CN-reference') {
+      const [referenceState] = candidateWorkspace.definition.required;
+      if (!fs.existsSync(confinedPath(repositoryRoot, referenceState, 'candidate workspace required input'))) {
+        throw new Error(`Missing required candidate workspace input: ${referenceState}`);
       }
     }
     candidateActual = discoverInputDefinitionPaths(repositoryRoot, candidateWorkspace.definition);

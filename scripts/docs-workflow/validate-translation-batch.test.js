@@ -107,6 +107,37 @@ test('validates matching translated and baseline batch artifacts', async () => {
   assert.equal(Object.isFrozen(validated.result), true)
 })
 
+test('accepts unchanged legacy Guides cache entries beside a unified numbered candidate', async () => {
+  const legacy = {
+    sourceHash: 'e'.repeat(64),
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/legacy.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+  const legacyByoc = {
+    sourceHash: 'f'.repeat(64),
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/legacy-byoc.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+  const pair = await translationPair({
+    baselineCache: {
+      'docs/tutorials/legacy.md': legacy,
+      'docs-byoc/tutorials/legacy-byoc.md': legacyByoc,
+    },
+    resultCache: {
+      'content/en/guides/tutorials/new.md': cacheEntry(),
+      'docs/tutorials/legacy.md': legacy,
+      'docs-byoc/tutorials/legacy-byoc.md': legacyByoc,
+    },
+  })
+
+  await assert.doesNotReject(validateTranslationBatch({
+    artifactDir: pair.artifact,
+    baselineDir: pair.baseline,
+    batchNumber: 1,
+    batchCount: 1,
+  }))
+})
+
 test('infers the expected batch identity from the pinned result when omitted by a caller', async () => {
   const pair = await translationPair()
   const validated = await validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline })
@@ -184,6 +215,26 @@ test('enforces authorized translation cache changes from the shared batch input'
     baselineCache: { 'content/en/guides/tutorials/stable.md': stable },
     resultCache: { 'content/en/guides/tutorials/new.md': cacheEntry(), 'content/en/guides/tutorials/stable.md': changedStable },
   })
+  await assert.rejects(
+    validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }),
+    /unauthorized.*cache|cache change/i,
+  )
+})
+
+test('does not grant unified candidates authority to mutate legacy Guides cache entries', async () => {
+  const legacy = {
+    sourceHash: 'e'.repeat(64),
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+  const pair = await translationPair({
+    baselineCache: { 'docs/tutorials/new.md': legacy },
+    resultCache: {
+      'content/en/guides/tutorials/new.md': cacheEntry(),
+      'docs/tutorials/new.md': { ...legacy, sourceHash: 'f'.repeat(64) },
+    },
+  })
+
   await assert.rejects(
     validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }),
     /unauthorized.*cache|cache change/i,
