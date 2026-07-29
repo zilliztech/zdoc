@@ -307,6 +307,32 @@ describe('typed publication group execution', () => {
     expect(readFileSync(path.join(root, 'content/en/guides/tutorials/home.md'), 'utf8')).toBe('# PR home\n');
     expect(readFileSync(path.join(root, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/home.md'), 'utf8')).toBe('# PR home\n');
   });
+
+  it('retains live Guides targets when the immutable baseline predates their publication paths', async () => {
+    const root = temporaryRoot();
+    const baselineRoot = temporaryRoot();
+    write(root, 'content/en/guides/tutorials/home.md', '# PR home\n');
+    write(root, 'content/en/guides/tutorials/current.md', '# Current\n');
+    write(root, 'content/en/byoc/tutorials/current.md', '# Current BYOC\n');
+    write(root, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = ["current"]\n');
+    write(root, 'generated/en/sidebars/guides-byoc.sidebar.js', 'module.exports = ["current"]\n');
+
+    await executePublicationGroup(
+      {site: 'en', group: 'guides', stage: 'fetch'},
+      {
+        repositoryRoot: root,
+        environment: {
+          DOCS_TOOLING_GUIDES_STAGE: 'baseline',
+          DOCS_TOOLING_BASELINE_ROOT: baselineRoot,
+        },
+      },
+    );
+
+    expect(readFileSync(path.join(root, 'content/en/guides/tutorials/current.md'), 'utf8')).toBe('# Current\n');
+    expect(readFileSync(path.join(root, 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/current.md'), 'utf8')).toBe('# Current\n');
+    expect(readFileSync(path.join(root, 'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js'), 'utf8')).toContain('current');
+    expect(readFileSync(path.join(root, 'tmp/docs-tooling/en/guides-byoc/content/en/byoc/tutorials/current.md'), 'utf8')).toBe('# Current BYOC\n');
+  });
 });
 
 describe('Chinese Guides source publication', () => {

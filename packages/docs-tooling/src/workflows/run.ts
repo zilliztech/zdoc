@@ -581,16 +581,9 @@ async function prepareTreeOwnedBaseline(
   removeSecureStageTree(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
   try {
     const restoreStage = ensureSecureDirectory(repositoryRoot, restoreStageRelative, 'Immutable baseline restore stage');
-    const replacements: {source: string; target: string}[] = [];
-    const removals: string[] = [];
     for (const target of targets) {
-      if (copyPublicationTarget(baselineRoot, restoreStage, target)) {
-        replacements.push({
-          source: resolveOwnedRepositoryPath(restoreStage, target, 'Staged immutable baseline publication target'),
-          target,
-        });
-      } else {
-        removals.push(target);
+      if (!copyPublicationTarget(baselineRoot, restoreStage, target)) {
+        copyPublicationTarget(repositoryRoot, restoreStage, target);
       }
     }
     for (const manual of group.manuals) {
@@ -601,6 +594,16 @@ async function prepareTreeOwnedBaseline(
           restoreStage,
           `${publication.outputDir}/${relativePath}`,
         );
+      }
+    }
+    const replacements: {source: string; target: string}[] = [];
+    const removals: string[] = [];
+    for (const target of targets) {
+      const stagedTarget = resolveOwnedRepositoryPath(restoreStage, target, 'Staged immutable baseline publication target');
+      if (existsSync(stagedTarget)) {
+        replacements.push({source: stagedTarget, target});
+      } else {
+        removals.push(target);
       }
     }
     const expectedCommit = ownedTreeCommit(restoreStage, targets);
