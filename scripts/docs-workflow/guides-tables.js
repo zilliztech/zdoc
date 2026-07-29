@@ -58,6 +58,7 @@ function buildGuidesTableMatrix({ site, plan, snapshot }) {
       const normalizedTarget = normalizeTarget(target)
       if (!TARGETS.includes(normalizedTarget)) continue
       entries.push({
+        site,
         table_id: tableId,
         table_name: tableName,
         table_slug: tableSlug,

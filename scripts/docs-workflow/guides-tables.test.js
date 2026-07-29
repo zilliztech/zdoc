@@ -46,6 +46,7 @@ test('full Guides matrix contains the current 14 publishable target/table combin
   assert.deepEqual(matrix.filter(item => item.table_name === 'Tools').map(item => item.target), ['zilliz.paas', 'zilliz.saas'])
   assert.equal(matrix.some(item => item.table_name === 'Solution'), false)
   assert.equal(matrix.every(item => item.cleanup === false), true)
+  assert.equal(matrix.every(item => item.site === 'en'), true)
 })
 
 test('incremental matrix adds newly targeted canonical and ignores empty Progress canonical', () => {
@@ -54,7 +55,7 @@ test('incremental matrix adds newly targeted canonical and ignores empty Progres
     { record_id: 'hidden-page', table_id: 'hidden', table_name: 'Hidden', placement_type: 'canonical', progress: '', targets: ['zilliz.saas'] },
   ])
   const matrix = buildGuidesTableMatrix({ site: 'en', plan: { mode: 'incremental', affected_tables: ['solution', 'hidden'] }, snapshot: current })
-  assert.deepEqual(matrix, [{ table_id: 'solution', table_name: 'Solution', table_slug: 'solution', target: 'zilliz.saas', target_name: 'saas', cleanup: false }])
+  assert.deepEqual(matrix, [{ site: 'en', table_id: 'solution', table_name: 'Solution', table_slug: 'solution', target: 'zilliz.saas', target_name: 'saas', cleanup: false }])
 })
 
 test('incremental matrix emits one cleanup entry after the last canonical target is deleted', () => {
@@ -73,7 +74,7 @@ test('incremental matrix emits one cleanup entry after the last canonical target
       table_digests: {},
     },
   })
-  assert.deepEqual(matrix, [{ table_id: 'tools', table_name: 'Tools', table_slug: 'tools', target: 'zilliz.saas', target_name: 'saas', cleanup: true }])
+  assert.deepEqual(matrix, [{ site: 'en', table_id: 'tools', table_name: 'Tools', table_slug: 'tools', target: 'zilliz.saas', target_name: 'saas', cleanup: true }])
 })
 
 test('full matrix also cleans a table removed entirely since the previous snapshot', () => {
@@ -83,7 +84,7 @@ test('full matrix also cleans a table removed entirely since the previous snapsh
     snapshot: snapshot(),
   })
   assert.deepEqual(matrix.find(item => item.table_id === 'removed'), {
-    table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
+    site: 'en', table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
     target: 'zilliz.paas', target_name: 'byoc', cleanup: true,
   })
 })
@@ -128,7 +129,7 @@ test('Chinese Guides matrix omits protected Tools identities before render while
   })
 
   assert.deepEqual(matrix, [{
-    table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
+    site: 'zh-CN', table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
     target: 'zilliz.paas', target_name: 'byoc', cleanup: true,
   }])
 })
