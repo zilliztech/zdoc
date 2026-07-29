@@ -434,6 +434,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (/sed -n ['"]s\/\^status=|tee [^\n]*(?:publication|state)|tail -1/.test(source)) errors.push(`${file}: staging publisher must not derive state from logs`)
     }
 
+    if (file === '_fetch-content-group.yml') {
+      const steps = workflow.jobs?.produce?.steps || []
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
+      const validationIndex = steps.findIndex(step => step?.name === 'Validate content group')
+      if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < validationIndex)) {
+        errors.push(`${file}: must install dependencies before validating the content group`)
+      }
+    }
+
     if (file === '_publish-content-group.yml') {
       const publisher = (workflow.jobs?.publish?.steps || []).find(step => step.name === 'Publish checkpoint')
       const expected = {

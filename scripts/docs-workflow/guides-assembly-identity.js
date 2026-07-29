@@ -38,8 +38,8 @@ const FINGERPRINT_FILES = Object.freeze([
   'scripts/docs-workflow/guides-assembly-identity.js',
   'scripts/docs-workflow/generate-guides-sidebars.js',
   'config/lark-docs.config.ts',
-  'config/sidebar-overrides/guides.json',
-  'config/sidebar-overrides/guides-byoc.json',
+  'sidebar-overrides/en/guides.json',
+  'sidebar-overrides/en/guides-byoc.json',
 ])
 const SEMANTIC_FIELDS = Object.freeze([
   'record_id', 'placement_type', 'source_file', 'source_hash', 'doc_token',

@@ -1438,6 +1438,26 @@ test('workflow policy rejects content group contract validation before dependenc
   }
 })
 
+test('workflow policy rejects content group validation before producer dependencies are installed', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'producer-install-order-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const file = path.join(directory, '_fetch-content-group.yml')
+    const workflow = yaml.load(fs.readFileSync(file, 'utf8'))
+    const steps = workflow.jobs.produce.steps
+    const validationIndex = steps.findIndex(step => step.name === 'Validate content group')
+    const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
+    assert.ok(validationIndex > installIndex)
+    const [validation] = steps.splice(validationIndex, 1)
+    steps.splice(installIndex, 0, validation)
+    fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
+    assert.ok(validateWorkflowPolicies(directory).includes('_fetch-content-group.yml: must install dependencies before validating the content group'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
 test('workflow policy rejects direct TypeScript requires in the content publisher', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-typescript-loader-policy-'))

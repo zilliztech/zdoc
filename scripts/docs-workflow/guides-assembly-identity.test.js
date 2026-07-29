@@ -32,8 +32,8 @@ const ALLOWLIST = [
   'scripts/docs-workflow/guides-assembly-identity.js',
   'scripts/docs-workflow/generate-guides-sidebars.js',
   'config/lark-docs.config.ts',
-  'config/sidebar-overrides/guides.json',
-  'config/sidebar-overrides/guides-byoc.json',
+  'sidebar-overrides/en/guides.json',
+  'sidebar-overrides/en/guides-byoc.json',
 ]
 
 function hash(bytes) { return crypto.createHash('sha256').update(bytes).digest('hex') }
