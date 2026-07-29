@@ -67,6 +67,7 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /test -s build\/en\/ja-JP\/docs\/home\.html/);
   assert.match(workflow, /^  build_zh_cn:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
+  assert.match(jobBlock(workflow, 'build_zh_cn'), /uses: actions\/checkout@v4\n\s+with:\n\s+fetch-depth: 0/);
   assert.match(workflow, /run: pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm docs-tooling validate-reference --site zh-CN[\s\S]*pnpm build:zh-CN/);
