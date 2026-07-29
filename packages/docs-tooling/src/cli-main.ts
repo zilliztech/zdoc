@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import {existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
-import {stripTypeScriptTypes} from 'node:module';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
 import type {AliyunOssValidator} from '@zilliz/publication-adapters';
 import {config as loadDotenv} from 'dotenv';
+import ts from 'typescript';
 
 import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
 import {checkLinks} from './links/check.ts';
@@ -29,10 +29,14 @@ type RevisionInventoryModule = typeof import('./lark/revisionInventory.ts');
 let revisionInventoryModule: Promise<RevisionInventoryModule> | undefined;
 
 function loadRevisionInventoryModule(): Promise<RevisionInventoryModule> {
-  revisionInventoryModule ??= import(`data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(
-    readFileSync(path.join(import.meta.dirname, 'lark/revisionInventory.ts'), 'utf8'),
-    {mode: 'strip'},
-  )).toString('base64')}`) as Promise<RevisionInventoryModule>;
+  if (!revisionInventoryModule) {
+    const source = readFileSync(path.join(import.meta.dirname, 'lark/revisionInventory.ts'), 'utf8');
+    const javascript = ts.transpileModule(source, {
+      compilerOptions: {module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022},
+    }).outputText;
+    revisionInventoryModule = import(`data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`)
+      .then(module => module as RevisionInventoryModule);
+  }
   return revisionInventoryModule;
 }
 
@@ -110,6 +114,7 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
   const options = parseOptions(argv.slice(2));
   const group = revisionGroup(requiredOption(options, 'group'));
   const snapshotOption = options.snapshot;
+  if (group === 'rest' && snapshotOption !== undefined) throw new Error('REST revision inventory does not accept snapshots');
   if (group !== 'rest' && (typeof snapshotOption !== 'string' || !snapshotOption)) throw new Error('--snapshot is required');
   const snapshotPaths = typeof snapshotOption === 'string' ? snapshotOption.split(',') : [];
   if (snapshotPaths.some(value => !value)) throw new Error('--snapshot must contain repository-relative paths');

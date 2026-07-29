@@ -178,6 +178,11 @@ function prepareToolsCategoryLandingTranslation(repositoryRoot: string): void {
 }
 
 describe('docs-tooling executable composition root', () => {
+  it('uses only the declared Node 22.6 runtime surface for revision inventory loading', () => {
+    const source = readFileSync(cliMain, 'utf8');
+    expect(source).not.toMatch(/stripTypeScriptTypes/u);
+  });
+
   it('builds an updated revision inventory and deterministic JSON and Markdown reports', () => {
     const repositoryRoot = temporaryRoot();
     writeJson(repositoryRoot, 'generated/en/manifests/lark-revisions/python.json', revisionInventory('python', [revisionRecord('a')]));
@@ -215,6 +220,16 @@ describe('docs-tooling executable composition root', () => {
     expect(result.status, result.stderr || result.stdout).toBe(0);
     expect(JSON.parse(readFileSync(path.join(repositoryRoot, 'generated/en/manifests/lark-revisions/rest.json'), 'utf8')))
       .toMatchObject({group: 'rest', complete: true, records: []});
+  });
+
+  it('rejects snapshots for the deterministic empty REST inventory', () => {
+    const repositoryRoot = temporaryRoot();
+    writeJson(repositoryRoot, 'tmp/snapshots/rest.json', {records: [sourceRecord('unexpected')]});
+
+    const result = runCli(repositoryRoot, revisionBuildArgs('rest', ['--snapshot', 'tmp/snapshots/rest.json']));
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/rest.*snapshot|snapshot.*rest/i);
   });
 
   it('refuses to infer deletion from an incomplete snapshot candidate', () => {
