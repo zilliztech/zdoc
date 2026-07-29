@@ -101,6 +101,8 @@ test('final verification separates the revision waterline from ordered two-site 
   assert.match(workflow, /^      revision_status: \$\{\{ steps\.revision_result\.outputs\.status \}\}$/m);
   assert.match(workflow, /name: Verify revision waterline[\s\S]*id: revision[\s\S]*continue-on-error: true/);
   assert.match(workflow, /pnpm check:localization-input-inventory[\s\S]*pnpm docs-tooling validate-revision-inventory --site en/);
+  assert.match(workflow, /name: Emit revision reconciliation result[\s\S]*id: revision_result[\s\S]*steps\.revision\.outcome[\s\S]*status=passed[\s\S]*status=failed/);
+  assert.match(workflow, /name: Upload final verification reports\n\s+if: \$\{\{ always\(\) \}\}/);
 
   const revisionIndex = workflow.indexOf('name: Verify revision waterline');
   const siteIndex = workflow.indexOf('name: Verify final documentation state');

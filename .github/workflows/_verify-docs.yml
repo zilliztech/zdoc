@@ -67,7 +67,7 @@ jobs:
           mkdir -p tmp/final-verification-reports
           pnpm check:localization-input-inventory 2>&1 | tee tmp/final-verification-reports/localization-input-inventory.log
           pnpm docs-tooling validate-revision-inventory --site en 2>&1 | tee tmp/final-verification-reports/revision-inventory.log
-      - name: Emit revision result
+      - name: Emit revision reconciliation result
         id: revision_result
         if: ${{ always() }}
         run: |

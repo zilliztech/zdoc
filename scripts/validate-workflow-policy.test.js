@@ -917,6 +917,51 @@ test('workflow policy rejects final verification waterline and two-site mutation
   }
 })
 
+test('workflow policy binds final verification reports and deterministic revision evidence to exact steps', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    [
+      '      - name: Upload final verification reports\n        if: ${{ always() }}',
+      '      - name: Upload final verification reports',
+      '_verify-docs.yml: final verification report upload must always run',
+    ],
+    [
+      '      - name: Emit revision reconciliation result\n        id: revision_result',
+      '      - name: Emit revision reconciliation result\n        id: skipped_revision_result',
+      '_verify-docs.yml: revision reconciliation result must deterministically emit passed or failed',
+    ],
+    [
+      '      - name: Emit revision reconciliation result\n        id: revision_result\n        if: ${{ always() }}\n        run: |\n          if [[ "${{ steps.revision.outcome }}" == success ]]; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi\n',
+      '',
+      '_verify-docs.yml: revision reconciliation result must deterministically emit passed or failed',
+    ],
+    [
+      'pnpm check:localization-input-inventory 2>&1 | tee tmp/final-verification-reports/localization-input-inventory.log',
+      'pnpm check:localization-input-inventory',
+      '_verify-docs.yml: revision waterline commands must preserve exact report logs',
+    ],
+    [
+      'pnpm docs-tooling validate-revision-inventory --site en 2>&1 | tee tmp/final-verification-reports/revision-inventory.log',
+      'pnpm docs-tooling validate-revision-inventory --site en 2>&1 | tee tmp/final-verification-reports/revisions.log',
+      '_verify-docs.yml: revision waterline commands must preserve exact report logs',
+    ],
+  ]
+  for (const [from, to, expected] of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'final-evidence-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, '_verify-docs.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = source.replace(from, to)
+      assert.notEqual(mutated, source, `mutation must replace ${from}`)
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(expected), expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('reusable content producer is immutable, read-only, and publishes a validated checkpoint artifact', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_fetch-content-group.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content producer workflow must exist')

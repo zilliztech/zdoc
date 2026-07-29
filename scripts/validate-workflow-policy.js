@@ -87,6 +87,10 @@ function validateTargetBranches(run, file, errors) {
   }
 }
 
+function namedJobStep(workflow, jobName, stepName) {
+  return (workflow?.jobs?.[jobName]?.steps || []).find(step => step?.name === stepName)
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
@@ -640,8 +644,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: must expose revision status separately from overall status`)
       }
       const steps = workflow.jobs?.verify?.steps || []
-      const byName = new Map(steps.map(step => [step?.name, step]))
-      const revision = byName.get('Verify revision waterline')
+      const revision = namedJobStep(workflow, 'verify', 'Verify revision waterline')
       const revisionRun = String(revision?.run || '')
       if (revision?.id !== 'revision' || revision?.['continue-on-error'] !== true ||
         !/set -euo pipefail/.test(revisionRun) ||
@@ -649,9 +652,22 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/tmp\/final-verification-reports/.test(revisionRun)) {
         errors.push(`${file}: revision waterline must validate localization and revision inventories`)
       }
+      const exactRevisionLogs = [
+        'pnpm check:localization-input-inventory 2>&1 | tee tmp/final-verification-reports/localization-input-inventory.log',
+        'pnpm docs-tooling validate-revision-inventory --site en 2>&1 | tee tmp/final-verification-reports/revision-inventory.log',
+      ]
+      if (exactRevisionLogs.some(command => !revisionRun.split('\n').map(line => line.trim()).includes(command))) {
+        errors.push(`${file}: revision waterline commands must preserve exact report logs`)
+      }
+      const revisionResult = namedJobStep(workflow, 'verify', 'Emit revision reconciliation result')
+      const revisionResultRun = String(revisionResult?.run || '')
+      if (revisionResult?.id !== 'revision_result' || String(revisionResult?.if || '').trim() !== '${{ always() }}' ||
+        !/if \[\[ "\$\{\{ steps\.revision\.outcome \}\}" == success \]\]; then\s+echo "status=passed" >> "\$GITHUB_OUTPUT"\s+else\s+echo "status=failed" >> "\$GITHUB_OUTPUT"\s+fi/.test(revisionResultRun)) {
+        errors.push(`${file}: revision reconciliation result must deterministically emit passed or failed`)
+      }
       const materializeIndex = steps.findIndex(step => step?.name === 'Materialize exact final dev state')
       const revisionIndex = steps.indexOf(revision)
-      const verification = byName.get('Verify final documentation state')
+      const verification = namedJobStep(workflow, 'verify', 'Verify final documentation state')
       const verificationIndex = steps.indexOf(verification)
       const verificationRun = String(verification?.run || '')
       const orderedSiteCommands = [
@@ -676,7 +692,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         verification?.id !== 'verification' || verification?.['continue-on-error'] !== true || !orderedSiteValidation) {
         errors.push(`${file}: site verification must run ordered Chinese validators before both site builds`)
       }
-      const resultRun = String(byName.get('Emit verification result')?.run || '')
+      const uploadReports = namedJobStep(workflow, 'verify', 'Upload final verification reports')
+      if (String(uploadReports?.if || '').trim() !== '${{ always() }}') {
+        errors.push(`${file}: final verification report upload must always run`)
+      }
+      const resultRun = String(namedJobStep(workflow, 'verify', 'Emit verification result')?.run || '')
       if (!/steps\.revision\.outcome[^\n]*steps\.verification\.outcome/.test(resultRun)) {
         errors.push(`${file}: overall status must require revision and site verification success`)
       }
