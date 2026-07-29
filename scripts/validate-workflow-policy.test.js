@@ -12,6 +12,39 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('docs ingestion watchdog is read-only and preserves evaluator failures after alerting', () => {
+  const file = '.github/workflows/docs-ingestion-watchdog.yml'
+  const source = fs.readFileSync(file, 'utf8')
+  const workflow = yaml.load(source)
+  assert.deepEqual(workflow.permissions, { actions: 'read', contents: 'read' })
+  assert.match(source, /node scripts\/docs-workflow\/docs-ingestion-watchdog\.js[\s\S]*--repository "\$GITHUB_REPOSITORY"[\s\S]*--output tmp\/docs-ingestion-watchdog\.json/)
+  assert.match(source, /continue-on-error: true[\s\S]*docs-ingestion-watchdog\.js/)
+  assert.match(source, /if-no-files-found: error/)
+  assert.match(source, /report-card create[\s\S]*report-card note --file[\s\S]*report-card finish/)
+  assert.match(source, /if \[ "\$WATCHDOG_OUTCOME" != "success" \][\s\S]*exit 1/)
+  assert.doesNotMatch(source, /git push|workflow_dispatches|gh workflow run|fetch-lark-docs|deploy|contents: write|actions: write/)
+})
+
+test('workflow policy rejects writable or non-failing docs ingestion watchdog mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const original = fs.readFileSync(path.join(sourceDirectory, 'docs-ingestion-watchdog.yml'), 'utf8')
+  const cases = [
+    original.replace('contents: read', 'contents: write'),
+    original.replace('exit 1', 'echo ignored'),
+    `${original}\n# forbidden mutation\n# git push origin HEAD:dev\n`,
+  ]
+  for (const source of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'watchdog-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      fs.writeFileSync(path.join(directory, 'docs-ingestion-watchdog.yml'), source)
+      assert.ok(validateWorkflowPolicies(directory).some(error => error.startsWith('docs-ingestion-watchdog.yml:')))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('translation workflows declare immutable target identity and exact target validation', () => {
   const reusableFiles = [
     '_prepare-translation-batches.yml',

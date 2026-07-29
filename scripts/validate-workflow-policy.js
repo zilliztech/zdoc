@@ -1006,6 +1006,26 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
   }
 
+  const watchdogSource = readWorkflow('docs-ingestion-watchdog.yml')
+  if (watchdogSource) {
+    const watchdog = yaml.load(watchdogSource)
+    if (watchdog.permissions?.actions !== 'read' || watchdog.permissions?.contents !== 'read' || Object.keys(watchdog.permissions || {}).length !== 2) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog permissions must be actions: read and contents: read only')
+    }
+    if (!/node scripts\/docs-workflow\/docs-ingestion-watchdog\.js[\s\S]*--repository "\$GITHUB_REPOSITORY"[\s\S]*--output tmp\/docs-ingestion-watchdog\.json/.test(watchdogSource)) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog must call the repository evaluator')
+    }
+    if (/git push|workflow_dispatches|gh workflow run|fetch-lark-docs|\bdeploy\b|contents: write|actions: write/.test(watchdogSource)) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog must remain read-only and must not dispatch, publish, or deploy')
+    }
+    if (!/continue-on-error: true[\s\S]*docs-ingestion-watchdog\.js/.test(watchdogSource) ||
+        !/if-no-files-found: error/.test(watchdogSource) ||
+        !/report-card create[\s\S]*report-card note --file[\s\S]*report-card finish/.test(watchdogSource) ||
+        !/if \[ "\$WATCHDOG_OUTCOME" != "success" \][\s\S]*exit 1/.test(watchdogSource)) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog must upload evidence, alert best-effort, and preserve evaluator failure')
+    }
+  }
+
   for (const file of fs.readdirSync(directory).filter(name => /\.ya?ml$/.test(name))) {
     const workflow = yaml.load(fs.readFileSync(path.join(directory, file), 'utf8'))
     if (!workflow?.on || !Object.hasOwn(workflow.on, 'push')) continue
