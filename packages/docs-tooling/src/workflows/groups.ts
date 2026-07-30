@@ -159,7 +159,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
       ...group.ownedPaths,
       ...sourceSnapshots,
       ...(groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
-      ...(site === 'en' && groupName !== 'guides' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
+      ...(site === 'en' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
       ...(group.publicationManifest ? [group.publicationManifest] : []),
       ...(site === 'en' ? [`generated/en/manifests/lark-revisions/${groupName}.json`] : []),
     ]),

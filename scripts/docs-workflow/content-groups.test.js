@@ -47,10 +47,9 @@ test('appends the exact revision inventory owned by each English publication gro
   }
 });
 
-test('checkpoints the English Reference root manifest with every Reference producer', () => {
+test('checkpoints the English Reference root manifest with every English producer', () => {
   const manifest = 'content/en/reference/content-manifest.json';
-  assert.equal(getContentGroup('guides').ownedPaths.includes(manifest), false);
-  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+  for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
     assert.equal(getContentGroup(group).ownedPaths.includes(manifest), true, group);
   }
 });

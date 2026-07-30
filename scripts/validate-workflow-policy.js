@@ -650,6 +650,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (/git-auto-commit|git push[^\n]*--force/.test(source)) errors.push(`${file}: publisher must not auto-commit or force-push`)
     }
 
+    if (file === '_assemble-guides.yml') {
+      const steps = workflow.jobs?.assemble?.steps || []
+      const baselineIndex = steps.findIndex(step => step?.name === 'Prepare immutable baseline')
+      const workspaceIndex = steps.findIndex(step => step?.name === 'Prepare selected Guides workspace')
+      const sourceRestoreIndex = steps.findIndex(step => step?.name === 'Restore validated Guides source')
+      if (baselineIndex < 0 || workspaceIndex <= baselineIndex || sourceRestoreIndex <= workspaceIndex ||
+          steps[workspaceIndex]?.run !== 'node scripts/docs-workflow/prepare-content-group-workspace.js "${{ inputs.site }}" guides') {
+        errors.push(`${file}: Guides assembly must restore and track site-wide build manifests before source assembly`)
+      }
+    }
+
     if (file === '_translate-publish-batch.yml' && !/preflight-checkpoint-archive\.js[\s\S]*--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--tooling-sha "\$MASTER_SHA"[\s\S]*--source-site en[\s\S]*--target-site en[\s\S]*tar -xf/.test(source)) {
       errors.push(`${file}: durable publisher must verify checkpoint manifests before full extraction`)
     }

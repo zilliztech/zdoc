@@ -8,6 +8,7 @@ const path = require('node:path');
 const test = require('node:test');
 
 const { prepareContentGroupWorkspace, trackRestoredFiles } = require('./prepare-content-group-workspace');
+const { getGroupPaths } = require('./group-paths');
 
 function write(file, text = 'x') {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -93,4 +94,23 @@ test('tracks a restored PR-owned manifest after an older baseline removed it fro
     execFileSync('git', ['ls-files', '--error-unmatch', 'content/en/reference/content-manifest.json'], { cwd: root, encoding: 'utf8' }).trim(),
     'content/en/reference/content-manifest.json',
   );
+});
+
+test('restores the Reference root manifest for a Guides-only English build', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-guides-reference-manifest-'));
+  const preservedContentByPath = new Map(
+    getGroupPaths('guides', 'en').preservedEnglish.map(relativePath => [relativePath, `# ${relativePath}\n`]),
+  );
+  preservedContentByPath.set('content/en/reference/content-manifest.json', '{"schemaVersion":1}\n');
+  const result = prepareContentGroupWorkspace({
+    site: 'en',
+    group: 'guides',
+    cwd: root,
+    preservedContentByPath,
+  });
+  assert.equal(
+    fs.readFileSync(path.join(root, 'content/en/reference/content-manifest.json'), 'utf8'),
+    '{"schemaVersion":1}\n',
+  );
+  assert.equal(result.restored.includes('content/en/reference/content-manifest.json'), true);
 });

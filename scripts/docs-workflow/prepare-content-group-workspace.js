@@ -12,7 +12,7 @@ const ENGLISH_REFERENCE_MANIFEST = 'content/en/reference/content-manifest.json';
 function preservedMasterPaths(site, group, groupPaths) {
   return [
     ...groupPaths.preservedEnglish,
-    ...(site === 'en' && group !== 'guides' ? [ENGLISH_REFERENCE_MANIFEST] : []),
+    ...(site === 'en' ? [ENGLISH_REFERENCE_MANIFEST] : []),
   ];
 }
 

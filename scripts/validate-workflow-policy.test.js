@@ -1189,6 +1189,12 @@ test('guides workflows bootstrap full sources and persist only verified caches',
     'Validate Guides v1 cache candidate',
   ]
   const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  const assembleSteps = yaml.load(assemble).jobs.assemble.steps
+  const baselineIndex = assembleSteps.findIndex(step => step.name === 'Prepare immutable baseline')
+  const workspaceIndex = assembleSteps.findIndex(step => step.name === 'Prepare selected Guides workspace')
+  const sourceRestoreIndex = assembleSteps.findIndex(step => step.name === 'Restore validated Guides source')
+  assert.ok(baselineIndex >= 0 && workspaceIndex > baselineIndex && sourceRestoreIndex > workspaceIndex)
+  assert.equal(assembleSteps[workspaceIndex].run, 'node scripts/docs-workflow/prepare-content-group-workspace.js "${{ inputs.site }}" guides')
   assert.match(caller, /^  actions: write$/m)
   let previousIndex = -1
   for (const name of requiredCacheSteps) {

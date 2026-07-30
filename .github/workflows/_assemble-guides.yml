@@ -43,6 +43,8 @@ jobs:
           git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
           git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
           bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
+      - name: Prepare selected Guides workspace
+        run: node scripts/docs-workflow/prepare-content-group-workspace.js "${{ inputs.site }}" guides
       - uses: actions/download-artifact@v4
         with: { name: '${{ inputs.source_artifact_name }}', path: '${{ runner.temp }}/source-download' }
       - uses: actions/download-artifact@v4
