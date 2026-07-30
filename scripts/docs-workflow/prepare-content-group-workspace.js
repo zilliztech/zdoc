@@ -54,6 +54,14 @@ function restorePreservedFiles({ root, relativePaths, contentByPath }) {
   return restored;
 }
 
+function trackRestoredFiles({ root, relativePaths }) {
+  if (!Array.isArray(relativePaths) || relativePaths.length === 0) return;
+  for (const relativePath of relativePaths) resolveOwnedPath(root, relativePath);
+  const result = spawnSync('git', ['add', '--', ...relativePaths], { cwd: root, encoding: 'utf8' });
+  if (result.error) throw new Error(`Unable to track restored files: ${result.error.message}`);
+  if (result.status !== 0) throw new Error(`Unable to track restored files: ${result.stderr.trim() || `git exited ${result.status}`}`);
+}
+
 function prepareContentGroupWorkspace({ site = 'en', group, cwd = process.cwd(), restSidebarContent = null, preservedContentByPath = null }) {
   const root = path.resolve(cwd);
   const removed = [];
@@ -115,6 +123,7 @@ function main() {
     readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath }),
   ]));
   const result = prepareContentGroupWorkspace({ site, group, restSidebarContent, preservedContentByPath });
+  trackRestoredFiles({ root: process.cwd(), relativePaths: result.restored });
   console.log(`[prepare-content-group] ${site}/${group}: removed ${result.removed.length} restored path(s)`);
   for (const relativePath of result.removed) console.log(`- ${relativePath}`);
   for (const relativePath of result.restored) console.log(`+ ${relativePath} (master)`);
@@ -129,4 +138,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { prepareContentGroupWorkspace, preservedMasterPaths, readGitFileAtRef, resolveOwnedPath, restorePreservedFiles };
+module.exports = { prepareContentGroupWorkspace, preservedMasterPaths, readGitFileAtRef, resolveOwnedPath, restorePreservedFiles, trackRestoredFiles };

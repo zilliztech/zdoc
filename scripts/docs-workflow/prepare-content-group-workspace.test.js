@@ -2,11 +2,12 @@
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const { execFileSync } = require('node:child_process');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 
-const { prepareContentGroupWorkspace } = require('./prepare-content-group-workspace');
+const { prepareContentGroupWorkspace, trackRestoredFiles } = require('./prepare-content-group-workspace');
 
 function write(file, text = 'x') {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -71,4 +72,25 @@ test('non-rest groups keep generated outputs and restore landing pages from mast
     removed: [],
     restored: ['content/en/reference/content-manifest.json'],
   });
+});
+
+test('tracks a restored PR-owned manifest after an older baseline removed it from the index', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-reference-manifest-index-'));
+  execFileSync('git', ['init', '-q'], { cwd: root });
+  execFileSync('git', ['config', 'user.name', 'Test'], { cwd: root });
+  execFileSync('git', ['config', 'user.email', 'test@example.com'], { cwd: root });
+  write(path.join(root, 'content/en/guides/content-manifest.json'), '{}\n');
+  execFileSync('git', ['add', '.'], { cwd: root });
+  execFileSync('git', ['commit', '-qm', 'older baseline'], { cwd: root });
+  write(path.join(root, 'content/en/reference/content-manifest.json'), '{"schemaVersion":1}\n');
+
+  trackRestoredFiles({
+    root,
+    relativePaths: ['content/en/reference/content-manifest.json'],
+  });
+
+  assert.equal(
+    execFileSync('git', ['ls-files', '--error-unmatch', 'content/en/reference/content-manifest.json'], { cwd: root, encoding: 'utf8' }).trim(),
+    'content/en/reference/content-manifest.json',
+  );
 });
