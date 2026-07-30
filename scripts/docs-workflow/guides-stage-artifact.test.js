@@ -137,6 +137,16 @@ test('restore creates a missing target root one segment at a time', async () => 
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
 })
 
+test('rejects cross-site source artifact restoration', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-site-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ site: 'en', stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  await assert.rejects(
+    restoreGuidesStageArtifact({ artifact: fixture.artifact, target: path.join(root, 'target'), expected: { site: 'zh-CN' } }),
+    /site identity mismatch/i,
+  )
+})
+
 test('source artifact requires a semantic media prefetch report', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-media-report-'))
   const { workspace, baseline, artifact } = prepareSourceWorkspace(root, { report: null })

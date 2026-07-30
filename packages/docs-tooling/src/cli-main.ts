@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
+import {appendFileSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
@@ -8,6 +8,7 @@ import {config as loadDotenv} from 'dotenv';
 import ts from 'typescript';
 
 import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
+import {resolveGuidesSourceConfig} from './manuals/registry.ts';
 import {checkLinks} from './links/check.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
@@ -222,6 +223,17 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 }
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
+  if (argv[0] === 'guides-source-config') {
+    const options = parseOptions(argv.slice(1));
+    const site = requiredOption(options, 'site');
+    if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`);
+    const output = requiredOption(options, 'githubOutput');
+    const config = resolveGuidesSourceConfig(site);
+    appendFileSync(output, Object.entries(config)
+      .map(([key, value]) => `${key.replace(/[A-Z]/gu, letter => `_${letter.toLowerCase()}`)}=${value}\n`)
+      .join(''));
+    return true;
+  }
   if (argv[0] === 'revision-inventory') {
     await executeRevisionInventoryBuild(argv, repositoryRoot);
     return true;

@@ -309,6 +309,22 @@ describe('docs-tooling executable composition root', () => {
     expect(result.stderr).toMatch(/site.*en/i);
   });
 
+  it('writes site-qualified Guides source configuration for workflows', () => {
+    const repositoryRoot = temporaryRoot();
+    const output = path.join(repositoryRoot, 'github-output');
+    const result = runCli(repositoryRoot, ['guides-source-config', '--site', 'zh-CN', '--github-output', output]);
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(readFileSync(output, 'utf8')).toBe([
+      'site=zh-CN',
+      'root_token=XyeFwdx6kiK9A6kq3yIcLNdEnDd',
+      'source_dir=packages/docs-tooling/src/lark/meta/sources/guides-zh-CN',
+      'snapshot_path=packages/docs-tooling/src/lark/meta/snapshots/guides-zh-CN-uat-last-success.json',
+      'source_manifest_path=packages/docs-tooling/src/lark/meta/source-cache/guides-zh-CN-manifest.json',
+      'media_manifest_path=packages/docs-tooling/src/lark/meta/media-cache/guides-zh-CN.json',
+      '',
+    ].join('\n'));
+  });
+
   it('runs Chinese Tools translation coverage and sidebar validators', () => {
     const repositoryRoot = temporaryRoot();
     prepareToolsTranslation(repositoryRoot);

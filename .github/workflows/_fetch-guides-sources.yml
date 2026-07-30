@@ -38,7 +38,7 @@ jobs:
       ZDOC_SITE: ${{ inputs.site }}
     outputs:
       status: ${{ steps.result.outputs.status }}
-      artifact_name: guides-sources-${{ github.run_id }}
+      artifact_name: guides-sources-${{ inputs.site }}-${{ github.run_id }}
       table_matrix: ${{ steps.table_matrix.outputs.matrix }}
       table_count: ${{ steps.table_matrix.outputs.count }}
       source_valid: ${{ steps.source_cache_result.outputs.source_valid }}
@@ -53,6 +53,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - name: Resolve site-owned Guides source
+        run: pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"
       - name: Prepare immutable baseline
         run: |
           git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
@@ -61,7 +63,7 @@ jobs:
       - id: source_cache_keys
         name: Compute Guides cache generation keys
         run: |
-          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+          snapshot="$snapshot_path"
           if [[ -f "$snapshot" ]]; then
             v4_restore_enabled=true
             generation=$(node scripts/docs-workflow/guides-source-cache-generation.js keys \
@@ -76,10 +78,10 @@ jobs:
           else
             v4_restore_enabled=false
             v4_prefix=
-            v4_lookup="guides-source-v4-no-snapshot-${{ github.run_id }}-${{ github.run_attempt }}"
-            v3="guides-source-v3-bootstrap-${{ inputs.dev_baseline_sha }}"
-            v2="guides-source-v2-bootstrap-${{ inputs.dev_baseline_sha }}"
-            v1="guides-source-v1-bootstrap-${{ inputs.dev_baseline_sha }}"
+            v4_lookup="guides-source-${{ inputs.site }}-v4-no-snapshot-${{ github.run_id }}-${{ github.run_attempt }}"
+            v3="guides-source-${{ inputs.site }}-v3-bootstrap-${{ inputs.dev_baseline_sha }}"
+            v2="guides-source-${{ inputs.site }}-v2-bootstrap-${{ inputs.dev_baseline_sha }}"
+            v1="guides-source-${{ inputs.site }}-v1-bootstrap-${{ inputs.dev_baseline_sha }}"
           fi
           printf 'v4_restore_enabled=%s\nv4_lookup=%s\nv4_prefix=%s\nv3=%s\nv2=%s\nv1=%s\n' \
             "$v4_restore_enabled" "$v4_lookup" "$v4_prefix" "$v3" "$v2" "$v1" >> "$GITHUB_OUTPUT"
@@ -97,7 +99,7 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+          snapshot="$snapshot_path"
           payload=tmp/guides-source-cache-v4
           staged="$RUNNER_TEMP/guides-source-cache-v4"
           rm -rf "$staged"
@@ -107,23 +109,23 @@ jobs:
             rm -rf tmp/guides-source-cache-v4
             if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate \
               --payload "$staged" --snapshot "$snapshot" \
-              --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth; then
+              --root-token "$root_token"; then
               if node scripts/docs-workflow/guides-source-cache.js validate-media \
                 --source-dir "$staged/sources" --snapshot "$snapshot" \
                 --manifest "$staged/source-manifest.json" \
                 --media-manifest "$staged/media-manifest.json"; then
                 if node scripts/docs-workflow/guides-source-cache-generation.js validate \
-                  --payload "$staged" --snapshot "$snapshot" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth; then
+                  --payload "$staged" --snapshot "$snapshot" --root-token "$root_token"; then
                   node scripts/docs-workflow/guides-source-cache-generation.js promote \
                   --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
-                  --snapshot "$snapshot" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+                  --snapshot "$snapshot" --root-token "$root_token"
                   source_valid=true
                   media_valid=true
                 fi
               else
                 node scripts/docs-workflow/guides-source-cache-source-promotion.js promote \
                   --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
-                  --snapshot "$snapshot" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+                  --snapshot "$snapshot" --root-token "$root_token"
                 source_valid=true
               fi
             fi
@@ -141,9 +143,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            packages/docs-tooling/src/lark/meta/sources/guides
-            packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
-            packages/docs-tooling/src/lark/meta/media-cache/guides.json
+            ${{ env.source_dir }}
+            ${{ env.source_manifest_path }}
+            ${{ env.media_manifest_path }}
           key: ${{ steps.source_cache_keys.outputs.v3 }}
       - id: source_cache_v3_check
         name: Validate Guides v3 cache candidate
@@ -151,18 +153,18 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
-          manifest=packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
-          media=packages/docs-tooling/src/lark/meta/media-cache/guides.json
+          snapshot="$snapshot_path"
+          manifest="$source_manifest_path"
+          media="$media_manifest_path"
           if [[ "${{ steps.source_cache_v4_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             media_valid="${{ steps.source_cache_v4_check.outputs.media_valid }}"
           else
-            [[ -e packages/docs-tooling/src/lark/meta/sources/guides || -L packages/docs-tooling/src/lark/meta/sources/guides || \
+            [[ -e "$source_dir" || -L "$source_dir" || \
                -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
             if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
               --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
-              --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth --schemas 2; then
+              --root-token "$root_token" --schemas 2; then
               source_valid=true
               if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-media \
                 --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot"; then
@@ -185,9 +187,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            packages/docs-tooling/src/lark/meta/sources/guides
-            packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
-            packages/docs-tooling/src/lark/meta/media-cache/guides.json
+            ${{ env.source_dir }}
+            ${{ env.source_manifest_path }}
+            ${{ env.media_manifest_path }}
           key: ${{ steps.source_cache_keys.outputs.v2 }}
       - id: source_cache_v2_check
         name: Validate Guides v2 cache candidate
@@ -195,18 +197,18 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
-          manifest=packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
-          media=packages/docs-tooling/src/lark/meta/media-cache/guides.json
+          snapshot="$snapshot_path"
+          manifest="$source_manifest_path"
+          media="$media_manifest_path"
           if [[ "${{ steps.source_cache_v3_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             media_valid="${{ steps.source_cache_v3_check.outputs.media_valid }}"
           else
-            [[ -e packages/docs-tooling/src/lark/meta/sources/guides || -L packages/docs-tooling/src/lark/meta/sources/guides || \
+            [[ -e "$source_dir" || -L "$source_dir" || \
                -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
             if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
               --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
-              --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth --schemas 2; then
+              --root-token "$root_token" --schemas 2; then
               source_valid=true
               if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-media \
                 --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot"; then
@@ -229,8 +231,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            packages/docs-tooling/src/lark/meta/sources/guides
-            packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
+            ${{ env.source_dir }}
+            ${{ env.source_manifest_path }}
           key: ${{ steps.source_cache_keys.outputs.v1 }}
       - id: source_cache_v1_check
         name: Validate Guides v1 cache candidate
@@ -238,17 +240,17 @@ jobs:
           source_valid=false
           media_valid=false
           candidate_present=false
-          snapshot=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
-          manifest=packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json
+          snapshot="$snapshot_path"
+          manifest="$source_manifest_path"
           if [[ "${{ steps.source_cache_v2_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             media_valid="${{ steps.source_cache_v2_check.outputs.media_valid }}"
           else
-            [[ -e packages/docs-tooling/src/lark/meta/sources/guides || -L packages/docs-tooling/src/lark/meta/sources/guides || \
+            [[ -e "$source_dir" || -L "$source_dir" || \
                -e "$manifest" || -L "$manifest" ]] && candidate_present=true
             if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
               --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
-              --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth --schemas 1,2; then
+              --root-token "$root_token" --schemas 1,2; then
               source_valid=true
             fi
             if [[ "$source_valid" != true ]]; then
@@ -316,8 +318,8 @@ jobs:
         name: Prefetch shared guides media
         run: |
           args=(
-            --source-dir packages/docs-tooling/src/lark/meta/sources/guides
-            --output packages/docs-tooling/src/lark/meta/media-cache/guides.json
+            --source-dir "$source_dir"
+            --output "$media_manifest_path"
             --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
             --report packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json
             --bootstrap-docs content/${{ inputs.site }}/guides,content/${{ inputs.site }}/byoc
@@ -330,7 +332,7 @@ jobs:
               --mode incremental
               --cache-state valid
               --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json
-              --previous-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json
+              --previous-manifest "$media_manifest_path"
             )
           else
             echo "[source-cache] Media cache unavailable; rebuilding complete canonical media coverage."
@@ -357,7 +359,7 @@ jobs:
         name: Finalize Guides cache generation state
         run: |
           candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
-          baseline=packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json
+          baseline="$snapshot_path"
           cache_version="${{ steps.source_cache_check.outputs.cache_version }}"
           cache_save_required=$(node scripts/docs-workflow/guides-cache-save-decision.js decide \
             --cache-version "$cache_version" \
@@ -420,13 +422,13 @@ jobs:
           if-no-files-found: ignore
       - name: Create shared source artifact
         run: |
-          node scripts/docs-workflow/guides-source-cache.js create --source-dir packages/docs-tooling/src/lark/meta/sources/guides --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
-          node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+          node scripts/docs-workflow/guides-source-cache.js create --source-dir "$source_dir" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest "$media_manifest_path" --root-token "$root_token"
+          node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token "$root_token"
           tar -cf "$RUNNER_TEMP/guides-source.tar" -C "$RUNNER_TEMP" guides-source
       - id: upload
         uses: actions/upload-artifact@v4
         with:
-          name: guides-sources-${{ github.run_id }}
+          name: guides-sources-${{ inputs.site }}-${{ github.run_id }}
           path: ${{ runner.temp }}/guides-source.tar
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: error

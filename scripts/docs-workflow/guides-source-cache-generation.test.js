@@ -93,7 +93,8 @@ test('generation keys use canonical snapshot hash and isolate generated_at chang
   const one = generationKeys({ snapshotPath: f.snapshotPath, runId: 29550685342, runAttempt: 3 })
   const same = generationKeys({ snapshotPath: reordered, runId: 29550685342, runAttempt: 3 })
   assert.deepEqual(same, one)
-  assert.match(one.prefix, /^guides-source-v4-[0-9a-f]{64}-$/)
+  assert.match(one.prefix, /^guides-source-en-v4-[0-9a-f]{64}-$/)
+  assert.notEqual(generationKeys({ site: 'zh-CN', snapshotPath: f.snapshotPath, runId: 29550685342, runAttempt: 3 }).prefix, one.prefix)
   assert.equal(one.lookupKey, `${one.prefix}lookup-29550685342-3`)
   assert.equal(one.saveKey, `${one.prefix}29550685342-3`)
   const changed = { ...f.snapshot, generated_at: '2026-07-18T00:00:00.000Z' }

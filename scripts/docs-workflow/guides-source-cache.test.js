@@ -49,18 +49,19 @@ function writeLegacyManifest(f, manifestPath) {
   }, null, 2)}\n`)
 }
 
-test('uses one snapshot hash with a v3 default and v4-compatible explicit prefixes', () => {
+test('uses site-qualified snapshot hashes with a v3 default and v4-compatible explicit prefixes', () => {
   const f = fixture()
-  const v1 = sourceCacheKey(f.snapshotPath, { version: 1 })
-  const v2 = sourceCacheKey(f.snapshotPath, { version: 2 })
-  const v3 = sourceCacheKey(f.snapshotPath, { version: 3 })
-  const v4 = sourceCacheKey(f.snapshotPath, { version: 4 })
-  assert.match(v1, /^guides-source-v1-[0-9a-f]{64}$/)
-  assert.equal(v2.replace('guides-source-v2-', ''), v1.replace('guides-source-v1-', ''))
-  assert.equal(v3.replace('guides-source-v3-', ''), v1.replace('guides-source-v1-', ''))
-  assert.equal(v4.replace('guides-source-v4-', ''), v1.replace('guides-source-v1-', ''))
-  assert.equal(sourceCacheKey(f.snapshotPath), v3)
-  assert.throws(() => sourceCacheKey(f.snapshotPath, { version: 5 }), /unsupported/i)
+  const v1 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 1 })
+  const v2 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 2 })
+  const v3 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 3 })
+  const v4 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 4 })
+  assert.match(v1, /^guides-source-en-v1-[0-9a-f]{64}$/)
+  assert.equal(v2.replace('guides-source-en-v2-', ''), v1.replace('guides-source-en-v1-', ''))
+  assert.equal(v3.replace('guides-source-en-v3-', ''), v1.replace('guides-source-en-v1-', ''))
+  assert.equal(v4.replace('guides-source-en-v4-', ''), v1.replace('guides-source-en-v1-', ''))
+  assert.notEqual(v3, sourceCacheKey(f.snapshotPath, { site: 'zh-CN', version: 3 }))
+  assert.throws(() => sourceCacheKey(f.snapshotPath, { site: 'en', version: 5 }), /unsupported/i)
+  assert.throws(() => sourceCacheKey(f.snapshotPath, { site: 'fr', version: 3 }), /site/i)
 })
 
 test('accepts a valid v1 source cache only when schema 1 is explicitly allowed', () => {
@@ -125,11 +126,12 @@ test('rejects a v1 source manifest FIFO before reading it', () => {
 
 test('creates and validates a snapshot-keyed source cache manifest', () => {
   const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
-  assert.match(sourceCacheKey(f.snapshotPath), /^guides-source-v3-[0-9a-f]{64}$/)
+  assert.match(sourceCacheKey(f.snapshotPath), /^guides-source-en-v3-[0-9a-f]{64}$/)
   const manifest = createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
   assert.equal(manifest.files.length, 3)
   assert.match(manifest.mediaManifest.sha256, /^[0-9a-f]{64}$/)
   assert.equal(validateSourceCache({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' }).complete, true)
+  assert.throws(() => validateSourceCache({ site: 'zh-CN', sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, rootToken: 'root' }), /site identity mismatch/i)
 })
 
 test('rejects a v2 source cache whose sources directory is a symlink', () => {

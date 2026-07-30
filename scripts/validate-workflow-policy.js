@@ -469,7 +469,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/inputs\.table_count != '0'[\s\S]*pattern: guides-table-/, 'must skip table artifact download for an empty matrix'],
         [/restore-guides-table-artifacts\.js/, 'must restore validated table artifacts'],
-        [/generate-guides-sidebars\.js --media-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/, 'must generate both combined sidebars through the offline wrapper'],
+        [/generate-guides-sidebars\.js --media-manifest "\$media_manifest_path"/, 'must generate both combined sidebars through the offline wrapper'],
         [/publish-group --site[\s\S]*DOCS_TOOLING_GUIDES_STAGE: baseline/, 'must seed canonical Guides stages through docs-tooling'],
         [/publish-group --site[\s\S]*DOCS_TOOLING_GUIDES_STAGE: assembled/, 'must validate assembled canonical stages through docs-tooling'],
       ]
@@ -498,7 +498,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const decisionStep = steps[decisionIndex]
       if (!/validate-decision[\s\S]*decision-sha[\s\S]*inputs\.assembly_decision_sha256/.test(decisionStep?.run || '')) errors.push(`${file}: assembly must validate the restored decision against the plumbed canonical hash`)
       const generatorStep = steps[generateIndex]
-      if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
+      if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest "$media_manifest_path"') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
       const validationStep = steps[validateIndex]
       const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
       const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
@@ -929,6 +929,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     try { guidesWorkflow = yaml.load(guidesSource) } catch {}
     const guidesSteps = guidesWorkflow.jobs?.fetch?.steps || []
     const stepById = new Map(guidesSteps.filter(step => step.id).map(step => [step.id, step]))
+    const sourceConfigIndex = guidesSteps.findIndex(step => step.name === 'Resolve site-owned Guides source')
+    const firstCacheIndex = guidesSteps.findIndex(step => step.name === 'Compute Guides cache generation keys')
+    if (sourceConfigIndex < 0 || sourceConfigIndex >= firstCacheIndex ||
+        guidesSteps[sourceConfigIndex]?.run !== 'pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"') {
+      errors.push('_fetch-guides-sources.yml: site-owned Guides source config must be resolved before cache operations')
+    }
+    if (!/artifact_name: guides-sources-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/.test(guidesSource) ||
+        !/name: guides-sources-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides source artifact identity must include the site')
+    }
     const tableMatrix = stepById.get('table_matrix')
     if (!/guides-tables\.js matrix[\s\S]*--site "\$\{\{ inputs\.site \}\}"/.test(tableMatrix?.run || '')) {
       errors.push('_fetch-guides-sources.yml: Guides table matrix generation must pass the required site')
@@ -983,7 +993,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     for (const [id, includesMedia] of [['source_cache_v3_check', true], ['source_cache_v2_check', true], ['source_cache_v1_check', false]]) {
       const run = stepById.get(id)?.run || ''
-      const sourcePresence = /\[\[ -e packages\/docs-tooling\/src\/lark\/meta\/sources\/guides \|\| -L packages\/docs-tooling\/src\/lark\/meta\/sources\/guides[\s\S]*-e "\$manifest" \|\| -L "\$manifest"/.test(run)
+      const sourcePresence = /\[\[ -e "\$source_dir" \|\| -L "\$source_dir"[\s\S]*-e "\$manifest" \|\| -L "\$manifest"/.test(run)
       const mediaPresence = /-e "\$media" \|\| -L "\$media" \]\] && candidate_present=true/.test(run)
       if (!sourcePresence || (includesMedia && !mediaPresence) || (!includesMedia && !/\|\| -L "\$manifest" \]\] && candidate_present=true/.test(run))) {
         errors.push('_fetch-guides-sources.yml: malformed legacy cache leaves must be reported as invalid candidates')
@@ -1035,7 +1045,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/Media cache unavailable; rebuilding complete canonical media coverage/.test(mediaPrefetchBlock) ||
         !/--snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json/.test(mediaPrefetchBlock) ||
         !/--report packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-media-prefetch\.json/.test(mediaPrefetchBlock) ||
-        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/.test(mediaPrefetchBlock) ||
+        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest "\$media_manifest_path"/.test(mediaPrefetchBlock) ||
         !/else[\s\S]*--mode recovery[\s\S]*--cache-state "\$cache_state"/.test(mediaPrefetchBlock)) {
       errors.push('_fetch-guides-sources.yml: invalid media cache must trigger full canonical media recovery')
     }

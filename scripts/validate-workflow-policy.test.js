@@ -788,6 +788,9 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     },
     {
       mutate(source) {
+        if (source.includes('[[ -e "$source_dir" || -L "$source_dir"')) {
+          return source.replace('[[ -e "$source_dir" || -L "$source_dir"', '[[ -d "$source_dir"')
+        }
         return source.replace(
           '[[ -e packages/docs-tooling/src/lark/meta/sources/guides || -L packages/docs-tooling/src/lark/meta/sources/guides || \\\n               -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]]',
           '[[ -d packages/docs-tooling/src/lark/meta/sources/guides || -f "$manifest" || -f "$media" ]]',
@@ -1207,6 +1210,7 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
   const sourceWorkflow = yaml.load(source)
   const sourceSteps = sourceWorkflow.jobs.fetch.steps
+  const sourceConfigIndex = sourceSteps.findIndex(step => step.name === 'Resolve site-owned Guides source')
   const requiredCacheSteps = [
     'Compute Guides cache generation keys',
     'Restore Guides v4 cache candidate',
@@ -1223,6 +1227,12 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   const baselineIndex = assembleSteps.findIndex(step => step.name === 'Prepare immutable baseline')
   const workspaceIndex = assembleSteps.findIndex(step => step.name === 'Prepare selected Guides workspace')
   const sourceRestoreIndex = assembleSteps.findIndex(step => step.name === 'Restore validated Guides source')
+  assert.equal(sourceSteps[sourceConfigIndex].run, 'pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"')
+  assert.ok(sourceConfigIndex < sourceSteps.findIndex(step => step.name === 'Compute Guides cache generation keys'))
+  assert.match(source, /artifact_name: guides-sources-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /name: guides-sources-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(assemble, /artifact_name: docs-checkpoint-guides-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(assemble, /name: docs-checkpoint-guides-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
   assert.ok(baselineIndex >= 0 && workspaceIndex > baselineIndex && sourceRestoreIndex > workspaceIndex)
   assert.equal(assembleSteps[workspaceIndex].run, 'node scripts/docs-workflow/prepare-content-group-workspace.js "${{ inputs.site }}" guides')
   assert.match(caller, /^  actions: write$/m)
@@ -1254,7 +1264,7 @@ test('guides workflows bootstrap full sources and persist only verified caches',
     const start = source.indexOf(`name: ${validationName}`)
     const end = source.indexOf('\n      - id:', start + 1)
     const block = source.slice(start, end)
-    assert.match(block, /\[\[ -e packages\/docs-tooling\/src\/lark\/meta\/sources\/guides \|\| -L packages\/docs-tooling\/src\/lark\/meta\/sources\/guides/)
+    assert.match(block, /\[\[ -e "\$source_dir" \|\| -L "\$source_dir"/)
     assert.match(block, /-e "\$manifest" \|\| -L "\$manifest"/)
     if (validationName !== 'Validate Guides v1 cache candidate') assert.match(block, /-e "\$media" \|\| -L "\$media"/)
   }
@@ -1266,8 +1276,8 @@ test('guides workflows bootstrap full sources and persist only verified caches',
     assert.ok(block.indexOf('guides-source-cache-source-promotion.js validate-live-source') < block.indexOf('guides-source-cache-source-promotion.js validate-live-media'))
   }
   assert.match(source, /guides-source-cache-generation\.js promote/)
-  assert.match(source, /packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
-  assert.match(source, /--media-manifest "?packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json"?/)
+  assert.match(source, /--previous-manifest "\$media_manifest_path"/)
+  assert.match(source, /--media-manifest "\$media_manifest_path"/)
   assert.match(source, /export DOCS_TOOLING_FORCE_FULL_FETCH=1/)
   assert.match(source, /id: source_cache_result[\s\S]*source_valid[\s\S]*media_valid[\s\S]*cache_version[\s\S]*cache_save_required/)
   assert.match(source, /guides-cache-save-decision\.js decide[\s\S]*--cache-version "\$cache_version"[\s\S]*--prefetch-mode[\s\S]*--candidate "\$candidate"[\s\S]*--baseline "\$baseline"/)
@@ -1281,7 +1291,7 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(assemble, /name: Select promoted Guides source snapshot[\s\S]*guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"/)
   assert.match(assemble, /name: Prepare promoted Guides source manifest[\s\S]*guides-source-cache\.js create/)
   assert.match(assemble, /id: guides_v4_generation\n\s+name: Create Guides v4 generation payload\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' \}\}[\s\S]*guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate/)
-  assert.match(assemble, /--media-manifest "?packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json"?/)
+  assert.match(assemble, /--media-manifest "\$media_manifest_path"/)
   assert.match(assemble, /id: save_guides_v4_generation\n\s+name: Save Guides v4 generation\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' && steps\.guides_v4_generation\.outcome == 'success' \}\}\n\s+continue-on-error: true\n\s+uses: actions\/cache\/save@v4[\s\S]*path: tmp\/guides-source-cache-v4[\s\S]*key: \$\{\{ steps\.guides_v4_generation\.outputs\.key \}\}/)
   assert.match(assemble, /name: Record Guides cache generation persistence\n\s+if: \$\{\{ always\(\) \}\}[\s\S]*guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*guides-cache-generation\.json/)
   assert.match(assemble, /^  actions: write$/m)
@@ -1300,8 +1310,8 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /guides-media-prefetch\.js/)
   assert.match(source, /--snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json/)
   assert.match(source, /--report packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-media-prefetch\.json/)
-  assert.match(source, /if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
-  assert.match(source, /--previous-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
+  assert.match(source, /if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest "\$media_manifest_path"/)
+  assert.match(source, /--previous-manifest "\$media_manifest_path"/)
   assert.match(source, /--bootstrap-docs content\/\$\{\{ inputs\.site \}\}\/guides,content\/\$\{\{ inputs\.site \}\}\/byoc/)
   assert.match(source, /media cache unavailable; rebuilding complete canonical media coverage/i)
   assert.match(source, /else[\s\S]*cache_state="\$\{\{ steps\.source_cache_check\.outputs\.cache_state \}\}"[\s\S]*--mode recovery[\s\S]*--cache-state "\$cache_state"[\s\S]*node scripts\/docs-workflow\/guides-media-prefetch\.js "\$\{args\[@\]\}"/)
@@ -1362,7 +1372,7 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.equal(indices.every(index => index >= 0), true)
   assert.deepEqual([...indices].sort((a, b) => a - b), indices)
   const generation = assemble.slice(indices[1], indices[2])
-  assert.match(generation, /node scripts\/docs-workflow\/generate-guides-sidebars\.js --media-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
+  assert.match(generation, /node scripts\/docs-workflow\/generate-guides-sidebars\.js --media-manifest "\$media_manifest_path"/)
   assert.doesNotMatch(generation, /\n\s+if:/)
   assert.doesNotMatch(assemble, /npx docusaurus fetch-lark-docs[\s\S]*-sidebar/)
   const validation = assemble.slice(indices[0], indices[1])
