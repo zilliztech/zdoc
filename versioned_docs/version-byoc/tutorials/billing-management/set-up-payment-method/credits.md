@@ -25,11 +25,11 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # Credits
 
 Credits can be used to cover Zilliz Cloud usage charges. You may receive credits when you register for Zilliz Cloud with a work email, participate in eligible Zilliz Cloud programs or events, or receive credits from Zilliz for a proof of concept (PoC).
-
-Credits help you try Zilliz Cloud or run evaluation workloads before setting up a long-term payment method.
 
 <Admonition type="info" icon="📘" title="Note">
 
@@ -47,7 +47,7 @@ If multiple payment methods or balances are available, Zilliz Cloud applies them
 
 1. Advance Pay balance
 
-1. Marketplace subscription
+1. Credit card or Marketplace subscription
 
 ## Credit validity\{#credit-validity}
 
@@ -73,11 +73,55 @@ However, credits are not a replacement for a long-term payment method. If your c
 
 To continue using Zilliz Cloud after credits are used, set up one of the following payment methods:
 
+- [Credit card](./subscribe-by-adding-credit-card)
+
 - [Advance Pay](./advance-pay)
 
-- [AWS Marketplace subscription](./subscribe-on-aws-marketplace-private-offer)
+- [AWS Marketplace subscription](./subscribe-on-aws-marketplace)
+
+- [Google Cloud Marketplace subscription](./subscribe-on-gcp-marketplace)
+
+- [Microsoft Marketplace subscription](./subscribe-on-azure-marketplace)
 
 ## Apply for credits\{#apply-for-credits}
 
 If you need more credits for PoC, please [contact sales](http://zilliz.com/contact-sales) or your account executive.
+
+## View credit balance\{#view-credit-balance}
+
+To view your credit balance:
+
+![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.s3.us-west-2.amazonaws.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
+
+<Procedures>
+
+1. Navigate to your organization on Zilliz Cloud .
+
+1. Go to **Billing**.
+
+1. Check the **Credits** section for your remaining balance.
+
+</Procedures>
+
+## Monitor credit alerts\{#monitor-credit-alerts}
+
+Zilliz Cloud provides billing alerts that help you monitor credits and payment health.
+
+<table>
+   <tr>
+     <th><p><strong>Metric</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Recommended action</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Credit Validity (days)</p></td>
+     <td><p>Number of days before free credits expire.</p></td>
+     <td><p>Use eligible credits before expiry or contact <a href="http://zilliz.com/contact-sales">Zilliz sales</a> if you need to extend the credit expiration to fully complete your PoC.</p></td>
+   </tr>
+   <tr>
+     <td><p>Remaining Credits ($)</p></td>
+     <td><p>Remaining credit balance.</p></td>
+     <td><p>Add or configure another payment method before credits run out. You can contact <a href="http://zilliz.com/contact-sales">Zilliz sales</a> for more PoC credits.</p></td>
+   </tr>
+</table>
 

@@ -24,12 +24,11 @@ keywords:
 
 import Admonition from '@theme/Admonition';
 
+import Procedures from '@site/src/components/Procedures';
 
 # Credits
 
 Credits は Zilliz Cloud の使用料金に充当できます。Zilliz Cloud に勤務先メールで登録した場合、対象となる Zilliz Cloud のプログラムやイベントに参加した場合、または PoC 用に Zilliz から Credits を受け取った場合に付与されることがあります。
-
-Credits を使用すると、長期的な支払い方法を設定する前に Zilliz Cloud を試用したり、評価ワークロードを実行したりできます。
 
 <Admonition type="info" icon="📘" title="Note">
 
@@ -47,7 +46,7 @@ Credits は、他の[支払い方法](./payment-billing#payment-methods)より�
 
 1. Advance Pay 残高
 
-1. Marketplace サブスクリプション
+1. クレジットカードまたは Marketplace サブスクリプション
 
 ## Credits の有効期限\{#credit-validity}
 
@@ -73,10 +72,54 @@ Credits は、Advance Pay 残高または Marketplace サブスクリプショ�
 
 Credits の使用後も Zilliz Cloud を継続して利用するには、次のいずれかの支払い方法を設定します。
 
+- [クレジットカード](./subscribe-by-adding-credit-card)
+
 - [Advance Pay](./advance-pay)
 
-- [AWS Marketplace サブスクリプション](./subscribe-on-aws-marketplace-private-offer)
+- [AWS Marketplace サブスクリプション](./subscribe-on-aws-marketplace)
+
+- [Google Cloud Marketplace サブスクリプション](./subscribe-on-gcp-marketplace)
+
+- [Microsoft Marketplace サブスクリプション](./subscribe-on-azure-marketplace)
 
 ## Credits を申請する\{#apply-for-credits}
 
 PoC 用に追加の Credits が必要な場合は、[営業担当にお問い合わせ](http://zilliz.com/contact-sales)いただくか、担当アカウントエグゼクティブにご連絡ください。
+
+## Credits 残高を確認する\{#view-credit-balance}
+
+Credits 残高を確認するには、次の手順に従います。
+
+![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.s3.us-west-2.amazonaws.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
+
+<Procedures>
+
+1. Zilliz Cloud で組織に移動します。
+
+1. **Billing** に移動します。
+
+1. **Credits** セクションで残高を確認します。
+
+</Procedures>
+
+## Credits アラートを監視する\{#monitor-credit-alerts}
+
+Zilliz Cloud は、Credits と支払い状況の監視に役立つ請求アラートを提供します。
+
+<table>
+   <tr>
+     <th><p><strong>メトリクス</strong></p></th>
+     <th><p><strong>説明</strong></p></th>
+     <th><p><strong>推奨される対応</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Credit Validity (days)</p></td>
+     <td><p>無料 Credits の有効期限までの日数。</p></td>
+     <td><p>期限切れになる前に対象の Credits を使用するか、PoC を完了するために有効期限の延長が必要な場合は <a href="http://zilliz.com/contact-sales">Zilliz 営業担当</a>にお問い合わせください。</p></td>
+   </tr>
+   <tr>
+     <td><p>Remaining Credits ($)</p></td>
+     <td><p>残りの Credits 残高。</p></td>
+     <td><p>Credits を使い切る前に、別の支払い方法を追加または設定してください。追加の PoC Credits については、<a href="http://zilliz.com/contact-sales">Zilliz 営業担当</a>にお問い合わせいただけます。</p></td>
+   </tr>
+</table>

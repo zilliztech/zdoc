@@ -11,7 +11,7 @@ notebook: FALSE
 description: "This guide explains the payment methods available for Zilliz Cloud, how payment priority works, and what to consider when managing invoices and subscriptions. | BYOC"
 type: origin
 token: Y6Qqw4a3XiWPlCkQYMqcLEORnAU
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
@@ -55,7 +55,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
      <td colspan="2"><p>Credit card</p></td>
      <td><p>You are charged by credit card based on your Zilliz Cloud usage. Invoices are generated monthly.</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>Advance Pay</p></td>
@@ -73,7 +73,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
    <tr>
      <td><p>Public Offer</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p>Private Offer</p></td>
@@ -85,7 +85,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
      <td><p>Public Offer</p></td>
      <td rowspan="2"><p>You receive invoices for Zilliz Cloud usage through Google Cloud Marketplace.</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p>Private Offer</p></td>
@@ -97,7 +97,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
      <td><p>Public Offer</p></td>
      <td rowspan="2"><p>You receive invoices for Zilliz Cloud usage through Microsoft Marketplace.</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p>Private Offer</p></td>
@@ -118,7 +118,7 @@ If multiple payment methods or balances are available, Zilliz Cloud applies them
 
 1. Advance Pay balance
 
-1. Marketplace subscription
+1. Credit card or Marketplace subscription
 
 For example, suppose you have a &#36;500 unpaid bill, &#36;100 in credits, &#36;200 in Advance Pay balance, and a linked AWS Marketplace subscription.
 
@@ -130,9 +130,13 @@ For example, suppose you have a &#36;500 unpaid bill, &#36;100 in credits, &#36;
 
 ## Marketplace subscription\{#marketplace-subscription}
 
-You can subscribe to Zilliz Cloud through the following marketplace:
+You can subscribe to Zilliz Cloud through the following marketplaces:
 
-- [AWS Marketplace](./subscribe-on-aws-marketplace-private-offer)
+- [AWS Marketplace](./subscribe-on-aws-marketplace)
+
+- [Google Cloud Marketplace](./subscribe-on-gcp-marketplace)
+
+- [Microsoft Marketplace](./subscribe-on-azure-marketplace)
 
 Marketplace subscriptions let your organization receive Zilliz Cloud charges through your cloud marketplace billing account. This is useful when your finance or procurement team wants Zilliz Cloud usage to appear on an existing cloud bill.
 
@@ -162,8 +166,4 @@ Payment and billing settings are managed at the organization level. To view or u
 </table>
 
 For details, see [Manage Organization Users](./organization-users).
-
-## Invoices\{#invoices}
-
-If you need an invoice for your Zilliz Cloud BYOC usage, or if you have any questions, please contact the Zilliz Finance team at finance@zilliz.com.
 

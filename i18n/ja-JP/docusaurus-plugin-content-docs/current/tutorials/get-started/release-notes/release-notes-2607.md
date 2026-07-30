@@ -28,6 +28,26 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **2026-07-30**
+
+    </div>
+
+    <div>
+
+        ## 機能強化\{#enhancements}
+
+        - **Hugging Face 埋め込みモデル**：Bring Your Own Key 連携を通じて、Hugging Face をモデルプロバイダーとして利用できるようになりました。詳細については、[Hugging Face](./hugging-face)を参照してください。
+
+        - **BYOC のオンデマンド使用量**：BYOC 組織は、オンデマンド使用量を有効にすることで、契約済みの vCPU キャパシティを超えてスケールできるようになりました。契約量を超えた使用量は vCPU 分単位で計測され、Usage ページと請求書ページに反映されます。詳細については、[BYOC の請求について](/docs/byoc/understand-byoc-billing)を参照してください。
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="15,84">
+
+    <div>
+
         **2026-07-15**
 
     </div>

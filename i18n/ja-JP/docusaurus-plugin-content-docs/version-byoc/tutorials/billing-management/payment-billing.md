@@ -8,7 +8,7 @@ notebook: FALSE
 description: "このガイドでは、Zilliz Cloud で利用できる支払い方法、支払いの優先順位、請求書とサブスクリプションを管理する際の考慮事項について説明します。 | BYOC"
 type: origin
 token: Y6Qqw4a3XiWPlCkQYMqcLEORnAU
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - ベクトルデータベース
@@ -52,7 +52,7 @@ import Admonition from '@theme/Admonition';
      <td colspan="2"><p>クレジットカード</p></td>
      <td><p>Zilliz Cloud の使用量に基づいてクレジットカードに課金されます。請求書は毎月生成されます。</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>Advance Pay</p></td>
@@ -70,7 +70,7 @@ import Admonition from '@theme/Admonition';
    <tr>
      <td><p>Public Offer</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p>Private Offer</p></td>
@@ -91,7 +91,7 @@ Marketplace サブスクリプションは支払い方法にすぎません。�
 
 1. Advance Pay 残高
 
-1. Marketplace サブスクリプション
+1. クレジットカードまたは Marketplace サブスクリプション
 
 たとえば、未払い請求が &#36;500、Credits が &#36;100、Advance Pay 残高が &#36;200、AWS Marketplace サブスクリプションがリンクされているとします。
 
@@ -105,7 +105,11 @@ Marketplace サブスクリプションは支払い方法にすぎません。�
 
 Zilliz Cloud は次の Marketplace からサブスクライブできます。
 
-- [AWS Marketplace](./subscribe-on-aws-marketplace-private-offer)
+- [AWS Marketplace](./subscribe-on-aws-marketplace)
+
+- [Google Cloud Marketplace](./subscribe-on-gcp-marketplace)
+
+- [Microsoft Marketplace](./subscribe-on-azure-marketplace)
 
 Marketplace サブスクリプションにより、組織は既存のクラウド Marketplace 請求アカウントを通じて Zilliz Cloud の料金を受け取れます。これは、財務または購買チームが Zilliz Cloud の使用量を既存のクラウド請求書に表示したい場合に便利です。
 
@@ -135,7 +139,3 @@ Marketplace サブスクリプションにより、組織は既存のクラウ�
 </table>
 
 詳細については、[組織ユーザーの管理](./organization-users)を参照してください。
-
-## 請求書\{#invoices}
-
-Zilliz Cloud BYOC の使用量に関する請求書が必要な場合、または質問がある場合は、Zilliz Finance チーム（finance@zilliz.com）までお問い合わせください。

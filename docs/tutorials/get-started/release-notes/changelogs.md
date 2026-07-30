@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "Last updated July 15, 2026 | Cloud"
+description: "Last updated July 30, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 0
@@ -27,7 +27,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** July 15, 2026
+**Last updated:** July 30, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 

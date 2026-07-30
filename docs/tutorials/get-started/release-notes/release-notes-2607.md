@@ -39,7 +39,9 @@ import Grid from '@site/src/components/Grid';
 
         ## Enhancements\{#enhancements}
 
-        - **Hugging Face embedding models** — Hugging Face is now available as a model provider via Bring Your Own Key integration. For details, refer to [Hugging Face](./hugging-face).
+        - **Hugging Face embedding models**: Hugging Face is now available as a model provider via Bring Your Own Key integration. For details, refer to [Hugging Face](./hugging-face).
+
+        - **On-demand usage for BYOC**: BYOC organizations can now continue scaling beyond their committed vCPU capacity by enabling on-demand usage. Usage beyond the commitment is metered in vCPU-minutes and reflected in the Usage and invoice pages. For details, refer to [Understand BYOC Billing](/docs/byoc/understand-byoc-billing)
 
     </div>
 
