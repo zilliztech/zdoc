@@ -16,6 +16,9 @@ on:
         default: guides
         options: [guides, python, java, node, go, cli, rest, tools, reference-landings]
       max_files: { description: Maximum files, required: false, default: '500' }
+      mode: { description: Translation mode, required: false, type: choice, options: [auto, full, incremental], default: auto }
+      publish: { description: Publish validated translations, required: false, type: boolean, default: false }
+      recovery_run_id: { description: Previous recovery workflow run, required: false, type: string }
       target_branch: { description: Publication branch, required: false, default: dev }
       tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
       source_sha: { description: Exact source checkpoint SHA, required: true, type: string }
@@ -58,6 +61,9 @@ jobs:
       tooling_sha: ${{ inputs.tooling_sha }}
       source_sha: ${{ inputs.source_sha }}
       max_files: ${{ inputs.max_files }}
+      mode: ${{ inputs.mode }}
+      publish: ${{ inputs.publish }}
+      recovery_run_id: ${{ inputs.recovery_run_id }}
       target_branch: ${{ inputs.target_branch }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
