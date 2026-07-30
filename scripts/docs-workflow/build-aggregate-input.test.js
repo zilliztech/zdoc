@@ -26,6 +26,17 @@ test('builds artifact-only rows directly from producer terminal states', () => {
   })
 })
 
+test('builds English-only publication rows when translations are disabled', () => {
+  assert.deepEqual(buildAggregateInput({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'python',
+    PYTHON_PRODUCER: 'artifact_ready', PYTHON_SOURCE: 'published', PYTHON_SOURCE_SHA: 'a'.repeat(40),
+  }), {
+    mode: 'publish', requestedGroups: ['python'], groups: { python: {
+      source: 'source_published', translation: 'skipped', translationRequested: false, sourceCommitSha: 'a'.repeat(40),
+    } }, revisionReconciliation: 'skipped', finalVerification: 'skipped',
+  })
+})
+
 test('maps revision reconciliation exactly by workflow mode', () => {
   const base = { SELECTED_GROUP: 'python', PYTHON_PRODUCER: 'artifact_ready', PYTHON_SOURCE: 'no_changes' }
   assert.equal(buildAggregateInput({ ...base, MODE: 'publish', REVISION_RECONCILIATION: 'passed' }).revisionReconciliation, 'passed')

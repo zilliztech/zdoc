@@ -34,6 +34,20 @@ test('artifact-only mode succeeds only when every requested producer uploaded an
   assert.equal(failure.overallStatus, 'failure');
 });
 
+test('English-only publication succeeds without translation or whole-site verification', () => {
+  const result = aggregateResults({
+    mode: 'publish',
+    requestedGroups: ['guides', 'python'],
+    groups: {
+      guides: { source: 'source_published', translation: 'skipped', translationRequested: false, sourceCommitSha: SHA_A },
+      python: { source: 'no_changes', translation: 'skipped', translationRequested: false },
+    },
+    revisionReconciliation: 'skipped',
+    finalVerification: 'skipped',
+  });
+  assert.equal(result.overallStatus, 'success');
+});
+
 test('aggregates final terminal results and ignores earlier failed attempts', () => {
   const result = aggregateResults(payload());
   assert.equal(result.overallStatus, 'success');

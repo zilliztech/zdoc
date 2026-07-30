@@ -38,6 +38,19 @@ test('manual translation entry selects recoverable locale groups before paid wor
   assert.doesNotMatch(source, /pnpm run build:(?:en|zh-CN)/)
 })
 
+test('English production defaults to no translation or site build work', () => {
+  const source = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  const workflow = yaml.load(source)
+  assert.equal(workflow.on.workflow_dispatch.inputs.run_translations.type, 'boolean')
+  assert.equal(workflow.on.workflow_dispatch.inputs.run_translations.default, false)
+  assert.equal(workflow.jobs.prepare.outputs.run_translations, '${{ steps.refs.outputs.run_translations }}')
+  const paidJobs = Object.entries(workflow.jobs).filter(([, job]) => job?.secrets?.TRANSLATION_AGENT_API_KEY)
+  for (const [name, job] of paidJobs) {
+    assert.match(String(job.if || ''), /needs\.prepare\.outputs\.run_translations == 'true'/, `${name} must be explicitly requested`)
+  }
+  assert.doesNotMatch(source, /needs\.prepare\.outputs\.run_translations != 'true'[\s\S]{0,200}(?:build:en|build:zh-CN)/)
+})
+
 test('docs ingestion watchdog is read-only and preserves evaluator failures after alerting', () => {
   const file = '.github/workflows/docs-ingestion-watchdog.yml'
   const source = fs.readFileSync(file, 'utf8')
@@ -1690,7 +1703,7 @@ test('Chinese publishers wait for the Guides translation publication barrier', (
     'finalize_guides_translation',
   ]
   assert.deepEqual(barrier.needs, barrierNeeds)
-  assert.equal(barrier.if, '${{ always() }}')
+  assert.equal(barrier.if, "${{ always() && needs.prepare.outputs.run_translations == 'true' }}")
   const barrierRun = barrier.steps.find(step => step.name === 'Accept completed Guides translation publication').run
   const skippedEnvironment = {
     PRODUCE_GUIDES_SOURCES_RESULT: 'skipped',

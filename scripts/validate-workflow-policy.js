@@ -575,7 +575,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           !/result === 'failure' \|\| result === 'cancelled'/.test(barrierStep?.run || '')) {
         errors.push(`${file}: Guides translation publication barrier must validate authoritative prerequisite results`)
       }
-      if (barrier?.if !== '${{ always() }}' ||
+      if (barrier?.if !== "${{ always() && needs.prepare.outputs.run_translations == 'true' }}" ||
           barrierStep?.env?.FINALIZER_RESULT !== '${{ needs.finalize_guides_translation.result }}' ||
           barrierStep?.env?.TRANSLATOR_STATUS !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
           barrierStep?.env?.PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
