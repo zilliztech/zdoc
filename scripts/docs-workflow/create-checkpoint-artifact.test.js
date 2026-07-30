@@ -475,12 +475,11 @@ test('creation CLI accepts a complete numbered Guides batch input', async () => 
   assert.equal(JSON.parse(await readFile(path.join(f.output, 'manifest.json'), 'utf8')).schemaVersion, 2);
 });
 
-test('translation workflow creates one numbered Guides batch input and passes it to both schema 2 checkpoints', async () => {
+test('translation workflow creates one numbered Guides batch input and keeps both schema 2 checkpoints build-free', async () => {
   const workflow = await readFile(path.join(__dirname, '../../.github/workflows/_translate-content-group.yml'), 'utf8');
   assert.match(workflow, /inputs\.batch_number[\s\S]*GROUP[\s\S]*translation-batch-input\.js create[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--output tmp\/translation-batch-input\.json/);
   assert.match(workflow, /batch_input_args=\(\)[\s\S]*batch_input_args=\(--batch-input tmp\/translation-batch-input\.json\)/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*BASELINE_CHECKPOINT_DIR[^\n]*batch_input_args/);
-  assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*CHECKPOINT_DIR[^\n]*batch_input_args[^\n]*validation_args/);
-  assert.match(workflow, /inputs\.batch_number[^\n]*== 0[\s\S]*TRANSLATION_TARGET[^\n]*ja-JP[^\n]*validation_args=\(--validation-command "pnpm run build:en"\)/);
-  assert.match(workflow, /else validation_args=\(--validation-command "pnpm run build:zh-CN"\)/);
+  assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*CHECKPOINT_DIR[^\n]*batch_input_args/);
+  assert.doesNotMatch(workflow, /validation_args|--validation-command|pnpm run build:(?:en|zh-CN)/);
 });
