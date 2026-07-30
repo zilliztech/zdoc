@@ -50,8 +50,17 @@ const ReferenceSourceManifestSchema = z.object({
 
 const ReferenceTranslationManifestSchema = z.object({
   schemaVersion: z.literal(1),
+  bootstrapCompletedGroups: z.array(z.string().regex(/^[a-z][a-z0-9-]*$/u)).optional(),
   records: z.array(TranslationRecordSchema),
 }).strict().superRefine((manifest, context) => {
+  if (manifest.bootstrapCompletedGroups) {
+    for (let index = 1; index < manifest.bootstrapCompletedGroups.length; index += 1) {
+      if (compareText(manifest.bootstrapCompletedGroups[index - 1], manifest.bootstrapCompletedGroups[index]) >= 0) {
+        context.addIssue({code: z.ZodIssueCode.custom, path: ['bootstrapCompletedGroups', index], message: 'Bootstrap groups must be unique and canonically sorted'});
+        return;
+      }
+    }
+  }
   for (let index = 1; index < manifest.records.length; index += 1) {
     if (compareRecords(manifest.records[index - 1], manifest.records[index]) > 0) {
       context.addIssue({code: z.ZodIssueCode.custom, path: ['records', index], message: 'Translation manifest records must be canonically sorted by manual, sourcePath, and targetPath'});
@@ -109,6 +118,7 @@ export type ReferenceSourceRecord = z.infer<typeof SourceRecordSchema>;
 export type ReferenceSourceManifest = z.infer<typeof ReferenceSourceManifestSchema>;
 export type ReferenceTranslationManifest = Readonly<{
   schemaVersion: 1;
+  bootstrapCompletedGroups?: readonly string[];
   records: readonly TranslationRecord[];
 }>;
 export type ReferenceRetirementRecord = z.infer<typeof RetirementRecordSchema>;
@@ -214,6 +224,19 @@ export function parseReferenceRetirementRegistry(value: unknown): ReferenceRetir
   return ReferenceRetirementRegistrySchema.parse(value);
 }
 
+export function normalizeReferenceRetirementRegistry(options: Readonly<{
+  registry: ReferenceRetirementRegistry;
+  manual: string;
+  sourcePaths: ReadonlySet<string>;
+  targetPaths: ReadonlySet<string>;
+}>): ReferenceRetirementRegistry {
+  const retirements = options.registry.retirements.filter(record => (
+    record.manual !== options.manual
+    || (!options.sourcePaths.has(record.sourcePath) && options.targetPaths.has(record.targetPath))
+  ));
+  return parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [...retirements].sort(compareRecords)});
+}
+
 export function serializeReferenceManifest(value: ReferenceSourceManifest | ReferenceTranslationManifest): string {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -236,13 +259,10 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   };
   const sourceByRelative = new Map([...sourceFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.sourceRoot), {filePath, hash}]));
   const targetByRelative = new Map([...targetFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.targetRoot), {filePath, hash}]));
-  const registeredRetirements = options.retirementRegistry?.retirements ?? [];
+  const registeredRetirements = (options.retirementRegistry?.retirements ?? []).filter(record => (
+    !sourceFiles.has(record.sourcePath) && targetFiles.has(record.targetPath)
+  ));
   const retired = new Set(registeredRetirements.map(record => `${record.sourcePath}\0${record.targetPath}`));
-  for (const record of registeredRetirements) {
-    if (!sourceFiles.has(record.sourcePath) && !targetFiles.has(record.targetPath)) {
-      throw new Error(`Registered retirement lost its remaining file; both sides are missing: ${record.sourcePath} -> ${record.targetPath}`);
-    }
-  }
   const relativePaths = new Set([...sourceByRelative.keys(), ...targetByRelative.keys()]);
   const records: TranslationRecord[] = [];
   for (const relativePath of [...relativePaths].sort(compareText)) {

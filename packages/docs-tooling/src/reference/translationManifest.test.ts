@@ -11,6 +11,7 @@ import {
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
   parseReferenceRetirementRegistry,
+  normalizeReferenceRetirementRegistry,
   serializeReferenceManifest,
   type ReferenceSourceManifest,
   type ReferenceTranslationManifest,
@@ -214,7 +215,7 @@ describe('Reference translation provenance', () => {
     })).toThrow(/explicit retirement/i);
   });
 
-  it('fails closed when a registered retirement loses its remaining file', () => {
+  it('drops a stale retirement when both source and target are missing', () => {
     const roots = fixture();
     const retiredRecord = {
       manual: 'python',
@@ -223,12 +224,48 @@ describe('Reference translation provenance', () => {
       reason: 'Fixture retirement',
     };
 
-    expect(() => buildReferenceManifests({
+    const result = buildReferenceManifests({
       ...roots,
       sourceCommit: 'a'.repeat(40),
       manualForPath: () => 'python',
       retirementRegistry: {schemaVersion: 1, retirements: [retiredRecord]},
-    })).toThrow(/retirement.*remaining.*missing|both.*missing/i);
+    });
+    expect(result.translationManifest.records).toEqual([]);
+  });
+
+  it('normalizes retirements to target-only records and preserves unrelated manuals', () => {
+    const record = {
+      manual: 'python',
+      sourcePath: 'content/en/reference/api/python/page.md',
+      targetPath: 'content/zh-CN/reference/api/python/page.md',
+      reason: 'Fixture retirement',
+    };
+    const unrelated = {
+      manual: 'java',
+      sourcePath: 'content/en/reference/api/java/page.md',
+      targetPath: 'content/zh-CN/reference/api/java/page.md',
+      reason: 'Unrelated retirement',
+    };
+    const registry = {schemaVersion: 1 as const, retirements: [unrelated, record].sort((left, right) => left.manual.localeCompare(right.manual))};
+
+    expect(normalizeReferenceRetirementRegistry({
+      registry,
+      manual: 'python',
+      sourcePaths: new Set(),
+      targetPaths: new Set([record.targetPath]),
+    }).retirements).toEqual([unrelated, record]);
+    expect(normalizeReferenceRetirementRegistry({
+      registry,
+      manual: 'python',
+      sourcePaths: new Set([record.sourcePath]),
+      targetPaths: new Set([record.targetPath]),
+    }).retirements).toEqual([unrelated]);
+    expect(normalizeReferenceRetirementRegistry({
+      registry,
+      manual: 'python',
+      sourcePaths: new Set(),
+      targetPaths: new Set(),
+    }).retirements).toEqual([unrelated]);
   });
 
   it('rejects translation and source manifests whose records are not canonically sorted', () => {

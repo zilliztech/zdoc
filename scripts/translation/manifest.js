@@ -5,6 +5,7 @@ const path = require('node:path')
 const crypto = require('node:crypto')
 const { getContentGroup } = require('../docs-workflow/content-groups')
 const { selectManifestBatch } = require('./batches')
+const { normalizeRetirements } = require('./bootstrap-state')
 
 const SHA = /^[0-9a-f]{40}$/
 const CANDIDATE_REASON_ORDER = Object.freeze({
@@ -122,9 +123,9 @@ function retirementKey(record) {
 
 function readRetirementRegistry(siteDir, target) {
   const registryPath = retirementRegistryPath(target)
-  if (!registryPath) return {retirements: []}
+  if (!registryPath) return {schemaVersion: 1, retirements: []}
   const absolutePath = path.join(siteDir, registryPath)
-  return fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : {retirements: []}
+  return fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : {schemaVersion: 1, retirements: []}
 }
 
 function requireRetirementApprovals(siteDir, target, candidates) {
@@ -189,7 +190,8 @@ function localeForTarget(target) {
   throw new Error(`Unknown translation target: ${target}`)
 }
 
-function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' ? 'ja-JP' : 'zh-CN', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null, sourceDelta = null }) {
+function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' ? 'ja-JP' : 'zh-CN', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null, sourceDelta = null, mode = 'incremental' }) {
+  if (!['full', 'incremental'].includes(mode)) throw new Error(`Unsupported effective translation mode: ${mode}`)
   let ownedPrefixes = null
   let forceTranslationPaths = new Set()
   if (group) {
@@ -204,7 +206,16 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
   const cache = readTargetState(siteDir, target, locale)
   const items = []
   const retirementCandidates = [...(sourceDelta?.retirementCandidates || [])]
-  const retiredTargets = new Set((readRetirementRegistry(siteDir, target).retirements || []).map(record => record.targetPath))
+  const rawRegistry = readRetirementRegistry(siteDir, target)
+  const normalizedRegistry = group && retirementRegistryPath(target)
+    ? normalizeRetirements({
+        registry: rawRegistry,
+        group,
+        exists: relativePath => fs.existsSync(path.join(siteDir, relativePath)),
+      }).registry
+    : rawRegistry
+  const retiredTargets = new Set((normalizedRegistry.retirements || []).map(record => record.targetPath))
+  let activeSourceCount = 0
 
   const targetMappings = target === 'ja-JP'
     ? sourceMappingsForLocale(locale, { includeReference })
@@ -215,6 +226,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
       const relativeToRoot = path.relative(absSourceRoot, absSourcePath)
       const sourcePath = path.join(mapping.sourceRoot, relativeToRoot).replace(/\\/g, '/')
       if (ownedPrefixes && !ownedPrefixes.some(prefix => sourcePath === prefix || sourcePath.startsWith(`${prefix}/`))) continue
+      activeSourceCount += 1
       const targetPath = path.join(mapping.targetRoot, relativeToRoot).replace(/\\/g, '/')
       if (retiredTargets.has(targetPath)) continue
       const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
@@ -222,7 +234,7 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
       const cached = cache.files[sourcePath]
       const targetExists = fs.existsSync(path.join(siteDir, targetPath))
 
-      if (targetExists && cached?.sourceHash === sourceHash && !forceTranslationPaths.has(sourcePath)) continue
+      if (mode !== 'full' && targetExists && cached?.sourceHash === sourceHash && !forceTranslationPaths.has(sourcePath)) continue
 
       items.push({
         sourcePath,
@@ -238,10 +250,11 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
   if (target === 'zh-CN-tools') {
     const fragment = readToolsSidebarFragment(siteDir)
     if (fragment !== undefined) {
+      activeSourceCount += 1
       const sourceHash = hashContent(JSON.stringify(fragment))
       const cached = cache.files[TOOLS_SIDEBAR_SOURCE]
       const targetExists = fs.existsSync(path.join(siteDir, TOOLS_SIDEBAR_TARGET))
-      if (!targetExists || cached?.sourceHash !== sourceHash) {
+      if (mode === 'full' || !targetExists || cached?.sourceHash !== sourceHash) {
         items.push({
           sourcePath: TOOLS_SIDEBAR_SOURCE,
           targetPath: TOOLS_SIDEBAR_TARGET,
@@ -263,6 +276,10 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
   const uniqueRetirements = [...new Map(retirementCandidates.map(candidate => [retirementKey(candidate), candidate])).values()]
     .sort((left, right) => left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath))
   requireRetirementApprovals(siteDir, target, uniqueRetirements)
+
+  if (mode === 'full' && group && items.length !== activeSourceCount) {
+    throw new Error(`Full translation candidate count ${items.length} does not match active source count ${activeSourceCount} for ${group}`)
+  }
 
   items.sort((a, b) => (
     CANDIDATE_REASON_ORDER[a.reason] - CANDIDATE_REASON_ORDER[b.reason] ||
@@ -302,11 +319,12 @@ function main() {
   const group = args.get('--group') || null
   const sourceCheckpointSha = args.get('--source-checkpoint-sha') || null
   const sourceDeltaPath = args.get('--source-delta') || null
+  const mode = args.get('--mode') || process.env.TRANSLATION_MODE || 'incremental'
   const sourceDelta = sourceDeltaPath ? JSON.parse(fs.readFileSync(path.join(siteDir, sourceDeltaPath), 'utf8')) : null
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
   const presentBatchFlags = batchFlags.filter(flag => args.has(flag))
   if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
-  let manifest = buildManifest({ siteDir, target, locale, includeReference, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta })
+  let manifest = buildManifest({ siteDir, target, locale, includeReference, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta, mode })
   if (presentBatchFlags.length) {
     manifest = selectManifestBatch(manifest, {
       batchIndex: Number(args.get('--batch-index')),

@@ -207,7 +207,7 @@ function testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries()
   })
 }
 
-function testExplicitlyRetiredReferenceTargetsAreExcludedFromWorkflowManifest() {
+function testActiveReferenceSourceIsNotHiddenByStaleRetirement() {
   withTempDir(siteDir => {
     const sourcePath = 'content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md'
     const targetPath = 'content/zh-CN/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md'
@@ -226,7 +226,39 @@ function testExplicitlyRetiredReferenceTargetsAreExcludedFromWorkflowManifest() 
       sourceCheckpointSha: 'e'.repeat(40),
     })
 
-    assert.deepEqual(manifest.items, [])
+    assert.deepEqual(manifest.items.map(item => item.sourcePath), [sourcePath])
+  })
+}
+
+function testFullChineseBootstrapIncludesEveryActiveSource() {
+  withTempDir(siteDir => {
+    const sources = [
+      'content/en/reference/api/python/python/a.md',
+      'content/en/reference/api/python/python/b.md',
+    ]
+    const records = []
+    for (const sourcePath of sources) {
+      const source = `# ${sourcePath}\n`
+      const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/')
+      write(path.join(siteDir, sourcePath), source)
+      write(path.join(siteDir, targetPath), '# English placeholder\n')
+      records.push({sourcePath, targetPath, sourceHash: hashContent(source), status: 'translated'})
+    }
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      bootstrapCompletedGroups: [],
+      records,
+    }))
+
+    const manifest = buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      group: 'python',
+      mode: 'full',
+      sourceCheckpointSha: 'e'.repeat(40),
+    })
+
+    assert.deepEqual(manifest.items.map(item => item.sourcePath), sources)
   })
 }
 
@@ -500,7 +532,8 @@ function run() {
   testToolsSidebarLabelChangeBecomesCandidate()
   testToolsSidebarRemovalRequiresExactRetirementApproval()
   testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries()
-  testExplicitlyRetiredReferenceTargetsAreExcludedFromWorkflowManifest()
+  testActiveReferenceSourceIsNotHiddenByStaleRetirement()
+  testFullChineseBootstrapIncludesEveryActiveSource()
   testReferenceLandingGroupForcesExactlyFiveCurrentTargets()
   testLegacyJapaneseCacheKeysMapToCanonicalSources()
   testRepositoryLegacyJapaneseCacheDoesNotMassRetranslate()
