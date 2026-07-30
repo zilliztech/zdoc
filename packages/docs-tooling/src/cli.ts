@@ -47,7 +47,7 @@ import {
   type ReferenceRetirementRegistry,
   type ReferenceTreeSnapshot,
 } from './reference/translationManifest.ts';
-import {deriveReferenceSidebarPublicationEntries} from './reference/sidebarDerivation.ts';
+import {deriveReferenceSidebarPublicationEntries, deriveZhCnReferenceSidebarGroupEntries} from './reference/sidebarDerivation.ts';
 import {validateReferenceNavigation} from './validation/referenceNavigation.ts';
 import {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
@@ -307,6 +307,20 @@ export async function executeReferenceDocsToolingCommand(
   dependencies: ReferenceCommandDependencies = {},
 ): Promise<void> {
   const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
+  if (argv[0] === 'reference-sidebar') {
+    if (argv.length !== 4 || argv[1] !== '--group' || !argv[2] || argv[3] !== '--write') {
+      throw new Error('Usage: docs-tooling reference-sidebar --group <python|java|node|go|rest|cli|reference-landings> --write');
+    }
+    const targetSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_TARGET_ROOT);
+    const retirementRegistry = dependencies.retirementRegistry
+      ?? parseReferenceRetirementRegistry(readJson(repositoryRoot, REFERENCE_RETIREMENT_REGISTRY));
+    const retiredTargetIds = new Set(retirementRegistry.retirements
+      .filter(record => !targetSnapshot.has(record.targetPath))
+      .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
+    writeManifestPair(repositoryRoot, deriveZhCnReferenceSidebarGroupEntries(repositoryRoot, argv[2], retiredTargetIds));
+    dependencies.write?.(`wrote Chinese Reference sidebars for ${argv[2]}`);
+    return;
+  }
   if (argv[0] === 'reference-manifest') {
     const shorthand = argv.length === 2 && argv[1] === '--write';
     const values: Record<string, string> = shorthand

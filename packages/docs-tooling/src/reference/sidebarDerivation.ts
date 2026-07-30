@@ -21,6 +21,16 @@ type DocumentMetadata = Readonly<{
 
 type ReferenceSidebarName = typeof REFERENCE_SIDEBARS[number];
 
+const REFERENCE_SIDEBAR_GROUPS: Readonly<Record<string, readonly ReferenceSidebarName[]>> = Object.freeze({
+  python: ['python'],
+  java: ['java'],
+  node: ['node'],
+  go: ['go'],
+  rest: ['restful'],
+  cli: ['cli'],
+  'reference-landings': ['python', 'java', 'node', 'go', 'cli'],
+});
+
 type ReferenceSidebarTarget = Readonly<{
   sidebar: ReferenceSidebarName;
   landingId: string;
@@ -293,4 +303,23 @@ export function deriveReferenceSidebarPublicationEntries(
     chineseEntries.push([`generated/zh-CN/sidebars/${name}.sidebar.js`, serializeSidebar(derived)]);
   }
   return [...englishEntries, ...chineseEntries];
+}
+
+export function deriveZhCnReferenceSidebarGroupEntries(
+  repositoryRoot: string,
+  group: string,
+  excludedDocIds: ReadonlySet<string> = new Set<string>(),
+): readonly (readonly [string, string])[] {
+  const names = REFERENCE_SIDEBAR_GROUPS[group];
+  if (!names) throw new Error(`Unsupported Reference sidebar group: ${group}`);
+  const targets = readReferenceSidebarTargets(repositoryRoot);
+  const sourceDocuments = readMetadata(path.join(repositoryRoot, 'content/en/reference'));
+  const targetRoot = path.join(repositoryRoot, 'content/zh-CN/reference');
+
+  return names.map(name => {
+    const target = targets.get(name)!;
+    const normalized = normalizeLandingDocument(loadEnglishTemplate(repositoryRoot, name), sourceDocuments, target.landingId);
+    const derived = deriveReferenceSidebar({targetRoot, template: normalized, excludedDocIds});
+    return [`generated/zh-CN/sidebars/${name}.sidebar.js`, serializeSidebar(derived)] as const;
+  });
 }

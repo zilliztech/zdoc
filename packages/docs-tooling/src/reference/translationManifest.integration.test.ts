@@ -108,6 +108,24 @@ function retiredRepository(): string {
 }
 
 describe('Reference manifest executable security boundary', () => {
+  it('regenerates only the selected Chinese Reference group', () => {
+    const root = repository();
+    mkdirSync(path.join(root, 'content/en/reference/api/go'), {recursive: true});
+    writeFileSync(path.join(root, 'content/en/reference/api/go/page.md'), '# Go source without a Chinese target\n');
+    writeFileSync(path.join(root, 'generated/en/sidebars/go.sidebar.js'), 'module.exports = ["api/go/page"]\n');
+    const javaSidebar = path.join(root, 'generated/zh-CN/sidebars/java.sidebar.js');
+    mkdirSync(path.dirname(javaSidebar), {recursive: true});
+    writeFileSync(javaSidebar, 'module.exports = ["sentinel"]\n');
+
+    const result = runReferenceManifest(root, [
+      'reference-sidebar', '--group', 'python', '--write',
+    ]);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/python.sidebar.js'), 'utf8')).toContain('api/python/page');
+    expect(readFileSync(javaSidebar, 'utf8')).toBe('module.exports = ["sentinel"]\n');
+  });
+
   it('supports the exact workflow shorthand and publishes manifests plus all six sidebars', () => {
     const root = repository();
 
