@@ -26,6 +26,7 @@ test('rest preparation removes restored English REST outputs and preserves i18n'
     restSidebarContent: 'module.exports=["master"]\n',
     preservedContentByPath: new Map([
       ['content/en/reference/api/restful/restful/restful.md', '# REST API\n'],
+      ['content/en/reference/content-manifest.json', '{"schemaVersion":1}\n'],
     ]),
   });
 
@@ -41,6 +42,7 @@ test('rest preparation removes restored English REST outputs and preserves i18n'
   ]);
   assert.deepEqual(result.restored.sort(), [
     'content/en/reference/api/restful/restful/restful.md',
+    'content/en/reference/content-manifest.json',
     'generated/en/sidebars/restful.sidebar.js',
   ]);
 });
@@ -52,10 +54,21 @@ test('non-rest groups keep generated outputs and restore landing pages from mast
 
   const result = prepareContentGroupWorkspace({
     site: 'en', group: 'python', cwd: root,
-    preservedContentByPath: new Map(),
+    preservedContentByPath: new Map([
+      ['content/en/reference/content-manifest.json', '{"schemaVersion":1}\n'],
+    ]),
   });
 
   assert.equal(fs.existsSync(path.join(root, 'content/en/reference/api/python/python/old.md')), true);
   assert.equal(fs.existsSync(path.join(root, 'generated/en/sidebars/python.sidebar.js')), true);
-  assert.deepEqual(result, { site: 'en', group: 'python', removed: [], restored: [] });
+  assert.equal(
+    fs.readFileSync(path.join(root, 'content/en/reference/content-manifest.json'), 'utf8'),
+    '{"schemaVersion":1}\n',
+  );
+  assert.deepEqual(result, {
+    site: 'en',
+    group: 'python',
+    removed: [],
+    restored: ['content/en/reference/content-manifest.json'],
+  });
 });

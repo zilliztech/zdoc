@@ -52,6 +52,8 @@ test('sequential stale Python and Java source artifacts preserve remote and each
     put(s.seed, 'docs/unrelated.md', 'guide old\n');
     const baselineSha = commitSeed(s), baseline = path.join(s.root, 'baseline'), python = path.join(s.root, 'python'), java = path.join(s.root, 'java');
     copy(s.seed, baseline); copy(s.seed, python); copy(s.seed, java);
+    put(python, 'content/en/reference/content-manifest.json', '{"schemaVersion":1}\n');
+    put(java, 'content/en/reference/content-manifest.json', '{"schemaVersion":1}\n');
     put(python, 'content/en/reference/api/python/python/keep.md', 'python new\n'); fs.unlinkSync(path.join(python, 'content/en/reference/api/python/python/delete.md'));
     put(python, 'generated/en/sidebars/python.sidebar.js', 'python new sidebar\n'); put(python, 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json', '{"python":true}\n');
     put(java, 'content/en/reference/api/java/java/v2/keep.md', 'java new\n'); fs.unlinkSync(path.join(java, 'content/en/reference/api/java/java/v2/delete.md'));
@@ -70,6 +72,7 @@ test('sequential stale Python and Java source artifacts preserve remote and each
     assert.equal(git(s.seed, 'show', 'origin/dev:generated/en/sidebars/java.sidebar.js'), 'java new sidebar');
     assert.equal(git(s.seed, 'show', 'origin/dev:packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json'), '{"python":true}');
     assert.equal(git(s.seed, 'show', 'origin/dev:packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json'), '{"java":true}');
+    assert.equal(git(s.seed, 'show', 'origin/dev:content/en/reference/content-manifest.json'), '{"schemaVersion":1}');
     const commits = git(s.seed, 'rev-list', '--first-parent', 'origin/dev', `^${baselineSha}`).split('\n');
     assert.equal(commits.length, 3); assert.equal(git(s.seed, 'rev-parse', `${commits[1]}^`), remoteGuideSha); assert.equal(git(s.seed, 'rev-parse', `${commits[0]}^`), commits[1]);
   } finally { fs.rmSync(s.root, { recursive: true, force: true }); }

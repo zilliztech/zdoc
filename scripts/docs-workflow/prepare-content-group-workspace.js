@@ -7,6 +7,15 @@ const { spawnSync } = require('node:child_process');
 
 const { getGroupPaths } = require('./group-paths');
 
+const ENGLISH_REFERENCE_MANIFEST = 'content/en/reference/content-manifest.json';
+
+function preservedMasterPaths(site, group, groupPaths) {
+  return [
+    ...groupPaths.preservedEnglish,
+    ...(site === 'en' && group !== 'guides' ? [ENGLISH_REFERENCE_MANIFEST] : []),
+  ];
+}
+
 function resolveOwnedPath(root, relativePath) {
   if (
     typeof relativePath !== 'string'
@@ -51,7 +60,7 @@ function prepareContentGroupWorkspace({ site = 'en', group, cwd = process.cwd(),
   const groupPaths = getGroupPaths(group, site);
   const restored = restorePreservedFiles({
     root,
-    relativePaths: groupPaths.preservedEnglish,
+    relativePaths: preservedMasterPaths(site, group, groupPaths),
     contentByPath: preservedContentByPath,
   });
   if (group !== 'rest') {
@@ -101,7 +110,7 @@ function main() {
   const restSidebarContent = group === 'rest'
     ? readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath: restSidebar })
     : null;
-  const preservedContentByPath = new Map(groupPaths.preservedEnglish.map((relativePath) => [
+  const preservedContentByPath = new Map(preservedMasterPaths(site, group, groupPaths).map((relativePath) => [
     relativePath,
     readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath }),
   ]));
@@ -120,4 +129,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { prepareContentGroupWorkspace, readGitFileAtRef, resolveOwnedPath, restorePreservedFiles };
+module.exports = { prepareContentGroupWorkspace, preservedMasterPaths, readGitFileAtRef, resolveOwnedPath, restorePreservedFiles };

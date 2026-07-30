@@ -72,6 +72,7 @@ test('creates a deterministic, sorted artifact with changed, new, binary, and de
   await writeFile(path.join(f.workspace, root, 'changed.md'), 'new');
   await writeFile(path.join(f.workspace, root, 'z-new.bin'), Buffer.from([0, 255, 1, 2]));
   await writeFile(path.join(f.workspace, root, 'a-new.md'), 'alpha');
+  await writeFile(path.join(f.workspace, 'content/en/reference/content-manifest.json'), '{"schemaVersion":1}\n');
 
   const manifest = await createCheckpointArtifact({
     group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B,
@@ -83,6 +84,7 @@ test('creates a deterministic, sorted artifact with changed, new, binary, and de
   assert.equal(manifest.stage, 'source');
   assert.deepEqual(manifest.files.map((entry) => entry.path), [
     `${root}/a-new.md`, `${root}/changed.md`, `${root}/z-new.bin`,
+    'content/en/reference/content-manifest.json',
   ]);
   assert.deepEqual(manifest.deletions, [`${root}/deleted.md`]);
   assert.deepEqual(manifest.validation, { commands: ['node --test'], passed: true });

@@ -140,6 +140,8 @@ function distinct(values: readonly (string | undefined)[]): readonly string[] {
   return Object.freeze([...new Set(values.filter((value): value is string => Boolean(value)))]);
 }
 
+const ENGLISH_REFERENCE_CONTENT_MANIFEST = 'content/en/reference/content-manifest.json';
+
 export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string): PublicationGroupWorkflow {
   const group = resolvePublicationGroup(site, groupName);
   const resolved = group.manuals.map(manual => resolveManualPublication(manual, site));
@@ -157,6 +159,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
       ...group.ownedPaths,
       ...sourceSnapshots,
       ...(groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
+      ...(site === 'en' && groupName !== 'guides' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
       ...(group.publicationManifest ? [group.publicationManifest] : []),
       ...(site === 'en' ? [`generated/en/manifests/lark-revisions/${groupName}.json`] : []),
     ]),

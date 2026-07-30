@@ -25,6 +25,7 @@ test('defines the Python content group ownership contract', () => {
     'content/en/reference/api/python/python',
     'generated/en/sidebars/python.sidebar.js',
     'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
+    'content/en/reference/content-manifest.json',
     'generated/en/manifests/lark-revisions/python.json',
   ]);
 });
@@ -43,6 +44,14 @@ test('appends the exact revision inventory owned by each English publication gro
     const revisionPaths = getContentGroup(group).ownedPaths.filter((owned) => owned.startsWith('generated/en/manifests/lark-revisions/'));
     assert.deepEqual(revisionPaths, [revisionInventory], group);
     assert.equal(getContentGroup(group).ownedPaths.at(-1), revisionInventory, group);
+  }
+});
+
+test('checkpoints the English Reference root manifest with every Reference producer', () => {
+  const manifest = 'content/en/reference/content-manifest.json';
+  assert.equal(getContentGroup('guides').ownedPaths.includes(manifest), false);
+  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+    assert.equal(getContentGroup(group).ownedPaths.includes(manifest), true, group);
   }
 });
 
