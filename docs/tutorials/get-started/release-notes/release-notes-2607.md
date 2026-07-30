@@ -31,6 +31,24 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **2026-07-30**
+
+    </div>
+
+    <div>
+
+        ## Enhancements\{#enhancements}
+
+        - **Hugging Face embedding models** — Hugging Face is now available as a model provider via Bring Your Own Key integration. For details, refer to [Hugging Face](./hugging-face).
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="15,84">
+
+    <div>
+
         **2026-07-15**
 
     </div>
