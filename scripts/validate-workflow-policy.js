@@ -834,8 +834,31 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
-        readinessCommand !== 'node --test scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
+        readinessCommand !== 'node --test scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
+    }
+    const sourceGroups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
+    const sourceBarrier = caller?.jobs?.source_publication_barrier
+    const sourceBarrierNeeds = Array.isArray(sourceBarrier?.needs) ? sourceBarrier.needs : []
+    const expectedSourceBarrierNeeds = ['prepare', ...sourceGroups.map(group => `publish_${group}`)]
+    const sourceBarrierSteps = sourceBarrier?.steps || []
+    if (JSON.stringify(sourceBarrierNeeds) !== JSON.stringify(expectedSourceBarrierNeeds) ||
+        !String(sourceBarrier?.if || '').includes("needs.prepare.outputs.publish == 'true'") ||
+        sourceBarrierSteps.at(-1)?.run !== 'node scripts/docs-workflow/source-publication-barrier.js') {
+      errors.push('fetch-docs.yml: source publication barrier must verify every selected source publisher before paid translation')
+    }
+    const paidTranslationJobs = [
+      'translate_guides_batches',
+      ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}`),
+      ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}_zh_reference`),
+      'translate_guides_zh_tools',
+    ]
+    for (const jobName of paidTranslationJobs) {
+      const job = caller?.jobs?.[jobName]
+      const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
+      if (!needs.includes('source_publication_barrier') || !String(job?.if || '').includes("needs.source_publication_barrier.result == 'success'")) {
+        errors.push(`fetch-docs.yml: ${jobName} must wait for successful source publication barrier`)
+      }
     }
     const monitorNeeds = Array.isArray(monitor?.needs) ? monitor.needs : monitor?.needs ? [monitor.needs] : []
     if (monitorNeeds.length !== 1 || monitorNeeds[0] !== 'prepare') errors.push('fetch-docs.yml: central monitor must start after prepare only')

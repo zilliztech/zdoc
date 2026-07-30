@@ -591,6 +591,27 @@ test('content producers stay parallel while source publishers form an explicit c
   }
 })
 
+test('all paid translation waits for successful selected source publication', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
+  const barrier = workflow.jobs.source_publication_barrier
+  assert.deepEqual(barrier.needs, ['prepare', ...groups.map(group => `publish_${group}`)])
+  assert.match(barrier.if, /always\(\).*needs\.prepare\.outputs\.publish == 'true'/)
+  assert.equal(barrier.steps.at(-1).run, 'node scripts/docs-workflow/source-publication-barrier.js')
+  const paidJobs = [
+    'translate_guides_batches',
+    ...['python', 'java', 'node', 'go', 'cli', 'rest'].map(group => `translate_${group}`),
+    ...['python', 'java', 'node', 'go', 'cli', 'rest'].map(group => `translate_${group}_zh_reference`),
+    'translate_guides_zh_tools',
+  ]
+  for (const jobName of paidJobs) {
+    const job = workflow.jobs[jobName]
+    const needs = Array.isArray(job.needs) ? job.needs : [job.needs]
+    assert.equal(needs.includes('source_publication_barrier'), true, jobName)
+    assert.match(job.if, /needs\.source_publication_barrier\.result == 'success'/, jobName)
+  }
+})
+
 test('job-level env must not reference the runner context', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'workflow-policy-'))
   try {
@@ -1922,7 +1943,7 @@ test('fetch preparation blocks paid translation until publication readiness regr
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
   assert.ok(installIndex >= 0 && readinessIndex > installIndex && readinessIndex < cardIndex)
   const command = steps[readinessIndex].run
-  assert.equal(command, 'node --test scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
+  assert.equal(command, 'node --test scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
 })
 
 test('manual translation wrapper calls the target-aware reusable workflow without legacy automation', () => {
