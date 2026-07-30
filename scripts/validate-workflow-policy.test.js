@@ -21,6 +21,7 @@ test('manual translation entry selects recoverable locale groups before paid wor
   assert.deepEqual(inputs.mode.options, ['auto', 'full', 'incremental'])
   assert.equal(inputs.mode.default, 'auto')
   assert.equal(inputs.publish.default, false)
+  assert.equal(workflow.on.workflow_call.inputs.publish.default, false)
   assert.equal(inputs.source_ref.default, 'dev')
   assert.equal(inputs.target_branch.default, 'dev')
   assert.equal(inputs.tooling_sha.required, true)

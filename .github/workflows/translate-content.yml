@@ -36,7 +36,7 @@ on:
       source_ref: { required: false, type: string, default: '' }
       mode: { required: false, type: string, default: auto }
       recovery_run_id: { required: false, type: string, default: '' }
-      publish: { required: false, type: boolean, default: true }
+      publish: { required: false, type: boolean, default: false }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
