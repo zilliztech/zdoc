@@ -111,7 +111,7 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
-  for (const requiredPath of RESTORE_PATHS) assert.ok(actualPaths.includes(requiredPath), requiredPath)
+  assert.deepEqual(RESTORE_PATHS, restorePaths)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
@@ -256,6 +256,7 @@ test('exact immutable ref removes absent revision inventories without claiming t
   const inventoryRoot = 'generated/en/manifests/lark-revisions'
   const toolingSidebarHelper = 'generated/en/sidebars/unmanaged.txt'
   try {
+    fs.rmSync(path.join(fixture.source, `${inventoryRoot}/state.txt`))
     write(fixture.source, `${inventoryRoot}/keep.json`, '{"keep":true}\n')
     git(fixture.source, 'add', '-A', inventoryRoot)
     git(fixture.source, 'commit', '-m', 'remove stale revision inventory')
