@@ -191,6 +191,19 @@ function dirtyFiles(repositoryRoot) {
   ])].sort(compareBinary);
 }
 
+function pathMatchesGitCommit(repositoryRoot, commitSha, relativePath) {
+  try {
+    execFileSync('git', ['diff', '--quiet', '--no-ext-diff', commitSha, '--', relativePath], {
+      cwd: repositoryRoot,
+      stdio: ['ignore', 'ignore', 'pipe'],
+    });
+    return true;
+  } catch (error) {
+    if (error?.status === 1) return false;
+    throw new Error(`Candidate workspace could not verify immutable source input: ${relativePath}`, {cause: error});
+  }
+}
+
 function pathInRoot(relativePath, root) {
   return relativePath === root || relativePath.startsWith(`${root}/`);
 }
@@ -385,7 +398,13 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
     const unrelated = dirty.map(relativePath => ({
       relativePath,
       owner: localizationDefinitions.find(entry => isInputPath(relativePath, entry.definition)),
-    })).find(({relativePath, owner}) => owner && !isInputPath(relativePath, candidateWorkspace.definition));
+    })).find(({relativePath, owner}) => owner &&
+      !isInputPath(relativePath, candidateWorkspace.definition) &&
+      !(owner.label === 'English release' && pathInRoot(relativePath, 'generated/en/sidebars') && pathMatchesGitCommit(
+        repositoryRoot,
+        candidateWorkspace.sourceSha,
+        relativePath,
+      )));
     if (unrelated) {
       throw new Error(`Candidate workspace ${candidateWorkspace.target} cannot accept dirty ${unrelated.owner.label} input: ${unrelated.relativePath}`);
     }

@@ -417,6 +417,42 @@ test('candidate workspace rejects tracked modifications owned by another transla
   );
 });
 
+test('candidate workspace accepts English release inputs restored exactly from its immutable source checkpoint', () => {
+  const root = fixture();
+  write(root, 'generated/en/sidebars/cli.sidebar.js', 'module.exports = ["published-cli"]\n');
+  execFileSync('git', ['add', '.'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'published English source checkpoint'], {cwd: root});
+  const sourceSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).trim();
+  execFileSync('git', ['reset', '--hard', 'HEAD^'], {cwd: root, stdio: 'ignore'});
+  execFileSync('git', ['restore', `--source=${sourceSha}`, '--staged', '--worktree', '--', 'generated/en/sidebars/cli.sidebar.js'], {cwd: root});
+
+  const {manifest} = run(root, {environment: candidateEnvironment({
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
+    ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: sourceSha,
+  })});
+
+  assert.ok(manifest.localizationInputs.records.some(record =>
+    record.path === 'generated/en/sidebars/cli.sidebar.js' && /^[0-9a-f]{64}$/u.test(record.sha256)));
+});
+
+test('candidate workspace rejects an English release mutation that differs from its immutable source checkpoint', () => {
+  const root = fixture();
+  write(root, 'generated/en/sidebars/cli.sidebar.js', 'module.exports = ["published-cli"]\n');
+  execFileSync('git', ['add', '.'], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'published English source checkpoint'], {cwd: root});
+  const sourceSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).trim();
+  execFileSync('git', ['reset', '--hard', 'HEAD^'], {cwd: root, stdio: 'ignore'});
+  write(root, 'generated/en/sidebars/cli.sidebar.js', 'module.exports = ["untrusted"]\n');
+
+  assert.throws(
+    () => run(root, {environment: candidateEnvironment({
+      ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
+      ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: sourceSha,
+    })}),
+    /cannot accept dirty English release input.*cli\.sidebar\.js/i,
+  );
+});
+
 test('candidate workspace requires an exact target and two immutable Git identities', () => {
   const root = fixture();
   write(root, 'build/zh-CN/index.html', '<html>zh</html>');
