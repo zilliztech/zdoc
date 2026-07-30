@@ -1338,7 +1338,7 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /AWS_ACCESS_KEY_ID: \$\{\{ secrets\.AWS_ACCESS_KEY_ID \}\}/)
   assert.match(source, /AWS_SECRET_ACCESS_KEY: \$\{\{ secrets\.AWS_SECRET_ACCESS_KEY \}\}/)
 
-  assert.match(runner, /--offline[\s\S]*--mediaManifest[\s\S]*packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/)
+  assert.match(runner, /resolveGuidesSourceConfig\(site\)[\s\S]*--offline[\s\S]*--mediaManifest[\s\S]*sourceConfig\.mediaManifestPath/)
   assert.doesNotMatch(render, /GUIDES_MEDIA_MANIFEST|GUIDES_MEDIA_PREFETCH_REQUIRED/)
   assert.doesNotMatch(render, /APP_ID|APP_SECRET|SPACE_ID|MODEL_API_KEY|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
   assert.match(render, /NO_UPDATE_NOTIFIER: '1'/)

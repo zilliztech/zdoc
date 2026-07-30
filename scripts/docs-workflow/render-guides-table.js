@@ -5,13 +5,11 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { spawnSync: defaultSpawnSync } = require('node:child_process')
 const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts')
+const { resolveGuidesSourceConfig } = require('../../packages/docs-tooling/src/manuals/registry.ts')
 
 function tableOutputPath(entry) {
   if (!entry?.table_slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.table_slug)) throw new Error('Invalid Guides table slug')
   const site = resolveBootstrapSite(entry.site)
-  if (site === 'zh-CN' && entry.target === 'zilliz.saas' && entry.table_slug === 'tools') {
-    throw new Error('Chinese Guides source publication cannot render the Agent-owned Tools table')
-  }
   const root = entry.target === 'zilliz.saas'
     ? `tmp/docs-tooling/${site}/guides/content/${site}/guides/tutorials`
     : entry.target === 'zilliz.paas'
@@ -24,6 +22,8 @@ function tableOutputPath(entry) {
 function renderGuidesTable(options) {
   const { workspace, spawnSync = defaultSpawnSync } = options
   if (!workspace || !options.table_id) throw new Error('workspace and table_id are required')
+  const site = resolveBootstrapSite(options.site)
+  const sourceConfig = resolveGuidesSourceConfig(site)
   const outputPath = tableOutputPath(options)
   const absoluteOutput = path.join(workspace, outputPath)
   fs.rmSync(absoluteOutput, { recursive: true, force: true })
@@ -34,7 +34,7 @@ function renderGuidesTable(options) {
     'fetch-lark-docs', '-man', 'guides', '-tar', options.target,
     '-token', `base:${options.table_id}`, '-skipS', '--buildEnv', 'uat',
     '--snapshotCandidatePath', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
-    '--offline', '--mediaManifest', 'packages/docs-tooling/src/lark/meta/media-cache/guides.json',
+    '--offline', '--mediaManifest', sourceConfig.mediaManifestPath,
   ]
   const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
   if (result.error) throw new Error(`Guides table render could not start: ${result.error.message}`)

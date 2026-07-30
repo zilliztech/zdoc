@@ -10,7 +10,7 @@ const { renderGuidesTable, tableOutputPath } = require('./render-guides-table')
 test('Client Libraries and Tools always own their target table directories', () => {
   assert.equal(tableOutputPath({ site: 'en', table_slug: 'client-libraries', target: 'zilliz.saas' }), 'tmp/docs-tooling/en/guides/content/en/guides/tutorials/client-libraries')
   assert.equal(tableOutputPath({ site: 'zh-CN', table_slug: 'tools', target: 'zilliz.paas' }), 'tmp/docs-tooling/zh-CN/guides-byoc/content/zh-CN/byoc/tutorials/tools')
-  assert.throws(() => tableOutputPath({ site: 'zh-CN', table_slug: 'tools', target: 'zilliz.saas' }), /Agent-owned Tools/)
+  assert.equal(tableOutputPath({ site: 'zh-CN', table_slug: 'tools', target: 'zilliz.saas' }), 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/tools')
 })
 
 test('table render clears only its directory and renders the Base table subtree', () => {
@@ -58,4 +58,15 @@ test('cleanup render removes the owned directory without invoking Docusaurus', (
   renderGuidesTable({ workspace, site: 'en', table_id: 'tbl-tools', table_name: 'Tools', table_slug: 'tools', target: 'zilliz.paas', cleanup: true, spawnSync() { called = true } })
   assert.equal(fs.existsSync(owned), false)
   assert.equal(called, false)
+})
+
+test('Chinese table render uses the site-owned media manifest', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'render-guides-table-'))
+  let command
+  renderGuidesTable({
+    workspace, site: 'zh-CN', table_id: 'tbl-tools', table_name: '工具', table_slug: 'tools', target: 'zilliz.saas', cleanup: false,
+    spawnSync(bin, args) { command = [bin, ...args]; return { status: 0 } },
+  })
+  const mediaIndex = command.indexOf('--mediaManifest')
+  assert.equal(command[mediaIndex + 1], 'packages/docs-tooling/src/lark/meta/media-cache/guides-zh-CN.json')
 })
