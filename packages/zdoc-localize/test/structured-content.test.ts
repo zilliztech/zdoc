@@ -64,6 +64,36 @@ describe('structured translation content', () => {
     })), '0'.repeat(64))).toThrowError(expect.objectContaining({subtype: 'structured_topology_mismatch'}));
   });
 
+  it('preserves continuation-paragraph order and translates it through a stable slot', () => {
+    const list: Extract<SemanticNodeStructure, {kind: 'list'}> = {
+      kind: 'list',
+      ordered: false,
+      items: [{
+        content: [{kind: 'text', text: 'Primary item'}],
+        children: [{kind: 'paragraph', content: [{kind: 'text', text: 'Continuation detail'}]}],
+      }],
+    };
+    const topologyHash = structuredTopologyHash(list);
+
+    expect(extractTranslationSlots(list)).toEqual([
+      {slotId: 'item-0/text', sourceText: 'Primary item', preserved: []},
+      {
+        slotId: 'item-0/child-0/paragraph-0',
+        sourceText: 'Continuation detail',
+        preserved: [],
+      },
+    ]);
+    const translated = applySlotTranslations(list, [
+      {slotId: 'item-0/text', translatedText: '主条目'},
+      {slotId: 'item-0/child-0/paragraph-0', translatedText: '续写说明'},
+    ], topologyHash);
+    expect(translated.items[0]!.children[0]).toEqual({
+      kind: 'paragraph',
+      content: [{kind: 'text', text: '续写说明'}],
+    });
+    expect(structuredTopologyHash(translated)).toBe(topologyHash);
+  });
+
   it('treats adjacent equivalent plain-text runs as one semantic span in lists and tables', () => {
     const split = [{kind: 'text' as const, text: 'Hello '}, {kind: 'text' as const, text: 'world'}];
     const list: Extract<SemanticNodeStructure, {kind: 'list'}> = {
@@ -200,6 +230,47 @@ describe('structured translation content', () => {
     }], topologyHash)).toThrowError(expect.objectContaining({subtype: 'structured_topology_mismatch'}));
   });
 
+  it.each([
+    ['bold', {bold: true}, '[**`hf-inference`**](https://example.com/hf)'],
+    ['italic', {italic: true}, '[*`hf-inference`*](https://example.com/hf)'],
+    ['underline', {underline: true}, '[<u>`hf-inference`</u>](https://example.com/hf)'],
+    ['strike', {strike: true}, '[~~`hf-inference`~~](https://example.com/hf)'],
+    [
+      'combined',
+      {bold: true, italic: true, underline: true, strike: true},
+      '[<u>***~~`hf-inference`~~***</u>](https://example.com/hf)',
+    ],
+  ] as const)('round-trips %s marks on link-wrapped inline code', (_label, marks, markdown) => {
+    const list: Extract<SemanticNodeStructure, {kind: 'list'}> = {
+      kind: 'list',
+      ordered: false,
+      items: [{
+        content: [
+          {kind: 'text', text: 'Use '},
+          {
+            kind: 'link',
+            text: 'hf-inference',
+            url: 'https://example.com/hf',
+            inlineCode: true,
+            ...marks,
+          },
+          {kind: 'text', text: '.'},
+        ],
+        children: [],
+      }],
+    };
+    const topologyHash = structuredTopologyHash(list);
+    const translated = applySlotTranslations(list, [{
+      slotId: 'item-0/text',
+      translatedText: `使用 ${markdown}。`,
+    }], topologyHash);
+
+    expect(translated.items[0]!.content[1]).toMatchObject({
+      kind: 'link', inlineCode: true, ...marks,
+    });
+    expect(structuredTopologyHash(translated)).toBe(topologyHash);
+  });
+
   it('round-trips literal Markdown markers, delimiter characters, and embedded code backticks', () => {
     const literalList: Extract<SemanticNodeStructure, {kind: 'list'}> = {
       kind: 'list',
@@ -322,5 +393,79 @@ describe('structured translation content', () => {
     expect(extractTranslationSlots(list)[0]!.preserved).toEqual([
       {kind: 'bold_span', value: '', count: 2},
     ]);
+  });
+
+  it('translates native Callout child slots while preserving link-wrapped inline code', () => {
+    const callout: Extract<SemanticNodeStructure, {kind: 'callout'}> = {
+      kind: 'callout',
+      calloutType: 'note',
+      title: 'Notes',
+      presentation: {
+        emoji: '📘',
+        backgroundColor: 'rgb(240,244,255)',
+        borderColor: 'rgb(130,167,252)',
+      },
+      children: [
+        {kind: 'paragraph', content: [{kind: 'text', text: 'This table is not exhaustive.'}]},
+        {kind: 'paragraph', content: [
+          {kind: 'text', text: 'Models may remain available through '},
+          {
+            kind: 'link',
+            text: 'hf-inference',
+            url: 'https://huggingface.co/docs/inference-providers/providers/hf-inference',
+            inlineCode: true,
+          },
+          {kind: 'text', text: '.'},
+        ]},
+      ],
+    };
+    const slots = extractTranslationSlots(callout);
+
+    expect(slots).toEqual([
+      {slotId: 'callout/title', sourceText: 'Notes', preserved: []},
+      {
+        slotId: 'callout/paragraph-0',
+        sourceText: 'This table is not exhaustive.',
+        preserved: [],
+      },
+      {
+        slotId: 'callout/paragraph-1',
+        sourceText: 'Models may remain available through [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference).',
+        preserved: [
+          {
+            kind: 'url',
+            value: 'https://huggingface.co/docs/inference-providers/providers/hf-inference',
+            count: 1,
+          },
+          {kind: 'inline_code', value: 'hf-inference', count: 1},
+        ],
+      },
+    ]);
+
+    const topologyHash = structuredTopologyHash(callout);
+    const translated = applySlotTranslations(callout, [
+      {slotId: 'callout/title', translatedText: '说明'},
+      {slotId: 'callout/paragraph-0', translatedText: '此表并未穷举所有兼容模型。'},
+      {
+        slotId: 'callout/paragraph-1',
+        translatedText: '模型仍可能通过 [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) 使用。',
+      },
+    ], topologyHash);
+
+    expect(translated.title).toBe('说明');
+    expect(translated.children[1]).toMatchObject({
+      kind: 'paragraph',
+      content: [
+        {kind: 'text', text: '模型仍可能通过 '},
+        {
+          kind: 'link',
+          text: 'hf-inference',
+          url: 'https://huggingface.co/docs/inference-providers/providers/hf-inference',
+          inlineCode: true,
+        },
+        {kind: 'text', text: ' 使用。'},
+      ],
+    });
+    expect(structuredTopologyHash(translated)).toBe(topologyHash);
   });
 });

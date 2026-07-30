@@ -6,6 +6,7 @@ import {
   canonicalWhiteboardRawHash,
   createDocumentSnapshot,
   PartialMutationError,
+  preparedMutationBatchFingerprint,
   prepareMutationBatch,
   type ApplyMutationInput,
   type AssessRecoveryInput,
@@ -29,6 +30,7 @@ import type {
 } from '../src/application/ports.js';
 import {LocalizationWorkflows} from '../src/application/workflows.js';
 import {
+  assertCurrentPlanVersion,
   assertRecoveryOutcome,
   RecoveryApplyJournal,
   verifyLegacyRecoveryResources,
@@ -142,6 +144,35 @@ async function savePlanRun(
 }
 
 describe('legacy and Engine recovery compatibility', () => {
+  it('requires pre-topology-version structured plan v3 reviews to be regenerated', () => {
+    const oldStructuredPlan: LocalizationPlan = {
+      planVersion: 3,
+      runId: 'old-structured-v3',
+      pairId: 'pair-old-structured-v3',
+      sourceRevision: 1,
+      targetRevision: 1,
+      sourceHash: 'source',
+      targetHash: 'target',
+      operations: [{
+        operationId: 'old-list',
+        kind: 'insert',
+        confidence: 'high',
+        proposedText: '',
+        targetNodeKind: 'list',
+        structured: {
+          kind: 'list',
+          topologyHash: '1'.repeat(64),
+          sourceStructure: {kind: 'list', ordered: false, items: []},
+          slots: [],
+        },
+      }],
+    };
+
+    expect(() => assertCurrentPlanVersion(oldStructuredPlan)).toThrowError(expect.objectContaining({
+      type: 'stale_plan', subtype: 'structured_plan_requires_regeneration',
+    }));
+  });
+
   it('migrates a changed legacy receipt into an Engine plan v3 without whole-document churn', async () => {
     const context = await workflowContext();
     const baselineXml = '<title id="source">Guide</title><p id="source-body">Old body.</p><p id="source-stable">Stable.</p>';
@@ -467,6 +498,57 @@ describe('legacy and Engine recovery compatibility', () => {
     await expect(context.workflows.previewReverse(plan.runId)).rejects.toMatchObject({
       type: 'confirmation_required', subtype: 'reverse_not_proven_safe',
     });
+  });
+
+  it('continues to inspect historical Engine 0.2.0 schema-v2 checkpoints', async () => {
+    const context = await workflowContext();
+    const target = snapshot('target', '4', '指南');
+    const currentBatch = context.engine.prepare({
+      snapshot: target,
+      idempotencyNamespace: 'run-engine-020-history',
+      operations: [{
+        operationId: 'assert-title', kind: 'assert',
+        target: {kind: 'snapshot-block', blockId: target.rootBlockId},
+        expectedHash: target.nodes[0]!.canonicalHash,
+      }],
+    });
+    const historicalBatch = {
+      ...currentBatch,
+      engineVersion: '0.2.0',
+      fingerprint: '',
+    } as PreparedMutationBatch;
+    historicalBatch.fingerprint = preparedMutationBatchFingerprint(historicalBatch);
+    const plan: LocalizationPlan = {
+      planVersion: 3, runId: 'run-engine-020-history', pairId: 'pair-engine-020-history',
+      sourceRevision: 1, targetRevision: 4, sourceHash: 'source', targetHash: target.canonicalHash,
+      operations: [],
+    };
+    await context.registry.savePair({
+      pairId: plan.pairId, sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'active',
+    });
+    const previewBundleRef = await context.snapshots.putBundle({
+      runId: plan.runId, files: {'prepared-batch.json': `${JSON.stringify(historicalBatch)}\n`},
+    });
+    const prewriteRef = await context.snapshots.putBundle({
+      runId: plan.runId, files: {'target-prewrite.snapshot.json': `${JSON.stringify(target)}\n`},
+    });
+    const engineEvidenceRef = await context.snapshots.putBundle({
+      runId: plan.runId, files: {'apply-evidence.json': '[]\n'},
+    });
+    await savePlanRun(context, plan, 'partial', {
+      documentHashDomain: 'docx-engine-v1', previewBundleRef, prewriteRef,
+      engineBatchFingerprint: historicalBatch.fingerprint, engineEvidence: [], engineEvidenceRef,
+    });
+    context.engine.assessments.push({
+      disposition: 'resume_possible', completedOperationIds: [], pendingOperationIds: ['assert-title'],
+    });
+
+    await expect(context.workflows.inspectRecovery(plan.runId)).resolves.toMatchObject({
+      disposition: 'resume_possible', batchFingerprint: historicalBatch.fingerprint,
+      pendingOperationIds: ['assert-title'], safeToRecover: false,
+    });
+    expect(context.engine.assessmentInputs[0]?.batch.engineVersion).toBe('0.2.0');
   });
 
   it('does not issue a recovery token for Engine manual inspection', async () => {

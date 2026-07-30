@@ -1,7 +1,11 @@
 import {LocalizeError} from './errors.js';
 import type {ResolvedGlossaryTerm} from './glossary.js';
 import type {ChangeKind, SemanticNodeKind} from './model.js';
-import {assertExactStructuredSlotIds, parseStructuredInlineMarkdown} from './structured-content.js';
+import {
+  assertExactStructuredSlotIds,
+  parseStructuredInlineMarkdown,
+  type StructuredContentKind,
+} from './structured-content.js';
 
 export interface PreservedToken {
   kind: 'inline_code' | 'code_block' | 'bold_span' | 'url' | 'resource_token' | 'citation';
@@ -29,7 +33,8 @@ export interface StructuredTranslationSlot {
 }
 
 export interface StructuredTranslationShape {
-  kind: 'list' | 'table';
+  kind: StructuredContentKind;
+  topologyVersion?: number;
   topologyHash: string;
   slots: StructuredTranslationSlot[];
 }
@@ -66,7 +71,7 @@ export type ValidatedTranslation =
       topologyHash: string;
       slots: Array<{slotId: string; translatedText: string}>;
       translatedText: string;
-      targetNodeKind: 'list' | 'table';
+      targetNodeKind: StructuredContentKind;
     };
 
 function countOccurrences(text: string, value: string): number {
@@ -80,16 +85,21 @@ function validationError(subtype: string, message: string, details?: unknown): L
 
 function countParsedInlineCode(text: string, value: string): number {
   return parseStructuredInlineMarkdown(text)
-    .filter((part) => part.kind === 'code' && part.text === value)
+    .filter((part) =>
+      (part.kind === 'code' || (part.kind === 'link' && part.inlineCode === true))
+      && part.text === value
+    )
     .length;
 }
 
 function countParsedBoldSpans(text: string): number {
   let count = 0;
   let previousMarks: string | undefined;
+  let previousKind: 'text' | 'link' | undefined;
   for (const part of parseStructuredInlineMarkdown(text)) {
-    if (part.kind !== 'text' || part.text.length === 0) {
+    if ((part.kind !== 'text' && part.kind !== 'link') || part.text.length === 0) {
       previousMarks = undefined;
+      previousKind = undefined;
       continue;
     }
     const marks = JSON.stringify({
@@ -98,8 +108,11 @@ function countParsedBoldSpans(text: string): number {
       underline: part.underline === true,
       strike: part.strike === true,
     });
-    if (part.bold === true && marks !== previousMarks) count += 1;
+    if (part.bold === true && (marks !== previousMarks || part.kind === 'link' || previousKind === 'link')) {
+      count += 1;
+    }
     previousMarks = marks;
+    previousKind = part.kind;
   }
   return count;
 }

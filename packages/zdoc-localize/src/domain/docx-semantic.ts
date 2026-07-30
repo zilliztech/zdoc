@@ -1,4 +1,7 @@
 import {
+  calloutToXml,
+  decodeSnapshotNode,
+  decodeSnapshotRoots,
   providerBlocksToXml,
   tableToXml,
   type DesiredListNode,
@@ -17,6 +20,7 @@ import type {
   SemanticSection,
   StructuredListItem,
 } from './model.js';
+import {canonicalHash} from './hash.js';
 
 type RecordValue = Record<string, unknown>;
 
@@ -122,12 +126,6 @@ function inlineContent(value: unknown, location: string): InlineContent[] {
       ? undefined
       : requiredRecord(style.link, `${location}.elements[${index}].text_run.text_element_style.link`);
 
-    if (style.inline_code === true) {
-      if (link || ['bold', 'italic', 'underline', 'strikethrough'].some((key) => style[key] === true)) {
-        throw new Error(`${location}.elements[${index}] combines inline code with unsupported styles.`);
-      }
-      return {kind: 'code', text: run.content};
-    }
     if (link) {
       if (typeof link.url !== 'string') {
         throw new Error(`${location}.elements[${index}] link URL must be a string.`);
@@ -135,10 +133,22 @@ function inlineContent(value: unknown, location: string): InlineContent[] {
       if (Object.keys(link).some((key) => key !== 'url')) {
         throw new Error(`${location}.elements[${index}] has unsupported link metadata.`);
       }
+      return {
+        kind: 'link',
+        text: run.content,
+        url: link.url,
+        ...(style.bold === true ? {bold: true} : {}),
+        ...(style.italic === true ? {italic: true} : {}),
+        ...(style.underline === true ? {underline: true} : {}),
+        ...(style.strikethrough === true ? {strike: true} : {}),
+        ...(style.inline_code === true ? {inlineCode: true} : {}),
+      };
+    }
+    if (style.inline_code === true) {
       if (['bold', 'italic', 'underline', 'strikethrough'].some((key) => style[key] === true)) {
-        throw new Error(`${location}.elements[${index}] combines a link with unsupported styles.`);
+        throw new Error(`${location}.elements[${index}] combines inline code with unsupported styles.`);
       }
-      return {kind: 'link', text: run.content, url: link.url};
+      return {kind: 'code', text: run.content};
     }
     return {
       kind: 'text',
@@ -206,22 +216,20 @@ function listBlockIds(nodes: SnapshotNode[], nodesById: ReadonlyMap<string, Snap
     ids.push(node.blockId);
     for (const childId of node.childBlockIds) {
       const child = nodesById.get(childId);
-      if (child?.kind === 'list') visit(child);
+      if (child) visit(child);
     }
   };
   nodes.forEach(visit);
   return ids;
 }
 
-function desiredListItem(item: StructuredListItem): DesiredListNode['items'][number] {
-  return {
-    content: item.content,
-    children: item.children.map((child) => ({
-      kind: 'list',
-      ordered: child.ordered,
-      items: child.items.map(desiredListItem),
-    })),
-  };
+function structuredListItem(
+  item: DesiredListNode['items'][number],
+): StructuredListItem {
+  const children = item.children.map((child): StructuredListItem['children'][number] => child.kind === 'list'
+    ? {ordered: child.ordered, items: child.items.map(structuredListItem)}
+    : {kind: 'paragraph', content: child.content});
+  return {content: item.content, children};
 }
 
 function listMarkdown(structure: Extract<SemanticNodeStructure, {kind: 'list'}>, depth = 0): string {
@@ -230,7 +238,9 @@ function listMarkdown(structure: Extract<SemanticNodeStructure, {kind: 'list'}>,
   structure.items.forEach((item, index) => {
     lines.push(`${indent}${structure.ordered ? `${index + 1}.` : '-'} ${inlineText(item.content)}`);
     for (const child of item.children) {
-      lines.push(listMarkdown({kind: 'list', ...child}, depth + 1));
+      lines.push(child.kind === 'paragraph'
+        ? `${'   '.repeat(depth + 1)}${inlineText(child.content)}`
+        : listMarkdown({kind: 'list', ...child}, depth + 1));
     }
   });
   return lines.join('\n');
@@ -248,7 +258,14 @@ function inlineXml(content: InlineContent[]): string {
   return content.map((part) => {
     let value = escapeXml(part.text);
     if (part.kind === 'code') return `<code>${value}</code>`;
-    if (part.kind === 'link') return `<a href="${escapeXml(part.url)}">${value}</a>`;
+    if (part.kind === 'link') {
+      if (part.inlineCode) value = `<code>${value}</code>`;
+      if (part.underline) value = `<u>${value}</u>`;
+      if (part.strike) value = `<del>${value}</del>`;
+      if (part.italic) value = `<em>${value}</em>`;
+      if (part.bold) value = `<b>${value}</b>`;
+      return `<a href="${escapeXml(part.url)}">${value}</a>`;
+    }
     if (part.underline) value = `<u>${value}</u>`;
     if (part.strike) value = `<del>${value}</del>`;
     if (part.italic) value = `<em>${value}</em>`;
@@ -260,7 +277,9 @@ function inlineXml(content: InlineContent[]): string {
 function listXml(structure: Extract<SemanticNodeStructure, {kind: 'list'}>): string {
   const tag = structure.ordered ? 'ol' : 'ul';
   const items = structure.items.map((item) => {
-    const children = item.children.map((child) => listXml({kind: 'list', ...child})).join('');
+    const children = item.children.map((child) => child.kind === 'paragraph'
+      ? `<p>${inlineXml(child.content)}</p>`
+      : listXml({kind: 'list', ...child})).join('');
     return `<li>${inlineXml(item.content)}${children}</li>`;
   }).join('');
   return `<${tag}>${items}</${tag}>`;
@@ -287,94 +306,6 @@ function codeText(node: SnapshotNode): string {
     }
     return run.content;
   }).join('');
-}
-
-function desiredNode(
-  node: SnapshotNode,
-  nodesById: ReadonlyMap<string, SnapshotNode>,
-): DesiredNode {
-  if (node.kind === 'paragraph') {
-    return {kind: 'paragraph', content: inlineContent(payload(node, 'text'), `${node.blockId}.text`)};
-  }
-  if (node.kind === 'heading') {
-    const level = headingLevel(node);
-    return {kind: 'heading', level, content: inlineContent(payload(node, `heading${level}`), `${node.blockId}.heading${level}`)};
-  }
-  if (node.kind === 'list') {
-    const item = listItem(node, nodesById);
-    return {
-      kind: 'list',
-      ordered: listOrdered(node),
-      items: [desiredListItem(item)],
-    };
-  }
-  if (node.kind === 'code') {
-    const code = payload(node, 'code');
-    const style = requiredRecord(code.style, `${node.blockId}.code.style`);
-    return {
-      kind: 'code',
-      language: codeLanguage(node),
-      text: codeText(node),
-      ...(typeof style.caption === 'string' ? {caption: style.caption} : {}),
-    };
-  }
-  throw new Error(`${node.blockId} cannot be represented as a writable desired node.`);
-}
-
-function desiredNodes(
-  childIds: string[],
-  nodesById: ReadonlyMap<string, SnapshotNode>,
-): DesiredNode[] {
-  const desired: DesiredNode[] = [];
-  for (let index = 0; index < childIds.length;) {
-    const node = nodesById.get(childIds[index]!);
-    if (!node) throw new Error(`Missing snapshot node ${childIds[index]}.`);
-    if (node.kind !== 'list') {
-      desired.push(desiredNode(node, nodesById));
-      index += 1;
-      continue;
-    }
-    const ordered = listOrdered(node);
-    const items: DesiredListNode['items'] = [];
-    while (index < childIds.length) {
-      const candidate = nodesById.get(childIds[index]!);
-      if (!candidate || candidate.kind !== 'list' || listOrdered(candidate) !== ordered) break;
-      items.push(desiredListItem(listItem(candidate, nodesById)));
-      index += 1;
-    }
-    desired.push({kind: 'list', ordered, items});
-  }
-  return desired;
-}
-
-function tableStructure(
-  node: SnapshotNode,
-  nodesById: ReadonlyMap<string, SnapshotNode>,
-): Extract<SemanticNodeStructure, {kind: 'table'}> {
-  const table = payload(node, 'table');
-  const property = requiredRecord(table.property, `${node.blockId}.table.property`);
-  if (!Number.isInteger(property.row_size) || !Number.isInteger(property.column_size) ||
-      (property.row_size as number) < 1 || (property.column_size as number) < 1) {
-    throw new Error(`${node.blockId} has invalid table dimensions.`);
-  }
-  const rows = property.row_size as number;
-  const columns = property.column_size as number;
-  if (node.childBlockIds.length !== rows * columns) {
-    throw new Error(`${node.blockId} table dimensions do not match its cell count.`);
-  }
-  return {
-    kind: 'table',
-    rows: Array.from({length: rows}, (_, rowIndex) => ({
-      cells: Array.from({length: columns}, (_, columnIndex) => {
-        const cellId = node.childBlockIds[rowIndex * columns + columnIndex]!;
-        const cell = nodesById.get(cellId);
-        if (!cell || cell.blockType !== 32) {
-          throw new Error(`${node.blockId} references unsupported table cell ${cellId}.`);
-        }
-        return {content: desiredNodes(cell.childBlockIds, nodesById)};
-      }),
-    })),
-  };
 }
 
 function descendantBlockIds(node: SnapshotNode, nodesById: ReadonlyMap<string, SnapshotNode>): string[] {
@@ -434,6 +365,7 @@ interface DecodedNode {
   writable: boolean;
   structure?: SemanticNodeStructure;
   blockIds?: string[];
+  subtreeBlockIds?: string[];
   token?: string;
   sourceDocumentId?: string;
   sourceBlockId?: string;
@@ -441,30 +373,39 @@ interface DecodedNode {
 }
 
 function decodeNode(
+  snapshot: DocumentSnapshot,
   node: SnapshotNode,
   nodesById: ReadonlyMap<string, SnapshotNode>,
   groupedLists: SnapshotNode[] = [node],
 ): DecodedNode {
   try {
     if (node.kind === 'page') {
-      const content = inlineContent(payload(node, 'page'), `${node.blockId}.page`);
+      const desired = decodeSnapshotNode(snapshot, node.blockId);
+      if (desired?.kind !== 'title') throw new Error(`${node.blockId} is not a typed title.`);
+      const content = desired.content;
       return {kind: 'title', text: inlineText(content), xml: `<title>${inlineXml(content)}</title>`, writable: true};
     }
     if (node.kind === 'paragraph') {
-      const content = inlineContent(payload(node, 'text'), `${node.blockId}.text`);
+      const desired = decodeSnapshotNode(snapshot, node.blockId);
+      if (desired?.kind !== 'paragraph') throw new Error(`${node.blockId} is not a typed paragraph.`);
+      const content = desired.content;
       return {kind: 'paragraph', text: inlineText(content), xml: providerBlocksToXml([asProviderBlock(node)]), writable: true};
     }
     if (node.kind === 'heading') {
-      const level = headingLevel(node);
-      const content = inlineContent(payload(node, `heading${level}`), `${node.blockId}.heading${level}`);
+      const desired = decodeSnapshotNode(snapshot, node.blockId);
+      if (desired?.kind !== 'heading') throw new Error(`${node.blockId} is not a typed heading.`);
+      const content = desired.content;
       return {kind: 'heading', text: inlineText(content), xml: providerBlocksToXml([asProviderBlock(node)]), writable: true};
     }
     if (node.kind === 'list') {
-      const ordered = listOrdered(node);
+      const desired = decodeSnapshotRoots(snapshot, groupedLists.map(({blockId}) => blockId));
+      if (desired?.length !== 1 || desired[0]?.kind !== 'list') {
+        throw new Error(`${node.blockId} is not a typed list group.`);
+      }
       const structure: Extract<SemanticNodeStructure, {kind: 'list'}> = {
         kind: 'list',
-        ordered,
-        items: groupedLists.map((item) => listItem(item, nodesById)),
+        ordered: desired[0].ordered,
+        items: desired[0].items.map(structuredListItem),
       };
       return {
         kind: 'list',
@@ -472,22 +413,32 @@ function decodeNode(
         xml: listXml(structure),
         writable: true,
         structure,
-        blockIds: listBlockIds(groupedLists, nodesById),
+        blockIds: groupedLists.map(({blockId}) => blockId),
+        subtreeBlockIds: listBlockIds(groupedLists, nodesById),
       };
     }
     if (node.kind === 'table') {
-      const structure = tableStructure(node, nodesById);
-      const desired: Extract<DesiredNode, {kind: 'table'}> = {kind: 'table', rows: structure.rows};
+      const desired = decodeSnapshotNode(snapshot, node.blockId);
+      if (desired?.kind !== 'table') throw new Error(`${node.blockId} is not a typed table.`);
+      const structure: Extract<SemanticNodeStructure, {kind: 'table'}> = {
+        kind: 'table',
+        rows: desired.rows,
+        ...(desired.columnWidths ? {columnWidths: desired.columnWidths} : {}),
+        ...(desired.headerRow !== undefined ? {headerRow: desired.headerRow} : {}),
+      };
       return {
         kind: 'table',
         text: structure.rows.map((row) => row.cells.map((cell) => cell.content.map(desiredNodeText).join('\n')).join(' | ')).join('\n'),
         xml: tableToXml(desired),
         writable: true,
         structure,
-        blockIds: descendantBlockIds(node, nodesById),
+        blockIds: [node.blockId],
+        subtreeBlockIds: descendantBlockIds(node, nodesById),
       };
     }
     if (node.kind === 'code') {
+      const desired = decodeSnapshotNode(snapshot, node.blockId);
+      if (desired?.kind !== 'code') throw new Error(`${node.blockId} is not a typed Code block.`);
       const style = requiredRecord(payload(node, 'code').style, `${node.blockId}.code.style`);
       const structure: Extract<SemanticNodeStructure, {kind: 'code'}> = {
         kind: 'code',
@@ -504,12 +455,29 @@ function decodeNode(
       };
     }
     if (node.kind === 'callout') {
+      const desired = decodeSnapshotNode(snapshot, node.blockId);
+      if (desired?.kind === 'callout') {
+        return {
+          kind: 'callout',
+          text: desiredNodeText(desired),
+          xml: calloutToXml(desired),
+          writable: true,
+          structure: desired,
+          blockIds: [node.blockId],
+          subtreeBlockIds: descendantBlockIds(node, nodesById),
+          attributes: {
+            type: desired.calloutType,
+            ...(desired.title ? {title: desired.title} : {}),
+          },
+        };
+      }
       return {
         kind: 'callout',
         text: textFromDescendants(node, nodesById),
         xml: `<callout provider-block-id="${escapeXml(node.blockId)}"></callout>`,
         writable: false,
-        blockIds: descendantBlockIds(node, nodesById),
+        blockIds: [node.blockId],
+        subtreeBlockIds: descendantBlockIds(node, nodesById),
       };
     }
     if (node.kind === 'whiteboard') {
@@ -523,7 +491,8 @@ function decodeNode(
         text: textFromDescendants(node, nodesById),
         xml: '<synced-source></synced-source>',
         writable: false,
-        blockIds: descendantBlockIds(node, nodesById),
+        blockIds: [node.blockId],
+        subtreeBlockIds: descendantBlockIds(node, nodesById),
         sourceDocumentId: undefined,
         sourceBlockId: node.blockId,
       };
@@ -550,25 +519,35 @@ function decodeNode(
     text: textFromDescendants(node, nodesById),
     xml: `<opaque provider-block-type="${node.blockType}"></opaque>`,
     writable: false,
-    blockIds: node.childBlockIds.length > 0 ? descendantBlockIds(node, nodesById) : undefined,
+    blockIds: [node.blockId],
+    subtreeBlockIds: node.childBlockIds.length > 0 ? descendantBlockIds(node, nodesById) : undefined,
   };
 }
 
 function desiredNodeText(node: DesiredNode): string {
   if ('content' in node) return inlineText(node.content);
   if (node.kind === 'list') {
-    return listMarkdown({kind: 'list', ordered: node.ordered, items: node.items.map((item) => ({
-      content: item.content,
-      children: item.children.filter((child): child is DesiredListNode => child.kind === 'list').map((child) => ({
-        ordered: child.ordered,
-        items: child.items.map((item) => ({content: item.content, children: []})),
-      })),
-    }))});
+    return listMarkdown({kind: 'list', ordered: node.ordered, items: node.items.map(structuredListItem)});
   }
   if (node.kind === 'code') return node.text;
   if (node.kind === 'table') return node.rows.map((row) => row.cells.map((cell) => cell.content.map(desiredNodeText).join('\n')).join(' | ')).join('\n');
   if (node.kind === 'callout') return [node.title, ...node.children.map(desiredNodeText)].filter(Boolean).join('\n');
   return '';
+}
+
+function semanticFingerprint(
+  node: SnapshotNode,
+  decoded: DecodedNode,
+  nodesById: ReadonlyMap<string, SnapshotNode>,
+): string {
+  if (!decoded.subtreeBlockIds || decoded.subtreeBlockIds.length <= 1) return node.canonicalHash;
+  return canonicalHash({
+    root: node.canonicalHash,
+    subtree: decoded.subtreeBlockIds.map((blockId) => ({
+      blockId,
+      canonicalHash: nodesById.get(blockId)?.canonicalHash,
+    })),
+  });
 }
 
 export function semanticDocumentFromSnapshot(snapshot: DocumentSnapshot): SemanticDocument {
@@ -589,7 +568,7 @@ export function semanticDocumentFromSnapshot(snapshot: DocumentSnapshot): Semant
   let activeSectionIndex = -1;
 
   const append = (node: SnapshotNode, groupedLists: SnapshotNode[] = [node]): void => {
-    const decoded = decodeNode(node, nodesById, groupedLists);
+    const decoded = decodeNode(snapshot, node, nodesById, groupedLists);
     if (decoded.kind === 'heading') {
       const level = headingLevel(node);
       headingPath.splice(level - 1);
@@ -612,11 +591,13 @@ export function semanticDocumentFromSnapshot(snapshot: DocumentSnapshot): Semant
       text: decoded.text,
       xml: decoded.xml,
       writable: decoded.writable,
-      fingerprint: node.canonicalHash,
+      fingerprint: semanticFingerprint(node, decoded, nodesById),
       ...(decoded.structure ? {structure: decoded.structure} : {}),
       remote: {
         blockId: node.blockId,
         ...(decoded.blockIds ? {blockIds: decoded.blockIds} : {}),
+        ...(decoded.subtreeBlockIds ? {subtreeBlockIds: decoded.subtreeBlockIds} : {}),
+        providerHash: node.canonicalHash,
         ...(decoded.token ? {token: decoded.token} : {}),
         ...(decoded.kind === 'synced_source'
           ? {sourceDocumentId: snapshot.documentId, sourceBlockId: node.blockId}

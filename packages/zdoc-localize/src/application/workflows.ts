@@ -41,6 +41,7 @@ import {transitionRun} from '../domain/state-machine.js';
 import {
   applySlotTranslations,
   extractTranslationSlots,
+  STRUCTURED_TOPOLOGY_VERSION,
   structuredTopologyHash,
   type StructuredContent,
 } from '../domain/structured-content.js';
@@ -379,6 +380,14 @@ function buildRequest(
 }
 
 function structuredMemorySourceHash(
+  sourceIdentity: string,
+  slotId: string,
+  sourceText: string,
+): string {
+  return canonicalHash({sourceIdentity, slotId, sourceText});
+}
+
+function legacyStructuredMemorySourceHash(
   sourceNodeHash: string,
   slotId: string,
   sourceText: string,
@@ -387,7 +396,7 @@ function structuredMemorySourceHash(
 }
 
 function structuredContent(node: SemanticNode | undefined): StructuredContent | undefined {
-  if (!node || (node.kind !== 'list' && node.kind !== 'table')) return undefined;
+  if (!node || (node.kind !== 'list' && node.kind !== 'table' && node.kind !== 'callout')) return undefined;
   return node.structure?.kind === node.kind ? node.structure : undefined;
 }
 
@@ -403,6 +412,7 @@ function structuredTranslationShape(
     : new Map<string, string>();
   return {
     kind: source.kind,
+    topologyVersion: STRUCTURED_TOPOLOGY_VERSION,
     topologyHash: structuredTopologyHash(source),
     slots: extractTranslationSlots(source).map((slot) => ({
       ...slot,
@@ -437,6 +447,7 @@ function structuredReviewShape(
   return {
     structured: {
       kind: request.structured.kind,
+      topologyVersion: request.structured.topologyVersion,
       topologyHash: request.structured.topologyHash,
       sourceStructure: structuredClone(sourceStructure),
       slots: request.structured.slots.map((slot, index) => ({
@@ -591,12 +602,16 @@ function planningDocumentFromFetch(fetched: FetchedDocument): PlanningDocument {
 
 function engineNodeForLegacy(node: SemanticNode, current: SemanticDocument): SemanticNode | undefined {
   if (node.kind === 'title') return current.nodes.find((candidate) => candidate.kind === 'title');
-  const ids = node.remote.blockIds?.length
-    ? node.remote.blockIds
+  const ids = node.remote.subtreeBlockIds?.length
+    ? node.remote.subtreeBlockIds
+    : node.remote.blockIds?.length
+      ? node.remote.blockIds
     : node.remote.blockId ? [node.remote.blockId] : [];
   const matches = current.nodes.filter((candidate) => {
-    const candidateIds = candidate.remote.blockIds?.length
-      ? candidate.remote.blockIds
+    const candidateIds = candidate.remote.subtreeBlockIds?.length
+      ? candidate.remote.subtreeBlockIds
+      : candidate.remote.blockIds?.length
+        ? candidate.remote.blockIds
       : candidate.remote.blockId ? [candidate.remote.blockId] : [];
     return ids.some((id) => candidateIds.includes(id));
   });
@@ -1123,6 +1138,8 @@ export class LocalizationWorkflows {
         ...(change.after ? {sourceAfter: change.after.text} : {}),
         sourceNodeId: sourceNode.nodeId,
         sourceNodeHash: sourceNode.fingerprint,
+        sourceMemoryIdentity: sourceNode.remote.blockId ?? sourceNode.nodeId,
+        sourceProviderHash: sourceNode.remote.providerHash,
         sourceHeadingPath: sourceNode.headingPath,
         proposedText: '',
         targetNodeKind: 'synced_reference',
@@ -1578,7 +1595,7 @@ export class LocalizationWorkflows {
   async previewApply(runId: string, reviewPath: string): Promise<ApplyPreviewResult> {
     const run = await this.requireRun(runId);
     const plan = await this.planForRun(run);
-    assertCurrentPlanVersion(plan.planVersion);
+    assertCurrentPlanVersion(plan);
     if (this.dependencies.engine && this.hashDomainForRun(run) === 'legacy-xml-v1') {
       throw new LocalizeError({
         type: 'stale_plan', subtype: 'legacy_plan_requires_regeneration',
@@ -3746,14 +3763,23 @@ export class LocalizationWorkflows {
       const request = buildRequest(item, source, target, glossary, memoryExamples, linkMappings);
       if (request.structured) {
         for (const slot of request.structured.slots) {
-          const slotMemory = await this.dependencies.memory.findExact({
-            sourceHash: structuredMemorySourceHash(
-              sourceNode.fingerprint, slot.slotId, slot.sourceText,
-            ),
+          const sourceIdentity = sourceNode.remote.blockId ?? sourceNode.nodeId;
+          let slotMemory = await this.dependencies.memory.findExact({
+            sourceHash: structuredMemorySourceHash(sourceIdentity, slot.slotId, slot.sourceText),
             targetLocale: pair.targetLocale,
             glossaryHash,
             headingPath: sourceNode.headingPath,
           });
+          if (!slotMemory && sourceNode.remote.providerHash) {
+            slotMemory = await this.dependencies.memory.findExact({
+              sourceHash: legacyStructuredMemorySourceHash(
+                sourceNode.remote.providerHash, slot.slotId, slot.sourceText,
+              ),
+              targetLocale: pair.targetLocale,
+              glossaryHash,
+              headingPath: sourceNode.headingPath,
+            });
+          }
           if (slotMemory) {
             slot.memoryExamples = [{
               source: slotMemory.sourceText,
@@ -3909,7 +3935,7 @@ export class LocalizationWorkflows {
             if (sourceText === undefined) continue;
             await this.dependencies.memory.recordApproved({
               sourceHash: structuredMemorySourceHash(
-                operation.sourceNodeHash ?? '', slot.slotId, sourceText,
+                operation.sourceMemoryIdentity ?? operation.sourceNodeId ?? '', slot.slotId, sourceText,
               ),
               targetLocale: 'zh-CN',
               glossaryHash: String(run.metadata?.glossaryHash ?? ''),

@@ -140,6 +140,21 @@ describe('translation response validation', () => {
     }])).toThrowError(expect.objectContaining({subtype: 'preserved_token_mismatch'}));
   });
 
+  it('accepts preserved inline code when it is the label of a Markdown link', () => {
+    const linkedCodeRequest = {
+      ...request,
+      glossary: [],
+      preserved: [{kind: 'inline_code' as const, value: 'hf-inference', count: 1}],
+      linkMappings: [],
+    };
+
+    expect(validateTranslations([linkedCodeRequest], [{
+      operationId: 'op-1',
+      translatedText: '通过 [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) 使用。',
+      targetNodeKind: 'paragraph',
+    }])).toHaveLength(1);
+  });
+
   it('requires bold spans to remain structurally marked', () => {
     const boldRequest = {
       ...request,
@@ -159,6 +174,24 @@ describe('translation response validation', () => {
     }])).toHaveLength(1);
     expect(validateTranslations([boldRequest], [{
       operationId: 'op-1', translatedText: String.raw`使用 ***Zilliz \*Cloud\****。`, targetNodeKind: 'paragraph',
+    }])).toHaveLength(1);
+  });
+
+  it('counts a bold Markdown link label as a preserved bold span', () => {
+    const boldLinkRequest = {
+      ...request,
+      glossary: [],
+      preserved: [
+        {kind: 'bold_span' as const, value: '', count: 1},
+        {kind: 'url' as const, value: 'https://example.com', count: 1},
+      ],
+      linkMappings: [],
+    };
+
+    expect(validateTranslations([boldLinkRequest], [{
+      operationId: 'op-1',
+      translatedText: '查看[**中文指南**](https://example.com)。',
+      targetNodeKind: 'paragraph',
     }])).toHaveLength(1);
   });
 

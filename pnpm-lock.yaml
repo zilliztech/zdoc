@@ -215,8 +215,8 @@ importers:
         specifier: ^12.1.0
         version: 12.1.0
       feishu-docx-engine:
-        specifier: 0.2.0
-        version: 0.2.0
+        specifier: 0.2.1
+        version: 0.2.1
       saxes:
         specifier: ^6.0.0
         version: 6.0.0
@@ -5377,8 +5377,8 @@ packages:
     resolution: {integrity: sha512-u5/sxGfiMfZNtJ3OvQpXcvotFpYkL0n9u9mM2vkui2nGo8b4wvDkJ8gAkYqbA8QpGyFCv3RK0Z+Iv+9veCS9bQ==}
     engines: {node: '>=0.4.0'}
 
-  feishu-docx-engine@0.2.0:
-    resolution: {integrity: sha512-gwPzPTPj2/uZqo+pft9Az5hUb+66Aapg/9dP/IB7MTScALtKpGtcSzPRDRUUUbPpQcNDHgBYF6s85D2Ao0R2iQ==}
+  feishu-docx-engine@0.2.1:
+    resolution: {integrity: sha512-wycMsyTiJSzZBDV8Ze0iYmHpt933lU279/0Ab9T4evHxDIYdZlX56Ika3A08mLmfClQdRTQFPzss3tC55iWg1A==}
     engines: {node: '>=20'}
 
   file-loader@6.2.0:
@@ -15354,7 +15354,7 @@ snapshots:
     dependencies:
       xml-js: 1.6.11
 
-  feishu-docx-engine@0.2.0: {}
+  feishu-docx-engine@0.2.1: {}
 
   file-loader@6.2.0(webpack@5.105.4(@swc/core@1.15.32)):
     dependencies:

@@ -1,9 +1,10 @@
 import {readFileSync} from 'node:fs';
 
-import type {DocumentSnapshot} from 'feishu-docx-engine';
+import {createDocumentSnapshot, type DocumentSnapshot, type ProviderBlock} from 'feishu-docx-engine';
 import {describe, expect, it} from 'vitest';
 
 import {semanticDocumentFromSnapshot} from '../src/domain/docx-semantic.js';
+import {diffDocuments} from '../src/domain/diff.js';
 
 const snapshot = JSON.parse(readFileSync(
   new URL('./fixtures/hugging-face-source-snapshot.json', import.meta.url),
@@ -51,7 +52,7 @@ describe('semanticDocumentFromSnapshot', () => {
     expect(nestedList).toMatchObject({
       kind: 'list',
       writable: true,
-      fingerprint: snapshot.nodes.find((node) => node.blockId === 'nested-parent')!.canonicalHash,
+      fingerprint: expect.stringMatching(/^[a-f0-9]{64}$/),
       structure: {
         kind: 'list',
         ordered: false,
@@ -67,15 +68,19 @@ describe('semanticDocumentFromSnapshot', () => {
         }],
       },
     });
-    expect(nestedList?.remote.blockIds).toEqual(['nested-parent', 'nested-child']);
+    expect(nestedList?.remote).toMatchObject({
+      blockIds: ['nested-parent'],
+      subtreeBlockIds: ['nested-parent', 'nested-child'],
+    });
 
     const table = document.nodes.find((node) => node.remote.blockId === 'parameters-table');
     expect(table).toMatchObject({
       kind: 'table',
       writable: true,
-      fingerprint: snapshot.nodes.find((node) => node.blockId === 'parameters-table')!.canonicalHash,
+      fingerprint: expect.stringMatching(/^[a-f0-9]{64}$/),
       remote: {
-        blockIds: [
+        blockIds: ['parameters-table'],
+        subtreeBlockIds: [
           'parameters-table',
           'parameter-cell',
           'parameter-label',
@@ -112,7 +117,10 @@ describe('semanticDocumentFromSnapshot', () => {
       kind: 'callout',
       writable: false,
       text: 'Notes\nKeep the token private.',
-      remote: {blockIds: ['note-callout', 'callout-title', 'callout-body']},
+      remote: {
+        blockIds: ['note-callout'],
+        subtreeBlockIds: ['note-callout', 'callout-title', 'callout-body'],
+      },
     });
     expect(document.nodes.find((node) => node.remote.blockId === 'architecture-board')).toMatchObject({
       kind: 'whiteboard',
@@ -131,9 +139,11 @@ describe('semanticDocumentFromSnapshot', () => {
       writable: false,
     });
     for (const node of document.nodes) {
-      expect(node.fingerprint).toBe(
-        snapshot.nodes.find((candidate) => candidate.blockId === node.remote.blockId)!.canonicalHash,
-      );
+      const providerFingerprint = snapshot.nodes.find(
+        (candidate) => candidate.blockId === node.remote.blockId,
+      )!.canonicalHash;
+      if ((node.remote.subtreeBlockIds?.length ?? 0) > 1) expect(node.fingerprint).not.toBe(providerFingerprint);
+      else expect(node.fingerprint).toBe(providerFingerprint);
     }
   });
 
@@ -145,5 +155,208 @@ describe('semanticDocumentFromSnapshot', () => {
     expect(semanticDocumentFromSnapshot(malformed).nodes.find(
       (node) => node.remote.blockId === 'nested-parent',
     )).toMatchObject({kind: 'opaque', writable: false});
+  });
+
+  it('keeps Engine-supported list continuation paragraphs typed and translatable', () => {
+    const continuation = createDocumentSnapshot({
+      documentId: 'continuation-list',
+      revision: '1',
+      blocks: [{
+        block_id: 'continuation-list',
+        block_type: 1,
+        page: {elements: [{text_run: {content: 'Continuation list', text_element_style: {}}}]},
+        children: [{
+          block_id: 'bullet-item',
+          parent_id: 'continuation-list',
+          block_type: 12,
+          bullet: {elements: [{text_run: {content: 'Primary item', text_element_style: {}}}]},
+          children: [{
+            block_id: 'continuation-paragraph',
+            parent_id: 'bullet-item',
+            block_type: 2,
+            text: {elements: [{text_run: {content: 'Continuation detail', text_element_style: {}}}]},
+          }],
+        }],
+      }],
+    });
+
+    expect(semanticDocumentFromSnapshot(continuation).nodes.find(
+      (node) => node.remote.blockId === 'bullet-item',
+    )).toMatchObject({
+      kind: 'list',
+      writable: true,
+      text: '- Primary item\n   Continuation detail',
+      remote: {
+        blockIds: ['bullet-item'],
+        subtreeBlockIds: ['bullet-item', 'continuation-paragraph'],
+      },
+      structure: {
+        kind: 'list',
+        items: [{
+          content: [{kind: 'text', text: 'Primary item'}],
+          children: [{
+            kind: 'paragraph',
+            content: [{kind: 'text', text: 'Continuation detail'}],
+          }],
+        }],
+      },
+    });
+  });
+
+  it('includes typed descendant content in structured-node fingerprints', () => {
+    const calloutSnapshot = (revision: string, body: string) => createDocumentSnapshot({
+      documentId: 'callout-fingerprint',
+      revision,
+      blocks: [{
+        block_id: 'callout-fingerprint',
+        block_type: 1,
+        page: {elements: [{text_run: {content: 'Callout fingerprint', text_element_style: {}}}]},
+        children: [{
+          block_id: 'note',
+          parent_id: 'callout-fingerprint',
+          block_type: 19,
+          callout: {background_color: 5, border_color: 5, emoji_id: 'blue_book'},
+          children: [{
+            block_id: 'note-title',
+            parent_id: 'note',
+            block_type: 2,
+            text: {elements: [{text_run: {content: 'Notes', text_element_style: {}}}]},
+          }, {
+            block_id: 'note-body',
+            parent_id: 'note',
+            block_type: 2,
+            text: {elements: [{text_run: {content: body, text_element_style: {}}}]},
+          }],
+        }],
+      }],
+    });
+    const beforeSnapshot = calloutSnapshot('1', 'Old guidance.');
+    const afterSnapshot = calloutSnapshot('2', 'New guidance.');
+    const before = semanticDocumentFromSnapshot(beforeSnapshot);
+    const after = semanticDocumentFromSnapshot(afterSnapshot);
+    const beforeCallout = before.nodes.find((node) => node.remote.blockId === 'note')!;
+    const afterCallout = after.nodes.find((node) => node.remote.blockId === 'note')!;
+
+    expect(beforeSnapshot.nodes.find((node) => node.blockId === 'note')?.canonicalHash)
+      .toBe(afterSnapshot.nodes.find((node) => node.blockId === 'note')?.canonicalHash);
+    expect(beforeCallout.fingerprint).not.toBe(afterCallout.fingerprint);
+    expect(diffDocuments(before, after)).toEqual([
+      expect.objectContaining({kind: 'replace', before: beforeCallout, after: afterCallout}),
+    ]);
+  });
+
+  it('keeps the live Model compatibility paragraph, table, and blue-note Callout typed', () => {
+    const paragraph = (
+      blockId: string,
+      parentId: string,
+      content: string,
+      link?: string,
+    ): ProviderBlock => ({
+      block_id: blockId,
+      parent_id: parentId,
+      block_type: 2,
+      text: {
+        elements: [{
+          text_run: {
+            content,
+            text_element_style: {
+              bold: false,
+              inline_code: link !== undefined,
+              italic: false,
+              ...(link ? {link: {url: link}} : {}),
+              strikethrough: false,
+              underline: false,
+            },
+          },
+        }],
+        style: {align: 1, folded: false},
+      },
+    });
+    const live = createDocumentSnapshot({
+      documentId: 'hugging-face-r115',
+      revision: '115',
+      blocks: [{
+        block_id: 'hugging-face-r115',
+        block_type: 1,
+        page: {elements: [{text_run: {content: 'Hugging Face', text_element_style: {}}}]},
+        children: [
+          paragraph(
+            'model-compatibility',
+            'hugging-face-r115',
+            'hf-inference',
+            'https://huggingface.co/docs/inference-providers/providers/hf-inference',
+          ),
+          {
+            block_id: 'compatibility-table',
+            parent_id: 'hugging-face-r115',
+            block_type: 31,
+            children: [{
+              block_id: 'model-cell',
+              parent_id: 'compatibility-table',
+              block_type: 32,
+              table_cell: {},
+              children: [paragraph(
+                'model-link',
+                'model-cell',
+                'BAAI/bge-m3',
+                'https://huggingface.co/BAAI/bge-m3',
+              )],
+            }],
+            table: {
+              cells: ['model-cell'],
+              property: {
+                column_size: 1,
+                column_width: [280],
+                header_row: true,
+                merge_info: [{col_span: 1, row_span: 1}],
+                row_size: 1,
+              },
+            },
+          },
+          {
+            block_id: 'compatibility-note',
+            parent_id: 'hugging-face-r115',
+            block_type: 19,
+            callout: {background_color: 5, border_color: 5, emoji_id: 'blue_book'},
+            children: [
+              paragraph('callout-title', 'compatibility-note', 'Notes'),
+              paragraph('callout-body', 'compatibility-note', 'This table is not exhaustive.'),
+              paragraph(
+                'callout-link',
+                'compatibility-note',
+                'hf-inference',
+                'https://huggingface.co/docs/inference-providers/providers/hf-inference',
+              ),
+            ],
+          },
+        ],
+      }],
+    });
+
+    const document = semanticDocumentFromSnapshot(live);
+
+    expect(document.nodes.map((node) => ({kind: node.kind, writable: node.writable}))).toEqual([
+      {kind: 'title', writable: true},
+      {kind: 'paragraph', writable: true},
+      {kind: 'table', writable: true},
+      {kind: 'callout', writable: true},
+    ]);
+    expect(document.nodes.find((node) => node.remote.blockId === 'model-compatibility')?.xml)
+      .toContain('<a href="https://huggingface.co/docs/inference-providers/providers/hf-inference"><code>hf-inference</code></a>');
+    expect(document.nodes.find((node) => node.remote.blockId === 'compatibility-table')?.structure).toMatchObject({
+      kind: 'table',
+      columnWidths: [280],
+      headerRow: true,
+    });
+    expect(document.nodes.find((node) => node.remote.blockId === 'compatibility-note')).toMatchObject({
+      kind: 'callout',
+      text: 'Notes\nThis table is not exhaustive.\nhf-inference',
+      writable: true,
+      structure: {
+        kind: 'callout',
+        calloutType: 'note',
+        title: 'Notes',
+      },
+    });
   });
 });

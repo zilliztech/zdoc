@@ -2,6 +2,7 @@ import {mkdtemp, readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 
+import {ENGINE_VERSION} from 'feishu-docx-engine';
 import {describe, expect, it} from 'vitest';
 
 import {runCli} from '../src/cli/program.js';
@@ -28,7 +29,7 @@ describe('CLI contract', () => {
         cliVersion: '0.2.0',
         schemaVersion: 1,
         docxEngine: {
-          version: '0.2.0',
+          version: ENGINE_VERSION,
           schemaVersion: 2,
           capabilities: expect.arrayContaining([
             'nested-list-create-v1',
@@ -136,7 +137,7 @@ describe('CLI contract', () => {
         expect.objectContaining({id: 'lark-auth', status: 'passed'}),
         expect.objectContaining({id: 'registry-access', status: 'passed'}),
         expect.objectContaining({id: 'sqlite', status: 'passed'}),
-        expect.objectContaining({id: 'feishu-docx-engine', status: 'passed', detail: '0.2.0'}),
+        expect.objectContaining({id: 'feishu-docx-engine', status: 'passed', detail: ENGINE_VERSION}),
     ]));
     expect(diagnostics.calls).toEqual([
       {executable: 'lark-cli', args: ['--version']},

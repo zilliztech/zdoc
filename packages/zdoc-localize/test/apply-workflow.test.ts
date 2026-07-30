@@ -35,7 +35,7 @@ import type {
 import {LocalizationWorkflows} from '../src/application/workflows.js';
 import {semanticDocumentFromSnapshot} from '../src/domain/docx-semantic.js';
 import {compileReview, parseReview, type LocalizationPlan} from '../src/domain/review.js';
-import {structuredTopologyHash} from '../src/domain/structured-content.js';
+import {STRUCTURED_TOPOLOGY_VERSION, structuredTopologyHash} from '../src/domain/structured-content.js';
 import type {TranslationRequest} from '../src/domain/translation.js';
 import {LocalRegistryStore} from '../src/storage/local-registry-store.js';
 import {LocalSnapshotStore} from '../src/storage/local-snapshot-store.js';
@@ -217,10 +217,10 @@ describe('schema-v2 Engine apply', () => {
     }, {
       block_id: 'table-root', parent_id: 'target-doc', block_type: 31,
       children: ['table-cell'],
-      table: {property: {row_size: 1, column_size: 1}, cells: ['table-cell']},
+      table: {property: {row_size: 1, column_size: 1, header_row: true}, cells: ['table-cell']},
     }, {
       block_id: 'table-cell', parent_id: 'table-root', block_type: 32,
-      children: ['table-paragraph'],
+      children: ['table-paragraph'], table_cell: {},
     }, {
       block_id: 'table-paragraph', parent_id: 'table-cell', block_type: 2,
       text: {elements: [{text_run: {content: '模型 ID', text_element_style: {}}}]},
@@ -257,7 +257,8 @@ describe('schema-v2 Engine apply', () => {
         anchorBlockId: targetSnapshot.rootBlockId,
         anchorNodeHash: targetSnapshot.nodes.find((node) => node.blockId === targetSnapshot.rootBlockId)!.canonicalHash,
         structured: {
-          kind: 'list', topologyHash: structuredTopologyHash(listStructure), sourceStructure: listStructure,
+          kind: 'list', topologyVersion: STRUCTURED_TOPOLOGY_VERSION,
+          topologyHash: structuredTopologyHash(listStructure), sourceStructure: listStructure,
           slots: [
             {slotId: 'item-0/text', sourceText: 'Before you start', preserved: [], proposedText: '开始之前'},
             {slotId: 'item-0/child-0/item-0/text', sourceText: 'Create a token', preserved: [], proposedText: '创建令牌'},
@@ -268,7 +269,8 @@ describe('schema-v2 Engine apply', () => {
         sourceNodeId: 'source-table', sourceNodeHash: 'source-table-hash',
         sourceAfter: 'Model ID', proposedText: '', targetNodeKind: 'table', anchorOperationId: 'op-list',
         structured: {
-          kind: 'table', topologyHash: structuredTopologyHash(tableStructure), sourceStructure: tableStructure,
+          kind: 'table', topologyVersion: STRUCTURED_TOPOLOGY_VERSION,
+          topologyHash: structuredTopologyHash(tableStructure), sourceStructure: tableStructure,
           slots: [{slotId: 'row-0/cell-0/paragraph-0', sourceText: 'Model ID', preserved: [], proposedText: '模型 ID'}],
         },
       }],
@@ -282,6 +284,7 @@ describe('schema-v2 Engine apply', () => {
       targetNodeKind: operation.targetNodeKind,
       structured: {
         kind: operation.structured!.kind,
+        topologyVersion: operation.structured!.topologyVersion,
         topologyHash: operation.structured!.topologyHash,
         slots: operation.structured!.slots.map((slot) => ({
           slotId: slot.slotId, sourceText: slot.sourceText, preserved: slot.preserved,
@@ -655,7 +658,8 @@ describe('schema-v2 Engine apply', () => {
         operationId: 'op-list', kind: 'insert', confidence: 'high', policy: 'translation',
         sourceNodeId: 'source-list', sourceAfter: 'Before you start', proposedText: '', targetNodeKind: 'list',
         structured: {
-          kind: 'list', topologyHash: structuredTopologyHash(listStructure), sourceStructure: listStructure,
+          kind: 'list', topologyVersion: STRUCTURED_TOPOLOGY_VERSION,
+          topologyHash: structuredTopologyHash(listStructure), sourceStructure: listStructure,
           slots: [
             {slotId: 'item-0/text', sourceText: 'Before you start', preserved: [], proposedText: '开始之前'},
             {slotId: 'item-0/child-0/item-0/text', sourceText: 'Nested step', preserved: [], proposedText: '嵌套步骤'},

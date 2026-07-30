@@ -4,6 +4,7 @@ import {join} from 'node:path';
 
 import {
   createDocumentSnapshot,
+  ENGINE_VERSION,
   prepareMutationBatch,
   type ApplyMutationInput,
   type AssessRecoveryInput,
@@ -26,7 +27,7 @@ import type {
 } from '../src/application/ports.js';
 import {LocalizationWorkflows} from '../src/application/workflows.js';
 import {compileReview, type LocalizationPlan} from '../src/domain/review.js';
-import {structuredTopologyHash} from '../src/domain/structured-content.js';
+import {STRUCTURED_TOPOLOGY_VERSION, structuredTopologyHash} from '../src/domain/structured-content.js';
 import type {TranslationRequest} from '../src/domain/translation.js';
 import {LocalRegistryStore} from '../src/storage/local-registry-store.js';
 import {LocalSnapshotStore} from '../src/storage/local-snapshot-store.js';
@@ -103,7 +104,7 @@ describe('engine-backed apply preview', () => {
         sourceAfter: 'Before you start', proposedText: '', targetNodeKind: 'list',
         anchorBlockId: title.blockId, anchorNodeHash: title.canonicalHash,
         structured: {
-          kind: 'list', topologyHash, sourceStructure: listStructure,
+          kind: 'list', topologyVersion: STRUCTURED_TOPOLOGY_VERSION, topologyHash, sourceStructure: listStructure,
           slots: [{slotId: 'item-0/text', sourceText: 'Before you start', preserved: [], proposedText: '开始之前'}],
         },
       }],
@@ -114,6 +115,7 @@ describe('engine-backed apply preview', () => {
         ...request('op-list', 'list'),
         structured: {
           kind: 'list' as const,
+          topologyVersion: STRUCTURED_TOPOLOGY_VERSION,
           topologyHash,
           slots: [{slotId: 'item-0/text', sourceText: 'Before you start', preserved: []}],
         },
@@ -152,7 +154,7 @@ describe('engine-backed apply preview', () => {
     const second = await workflows.previewApply(plan.runId, 'review.md');
 
     expect(first).toMatchObject({
-      docxEngineVersion: '0.2.0',
+      docxEngineVersion: ENGINE_VERSION,
       engineSchemaVersion: 2,
       batchFingerprint: expect.stringMatching(/^[a-f0-9]{64}$/),
       approvalToken: expect.stringMatching(/^[a-f0-9]{64}$/),

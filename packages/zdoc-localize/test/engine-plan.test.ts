@@ -1,5 +1,6 @@
 import {
   createDocumentSnapshot,
+  ENGINE_VERSION,
   prepareMutationBatch,
   type FeishuDocxEngine,
   type ProviderBlock,
@@ -26,11 +27,33 @@ function plan(snapshot = targetSnapshot()): LocalizationPlan {
   const listStructure = {
     kind: 'list' as const,
     ordered: false,
-    items: [{content: [{kind: 'text' as const, text: 'Before you start'}], children: []}],
+    items: [{
+      content: [{kind: 'text' as const, text: 'Before you start'}],
+      children: [{
+        kind: 'paragraph' as const,
+        content: [{kind: 'text' as const, text: 'Continuation detail'}],
+      }],
+    }],
   };
   const tableStructure = {
     kind: 'table' as const,
+    columnWidths: [280],
+    headerRow: true,
     rows: [{cells: [{content: [{kind: 'paragraph' as const, content: [{kind: 'text' as const, text: 'Model ID'}]}]}]}],
+  };
+  const calloutStructure = {
+    kind: 'callout' as const,
+    calloutType: 'note',
+    title: 'Notes',
+    presentation: {
+      emoji: '📘',
+      backgroundColor: 'rgb(240,244,255)',
+      borderColor: 'rgb(130,167,252)',
+    },
+    children: [{
+      kind: 'paragraph' as const,
+      content: [{kind: 'text' as const, text: 'This table is not exhaustive.'}],
+    }],
   };
   return {
     planVersion: 3,
@@ -67,6 +90,11 @@ function plan(snapshot = targetSnapshot()): LocalizationPlan {
           sourceText: 'Before you start',
           preserved: [],
           proposedText: '开始之前',
+        }, {
+          slotId: 'item-0/child-0/paragraph-0',
+          sourceText: 'Continuation detail',
+          preserved: [],
+          proposedText: '续写说明',
         }],
       },
     }, {
@@ -88,6 +116,30 @@ function plan(snapshot = targetSnapshot()): LocalizationPlan {
           proposedText: '模型 ID',
         }],
       },
+    }, {
+      operationId: 'op-callout',
+      kind: 'insert',
+      confidence: 'high',
+      policy: 'translation',
+      proposedText: '',
+      targetNodeKind: 'callout',
+      anchorOperationId: 'op-table',
+      structured: {
+        kind: 'callout',
+        topologyHash: structuredTopologyHash(calloutStructure),
+        sourceStructure: calloutStructure,
+        slots: [{
+          slotId: 'callout/title',
+          sourceText: 'Notes',
+          preserved: [],
+          proposedText: '说明',
+        }, {
+          slotId: 'callout/paragraph-0',
+          sourceText: 'This table is not exhaustive.',
+          preserved: [],
+          proposedText: '此表并未穷举所有兼容模型。',
+        }],
+      },
     }],
   };
 }
@@ -97,10 +149,19 @@ function approved(plan: LocalizationPlan): ApprovedReview {
     planHash: canonicalHash(plan),
     operations: [{operationId: 'op-title', approvedText: '指南'}, {
       operationId: 'op-list',
-      approvedSlots: [{slotId: 'item-0/text', approvedText: '开始之前'}],
+      approvedSlots: [
+        {slotId: 'item-0/text', approvedText: '开始之前'},
+        {slotId: 'item-0/child-0/paragraph-0', approvedText: '续写说明'},
+      ],
     }, {
       operationId: 'op-table',
       approvedSlots: [{slotId: 'row-0/cell-0/paragraph-0', approvedText: '模型 ID'}],
+    }, {
+      operationId: 'op-callout',
+      approvedSlots: [
+        {slotId: 'callout/title', approvedText: '说明'},
+        {slotId: 'callout/paragraph-0', approvedText: '此表并未穷举所有兼容模型。'},
+      ],
     }],
   };
 }
@@ -121,19 +182,47 @@ describe('Docx engine plan compilation', () => {
 
     expect(compiled.batch).toMatchObject({
       schemaVersion: 2,
-      engineVersion: '0.2.0',
+      engineVersion: ENGINE_VERSION,
       fingerprint: expect.stringMatching(/^[a-f0-9]{64}$/),
     });
     expect(compiled.operations).toEqual([
       expect.objectContaining({operationId: 'op-title', kind: 'replace', nodeKind: 'title', createdSubtreeCount: 0}),
-      expect.objectContaining({operationId: 'op-list', kind: 'insert', nodeKind: 'list', createdSubtreeCount: 1}),
+      expect.objectContaining({operationId: 'op-list', kind: 'insert', nodeKind: 'list', createdSubtreeCount: 2}),
       expect.objectContaining({operationId: 'op-table', kind: 'insert', nodeKind: 'table', createdSubtreeCount: 2}),
+      expect.objectContaining({operationId: 'op-callout', kind: 'insert', nodeKind: 'callout', createdSubtreeCount: 2}),
     ]);
     expect(compiled.operations).not.toContainEqual(expect.objectContaining({compiledXml: expect.anything()}));
+    expect(compiled.batch.steps[1]).toMatchObject({
+      operationId: 'op-list',
+      intent: {
+        desired: [expect.objectContaining({
+          kind: 'list',
+          items: [expect.objectContaining({
+            children: [{kind: 'paragraph', content: [{kind: 'text', text: '续写说明'}]}],
+          })],
+        })],
+      },
+    });
     expect(compiled.batch.steps[2]).toMatchObject({
       operationId: 'op-table',
       dependsOn: ['op-list'],
       intent: {after: {kind: 'operation-output', operationId: 'op-list'}},
+    });
+    expect(compiled.batch.steps[3]).toMatchObject({
+      operationId: 'op-callout',
+      dependsOn: ['op-table'],
+      intent: {
+        after: {kind: 'operation-output', operationId: 'op-table'},
+        desired: [expect.objectContaining({
+          kind: 'callout',
+          title: '说明',
+          presentation: {
+            emoji: '📘',
+            backgroundColor: 'rgb(240,244,255)',
+            borderColor: 'rgb(130,167,252)',
+          },
+        })],
+      },
     });
   });
 });

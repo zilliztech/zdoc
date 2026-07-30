@@ -22,7 +22,7 @@ describe('0.2.0 release contract', () => {
     expect({packageVersion: packageJson.version, cliVersion: CLI_VERSION, schemaVersion: SCHEMA_VERSION}).toEqual({
       packageVersion: '0.2.0', cliVersion: '0.2.0', schemaVersion: 1,
     });
-    expect(packageJson.dependencies['feishu-docx-engine']).toBe('0.2.0');
+    expect(packageJson.dependencies['feishu-docx-engine']).toBe('0.2.1');
     expect(packageJson.files).toContain('CHANGELOG.md');
     expect(compatibility).toMatchObject({skillVersion: '1.1.0', cliRange: '>=0.2.0 <0.3.0'});
     expect(changelog).toContain('## [0.2.0] - 2026-07-27');

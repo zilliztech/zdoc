@@ -66,7 +66,9 @@ function nodeById(snapshot: DocumentSnapshot, blockId: string): SnapshotNode {
 function desiredList(structure: Extract<StructuredContent, {kind: 'list'}>): DesiredListNode {
   const items = structure.items.map((item): DesiredListNode['items'][number] => ({
     content: item.content,
-    children: item.children.map((child) => desiredList({kind: 'list', ...child})),
+    children: item.children.map((child) => child.kind === 'paragraph'
+      ? {kind: 'paragraph', content: child.content}
+      : desiredList({kind: 'list', ...child})),
   }));
   return {kind: 'list', ordered: structure.ordered, items};
 }

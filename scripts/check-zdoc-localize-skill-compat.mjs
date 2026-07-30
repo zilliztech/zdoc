@@ -59,7 +59,7 @@ const contractMismatches = [
   ...(declaredCliVersion === packageJson.version ? [] : ['package-cli-version']),
   ...(declaredSkillVersion === compatibility.skillVersion ? [] : ['skill-version']),
   ...(declaredRange === compatibility.cliRange ? [] : ['skill-cli-range']),
-  ...(packageJson.dependencies?.['feishu-docx-engine'] === '0.2.0' ? [] : ['engine-version']),
+  ...(packageJson.dependencies?.['feishu-docx-engine'] === '0.2.1' ? [] : ['engine-version']),
 ];
 const compatible = inInitialRange(packageJson.version, compatibility.cliRange)
   && missingCommands.length === 0

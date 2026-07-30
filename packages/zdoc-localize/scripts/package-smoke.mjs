@@ -30,7 +30,10 @@ try {
     if (entries.includes(retired)) throw new Error(`Packed CLI retained retired adapter ${retired}.`);
   }
   writeFileSync(join(consumer, 'package.json'), '{"private":true}\n');
-  writeFileSync(join(consumer, '.npmrc'), 'fund=false\naudit=false\n');
+  writeFileSync(
+    join(consumer, '.npmrc'),
+    `fund=false\naudit=false\ncache=${join(temp, 'npm-cache')}\n`,
+  );
   execFileSync('npm', ['install', '--ignore-scripts=false', archive], {cwd: consumer, stdio: 'inherit'});
   const bin = join(consumer, 'node_modules', '.bin', 'zdoc-localize');
   const version = execFileSync(bin, ['--version'], {cwd: consumer, encoding: 'utf8'}).trim();
@@ -39,7 +42,7 @@ try {
   const installedEngine = JSON.parse(readFileSync(join(consumer, 'node_modules', 'feishu-docx-engine', 'package.json'), 'utf8'));
   const skillCompatibility = JSON.parse(execFileSync(process.execPath, [join(root, 'scripts', 'check-zdoc-localize-skill-compat.mjs')], {cwd: root, encoding: 'utf8'}));
   if (version !== expectedCliVersion || capabilities.ok !== true ||
-    expectedEngineVersion !== '0.2.0' || installedEngine.version !== expectedEngineVersion ||
+    expectedEngineVersion !== '0.2.1' || installedEngine.version !== expectedEngineVersion ||
     capabilities.data?.docxEngine?.version !== expectedEngineVersion ||
     capabilities.data?.docxEngine?.schemaVersion !== 2 ||
     !capabilities.data?.docxEngine?.capabilities?.includes('partial-write-evidence-v1') ||

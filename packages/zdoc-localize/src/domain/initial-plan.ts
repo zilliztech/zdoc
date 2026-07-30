@@ -66,7 +66,7 @@ export function buildInitialPlanInputs(
       });
     } else if (node.kind === 'code') {
       operation = {...common, policy: 'verbatim_code', effect: 'write', proposedText: node.text};
-    } else if (node.kind === 'list' || node.kind === 'table') {
+    } else if (node.kind === 'list' || node.kind === 'table' || node.kind === 'callout') {
       if (node.writable && node.structure?.kind === node.kind) {
         operation = {...common, policy: 'translation', effect: 'write'};
         translatableAligned.push({

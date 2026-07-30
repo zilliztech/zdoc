@@ -5,7 +5,9 @@ import {canonicalHash} from './hash.js';
 import type {SemanticNodeStructure, StructuredListItem} from './model.js';
 import type {PreservedToken, StructuredTranslationSlot} from './translation.js';
 
-export type StructuredContent = Extract<SemanticNodeStructure, {kind: 'list' | 'table'}>;
+export type StructuredContent = Extract<SemanticNodeStructure, {kind: 'list' | 'table' | 'callout'}>;
+export type StructuredContentKind = StructuredContent['kind'];
+export const STRUCTURED_TOPOLOGY_VERSION = 2;
 
 export interface SlotTranslation {
   slotId: string;
@@ -59,10 +61,18 @@ function escapeInlineValue(value: string): string {
   return [...value].map((character) => escapedInlineCharacters.has(character) ? `\\${character}` : character).join('');
 }
 
-function inlineMarkdown(content: InlineContent[]): string {
+export function renderStructuredInlineMarkdown(content: InlineContent[]): string {
   return canonicalInlineContent(content).map((part) => {
     if (part.kind === 'code') return `\`${escapeInlineValue(part.text)}\``;
-    if (part.kind === 'link') return `[${escapeInlineValue(part.text)}](${escapeInlineValue(part.url)})`;
+    if (part.kind === 'link') {
+      let label = escapeInlineValue(part.text);
+      if (part.inlineCode) label = `\`${label}\``;
+      if (part.strike) label = `~~${label}~~`;
+      if (part.italic) label = `*${label}*`;
+      if (part.bold) label = `**${label}**`;
+      if (part.underline) label = `<u>${label}</u>`;
+      return `[${label}](${escapeInlineValue(part.url)})`;
+    }
     let text = escapeInlineValue(part.text);
     if (part.strike) text = `~~${text}~~`;
     if (part.italic) text = `*${text}*`;
@@ -82,14 +92,19 @@ function preservedTokens(content: InlineContent[]): PreservedToken[] {
   };
   for (const part of canonicalInlineContent(content)) {
     if (part.kind === 'code') add('inline_code', part.text);
-    else if (part.kind === 'link') add('url', part.url);
+    else if (part.kind === 'link') {
+      add('url', part.url);
+      if (part.inlineCode) add('inline_code', part.text);
+      if (part.bold) add('bold_span', '');
+    }
     else if (part.bold) add('bold_span', '');
   }
   return [...tokens.values()];
 }
 
 function hasTranslatableText(content: InlineContent[]): boolean {
-  return content.some((part) => part.kind !== 'code' && part.text.trim().length > 0);
+  return content.some((part) => part.kind !== 'code' &&
+    !(part.kind === 'link' && part.inlineCode) && part.text.trim().length > 0);
 }
 
 function collectListSlots(
@@ -109,7 +124,19 @@ function collectListSlots(
       });
     }
     item.children.forEach((child, childIndex) => {
-      collectListSlots(child.items, `${itemPrefix}/child-${childIndex}/`, locations);
+      if (child.kind === 'paragraph') {
+        if (hasTranslatableText(child.content)) {
+          locations.push({
+            slotId: `${itemPrefix}/child-${childIndex}/paragraph-0`,
+            content: child.content,
+            replace(content: InlineContent[]) {
+              child.content = content;
+            },
+          });
+        }
+      } else {
+        collectListSlots(child.items, `${itemPrefix}/child-${childIndex}/`, locations);
+      }
     });
   });
 }
@@ -211,7 +238,8 @@ function collectTableSlots(
 function slotLocations(content: StructuredContent): SlotLocation[] {
   const locations: SlotLocation[] = [];
   if (content.kind === 'list') collectListSlots(content.items, '', locations);
-  else collectTableSlots(content.rows, '', locations);
+  else if (content.kind === 'table') collectTableSlots(content.rows, '', locations);
+  else collectDesiredNodeSlots(content, '', 'callout', locations);
   return locations;
 }
 
@@ -220,7 +248,7 @@ export function extractTranslationSlots(content: StructuredContent): StructuredT
     if ('content' in location) {
       return {
         slotId: location.slotId,
-        sourceText: inlineMarkdown(location.content),
+        sourceText: renderStructuredInlineMarkdown(location.content),
         preserved: preservedTokens(location.content),
       };
     }
@@ -231,7 +259,14 @@ export function extractTranslationSlots(content: StructuredContent): StructuredT
 function inlineTopology(content: InlineContent[]): unknown[] {
   return canonicalInlineContent(content).map((part) => {
     if (part.kind === 'code') return {kind: part.kind, text: part.text};
-    if (part.kind === 'link') return {kind: part.kind};
+    if (part.kind === 'link') return {
+      kind: part.kind,
+      bold: part.bold === true,
+      italic: part.italic === true,
+      underline: part.underline === true,
+      strike: part.strike === true,
+      inlineCode: part.inlineCode === true,
+    };
     return {
       kind: part.kind,
       bold: part.bold === true,
@@ -246,10 +281,9 @@ function inlineTopology(content: InlineContent[]): unknown[] {
 function listTopology(items: StructuredListItem[]): unknown[] {
   return items.map((item) => ({
     content: inlineTopology(item.content),
-    children: item.children.map((child) => ({
-      ordered: child.ordered,
-      items: listTopology(child.items),
-    })),
+    children: item.children.map((child) => child.kind === 'paragraph'
+      ? {kind: child.kind, content: inlineTopology(child.content)}
+      : {kind: 'list', ordered: child.ordered, items: listTopology(child.items)}),
   }));
 }
 
@@ -276,6 +310,8 @@ function desiredNodeTopology(node: DesiredNode): unknown {
   if (node.kind === 'table') {
     return {
       kind: node.kind,
+      columnWidths: node.columnWidths,
+      headerRow: node.headerRow ?? true,
       rows: node.rows.map((row) => ({
         cells: row.cells.map((cell) => ({content: cell.content.map(desiredNodeTopology)})),
       })),
@@ -299,12 +335,14 @@ function desiredNodeTopology(node: DesiredNode): unknown {
 export function structuredTopologyHash(content: StructuredContent): string {
   return canonicalHash(content.kind === 'list'
     ? {kind: content.kind, ordered: content.ordered, items: listTopology(content.items)}
-    : {
+    : content.kind === 'table' ? {
         kind: content.kind,
+        columnWidths: content.columnWidths,
+        headerRow: content.headerRow ?? true,
         rows: content.rows.map((row) => ({
           cells: row.cells.map((cell) => ({content: cell.content.map(desiredNodeTopology)})),
         })),
-      });
+      } : desiredNodeTopology(content));
 }
 
 export function assertExactStructuredSlotIds(
@@ -359,6 +397,45 @@ function decodeEscapedValue(value: string): string {
   return result;
 }
 
+type LinkLabelMarks = Pick<
+  Extract<InlineContent, {kind: 'link'}>,
+  'bold' | 'italic' | 'underline' | 'strike'
+>;
+
+function parseLinkLabel(
+  value: string,
+  marks: LinkLabelMarks = {},
+): ({text: string; inlineCode?: boolean} & LinkLabelMarks) | undefined {
+  const wrappers: Array<{open: string; close: string; marks: LinkLabelMarks}> = [
+    {open: '<u>', close: '</u>', marks: {underline: true}},
+    {open: '***', close: '***', marks: {bold: true, italic: true}},
+    {open: '**', close: '**', marks: {bold: true}},
+    {open: '~~', close: '~~', marks: {strike: true}},
+    {open: '*', close: '*', marks: {italic: true}},
+  ];
+  for (const wrapper of wrappers) {
+    if (!value.startsWith(wrapper.open)) continue;
+    const closeIndex = findUnescaped(value, wrapper.close, wrapper.open.length);
+    if (closeIndex !== value.length - wrapper.close.length) continue;
+    return parseLinkLabel(
+      value.slice(wrapper.open.length, closeIndex),
+      {...marks, ...wrapper.marks},
+    );
+  }
+  const parsed = parseStructuredInlineMarkdown(value);
+  if (parsed.length !== 1 || parsed[0]?.kind === 'link') return undefined;
+  const part = parsed[0]!;
+  if (part.kind === 'code') return {text: part.text, inlineCode: true, ...marks};
+  return {
+    text: part.text,
+    ...(part.bold ? {bold: true} : {}),
+    ...(part.italic ? {italic: true} : {}),
+    ...(part.underline ? {underline: true} : {}),
+    ...(part.strike ? {strike: true} : {}),
+    ...marks,
+  };
+}
+
 function parseLink(value: string, offset: number): {content: InlineContent; end: number} | undefined {
   const labelEnd = findUnescaped(value, ']', offset + 1);
   if (labelEnd < 0 || value[labelEnd + 1] !== '(') return undefined;
@@ -373,11 +450,18 @@ function parseLink(value: string, offset: number): {content: InlineContent; end:
     else if (value[urlEnd] === ')' && --depth === 0) break;
   }
   if (depth !== 0) return undefined;
+  const label = parseLinkLabel(value.slice(offset + 1, labelEnd));
+  if (!label) return undefined;
   return {
     content: {
       kind: 'link',
-      text: decodeEscapedValue(value.slice(offset + 1, labelEnd)),
+      text: label.text,
       url: decodeEscapedValue(value.slice(labelEnd + 2, urlEnd)),
+      ...(label.bold ? {bold: true} : {}),
+      ...(label.italic ? {italic: true} : {}),
+      ...(label.underline ? {underline: true} : {}),
+      ...(label.strike ? {strike: true} : {}),
+      ...(label.inlineCode ? {inlineCode: true} : {}),
     },
     end: urlEnd + 1,
   };
@@ -459,6 +543,7 @@ export function applySlotTranslations<T extends StructuredContent>(
   }
 
   const result = structuredClone(content);
+  if (result.kind === 'table' && result.headerRow === undefined) result.headerRow = true;
   const locations = slotLocations(result);
   assertExactStructuredSlotIds(locations, translations);
   translations.forEach((translation, index) => {

@@ -36,8 +36,12 @@ export type SemanticNodeKind =
 
 export interface StructuredListItem {
   content: InlineContent[];
-  children: Array<{ordered: boolean; items: StructuredListItem[]}>;
+  children: StructuredListChild[];
 }
+
+export type StructuredListChild =
+  | {kind?: 'list'; ordered: boolean; items: StructuredListItem[]}
+  | {kind: 'paragraph'; content: InlineContent[]};
 
 export interface StructuredTableRow {
   cells: Array<{content: DesiredNode[]}>;
@@ -45,7 +49,13 @@ export interface StructuredTableRow {
 
 export type SemanticNodeStructure =
   | {kind: 'list'; ordered: boolean; items: StructuredListItem[]}
-  | {kind: 'table'; rows: StructuredTableRow[]}
+  | {
+      kind: 'table';
+      rows: StructuredTableRow[];
+      columnWidths?: number[];
+      headerRow?: boolean;
+    }
+  | Extract<DesiredNode, {kind: 'callout'}>
   | {kind: 'code'; language: string; caption?: string};
 
 export interface SemanticNode {
@@ -63,6 +73,8 @@ export interface SemanticNode {
   remote: {
     blockId?: string;
     blockIds?: string[];
+    subtreeBlockIds?: string[];
+    providerHash?: string;
     token?: string;
     sourceDocumentId?: string;
     sourceBlockId?: string;

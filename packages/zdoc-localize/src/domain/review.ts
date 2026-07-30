@@ -1,4 +1,4 @@
-import type {DesiredNode, InlineContent} from 'feishu-docx-engine';
+import type {DesiredNode} from 'feishu-docx-engine';
 
 import {LocalizeError} from './errors.js';
 import {canonicalHash} from './hash.js';
@@ -10,14 +10,17 @@ import type {
 } from './model.js';
 import {
   applySlotTranslations,
+  renderStructuredInlineMarkdown,
   type StructuredContent,
+  type StructuredContentKind,
 } from './structured-content.js';
 import type {StructuredTranslationSlot} from './translation.js';
 
 export type {ApprovedReviewOperation} from './model.js';
 
 export interface StructuredReviewShape {
-  kind: 'list' | 'table';
+  kind: StructuredContentKind;
+  topologyVersion?: number;
   topologyHash: string;
   sourceStructure: StructuredContent;
   slots: Array<StructuredTranslationSlot & {proposedText: string}>;
@@ -33,6 +36,8 @@ export interface PlanOperation {
   sourceAfter?: string;
   sourceNodeId?: string;
   sourceNodeHash?: string;
+  sourceMemoryIdentity?: string;
+  sourceProviderHash?: string;
   sourceHeadingPath?: string[];
   targetCurrent?: string;
   proposedText: string;
@@ -88,25 +93,6 @@ function field(value: string | undefined): string {
   return value?.trim() ? value : '(none)';
 }
 
-const escapedInlineCharacters = /[\\`*~[\]()<>]/g;
-
-function escapeInline(value: string): string {
-  return value.replace(escapedInlineCharacters, (character) => `\\${character}`);
-}
-
-function inlineMarkdown(content: InlineContent[]): string {
-  return content.map((part) => {
-    if (part.kind === 'code') return `\`${part.text.replaceAll('`', '\\`')}\``;
-    if (part.kind === 'link') return `[${escapeInline(part.text)}](${escapeInline(part.url)})`;
-    let value = escapeInline(part.text);
-    if (part.strike) value = `~~${value}~~`;
-    if (part.italic) value = `*${value}*`;
-    if (part.bold) value = `**${value}**`;
-    if (part.underline) value = `<u>${value}</u>`;
-    return value;
-  }).join('');
-}
-
 function semanticListMarkdown(
   items: Extract<StructuredContent, {kind: 'list'}>['items'],
   ordered: boolean,
@@ -115,8 +101,10 @@ function semanticListMarkdown(
   return items.flatMap((item, index) => {
     const marker = ordered ? `${index + 1}.` : '-';
     return [
-      `${'  '.repeat(depth)}${marker} ${inlineMarkdown(item.content)}`,
-      ...item.children.flatMap((child) => semanticListMarkdown(child.items, child.ordered, depth + 1).split('\n')),
+      `${'  '.repeat(depth)}${marker} ${renderStructuredInlineMarkdown(item.content)}`,
+      ...item.children.flatMap((child) => child.kind === 'paragraph'
+        ? [`${'  '.repeat(depth + 1)}${renderStructuredInlineMarkdown(child.content)}`]
+        : semanticListMarkdown(child.items, child.ordered, depth + 1).split('\n')),
     ];
   }).join('\n');
 }
@@ -129,14 +117,14 @@ function desiredListMarkdown(
     const marker = node.ordered ? `${index + 1}.` : '-';
     const children = item.children.flatMap((child) => child.kind === 'list'
       ? desiredListMarkdown(child, depth + 1).split('\n')
-      : [`${'  '.repeat(depth + 1)}${inlineMarkdown(child.content)}`]);
-    return [`${'  '.repeat(depth)}${marker} ${inlineMarkdown(item.content)}`, ...children];
+      : [`${'  '.repeat(depth + 1)}${renderStructuredInlineMarkdown(child.content)}`]);
+    return [`${'  '.repeat(depth)}${marker} ${renderStructuredInlineMarkdown(item.content)}`, ...children];
   }).join('\n');
 }
 
 function desiredNodeMarkdown(node: DesiredNode): string {
   if (node.kind === 'paragraph' || node.kind === 'heading' || node.kind === 'quote' || node.kind === 'title') {
-    return inlineMarkdown(node.content);
+    return renderStructuredInlineMarkdown(node.content);
   }
   if (node.kind === 'list') return desiredListMarkdown(node);
   if (node.kind === 'code') {
@@ -166,9 +154,9 @@ function tableMarkdown(table: Extract<StructuredContent, {kind: 'table'}>): stri
 }
 
 function structuredContentMarkdown(content: StructuredContent): string {
-  return content.kind === 'list'
-    ? semanticListMarkdown(content.items, content.ordered)
-    : tableMarkdown(content);
+  if (content.kind === 'list') return semanticListMarkdown(content.items, content.ordered);
+  if (content.kind === 'table') return tableMarkdown(content);
+  return desiredNodeMarkdown(content);
 }
 
 function structuredOverview(operation: PlanOperation): string {

@@ -26,6 +26,7 @@ import {LocalizationWorkflows} from '../src/application/workflows.js';
 import {LocalRegistryStore} from '../src/storage/local-registry-store.js';
 import {LocalSnapshotStore} from '../src/storage/local-snapshot-store.js';
 import {canonicalHash} from '../src/domain/hash.js';
+import {semanticDocumentFromSnapshot} from '../src/domain/docx-semantic.js';
 import {canonicalWhiteboard} from '../src/domain/whiteboard.js';
 import {parseFeishuDocument} from '../src/domain/xml-parser.js';
 
@@ -106,9 +107,6 @@ async function supportedHuggingFaceSnapshot(): Promise<DocumentSnapshot> {
     'utf8',
   )) as DocumentSnapshot;
   const omitted = new Set([
-    'note-callout',
-    'callout-title',
-    'callout-body',
     'synced-reference',
     'unknown-block',
   ]);
@@ -125,6 +123,8 @@ async function supportedHuggingFaceSnapshot(): Promise<DocumentSnapshot> {
     .map((node) => structuredClone(node.raw) as ProviderBlock);
   const root = blocks.find((block) => block.block_id === stored.rootBlockId)!;
   root.children = (root.children ?? []).filter((blockId) => !omitted.has(blockId));
+  const callout = blocks.find((block) => block.block_id === 'note-callout')!;
+  callout.callout = {emoji_id: 'blue_book', background_color: 5, border_color: 5};
   return createDocumentSnapshot({
     documentId: stored.documentId,
     revision: stored.revision,
@@ -570,7 +570,7 @@ describe('bootstrap and planning workflows', () => {
     expect(docs.fetches).toEqual([]);
   });
 
-  it('plans revision 44 list and table slots for an existing empty target', async () => {
+  it('plans revision 44 list, table, and native Callout slots for an existing empty target', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-structured-empty-target-'));
     const docs = new MutableDocs();
     const engine = new MemoryEngine();
@@ -579,19 +579,26 @@ describe('bootstrap and planning workflows', () => {
     engine.documents.set('target-url', engineSnapshot('target', '4', 'Hugging Face'));
     const registry = new LocalRegistryStore(cwd);
     const snapshots = new LocalSnapshotStore(cwd);
-    const nestedList = sourceSnapshot.nodes.find((node) => node.blockId === 'nested-parent')!;
+    const nestedList = semanticDocumentFromSnapshot(sourceSnapshot).nodes.find(
+      (node) => node.remote.blockId === 'nested-parent',
+    )!;
     const reusableSlotHash = canonicalHash({
-      sourceNodeHash: nestedList.canonicalHash,
+      sourceIdentity: nestedList.remote.blockId,
+      slotId: 'item-0/text',
+      sourceText: 'Create a Hugging Face account.',
+    });
+    const legacySlotHash = canonicalHash({
+      sourceNodeHash: sourceSnapshot.nodes.find((node) => node.blockId === 'nested-parent')!.canonicalHash,
       slotId: 'item-0/text',
       sourceText: 'Create a Hugging Face account.',
     });
     expect(reusableSlotHash).not.toBe(canonicalHash({
-      sourceNodeHash: nestedList.canonicalHash,
+      sourceIdentity: nestedList.remote.blockId,
       operationId: 'different-prior-change-id',
       slotId: 'item-0/text',
       sourceText: 'Create a Hugging Face account.',
     }));
-    const memory = new StructuredSlotMemory(reusableSlotHash);
+    const memory = new StructuredSlotMemory(legacySlotHash);
     await registry.savePair({
       pairId: 'hugging-face-en-zh', sourceLocale: 'en', targetLocale: 'zh-CN',
       sourceDocUrl: 'source-url', targetDocUrl: 'target-url', mode: 'mirror',
@@ -606,6 +613,7 @@ describe('bootstrap and planning workflows', () => {
     const result = await workflows.createPlan('hugging-face-en-zh');
     const list = result.translationRequests.find((request) => request.targetNodeKind === 'list');
     const table = result.translationRequests.find((request) => request.targetNodeKind === 'table');
+    const callout = result.translationRequests.find((request) => request.targetNodeKind === 'callout');
     const run = await registry.getRun(result.runId);
     const bundle = await snapshots.getBundle(run!.metadata!.bundleRef as SnapshotReference);
 
@@ -632,10 +640,19 @@ describe('bootstrap and planning workflows', () => {
       ],
     });
     expect(table?.structured?.slots).not.toContainEqual(expect.objectContaining({sourceText: '`model_name`'}));
+    expect(callout?.structured).toMatchObject({
+      kind: 'callout',
+      topologyHash: expect.stringMatching(/^[a-f0-9]{64}$/),
+      slots: [
+        expect.objectContaining({slotId: 'callout/title', sourceText: 'Notes'}),
+        expect.objectContaining({slotId: 'callout/paragraph-0', sourceText: 'Keep the token private.'}),
+      ],
+    });
     expect(list?.structured?.slots[0]?.memoryExamples).toEqual([
       expect.objectContaining({target: '记忆译文'}),
     ]);
     expect(memory.queries.some((query) => query.sourceHash === reusableSlotHash)).toBe(true);
+    expect(memory.queries.some((query) => query.sourceHash === legacySlotHash)).toBe(true);
     expect(run?.metadata).toMatchObject({planVersion: 3});
     expect(bundle.files).toMatchObject({
       'source-snapshot.json': expect.stringContaining('nested-parent'),
@@ -678,10 +695,23 @@ describe('bootstrap and planning workflows', () => {
           slots: expect.any(Array),
         }),
       }),
+      expect.objectContaining({
+        operationId: callout!.operationId,
+        structured: expect.objectContaining({
+          kind: 'callout',
+          sourceStructure: expect.objectContaining({
+            kind: 'callout',
+            calloutType: 'note',
+            title: 'Notes',
+          }),
+          slots: expect.any(Array),
+        }),
+      }),
     ]));
     expect(review).toContain(`op:${table!.operationId} slot:row-0/cell-0/paragraph-0`);
     expect(review).toContain('### Structured list');
     expect(review).toContain('### Structured table');
+    expect(review).toContain('### Structured callout');
     expect(review).toContain('Rows: 2');
     expect(review).toContain('Columns: 2');
     expect(review).toContain('`model_name`');

@@ -3,6 +3,8 @@ import {
   canonicalWhiteboardRawHash,
   calloutToXml,
   providerBlocksToXml,
+  supportsSchemaV1EngineVersion,
+  supportsSchemaV2EngineVersion,
   toProviderTree,
   type AssessRecoveryInput,
   type DesiredListNode,
@@ -24,6 +26,7 @@ import {canonicalHash} from '../domain/hash.js';
 import {parseFeishuDocument} from '../domain/xml-parser.js';
 import {canonicalWhiteboard} from '../domain/whiteboard.js';
 import type {LocalizationPlan} from '../domain/review.js';
+import {STRUCTURED_TOPOLOGY_VERSION} from '../domain/structured-content.js';
 import {verifyManualSyncedReferences} from '../domain/native-sync.js';
 import type {ManualSyncedReferenceAction} from './manual-actions.js';
 import type {
@@ -94,10 +97,10 @@ export async function inspectEngineRecovery(input: {
   const prewriteRef = requiredReference(run, 'prewriteRef');
   const batch = await immutableJson<PreparedMutationBatch>(snapshots, previewBundleRef, 'prepared-batch.json');
   assertPreparedMutationBatchIntegrity(batch);
-  if (batch.schemaVersion !== 2 || batch.engineVersion !== '0.2.0') {
+  if (batch.schemaVersion !== 2 || !supportsSchemaV2EngineVersion(batch.engineVersion)) {
     throw new LocalizeError({
       type: 'compatibility', subtype: 'engine_recovery_batch_unsupported',
-      message: `Plan v3 recovery requires an Engine 0.2.0 schema-v2 batch, received ${batch.engineVersion}/schema-${batch.schemaVersion}.`,
+      message: `Plan v3 recovery requires a supported Engine schema-v2 batch, received ${batch.engineVersion}/schema-${batch.schemaVersion}.`,
     });
   }
   if (batch.fingerprint !== run.metadata?.engineBatchFingerprint) {
@@ -195,10 +198,13 @@ export async function inspectRecoveryPhase(input: {
   const checkpointRef = requiredReference(run, 'recoveryPhaseRef');
   const batch = await immutableJson<PreparedMutationBatch>(snapshots, checkpointRef, 'prepared-batch.json');
   assertPreparedMutationBatchIntegrity(batch);
-  if (![1, 2].includes(batch.schemaVersion) || batch.engineVersion !== '0.2.0') {
+  const supportedEngineVersion = batch.schemaVersion === 1
+    ? supportsSchemaV1EngineVersion(batch.engineVersion)
+    : batch.schemaVersion === 2 && supportsSchemaV2EngineVersion(batch.engineVersion);
+  if (!supportedEngineVersion) {
     throw new LocalizeError({
       type: 'compatibility', subtype: 'engine_recovery_batch_unsupported',
-      message: `Recovery-phase inspection requires an Engine 0.2.0 schema-v1/v2 batch, received ${batch.engineVersion}/schema-${batch.schemaVersion}.`,
+      message: `Recovery-phase inspection requires a supported Engine schema-v1/v2 batch, received ${batch.engineVersion}/schema-${batch.schemaVersion}.`,
     });
   }
   if (batch.fingerprint !== run.metadata?.recoveryPhaseBatchFingerprint) {
@@ -272,13 +278,23 @@ export async function inspectRecoveryPhase(input: {
   };
 }
 
-export function assertCurrentPlanVersion(planVersion: number): void {
-  if (planVersion >= 3) return;
-  throw new LocalizeError({
-    type: 'stale_plan', subtype: 'legacy_plan_requires_regeneration',
-    message: 'Plan version 1 or 2 must be regenerated before it can be previewed or applied.',
-    hint: 'Create a fresh plan version 3 from the current document pair.',
-  });
+export function assertCurrentPlanVersion(plan: LocalizationPlan): void {
+  if (plan.planVersion < 3) {
+    throw new LocalizeError({
+      type: 'stale_plan', subtype: 'legacy_plan_requires_regeneration',
+      message: 'Plan version 1 or 2 must be regenerated before it can be previewed or applied.',
+      hint: 'Create a fresh plan version 3 from the current document pair.',
+    });
+  }
+  if (plan.operations.some((operation) =>
+    operation.structured && operation.structured.topologyVersion !== STRUCTURED_TOPOLOGY_VERSION
+  )) {
+    throw new LocalizeError({
+      type: 'stale_plan', subtype: 'structured_plan_requires_regeneration',
+      message: 'This structured plan predates the current topology contract and must be regenerated.',
+      hint: 'Create a fresh plan and review before generating another apply preview.',
+    });
+  }
 }
 
 export class RecoveryApplyJournal {
@@ -591,7 +607,9 @@ export async function prepareLegacyReverse(input: {
     if (operation?.kind !== 'delete') return [];
     const deletedBlockId = operation.targetBlockId;
     const nodeIndex = prewrite.nodes.findIndex((node) =>
-      node.remote.blockId === deletedBlockId || node.remote.blockIds?.includes(deletedBlockId ?? ''));
+      node.remote.blockId === deletedBlockId
+      || node.remote.subtreeBlockIds?.includes(deletedBlockId ?? '')
+      || node.remote.blockIds?.includes(deletedBlockId ?? ''));
     const node = nodeIndex >= 0 ? prewrite.nodes[nodeIndex] : undefined;
     if (!node || node.kind === 'title') {
       throw new LocalizeError({
@@ -706,7 +724,10 @@ export async function prepareLegacyReverse(input: {
     }
     if (operation.kind === 'replace') {
       const targetId = operation.targetBlockId;
-      const prewriteNode = prewrite.nodes.find((node) => node.remote.blockId === targetId || node.remote.blockIds?.includes(targetId ?? ''));
+      const prewriteNode = prewrite.nodes.find((node) =>
+        node.remote.blockId === targetId
+        || node.remote.subtreeBlockIds?.includes(targetId ?? '')
+        || node.remote.blockIds?.includes(targetId ?? ''));
       if (!prewriteNode || !targetId) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_prewrite_block_missing', message: `Prewrite block for ${operation.operationId} is missing.`});
       const desired = losslessDesired(prewriteNode);
       if (prewriteNode.kind === 'title') {
