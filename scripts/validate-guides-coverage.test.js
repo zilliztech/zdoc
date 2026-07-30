@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { validateGuidesCoverage } = require('./validate-guides-coverage')
+const { coverageConfigs, validateGuidesCoverage, validateGuidesSite } = require('./validate-guides-coverage')
 
 function write(root, relative, value = '# Doc') { const file = path.join(root, relative); fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, value); return file }
 
@@ -54,4 +54,46 @@ test('allows an explicitly preserved landing page outside Base navigation', () =
   })
   assert.equal(result.generatedDocs, 1)
   assert.deepEqual(result.missingFromSidebar, [])
+})
+
+test('maps both Chinese Cloud and BYOC publication units', () => {
+  assert.deepEqual(coverageConfigs('zh-CN').map(config => [config.outputDir, config.sidebarPath]), [
+    ['content/zh-CN/guides/tutorials', 'generated/zh-CN/sidebars/guides.sidebar.js'],
+    ['content/zh-CN/byoc/tutorials', 'generated/zh-CN/sidebars/guides-byoc.sidebar.js'],
+  ])
+})
+
+test('Chinese coverage requires Cloud, BYOC, and reachable Tools content', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-zh-'))
+  const cloud = path.join(root, 'cloud')
+  const byoc = path.join(root, 'byoc')
+  const configs = [
+    { outputDir: cloud, idPrefix: 'tutorials', sidebarPath: 'cloud.sidebar.js', kind: 'cloud' },
+    { outputDir: byoc, idPrefix: 'tutorials', sidebarPath: 'byoc.sidebar.js', kind: 'byoc' },
+  ]
+  write(cloud, 'tools/tool.md')
+  write(byoc, 'guide.md')
+  const sidebars = {
+    'cloud.sidebar.js': [{ type: 'doc', id: 'tutorials/tools/tool' }],
+    'byoc.sidebar.js': [{ type: 'doc', id: 'tutorials/guide' }],
+  }
+  assert.equal(validateGuidesSite({ site: 'zh-CN', configs, loadSidebar: name => sidebars[name] }).length, 2)
+
+  fs.rmSync(path.join(cloud, 'tools'), { recursive: true })
+  assert.throws(
+    () => validateGuidesSite({ site: 'zh-CN', configs, loadSidebar: name => sidebars[name] }),
+    /missing generated files|must include Tools content/i,
+  )
+  write(cloud, 'tools/tool.md')
+  sidebars['cloud.sidebar.js'] = []
+  assert.throws(
+    () => validateGuidesSite({ site: 'zh-CN', configs, loadSidebar: name => sidebars[name] }),
+    /missing from sidebar|unreachable/i,
+  )
+  sidebars['cloud.sidebar.js'] = [{ type: 'doc', id: 'tutorials/tools/tool' }]
+  fs.rmSync(byoc, { recursive: true })
+  assert.throws(
+    () => validateGuidesSite({ site: 'zh-CN', configs, loadSidebar: name => sidebars[name] }),
+    /missing generated files|coverage mismatch/i,
+  )
 })

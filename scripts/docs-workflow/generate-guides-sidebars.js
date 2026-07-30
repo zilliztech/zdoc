@@ -12,10 +12,39 @@ function sidebarOutputs(site = resolveBootstrapSite(undefined)) {
   return Object.freeze([
     `tmp/docs-tooling/${site}/guides/generated/${site}/sidebars/guides.sidebar.js`,
     `tmp/docs-tooling/${site}/guides-byoc/generated/${site}/sidebars/guides-byoc.sidebar.js`,
+    ...(site === 'zh-CN'
+      ? [`tmp/docs-tooling/${site}/guides/generated/${site}/sidebars/tools.sidebar.js`]
+      : []),
   ])
 }
 
 const SIDEBAR_OUTPUTS = sidebarOutputs('en')
+
+function extractSidebarCategory(sidebar, key) {
+  const matches = []
+  function visit(items) {
+    for (const item of items || []) {
+      if (item?.type === 'category' && item.key === key) matches.push(item)
+      if (Array.isArray(item?.items)) visit(item.items)
+    }
+  }
+  visit(sidebar)
+  if (matches.length !== 1) {
+    throw new Error(`Expected exactly one sidebar category ${key}; found ${matches.length}`)
+  }
+  return [matches[0]]
+}
+
+function writeChineseToolsSidebar(workspace, guidesSidebarPath, toolsSidebarPath, fsImpl = fs) {
+  const guidesFile = requireRepoRelativeRegularFile(workspace, guidesSidebarPath, 'Fresh generated Chinese Guides sidebar', fsImpl)
+  const toolsFile = ensureSafeOutputPath(workspace, toolsSidebarPath, fsImpl)
+  delete require.cache[require.resolve(guidesFile)]
+  const loaded = require(guidesFile)
+  const sidebar = loaded?.default ?? loaded
+  if (!Array.isArray(sidebar)) throw new Error('Chinese Guides sidebar must export an array')
+  const toolsSidebar = extractSidebarCategory(sidebar, 'category:tutorials/tools')
+  fsImpl.writeFileSync(toolsFile, `'use strict'\n\nmodule.exports = ${JSON.stringify(toolsSidebar, null, 2)}\n`, { flag: 'wx' })
+}
 
 function parseArgs(argv) {
   if (argv.length !== 2) throw new Error('Exactly one --media-manifest argument is required')
@@ -287,6 +316,9 @@ function generateGuidesSidebars({ workspace, mediaManifest, site = resolveBootst
     if (result.signal) throw new Error(`Guides sidebar generation failed with signal ${result.signal}`)
     if (result.status !== 0) throw new Error(`Guides sidebar generation failed with status ${result.status}`)
     verifyManifestIdentity(identity, workspace, mediaManifest, fsImpl)
+    if (site === 'zh-CN') {
+      writeChineseToolsSidebar(workspace, outputs[0], outputs[2], fsImpl)
+    }
     for (const entry of quarantined) {
       verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
       requireRepoRelativeRegularFile(workspace, entry.relativePath, `Fresh generated sidebar ${entry.relativePath}`, fsImpl)
@@ -344,6 +376,7 @@ if (require.main === module) {
 
 module.exports = {
   generateGuidesSidebars,
+  extractSidebarCategory,
   parseArgs,
   requireRepoRelativeRegularFile,
   SIDEBAR_OUTPUTS,

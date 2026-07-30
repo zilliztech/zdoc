@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { validateGuidesSourceContract } = require('./validate-guides-source-contract')
+const { sourceContractConfig, validateGuidesSourceContract, validateGuidesSourceSite } = require('./validate-guides-source-contract')
 
 function write(root, relative, token = null) {
   const file = path.join(root, relative)
@@ -129,4 +129,35 @@ test('FAQ canonical accepts generated child pages that inherit the source token'
   }]
 
   assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 3)
+})
+
+test('Chinese source contract resolves its own source, snapshot, media, Cloud, and BYOC paths', () => {
+  const config = sourceContractConfig('zh-CN')
+  assert.equal(config.sourceDir, 'packages/docs-tooling/src/lark/meta/sources/guides-zh-CN')
+  assert.equal(config.snapshotPath, 'packages/docs-tooling/src/lark/meta/snapshots/guides-zh-CN-uat-last-success.json')
+  assert.equal(config.mediaManifestPath, 'packages/docs-tooling/src/lark/meta/media-cache/guides-zh-CN.json')
+  assert.deepEqual(config.targets.map(target => target.outputDir), [
+    'content/zh-CN/guides/tutorials',
+    'content/zh-CN/byoc/tutorials',
+  ])
+})
+
+test('site validation fails separately for an incomplete source graph and missing media manifest', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-source-site-'))
+  const sourceDir = path.join(root, 'sources')
+  const snapshotPath = path.join(root, 'snapshot.json')
+  const mediaManifestPath = path.join(root, 'media.json')
+  fs.mkdirSync(sourceDir)
+  const config = {
+    site: 'zh-CN', rootToken: 'root', sourceDir, snapshotPath, mediaManifestPath, targets: [],
+  }
+  fs.writeFileSync(snapshotPath, JSON.stringify({
+    schema_version: 3, manual: 'guides', build_env: 'uat', records: [], navigation_records: [],
+  }))
+  fs.writeFileSync(mediaManifestPath, JSON.stringify({ schemaVersion: 1, entries: [] }))
+  assert.throws(() => validateGuidesSourceSite({ site: 'zh-CN', config }), /source graph is incomplete|root source/i)
+
+  fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify({ children: ['child'] }))
+  fs.rmSync(mediaManifestPath)
+  assert.throws(() => validateGuidesSourceSite({ site: 'zh-CN', config }), /media\.json|no such file|ENOENT/i)
 })

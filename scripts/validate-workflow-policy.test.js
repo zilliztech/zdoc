@@ -1380,6 +1380,7 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   const names = [
     'Validate Guides assembly decision',
     'Generate combined Guides sidebars offline',
+    'Validate Chinese Guides publication',
     'Validate combined guides output',
     'Finalize Guides assembly identity',
   ]
@@ -1394,11 +1395,13 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(validation, /decision-sha/)
   assert.match(validation, /guides-assembly-decision\.json/)
   assert.match(validation, /generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js/)
-  const finalValidation = assemble.slice(indices[2], indices[3])
+  const chineseValidation = assemble.slice(indices[2], indices[3])
+  assert.match(chineseValidation, /inputs\.site == 'zh-CN'[\s\S]*validate-guides-source-contract\.js --site zh-CN[\s\S]*validate-guides-coverage\.js --site zh-CN/)
+  const finalValidation = assemble.slice(indices[3], indices[4])
   assert.match(finalValidation, /validate-generated-sidebars\.js/)
   assert.match(assemble, /ZDOC_BUILD_COMMAND: \$\{\{ inputs\.site == 'en' && 'pnpm run build:en' \|\| inputs\.site == 'zh-CN' && 'pnpm run build:zh-CN' \|\| '' \}\}/)
   assert.match(finalValidation, /run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND"/)
-  const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
+  const finalize = assemble.slice(indices[4], assemble.indexOf('name: Select promoted Guides source snapshot'))
   assert.match(finalize, /saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
   assert.match(finalize, /byoc=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
   assert.match(finalize, /write-descriptor[\s\S]*--expected-decision-sha256/)

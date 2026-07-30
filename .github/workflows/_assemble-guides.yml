@@ -130,6 +130,12 @@ jobs:
           pnpm docs-tooling publish-group --site "${{ inputs.site }}" --group guides --stage publish
         env:
           DOCS_TOOLING_GUIDES_STAGE: assembled
+      - name: Validate Chinese Guides publication
+        if: ${{ inputs.site == 'zh-CN' }}
+        run: |
+          node scripts/validate-guides-source-contract.js --site zh-CN
+          node scripts/validate-guides-coverage.js --site zh-CN
+          node scripts/validate-generated-sidebars.js
       - name: Validate combined guides output
         run: |
           [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }

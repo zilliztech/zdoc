@@ -480,6 +480,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const decisionIndex = stepIndex('Validate Guides assembly decision')
       const generateIndex = stepIndex('Generate combined Guides sidebars offline')
       const validateIndex = stepIndex('Validate combined guides output')
+      const validateChineseIndex = stepIndex('Validate Chinese Guides publication')
       const finalizeIndex = stepIndex('Finalize Guides assembly identity')
       const selectIndex = stepIndex('Select promoted Guides source snapshot')
       const createIndex = stepIndex('Create Guides v4 generation payload')
@@ -488,14 +489,19 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
         errors.push(`${file}: Guides v4 generation must follow combined validation and promoted snapshot selection before save and reporting`)
       }
-      if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
-        errors.push(`${file}: observe-only assembly must validate decision, generate, validate output, then finalize identity`)
+      if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateChineseIndex && validateChineseIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
+        errors.push(`${file}: observe-only assembly must validate decision, generate, validate both site and Chinese source contracts, then finalize identity`)
       }
       const decisionStep = steps[decisionIndex]
       if (!/validate-decision[\s\S]*decision-sha[\s\S]*inputs\.assembly_decision_sha256/.test(decisionStep?.run || '')) errors.push(`${file}: assembly must validate the restored decision against the plumbed canonical hash`)
       const generatorStep = steps[generateIndex]
       if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest "$media_manifest_path"') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
       const validationStep = steps[validateIndex]
+      const chineseValidationStep = steps[validateChineseIndex]
+      if (chineseValidationStep?.if !== "${{ inputs.site == 'zh-CN' }}" ||
+          chineseValidationStep?.run !== 'node scripts/validate-guides-source-contract.js --site zh-CN\nnode scripts/validate-guides-coverage.js --site zh-CN\nnode scripts/validate-generated-sidebars.js\n') {
+        errors.push(`${file}: Chinese Guides assembly must fail early on source completeness, media, coverage, and generated navigation`)
+      }
       const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
       const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
       if (workflow.jobs?.assemble?.env?.ZDOC_BUILD_COMMAND !== expectedBuildMapping ||

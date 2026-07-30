@@ -7,6 +7,8 @@ const slugify = require('slugify')
 const yaml = require('js-yaml')
 const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
 const { canonicalizeInternalDocLink } = require('../packages/docs-tooling/src/lark/internalDocLink')
+const { assertSourceCompleteness } = require('../packages/docs-tooling/src/lark/sourceCompleteness')
+const { assertMediaCoverage, collectMediaReferences, sourceFilesForSnapshot, validateEntries } = require('./docs-workflow/guides-media-prefetch')
 
 function targetMatches(record, target) {
   const targets = guidesRecordPublishTargets(record)
@@ -150,4 +152,59 @@ function validateGuidesSourceContract({ snapshot, target, outputDir, idPrefix = 
   return { checkedRecords, errors }
 }
 
-module.exports = { collectGeneratedDocsByToken, collectSidebarEntries, validateGuidesSourceContract }
+function sourceContractConfig(site) {
+  if (!['en', 'zh-CN'].includes(site)) throw new Error(`Unsupported Guides site: ${site}`)
+  const chinese = site === 'zh-CN'
+  return {
+    site,
+    rootToken: chinese ? 'XyeFwdx6kiK9A6kq3yIcLNdEnDd' : 'Tg6mwbRGDitPQ3kLUQzc44I7nth',
+    sourceDir: `packages/docs-tooling/src/lark/meta/sources/guides${chinese ? '-zh-CN' : ''}`,
+    snapshotPath: `packages/docs-tooling/src/lark/meta/snapshots/guides${chinese ? '-zh-CN' : ''}-uat-last-success.json`,
+    mediaManifestPath: `packages/docs-tooling/src/lark/meta/media-cache/guides${chinese ? '-zh-CN' : ''}.json`,
+    targets: [
+      { target: 'zilliz.saas', outputDir: `content/${site}/guides/tutorials`, sidebarPath: `generated/${site}/sidebars/guides.sidebar.js` },
+      { target: 'zilliz.paas', outputDir: `content/${site}/byoc/tutorials`, sidebarPath: `generated/${site}/sidebars/guides-byoc.sidebar.js` },
+    ],
+  }
+}
+
+function validateGuidesSourceSite({ site, config = sourceContractConfig(site), loadJson = file => JSON.parse(fs.readFileSync(file, 'utf8')), loadSidebar = file => require(path.resolve(file)) }) {
+  const snapshot = loadJson(config.snapshotPath)
+  assertSourceCompleteness({
+    manual: 'guides', buildEnv: 'uat', rootToken: config.rootToken,
+    sourceDir: config.sourceDir, snapshot,
+  })
+  const mediaManifest = loadJson(config.mediaManifestPath)
+  if (mediaManifest.schemaVersion !== 1) throw new Error('Invalid guides media manifest schema')
+  validateEntries(mediaManifest.entries)
+  assertMediaCoverage(
+    mediaManifest.entries,
+    collectMediaReferences(config.sourceDir, sourceFilesForSnapshot(config.sourceDir, snapshot)),
+  )
+  return config.targets.map(target => validateGuidesSourceContract({
+    snapshot,
+    target: target.target,
+    outputDir: target.outputDir,
+    sidebar: loadSidebar(target.sidebarPath),
+  }))
+}
+
+if (require.main === module) {
+  try {
+    const argv = process.argv.slice(2)
+    if (argv.length !== 2 || argv[0] !== '--site') throw new Error('Usage: validate-guides-source-contract.js --site <en|zh-CN>')
+    const results = validateGuidesSourceSite({
+      site: argv[1],
+      loadSidebar(file) {
+        delete require.cache[require.resolve(path.resolve(file))]
+        return require(path.resolve(file))
+      },
+    })
+    console.log(`[guides-source-contract] ${argv[1]}: ${results.reduce((sum, result) => sum + result.checkedRecords, 0)} records checked`)
+  } catch (error) {
+    console.error(error.message)
+    process.exitCode = 1
+  }
+}
+
+module.exports = { collectGeneratedDocsByToken, collectSidebarEntries, sourceContractConfig, validateGuidesSourceContract, validateGuidesSourceSite }
