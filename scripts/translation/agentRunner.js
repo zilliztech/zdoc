@@ -17,6 +17,7 @@ const {
   parseReferenceTranslationManifest,
 } = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts')
 const { validateTranslatedSidebarFragment } = loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts')
+const { defaultReferenceManualForPath } = loadTypeScript('../../packages/docs-tooling/src/cli.ts')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
@@ -716,6 +717,7 @@ function loadProgressState(siteDir, manifest, cacheOverride) {
     kind: target.state.kind,
     path: target.state.path,
     target,
+    sourceCheckpointSha: manifest.sourceCheckpointSha,
     value: target.state.kind === 'reference-manifest' ? parseReferenceTranslationManifest(value) : value,
   }
 }
@@ -736,14 +738,13 @@ function updateReferenceProgressState(siteDir, progressState, result) {
   ))
   const previous = progressState.value.records.find(record => record.sourcePath === result.sourcePath)
   const sourceRecord = sourceManifest.records.find(record => record.sourcePath === result.sourcePath)
-  const manual = sourceRecord?.manual || previous?.manual
-  if (!manual) throw new Error(`Reference source manifest is missing translated path ${result.sourcePath}`)
+  const manual = sourceRecord?.manual || previous?.manual || defaultReferenceManualForPath(result.sourcePath)
   const targetHash = targetFileHash(siteDir, result.targetPath)
   const record = {
     manual,
     sourcePath: result.sourcePath,
     targetPath: result.targetPath,
-    sourceCommit: sourceManifest.sourceCommit,
+    sourceCommit: progressState.sourceCheckpointSha,
     sourceHash: result.sourceHash,
     targetHash,
     status: result.sourceHash === targetHash ? 'unchanged' : 'translated',

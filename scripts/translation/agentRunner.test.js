@@ -1027,12 +1027,12 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
       unchangedSourcePath,
     ])
     assert.equal(referenceState.records[0].manual, 'python')
-    assert.equal(referenceState.records[0].sourceCommit, sourceCommit)
+    assert.equal(referenceState.records[0].sourceCommit, workflowSha)
     assert.equal(referenceState.records[0].sourceHash, sha256(changedSource))
     assert.equal(referenceState.records[0].targetHash, sha256(changedTarget))
     assert.equal(referenceState.records[0].status, 'translated')
     assert.equal(referenceState.records[1].status, 'retired')
-    assert.equal(referenceState.records[2].sourceCommit, sourceCommit)
+    assert.equal(referenceState.records[2].sourceCommit, workflowSha)
     assert.equal(referenceState.records[2].sourceHash, sha256(unchanged))
     assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
     assert.equal(referenceState.records[2].status, 'unchanged')
@@ -1056,9 +1056,60 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
       repositoryRoot: siteDir,
       sourceRoot: 'content/en/reference',
       targetRoot: 'content/zh-CN/reference',
-      sourceManifest: referenceSourceManifest,
-      translationManifest: referenceState,
+      sourceManifest: {...referenceSourceManifest, sourceCommit: workflowSha},
+      translationManifest: {
+        ...referenceState,
+        records: referenceState.records.map(record => ({...record, sourceCommit: workflowSha})),
+      },
     }))
+  })
+}
+
+async function testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest() {
+  await withTempDir(async siteDir => {
+    const staleSourceCommit = 'a'.repeat(40)
+    const currentSourceCommit = 'b'.repeat(40)
+    const sourcePath = 'content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md'
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/')
+    const source = '# Create user\n'
+    const target = '# 创建用户\n'
+    write(path.join(siteDir, sourcePath), source)
+    write(path.join(siteDir, targetPath), target)
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit: staleSourceCommit,
+      records: [],
+    }))
+
+    const manifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      group: 'python',
+      sourceCheckpointSha: currentSourceCommit,
+      items: [{
+        sourcePath,
+        targetPath,
+        sourceHash: sha256(source),
+        locale: 'zh-CN',
+        type: 'reference',
+        reason: 'missing_target',
+      }],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      reportPath: 'tmp/reference-new-source-report.json',
+      checkpointFiles: 1,
+    })
+    await coordinator.record({...manifest.items[0], status: 'translated'}, 0)
+    await coordinator.checkpoint(true)
+
+    const state = JSON.parse(fs.readFileSync(
+      path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'),
+      'utf8',
+    ))
+    assert.equal(state.records[0].manual, 'python')
+    assert.equal(state.records[0].sourceCommit, currentSourceCommit)
   })
 }
 
@@ -1171,6 +1222,7 @@ async function run() {
   await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseProgressStateUsesIndependentTargetManifests()
+  await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()
   await testReferenceProgressStateUsesCanonicalRawLexicalOrder()
   await testProgressCoordinatorCheckpointsCacheAndReport()
   await testJapaneseProgressStatePreservesExistingLocaleCache()

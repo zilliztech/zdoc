@@ -599,6 +599,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       })) {
         errors.push(`${file}: every Chinese publisher must wait for the Guides translation publication barrier`)
       }
+      const chineseReferenceOrder = ['python', 'java', 'node', 'go', 'cli', 'rest']
+      if (chineseReferenceOrder.slice(1).some((group, index) => {
+        const predecessor = chineseReferenceOrder[index]
+        const job = workflow.jobs?.[`translate_${group}_zh_reference`]
+        const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
+        return !needs.includes(`translate_${predecessor}_zh_reference`) ||
+          !String(job?.if || '').includes(`needs.translate_${predecessor}_zh_reference.result == 'success'`)
+      })) {
+        errors.push(`${file}: Chinese Reference publishers must form the source-ordered publication queue`)
+      }
       const aggregateStep = workflow.jobs?.aggregate?.steps?.find(step => step.id === 'aggregate')
       if (aggregateStep?.env?.GUIDES_TRANSLATOR !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
           aggregateStep?.env?.GUIDES_TRANSLATION !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||

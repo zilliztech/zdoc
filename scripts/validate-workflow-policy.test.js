@@ -1753,6 +1753,21 @@ test('Chinese publishers wait for the Guides translation publication barrier', (
       `\${{ needs.publish_${group}.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}`,
     )
   }
+  const chineseReferenceOrder = ['python', 'java', 'node', 'go', 'cli', 'rest']
+  for (const [index, group] of chineseReferenceOrder.entries()) {
+    const needs = workflow.jobs[`translate_${group}_zh_reference`].needs
+    if (index > 0) {
+      const predecessor = chineseReferenceOrder[index - 1]
+      assert.ok(
+        needs.includes(`translate_${predecessor}_zh_reference`),
+        `${group} Chinese Reference publication must wait for ${predecessor}`,
+      )
+      assert.match(
+        workflow.jobs[`translate_${group}_zh_reference`].if,
+        new RegExp(`needs\\.translate_${predecessor}_zh_reference\\.result == 'success'`),
+      )
+    }
+  }
   assert.equal(
     workflow.jobs.translate_guides_zh_tools.with.source_sha,
     '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}',
@@ -1782,6 +1797,12 @@ test('Chinese publishers wait for the Guides translation publication barrier', (
     mutated.jobs[barrierName].needs = mutated.jobs[barrierName].needs.filter(need => need !== 'publish_guides')
     fs.writeFileSync(file, yaml.dump(mutated, {lineWidth: -1, noRefs: true}))
     assert.ok(validateWorkflowPolicies(directory).includes('fetch-docs.yml: Guides translation publication barrier must validate authoritative prerequisite results'))
+    const unqueued = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+    unqueued.jobs.translate_java_zh_reference.needs = unqueued.jobs.translate_java_zh_reference.needs.filter(
+      need => need !== 'translate_python_zh_reference',
+    )
+    fs.writeFileSync(file, yaml.dump(unqueued, {lineWidth: -1, noRefs: true}))
+    assert.ok(validateWorkflowPolicies(directory).includes('fetch-docs.yml: Chinese Reference publishers must form the source-ordered publication queue'))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
   }

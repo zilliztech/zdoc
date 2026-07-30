@@ -190,7 +190,7 @@ function verifyReferenceSourceRevision(
   }
 }
 
-function defaultReferenceManualForPath(filePath: string): string {
+export function defaultReferenceManualForPath(filePath: string): string {
   const candidates = publicationEntries(manualRegistry)
     .filter(entry => entry.manual.kind === 'reference')
     .flatMap(entry => {
