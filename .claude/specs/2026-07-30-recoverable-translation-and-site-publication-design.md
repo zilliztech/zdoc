@@ -106,6 +106,17 @@ Manual inputs:
 
 The prepare job resolves `source_ref` and `tooling_ref` once. A branch, tag, or exact SHA is accepted after unsafe-ref validation. Each becomes a verified lowercase 40-character SHA. Every later checkout uses those outputs, never the original symbolic ref.
 
+The two refs identify complete Git commits, not subdirectory-specific refs. Their directory scopes describe which files the workflow is allowed to consume from each resolved commit:
+
+| Resolved ref | Logical ownership | Directories and files read from that commit |
+| --- | --- | --- |
+| `tooling_ref` -> `tooling_sha` | Workflow implementation, generators, validators, build code, and dependency contract | `.github/workflows/`, `scripts/`, `packages/docs-tooling/`, `packages/site-config/`, `packages/docs-ui/`, application code and configuration under `apps/docs/`, deployment contracts under `deploy/contracts/`, `config/` files that define generation or validation policy, and root dependency/build files such as `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`, and TypeScript configuration |
+| `source_ref` -> `source_sha` | Previously published documentation state used as the content baseline | canonical content under `content/en/`, English generated state under `generated/en/`, English sidebar overrides under `sidebar-overrides/en/`, and group-owned source/publication manifests contained in those trees |
+
+The exact path allowlist is versioned and tested. A path is never silently taken from whichever checkout happened last. Jobs materialize a tooling workspace from `tooling_sha`, then copy or restore only declared source-owned paths from `source_sha`. If a path appears in both logical scopes, the allowlist must assign one owner; ambiguous overlap fails preflight.
+
+For translation runs, `source_ref` has the narrower semantic meaning of the published English input checkpoint. The translated target baseline comes from the separately resolved `target_branch` SHA. Therefore Chinese files under `content/zh-CN/`, Japanese files under `i18n/ja-JP/`, and their generated translation state are never read from `source_ref` as English source input.
+
 The workflow file used to construct the GitHub job graph is selected by the dispatch `--ref`. Therefore PR tests must dispatch the workflow on the PR branch and also pass the exact PR tooling SHA. Dispatching `--ref master` while supplying a PR `tooling_ref` tests master's job graph and is invalid evidence for PR workflow behavior.
 
 ### Output contract
@@ -239,6 +250,24 @@ translation-recovery/
   translated-files/
 ```
 
+`manifest.json` contains one record for every recoverable translated file. Paths are repository-relative and canonically sorted:
+
+```json
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "sourcePath": "content/en/reference/api/python/example.md",
+      "targetPath": "content/zh-CN/reference/api/python/example.md",
+      "sourceHash": "SHA-256 of the exact source bytes that were translated",
+      "targetHash": "SHA-256 of the recovered translated file bytes",
+      "targetSize": 12345,
+      "status": "translated"
+    }
+  ]
+}
+```
+
 Required metadata:
 
 ```json
@@ -260,9 +289,21 @@ Required metadata:
 }
 ```
 
-Recovery reuse requires exact equality for locale, group, effective mode, source SHA, tooling SHA, target baseline compatibility, prompt contract, model policy, pending-set hash, batch identity, ordered paths, and per-file source hashes. The downloaded artifact and every contained file must pass integrity verification.
+Recovery is decided per file, not only per old batch. A file skips paid translation and is restored directly into the new workspace when all of the following are true:
 
-Recovery output never publishes directly. Reused files re-enter the same per-file, batch, group, and site validation path as newly translated files. A mismatching or expired artifact is reported and ignored; the workflow rebuilds that batch instead of partially trusting it.
+- artifact locale and group match the current request;
+- `sourcePath` and `targetPath` are safe, canonical, and owned by that group;
+- the current source file SHA-256 exactly equals the recorded `sourceHash`;
+- the recovered target bytes exactly equal the recorded `targetHash` and `targetSize`;
+- the translation prompt contract and model policy are compatible with the current run;
+- the record reports successful translation rather than a partial or failed result;
+- the artifact-level manifest and checksums pass integrity verification.
+
+The old `sourceSha`, `toolingSha`, pending-set hash, or batch boundaries may differ without forcing the file to be translated again. They remain mandatory provenance and diagnostic fields, but per-file source identity is the recovery key. This allows an unchanged file to survive a new source commit, a changed candidate set, different batching, or a tooling bug fix. Current tooling always revalidates the restored output, so a tooling SHA change does not by itself spend translation money again.
+
+Matching `sourceHash` alone is not sufficient: it proves which source bytes were translated but does not prove that the artifact is for the requested locale, that the recovered target is intact, or that the path belongs to the selected group. When every condition above passes, “direct recovery” means skipping the paid translation call; it does not mean skipping validation.
+
+Recovery output never publishes directly. Reused files re-enter the same per-file, batch, group, and site validation path as newly translated files. A mismatching or expired artifact is reported; valid files from other compatible artifacts can still be restored, and only unmatched candidates enter paid translation.
 
 Recommended retention:
 
@@ -403,6 +444,8 @@ Unit and policy tests must cover:
 - all four retirement-state combinations;
 - deterministic sorting, batching, and pending-set hashes;
 - recovery acceptance and every mismatch rejection dimension;
+- per-file recovery across changed source commits, tooling SHAs, pending sets, and batch boundaries when `sourceHash` and the translation contract remain compatible;
+- rejection of matching-source records whose locale, ownership, target hash, size, status, or artifact integrity does not match;
 - artifact path traversal and integrity rejection;
 - group-local validation isolation;
 - serial Chinese Reference publication order and fail-closed dependencies;
@@ -439,4 +482,3 @@ Workflow tests must include interruption after paid translation, validation fail
 - English and Chinese build artifacts have independent provenance and deployment identities.
 - PR workflow tests use the PR job graph and exact PR tooling SHA.
 - No implementation step requires changes in `zdoc_cn`.
-
