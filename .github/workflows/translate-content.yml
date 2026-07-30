@@ -47,7 +47,7 @@ permissions:
 
 jobs:
   prepare:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ inputs.source_sha == '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -85,7 +85,7 @@ jobs:
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   translate:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ inputs.source_sha == '' }}
     needs: prepare
     strategy:
       fail-fast: true
@@ -149,7 +149,7 @@ jobs:
           fi
 
   translate_exact:
-    if: ${{ github.event_name != 'workflow_dispatch' }}
+    if: ${{ inputs.source_sha != '' }}
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       target: ${{ inputs.target }}
@@ -168,7 +168,7 @@ jobs:
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
 
   publish_exact:
-    if: ${{ github.event_name != 'workflow_dispatch' }}
+    if: ${{ inputs.source_sha != '' }}
     needs: translate_exact
     uses: ./.github/workflows/_publish-content-group.yml
     with:
