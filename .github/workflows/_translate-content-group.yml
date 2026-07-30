@@ -98,6 +98,9 @@ jobs:
           mkdir -p "$(dirname "$state")" "$BASELINE_DIR/$(dirname "$state")"
           test -f "$state" || printf '%s\n' "$empty" > "$state"
           test -f "$BASELINE_DIR/$state" || cp "$state" "$BASELINE_DIR/$state"
+      - name: Validate Reference source checkpoint identity
+        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' }}
+        run: node -e 'const manifest=require("./generated/en/manifests/reference.json");if(manifest.sourceCommit!==process.env.SOURCE_COMMIT_SHA)throw new Error(`Reference sourceCommit ${manifest.sourceCommit} does not match source_sha ${process.env.SOURCE_COMMIT_SHA}`)'
       - name: Apply source translation delta
         id: source_delta
         if: ${{ inputs.should_translate }}
@@ -205,6 +208,9 @@ jobs:
       - name: Mark completed translation bootstrap
         if: ${{ inputs.should_translate && inputs.batch_number == 0 && steps.mode.outputs.effective_mode == 'full' && (steps.agents.outputs.failed_count || '0') == '0' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' && inputs.target != 'ja-JP' }}
         run: node scripts/translation/bootstrap-state.js mark --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP"
+      - name: Regenerate Chinese Reference manifests and sidebars
+        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' && inputs.batch_number == 0 && (steps.agents.outputs.failed_count || '0') == '0' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' }}
+        run: pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_COMMIT_SHA" --write
       - name: Create validated translation checkpoints
         id: checkpoint
         if: ${{ inputs.should_translate && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}

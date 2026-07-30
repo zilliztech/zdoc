@@ -51,7 +51,14 @@ function translationOwnedPaths(targetId, group) {
       return [];
     });
     if (roots.length === 0) throw new Error(`Translation target ${target.id} is not compatible with group ${group.snapshotManual}`);
-    return [...new Set([...roots, target.state.path, 'config/reference-retirements.json'])];
+    const sidebarNames = group.snapshotManual === 'reference-landings'
+      ? ['python', 'java', 'node', 'go', 'cli']
+      : group.ownedPaths.flatMap((owned) => {
+          const match = /^generated\/en\/sidebars\/(python|java|node|go|cli|restful)\.sidebar\.js$/u.exec(owned);
+          return match ? [match[1]] : [];
+        });
+    const sidebars = sidebarNames.map(name => `generated/zh-CN/sidebars/${name}.sidebar.js`);
+    return [...new Set([...roots, target.state.path, 'config/reference-retirements.json', ...sidebars])];
   }
   if (group.snapshotManual !== 'guides') throw new Error(`Translation target ${target.id} requires Guides ownership`);
   return [target.targetRoot, target.sidebarTarget, target.state.path];

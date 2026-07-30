@@ -119,6 +119,11 @@ test('maps the Reference landing group to five exact Chinese targets plus transl
     'content/zh-CN/reference/cli/cli/Overview.md',
     'generated/zh-CN/manifests/reference-translations.json',
     'config/reference-retirements.json',
+    'generated/zh-CN/sidebars/python.sidebar.js',
+    'generated/zh-CN/sidebars/java.sidebar.js',
+    'generated/zh-CN/sidebars/node.sidebar.js',
+    'generated/zh-CN/sidebars/go.sidebar.js',
+    'generated/zh-CN/sidebars/cli.sidebar.js',
   ]);
 });
 
