@@ -52,10 +52,10 @@ test('site validation selects checks from the versioned path-filter contract', a
   assert.match(workflow, /^  contents: read$/m);
   assert.match(workflow, /deploy\/contracts\/evaluate-path-filters\.mjs/);
   assert.match(workflow, /deploy\/contracts\/path-filters\.json/);
-  assert.match(workflow, /build_en: \$\{\{ steps\.filters\.outputs\.build_en \}\}/);
-  assert.match(workflow, /build_zh_cn: \$\{\{ steps\.filters\.outputs\.build_zh_cn \}\}/);
-  assert.match(workflow, /reference_coverage: \$\{\{ steps\.filters\.outputs\.reference_coverage \}\}/);
-  assert.match(workflow, /tools_coverage: \$\{\{ steps\.filters\.outputs\.tools_coverage \}\}/);
+  assert.match(workflow, /build_en: \$\{\{ steps\.manual\.outputs\.build_en \|\| steps\.filters\.outputs\.build_en \}\}/);
+  assert.match(workflow, /build_zh_cn: \$\{\{ steps\.manual\.outputs\.build_zh_cn \|\| steps\.filters\.outputs\.build_zh_cn \}\}/);
+  assert.match(workflow, /reference_coverage: \$\{\{ steps\.manual\.outputs\.reference_coverage \|\| steps\.filters\.outputs\.reference_coverage \}\}/);
+  assert.match(workflow, /tools_coverage: \$\{\{ steps\.manual\.outputs\.tools_coverage \|\| steps\.filters\.outputs\.tools_coverage \}\}/);
 });
 
 test('site validation runs isolated named builds and a stable aggregate gate', async () => {
@@ -93,6 +93,23 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(jobBlock(workflow, 'site_validation'), /TOOLS_RESULT: \$\{\{ needs\.tools_coverage\.result \}\}/);
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/);
   assert.doesNotMatch(workflow, /secrets\.|contents: write|git push/);
+});
+
+test('manual site publication selects locale builds and deploys only validated artifacts', async () => {
+  const reusable = await readFile(path.join(repositoryRoot, '.github/workflows/_build-publish-site.yml'), 'utf8');
+  const entry = await readFile(path.join(repositoryRoot, '.github/workflows/publish-sites.yml'), 'utf8');
+  const validation = await readFile(path.join(repositoryRoot, '.github/workflows/site-validation.yml'), 'utf8');
+  assert.match(entry, /options: \[auto, en, zh-CN, all\]/);
+  assert.match(entry, /source_ref:[\s\S]*default: dev/);
+  assert.match(entry, /publish:[\s\S]*default: false/);
+  assert.match(reusable, /pnpm build:\$\{\{ inputs\.site \}\}/);
+  assert.doesNotMatch(reusable, /fetch-docs|translate-content|agentRunner/);
+  const deploy = jobBlock(reusable, 'deploy');
+  assert.match(deploy, /actions\/download-artifact@v4/);
+  assert.doesNotMatch(deploy, /pnpm (?:run )?build|docusaurus build/);
+  assert.match(validation, /options: \[auto, en, zh-CN, all\]/);
+  assert.match(validation, /source_ref:[\s\S]*default: dev/);
+  assert.match(entry, /needs\.build_en\.result == 'success'[\s\S]*needs\.build_zh_cn\.result == 'success'/);
 });
 
 test('final verification separates the revision waterline from ordered two-site validation', async () => {
@@ -188,7 +205,7 @@ test('legacy content-production workflows name their English build explicitly', 
     const source = await readFile(path.join(workflowDirectory, file), 'utf8');
     assert.doesNotMatch(source, /pnpm run build(?!:)/, file);
   }
-  for (const file of ['_fetch-content-group.yml', '_assemble-guides.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
+  for (const file of ['_fetch-content-group.yml', '_assemble-guides.yml', '_verify-docs.yml']) {
     assert.match(
       await readFile(path.join(workflowDirectory, file), 'utf8'),
       /pnpm run build:(?:en|\$SITE|\$\{SITE\})/,

@@ -1,0 +1,71 @@
+name: build and publish one documentation site
+
+on:
+  workflow_call:
+    inputs:
+      build_sha: { required: true, type: string }
+      site: { required: true, type: string }
+      environment: { required: false, type: string, default: uat }
+      publish: { required: false, type: boolean, default: false }
+      retention_days: { required: false, type: number, default: 14 }
+    outputs:
+      artifact_name: { value: '${{ jobs.build.outputs.artifact_name }}' }
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    outputs:
+      artifact_name: ${{ steps.identity.outputs.artifact_name }}
+    steps:
+      - name: Validate exact site build identity
+        env: { BUILD_SHA: '${{ inputs.build_sha }}', SITE: '${{ inputs.site }}' }
+        run: node -e 'if(!/^[0-9a-f]{40}$/.test(process.env.BUILD_SHA))throw new Error("build_sha must be exact");if(!["en","zh-CN"].includes(process.env.SITE))throw new Error("site must be en or zh-CN")'
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.build_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check:localization-input-inventory
+      - if: ${{ inputs.site == 'zh-CN' }}
+        run: pnpm docs-tooling validate-reference --site zh-CN
+      - run: pnpm build:${{ inputs.site }}
+      - id: identity
+        env: { SITE: '${{ inputs.site }}', BUILD_SHA: '${{ inputs.build_sha }}' }
+        run: |
+          set -euo pipefail
+          artifact_name="site-build-$SITE-$BUILD_SHA"
+          (cd "build/$SITE" && find . -type f -print0 | sort -z | xargs -0 sha256sum) > "build/$SITE.sha256"
+          printf '{"schemaVersion":1,"site":"%s","buildSha":"%s"}\n' "$SITE" "$BUILD_SHA" > "build/$SITE.provenance.json"
+          echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.identity.outputs.artifact_name }}
+          path: |
+            build/${{ inputs.site }}
+            build/${{ inputs.site }}.sha256
+            build/${{ inputs.site }}.provenance.json
+          if-no-files-found: error
+          retention-days: ${{ inputs.retention_days }}
+
+  deploy:
+    needs: build
+    if: ${{ inputs.publish }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: '${{ needs.build.outputs.artifact_name }}', path: '${{ runner.temp }}/site-artifact' }
+      - name: Verify validated artifact for external deployment
+        env: { SITE: '${{ inputs.site }}', BUILD_SHA: '${{ inputs.build_sha }}' }
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/site-artifact/build/$SITE"
+          sha256sum --check "../$SITE.sha256"
+          test "$(node -p "require('../$SITE.provenance.json').buildSha")" = "$BUILD_SHA"
+

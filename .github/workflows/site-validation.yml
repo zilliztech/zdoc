@@ -10,6 +10,10 @@ on:
       - dev
       - master
   workflow_dispatch:
+    inputs:
+      site: { description: Site selection, required: true, type: choice, options: [auto, en, zh-CN, all], default: auto }
+      source_ref: { description: Content branch, tag, or exact SHA, required: false, type: string, default: dev }
+      publish: { description: Reserved for the publication entry, required: false, type: boolean, default: false }
 
 permissions:
   contents: read
@@ -24,14 +28,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      build_en: ${{ steps.filters.outputs.build_en }}
-      build_zh_cn: ${{ steps.filters.outputs.build_zh_cn }}
-      reference_coverage: ${{ steps.filters.outputs.reference_coverage }}
-      tools_coverage: ${{ steps.filters.outputs.tools_coverage }}
+      build_en: ${{ steps.manual.outputs.build_en || steps.filters.outputs.build_en }}
+      build_zh_cn: ${{ steps.manual.outputs.build_zh_cn || steps.filters.outputs.build_zh_cn }}
+      reference_coverage: ${{ steps.manual.outputs.reference_coverage || steps.filters.outputs.reference_coverage }}
+      tools_coverage: ${{ steps.manual.outputs.tools_coverage || steps.filters.outputs.tools_coverage }}
     steps:
       - name: Check out candidate
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source_ref || github.sha }}
           fetch-depth: 0
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -39,6 +44,7 @@ jobs:
           node-version: '22'
       - name: Evaluate versioned path filters
         id: filters
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
           HEAD_SHA: ${{ github.sha }}
@@ -48,6 +54,17 @@ jobs:
           --head "$HEAD_SHA"
           --filters deploy/contracts/path-filters.json
           --github-output "$GITHUB_OUTPUT"
+      - name: Select requested manual site
+        id: manual
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.site != 'auto' }}
+        env: { SITE: '${{ inputs.site }}' }
+        run: |
+          case "$SITE" in
+            en) printf 'build_en=true\nbuild_zh_cn=false\nreference_coverage=false\ntools_coverage=false\n' ;;
+            zh-CN) printf 'build_en=false\nbuild_zh_cn=true\nreference_coverage=true\ntools_coverage=true\n' ;;
+            all) printf 'build_en=true\nbuild_zh_cn=true\nreference_coverage=true\ntools_coverage=true\n' ;;
+            *) exit 2 ;;
+          esac >> "$GITHUB_OUTPUT"
 
   build_en:
     name: Build English site
