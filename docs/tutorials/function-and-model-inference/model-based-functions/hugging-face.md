@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # Hugging Face
 
-Using a Hugging Face embedding model normally requires your application to manage credentials, call the model separately, and generate embeddings consistently for inserted data and search queries. With a [Hugging Face model provider integration](null) and a Text Embedding Function, Zilliz Cloud converts raw text into vectors during insert and search.
+Using a Hugging Face embedding model normally requires your application to manage credentials, call the model separately, and generate embeddings consistently for inserted data and search queries. With a [Hugging Face model provider integration](./integrate-with-model-providers) and a Text Embedding Function, Zilliz Cloud converts raw text into vectors during insert and search.
 
 ## How it works\{#how-it-works}
 
@@ -109,7 +109,7 @@ Compatibility results reflect testing on the listed date. Zilliz Cloud does not 
 
 Before using Hugging Face text embedding:
 
-- Create a Hugging Face model provider integration and copy its integration ID. Set **Provider** to `hf-inference`. For instructions, see [Integrate with Model Providers](./integrate-with-moddel-providers).
+- Create a Hugging Face model provider integration and copy its integration ID. Set **Provider** to `hf-inference`. For instructions, see [Integrate with Model Providers](./integrate-with-model-providers).
 
 - Open the model's Hugging Face page and check the **Inference Providers** section. Verify that `hf-inference` currently serves the model for the `feature-extraction` task.
 
