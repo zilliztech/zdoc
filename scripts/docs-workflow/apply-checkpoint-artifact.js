@@ -94,6 +94,16 @@ function recordsBySource(manifest, label) {
   return records;
 }
 
+function compareManifestRecords(left, right) {
+  for (const key of ['manual', 'sourcePath', 'targetPath']) {
+    const leftValue = String(left[key] ?? '');
+    const rightValue = String(right[key] ?? '');
+    const comparison = leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0;
+    if (comparison !== 0) return comparison;
+  }
+  return 0;
+}
+
 function mergeManifest(baseline, artifact, target) {
   const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== 'records')));
   const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
@@ -102,7 +112,7 @@ function mergeManifest(baseline, artifact, target) {
     recordsBySource(artifact, 'Artifact'),
     recordsBySource(target, 'Target'),
     'records.',
-  )).sort((left, right) => left.sourcePath.localeCompare(right.sourcePath));
+  )).sort(compareManifestRecords);
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
 }
 

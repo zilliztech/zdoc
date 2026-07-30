@@ -102,10 +102,15 @@ test('three-way merges translation cache changes and writes deterministic JSON',
 
 test('three-way merges Chinese translation manifests by immutable source-relative key', async () => {
   const statePath = 'generated/zh-CN/manifests/reference-translations.json';
-  const record = (sourcePath, value) => ({sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});
-  const baseline = {schemaVersion: 1, records: [record('content/en/reference/a.md', 1)]};
-  const artifact = {schemaVersion: 1, records: [record('content/en/reference/a.md', 2)]};
-  const target = {schemaVersion: 1, records: [record('content/en/reference/a.md', 1), record('content/en/reference/b.md', 3)]};
+  const record = (manual, sourcePath, value) => ({manual, sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});
+  const python = record('python', 'content/en/reference/a.md', 1);
+  const baseline = {schemaVersion: 1, records: [python]};
+  const artifact = {schemaVersion: 1, records: [{...python, value: 2}]};
+  const target = {schemaVersion: 1, records: [
+    python,
+    record('java', 'content/en/reference/z.md', 3),
+    record('python', 'content/en/reference/Z.md', 4),
+  ]};
   const f = await fixture({
     files: {[statePath]: `${JSON.stringify(artifact)}\n`},
     cache: undefined,
@@ -120,7 +125,14 @@ test('three-way merges Chinese translation manifests by immutable source-relativ
     await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
   }
   await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
-  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {schemaVersion: 1, records: [record('content/en/reference/a.md', 2), record('content/en/reference/b.md', 3)]});
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    schemaVersion: 1,
+    records: [
+      record('java', 'content/en/reference/z.md', 3),
+      record('python', 'content/en/reference/Z.md', 4),
+      {...python, value: 2},
+    ],
+  });
 });
 
 test('translation merge conflicts and invalid inputs leave target unchanged', async () => {
