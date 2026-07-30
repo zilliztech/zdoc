@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_grants() | Python | ORM"
 slug: /python/python/Role-list_grants
 sidebar_label: "list_grants()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists all privileges granted to the current role. | Python | ORM"
+description: "此操作列出授予当前角色的所有权限。 | Python | ORM"
 type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - list_grants()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_grants()
 
-This operation lists all privileges granted to the current role.
+此操作列出授予当前角色的所有权限。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_grants(
@@ -41,21 +41,21 @@ list_grants(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*str*)
 
-    The name of a database in which Zilliz Cloud carries out this operation.
+    Zilliz Cloud 在其中执行此操作的数据库名称。
 
-    If the specified database does not exist, an empty result returns.
+    如果指定的数据库不存在，则返回空结果。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *GrantInfo*
 
-**RETURNS:**
+**返回：**
 
-A **GrantInfo** object that contains a list of **GrantItem** objects.
+一个 **GrantInfo** 对象，其中包含 **GrantItem** 对象列表。
 
 ```python
 ├── GrantInfo
@@ -69,15 +69,15 @@ A **GrantInfo** object that contains a list of **GrantItem** objects.
 │           └── db_name
 ```
 
-The **GrantItem** objects contains the following fields:
+**GrantItem** 对象包含以下字段：
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Role
@@ -91,9 +91,9 @@ res = list_grants(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `get_replicas()`:
+以下操作与 `get_replicas()` 相关：
 
 - [add_user()](./Role-add_user)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "RemoteBulkWriter | Python"
 slug: /python/python/DataImport-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "A RemoteBulkWriter instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket. | Python"
+description: "RemoteBulkWriter 实例会将您的原始数据重写为 Zilliz Cloud 可理解的格式，并写入兼容 AWS S3 的 bucket 中。 | Python"
 type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-A **RemoteBulkWriter** instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket.
+**RemoteBulkWriter** 实例会将您的原始数据重写为 Zilliz Cloud 可理解的格式，并写入兼容 AWS S3 的 bucket 中。
 
 ```python
 class pymilvus.RemoteBulkWriter
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a **RemoteBulkWriter** object with a set of parameters, such as **schema**, **remote_path**, **connect_param** etc.
+使用一组参数（如 **schema**、**remote_path**、**connect_param** 等）构造一个 **RemoteBulkWriter** 对象。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A <strong>RemoteBulkWriter</strong> object intends to rewrite your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket.</p>
+**RemoteBulkWriter** 对象旨在将您的原始数据重写为 Zilliz Cloud 可理解的格式，并写入兼容 AWS S3 的 bucket 中。
 
 </Admonition>
 
@@ -66,44 +66,47 @@ writer = RemoteBulkWriter(
 
     **[REQUIRED]**
 
-    The schema of a target collection to which the rewritten data is to be imported.
+    目标集合的 schema，重写后的数据将被导入到该集合中。
 
 - **remote_path** (*str*) -
 
     **[REQUIRED]**
 
-    The path to the directory that is to hold the rewritten data.
+    用于存放重写后数据的目录路径。
 
 - **connect_param** (*[ConnectParam](./RemoteBulkWriter-S3ConnectParam)*) -
 
-    The parameters used to connect to a remote bucket.
+    用于连接远程 bucket 的参数。
 
 - **chunk_size** (*int*) -
 
-    The maximum size of a file segment.
+    单个文件分段的最大大小。
 
-    While rewriting your raw data, Zilliz Cloud splits your raw data into segments.
+    在重写您的原始数据时，Zilliz Cloud 会将原始数据拆分为多个分段。
 
-    The value defaults to 536,870,912 in bytes, which is 512 MB.
+    该值默认为 536,870,912 字节，即 512 MB。
 
-    <Admonition type="info" icon="📘" title="How does BulkWriter segment my data?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>The way <strong>BulkWriter</strong> segments your data varies with the target file type.</p>
-    <p>If the generated file exceeds the specified segment size, <strong>BulkWriter</strong> creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
+    BulkWriter 如何对我的数据进行分段？
+    
+        **BulkWriter** 对数据的分段方式会因目标文件类型而异。
+    
+        如果生成的文件超过指定的分段大小，**BulkWriter** 会创建多个文件，并按顺序编号命名，每个文件的大小都不会超过该分段大小。
 
     </Admonition>
 
-- **file_type** (*BulkFileType*) -
+- **file_type** (*[BulkFileType](./DataImport-BulkFileType)*) -
 
-    The type of the output file.
+    输出文件的类型。
 
-    The value defaults to **BulkFileType.PARQUET**. 
+    该值默认为 **BulkFileType.PARQUET**。 
 
-    Possible options are **BulkFileType.JSON**, **BulkFileType.PARQUET**, **BulkFileType.CSV**.
+    可选值包括 **BulkFileType.JSON**、**BulkFileType.PARQUET**、**BulkFileType.CSV**。
 
 - **config** (*dict*)
 
-    A dictionary specifying optional configurations for processing CSV files. This parameter is available only when **file_type** is set to **BulkFileType.CSV**. Example configuration:
+    一个字典，用于指定处理 CSV 文件时的可选配置。仅当 **file_type** 设置为 **BulkFileType.CSV** 时，此参数才可用。配置示例如下：
 
     ```python
     config={
@@ -112,13 +115,13 @@ writer = RemoteBulkWriter(
     }
     ```
 
-    -  **sep** (*string*)
+    - **sep** (*string*)
 
-        The delimiter of CSV file. The value must be a string of length 1, which defaults to `","`. The following strings are not allowed: `"\0"`, `"\n"`, `"\r"`, `"""`.
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*)
 
-        Special string representing null value. The value defaults to empty string: `""`.
+        表示空值的特殊字符串。默认值为空字符串：`""`。
 
 **RETURN TYPE:**
 
@@ -126,30 +129,30 @@ writer = RemoteBulkWriter(
 
 **RETURNS:**
 
-A **RemoteBulkWriter** object.
+一个 **RemoteBulkWriter** 对象。
 
 **EXCEPTIONS:**
 
 - **SchemaNotReadyException**
 
-    This exception will be raised when the provided schema is invalid.
+    当提供的 schema 无效时，将引发此异常。
 
-## Properties
+## Properties\{#properties}
 
 - **data_path** (*pathlib.PosixPath*) -
 
-    The path to the output directory.
+    输出目录的路径。
 
 - **batch_files** (*str*) -
 
-    A list of the generated file names.
+    已生成文件名的列表。
 
-## Classes
+## Classes\{#classes}
 
-The following are the classes of the `RemoteBulkWriter` class:
+以下是 `RemoteBulkWriter` 类的内部类：
 
 - ConnectParam
 
-## Methods
+## Methods\{#methods}
 
-The following are the methods of the `RemoteBulkWriter` class:
+以下是 `RemoteBulkWriter` 类的方法：

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "transfer_node() | Python | ORM"
 slug: /python/python/utility-transfer_node
 sidebar_label: "transfer_node()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation moves a specific number of query nodes from the source resource group to the target resource group. | Python | ORM"
+description: "此操作将指定数量的 query node 从源资源组移动到目标资源组。 | Python | ORM"
 type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_node()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # transfer_node()
 
-This operation moves a specific number of query nodes from the source resource group to the target resource group.
+此操作将指定数量的 query node 从源资源组移动到目标资源组。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 transfer_node(
@@ -45,86 +45,86 @@ transfer_node(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **source_group** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the source resource group from which the query nodes are moved.
+    要从中移出 query node 的源资源组名称。
 
-    Setting this to a resource group that does not exist results in a **MilvusException**.
+    如果将此参数设置为不存在的资源组，会导致 **MilvusException**。
 
 - **target_group** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the source resource group to which the query nodes are moved.
+    要将 query node 移入其中的目标资源组名称。
 
-    Setting this to a resource group that does not exist results in a **MilvusException**.
+    如果将此参数设置为不存在的资源组，会导致 **MilvusException**。
 
 - **num_nodes** (*int*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The number of query nodes to move between the source and target resource groups.
+    要在源资源组和目标资源组之间移动的 query node 数量。
 
-    Setting this to an integer greater than the actual number of query nodes in the current Zilliz Cloud cluster results in a **MilvusException**.
+    如果将此参数设置为大于当前 Zilliz Cloud 集群中 query node 实际数量的整数，会导致 **MilvusException**。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
-None.
+None。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-**EXAMPLE:**
+**示例：**
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# 连接到 YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
-# Get the number of query nodes in the source resource group
+# 获取源资源组中的 query node 数量
 res = utility.describe_resource_group(name="__default_resource_group")
 res.num_available_node # 1
 
-# Create a new resource group
+# 创建一个新的资源组
 utility.create_resource_group(
     name="rg_01",
     using="default"
 )
 
-# Get the number of query nodes in the target resource group
+# 获取目标资源组中的 query node 数量
 res = utility.describe_resource_group(name="rg_01")
 res.num_available_node # 0
 
-# Move the node from the default resource group to the new one
+# 将节点从默认资源组移动到新资源组
 utility.transfer_node(
     source_group="__default_resource_group",
     target_group="rg_01",
     num_nodes=1
 )
 
-# Get the number of query nodes in the source and target resource groups
+# 获取源资源组和目标资源组中的 query node 数量
 res = utility.describe_resource_group(name="__default_resource_group")
 res.num_available_node # 0
 
@@ -132,9 +132,9 @@ res = utility.describe_resource_group(name="rg_01")
 res.num_available_node # 1
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `transfer_node()`:
+以下操作与 `transfer_node()` 相关：
 
 - [create_resource_group()](./utility-create_resource_group)
 

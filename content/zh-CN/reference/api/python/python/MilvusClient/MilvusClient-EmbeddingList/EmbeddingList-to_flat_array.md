@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "to_flat_array() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-to_flat_array
 sidebar_label: "to_flat_array()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation converts the current EmbeddingList instance into a flattened NumPy array containing all vector embeddings concatenated. | Python | MilvusClient"
+description: "此操作将当前 **EmbeddingList** 实例转换为一个扁平化的 NumPy 数组，其中包含拼接后的所有向量嵌入。 | Python | MilvusClient"
 type: docx
 token: Z76PdoAJkoGaMPxG4CFcCmShnwh
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - to_flat_array()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,29 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # to_flat_array()
 
-This operation converts the current **EmbeddingList** instance into a flattened NumPy array containing all vector embeddings concatenated.
+此操作将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个扁平化的 NumPy 数组，其中包含拼接后的所有向量嵌入。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 to_flat_array()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *np.ndarray*
 
-**RETURNS:**
+**返回：**
 
-A flattened NumPy array containing all vector embeddings concatenated.
+一个扁平化的 NumPy 数组，其中包含拼接后的所有向量嵌入。
 
-**EXCEPTIONS:**
+**异常：**
 
-- **ValueError**:
+- **ValueError**：
 
-    This exception will be raised if the current **EmbeddingList** instance is empty.
+    如果当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例为空，则会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import EmbeddingList

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_user() | Python | MilvusClient"
 slug: /python/python/Authentication-drop_user
 sidebar_label: "drop_user()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a user. | Python | MilvusClient"
+description: "此操作用于删除一个用户。 | Python | MilvusClient"
 type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - drop_user()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop_user()
 
-This operation drops a user.
+此操作用于删除一个用户。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop_user(
@@ -42,46 +42,46 @@ drop_user(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **user_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the user to drop.
+    要删除的用户名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -92,7 +92,7 @@ client.create_user(user_name="user_1", password="P@ssw0rd")
 client.drop_user(user_name="user_1")
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [create_user()](./Authentication-create_user)
 

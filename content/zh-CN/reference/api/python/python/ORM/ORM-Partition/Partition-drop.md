@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop() | Python | ORM"
 slug: /python/python/Partition-drop
 sidebar_label: "drop()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation drops the current partition. | Python | ORM"
+description: "此操作会删除当前分区。 | Python | ORM"
 type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop()
 
-This operation drops the current partition. 
+此操作会删除当前[分区](./ORM-Partition)。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop(
@@ -41,27 +41,27 @@ drop(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This arises when any error occurs during this operation.
+    当此操作期间发生任何错误时，会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -87,9 +87,9 @@ partition = Partition(
 partition.drop()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `drop()`:
+以下操作与 `drop()` 相关：
 
 - [get_replicas()](./Partition-get_replicas)
 

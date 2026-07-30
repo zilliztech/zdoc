@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "commit() | Python"
 slug: /python/python/RemoteBulkWriter-commit
 sidebar_label: "commit()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation commits the appended data. | Python"
+description: "此操作会提交已追加的数据。 | Python"
 type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # commit()
 
-This operation commits the appended data.
+此操作会提交已追加的数据。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 commit(
@@ -41,17 +41,17 @@ commit(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **kwargs** -
 
     - **call_back** (function)
 
-        A callback function to call after this operation is completed.
+        此操作完成后要调用的回调函数。
 
-        The value defaults to **None**, indicating no callback is there to call. Use this to add post-commit actions.
+        该值默认为 **None**，表示没有可调用的回调函数。使用此参数可添加提交后的操作。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -92,7 +92,7 @@ def callback():
 writer.commit(call_back=callback)
 ```
 
-## Related classes and methods
+## 相关类和方法\{#related-classes-and-methods}
 
 - [append_row()](./RemoteBulkWriter-append_row)
 

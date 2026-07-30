@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "JinaEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-JinaEmbeddingFunction
 sidebar_label: "JinaEmbeddingFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "JinaEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Jina AI embedding models to support embedding retrieval in Milvus. | Python"
+description: "JinaEmbeddingFunction 是 pymilvus 中的一个类，使用 Jina AI embedding 模型将文本编码为向量，以支持在 Milvus 中进行向量检索。 | Python"
 type: docx
 token: U7NJd5eKAo0c1TxYZndcgPj2nlc
 sidebar_position: 3
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - 非结构化数据
+  - 向量数据库
   - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - JinaEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # JinaEmbeddingFunction
 
-JinaEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Jina AI embedding models to support embedding retrieval in Milvus.
+JinaEmbeddingFunction 是 pymilvus 中的一个类，使用 Jina AI embedding 模型将文本编码为向量，以支持在 Milvus 中进行向量检索。
 
 ```python
 pymilvus.model.dense.JinaEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a JinaEmbeddingFunction for common use cases.
+构造一个适用于常见用例的 JinaEmbeddingFunction。
 
 ```python
 JinaEmbeddingFunction(
@@ -49,21 +49,21 @@ JinaEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*)
 
-    The name of the Jina AI embedding model to use for encoding. You can specify any of the available Jina AI embedding model names, for example, `jina-embeddings-v2-base-en`, `jina-embeddings-v2-small-en`, etc. If you leave this parameter unspecified, `jina-embeddings-v2-base-en` will be used. For a list of available models, refer to [Jina Embeddings](https://jina.ai/embeddings/).
+    用于编码的 Jina AI embedding 模型名称。您可以指定任何可用的 Jina AI embedding 模型名称，例如 `jina-embeddings-v2-base-en`、`jina-embeddings-v2-small-en` 等。如果未指定此参数，将使用 `jina-embeddings-v2-base-en`。有关可用模型的列表，请参见 [Jina Embeddings](https://jina.ai/embeddings/)。
 
 - **api_key** (*string*)
 
-    The API key for accessing the Jina AI API.
+    用于访问 Jina AI API 的 API 密钥。
 
 - **kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [Embedding API](https://jina.ai/embeddings/).
+    允许在模型初始化时传入其他关键字参数。更多信息，请参见 [Embedding API](https://jina.ai/embeddings/)。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import JinaEmbeddingFunction

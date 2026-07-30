@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_documents() | Python"
 slug: /python/python/BGEM3EmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation takes in documents and encodes them into vector embeddings. | Python"
+description: "此操作接收文档并将其编码为向量嵌入。 | Python"
 type: docx
 token: Q0rYdTPkEoRZgUx99LCcfMDUnvh
 sidebar_position: 2
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # encode_documents()
 
-This operation takes in documents and encodes them into vector embeddings.
+此操作接收文档并将其编码为向量嵌入。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 encode_documents(
@@ -41,29 +41,29 @@ encode_documents(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **documents** (*List[str]*)
 
-    A list of string values, where each string represents a document that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Dict*
 
-**RETURNS:**
+**返回值：**
 
-A dictionary containing the document embeddings.
+一个包含文档嵌入的字典。
 
-When initializing [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction), if **return_dense**, **return_sparse**, and **return_colbert_vecs** are set to **True**, the returned dictionary will contain the keys **dense**, **sparse**, and **colbert_vecs**, with the corresponding dense embeddings, sparse word embeddings, and ColBERT vectors.
+在初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含键 **dense**、**sparse** 和 **colbert_vecs**，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
 
-**Exceptions:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the FlagEmbedding module is not installed.
+    当未安装 FlagEmbedding 模块时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

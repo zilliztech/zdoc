@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "FunctionType | Python | MilvusClient"
 slug: /python/python/Collections-FunctionType
 sidebar_label: "FunctionType"
-added_since: v2.5.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.5.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
+description: "这是一个提供以下常量的枚举。 | Python | MilvusClient"
 type: docx
-token: Y2prdJqs9oEOyax1S9acKecan8e
+token: IU0idURLBoJNlZxgkiUcQaOYnIf
 sidebar_position: 19
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,18 +31,18 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
--  BM25 = 1
+- BM25 = 1
 
-    Sets the function type to **BM25**. This indicates that Milvus will utilize the BM25 algorithm to generate sparse embeddings for a designated `VARCHAR` field.
+    将函数类型设置为 BM25。这表示 Milvus 将使用 BM25 算法为指定的 VARCHAR 或 TEXT 字段生成稀疏嵌入。
 
 - TEXTEMBEDDING = 2
 
-    Sets the function type to **TEXTEMBEDDING**. This indicates that Milvus will transform raw text data into vector embeddings by automatically calling external model providers.
+    将函数类型设置为 TEXTEMBEDDING。这表示 Milvus 将通过自动调用外部模型提供方，把 VARCHAR 或 TEXT 字段中的原始文本数据转换为向量嵌入。
 
 - RERANK = 3
 
-    Sets the function type to **RERANK**. This indicates that Milvus will use a ranker to rerank candidates for improved search performance.
+    将函数类型设置为 **RERANK**。这表示 Milvus 将使用排序器对候选结果进行重排序，以提升搜索性能。

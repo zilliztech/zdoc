@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_partitions() | Python | MilvusClient"
 slug: /python/python/Partitions-list_partitions
 sidebar_label: "list_partitions()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists the partitions in a specified collection. | Python | MilvusClient"
+description: "此操作列出指定集合中的分区。 | Python | MilvusClient"
 type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - list_partitions()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # list_partitions()
 
-This operation lists the partitions in a specified collection.
+此操作列出指定集合中的分区。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管集合。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 list_partitions(
@@ -42,40 +48,40 @@ list_partitions(
 ) -> list
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
+**返回：**
 
-A list of partition names.
+分区名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -96,7 +102,7 @@ client.list_partitions(
 # ['_default', 'partition_A']
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

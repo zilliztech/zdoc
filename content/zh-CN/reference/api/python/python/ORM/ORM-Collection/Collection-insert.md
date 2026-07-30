@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "insert() | Python | ORM"
 slug: /python/python/Collection-insert
 sidebar_label: "insert()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation inserts data into the current collection. | Python | ORM"
+description: "此操作将数据插入当前集合。 | Python | ORM"
 type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 19
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-This operation inserts data into the current collection.
+此操作将数据插入当前集合。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 insert(
@@ -43,19 +43,19 @@ insert(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **data** (*list* | *dict* | *pandas.DataFrame*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The data to insert into the current collection.
+    要插入到当前集合中的数据。
 
-    The data to insert should match the schema of the current collection. You can organize your data into:
+    要插入的数据应与当前集合的 schema 匹配。你可以将数据组织为：
 
-    - A list of columns
+    - 列表形式的列
 
-        Each column is a list of values of all entities in that column.
+        每一列都是该列中所有实体的值组成的列表。
 
         ```python
         data = [
@@ -70,9 +70,9 @@ insert(
         ]
         ```
 
-    - A **pandas.DataFrame**
+    - **pandas.DataFrame**
 
-        You can form a data frame in any way, as demonstrated in the **Example** section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+        你可以使用任意方式构造数据框，示例如[此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中 **Example** 部分所示。
 
         ```python
         data = pd.DataFrame({
@@ -87,9 +87,9 @@ insert(
         })
         ```
 
-    - A list of rows or just a row
+    - 行列表或单独的一行
 
-        Each row is a dictionary that represents an entity.
+        每一行都是一个表示实体的字典。
 
         ```python
         data = [
@@ -107,65 +107,65 @@ insert(
 
 - **partition_name** (*string* | *None*) -
 
-    The name of a partition in the current collection. 
+    当前集合中的某个分区名称。 
 
-    If specified, the data is to be inserted into the specified partition.
+    如果指定，则数据将被插入到指定分区中。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *MutationResult*
 
-**RETURNS:**
+**返回：**
 
-A **MutationResult** object that contains the following fields:
+一个 **MutationResult** 对象，包含以下字段：
 
 - **insert_count** (*int*)
 
-    The count of inserted entities.
+    已插入实体的数量。
 
 - **delete_count** (*int*)
 
-    The count of deleted entities.
+    已删除实体的数量。
 
 - **upsert_count** (*int*)
 
-    The count of upserted entities.
+    已 upsert 的实体数量。
 
 - **succ_count** (*int*)
 
-    The count of successful executions during this operation.
+    此操作中成功执行的次数。
 
 - **succ_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a successful operation.
+    从 0 开始的索引编号列表，其中每个编号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    The count of failed executions during this operation.
+    此操作中失败执行的次数。
 
 - **err_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a failed operation.
+    从 0 开始的索引编号列表，其中每个编号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    A list of primary keys for the inserted entities.
+    已插入实体的主键列表。
 
 - **timestamp** (*int*)
 
-    The timestamp at which this operation is completed.
+    此操作完成时的时间戳。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -228,9 +228,9 @@ res = collection.insert(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `insert()`:
+以下操作与 `insert()` 相关：
 
 - [delete()](./Collection-delete)
 

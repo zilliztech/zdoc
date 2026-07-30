@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "hybridts_to_datetime() | Python | ORM"
 slug: /python/python/utility-hybridts_to_datetime
 sidebar_label: "hybridts_to_datetime()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation converts a hybrid timestamp to a Python's datetime object. | Python | ORM"
+description: "此操作将混合时间戳转换为 Python 的 datetime 对象。 | Python | ORM"
 type: docx
 token: EBAFdcmoKoNJISxM8i1cqXzRn9H
 sidebar_position: 19
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_datetime()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # hybridts_to_datetime()
 
-This operation converts a hybrid timestamp to a Python's datetime object.
+此操作将混合时间戳转换为 Python 的 `datetime` 对象。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 hybridts_to_datetime(
@@ -42,26 +42,26 @@ hybridts_to_datetime(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **hybridts** (*int*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A hybrid timestamp.
+    一个混合时间戳。
 
 - **tz** (*datetime.timezone*) -
 
-    A **datetime.timezone** object.
+    一个 **datetime.timezone** 对象。
 
-**RETURNS:**
-A **datetime.datetime** object.
+**返回：**
+一个 **datetime.datetime** 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 N/A
 
-**EXAMPLE:**
+**示例：**
 
 ```python
 import time
@@ -74,9 +74,9 @@ ts = utility.mkts_from_unixtime(epoch_t)
 d = utility.hybridts_to_datetime(ts)
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `hybridts_to_datetime()`:
+以下操作与 `hybridts_to_datetime()` 相关：
 
 - [mkts_from_datetime()](./utility-mkts_from_datetime)
 

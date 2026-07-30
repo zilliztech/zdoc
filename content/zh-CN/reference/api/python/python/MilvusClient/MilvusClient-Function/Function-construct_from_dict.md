@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "construct_from_dict() | Python | MilvusClient"
 slug: /python/python/Function-construct_from_dict
 sidebar_label: "construct_from_dict()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation constructs a `Function` object from a dictionary representation. | Python | MilvusClient"
+description: "此操作从字典表示构造一个 `Function` 对象。 | Python | MilvusClient"
 type: docx
 token: Ulypd24byoDBOpxGnnJcbF3Nnkb
 sidebar_position: 2
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - 什么是向量数据库
+  - 向量数据库对比
+  - Faiss
+  - 视频搜索
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-This operation constructs a `Function` object from a dictionary representation.
+此操作从字典表示构造一个 `Function` 对象。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 construct_from_dict(
@@ -41,27 +41,27 @@ construct_from_dict(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - `raw` (*dict*)
 
-    A dictionary containing the raw data to construct the collection schema.
+    包含用于构造集合模式原始数据的字典。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*Function*
+*[Function](./MilvusClient-Function)*
 
-**RETURNS:**
+**返回：**
 
-A `Function` object.
+一个 `Function` 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - `MilvusException`
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Function  

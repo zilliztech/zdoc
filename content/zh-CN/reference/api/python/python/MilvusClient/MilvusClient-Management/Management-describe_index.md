@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_index() | Python | MilvusClient"
 slug: /python/python/Management-describe_index
 sidebar_label: "describe_index()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation describes a specific index. | Python | MilvusClient"
+description: "此操作描述指定索引。 | Python | MilvusClient"
 type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - describe_index()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # describe_index()
 
-This operation describes a specific index.
+此操作描述指定索引。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法仅适用于专用服务集群和按需计算。 
+
+- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 describe_index(
@@ -43,35 +63,35 @@ describe_index(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
-    Setting this to a non-existing collection results in **MilvusException**.
+    将其设置为不存在的集合会导致 **MilvusException**。
 
 - **index_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the index to describe.
+    要描述的索引名称。
 
-    Setting this to a non-existing collection results in **MilvusException**.
+    将其设置为不存在的集合会导致 **MilvusException**。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
-**RETURN TYPE:** 
+**返回类型：** 
 
 *Dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary that contains the details of the specified index.
+包含指定索引详细信息的字典。
 
 ```python
 {
@@ -82,63 +102,63 @@ A dictionary that contains the details of the specified index.
     'total_rows': 0,
     'indexed_rows': 0,
     'pending_index_rows': 0,
-    'state': 3,
+    'state': 'Finished',
     'field_name': 'my_vector',
     'index_name': 'my_vector'
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **index_type** (*str*) -
 
-    The algorithm that is used to build the index. 
+    用于构建索引的算法。 
 
-    On Zilliz Cloud, the value is always **AUTOINDEX**. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
+    在 Zilliz Cloud 上，该值始终为 **AUTOINDEX**。详情请参见 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **metric_type** (*str*) -
 
-    The algorithm that is used to measure similarity between vectors. Possible values are **IP**, **L2**, and **COSINE**.
+    用于衡量向量之间相似度的算法。可能的值包括 **IP**、**L2** 和 **COSINE**。
 
-    This is available only when the specified field is a vector field. 
+    仅当指定字段是向量字段时，此项可用。 
 
 - **total_rows** (*int*) -
 
-    The number of rows in the target field of this index.
+    此索引目标字段中的行数。
 
 - **indexed_rows** (*int*) -
 
-    The number of indexed rows in the target field of this index.
+    此索引目标字段中已建立索引的行数。
 
 - **pending_index_rows** (*int*) -
 
-    The number of rows to be indexed in the specified field.
+    指定字段中待建立索引的行数。
 
-- **state** (*int*) -
+- **state** (*str*) -
 
-    The state of the index-building process. Possible values are as follows:
+    索引构建过程的状态。
 
 - **field_name** (*str*) -
 
-    The name of the field on which the index has been created.
+    创建索引所基于的字段名称。
 
 - **index_name** (*str*) -
 
-    The name of the created index.
+    已创建索引的名称。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -212,7 +232,7 @@ client.describe_index(
 # }
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [add_index()](./Management-add_index)
 

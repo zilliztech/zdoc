@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_bulk_insert_tasks() | Python | ORM"
 slug: /python/python/utility-list_bulk_insert_tasks
 sidebar_label: "list_bulk_insert_tasks()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists all bulk-insert tasks. | Python | ORM"
+description: "此操作列出所有批量插入任务。 | Python | ORM"
 type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - list_bulk_insert_tasks()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_bulk_insert_tasks()
 
-This operation lists all bulk-insert tasks.
+此操作列出所有批量插入任务。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_bulk_insert_tasks(
@@ -44,36 +44,36 @@ list_bulk_insert_tasks(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **limit** (*int*) -
 
-    The number of tasks to return.
+    要返回的任务数量。
 
-    The value defaults to **0**, indicating that no limit applies. 
+    该值默认为 **0**，表示不设限制。 
 
 - **collection_name** (*list[str]*) -
 
-    A list of collection names.
+    集合名称列表。
 
-    The value defaults to **None**, indicating that all collections are included.
+    该值默认为 **None**，表示包含所有集合。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
-A list of **BulkInsertState** objects.
+**返回：**
+一个由 **[BulkInsertState](./utility-BulkInsertState)** 对象组成的列表。
 
 ```python
 ├── BulkInsertState
@@ -99,125 +99,125 @@ A list of **BulkInsertState** objects.
 
 - **task_id** (*int*)
 
-    A task ID returned by the **do_bulk_insert()** function.
+    由 **do_bulk_insert()** 函数返回的任务 ID。
 
 - **state** (*int*)
 
-    The state of the specified bulk_insert task in integers. Possible values are the following integers:
+    指定 bulk_insert 任务的整数状态。可能值如下：
 
-    - **0**: Indicates that the task is in a pending state
+    - **0**：表示任务处于待处理状态
 
-    - **1**: Indicates that the task failed.
+    - **1**：表示任务失败。
 
-    - **2**: Indicates that the task has already started.
+    - **2**：表示任务已开始。
 
-    - **5**: Indicates that the data has been persisted.
+    - **5**：表示数据已持久化。
 
-    - **6**: Indicates that the task has been completed.
+    - **6**：表示任务已完成。
 
-    - **7**: Indicates that the task failed and the data has been cleaned up.
+    - **7**：表示任务失败且数据已被清理。
 
-    - **100**: Indicates that the task is in an unknown state.
+    - **100**：表示任务处于未知状态。
 
 - **state_name** (*str*)
 
-    The state of the specified bulk_insert task in integers. Possible values are the following integers:
+    指定 bulk_insert 任务的整数状态。可能值为以下整数：
 
-    - **Pending**: Indicates that the task is in a pending state
+    - **Pending**：表示任务处于待处理状态
 
-    - **Failed**: Indicates that the task failed.
+    - **Failed**：表示任务失败。
 
-    - **Started**: Indicates that the task has already started.
+    - **Started**：表示任务已开始。
 
-    - **Persisted**: Indicates that the data has been persisted.
+    - **Persisted**：表示数据已持久化。
 
-    - **Completed**: Indicates that the task has been completed.
+    - **Completed**：表示任务已完成。
 
-    - **FailedAndCleaned**: Indicates that the task failed and the data has been cleaned up.
+    - **FailedAndCleaned**：表示任务失败且数据已被清理。
 
-    - **Unknown**: Indicates that the task is in an unknown state.
+    - **Unknown**：表示任务处于未知状态。
 
 - **row_count** (*int*)
 
-    The number of entities inserted in the current bulk-insert task.
+    当前批量插入任务中插入的实体数量。
 
 - **progress** (*int*) 
 
-    The progress of the current bulk-insert task.
+    当前批量插入任务的进度。
 
 - **infos** (*dict*)
 
-    A dictionary containing information about the current bulk-insert task. Possible keys are as follows:
+    包含当前批量插入任务信息的字典。可能的键如下：
 
     - **files** (*str*)
 
-        The names of the files involved in the current bulk-insert task in a comma-separated string.
+        当前批量插入任务中涉及的文件名称，以逗号分隔的字符串表示。
 
-    - **collection** (*str*)
+    - **[collection](./ORM-Collection)** (*str*)
 
-        The name of the target collection.
+        目标集合的名称。
 
-    - **partition** (*str*)
+    - **[partition](./ORM-Partition)** (*str*)
 
-        The name of the target partition.
+        目标分区的名称。
 
     - **failed_reason** (*str*)
 
-        The reason for any bulk-insert failures. If the task succeeds, this is an empty string.
+        批量插入失败的原因。如果任务成功，则该值为空字符串。
 
     - **progress_percent** (str)
 
-        The progress of the current bulk-insert task in percentage.
+        当前批量插入任务的百分比进度。
 
     - **persist_cost** (str)
 
-        The persistence cost of the current bulk-insert task.
+        当前批量插入任务的持久化耗时。
 
 - **ids** (*list*) 
 
-    The IDs of the inserted entities in a list.
+    以列表形式表示的已插入实体 ID。
 
 - **id_ranges** (*google._upb._message.RepeatedScalarContainer*)
 
-- The ID of the inserted entities in a range.
+- 以范围表示的已插入实体 ID。
 
 - **files** (str)
 
-    The names of the files involved in the current bulk-insert task in a comma-separated string.
+    当前批量插入任务中涉及的文件名称，以逗号分隔的字符串表示。
 
 - **create_timestamp** (int)
 
-    The timestamp at which the current bulk-insert task has been created.
+    当前批量插入任务的创建时间戳。
 
 - **create_time_str** (str)
 
-    The timestamp at which the current bulk-insert task has been created, in a human-readable string.
+    当前批量插入任务的创建时间戳，以人类可读的字符串形式表示。
 
 - **collection_name** (str)
 
-    The name of the target collection.
+    目标集合的名称。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # List all bulk-insert tasks
 res = utility.list_bulk_insert_tasks()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_bulk_insert_state()`:
+以下操作与 `list_bulk_insert_state()` 相关：
 
 - [BulkInsertState](./utility-BulkInsertState)
 

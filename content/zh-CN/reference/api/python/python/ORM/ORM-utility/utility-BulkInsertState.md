@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "BulkInsertState | Python | ORM"
 slug: /python/python/utility-BulkInsertState
 sidebar_label: "BulkInsertState"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This is an enumeration that provides the following constants. | Python | ORM"
+description: "这是一个提供以下常量的枚举。 | Python | ORM"
 type: docx
 token: Arn1dIKgwoISFoxT7xVc3UrBnAf
 sidebar_position: 2
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - BulkInsertState
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,34 +31,34 @@ import Admonition from '@theme/Admonition';
 
 # BulkInsertState
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - **ImportPending** = 0
 
-    Indicates that the bulk-insert task is pending.
+    表示批量插入任务正在等待中。
 
 - **ImportFailed** = 1
 
-    Indicates that the bulk-insert task failed.
+    表示批量插入任务失败。
 
 - **ImportStarted** = 2
 
-    Indicates that the bulk-insert task has started.
+    表示批量插入任务已开始。
 
 - **ImportPersisted** = 5
 
-    Indicates that the bulk-insert task has been persisted.
+    表示批量插入任务已持久化。
 
 - **ImportCompleted** = 6
 
-    Indicates that the bulk-insert task is completed.
+    表示批量插入任务已完成。
 
 - **ImportFailedAndCleaned** = 7
 
-    Indicates that the bulk-insert task failed with data cleaned.
+    表示批量插入任务失败且数据已清理。
 
 - **ImportUnknownState** = 100
 
-    Indicates that the bulk-insert task is in an unknown state.
+    表示批量插入任务处于未知状态。

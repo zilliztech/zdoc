@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "wait_for_loading_complete() | Python | ORM"
 slug: /python/python/utility-wait_for_loading_complete
 sidebar_label: "wait_for_loading_complete()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation blocks the current process until the specified collection has been loaded. | Python | ORM"
+description: "此操作会阻塞当前进程，直到指定集合已完成加载。 | Python | ORM"
 type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 44
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_loading_complete()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # wait_for_loading_complete()
 
-This operation blocks the current process until the specified collection has been loaded.
+此操作会阻塞当前进程，直到指定集合已完成加载。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 wait_for_loading_complete(
@@ -44,45 +44,45 @@ wait_for_loading_complete(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 **collection_name** (*str*) -
 
 - **partition_names** (*list[str]*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    If any partition names are specified, this operation blocks the current progress until the specified partitions have been loaded.
+    如果指定了任意分区名称，此操作会阻塞当前进程，直到指定分区已完成加载。
 
 - **using** (*string*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Get an existing collection
@@ -100,9 +100,9 @@ utility.wait_for_loading_complete(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `wait_for_loading_complete()`:
+以下操作与 `wait_for_loading_complete()` 相关：
 
 - [Partition](./ORM-Partition)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "remove_connection() | Python | ORM"
 slug: /python/python/Connections-remove_connection
 sidebar_label: "remove_connection()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation removes the connection from the registry by the given alias and disconnects if connected. | Python | ORM"
+description: "此操作根据给定的别名从注册表中移除连接，并在已连接时断开连接。 | Python | ORM"
 type: docx
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - 什么是向量数据库
+  - 什么是向量数据库
+  - 向量数据库对比
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - remove_connection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,37 +31,37 @@ import Admonition from '@theme/Admonition';
 
 # remove_connection()
 
-This operation removes the connection from the registry by the given alias and disconnects if connected.
+此操作根据给定的别名从注册表中移除连接，并在已连接时断开连接。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 remove_connection(alias: str)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **alias** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A connection alias
+    连接别名
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **ConnectionConfigException**
 
-    This exception will be raised when the connection configuration is invalid.
+    当连接配置无效时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections
@@ -69,9 +69,9 @@ from pymilvus import connections
 connections.remove_connection(alias="default")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `remove_connection()`:
+以下操作与 `remove_connection()` 相关：
 
 - [add_connection()](./Connections-add_connection)
 

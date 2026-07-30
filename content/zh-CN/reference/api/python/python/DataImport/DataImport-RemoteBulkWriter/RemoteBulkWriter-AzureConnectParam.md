@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "AzureConnectParam | Python"
 slug: /python/python/RemoteBulkWriter-AzureConnectParam
 sidebar_label: "AzureConnectParam"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "An AzureConnectParam instance sets connection parameters for a RemoteBulkWriter instance. | Python"
+description: "AzureConnectParam 实例为 RemoteBulkWriter 实例设置连接参数。 | Python"
 type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - AzureConnectParam
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,20 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # AzureConnectParam
 
-An **AzureConnectParam** instance sets connection parameters for a **RemoteBulkWriter** instance.
+**AzureConnectParam** 实例为 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 实例设置连接参数。
 
 ```python
 class pymilvus.RemoteBulkWriter.AzureConnectParam
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs an **AzureConnectParam** object by a set of parameters, such as **container_name**, **account_url**, **credential**, etc.
+使用一组参数（例如 **container_name**、**account_url**、**credential** 等）构造一个 **AzureConnectParam** 对象。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>An <strong>AzureConnectParam</strong> object defines the parameters necessary for Zilliz Cloud to connect to an Azure blob storage bucket.</p>
-<p>You need to create this object before initializing a <strong>RemoteBulkWriter</strong> object.</p>
+**AzureConnectParam** 对象定义了 Zilliz Cloud 连接到 Azure Blob Storage 存储桶所需的参数。
+
+您需要先创建此对象，然后才能初始化 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
 
 </Admonition>
 
@@ -65,31 +66,31 @@ connect_param = RemoteBulkWriter.AzureConnectParam(
 
 - **container_name** (*str*)
 
-    The name of the remote Azure blob storage container to connect to.
+    要连接的远程 Azure Blob Storage 容器名称。
 
 - **conn_str** (*str*)
 
-    A connection string to an Azure Storage account, which can be parsed to an **account_url** and a **credential**. To generate a connection string, read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string).
+    Azure Storage 账户的连接字符串，可解析为 **account_url** 和 **credential**。要生成连接字符串，请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string)。
 
 - **account_url** (*str*)
 
-    A string in format like `<i>http</i>s://<storage-account>.blob.core.windows.net`.
+    格式如 `https://<storage-account>.blob.core.windows.net` 的字符串。
 
-    Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) for more info.
+    更多信息请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview)。
 
 - **credential** (*str*)
 
-    Account access key for the account. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for more info.
+    账户的访问密钥。更多信息请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)。
 
 - **upload_chunk_size** (*int*)
 
-    If the blob size is larger than this value or unknown, the blob is uploaded in chunks by parallel connections. This parameter is passed to **max_single_put_size** of Azure. Read [this link](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload-python#specify-data-transfer-options-for-upload) for more.
+    如果 blob 大小大于该值或未知，则会通过并行连接以分块方式上传 blob。此参数会传递给 Azure 的 **max_single_put_size**。更多信息请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload-python#specify-data-transfer-options-for-upload)。
 
 - **upload_concurrency** (*int*)
 
-    The maximum number of parallel connections to use when uploading in chunks. 
+    分块上传时使用的最大并行连接数。
 
-    This parameter is passed to **max_concurrency** of Azure. Read [this link](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload-python#specify-data-transfer-options-for-upload) for more.
+    此参数会传递给 Azure 的 **max_concurrency**。更多信息请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload-python#specify-data-transfer-options-for-upload)。
 
 **RETURN TYPE:**
 
@@ -97,11 +98,11 @@ connect_param = RemoteBulkWriter.AzureConnectParam(
 
 **RETURNS:**
 
-An **AzureConnectParam** object.
+一个 **AzureConnectParam** 对象。
 
 **EXCEPTIONS:**
 
 - **Exception**
 
-    This exception will be raised if the connection fails.
+    如果连接失败，将引发此异常。
 

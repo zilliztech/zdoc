@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "remove_user() | Python | ORM"
 slug: /python/python/Role-remove_user
 sidebar_label: "remove_user()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role. | Python | ORM"
+description: "此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所授予的权限。 | Python | ORM"
 type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - remove_user()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # remove_user()
 
-This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role.
+此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所授予的权限。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 remove_user(
@@ -41,29 +41,29 @@ remove_user(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the user to remove from a role.
+    要从角色中移除的用户名。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Role
@@ -78,9 +78,9 @@ role.remove_user(username)
 users = role.get_users()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `add_user()`:
+以下操作与 `add_user()` 相关：
 
 - [add_user()](./Role-add_user)
 

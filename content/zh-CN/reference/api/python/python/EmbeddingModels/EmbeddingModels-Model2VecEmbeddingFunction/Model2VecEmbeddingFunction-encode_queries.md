@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_queries() | Python"
 slug: /python/python/Model2VecEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
 type: docx
 token: Px9Ydg6KSoNFV2xBumpcGBNqn8d
 sidebar_position: 2
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-This operation takes in a list of query strings and encodes each query into a vector embedding.
+此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 encode_queries(
@@ -41,27 +41,27 @@ encode_queries(
 ) -> List[np.array]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **queries** (*List[str]*)
 
-    A list of string values, where each string represents a query that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型会为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[np.array]*
 
-**RETURNS:**
+**返回值：**
 
-A list where each element is a NumPy array.
+一个列表，其中每个元素都是一个 NumPy 数组。
 
-**Exceptions:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the model2vec module is not installed.
+    当未安装 model2vec 模块时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

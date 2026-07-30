@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load_partitions() | Python | MilvusClient"
 slug: /python/python/Partitions-load_partitions
 sidebar_label: "load_partitions()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation loads a specific set of partitions in a specified collection into memory. | Python | MilvusClient"
+description: "此操作将指定 collection 中的一组特定 partition 加载到内存中。 | Python | MilvusClient"
 type: docx
 token: TMq5d6wFmoT8u3xwuruc8k6wnTg
 sidebar_position: 6
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - load_partitions()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # load_partitions()
 
-This operation loads a specific set of partitions in a specified collection into memory.
+此操作将指定 collection 中的一组特定 partition 加载到内存中。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管 collection。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 load_partitions(
@@ -43,56 +49,56 @@ load_partitions(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有 collection 的名称。
 
 - **partition_names** (*str | list[str]*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A list of the names of the partitions to load.
+    要加载的 partition 名称列表。
 
 - **priority** (*string*) -
 
-    The load priority of the current collection. The value may impact CPU usage during the load process. Possible values are `low` and `high`.
+    当前 collection 的加载优先级。该值可能会影响加载过程中的 CPU 使用率。可能的值为 `low` 和 `high`。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>A collection is in the loaded state only if any or all of its partitions are loaded.</p>
+只要其任意一个或全部 partition 已加载，collection 就处于已加载状态。
 
 </Admonition>
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -128,7 +134,7 @@ client.get_load_state(
 # {'state': <LoadState: Loaded>}
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

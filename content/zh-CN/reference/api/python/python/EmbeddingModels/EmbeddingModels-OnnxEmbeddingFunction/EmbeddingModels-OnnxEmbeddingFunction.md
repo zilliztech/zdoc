@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "OnnxEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-OnnxEmbeddingFunction
 sidebar_label: "OnnxEmbeddingFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "OnnxEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Open Neural Network Exchange (ONNX) embedding models to support embedding retrieval in Milvus. | Python"
+description: "OnnxEmbeddingFunction 是 pymilvus 中的一个类，使用 Open Neural Network Exchange (ONNX) 嵌入模型将文本编码为向量，以支持在 Milvus 中进行向量检索。 | Python"
 type: docx
 token: MVLRdU9nPonUeExs7ogctwZ1n4c
 sidebar_position: 3
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - OnnxEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # OnnxEmbeddingFunction
 
-OnnxEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Open Neural Network Exchange (ONNX) embedding models to support embedding retrieval in Milvus.
+OnnxEmbeddingFunction 是 pymilvus 中的一个类，使用 Open Neural Network Exchange (ONNX) 嵌入模型将文本编码为向量，以支持在 Milvus 中进行向量检索。
 
 ```python
 pymilvus.model.dense.OnnxEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs an OnnxEmbeddingFunction for common use cases.
+构造一个适用于常见用例的 OnnxEmbeddingFunction。
 
 ```python
 OnnxEmbeddingFunction(
@@ -48,17 +48,17 @@ OnnxEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*)
 
-    The repository ID on the Hugging Face Hub that contains the pre-trained ONNX model file. For example, in the provided code, it is set to `GPTCache/paraphrase-albert-onnx` by default. This repository should contain a compatible ONNX model for the desired natural language processing task, such as text classification, token classification, or feature extraction.
+    Hugging Face Hub 上包含预训练 ONNX 模型文件的仓库 ID。例如，在提供的代码中，其默认值为 `GPTCache/paraphrase-albert-onnx`。该仓库应包含与所需自然语言处理任务兼容的 ONNX 模型，例如文本分类、标记分类或特征提取。
 
 - **tokenizer_name** (*string*)
 
-    The repository ID on the Hugging Face Hub that contains the tokenizer configuration compatible with the specified ONNX model. In the provided code, it is set to `GPTCache/paraphrase-albert-small-v2` by default. The tokenizer handles text preprocessing, such as tokenization, padding, and encoding, ensuring compatibility with the ONNX model's input format. The tokenizer should be pre-trained and compatible with the ONNX model for the same task.
+    Hugging Face Hub 上包含与指定 ONNX 模型兼容的 tokenizer 配置的仓库 ID。在提供的代码中，其默认值为 `GPTCache/paraphrase-albert-small-v2`。tokenizer 负责文本预处理，例如分词、填充和编码，以确保与 ONNX 模型的输入格式兼容。该 tokenizer 应为预训练版本，并与用于同一任务的 ONNX 模型兼容。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import OnnxEmbeddingFunction

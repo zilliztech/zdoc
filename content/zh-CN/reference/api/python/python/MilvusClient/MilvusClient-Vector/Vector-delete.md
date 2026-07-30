@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "delete() | Python | MilvusClient"
 slug: /python/python/Vector-delete
 sidebar_label: "delete()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation deletes entities by their IDs or with a boolean expression. | Python | MilvusClient"
+description: "此操作通过实体 ID 或布尔表达式删除实体。 | Python | MilvusClient"
 type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-This operation deletes entities by their IDs or with a boolean expression.
+此操作通过实体 ID 或布尔表达式删除实体。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+外部集合不支持此操作。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 delete(
@@ -46,55 +52,55 @@ delete(
 ) -> dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **ids** (*list* | *str* | *int*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    A specific entity ID or a list of entity IDs.
+    特定实体 ID 或实体 ID 列表。
 
-    The value defaults to **None**, indicating that a scalar filtering condition applies. Setting both **ids** and **filter** results in a **ParamError** exception.
+    该值默认为 **None**，表示将应用标量过滤条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
 - **filter** (*str*) -
 
-    A scalar filtering condition to filter matching entities. 
+    用于筛选匹配实体的标量过滤条件。 
 
-    The value defaults to an empty string, indicating that no condition applies. Setting both **ids** and **filter** results in a **ParamError** exception.
+    该值默认为空字符串，表示不应用任何条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    你可以将此参数设置为空字符串以跳过标量过滤。有关构建标量过滤条件的信息，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。 
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Zilliz Cloud will return an error.</p>
+    使用过滤表达式删除实体时，请确保集合已被加载。否则，Zilliz Cloud 将返回错误。
 
     </Admonition>
 
 - **partition_name** (*str* | *""*) -
 
-    The name of the partition to delete entities from.
+    要从中删除实体的分区名称。
 
-    The value defaults to an empty string. If specified, entities will be deleted from the specified partition.
+    该值默认为空字符串。如果已指定，将从指定分区中删除实体。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回值：**
 
-A dictionary contains the number of deleted entities.
+一个包含已删除实体数量的字典。
 
 ```python
 {
@@ -102,28 +108,28 @@ A dictionary contains the number of deleted entities.
 }
 ```
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **ParamError**
 
-    This exception will be raised when both **ids** and **filter** are specified.
+    当同时指定 **ids** 和 **filter** 时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    This exception will be raised when a parameter value doesn't match the required data type.
+    当参数值与所需的数据类型不匹配时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -167,16 +173,4 @@ client.delete(
 
 # {'delete_count': 2}
 ```
-
-## Related methods
-
-- [get()](./Vector-get)
-
-- [insert()](./Vector-insert)
-
-- [query()](./Vector-query)
-
-- [search()](./Vector-search)
-
-- [upsert()](./Vector-upsert)
 

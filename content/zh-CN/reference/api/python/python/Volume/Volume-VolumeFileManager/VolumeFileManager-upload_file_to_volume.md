@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "upload_file_to_volume() | Python"
 slug: /python/python/VolumeFileManager-upload_file_to_volume
 sidebar_label: "upload_file_to_volume()"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation uploads the local file at the specified source path to the target file path within the specified volume. | Python"
+description: "此操作将指定源路径处的本地文件上传到指定托管 volume 中的目标文件路径。 | Python"
 type: docx
 token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
 sidebar_position: 1
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - upload_file_to_volume()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-This operation uploads the local file at the specified source path to the target file path within the specified volume.
+此操作将指定源路径处的本地文件上传到指定托管 volume 中的目标文件路径。
 
-## Request Syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此功能仅适用于托管 volume。外部 volume 为只读。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 upload_file_to_volume(
@@ -42,27 +48,27 @@ upload_file_to_volume(
 )
 ```
 
-**PARAMETERS**
+**参数**
 
 - **source_file_path** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The path to the local data file to be uploaded to the specified volume.
+    要上传到指定 volume 的本地数据文件路径。
 
 - **target_volume_path** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The path to the data file within the specified volume after this operation.
+    此操作完成后，指定 volume 中数据文件的路径。
 
-**RETURN TYPE**
+**返回类型**
 
-An object.
+一个对象。
 
-**RETURNS**
+**返回值**
 
-An object with the following data structure:
+一个具有以下数据结构的对象：
 
 ```json
 {
@@ -73,23 +79,23 @@ An object with the following data structure:
 
 - **volumeName** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the target volume of this operation.
+    此操作的目标 volume 名称。
 
 - **path** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The path to the data file within the specified volume after this operation.
+    此操作完成后，指定 volume 中数据文件的路径。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
 
 volume_file_manager = VolumeFileManager(
-    cloud_endpoint="https://api.cloud.zilliz.com.cn",
+    cloud_endpoint="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
     volume_name="my_volume"
 )

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "upsert() | Python | MilvusClient"
 slug: /python/python/Vector-upsert
 sidebar_label: "upsert()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation inserts or updates data in a specific collection. | Python | MilvusClient"
+description: "此操作会在特定集合中插入或更新数据。 | Python | MilvusClient"
 type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-This operation inserts or updates data in a specific collection.
+此操作会在特定集合中插入或更新数据。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+外部集合不支持此操作。
+
+</Admonition>
+
+## Request syntax\{#request-syntax}
 
 ```python
 upsert(
@@ -51,19 +57,19 @@ upsert(
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **data** (*dict* | *list[dict]*) -
 
     **[REQUIRED]**
 
-    The data to insert or update into the current collection.
+    要插入到当前集合或在当前集合中更新的数据。
 
-    The data to insert or update should be a dictionary that matches the schema of the current collection or a list of such dictionaries. 
+    要插入或更新的数据应为与当前集合 schema 匹配的字典，或由此类字典组成的列表。
 
-    To perform an update, you are advised first to retrieve the target entity from the collection, modify the values of any relevant fields, and then save it back to the collection. 
+    要执行更新，建议先从集合中检索目标实体，修改相关字段的值，然后再将其保存回集合中。
 
-    The following code assumes that the schema of the current collection has three fields named **id**, **vector** ,and **color**. The `id` field is the primary field, the `vector` field is a field to hold 5-dimensional vector embeddings, and the `color` field is a scalar field holding strings.
+    以下代码假设当前集合的 schema 中有三个字段，分别名为 **id**、**vector** 和 **color**。`id` 字段是主字段，`vector` 字段用于存储 5 维向量嵌入，`color` 字段是用于存储字符串的标量字段。
 
     ```python
     # A dictionary, or
@@ -108,13 +114,13 @@ upsert(
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **partition_name** (*string* | *None*) -
 
-    The name of a partition in the current collection. 
+    当前集合中某个分区的名称。
 
-    If specified, the data is to be inserted or updated in the specified partition.
+    如果指定，则数据将被插入或更新到指定分区中。
 
 **RETURN TYPE:**
 
@@ -122,7 +128,7 @@ upsert(
 
 **RETURNS:**
 
-A dictionary contains information about the number of inserted or updated entities.
+一个包含已插入或已更新实体数量信息的字典。
 
 ```python
 {
@@ -135,16 +141,16 @@ A dictionary contains information about the number of inserted or updated entiti
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_collection() | Python | MilvusClient"
 slug: /python/python/Collections-create_collection
 sidebar_label: "create_collection()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation supports creating a collection in two distinct ways quick setup or custom setup. | Python | MilvusClient"
+description: "此操作支持以两种不同的方式创建集合：快速设置或自定义设置。 | Python | MilvusClient"
 type: docx
-token: H7eOdq9hOo7so7xes5LchIVwnrb
+token: NbYidGUPcokra9xJ6IAcUNLEn9f
 sidebar_position: 5
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # create_collection()
 
-This operation supports creating a collection in two distinct ways: quick setup or custom setup. 
+此操作支持以两种不同的方式创建集合：快速设置或自定义设置。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法适用于专有服务集群和按需计算。
+
+- 对于服务集群中的集合，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的集合，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 create_collection(
@@ -51,195 +71,210 @@ create_collection(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the collection to create.
+    要创建的集合名称。
 
 - **dimension** (*int*) -
 
-    The dimension of the collection field to hold vector embeddings.
+    集合中用于存储向量嵌入的字段维度。
 
-    The value is usually determined by the model you use to generate vector embeddings and should be an integer greater than 1.
+    该值通常由你用于生成向量嵌入的模型决定，并且应为大于 1 的整数。
 
-    This parameter is designed for the quick setup of a collection and will be ignored if **schema** is not **None** and a field in the schema has its **dim** set to a positive integer.
+    此参数用于集合的快速设置；如果 **schema** 不为 **None**，且 schema 中某个字段的 **dim** 被设置为正整数，则会忽略此参数。
 
 - **primary_field_name** (*str*) -
 
-    The name of the primary field in this collection.
+    此集合中主字段的名称。
 
-    The value defaults to **id**. You can use another name you see fit. Skip this parameter if you need to set up a collection with a customized schema.
+    默认值为 **id**。你也可以根据需要使用其他名称。如果你需要使用自定义 schema 创建集合，请跳过此参数。
 
-    This parameter is designed for the quick setup of a collection and will ignored if the **schema** is not **None** and a field in the schema has its **is_primary** set to **True**.
+    此参数用于集合的快速设置；如果 **schema** 不为 **None**，且 schema 中某个字段的 **is_primary** 被设置为 **True**，则会忽略此参数。
 
 - **id_type** (*[DataType](./Collections-DataType)*) -
 
-    The data type of the primary field in this collection.
+    此集合中主字段的数据类型。
 
-    The value defaults to **DataType.INT64**. Possible values are **DataType.INT64** and **DataType.VARCHAR**. 
+    默认值为 **DataType.INT64**。可选值包括 **DataType.INT64** 和 **DataType.VARCHAR**。
 
-    This parameter is designed for the quick setup of a collection and will be ignored if **schema** is not **None**.
+    此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
 - **vector_field_name** (*str*) -
 
-    The name of the collection field to hold vector embeddings.
+    集合中用于存储向量嵌入的字段名称。
 
-    The value defaults to **vector**. You can use another name you see fit. 
+    默认值为 **vector**。你也可以根据需要使用其他名称。
 
-    This parameter is designed for the quick setup of a collection and will be ignored if **schema** is not **None**.
+    此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
 - **metric_type** (*str*) -
 
-    The algorithm used for this collection to measure similarities between vector embeddings.
+    此集合用于衡量向量嵌入之间相似性的算法。
 
-    The value defaults to **COSINE**. Possible values are **L2**, **IP**, and **COSINE**. For details on these metric types, refer to [Similarity Metrics Explained](/docs/search-metrics-explained).
+    默认值为 **COSINE**。可选值包括 **L2**、**IP** 和 **COSINE**。有关这些度量类型的详细信息，请参阅 [Similarity Metrics Explained](/docs/search-metrics-explained)。
 
-    This parameter is designed for the quick setup of a collection and will be ignored if **schema** is not **None**.
+    此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
 - **auto_id** (*bool*) -
 
-    Whether the primary field automatically increments upon data insertions into this collection.
+    向此集合插入数据时，主字段是否自动递增。
 
-    The value defaults to **False**. Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors. The auto-generated IDs have a fixed length and cannot be altered.
+    默认值为 **False**。将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主字段。自动生成的 ID 长度固定，无法更改。
 
-    This parameter is designed for the quick setup of a collection and will be ignored if **schema** is not **None**.
+    此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    此操作的超时时长。将其设置为 **None** 表示该操作会在任意响应返回或发生错误时超时。
 
-- **schema** (*CollectionSchema* | *None*)
+- **schema** (*[CollectionSchema](./MilvusClient-CollectionSchema)* | *None*)
 
-    The schema of this collection.
+    此集合的 schema。
 
-    Setting this to **None** indicates this collection will be created in a quick setup manner. 
+    将其设置为 **None** 表示将以快速设置方式创建此集合。
 
-    To set up a collection with a customized schema, you need to create a **CollectionSchema** object and reference it here. In this case, Zilliz Cloud ignores all other schema-related settings carried in the request.
+    如需使用自定义 schema 创建集合，你需要先创建一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象，并在此处引用它。在这种情况下，Zilliz Cloud 会忽略请求中携带的所有其他与 schema 相关的设置。
 
 - **index_params** (*IndexParams* | *None*)
 
-    The parameters for building the index on the vector field in this collection. To set up a collection with a customized schema and automatically load the collection to memory, you need to create an **IndexParams** object and reference it here. 
+    为此集合中的向量字段构建索引所需的参数。若要使用自定义 schema 创建集合并自动将集合加载到内存中，你需要创建一个 **IndexParams** 对象，并在此处引用它。
 
-    You should at least add an index for the vector field in this collection. You can also skip this parameter if you prefer to set up the index parameters later on.
+    你至少应为此集合中的向量字段添加一个索引。如果你希望稍后再设置索引参数，也可以跳过此参数。
 
 - **kwargs** -
 
     - **enable_dynamic_field** (*bool*) -
 
-        Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
+        是否使用名为 **&#36;meta** 的保留 JSON 字段，以键值对形式存储未定义字段及其值。
 
-        The value defaults to **True**, indicating that the **&#36;meta** field is used.
+        默认值为 **True**，表示使用 **&#36;meta** 字段。
 
-        This parameter is ignored if **schema** is not **None**.
+        如果 **schema** 不为 **None**，则会忽略此参数。
 
     - **num_shards** (*int*) -
 
-        The number of shards to create along with the creation of this collection. 
+        创建此集合时一并创建的 shard 数量。
 
-        The value defaults to **1**, indicating that one shard is to be created along with this collection.
+        默认值为 **1**，表示创建此集合时会同时创建 1 个 shard。
 
-        <Admonition type="info" icon="📘" title="What is sharding?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
-        <p>By default, a collection contains one shard.</p>
+        什么是分片？
+        
+                分片是指将写操作分发到不同节点，以充分利用 Milvus 集群在数据写入方面的并行计算能力。
+        
+                默认情况下，一个集合包含一个 shard。
 
         </Admonition>
 
     - **partition_key_field** (*str*) -
 
-        The name of the field that serves as the partition key. Each collection can have one partition key.
+        用作分区键的字段名称。每个集合可以有一个分区键。
 
-        This parameter is ignored if **schema** is not **None** and a field in the schema has its **is_parition_key** set to **True**.
+        如果 **schema** 不为 **None**，且 schema 中某个字段的 **is_parition_key** 被设置为 **True**，则会忽略此参数。
 
-        <Admonition type="info" icon="📘" title="What is the partition key?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.</p>
-        <p>When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.</p>
-        <p>For details, refer to <a href="/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
+        什么是分区键？
+        
+                为了支持面向分区的多租户，你可以将某个字段设置为分区键字段，以便 Zilliz Cloud 对该字段值进行哈希，并据此将实体分布到指定数量的分区中。
+        
+                检索实体时，请确保在布尔表达式中使用分区键字段进行过滤，以筛选出具有特定字段值的实体。
+        
+                更多详情，请参阅 [Use Partition Key](/docs/use-partition-key) 和 [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md)。
 
         </Admonition>
 
     - **partition_key_isolation** (*bool*) -
 
-        Whether to enable partition key isolation to improve further search performance in scalar filtering on the partition key. For details, refer to [Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation).
+        是否启用分区键隔离，以进一步提升按分区键进行标量过滤时的搜索性能。详情请参阅 [Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation)。
 
     - **num_partitions** (*int*) -
 
-        The number of partitions to create for the partition key feature.
+        为分区键功能创建的分区数量。
 
-        The value defaults to **64**, indicating that 64 partitions are to be created along with this collection. This parameter applies when **partition_key_field** is set to the name of a field.
+        默认值为 **64**，表示创建此集合时会同时创建 64 个分区。此参数在 **partition_key_field** 被设置为某个字段名称时生效。
 
     - **consistency_level** (*int* | *str*)
 
-        The consistency level of the target collection.
+        目标集合的一致性级别。
 
-        The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**).
+        默认值为 **Bounded**（**2**），可选项包括 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        什么是一致性级别？
+        
+                在分布式数据库中，一致性特指这样一种属性：在给定时间进行写入或读取数据时，保证每个节点或副本看到的数据视图相同。
+        
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
+        
+                你可以在执行向量相似性搜索或查询时灵活调整一致性级别，使其更适合你的应用场景。
 
         </Admonition>
 
     - **properties** (*dict*) -
 
-        Additional properties in key-value pairs.
+        以键值对形式提供的附加属性。
 
         - **collection.ttl.seconds** (*int*)
 
-            The time-to-live (TTL) of a collection in seconds.
+            集合级别的生存时间（TTL），单位为秒。
+
+        - **ttl_field** (*str*)
+
+            用作实体级 TTL 过期逻辑时间戳的 `TIMESTAMPTZ` 字段名称。
 
         - **mmap.enabled** (*bool*) -
 
-            Whether to enable mmap for the raw data and indexes of all fields in the collection.
+            是否为集合中所有字段的原始数据和索引启用 mmap。
 
         - **partitionkey.isolation** (bool) -
 
-            Whether to enable partition key isolation. For details, refer to [Use Partition Key](/docs/use-partition-key).
+            是否启用分区键隔离。详情请参阅 [Use Partition Key](/docs/use-partition-key)。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **PrimaryKeyException**
 
-    This exception will be raised if the data type of the primary field is not an integer or a string.
+    如果主字段的数据类型不是整数或字符串，则会引发此异常。
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    如果此操作期间发生任何错误，则会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
-### Set up a Milvus client
+### 设置 Milvus client\{#set-up-a-milvus-client}
 
 ```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 ```
 
-### Create a collection
+### 创建集合\{#create-a-collection}
 
-You can choose between a quick setup or a customized setup as follows:
+你可以按如下方式选择快速设置或自定义设置：
 
-- **Quick setup**
+- **快速设置**
 
-    The quick setup collection has two mandatory fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
+    快速设置创建的集合包含两个必需字段：主字段和向量字段。它还允许在动态字段中以键值对形式插入未定义字段及其值。
 
     ```python
     client.create_collection(
@@ -248,17 +283,17 @@ You can choose between a quick setup or a customized setup as follows:
     )
     ```
 
-    In the above setup, 
+    在上述设置中：
 
-    - The primary and vector fields use their default names (**id** and **vector**).
+    - 主字段和向量字段使用默认名称（**id** 和 **vector**）。
 
-    - The metric type is also set to its default value (**COSINE**).
+    - 度量类型也设置为默认值（**COSINE**）。
 
-    - The primary field accepts integers and does not automatically increments.
+    - 主字段接受整数，且不会自动递增。
 
-    - The reserved JSON field named **&#36;meta** is used to store non-schema-defined fields and their values.
+    - 名为 **&#36;meta** 的保留 JSON 字段用于存储 schema 中未定义的字段及其值。
 
-    You can modify the names of the primary and vector fields and change the metric type. Additionally, the primary field can be set to increment automatically.
+    你可以修改主字段和向量字段的名称，并更改度量类型。此外，还可以将主字段设置为自动递增。
 
     ```python
     client.create_collection(
@@ -273,11 +308,11 @@ You can choose between a quick setup or a customized setup as follows:
     )
     ```
 
-    In the above code, the collection will be created, indexed, and loaded into memory.
+    在上述代码中，集合将被创建、建立索引并加载到内存中。
 
-- **Customized setup with index parameters**
+- **带索引参数的自定义设置**
 
-    For a customized setup, create the schema and index parameters beforehand. 
+    对于自定义设置，请预先创建 schema 和索引参数。
 
     ```python
     from pymilvus import MilvusClient, DataType
@@ -316,9 +351,9 @@ You can choose between a quick setup or a customized setup as follows:
     )
     ```
 
-    In the above code, the collection will be created, indexed, and loaded into memory.
+    在上述代码中，集合将被创建、建立索引并加载到内存中。
 
-- **Customized setup without index parameters**
+- **不带索引参数的自定义设置**
 
     ```python
     from pymilvus import MilvusClient, DataType
@@ -340,4 +375,84 @@ You can choose between a quick setup or a customized setup as follows:
     )
     ```
 
-    In the above code, the collection will also be created. However, without `index_param`, data in the collection will not be indexed and loaded into memory.
+    在上述代码中，集合同样会被创建。但是，如果没有 `index_param`，集合中的数据不会被建立索引，也不会加载到内存中。
+
+- **创建外部集合**
+
+    ```python
+    from pymilvus import MilvusClient, DataType
+    
+    # connect the database
+    client = MilvusClient(
+        uri="https://{project-id}.{region}.api.zillizcloud.com",
+        token="YOUR_API_KEY"
+    )
+    
+    schema = MilvusClient.create_schema(
+        external_source='volume://my_volume/path/to/a/folder/',
+        external_spec='{"format": "parquet"}'
+    )
+    
+    schema.add_field(
+        field_name="product_id",
+        datatype=DataType.INT64,
+        # highlight-next
+        external_field="id" # field name in the external data file
+    )
+    schema.add_field(
+        field_name="product_name",
+        datatype=DataType.VARCHAR,
+        max_length=512,
+        # highlight-next
+        external_field="name"
+    )
+    schema.add_field(
+        field_name="embedding",
+        datatype=DataType.FLOAT_VECTOR,
+        dim=768,
+        # highlight-next
+        external_field="vector"
+    )
+    
+    client.use_database(
+        db_name="my_database"
+    )
+    # create the collection
+    client.create_collection(
+        collection_name="test_collection",
+        schema=schema
+    )
+    
+    index_params = client.prepare_index_params()
+    # Add indexes
+    index_params.add_index(
+        field_name="embedding",
+        index_type="AUTOINDEX",
+        metric_type="COSINE"
+    )
+    index_params.add_index(
+        field_name="product_name",
+        index_type="AUTOINDEX"
+    )
+    client.create_index(
+        db_name="my_database",
+        collection_name="test_collection",
+        index_params=index_params
+    )
+    
+    job_id = client.refresh_external_collection(
+        db_name="my_database",
+        collection_name="test_collection"
+    )
+    while True:
+        progress = client.get_refresh_external_collection_progress(job_id=job_id)
+        print(f"  {progress.state}: {progress.progress}%")
+        if progress.state == "RefreshCompleted":
+            elapsed = progress.end_time - progress.start_time
+            print(f"  Completed in {elapsed}ms")
+            break
+        elif progress.state == "RefreshFailed":
+            print(f"  Failed: {progress.reason}")
+            break
+        time.sleep(2)
+    ```

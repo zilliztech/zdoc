@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_connections() | Python | ORM"
 slug: /python/python/Connections-list_connections
 sidebar_label: "list_connections()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation returns a list of all connection names and handler objects. | Python | ORM"
+description: "此操作返回所有连接名称和处理程序对象的列表。 | Python | ORM"
 type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_connections()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,37 +31,37 @@ import Admonition from '@theme/Admonition';
 
 # list_connections()
 
-This operation returns a list of all connection names and handler objects.
+此操作返回所有连接名称和处理程序对象的列表。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_connections()
 ```
 
-**PARAMETERS:**
+**参数：**
 
-None
+无
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List*
 
-**RETURNS:**
+**返回值：**
 
-A list of all connection names and handler objects.
+所有连接名称和处理程序对象的列表。
 
-**EXCEPTIONS:**
+**异常：**
 
-None
+无
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections
 
 connections.connect(
-    uri='https://in01-**************.ali-cn-hangzhou.zillizcloud.com:19531',
+    uri='https://in01-**************.aws-us-west-2.vectordb-uat3.zillizcloud.com:19531',
     token='admin:zilliz@123'
 )
 connections.list_connections()
@@ -70,9 +70,9 @@ connections.list_connections()
 # [('default', <pymilvus.client.grpc_handler.GrpcHandler at 0x14713b940>)]
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_connections()`:
+以下操作与 `list_connections()` 相关：
 
 - [add_connection()](./Connections-add_connection)
 

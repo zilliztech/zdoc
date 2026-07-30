@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_collections() | Python | ORM"
 slug: /python/python/utility-list_collections
 sidebar_label: "list_collections()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists all collections in the database used in the current connection. | Python | ORM"
+description: "此操作会列出当前连接所使用数据库中的所有集合。 | Python | ORM"
 type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_collections()
 
-This operation lists all collections in the database used in the current connection.
+此操作会列出当前连接所使用数据库中的所有集合。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_collections(
@@ -42,32 +42,32 @@ list_collections(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
-A list of collection names.
+**返回：**
+集合名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -77,9 +77,9 @@ connections.connect()
 utility.list_collections()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_collections()`:
+以下操作与 `list_collections()` 相关：
 
 - [drop_collection()](./utility-drop_collection)
 

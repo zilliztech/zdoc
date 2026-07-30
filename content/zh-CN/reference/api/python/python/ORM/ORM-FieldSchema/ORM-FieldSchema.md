@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "FieldSchema | Python | ORM"
 slug: /python/python/ORM-FieldSchema
 sidebar_label: "FieldSchema"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Python | ORM"
+description: "FieldSchema 实例用于定义集合中特定字段的数据类型及其相关属性。 | Python | ORM"
 type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-A **FieldSchema** instance defines the data type and related attributes of a specific field in a collection.
+**FieldSchema** 实例用于定义集合中特定字段的数据类型及其相关属性。
 
 ```python
 class pymilvus.FieldSchema
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs the schema of a field by defining the field name, data type, and other parameters.
+通过定义字段名称、数据类型和其他参数来构造字段的 schema。
 
 ```python
 FieldSchema(
@@ -55,69 +55,73 @@ FieldSchema(
 
     **[REQUIRED]**
 
-    Name of the field.
+    字段名称。
 
 - **dtype** (*[DataType](./Collections-DataType)*) -
 
     **[REQUIRED]**
 
-    Data type of the field.
+    字段的数据类型。
 
-    You can choose from the following options when selecting a data type for different fields:
+    为不同字段选择数据类型时，可以从以下选项中进行选择：
 
-    - Primary key field: Use **DataType.INT64** or **DataType.VARCHAR**.
+    - 主键字段：使用 **DataType.INT64** 或 **DataType.VARCHAR**。
 
-    - Scalar fields: Choose from a variety of options, including **DataType.BOOL**, **DataType.INT8**, **DataType.INT16**, **DataType.INT32**, **DataType.INT64**, **DataType.FLOAT**, **DataType.DOUBLE**, **DataType.VARCHAR**, **DataType.JSON**, and **DataType.ARRAY**.
+    - 标量字段：可从多种选项中选择，包括 **DataType.BOOL**、**DataType.INT8**、**DataType.INT16**、**DataType.INT32**、**DataType.INT64**、**DataType.FLOAT**、**DataType.DOUBLE**、**DataType.VARCHAR**、**DataType.JSON** 和 **DataType.ARRAY**。
 
-    - Vector fields: Select **DataType.BINARY_VECTOR** or **DataType.FLOAT_VECTOR**.
+    - 向量字段：选择 **DataType.BINARY_VECTOR** 或 **DataType.FLOAT_VECTOR**。
 
 - **description** (*string*) -
 
-    Description of the field.
+    字段的描述。
 
 - **kwargs** -
 
     - **is_primary** (*bool*)
 
-        Whether the current field is the primary field.
+        当前字段是否为主字段。
 
-        Setting this to **True** makes the current field the primary field.
+        将其设置为 **True** 会使当前字段成为主字段。
 
-        As an alternative, you can set **primary_field** when creating a **CollectionSchema** object.
+        或者，也可以在创建 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象时设置 **primary_field**。
 
     - **auto_id** (*bool*)
 
-        Whether allows the primary field to automatically increment.
+        是否允许主字段自动递增。
 
-        Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+        将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主字段。
 
-        Set this parameter in the field with `is_primary` set to `True`.
+        请在 `is_primary` 设置为 `True` 的字段中设置此参数。
 
     - **is_partition_key** (*bool*) 
 
-        Whether the current field serves as the partition key.
+        当前字段是否作为分区键。
 
-        Setting this to **True** makes the current field serve as the partition key. In this case, Zilliz Cloud manages all partitions in the current collection.
+        将其设置为 **True** 会使当前字段作为分区键。在这种情况下，Zilliz Cloud 会管理当前集合中的所有分区。
 
-        <Admonition type="info" icon="📘" title="What is a partition key?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
-        <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
-        <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong>CollectionSchema</strong> object.</p>
+        什么是分区键？
+        
+                一旦某个字段被指定为分区键，Zilliz Cloud 会根据该字段中的每个唯一值自动创建分区，并将实体相应地保存到这些分区中。
+        
+                当你需要基于某个特定键实现数据隔离时，这尤其有用，例如面向分区的多租户。
+        
+                或者，也可以在创建 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象时设置 **partition_key_field**。
 
         </Admonition>
 
     - **max_length** (*int*)
 
-        The maximum number of characters a value should contain.
+        值可包含的最大字符数。
 
-        This is required if **dtype** of this field is to **DataType.VARCHAR**.
+        如果此字段的 **dtype** 为 **DataType.VARCHAR**，则此项为必需。
 
     - **dim** (*int*)
 
-        The number of dimensions a value should have.
+        值应具有的维度数量。
 
-        This is required if **dtype** of this field is set to **DataType.FLOAT_VECTOR**.
+        如果此字段的 **dtype** 设置为 **DataType.FLOAT_VECTOR**，则此项为必需。
 
 **RETURN TYPE:**
 
@@ -125,34 +129,34 @@ FieldSchema(
 
 **RETURNS:**
 
-A **FieldSchema** object.
+一个 **FieldSchema** 对象。
 
 **Exceptions:**
 
 - **AutoIDException**
 
-    This exception will be raised if the value of the **auto_id** parameter is not a boolean.
+    如果 **auto_id** 参数的值不是布尔值，则会引发此异常。
 
 - **DataTypeNotSupportException**
 
-    This exception will be raised if the value of the **dtype** parameter is not supported.
+    如果 **dtype** 参数的值不受支持，则会引发此异常。
 
 - **PrimaryKeyException**
 
-    This exception will be raised if 
+    在以下情况下会引发此异常：
 
-    - The value of the **is_primary** parameter is not a boolean, or
+    - **is_primary** 参数的值不是布尔值，或
 
-    - The **is_primary** parameter is not set while the **auto_id** parameter is set.
+    - 设置了 **auto_id** 参数但未设置 **is_primary** 参数。
 
 - **PartitionKeyException**
 
-    This exception will be raised if the **is_partition_key** parameter is set to a non-boolean value.
+    如果 **is_partition_key** 参数被设置为非布尔值，则会引发此异常。
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Methods
+## Methods\{#methods}
 
-The following are the methods of the `FieldSchema` class:
+以下是 `FieldSchema` 类的方法：

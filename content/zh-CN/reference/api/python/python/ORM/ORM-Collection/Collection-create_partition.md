@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_partition() | Python | ORM"
 slug: /python/python/Collection-create_partition
 sidebar_label: "create_partition()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation creates a partition in the target collection. | Python | ORM"
+description: "此操作在目标集合中创建一个分区。 | Python | ORM"
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # create_partition()
 
-This operation creates a partition in the target collection.
+此操作在目标集合中创建一个分区。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 create_partition(
@@ -42,33 +42,33 @@ create_partition(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **partition_name** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the partition to create.
+    要创建的分区名称。
 
 - **description** (*string*)
 
-    The description of this partition.
+    此分区的描述。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*Partition*
+*[Partition](./ORM-Partition)*
 
-**RETURNS:**
+**返回：**
 
-A partition object.
+一个分区对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -91,9 +91,9 @@ partition = collection.create_partition(partition_name="test_partition")
 # {"name":"test_partition","collection_name":"test_collection","description":""}
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `create_partition()`:
+以下操作与 `create_partition()` 相关：
 
 - [Collection](./ORM-Collection)
 

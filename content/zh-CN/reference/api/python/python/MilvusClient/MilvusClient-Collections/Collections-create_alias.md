@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_alias() | Python | MilvusClient"
 slug: /python/python/Collections-create_alias
 sidebar_label: "create_alias()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates an alias for an existing collection. | Python | MilvusClient"
+description: "此操作为现有集合创建别名。 | Python | MilvusClient"
 type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 4
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # create_alias()
 
-This operation creates an alias for an existing collection.
+此操作为现有集合创建别名。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法适用于专用服务集群和按需计算。
+
+- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 create_alias(
@@ -43,68 +63,74 @@ create_alias(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the collection to create an alias for.
+    要为其创建别名的集合名称。
 
 - **alias** (*str*) -
 
     **[REQUIRED]**
 
-    The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
+    集合的别名。在执行此操作之前，请确保该别名尚不存在。否则会发生异常。
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <Admonition type="info" icon="📘" title="注意">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling <code>alter_alias("collection_2", "bob")</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    什么是集合别名？
+    
+        集合别名是集合的一个附加名称。当你希望将应用程序切换到新集合而无需修改任何代码时，集合别名会非常有用。
+    
+        在 Zilliz Cloud 中，集合别名是全局唯一标识符。一个别名只能分配给一个集合。反过来，一个集合可以拥有多个别名。
+    
+        下面是将一个集合的别名重新分配给另一个集合的示例：
+    
+        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，它最初被分配给 `collection_1`：
+    
+        - `collection_1` 的 alias = ["bob"]
+    
+        - `collection_2` 的 alias = []
+    
+        调用 `alter_alias("collection_2", "bob")` 后：
+    
+        - `collection_1` 的 alias = []
+    
+        - `collection_2` 的 alias = ["bob"]
 
     </Admonition>
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when you set `alias` to an existing alias.
+    当此操作期间发生任何错误时，将引发此异常，尤其是在你将 `alias` 设置为已存在的别名时。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -115,7 +141,7 @@ client.create_collection(collection_name="test_collection", dimension=5)
 client.create_alias(collection_name="test_collection", alias="test")
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [alter_alias()](./Collections-alter_alias)
 

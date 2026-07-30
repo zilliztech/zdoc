@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "refresh_load() | Python | MilvusClient"
 slug: /python/python/Management-refresh_load
 sidebar_label: "refresh_load()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation loads the unloaded data of a loaded collection into memory. | Python | MilvusClient"
+description: "此操作会将已加载 collection 中尚未加载的数据加载到内存中。 | Python | MilvusClient"
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - refresh_load()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # refresh_load()
 
-This operation loads the unloaded data of a loaded collection into memory.
+此操作会将已加载 collection 中尚未加载的数据加载到内存中。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管 collection。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 refresh_load(
@@ -42,42 +48,42 @@ refresh_load(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target collection of this operation.
+    此操作目标 collection 的名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
- None
+None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -93,7 +99,7 @@ client.refresh_load(
 )
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [get_load_state()](./Management-get_load_state)
 

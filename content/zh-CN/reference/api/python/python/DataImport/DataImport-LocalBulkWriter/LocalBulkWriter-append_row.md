@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "append_row() | Python"
 slug: /python/python/LocalBulkWriter-append_row
 sidebar_label: "append_row()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation appends records to the writer. | Python"
+description: "此操作将记录追加到写入器中。 | Python"
 type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # append_row()
 
-This operation appends records to the writer.
+此操作将记录追加到写入器中。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 append_row(
@@ -41,15 +41,15 @@ append_row(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **row** (*dict*) -
 
-    A dictionary representing an entity to be appended.
+    一个表示要追加实体的字典。
 
-    The keys and their values in the dictionary should match the schema referenced in the current **LocalBulkWriter**.
+    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 引用的 schema 匹配。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -74,7 +74,7 @@ writer.append_row(
 )
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [commit()](./LocalBulkWriter-commit)
 

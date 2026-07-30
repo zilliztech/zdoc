@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_resource_group() | Python | ORM"
 slug: /python/python/utility-describe_resource_group
 sidebar_label: "describe_resource_group()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation describes the details of a specific resource group. | Python | ORM"
+description: "此操作描述特定资源组的详细信息。 | Python | ORM"
 type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe_resource_group()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe_resource_group()
 
-This operation describes the details of a specific resource group.
+此操作描述特定资源组的详细信息。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 describe_resource_group(
@@ -43,33 +43,33 @@ describe_resource_group(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the resource group to describe.
+    要描述的资源组名称。
 
-    If the specified resource group does not exist, a **MilvusException** will be raised.
+    如果指定的资源组不存在，将引发 **MilvusException**。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *ResourceGroupInfo*
 
-**RETURNS:**
+**返回：**
 
-A **ResourceGroupInfo** object that contains the detailed description of a resource group.
+一个 **ResourceGroupInfo** 对象，包含资源组的详细描述信息。
 
 ```python
 ├── ResourceGroupInfo 
@@ -91,70 +91,70 @@ A **ResourceGroupInfo** object that contains the detailed description of a resou
 │           └── hostname
 ```
 
-A **ResourceGroupInfo** object contains the following fields:
+**ResourceGroupInfo** 对象包含以下字段：
 
 - **name** (*str*)
 
-    The name of the resource group.
+    资源组的名称。
 
 - **capacity** (*int*)
 
-    The number of query nodes that are transferred to this resource group.
+    转移到该资源组的 query node 数量。
 
 - **num_available_node** (*int*)
 
-    The number of available query nodes in this resource group.
+    此资源组中可用的 query node 数量。
 
 - **num_loaded_replica** (*google._upb._message.ScalarMapContainer*)
 
-    The name of a collection and its corresponding number of loaded replicas in  this resource group.
+    集合名称及其在此资源组中对应的已加载副本数量。
 
 - **num_outgoing_node** (*google._upb._message.ScalarMapContainer*)
 
-    The name of a collection and its number of query nodes for outgoing requests. 
+    集合名称及其用于传出请求的 query node 数量。 
 
 - **num_incoming_node** (*google._upb._message.ScalarMapContainer*)
 
-    The name of a collection and its number of query nodes for incoming requests. 
+    集合名称及其用于传入请求的 query node 数量。 
 
 - **config** (*ResourceGroupConfig*)
 
-    A ResourceGroupConfig object that represents the configuration of the resource group.
+    表示资源组配置的 ResourceGroupConfig 对象。
 
     - **requests** (*dict*) -
 
-        A dictionary specifying the number of query nodes that the resource group should hold. This key should include:
+        指定资源组应持有的 query node 数量的字典。该键应包含：
 
-        - **node_num** (*int*) - The number of query nodes requested for the resource group.
+        - **node_num** (*int*) - 为资源组请求的 query node 数量。
 
     - **limits** (*dict*) -
 
-        A dictionary specifying the maximum number of query nodes that the resource group can hold. This key should include:
+        指定资源组可持有的最大 query node 数量的字典。该键应包含：
 
-        - **node_num** (*int*) - The maximum number of query nodes allowed for the resource group.
+        - **node_num** (*int*) - 资源组允许的最大 query node 数量。
 
 - **nodes** (*list*)
 
-    A list of NodeInfo objects, each containing:
+    NodeInfo 对象列表，每个对象包含：
 
-    - **node_id** (*int*) - The ID of the node.
+    - **node_id** (*int*) - 节点 ID。
 
-    - **address** (*str*) - The address of the node.
+    - **address** (*str*) - 节点地址。
 
-    - **hostname** (*str*) - The hostname of the node.
+    - **hostname** (*str*) - 节点主机名。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a resource group
@@ -206,9 +206,9 @@ print(f"Resource group rg description: {info}")
 # <hostname:doc-test1-axjfu-milvus-querynode-776bb5768-v2dqh>]>
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `describe_resource_group()`:
+以下操作与 `describe_resource_group()` 相关：
 
 - [create_resource_group()](./utility-create_resource_group)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "using_database() | Python | ORM"
 slug: /python/python/db-using_database
 sidebar_label: "using_database()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation sets a database as the default for the current connection. | Python | ORM"
+description: "此操作将某个数据库设置为当前连接的默认数据库。 | Python | ORM"
 type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # using_database()
 
-This operation sets a database as the default for the current connection.
+此操作将某个数据库设置为当前连接的默认数据库。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
-A Milvus cluster ships with a default database named **default**. All collection operations are performed within the default database. You can use this method to change the default database.
+Milvus 集群自带一个名为 **default** 的默认数据库。所有集合操作都在默认数据库中执行。你可以使用此方法更改默认数据库。
 
 ```python
 using_database(
@@ -44,31 +44,31 @@ using_database(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Name of the database to be set as the default database.
+    要设置为默认数据库的数据库名称。
 
 - **using** (*string*) -
 
-    Alias of the connection. Defaults to **default**.
+    连接别名。默认为 **default**。
 
-**RETURN TYPE:**
-
-None
-
-**RETURNS:**
+**返回类型：**
 
 None
 
-**EXCEPTIONS:**
+**返回：**
 
 None
 
-## Examples
+**异常：**
+
+None
+
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, db
@@ -85,9 +85,9 @@ db.using_database("test")
 conn = connections.connect(host="127.0.0.1", port=19530, db_name="test")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `using_database()`:
+以下操作与 `using_database()` 相关：
 
 - [create_database()](./db-create_database)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_queries() | Python"
 slug: /python/python/JinaEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
 type: docx
 token: FgbjdQHBEoITxgxk7NMc1NzpnAc
 sidebar_position: 2
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - 什么是向量嵌入
+  - 向量数据库教程
+  - 向量数据库如何工作
+  - 向量数据库对比
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-This operation takes in a list of query strings and encodes each query into a vector embedding.
+此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 encode_queries(
@@ -41,27 +41,27 @@ encode_queries(
 ) -> List[np.array]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **queries** (*List[str]*)
 
-    A list of string values, where each string represents a query that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[np.array]*
 
-**RETURNS:**
+**返回值：**
 
-A list where each element is a NumPy array.
+一个列表，其中每个元素都是一个 NumPy 数组。
 
-**Exceptions:**
+**异常：**
 
 - **RuntimeError**
 
-    This exception will be raised when the response from the Jina API does not contain the `data` key.
+    当来自 Jina API 的响应中不包含 `data` 键时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import JinaEmbeddingFunction

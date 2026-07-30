@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "has_partition() | Python | ORM"
 slug: /python/python/Collection-has_partition
 sidebar_label: "has_partition()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation checks whether the specified partition exists in the current collection. | Python | ORM"
+description: "此操作检查当前集合中是否存在指定的分区。 | Python | ORM"
 type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-This operation checks whether the specified partition exists in the current collection.
+此操作检查当前集合中是否存在指定的分区。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 has_partition(
@@ -42,31 +42,31 @@ has_partition(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **partition_name** (*str*) -
 
-    The name of the partition to drop.
+    要删除的分区名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *bool*
 
-**RETURNS:**
+**返回：**
 
-A boolean value indicating whether the current collection has the specified partition or not
+一个布尔值，用于指示当前集合是否具有指定的分区
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -95,9 +95,9 @@ collection.drop_partition("test_partition")
 collection.has_partition("test_partition") # False
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `has_collection()`:
+以下操作与 `has_collection()` 相关：
 
 - [Collection](./ORM-Collection)
 

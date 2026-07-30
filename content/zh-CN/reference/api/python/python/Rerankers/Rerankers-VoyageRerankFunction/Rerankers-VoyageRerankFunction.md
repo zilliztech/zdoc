@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "VoyageRerankFunction | Python"
 slug: /python/python/Rerankers-VoyageRerankFunction
 sidebar_label: "VoyageRerankFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "VoyageRerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Voyage reranking model. | Python"
+description: "VoyageRerankFunction 是 milvusmodel 中的一个类，它接收查询和文档作为输入，并直接返回相似度分数而不是 embeddings。此功能使用底层的 Voyage 重排模型。 | Python"
 type: docx
 token: Smobd2lIho2yQPxtRhLcLcKznCf
 sidebar_position: 1
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageRerankFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # VoyageRerankFunction
 
-**VoyageRerankFunction** is a class in [milvus_model](https://github.com/milvus-io/milvus-model) that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Voyage reranking model.
+**VoyageRerankFunction** 是 [milvus_model](https://github.com/milvus-io/milvus-model) 中的一个类，它接收查询和文档作为输入，并直接返回相似度分数，而不是 embeddings。此功能使用底层的 Voyage 重排模型。
 
 ```python
 pymilvus.model.reranker.VoyageRerankFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a VoyageRerankFunction for common use cases.
+构造一个适用于常见用例的 VoyageRerankFunction。
 
 ```python
 VoyageRerankFunction(
@@ -48,17 +48,17 @@ VoyageRerankFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*)
 
-    The name of the Voyage model to use for encoding. You can specify any of the available Voyage model names, for example, `voyage-law-2`, `voyage-code-2`, etc. If you leave this parameter unspecified, `voyage-2` will be used. For a list of available models, refer to [Voyage official documentation](https://docs.voyageai.com/docs/embeddings).
+    用于编码的 Voyage 模型名称。你可以指定任何可用的 Voyage 模型名称，例如 `voyage-law-2`、`voyage-code-2` 等。如果不指定此参数，将使用 `voyage-2`。可用模型列表请参见 [Voyage 官方文档](https://docs.voyageai.com/docs/embeddings)。
 
 - **api_key** (*string*)
 
-    The API key for accessing the Voyage API. For information on how to create an API key, refer to [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation).
+    用于访问 Voyage API 的 API 密钥。有关如何创建 API 密钥的信息，请参见 [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation)。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.reranker import VoyageRerankFunction

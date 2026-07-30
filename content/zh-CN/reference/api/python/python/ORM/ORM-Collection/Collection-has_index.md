@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "has_index() | Python | ORM"
 slug: /python/python/Collection-has_index
 sidebar_label: "has_index()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation checks whether the current collection has a built index. | Python | ORM"
+description: "此操作检查当前 collection 是否已构建索引。 | Python | ORM"
 type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - has_index()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,35 +31,35 @@ import Admonition from '@theme/Admonition';
 
 # has_index()
 
-This operation checks whether the current collection has a built index.
+此操作检查当前 collection 是否已构建索引。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 has_index(timeout: float | None)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *bool*
 
-**RETURNS:**
+**返回：**
 
-A boolean value indicating whether the current collection has a built index or not.
+一个布尔值，用于指示当前 collection 是否已构建索引。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -101,9 +101,9 @@ collection.drop_index()
 collection.has_index() # False
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `has_index()`:
+以下操作与 `has_index()` 相关：
 
 - [create_index()](./Collection-create_index)
 

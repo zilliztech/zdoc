@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Partition | Python | ORM"
 slug: /python/python/ORM-Partition
 sidebar_label: "Partition"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "A Partition instance represents a partition within a collection. | Python | ORM"
+description: "一个 Partition 实例表示 collection 中的一个 partition。 | Python | ORM"
 type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - 视频相似度搜索
+  - 向量检索
+  - 音频相似度搜索
+  - 弹性向量数据库
   - zilliz
   - zilliz cloud
   - cloud
   - Partition
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # Partition
 
-A **Partition** instance represents a partition within a collection.
+**Partition** 实例表示 collection 中的一个 partition。
 
 ```python
 class pymilvus.Partition
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a partition in a collection by name, description, and other parameters. 
+通过名称、描述和其他参数在 collection 中构造一个 partition。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>When using partitions, ensure that <strong>enable<em>partition</em>key</strong> is not set to <strong>True</strong> in the collection schema. Otherwise, an error will occur.</p>
+使用 partition 时，请确保 collection schema 中的 **enable_partition_key** 未设置为 **True**。否则将发生错误。
 
 </Admonition>
 
@@ -57,18 +57,21 @@ Partition(
 
 **PARAMETERS:**
 
-- **collection** (*Collection* | *str*) - 
+- **[collection](./ORM-Collection)** (*[Collection](./ORM-Collection)* | *str*) - 
 
     **[REQUIRED]**
 
-    The collection in which to create a partition. 
+    要在其中创建 partition 的 collection。 
 
-    You can either reference a **Collection** object or its name.
+    你既可以引用 **[Collection](./ORM-Collection)** 对象，也可以使用其名称。
 
-    <Admonition type="info" icon="📘" title="What is a collection?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A collection collects data in a two-dimensional table with a fixed number of columns and a variable number of rows. In the table, each column corresponds to a field, and each row represents an entity.</p>
-    <p>A collection can support up to 64 partitions.</p>
+    什么是 collection？
+    
+        collection 以具有固定列数和可变行数的二维表形式收集数据。在该表中，每一列对应一个字段，每一行代表一个实体。
+    
+        一个 collection 最多支持 64 个 partition。
 
     </Admonition>
 
@@ -76,11 +79,11 @@ Partition(
 
     **[REQUIRED]**
 
-    The name of the partition to create.
+    要创建的 partition 的名称。
 
 - **description** (*string*) - 
 
-    The description of the partition to create.
+    要创建的 partition 的描述。
 
 **RETURN TYPE:**
 
@@ -88,15 +91,15 @@ Partition(
 
 **RETURNS:**
 
-A **Partition** object.
+一个 **Partition** 对象。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, Partition
@@ -108,7 +111,7 @@ collection = Collection("book")
 partition = Partition(collection, "novel", "")
 ```
 
-## Members
+## Members\{#members}
 
-The following are the members of the `Partition` class:
+以下是 `Partition` 类的成员：
 

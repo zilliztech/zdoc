@@ -1,22 +1,21 @@
 ---
 title: "add_connection() | Python | ORM"
 slug: /python/python/Connections-add_connection
-sidebar_key: python/Connections-add_connection
 sidebar_label: "add_connection()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. | Python | ORM"
+description: "此操作以批量方式为不同用途向多个 Zilliz Cloud 集群添加连接。 | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - 异常检测
+  - sentence transformers
+  - 推荐系统
+  - 信息检索
   - zilliz
   - zilliz cloud
   - cloud
@@ -24,6 +23,7 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add_connection()
 
-This operation adds [connections](./ORM-Connections) to multiple Zilliz Cloud clusters for different purposes in a batch. 
+此操作以批量方式为不同用途向多个 Zilliz Cloud 集群添加 [connections](./ORM-Connections)。
 
-## Request Syntax\{#request-syntax}
+## 请求语法\{#request-syntax}
 
 ```python
 add_connection(
@@ -43,96 +43,98 @@ add_connection(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **kwargs** - 
 
-    When passing keyword arguments, the name of each argument will serve as a connection alias in the **connect()** method.
+    传递关键字参数时，每个参数的名称都会在 **connect()** 方法中用作连接别名。
 
-    The argument value should be a dictionary with one or more of these fields:
+    参数值应为包含以下一个或多个字段的字典：
 
     - **address** (*string*) -
 
-        The actual address to connect. Example address: **YOUR_CLUSTER_ENDPOINT**.
+        要连接的实际地址。地址示例：**YOUR_CLUSTER_ENDPOINT**。
 
     - **uri** (*string*) -
 
-        The URI of the Zilliz Cloud cluster. For example: **https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540**.
+        Zilliz Cloud 集群的 URI。例如：**`https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540`**。
 
     - **host** (*string*) -
 
-        The host of the Zilliz Cloud cluster. The value defaults to **localhost**, and PyMilvus will fill in the default host if only **port** is provided.
+        Zilliz Cloud 集群的主机。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 将自动填充默认主机。
 
     - **port** (*string | int*) -
 
-        The port that Zilliz Cloud cluster listens to. The value defaults to **19530**, and PyMilvus will fill in the default port if only **host** is provided.
+        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供 **host**，PyMilvus 将自动填充默认端口。
 
     - **user** (*string*) -
 
-        A valid username used to connect to the specified Zilliz Cloud cluster.
+        用于连接指定 Zilliz Cloud 集群的有效用户名。
 
-        This should be used along with **password**.
+        应与 **password** 一起使用。
 
     - **password** (*string*) -
 
-        A valid password used to connect to the specified Zilliz Cloud cluster.
+        用于连接指定 Zilliz Cloud 集群的有效密码。
 
-        This should be used along with **user**.
+        应与 **user** 一起使用。
 
     - **token** (string) -
 
-        A valid access token to access the specified Zilliz Cloud cluster. This can be used as an alternative to setting **user** and **password** separately.
+        用于访问指定 Zilliz Cloud 集群的有效访问令牌。可替代分别设置 **user** 和 **password**。
 
-        When setting this field, notice that:
+        设置此字段时，请注意：
 
-        A valid token should be either
+        有效的令牌应为以下之一：
 
-        - An API key with sufficient permissions, or
+        - 具有足够权限的 API key，或
 
-        - A pair of username and password used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+        - 用于访问目标集群的一组用户名和密码，并使用冒号 (:) 拼接。例如，可以将其设置为 `username:p@ssw0rd`。
 
-<Admonition type="info" icon="📘" title="How can I get the cluster endpoint and token?">
+<Admonition type="info" icon="📘" title="说明">
 
-- **Cluster endpoint**
+如何获取集群端点和 token？
 
-    You can log into the [Zilliz Cloud](https://cloud.zilliz.com) console and click **Clusters** in the left navigation pane. In the cluster list, click the name of the target cluster, copy its endpoint in the **Connect** area, and use it as the URI above.
+- **集群端点**
 
-- **Access token**
+    你可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群的名称，在 **Connect** 区域复制其 endpoint，并将其作为上述 URI 使用。
 
-    To connect to a Zilliz Cloud cluster, you can use either of the following
+- **访问令牌**
 
-    - An API key
+    要连接到 Zilliz Cloud 集群，你可以使用以下任一项：
 
-        You can log into the [Zilliz Cloud](https://cloud.zilliz.com) console and click **API Keys** in the left navigation pane.
+    - API key
 
-    - A pair of username and password to access the cluster, joined by a colon (**:**).
+        你可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中单击 **API Keys**。
 
-        You can use the cluster credentials specified when the cluster has been created on the Zilliz Cloud console, or those of any existing cluster users.
+    - 用于访问集群的一组用户名和密码，并使用冒号（**:**）拼接。
+
+        你可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭证，或任何现有集群用户的凭证。
 
 </Admonition>
 
-**RETURN TYPE:**
+**返回类型：**
 
 None
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **ConnectionConfigException**
 
-    This exception will be raised when the connection configuration is invalid.
+    当连接配置无效时，将引发此异常。
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections
 
-SERVERLESS_ENDPOINT = "https://in03-************.api.ali-cn-hangzhou.zillizcloud.com"
+SERVERLESS_ENDPOINT = "https://in03-************.api.gcp-us-west1.zillizcloud.com"
 SERVERLESS_TOKEN = "db_admin:************"
-DEDICATED_ENDPOINT = "https://in03-************.api.ali-cn-hangzhou.zillizcloud.com:19541"
+DEDICATED_ENDPOINT = "https://in03-************.api.gcp-us-west1.zillizcloud.com:19541"
 DEDICATED_USER = "db_admin"
 DEDICATED_PASS = "*****************"
 
@@ -142,9 +144,9 @@ connections.add_connection(
 )
 ```
 
-## Related operations\{#related-operations}
+## 相关操作\{#related-operations}
 
-The following operations are related to `add_connection()`:
+以下操作与 `add_connection()` 相关：
 
 - [connect()](./Connections-connect)
 

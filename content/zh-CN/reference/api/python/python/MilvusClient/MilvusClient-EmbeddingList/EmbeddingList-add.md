@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-add
 sidebar_label: "add()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds a single vector embedding to the current EmbeddingList instance. | Python | MilvusClient"
+description: "此操作将单个向量嵌入添加到当前 EmbeddingList 实例中。 | Python | MilvusClient"
 type: docx
 token: R0E9dLzIAoYGCcxRVj6cjJmWnPe
 sidebar_position: 1
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - add()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-This operation adds a single vector embedding to the current **EmbeddingList** instance.
+此操作将单个向量嵌入添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 add(
@@ -42,27 +42,27 @@ add(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **embedding** (*np.ndarray, List[Any]*) - 
 
-    The vector embedding that is to be added to the current **EmbeddingList** instance.
+    要添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中的向量嵌入。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*EmbeddingList*
+*[EmbeddingList](./MilvusClient-EmbeddingList)*
 
-**RETURNS:**
+**返回值：**
 
-The current **EmbeddingList** instance itself for method chaining
+返回当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，以便进行方法链式调用
 
-**EXCEPTIONS:**
+**异常：**
 
 - **ValueError**:
 
-    This exception will be raised if the provided vector embedding does not match the existing ones in dimensionality.
+    如果提供的向量嵌入与现有嵌入的维度不匹配，则会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import EmbeddingList

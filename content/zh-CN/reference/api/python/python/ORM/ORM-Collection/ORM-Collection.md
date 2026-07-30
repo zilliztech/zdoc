@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Collection | Python | ORM"
 slug: /python/python/ORM-Collection
 sidebar_label: "Collection"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "A Collection instance represents a Milvus collection. | Python | ORM"
+description: "Collection 实例表示一个 Milvus collection。| Python | ORM"
 type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - Collection
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # Collection
 
-A **Collection** instance represents a Milvus collection.
+**Collection** 实例表示一个 Milvus collection。
 
 ```python
 class pymilvus.Collection
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a collection by name, schema, and other parameters.
+通过名称、schema 和其他参数构造一个 collection。
 
 ```python
 Collection(
@@ -55,56 +55,65 @@ Collection(
 
     **[REQUIRED]**
 
-    The name of the collection to create.
+    要创建的 collection 的名称。
 
 - **schema** (*[CollectionSchema](./ORM-CollectionSchema)*) - 
 
-    The schema used to create the collection. 
+    用于创建 collection 的 schema。 
 
-    The default value is **None**, indicating that a default schema is used.
+    默认值为 **None**，表示使用默认 schema。
 
-    <Admonition type="info" icon="📘" title="What is a schema?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields.</p>
+    什么是 schema？
+    
+        schema 负责组织目标 collection 中的数据。一个有效的 schema 应包含多个字段，其中必须包括一个主键字段、一个向量字段以及若干标量字段。
 
     </Admonition>
 
 - **using** (*string*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **num_shards** (*int*) -
 
-    The number of shards to create along with the creation of this collection. 
+    在创建此 collection 时一并创建的 shard 数量。 
 
-    The value defaults to **1**, indicating that one shard is to be created along with this collection.
+    该值默认为 **1**，表示随此 collection 一起创建一个 shard。
 
-    <Admonition type="info" icon="📘" title="What is sharding?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
-    <p>By default, a collection contains one shard.</p>
+    什么是分片？
+    
+        分片是指将写入操作分布到不同节点上，以充分利用 Milvus 集群在数据写入方面的并行计算能力。
+    
+        默认情况下，一个 collection 包含一个 shard。
 
     </Admonition>
 
 - **consistency_level** (*int* | *str*)
 
-    The consistency level of the target collection.
+    目标 collection 的一致性级别。
 
-    The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+    该值默认为 **Bounded**（**1**），可选值包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+    什么是一致性级别？
+    
+        在分布式数据库中，一致性特指这样一种属性：在给定时间进行数据写入或读取时，确保每个节点或副本看到的数据视图相同。
+    
+        Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
+    
+        在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用场景。
 
     </Admonition>
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **RETURN TYPE:**
 
@@ -112,15 +121,15 @@ Collection(
 
 **RETURNS:**
 
-A collection object.
+一个 collection 对象。
 
 **EXCEPTIONS:**
 
 - **SchemaNotReadyException**
 
-    This exception will be raised when the provided schema is invalid.
+    当提供的 schema 无效时，将引发此异常。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -149,7 +158,7 @@ collection = Collection(
 )
 ```
 
-## Members
+## Members\{#members}
 
-The following are the members of the `Collection` class:
+以下是 `Collection` 类的成员：
 

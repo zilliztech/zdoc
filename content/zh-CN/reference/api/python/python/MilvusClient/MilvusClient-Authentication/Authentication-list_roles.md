@@ -1,22 +1,21 @@
 ---
 title: "list_roles() | Python | MilvusClient"
 slug: /python/python/Authentication-list_roles
-sidebar_key: python/Authentication-list_roles
 sidebar_label: "list_roles()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all custom roles. | Python | MilvusClient"
+description: "此操作列出所有自定义角色。 | Python | MilvusClient"
 type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 14
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -24,6 +23,7 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_roles()
 
-This operation lists all custom roles.
+此操作列出所有自定义角色。
 
-## Request syntax\{#request-syntax}
+## 请求语法\{#request-syntax}
 
 ```python
 list_roles(
@@ -41,40 +41,40 @@ list_roles(
 ) -> dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
+**返回：**
 
-A list of role names.
+角色名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -84,9 +84,9 @@ client.list_roles()
 # ['db_admin', 'db_ro', 'db_rw']
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-Each Zilliz Cloud cluster has three built-in roles, namely, **db\_ro**, **db\_rw**, and **db\_admin**. For details, refer to [Cluster Built-in Roles](/docs/cluster-roles#built-in-cluster-roles).
+每个 Zilliz Cloud 集群都有三个内置角色，分别是 **db\_ro**、**db\_rw** 和 **db\_admin**。更多信息请参见 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
 
 </Admonition>
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_database() | Python | MilvusClient"
 slug: /python/python/Database-describe_database
 sidebar_label: "describe_database()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists detailed information about the specified database. | Python | MilvusClient"
+description: "此操作列出指定数据库的详细信息。 | Python | MilvusClient"
 type: docx
 token: LEaYdk179oZn0vxqa0lcn4mnnrg
 sidebar_position: 3
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - 什么是语义搜索
+  - Embedding model
+  - 图像相似性搜索
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - describe_database()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # describe_database()
 
-This operation lists detailed information about the specified database.
+此操作列出指定数据库的详细信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This method applies only to dedicated clusters.</p>
+此方法仅适用于专属服务集群和按需计算。
+
+- 对于专属服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 describe_database(
@@ -49,31 +63,31 @@ describe_database(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Name of the database to describe.
+    要描述的数据库名称。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to *None* indicates that it timeouts when a response arrives, or an error occurs.
+    此操作的超时时长。将其设置为 *None* 表示在收到响应或发生错误时才超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Dict*
 
-**RETURNS:**
+**返回值：**
 
-A dictionary that contains detailed information about the specified database.
+包含指定数据库详细信息的字典。
 
-**EXCEPTIONS:**
+**异常：**
 
-- `MilvusException` - Raised if any error occurs during this operation.
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "to_dict() | Python | MilvusClient"
 slug: /python/python/Function-to_dict
 sidebar_label: "to_dict()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation returns a dictionary representation of the `Function` object. | Python | MilvusClient"
+description: "此操作返回 `Function` 对象的字典表示。 | Python | MilvusClient"
 type: docx
 token: AmwJdW0z6opMPcxhMlBcYPIWn2M
 sidebar_position: 4
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,33 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-This operation returns a dictionary representation of the `Function` object.
+此操作返回 `Function` 对象的字典表示。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 to_dict()
 ```
 
-**PARAMETERS:**
+**参数：**
 
-None
+无
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回值：**
 
-The dictionary representation of the `Function` object.
+`Function` 对象的字典表示。
 
-**EXCEPTIONS:**
+**异常：**
 
 - `MilvusException`
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Function, FunctionType

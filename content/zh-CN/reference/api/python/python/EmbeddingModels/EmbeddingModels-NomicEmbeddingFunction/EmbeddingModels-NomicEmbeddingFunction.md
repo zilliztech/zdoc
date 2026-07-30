@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "NomicEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-NomicEmbeddingFunction
 sidebar_label: "NomicEmbeddingFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "NomicEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Nomic embedding models to support embedding retrieval in Milvus. | Python"
+description: "NomicEmbeddingFunction 是 pymilvus 中的一个类，使用 Nomic 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: OOQvdXDqdoqKfmxEkTecfuVMnsb
 sidebar_position: 3
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - NomicEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # NomicEmbeddingFunction
 
-NomicEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Nomic embedding models to support embedding retrieval in Milvus.
+NomicEmbeddingFunction 是 pymilvus 中的一个类，使用 Nomic 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.NomicEmbeddingFunction
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a NomicEmbeddingFunction for common use cases.
+为常见用例构造一个 NomicEmbeddingFunction。
 
 ```python
 NomicEmbeddingFunction(
@@ -54,23 +54,23 @@ NomicEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    The name of the Nomic embedding model to use for encoding. The value defaults to `nomic-embed-text-v1.5`. For more information, refer to [Nomic official documentation](https://docs.nomic.ai/atlas/models/image-embedding).
+    用于编码的 Nomic 嵌入模型名称。默认值为 `nomic-embed-text-v1.5`。更多信息请参见 [Nomic 官方文档](https://docs.nomic.ai/atlas/models/image-embedding)。
 
 - **task_type** (*string*)
 
-    The type of task the model is being used for.
+    模型所用于的任务类型。
 
 - **dimensions** (*int*)
 
-    The dimensionality of the output embeddings.
+    输出嵌入的维度。
 
 - **kwargs**
 
     - **long_text_mode** (*string*)
 
-        How to handle texts longer than the model can accept. One of `mean` or `truncate`.
+        如何处理超出模型可接受长度的文本。可选值为 `mean` 或 `truncate`。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import NomicEmbeddingFunction

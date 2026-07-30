@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "release() | Python | ORM"
 slug: /python/python/Collection-release
 sidebar_label: "release()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation releases the data of the current collection from memory. | Python | ORM"
+description: "此操作会将当前集合的数据从内存中释放。 | Python | ORM"
 type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - release()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # release()
 
-This operation releases the data of the current collection from memory.
+此操作会将当前集合的数据从内存中释放。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 release(
@@ -41,13 +41,13 @@ release(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -70,9 +70,9 @@ collection.load()
 collection.release()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `release()`:
+以下操作与 `release()` 相关：
 
 - [Partition](./ORM-Partition)
 

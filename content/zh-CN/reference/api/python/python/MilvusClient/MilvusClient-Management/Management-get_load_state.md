@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_load_state() | Python | MilvusClient"
 slug: /python/python/Management-get_load_state
 sidebar_label: "get_load_state()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation displays whether a specified collection or partition is loaded or not. | Python | MilvusClient"
+description: "此操作显示指定 collection 或 partition 是否已加载。 | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - get_load_state()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # get_load_state()
 
-This operation displays whether a specified collection or partition is loaded or not.
+此操作显示指定 collection 或 partition 是否已加载。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管 collection。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 get_load_state(
@@ -43,50 +49,50 @@ get_load_state(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of a collection.
+    collection 的名称。
 
 - **partition_name** (*str*) -
 
-    The name of a partition.
+    partition 的名称。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回值：**
 
-A dictionary that contains the status of the specified collection or partition. 
+包含指定 collection 或 partition 状态的字典。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>A collection is in the loaded state if any or all of its partitions are loaded.</p>
+如果 collection 的任意一个或全部 partition 已加载，则该 collection 处于已加载状态。
 
 </Admonition>
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -128,7 +134,7 @@ client.get_load_state(
 # {'state': <LoadState: Loaded>}
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [load_collection()](./Management-load_collection)
 

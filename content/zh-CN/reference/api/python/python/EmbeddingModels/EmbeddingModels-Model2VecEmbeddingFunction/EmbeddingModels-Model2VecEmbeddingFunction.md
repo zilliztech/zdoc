@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Model2VecEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-Model2VecEmbeddingFunction
 sidebar_label: "Model2VecEmbeddingFunction"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "Model2VecEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the model2vec module to support embedding retrieval in Milvus. | Python"
+description: "Model2VecEmbeddingFunction 是 pymilvus 中的一个类，使用 model2vec 模块将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - Model2VecEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # Model2VecEmbeddingFunction
 
-**Model2VecEmbeddingFunction** is a class in pymilvus that handles encoding text into embeddings using the model2vec module to support embedding retrieval in Milvus.
+**Model2VecEmbeddingFunction** 是 pymilvus 中的一个类，使用 model2vec 模块将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.Model2VecEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs an Model2VecEmbeddingFunction for common use cases.
+构造一个适用于常见用例的 Model2VecEmbeddingFunction。
 
 ```python
 Model2VecEmbeddingFunction(
@@ -48,19 +48,19 @@ Model2VecEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_source (string) -**
 
-    The source of the model, which can either be a Hugging Face model identifier or a local path to a model2vec embedding model. 
+    模型来源，可以是 Hugging Face 模型标识符，也可以是指向 model2vec 嵌入模型的本地路径。
 
-    Valid options for Hugging Face model identifier are **minishlab/potion-base-8M** (default), **minishlab/potion-base-4M**, **minishlab/potion-base-2M**, **minishlab/potion-base-32M**, and **minishlab/potion-retrieval-32M**
+    Hugging Face 模型标识符的有效选项包括 **minishlab/potion-base-8M**（默认）、**minishlab/potion-base-4M**、**minishlab/potion-base-2M**、**minishlab/potion-base-32M** 和 **minishlab/potion-retrieval-32M**
 
 - **&ast;&ast;kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization when loading a model from the Hugging Face Hub, including parameters such as huggingface authentication tokens.
+    允许在从 Hugging Face Hub 加载模型时，将额外的关键字参数传递给模型初始化，包括 Hugging Face 身份验证令牌等参数。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

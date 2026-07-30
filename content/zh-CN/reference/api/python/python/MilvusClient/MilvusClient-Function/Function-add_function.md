@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_function() | Python | MilvusClient"
 slug: /python/python/Function-add_function
 sidebar_label: "add_function()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds a function to convert raw data into vector representations. | Python | MilvusClient"
+description: "此操作添加一个函数，用于将原始数据转换为向量表示。 | Python | MilvusClient"
 type: docx
 token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
 sidebar_position: 1
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_function()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add_function()
 
-This operation adds a function to convert raw data into vector representations.
+此操作添加一个函数，用于将原始数据转换为向量表示。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 add_function(
@@ -41,29 +41,29 @@ add_function(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - `function` (*[Function](./MilvusClient-Function)*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    An instance of the `Function` class that converts data into vector embeddings. This function will be added to the schema of a collection.
+    `Function` 类的一个实例，用于将数据转换为向量嵌入。此函数将被添加到集合的 schema 中。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*CollectionSchema*
+*[CollectionSchema](./MilvusClient-CollectionSchema)*
 
-**RETURNS:**
+**返回：**
 
-A `CollectionSchema` object
+一个 `CollectionSchema` 对象
 
-**EXCEPTIONS:**
+**异常：**
 
 - `FunctionIncorrectType`
 
-    This exception will be raised when the `function` parameter is of the incorrect type.
+    当 `function` 参数的类型不正确时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, Function, FunctionType

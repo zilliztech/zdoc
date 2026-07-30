@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "InstructorEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-InstructorEmbeddingFunction
 sidebar_label: "InstructorEmbeddingFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "InstructorEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the Instructor embedding model to support embedding retrieval in Milvus. | Python"
+description: "InstructorEmbeddingFunction 是 pymilvus 中的一个类，使用 Instructor embedding 模型将文本编码为向量，以支持在 Milvus 中进行向量检索。 | Python"
 type: docx
 token: YmnmdEeHFoctZexccqNcr8xXn8c
 sidebar_position: 3
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - InstructorEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # InstructorEmbeddingFunction
 
-InstructorEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the Instructor embedding model to support embedding retrieval in Milvus.
+InstructorEmbeddingFunction 是 pymilvus 中的一个类，使用 Instructor embedding 模型将文本编码为向量，以支持在 Milvus 中进行向量检索。
 
 ```python
 pymilvus.model.dense.InstructorEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a MistralAIEmbeddingFunction for common use cases.
+构造一个用于常见场景的 MistralAIEmbeddingFunction。
 
 ```python
 InstructorEmbeddingFunction(
@@ -53,37 +53,37 @@ InstructorEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*)
 
-    The name of the Mistral AI embedding model to use for encoding. The value defaults to `hkunlp/instructor-xl`. For more information, refer to [Model List](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#model-list).
+    要用于编码的 Mistral AI embedding 模型名称。默认值为 `hkunlp/instructor-xl`。更多信息请参见 [Model List](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#model-list)。
 
 - **batch_size** (*int*)
 
-    The batch size used for the computation. It determines the number of sentences processed together in each batch.
+    计算时使用的批大小。它决定了每个批次中会一起处理的句子数量。
 
 - **query_instruction** (*string*)
 
-    Task-specific instruction that guides the model on how to generate an embedding for a query or question.
+    用于指导模型如何为查询或问题生成向量的任务特定指令。
 
 - **doc_instruction** (*string*)
 
-    Task-specific instruction that guides the model to generate an embedding for a document.
+    用于指导模型为文档生成向量的任务特定指令。
 
 - **device** (*string*)
 
-    Specifies the torch.device to use for the computation. If not specified, the function uses the default device.
+    指定计算时使用的 torch.device。如果未指定，该函数将使用默认设备。
 
 - **normalize_embeddings** (*bool*)
 
-    If set to `True`, the returned vectors will have a length of 1, indicating that they are normalized. In this case, similarity search would use the faster dot-product (`util.dot_score`), instead of cosine similarity.
+    如果设置为 `True`，返回的向量长度将为 1，这表示这些向量已被归一化。在这种情况下，相似性搜索将使用更快的点积（`util.dot_score`），而不是余弦相似度。
 
 - **kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [instructor-embedding](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#the-encode-function).
+    允许向模型初始化传递其他关键字参数。更多信息请参见 [instructor-embedding](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#the-encode-function)。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import InstructorEmbeddingFunction

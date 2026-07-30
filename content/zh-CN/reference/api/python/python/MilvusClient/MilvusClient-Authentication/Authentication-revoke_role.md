@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "revoke_role() | Python | MilvusClient"
 slug: /python/python/Authentication-revoke_role
 sidebar_label: "revoke_role()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation revokes the role assigned to a user. | Python | MilvusClient"
+description: "此操作会撤销分配给用户的角色。 | Python | MilvusClient"
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - 什么是非结构化数据
+  - 向量嵌入
+  - 向量存储
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - revoke_role()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # revoke_role()
 
-This operation revokes the role assigned to a user.
+此操作会撤销分配给用户的角色。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 revoke_role(
@@ -43,52 +43,52 @@ revoke_role(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **user_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing user.
+    现有用户的名称。
 
 - **role_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the role to revoke.
+    要撤销的角色名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将此参数设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
-None
+无
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -101,12 +101,4 @@ client.grant_role(user_name="user_1", role_name="db_ro")
 # 4. Revoke the role from the user
 client.revoke_role(user_name="user_1", role_name="db_ro")
 ```
-
-## Related methods
-
-- [describe_role()](./Authentication-describe_role)
-
-- [grant_role()](./Authentication-grant_role)
-
-- [list_roles()](./Authentication-list_roles)
 

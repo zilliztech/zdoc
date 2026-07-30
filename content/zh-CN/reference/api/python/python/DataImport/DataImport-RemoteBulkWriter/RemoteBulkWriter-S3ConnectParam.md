@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "S3ConnectParam | Python"
 slug: /python/python/RemoteBulkWriter-S3ConnectParam
 sidebar_label: "S3ConnectParam"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "An S3ConnectParam instance sets connection parameters for a RemoteBulkWriter instance. | Python"
+description: "S3ConnectParam 实例为 RemoteBulkWriter 实例设置连接参数。 | Python"
 type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - S3ConnectParam
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,20 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # S3ConnectParam
 
-An **S3ConnectParam** instance sets connection parameters for a **RemoteBulkWriter** instance.
+**S3ConnectParam** 实例为 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 实例设置连接参数。
 
 ```python
 class pymilvus.RemoteBulkWriter.S3ConnectParam
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs an **S3ConnectParam** object by a set of parameters, such as **bucket_name**, **access_key**, **secret_key**, etc.
+使用一组参数（例如 **bucket_name**、**access_key**、**secret_key** 等）构造一个 **S3ConnectParam** 对象。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>An <strong>S3ConnectParam</strong> object defines the parameters necessary for Zilliz Cloud to connect to an AWS-S3-compatible bucket.</p>
-<p>You need to create this object before initializing a <strong>RemoteBulkWriter</strong> object.</p>
+**S3ConnectParam** 对象定义了 Zilliz Cloud 连接到兼容 AWS S3 的存储桶所需的参数。
+
+您需要先创建此对象，然后再初始化 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
 
 </Admonition>
 
@@ -66,72 +67,62 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **bucket_name** (*str*)
 
-    The name of the remote bucket to connect to.
+    要连接的远程存储桶的名称。
 
 - **endpoint** (*str*)
 
-    The URL of the AWS-S3-compatible service.
+    兼容 AWS S3 的服务的 URL。
 
-    The value can be the URL of a MinIO service or that of any AWS S3 compatible public service.
+    该值可以是 MinIO 服务的 URL，或任何兼容 AWS S3 的公共服务的 URL。
 
-    <table>
-       <tr>
-         <th><p><strong>Service Name</strong></p></th>
-         <th><p><strong>Endpoint</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>AWS S3</strong></p></td>
-         <td><p>s3.amazonaws.com</p></td>
-       </tr>
-       <tr>
-         <td><p><strong>GCS</strong></p></td>
-         <td><p>storage.googleapis.com</p></td>
-       </tr>
-    </table>
+    | **服务名称** | **端点** |
+    | --- | --- |
+    | **AWS S3** | s3.amazonaws.com |
+    | **GCS** | storage.googleapis.com |
 
 - **access_key** (*str*)
 
-    The access key (user ID) used to authenticate access to the specified bucket.
+    用于验证对指定存储桶的访问权限的 access key（用户 ID）。
 
 - **secret_key** (*str*)
 
-    The secret_key (password) used to authenticate access to the specified bucket.
+    用于验证对指定存储桶的访问权限的 secret_key（密码）。
 
 - **secure** (*bool*)
 
-    Whether to use secure (TLS) connection to the AWS S3 compatible service. 
+    是否使用安全（TLS）连接访问兼容 AWS S3 的服务。 
 
 - **session_token** (*str*)
 
-    A session token of your account in the AWS S3 compatible service.
+    您在兼容 AWS S3 的服务中的账户会话令牌。
 
 - **region** (*str*)
 
-    The name or ID of the region where the bucket resides.
+    存储桶所在区域的名称或 ID。
 
 - **http_client** (*urllib3.poolmanager.PoolManager*)
 
-    A customized HTTP client.
+    自定义 HTTP 客户端。
 
 - **credentials** (*minio.credentials.Provider*)    
 
-    A credentials provider of your account in the AWS S3 compatible service.
+    您在兼容 AWS S3 的服务中的账户凭证提供程序。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*RemoteBulkWriter*
+*[RemoteBulkWriter](./DataImport-RemoteBulkWriter)*
 
-**RETURNS:**
+**返回：**
 
-A **RemoteBulkWriter** object.
+一个 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **Exception**
 
-    This exception will be raised if the connection fails.
+    如果连接失败，将引发此异常。
 

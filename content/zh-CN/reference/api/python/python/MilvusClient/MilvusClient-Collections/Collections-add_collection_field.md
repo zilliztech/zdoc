@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_collection_field() | Python | MilvusClient"
 slug: /python/python/Collections-add_collection_field
 sidebar_label: "add_collection_field()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds a new scalar field to an existing collection without recreating it. The field becomes available almost immediately with minimal delay due to internal schema synchronization. | Python | MilvusClient"
+description: "此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部 schema 同步，字段几乎会立即可用，仅有极小延迟。 | Python | MilvusClient"
 type: docx
 token: IquldHhyGo9s4IxF3cicOXGnnNf
 sidebar_position: 20
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - add_collection_field()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,92 +31,95 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_field()
 
-This operation adds a new scalar field to an existing collection without recreating it. The field becomes available almost immediately with minimal delay due to internal schema synchronization.
+此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部 schema 同步，字段几乎会立即可用，仅有极小延迟。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>If the collection has dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via <code>$meta['field_name']</code> syntax.</p>
+如果集合启用了动态字段，并且你添加了一个与现有动态字段键同名的静态字段，则该静态字段会遮蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
 
 </Admonition>
 
-## Request Syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这不适用于外部集合。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 add_collection_field(
     collection_name: str,
-    field_name: str,
-    data_type: DataType,
-    desc: str = "",
     timeout: Optional[float] = None,
     **kwargs
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** *(string)* –
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the target collection.
+    目标集合的名称。
 
 - **field_name** *(string)* –
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the new field.
+    新字段的名称。
 
 - **data_type** *(DataType)* –
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The data type of the new field. See DataType for supported types.
+    新字段的数据类型。支持的类型请参见 DataType。
 
 - **desc** *(string, optional)* –
 
-    A brief description of the field.
+    字段的简要描述。
 
 - **timeout** *(float)* –
 
-    Timeout (in seconds) for the RPC request. If `None`, the call waits indefinitely.
+    RPC 请求的超时时间（以秒为单位）。如果为 `None`，调用将无限期等待。
 
 - **kwargs** *(dict, optional)* –
 
-    Additional parameters include:
+    其他参数包括：
 
     - **nullable** *(bool)*:
 
-        Must be set to `True` for dynamically added fields to accommodate existing entities that don't have values for the new field.
+        对于动态添加的字段，必须设置为 `True`，以兼容现有实体中没有新字段值的情况。
 
     - **default_value** *(DataType-specific)*:
 
-        A default value for the field if none is provided during data insertion.
+        如果在插入数据时未提供该字段的值，则使用此默认值。
 
     - **max_length** *(int)*:
 
-        Required for `DataType.VARCHAR` fields. Sets the maximum allowed byte length for strings (1 to 65,535).
+        `DataType.VARCHAR` 字段必填。设置字符串允许的最大字节长度（1 到 65,535）。
 
     - **element_type** *(DataType)*:
 
-        Required for `DataType.ARRAY` fields. Specifies the data type of elements within the array.
+        `DataType.ARRAY` 字段必填。指定数组内元素的数据类型。
 
     - **max_capacity** *(int)*:
 
-        Required for `DataType.ARRAY` fields. Defines the maximum number of elements in the array.
+        `DataType.ARRAY` 字段必填。定义数组中的最大元素数量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
-**Example 1:** Add a basic nullable field
+**示例 1：** 添加一个基础可空字段
 
 ```python
 client.add_collection_field(
@@ -127,7 +130,7 @@ client.add_collection_field(
 )
 ```
 
-**Example 2:** Add a field with default value
+**示例 2：** 添加一个带默认值的字段
 
 ```python
 client.add_collection_field(

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/SpladeEmbeddingFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in SpladeEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
+description: "SpladeEmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: LJqud2x3AojxV4xKONocTe4YnFb
 sidebar_position: 4
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [SpladeEmbeddingFunction](./EmbeddingModels-SpladeEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
+[SpladeEmbeddingFunction](./EmbeddingModels-SpladeEmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
 
-Unlike [encode_documents()](./SpladeEmbeddingFunction-encode_documents) or [encode_queries()](./SpladeEmbeddingFunction-encode_queries), which enable you to prepend **doc_instruction** or **query_instruction** and utilize **k_tokens_document** or **k_tokens_query** for result pruning, the **\_\_call\_\_()** method directly returns embeddings without offering the option to prepend instructions or prune results.
+与 [encode_documents()](./SpladeEmbeddingFunction-encode_documents) 或 [encode_queries()](./SpladeEmbeddingFunction-encode_queries) 不同，后两者允许你添加 **doc_instruction** 或 **query_instruction** 前缀，并使用 **k_tokens_document** 或 **k_tokens_query** 对结果进行裁剪，而 **\_\_call\_\_()** 方法会直接返回嵌入结果，不提供添加指令前缀或裁剪结果的选项。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 # Instance created
@@ -47,27 +47,27 @@ splade_ef(
 ) -> csr_array
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **texts** (*List[str]*)
 
-    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *csr_array*
 
-**RETURNS:**
+**返回值：**
 
-Compressed sparse row matrices representing the document embeddings.
+表示文档嵌入的压缩稀疏行矩阵。
 
-**Exceptions:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the transformers library is not installed.
+    当未安装 transformers 库时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

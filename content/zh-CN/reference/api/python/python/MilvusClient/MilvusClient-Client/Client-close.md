@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "close() | Python | MilvusClient"
 slug: /python/python/Client-close
 sidebar_label: "close()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation closes the current Milvus client. | Python | MilvusClient"
+description: "此操作会关闭当前的 Milvus 客户端。 | Python | MilvusClient"
 type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - close()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,38 +31,38 @@ import Admonition from '@theme/Admonition';
 
 # close()
 
-This operation closes the current Milvus client.
+此操作会关闭当前的 Milvus 客户端。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 close() -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
-None
+无
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
-None
+无
 
-**Exceptions:**
+**异常：**
 
-None
+无
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "MilvusClient | Python | MilvusClient"
 slug: /python/python/Client-MilvusClient
 sidebar_label: "MilvusClient"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "A MilvusClient instance represents a Python client that connects to a specific Zilliz Cloud cluster. | Python | MilvusClient"
+description: "MilvusClient 实例表示一个连接到特定 Zilliz Cloud 集群的 Python 客户端。 | Python | MilvusClient"
 type: docx
-token: TUrSdmskuoGdFRxFT75c6xhinzc
+token: SojTdgw1joOuA8xMzb5cMUFYnce
 sidebar_position: 2
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # MilvusClient
 
-A **MilvusClient** instance represents a Python client that connects to a specific Zilliz Cloud cluster.
+**MilvusClient** 实例表示一个连接到特定 Zilliz Cloud 集群的 Python 客户端。
 
 ```python
 pymilvus.MilvusClient
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a client for common use cases.
+为常见用例构造一个客户端。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations on Zilliz Cloud.</p>
+该客户端可作为当前这组 API 的一个易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
 
 </Admonition>
 
@@ -59,68 +59,78 @@ MilvusClient(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **uri** (*string*) -
 
-    The URI of the Zilliz Cloud cluster. For example:
+    Zilliz Cloud 集群的 URI。例如：
 
-    ```plaintext
-    https://inxx-xxxxxxxxxxxxxxxxx.ali-cn-hangzhou.zillizcloud.com:19540
-    ```
+    - **集群端点**
+
+        - **Free & Serverless**
+
+            `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+        - **Dedicated**
+
+            `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+    - **项目端点（On-demand）**
+
+        `https://{project-id}.{region}.api.zillizcloud.com`
 
 - **user** (*string*) -
 
-    A valid username used to connect to the specified Zilliz Cloud cluster.
+    用于连接指定 Zilliz Cloud 集群的有效用户名。
 
-    This should be used along with **password**.
+    应与 **password** 一起使用。
 
 - **password** (*string*) -
 
-    A valid password used to connect to the specified Zilliz Cloud cluster.
+    用于连接指定 Zilliz Cloud 集群的有效密码。
 
-    This should be used along with **user**.
+    应与 **user** 一起使用。
 
 - **db_name** (*string*) -
 
-    The name of the database to which the target Milvus instance belongs.
+    目标 Milvus 实例所属数据库的名称。
 
 - **token** (*string*) -
 
-    A valid access token to access the specified Zilliz Cloud cluster. 
+    用于访问指定 Zilliz Cloud 集群的有效访问令牌。
 
-    This can be used as a recommended alternative to setting **user** and **password** separately.
+    可将其作为分别设置 **user** 和 **password** 的推荐替代方式。
 
-    When setting this field, notice that:
+    设置此字段时，请注意：
 
-    A valid token should be either
+    有效的 token 应为以下之一：
 
-    - An [API](/docs/manage-api-keys)[ key](/docs/manage-api-keys) with sufficient permissions, or
+    - 具有足够权限的 [API](/docs/manage-api-keys)[ key](/docs/manage-api-keys)，或
 
-    - A pair of [username and password ](/docs/cluster-credentials)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+    - 用于访问目标集群的一对 [username and password ](/docs/cluster-credentials)，二者以冒号（:）连接。例如，可将其设置为 `username:p@ssw0rd`。这仅适用于使用集群端点时。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # Authentication enabled with a cluster user
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password", # replace this with your token,
     db_name="default"
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p>
+将 **uri** 设置为你的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
 
 </Admonition>
 

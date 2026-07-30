@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "alter_alias() | Python | ORM"
 slug: /python/python/utility-alter_alias
 sidebar_label: "alter_alias()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation reassigns the alias of one collection to another. | Python | ORM"
+description: "此操作将一个集合的别名重新分配给另一个集合。 | Python | ORM"
 type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - vector database example
   - rag vector database
   - what is vector db
   - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -32,9 +32,9 @@ import TabItem from '@theme/TabItem';
 
 # alter_alias()
 
-This operation reassigns the alias of one collection to another.
+此操作将一个集合的别名重新分配给另一个集合。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 alter_alias(
@@ -56,68 +56,74 @@ alter_alias(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target collection to reassign an alias to.
+    要重新分配别名的目标集合名称。
 
 - **alias** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The alias of the collection. Note that the alias should exist beforehand.
+    集合的别名。请注意，该别名必须事先已存在。
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>In , a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling <code>alter_alias("collection_2", "bob")</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    什么是[集合](./ORM-Collection)别名？
+    
+        [集合](./ORM-Collection)别名是集合的附加名称。当您希望将应用程序切换到新集合而无需修改代码时，集合别名会非常有用。 
+    
+        在 中，[集合](./ORM-Collection)别名是全局唯一标识符。一个别名只能分配给一个集合。反之，一个集合可以有多个别名。
+    
+        下面是将一个集合的别名重新分配给另一个集合的示例：
+    
+        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，它原本分配给 `collection_1`：
+    
+        - `collection_1` 的别名 = ["bob"]
+    
+        - `collection_2` 的别名 = []
+    
+        调用 `alter_alias("collection_2", "bob")` 后：
+    
+        - `collection_1` 的别名 = []
+    
+        - `collection_2` 的别名 = ["bob"]
 
     </Admonition>
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
- None
+无
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Get two existing collections
@@ -139,9 +145,9 @@ utility.list_aliases(collection_name="collection_1") # []
 utility.list_aliases(collection_name="collection_2") # ['bob']
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `alter_alias()`:
+以下操作与 `alter_alias()` 相关：
 
 - [create_alias()](./utility-create_alias)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "MistralAIEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-MistralAIEmbeddingFunction
 sidebar_label: "MistralAIEmbeddingFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "MistralAIEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Mistral AI embedding models to support embedding retrieval in Milvus. | Python"
+description: "MistralAIEmbeddingFunction 是 pymilvus 中的一个类，使用 Mistral AI 嵌入模型将文本编码为向量，以支持在 Milvus 中进行向量检索。 | Python"
 type: docx
 token: CvxodXz8OoWXrlxD7OVcqqJLn8e
 sidebar_position: 3
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - MistralAIEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # MistralAIEmbeddingFunction
 
-MistralAIEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Mistral AI embedding models to support embedding retrieval in Milvus.
+MistralAIEmbeddingFunction 是 pymilvus 中的一个类，使用 Mistral AI 嵌入模型将文本编码为向量，以支持在 Milvus 中进行向量检索。
 
 ```python
 pymilvus.model.dense.MistralAIEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a MistralAIEmbeddingFunction for common use cases.
+构造一个适用于常见用例的 MistralAIEmbeddingFunction。
 
 ```python
 MistralAIEmbeddingFunction(
@@ -49,21 +49,21 @@ MistralAIEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **api_key** (*string*)
 
-    The API key for accessing the Mistral AI API.
+    用于访问 Mistral AI API 的 API 密钥。
 
 - **model_name** (*string*)
 
-    The name of the Mistral AI embedding model to use for encoding. The value defaults to `mistral-embed`. For more information, refer to [Embeddings](https://docs.mistral.ai/capabilities/embeddings/).
+    用于编码的 Mistral AI 嵌入模型名称。默认值为 `mistral-embed`。更多信息，请参见 [Embeddings](https://docs.mistral.ai/capabilities/embeddings/)。
 
 - **kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [Embedding API](https://docs.mistral.ai/api/#tag/embeddings/operation/embeddings_v1_embeddings_post).
+    允许在模型初始化时传入其他关键字参数。更多信息，请参见 [Embedding API](https://docs.mistral.ai/api/#tag/embeddings/operation/embeddings_v1_embeddings_post)。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import MistralAIEmbeddingFunction

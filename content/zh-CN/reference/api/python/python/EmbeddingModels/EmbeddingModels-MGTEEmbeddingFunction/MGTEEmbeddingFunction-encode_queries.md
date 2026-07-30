@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_queries() | Python"
 slug: /python/python/MGTEEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
 type: docx
 token: HEWIdid9BoFMyNxN8Bbc0P3nn6g
 sidebar_position: 2
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-This operation takes in a list of query strings and encodes each query into a vector embedding.
+此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 encode_queries(
@@ -41,25 +41,25 @@ encode_queries(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **queries** (*List[str]*)
 
-    A list of string values, where each string represents a query that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary that contains the encoded embeddings, both dense and sparse.
+一个包含编码后嵌入的字典，包括 dense 和 sparse 两种表示。
 
-**Exceptions:**
+**异常：**
 
-*None*
+*无*
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.hybrid import MGTEEmbeddingFunction

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get() | Python | MilvusClient"
 slug: /python/python/Vector-get
 sidebar_label: "get()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets specific entities by their IDs. | Python | MilvusClient"
+description: "此操作按其 ID 获取特定实体。 | Python | MilvusClient"
 type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-This operation gets specific entities by their IDs.
+此操作按其 ID 获取特定实体。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法仅适用于专用服务集群和按需计算。 
+
+- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 get(
@@ -46,64 +66,64 @@ get(
 ) -> List[dict]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **ids** (*list* | *str* | *int*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    A specific entity ID or a list of entity IDs.
+    特定实体 ID 或实体 ID 列表。
 
 - **output_fields** (*list[str]* | *None*) -
 
-    A list of field names to include in each entity in return.
+    返回的每个实体中要包含的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
+    默认值为 **None**。如果未指定，则选择所有字段作为输出字段。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则仅在指定的分区中进行查询。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list[dict]*
 
-**RETURNS:**
+**返回：**
 
-A list of dictionaries with each dictionary representing a queried entity.
+由字典组成的列表，其中每个字典表示一个已查询到的实体。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    This exception will be raised when a parameter value doesn't match the required data type.
+    当参数值与所需的数据类型不匹配时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -169,16 +189,4 @@ res = client.get(
 #     }
 # ]
 ```
-
-## Related methods
-
-- [delete()](./Vector-delete)
-
-- [insert()](./Vector-insert)
-
-- [query()](./Vector-query)
-
-- [search()](./Vector-search)
-
-- [upsert()](./Vector-upsert)
 

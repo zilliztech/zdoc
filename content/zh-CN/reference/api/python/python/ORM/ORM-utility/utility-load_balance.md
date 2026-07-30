@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load_balance() | Python | ORM"
 slug: /python/python/utility-load_balance
 sidebar_label: "load_balance()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation sets up a load-balancing group between two query nodes for a specific collection. | Python | ORM"
+description: "此操作会为特定 collection 的两个 query node 设置一个负载均衡组。 | Python | ORM"
 type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - load_balance()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # load_balance()
 
-This operation sets up a load-balancing group between two query nodes for a specific collection.
+此操作会为特定 collection 的两个 query node 设置一个负载均衡组。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 load_balance(
@@ -46,53 +46,53 @@ load_balance(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
-**[REQUIRED]**
+**[必需]**
 
-    The name of an existing collection for which a load-balancing group is set up.
+    要为其设置负载均衡组的现有 collection 名称。
 
 - **src_node_id** (*int*) -
-**[REQUIRED]**
+**[必需]**
 
-    The ID of the query node the collection currently uses.
+    当前该 collection 所使用的 query node 的 ID。
 
 - **dst_node_ids** (*list[int]*) -
 
-    The IDs of the query nodes to be added to the load-balancing group.
+    要添加到负载均衡组中的 query node 的 ID。
 
 - **sealed_segment_ids** (*list[int]*) -
 
-    The IDs of the sealed segments to load-balance.
+    要进行负载均衡的 sealed segment 的 ID。
 
 - **timeout** (*float*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 N/A
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 utility.load_balance(

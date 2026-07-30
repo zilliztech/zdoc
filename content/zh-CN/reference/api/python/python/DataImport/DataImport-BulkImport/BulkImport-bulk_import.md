@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "bulk_import() | Python"
 slug: /python/python/BulkImport-bulk_import
 sidebar_label: "bulk_import()"
-added_since: Inherit
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: Inherit
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Python"
+description: "此函数为开源 Milvus 或 Zilliz Cloud 提交批量导入任务，包括对项目数据库的 project/region 路由。 | Python"
 type: docx
-token: RFSCdiUYGouQrtx8c1RczPVvnmf
+token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - 什么是向量嵌入
+  - 向量数据库教程
+  - 向量数据库如何工作
+  - 向量数据库对比
   - zilliz
   - zilliz cloud
   - cloud
   - bulk_import()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,147 +31,166 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](/docs/prepare-data-import).
+此函数为开源 Milvus 或 Zilliz Cloud 提交批量导入任务，包括对项目数据库的 project/region 路由。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 bulk_import(
     url: str,
-    api_key: str,
-    object_url: str,
-    access_key: str,
-    secret_key: str,
-    cluster_id: str,
     collection_name: str,
+    db_name: str = "",
+    files: list[list[str]] | None = None,
+    object_url: str = "",
+    object_urls: list[list[str]] | None = None,
+    cluster_id: str = "",
+    api_key: str = "",
+    access_key: str = "",
+    secret_key: str = "",
+    token: str = "",
+    volume_name: str = "",
+    data_paths: list[list[str]] | None = None,
+    
+    project_id: str = "",
+    region_id: str = "",
+    
+    verify: bool | str = True,
+    cert: str | tuple | None = None,
     **kwargs,
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **url** (*string*) -
+- **url** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The endpoint URL of your Zilliz Cloud cluster. 
+    用于 Milvus 或 Zilliz Cloud 批量导入 API 的服务器端点。
 
-    For example, the endpoint URL should be in the following format:
+- **collection_name** (*str*) -
 
-    ```python
-    https://api.cloud.zilliz.com
-    # https://api.cloud.zilliz.com.cn 
-    ```
+    **[必需]**
 
-    Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
+    目标 collection 名称。
 
-- **api_key** (*string*) -
+- **db_name** (*str*) -
 
-    **[REQUIRED]**
+    目标数据库名称。
 
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
+- **files** (*list[list[str]]*) -
 
-- **object_url** (*string*) -
+    用于导入的本地文件分组。
 
-    **[REQUIRED]**
+- **object_url** (*str*) -
 
-    The URL of your data files in one of your block storage buckets. The following are some examples of some renowned block storage services:
+    用于云端导入的对象存储 URL。
 
-    ```python
-    # Google Cloud Storage
-    gs://{bucket-name}/{object-path}/
-    
-    # AWS S3
-    s3://{bucket-name}/{object-path}/
-    ```
+- **object_urls** (*list[list[str]]*) -
 
-- **access_key** (*string*) -
+    用于云端导入的对象存储 URL 分组。
 
-    **[REQUIRED]**
+- **cluster_id** (*str*) -
 
-    The access key that is used to authenticate access to your data files.
+    用于导入任务的云集群 ID。
 
-- **secret_key** (*string*) -
+- **access_key** (*str*) -
 
-    **[REQUIRED]**
+    对象存储访问密钥。
 
-    The secret key that is used to authenticate access to your data files.
+- **secret_key** (*str*) -
 
-- **cluster_id** (*string*) -
+    对象存储密钥。
 
-    **[REQUIRED]**
+- **token** (*str*) -
 
-    The instance ID of the target cluster of this operation.
+    用于访问对象存储的临时会话令牌。
 
-    You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
+- **volume_name** (*str*) -
 
-**RETURN TYPE:**
+    基于卷导入时使用的卷名称。
 
-*dict*
+- **data_paths** (*list[list[str]]*) -
 
-**RETURNS:**
+    数据文件相对于卷的路径。
 
-- Response syntax
+- **project_id** (*str*) -
 
-    ```python
-    # {
-    #     "code": 200,
-    #     "data": {
-    #         "jobId": "string"
-    #     }
-    # }
-    ```
+    有效的 Zilliz Cloud 项目 ID。 
 
-- Response structure
+    当你向按需计算的数据库执行批量导入时适用。
 
-    - **jobId** (*string*) -
+- **region_id** (*str*) -
 
-        If present, indicates that a bulk-import job has been created successfully and is currently running.
+    有效的 Zilliz Cloud 区域 ID。
 
-**EXCEPTIONS:**
+    当你向按需计算的数据库执行批量导入时适用。
 
-None
+- **verify** (*bool | str*) -
 
-## Examples
+    TLS 验证设置。
+
+- **cert** (*str | tuple*) -
+
+    客户端证书路径或 `(cert, key)` 元组。
+
+- **kwargs** (*dict*) -
+
+    可选字段，例如 `partition_name` 和 `options`。
+
+**返回类型：**
+*requests.Response*
+
+返回导入任务创建响应。
+
+包含已创建导入任务元数据的 HTTP 响应。
+
+**异常：**
+
+- **MilvusException**
+
+    当请求提交失败或服务器拒绝该任务时引发。
+
+## 示例\{#examples}
 
 ```python
 from pymilvus.bulk_writer import bulk_import
 
-# Bulk-import your data from the prepared data files
-CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com.cn"
-CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
-API_KEY = ""
-STORAGE_URL = ""
-ACCESS_KEY = ""
-SECRET_KEY = ""
-
-res = bulk_import(
-    api_key=API_KEY,
-    url=CLOUD_API_ENDPOINT,
-    cluster_id=CLUSTER_ID,
-    collection_name="quick_setup",
-    object_url=STORAGE_URL,
-    access_key=ACCESS_KEY,
-    secret_key=SECRET_KEY
+resp = bulk_import(
+    url="https://api.cloud.zilliz.com",
+    api_key="YOUR_API_KEY",
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    collection_name="book_catalog",
+    files=[
+        ["s3://demo-bucket/books/part-0001.parquet"],
+        ["s3://demo-bucket/books/part-0002.parquet"],
+    ],
+    access_key="AKIA...",
+    secret_key="SECRET...",
 )
 
-print(res.json())
-
-# Output
-#
-# {
-#     "code": 200,
-#     "data": {
-#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
-#     }
-# }
+print(resp.json())
 ```
 
-For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
+<include  target="milvus">
 
-## Related methods
+```python
+from pymilvus.bulk_writer import bulk_import
 
-- [get_import_progress()](./BulkImport-get_import_progress)
+resp = bulk_import(
+    url="https://YOUR_CLUSTER_ENDPOINT",
+    api_key="username:password", # replace this with your actual credentials
+    collection_name="book_catalog",
+    files=[
+        ["s3://demo-bucket/books/part-0001.parquet"],
+        ["s3://demo-bucket/books/part-0002.parquet"],
+    ],
+    access_key="AKIA...",
+    secret_key="SECRET...",
+)
 
-- [list_import_jobs()](./BulkImport-list_import_jobs)
+print(resp.json())
+```
 
+</include>

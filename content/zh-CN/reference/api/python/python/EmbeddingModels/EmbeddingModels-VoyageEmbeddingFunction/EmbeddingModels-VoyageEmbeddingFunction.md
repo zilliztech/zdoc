@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "VoyageEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-VoyageEmbeddingFunction
 sidebar_label: "VoyageEmbeddingFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "VoyageEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Voyage models to support embedding retrieval in Milvus. | Python"
+description: "VoyageEmbeddingFunction 是 pymilvus 中的一个类，用于使用 Voyage 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: HEyLd2lxzo3bl4xqVBOco8vWn1c
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - 托管向量数据库
+  - Pinecone 向量数据库
+  - 音频搜索
+  - 什么是语义搜索
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # VoyageEmbeddingFunction
 
-**VoyageEmbeddingFunction** is a class in pymilvus that handles encoding text into embeddings using Voyage models to support embedding retrieval in Milvus.
+**VoyageEmbeddingFunction** 是 pymilvus 中的一个类，用于使用 Voyage 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.VoyageEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs an VoyageEmbeddingFunction for common use cases.
+构造一个适用于常见用例的 VoyageEmbeddingFunction。
 
 ```python
 VoyageEmbeddingFunction(
@@ -49,21 +49,21 @@ VoyageEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*)
 
-    The name of the Voyage model to use for encoding. You can specify any of the available Voyage model names, for example, `voyage-law-2`, `voyage-code-2`, etc. If you leave this parameter unspecified, `voyage-2` will be used. For a list of available models, refer to [Voyage official documentation](https://docs.voyageai.com/docs/embeddings).
+    用于编码的 Voyage 模型名称。你可以指定任何可用的 Voyage 模型名称，例如 `voyage-law-2`、`voyage-code-2` 等。如果未指定此参数，将使用 `voyage-2`。有关可用模型列表，请参阅 [Voyage 官方文档](https://docs.voyageai.com/docs/embeddings)。
 
 - **api_key** (*string*)
 
-    The API key for accessing the Voyage API. For information on how to create an API key, refer to [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation).
+    用于访问 Voyage API 的 API 密钥。有关如何创建 API 密钥的信息，请参阅 [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation)。
 
 - **kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [Python API](https://docs.voyageai.com/docs/embeddings#python-api).
+    允许将额外的关键字参数传递给模型初始化。更多信息请参阅 [Python API](https://docs.voyageai.com/docs/embeddings#python-api)。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import VoyageEmbeddingFunction

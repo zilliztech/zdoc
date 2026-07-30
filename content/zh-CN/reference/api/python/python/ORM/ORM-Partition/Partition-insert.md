@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "insert() | Python | ORM"
 slug: /python/python/Partition-insert
 sidebar_label: "insert()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation inserts data into the current partition. | Python | ORM"
+description: "此操作将数据插入当前分区。 | Python | ORM"
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-This operation inserts data into the current partition.
+此操作将数据插入当前分区。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Using the <strong>partition_name</strong> parameter in the <strong>insert()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>insert()</strong> method of a <strong>Partition</strong> object.</p>
+在 **[Collection](./ORM-Collection)** 对象的 **insert()** 方法中使用 **partition_name** 参数，等同于使用 **[Partition](./ORM-Partition)** 对象的 **insert()** 方法。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 insert(
@@ -48,19 +48,19 @@ insert(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **data** (*list* | *dict* | *pandas.DataFrame*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The data to insert into the current collection.
+    要插入到当前 collection 中的数据。
 
-    The data to insert should match the schema of the current collection. You can organize your data into:
+    要插入的数据应与当前 collection 的 schema 匹配。你可以按以下方式组织数据：
 
-    - A list of columns
+    - 列表形式的列
 
-        Each column is a list of each entity's value in that column.
+        每一列都是一个列表，包含每个实体在该列中的值。
 
         ```python
         data = [
@@ -75,9 +75,9 @@ insert(
         ]
         ```
 
-    - A **pandas.DataFrame**
+    - **pandas.DataFrame**
 
-        You can form a data frame in any way, as demonstrated in the **Example** section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+        你可以采用任意方式构建数据框，示例如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
 
         ```python
         data = pd.DataFrame({
@@ -92,9 +92,9 @@ insert(
         })
         ```
 
-    - A list of rows or just a row
+    - 行列表或单行
 
-        Each row is a dictionary that represents an entity.
+        每一行都是一个表示实体的字典。
 
         ```python
         data = [
@@ -112,65 +112,65 @@ insert(
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *MutationResult*
 
-**RETURNS:**
+**返回：**
 
-A **MutationResult** object that contains the following fields:
+一个 **MutationResult** 对象，包含以下字段：
 
 - **insert_count** (*int*)
 
-    The count of inserted entities.
+    已插入实体的数量。
 
 - **primary_keys** (*list*)
 
-    A list of primary keys for the inserted entities.
+    已插入实体的主键列表。
 
-**EXCEPTIONS:**
+**异常：**
 
-- A **MutationResult** object that contains the following fields:
+- 一个 **MutationResult** 对象，包含以下字段：
 
     - **insert_count** (*int*)
 
-        The count of inserted entities.
+        已插入实体的数量。
 
     - **delete_count** (*int*)
 
-        The count of deleted entities.
+        已删除实体的数量。
 
     - **upsert_count** (*int*)
 
-        The count of upserted entities.
+        已 upsert 实体的数量。
 
     - **succ_count** (*int*)
 
-        The count of successful executions during this operation.
+        此操作中成功执行的次数。
 
     - **succ_index** (*list*)
 
-        A list of index numbers starting from 0, each indicating a successful operation.
+        从 0 开始的索引号列表，每个索引表示一次成功的操作。
 
     - **err_count** (*int*)
 
-        The count of failed executions during this operation.
+        此操作中失败执行的次数。
 
     - **err_index** (*list*)
 
-        A list of index numbers starting from 0, each indicating a failed operation.
+        从 0 开始的索引号列表，每个索引表示一次失败的操作。
 
     - **primary_keys** (*list*)
 
-        A list of primary keys for the inserted entities.
+        已插入实体的主键列表。
 
     - **timestamp** (*int*)
 
-        The timestamp at which this operation is completed.
+        此操作完成时的时间戳。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, Partition, FieldSchema, CollectionSchema, DataType
@@ -201,9 +201,9 @@ res.insert_count
 10
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `insert()`:
+以下操作与 `insert()` 相关：
 
 - [delete()](./Partition-delete)
 

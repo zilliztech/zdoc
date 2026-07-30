@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_user() | Python | ORM"
 slug: /python/python/utility-create_user
 sidebar_label: "create_user()"
-added_since: Inherit
-last_modified: false
-deprecate_since: false
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation creates a new user with a corresponding password. | Python | ORM"
+description: "此操作会创建一个新用户及其对应的密码。 | Python | ORM"
 type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -32,9 +32,9 @@ import TabItem from '@theme/TabItem';
 
 # create_user()
 
-This operation creates a new user with a corresponding password.
+此操作会创建一个新用户及其对应的密码。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 create_user(
@@ -56,61 +56,61 @@ utility.create_user(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **user** (*string*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the new user to create. The value should start with a letter and can only contain underline, letters and numbers.
+    要创建的新用户的名称。该值应以字母开头，并且只能包含下划线、字母和数字。
 
 - **password** (*string*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The corresponding password to the new user to create. 
+    要创建的新用户对应的密码。 
 
-    The password must be a string of 8 to 64 characters and must include at least three of the following character types: uppercase letters, lowercase letters, numbers, and special characters.
+    密码必须是 8 到 64 个字符的字符串，并且必须至少包含以下四类字符中的三类：大写字母、小写字母、数字和特殊字符。
 
 - **using** (*string*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a user
 user = utility.create_user(user="admin", password="123456")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `create_user()`
+以下操作与 `create_user()` 相关：
 
 - [Role](./ORM-Role)
 

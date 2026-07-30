@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/BGEM3EmbeddingFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in BGEM3EmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
+description: "BGEM3EmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: K7qWdSwtNo976VxcvopczGLjnLf
 sidebar_position: 4
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
+[BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
 
-The **\_\_call\_\_()** method of BGEM3EmbeddingFunction shares the same functionality as [encode_documents()](./BGEM3EmbeddingFunction-encode_documents) and [encode_queries()](./BGEM3EmbeddingFunction-encode_queries).
+BGEM3EmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./BGEM3EmbeddingFunction-encode_documents) 和 [encode_queries()](./BGEM3EmbeddingFunction-encode_queries) 具有相同的功能。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 # Instance created
@@ -47,29 +47,29 @@ bge_m3_ef(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **texts** (*List[str]*)
 
-    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary containing the document embeddings.
+一个包含文档嵌入的字典。
 
-When initializing [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction), if **return_dense**, **return_sparse**, and **return_colbert_vecs** are set to **True**, the returned dictionary will contain the keys **dense**, **sparse**, and **colbert_vecs**, with the corresponding dense embeddings, sparse word embeddings, and ColBERT vectors.
+在初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含键 **dense**、**sparse** 和 **colbert_vecs**，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
 
-**Exceptions:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the FlagEmbedding module is not installed.
+    当未安装 FlagEmbedding 模块时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_connection_addr() | Python | ORM"
 slug: /python/python/Connections-get_connection_addr
 sidebar_label: "get_connection_addr()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation retrieves the configuration of the specified connection by alias. | Python | ORM"
+description: "此操作通过别名检索指定连接的配置。 | Python | ORM"
 type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
 keywords: 
+  - knn
+  - Image Search
+  - LLMs
   - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - get_connection_addr()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,37 +31,37 @@ import Admonition from '@theme/Admonition';
 
 # get_connection_addr()
 
-This operation retrieves the configuration of the specified connection by alias.
+此操作通过别名检索指定连接的配置。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 get_connection_addr(alias: str)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **alias** (*string*) -
 
     **[REQUIRED]**
 
-    A connection alias.
+    连接别名。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Dictionary*
 
-**RETURNS:**
+**返回：**
 
-A dictionary containing the connection configuration.
+包含连接配置的字典。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **ConnectionConfigException**
 
-    This exception will be raised when the connection configuration is invalid.
+    当连接配置无效时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections
@@ -69,12 +69,12 @@ from pymilvus import connections
 connections.get_connection_addr(alias="default")
 
 # Output
-# {'address': 'in03-**************.api.ali-cn-hangzhou'}
+# {'address': 'in03-**************.api.gcp-us-west1.cloud.zilliz.com:443', 'user': ''}
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `get_connection_addr()`:
+以下操作与 `get_connection_addr()` 相关：
 
 - [add_connection()](./Connections-add_connection)
 

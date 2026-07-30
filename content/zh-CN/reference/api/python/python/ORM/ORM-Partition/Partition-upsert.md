@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "upsert() | Python | ORM"
 slug: /python/python/Partition-upsert
 sidebar_label: "upsert()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation inserts new records into the database or updates existing ones. | Python | ORM"
+description: "此操作将新记录插入数据库或更新现有记录。 | Python | ORM"
 type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -32,15 +32,15 @@ import TabItem from '@theme/TabItem';
 
 # upsert()
 
-This operation inserts new records into the database or updates existing ones. 
+此操作将新记录插入数据库或更新现有记录。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>An upsert is a data-level operation that will overwrite an existing entity if a specified field already exists in a collection, and insert a new entity if the specified value doesn’t already exist.</p>
+upsert 是一种数据级操作：如果集合中已存在指定字段，则会覆盖现有实体；如果指定值尚不存在，则会插入新实体。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 upsert(
@@ -68,19 +68,19 @@ partition.upsert(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **data** (*list* | *dict* | *pandas.DataFrame*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The data to insert into the current collection.
+    要插入到当前集合中的数据。
 
-    The data to insert should match the schema of the current collection. You can organize your data into:
+    要插入的数据应与当前集合的 schema 匹配。你可以将数据组织为以下形式：
 
-    - A list of columns
+    - 列表形式的列
 
-        Each column is a list of values of all entities in that column.
+        每一列都是该列中所有实体值组成的列表。
 
         ```python
         data = [
@@ -95,9 +95,9 @@ partition.upsert(
         ]
         ```
 
-    - A **pandas.DataFrame**
+    - **pandas.DataFrame**
 
-        You can form a data frame in any way, as demonstrated in the **Example** section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+        你可以按任意方式构建数据框，示例如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
 
         ```python
         data = pd.DataFrame({
@@ -112,9 +112,9 @@ partition.upsert(
         })
         ```
 
-    - A list of rows or just a row
+    - 行列表或单行
 
-        Each row is a dictionary that represents an entity.
+        每一行都是一个表示实体的字典。
 
         ```python
         data = [
@@ -132,59 +132,59 @@ partition.upsert(
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *MutationResult*
 
-**RETURNS:**
+**返回值：**
 
-A **MutationResult** object that contains the following fields:
+一个 **MutationResult** 对象，包含以下字段：
 
 - **insert_count** (*int*)
 
-    The count of inserted entities.
+    插入的实体数量。
 
 - **delete_count** (*int*)
 
-    The count of deleted entities.
+    删除的实体数量。
 
 - **upsert_count** (*int*)
 
-    The count of upserted entities.
+    upsert 的实体数量。
 
 - **succ_count** (*int*)
 
-    The count of successful executions during this operation.
+    此操作中成功执行的次数。
 
 - **succ_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a successful operation.
+    一个从 0 开始的索引号列表，每个索引号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    The count of failed executions during this operation.
+    此操作中失败执行的次数。
 
 - **err_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a failed operation.
+    一个从 0 开始的索引号列表，每个索引号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    A list of primary keys for the inserted entities.
+    已插入实体的主键列表。
 
 - **timestamp** (*int*)
 
-    The timestamp at which this operation is completed.
+    此操作完成时的时间戳。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, Partition, FieldSchema, CollectionSchema, DataType
@@ -215,9 +215,9 @@ res.upsert_count
 10
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `upsert()`:
+以下操作与 `upsert()` 相关：
 
 - [delete()](./Partition-delete)
 

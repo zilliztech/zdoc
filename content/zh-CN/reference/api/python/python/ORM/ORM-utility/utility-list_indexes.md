@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_indexes() | Python | ORM"
 slug: /python/python/utility-list_indexes
 sidebar_label: "list_indexes()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists all indexes of a specific collection. | Python | ORM"
+description: "此操作列出特定集合的所有索引。 | Python | ORM"
 type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_indexes()
 
-This operation lists all indexes of a specific collection.
+此操作列出特定集合的所有索引。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_indexes(
@@ -43,49 +43,49 @@ list_indexes(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
-    Setting this to a non-existing collection leads to a **CollectionNotExistException**.
+    如果将其设置为不存在的集合，会导致 **CollectionNotExistException**。
 
 - **index_name** (*str*) -
 
-    The name of the target index of this operation.
+    此操作目标索引的名称。
 
-    If left unspecified, the default index applies. If the collection has multiple indexes, this parameter is mandatory.
+    如果未指定，则使用默认索引。如果集合有多个索引，则此参数为必填。
 
-    Setting this to a non-existing index leads to an **IndexNotExistException**.
+    如果将其设置为不存在的索引，会导致 **IndexNotExistException**。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
+**返回：**
 
-The names of all built indexes in a list.
+以列表形式返回所有已构建索引的名称。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **CollectionNotExistException**
 
-    This exception will be raised if the specified collection does not exist.
+    如果指定的集合不存在，则会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import (
@@ -97,7 +97,7 @@ from pymilvus import (
     utility,
 )
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a collection
@@ -134,12 +134,11 @@ collection.create_index(
 utility.list_indexes(
     collection_name="test_collection"
 ) # ['_default_idx_101', '_default_idx_100']
-
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_indexes()`
+以下操作与 `list_indexes()` 相关：
 
 - [create_index()](./Collection-create_index)
 

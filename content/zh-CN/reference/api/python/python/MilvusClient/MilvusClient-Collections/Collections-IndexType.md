@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "IndexType | Python | MilvusClient"
 slug: /python/python/Collections-IndexType
 sidebar_label: "IndexType"
+beta: false
 added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
+description: "这是一个提供以下常量的枚举。 | Python | MilvusClient"
 type: docx
 token: SlrCd1GEbooMh2xLylZc6Oirnrc
 sidebar_position: 15
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,98 +31,98 @@ import Admonition from '@theme/Admonition';
 
 # IndexType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - GPU_BRUTE_FORCE
 
-    Sets the index type to **GPU_BRUTE_FORCE**. This applies to GPU indexes only.
+    将索引类型设置为 **GPU_BRUTE_FORCE**。这仅适用于 GPU 索引。
 
 - GPU_IVF_FLAT
 
-    Sets the index type to **GPU_IVF_FLAT**. This applies to GPU indexes only.
+    将索引类型设置为 **GPU_IVF_FLAT**。这仅适用于 GPU 索引。
 
 - GPU_IVF_PQ
 
-    Sets the index type to **GPU_IVF_PQ**. This applies to GPU indexes only.
+    将索引类型设置为 **GPU_IVF_PQ**。这仅适用于 GPU 索引。
 
 - GPU_CAGRA
 
-    Sets the index type to **GPU_CAGRA**. This applies to GPU indexes only.
+    将索引类型设置为 **GPU_CAGRA**。这仅适用于 GPU 索引。
 
 - FLAT
 
-    Sets the index type to **FLAT**.
+    将索引类型设置为 **FLAT**。
 
 - IVF_FLAT
 
-    Sets the index type to **IVF_FLAT**.
+    将索引类型设置为 **IVF_FLAT**。
 
 - IVF_PQ
 
-    Sets the index type to **IVF_PQ**.
+    将索引类型设置为 **IVF_PQ**。
 
 - SCANN
 
-    Sets the index type to **SCANN**.
+    将索引类型设置为 **SCANN**。
 
 - IVF_SQ8
 
-    Sets the index type to **IVF_SQ8**.
+    将索引类型设置为 **IVF_SQ8**。
 
 - IVF_RABITQ
 
-    Sets the index type to **IVF_RABITQ**.
+    将索引类型设置为 **IVF_RABITQ**。
 
 - BIN_FLAT
 
-    Sets the index type to **BIN_FLAT**. This applies to binary vectors only.
+    将索引类型设置为 **BIN_FLAT**。这仅适用于二进制向量。
 
 - BIN_IVF_FLAT
 
-    Sets the index type to **BIN_IVF_FLAT**. This applies to binary vectors only.
+    将索引类型设置为 **BIN_IVF_FLAT**。这仅适用于二进制向量。
 
 - HNSW
 
-    Sets the index type to **HNSW**.
+    将索引类型设置为 **HNSW**。
 
 - HNSW_SQ
 
-    Sets the index type to **HNSW_SQ**.
+    将索引类型设置为 **HNSW_SQ**。
 
 - HNSW_PQ
 
-    Sets the index type to **HNSW_PQ**.
+    将索引类型设置为 **HNSW_PQ**。
 
 - HNSW_PRQ
 
-    Sets the index type to **HNSW_PRQ**.
+    将索引类型设置为 **HNSW_PRQ**。
 
 - DISKANN
 
-    Sets the index type to **DISKANN**.
+    将索引类型设置为 **DISKANN**。
 
 - SPARSE_INVERTED_INDEX
 
-    Sets the index type to **SPARSE_INVERTED_INDEX**. This applies to sparse vectors only.
+    将索引类型设置为 **SPARSE_INVERTED_INDEX**。这仅适用于稀疏向量。
 
 - SPARSE_WAND
 
-    Sets the index type to **SPARSE_WAND**. This applies to sparse vectors only.
+    将索引类型设置为 **SPARSE_WAND**。这仅适用于稀疏向量。
 
 - INVERTED
 
-    Sets the index type to **INVERTED**. This applies to scalar fields only.
+    将索引类型设置为 **INVERTED**。这仅适用于标量字段。
 
 - STL_SORT
 
-    Sets the index type to **STL_SORT**. This applies to scalar fields only.
+    将索引类型设置为 **STL_SORT**。这仅适用于标量字段。
 
 - TRIE / Trie
 
-    Sets the index type to **TRIE**. This applies to VarChar scalar fields only.
+    将索引类型设置为 **TRIE**。这仅适用于 VarChar 标量字段。
 
 - AUTOINDEX
 
-    Sets the index type to **AUTOINDEX**.
+    将索引类型设置为 **AUTOINDEX**。

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "release_collection() | Python | MilvusClient"
 slug: /python/python/Management-release_collection
 sidebar_label: "release_collection()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation releases the data of a specific collection from memory. | Python | MilvusClient"
+description: "此操作会将特定 collection 的数据从内存中释放。 | Python | MilvusClient"
 type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 13
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - 什么是向量数据库
+  - vectordb
+  - 多模态向量数据库检索
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - release_collection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # release_collection()
 
-This operation releases the data of a specific collection from memory.
+此操作会将特定 collection 的数据从内存中释放。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管 collection。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 release_collection(
@@ -42,41 +48,41 @@ release_collection(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a collection.
+    collection 的名称。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -180,7 +186,7 @@ client.get_load_state(
 # {'state': <LoadState: NotLoad>}
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [get_load_state()](./Management-get_load_state)
 

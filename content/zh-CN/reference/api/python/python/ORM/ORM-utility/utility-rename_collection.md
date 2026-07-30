@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "rename_collection() | Python | ORM"
 slug: /python/python/utility-rename_collection
 sidebar_label: "rename_collection()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation renames an existing collection and optionally moves the collection to a new database. | Python | ORM"
+description: "此操作会重命名现有集合，并可选择将该集合移动到新的数据库中。 | Python | ORM"
 type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # rename_collection()
 
-This operation renames an existing collection and optionally moves the collection to a new database.
+此操作会重命名现有集合，并可选择将该集合移动到新的数据库中。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Aliases created for the target collection remain intact after this operation.</p>
+为目标集合创建的别名在此操作后仍会保留。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 rename_collection(
@@ -51,61 +51,61 @@ rename_collection(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **old_collection_name** (*str*) -
 
-    **[REQUIRED]**
-    The original name of the target collection.
+    **[必需]**
+    目标集合的原始名称。
 
-    Setting this to a non-existing collection results in a **MilvusException**.
+    如果将其设置为不存在的集合，将导致 **MilvusException**。
 
 - **new_collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target collection after this operation.
+    此操作后目标集合的名称。
 
-    Setting this to the value of **old_collection_name** results in a **MilvusException**.
+    如果将其设置为 **old_collection_name** 的值，将导致 **MilvusException**。
 
 - **new_db_name** (*str*) -
 
-    The name of the database to which the collection belongs after this operation.
+    此操作后该集合所属数据库的名称。
 
-    The value defaults to **default**. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.
+    该值默认为 **default**。如果将其设置为与此操作前集合所属数据库不同的数据库，则会将该集合移动到指定数据库。
 
-    Setting this to a non-existing database results in a **MilvusException**.
+    如果将其设置为不存在的数据库，将导致 **MilvusException**。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Renames a collection
@@ -122,9 +122,9 @@ utility.rename_collection(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `rename_collection()`:
+以下操作与 `rename_collection()` 相关：
 
 - [drop_collection()](./utility-drop_collection)
 

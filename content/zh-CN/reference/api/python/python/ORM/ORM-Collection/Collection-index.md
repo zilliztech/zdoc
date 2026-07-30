@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "index() | Python | ORM"
 slug: /python/python/Collection-index
 sidebar_label: "index()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation gets the specified index of the current collection. | Python | ORM"
+description: "此操作获取当前 collection 的指定索引。 | Python | ORM"
 type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - index()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # index()
 
-This operation gets the specified index of the current collection.
+此操作获取当前 collection 的指定索引。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 index(
@@ -41,37 +41,37 @@ index(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **kwargs -** 
 
-    Additional keyword arguments.
+    附加关键字参数。
 
     - **index_name** (*str*) -
 
-        The name of the index. If no index is specified, the default index name is used.
+        索引名称。如果未指定索引，则使用默认索引名称。
 
-        A default index name is in the following format: `_default_idx_{field_id}`.
+        默认索引名称格式如下：`_default_idx_{field_id}`。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Index*
 
-**RETURNS:**
+**返回：**
 
-An Index object of the current collection.
+当前 collection 的一个 Index 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **IndexNotExistException**
 
-    This exception will be raised when the specified index does not exist.
+    当指定的索引不存在时，将引发此异常。
 
 - **AmbiguousIndexName**
 
-    This exception will be raised when multiple indexes exist but no index name has been specified. 
+    当存在多个索引但未指定索引名称时，将引发此异常。 
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection
@@ -115,9 +115,9 @@ collection.index(index_name="_default_idex_101")
 # <pymilvus.orm.index.Index at 0x1205b8690>
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `index()`
+以下操作与 `index()` 相关：
 
 - [create_index()](./Collection-create_index)
 

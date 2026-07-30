@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load_collection() | Python | MilvusClient"
 slug: /python/python/Management-load_collection
 sidebar_label: "load_collection()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation loads the data of a specific collection into memory. | Python | MilvusClient"
+description: "此操作会将指定 collection 的数据加载到内存中。 | Python | MilvusClient"
 type: docx
 token: YtiQdxTYzoCaYDxEMZcc8TEenQb
 sidebar_position: 10
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - load_collection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # load_collection()
 
-This operation loads the data of a specific collection into memory.
+此操作会将指定 collection 的数据加载到内存中。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管 collection。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 load_collection(
@@ -42,45 +48,45 @@ load_collection(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of a collection.
+    collection 的名称。
 
 - **priority** (*string*) -
 
-    The load priority of the current collection. The value may impact CPU usage during the load process. Possible values are `low` and `high`.
+    当前 collection 的加载优先级。该值可能会影响加载过程中的 CPU 使用率。可选值为 `low` 和 `high`。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作才会超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
-None
+无
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -165,7 +171,7 @@ client.load_collection(
 )
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [get_load_state()](./Management-get_load_state)
 

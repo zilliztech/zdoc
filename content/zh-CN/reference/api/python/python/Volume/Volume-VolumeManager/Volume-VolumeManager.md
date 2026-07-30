@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "VolumeManager | Python"
 slug: /python/python/Volume-VolumeManager
 sidebar_label: "VolumeManager"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "A `VolumeManager` instance maintains a connection to Zilliz Cloud's Volume service. Before creating, listing, or deleting volumes, you need to initiate a `VolumeManager` instance. | Python"
+description: "一个 `VolumeManager` 实例会维护与 Zilliz Cloud 的 Volume 服务的连接。在创建、列出或删除卷之前，您需要先初始化一个 `VolumeManager` 实例。 | Python"
 type: docx
-token: XdZ6dFzA3oUu4dxWh7Kcz4dhnQg
-sidebar_position: 4
+token: G5c6dxWkno5FRAxeDMycR6AVntf
+sidebar_position: 5
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - VolumeManager
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # VolumeManager
 
-A `VolumeManager` instance maintains a connection to Zilliz Cloud's Volume service. Before creating, listing, or deleting volumes, you need to initiate a `VolumeManager` instance.
+一个 `VolumeManager` 实例会维护与 Zilliz Cloud 的 Volume 服务的连接。在创建、列出或删除卷之前，您需要先初始化一个 `VolumeManager` 实例。
 
 ```python
 class pymilvus.bulk_writer.volume_manager import VolumeManager
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>A volume is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. For details, refer to <a href="/docs/volume">Volume</a>.</p>
+卷是一个中间存储位置，您可以在其中保存数据以供进一步处理，例如数据合并、迁移或导入。详情请参见 [Volume](/docs/volume)。
 
 </Admonition>
 
-## Constructor
+## 构造函数\{#constructor}
 
-This constructor initializes a new `VolumeManager` instance designed to maintain a connection to Zilliz Cloud's Volume service.
+此构造函数会初始化一个新的 `VolumeManager` 实例，用于维护与 Zilliz Cloud 的 Volume 服务的连接。
 
 ```python
 VolumeManager(
@@ -54,35 +54,35 @@ VolumeManager(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **cloud_endpoint** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The Zilliz Cloud endpoint, which is `https:*//*api.cloud.zilliz.com` (Global) or `https://api.cloud.zilliz.com.cn` (China), depending on the platform you have registered with.
+    Zilliz Cloud 端点，即 `https:*//*api.cloud.zilliz.com`。
 
 - **api_key** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Your Zilliz Cloud API key with sufficient permissions to manage volumes on Zilliz Cloud's Volume service. To obtain a Zilliz Cloud API key, follow the steps on [API Keys](/docs/manage-api-keys).
+    您的 Zilliz Cloud API 密钥，该密钥需要具备足够的权限以管理 Zilliz Cloud 的 Volume 服务中的卷。要获取 Zilliz Cloud API 密钥，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
 
-**RETURN TYPE:**
+**返回类型：**
 
 `VolumeManager`
 
-**RETURNS:**
+**返回：**
 
-A `VolumeManager` instance.
+一个 `VolumeManager` 实例。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.bulk_writer.volume_manager import VolumeManager
 
 volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com.cn",
+    cloud_endpoint="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY"
 )
 ```

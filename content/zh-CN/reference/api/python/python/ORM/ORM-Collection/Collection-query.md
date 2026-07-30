@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "query() | Python | ORM"
 slug: /python/python/Collection-query
 sidebar_label: "query()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation conducts a scalar filtering with a specified boolean expression. | Python | ORM"
+description: "此操作使用指定的布尔表达式执行标量过滤。 | Python | ORM"
 type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-This operation conducts a scalar filtering with a specified boolean expression.
+此操作使用指定的布尔表达式执行标量过滤。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 query(
@@ -45,109 +45,113 @@ query(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **expr** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    A scalar filtering condition to filter matching entities. 
+    用于筛选匹配实体的标量过滤条件。 
 
-    You can set this parameter to an empty string to skip scalar filtering. In this case, you should also set `limit` to restrict the number of entities in return.
+    您可以将此参数设置为空字符串以跳过标量过滤。在这种情况下，您还应设置 `limit` 以限制返回的实体数量。
 
-    To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    有关如何构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。 
 
 - **output_fields** (*list*) -
 
-    A list of field names to include in each entity in return.
+    返回的每个实体中要包含的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*)
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则仅在指定的分区中执行查询。
 
 - **timeout** (*float*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **kwargs**: 
 
     - **consistency_level** (*str* | *int*) -
 
-        The consistency level of the target collection.
+        目标 collection 的一致性级别。
 
-        The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+        该值默认使用创建当前 collection 时指定的级别，可选值包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        什么是一致性级别？
+        
+                分布式数据库中的一致性，特指在给定时间写入或读取数据时，确保每个节点或副本具有相同数据视图的属性。
+        
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
+        
+                在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用程序。
 
         </Admonition>
 
     - **guarantee_timestamp** (*int*) -
 
-        A valid timestamp. 
+        一个有效的时间戳。 
 
-        If this parameter is set,  executes the query only if all entities inserted before this timestamp are visible to query nodes. 
+        如果设置了此参数，则仅当在该时间戳之前插入的所有实体对 query 节点可见时，才会执行查询。 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="注意">
 
-        <p>This parameter is valid when the default consistency level applies.</p>
+        当使用默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        A period of time in seconds.
+        以秒为单位的一段时间。
 
-        The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
+        默认值为 **5**。如果设置了此参数，则会通过当前时间戳减去该值来计算 guarantee timestamp。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="注意">
 
-        <p>This parameter is valid when a consistency level other than the default one applies.</p>
+        当使用非默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **offset** (*int*) -
 
-        The number of records to skip in the query result. 
+        在查询结果中要跳过的记录数。 
 
-        You can use this parameter in combination with `limit` to enable pagination.
+        您可以将此参数与 `limit` 结合使用，以启用分页。
 
-        The sum of this value and `limit` should be less than 16,384. 
+        此值与 `limit` 的总和应小于 16,384。 
 
     - **limit** (*int*) -
 
-        The number of records to return in the query result.
+        查询结果中要返回的记录数。
 
-        You can use this parameter in combination with `offset` to enable pagination.
+        您可以将此参数与 `offset` 结合使用，以启用分页。
 
-        The sum of this value and `offset` should be less than 16,384. 
+        此值与 `offset` 的总和应小于 16,384。 
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list[dict]*
 
-**RETURNS:**
+**返回值：**
 
-A list of dictionaries with each dictionary representing a queried entity.
+由字典组成的列表，其中每个字典表示一个被查询到的实体。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    This exception will be raised when a parameter value doesn't match the required data type.
+    当参数值与所需数据类型不匹配时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -222,9 +226,9 @@ res = collection.query(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `query()`:
+以下操作与 `query()` 相关：
 
 - [delete()](./Collection-delete)
 

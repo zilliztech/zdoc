@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "loading_progress() | Python | ORM"
 slug: /python/python/utility-loading_progress
 sidebar_label: "loading_progress()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation returns the load progress of a specific collection. | Python | ORM"
+description: "此操作返回指定 collection 的加载进度。 | Python | ORM"
 type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - loading_progress()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # loading_progress()
 
-This operation returns the load progress of a specific collection.
+此操作返回指定 collection 的加载进度。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 loading_progress(
@@ -44,51 +44,51 @@ loading_progress(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of a collection.
+    collection 的名称。
 
 - **partition_names** (*list[str]*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    If any partition names are specified, releasing any of these partitions results in the return of a **NotLoad** state.
+    如果指定了任意分区名称，释放其中任意一个分区都会返回 **NotLoad** 状态。
 
 - **using** (*string*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回值：**
 
-A dictionary that contains information about the index_building progress.
+一个包含索引构建进度信息的字典。
 
-The dictionary has the following keys:
+该字典包含以下键：
 
 - **loading_progress** (*str*)
 
-    The load progress of the specified collection.
+    指定 collection 的加载进度。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import (
@@ -100,7 +100,7 @@ from pymilvus import (
     utility,
 )
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a collection
@@ -137,9 +137,9 @@ utility.loading_progress(
 ) # {loading_progress: '100%' }
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `loading_progress()`:
+以下操作与 `loading_progress()` 相关：
 
 - [Partition](./ORM-Partition)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_indexes() | Python | MilvusClient"
 slug: /python/python/Management-list_indexes
 sidebar_label: "list_indexes()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all indexes of a specific collection. | Python | MilvusClient"
+description: "此操作列出特定 collection 的所有索引。 | Python | MilvusClient"
 type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # list_indexes()
 
-This operation lists all indexes of a specific collection.
+此操作列出特定 collection 的所有索引。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法仅适用于专属服务集群和按需计算。 
+
+- 如需在服务集群的 collection 中执行此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 如需在按需计算的 collection 中执行此操作，请使用项目 endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个 session 并将其附加到按需集群以执行搜索。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 list_indexes(
@@ -43,39 +63,39 @@ list_indexes(
 ) -> List
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有 collection 的名称。
 
 - **field_name** (*str*) -
 
-    The name of a field. Leaving this unspecified make this operation list all indexes.
+    字段名称。若不指定此参数，则此操作会列出所有索引。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List*
 
-**RETURNS:**
+**返回：**
 
-A list of index names.
+索引名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -162,7 +182,7 @@ client.list_indexes(collection_name="customized_setup")
 # # ['my_id', 'my_vector']
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [add_index()](./Management-add_index)
 

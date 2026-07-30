@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_resource_groups() | Python | ORM"
 slug: /python/python/utility-list_resource_groups
 sidebar_label: "list_resource_groups()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists all resource groups in the currently connected Zilliz Cloud cluster. | Python | ORM"
+description: "此操作列出当前已连接的 Zilliz Cloud 集群中的所有资源组。 | Python | ORM"
 type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - list_resource_groups()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_resource_groups()
 
-This operation lists all resource groups in the currently connected Zilliz Cloud cluster.
+此操作列出当前已连接的 Zilliz Cloud 集群中的所有资源组。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_resource_groups(
@@ -42,31 +42,31 @@ list_resource_groups(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
-A list of all resource group names.
+**返回：**
+所有资源组名称的列表。
 
-**EXAMPLE:**
+**示例：**
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a new resource group
@@ -87,9 +87,9 @@ utility.list_resource_groups(
 ) # ["__default_resource_group", "rg_01", "rg_02"]
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_resource_groups()`:
+以下操作与 `list_resource_groups()` 相关：
 
 - [create_resource_group()](./utility-create_resource_group)
 

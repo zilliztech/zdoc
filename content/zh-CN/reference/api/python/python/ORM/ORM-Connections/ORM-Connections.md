@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Connections | Python | ORM"
 slug: /python/python/ORM-Connections
 sidebar_label: "Connections"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "A Connections instance represents a pool of connections to your Zilliz Cloud clusters. | Python | ORM"
+description: "一个 **Connections** 实例表示到你的 Zilliz Cloud 集群的连接池。 | Python | ORM"
 type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +31,23 @@ import Admonition from '@theme/Admonition';
 
 # Connections
 
-A **Connections** instance represents a pool of connections to your Zilliz Cloud clusters.
+一个 **Connections** 实例表示到你的 Zilliz Cloud 集群的连接池。
 
 ```python
 class pymilvus.Connections
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a singleton instance to manage all connections. 
+构造一个单例实例来管理所有连接。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Instead of creating a new instance of this class on your own, import the existing singleton instance as shown in the following example.</p>
+不要自行创建此类的新实例，而应像下面的示例所示那样导入现有的单例实例。
 
 </Admonition>
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections    
@@ -62,27 +62,28 @@ connections.connect(
 ) 
 ```
 
-<Admonition type="info" icon="📘" title="How can I get the cluster endpoint and token?">
+<Admonition type="info" icon="📘" title="说明">
 
-<ul>
-<li><strong>Cluster endpoint</strong></li>
-</ul>
-<p>You can log into the <a href="https://cloud.zilliz.com">Zilliz Cloud</a> console and click <strong>Clusters</strong> in the left navigation pane. In the cluster list, click the name of the target cluster and copy its endpoint in the <strong>Connect</strong> area.</p>
-<ul>
-<li><strong>Access token</strong></li>
-</ul>
-<p>To connect to a Zilliz Cloud cluster, you can use either of the following</p>
-<ul>
-<li>An API key</li>
-</ul>
-<p>You can log into the <a href="https://cloud.zilliz.com">Zilliz Cloud</a> console and click <strong>API Keys</strong> in the left navigation pane.</p>
-<ul>
-<li>A pair of username and password to access the cluster, joined by a colon (<strong>:</strong>).</li>
-</ul>
-<p>You can use the cluster credentials specified when the cluster has been created on the Zilliz Cloud console, or those of any existing cluster users.</p>
+如何获取集群 endpoint 和 token？
+
+- **集群 endpoint**
+
+    你可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中点击 **Clusters**。在集群列表中，点击目标集群名称，然后在 **Connect** 区域复制其 endpoint。
+
+- **访问 token**
+
+    要连接到 Zilliz Cloud 集群，你可以使用以下任一方式
+
+    - API key
+
+        你可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中点击 **API Keys**。
+
+    - 用于访问集群的一组用户名和密码，并使用冒号（**:**）连接。
+
+        你可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭据，或任何现有集群用户的凭据。
 
 </Admonition>
 
-## Methods
+## 方法\{#methods}
 
-The following are the methods of the `connections` singleton instance:
+以下是 `connections` 单例实例的方法：

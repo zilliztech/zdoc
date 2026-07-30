@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_index() | Python | MilvusClient"
 slug: /python/python/Management-create_index
 sidebar_label: "create_index()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates an index for a specific collection. | Python | MilvusClient"
+description: "此操作为指定集合创建索引。 | Python | MilvusClient"
 type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - 大语言模型
+  - 向量化
+  - k 最近邻算法
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # create_index()
 
-This operation creates an index for a specific collection.
+此操作为指定集合创建索引。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法仅适用于专属服务集群和按需计算。 
+
+- 对于服务集群中集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 create_index(
@@ -44,55 +64,55 @@ create_index(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **index_params** (*IndexParams*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    An **IndexParams** object containing a list of **IndexParam** objects.
+    一个 **IndexParams** 对象，其中包含一个 **IndexParam** 对象列表。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
 - **kwargs** -
 
     - **sync** (*bool*)
 
-        Controls how the index is built in relation to the client’s request. Valid values:
+        控制索引构建与客户端请求之间的关系。有效值如下：
 
-        - `True` (default): The client waits until the index is fully built before it returns. This means you will not get a response until the process is complete.
+        - `True`（默认）：客户端会等待索引完全构建完成后才返回。这意味着在流程完成之前，您不会收到响应。
 
-        - `False`: The client returns immediately after the request is received and the index is being built in the background. To find out if index creation has been completed, use the [`describe_index()`](./Management-describe_index) method.
+        - `False`：客户端在请求被接收后立即返回，索引将在后台构建。要确认索引创建是否已完成，请使用 [`describe_index()`](./Management-describe_index) 方法。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -142,7 +162,7 @@ client.list_indexes(collection_name="customized_setup")
 # ['my_id', 'my_vector']
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [add_index()](./Management-add_index)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_aliases() | Python | MilvusClient"
 slug: /python/python/Collections-list_aliases
 sidebar_label: "list_aliases()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all existing aliases for a specific collection. | Python | MilvusClient"
+description: "此操作列出特定 collection 的所有现有别名。 | Python | MilvusClient"
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 16
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # list_aliases()
 
-This operation lists all existing aliases for a specific collection.
+此操作列出特定 collection 的所有现有别名。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法适用于专用服务集群和按需计算。 
+
+- 对于服务集群中的 collection，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的 collection，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 list_aliases(
@@ -42,27 +62,27 @@ list_aliases(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the collection whose aliases are to be listed.
+    要列出其别名的 collection 名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation times out when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary containing the list of aliases assigned to the specified collection.
+一个字典，包含分配给指定 collection 的别名列表。
 
 ```python
 {
@@ -74,38 +94,38 @@ A dictionary containing the list of aliases assigned to the specified collection
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **aliases** (*list*) -
 
-    A list of aliases assigned to the specified collection.
+    分配给指定 collection 的别名列表。
 
 - **collection_name** (*str*) -
 
-    The specified collection name.
+    指定的 collection 名称。
 
 - **db_name** (*str*) -
 
-    The name of the database to which the specified collection belongs to.
+    指定 collection 所属数据库的名称。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -121,7 +141,7 @@ client.list_aliases(collection_name="test_collection")
 # {'aliases': ['test'], 'collection_name': 'test_collection', 'db_name': 'default'}
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [alter_alias()](./Collections-alter_alias)
 

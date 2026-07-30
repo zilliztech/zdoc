@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "delete() | Python | ORM"
 slug: /python/python/Collection-delete
 sidebar_label: "delete()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation deletes entities with a boolean expression. | Python | ORM"
+description: "此操作使用布尔表达式删除实体。 | Python | ORM"
 type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-This operation deletes entities with a boolean expression.
+此操作使用布尔表达式删除实体。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 delete(
@@ -43,75 +43,75 @@ delete(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **expr** (*string*) -
 
-    **[REQUIRED]** 
+    **[必需]** 
 
-    A boolean expression to filter the entities to delete.
+    用于筛选要删除的实体的布尔表达式。
 
 - **partition_name** (*string*) -
 
-    The name of partitions from which the matched entities are to be deleted.
+    要从中删除匹配实体的分区名称。
 
-    If a partition is specified, only its entities are involved in filtering. Otherwise, all entities in the collection are involved.
+    如果指定了分区，则仅该分区中的实体会参与筛选。否则，集合中的所有实体都会参与筛选。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *MutationResult*
 
-**RETURNS:**
+**返回：**
 
-A **MutationResult** object that contains the following fields:
+一个 **MutationResult** 对象，包含以下字段：
 
 - **insert_count** (*int*)
 
-    The count of inserted entities.
+    已插入实体的数量。
 
 - **delete_count** (*int*)
 
-    The count of deleted entities.
+    已删除实体的数量。
 
 - **upsert_count** (*int*)
 
-    The count of upserted entities.
+    已执行 upsert 的实体数量。
 
 - **succ_count** (*int*)
 
-    The count of successful executions during this operation.
+    此操作中成功执行的次数。
 
 - **succ_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a successful operation.
+    从 0 开始的索引号列表，每个索引号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    The count of failed executions during this operation.
+    此操作中执行失败的次数。
 
 - **err_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a failed operation.
+    从 0 开始的索引号列表，每个索引号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    A list of primary keys for the inserted entities.
+    已插入实体的主键列表。
 
 - **timestamp** (*int*)
 
-    The timestamp at which this operation is completed.
+    此操作完成时的时间戳。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -143,12 +143,11 @@ collection.insert(
 
 # Delete two entities
 res = collection.delete("id in [ 0, 1 ]")
-
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `delete()`:
+以下操作与 `delete()` 相关：
 
 - [insert()](./Collection-insert)
 

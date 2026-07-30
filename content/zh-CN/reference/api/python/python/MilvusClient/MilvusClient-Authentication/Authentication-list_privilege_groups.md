@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_privilege_groups() | Python | MilvusClient"
 slug: /python/python/Authentication-list_privilege_groups
 sidebar_label: "list_privilege_groups()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all existing privilege groups. | Python | MilvusClient"
+description: "此操作列出所有现有的权限组。 | Python | MilvusClient"
 type: docx
 token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - list_privilege_groups()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_privilege_groups()
 
-This operation lists all existing privilege groups.
+此操作列出所有现有的权限组。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_privilege_groups(
@@ -43,36 +43,36 @@ list_privilege_groups(
 ) -> List[Dict[str, str]]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*Optional[float]*) - 
 
-    The timeout duration for this operation.
+    此操作的超时时长。
 
-    Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 None 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[Dict[str, str]]*
 
-**RETURNS:**
+**返回：**
 
-A list of privilege group names.
+权限组名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作期间发生任何错误时将引发此异常，尤其是在指定的别名不存在时。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

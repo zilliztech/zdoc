@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "compact() | Python | MilvusClient"
 slug: /python/python/Management-compact
 sidebar_label: "compact()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection. | Python | MilvusClient"
+description: "此操作会启动一个压缩作业，将集合中的小分段合并，以改进存储布局并提升查询效率。 | Python | MilvusClient"
 type: docx
-token: BThKd2QThoQKGPx1ofKczmADnC6
+token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,59 +31,82 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection.
+此操作会启动一个压缩作业，将集合中的小分段合并，以改进存储布局并提升查询效率。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 compact(
-    self,
     collection_name: str,
     is_clustering: Optional[bool] = False,
+    is_l0: Optional[bool] = False,
+    target_size: Optional[int] = None,
+    target_size_unit: str = "mb",
     timeout: Optional[float] = None,
     **kwargs,
 ) -> int
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    The name of the target collection.
+    **[必需]**
 
-- **timeout** (*Optional[float]*) - 
+    要执行压缩的集合名称。
 
-    The timeout duration for this operation.
+- **is_clustering** (*bool*) -
 
-    Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
+    是否触发聚类压缩。
 
-**RETURN TYPE:**
+- **is_l0** (*bool*) -
+
+    是否触发 L0 压缩。
+
+- **target_size** (*int*) -
+
+    压缩后目标分段大小，可选。必须为正整数。
+
+- **target_size_unit** (*str*) -
+
+    `target_size` 的单位。支持的值包括 `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"` 和 `"pb"`。
+
+- **timeout** (*float*) -
+
+    可选的 RPC 超时时间，单位为秒。
+
+- **kwargs** (*dict*) -
+
+    可选的请求上下文参数。
+
+**返回类型：**
 
 *int*
 
-**RETURNS:**
+用于后续状态查询的压缩作业 ID。
 
-A compaction job ID, which can be used to get the compaction status.
+**异常：**
 
-**EXCEPTIONS:**
+- **ParamError**
+
+    当 `target_size` 不是整数，或 `target_size_unit` 无效时抛出。
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当服务器拒绝请求或压缩 RPC 失败时抛出。
 
-## Example
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Create a milvus client
-client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
-    token="user:password"
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+job_id = client.compact(
+    collection_name="book_catalog",
+    is_clustering=True,
+    target_size=512,
+    target_size_unit="mb",
 )
 
-client.compact(
-    collection_name="collection_name"
-)
+print(job_id)
 ```
-

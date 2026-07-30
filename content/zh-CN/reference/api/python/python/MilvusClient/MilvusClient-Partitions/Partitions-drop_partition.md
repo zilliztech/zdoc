@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-drop_partition
 sidebar_label: "drop_partition()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation drops a specified partition from the current collection. | Python | MilvusClient"
+description: "此操作会从当前集合中删除指定分区。 | Python | MilvusClient"
 type: docx
-token: EMI8dM8uooIAFPxVfffcoqRwnZf
+token: HkOFdhgbOoz1wlxJIgWcU7EonWc
 sidebar_position: 2
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,102 +31,91 @@ import Admonition from '@theme/Admonition';
 
 # drop_partition()
 
-This operation drops a specified partition from the current collection.
+此操作会从当前集合中删除指定分区。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Before dropping a partition, you must first release it.</p>
+删除分区之前，必须先将其释放。
 
 </Admonition>
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管集合。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
-create_partition(
+drop_partition(
     collection_name: str,
     partition_name: str,
-    timeout: Optional[float] = None
+    timeout: Optional[float] = None,
+    **kwargs,
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
-- **partition_names** (*str*)
+- **partition_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the partition to drop.
+    要删除的分区名称。
 
-- **timeout** (*float* | *None*)  
+- **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
-None
+无
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
-# 2. Create a collection
+# Create a collection
 client.create_collection(collection_name="test_collection", dimension=5)
 
-# 3. Create a partition
+# Create a partition
 client.create_partition(
-    collection_name="test_collection", 
+    collection_name="test_collection",
     partition_name="partition_A"
 )
 
-# 4. Release partition
+# Release partition before dropping
 client.release_partitions(
     collection_name="test_collection",
     partition_names=["partition_A"]
 )
 
-# 4. Drop the partition
+# Drop the partition
 client.drop_partition(
-    collection_name="test_collection", 
+    collection_name="test_collection",
     partition_name="partition_A"
 )
 ```
-
-## Related methods
-
-- [create_partition()](./Partitions-create_partition)
-
-- [get_partition_stats()](./Partitions-get_partition_stats)
-
-- [has_partition()](./Partitions-has_partition)
-
-- [list_partitions()](./Partitions-list_partitions)
-
-- [load_partitions()](./Partitions-load_partitions)
-
-- [release_partitions()](./Partitions-release_partitions)
-

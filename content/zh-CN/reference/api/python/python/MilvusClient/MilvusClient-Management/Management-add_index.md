@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_index() | Python | MilvusClient"
 slug: /python/python/Management-add_index
 sidebar_label: "add_index()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
-description: "This operation adds index parameters for a specific field in a collection. | Python | MilvusClient"
+description: "此操作会为集合中的特定字段添加索引参数。 | Python | MilvusClient"
 type: docx
 token: SM7ld0ZsEoYLqaxVMZxcSH82n9f
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - add_index()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # add_index()
 
-This operation adds index parameters for a specific field in a collection.
+此操作会为集合中的特定字段添加索引参数。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法仅适用于专属服务集群和按需计算。 
+
+- 如果要在服务集群的集合中执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 如果要在按需计算的集合中执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 IndexParams.add_index(
@@ -45,45 +65,45 @@ IndexParams.add_index(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **field_name** (*str*) -
 
-    The name of the target file to apply this object applies.
+    要应用此对象的目标字段名称。
 
 - **index_name** (*str*) -
 
-    The name of the index file generated after this object has been applied.
+    应用此对象后生成的索引文件名称。
 
 - **index_type** (*str*) -
 
-    The name of the algorithm used to arrange data in the specific field. On Zilliz Cloud, the index type is always **AUTOINDEX**. For details, refer to [AUTOINDEX](/docs/autoindex-explained) Explained.
+    用于组织特定字段中数据的算法名称。在 Zilliz Cloud 中，索引类型始终为 **AUTOINDEX**。详情请参见 [AUTOINDEX](/docs/autoindex-explained) 说明。
 
 - **metric_type** (*str*) -
 
-    The algorithm that is used to measure similarity between vectors. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
+    用于衡量向量之间相似性的算法。可能的值包括：`IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD`、`BM25`（仅用于全文检索）。更多信息请参见 [Metric Types](https://milvus.io/docs/metric.md)。
 
-    This is available only when the specified field is a vector field.
+    仅当指定字段为向量字段时，此参数可用。
 
 - **params** (*dict*) -
 
-    The fine-tuning parameters for the specified index type. For details on possible keys and value ranges, refer to  [In-memory Index](https://milvus.io/docs/index.md).
+    指定索引类型的微调参数。有关可能的键和值范围的详细信息，请参见 [In-memory Index](https://milvus.io/docs/index.md)。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -154,7 +174,7 @@ index_params.add_index(
 )
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [create_index()](./Management-create_index)
 

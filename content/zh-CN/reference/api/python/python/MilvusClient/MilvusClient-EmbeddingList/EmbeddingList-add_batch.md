@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_batch() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-add_batch
 sidebar_label: "add_batch()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds multiple vector embeddings to the current EmbeddingList instance. | Python | MilvusClient"
+description: "此操作会将多个向量嵌入添加到当前的 EmbeddingList 实例中。 | Python | MilvusClient"
 type: docx
 token: TJundbM8FoU8UKxczaMcix3QnHb
 sidebar_position: 2
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - add_batch()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add_batch()
 
-This operation adds multiple vector embeddings to the current **EmbeddingList** instance.
+此操作会将多个向量嵌入添加到当前的 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 add_batch(
@@ -42,27 +42,27 @@ add_batch(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **embeddings** (*List[np.ndarray], np.ndarray*) - 
 
-    The vector embeddings that are to be added to the current **EmbeddingList** instance.
+    要添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中的向量嵌入。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*EmbeddingList*
+*[EmbeddingList](./MilvusClient-EmbeddingList)*
 
-**RETURNS:**
+**返回值：**
 
-The current **EmbeddingList** instance itself for method chaining
+当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，可用于方法链式调用
 
-**EXCEPTIONS:**
+**异常：**
 
 - **ValueError**:
 
-    This exception will be raised if the provided vector embeddings do not match the existing ones in dimensionality.
+    如果提供的向量嵌入与现有嵌入在维度上不匹配，则会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import EmbeddingList

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "search() | Python | ORM"
 slug: /python/python/Collection-search
 sidebar_label: "search()"
-added_since: Inherit
-last_modified: false
-deprecate_since: false
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | ORM"
+description: "此操作执行向量相似性搜索，并可选择附加标量过滤表达式。 | Python | ORM"
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - 向量检索
+  - 音频相似性搜索
+  - 弹性向量数据库
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,148 +31,154 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-This operation conducts a vector similarity search with an optional scalar filtering expression.
+此操作执行向量相似性搜索，并可选择附加标量过滤表达式。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 search(
-    data: list[list[float]], 
-    anns_field: str, 
-    param: dict, 
-    limit: int 
-    expr: str | None, 
-    partition_names: list[str] | None, 
-    output_fields: list[str] | None, 
-    timeout: float | None, 
-    round_decimal: int
+    data: list[list[float]],
+    anns_field: str,
+    param: dict,
+    limit: int
+    expr: str | None,
+    partition_names: list[str] | None,
+    output_fields: list[str] | None,
+    timeout: float | None,
+    round_decimal: int,
+    search_aggregation: Optional[SearchAggregation] = None
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **data** (*list[list[float]]*) - 
 
-    **[REQUIRED]**
+    **[必填]**
 
-    A list of vector embeddings.
+    向量嵌入列表。
 
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
+    Zilliz Cloud 会搜索与指定向量嵌入最相似的向量嵌入。
 
 - **anns_field** (str) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the vector field in the current collection
+    当前 collection 中向量字段的名称。
 
 - **param** (dict) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The parameter settings specific to this operation.
+    此操作的专用参数设置。
 
     - **metric_type** (*str*) -
 
-        The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. 
+        应用于此操作的度量类型。该值应与为上述指定向量字段创建索引时使用的度量类型保持一致。 
 
-        Possible values are **L2**, **IP**, and **COSINE**.
+        可选值为 **L2**、**IP** 和 **COSINE**。
 
     - **params** (dict) -
 
-        Additional parameters
+        附加参数。
 
         - **offset** (int) -
 
-            The number of records to skip in the search result. 
+            搜索结果中要跳过的记录数。 
 
-            You can use this parameter in combination with `limit` to enable pagination.
+            你可以将此参数与 `limit` 结合使用以启用分页。
 
-            The sum of this value and `limit` should be less than 16,384. 
+            此值与 `limit` 的总和应小于 16,384。 
 
         - **radius** (float) -
 
-            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+            确定最低相似度阈值。当 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
 
         - **range_filter**  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+            将搜索进一步限定为特定相似度范围内的向量。当 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
 
-    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
+    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **limit** (*int*) -
 
-    The total number of entities to return.
+    要返回的实体总数。
 
-    You can use this parameter in combination with `offset` in **param** to enable pagination.
+    你可以将此参数与 **param** 中的 `offset` 结合使用以启用分页。
 
-    The sum of this value and `offset` in **param** should be less than 16,384. 
+    此值与 **param** 中 `offset` 的总和应小于 16,384。 
 
 - **expr** (*str*) -
 
-    A scalar filtering condition to filter matching entities.
+    用于过滤匹配实体的标量过滤条件。
 
-    The value defaults to **None**, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
+    默认值为 **None**，表示忽略标量过滤。有关构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*) -
 
-    A list of field names to include in each entity in return.
+    返回结果中每个实体要包含的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则查询仅涉及指定分区。
 
 - **timeout** (*float*)  -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **round_decimal** (*int*) -
 
-    The number of decimal places that Zilliz Cloud rounds the calculated distances to.
+    Zilliz Cloud 对计算出的距离值保留的小数位数。
 
-    The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
+    默认值为 **-1**，表示 Zilliz Cloud 不对计算出的距离进行四舍五入，而是返回原始值。
+
+- **search_aggregation** (*Optional[SearchAggregation]*) -
+
+    分层桶聚合规范。与 **group_by_field** 互斥。设置后，将忽略 **limit**，并由根级 `SearchAggregation.size` 控制顶层桶数量。
 
 - **consistency_level** (*str*) -
 
-    The consistency level used when Milvus searches within the specified collection.
+    Milvus 在指定 collection 中执行搜索时使用的一致性级别。
 
-    If this parameter is not specified, the consistency level specified during the collection creation will be used. Specifying this parameter will override the one specified during collection creation.
+    如果未指定此参数，则使用创建 collection 时指定的一致性级别。指定此参数将覆盖创建 collection 时指定的值。
 
-    Possible values are **Strong**, **Bounded**, **Eventually**, **Session**, and **Customized**.
+    可选值为 **Strong**、**Bounded**、**Eventually**、**Session** 和 **Customized**。
 
 - **page_retain_order** (*bool*) -
 
-    Whether to retain the order of the search result when `offset` is provided.
+    在提供 `offset` 时，是否保留搜索结果的顺序。
 
 - **guarantee_timestamp** (*int*) -
 
-    The timestamp that Milvus uses as a reference during the search.
+    Milvus 在搜索期间用作参考的时间戳。
 
-    If this parameter is left unspecified, Milvus searches within all flushed entities. Setting this value makes Milvus searches within the entities flushed before the specified timestamp.
+    如果未指定此参数，Milvus 将在所有已刷写的实体中进行搜索。设置此值后，Milvus 将仅在指定时间戳之前已刷写的实体中进行搜索。
 
 - **graceful_time** (*int*) -
 
-    A graceful period in seconds for the search.
+    搜索的宽限期（以秒为单位）。
 
-    Setting this value makes Milvus search within the entities flushed the specified seconds ago.
+    设置此值后，Milvus 将在指定秒数之前已刷写的实体中进行搜索。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *SearchResult*
 
-**RETURNS:**
+**返回值：**
 
-A **SearchResult** object that contains a list of **Hits** objects. 
+一个 **SearchResult** 对象，其中包含 **Hits** 对象列表。 
 
-- Response structure
+- 响应结构
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A <strong>SearchResult</strong> object contains a list of <strong>Hits</strong> objects, each corresponding to a query vector in the search request. </p>
-    <p>A <strong>Hits</strong> object contains a list of <strong>Hit</strong> objects, each corresponding to an entity hit by the search.</p>
+    **SearchResult** 对象包含一个 **Hits** 对象列表，其中每个 **Hits** 对象对应搜索请求中的一个查询向量。 
+    
+    **Hits** 对象包含一个 **Hit** 对象列表，其中每个 **Hit** 对象对应一个被搜索命中的实体。
 
     </Admonition>
 
@@ -189,47 +195,47 @@ A **SearchResult** object that contains a list of **Hits** objects.
     │           └── get()
     ```
 
-- Properties and methods
+- 属性和方法
 
-    - A **Hits** object has the following fields:
+    - **Hits** 对象具有以下字段：
 
         - **ids** (*list[int]* | *list[str]*)
 
-            A list containing the IDs of the hit entities.
+            包含命中实体 ID 的列表。
 
         - **distances** (list[float]) 
 
-            A list of distances from the hit entities' vector fields to the query vector.
+            命中实体的向量字段与查询向量之间的距离列表。
 
-    - A **Hit** object has the following fields:
+    - **Hit** 对象具有以下字段：
 
         - **id** (*int* | *str*)
 
-            The ID of a hit entity.
+            命中实体的 ID。
 
         - **distance** (*float*)
 
-            The distance from a hit entity's vector field to the query vector.
+            命中实体的向量字段与查询向量之间的距离。
 
         - **score** (*float*)
 
-            An alias to **distance**.
+            **distance** 的别名。
 
         - **vector** (*list[float]*)   
 
-            The vector field of a hit entity.
+            命中实体的向量字段。
 
         - **get(*field_name: str*)**
 
-            A function to get the value of the specified field in a hit entity. 
+            用于获取命中实体中指定字段的值的函数。 
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -309,7 +315,7 @@ for hits in res:
         
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
 - [delete()](./Collection-delete)
 

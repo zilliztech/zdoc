@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/SentenceTransformerEmbeddingFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in SentenceTransformerEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
+description: "SentenceTransformerEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,43 +31,43 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
+[SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
-To prevent potential errors when directly using the **\_\_call()\_\_** method, avoid using **query_instruction** or **doc_instruction** for SentenceTransformerEmbeddingFunction initialization. For more information, refer to [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction).
+为防止直接使用 **\_\_call()\_\_** 方法时出现潜在错误，请在初始化 SentenceTransformerEmbeddingFunction 时避免使用 **query_instruction** 或 **doc_instruction**。更多信息，请参见 [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction)。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
-# Instance created
+# 已创建实例
 sentence_transformer_ef = SentenceTransformerEmbeddingFunction()
 
-# __call__ method will be called
+# 将调用 __call__ 方法
 sentence_transformer_ef(
     texts: List[str]
 ) -> List[np.array]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **texts** (*List[str]*)
 
-    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[np.array]*
 
-**RETURNS:**
+**返回值：**
 
-A list where each element is a NumPy array.
+一个列表，其中每个元素都是一个 NumPy 数组。
 
-**Exceptions:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the necessary sentence-transformers module is not installed.
+    当未安装所需的 sentence-transformers 模块时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

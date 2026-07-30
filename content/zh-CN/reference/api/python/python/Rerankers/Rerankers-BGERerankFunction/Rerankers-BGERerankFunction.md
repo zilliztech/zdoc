@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "BGERerankFunction | Python"
 slug: /python/python/Rerankers-BGERerankFunction
 sidebar_label: "BGERerankFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "BGERerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying BGE reranking model. | Python"
+description: "BGERerankFunction 是 milvusmodel 中的一个类，它接收查询和文档作为输入，并直接返回相似度分数而不是嵌入。此功能使用底层的 BGE 重排模型。 | Python"
 type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - BGERerankFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # BGERerankFunction
 
-**BGERerankFunction** is a class in [milvus_model](https://github.com/milvus-io/milvus-model) that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying BGE reranking model.
+**BGERerankFunction** 是 [milvus_model](https://github.com/milvus-io/milvus-model) 中的一个类，它接收查询和文档作为输入，并直接返回相似度分数而不是嵌入。此功能使用底层的 BGE 重排模型。
 
 ```python
 pymilvus.model.reranker.BGERerankFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a BGERerankFunction for common use cases.
+为常见用例构造一个 BGERerankFunction。
 
 ```python
 BGERerankFunction(
@@ -51,29 +51,29 @@ BGERerankFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*) -
 
-    The name of the model to use. You can specify any of the available BGE reranker model names, for example, `BAAI/bge-reranker-base`, `BAAI/bge-reranker-large`, etc. If you leave this parameter unspecified, `BAAI/bge-reranker-v2-m3` will be used. For a list of available models, refer to [Model List](https://github.com/FlagOpen/FlagEmbedding/tree/master/FlagEmbedding/llm_reranker#model-list).
+    要使用的模型名称。你可以指定任意可用的 BGE reranker 模型名称，例如 `BAAI/bge-reranker-base`、`BAAI/bge-reranker-large` 等。如果未指定此参数，将使用 `BAAI/bge-reranker-v2-m3`。有关可用模型的列表，请参见 [Model List](https://github.com/FlagOpen/FlagEmbedding/tree/master/FlagEmbedding/llm_reranker#model-list)。
 
 - **use_fp16** (*bool*) -
 
-    Whether to utilize 16-bit floating-point precision (fp16). The value is `false` when `device` is `cpu`.
+    是否使用 16 位浮点精度（fp16）。当 `device` 为 `cpu` 时，该值为 `false`。
 
 - **batch_size** (*int*) -
 
-    The batch size used for the computation.
+    用于计算的批量大小。
 
 - **normalize** (*bool*)
 
-    Whether to normalize the reranking scores.
+    是否对重排分数进行归一化。
 
 - **device** (*string*) -
 
-    Optional. The device to use for running the model. If not specified, the model will be run on the CPU. You can specify `cpu` for the CPU and `cuda:n` for the nth GPU device.
+    可选。用于运行模型的设备。如果未指定，模型将在 CPU 上运行。你可以指定 `cpu` 表示 CPU，或指定 `cuda:n` 表示第 n 个 GPU 设备。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.reranker import BGERerankFunction

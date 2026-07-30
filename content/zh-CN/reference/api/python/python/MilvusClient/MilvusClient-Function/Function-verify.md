@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "verify() | Python | MilvusClient"
 slug: /python/python/Function-verify
 sidebar_label: "verify()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation validates the input and output fields of a function defined in the CollectionSchema. | Python | MilvusClient"
+description: "此操作会验证 CollectionSchema 中定义的函数的输入和输出字段。 | Python | MilvusClient"
 type: docx
 token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
 sidebar_position: 5
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # verify()
 
-This operation validates the input and output fields of a function defined in the CollectionSchema.
+此操作会验证 CollectionSchema 中定义的函数的输入和输出字段。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 verify(
@@ -41,25 +41,25 @@ verify(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
-None
+无
 
-**RETURN TYPE:**
+**返回类型：**
 
-None
+无
 
-**RETURNS:**
+**返回值：**
 
-None
+无
 
-**EXCEPTIONS:**
+**异常：**
 
 - `MilvusException`
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, Function, FunctionType

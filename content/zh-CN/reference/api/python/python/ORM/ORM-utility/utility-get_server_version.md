@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_server_version() | Python | ORM"
 slug: /python/python/utility-get_server_version
 sidebar_label: "get_server_version()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation checks the version of the Zilliz Cloud cluster. | Python | ORM"
+description: "此操作检查 Zilliz Cloud 集群的版本。 | Python | ORM"
 type: docx
 token: PoPkdkzSnofUihxzKLqcw7hYnrf
 sidebar_position: 16
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_version()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -32,9 +32,9 @@ import TabItem from '@theme/TabItem';
 
 # get_server_version()
 
-This operation checks the version of the Zilliz Cloud cluster.
+此操作检查 Zilliz Cloud 集群的版本。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 get_server_version(
@@ -53,41 +53,41 @@ connections.connect(...)
 server_version = utility.get_server_version()
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *str*
 
-**RETURNS:**
+**返回：**
 
-The server version.
+服务器版本。
 
-**EXAMPLE:**
+**示例：**
 
 ```python
 from pymilvus import connections, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Check the server version
 server_version = utility.get_server_version()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `get_server_version()`:
+以下操作与 `get_server_version()` 相关：
 
 - [get_server_type()](./utility-get_server_type)
 

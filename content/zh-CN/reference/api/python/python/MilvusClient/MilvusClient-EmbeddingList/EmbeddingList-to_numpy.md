@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "to_numpy() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-to_numpy
 sidebar_label: "to_numpy()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation converts the current EmbeddingList instance into a two-dimensional (2D) NumPy array containing all vector embeddings. | Python | MilvusClient"
+description: "此操作会将当前 EmbeddingList 转换为包含所有向量嵌入的 NumPy 数组。 | Python | MilvusClient"
 type: docx
 token: XQAQd2tPKon4JgxKEoAc0CCHnUg
 sidebar_position: 6
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - to_numpy()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,29 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # to_numpy()
 
-This operation converts the current **EmbeddingList** instance into a two-dimensional (2D) NumPy array containing all vector embeddings.
+此操作会将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个包含所有向量嵌入的二维（2D）NumPy 数组。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 to_numpy()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *np.ndarray*
 
-**RETURNS:**
+**返回：**
 
-A 2D NumPy array containing all vector embeddings in the shape **(num_embeddings, dim)**.
+一个形状为 **(num_embeddings, dim)** 的二维 NumPy 数组，其中包含所有向量嵌入。
 
-**EXCEPTIONS:**
+**异常：**
 
-- **ValueError**:
+- **ValueError**：
 
-    This exception will be raised if the current **EmbeddingList** instance is empty.
+    如果当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例为空，则会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import EmbeddingList

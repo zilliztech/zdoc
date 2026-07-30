@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "wait_for_compaction_completed() | Python | ORM"
 slug: /python/python/Collection-wait_for_compaction_completed
 sidebar_label: "wait_for_compaction_completed()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation blocks the current session until the compaction request is completed. | Python | ORM"
+description: "此操作会阻塞当前会话，直到 compaction 请求完成。 | Python | ORM"
 type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_compaction_completed()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # wait_for_compaction_completed()
 
-This operation blocks the current session until the compaction request is completed.
+此操作会阻塞当前会话，直到 compaction 请求完成。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 wait_for_compaction_completed(
@@ -41,27 +41,27 @@ wait_for_compaction_completed(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This arises when any error occurs during this operation.
+    当此操作期间发生任何错误时，会引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -84,9 +84,9 @@ collection.compact()
 collection.wait_for_compaction_completed()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `wait_for_compaction_completed()`:
+以下操作与 `wait_for_compaction_completed()` 相关：
 
 - [compact()](./Collection-compact)
 

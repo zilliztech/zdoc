@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_database() | Python | ORM"
 slug: /python/python/db-create_database
 sidebar_label: "create_database()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation creates a database using the provided database name. | Python | ORM"
+description: "此操作使用提供的数据库名称创建数据库。 | Python | ORM"
 type: docx
 token: G4Ftde3kxoHAJbxVNXncI7mpngb
 sidebar_position: 1
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - create_database()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # create_database()
 
-This operation creates a database using the provided database name.
+此操作使用提供的数据库名称创建数据库。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 create_database(
@@ -43,35 +43,35 @@ create_database(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Name of the database to be created.
+    要创建的数据库名称。
 
 - **using** (*string*) -
 
-    Alias of the connection. Defaults to **default**.
+    连接的别名。默认为 **default**。
 
 - **timeout** (*float* | *None*)
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURN TYPE:**
-
-None
-
-**RETURNS:**
+**返回类型：**
 
 None
 
-**EXCEPTIONS:**
+**返回值：**
 
 None
 
-## Examples
+**异常：**
+
+None
+
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, db
@@ -84,9 +84,9 @@ conn = connections.connect(
 db.create_database(db_name="test")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `create_database()`:
+以下操作与 `create_database()` 相关：
 
 - [drop_database()](./db-drop_database)
 

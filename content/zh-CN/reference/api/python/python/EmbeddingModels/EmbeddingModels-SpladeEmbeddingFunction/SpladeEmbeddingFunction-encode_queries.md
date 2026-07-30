@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_queries() | Python"
 slug: /python/python/SpladeEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
 type: docx
 token: S9zPdiLkpokjfkxfZ68cWIFynnd
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-This operation takes in a list of query strings and encodes each query into a vector embedding.
+此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 encode_queries(
@@ -41,27 +41,27 @@ encode_queries(
 ) -> csr_array
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **queries** (*List[str]*)
 
-    A list of string values, where each string represents a query that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *csr_array*
 
-**RETURNS:**
+**返回：**
 
-Compressed sparse row matrices representing the query embeddings.
+表示查询嵌入的压缩稀疏行矩阵。
 
-**Exceptions:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the transformers library is not installed.
+    当未安装 transformers 库时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

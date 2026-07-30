@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "run_analyzer() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-run_analyzer
 sidebar_label: "run_analyzer()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation processes the input data and generates tokenized output. | Python | MilvusClient"
+description: "此操作处理输入数据并生成分词输出。 | Python | MilvusClient"
 type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - run_analyzer()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # run_analyzer()
 
-This operation processes the input data and generates tokenized output.
+此操作处理输入数据并生成分词输出。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```plaintext
 run_analyzer(
@@ -45,47 +45,47 @@ run_analyzer(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - `texts` (*Union[str, List[str]]*) -
 
-    The input text or a list of texts to be analyzed.
+    要分析的输入文本或文本列表。
 
 - `analyzer_params` (*Union[str, Dict, None]*) -
 
-    The parameters for the analyzer. If set to `None`, defaults to an empty dictionary.
+    分析器的参数。如果设置为 `None`，则默认为空字典。
 
 - `with_hash` (*bool*) -
 
-    Optional flag indicating whether to include hash-based processing.
+    可选标志，指示是否包含基于哈希的处理。
 
 - `with_detail` (*bool*) -
 
-    Optional flag indicating whether to return detailed analysis output.
+    可选标志，指示是否返回详细的分析输出。
 
 - `timeout` (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to *None* indicates that this operation timeouts when any response or error occurs.
+    此操作的超时时长。将其设置为 *None* 表示当发生任何响应或错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[str], List[List[str]]*
 
-**RETURNS:**
+**返回：**
 
-A tuple containing:
+一个元组，包含：
 
-- A list of strings representing the primary tokenized output.
+- 一个字符串列表，表示主要的分词输出。
 
-- A list of lists of strings representing detailed token information (if detailed output is enabled).
+- 一个字符串列表的列表，表示详细的 token 信息（如果启用了详细输出）。
 
-**EXCEPTIONS:**
+**异常：**
 
-- `MilvusException` - Raised if any error occurs during this operation.
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
 
-## Examples
+## 示例\{#examples}
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(
@@ -93,14 +93,14 @@ client = MilvusClient(
 )
 
 analyzer_params = {
-    "type": "standard", # Uses the standard built-in analyzer
-    "stop_words": ["a", "an", "for"] # Defines a list of common words (stop words) to exclude from tokenization
+    "type": "standard", # 使用标准内置分析器
+    "stop_words": ["a", "an", "for"] # 定义一个在分词时排除的常见词（停用词）列表
 }
 
-# Sample text to analyze
+# 要分析的示例文本
 text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
 
-# Run analyzer
+# 运行分析器
 result = client.run_analyzer(
     text,
     analyzer_params
@@ -108,6 +108,6 @@ result = client.run_analyzer(
 
 print(result)
 
-# Expected output:
+# 预期输出：
 # ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
 ```

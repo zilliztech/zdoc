@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "revoke() | Python | ORM"
 slug: /python/python/Role-revoke
 sidebar_label: "revoke()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation revokes a privilege granted to the current role. | Python | ORM"
+description: "此操作会撤销授予当前角色的一项权限。 | Python | ORM"
 type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - revoke()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # revoke()
 
-This operation revokes a privilege granted to the current role.
+此操作会撤销授予当前角色的一项权限。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 revoke(
@@ -44,60 +44,59 @@ revoke(
 ) 
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **object** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The type of the object to grant the privilege.
+    要授予权限的对象类型。
 
-    The value is case-sensitive. For details, refer to Users & Roles.
+    该值区分大小写。详情请参见 Users & Roles。
 
 - **object_name** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a target object of the type specified in **object**.
+    在 **object** 中指定类型的目标对象名称。
 
-    It can be a collection name, a user name, or a wild card (*).
+    它可以是集合名称、用户名，或通配符（*）。
 
 - **privilege** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the privilege to grant.
+    要授予的权限名称。
 
-    For details, refer to Users & Roles.
+    详情请参见 Users & Roles。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <ul>
-    <li><p>To grant all privileges to a kind of object, like <strong>Collection</strong>, <strong>Global</strong>, <strong>User</strong>, use <code>*</code> for privilege name.</p></li>
-    <li><p>When <code>object</code> is set to <code>Global</code>, setting <code>privilege</code> to <code>\*</code> is not equivalent to setting it to <code>All</code>. The <code>All</code> privilege includes all permissions, including any collection and user object.</p></li>
-    </ul>
+    - 要向某一类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请将权限名称设为 `*`。
+    
+    - 当 `object` 设为 `Global` 时，将 `privilege` 设为 `\*` 并不等同于设为 `All`。`All` 权限包含所有许可，包括任何 collection 和 user 对象。
 
     </Admonition>
 
 - **db_name** (*string*)
 
-    The name of a database the object belongs to. If left unspecified, the default database applies.
+    对象所属数据库的名称。若未指定，则使用默认数据库。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Role
@@ -109,9 +108,9 @@ role = Role(role_name)
 role.revoke("Collection", collection_name, "Insert")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `revoke()`:
+以下操作与 `revoke()` 相关：
 
 - [add_user()](./Role-add_user)
 

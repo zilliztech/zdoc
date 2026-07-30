@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "has_partition() | Python | ORM"
 slug: /python/python/utility-has_partition
 sidebar_label: "has_partition()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation checks whether a partition exists. | Python | ORM"
+description: "此操作检查分区是否存在。 | Python | ORM"
 type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-This operation checks whether a partition exists.
+此操作检查分区是否存在。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 has_partition(
@@ -44,49 +44,49 @@ has_partition(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
-    The name of an existing collection.
+    已存在的 collection 名称。
 
-    Setting this to a non-existing collection results in a **MilvusException**.
+    如果将其设置为不存在的 collection，则会导致 **MilvusException**。
 
 - **partition_name** (*str*) -
 
     **[REQUIRED]**
-    The name of a partition.
+    分区名称。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *bool*
 
-**RETURNS:**
-A boolean value indicates whether the specified partition exists.
+**返回：**
+布尔值，表示指定分区是否存在。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作期间发生任何错误时将引发此异常，尤其是在指定别名不存在时。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Get an existing collection
@@ -99,9 +99,9 @@ collection.has_partition(
 ) # True
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `has_partition()`:
+以下操作与 `has_partition()` 相关：
 
 - [drop_collection()](./utility-drop_collection)
 

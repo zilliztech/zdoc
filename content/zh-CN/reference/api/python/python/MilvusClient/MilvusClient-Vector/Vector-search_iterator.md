@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "search_iterator() | Python | MilvusClient"
 slug: /python/python/Vector-search_iterator
 sidebar_label: "search_iterator()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation conducts a vector similarity search with an optional scalar filtering expression in an iterative manner. | Python | MilvusClient"
+description: "此操作以迭代方式执行向量相似性搜索，并可选择使用标量过滤表达式。 | Python | MilvusClient"
 type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-This operation conducts a vector similarity search with an optional scalar filtering expression in an iterative manner.
+此操作以迭代方式执行向量相似性搜索，并可选择使用标量过滤表达式。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+外部集合不支持此操作。
+
+</Admonition>
+
+## Request syntax\{#request-syntax}
 
 ```python
 search_iterator(
@@ -59,149 +65,143 @@ search_iterator(
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **data** (*List[list], list]*) -
 
     **[REQUIRED]**
 
-    A list of vector embeddings.
+    向量嵌入列表。
 
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
+    Zilliz Cloud 会搜索与指定向量嵌入最相似的向量嵌入。
 
 - **batch_size** (*int*) -
 
-    The number of entities to return each iteration. The default value is 1000.
+    每次迭代返回的实体数量。默认值为 1000。
 
 - **anns_field** (*str*) -
 
-    The name of the target vector field of the current search.
+    当前搜索目标向量字段的名称。
 
 - **filter** (*str*) -
 
-    A scalar filtering condition to filter matching entities. 
+    用于过滤匹配实体的标量过滤条件。 
 
-    The value defaults to an empty string, indicating that no condition applies.
+    该值默认为空字符串，表示不应用任何条件。
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
+    你可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参阅[过滤概述](/docs/filtering-overview)。 
 
 - **limit** (*int*) -
 
-    The total number of entities to return.
+    要返回的实体总数。
 
-    You can use this parameter in combination with **offset** in **param** to enable pagination.
+    你可以将此参数与 **param** 中的 **offset** 结合使用以启用分页。
 
-    The sum of this value and **offset** in **param** should be less than 16,384. 
+    此值与 **param** 中 **offset** 的总和应小于 16,384。 
 
 - **output_fields** (l*ist[str]*) -
 
-    A list of field names to include in each entity in return.
+    返回的每个实体中要包含的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    该值默认为 **None**。如果未指定，则只包含主字段。
 
 - **search_params** (*dict*) -
 
-    The parameter settings specific to this operation.
-
-    - **metric_type** (*str*) -
-
-        The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. 
-
-        Possible values are **L2**, **IP**, and **COSINE**.
+    此操作专用的参数设置。
 
     - **params** (dict) -
 
-        Additional parameters
+        附加参数
 
         - **radius** (float) -
 
-            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+            确定最低相似度的阈值。当集合的度量类型设置为 `L2` 时，请确保此值大于 **range_filter** 的值。否则，此值应小于 **range_filter** 的值。 
 
         - **range_filter**  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+            将搜索范围细化为特定相似度区间内的向量。当集合的度量类型设置为 `IP` 或 `COSINE` 时，请确保此值大于 **radius** 的值。否则，此值应小于 **radius** 的值。
 
         - **level** (*int*)
 
-            Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
+            Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让你处理各种索引算法特有的大量搜索参数。
 
-            The value defaults to **1**, and ranges from **1** to **10**. Increasing the value results in a higher recall rate with degraded search performance. For details, refer to [Tune Recall Rate](/docs/tune-recall-rate).
+            该值默认为 **1**，范围为 **1** 到 **10**。增大该值会提高召回率，但会降低搜索性能。详情请参阅[调整召回率](/docs/tune-recall-rate)。
 
         - **page_retain_order** (*bool*) -
 
-            Whether to retain the order of the search result when `offset` is provided. 
+            在提供 `offset` 时，是否保留搜索结果的顺序。 
 
-            This parameter applies only when you also set `radius`.
+            此参数仅在你同时设置了 `radius` 时适用。
 
-    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
+    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **group_by_field** (*str*)
 
-    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
+    按指定字段对搜索结果进行分组，以确保多样性并避免返回同一组中的多个结果。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示在收到任何响应或发生任何错误时，此操作即超时。
 
 - **partition_names** (*list*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    该值默认为 **None**。如果指定，则仅指定的分区会参与查询。
 
 - **anns_field** (*string*) -
 
-    The name of the target vector field. This parameter is optional if there is only one vector field in the target collection.
+    目标向量字段的名称。如果目标集合中只有一个向量字段，则此参数可选。
 
 - **round_decimal** (*int*) -
 
-    The number of decimal places for distance values. The default value is -1, which indicates that no rounding is applied.
+    距离值的小数位数。默认值为 -1，表示不进行四舍五入。
 
 - **kwargs** -
 
     - **offset** (int) -
 
-        The number of records to skip in the search result. 
+        在搜索结果中要跳过的记录数。 
 
-        You can use this parameter in combination with `limit` to enable pagination.
+        你可以将此参数与 `limit` 结合使用以启用分页。
 
-        The sum of this value and `limit` should be less than 16,384. 
+        此值与 `limit` 的总和应小于 16,384。 
 
     - **round_decimal** (int) -
 
-        The number of decimal places that Zilliz Cloud rounds the calculated distances to.
+        Zilliz Cloud 对计算出的距离进行四舍五入时保留的小数位数。
 
-        The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
+        该值默认为 **-1**，表示 Zilliz Cloud 不对计算出的距离进行四舍五入，而是返回原始值。
 
 **RETURN TYPE:**
 
 *SearchIterator*
 
 **RETURNS:**
-A **SearchIterator** instance that provides the following methods:
+一个 **SearchIterator** 实例，提供以下方法：
 
 - `next()`
 
-    This method returns a batch of entities iteratively. Each time you call it, a new set of entities is returned until the last entity is retrieved.
+    此方法以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到获取到最后一个实体为止。
 
 - `close()`
 
-    This method closes the current **SearchIterator** instance.
+    此方法关闭当前的 **SearchIterator** 实例。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -255,6 +255,5 @@ while True:
         
     for hit in result:
         results.append(hit.to_dict())
-
 ```
 

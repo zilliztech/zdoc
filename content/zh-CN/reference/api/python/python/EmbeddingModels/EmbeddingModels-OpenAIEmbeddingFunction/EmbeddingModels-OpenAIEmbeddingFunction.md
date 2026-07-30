@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "OpenAIEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-OpenAIEmbeddingFunction
 sidebar_label: "OpenAIEmbeddingFunction"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "OpenAIEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using OpenAI models to support embedding retrieval in Milvus. | Python"
+description: "OpenAIEmbeddingFunction 是 pymilvus 中的一个类，用于使用 OpenAI 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - OpenAIEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # OpenAIEmbeddingFunction
 
-**OpenAIEmbeddingFunction** is a class in pymilvus that handles encoding text into embeddings using OpenAI models to support embedding retrieval in Milvus.
+**OpenAIEmbeddingFunction** 是 pymilvus 中的一个类，用于使用 OpenAI 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.OpenAIEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs an OpenAIEmbeddingFunction for common use cases.
+为常见用例构造一个 OpenAIEmbeddingFunction。
 
 ```python
 OpenAIEmbeddingFunction(
@@ -51,29 +51,29 @@ OpenAIEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*) -
 
-    The name of the OpenAI model to use for encoding. Valid options are **text-embedding-3-small**, **text-embedding-3-large**, and **text-embedding-ada-002** (default).
+    用于编码的 OpenAI 模型名称。有效选项包括 **text-embedding-3-small**、**text-embedding-3-large** 和 **text-embedding-ada-002**（默认）。
 
 - **api_key** (*string*) -
 
-    The API key for accessing the OpenAI API. If you leave it unspecified, the code will check environment variables for the API key as a fallback.
+    用于访问 OpenAI API 的 API 密钥。如果未指定，代码会检查环境变量中的 API 密钥作为回退。
 
 - **base_url** (*string*) -
 
-    The base URL of the OpenAI API endpoint to use for encoding text into embeddings. The value defaults to **None**, which uses the public OpenAI API server at the default endpoint.
+    用于将文本编码为嵌入的 OpenAI API 端点基础 URL。该值默认为 **None**，表示使用默认端点上的公共 OpenAI API 服务器。
 
 - **dimensions** (*int*) -
 
-    The number of dimensions the resulting output embeddings should have. Only supported in **text-embedding-3** and later models.
+    生成的输出嵌入应具有的维度数。仅在 **text-embedding-3** 及更高版本的模型中受支持。
 
 - **&ast;&ast;kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [Client](https://github.com/openai/openai-python/blob/main/src/openai/_client.py).
+    允许将其他关键字参数传递给模型初始化。更多信息请参见 [Client](https://github.com/openai/openai-python/blob/main/src/openai/_client.py)。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

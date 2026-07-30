@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_alias() | Python | ORM"
 slug: /python/python/utility-drop_alias
 sidebar_label: "drop_alias()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation drops a specified collection alias. | Python | ORM"
+description: "此操作会删除指定的集合别名。 | Python | ORM"
 type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop_alias()
 
-This operation drops a specified collection alias. 
+此操作会删除指定的[集合](./ORM-Collection)别名。 
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop_alias(
@@ -44,54 +44,54 @@ drop_alias(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **alias** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The alias to drop.
+    要删除的别名。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>When dropping an alias, you do not need to provide the collection name because one alias can only be assigned to exactly one collection. Therefore, the server knows which collection the specified alias belongs to.</p>
+    删除别名时，您无需提供集合名称，因为一个别名只能分配给且仅能分配给一个集合。因此，服务器知道指定的别名属于哪个集合。
 
     </Admonition>
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Get an existing collection
@@ -116,9 +116,9 @@ utility.drop_alise(alias="bob")
 utility.list_aliases(collection_name="collection_1") # ['tom']
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `drop_alias()`:
+以下操作与 `drop_alias()` 相关：
 
 - [alter_alias()](./utility-alter_alias)
 

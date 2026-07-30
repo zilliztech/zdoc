@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "MGTEEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-MGTEEmbeddingFunction
 sidebar_label: "MGTEEmbeddingFunction"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "MGTEEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using MGTE embedding models to support embedding retrieval in Milvus. | Python"
+description: "MGTEEmbeddingFunction 是 pymilvus 中的一个类，用于使用 MGTE 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - MGTEEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # MGTEEmbeddingFunction
 
-MGTEEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using MGTE embedding models to support embedding retrieval in Milvus.
+MGTEEmbeddingFunction 是 pymilvus 中的一个类，用于使用 MGTE 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.hybrid.MGTEEmbeddingFunction
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a MGTEEmbeddingFunction for common use cases.
+构造一个适用于常见用例的 MGTEEmbeddingFunction。
 
 ```python
 MGTEEmbeddingFunction(
@@ -59,41 +59,41 @@ MGTEEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    The name of the GTE embedding model to use for encoding. The value defaults to `Alibaba-NLP/gte-multilingual-base`. For more information, refer to [Models](https://huggingface.co/Alibaba-NLP).
+    用于编码的 GTE 嵌入模型名称。默认值为 `Alibaba-NLP/gte-multilingual-base`。更多信息请参见 [Models](https://huggingface.co/Alibaba-NLP)。
 
 - **batch_size** (*int*)
 
-    The batch size to use for encoding.
+    用于编码的批处理大小。
 
 - **device** (*string*)
 
-    The device to use for the model.
+    模型使用的设备。
 
 - **normalize_embeddings** (*bool*)
 
-    Whether to normalize the dense embeddings.
+    是否对稠密嵌入进行归一化。
 
 - **dimensions** (*int*)
 
-    The number of dimensions for the dense embeddings. If not provided, it will use the model's default hidden size.
+    稠密嵌入的维度数。如果未提供，将使用模型默认的隐藏层大小。
 
 - **use_fp16** (*bool*)
 
-    Whether to use 16-bit floating point precision.
+    是否使用 16 位浮点精度。
 
 - **return_dense** (*bool*)
 
-    Whether to return dense embeddings.
+    是否返回稠密嵌入。
 
 - **return_sparse** (*bool*)
 
-    Whether to return sparse embeddings.
+    是否返回稀疏嵌入。
 
 - **kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization.
+    允许将其他关键字参数传递给模型初始化。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.hybrid import MGTEEmbeddingFunction

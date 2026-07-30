@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_role() | Python | MilvusClient"
 slug: /python/python/Authentication-create_role
 sidebar_label: "create_role()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation creates a custom role. | Python | MilvusClient"
+description: "此操作会创建一个用于基于角色的访问控制的角色。 | Python | MilvusClient"
 type: docx
-token: OUz3drncZo1Er8xyITZcYz66nWE
+token: HRqudGOOnokInhxczclcADBDn8g
 sidebar_position: 3
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - create_role()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # create_role()
 
-This operation creates a custom role.
+此操作会创建一个用于基于角色的访问控制的角色。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 create_role(
@@ -42,50 +42,36 @@ create_role(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **role_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the role to create.
+    要创建的角色名称。
 
-- **timeout** (*float* | *None*)  
+- **timeout** (*float*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+**返回类型：**
 
-**RETURN TYPE:**
+*None*
 
-*NoneType*
+此操作不返回任何值。
 
-**RETURNS:**
-
-None
-
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-- **BaseException**
+- **ParamError**
 
-    This exception will be raised when this operation fails.
+    当参数值无效时，将引发此异常。
 
-## Example
+## 示例\{#examples}
 
 ```python
-from pymilvus import MilvusClient
-
-# 1. Create a milvus client
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
-# 2. Create a role
-client.create_role(role_name="read_only")
+client.create_role(role_name="analytics_reader")
 ```
-

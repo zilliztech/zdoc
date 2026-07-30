@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "search_iterator() | Python | ORM"
 slug: /python/python/Collection-search_iterator
 sidebar_label: "search_iterator()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data. | Python | ORM"
+description: "此操作返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。 | Python | ORM"
 type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-This operation returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data.
+此操作返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 search_iterator(
@@ -50,103 +50,103 @@ search_iterator(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **data** (*list[list[float]]*) - 
 
     **[REQUIRED]**
 
-    A list of vector embeddings.
+    向量嵌入列表。
 
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
+    Zilliz Cloud 会搜索与指定向量嵌入最相似的向量嵌入。
 
 - **anns_field** (str) -
 
     **[REQUIRED]**
 
-    The name of the vector field in the current collection.
+    当前 collection 中向量字段的名称。
 
 - **param** (dict) -
 
     **[REQUIRED]**
 
-    The parameter settings specific to this operation.
+    此操作特有的参数设置。
 
     - **metric_type** (*str*) -
 
-        The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. 
+        应用于此操作的度量类型。它应与您为上述指定向量字段创建索引时使用的度量类型相同。 
 
-        Possible values are **L2**, **IP**, and **COSINE**.
+        可选值包括 **L2**、**IP** 和 **COSINE**。
 
     - **params** (dict) -
 
-        Additional parameters
+        附加参数
 
         - **radius** (float) -
 
-            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+            用于确定最低相似度阈值。当将 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
 
         - **range_filter**  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+            将搜索结果限定为特定相似度范围内的向量。当将 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
 
-    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
+    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **batch_size** (*int*) -
 
-    The number of entities to return each time you call `next()` on the current iterator.
+    每次对当前迭代器调用 `next()` 时返回的实体数量。
 
-    The value defaults to **1000**. Set it to a proper value to control the number of entities to return per iteration.
+    默认值为 **1000**。请将其设置为合适的值，以控制每次迭代返回的实体数量。
 
 - **limit** (*int*) -
 
-    The total number of entities to return.
+    返回的实体总数。
 
-    The value defaults to **-1**, indicating all matching entities will be in return.
+    默认值为 **-1**，表示返回所有匹配的实体。
 
 - **expr** (*str*) -
 
-    A scalar filtering condition to filter matching entities.
+    用于筛选匹配实体的标量过滤条件。
 
-    The value defaults to **None**, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
+    默认值为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*) -
 
-    A list of field names to include in each entity in return.
+    返回的每个实体中要包含的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则仅在指定分区中执行查询。
 
 - **timeout** (*float*)  -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
 - **round_decimal** (int) -
 
-    The number of decimal places that Zilliz Cloud rounds the calculated distances to.
+    Zilliz Cloud 对计算距离进行四舍五入时保留的小数位数。
 
-    The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
+    默认值为 **-1**，表示 Zilliz Cloud 跳过对计算距离的四舍五入并返回原始值。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *SearchIterator*
 
-**RETURNS:**
+**返回值：**
 
-A **SearchIterator** for you to iterate over the search result.
+一个 **SearchIterator**，供您遍历搜索结果。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -219,9 +219,9 @@ while True:
 
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `search_iterator()`:
+以下操作与 `search_iterator()` 相关：
 
 - [delete()](./Collection-delete)
 

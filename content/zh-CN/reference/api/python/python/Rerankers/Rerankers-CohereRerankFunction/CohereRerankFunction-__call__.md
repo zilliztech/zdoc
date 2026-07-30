@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/CohereRerankFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in CohereRerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
+description: "CohereRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。 | Python"
 type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [CohereRerankFunction](./Rerankers-CohereRerankFunction) takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score.
+[CohereRerankFunction](./Rerankers-CohereRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 # Instance created
@@ -47,27 +47,27 @@ cohere_rf(
 ) -> List[RerankResult]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - `query` (*string*)
 
-    The query string to use for ranking.
+    用于排序的查询字符串。
 
 - `documents` (*List[str]*)
 
-    A list of document strings that will be ranked for the given query.
+    针对给定查询进行排序的文档字符串列表。
 
 - `top_k` (*int*)
 
-    The maximum number of top ranked documents to return. Defaults to **5**.
+    要返回的排名最高文档的最大数量。默认为 **5**。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[RerankResult]*
 
-**RETURNS:**
+**返回值：**
 
-A list of `RerankResult` objects.
+一个 `RerankResult` 对象列表。
 
 ```plaintext
 ├── RerankResult
@@ -76,21 +76,21 @@ A list of `RerankResult` objects.
 |    └── index
 ```
 
-Each `RerankResult` object contains:
+每个 `RerankResult` 对象包含：
 
-- `text`: The matched document text.
+- `text`：匹配到的文档文本。
 
-- `score`: The score assigned to that document by the reranking model.
+- `score`：重排模型为该文档分配的分数。
 
-- `index`: The index of the document in the original documents list.
+- `index`：该文档在原始 documents 列表中的索引。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the Cohere module is not installed.
+    当未安装 Cohere 模块时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.reranker import CohereRerankFunction

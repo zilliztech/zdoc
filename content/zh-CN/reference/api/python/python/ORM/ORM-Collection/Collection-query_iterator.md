@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "query_iterator() | Python | ORM"
 slug: /python/python/Collection-query_iterator
 sidebar_label: "query_iterator()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation returns a Python iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data. | Python | ORM"
+description: "此操作返回一个 Python 迭代器，供您遍历查询结果。在查询结果包含大量数据时尤其有用。 | Python | ORM"
 type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # query_iterator()
 
-This operation returns a Python iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data.
+此操作返回一个 Python 迭代器，供您遍历查询结果。在查询结果包含大量数据时尤其有用。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 query_iterator(
@@ -46,57 +46,57 @@ query_iterator(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **batch_size** (*int*)
 
-    The number of entities to return each time you call `next()` on the current iterator.
+    每次在当前迭代器上调用 `next()` 时返回的实体数量。
 
-    The value defaults to **1000**. Set it to a proper value to control the number of entities to return per iteration.
+    该值默认为 **1000**。请将其设置为合适的值，以控制每次迭代返回的实体数量。
 
 - **limit** (*int*)
 
-    The total number of entities to return.
+    要返回的实体总数。
 
-    The value defaults to **-1**, indicating all matching entities will be in return.
+    该值默认为 **-1**，表示将返回所有匹配的实体。
 
 - **expr** (*str*)
 
-    A scalar filtering condition to filter matching entities.
+    用于筛选匹配实体的标量过滤条件。
 
-    The value defaults to **None**, indicating that scalar filtering is ignored. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md).
+    该值默认为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*)
 
-    A list of field names to include in each entity in return.
+    一个字段名称列表，用于指定返回的每个实体中应包含哪些字段。
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    该值默认为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*)
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    该值默认为 **None**。如果已指定，则查询时仅涉及指定的分区。
 
 - **timeout** (*float*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *QueryIterator*
 
-**RETURNS:**
+**返回：**
 
-A **QueryIterator** for you to iterate over the query result.
+一个 **QueryIterator**，供您遍历查询结果。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -148,9 +148,9 @@ while True:
         break
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `query_iterator()`:
+以下操作与 `query_iterator()` 相关：
 
 - [delete()](./Collection-delete)
 

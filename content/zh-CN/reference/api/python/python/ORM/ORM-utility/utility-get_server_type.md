@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_server_type() | Python | ORM"
 slug: /python/python/utility-get_server_type
 sidebar_label: "get_server_type()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation checks the type of the Zilliz Cloud cluster. | Python | ORM"
+description: "此操作检查 Zilliz Cloud 集群的类型。 | Python | ORM"
 type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_type()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # get_server_type()
 
-This operation checks the type of the Zilliz Cloud cluster.
+此操作检查 Zilliz Cloud 集群的类型。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 get_server_type(
@@ -41,44 +41,44 @@ get_server_type(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *str*
 
-**RETURNS:**
-The server type. Possible values are as follows:
+**返回：**
+服务器类型。可能的值如下：
 
 - **zilliz**
 
-    Indicates that the current server is a Zilliz Cloud cluster.
+    表示当前服务器是 Zilliz Cloud 集群。
 
 - **milvus**
 
-    Indicates that the current server is a Milvus instance.
+    表示当前服务器是一个 Milvus 实例。
 
-**EXAMPLE:**
+**示例：**
 
 ```python
 from pymilvus import connections, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Check the server type
 server_type = utility.get_server_type()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `get_server_type()`:
+以下操作与 `get_server_type()` 相关：
 
 - [get_server_version()](./utility-get_server_version)
 

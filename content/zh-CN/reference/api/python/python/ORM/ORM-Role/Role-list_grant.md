@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_grant() | Python | ORM"
 slug: /python/python/Role-list_grant
 sidebar_label: "list_grant()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists the relationship between the current role and the specified object. | Python | ORM"
+description: "此操作列出当前角色与指定对象之间的关系。 | Python | ORM"
 type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - list_grant()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_grant()
 
-This operation lists the relationship between the current role and the specified object.
+此操作列出当前角色与指定对象之间的关系。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_grant(
@@ -43,35 +43,35 @@ list_grant(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **object** (*str*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The type of the object to grant the privilege.
+    要授予权限的对象类型。
 
-    The value is case-sensitive. For details, refer to Users & Roles.
+    该值区分大小写。详情请参见 Users & Roles。
 
 - **object_name** (*str*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a target object of the type specified in **object**.
+    **object** 中指定类型的目标对象名称。
 
-    It can be a collection name, a user name, or a wild card (*).
+    它可以是集合名称、用户名或通配符 (*)。
 
 - **db_name** (*str*)
 
-    The name of a database the object belongs to. If left unspecified, the default database applies.
+    对象所属数据库的名称。如果未指定，则使用默认数据库。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *GrantInfo*
 
-**RETURNS:**
+**返回：**
 
-A **GrantInfo** object that contains a list of **GrantItem** objects.
+一个 **GrantInfo** 对象，其中包含 **GrantItem** 对象列表。
 
 ```python
 ├── GrantInfo
@@ -85,39 +85,39 @@ A **GrantInfo** object that contains a list of **GrantItem** objects.
 │           └── db_name
 ```
 
-A **GrantItem** object contains the following fields:
+一个 **GrantItem** 对象包含以下字段：
 
 - **object** (*str*)
 
-    The type of the object to which the privilege belongs.
+    权限所属对象的类型。
 
 - **object_name** (*str*)
 
-    The name of the object to which the role is granted the specified privilege.
+    被授予指定权限的角色所对应对象的名称。
 
 - **role_name** (*str*)
 
-    The name of the role to check.
+    要检查的角色名称。
 
 - **grantor_name** (*str*）
 
-    The name of the user who granted a specific role to a user.
+    将特定角色授予用户的用户名称。
 
 - **privilege** (*str*)
 
-    The privilege that is granted to the role.
+    授予该角色的权限。
 
 - **db_name** (str)
 
-    The name of the database in which this operation has been executed.
+    执行此操作所在数据库的名称。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Role
@@ -133,9 +133,9 @@ res = list_grant(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `get_replicas()`:
+以下操作与 `get_replicas()` 相关：
 
 - [add_user()](./Role-add_user)
 

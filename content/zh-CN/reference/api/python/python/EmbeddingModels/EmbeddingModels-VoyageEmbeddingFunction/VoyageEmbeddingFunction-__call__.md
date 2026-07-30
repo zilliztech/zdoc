@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/VoyageEmbeddingFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in VoyageEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
+description: "VoyageEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: DQFbdMhfcodFuxxhYFeccDzEnkf
 sidebar_position: 4
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [VoyageEmbeddingFunction](./EmbeddingModels-VoyageEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
+[VoyageEmbeddingFunction](./EmbeddingModels-VoyageEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
-The **\_\_call\_\_()** method of VoyageEmbeddingFunction shares the same functionality as [encode_documents()](./VoyageEmbeddingFunction-encode_documents) and [encode_queries()](./VoyageEmbeddingFunction-encode_queries).
+VoyageEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./VoyageEmbeddingFunction-encode_documents) 和 [encode_queries()](./VoyageEmbeddingFunction-encode_queries) 具有相同的功能。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 # Instance created
@@ -48,27 +48,27 @@ voyage_ef(
 ) -> List[np.array]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **texts** (*List[str]*)
 
-    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[np.array]*
 
-**RETURNS:**
+**返回值：**
 
-A list where each element is a NumPy array.
+一个列表，其中每个元素都是一个 NumPy 数组。
 
-**Exceptions:**
+**异常：**
 
 - **ImportError**
 
-    This exception will be raised when the Voyage module is not installed.
+    当未安装 Voyage 模块时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import VoyageEmbeddingFunction

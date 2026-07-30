@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/JinaRerankFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in JinaRerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
+description: "JinaRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。 | Python"
 type: docx
 token: R3gEdUOSfo6JzMxwUsTcevNHn9g
 sidebar_position: 2
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [JinaRerankFunction](./Rerankers-JinaRerankFunction) takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score.
+[JinaRerankFunction](./Rerankers-JinaRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 # Instance created
@@ -47,27 +47,27 @@ jina_rf(
 ) -> List[RerankResult]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - `query` (*string*)
 
-    The query string to use for ranking.
+    用于排序的查询字符串。
 
 - `documents` (*List[str]*)
 
-    A list of document strings that will be ranked for the given query.
+    将针对给定查询进行排序的文档字符串列表。
 
 - `top_k` (*int*)
 
-    The maximum number of top ranked documents to return. Defaults to **5**.
+    要返回的排名最高文档的最大数量。默认为 **5**。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[RerankResult]*
 
-**RETURNS:**
+**返回：**
 
-A list of `RerankResult` objects.
+一个 `RerankResult` 对象列表。
 
 ```plaintext
 ├── RerankResult
@@ -76,21 +76,21 @@ A list of `RerankResult` objects.
 |    └── index
 ```
 
-Each `RerankResult` object contains:
+每个 `RerankResult` 对象包含：
 
-- `text`: The matched document text.
+- `text`：匹配到的文档文本。
 
-- `score`: The score assigned to that document by the reranking model.
+- `score`：重排模型分配给该文档的分数。
 
-- `index`: The index of the document in the original documents list.
+- `index`：该文档在原始文档列表中的索引。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **RuntimeError**
 
-    This exception will be raised when the response from the Jina API does not contain the `results` key.
+    当 Jina API 的响应中不包含 `results` 键时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.reranker import JinaRerankFunction

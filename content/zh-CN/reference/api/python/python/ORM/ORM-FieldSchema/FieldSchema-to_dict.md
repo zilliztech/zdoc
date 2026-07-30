@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "to_dict() | Python | ORM"
 slug: /python/python/FieldSchema-to_dict
 sidebar_label: "to_dict()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation converts a FieldSchema object to a dictionary representation. | Python | ORM"
+description: "此操作将 FieldSchema 对象转换为字典表示形式。 | Python | ORM"
 type: docx
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3
 keywords: 
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,33 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-This operation converts a FieldSchema object to a dictionary representation.
+此操作将 FieldSchema 对象转换为字典表示形式。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 to_dict()
 ```
 
-**PARAMETERS:**
+**参数：**
 
-None
+无
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回值：**
 
-The dictionary representation of the field schema.
+字段 schema 的字典表示形式。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType

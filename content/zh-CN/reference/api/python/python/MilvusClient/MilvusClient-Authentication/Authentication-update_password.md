@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "update_password() | Python | MilvusClient"
 slug: /python/python/Authentication-update_password
 sidebar_label: "update_password()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation updates the password of a specific user. | Python | MilvusClient"
+description: "此操作会更新特定用户的密码。 | Python | MilvusClient"
 type: docx
-token: WGDod7Qehou4GWx4Co2cJ34VnKb
+token: B4MWdXervo5cC0xBUaVcSiTgnMg
 sidebar_position: 20
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-This operation updates the password of a specific user.
+此操作会更新特定用户的密码。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 update_password(
@@ -46,62 +46,62 @@ update_password(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **user_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing user.
+    现有用户的名称。
 
 - **old_password** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The original password of the user.
+    用户的原始密码。
 
 - **new_password** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The new password of the user.
+    用户的新密码。
 
 - **reset_connection** (*bool*) -
 
-    Whether to reset the connection using the new credentials.
+    是否使用新凭证重置连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -116,7 +116,7 @@ client.update_password(
 )
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [create_user()](./Authentication-create_user)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "append_row() | Python"
 slug: /python/python/RemoteBulkWriter-append_row
 sidebar_label: "append_row()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation appends records to the writer. | Python"
+description: "此操作会将记录追加到写入器中。 | Python"
 type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - 音频相似性搜索
+  - 弹性向量数据库
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # append_row()
 
-This operation appends records to the writer.
+此操作会将记录追加到写入器中。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 append_row(
@@ -41,15 +41,15 @@ append_row(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **row** (*dict*) -
 
-    A dictionary representing an entity to be appended.
+    表示要追加的实体的字典。
 
-    The keys and their values in the dictionary should match the schema referenced in the current **LocalBulkWriter**.
+    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 引用的 schema 相匹配。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -84,7 +84,7 @@ writer.append_row(
 )
 ```
 
-## Related classes and methods
+## 相关类和方法\{#related-classes-and-methods}
 
 - [commit()](./RemoteBulkWriter-commit)
 

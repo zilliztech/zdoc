@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/NomicEmbeddingFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in NomicEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
+description: "NomicEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: Dsl1dDLBeoGixjxt2lpcFP5ynSA
 sidebar_position: 4
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [NomicEmbeddingFunction](./EmbeddingModels-NomicEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
+[NomicEmbeddingFunction](./EmbeddingModels-NomicEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
-The **\_\_call\_\_()** method of NomicEmbeddingFunction shares the same functionality as [encode_documents()](./NomicEmbeddingFunction-encode_documents) and [encode_queries()](./NomicEmbeddingFunction-encode_queries).
+NomicEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./NomicEmbeddingFunction-encode_documents) 和 [encode_queries()](./NomicEmbeddingFunction-encode_queries) 具有相同的功能。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 # Instance created
@@ -48,25 +48,25 @@ ef(
 ) -> List[np.array]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **texts** (*List[str]*)
 
-    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[np.array]*
 
-**RETURNS:**
+**返回值：**
 
-A list where each element is a NumPy array.
+一个列表，其中每个元素都是一个 NumPy 数组。
 
-**Exceptions:**
+**异常：**
 
 *None*
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import NomicEmbeddingFunction

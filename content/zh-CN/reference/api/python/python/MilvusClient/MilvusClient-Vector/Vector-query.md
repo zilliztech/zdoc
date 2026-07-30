@@ -1,22 +1,21 @@
 ---
 title: "query() | Python | MilvusClient"
 slug: /python/python/Vector-query
-sidebar_key: python/Vector-query
 sidebar_label: "query()"
+beta: false
 added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation conducts a scalar filtering with a specified boolean expression. | Python | MilvusClient"
+description: "此操作使用指定的布尔表达式执行标量过滤。 | Python | MilvusClient"
 type: docx
 token: ShzCdNgEGozKi3xa3lUcHpxQnaf
 sidebar_position: 4
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - 问答系统
+  - llm-as-a-judge
+  - 混合向量搜索
+  - 视频去重
   - zilliz
   - zilliz cloud
   - cloud
@@ -24,6 +23,7 @@ keywords:
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-This operation conducts a scalar filtering with a specified boolean expression.
+此操作使用指定的布尔表达式执行标量过滤。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-This method applies only to dedicated serving clusters and on-demand compute. 
+此方法仅适用于专属服务集群和按需计算。 
 
-- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+- 如需在服务集群的 collection 中执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ This method applies only to dedicated serving clusters and on-demand compute.
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
+- 如需在按需计算的 collection 中执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -72,133 +72,135 @@ query(
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有 collection 的名称。
 
 - **filter** (*str*) -
 
     **[REQUIRED]**
 
-    A scalar filtering condition to filter matching entities. 
+    用于筛选匹配实体的标量过滤条件。 
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
+    你可以将此参数设为空字符串，以跳过标量过滤。有关如何构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。 
 
 - **output_fields** (*list[str]* | *None*) -
 
-    A list of field names to include in each entity in return.
+    返回结果中每个实体要包含的字段名称列表。
 
-    The value defaults to **None**.
+    默认值为 **None**。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    - Setting this as `output_fields=["\*"]` outputs all fields.
-
-    - Setting this as `output_fields=["count(\*)"]` outputs the loaded entities that match the conditions specified in the **filter** argument.
-
-    - When used with `group_by_fields`, this list also accepts aggregation expressions: `count(*)`, `count(<field>)`, `min(<field>)`, `max(<field>)`, `sum(<field>)`, and `avg(<field>)`. The aggregated values are computed per group and returned alongside the group keys.
+    - 将其设置为 `output_fields=["\*"]` 会输出所有字段。
+    
+    - 将其设置为 `output_fields=["count(\*)"]` 会输出与 **filter** 参数中指定条件匹配的已加载实体数量。
+    
+    - 与 `group_by_fields` 一起使用时，此列表也支持聚合表达式：`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)` 和 `avg(<field>)`。聚合值将按组计算，并与分组键一同返回。
 
     </Admonition>
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则只在指定分区中执行查询。
 
 - **kwargs** -
 
     - **consistency_level** (*str* | *int*) -
 
-        The consistency level of the target collection.
+        目标 collection 的一致性级别。
 
-        The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+        该值默认与创建当前 collection 时指定的值一致，可选值包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
-
-        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
-
-        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
+        什么是一致性级别？
+        
+                分布式数据库中的一致性，特指在某一时刻进行数据写入或读取时，确保每个节点或副本看到相同数据视图的属性。
+        
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
+        
+                在执行向量相似性搜索或查询时，你可以轻松调整一致性级别，使其最适合你的应用。
 
         </Admonition>
 
     - **guarantee_timestamp** (*int*) -
 
-        A valid timestamp. 
+        一个有效的时间戳。 
 
-        If this parameter is set,  executes the query only if all entities inserted before this timestamp are visible to query nodes. 
+        如果设置了此参数，则仅当该时间戳之前插入的所有实体对查询节点可见时，才会执行查询。 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="说明">
 
-        This parameter is valid when the default consistency level applies.
+        当使用默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        A period of time in seconds.
+        以秒为单位的时间段。
 
-        The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
+        默认值为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="说明">
 
-        This parameter is valid when a consistency level other than the default one applies.
+        当使用非默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **offset** (*int*) -
 
-        The number of records to skip in the query result. 
+        在查询结果中要跳过的记录数。 
 
-        You can use this parameter in combination with `limit` to enable pagination.
+        你可以将此参数与 `limit` 结合使用以实现分页。
 
-        The sum of this value and `limit` should be less than 16,384. 
+        此值与 `limit` 的和应小于 16,384。 
 
     - **limit** (*int*) -
 
-        The number of records to return in the query result.
+        查询结果中要返回的记录数。
 
-        You can use this parameter in combination with `offset` to enable pagination.
+        你可以将此参数与 `offset` 结合使用以实现分页。
 
-        The sum of this value and `offset` should be less than 16,384.
+        此值与 `offset` 的和应小于 16,384。
 
     - **timezone** (*str*)
 
-        Temporarily override the collection or database default time zone for a single query by setting an [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (for example, **Asia/Shanghai**, **America/Chicago**, or **UTC**). This controls how `TIMESTAMPTZ` values are interpreted, displayed, and compared during that operation only; it does not modify stored data or collection settings.
+        通过设置一个 [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**、**America/Chicago** 或 **UTC**），临时覆盖单次查询中 collection 或数据库的默认时区。这仅控制该操作期间 `TIMESTAMPTZ` 值的解释、显示和比较方式；不会修改已存储的数据或 collection 设置。
 
-        For more information, refer to [TIMESTAMPZ Field](/docs/use-timestamptz-field).
+        更多信息，请参见 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
 
     - **time_fields** (*str*)
 
-        Extract specific time components from a `TIMESTAMPTZ` field during query or search operations. Use a comma-separated list to specify which elements to extract. Supported elements include: `year`, `month`, `day`, `hour`, `minute`, `second`, and `microsecond`.
+        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定时间组成部分。使用逗号分隔的列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
 
-        For more information, refer to TIMESTAMPZ Field.
+        更多信息，请参见 TIMESTAMPZ Field。
 
     - **order_by** (*list[str]*)
 
-        A list of fields to sort the query results by. Each element follows the format `"field_name:direction"`, where direction is either `asc` (ascending) or `desc` (descending). Note that `asc` and `desc` are case-sensitive.
+        用于对查询结果排序的字段列表。每个元素遵循 `"field_name:direction"` 格式，其中 direction 只能是 `asc`（升序）或 `desc`（降序）。请注意，`asc` 和 `desc` 区分大小写。
 
-        Supported field types: INT8, INT16, INT32, INT64, FLOAT, DOUBLE, and VARCHAR. Sorting by vector, JSON, or ARRAY fields is not supported.
+        支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE 和 VARCHAR。不支持按向量、JSON 或 ARRAY 字段排序。
 
-        This parameter must be used together with `limit`. When sorting nullable fields, NULL values are placed at the end for ascending sorts (NULLS LAST) and at the beginning for descending sorts (NULLS FIRST).
+        此参数必须与 `limit` 一起使用。对可空字段排序时，升序会将 NULL 值放在最后（NULLS LAST），降序会将 NULL 值放在最前（NULLS FIRST）。
 
     - **group_by_fields** (*list[str]*) -
 
-        A list of scalar fields to group the query results by. When set, `query()` returns one row per unique combination of the specified field values, and any aggregation expressions in `output_fields` (`count(*)`, `count(<f>)`, `min(<f>)`, `max(<f>)`, `sum(<f>)`, `avg(<f>)`) are computed per group.
+        用于对查询结果进行分组的标量字段列表。设置后，`query()` 会为指定字段值的每个唯一组合返回一行，且 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）都会按组计算。
 
-        Supported field types: INT8, INT16, INT32, INT64, FLOAT, DOUBLE, VARCHAR, and TIMESTAMPTZ. Grouping by vector, JSON, or Array fields returns an error.
+        支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR 和 TIMESTAMPTZ。按向量、JSON 或 Array 字段分组会返回错误。
 
-        Aggregation type rules:
+        聚合类型规则：
 
-        - `sum` and `avg` are numeric only. Applying them to a `VarChar` field returns an error.
+        - `sum` 和 `avg` 仅适用于数值类型。将它们应用于 `VarChar` 字段会返回错误。
 
-        - `sum(int*)` returns `INT64`; `sum(float|double)` returns `DOUBLE`; `avg(...)` always returns `DOUBLE`; `count(...)` returns `INT64`; `min`/`max` preserve the column type.
+        - `sum(int*)` 返回 `INT64`；`sum(float|double)` 返回 `DOUBLE`；`avg(...)` 始终返回 `DOUBLE`；`count(...)` 返回 `INT64`；`min`/`max` 保持列类型不变。
 
-        You can combine `group_by_fields` with `limit` to cap the number of groups returned.
+        你可以将 `group_by_fields` 与 `limit` 结合使用，以限制返回的分组数量。
 
 **RETURN TYPE:**
 
@@ -206,11 +208,11 @@ query(
 
 **RETURNS:**
 
-A list of dictionaries with each dictionary representing a queried entity.
+由字典组成的列表，其中每个字典表示一个查询到的实体。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-If the number of returned entities is less than expected, duplicate entities may exist in your collection.
+如果返回的实体数量少于预期，则你的 collection 中可能存在重复实体。
 
 </Admonition>
 
@@ -218,11 +220,11 @@ If the number of returned entities is less than expected, duplicate entities may
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    This exception will be raised when a parameter value doesn't match the required data type.
+    当参数值与所需数据类型不匹配时，将引发此异常。
 
 ## Examples\{#examples}
 
@@ -231,7 +233,7 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

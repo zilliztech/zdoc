@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "using_database() | Python | MilvusClient"
 slug: /python/python/Database-using_database
 sidebar_label: "using_database()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation changes the database currently in use. | Python | MilvusClient"
+description: "此操作会更改当前正在使用的数据库。 | Python | MilvusClient"
 type: docx
 token: OCfid8DdPo1ga1x24JZcV92xnwd
 sidebar_position: 7
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # using_database()
 
-This operation changes the database currently in use.
+此操作会更改当前正在使用的数据库。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This method applies only to dedicated clusters.</p>
+此方法仅适用于专属服务集群和按需计算。 
+
+- 对于专属服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 using_database(
@@ -48,27 +62,27 @@ using_database(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Name of the database to use.
+    要使用的数据库名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
-- `MilvusException` - Raised if any error occurs during this operation.
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

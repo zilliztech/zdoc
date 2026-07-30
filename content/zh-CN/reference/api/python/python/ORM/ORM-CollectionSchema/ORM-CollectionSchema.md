@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "CollectionSchema | Python | ORM"
 slug: /python/python/ORM-CollectionSchema
 sidebar_label: "CollectionSchema"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Python | ORM"
+description: "CollectionSchema 实例表示集合的 schema。schema 勾勒出集合的结构。 | Python | ORM"
 type: docx
 token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # CollectionSchema
 
-A **CollectionSchema** instance represents the schema of a collection. A schema sketches the structure of a collection.
+**CollectionSchema** 实例表示集合的 schema。schema 勾勒出集合的结构。
 
 ```python
 class pymilvus.CollectionSchema
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs the schema of a collection by defining fields, data types, and other parameters.
+通过定义字段、数据类型及其他参数来构造集合的 schema。
 
 ```python
 CollectionSchema(
@@ -48,111 +48,119 @@ CollectionSchema(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **fields** (*list*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A list of **FieldSchema** objects that define the fields in the collection schema.
+    由 **FieldSchema** 对象组成的列表，用于定义集合 schema 中的字段。
 
-    <Admonition type="info" icon="📘" title="What is a field schema?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A field schema represents and contains metadata for a single field, while <strong>CollectionSchema</strong> ties together a list of FieldSchema objects to define the full schema.</p>
+    什么是字段 schema？
+    
+        字段 schema 表示并包含单个字段的元数据，而 **CollectionSchema** 则将一组 FieldSchema 对象组合起来，用于定义完整的 schema。
 
     </Admonition>
 
 - **description** (*string*) -
 
-    The description of the schema.
+    schema 的描述。
 
-    If a description is not provided, it will be set to an empty string.
+    如果未提供描述，则会将其设置为空字符串。
 
 - **kwargs** -
 
     - **auto_id** (*bool*)
 
-        Whether allows the primary field to automatically increment.
+        是否允许主字段自动递增。
 
-        Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+        将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免报错，插入数据时不应包含主字段。
 
     - **enable_dynamic_field** (*bool*)
 
-        Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
+        当插入到目标集合的数据中包含集合 schema 中未定义的字段时，是否允许 Zilliz Cloud 将这些未定义字段的值保存到动态字段中。
 
-        When you set this to **True**,  and Zilliz Cloud will create a field called **&#36;meta** to store any undefined fields and their values from the data that is inserted.
+        当你将其设置为 **True** 时，Zilliz Cloud 会创建一个名为 **&#36;meta** 的字段，用于存储插入数据中所有未定义字段及其值。
 
-        <Admonition type="info" icon="📘" title="What is a dynamic field?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a dynamic field as key-value pairs.</p>
+        什么是动态字段？
+        
+                如果插入到目标集合的数据中包含集合 schema 中未定义的字段，这些字段将以键值对的形式保存在动态字段中。
 
         </Admonition>
 
     - **primary_field** (*str*)
 
-        The name of the primary field.
+        主字段的名称。
 
-        The value should be the name of a field listed in **fields**.
+        其值应为 **fields** 中列出的某个字段名称。
 
-        As an alternative, you can set **is_primary** when creating a **FieldSchema** object.
+        另外，你也可以在创建 **FieldSchema** 对象时设置 **is_primary**。
 
     - **partition_key_field** (*str*)
 
-        The name of the field that serves as the partition key.
+        用作分区键的字段名称。
 
-        The value should be the name of a field listed in **fields**.
+        其值应为 **fields** 中列出的某个字段名称。
 
-        Setting this makes Zilliz Cloud manage all partitions in the current collection.
+        设置此项后，Zilliz Cloud 会管理当前集合中的所有分区。
 
-        As an alternative, you can set **is_partition_key** when creating a **FieldSchema** object.
+        另外，你也可以在创建 **FieldSchema** 对象时设置 **is_partition_key**。
 
-        <Admonition type="info" icon="📘" title="What is a partition key?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
-        <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
-        <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong>CollectionSchema</strong> object.</p>
+        什么是分区键？
+        
+                一旦某个字段被指定为分区键，Zilliz Cloud 会为该字段中的每个唯一值自动创建一个分区，并相应地将实体保存到这些分区中。
+        
+                这在基于特定键实现数据隔离时特别有用，例如面向分区的多租户场景。
+        
+                另外，你也可以在创建 **CollectionSchema** 对象时设置 **partition_key_field**。
 
         </Admonition>
 
-**RETURN TYPE:**
+**返回类型：**
 
 *CollectionSchema*
 
-**RETURNS:**
+**返回值：**
 
-A **CollectionSchema** object.
+一个 **CollectionSchema** 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **FieldsTypeException**: 
 
-    This exception will be raised when the **fields** parameter is not a list.
+    当 **fields** 参数不是列表时，将引发此异常。
 
 - **FieldTypeException**: 
 
-    This exception will be raised when a field in the **fields** list is not a **FieldSchema** object.
+    当 **fields** 列表中的某个字段不是 **FieldSchema** 对象时，将引发此异常。
 
 - **PrimaryKeyException:**
 
-    This exception will be raised if
+    在以下情况下将引发此异常：
 
-    - The **primary_field** parameter has been set but the value is not a string.
+    - 已设置 **primary_field** 参数，但其值不是字符串。
 
-    - The **primary_field** parameter has been set but the value is not the name of any listed fields.
+    - 已设置 **primary_field** 参数，但其值不是任何已列出字段的名称。
 
 - **PartitionKeyException:**
 
-    This exception will be raised if 
+    在以下情况下将引发此异常： 
 
-    - The **partition_key_field** parameter has been set but the value is not a string.
+    - 已设置 **partition_key_field** 参数，但其值不是字符串。
 
-    - The **partition_key_field** parameter has been set but the value is not the name of any listed fields.
+    - 已设置 **partition_key_field** 参数，但其值不是任何已列出字段的名称。
 
 - **AutoIDException:**
 
-    - This exception will be raised if the **auto_id** parameter has been set but the value is not a boolean.
+    - 已设置 **auto_id** 参数，但其值不是布尔值时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -177,7 +185,7 @@ schema = CollectionSchema(
 )
 ```
 
-## Methods
+## 方法\{#methods}
 
-The following are the methods of the `CollectionSchema` class:
+以下是 `CollectionSchema` 类的方法：
 

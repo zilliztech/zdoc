@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_import_jobs() | Python"
 slug: /python/python/BulkImport-list_import_jobs
 sidebar_label: "list_import_jobs()"
-added_since: Inherit
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: Inherit
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation lists all bulk-import jobs of a specific cluster. | Python"
+description: "此函数列出批量导入任务，并支持可选的 collection 和分页过滤；对于 project 数据库，还包括 project/region 过滤。 | Python"
 type: docx
-token: P0vxdEVBPoTNKLxkKIzcznlYnNc
+token: N13hd7jVjoA6B1xlgwic2GKRn5f
 sidebar_position: 3
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - list_import_jobs()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,160 +31,115 @@ import Admonition from '@theme/Admonition';
 
 # list_import_jobs()
 
-This operation lists all bulk-import jobs of a specific cluster.
+此函数列出批量导入任务，并支持可选的 collection 和分页过滤；对于 project 数据库，还包括 project/region 过滤。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_import_jobs(
     url: str,
-    api_key: str,
-    cluster_id: str,
-) -> requests.Response
+    collection_name: str = "",
+    db_name: str = "",
+    cluster_id: str = "",
+    project_id: str = "",
+    region_id: str = "",
+    api_key: str = "",
+    page_size: int = 10,
+    current_page: int = 1,
+    
+    project_id: str = "",
+    region_id: str = "",
+    
+    verify: bool | str = True,
+    cert: str | tuple | None = None,
+    **kwargs,
+)
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **url** (*string*) -
+- **url** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The endpoint URL of your Zilliz Cloud cluster. 
+    用于批量导入 API 的服务器端点。
 
-    For example, the endpoint URL should be in the following format:
+- **collection_name** (*str*) -
 
-    ```python
-    https://api.cloud.zilliz.com
-    # https://api.cloud.zilliz.com.cn 
-    ```
+    可选的 collection 过滤条件。
 
-    Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
+- **db_name** (*str*) -
 
-- **api_key** (*string*) -
+    可选的数据库过滤条件。
 
-    **[REQUIRED]**
+- **cluster_id** (*str*) -
 
-    Possible values are:
+    Cloud cluster ID。
 
-    - A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster, or
+- **api_key** (*str*) -
 
-    - A pair of username and password of the target cluster joined by a colon(:).
+    用于云认证的 API key。
 
-- **cluster_id** (*string*) -
+- **page_size** (*int*) -
 
-    **[REQUIRED]**
+    每页返回的任务数量。
 
-    The instance ID of the target cluster of this operation.
+- **current_page** (*int*) -
 
-    You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
+    要查询的页码。
 
-**RETURN TYPE:**
+- **project_id** (*str*) -
 
-*dict*
+    有效的 Zilliz Cloud project ID。 
 
-**RETURNS:**
+    当你向按需计算数据库执行批量导入时适用。
 
-- Response syntax
+- **region_id** (*str*) -
 
-    ```python
-    # {
-    #     "code": 0,
-    #     "data": {
-    #         "records": [
-    #             {
-    #                 "collectionName": "quick_setup",
-    #                 "jobId": "453240863839750922",
-    #                 "progress": 100,
-    #                 "state": "Completed"
-    #             }
-    #         ]
-    #     }
-    # }
-    ```
+    有效的 Zilliz Cloud region ID。
 
-- Response structure
+    当你向按需计算数据库执行批量导入时适用。
 
-    - **records** (*list*) -
+- **verify** (*bool | str*) -
 
-        The list of import jobs.
+    TLS 验证设置。
 
-        - **collectionName** (*string*) -
+- **cert** (*str | tuple*) -
 
-            The name of the target collection of this bulk-import job.
+    客户端证书路径或 `(cert, key)` 元组。
 
-        - **jobId** (*string*) -
+- **project_id** (*str*) -
 
-            The ID of this bulk-import job.
+    额外的 HTTP 请求选项。
 
-        - **progress** (*string*) - 
+**返回类型：**
+*requests.Response*
 
-            The progress of the job.
+返回分页后的导入任务列表。
 
-        - **state** (*string*) -
+包含分页导入任务摘要的 HTTP 响应。
 
-            The state of this bulk-import job. Possible values are as follows:
+**异常：**
 
-            - **Pending**: The tasks are awaiting scheduling and execution;
+- **MilvusException**
 
-            - **Importing**: The tasks are currently being executed;
+    在列出任务失败时引发。
 
-            - **Completed**: The tasks have been successfully completed;
-
-            - **Failed**: The tasks encountered a failure.
-
-**EXCEPTIONS:**
-
-None
-
-## Examples
+## 示例\{#examples}
 
 ```python
-import json
 from pymilvus.bulk_writer import list_import_jobs
 
-## Zilliz Cloud constants
-CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com.cn"
-CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
-API_KEY = ""
-
-# List bulk-insert jobs
 resp = list_import_jobs(
-    api_key=API_KEY,
-    url=CLOUD_API_ENDPOINT,
-    cluster_id=CLUSTER_ID
+    url="https://api.cloud.zilliz.com",
+    api_key="YOUR_API_KEY",
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    collection_name="book_catalog",
+    page_size=20,
+    current_page=1,
 )
 
-print(json.dumps(resp.json(), indent=4))
-
-# Output
-#
-# {
-#     "code": 200,
-#     "data": {
-#         "tasks": [
-#             {
-#                 "collectionName": "medium_articles",
-#                 "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
-#                 "state": "ImportCompleted"
-#             },
-#             {
-#                 "collectionName": "medium_articles",
-#                 "jobId": "53632e6c-c078-4476-b840-10c4793d9c08",
-#                 "state": "ImportCompleted"
-#             },
-#         ],
-#         "count": 2,
-#         "currentPage": 1,
-#         "pageSize": 10
-#     }
-# }
+print(resp.json())
 ```
-
-For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
-
-## Related methods
-
-- [bulk_import()](./BulkImport-bulk_import)
-
-- [get_import_progress()](./BulkImport-get_import_progress)
 

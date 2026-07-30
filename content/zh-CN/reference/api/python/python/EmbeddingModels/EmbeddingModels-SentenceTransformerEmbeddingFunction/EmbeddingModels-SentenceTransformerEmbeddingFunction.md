@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "SentenceTransformerEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-SentenceTransformerEmbeddingFunction
 sidebar_label: "SentenceTransformerEmbeddingFunction"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "SentenceTransformerEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Sentence Transformer models to support embedding retrieval in Milvus. | Python"
+description: "SentenceTransformerEmbeddingFunction 是 pymilvus 中的一个类，用于使用 Sentence Transformer 模型将文本编码为嵌入，以支持 Milvus 中的嵌入检索。 | Python"
 type: docx
 token: JOFedA4h8otTjHxsYQ7cnjsunHd
 sidebar_position: 3
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - SentenceTransformerEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # SentenceTransformerEmbeddingFunction
 
-**SentenceTransformerEmbeddingFunction** is a class in pymilvus that handles encoding text into embeddings using Sentence Transformer models to support embedding retrieval in Milvus.
+**SentenceTransformerEmbeddingFunction** 是 pymilvus 中的一个类，用于使用 Sentence Transformer 模型将文本编码为嵌入，以支持 Milvus 中的嵌入检索。
 
 ```python
 pymilvus.model.dense.SentenceTransformerEmbeddingFunction
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a SentenceTransformerEmbeddingFunction for common use cases.
+为常见用例构造一个 SentenceTransformerEmbeddingFunction。
 
 ```python
 SentenceTransformerEmbeddingFunction(
@@ -53,37 +53,37 @@ SentenceTransformerEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*) -
 
-    The name of the Sentence Transformer model to use for encoding. The value defaults to **all-MiniLM-L6-v2**. You can use any of Sentence Transformers' pre-trained models. For a list of available models, refer to [Pretrained models](https://www.sbert.net/docs/pretrained_models.html).
+    用于编码的 Sentence Transformer 模型名称。该值默认为 **all-MiniLM-L6-v2**。你可以使用 Sentence Transformers 的任意预训练模型。可用模型列表请参见 [Pretrained models](https://www.sbert.net/docs/pretrained_models.html)。
 
 - **batch_size** (*int*) -
 
-    The batch size used for the computation.
+    用于计算的批处理大小。
 
 - **query_instruction** (*string*) -
 
-    Prepends a contextual instruction to the query text to improve embedding quality for specific models (e.g., "Represent the Wikipedia question for retrieving supporting documents:").
+    在查询文本前添加上下文指令，以提升特定模型的嵌入质量（例如，"Represent the Wikipedia question for retrieving supporting documents:"）。
 
 - **doc_instruction** (*string*) -
 
-    Prepends a contextual instruction to the document text to improve embedding quality for specific models (e.g., "Represent the Wikipedia document for retrieval:").
+    在文档文本前添加上下文指令，以提升特定模型的嵌入质量（例如，"Represent the Wikipedia document for retrieval:"）。
 
 - **device** (*string*) -
 
-    The device to use, with **cpu** for the CPU and **cuda:n** for the nth GPU device.
+    要使用的设备，**cpu** 表示 CPU，**cuda:n** 表示第 n 个 GPU 设备。
 
 - **normalize_embeddings** (*bool*)
 
-    Whether to normalize returned vectors to have length 1. In that case, the faster dot-product (util.dot_score) instead of cosine similarity can be used.
+    是否将返回的向量归一化为长度 1。在这种情况下，可以使用更快的点积（util.dot_score）而不是余弦相似度。
 
 - **&ast;&ast;kwargs**
 
-    Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [SentenceTransformer](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py).
+    允许向模型初始化传递其他关键字参数。更多信息请参见 [SentenceTransformer](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py)。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

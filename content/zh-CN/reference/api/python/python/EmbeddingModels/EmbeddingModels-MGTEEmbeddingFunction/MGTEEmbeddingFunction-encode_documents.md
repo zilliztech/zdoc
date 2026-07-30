@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_documents() | Python"
 slug: /python/python/MGTEEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation takes in documents and encodes them into vector embeddings. | Python"
+description: "此操作接收文档并将其编码为向量嵌入。 | Python"
 type: docx
 token: GyrmdRjGZoOFKdxsYyCcvNG7npg
 sidebar_position: 1
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - 什么是向量数据库
+  - 向量数据库对比
+  - Faiss
+  - 视频搜索
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # encode_documents()
 
-This operation takes in documents and encodes them into vector embeddings.
+此操作接收文档并将其编码为向量嵌入。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 encode_documents(
@@ -41,25 +41,25 @@ encode_documents(
 ) -> Dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **documents** (*List[str]*)
 
-    A list of string values, where each string represents a document that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary that contains the encoded embeddings, both dense and sparse.
+一个包含已编码嵌入的字典，包括 dense 和 sparse 两种类型。
 
-**Exceptions:**
+**异常：**
 
 *None*
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.hybrid import MGTEEmbeddingFunction

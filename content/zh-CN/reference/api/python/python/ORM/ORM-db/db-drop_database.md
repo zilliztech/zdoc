@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_database() | Python | ORM"
 slug: /python/python/db-drop_database
 sidebar_label: "drop_database()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation drops a database using the provided database name. | Python | ORM"
+description: "此操作使用提供的数据库名称删除数据库。 | Python | ORM"
 type: docx
 token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop_database()
 
-This operation drops a database using the provided database name.
+此操作使用提供的数据库名称删除数据库。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop_database(
@@ -43,35 +43,35 @@ drop_database(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
     **[REQUIRED]**
 
-    Name of the database to be dropped.
+    要删除的数据库名称。
 
 - **using** (*string*) -
 
-    Alias of the connection. Defaults to **default**.
+    连接的别名。默认值为 **default**。
 
 - **timeout** (*float* | *None*)
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
-
-None
-
-**RETURNS:**
+**返回类型：**
 
 None
 
-**EXCEPTIONS:**
+**返回：**
 
 None
 
-## Examples
+**异常：**
+
+None
+
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, db
@@ -84,9 +84,9 @@ conn = connections.connect(
 db.drop_database(db_name="test")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `drop_database()`:
+以下操作与 `drop_database()` 相关：
 
 - [create_database()](./db-create_database)
 

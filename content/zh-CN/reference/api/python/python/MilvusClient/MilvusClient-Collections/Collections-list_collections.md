@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_collections() | Python | MilvusClient"
 slug: /python/python/Collections-list_collections
 sidebar_label: "list_collections()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all existing collections. | Python | MilvusClient"
+description: "此操作会列出所有现有集合。 | Python | MilvusClient"
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 17
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,46 +31,66 @@ import Admonition from '@theme/Admonition';
 
 # list_collections()
 
-This operation lists all existing collections.
+此操作会列出所有现有集合。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法适用于专属服务集群和按需计算。
+
+- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 list_collections(**kwargs) -> Name
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **kwargs** -
 
     - **timeout** (*float* | *None*) -
 
-        The timeout duration for this operation. 
+        此操作的超时时长。
 
-        Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+        将其设置为 **None** 表示此操作会一直等待，直到返回响应或发生错误。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
+**返回：**
 
-A list of collection names.
+集合名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -82,22 +102,4 @@ client.list_collections()
 
 # ['test_collection']
 ```
-
-## Related methods
-
-- [create_collection()](./Collections-create_collection)
-
-- [create_schema()](./Collections-create_schema)
-
-- [describe_collection()](./Collections-describe_collection)
-
-- [drop_collection()](./Collections-drop_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [has_collection()](./Collections-has_collection)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- [DataType](./Collections-DataType)
 

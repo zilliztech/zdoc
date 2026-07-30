@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "release_partitions() | Python | MilvusClient"
 slug: /python/python/Partitions-release_partitions
 sidebar_label: "release_partitions()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation releases the partitions in a specified collection from memory. | Python | MilvusClient"
+description: "此操作会将指定 collection 中的 partitions 从内存中释放。 | Python | MilvusClient"
 type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - release_partitions()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # release_partitions()
 
-This operation releases the partitions in a specified collection from memory.
+此操作会将指定 collection 中的 partitions 从内存中释放。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管 collection。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 release_partitions(
@@ -43,54 +49,54 @@ release_partitions(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有 collection 的名称。
 
 - **partition_names** (*str | list[str]*) -
 
     **[REQUIRED]**
 
-    A list of the names of the partitions to release.
+    要释放的 partitions 名称列表。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
-None
+无
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>A collection is in the loaded state only if any or all of its partitions are loaded.</p>
+仅当 collection 的任意一个或全部 partitions 已加载时，该 collection 才处于已加载状态。
 
 </Admonition>
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -144,7 +150,7 @@ res = client.get_load_state(
 # {'state': <LoadState: Loaded>}
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "search() | Python | MilvusClient"
 slug: /python/python/Vector-search
 sidebar_label: "search()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | MilvusClient"
+description: "此操作执行向量相似性搜索，并可选择使用标量过滤表达式。 | Python | MilvusClient"
 type: docx
-token: N6afdOON2o3U0YxMAt7cMiBqnXg
+token: DvaZdhYnyoo7lOxNIBwc5eKEn7d
 sidebar_position: 6
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,36 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-This operation conducts a vector similarity search with an optional scalar filtering expression.
+此操作执行向量相似性搜索，并可选择使用标量过滤表达式。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法仅适用于专用服务集群和按需计算。 
+
+- 要在服务集群的集合中执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 要在按需计算的集合中执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建会话并附加到按需集群以执行搜索。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## Request syntax\{#request-syntax}
 
 ```plaintext
 search(
     self,
     collection_name: str,
     data: Union[List[list], list],
-    
+    ids: Union[List[str], List[int]],
     filter: str = "",
     limit: int = 10,
     output_fields: Optional[List[str]] = None,
@@ -50,207 +70,254 @@ search(
     anns_field: Optional[str] = None,
     ranker: Optional[Union[Function, FunctionScore]] = None,
     highlighter: Optional[Highlighter] = None,
+    group_by: Optional[GroupBy] = None,
+    order_by_fields: Optional[List[dict]] = None,
+    search_aggregation: Optional[SearchAggregation] = None,
     **kwargs,
 ) -> List[List[dict]]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **data** (*List[list], list]*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A list of vector embeddings.
+    向量嵌入列表。
 
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
+    Zilliz Cloud 会搜索与指定向量嵌入最相似的结果。
+
+    此参数与 **ids** 互斥。
+
+- **ids** (*Union[List[str], List[int]]*) -
+
+    主键列表。
+
+    Zilliz Cloud 会搜索与指定实体中的向量嵌入最相似的结果。
+
+    此参数与 **data** 互斥。
 
 - **anns_field** (*str*) -
 
-    The name of the target vector field of the current search.
+    当前搜索目标向量字段的名称。
 
 - **filter** (*str*) -
 
-    A scalar filtering condition to filter matching entities. 
+    用于筛选匹配实体的标量过滤条件。 
 
-    The value defaults to an empty string, indicating that no condition applies. 
+    默认值为空字符串，表示不应用任何条件。 
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
+    你可以将此参数设置为空字符串以跳过标量过滤。有关如何构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。 
 
 - **filter_params** (*dict*) -
 
-    If you choose to use placeholders in `filter` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+    如果你选择像 [Filtering Templating](/docs/filtering-templating) 中所述那样在 `filter` 中使用占位符，则可以将这些占位符的实际值以键值对形式指定为此参数的值。
 
 - **limit** (*int*) -
 
-    The total number of entities to return.
+    要返回的实体总数。
 
-    You can use this parameter in combination with **offset** in **param** to enable pagination.
+    你可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
 
-    The sum of this value and **offset** in **param** should be less than 16,384. 
+    此值与 **param** 中 **offset** 的总和应小于 16,384。 
 
-    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
+    但在分组搜索中，`limit` 表示返回的组的最大数量，而不是单个实体的数量。每个组都基于指定的 `group_by_field` 形成。
+
+    <Admonition type="info" icon="📘" title="说明">
+
+    当为搜索聚合指定 `group_by` 时，不要显式设置 `limit`。请使用根级 `GroupBy.size` 值控制要返回的顶层桶数量。
+
+    </Admonition>
 
 - **output_fields** (l*ist[str]*) -
 
-    A list of field names to include in each entity in return.
+    要包含在每个返回实体中的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **search_params** (*dict*) -
 
-    The parameter settings specific to this operation.
-
-    - **metric_type** (*str*) -
-
-        The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. 
-
-        Possible values are **L2**, **IP**, and **COSINE**.
+    此操作专用的参数设置。
 
     - **radius** (float) -
 
-        Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+        确定最低相似度阈值。当集合的度量类型设置为 L2 时，请确保此值大于 **range_filter**。否则，此值应小于 **range_filter**。 
 
     - **range_filter**  (float) -  
 
-        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+        将搜索限定为特定相似度范围内的向量。当集合的度量类型设置为 `IP` 或 `COSINE` 时，请确保此值大于 **radius**。否则，此值应小于 **radius**。
 
     - **level** (*int*)
 
-        Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
+        Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让你处理各种索引算法特有的一组搜索参数。
 
-        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
+        默认值为 **1**，取值范围为 **1** 到 **5**。值越大，召回率越高，但搜索性能会下降。
 
     - **page_retain_order** (*bool*) -
 
-        Whether to retain the order of the search result when `offset` is provided. 
+        在提供 `offset` 时，是否保留搜索结果的顺序。 
 
-        This parameter applies only when you also set `radius`.
+        此参数仅在同时设置 `radius` 时适用。
 
     - **params** (dict) -
 
-        Additional parameters.
+        附加参数。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>All additional parameters are moved to the upper <code>search_params</code>, and the <code>params</code> argument will be deprecated soon.</p>
+        所有附加参数都已移到上层 `search_params` 中，`params` 参数即将被弃用。
 
         </Admonition>
 
         - **radius** (float) -
 
-            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+            确定最低相似度阈值。当集合的度量类型设置为 `L2` 时，请确保此值大于 **range_filter**。否则，此值应小于 **range_filter**。 
 
         - **range_filter**  (float) -  
 
-            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+            将搜索限定为特定相似度范围内的向量。当集合的度量类型设置为 `IP` 或 `COSINE` 时，请确保此值大于 **radius**。否则，此值应小于 **radius**。
 
         - **level** (*int*)
 
-            Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
+            Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让你处理各种索引算法特有的一组搜索参数。
 
-            The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
+            默认值为 **1**，取值范围为 **1** 到 **5**。值越大，召回率越高，但搜索性能会下降。
 
         - **page_retain_order** (*bool*) -
 
-            Whether to retain the order of the search result when `offset` is provided. 
+            在提供 `offset` 时，是否保留搜索结果的顺序。 
 
-            This parameter applies only when you also set `radius`.
+            此参数仅在同时设置 `radius` 时适用。
 
     - **ignore_growing** (*str*) -
 
-        This option, when set, instructs the search to exclude data from growing segments. Utilizing this setting can potentially enhance search performance by focusing only on indexed and fully processed data.
+        设置此选项后，搜索将排除 growing segments 中的数据。使用此设置有助于仅关注已建立索引并已完全处理的数据，从而提升搜索性能。
 
-    For details on other applicable search parameters, refer to [In-memory Index](https://milvus.io/docs/index.md) and [On-disk Index](https://milvus.io/docs/disk_index.md).
+    有关其他适用搜索参数的详细信息，请参见 [In-memory Index](https://milvus.io/docs/index.md) 和 [On-disk Index](https://milvus.io/docs/disk_index.md)。
 
-    For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
+    有关其他适用搜索参数的更多信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **group_by_field** (*str*)
 
-    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
+    按指定字段对搜索结果进行分组，以确保多样性并避免从同一组返回多个结果。
+
+    此参数由 Grouping Search 使用。它与 `group_by` 互斥。
 
 - **group_size** (*int*)
 
-    The target number of entities to return within each group in a grouping search. For example, setting `group_size=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `group_size`, the system defaults to returning only 1 entity per group.
+    在分组搜索中，每个组内目标返回的实体数量。例如，设置 `group_size=2` 会指示系统在每个组内最多返回 2 个最相似的实体（例如文档段落或向量表示）。如果未设置 `group_size`，系统默认每组仅返回 1 个实体。
 
 - **strict_group_size** (*bool*)
 
-    This Boolean parameter dictates whether `group_size` should be strictly enforced. When `strict_group_size=True`, the system will attempt to fill each group with exactly `group_size` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `group_size`.
+    此布尔参数指定是否应严格执行 `group_size`。当 `strict_group_size=True` 时，只要每个组内有足够的数据，系统就会尝试为每个组精确返回 `group_size` 个结果。如果某个组中的实体数量不足，则只返回可用实体，同时确保数据充足的组满足指定的 `group_size`。
+
+- **group_by** (*[GroupBy](./Vector-GroupBy) | None*) -
+
+    定义搜索聚合的 `GroupBy` 对象。指定此参数后，Zilliz Cloud 会根据根 `GroupBy` 对象中的字段，将 ANN 搜索结果分组到不同桶中。每个桶可以包含桶级指标、代表性命中结果以及嵌套子组。`group_by` 与 `group_by_field` 互斥。对于现有的单字段 Grouping Search 工作流，请使用 `group_by_field`。如果你需要桶级指标、多字段分组、桶排序、命中排序或嵌套分组，请使用 `group_by`。
+
+    <Admonition type="info" icon="📘" title="说明">
+
+    搜索聚合指标是基于 ANN 检索到的实体计算的，而不是基于整个集合。桶计数、指标以及基于指标的排序都是近似值。
+
+    </Admonition>
+
+- **order_by_fields** (*list[dict] | None*) -
+
+    用于按受支持的标量字段对搜索结果进行排序的 order-by 规范列表。
+
+    列表中的每个字典包含以下键：
+
+    - **field** (*str*) -
+
+        要排序的标量字段名称。
+
+    - **order** (*str*) -
+
+        排序方向。可选值为 `"asc"` 和 `"desc"`。如果省略此键，Milvus 将按升序对该字段排序。
+
+    Zilliz Cloud 会按照你指定的顺序依次应用多个 order-by 字段。对于在所有指定 order-by 字段中值都相同的实体，Zilliz Cloud 会保留原始相似度分数顺序。
+
+    在分组搜索中，Zilliz Cloud 会按每个组顶部实体的指定标量字段值对组进行排序。`limit` 参数仍控制组的数量，`group_size` 控制每组的实体数量。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
 - **partition_names** (*list*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则仅在查询中涉及指定分区。
 
-- **ranker** (*Function* | *FunctionScore*) -
+- **ranker** (*[Function](./MilvusClient-Function)* | *[FunctionScore](./MilvusClient-FunctionScore)*) -
 
-    The ranker to use for the search.
+    搜索中使用的 ranker。
 
-    For details, refer to [Decay Ranker Overview](/docs/decay-ranker-oveview) and .
+    详情请参见 [Decay Ranker Overview](/docs/decay-ranker-oveview) 和 。
 
 - **highlighter** (*Highlighter*) -
 
-    The highlighter to highlight matched terms in search operations. For details, refer to [Text Highlighter](https://milvus.io/docs/text-highlighter.md).
+    用于在搜索操作中高亮匹配词项的 highlighter。详情请参见 [Lexical Highlighter](/docs/text-highlighter) 和 [Semantic Highlighter](/docs/semantic-highlighter)。
+
+- **search_aggregation** (*Optional[SearchAggregation]*) -
+
+    分层桶聚合规范。与 **group_by_field** 互斥。设置后，将忽略 **limit**，并由根级 `SearchAggregation.size` 控制顶层桶数量。
 
 - **kwargs** -
 
     - **offset** (int) -
 
-        The number of records to skip in the search result. 
+        在搜索结果中要跳过的记录数。 
 
-        You can use this parameter in combination with `limit` to enable pagination.
+        你可以将此参数与 `limit` 结合使用，以启用分页。
 
-        The sum of this value and `limit` should be less than 16,384. 
+        此值与 `limit` 的总和应小于 16,384。 
 
     - **round_decimal** (int) -
 
-        The number of decimal places that Zilliz Cloud rounds the calculated distances to.
+        Zilliz Cloud 对计算出的距离进行四舍五入时保留的小数位数。
 
-        The value defaults to **-1**, indicating that Zilliz Cloud skips rounding the calculated distances and returns the raw value.
+        默认值为 **-1**，表示 Zilliz Cloud 不对计算出的距离进行四舍五入，而是返回原始值。
 
     - **timezone** (*str*)
 
-        Temporarily override the collection or database default time zone for a single query by setting an [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (for example, **Asia/Shanghai**, **America/Chicago**, or **UTC**). This controls how `TIMESTAMPTZ` values are interpreted, displayed, and compared during that operation only; it does not modify stored data or collection settings.
+        通过设置一个 [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**、**America/Chicago** 或 **UTC**），临时覆盖单次查询中集合或数据库的默认时区。这会控制在该次操作期间如何解释、显示和比较 `TIMESTAMPTZ` 值；不会修改存储的数据或集合设置。
 
-        For more information, refer to [TIMESTAMPZ Field](/docs/timestamptz-field).
+        更多信息，请参见 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
 
     - **time_fields** (*str*)
 
-        Extract specific time components from a `TIMESTAMPTZ` field during query or search operations. Use a comma-separated list to specify which elements to extract. Supported elements include: `year`, `month`, `day`, `hour`, `minute`, `second`, and `microsecond`.
+        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定时间组成部分。使用逗号分隔列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
 
-        For more information, refer to TIMESTAMPZ Field.
+        更多信息，请参见 TIMESTAMPZ Field。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list[dict]*
 
-**RETURNS:**
-A list of dictionaries that contains the searched entities with specified output fields.
+**返回值：**
+包含搜索到的实体及指定输出字段的字典列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -281,7 +348,6 @@ client.insert(
 
 # 4. Conduct a search
 search_params = {
-    "metric_type": "IP",
     "params": {}
 }
 
@@ -376,6 +442,5 @@ res = client.search(
 # [[{'id': 7, 'distance': 0.4801957309246063, 'entity': {}},
 #   {'id': 2, 'distance': 0.3205878734588623, 'entity': {}},
 #   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
-
 ```
 

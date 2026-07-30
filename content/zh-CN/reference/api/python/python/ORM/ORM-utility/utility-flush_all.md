@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "flush_all() | Python | ORM"
 slug: /python/python/utility-flush_all
 sidebar_label: "flush_all()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation seals all segments. | Python | ORM"
+description: "此操作会封存所有分段。 | Python | ORM"
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # flush_all()
 
-This operation seals all segments.
+此操作会封存所有分段。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 flush_all(
@@ -43,31 +43,31 @@ flush_all(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 N/A
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import (
@@ -79,7 +79,7 @@ from pymilvus import (
     utility,
 )
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a collection
@@ -101,9 +101,9 @@ future = utility.flush_all(_async=True)
 future.done() # flush_all finished
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to the `flush_all()` method:
+以下操作与 `flush_all()` 方法相关：
 
 - [drop_collection()](./utility-drop_collection)
 

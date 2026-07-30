@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_user() | Python | ORM"
 slug: /python/python/Role-add_user
 sidebar_label: "add_user()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation adds an existing user to the current role. Once added, the user gets permissions allowed for the current role and can perform certain operations. | Python | ORM"
+description: "此操作会将现有用户添加到当前角色。添加后，用户将获得当前角色所允许的权限，并可执行某些操作。 | Python | ORM"
 type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - add_user()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # add_user()
 
-This operation adds an existing user to the current role. Once added, the user gets permissions allowed for the current role and can perform certain operations.
+此操作会将现有用户添加到当前角色。添加后，用户将获得当前角色所允许的权限，并可执行某些操作。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 add_user(
@@ -41,29 +41,29 @@ add_user(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the user to add to a role.
+    要添加到角色中的用户名。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Role, utility
@@ -89,9 +89,9 @@ utility.list_roles(include_user_info=True)
 # - RoleItem: <role_name:public>, <users:()>
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `add_user()`:
+以下操作与 `add_user()` 相关：
 
 - [get_users()](./Role-get_users)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_collection() | Python | MilvusClient"
 slug: /python/python/Collections-describe_collection
 sidebar_label: "describe_collection()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists detailed information about a specific collection. | Python | MilvusClient"
+description: "此操作列出特定集合的详细信息。 | Python | MilvusClient"
 type: docx
 token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - describe_collection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # describe_collection()
 
-This operation lists detailed information about a specific collection.
+此操作列出特定集合的详细信息。
 
-## Request Syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法适用于专属服务集群和按需计算。
+
+- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 describe_collection(
@@ -42,31 +62,31 @@ describe_collection(
 ) -> Name
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
-    Setting this to a non-existing collection results in **MilvusException**.
+    如果将其设置为不存在的集合，将导致 **MilvusException**。
 
 - **kwargs** -
 
     - **timeout** (*float* | *None*)  
 
-        The timeout duration for this operation. 
+        此操作的超时时长。
 
-        Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+        将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回值：**
 
-A dictionary that contains detailed information about the specified collection.
+包含指定集合详细信息的字典。
 
 ```python
 {
@@ -95,6 +115,8 @@ A dictionary that contains detailed information about the specified collection.
               'element_type': 0
           }
      ],
+     'externalSource': '',
+     'externalSpecs': '',
      'functions': [],
      'aliases': [],
      'collection_id': 446738261026541332,
@@ -107,130 +129,138 @@ A dictionary that contains detailed information about the specified collection.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    The name of the current collection.
+    当前集合的名称。
 
 - **auto_id** (*bool*) -
 
-    Whether Zilliz Cloud automatically generates the primary key for the collection.
+    Zilliz Cloud 是否为该集合自动生成主键。
 
 - **num_shards** (*int*) -
 
-    The number of shards the current collection has.
+    当前集合拥有的分片数量。
 
 - **description** (*str*) -
 
-    The description of the current collection.
+    当前集合的描述。
+
+- **external_source** (*str*) -
+
+    集合的外部来源。仅适用于外部集合。
+
+- **external_specs** (*str*) -
+
+    集合的外部规格。仅适用于外部集合。
 
 - **fields** (*list*) -
 
-    A list of fields in the current collection.
+    当前集合中的字段列表。
 
     - **field_id** (*int*) -
 
-        The ID of the current field.
+        当前字段的 ID。
 
     - **name** (*str*) -
 
-        The name of the current field.
+        当前字段的名称。
 
     - **description** (*str*) -
 
-        The description of the current field.
+        当前字段的描述。
 
     - **type** (*int*) -
 
-        The type of the current field. For details, refer to [DataType](./Collections-DataType).
+        当前字段的类型。详情请参见 [DataType](./Collections-DataType)。
 
     - **params** (*dict*) -
 
-        Additional attributes of the current fields.
+        当前字段的附加属性。
 
-        - For **VARCHAR** fields, **max_length** (*int*) is a possible attribute, which determines the number of characters in the value of the current field.
+        - 对于 **VARCHAR** 字段，**max_length** (*int*) 是可能的属性之一，用于确定当前字段值中的字符数。
 
-        - For vector fields, **dim** (*int*) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
+        - 对于向量字段，**dim** (*int*) 是可能的属性之一，用于确定当前字段值中向量嵌入的维度数。
 
-        - For **ARRAY** fields, **max_capacity** (*int*) is a possible attribute, which determines the maximum number of elements in the field of an entity.
+        - 对于 **ARRAY** 字段，**max_capacity** (*int*) 是可能的属性之一，用于确定实体中该字段的最大元素数量。
 
-        - For the fields that has mmap configured, **mmap_enabled** (*bool*) is a possible attribute, which specifies whether mmap is enabled or disabled for the current field.
+        - 对于配置了 mmap 的字段，**mmap_enabled** (*bool*) 是可能的属性之一，用于指定当前字段是否启用 mmap。
 
     - **element_type** (*int*) -
 
-        The data type of the elements in the field values. This is displayed if the current field is an ARRAY field.
+        字段值中元素的数据类型。如果当前字段是 ARRAY 字段，则会显示此项。
 
     - **struct_fields** (*List[Field]*) -
 
-        A list of fields added to the struct element in an array of structs field. For details on the possible field types, refer to [Array of Structs](/docs/use-array-of-structs).
+        添加到结构体数组字段中结构体元素的字段列表。有关可能的字段类型的详细信息，请参见 [Array of Structs](/docs/use-array-of-structs)。
 
     - **is_primary** (*bool*) -
 
-        Whether the current field serves as the primary key of the collection.
+        当前字段是否作为集合的主键。
 
 - **functions** (*list[[Function](./MilvusClient-Function)]*) -
 
-    The functions that have been defined in the schema.
+    已在 schema 中定义的函数。
 
 - **aliases** (*list[str]*) -      
 
-    A list of collection aliases. You can use any alias in the list to use the current collection.  
+    集合别名列表。您可以使用列表中的任一别名来使用当前集合。  
 
 - **collection_id** (*int*) -
 
-    The ID of the current collection. Zilliz Cloud allocates an ID for each collection while creating it.
+    当前集合的 ID。Zilliz Cloud 会在创建集合时为每个集合分配一个 ID。
 
 - **consistency_level** (*int*) -
 
-    The consistency level of the current collection. For details, refer to ConsistencyLevel.
+    当前集合的一致性级别。详情请参见 ConsistencyLevel。
 
 - **properties** (*dict*) -
 
-    Additional properties of the current collection. Possible keys in the dictionary include:
+    当前集合的附加属性。字典中可能包含的键包括：
 
     - **collection.ttl.seconds** (*int*) -
 
-        The time-to-live (TTL) of a collection in seconds.
+        集合的生存时间（TTL），单位为秒。
 
     - **collection.timezone** (*str*) -
 
-        The timezone configured for the collection. The default value is UTC.
+        为集合配置的时区。默认值为 UTC。
 
 - **num_partitions** (*int*) -
 
-    The number of partitions in the current collection. 
+    当前集合中的分区数量。
 
-    - If the current collection has an enabled partition key, Zilliz Cloud manages all created partitions for the collection. The number of partitions managed should match the number specified when the collection was created.
+    - 如果当前集合启用了分区键，Zilliz Cloud 会管理为该集合创建的所有分区。管理的分区数应与创建集合时指定的数量一致。
 
-    - If the current collection does not enable the partition key, the number should match the number of partitions already created in this collection.
+    - 如果当前集合未启用分区键，则该数量应与此集合中已创建的分区数一致。
 
 - **enable_dynamic_field** (*bool*) -
 
-    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
+    是否使用保留的 JSON 字段 **&#36;meta** 以键值对形式保存未在 schema 中定义的字段及其值。
 
 - **created_timestamp** (*int*) -
 
-    The timestamp at which the collection is created. The timestamp is generated by the timestamp oracle service (TSO) of Milvus.
+    集合创建时的时间戳。该时间戳由 Milvus 的 timestamp oracle service (TSO) 生成。
 
 - **updated_timestamp** (*int*) -
 
-    The timestamp at which the collection has been updated. The timestamp is generated by the timestamp oracle service (TSO) of Milvus.
+    集合更新时的时间戳。该时间戳由 Milvus 的 timestamp oracle service (TSO) 生成。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **DescribeCollectionException**
 
-    This arises when any error occurs during this operation.
+    当此操作期间发生任何错误时引发。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

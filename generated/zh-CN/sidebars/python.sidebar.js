@@ -101,6 +101,56 @@ module.exports = [
             "key": "doc:api/python/python/DataImport/DataImport-RemoteBulkWriter/remotebulkwriter-s3connectparam"
           }
         ]
+      },
+      {
+        "type": "category",
+        "label": "VolumeBulkWriter",
+        "key": "category:api/python/python/DataImport/dataimport-volumebulkwriter",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row",
+            "label": "append_row()",
+            "key": "doc:api/python/python/DataImport/DataImport-VolumeBulkWriter/volumebulkwriter-appendrow"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit",
+            "label": "commit()",
+            "key": "doc:api/python/python/DataImport/DataImport-VolumeBulkWriter/volumebulkwriter-commit"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter",
+            "label": "VolumeBulkWriter",
+            "key": "doc:api/python/python/DataImport/DataImport-VolumeBulkWriter/dataimport-volumebulkwriter"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "FileResource",
+    "key": "category:api/python/python/fileresource",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/python/python/FileResource/FileResource-add_file_resource",
+        "label": "add_file_resource()",
+        "key": "doc:api/python/python/FileResource/fileresource-addfileresource"
+      },
+      {
+        "type": "doc",
+        "id": "api/python/python/FileResource/FileResource-list_file_resources",
+        "label": "list_file_resources()",
+        "key": "doc:api/python/python/FileResource/fileresource-listfileresources"
+      },
+      {
+        "type": "doc",
+        "id": "api/python/python/FileResource/FileResource-remove_file_resource",
+        "label": "remove_file_resource()",
+        "key": "doc:api/python/python/FileResource/fileresource-removefileresource"
       }
     ]
   },
@@ -222,6 +272,12 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Client/Client-AsyncMilvusClient",
             "label": "AsyncMilvusClient",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Client/client-asyncmilvusclient"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Client/Client-session",
+            "label": "session()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Client/client-session"
           }
         ]
       },
@@ -349,6 +405,48 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_field",
             "label": "add_collection_field()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-addcollectionfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_function",
+            "label": "add_collection_function()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-addcollectionfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_function",
+            "label": "alter_collection_function()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-altercollectionfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_function",
+            "label": "drop_collection_function()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-dropcollectionfunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field",
+            "label": "drop_collection_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-dropcollectionfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress",
+            "label": "get_refresh_external_collection_progress()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-getrefreshexternalcollectionprogress"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs",
+            "label": "list_refresh_external_collection_jobs()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-listrefreshexternalcollectionjobs"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection",
+            "label": "refresh_external_collection()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-refreshexternalcollection"
           }
         ]
       },
@@ -359,9 +457,33 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field",
+            "label": "add_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-CollectionSchema/collectionschema-addfield"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema",
             "label": "CollectionSchema",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-CollectionSchema/milvusclient-collectionschema"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict",
+            "label": "construct_from_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-CollectionSchema/collectionschema-constructfromdict"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict",
+            "label": "to_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-CollectionSchema/collectionschema-todict"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify",
+            "label": "verify()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-CollectionSchema/collectionschema-verify"
           },
           {
             "type": "doc",
@@ -465,6 +587,48 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-drop_index_properties",
             "label": "drop_index_properties()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-dropindexproperties"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all",
+            "label": "flush_all()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-flushall"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans",
+            "label": "get_compaction_plans()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getcompactionplans"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state",
+            "label": "get_compaction_state()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getcompactionstate"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state",
+            "label": "get_flush_all_state()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-getflushallstate"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-list_loaded_segments",
+            "label": "list_loaded_segments()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-listloadedsegments"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments",
+            "label": "list_persistent_segments()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-listpersistentsegments"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Management/Management-optimize",
+            "label": "optimize()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-optimize"
           }
         ]
       },
@@ -575,6 +739,18 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search",
             "label": "hybrid_search()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-hybridsearch"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy",
+            "label": "GroupBy",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-groupby"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits",
+            "label": "TopHits",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-tophits"
           }
         ]
       },
@@ -624,6 +800,12 @@ module.exports = [
             "id": "api/python/python/MilvusClient/MilvusClient-Database/Database-using_database",
             "label": "using_database()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Database/database-usingdatabase"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Database/Database-use_database",
+            "label": "use_database()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Database/database-usedatabase"
           }
         ]
       },
@@ -706,6 +888,129 @@ module.exports = [
             "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-tonumpy"
           }
         ]
+      },
+      {
+        "type": "doc",
+        "id": "api/python/python/MilvusClient/MilvusClient-FunctionScore",
+        "label": "FunctionScore",
+        "key": "doc:api/python/python/MilvusClient/milvusclient-functionscore"
+      },
+      {
+        "type": "category",
+        "label": "Highlighter",
+        "key": "category:api/python/python/MilvusClient/milvusclient-highlighter",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-LexicalHighlighter",
+            "label": "LexicalHighlighter",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-lexicalhighlighter"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter",
+            "label": "SemanticHighlighter",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-semantichighlighter"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-with_query",
+            "label": "with_query()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-withquery"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Snapshot",
+        "key": "category:api/python/python/MilvusClient/milvusclient-snapshot",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-create_snapshot",
+            "label": "create_snapshot()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-createsnapshot"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-describe_snapshot",
+            "label": "describe_snapshot()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-describesnapshot"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-drop_snapshot",
+            "label": "drop_snapshot()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-dropsnapshot"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-get_restore_snapshot_state",
+            "label": "get_restore_snapshot_state()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-getrestoresnapshotstate"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_restore_snapshot_jobs",
+            "label": "list_restore_snapshot_jobs()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-listrestoresnapshotjobs"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_snapshots",
+            "label": "list_snapshots()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-listsnapshots"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data",
+            "label": "pin_snapshot_data()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-pinsnapshotdata"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-restore_snapshot",
+            "label": "restore_snapshot()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-restoresnapshot"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-unpin_snapshot_data",
+            "label": "unpin_snapshot_data()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-unpinsnapshotdata"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "StructFieldSchema",
+        "key": "category:api/python/python/MilvusClient/milvusclient-structfieldschema",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-add_field",
+            "label": "add_field()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-StructFieldSchema/structfieldschema-addfield"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-construct_from_dict",
+            "label": "construct_from_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-StructFieldSchema/structfieldschema-constructfromdict"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema",
+            "label": "StructFieldSchema",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-StructFieldSchema/milvusclient-structfieldschema"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-to_dict",
+            "label": "to_dict()",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-StructFieldSchema/structfieldschema-todict"
+          }
+        ]
       }
     ]
   },
@@ -749,6 +1054,12 @@ module.exports = [
             "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume",
             "label": "delete_volume()",
             "key": "doc:api/python/python/Volume/Volume-VolumeManager/volumemanager-deletevolume"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume",
+            "label": "describe_volume()",
+            "key": "doc:api/python/python/Volume/Volume-VolumeManager/volumemanager-describevolume"
           },
           {
             "type": "doc",
@@ -1403,6 +1714,24 @@ module.exports = [
             "id": "api/python/python/ORM/ORM-CollectionSchema/ORM-CollectionSchema",
             "label": "CollectionSchema",
             "key": "doc:api/python/python/ORM/ORM-CollectionSchema/orm-collectionschema"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict_1",
+            "label": "construct_from_dict()",
+            "key": "doc:api/python/python/ORM/ORM-CollectionSchema/collectionschema-constructfromdict1"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1",
+            "label": "to_dict()",
+            "key": "doc:api/python/python/ORM/ORM-CollectionSchema/collectionschema-todict1"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1",
+            "label": "verify()",
+            "key": "doc:api/python/python/ORM/ORM-CollectionSchema/collectionschema-verify1"
           }
         ]
       },

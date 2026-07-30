@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "is_exist() | Python | ORM"
 slug: /python/python/Role-is_exist
 sidebar_label: "is_exist()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation checks whether the current role exists. | Python | ORM"
+description: "此操作检查当前角色是否存在。 | Python | ORM"
 type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - is_exist()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,31 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # is_exist()
 
-This operation checks whether the current role exists.
+此操作检查当前角色是否存在。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 is_exist()
 ```
 
-**PARAMETERS:**
+**参数：**
 
 N/A
 
-**RETURN TYPE:**
+**返回类型：**
 
 *bool*
 
-**RETURNS:**
+**返回：**
 
-A boolean value indicating whether the current role exists or not
+一个布尔值，表示当前角色是否存在
 
-**EXCEPTIONS:**
+**异常：**
 
 *None*
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Role, utility
@@ -67,9 +67,9 @@ role = Role(name="test")
 role.is_exist()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `is_exist()`:
+以下操作与 `is_exist()` 相关：
 
 - [add_user()](./Role-add_user)
 

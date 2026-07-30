@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "delete_volume() | Python"
 slug: /python/python/VolumeManager-delete_volume
 sidebar_label: "delete_volume()"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation deletes a volume. | Python"
+description: "此操作用于删除一个卷。 | Python"
 type: docx
 token: FbzLd0f5ToAPRdxa8XWcWfUwnwe
 sidebar_position: 2
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - delete_volume()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # delete_volume()
 
-This operation deletes a volume.
+此操作用于删除一个卷。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 delete_volume(
@@ -41,29 +41,29 @@ delete_volume(
 )
 ```
 
-**PARAMETERS**
+**参数**
 
 - **volume_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the volume to delete.
+    要删除的卷名称。
 
-**RETURN TYPE**
+**返回类型**
 
 *None*
 
-**RETURNS**
+**返回**
 
 None
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus.bulk_writer.volume_manager import VolumeManager
 
 volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com.cn",
+    cloud_endpoint="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY"
 )
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "DataType | Python | MilvusClient"
 slug: /python/python/Collections-DataType
 sidebar_label: "DataType"
-added_since: Inherit
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: Inherit
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
+description: "这是一个提供以下常量的枚举。 | Python | MilvusClient"
 type: docx
-token: KvNsd3aV4ocRNJxrZN2cg1zenqb
+token: MKrAdumLvohQfDxgpMwcEB8dnqb
 sidebar_position: 7
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,78 +31,86 @@ import Admonition from '@theme/Admonition';
 
 # DataType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - BOOL
 
-    Sets the data type to **Boolean**.
+    将数据类型设置为 **Boolean**。
 
 - INT8
 
-    Sets the data type to **Int8**.
+    将数据类型设置为 **Int8**。
 
 - INT16
 
-    Sets the data type to **Int16**.
+    将数据类型设置为 **Int16**。
 
 - INT32
 
-    Sets the data type to **Int32**.
+    将数据类型设置为 **Int32**。
 
 - INT64
 
-    Sets the data type to **Int64**.
+    将数据类型设置为 **Int64**。
 
 - FLOAT
 
-    Sets the data type to **Float**.
+    将数据类型设置为 **Float**。
 
 - DOUBLE
 
-    Sets the data type to **Double**.
+    将数据类型设置为 **Double**。
 
 - VARCHAR
 
-    Sets the data type to **Varchar**.
+    将数据类型设置为 **Varchar**。
+
+- TEXT
+
+    将数据类型设置为 **TEXT**。使用此标量类型可存储长文本内容，例如文档、段落、工单或日志。与 **VARCHAR** 不同，TEXT 不需要 `max_length`。
 
 - ARRAY
 
-    Sets the data type to **Array**.
+    将数据类型设置为 **Array**。
 
 - JSON
 
-    Sets the data type to **JSON**.
+    将数据类型设置为 **JSON**。
 
 - GEOMETRY
 
-    Sets the datatype to **Geometry**.
+    将数据类型设置为 **Geometry**。
+
+- TIMESTAMPTZ
+
+    将数据类型设置为 **TIMESTAMPTZ**。
 
 - STRUCT
 
-    Sets the data type of the elements in an Array field to **Struct**.
+    将 Array 字段中元素的数据类型设置为 **Struct**。
 
 - FLOAT_VECTOR
 
-    Sets the data type to **Float Vector**.
+    将数据类型设置为 **Float Vector**。
 
 - BINARY_VECTOR
 
-    Sets the data type to **Binary Vector**.
+    将数据类型设置为 **Binary Vector**。
 
 - FLOAT16_VECTOR
 
-    Sets the data type to **Float16 Vector**.
+    将数据类型设置为 **Float16 Vector**。
 
 - BFLOAT16_VECTOR
 
-    Sets the data type to **BFloat16 Vector**.
+    将数据类型设置为 **BFloat16 Vector**。
 
 - INT8_VECTOR
 
-    Sets the data type to **Int8 Vector**. This data type is designed for quantized deep learning models (e.g., ResNet, EfficientNet), which reduces model size and speeds up inference with minimal precision loss.
+    将数据类型设置为 **Int8 Vector**。此数据类型专为量化深度学习模型（例如 ResNet、EfficientNet）设计，可在精度损失极小的情况下减小模型大小并加快推理速度。
 
 - SPARSE_FLOAT_VECTOR
 
-    Sets the data type to **Sparse Vector**.
+    将数据类型设置为 **Sparse Vector**。

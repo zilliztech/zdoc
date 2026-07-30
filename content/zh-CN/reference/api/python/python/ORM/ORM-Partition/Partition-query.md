@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "query() | Python | ORM"
 slug: /python/python/Partition-query
 sidebar_label: "query()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation conducts a query on the entity scalar field(s) with a boolean expression. | Python | ORM"
+description: "此操作使用布尔表达式对实体标量字段执行查询。 | Python | ORM"
 type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-This operation conducts a query on the entity scalar field(s) with a boolean expression.
+此操作使用布尔表达式对实体标量字段执行查询。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 query(
@@ -44,95 +44,99 @@ query(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **expr** (*string*) -
 
-    **[REQUIRED]** 
+    **[必需]** 
 
-    A boolean expression to filter the entity scalar fields.
+    用于筛选实体标量字段的布尔表达式。
 
 - **output_fields** (List[str] | *None*) -
 
-    A list of the names of fields that has to be contained in the output. Setting this to **None** indicates that this operation only outputs the primary key field.
+    查询输出中必须包含的字段名称列表。将其设置为 **None** 表示此操作仅输出主键字段。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 - **kwargs**: 
 
-    Additional keyword arguments.
+    其他关键字参数。
 
     - **consistency_level** (*str* | *int*) -
 
-        The consistency level of the target collection.
+        目标集合的一致性级别。
 
-        The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+        该值默认使用创建当前集合时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        什么是一致性级别？
+        
+                分布式数据库中的一致性，具体是指在给定时间写入或读取数据时，确保每个节点或副本具有相同数据视图的特性。
+        
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
+        
+                在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用。
 
         </Admonition>
 
     - **guarantee_timestamp** (*int*) -
 
-        A valid timestamp. 
+        一个有效的时间戳。 
 
-        If this parameter is set, Zilliz Cloud executes the query only if all entities inserted before this timestamp are visible to query nodes. 
+        如果设置了此参数，Zilliz Cloud 仅在此时间戳之前插入的所有实体对查询节点可见时才会执行查询。 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>This parameter is valid when the default consistency level applies.</p>
+        当使用默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        A period of time in seconds.
+        一个以秒为单位的时间段。
 
-        The value defaults to **5**. If this parameter is set, Zilliz Cloud calculates the guarantee timestamp by subtracting this from the current timestamp.
+        该值默认为 **5**。如果设置了此参数，Zilliz Cloud 会通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>This parameter is valid when a consistency level other than the default one applies.</p>
+        当使用非默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **offset** (*int*) -
 
-        The number of records to skip in the query result. 
+        查询结果中要跳过的记录数。 
 
-        You can use this parameter in combination with `limit` to enable pagination.
+        您可以将此参数与 `limit` 结合使用，以启用分页。
 
-        The sum of this value and `limit` should be less than 16,384. 
+        此值与 `limit` 的总和应小于 16,384。 
 
     - **limit** (*int*) -
 
-        The number of records to return in the query result.
+        查询结果中要返回的记录数。
 
-        You can use this parameter in combination with `offset` to enable pagination.
+        您可以将此参数与 `offset` 结合使用，以启用分页。
 
-        The sum of this value and `offset` should be less than 16,384. 
+        此值与 `offset` 的总和应小于 16,384。 
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List*
 
-**RETURNS:**
+**返回：**
 
-A list of the query results.
+查询结果列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This arises when any error occurs during this operation.
+    当此操作期间发生任何错误时抛出。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, Partition, CollectionSchema, FieldSchema, DataType
@@ -204,9 +208,9 @@ res = partition.query(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `query()`:
+以下操作与 `query()` 相关：
 
 - [delete()](./Partition-delete)
 

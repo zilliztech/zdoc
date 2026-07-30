@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_alias() | Python | MilvusClient"
 slug: /python/python/Collections-describe_alias
 sidebar_label: "describe_alias()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation displays the details of an alias. | Python | MilvusClient"
+description: "此操作显示别名的详细信息。 | Python | MilvusClient"
 type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - describe_alias()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # describe_alias()
 
-This operation displays the details of an alias.
+此操作显示别名的详细信息。
 
-## Request Syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法适用于专属服务集群和按需计算。 
+
+- 对于服务集群中的 collection，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的 collection，请使用项目 endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 describe_alias(
@@ -42,29 +62,29 @@ describe_alias(
 ) -> dict
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **alias** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The alias of a collection. 
+    collection 的别名。 
 
-    Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
+    在执行此操作之前，请确保该别名已存在。否则将发生异常。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary containing the alias details.
+包含别名详细信息的字典。
 
 ```python
 {
@@ -74,38 +94,38 @@ A dictionary containing the alias details.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **alias** (*str*) -
 
-    The specified alias. 
+    指定的别名。 
 
 - **collection_name** (*str*) -
 
-    The name of the bound collection. 
+    绑定的 collection 名称。 
 
 - **db_name** (*str*) -
 
-    The database to which the bound collection belongs. 
+    绑定 collection 所属的数据库。 
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when you set `alias` to a non-existing alias.
+    当此操作期间发生任何错误时，将引发此异常，特别是当你将 `alias` 设置为不存在的别名时。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -125,7 +145,7 @@ client.describe_alias(alias="test")
 # }
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [alter_alias()](./Collections-alter_alias)
 

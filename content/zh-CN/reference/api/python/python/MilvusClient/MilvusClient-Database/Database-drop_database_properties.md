@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_database_properties() | Python | MilvusClient"
 slug: /python/python/Database-drop_database_properties
 sidebar_label: "drop_database_properties()"
-added_since: v2.5.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation drops the setting of the specified properties. | Python | MilvusClient"
+description: "此操作会删除指定属性的设置。 | Python | MilvusClient"
 type: docx
-token: UPVjdLtz1ogFeKxP45wcqyKincc
+token: AdSXdtNDsoTMnJx1QoGcSsnZnWd
 sidebar_position: 5
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database_properties()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,86 +31,79 @@ import Admonition from '@theme/Admonition';
 
 # drop_database_properties()
 
-This operation drops the setting of the specified properties.
+此操作会删除指定属性的设置。
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This method applies only to dedicated clusters.</p>
-
-</Admonition>
-
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop_database_properties(
-    db_name: str, 
-    property_keys: List[string],
-    timeout: Optional[float] = None,
+    db_name: str,
+    property_keys: List[str],
     **kwargs,
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **db_name** (*string*) -
+- **db_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    Name of the database whose properties are to be dropped.
+    要删除其属性的数据库名称。
 
-- **properties** (*[]string* | *None*) -
+- **property_keys** (*list[str]*) -
 
-    Names of the properties to drop. Possible database properties are as follows:
+    **[必填]**
 
-    - **database.replica.number** (*int*) -
+    要删除的属性名称。可用的数据库属性如下：
 
-        Number of replicas for the database.
+    - **database.replica.number** (*int*) - 数据库的副本数量。
 
-    - **database.resource_groups** (*[]str*) -
+    - **database.resource_groups** (*list[str]*) - 专用于该数据库的资源组。
 
-        Resource groups dedicated to the database.
+    - **database.diskQuota.mb** (*int*) - 为数据库分配的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.diskQuota.mb** (*int*) -
+    - **database.max.collections** (*int*) - 数据库中允许的最大集合数量。
 
-        Disk quota allocated to the database in megabytes (**MB**).
+    - **database.force.deny.writing** (*bool*) - 是否禁止数据库中的所有写操作。
 
-    - **database.max.collections** (*int*) -
+    - **database.force.deny.reading** (*bool*) - 是否禁止数据库中的所有读操作。
 
-        Maximum number of collections allowed in the database.
+    - **database.replica.number** (*int*) - 数据库的副本数量。
 
-    - **database.force.deny.writing** (*bool*) -
+    - **database.resource_groups** (*list[str]*) - 专用于该数据库的资源组。
 
-        Whether to deny all write operations in the database.
+    - **database.diskQuota.mb** (*int*) - 为数据库分配的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.force.deny.reading** (*bool*) -
+    - **database.max.collections** (*int*) - 数据库中允许的最大集合数量。
 
-        Whether to deny all read operations in the database.
+    - **database.force.deny.writing** (*bool*) - 是否禁止数据库中的所有写操作。
 
-- **timeout** (*float* | *None*) -
+    - **database.force.deny.reading** (*bool*) - 是否禁止数据库中的所有读操作。
 
-    The timeout duration for this operation. Setting this to *None* indicates that it timeouts when a response arrives, or an error occurs.
-
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
-- `MilvusException` - Raised if any error occurs during this operation.
+- **MilvusException**
 
-## Examples
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri, token) # db = "default" 
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 
 client.drop_database_properties(
     db_name="my_db",
-    properties=["a", "b"]
+    property_keys=["database.replica.number", "database.diskQuota.mb"]
 )
 ```

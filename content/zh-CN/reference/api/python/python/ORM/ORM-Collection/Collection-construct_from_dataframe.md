@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "construct_from_dataframe() | Python | ORM"
 slug: /python/python/Collection-construct_from_dataframe
 sidebar_label: "construct_from_dataframe()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation creates a collection with the specified dataframe. | Python | ORM"
+description: "此操作使用指定的 dataframe 创建集合。 | Python | ORM"
 type: docx
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dataframe()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dataframe()
 
-This operation creates a collection with the specified dataframe. 
+此操作使用指定的 dataframe 创建集合。 
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 construct_from_dataframe(
@@ -43,27 +43,27 @@ construct_from_dataframe(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **name** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the collection to create.
+    要创建的集合名称。
 
 - **primary_field** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the primary field. It should be one of the column labels in the following dataframe.
+    主字段的名称。它应当是以下 dataframe 中的某个列标签。
 
 - **dataframe** (*pandas.DataFrame*) 
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The dataframe containing the data to be inserted into the collection.
+    包含要插入到集合中的数据的 dataframe。
 
-    You can form a data frame in any way, as demonstrated in the **Example** section on [this page](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+    你可以通过任意方式构造一个 data frame，如[此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中的 **Example** 部分所示。
 
     ```python
     dataframe = pd.DataFrame({
@@ -78,59 +78,59 @@ construct_from_dataframe(
     })
     ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *tuple (Collection, MutationResults)*
 
-**RETURNS:**
+**返回：**
 
-A tuple containing the collection and a **MutationResult** object returned by the **insert()** operation.
+一个元组，包含集合以及由 **insert()** 操作返回的 **MutationResult** 对象。
 
-A **MutationResult** object contains the following fields:
+**MutationResult** 对象包含以下字段：
 
 - **insert_count** (*int*)
 
-    The count of inserted entities.
+    已插入实体的数量。
 
 - **delete_count** (*int*)
 
-    The count of deleted entities.
+    已删除实体的数量。
 
 - **upsert_count** (*int*)
 
-    The count of upserted entities.
+    已 upsert 实体的数量。
 
 - **succ_count** (*int*)
 
-    The count of successful executions during this operation.
+    此操作期间成功执行的次数。
 
 - **succ_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a successful operation.
+    从 0 开始的索引编号列表，其中每个编号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    The count of failed executions during this operation.
+    此操作期间失败执行的次数。
 
 - **err_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a failed operation.
+    从 0 开始的索引编号列表，其中每个编号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    A list of primary keys for the inserted entities.
+    已插入实体的主键列表。
 
 - **timestamp** (*int*)
 
-    The timestamp at which this operation is completed.
+    此操作完成时的时间戳。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **SchemaNotReadyException**
 
-    This exception will be raised when the specified primary field is not valid.
+    当指定的主字段无效时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 import pandas as pd
@@ -152,9 +152,9 @@ collection, results = Collection.construct_from_dataframe(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `construct_from_dataframe()`:
+以下操作与 `construct_from_dataframe()` 相关：
 
 - [Collection](./ORM-Collection)
 

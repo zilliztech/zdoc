@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_volume() | Python"
 slug: /python/python/VolumeManager-create_volume
 sidebar_label: "create_volume()"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a volume. | Python"
+description: "此函数在项目和区域中创建一个新的 Zilliz Cloud volume，支持托管或外部 volume 配置。 | Python"
 type: docx
-token: HWYXdlaGIoTNVUx34GycfwjAnrb
+token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - create_volume()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,64 +31,84 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-This operation creates a volume.
+此函数在项目和区域中创建一个新的 Zilliz Cloud volume，支持托管或外部 volume 配置。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
-create_volume(
+volume_manager.create_volume(
     project_id: str,
     region_id: str,
-    volume_name: str
+    volume_name: str,
+    volume_type: str | None = None,
+    storage_integration_id: str | None = None,
+    path: str | None = None,
 )
 ```
 
-**PARAMETERS**
+**参数：**
 
 - **project_id** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The ID of the project to which the volume to be created belongs.
+    拥有该 volume 的项目 ID。
 
 - **region_id** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The ID of the cloud region in which the volume will be created. You can use [List Cloud Regions](/reference/restful/list-cloud-regions-v2) to view possible values.
+    创建 volume 的区域 ID。
 
 - **volume_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the volume to create.
+    volume 的名称。
 
-**RETURN TYPE**
+- **volume_type** (*str*) -
 
-*None*
+    volume 类型。支持的值为 `MANAGED` 和 `EXTERNAL`。如果省略，则使用 `MANAGED`。
 
-**RETURNS**
+- **storage_integration_id** (*str*) -
 
-None
+    Storage Integration ID。当 `volume_type="EXTERNAL"` 时为必需。
 
-## Example
+- **path** (*str*) -
+
+    外部存储的路径。如果设置，必须以 `/` 结尾。
+
+**返回类型：**
+*requests.Response*
+
+返回 volume 创建响应。
+
+来自 create volume API 的 HTTP 响应。
+
+**异常：**
+
+- **MilvusException**
+
+    当 volume 创建失败时引发。
+
+## 示例\{#examples}
 
 ```python
-from pymilvus.bulk_writer.volume_manager import VolumeManager
+from pymilvus.bulk_writer import VolumeManager
 
 volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com.cn",
-    api_key="YOUR_API_KEY"
+    cloud_endpoint="https://api.cloud.zilliz.com",
+    api_key="YOUR_API_KEY",
 )
 
-volume_manager.create_volume(
-    project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-    region_id="ali-cn-hangzhou", 
-    volume_name="my_volume"
+resp = volume_manager.create_volume(
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    volume_name="books-volume",
+    volume_type="EXTERNAL",
+    storage_integration_id="integ-xxx",
+    path="book-data/",
 )
 
-print(f"\Volume my_volume created")
-
-# Volume my_volume created
+print(resp.json())
 ```
-

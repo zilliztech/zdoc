@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "hybrid_search() | Python | ORM"
 slug: /python/python/Collection-hybrid_search
 sidebar_label: "hybrid_search()"
+beta: NEAR DEPRECATE
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | ORM"
+description: "此操作对集合执行多向量搜索，并在重排序后返回搜索结果。 | Python | ORM"
 type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # hybrid_search()
 
-This operation performs multi-vector search on a collection and returns search results after reranking.
+此操作对集合执行多向量搜索，并在重排序后返回搜索结果。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 hybrid_search(
@@ -47,13 +47,13 @@ hybrid_search(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **reqs** (*List[AnnSearchRequest]*) -
 
-    A list of search requests, where each request is an **ANNSearchRequest** object. Each request corresponds to a different vector field and a different set of search parameters.
+    搜索请求列表，其中每个请求都是一个 **ANNSearchRequest** 对象。每个请求对应不同的向量字段以及不同的一组搜索参数。
 
-    - **ANNSearchRequest**: A class representing an ANN search request.
+    - **ANNSearchRequest**：表示 ANN 搜索请求的类。
 
         ```python
         ├── AnnSearchRequest
@@ -64,80 +64,81 @@ hybrid_search(
         │   └── expr
         ```
 
-        - **data** (*List*): The query vector to search in the request. This parameter accepts a list containing one element.
+        - **data** (*List*)：请求中用于搜索的查询向量。此参数接受一个仅包含单个元素的列表。
 
-        - **anns_field** (*str*): The vector field to use in the request.
+        - **anns_field** (*str*)：请求中使用的向量字段。
 
-        - **param** (*dict*): A dictionary of search parameters for the request. For details, refer to [Search parameters](https://milvus.io/docs/single-vector-search#search-parameters).
+        - **param** (*dict*)：请求的搜索参数字典。详情请参见 [Search parameters](https://milvus.io/docs/single-vector-search#search-parameters)。
 
-        - **limit** (*int*): The maximum number of results to return in the request. When performing a hybrid search with multiple ANN search requests, the top results defined by **limit** from each request will be combined and re-ranked before returning the final search results.
+        - **limit** (*int*)：请求中返回结果的最大数量。在使用多个 ANN 搜索请求执行混合搜索时，每个请求由 **limit** 定义的顶部结果会先被合并并重排序，然后再返回最终搜索结果。
 
-        - **expr** (*str*): (Optional) The expression to filter the results.
+        - **expr** (*str*)：（可选）用于过滤结果的表达式。
 
 - **rerank** (*BaseRanker*) -
 
-    The reranking strategy to use for hybrid search. Valid values: `WeightedRanker` and `RRFRanker`.
+    用于混合搜索的重排序策略。有效值：`WeightedRanker` 和 `RRFRanker`。
 
-    - `WeightedRanker`: The Average Weighted Scoring reranking strategy, which prioritizes vectors based on relevance, averaging their significance.
+    - `WeightedRanker`：平均加权评分重排序策略，会根据相关性对向量进行优先级排序，并对其重要性求平均。
 
-    - `RRFRanker`: The RRF reranking strategy, which merges results from multiple searches, favoring items that consistently appear.
+    - `RRFRanker`：RRF 重排序策略，会合并多个搜索的结果，并优先保留稳定出现的条目。
 
 - **limit** (*int*) -
 
-    The total number of entities to return.
+    要返回的实体总数。
 
-    You can use this parameter in combination with `offset` in **param** to enable pagination.
+    您可以将此参数与 **param** 中的 `offset` 结合使用以启用分页。
 
-    The sum of this value and `offset` in **param** should be less than 16,384.
+    此值与 **param** 中 `offset` 的总和应小于 16,384。
 
 - **partition_names** (*List[str]*) -
 
-    A list of partition names.
+    分区名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则仅指定的分区会参与查询。
 
 - **output_fields** (*List[str]*) -
 
-    A list of field names to include in each entity in return.
+    返回结果中每个实体需要包含的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, only the primary field is included.
+    默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **timeout** (*float*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **round_decimal** (int) -
 
-    The number of decimal places that Milvus rounds the calculated distances to.
+    Milvus 对计算出的距离进行四舍五入时保留的小数位数。
 
-    The value defaults to **-1**, indicating that Milvus skips rounding the calculated distances and returns the raw value.
+    默认值为 **-1**，表示 Milvus 跳过对计算距离的四舍五入并返回原始值。
 
 - **group_by_field** (*str*)
 
-    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group. For details, refer to [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search).
+    按指定字段对搜索结果进行分组，以确保结果多样性并避免返回同一组中的多个结果。详情请参见 [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search)。
 
 - **group_size** (*int*)
 
-    The target number of entities to return within each group in a grouping search. For details, refer to [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search).
+    在分组搜索中，每个组内目标返回的实体数量。详情请参见 [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search)。
 
 - **strict_group_size** (*bool*)
 
-    Controls whether **group_size** should be strictly enforced. For details, refer to [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search).
+    控制是否严格执行 **group_size**。详情请参见 [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search)。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *SearchResult*
 
-**RETURNS:**
+**返回：**
 
-A **SearchResult** object that contains a list of **Hits** objects. 
+一个 **SearchResult** 对象，其中包含 **Hits** 对象列表。 
 
-- Response structure
+- 响应结构
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A <strong>SearchResult</strong> object contains a list of <strong>Hits</strong> objects, each corresponding to a query vector in the search request. </p>
-    <p>A <strong>Hits</strong> object contains a list of <strong>Hit</strong> objects, each corresponding to an entity hit by the search.</p>
+    一个 **SearchResult** 对象包含 **Hits** 对象列表，其中每个 **Hits** 对象对应搜索请求中的一个查询向量。 
+    
+    一个 **Hits** 对象包含 **Hit** 对象列表，其中每个 **Hit** 对象对应一个被搜索命中的实体。
 
     </Admonition>
 
@@ -154,47 +155,47 @@ A **SearchResult** object that contains a list of **Hits** objects.
     │           └── get()
     ```
 
-- Properties and methods
+- 属性和方法
 
-    - A **Hits** object has the following fields:
+    - **Hits** 对象包含以下字段：
 
         - **ids** (*list[int]* | *list[str]*)
 
-            A list containing the IDs of the hit entities.
+            包含命中实体 ID 的列表。
 
         - **distances** (list[float]) 
 
-            A list of distances from the hit entities' vector fields to the query vector.
+            命中实体的向量字段到查询向量的距离列表。
 
-    - A **Hit** object has the following fields:
+    - **Hit** 对象包含以下字段：
 
         - **id** (*int* | *str*)
 
-            The ID of a hit entity.
+            命中实体的 ID。
 
         - **distance** (*float*)
 
-            The distance from a hit entity's vector field to the query vector.
+            命中实体的向量字段到查询向量的距离。
 
         - **score** (*float*)
 
-            An alias to **distance**.
+            **distance** 的别名。
 
         - **vector** (*list[float]*)   
 
-            The vector field of a hit entity.
+            命中实体的向量字段。
 
         - **get(*field_name: str*)**
 
-            A function to get the value of the specified field in a hit entity. 
+            用于获取命中实体中指定字段值的函数。 
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 collection = Collection(name='{your_collection_name}') # Replace with the actual name of your collection

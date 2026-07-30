@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "flush() | Python | ORM"
 slug: /python/python/Collection-flush
 sidebar_label: "flush()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation seals all segments in the collection. Any insertions after this operation will generate a new segment. | Python | ORM"
+description: "此操作会封存集合中的所有分段。此操作后的任何插入都会生成一个新的分段。 | Python | ORM"
 type: docx
 token: VdiwdqQ9iofbkoxcc8Kcqk5gnhZ
 sidebar_position: 11
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-This operation seals all segments in the collection. Any insertions after this operation will generate a new segment.
+此操作会封存集合中的所有分段。此操作后的任何插入都会生成一个新的分段。
 
-## Request Syntax
+## Request Syntax\{#request-syntax}
 
 ```python
 flush(
@@ -41,11 +41,15 @@ flush(
 )   
 ```
 
-<Admonition type="info" icon="📘" title="Can I call `flush()` after every data insertion?">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>When new data is inserted, it is written into a growing segment. Once the size of a growing segment reaches its upper limit, Zilliz Cloud automatically seals the segment. </p>
-<p>Continuously calling this operation results in many sealed segments of small sizes, which can gradually degrade search performance. </p>
-<p>It is recommended that you wait for Zilliz Cloud to seal all segments before conducting any searches.</p>
+我可以在每次插入数据后都调用 `flush()` 吗？
+
+插入新数据时，数据会被写入增长中的分段。当增长中的分段大小达到上限时，Zilliz Cloud 会自动封存该分段。 
+
+持续调用此操作会产生许多已封存但体积较小的分段，这会逐渐降低搜索性能。 
+
+建议等待 Zilliz Cloud 封存所有分段后，再进行任何搜索。
 
 </Admonition>
 
@@ -55,7 +59,7 @@ flush(
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **RETURN TYPE:**
 
@@ -69,9 +73,9 @@ None
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -108,9 +112,9 @@ collection.flush()
 collection.num_entities # 5
 ```
 
-## Related operations
+## Related operations\{#related-operations}
 
-The following operations are related to `flush()`:
+以下操作与 `flush()` 相关：
 
 - [describe()](./Collection-describe)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_alias() | Python | ORM"
 slug: /python/python/utility-create_alias
 sidebar_label: "create_alias()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation creates an alias for an existing collection. | Python | ORM"
+description: "此操作为现有集合创建别名。 | Python | ORM"
 type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # create_alias()
 
-This operation creates an alias for an existing collection.
+此操作为现有集合创建别名。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 create_alias(
@@ -44,62 +44,66 @@ create_alias(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the collection to create an alias for.
+    要为其创建别名的集合名称。
 
 - **alias** (*str*) -
 
     **[REQUIRED]**
 
-    The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
+    集合的别名。在执行此操作之前，请确保该别名尚不存在。如果已存在，将会发生异常。
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>In , a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Suppose there is one collection: <code>collection_1</code>. You can assign two different aliases (<code>bob</code> and <code>tom</code>) to this collection by calling <code>create_alias("collection_1", "bob")</code> and <code>create_alias("collection_1", "tom")</code>.</p>
+    什么是集合别名？
+    
+        集合别名是集合的附加名称。当您希望将应用程序切换到新集合而无需对代码做任何更改时，集合别名非常有用。
+    
+        集合别名是全局唯一标识符。一个别名只能被分配给且仅能分配给一个集合。反过来，一个集合可以拥有多个别名。
+    
+        假设有一个集合：`collection_1`。您可以通过调用 `create_alias("collection_1", "bob")` 和 `create_alias("collection_1", "tom")`，为该集合分配两个不同的别名（`bob` 和 `tom`）。
 
     </Admonition>
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
-None
+无
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when you set `alias` to an existing alias.
+    当此操作期间发生任何错误时，将引发此异常，尤其是当您将 `alias` 设置为现有别名时。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Get an existing collection
@@ -118,9 +122,9 @@ utility.create_alias(collection_name="collection_1", alias="tom")
 utility.list_aliases(collection_name="collection_1") # ['bob', 'tom']
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `create_alias()`:
+以下操作与 `create_alias()` 相关：
 
 - [alter_alias()](./utility-alter_alias)
 

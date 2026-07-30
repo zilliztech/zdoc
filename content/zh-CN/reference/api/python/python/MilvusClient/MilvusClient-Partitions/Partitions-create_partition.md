@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-create_partition
 sidebar_label: "create_partition()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a partition in the target collection. | Python | MilvusClient"
+description: "此操作会在目标集合中创建一个分区。 | Python | MilvusClient"
 type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # create_partition()
 
-This operation creates a partition in the target collection.
+此操作会在目标集合中创建一个分区。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管集合。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 create_partition(
@@ -43,48 +49,48 @@ create_partition(
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **partition_name** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the partition to create.
+    要创建的分区名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*Partition*
+*[Partition](./ORM-Partition)*
 
-**RETURNS:**
+**返回值：**
 
-A partition object.
+一个分区对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -98,7 +104,7 @@ client.create_partition(
 )
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [drop_partition()](./Partitions-drop_partition)
 

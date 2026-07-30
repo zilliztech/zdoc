@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_index() | Python | MilvusClient"
 slug: /python/python/Management-drop_index
 sidebar_label: "drop_index()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops an index from a specific collection. | Python | MilvusClient"
+description: "此操作会从特定集合中删除一个索引。 | Python | MilvusClient"
 type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop_index()
 
-This operation drops an index from a specific collection.
+此操作会从特定集合中删除一个索引。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+按需计算的集合不支持此操作。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 drop_index(
@@ -44,45 +50,45 @@ drop_index(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **index_name** (str) -
 
     **[REQUIRED]**
 
-    The name of the index to drop.
+    要删除的索引名称。
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -175,7 +181,7 @@ client.drop_index(
 )
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [add_index()](./Management-add_index)
 

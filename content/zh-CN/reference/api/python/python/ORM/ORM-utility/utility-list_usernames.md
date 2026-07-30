@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_usernames() | Python | ORM"
 slug: /python/python/utility-list_usernames
 sidebar_label: "list_usernames()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists the names of all existing users. | Python | ORM"
+description: "此操作列出所有现有用户的名称。 | Python | ORM"
 type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - list_usernames()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_usernames()
 
-This operation lists the names of all existing users.
+此操作列出所有现有用户的名称。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_usernames(
@@ -42,47 +42,47 @@ list_usernames(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
+**返回：**
 
-A list that contains the names of all existing users.
+包含所有现有用户名称的列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # List all existing usernames
 users = utility.list_usernames()
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_usernames()`
+以下操作与 `list_usernames()` 相关
 
 - [Role](./ORM-Role)
 

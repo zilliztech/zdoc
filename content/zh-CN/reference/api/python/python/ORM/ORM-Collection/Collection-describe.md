@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe() | Python | ORM"
 slug: /python/python/Collection-describe
 sidebar_label: "describe()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation describes the current collection. | Python | ORM"
+description: "此操作描述当前集合。 | Python | ORM"
 type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - describe()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # describe()
 
-This operation describes the current collection.
+此操作描述当前集合。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 describe(timeout: float | None)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary that contains detailed information about the specified collection.
+一个包含指定集合详细信息的字典。
 
 ```python
 {
@@ -88,83 +88,83 @@ A dictionary that contains detailed information about the specified collection.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    The name of the current collection.
+    当前集合的名称。
 
 - **auto_id** (*bool*) -
 
-    Whether Zilliz Cloud automatically generates the primary key for the collection.
+    Zilliz Cloud 是否为该集合自动生成主键。
 
 - **num_shards** (*int*) -
 
-    The number of shards the current collection has.
+    当前集合拥有的分片数量。
 
 - **description** (*str*)
 
-    The description of the current collection.
+    当前集合的描述。
 
 - **fields** (*list*)
 
-    A list of fields in the current collection.
+    当前集合中的字段列表。
 
     - **field_id** (*int*)
 
-        The ID of the current field.
+        当前字段的 ID。
 
     - **name** (*str*)
 
-        The name of the current field.
+        当前字段的名称。
 
     - **description** (*str*)
 
-        The description of the current field.
+        当前字段的描述。
 
     - **type** (*int*)
 
-        The type of the current field. For details, refer to DataType.
+        当前字段的类型。详情请参见 DataType。
 
     - **params** (*dict*)
 
-        Additional attributes of the current fields.
+        当前字段的附加属性。
 
-        - For VARCHAR fields, **max_length** (*int*) is a possible attribute, which determines the number of characters in the value of the current field.
+        - 对于 VARCHAR 字段，**max_length** (*int*) 是可能的属性之一，用于确定当前字段值中的字符数。
 
-        - For FLOAT_VECTOR fields, **dim** (*int*) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
+        - 对于 FLOAT_VECTOR 字段，**dim** (*int*) 是可能的属性之一，用于确定当前字段值中的向量嵌入维度数。
 
     - **element_type** (*int*)
 
     - **is_primary** (*bool*)
 
-        Whether the current field serves as the primary key of the collection.
+        当前字段是否作为集合的主键。
 
 - **aliases** (*list*)      
 
-    A list of collection aliases. You can use any alias in the list to use the current collection.  
+    集合别名列表。您可以使用列表中的任一别名来使用当前集合。  
 
 - **collection_id** (*int*)
 
-    The ID of the current collection. Zilliz Cloud allocates an ID for each collection while creating it.
+    当前集合的 ID。Zilliz Cloud 会在创建每个集合时为其分配一个 ID。
 
 - **consistency_level** (*int*)
 
-    The consistency level of the current collection. For details, refer to ConsistencyLevel.
+    当前集合的一致性级别。详情请参见 ConsistencyLevel。
 
 - **properties** (*dict*)
 
 - **num_partitions** (*int*) 
 
-    The number of partitions in the current collection.
+    当前集合中的分区数量。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **DescribeCollectionException**
 
-    This arises when any error occurs during this operation.
+    当此操作期间发生任何错误时会引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -218,7 +218,7 @@ collection.describe()
 # }
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
 - [drop()](./Collection-drop)
 

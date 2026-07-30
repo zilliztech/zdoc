@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "GeminiEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-GeminiEmbeddingFunction
 sidebar_label: "GeminiEmbeddingFunction"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "Model2VecEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the GeminiEmbeddingFunction module to support embedding retrieval in Milvus. | Python"
+description: "Model2VecEmbeddingFunction 是 pymilvus 中的一个类，它使用 GeminiEmbeddingFunction 模块将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - GeminiEmbeddingFunction
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # GeminiEmbeddingFunction
 
-**Model2VecEmbeddingFunction** is a class in pymilvus that handles encoding text into embeddings using the GeminiEmbeddingFunction module to support embedding retrieval in Milvus.
+**[Model2VecEmbeddingFunction](./EmbeddingModels-Model2VecEmbeddingFunction)** 是 pymilvus 中的一个类，它使用 GeminiEmbeddingFunction 模块将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.GeminiEmbeddingFunction
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs an GeminiEmbeddingFunction for common use cases.
+为常见用例构造一个 GeminiEmbeddingFunction。
 
 ```python
 GeminiEmbeddingFunction(
@@ -50,71 +50,39 @@ GeminiEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name (string) -**
 
-    The name of the Gemini model to use for encoding. Valid options are **gemini-embedding-exp-03-07**(default), **models/embedding-001**, and **models/text-embedding-004**.
+    用于编码的 Gemini 模型名称。有效选项包括 **gemini-embedding-exp-03-07**（默认）、**models/embedding-001** 和 **models/text-embedding-004**。
 
 - **api_key (*string*)-**
 
-The API key for accessing the Gemini API.
+Gemini API 的访问密钥。
 
 - **config** **(*types.EmbedContentConfig*) -**
 
-    Optional configuration for the embedding model.
+    嵌入模型的可选配置。
 
-    - The **output_dimensionality** can be specified to the number of resulting output embeddings.
+    - 可以通过 **output_dimensionality** 指定生成的输出嵌入维度数量。
 
-        <table>
-           <tr>
-             <th><p><strong>Model Name</strong></p></th>
-             <th><p><strong>Dimensions</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>emini-embedding-exp-03-07</p></td>
-             <td><p>3072(<em>default</em>),1536,768</p></td>
-           </tr>
-           <tr>
-             <td><p>models/embedding-001</p></td>
-             <td><p>768</p></td>
-           </tr>
-           <tr>
-             <td><p>models/text-embedding-004</p></td>
-             <td><p>768</p></td>
-           </tr>
-        </table>
+        | **Model Name** | **Dimensions** |
+        | --- | --- |
+        | emini-embedding-exp-03-07 | 3072(*default*),1536,768 |
+        | models/embedding-001 | 768 |
+        | models/text-embedding-004 | 768 |
 
-    - The **task_type** can be specified to generate optimized embeddings for specific tasks, saving you time and cost and improving performance. Only supported in the **gemini-embedding-exp-03-07** model.
+    - 可以指定 **task_type** 以针对特定任务生成优化后的嵌入，从而节省时间和成本并提升性能。仅 **gemini-embedding-exp-03-07** 模型支持此项。
 
-        <table>
-           <tr>
-             <th><p>Task Type</p></th>
-             <th><p>Description</p></th>
-           </tr>
-           <tr>
-             <td><p>SEMANTIC_SIMILARITY</p></td>
-             <td><p>Used to generate embeddings that are optimized to assess text similarity.</p></td>
-           </tr>
-           <tr>
-             <td><p>CLASSIFICATION</p></td>
-             <td><p>Used to generate embeddings that are optimized to classify texts according to preset labels.</p></td>
-           </tr>
-           <tr>
-             <td><p>CLUSTERING</p></td>
-             <td><p>Used to generate embeddings that are optimized to cluster texts based on their similarities.</p></td>
-           </tr>
-           <tr>
-             <td><p>RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION</p></td>
-             <td><p>Used to generate embeddings that are optimized for document search or information retrieval.</p></td>
-           </tr>
-           <tr>
-             <td><p>CODE_RETRIEVAL_QUERY</p></td>
-             <td><p>Used to retrieve a code block based on a natural language query, such as sort an array or reverse a linked list. Embeddings of the code blocks are computed using RETRIEVAL_DOCUMENT.</p></td>
-           </tr>
-        </table>
+        | Task Type | Description |
+        | --- | --- |
+        | SEMANTIC_SIMILARITY | 用于生成针对评估文本相似性进行优化的嵌入。 |
+        | CLASSIFICATION | 用于生成针对按照预设标签对文本进行分类而优化的嵌入。 |
+        | CLUSTERING | 用于生成针对根据相似性对文本进行聚类而优化的嵌入。 |
+        | RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION | 用于生成针对文档搜索或信息检索进行优化的嵌入。 |
+        | CODE_RETRIEVAL_QUERY | 用于根据自然语言查询检索代码块，例如 sort an array 或 reverse a linked list。代码块的嵌入使用 RETRIEVAL_DOCUMENT 计算。 |
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

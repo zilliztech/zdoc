@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_volumes() | Python"
 slug: /python/python/VolumeManager-list_volumes
 sidebar_label: "list_volumes()"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all volumes within a specific project in a paginated manner. | Python"
+description: "此函数列出项目下的卷，支持分页以及按卷类型进行可选筛选。 | Python"
 type: docx
-token: E5uudOLJ3o1BIhx4LLoctf8TnLf
-sidebar_position: 3
+token: SyiHdehPHoO4l4x11tqcjzpOnLd
+sidebar_position: 4
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_volumes()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,108 +31,68 @@ import Admonition from '@theme/Admonition';
 
 # list_volumes()
 
-This operation lists all volumes within a specific project in a paginated manner.
+此函数列出项目下的卷，支持分页以及按卷类型进行可选筛选。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
-list_volumes(
+volume_manager.list_volumes(
     project_id: str,
-    current_page: int,
-    page_size: int
+    current_page: int = 1,
+    page_size: int = 10,
+    volume_type: str | None = None,
 )
 ```
 
-**PARAMETERS**
+**参数：**
 
 - **project_id** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The ID of the project to which the volume to be created belongs.
+    要查询的项目 ID。
 
 - **current_page** (*int*) -
 
-    The current page of the volume lists. When specified, only the volumes on the specified page will be returned.
-
-    This parameter is optional and its value defaults to `1`, indicating that the first page will be returned.
+    要查询的页码。
 
 - **page_size** (*int*) -
 
-    The  page  size of the volume lists.  When specified, only the specified number of volumes will be returned.
+    每页返回的记录数。
 
-    This parameter is optional and its value defaults to `10`, indicating that a list of up to 10 volumes will be returned.
+- **volume_type** (*str*) -
 
-**RETURN TYPE**
+    卷类型的可选筛选条件。支持的值为 `MANAGED` 和 `EXTERNAL`。
 
-An object.
+**返回类型：**
+*requests.Response*
 
-**RETURNS**
+返回分页的卷列表。
 
-An object with the following data structure:
+包含卷列表结果的 HTTP 响应。
 
-```json
-{
-    "count": 1,
-    "currentPage": 1,
-    "pageSize": 10,
-    "volumes": [
-        {
-            "volumeName": "my_volume"
-        }        
-    ]
-}
-```
+**异常：**
 
-**PARAMETERS**
+- **MilvusException**
 
-- **count** (*int*) -
+    当列表请求失败时抛出。
 
-    The total number of volumes found.
-
-- **currentPage** (*int*) -
-
-    The current page.
-
-- **pageSize** (*int*) -
-
-    The maximum number of volumes per page.
-
-- **volumes** (*list*) -
-
-    A volume list.
-
-    - **volumeName** (*str*) -
-
-        The name of a volume.
-
-## Example
+## 示例\{#examples}
 
 ```python
-from pymilvus.bulk_writer.volume_manager import VolumeManager
+from pymilvus.bulk_writer import VolumeManager
 
 volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com.cn",
-    api_key="YOUR_API_KEY"
+    cloud_endpoint="https://api.cloud.zilliz.com",
+    api_key="YOUR_API_KEY",
 )
 
-volume_list = volume_manager.list_volumes(
-    project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx"
+resp = volume_manager.list_volumes(
+    project_id="proj-xxx",
+    current_page=1,
+    page_size=20,
+    volume_type="EXTERNAL",
 )
 
-print(f"\nlistVolumes results: \n", volume_list.json()['data'])
-
-# listVolumes results: 
-# 
-# {
-#     "count": 1,
-#     "currentPage": 1,
-#     "pageSize": 10,
-#     "volumes": [
-#         {
-#             "volumeName": "my_volume"
-#         }        
-#     ]
-# }
+print(resp.json())
 ```
-

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "construct_from_dict() | Python | ORM"
 slug: /python/python/FieldSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation constructs a FieldSchema object from a dictionary representation. | Python | ORM"
+description: "此操作根据字典表示构造一个 FieldSchema 对象。 | Python | ORM"
 type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-This operation constructs a FieldSchema object from a dictionary representation.
+此操作根据字典表示构造一个 FieldSchema 对象。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 construct_from_dict(
@@ -41,34 +41,35 @@ construct_from_dict(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This is a class method. You should call it from the class instead of an instance of the class as follows:</p>
-<p><code>FieldSchema.construct_from_dict()</code></p>
+这是一个类方法。你应当通过类而不是类的实例来调用它，如下所示：
+
+`FieldSchema.construct_from_dict()`
 
 </Admonition>
 
-**PARAMETERS:**
+**参数：**
 
 - **raw** (*dict*)
 
-    A dictionary containing the raw data to construct the field schema.
+    包含用于构造字段模式的原始数据的字典。
 
-**RETURN TYPE:**
+**返回类型：**
 
-*FieldSchema*
+*[FieldSchema](./ORM-FieldSchema)*
 
-**RETURNS:**
+**返回：**
 
-A FieldSchema object.
+一个 FieldSchema 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import FieldSchema, DataType  

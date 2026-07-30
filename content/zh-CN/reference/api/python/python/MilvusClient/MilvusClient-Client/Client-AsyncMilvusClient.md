@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "AsyncMilvusClient | Python | MilvusClient"
 slug: /python/python/Client-AsyncMilvusClient
 sidebar_label: "AsyncMilvusClient"
+beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
-beta: PRIVATE
 notebook: false
-description: "An AsyncMilvusClient instance represents an asynchronous Python client that connects to a specific Zilliz Cloud cluster. It provides the same parameter sets and behaviors as MilvusClient, and the only difference lies in the way you call them. | Python | MilvusClient"
+description: "AsyncMilvusClient 实例表示一个异步 Python 客户端，用于连接到特定的 Zilliz Cloud 集群。它提供与 MilvusClient 相同的参数集和行为，唯一的区别在于调用方式。 | Python | MilvusClient"
 type: docx
 token: MIKkdpGuuoEaGWx1m7Fcw52inKg
 sidebar_position: 3
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - AsyncMilvusClient
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,22 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # AsyncMilvusClient
 
-An **AsyncMilvusClient** instance represents an asynchronous Python client that connects to a specific Zilliz Cloud cluster. It provides the same parameter sets and behaviors as **MilvusClient**, and the only difference lies in the way you call them.
+**AsyncMilvusClient** 实例表示一个异步 Python 客户端，用于连接到特定的 Zilliz Cloud 集群。它提供与 **[MilvusClient](./Client-MilvusClient)** 相同的参数集和行为，唯一的区别在于调用方式。
 
 ```python
 pymilvus.AsyncMilvusClient
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a client for common use cases.
+为常见用例构建一个客户端。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<ul>
-<li><p>This interface is still in its early stage and may change significantly in future releases. You are advised not to use it in production.</p></li>
-<li><p>To call <strong>AsyncMilvusClient</strong>, you need to get an event loop from asyncio to manage request handling. For details, refer to <a href="https://milvus.io/docs/use-async-milvus-client-with-asyncio.md#Tutorial-Use-AsyncMilvusClient-with-asyncio">Tutorial: Use AsyncMilvusClient with asyncio</a>.</p></li>
-</ul>
+- 此接口仍处于早期阶段，未来版本中可能会发生较大变化。建议不要在生产环境中使用。
+
+- 要调用 **AsyncMilvusClient**，你需要从 asyncio 获取一个事件循环来管理请求处理。详情请参见 [教程：结合 asyncio 使用 AsyncMilvusClient](https://milvus.io/docs/use-async-milvus-client-with-asyncio.md#Tutorial-Use-AsyncMilvusClient-with-asyncio)。
 
 </Admonition>
 
@@ -62,53 +61,63 @@ AsyncMilvusClient(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **uri** (*string*) -
 
-    The URI of the Zilliz Cloud cluster. For example:
+    Zilliz Cloud 集群的 URI。例如：
 
-    ```plaintext
-    https://inxx-xxxxxxxxxxxxxxxxx.ali-cn-hangzhou.zillizcloud.com:19540
-    ```
+    - **集群端点**
+
+        - **Free & Serverless**
+
+            `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+        - **Dedicated**
+
+            `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+    - **项目端点（On-Demand）**
+
+        `https://{project-id}.{region}.api.zillizcloud.com`
 
 - **user** (*string*) -
 
-    A valid username used to connect to the specified Zilliz Cloud cluster.
+    用于连接指定 Zilliz Cloud 集群的有效用户名。
 
-    This should be used along with **password**.
+    应与 **password** 一起使用。
 
 - **password** (*string*) -
 
-    A valid password used to connect to the specified Zilliz Cloud cluster.
+    用于连接指定 Zilliz Cloud 集群的有效密码。
 
-    This should be used along with **user**.
+    应与 **user** 一起使用。
 
 - **db_name** (*string*) -
 
-    The name of the database to which the target Milvus instance belongs.
+    目标 Milvus 实例所属数据库的名称。
 
 - **token** (*string*) -
 
-    A valid access token to access the specified Zilliz Cloud cluster. 
+    用于访问指定 Zilliz Cloud 集群的有效访问令牌。
 
-    This can be used as a recommended alternative to setting **user** and **password** separately.
+    这可以作为分别设置 **user** 和 **password** 的推荐替代方案。
 
-    When setting this field, notice that:
+    设置此字段时，请注意：
 
-    A valid token should be either
+    有效的 token 可以是以下任一形式：
 
-    - An [API key](/docs/manage-api-keys) with sufficient permissions, or
+    - 具有足够权限的 [API key](/docs/manage-api-keys)，或者
 
-    - A pair of [username and password ](/docs/cluster-credentials)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+    - 一组用于访问目标集群的 [用户名和密码](/docs/cluster-credentials)，通过英文冒号 (:) 拼接。例如，可以将其设置为 `username:p@ssw0rd`。这仅适用于使用集群端点时。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示该操作会在收到任意响应或发生任意错误时超时。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 import asyncio
@@ -119,15 +128,15 @@ loop = asyncio.get_event_loop()
 
 # Authentication enabled with a cluster user
 client = AsyncMilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password", # replace this with your token,
     db_name="default"
 )
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p>
+将 **uri** 设置为你的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，或格式为 `username:p@ssw0rd` 的集群用户凭据。
 
 </Admonition>
 

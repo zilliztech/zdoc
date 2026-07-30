@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "flush() | Python | MilvusClient"
 slug: /python/python/Management-flush
 sidebar_label: "flush()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation flushes the streaming data and seals segments. It is recommended to call this operation after all the data has been inserted into a collection. | Python | MilvusClient"
+description: "此操作会刷写流式数据并封存段。不建议在所有数据都插入到集合后调用此操作，以避免产生小段，这可能会降低搜索性能。 | Python | MilvusClient"
 type: docx
 token: JnPrdOiPyo2e5gxzzFycbnvwnSd
 sidebar_position: 6
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-This operation flushes the streaming data and seals segments. It is recommended to call this operation after all the data has been inserted into a collection.
+此操作会刷写流式数据并封存段。不建议在所有数据都插入到集合后调用此操作，以避免产生小段，这可能会降低搜索性能。
 
-## Request Syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这仅适用于托管集合。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 flush(
@@ -44,40 +50,40 @@ flush(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    The name of the target collection.
+    目标集合的名称。
 
 - **timeout** (*Optional[float]*) - 
 
-    The timeout duration for this operation.
+    此操作的超时时长。
 
-    Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 None 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回值：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作过程中发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

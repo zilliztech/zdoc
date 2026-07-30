@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_compact_state() | Python | MilvusClient"
 slug: /python/python/Management-get_compact_state
 sidebar_label: "get_compact_state()"
+beta: false
 added_since: v2.4.x
 last_modified: false
-deprecate_since: false
-beta: false
+deprecate_since: v2.6.x
 notebook: false
-description: "This operation returns the status of the specified compaction job. | Python | MilvusClient"
+description: "此操作返回指定压缩任务的状态。 | Python | MilvusClient"
 type: docx
 token: WEsjdspGLokueRxggM1cNFgknze
 sidebar_position: 7
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - get_compact_state()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # get_compact_state()
 
-This operation returns the status of the specified compaction job.
+此操作返回指定压缩任务的状态。
 
-## Request Syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法已弃用。最新的等效方法请参见 [get_compaction_state()](./Management-get_compaction_state)。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 get_compaction_state(
@@ -44,25 +50,25 @@ get_compaction_state(
 ) -> str
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **job_id** (*int*) -
 
-    The compaction job ID.
+    压缩任务 ID。
 
 - **timeout** (*Optional[float]*) - 
 
-    The timeout duration for this operation.
+    此操作的超时时长。
 
-    Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *str*
 
-**RETURNS:**
+**返回：**
 
-The state of the specified compaction job. Possible values are
+指定压缩任务的状态。可能的值包括：
 
 - `UndefinedState`
 
@@ -70,20 +76,20 @@ The state of the specified compaction job. Possible values are
 
 - `Completed`
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

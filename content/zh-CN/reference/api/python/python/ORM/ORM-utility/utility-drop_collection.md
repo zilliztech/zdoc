@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_collection() | Python | ORM"
 slug: /python/python/utility-drop_collection
 sidebar_label: "drop_collection()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation drops a specific collection. | Python | ORM"
+description: "此操作会删除特定集合。 | Python | ORM"
 type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection()
 
-This operation drops a specific collection.
+此操作会删除特定集合。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop_collection(
@@ -43,42 +43,42 @@ drop_collection(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a collection to delete.
+    要删除的集合名称。
 
 - **timeout** (*float*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
-N/A
+不适用
 
-### Examples
+### 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Drop a specific collection
@@ -87,9 +87,9 @@ utility.drop_collection(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to the `drop_collection()` method:
+以下操作与 `drop_collection()` 方法相关：
 
 - [flush_all()](./utility-flush_all)
 

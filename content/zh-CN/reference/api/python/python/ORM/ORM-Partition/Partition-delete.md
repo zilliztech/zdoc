@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "delete() | Python | ORM"
 slug: /python/python/Partition-delete
 sidebar_label: "delete()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation deletes entities from a partition with a boolean expression. | Python | ORM"
+description: "此操作使用布尔表达式从分区中删除实体。 | Python | ORM"
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-This operation deletes entities from a partition with a boolean expression.
+此操作使用布尔表达式从分区中删除实体。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Using the <strong>partition_name</strong> parameter in the <strong>delete()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>delete()</strong> method of a <strong>Partition</strong> object.</p>
+在 **[Collection](./ORM-Collection)** 对象的 **delete()** 方法中使用 **partition_name** 参数，等同于使用 **[Partition](./ORM-Partition)** 对象的 **delete()** 方法。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 delete(
@@ -48,69 +48,69 @@ delete(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **expr** (*string*) -
 
-    **[REQUIRED]** 
+    **[必需]** 
 
-    A boolean expression to filter the entities to delete.
+    用于筛选要删除实体的布尔表达式。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *MutationResult*
 
-**RETURNS:**
+**返回：**
 
-A **MutationResult** object that contains the following fields:
+一个 **MutationResult** 对象，包含以下字段：
 
 - **insert_count** (*int*)
 
-    The count of inserted entities.
+    已插入实体的数量。
 
 - **delete_count** (*int*)
 
-    The count of deleted entities.
+    已删除实体的数量。
 
 - **upsert_count** (*int*)
 
-    The count of upserted entities.
+    已 upsert 的实体数量。
 
 - **succ_count** (*int*)
 
-    The count of successful executions during this operation.
+    此操作中成功执行的次数。
 
 - **succ_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a successful operation.
+    从 0 开始的索引编号列表，每个编号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    The count of failed executions during this operation.
+    此操作中失败执行的次数。
 
 - **err_index** (*list*)
 
-    A list of index numbers starting from 0, each indicating a failed operation.
+    从 0 开始的索引编号列表，每个编号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    A list of primary keys for the inserted entities.
+    已插入实体的主键列表。
 
 - **timestamp** (*int*)
 
-    The timestamp at which this operation is completed.
+    此操作完成时的时间戳。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This arises when any error occurs during this operation.
+    当此操作期间发生任何错误时引发。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, Partition, CollectionSchema, FieldSchema, DataType
@@ -149,9 +149,9 @@ partition.insert(
 res = partition.delete("id in [ 0, 1 ]")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `delete()`:
+以下操作与 `delete()` 相关：
 
 - [flush()](./Partition-flush)
 

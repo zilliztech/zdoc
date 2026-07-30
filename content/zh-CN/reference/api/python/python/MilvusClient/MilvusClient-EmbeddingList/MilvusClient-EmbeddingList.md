@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "EmbeddingList | Python | MilvusClient"
 slug: /python/python/MilvusClient-EmbeddingList
 sidebar_label: "EmbeddingList"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "An EmbeddingList instance represents a list of vector embeddings. You can use an EmbeddingList instance to build the query vectors in a search against a vector field in an Array of Structs field. | Python | MilvusClient"
+description: "EmbeddingList 实例表示一个向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。 | Python | MilvusClient"
 type: docx
 token: Ve2WdUAfwoz456xwBIJcGvltn6b
 sidebar_position: 4
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
   - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingList
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingList
 
-An **EmbeddingList** instance represents a list of vector embeddings. You can use an **EmbeddingList** instance to build the query vectors in a search against a vector field in an Array of Structs field.
+**EmbeddingList** 实例表示一个向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。
 
 ```python
 class pymilvus.EmbeddingList
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs an empty embedding list or a list of given vector embeddings.
+构造一个空的嵌入列表，或由给定向量嵌入组成的列表。
 
 ```python
 EmbeddingList(
@@ -49,41 +49,41 @@ EmbeddingList(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **embeddings** (*np.ndarray, List[np.ndarray*) -
 
-    A list of vector embeddings, which can be either of the following types:
+    向量嵌入列表，可以是以下任一类型：
 
-    - **np.ndarray** with shape **(n, dim)**, indicating a list of multiple vector embeddings
+    - 形状为 **(n, dim)** 的 **np.ndarray**，表示由多个向量嵌入组成的列表
 
-    - **np.ndarray** with shape **(dim,)**, indicating a single vector embedding
+    - 形状为 **(dim,)** 的 **np.ndarray**，表示单个向量嵌入
 
-    - **List[np.ndarray]**, indicating a list of vector embedding arrays
+    - **List[np.ndarray]**，表示一个由向量嵌入数组组成的列表
 
 - **dim** (*int*) -
 
-    The dimensionality of the vector embeddings that are specified in the **embedding** parameter, for validation purposes. 
+    在验证时，用于指定 **embedding** 参数中向量嵌入的维度。 
 
-    If provided, all specified vector embeddings must adhere to the dimensionality restriction.
+    如果提供了该参数，则所有指定的向量嵌入都必须符合该维度限制。
 
 - **dtype** (*np.dtype, str, [DataType](./Collections-DataType)*) -  
 
-    - **np.dtype**, such as `np.float32`, `np.float16`, or `np.unit8`
+    - **np.dtype**，例如 `np.float32`、`np.float16` 或 `np.unit8`
 
-    - **string**, such as `'float32'`, `'float16'`, or `'uint8'`
+    - **string**，例如 `'float32'`、`'float16'` 或 `'uint8'`
 
-    - **DataType**, such as `DataType.FLOAT_VECTOR`, `DataType.FLOAT16_VECTOR`, `DataType.BFLOAT16_VECTOR`, `DataType.INT8_VECTOR`, or `DataType.BINARY_VECTOR`
+    - **[DataType](./Collections-DataType)**，例如 `DataType.FLOAT_VECTOR`、`DataType.FLOAT16_VECTOR`、`DataType.BFLOAT16_VECTOR`、`DataType.INT8_VECTOR` 或 `DataType.BINARY_VECTOR`
 
-**RETURN TYPE:**
+**返回类型：**
 
 *EmbeddingList*
 
-**RETURNS:**
+**返回：**
 
-An **EmbeddingList** instance.
+一个 **EmbeddingList** 实例。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import EmbeddingList

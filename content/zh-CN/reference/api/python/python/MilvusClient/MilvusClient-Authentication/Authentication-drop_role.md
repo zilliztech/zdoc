@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_role() | Python | MilvusClient"
 slug: /python/python/Authentication-drop_role
 sidebar_label: "drop_role()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation drops a custom role. | Python | MilvusClient"
+description: "此操作会删除一个自定义角色。 | Python | MilvusClient"
 type: docx
-token: Vmxpd3MttodOE3x3V11cVTeunDh
+token: KUAXdm3o3opQPex8N69cMlPbnTh
 sidebar_position: 8
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_role()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,63 +31,69 @@ import Admonition from '@theme/Admonition';
 
 # drop_role()
 
-This operation drops a custom role.
+此操作会删除一个自定义角色。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop_role(
     role_name: str,
-    timeout: Optional[float] = None
+    force_drop: bool = False,
+    timeout: Optional[float] = None,
+    **kwargs,
 ) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **role_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the role to drop.
+    要删除的角色名称。
 
-- **timeout** (*float* | *None*)  
+- **force_drop** (*bool*) -
 
-    The timeout duration for this operation. 
+    是否在该角色已分配权限或用户的情况下仍强制删除。默认为 **False**。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+- **timeout** (*float* | *None*) -
 
-**RETURN TYPE:**
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    This exception will be raised when this operation fails.
+    当此操作失败时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Create a milvus client
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# 2. Create a role
+# Create a role
 client.create_role(role_name="read_only")
 
-# 3. Drop a role
+# Drop a role
 client.drop_role(role_name="read_only")
+
+# Force drop a role with assigned privileges
+client.drop_role(role_name="custom_role", force_drop=True)
 ```

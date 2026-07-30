@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "partition() | Python | ORM"
 slug: /python/python/Collection-partition
 sidebar_label: "partition()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation gets the specified partition in the current collection. | Python | ORM"
+description: "此操作获取当前 collection 中指定的 partition。 | Python | ORM"
 type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - partition()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # partition()
 
-This operation gets the specified partition in the current collection.
+此操作获取当前 collection 中指定的 partition。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 partition(
@@ -41,29 +41,29 @@ partition(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **partition_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the partition to get.
+    要获取的 partition 的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Partition* | *NoneType*
 
-**RETURNS:**
+**返回：**
 
-A **Partition** object. If the current collection does not have a partition of the specified name, **None** is returned.
+一个 **Partition** 对象。如果当前 collection 中不存在指定名称的 partition，则返回 **None**。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -83,9 +83,9 @@ collection = Collection(
 partition = collection.partition(partition_name="test_partition")
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `partition()`:
+以下操作与 `partition()` 相关：
 
 - [Collection](./ORM-Collection)
 

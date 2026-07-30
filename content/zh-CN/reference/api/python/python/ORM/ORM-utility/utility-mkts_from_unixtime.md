@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "mkts_from_unixtime() | Python | ORM"
 slug: /python/python/utility-mkts_from_unixtime
 sidebar_label: "mkts_from_unixtime()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation converts a hybrid timestamp from a UNIX epoch timestamp. | Python | ORM"
+description: "此操作根据 UNIX 纪元时间戳转换生成混合时间戳。 | Python | ORM"
 type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_unixtime()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -32,9 +32,9 @@ import TabItem from '@theme/TabItem';
 
 # mkts_from_unixtime()
 
-This operation converts a hybrid timestamp from a UNIX epoch timestamp.
+此操作根据 UNIX 纪元时间戳转换生成混合时间戳。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 mkts_from_unixtime(
@@ -54,41 +54,41 @@ utility.mkts_from_unixtime(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **epoch** (*float*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A UNIX epoch timestamp.
+    UNIX 纪元时间戳。
 
-    A UNIX epoch timestamp is an integer that represents the time elapsed since January 1, 1970 (midnight UTC/GMT) in seconds.
+    UNIX 纪元时间戳是一个整数，表示自 1970 年 1 月 1 日（UTC/GMT 午夜）以来经过的秒数。
 
 - **milliseconds** (*float*) -
-An incremental time interval in milliseconds.
+以毫秒为单位的增量时间间隔。
 
 - **delta** (*Optional[timedelta]*) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two [`date`](https://docs.python.org/3/library/datetime.html#datetime.date), [`time`](https://docs.python.org/3/library/datetime.html#datetime.time), or [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) instances to microsecond resolution.
+    表示 **datetime.timedelta** 对象，用于表示两个 [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time) 或 [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) 实例之间的持续时间差，精确到微秒。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *int*
 
-**RETURNS:**
-A hybrid timestamp, which is a non-negative integer ranging from **0** to **18446744073709551615**.
+**返回：**
+混合时间戳，是一个范围从 **0** 到 **18446744073709551615** 的非负整数。
 
-## **Examples**
+## **示例**\{#examples}
 
 ```python
 import time
 from datetime import timedelta
 from pymilvus import utility
 
-# Get a UNIX epoch timestamp
+# 获取 UNIX 纪元时间戳
 epoch1 = time.time()
 
-# Set up a timedelta object
+# 设置 timedelta 对象
 delta = timedelta(
     days=50,
     seconds=27,
@@ -99,7 +99,7 @@ delta = timedelta(
     weeks=2
 )
 
-# Get a hybrid timestamp
+# 获取混合时间戳
 mkts_from_unixtime(
     epoch=epoch1,
     milliseconds=1000,
@@ -107,9 +107,9 @@ mkts_from_unixtime(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `mkts_from_unixtime()`:
+以下操作与 `mkts_from_unixtime()` 相关：
 
 - [mkts_from_datetime()](./utility-mkts_from_datetime)
 

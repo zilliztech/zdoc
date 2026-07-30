@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_collection_properties() | Python | MilvusClient"
 slug: /python/python/Collections-drop_collection_properties
 sidebar_label: "drop_collection_properties()"
-added_since: v2.4.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation drops the specified collection properties. | Python | MilvusClient"
+description: "此操作会删除指定集合属性。 | Python | MilvusClient"
 type: docx
-token: WjNRdifU9o3xl5xG0W7ch4Fjnme
+token: HTnvdQ8SbodURtxPEv5cURL0n5b
 sidebar_position: 12
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection_properties()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection_properties()
 
-This operation drops the specified collection properties.
+此操作会删除指定的集合属性。
 
-## Request Syntax
+<Admonition type="info" icon="📘" title="说明">
+
+这不适用于外部集合。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 drop_collection_properties(
@@ -45,17 +51,19 @@ drop_collection_properties(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    The name of the target collection.
+    目标集合的名称。
 
 - **property_keys** (*List[str]*) -
 
-    The names of the properties to drop in a list. Possible values are as follows:
+    要删除的属性名称列表。可选值如下：
 
     - `collection.ttl.seconds`
+
+    - `ttl_field`
 
     - `mmap.enabled`
 
@@ -63,32 +71,32 @@ drop_collection_properties(
 
 - **timeout** (*Optional[float]*) - 
 
-    The timeout duration for this operation.
+    此操作的超时时长。
 
-    Setting this to None indicates that this operation timeouts when any response arrives or any error occurs.
+    将此参数设置为 None 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
+    当此操作过程中发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

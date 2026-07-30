@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "clear() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-clear
 sidebar_label: "clear()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation clears the vector embeddings from the current EmbeddingList instance. | Python | MilvusClient"
+description: "此操作会清除当前 EmbeddingList 实例中的向量嵌入。 | Python | MilvusClient"
 type: docx
 token: M6mrdinAjo8CwrxirOQcR6E1nUc
 sidebar_position: 3
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - 廉价向量数据库
+  - 托管向量数据库
+  - Pinecone 向量数据库
+  - 音频搜索
   - zilliz
   - zilliz cloud
   - cloud
   - clear()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +31,23 @@ import Admonition from '@theme/Admonition';
 
 # clear()
 
-This operation clears the vector embeddings from the current **EmbeddingList** instance.
+此操作会清除当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中的向量嵌入。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 clear()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
-*EmbeddingList*
+*[EmbeddingList](./MilvusClient-EmbeddingList)*
 
-**RETURNS:**
+**返回：**
 
-An empty **EmbeddingList** instance.
+一个空的 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import EmbeddingList

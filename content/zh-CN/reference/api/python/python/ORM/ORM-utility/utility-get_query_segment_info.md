@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_query_segment_info() | Python | ORM"
 slug: /python/python/utility-get_query_segment_info
 sidebar_label: "get_query_segment_info()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation gets information about the sealed and growing segments in the query cluster. | Python | ORM"
+description: "此操作获取查询集群中 sealed 和 growing segment 的信息。 | Python | ORM"
 type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - get_query_segment_info()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # get_query_segment_info()
 
-This operation gets information about the sealed and growing segments in the query cluster.
+此操作获取查询集群中 sealed 和 growing segment 的信息。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 get_query_segment_info(
@@ -43,42 +43,42 @@ get_query_segment_info(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有 collection 的名称。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list*
 
-**RETURNS:**
+**返回：**
 
-A list of **QuerySegmentInfo** objects, each reporting the status of a segment.
+由 **QuerySegmentInfo** 对象组成的列表，其中每个对象都报告一个 segment 的状态。
 
-**EXCEPTIONS:**
+**异常：**
 
 N/A
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Get an existing collection
@@ -97,7 +97,7 @@ print(res)
 # nodeIds: 3
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
 - [drop_collection()](./utility-drop_collection)
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop() | Python | ORM"
 slug: /python/python/Role-drop
 sidebar_label: "drop()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation drops an existing role. The operation will succeed if the specified role exists. Otherwise, this operation will fail. | Python | ORM"
+description: "此操作会删除现有角色。如果指定的角色存在，则该操作将成功。否则，此操作将失败。 | Python | ORM"
 type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,33 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # drop()
 
-This operation drops an existing role. The operation will succeed if the specified role exists. Otherwise, this operation will fail.
+此操作会删除现有角色。如果指定的角色存在，则该操作将成功。否则，此操作将失败。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 drop()
 ```
 
-**PARAMETERS:**
+**参数：**
 
-N/A
+不适用
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 *None*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Role, utility
@@ -86,9 +86,9 @@ roles = utility.list_roles(include_user_info=True)
 # - RoleItem: <role_name:public>, <users:()>
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `drop()`:
+以下操作与 `drop()` 相关：
 
 - [add_user()](./Role-add_user)
 

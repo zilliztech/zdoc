@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_collection() | Python | MilvusClient"
 slug: /python/python/Collections-drop_collection
 sidebar_label: "drop_collection()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation drops a collection. | Python | MilvusClient"
+description: "此操作会删除一个集合。 | Python | MilvusClient"
 type: docx
-token: QNB4d2q2ZorIApxpnzqczW2HnL7
+token: HZByd7LqQoiorTxCgyrcu3VUnof
 sidebar_position: 11
 keywords: 
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,68 +31,88 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection()
 
-This operation drops a collection.
+此操作会删除一个集合。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+此方法适用于专用服务集群和按需计算。 
+
+- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
-drop_collection(collection_name: str) -> None
+drop_collection(
+    collection_name: str,
+    timeout: Optional[float] = None,
+    **kwargs,
+) -> None
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
-## Examples
+- **timeout** (*Optional[float]*) -
+
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+
+**返回类型：**
+
+*NoneType*
+
+**返回：**
+
+无
+
+**异常：**
+
+- **MilvusException**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
-# 2. Create a collection
+# Create a collection
 client.create_collection(
     collection_name="test_collection",
     dimension=5
 )
 
-# 3. List collections
-res = client.list_collections() 
-
+# List collections
+res = client.list_collections()
 # ['test_collection']
 
-# 4. Drop the collection
+# Drop the collection
 client.drop_collection(collection_name="test_collection")
 
-# 5. List collections
-res = client.list_collections() 
-
+# Verify
+res = client.list_collections()
 # []
 ```
-
-## Related methods
-
-- [create_collection()](./Collections-create_collection)
-
-- [create_schema()](./Collections-create_schema)
-
-- [describe_collection()](./Collections-describe_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [has_collection()](./Collections-has_collection)
-
-- [list_collections()](./Collections-list_collections)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- [DataType](./Collections-DataType)
-

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "set_properties() | Python | ORM"
 slug: /python/python/Collection-set_properties
 sidebar_label: "set_properties()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation sets properties for the collection. | Python | ORM"
+description: "此操作为集合设置属性。 | Python | ORM"
 type: docx
 token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
 sidebar_position: 27
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - set_properties()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # set_properties()
 
-This operation sets properties for the collection.
+此操作为集合设置属性。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 set_properties(
@@ -43,33 +43,33 @@ set_properties(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **properties** (dict) -
 
-    A set of collection properties in the form of a dictionary. Currently, you can set the following properties:
+    以字典形式提供的一组集合属性。目前，您可以设置以下属性：
 
     - **collection.ttl.seconds**
 
-        Once this property is set, data in the current collection expires in the specified time. Expired data in the collection will be cleaned up and will not be involved in searches or queries.
+        设置此属性后，当前集合中的数据会在指定时间后过期。集合中的过期数据将被清理，且不会参与搜索或查询。
 
     - **mmap.enabled**
 
-        Whether to enable memory-mapped storage at the collection level. For more information, refer to [Configure memory mapping](https://milvus.io/docs/mmap.md#Configure-memory-mapping).
+        是否在集合级别启用内存映射存储。更多信息，请参阅[配置内存映射](https://milvus.io/docs/mmap.md#Configure-memory-mapping)。
 
 - **timeout** (*float*)  -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -93,9 +93,9 @@ collection.set_properties(
 )
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `insert()`:
+以下操作与 `insert()` 相关：
 
 - [describe()](./Collection-describe)
 

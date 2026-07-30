@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_roles() | Python | ORM"
 slug: /python/python/utility-list_roles
 sidebar_label: "list_roles()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation lists the information about all existing roles. | Python | ORM"
+description: "此操作列出所有现有角色的信息。 | Python | ORM"
 type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_roles()
 
-This operation lists the information about all existing roles.
+此操作列出所有现有角色的信息。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 list_roles(
@@ -43,31 +43,31 @@ list_roles(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **include_user_info** (*bool*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Whether Zilliz Cloud lists users associated with the listed roles.
+    Zilliz Cloud 是否列出与所列角色关联的用户。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *RoleInfo*
 
-**RETURNS:**
+**返回：**
 
-A **RoleInfo** object that contains a list of **RoleItem** objects.
+一个 **RoleInfo** 对象，其中包含一个由 **RoleItem** 对象组成的列表。
 
 ```python
 ├── RoleInfo
@@ -77,28 +77,28 @@ A **RoleInfo** object that contains a list of **RoleItem** objects.
 │           ├── users
 ```
 
-A **RoleItem** object contains the following fields:
+**RoleItem** 对象包含以下字段：
 
 - **role_name** (*str*)
 
-    The name of the role.
+    角色名称。
 
 - **users** (*str*)
 
-    The users to whom the role is granted to.
+    被授予该角色的用户。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, Role, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a user
@@ -122,9 +122,9 @@ utility.list_roles(include_user_info=True)
 # - RoleItem: <role_name:public>, <users:()>
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_roles()`
+以下操作与 `list_roles()` 相关：
 
 - [Role](./ORM-Role)
 

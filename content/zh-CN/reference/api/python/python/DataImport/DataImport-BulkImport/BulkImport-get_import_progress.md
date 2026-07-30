@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_import_progress() | Python"
 slug: /python/python/BulkImport-get_import_progress
 sidebar_label: "get_import_progress()"
-added_since: Inherit
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: Inherit
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation gets the progress of the specified bulk-import job. | Python"
+description: "此函数返回批量导入任务的当前状态，包括云项目数据库中按项目/区域范围限定的任务。 | Python"
 type: docx
-token: MkWNdU1tvoqlBRxI05Rcu09cnEc
+token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - get_import_progress()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,250 +31,104 @@ import Admonition from '@theme/Admonition';
 
 # get_import_progress()
 
-This operation gets the progress of the specified bulk-import job.
+此函数返回批量导入任务的当前状态，包括云项目数据库中按项目/区域范围限定的任务。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
-pymilvus.get_import_progress(
+get_import_progress(
     url: str,
-    api_key: str,
     job_id: str,
-    cluster_id: str,
+    cluster_id: str = "",
+    project_id: str = "",
+    region_id: str = "",
+    api_key: str = "",
+    db_name: str = "",
+    
+    project_id: str = "",
+    region_id: str = "",
+    
+    verify: bool | str = True,
+    cert: str | tuple | None = None,
+    **kwargs,
 )
 ```
 
-```python
-pymilvus.get_import_progress(
-    url: str,
-    job_id: str,
-)
-```
+**参数：**
 
-**PARAMETERS:**
+- **url** (*str*) -
 
-- **url** (*string*) -
+    **[必填]**
 
-    **[REQUIRED]**
+    批量导入 API 的服务器端点。
 
-    The endpoint URL of your Zilliz Cloud cluster. 
+- **job_id** (*str*) -
 
-    For example, the endpoint URL should be in the following format:
+    **[必填]**
 
-    ```python
-    https://api.cloud.zilliz.com
-    # https://api.cloud.zilliz.com.cn 
-    ```
+    `bulk_import()` 返回的导入任务 ID。
 
-    Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
+- **cluster_id** (*str*) -
 
-- **api_key** (*string*) -
+    云集群 ID。
 
-    **[REQUIRED]**
+- **api_key** (*str*) -
 
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
+    用于云身份验证的 API 密钥。
 
-- **job_id** (*string*) -
+- **db_name** (*str*) -
 
-    **[REQUIRED]**
+    用于请求路由的数据库名称。
 
-    The ID of the bulk-import job of your interest. 
+- **project_id** (*str*) -
 
-    The **bulk_import()** operation usually returns a job ID. You can also call **list-import-jobs()** to get the IDs of all bulk-import jobs related to the specific cluster.
+    有效的 Zilliz Cloud 项目 ID。 
 
-- **cluster_id** (*string*) -
+    当你将数据批量导入到按需计算的数据库时适用。
 
-    **[REQUIRED]**
+- **region_id** (*str*) -
 
-    The instance ID of the target cluster of this operation.
+    有效的 Zilliz Cloud 区域 ID。
 
-    You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
+    当你将数据批量导入到按需计算的数据库时适用。
 
-**RETURN TYPE:**
+- **verify** (*bool | str*) -
 
-*dict*
+    TLS 验证设置。
 
-**RETURNS:**
+- **cert** (*str | tuple*) -
 
-- Response syntax
+    客户端证书路径或 `(cert, key)` 元组。
 
-    ```python
-    # {
-    #     "code": "integer",
-    #     "data": {
-    #         "collectionName": "string",
-    #         "fileSize": "interger",
-    #         "jobId": "string",
-    #         "state": "string",
-    #         "progress": "integer",
-    #         "reason": "string",
-    #         "importedRows": "integer",
-    #         "totalRows": "integer",
-    #         "completeTime": "string",
-    #         "details":[
-    #             {
-    #                 "fileName": "string",
-    #                 "fileSize": "integer",
-    #                 "state": "string",
-    #                 "progress": "integer",
-    #                 "reason": "string",
-    #                 "importedRows": "integer",
-    #                 "totalRows": "integer",
-    #                 "completeTime": "string"
-    #             },
-    #             ...
-    #         ]
-    #     }
-    # }
-    ```
+- **project_id** (*str*) -
 
-- Response structure
+    附加的 HTTP 请求选项。
 
-    - **collectionName** (*string*) -
+**返回类型：**
+*requests.Response*
 
-        The name of the target collection.
+返回当前导入任务进度的负载。
 
-    - **fileSize** (*string*) -
+**异常：**
 
-        The size of the currently processed data file in bytes.
+- **MilvusException**
 
-    - **jobId** (*string*) -
+    当进度查询失败时引发。
 
-        The ID of the current bulk-import job of your interests.
-
-    - **state** (*string*) - 
-
-        The current state of this job. Possible values are as follows:
-
-        - **Pending**: The tasks are awaiting scheduling and execution;
-
-        - **Importing**: The tasks are currently being executed;
-
-        - **Completed**: The tasks have been successfully completed;
-
-        - **Failed**: The tasks encountered a failure.
-
-    - **progress** (*int*) -
-
-        The progress of the current operation in floats. 
-
-        The value ranges from `0` to `1`, and stays at `1` when this operation completes.
-
-    - **reason** (*string*) -
-
-        The reason for any errors that occur.
-
-    - **importRows** (*int*) -
-
-        The number of entities already imported. 
-
-    - **totalRows** (*int*) -
-
-        The total number of entities to import. 
-
-    - **completeTime** (*string*) -
-
-        The time at which this operation is completed.
-
-        The time is displayed in the format of `XXXX-XX-XXTXX:XX:XXZ`.
-
-    - **details** (*array*) -
-
-        - **fileName** (*string*) -
-
-            The name of a data file.
-
-        - **fileSize** (*int*) -
-
-            The size of this data file.
-
-        - **state** (*string*) - 
-
-            The current state of importing this file. Possible values are as follows:
-
-            - **Pending**: The tasks are awaiting scheduling and execution;
-
-            - **Importing**: The tasks are currently being executed;
-
-            - **Completed**: The tasks have been successfully completed;
-
-            - **Failed**: The tasks encountered a failure.
-
-        - **progress** (*int*) -
-
-            The bulk-import progress of this data file.
-
-        - **reason** (*string*) -
-
-            The reason for any errors that occur during importing this file.
-
-        - **importRows** (*int*) -
-
-            The number of entities already imported from this file. 
-
-        - **totalRows** (*int*) -
-
-            The total number of entities to import from this file. 
-
-        - **completeTime** (*string*) -
-
-            The time at which this data file has been imported.
-
-**EXCEPTIONS:**
-
-None
-
-## Examples
+## 示例\{#examples}
 
 ```python
-import json
 from pymilvus.bulk_writer import get_import_progress
 
-## Zilliz Cloud constants
-CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com.cn"
-CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
-API_KEY = ""
-
-# Get bulk-insert job progress
 resp = get_import_progress(
-    api_key=API_KEY,
-    url=CLOUD_API_ENDPOINT,
-    cluster_id=CLUSTER_ID,
-    job_id="job-01fa0e5d42cjxudhpuehyp",
+    url="https://api.cloud.zilliz.com",
+    api_key="YOUR_API_KEY",
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    job_id="448996221577371648",
+    db_name="book_db",
 )
 
-print(json.dumps(resp.json(), indent=4))
-
-# Output
-#
-# {
-#     "code": 200,
-#     "data": {
-#         "collectionName": "medium_articles",
-#         "fileName": "folder/1/",
-#         "fileSize": 26571700,
-#         "readyPercentage": 1,
-#         "completeTime": "2023-10-28T06:51:49Z",
-#         "errorMessage": null,
-#         "jobId": "job-01fa0e5d42cjxudhpuehyp",
-#         "details": [
-#             {
-#                 "fileName": "folder/1/",
-#                 "fileSize": 26571700,
-#                 "readyPercentage": 1,
-#                 "completeTime": "2023-10-28T06:51:49Z",
-#                 "errorMessage": null
-#             }
-#         ]
-#     }
-# }
+print(resp.json())
 ```
-
-For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
-
-## Related methods
-
-- [bulk_import()](./BulkImport-bulk_import)
-
-- [list_import_jobs()](./BulkImport-list_import_jobs)
 

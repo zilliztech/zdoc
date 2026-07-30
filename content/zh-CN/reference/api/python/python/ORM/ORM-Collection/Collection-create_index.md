@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_index() | Python | ORM"
 slug: /python/python/Collection-create_index
 sidebar_label: "create_index()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This creates a named index for a target field, which can either be a vector field or a scalar field. | Python | ORM"
+description: "为目标字段创建一个命名索引，该字段可以是向量字段，也可以是标量字段。 | Python | ORM"
 type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # create_index()
 
-This creates a named index for a target field, which can either be a vector field or a scalar field.
+为目标字段创建一个命名索引，该字段可以是向量字段，也可以是标量字段。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This operation is non-blocking. You can call <code>utility.wait_for_index_building_complete()</code> to block the current process.</p>
+此操作为非阻塞操作。你可以调用 `utility.wait_for_index_building_complete()` 来阻塞当前进程。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 create_index(
@@ -49,53 +49,53 @@ create_index(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **field_name** (*string*) -
 
-    The name of the field for which an index is to be created.
+    要为其创建索引的字段名称。
 
 - **index_params** (*dict*) - 
 
-    The parameters that apply to the index-building process.
+    适用于索引构建过程的参数。
 
     - **index_type** (string) -
 
-        The algorithm used to build the index.
+        用于构建索引的算法。
 
-        You should always use **AUTOINDEX** as the index type. Read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
+        你应始终使用 **AUTOINDEX** 作为索引类型。更多信息请参阅 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
     - **metric_type** (*string*) - 
 
-        The similarity metric type used to build the index.
+        用于构建索引的相似度度量类型。
 
-        Possible values are **L2**, **IP**, and **COSINE**. Read [Similarity Metrics Explained](/docs/search-metrics-explained) to get more.
+        可能的值包括 **L2**、**IP** 和 **COSINE**。更多信息请参阅 [Similarity Metrics Explained](/docs/search-metrics-explained)。
 
     - **params** (*dict*) -
 
-        Index-building parameters corresponding to the selected index type.
+        与所选索引类型对应的索引构建参数。
 
-        For details on applicable index-building parameters, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
+        有关适用的索引构建参数的详细信息，请参阅 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Status*
 
-**RETURNS:**
+**返回：**
 
-A **Status** object indicating whether this operation succeeds.
+一个 **Status** 对象，指示此操作是否成功。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -136,9 +136,9 @@ collection.create_index(
 collection.has_index() # True
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `create_index()`
+以下操作与 `create_index()` 相关：
 
 - [drop_index()](./Collection-drop_index)
 

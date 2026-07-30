@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "query_iterator() | Python | MilvusClient"
 slug: /python/python/Vector-query_iterator
 sidebar_label: "query_iterator()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation conducts a scalar filtering with a specified boolean expression in an iterative manner. | Python | MilvusClient"
+description: "此操作以迭代方式使用指定的布尔表达式执行标量过滤。 | Python | MilvusClient"
 type: docx
 token: L6i8dmvsBogcmIxtORsc1Mu0nhg
 sidebar_position: 5
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # query_iterator()
 
-This operation conducts a scalar filtering with a specified boolean expression in an iterative manner.
+此操作以迭代方式使用指定的布尔表达式执行标量过滤。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="说明">
+
+外部 collection 不支持此操作。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 query_iterator(
@@ -48,151 +54,154 @@ query_iterator(
 ) -> List[dict]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有 collection 的名称。
 
 - **batch_size** (*int*) -
 
-    The number of entities to return each iteration. The default value is 1000.
+    每次迭代返回的实体数量。默认值为 1000。
 
 - **limit** (*int*) -
 
-    The total number of entities to return. The parameter value should be less than 16,384. 
+    要返回的实体总数。该参数值应小于 16,384。 
 
 - **filter** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    A scalar filtering condition to filter matching entities. 
+    用于筛选匹配实体的标量过滤条件。 
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
+    你可以将此参数设置为空字符串以跳过标量过滤。有关如何构建标量过滤条件，请参见[过滤概述](/docs/filtering-overview)。 
 
 - **output_fields** (*list[str]* | *None*) -
 
-    A list of field names to include in each entity in return.
+    返回的每个实体中要包含的字段名称列表。
 
-    The value defaults to **None**.
+    默认值为 **None**。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <ul>
-    <li><p>Setting this as <code>output_fields=["\*"]</code> outputs all fields.</p></li>
-    <li><p>Setting this as <code>output_fields=["count(\*)"]</code> outputs the loaded entities that match the conditions specified in the <strong>filter</strong> argument. </p></li>
-    </ul>
+    - 将其设置为 `output_fields=["\*"]` 可输出所有字段。
+    
+    - 将其设置为 `output_fields=["count(\*)"]` 可输出与 **filter** 参数中指定条件匹配的已加载实体数量。 
 
     </Admonition>
 
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    A list of partition names.
+    partition 名称列表。
 
-    The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+    默认值为 **None**。如果指定，则只有指定的 partitions 会参与查询。
 
 - **kwargs** -
 
     - **consistency_level** (*str* | *int*) -
 
-        The consistency level of the target collection.
+        目标 collection 的一致性级别。
 
-        The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+        默认值为你创建当前 collection 时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        什么是一致性级别？
+        
+                在分布式数据库中，一致性特指这样一种属性：在给定时间写入或读取数据时，确保每个节点或副本看到的数据视图相同。
+        
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
+        
+                在执行向量相似性搜索或查询时，你可以轻松调整一致性级别，使其最适合你的应用。
 
         </Admonition>
 
     - **guarantee_timestamp** (*int*) -
 
-        A valid timestamp. 
+        一个有效的时间戳。 
 
-        If this parameter is set,  executes the query only if all entities inserted before this timestamp are visible to query nodes. 
+        如果设置了此参数，则仅当在该时间戳之前插入的所有实体都对查询节点可见时，才会执行查询。 
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>This parameter is valid when the default consistency level applies.</p>
+        当使用默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        A period of time in seconds.
+        以秒为单位的一段时间。
 
-        The value defaults to **5**. If this parameter is set,  calculates the guarantee timestamp by subtracting this from the current timestamp.
+        默认值为 **5**。如果设置了此参数，则通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="说明">
 
-        <p>This parameter is valid when a consistency level other than the default one applies.</p>
+        当使用非默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **offset** (*int*) -
 
-        The number of records to skip in the query result. 
+        查询结果中要跳过的记录数。 
 
-        You can use this parameter in combination with `limit` to enable pagination.
+        你可以将此参数与 `limit` 结合使用以实现分页。
 
-        The sum of this value and `limit` should be less than 16,384. 
+        此值与 `limit` 的总和应小于 16,384。 
 
     - **limit** (*int*) -
 
-        The number of records to return in the query result.
+        查询结果中要返回的记录数。
 
-        You can use this parameter in combination with `offset` to enable pagination.
+        你可以将此参数与 `offset` 结合使用以实现分页。
 
-        The sum of this value and `offset` should be less than 16,384. 
+        此值与 `offset` 的总和应小于 16,384。 
 
-**RETURN TYPE:**
+**返回类型：**
 
 *QueryIterator*
 
-**RETURNS:**
+**返回：**
 
-A **QueryIterator** instance that provides the following methods:
+一个 **QueryIterator** 实例，提供以下方法：
 
 - `next()`
 
-    This method returns a batch of entities iteratively. Each time you call it, a new set of entities is returned until the last entity is retrieved.
+    此方法以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到检索到最后一个实体为止。
 
 - `close()`
 
-    This method closes the current **QueryIterator** instance.
+    此方法关闭当前 **QueryIterator** 实例。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>If the number of returned entities is less than expected, duplicate entities may exist in your collection.</p>
+如果返回的实体数量少于预期，则你的 collection 中可能存在重复实体。
 
 </Admonition>
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    This exception will be raised when a parameter value doesn't match the required data type.
+    当参数值与所需数据类型不匹配时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 

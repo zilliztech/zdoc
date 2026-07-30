@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "do_bulk_insert() | Python | ORM"
 slug: /python/python/utility-do_bulk_insert
 sidebar_label: "do_bulk_insert()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation bulk-inserts data from specified files. | Python | ORM"
+description: "此操作从指定文件中批量插入数据。 | Python | ORM"
 type: docx
 token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - do_bulk_insert()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # do_bulk_insert()
 
-This operation bulk-inserts data from specified files.
+此操作从指定文件中批量插入数据。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 do_bulk_insert(
@@ -46,81 +46,85 @@ do_bulk_insert(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the target collection of this operation.
+    此操作目标集合的名称。
 
 - **files** (*list[str]*) -
 
     **[REQUIRED]**
 
-    A list of paths to the files that contain the source data. 
+    包含源数据的文件路径列表。
 
-    <Admonition type="info" icon="📘" title="How can I prepare the source data files?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <ul>
-    <li><p>You can include a JSON file (<em>.json</em>) or a set of NumPy files (<em>.npy</em>) as the source data files.</p></li>
-    <li><p>A valid JSON file has a root key named <strong>rows</strong>, which is a list of dictionaries with each representing an entity that matches the schema of the target collection.</p></li>
-    </ul>
-    <p>If the target collection allows dynamic fields, include the dynamic fields and their values in each entity dictionary.</p>
-    <ul>
-    <li>A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions. </li>
-    </ul>
-    <p>If the target collection allows dynamic fields, create an extra file named <strong>&#36;meta.npy</strong> to include the dynamic fields and their values.</p>
-    <p>For details on preparing the source data files, refer to <a href="https://milvus.io/docs/bulk_insert.md">Insert Entities from Files</a>.</p>
-    <ul>
-    <li>You have to upload the source data files to the bucket defined by <code>minio.bucketname</code> in your Milvus configuration before running this operation. </li>
-    </ul>
-    <p>Let's take a Milvus instance set up using Docker Compose as an example, and the bucket name is <code>a-bucket</code>.</p>
-    <ul>
-    <li><p>If you upload the source data files to this bucket, you should include only the file names with extensions in the <strong>files</strong> list. For example, <code>files=["id.npy", "vector.npy"]</code> or <code>files=["data.json"]</code>.</p></li>
-    <li><p>If you upload the source data files to a sub-directory in this bucket, you should include the file paths relative to the bucket. For example, if the sub-directory is <code>data</code>, the parameter settings should be <code>files=["data/id.npy", "data/vector.py"]</code> or <code>files=["data.json"]</code>.</p></li>
-    <li><p>To find the name of the MinIO bucket your Milvus instance uses, simply log into the MinIO server and find out. </p></li>
-    </ul>
+    如何准备源数据文件？
+    
+        - 你可以使用一个 JSON 文件 (*.json*) 或一组 NumPy 文件 (*.npy*) 作为源数据文件。
+    
+            - 有效的 JSON 文件包含一个名为 **rows** 的根键，其值为字典列表，其中每个字典表示一个与目标集合 schema 匹配的实体。
+    
+                如果目标集合允许动态字段，请在每个实体字典中包含动态字段及其值。
+    
+            - 一组有效的 NumPy 文件应以目标集合 schema 中的字段名命名，并且其中的数据应与对应字段定义匹配。
+    
+                如果目标集合允许动态字段，请额外创建一个名为 **&#36;meta.npy** 的文件来包含动态字段及其值。
+    
+            有关如何准备源数据文件的详细信息，请参阅 [通过文件插入实体](https://milvus.io/docs/bulk_insert.md)。
+    
+        - 在运行此操作之前，你必须先将源数据文件上传到 Milvus 配置中 `minio.bucketname` 所定义的 bucket。
+    
+            以使用 Docker Compose 部署的 Milvus 实例为例，bucket 名称为 `a-bucket`。
+    
+            - 如果你将源数据文件上传到该 bucket 中，则应在 **files** 列表中仅填写带扩展名的文件名。例如，`files=["id.npy", "vector.npy"]` 或 `files=["data.json"]`。
+    
+            - 如果你将源数据文件上传到该 bucket 的某个子目录中，则应填写相对于 bucket 的文件路径。例如，如果子目录为 `data`，则参数应设置为 `files=["data/id.npy", "data/vector.py"]` 或 `files=["data.json"]`。
+    
+        - 要查找你的 Milvus 实例所使用的 MinIO bucket 名称，只需登录到 MinIO 服务器查看即可。
 
     </Admonition>
 
 - **partition_name** (*str*) -
 
-    The name of a partition in the specified collection.
+    指定集合中某个分区的名称。
 
-    Setting this makes Milvus bulk-insert the data into the specified partition.
+    设置此参数后，Milvus 会将数据批量插入到指定分区中。
 
-    Setting this to the name of a partition that does not exist results in a **MilvusException**.
+    如果将此参数设置为不存在的分区名称，将导致 **MilvusException**。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *int*
 
-**RETURNS:**
-A bulk-insert task ID.
+**返回值：**
+一个批量插入任务 ID。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Bulk-insert data from a set of NumPy files already uploaded to the MioIO server
@@ -140,9 +144,9 @@ utility.do_bulk_insert(
 # 446781855410077319
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `do_bulk_insert()`:
+以下操作与 `do_bulk_insert()` 相关：
 
 - [BulkInsertState](./utility-BulkInsertState)
 

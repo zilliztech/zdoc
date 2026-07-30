@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_resource_group() | Python | ORM"
 slug: /python/python/utility-create_resource_group
 sidebar_label: "create_resource_group()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation creates a new resource group. | Python | ORM"
+description: "此操作用于创建新的资源组。 | Python | ORM"
 type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
+  - Dense embedding
   - Faiss vector database
   - Chroma vector database
   - nlp search
-  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - create_resource_group()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,17 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # create_resource_group()
 
-This operation creates a new resource group. 
+此操作用于创建新的资源组。
 
-<Admonition type="info" icon="📘" title="What is a resource group?">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>A resource group can hold several or all of the query nodes in a Zilliz Cloud cluster. When you load a collection by calling load(), Zilliz Cloud loads the data of the collection into certain query nodes.</p>
-<p>There is a default resource group named <strong>_<em>default</em>resource_group</strong> available in every Zilliz Cloud cluster that holds all its query nodes. </p>
-<p>Use <strong>describe<em>resource</em>group()</strong> to check the actual number. If there are multiple query nodes available, consider creating resource groups and distributing the query nodes among them.</p>
+什么是资源组？
+
+资源组可以容纳 Zilliz Cloud 集群中的部分或全部查询节点。当您通过调用 load() 加载集合时，Zilliz Cloud 会将该集合的数据加载到某些查询节点中。
+
+每个 Zilliz Cloud 集群中都有一个名为 **__default_resource_group** 的默认资源组，它包含该集群的所有查询节点。
+
+使用 **describe_resource_group()** 查看实际数量。如果有多个可用的查询节点，可以考虑创建资源组并在它们之间分配查询节点。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 create_resource_group(
@@ -52,33 +56,33 @@ create_resource_group(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the resource group to create.
+    要创建的资源组名称。
 
-    Setting this to the name of an existing resource group results in a **MilvusException**.
+    如果将其设置为现有资源组的名称，将导致抛出 **MilvusException**。
 
 - **using** (*str*) - 
 
-    The alias of the employed connection.
+    所使用连接的别名。
 
-    The default value is **default**, indicating that this operation employs the default connection.
+    默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
 - **kwargs**
 
-    Optional parameters. Currently, you can set **config** to specify the configuration of the resource group.
+    可选参数。目前，您可以设置 **config** 以指定资源组的配置。
 
     - **config** (*ResourceGroupConfig*) -
 
-        A ResourceGroupConfig object that represents the configuration of the resource group.
+        表示资源组配置的 ResourceGroupConfig 对象。
 
         ```python
         ├── ResourceGroupConfig
@@ -90,36 +94,36 @@ create_resource_group(
 
         - **requests** (*dict*) -
 
-            A dictionary specifying the number of query nodes that the resource group should hold. This key should include:
+            指定资源组应持有的查询节点数量的字典。此键应包含：
 
-            - **node_num** (*int*) - The number of query nodes requested for the resource group.
+            - **node_num** (*int*) - 为资源组请求的查询节点数量。
 
         - **limits** (*dict*) -
 
-            A dictionary specifying the maximum number of query nodes that the resource group can hold. This key should include:
+            指定资源组可持有的最大查询节点数量的字典。此键应包含：
 
-            - **node_num** (*int*) - The maximum number of query nodes allowed for the resource group.
+            - **node_num** (*int*) - 资源组允许持有的最大查询节点数量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *NoneType*
 
-**RETURNS:**
+**返回：**
 
 None
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a resource group
@@ -141,12 +145,11 @@ try:
     print(f'Succeeded in creating resource group {name}.')
 except Exception:
     print(f'Failed to create resource group {name}.')
-
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `create_resource_group()`:
+以下操作与 `create_resource_group()` 相关：
 
 - [describe_resource_group()](./utility-describe_resource_group)
 

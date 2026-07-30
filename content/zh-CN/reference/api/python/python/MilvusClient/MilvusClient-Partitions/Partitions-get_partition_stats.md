@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_partition_stats() | Python | MilvusClient"
 slug: /python/python/Partitions-get_partition_stats
 sidebar_label: "get_partition_stats()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation displays the statistics collected on a specific partition. | Python | MilvusClient"
+description: "此操作显示在特定分区上收集的统计信息。 | Python | MilvusClient"
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - 什么是向量数据库
+  - vectordb
+  - 多模态向量数据库检索
+  - 检索增强生成
   - zilliz
   - zilliz cloud
   - cloud
   - get_partition_stats()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # get_partition_stats()
 
-This operation displays the statistics collected on a specific partition.
+此操作显示在特定分区上收集的统计信息。
 
-## Request syntax
+<Admonition type="info" icon="📘" title="注意">
+
+这仅适用于托管集合。
+
+</Admonition>
+
+## 请求语法\{#request-syntax}
 
 ```python
 get_partition_stats(
@@ -43,33 +49,33 @@ get_partition_stats(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **partition_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing partition.
+    现有分区的名称。
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *dict*
 
-**RETURNS:**
+**返回：**
 
-A dictionary that contains the row count in the specified partition.
+一个包含指定分区中行数的字典。
 
 ```python
 {
@@ -77,27 +83,28 @@ A dictionary that contains the row count in the specified partition.
 }
 ```
 
-<Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
+<Admonition type="info" icon="📘" title="**为什么行数与插入的实体数量不一致？**">
 
-<p>The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
-<p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>
+你插入的数据在最终保存之前会经历一个处理过程。最初，它会以数据流的形式流入。然后，它会作为实体存储在 segments 中。Milvus 会选择一个合适的 growing segment 来以流的形式存储这些数据，直到该 segment 达到上限并变为 sealed。
+
+不过，需要注意的是，显示的行数可能与插入的记录数不一致，因为流式数据不会被计算在内。
 
 </Admonition>
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```python
 from pymilvus import MilvusClient
 
 # 1. Create a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530",
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
     token="user:password"
 )
 
@@ -136,10 +143,9 @@ client.get_partition_stats(
 )
 
 # { 'row_count': 0 }
-
 ```
 
-## Related methods
+## 相关方法\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

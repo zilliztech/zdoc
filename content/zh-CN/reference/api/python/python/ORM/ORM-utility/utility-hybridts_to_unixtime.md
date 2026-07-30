@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "hybridts_to_unixtime() | Python | ORM"
 slug: /python/python/utility-hybridts_to_unixtime
 sidebar_label: "hybridts_to_unixtime()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation converts a hybrid timestamp to a UNIX epoch timestamp | Python | ORM"
+description: "此操作将混合时间戳转换为 UNIX 纪元时间戳 | Python | ORM"
 type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # hybridts_to_unixtime()
 
-This operation converts a hybrid timestamp to a UNIX epoch timestamp
+此操作将混合时间戳转换为 UNIX 纪元时间戳。
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 hybridts_to_unixtime(
@@ -41,24 +41,24 @@ hybridts_to_unixtime(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **hybridts** (*int*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A hybrid timestamp.
+    一个混合时间戳。
 
-    A hybrid timestamp is a non-negative integer ranging from **0** to **18446744073709551615**.
+    混合时间戳是一个非负整数，取值范围为 **0** 到 **18446744073709551615**。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *float*
 
-**RETURNS:**
-A UNIX epoch time, which is an integer that represents the time elapsed since January 1, 1970 (midnight UTC/GMT) in seconds.
+**返回：**
+一个 UNIX 纪元时间，即一个整数，表示自 1970 年 1 月 1 日（UTC/GMT 午夜）以来经过的秒数。
 
-## **Examples**
+## **示例**\{#examples}
 
 ```python
 import time
@@ -77,9 +77,9 @@ epoch2 = utility.hybridts_to_unixtime(ts)
 assert epoch1 == epoch2
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `hybridts_to_unixtime()`:
+以下操作与 `hybridts_to_unixtime()` 相关：
 
 - [mkts_from_datetime()](./utility-mkts_from_datetime)
 

@@ -1,14 +1,13 @@
 ---
-displayed_sidbar: pythonSidebar
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/MistralAIEmbeddingFunction-__call__
 sidebar_label: "__call__()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation in MistralAIEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
+description: "MistralAIEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: Z23IddhHhom7AyxDMXecLORVnDh
 sidebar_position: 4
@@ -21,9 +20,10 @@ keywords:
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-This operation in [MistralAIEmbeddingFunction](./EmbeddingModels-MistralAIEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
+[MistralAIEmbeddingFunction](./EmbeddingModels-MistralAIEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
-The **\_\_call\_\_()** method of MistralAIEmbeddingFunction shares the same functionality as [encode_documents()](./MistralAIEmbeddingFunction-encode_documents) and [encode_queries()](./MistralAIEmbeddingFunction-encode_queries).
+MistralAIEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./MistralAIEmbeddingFunction-encode_documents) 和 [encode_queries()](./MistralAIEmbeddingFunction-encode_queries) 具有相同的功能。
 
-## Request syntax
+## 请求语法\{#request-syntax}
 
 ```python
 # Instance created
@@ -48,27 +48,27 @@ ef(
 ) -> List[np.array]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **texts** (*List[str]*)
 
-    A list of string values, where each string represents text that will be passed to the embedding model for encoding. The model will generate an embedding vector for each string in the list.
+    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List[np.array]*
 
-**RETURNS:**
+**返回：**
 
-A list where each element is a NumPy array.
+一个列表，其中每个元素都是一个 NumPy 数组。
 
-**Exceptions:**
+**异常：**
 
 - **ValueError**
 
-    This exception will be raised when `api_key` is not provided and the `MISTRALAI_API_KEY` environment variable is also not set.
+    当未提供 `api_key` 且也未设置 `MISTRALAI_API_KEY` 环境变量时，将引发此异常。
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.dense import MistralAIEmbeddingFunction

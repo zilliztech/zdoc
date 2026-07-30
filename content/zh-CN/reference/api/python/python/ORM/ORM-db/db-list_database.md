@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_database() | Python | ORM"
 slug: /python/python/db-list_database
 sidebar_label: "list_database()"
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
-beta: NEAR DEPRECATE
 notebook: false
-description: "This operation returns a list of database names from the connected Milvus instance. | Python | ORM"
+description: "此操作返回已连接的 Milvus 实例中的数据库名称列表。 | Python | ORM"
 type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - list_database()
-  - pymilvus26
+  - pymilvus30
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_database()
 
-This operation returns a list of database names from the connected Milvus instance.
+此操作返回已连接的 Milvus 实例中的数据库名称列表。
 
 ```python
 list_database(
@@ -40,7 +40,7 @@ list_database(
 )
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```python
 from pymilvs import db
@@ -48,29 +48,29 @@ from pymilvs import db
 db.list_database()
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **using** (*string*) -
 
-    Alias of the connection. Defaults to **default**.
+    连接的别名。默认为 **default**。
 
 - **timeout** (*float* | *None*)
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List*
 
-**RETURNS:**
+**返回：**
 
-A list of database names.
+数据库名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
-None
+无
 
-## Examples
+## 示例\{#examples}
 
 ```python
 from pymilvus import connections, db
@@ -86,9 +86,9 @@ db.list_database()
 # ["default", "test"]
 ```
 
-## Related operations
+## 相关操作\{#related-operations}
 
-The following operations are related to `list_database()`:
+以下操作与 `list_database()` 相关：
 
 - [create_database()](./db-create_database)
 
