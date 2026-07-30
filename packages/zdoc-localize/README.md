@@ -74,7 +74,7 @@ zdoc-localize status --run <run-id> --format json
 
 The Codex Skill supplies `translations.json` from the CLI-generated translation requests. The user may edit only marked translation regions in `review.md` before approving the document-level apply.
 
-Lists and native tables are reviewed as immutable structure plus editable structured slots. List ordering, nesting, table dimensions, cell placement, inline-code tokens, links, and formatting topology are protected by a topology hash. Each slot is keyed by a stable path such as `item-0/text` or `row-1/cell-0/paragraph-0`; `translations.json` and `review.md` translate slot text without flattening the structure into Markdown blocks.
+Lists, native tables, and Callouts are reviewed as immutable structure plus editable structured slots. List ordering, nesting and continuation paragraphs, table dimensions/layout/cell placement, Callout presentation, inline-code tokens, links, and formatting topology are protected by a versioned topology hash. Each slot is keyed by a stable path such as `item-0/text`, `row-1/cell-0/paragraph-0`, or `callout/paragraph-0`; `translations.json` and `review.md` translate slot text without flattening the native structure.
 
 If a pair has no Chinese target, register `--target-parent-token`. The same planning and full-document review flow creates the Chinese document directly in Feishu, verifies it, updates the pair, and records the initial receipt.
 
@@ -94,13 +94,13 @@ zdoc-localize recover accept-current --run <run-id> --format json
 zdoc-localize recover finalize --run <run-id> --format json
 ```
 
-`recover inspect` compares the current Engine snapshot with the immutable prepared batch, pre-write snapshot, and verified operation journal. It also validates exact manual synced-reference replacements and independently checks Whiteboard hashes. Engine recovery can report `reverse_possible`, `resume_possible`, or `manual_inspection_required`; Engine `0.2.0` has no safe resume/rebase API, so `resume_possible` is inspection-only and never creates a write token. A reverse patch is available only from a safe Engine assessment and requires its own current-snapshot-bound batch fingerprint and approval token. Whiteboard reverse operations restore the durable pre-write raw snapshot and verify its canonical hash. Receipt persistence failures after verified writes can be completed idempotently with `recover finalize`.
+`recover inspect` compares the current Engine snapshot with the immutable prepared batch, pre-write snapshot, and verified operation journal. It also validates exact manual synced-reference replacements and independently checks Whiteboard hashes. Engine recovery can report `reverse_possible`, `resume_possible`, or `manual_inspection_required`; Engine `0.2.0` and `0.2.1` have no safe resume/rebase API, so `resume_possible` is inspection-only and never creates a write token. A reverse patch is available only from a safe Engine assessment and requires its own current-snapshot-bound batch fingerprint and approval token. Whiteboard reverse operations restore the durable pre-write raw snapshot and verify its canonical hash. Receipt persistence failures after verified writes can be completed idempotently with `recover finalize`.
 
 Historical receipts are migrated at the next plan boundary by rebinding their legacy XML identities to current Engine snapshots. Unchanged legacy receipts can advance without a document write; ambiguous correspondences or revision drift fail closed. Unapplied legacy reviews must be regenerated. Existing legacy partial runs remain inspectable, and a lossless legacy reverse is compiled into a separately previewed Engine batch instead of reviving the retired compatibility writer.
 
 ## Version compatibility
 
-CLI `0.2.x` is compatible with Skill `1.1.0` and uses the exact `feishu-docx-engine 0.2.0` schema-v2 contract. Validate the checked-in pairing with:
+CLI `0.2.1` is compatible with Skill `1.2.0` and uses the exact `feishu-docx-engine 0.2.1` schema-v2 contract. Validate the checked-in pairing with:
 
 ```bash
 node scripts/check-zdoc-localize-skill-compat.mjs

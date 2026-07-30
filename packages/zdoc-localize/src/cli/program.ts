@@ -12,7 +12,7 @@ import {asLocalizeError, LocalizeError, toErrorEnvelope} from '../domain/errors.
 import type {DocumentMode, RunRecord} from '../domain/model.js';
 import {ConfigStore, type WorkspaceConfig} from '../storage/config-store.js';
 
-export const CLI_VERSION = '0.2.0';
+export const CLI_VERSION = '0.2.1';
 export const SCHEMA_VERSION = 1;
 
 export interface CliResult {
@@ -50,6 +50,7 @@ const features = [
   'docx-engine-v1',
   'structured-list-localization-v1',
   'native-table-localization-v1',
+  'native-callout-localization-v1',
 ] as const;
 
 class MemoryIo {

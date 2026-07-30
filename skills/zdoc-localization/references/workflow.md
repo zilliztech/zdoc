@@ -4,7 +4,7 @@
 
 Each item in `translation-requests.json` contains an immutable `operationId`, change kind, English before/after text, current Chinese, section context, approved glossary terms, translation-memory examples, protected tokens, link mappings, link warnings, and target node kind. Present every link warning during review; never invent a Chinese anchor.
 
-For lists and native tables, the request contains an immutable topology hash and editable structured slots instead of one flattened text field. Slot IDs are stable structural paths such as `item-0/text` and `row-1/cell-0/paragraph-0`. Each slot carries its own source text, current Chinese, protected inline tokens, and translation-memory suggestions. Return every requested slot exactly once; do not change list nesting/order, table rows/columns/cell placement, code tokens, links, or inline formatting topology.
+For lists, native tables, and Callouts, the request contains a topology version, immutable topology hash, and editable structured slots instead of one flattened text field. Slot IDs are stable paths such as `item-0/text`, `item-0/child-0/paragraph-0`, `row-1/cell-0/paragraph-0`, and `callout/paragraph-0`. Each slot carries its own source text, current Chinese, protected inline tokens, and translation-memory suggestions. Return every requested slot exactly once; preserve list order/continuations, table layout and cell placement, Callout presentation, code tokens, links, and rich inline formatting.
 
 ## Translation response output
 
@@ -29,7 +29,7 @@ For delete:
 }
 ```
 
-For a list or native table:
+For a list, native table, or Callout:
 
 ```json
 {
@@ -37,11 +37,11 @@ For a list or native table:
   "slots": [
     {"slotId": "<exact slotId>", "translatedText": "审核前的建议中文"}
   ],
-  "targetNodeKind": "list"
+  "targetNodeKind": "callout"
 }
 ```
 
-Use Markdown only for inline formatting that must survive review, such as `` `code` ``, `**bold**`, and `[visible text](URL)`. Keep URLs unchanged unless the request supplies a registered Chinese link mapping.
+Use Markdown only for inline formatting that must survive review, such as `` `code` ``, `**bold**`, `[visible text](URL)`, and link-wrapped combinations such as [`inline-code`](URL). Keep URLs unchanged unless the request supplies a registered Chinese link mapping.
 
 ## Command sequence
 

@@ -12,11 +12,11 @@ const expected = {
   pnpm: '10.11.0',
   npm: '11.18.0',
   larkCli: 'lark-cli version 1.0.73',
-  packageVersion: '0.2.0',
-  sha1: 'f6e21188aea88952d0c2c2ae3d36f3b79369e35d',
-  sha256: '74d66198476bb69dfcb78398bcabe381e8593b2d46d8f33af2bf915368ff475c',
-  integrity: 'sha512-iykpK+U8mKaEE2KXI1myS20Rj6GSb9jCJDwZi8diHXF/ARv9A3JBmn9SkdSK88NF+JAGEOsJdmDoppDnUBMkCg==',
-  skillSha256: 'd5d6b46f8eb1fd96a0f2ca515d3760d45079b7d6d6ea9796b02f0ce29c004f53',
+  packageVersion: '0.2.1',
+  sha1: 'c8c588a318e7d7b65ee58a6c4f1ee3568676ae76',
+  sha256: '46e2f24e19e8edda1ac8d75351bf24abfdbe6ba0a1a942c4b288a085bb0ee11a',
+  integrity: 'sha512-Ib95OEsWSKdaAJ+tWDJXqr7aG/UcXtD3aNboJ7v3iMRMrZKMnY6g3DdRkKJ63IvnwuqTIzjk82dADjxugmWx8A==',
+  skillSha256: 'cc4f433b8ef732be7d740db12239331d8f5e34c11de1aff3604660d73d4baad6',
 };
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');

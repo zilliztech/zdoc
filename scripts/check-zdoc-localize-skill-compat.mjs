@@ -1,6 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {dirname, resolve} from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const root = resolve(scriptDir, '..');
@@ -10,6 +10,9 @@ const skill = await readFile(resolve(root, 'skills/zdoc-localization/SKILL.md'),
 const workflow = await readFile(resolve(root, 'skills/zdoc-localization/references/workflow.md'), 'utf8');
 const errors = await readFile(resolve(root, 'skills/zdoc-localization/references/errors.md'), 'utf8');
 const program = await readFile(resolve(root, 'packages/zdoc-localize/src/cli/program.ts'), 'utf8');
+const engine = await import(pathToFileURL(resolve(
+  root, 'packages/zdoc-localize/node_modules/feishu-docx-engine/dist/index.js',
+)).href);
 const declaredCliVersion = /export const CLI_VERSION = ['"]([^'"]+)['"]/.exec(program)?.[1];
 const skillDeclaration = /Skill version: `([^`]+)`\. Compatible CLI: `([^`]+)`\./.exec(skill);
 const declaredSkillVersion = skillDeclaration?.[1];
@@ -36,6 +39,9 @@ const missingCommands = compatibility.requiredCommands.filter((command) =>
 );
 const missingFeatures = compatibility.requiredFeatures.filter((feature) => !program.includes(`'${feature}'`));
 const missingSkillFeatures = compatibility.requiredSkillFeatures.filter((feature) => !skill.includes(`\`${feature}\``));
+const missingEngineCapabilities = compatibility.requiredEngineCapabilities.filter(
+  (capability) => !engine.ENGINE_CAPABILITIES.includes(capability),
+);
 const safetyStatements = [
   'Never run a write without explicit document-level approval',
   'Never retry `confirmation_required` with a confirmation flag automatically',
@@ -60,11 +66,13 @@ const contractMismatches = [
   ...(declaredSkillVersion === compatibility.skillVersion ? [] : ['skill-version']),
   ...(declaredRange === compatibility.cliRange ? [] : ['skill-cli-range']),
   ...(packageJson.dependencies?.['feishu-docx-engine'] === '0.2.1' ? [] : ['engine-version']),
+  ...(engine.ENGINE_VERSION === packageJson.dependencies?.['feishu-docx-engine'] ? [] : ['installed-engine-version']),
 ];
 const compatible = inInitialRange(packageJson.version, compatibility.cliRange)
   && missingCommands.length === 0
   && missingFeatures.length === 0
   && missingSkillFeatures.length === 0
+  && missingEngineCapabilities.length === 0
   && unsafeRoutes.length === 0
   && contractMismatches.length === 0;
 
@@ -73,6 +81,7 @@ process.stdout.write(`${JSON.stringify({
   missingCommands,
   missingFeatures,
   missingSkillFeatures,
+  missingEngineCapabilities,
   unsafeRoutes,
   contractMismatches,
   cliVersion: packageJson.version,
@@ -81,4 +90,5 @@ process.stdout.write(`${JSON.stringify({
   declaredSkillVersion,
   acceptedRange: compatibility.cliRange,
   declaredRange,
+  engineVersion: engine.ENGINE_VERSION,
 })}\n`);

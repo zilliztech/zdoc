@@ -9,7 +9,7 @@ Use `zdoc-localize` as the deterministic workflow. Generate translations convers
 
 Remote English and remote Chinese are the localization inputs. The verified receipt holds the prior English and Chinese snapshots plus their correspondences; local Markdown is not part of this baseline. The localization workflow never invokes the `feishu-md-sync` executable internally. Only route a separate English Markdown publishing task to `$feishu-md-sync`.
 
-Skill version: `1.1.0`. Compatible CLI: `>=0.2.0 <0.3.0`.
+Skill version: `1.2.0`. Compatible CLI: `>=0.2.1 <0.3.0`.
 
 ## Check Compatibility
 
@@ -33,6 +33,14 @@ Require these feature flags for the existing-empty-target workflow:
 - `docx-engine-v1`
 - `structured-list-localization-v1`
 - `native-table-localization-v1`
+- `native-callout-localization-v1`
+
+Require these embedded Engine capabilities:
+
+- `native-table-layout-v1`
+- `rich-inline-composition-v1`
+- `typed-snapshot-decode-v1`
+- `native-callout-create-v1`
 
 Before the first Feishu-mode initialization for a registry, run `"$ZL" registry schema --format json`, then inspect the live Base tables and fields. Require exact field names and compatible types; controlled mode, status, disposition, scope type, record type, and run state fields must be single-select Labels. Treat view-creation limitations as warnings, but block on missing or incompatible fields.
 
@@ -68,7 +76,7 @@ All file arguments must remain inside the current workspace. Use JSON output for
 - Return exactly one response for every operation ID and no unknown IDs.
 - Preserve code, commands, variables, URLs, citations, and resource tokens exactly.
 - Apply approved glossary terms; treat candidate terms as suggestions only.
-- Translate every editable structured slot for a list or native table while using the full list/table and section context. Preserve slot IDs and never flatten, reorder, add, or remove structural nodes.
+- Translate every editable structured slot for a list, native table, or Callout while using the full structure and section context. Preserve slot IDs, table layout, Callout presentation, rich inline composition, and list continuation paragraphs; never flatten, reorder, add, or remove structural nodes.
 - For deletion requests, return the explicit `delete` decision instead of translated prose.
 - Do not invent operations, targets, block IDs, or anchors.
 

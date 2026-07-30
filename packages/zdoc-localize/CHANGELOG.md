@@ -2,6 +2,26 @@
 
 All notable changes to the published `zdoc-localize` package are recorded here.
 
+## [0.2.1] - 2026-07-30
+
+### Added
+
+- Native Callout translation as immutable title/body slots while preserving presentation metadata.
+- Engine-supported list continuation paragraphs as ordered structured slots.
+- Subtree-aware semantic fingerprints so nested list, table, and Callout descendant edits cannot be missed.
+
+### Changed
+
+- Pinned the released `feishu-docx-engine@0.2.1` contract, including typed snapshot decode, native table layout, rich inline composition, and native Callout creation.
+- Preserved table column widths/header-row settings and link-wrapped inline code with combined marks through review and apply.
+- Separated mutation roots from descendant evidence so incremental structured replacement keeps block identity without crossing parent boundaries.
+- Stabilized structured-slot translation-memory keys by source block identity, with fallback reads for historical `0.2.0` keys.
+
+### Compatibility and recovery
+
+- Structured plans created before topology contract version 2 fail with `structured_plan_requires_regeneration` before preview.
+- Recovery accepts supported Engine `0.2.0` and `0.2.1` schema-v2 batches; unknown Engine versions still fail closed.
+
 ## [0.2.0] - 2026-07-27
 
 ### Added

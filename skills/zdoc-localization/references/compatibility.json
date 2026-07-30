@@ -1,6 +1,6 @@
 {
-  "skillVersion": "1.1.0",
-  "cliRange": ">=0.2.0 <0.3.0",
+  "skillVersion": "1.2.0",
+  "cliRange": ">=0.2.1 <0.3.0",
   "requiredCommands": [
     "doctor",
     "pair",
@@ -20,11 +20,19 @@
     "whiteboard-mirror-v1",
     "docx-engine-v1",
     "structured-list-localization-v1",
-    "native-table-localization-v1"
+    "native-table-localization-v1",
+    "native-callout-localization-v1"
   ],
   "requiredSkillFeatures": [
     "docx-engine-v1",
     "structured-list-localization-v1",
-    "native-table-localization-v1"
+    "native-table-localization-v1",
+    "native-callout-localization-v1"
+  ],
+  "requiredEngineCapabilities": [
+    "native-table-layout-v1",
+    "rich-inline-composition-v1",
+    "typed-snapshot-decode-v1",
+    "native-callout-create-v1"
   ]
 }

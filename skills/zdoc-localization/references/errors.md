@@ -23,7 +23,9 @@ zdoc-localize recover reverse --run <run-id> --preview --format json
 zdoc-localize recover reverse --run <run-id> --approval-token <token> --format json
 ```
 
-Engine recovery assessment validates the exact stored batch fingerprint and verified evidence before returning one of `reverse_possible`, `resume_possible`, or `manual_inspection_required`. Engine `0.2.0` does not expose a safe resume/rebase write API, so `resume_possible` is read-only guidance and must not produce or imply an approval token. A reverse uses a separate Engine batch, immutable current/pre-write snapshot, journal, fingerprint, and approval token. If that recovery batch itself partially writes, keep its checkpoint separate and inspect it before returning to the original forward recovery.
+Engine recovery assessment validates the exact stored batch fingerprint and verified evidence before returning one of `reverse_possible`, `resume_possible`, or `manual_inspection_required`. Engine `0.2.0` and `0.2.1` do not expose a safe resume/rebase write API, so `resume_possible` is read-only guidance and must not produce or imply an approval token. A reverse uses a separate Engine batch, immutable current/pre-write snapshot, journal, fingerprint, and approval token. If that recovery batch itself partially writes, keep its checkpoint separate and inspect it before returning to the original forward recovery.
+
+Structured plan-v3 reviews created before topology contract version 2 return `structured_plan_requires_regeneration`. Regenerate the plan and review; do not reinterpret the old topology hash or add a confirmation flag.
 
 Recovery inspection also supports `manual_action_required` and verifies that the target differs only by the planned native-reference replacements. Whiteboard recovery compares canonical raw hashes and restores the durable pre-write raw snapshot. After a safe reverse completes, the failed run remains blocked and a fresh plan can be created. `accept-current` is intentionally forbidden while a partial write is unresolved.
 

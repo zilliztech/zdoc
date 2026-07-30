@@ -26,7 +26,7 @@ describe('CLI contract', () => {
     expect(JSON.parse(result.stdout)).toEqual({
       ok: true,
       data: {
-        cliVersion: '0.2.0',
+        cliVersion: '0.2.1',
         schemaVersion: 1,
         docxEngine: {
           version: ENGINE_VERSION,
@@ -34,6 +34,10 @@ describe('CLI contract', () => {
           capabilities: expect.arrayContaining([
             'nested-list-create-v1',
             'native-table-create-v1',
+            'native-table-layout-v1',
+            'rich-inline-composition-v1',
+            'typed-snapshot-decode-v1',
+            'native-callout-create-v1',
             'whiteboard-overwrite-v1',
             'partial-write-evidence-v1',
             'batch-operation-output-refs-v1',
@@ -60,6 +64,7 @@ describe('CLI contract', () => {
           'docx-engine-v1',
           'structured-list-localization-v1',
           'native-table-localization-v1',
+          'native-callout-localization-v1',
         ]),
       },
     });

@@ -34,7 +34,13 @@ try {
     join(consumer, '.npmrc'),
     `fund=false\naudit=false\ncache=${join(temp, 'npm-cache')}\n`,
   );
-  execFileSync('npm', ['install', '--ignore-scripts=false', archive], {cwd: consumer, stdio: 'inherit'});
+  const npmEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) =>
+    !key.toLowerCase().startsWith('npm_config_') && !key.startsWith('npm_package_')));
+  execFileSync('npm', ['install', '--ignore-scripts=false', '--loglevel=error', archive], {
+    cwd: consumer,
+    env: npmEnv,
+    stdio: 'inherit',
+  });
   const bin = join(consumer, 'node_modules', '.bin', 'zdoc-localize');
   const version = execFileSync(bin, ['--version'], {cwd: consumer, encoding: 'utf8'}).trim();
   const capabilities = JSON.parse(execFileSync(bin, ['capabilities', '--format', 'json'], {cwd: consumer, encoding: 'utf8'}));
@@ -45,7 +51,10 @@ try {
     expectedEngineVersion !== '0.2.1' || installedEngine.version !== expectedEngineVersion ||
     capabilities.data?.docxEngine?.version !== expectedEngineVersion ||
     capabilities.data?.docxEngine?.schemaVersion !== 2 ||
-    !capabilities.data?.docxEngine?.capabilities?.includes('partial-write-evidence-v1') ||
+    !['partial-write-evidence-v1', 'native-table-layout-v1', 'rich-inline-composition-v1',
+      'typed-snapshot-decode-v1', 'native-callout-create-v1'].every((capability) =>
+      capabilities.data?.docxEngine?.capabilities?.includes(capability)) ||
+    !capabilities.data?.features?.includes('native-callout-localization-v1') ||
     doctor.ok !== true || skillCompatibility.compatible !== true) {
     throw new Error('Packed CLI smoke checks did not return the expected contracts.');
   }
