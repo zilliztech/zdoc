@@ -83,12 +83,12 @@ function mergeCache(baseline, artifact, target) {
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
 }
 
-function recordsBySource(manifest, label) {
-  if (!Array.isArray(manifest.records)) throw new Error(`${label} translation manifest records must be an array`);
+function recordsBySource(manifest, field, label) {
+  if (!Array.isArray(manifest[field])) throw new Error(`${label} ${field} must be an array`);
   const records = {};
-  for (const record of manifest.records) {
-    if (!record || typeof record !== 'object' || Array.isArray(record) || typeof record.sourcePath !== 'string' || !record.sourcePath) throw new Error(`${label} translation manifest record requires sourcePath`);
-    if (Object.hasOwn(records, record.sourcePath)) throw new Error(`${label} translation manifest has duplicate sourcePath: ${record.sourcePath}`);
+  for (const record of manifest[field]) {
+    if (!record || typeof record !== 'object' || Array.isArray(record) || typeof record.sourcePath !== 'string' || !record.sourcePath) throw new Error(`${label} ${field} record requires sourcePath`);
+    if (Object.hasOwn(records, record.sourcePath)) throw new Error(`${label} ${field} has duplicate sourcePath: ${record.sourcePath}`);
     records[record.sourcePath] = record;
   }
   return records;
@@ -104,16 +104,20 @@ function compareManifestRecords(left, right) {
   return 0;
 }
 
-function mergeManifest(baseline, artifact, target) {
-  const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== 'records')));
+function mergeRecordCollection(baseline, artifact, target, field) {
+  const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field)));
   const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
-  result.records = Object.values(mergeRecord(
-    recordsBySource(baseline, 'Baseline'),
-    recordsBySource(artifact, 'Artifact'),
-    recordsBySource(target, 'Target'),
-    'records.',
+  result[field] = Object.values(mergeRecord(
+    recordsBySource(baseline, field, 'Baseline'),
+    recordsBySource(artifact, field, 'Artifact'),
+    recordsBySource(target, field, 'Target'),
+    `${field}.`,
   )).sort(compareManifestRecords);
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
+}
+
+function mergeManifest(baseline, artifact, target) {
+  return mergeRecordCollection(baseline, artifact, target, 'records');
 }
 
 async function atomicWrite(target, bytes) {
@@ -172,20 +176,30 @@ async function applyCheckpointArtifact(options = {}) {
   const payloadStats = new Map();
   for (const entry of manifest.files) payloadStats.set(entry.path, await lstat(path.join(payload, entry.path)));
 
-  let mergedCache = null;
+  const mergedStates = new Map();
   const statePath = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget).state.path : null;
-  const cacheEntry = statePath ? manifest.files.find((entry) => entry.path === statePath) : null;
-  if (cacheEntry) {
+  const statePaths = statePath
+    ? [statePath, ...(manifest.translationTarget === 'zh-CN-reference' ? ['config/reference-retirements.json'] : [])]
+      .filter((candidate) => manifest.files.some((entry) => entry.path === candidate))
+    : [];
+  if (statePaths.length) {
     if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('baselineDir is required for translation cache merge');
     const baseline = await safeTarget(options.baselineDir);
     if (insideOrEqual(target, baseline) || insideOrEqual(baseline, target) || insideOrEqual(artifact, baseline) || insideOrEqual(baseline, artifact)) throw new Error('Baseline must not overlap artifact or target');
-    const [a, b, t] = await Promise.all([
-      readNoFollow(path.join(payload, statePath), payloadStats.get(statePath), () => hooks?.afterCacheLstat?.({ kind: 'artifact', file: path.join(payload, statePath) })),
-      readStateNoFollow(baseline, statePath, 'baseline', hooks),
-      readStateNoFollow(target, statePath, 'target', hooks),
-    ]);
-    const parsed = [parseObject(b, 'Baseline translation state'), parseObject(a, 'Artifact translation state'), parseObject(t, 'Target translation state')];
-    mergedCache = manifest.translationTarget === 'ja-JP' ? mergeCache(...parsed) : mergeManifest(...parsed);
+    for (const mergePath of statePaths) {
+      const [a, b, t] = await Promise.all([
+        readNoFollow(path.join(payload, mergePath), payloadStats.get(mergePath), () => hooks?.afterCacheLstat?.({ kind: 'artifact', file: path.join(payload, mergePath) })),
+        readStateNoFollow(baseline, mergePath, 'baseline', hooks),
+        readStateNoFollow(target, mergePath, 'target', hooks),
+      ]);
+      const parsed = [parseObject(b, 'Baseline translation state'), parseObject(a, 'Artifact translation state'), parseObject(t, 'Target translation state')];
+      const merged = manifest.translationTarget === 'ja-JP'
+        ? mergeCache(...parsed)
+        : mergePath === 'config/reference-retirements.json'
+          ? mergeRecordCollection(...parsed, 'retirements')
+          : mergeManifest(...parsed);
+      mergedStates.set(mergePath, merged);
+    }
   }
 
   const mutationPaths = minimalPaths([...manifest.deletions, ...manifest.files.map((entry) => entry.path)]);
@@ -216,11 +230,11 @@ async function applyCheckpointArtifact(options = {}) {
       const existing = await maybeLstat(destination);
       if (existing?.isSymbolicLink()) throw new Error(`Target symlink is not allowed: ${rel}`);
       if (existing?.isDirectory()) { if (!manifest.deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); }
-      const bytes = rel === statePath ? mergedCache : await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
+      const bytes = mergedStates.get(rel) ?? await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
       await hooks?.beforeCommit?.({ rel }); await verifyGuard(guard); await atomicWrite(destination, bytes); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); await hooks?.afterCopy?.({ rel });
     }
     complete = true;
-    return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: Boolean(cacheEntry) });
+    return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: statePaths.length > 0 });
   } finally {
     if (!complete) {
       try {

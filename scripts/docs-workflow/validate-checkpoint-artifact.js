@@ -51,7 +51,7 @@ function translationOwnedPaths(targetId, group) {
       return [];
     });
     if (roots.length === 0) throw new Error(`Translation target ${target.id} is not compatible with group ${group.snapshotManual}`);
-    return [...new Set([...roots, target.state.path])];
+    return [...new Set([...roots, target.state.path, 'config/reference-retirements.json'])];
   }
   if (group.snapshotManual !== 'guides') throw new Error(`Translation target ${target.id} requires Guides ownership`);
   return [target.targetRoot, target.sidebarTarget, target.state.path];

@@ -135,6 +135,33 @@ test('three-way merges Chinese translation manifests by immutable source-relativ
   });
 });
 
+test('three-way merges revived Reference retirements across stale group artifacts', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const registryPath = 'config/reference-retirements.json';
+  const state = {schemaVersion: 1, records: []};
+  const python = {manual: 'python', sourcePath: 'content/en/reference/api/python/a.md', targetPath: 'content/zh-CN/reference/api/python/a.md', reason: 'old'};
+  const java = {manual: 'java', sourcePath: 'content/en/reference/api/java/a.md', targetPath: 'content/zh-CN/reference/api/java/a.md', reason: 'old'};
+  const baselineRegistry = {schemaVersion: 1, retirements: [java, python]};
+  const artifactRegistry = {schemaVersion: 1, retirements: [java]};
+  const targetRegistry = {schemaVersion: 1, retirements: [python]};
+  const f = await fixture({files: {
+    [statePath]: `${JSON.stringify(state)}\n`,
+    [registryPath]: `${JSON.stringify(artifactRegistry)}\n`,
+  }});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, registry] of [[f.baselineDir, baselineRegistry], [f.targetDir, targetRegistry]]) {
+    for (const [relativePath, value] of [[statePath, state], [registryPath, registry]]) {
+      await mkdir(path.dirname(path.join(root, relativePath)), {recursive: true});
+      await writeFile(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
+    }
+  }
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, registryPath), 'utf8')), {schemaVersion: 1, retirements: []});
+});
+
 test('translation merge conflicts and invalid inputs leave target unchanged', async () => {
   for (const values of [
     [{ a: 1 }, { a: 2 }, { a: 3 }],

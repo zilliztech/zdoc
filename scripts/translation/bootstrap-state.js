@@ -39,9 +39,10 @@ function normalizeRetirements({registry, group, exists}) {
     if (!sourceExists && targetExists) retained.push(record);
     else removed.push(record);
   }
-  const compare = (left, right) => left.manual.localeCompare(right.manual)
-    || left.sourcePath.localeCompare(right.sourcePath)
-    || left.targetPath.localeCompare(right.targetPath);
+  const compareText = (left, right) => left < right ? -1 : left > right ? 1 : 0;
+  const compare = (left, right) => compareText(left.manual, right.manual)
+    || compareText(left.sourcePath, right.sourcePath)
+    || compareText(left.targetPath, right.targetPath);
   return {
     registry: {schemaVersion: 1, retirements: retained.sort(compare)},
     removed: removed.sort(compare),
@@ -69,6 +70,15 @@ function writeState(target, value) {
   fs.renameSync(temporary, relativePath);
 }
 
+function normalizeReferenceRetirements(group) {
+  const relativePath = 'config/reference-retirements.json';
+  const registry = JSON.parse(fs.readFileSync(relativePath, 'utf8'));
+  const normalized = normalizeRetirements({registry, group, exists: fs.existsSync});
+  const temporary = `${relativePath}.tmp`;
+  fs.writeFileSync(temporary, `${JSON.stringify(normalized.registry, null, 2)}\n`, 'utf8');
+  fs.renameSync(temporary, relativePath);
+}
+
 function main() {
   const [operation, ...rest] = process.argv.slice(2);
   const args = new Map();
@@ -85,6 +95,7 @@ function main() {
     return;
   }
   if (operation === 'mark') {
+    if (target === 'zh-CN-reference') normalizeReferenceRetirements(group);
     writeState(target, markBootstrapComplete({manifest: readState(target), group}));
     return;
   }
