@@ -67,7 +67,7 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /test -s build\/en\/ja-JP\/docs\/home\.html/);
   assert.match(workflow, /^  build_zh_cn:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
-  assert.match(jobBlock(workflow, 'build_zh_cn'), /uses: actions\/checkout@v4\n\s+with:\n\s+fetch-depth: 0/);
+  assert.match(jobBlock(workflow, 'build_zh_cn'), /uses: actions\/checkout@v4\n\s+with:\n(?:\s+ref:.*\n)?\s+fetch-depth: 0/);
   assert.match(workflow, /run: pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm docs-tooling validate-reference --site zh-CN[\s\S]*pnpm build:zh-CN/);
@@ -110,6 +110,10 @@ test('manual site publication selects locale builds and deploys only validated a
   assert.match(validation, /options: \[auto, en, zh-CN, all\]/);
   assert.match(validation, /source_ref:[\s\S]*default: dev/);
   assert.match(validation, /group: site-validation-\$\{\{ github\.event\.pull_request\.number \|\| format\('\{0\}-\{1\}', github\.ref, inputs\.site \|\| 'auto'\) \}\}/);
+  assert.match(validation, /source_sha: \$\{\{ steps\.source\.outputs\.source_sha \}\}/);
+  for (const job of ['build_en', 'build_zh_cn', 'reference_coverage', 'tools_coverage', 'retirement']) {
+    assert.match(jobBlock(validation, job), /ref: \$\{\{ needs\.classify\.outputs\.source_sha \}\}/);
+  }
   assert.match(entry, /needs\.build_en\.result == 'success'[\s\S]*needs\.build_zh_cn\.result == 'success'/);
 });
 

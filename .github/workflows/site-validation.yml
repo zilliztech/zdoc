@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
+      source_sha: ${{ steps.source.outputs.source_sha }}
       build_en: ${{ steps.manual.outputs.build_en || steps.filters.outputs.build_en }}
       build_zh_cn: ${{ steps.manual.outputs.build_zh_cn || steps.filters.outputs.build_zh_cn }}
       reference_coverage: ${{ steps.manual.outputs.reference_coverage || steps.filters.outputs.reference_coverage }}
@@ -38,6 +39,9 @@ jobs:
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source_ref || github.sha }}
           fetch-depth: 0
+      - name: Resolve exact candidate SHA
+        id: source
+        run: echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -47,7 +51,7 @@ jobs:
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
-          HEAD_SHA: ${{ github.sha }}
+          HEAD_SHA: ${{ steps.source.outputs.source_sha }}
         run: >-
           node deploy/contracts/evaluate-path-filters.mjs
           --base "$BASE_SHA"
@@ -74,6 +78,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -97,6 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ needs.classify.outputs.source_sha }}
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
@@ -127,6 +134,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ needs.classify.outputs.source_sha }}
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
@@ -151,6 +159,7 @@ jobs:
         run: test "$ZH_CN_RESULT" = success
       - uses: actions/checkout@v4
         with:
+          ref: ${{ needs.classify.outputs.source_sha }}
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
@@ -165,10 +174,13 @@ jobs:
 
   retirement:
     name: Verify retired layout
+    needs: classify
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
