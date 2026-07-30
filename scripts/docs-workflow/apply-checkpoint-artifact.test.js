@@ -135,6 +135,32 @@ test('three-way merges Chinese translation manifests by immutable source-relativ
   });
 });
 
+test('unions completed bootstrap groups while three-way merging Chinese translation manifests', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const record = (manual, sourcePath, value) => ({manual, sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});
+  const python = record('python', 'content/en/reference/python.md', 1);
+  const java = record('java', 'content/en/reference/java.md', 2);
+  const node = record('node', 'content/en/reference/node.md', 3);
+  const baseline = {schemaVersion: 1, bootstrapCompletedGroups: ['python'], records: [python]};
+  const artifact = {schemaVersion: 1, bootstrapCompletedGroups: ['java', 'python'], records: [python, java]};
+  const target = {schemaVersion: 1, bootstrapCompletedGroups: ['node', 'python'], records: [python, node]};
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(artifact)}\n`}});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
+  }
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    bootstrapCompletedGroups: ['java', 'node', 'python'],
+    records: [java, node, python],
+    schemaVersion: 1,
+  });
+});
+
 test('three-way merges revived Reference retirements across stale group artifacts', async () => {
   const statePath = 'generated/zh-CN/manifests/reference-translations.json';
   const registryPath = 'config/reference-retirements.json';
