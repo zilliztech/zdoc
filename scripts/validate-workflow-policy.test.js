@@ -1996,3 +1996,22 @@ test('top-level production workflows resolve separate tooling and source refs on
   assert.match(translationSource, /source_sha=\$\(git rev-parse/)
   assert.match(translationSource, /ref: ['"]?\$\{\{ inputs\.tooling_sha \}\}['"]?/)
 })
+
+test('translation workers restore and always upload per-file recovery artifacts', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  assert.equal(workflow.on.workflow_call.inputs.recovery_run_id.default, '')
+  const steps = workflow.jobs.translate.steps
+  const downloadIndex = steps.findIndex(step => step.name === 'Download requested recovery artifacts')
+  const agentsIndex = steps.findIndex(step => step.name === 'Run translation agents')
+  const createIndex = steps.findIndex(step => step.name === 'Create per-file recovery artifact')
+  const uploadIndex = steps.findIndex(step => step.name === 'Upload per-file recovery artifact')
+  const validateIndex = steps.findIndex(step => step.name === 'Validate unbatched translated group')
+  assert.ok(downloadIndex >= 0 && downloadIndex < agentsIndex)
+  assert.ok(agentsIndex < createIndex && createIndex < uploadIndex && uploadIndex < validateIndex)
+  assert.match(steps[agentsIndex].run, /--recovery-dir "\$RECOVERY_DOWNLOAD_DIR"/)
+  assert.equal(steps[createIndex].if, '${{ always() && inputs.should_translate && steps.manifest.outputs.count != \'0\' }}')
+  assert.equal(steps[uploadIndex].if, '${{ always() && inputs.should_translate && steps.manifest.outputs.count != \'0\' }}')
+  assert.equal(steps[uploadIndex].with['retention-days'], 30)
+  assert.match(steps[uploadIndex].with.name, /translation-recovery-/)
+})

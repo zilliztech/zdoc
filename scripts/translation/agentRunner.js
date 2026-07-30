@@ -9,6 +9,7 @@ const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-t
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
+const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
 const {
@@ -868,6 +869,18 @@ function createProgressCoordinator(options) {
   }
 }
 
+function partitionRecoveryWork(manifest, restoredResults = []) {
+  const restoredBySource = new Map(restoredResults.map(result => [result.sourcePath, result]))
+  const recovered = []
+  const pending = []
+  manifest.items.forEach((item, index) => {
+    const result = restoredBySource.get(item.sourcePath)
+    if (result && result.targetPath === item.targetPath && result.sourceHash === item.sourceHash) recovered.push({index, result})
+    else pending.push({index, item})
+  })
+  return {recovered, pending}
+}
+
 async function main() {
   require('dotenv/config')
   const args = new Map()
@@ -889,10 +902,29 @@ async function main() {
   const chunkLimits = loadChunkLimits()
   const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
   const manifest = validateTranslationManifest(JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8')))
-  const callModel = await createProviderCall(loadAgentConfigsFromEnv(), {
-    maxRetries: maxProviderRetries,
-    timeoutMs: providerTimeoutMs,
-  })
+  const recoveryDir = args.get('--recovery-dir') || ''
+  const recovery = recoveryDir
+    ? restoreRecoveryFiles({
+        siteDir,
+        candidates: manifest.items,
+        artifacts: discoverRecoveryArtifacts(path.resolve(siteDir, recoveryDir)),
+        identity: {
+          locale: manifest.locale,
+          group: manifest.group,
+          promptContractSha256: promptContractSha256(manifest.target, siteDir),
+          model: process.env.TRANSLATION_AGENT_MODEL,
+          sourceSha: manifest.sourceCheckpointSha,
+          toolingSha: process.env.MASTER_SHA,
+        },
+      })
+    : {restored: [], pending: manifest.items, rejected: []}
+  const work = partitionRecoveryWork(manifest, recovery.restored)
+  const callModel = work.pending.length > 0
+    ? await createProviderCall(loadAgentConfigsFromEnv(), {
+        maxRetries: maxProviderRetries,
+        timeoutMs: providerTimeoutMs,
+      })
+    : null
   const coordinator = createProgressCoordinator({
     siteDir,
     manifest,
@@ -912,12 +944,14 @@ async function main() {
   process.once('SIGINT', onSigint)
   process.once('SIGTERM', onSigterm)
 
-  console.log(`[translation-agent] workers=${concurrency} manifest=${manifest.items.length} softDeadlineMs=${softDeadlineMs}`)
+  for (const recovered of work.recovered) await coordinator.record(recovered.result, recovered.index)
+  console.log(`[translation-agent] workers=${concurrency} manifest=${manifest.items.length} recovered=${work.recovered.length} pending=${work.pending.length} softDeadlineMs=${softDeadlineMs}`)
   try {
-    await runWorkerPool(manifest.items, {
+    await runWorkerPool(work.pending, {
       concurrency,
       shouldStopAssigning: () => stopRequested || Date.now() - startedAt >= softDeadlineMs,
-      processItem: async item => {
+      processItem: async entry => {
+        const item = entry.item
         console.log(`[translation-agent] ${item.sourcePath}`)
         const targetItem = {...item, target: manifest.target}
         const result = await processItemWithRetry(targetItem, {
@@ -939,7 +973,7 @@ async function main() {
         if (result.status !== 'translated') console.error(`[translation-agent] failed ${item.sourcePath}: ${summarizeFailedResult(result)}`)
         return result
       },
-      onResult: coordinator.record,
+      onResult: (result, pendingIndex) => coordinator.record(result, work.pending[pendingIndex].index),
     })
   } finally {
     process.removeListener('SIGINT', onSigint)
@@ -979,6 +1013,7 @@ module.exports = {
   parseReview,
   parsePositiveInteger,
   parseNonNegativeInteger,
+  partitionRecoveryWork,
   promptNamesFor,
   processItemWithRetry,
   processManifestItem,

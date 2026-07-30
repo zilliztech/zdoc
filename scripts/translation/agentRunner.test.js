@@ -13,6 +13,7 @@ const {
   isRetryableProviderError,
   loadChunkLimits,
   parseNonNegativeInteger,
+  partitionRecoveryWork,
   promptNamesFor,
   processItemWithRetry,
   processManifestItem,
@@ -61,6 +62,18 @@ function testSelectsPromptsByTranslationTarget() {
   assert.equal(promptNamesFor('zh-CN-tools').rest, undefined)
   assert.throws(() => promptNamesFor('zh-CN'), /Unsupported translation target/)
   assert.throws(() => promptNamesFor('unknown'), /Unsupported translation target/)
+}
+
+function testPartitionsRecoveredFilesWithoutChangingOriginalIndexes() {
+  const items = [
+    {sourcePath: 'content/en/a.md'},
+    {sourcePath: 'content/en/b.md'},
+    {sourcePath: 'content/en/c.md'},
+  ]
+  const recovered = [{...items[1], status: 'translated', recovered: true}]
+  const partitioned = partitionRecoveryWork({items}, recovered)
+  assert.deepEqual(partitioned.recovered, [{index: 1, result: recovered[0]}])
+  assert.deepEqual(partitioned.pending, [{index: 0, item: items[0]}, {index: 2, item: items[2]}])
 }
 
 function testMessageBuildersSelectPromptsFromTarget() {
@@ -1189,6 +1202,7 @@ async function testReferenceProgressStateUsesCanonicalRawLexicalOrder() {
 
 async function run() {
   testSelectsPromptsByTranslationTarget()
+  testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
   testMessageBuildersSelectPromptsFromTarget()
   testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()

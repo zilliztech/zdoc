@@ -18,6 +18,7 @@ on:
       pending_count: { required: false, type: number, default: 0 }
       pending_set_sha256: { required: false, type: string, default: '' }
       artifact_retention_days: { required: false, type: number, default: 3 }
+      recovery_run_id: { required: false, type: string, default: '' }
     outputs:
       status: { value: '${{ jobs.translate.outputs.status }}' }
       artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
@@ -58,7 +59,9 @@ jobs:
           printf '%s\n' \
             "BASELINE_DIR=$RUNNER_TEMP/translation-source-baseline" \
             "CHECKPOINT_DIR=$RUNNER_TEMP/translation-artifact/checkpoint-group" \
-            "BASELINE_CHECKPOINT_DIR=$RUNNER_TEMP/baseline-artifact/checkpoint-group" >> "$GITHUB_ENV"
+            "BASELINE_CHECKPOINT_DIR=$RUNNER_TEMP/baseline-artifact/checkpoint-group" \
+            "RECOVERY_DOWNLOAD_DIR=$RUNNER_TEMP/translation-recovery-download" \
+            "RECOVERY_OUTPUT_DIR=$RUNNER_TEMP/translation-recovery-output" >> "$GITHUB_ENV"
           suffix=
           if (( ${{ inputs.batch_number }} > 0 )); then suffix="-batch-${{ inputs.batch_number }}"; fi
           echo "ARTIFACT_SUFFIX=$suffix" >> "$GITHUB_ENV"
@@ -117,10 +120,20 @@ jobs:
               --manifest tmp/translation-manifest.json \
               --output tmp/translation-batch-input.json
           fi
+      - name: Download requested recovery artifacts
+        if: ${{ inputs.should_translate && inputs.recovery_run_id != '' && steps.manifest.outputs.count != '0' }}
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: 'translation-recovery-${{ inputs.target }}-${{ inputs.group }}-${{ inputs.recovery_run_id }}-*'
+          path: '${{ runner.temp }}/translation-recovery-download'
+          github-token: '${{ github.token }}'
+          repository: '${{ github.repository }}'
+          run-id: '${{ inputs.recovery_run_id }}'
       - name: Run translation agents
         id: agents
         if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}
-        run: node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json
+        run: node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json --recovery-dir "$RECOVERY_DOWNLOAD_DIR"
         env:
           TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
           TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}
@@ -129,6 +142,27 @@ jobs:
           REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
           REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
           TRANSLATION_ALLOW_PARTIAL: "true"
+      - name: Create per-file recovery artifact
+        if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
+        run: >-
+          node scripts/translation/recovery-artifact.js create
+          --report tmp/translation-report.json
+          --output "$RECOVERY_OUTPUT_DIR"
+          --target "$TRANSLATION_TARGET"
+          --group "$GROUP"
+          --source-sha "$SOURCE_COMMIT_SHA"
+          --tooling-sha "$MASTER_SHA"
+          --model "$TRANSLATION_AGENT_MODEL"
+        env:
+          TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
+      - name: Upload per-file recovery artifact
+        if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'translation-recovery-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-${{ inputs.batch_number }}'
+          path: '${{ runner.temp }}/translation-recovery-output'
+          if-no-files-found: error
+          retention-days: 30
       - name: Validate unbatched translated group
         if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:
