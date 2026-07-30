@@ -8,13 +8,13 @@ on:
         required: true
         type: choice
         default: ja-JP
-        options: [ja-JP, zh-CN-reference, zh-CN-tools]
+        options: [ja-JP, zh-CN-reference]
       group:
         description: Content group to translate
         required: true
         type: choice
         default: guides
-        options: [guides, python, java, node, go, cli, rest, tools, reference-landings]
+        options: [guides, python, java, node, go, cli, rest, reference-landings]
       max_files: { description: Maximum files, required: false, default: '500' }
       mode: { description: Translation mode, required: false, type: choice, options: [auto, full, incremental], default: auto }
       publish: { description: Publish validated translations, required: false, type: boolean, default: false }
@@ -48,7 +48,6 @@ jobs:
           case "$TRANSLATION_TARGET" in
             ja-JP) [[ "$INPUT_GROUP" =~ ^(guides|python|java|node|go|cli|rest)$ ]] ;;
             zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest|reference-landings)$ ]] ;;
-            zh-CN-tools) [[ "$INPUT_GROUP" == tools ]] ;;
             *) exit 2 ;;
           esac
 

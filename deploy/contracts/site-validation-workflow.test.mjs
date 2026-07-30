@@ -84,8 +84,9 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(jobBlock(workflow, 'tools_coverage'), /uses: pnpm\/action-setup@v4/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /node-version: ['"]22['"]/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm install --frozen-lockfile/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm docs-tooling validate-translation --target zh-CN-tools --group tools/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm docs-tooling validate-tools-sidebar/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm docs-tooling validate-group --site zh-CN --group guides/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /node scripts\/validate-generated-sidebars\.js/);
+  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm run build:zh-CN/);
   assert.match(workflow, /^  retirement:$/m);
   assert.match(workflow, /^  site_validation:$/m);
   assertRetirementContract(workflow);
@@ -136,8 +137,7 @@ test('final verification separates the revision waterline from ordered two-site 
   const siteVerification = workflow.slice(siteIndex, reportIndex);
   const orderedCommands = [
     'pnpm docs-tooling validate-reference --site zh-CN',
-    'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
-    'pnpm docs-tooling validate-tools-sidebar',
+    'pnpm docs-tooling validate-group --site zh-CN --group guides',
     'node scripts/validate-generated-sidebars.js',
     'node scripts/validate-translated-coverage.js --group "$group"',
     'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',

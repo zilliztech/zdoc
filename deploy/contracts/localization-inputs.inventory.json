@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "paths": [
     ".translation-cache/ja-JP.json",
-    "config/tools-retirements.json",
     "content/zh-CN/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md",
     "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions.md",
     "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration.md",
@@ -36,7 +35,6 @@
     "generated/en/sidebars/node.sidebar.js",
     "generated/en/sidebars/python.sidebar.js",
     "generated/en/sidebars/restful.sidebar.js",
-    "generated/zh-CN/manifests/tools-translations.json",
     "generated/zh-CN/sidebars/tools.sidebar.js",
     "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/best-practices/environment-isolation.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/architecture/best-practices/multi-tenancy.md",

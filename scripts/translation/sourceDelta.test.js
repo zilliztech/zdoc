@@ -35,23 +35,14 @@ test('maps unified sources for all explicit translation targets', () => {
     mapSourcePathForTarget('zh-CN-reference', 'content/en/reference/api/a.md'),
     'content/zh-CN/reference/api/a.md',
   )
-  assert.equal(
-    mapSourcePathForTarget('zh-CN-tools', 'content/en/guides/tutorials/tools/a.md'),
-    'content/zh-CN/guides/tutorials/tools/a.md',
-  )
+  assert.throws(() => mapSourcePathForTarget('zh-CN-tools', 'content/en/guides/tutorials/tools/a.md'), /unknown translation target/i)
 })
 
-test('Chinese source deletions emit retirement candidates and never authorize target deletion', () => {
-  const result = classifySourceDelta({
+test('retired Chinese Guides translation target is rejected', () => {
+  assert.throws(() => classifySourceDelta({
     target: 'zh-CN-tools',
     changes: [{status: 'D', path: 'content/en/guides/tutorials/tools/old.md'}],
-  })
-  assert.deepEqual(result.deletedI18n, [])
-  assert.deepEqual(result.retirementCandidates, [{
-    sourcePath: 'content/en/guides/tutorials/tools/old.md',
-    targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
-    reason: 'source_deleted',
-  }])
+  }), /unknown translation target/i)
 })
 
 test('Chinese source renames emit retirement candidates without deletion authority', () => {

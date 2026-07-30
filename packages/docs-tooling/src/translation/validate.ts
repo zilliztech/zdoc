@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import {assertSafeRepositoryPathChain} from '../reference/translationManifest.ts';
 import {resolvePublicationGroup} from '../workflows/groups.ts';
-import {buildTranslationCandidates, validateTranslatedSidebarFragment} from './candidates.ts';
+import {buildTranslationCandidates} from './candidates.ts';
 import {resolveTranslationTarget} from './targets.ts';
 import type {TranslationTargetId} from './schema.ts';
 
@@ -17,7 +17,6 @@ const REFERENCE_LANDING_SOURCE_PATHS = Object.freeze([
 ]);
 
 function ownedTranslationSourcePaths(targetId: TranslationTargetId, group: string): readonly string[] {
-  if (targetId === 'zh-CN-tools') return ['content/en/guides/tutorials/tools', 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'];
   if (group === 'reference-landings') return REFERENCE_LANDING_SOURCE_PATHS;
   return resolvePublicationGroup('en', group).ownedPaths.filter(candidate => candidate.startsWith('content/en/'));
 }
@@ -94,9 +93,6 @@ export function validateTranslationCoverage(options: Readonly<{
   group: string;
 }>): void {
   if (!options.group) throw new Error('Translation coverage group is required');
-  if (options.targetId === 'zh-CN-tools' && options.group !== 'tools') {
-    throw new Error('Chinese Tools translation coverage requires group tools');
-  }
   resolveTranslationTarget(options.targetId);
   const ownership = ownedTranslationSourcePaths(options.targetId, options.group);
   const {candidates: allCandidates} = buildTranslationCandidates({
@@ -118,17 +114,12 @@ export function validateTranslationCoverage(options: Readonly<{
 }
 
 export function validateToolsSidebar(repositoryRoot: string): void {
-  const target = resolveTranslationTarget('zh-CN-tools');
-  if (target.id !== 'zh-CN-tools') throw new Error('Resolved Chinese Tools translation target has the wrong identity');
-  const [sourcePath, sourceKey] = target.sidebarSource.split('#');
-  const sourceSidebar = loadSidebarModule(repositoryRoot, sourcePath, 'English Tools sidebar source');
-  const sourceFragment = findSidebarNode(sourceSidebar, sourceKey);
-  if (sourceFragment === undefined) throw new Error(`English Tools sidebar fragment is missing: ${target.sidebarSource}`);
-  const translatedFragment = loadSidebarModule(repositoryRoot, target.sidebarTarget, 'Chinese Tools sidebar target');
-  validateTranslatedSidebarFragment([sourceFragment], translatedFragment);
+  const targetRoot = 'content/zh-CN/guides/tutorials/tools';
+  const sidebarPath = 'generated/zh-CN/sidebars/tools.sidebar.js';
+  const translatedFragment = loadSidebarModule(repositoryRoot, sidebarPath, 'Chinese Tools sidebar');
 
   const sidebarIds = sidebarDocIds(translatedFragment);
-  const targetIds = targetDocIds(repositoryRoot, target.targetRoot);
+  const targetIds = targetDocIds(repositoryRoot, targetRoot);
   const missingFromSidebar = [...targetIds].filter(id => !sidebarIds.has(id)).sort();
   const missingTarget = [...sidebarIds].filter(id => !targetIds.has(id)).sort();
   if (missingFromSidebar.length > 0 || missingTarget.length > 0) {

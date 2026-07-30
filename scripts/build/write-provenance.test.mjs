@@ -28,9 +28,7 @@ function fixture() {
   write(root, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n');
   write(root, 'generated/en/manifests/reference.json', '{"revision":"en-1"}\n');
   write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"zh-1"}\n');
-  write(root, 'generated/zh-CN/manifests/tools-translations.json', '{"schemaVersion":1,"records":[]}\n');
   write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', 'module.exports = []\n');
-  write(root, 'config/tools-retirements.json', '{"schemaVersion":1,"retirements":[]}\n');
   write(root, 'tracked.txt', 'tracked\n');
   execFileSync('git', ['add', '.'], {cwd: root});
   execFileSync('git', ['commit', '-qm', 'fixture'], {cwd: root});
@@ -124,15 +122,6 @@ function commitZhReleaseInputs(root) {
     "module.exports = [{type: 'doc', id: 'tutorials/tools/tool', label: '工具'}]",
     '',
   ].join('\n'));
-  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
-    schemaVersion: 1,
-    records: [{
-      sourcePath: 'content/en/guides/tutorials/tools/tool.md',
-      targetPath: 'content/zh-CN/guides/tutorials/tools/tool.md',
-      sourceHash: 'd'.repeat(64),
-    }],
-  }));
-  write(root, 'config/tools-retirements.json', '{"schemaVersion":1,"retirements":[]}\n');
   execFileSync('git', ['add', '.'], {cwd: root});
   execFileSync('git', ['commit', '-qm', 'Chinese Tools inputs'], {cwd: root});
   write(root, 'build/zh-CN/docs/tutorials/tools/tool/index.html', '<html>工具</html>');
@@ -153,7 +142,7 @@ function runZh(root, overrides = {}) {
 
 function candidateEnvironment(overrides = {}) {
   return {
-    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'zh-CN-tools',
+    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'zh-CN-reference',
     ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: 'e'.repeat(40),
     ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: 'f'.repeat(40),
     ...overrides,
@@ -204,9 +193,7 @@ test('Chinese provenance hashes the Tools release inputs and final sidebar-reach
   commitZhReleaseInputs(root);
   const {manifest} = runZh(root);
   assert.deepEqual(manifest.localizationInputs.records.map(record => record.path), [
-    'config/tools-retirements.json',
     'content/zh-CN/guides/tutorials/tools/tool.md',
-    'generated/zh-CN/manifests/tools-translations.json',
     'generated/zh-CN/sidebars/tools.sidebar.js',
   ]);
   assert.deepEqual(manifest.routeInventories, {
@@ -230,14 +217,6 @@ test('Chinese provenance counts category doc links as sidebar-reachable Tools la
     "module.exports = [{type: 'category', label: '智能体和提示词', link: {type: 'doc', id: 'tutorials/tools/agents-and-prompts/agents-and-prompts'}, items: []}]",
     '',
   ].join('\n'));
-  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
-    schemaVersion: 1,
-    records: [{
-      sourcePath: 'content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md',
-      targetPath,
-      sourceHash: 'd'.repeat(64),
-    }],
-  }));
   execFileSync('git', ['add', '.'], {cwd: root});
   execFileSync('git', ['commit', '-qm', 'Chinese Tools category landing'], {cwd: root});
   write(root, 'build/zh-CN/docs/agents-and-prompts/index.html', '<html>智能体和提示词</html>');
@@ -259,14 +238,6 @@ test('Chinese provenance rejects doc links attached to non-category sidebar node
     "module.exports = [{type: 'html', value: '<span>无效</span>', link: {type: 'doc', id: 'tutorials/tools/invalid'}}]",
     '',
   ].join('\n'));
-  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
-    schemaVersion: 1,
-    records: [{
-      sourcePath: 'content/en/guides/tutorials/tools/invalid.md',
-      targetPath,
-      sourceHash: 'd'.repeat(64),
-    }],
-  }));
   execFileSync('git', ['add', '.'], {cwd: root});
   execFileSync('git', ['commit', '-qm', 'Invalid Tools sidebar link'], {cwd: root});
   write(root, 'build/zh-CN/docs/tutorials/tools/invalid/index.html', '<html>无效节点</html>');
@@ -291,26 +262,14 @@ test('localization inputs reject untracked files and symlinks', () => {
 
 test('candidate workspace accepts only exact untracked inputs owned by the declared translation target', () => {
   const root = fixture();
-  write(root, 'content/zh-CN/guides/tutorials/tools/generated.md', '# 候选工具\n');
-  write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', [
-    "'use strict'",
-    "module.exports = [{type: 'doc', id: 'tutorials/tools/generated', label: '候选工具'}]",
-    '',
-  ].join('\n'));
-  write(root, 'generated/zh-CN/manifests/tools-translations.json', JSON.stringify({
-    schemaVersion: 1,
-    records: [{
-      sourcePath: 'content/en/guides/tutorials/tools/generated.md',
-      targetPath: 'content/zh-CN/guides/tutorials/tools/generated.md',
-      sourceHash: 'd'.repeat(64),
-    }],
-  }));
-  write(root, 'build/zh-CN/docs/tutorials/tools/generated/index.html', '<html>候选工具</html>');
+  write(root, 'content/zh-CN/reference/generated.md', '# 候选参考文档\n');
+  write(root, 'generated/zh-CN/manifests/reference-translations.json', '{"revision":"candidate"}\n');
+  write(root, 'build/zh-CN/index.html', '<html>候选参考文档</html>');
 
   const {manifest} = runZh(root, {environment: candidateEnvironment()});
 
   assert.deepEqual(manifest.localizationInputs.candidateWorkspace, {
-    target: 'zh-CN-tools',
+    target: 'zh-CN-reference',
     toolingSha: 'e'.repeat(40),
     sourceSha: 'f'.repeat(40),
     records: manifest.localizationInputs.candidateWorkspace.records,
@@ -319,9 +278,8 @@ test('candidate workspace accepts only exact untracked inputs owned by the decla
   assert.deepEqual(
     manifest.localizationInputs.candidateWorkspace.records.map(record => record.path),
     [
-      'content/zh-CN/guides/tutorials/tools/generated.md',
-      'generated/zh-CN/manifests/tools-translations.json',
-      'generated/zh-CN/sidebars/tools.sidebar.js',
+      'content/zh-CN/reference/generated.md',
+      'generated/zh-CN/manifests/reference-translations.json',
     ],
   );
   assert.ok(manifest.localizationInputs.candidateWorkspace.records.every(
@@ -329,14 +287,15 @@ test('candidate workspace accepts only exact untracked inputs owned by the decla
   ));
 });
 
-test('candidate workspace rejects untracked localization inputs owned by another target', () => {
+test('candidate workspace rejects the retired Chinese Tools translation target', () => {
   const root = fixture();
-  write(root, 'content/zh-CN/reference/unrelated.md', '# 不相关参考文档\n');
   write(root, 'build/zh-CN/index.html', '<html>zh</html>');
 
   assert.throws(
-    () => runZh(root, {environment: candidateEnvironment()}),
-    /candidate workspace.*zh-CN-reference.*unrelated\.md|unrelated\.md.*zh-CN-tools/i,
+    () => runZh(root, {environment: candidateEnvironment({
+      ZDOC_PROVENANCE_CANDIDATE_TARGET: 'zh-CN-tools',
+    })}),
+    /candidate workspace translation target is invalid: zh-CN-tools/i,
   );
 });
 
@@ -359,10 +318,13 @@ test('candidate workspace hashes Chinese Reference files and state owned by its 
 
 test('candidate workspace records target-owned tracked deletions without treating them as missing inputs', () => {
   const root = fixture();
-  commitZhReleaseInputs(root);
-  const deletedPath = 'content/zh-CN/guides/tutorials/tools/tool.md';
+  const deletedPath = 'content/zh-CN/reference/deleted.md';
+  write(root, deletedPath, '# deleted reference\n');
+  execFileSync('git', ['add', deletedPath], {cwd: root});
+  execFileSync('git', ['commit', '-qm', 'Add Chinese Reference candidate deletion'], {cwd: root});
   execFileSync('git', ['update-index', '--skip-worktree', deletedPath], {cwd: root});
   fs.rmSync(path.join(root, deletedPath));
+  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
 
   const {manifest} = runZh(root, {environment: candidateEnvironment()});
 
@@ -413,7 +375,7 @@ test('candidate workspace rejects tracked modifications owned by another transla
 
   assert.throws(
     () => runZh(root, {environment: candidateEnvironment()}),
-    /candidate workspace.*zh-CN-tools.*ja-JP|ja-JP.*cross-target|another translation target/i,
+    /candidate workspace.*zh-CN-reference.*ja-JP|ja-JP.*cross-target|another translation target/i,
   );
 });
 
@@ -468,10 +430,10 @@ test('candidate workspace requires an exact target and two immutable Git identit
 
 test('candidate workspace rejects hard-linked target files and missing target state', () => {
   const hardlinkRoot = fixture();
-  fs.mkdirSync(path.join(hardlinkRoot, 'content/zh-CN/guides/tutorials/tools'), {recursive: true});
+  fs.mkdirSync(path.join(hardlinkRoot, 'content/zh-CN/reference'), {recursive: true});
   fs.linkSync(
     path.join(hardlinkRoot, 'tracked.txt'),
-    path.join(hardlinkRoot, 'content/zh-CN/guides/tutorials/tools/hardlink.md'),
+    path.join(hardlinkRoot, 'content/zh-CN/reference/hardlink.md'),
   );
   write(hardlinkRoot, 'build/zh-CN/index.html', '<html>zh</html>');
   assert.throws(
@@ -644,9 +606,7 @@ test('external container snapshots are explicit, fail closed, and do not require
     schemaVersion: 1,
     paths: [
       '.translation-cache/ja-JP.json',
-      'config/tools-retirements.json',
       'generated/en/sidebars/guides.sidebar.js',
-      'generated/zh-CN/manifests/tools-translations.json',
       'generated/zh-CN/sidebars/tools.sidebar.js',
       'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
     ],
@@ -701,9 +661,7 @@ test('Docker-context snapshots reject untracked Japanese and Chinese Tools input
     schemaVersion: 1,
     paths: [
       '.translation-cache/ja-JP.json',
-      'config/tools-retirements.json',
       'generated/en/sidebars/guides.sidebar.js',
-      'generated/zh-CN/manifests/tools-translations.json',
       'generated/zh-CN/sidebars/tools.sidebar.js',
       'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md',
     ],

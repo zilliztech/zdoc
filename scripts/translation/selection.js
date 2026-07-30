@@ -5,15 +5,15 @@ const fs = require('node:fs');
 
 const GROUPS = Object.freeze({
   'ja-JP': Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']),
-  'zh-CN': Object.freeze(['python', 'java', 'node', 'go', 'cli', 'rest', 'tools']),
+  'zh-CN': Object.freeze(['python', 'java', 'node', 'go', 'cli', 'rest']),
 });
 
 function selectionItem(locale, group, order) {
   return {
     locale,
-    target: locale === 'ja-JP' ? 'ja-JP' : group === 'tools' ? 'zh-CN-tools' : 'zh-CN-reference',
+    target: locale === 'ja-JP' ? 'ja-JP' : 'zh-CN-reference',
     group,
-    sourceGroup: group === 'tools' ? 'guides' : group,
+    sourceGroup: group,
     order,
   };
 }

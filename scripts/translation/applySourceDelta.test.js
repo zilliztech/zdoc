@@ -115,7 +115,7 @@ test('does not delete a Japanese target owned by a canonical unified source', ()
 })
 
 test('Chinese targets never reconcile Japanese files or cache state', () => {
-  for (const target of ['zh-CN-reference', 'zh-CN-tools']) {
+  for (const target of ['zh-CN-reference']) {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-target-delta-'))
     const orphanTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/orphan.md'
     const cachePath = path.join(root, '.translation-cache/ja-JP.json')

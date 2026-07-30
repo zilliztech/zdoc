@@ -12,7 +12,6 @@ const TARGET_MAPPINGS = Object.freeze({
     ['content/en/reference', 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current'],
   ],
   'zh-CN-reference': [['content/en/reference', 'content/zh-CN/reference']],
-  'zh-CN-tools': [['content/en/guides/tutorials/tools', 'content/zh-CN/guides/tutorials/tools']],
 })
 
 function normalizeRelativePath(filePath) {

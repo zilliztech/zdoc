@@ -108,14 +108,8 @@ function previousRecords(target: TranslationTarget, value: unknown): PreviousRec
       : [];
   }
   for (const record of records) {
-    if (record.sourcePath.includes('#')) {
-      if (target.id !== 'zh-CN-tools' || record.sourcePath !== target.sidebarSource) {
-        throw new Error(`Translation state sourcePath is unsafe: ${record.sourcePath}`);
-      }
-    } else {
-      assertSafeRepositoryRelativePath(record.sourcePath, 'Translation state sourcePath');
-      if (record.sourcePath !== record.sourcePath.normalize('NFC')) throw new Error(`Translation state sourcePath must use NFC: ${record.sourcePath}`);
-    }
+    assertSafeRepositoryRelativePath(record.sourcePath, 'Translation state sourcePath');
+    if (record.sourcePath !== record.sourcePath.normalize('NFC')) throw new Error(`Translation state sourcePath must use NFC: ${record.sourcePath}`);
     if (record.targetPath) {
       assertSafeRepositoryRelativePath(record.targetPath, 'Translation state targetPath');
       if (record.targetPath !== record.targetPath.normalize('NFC')) throw new Error(`Translation state targetPath must use NFC: ${record.targetPath}`);
@@ -175,7 +169,6 @@ function targetIsRegular(repositoryRoot: string, relativePath: string): boolean 
 
 function retirementRegistryPath(targetId: TranslationTargetId): string | undefined {
   if (targetId === 'zh-CN-reference') return 'config/reference-retirements.json';
-  if (targetId === 'zh-CN-tools') return 'config/tools-retirements.json';
   return undefined;
 }
 
@@ -232,40 +225,10 @@ export function buildTranslationCandidates(options: Readonly<{
     }
   }
 
-  if (target.id === 'zh-CN-tools') {
-    const fragment = readSidebarFragment(options.repositoryRoot, target.sidebarSource);
-    if (fragment !== undefined) {
-      activeSources.add(target.sidebarSource);
-      const sourceHash = hash(JSON.stringify(fragment));
-      const targetExists = targetIsRegular(options.repositoryRoot, target.sidebarTarget);
-      const prior = previousBySource.get(target.sidebarSource);
-      if (!targetExists || prior?.sourceHash !== sourceHash) {
-        const reason: TranslationCandidateReason = changed.has(target.sidebarSource)
-          ? 'current_delta'
-          : !targetExists ? 'missing_target' : 'stale_source';
-        candidates.push({
-          sourcePath: target.sidebarSource,
-          targetPath: target.sidebarTarget,
-          sourceHash,
-          locale: target.locale,
-          reason,
-        });
-      }
-    }
-  }
-
   const retirementCandidates: RetirementCandidate[] = [];
   if (target.id !== 'ja-JP') {
     for (const record of previous) {
       if (record.status === 'retired' || activeSources.has(record.sourcePath)) continue;
-      if (record.sourcePath.includes('#')) {
-        retirementCandidates.push({
-          sourcePath: record.sourcePath,
-          targetPath: record.targetPath ?? (target.id === 'zh-CN-tools' ? target.sidebarTarget : ''),
-          reason: 'sidebar_removed',
-        });
-        continue;
-      }
       const renamed = options.renamedSourcePaths?.[record.sourcePath];
       retirementCandidates.push({
         sourcePath: record.sourcePath,

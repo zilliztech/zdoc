@@ -60,13 +60,13 @@ function containsForcePush(source) {
 }
 
 function translationCaseBranches(run) {
-  const results = { 'ja-JP': [], 'zh-CN-reference': [], 'zh-CN-tools': [] }
+  const results = { 'ja-JP': [], 'zh-CN-reference': [] }
   const lines = String(run || '').split('\n')
   for (let index = 0; index < lines.length; index += 1) {
     if (!/^\s*case "\$TRANSLATION_TARGET" in\s*$/.test(lines[index])) continue
     let target = null
     for (index += 1; index < lines.length && !/^\s*esac\s*$/.test(lines[index]); index += 1) {
-      const branch = lines[index].match(/^\s*(ja-JP|zh-CN-reference|zh-CN-tools)\)\s*(.*)$/)
+      const branch = lines[index].match(/^\s*(ja-JP|zh-CN-reference)\)\s*(.*)$/)
       if (branch) { target = branch[1]; if (branch[2]) results[target].push(branch[2]); continue }
       if (target) results[target].push(lines[index])
       if (/;;\s*$/.test(lines[index])) target = null
@@ -79,11 +79,10 @@ function validateTargetBranches(run, file, errors) {
   const branches = translationCaseBranches(run)
   const forbidden = {
     'ja-JP': /content\/zh-CN|generated\/zh-CN/,
-    'zh-CN-reference': /i18n\/ja-JP|content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/(?:sidebars\/guides\.sidebar\.js|manifests\/tools-translations\.json)/,
-    'zh-CN-tools': /i18n\/ja-JP|content\/zh-CN\/reference|generated\/zh-CN\/manifests\/reference-translations\.json/,
+    'zh-CN-reference': /i18n\/ja-JP|content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/sidebars\/guides\.sidebar\.js/,
   }
   for (const [target, pattern] of Object.entries(forbidden)) if (pattern.test(branches[target])) errors.push(`${file}: ${target} branch must not claim cross-target translation paths`)
-  if (/build:zh-CN/.test(branches['ja-JP']) || /build:en/.test(branches['zh-CN-reference']) || /build:en/.test(branches['zh-CN-tools'])) {
+  if (/build:zh-CN/.test(branches['ja-JP']) || /build:en/.test(branches['zh-CN-reference'])) {
     errors.push(`${file}: translation target branch contains a wrong-site build`)
   }
 }
@@ -196,11 +195,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === 'site-validation.yml') {
-      const toolsCoverage = workflow.jobs?.tools_coverage
-      const commands = (toolsCoverage?.steps || []).map(step => String(step?.run || '').trim())
-      if (!commands.includes('pnpm docs-tooling validate-translation --target zh-CN-tools --group tools') ||
-        !commands.includes('pnpm docs-tooling validate-tools-sidebar')) {
-        errors.push(`${file}: Chinese Tools coverage must run exact translation and sidebar validators`)
+      if (!/pnpm docs-tooling validate-group --site zh-CN --group guides[\s\S]*validate-generated-sidebars\.js[\s\S]*pnpm run build:zh-CN/.test(source)) {
+        errors.push(`${file}: Chinese Guides validation must cover source ownership, sidebars, and the Chinese build`)
       }
       const siteBuilds = [
         ['build_en', 'pnpm build:en'],
@@ -585,7 +581,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const chinesePublishers = [
         'translate_python_zh_reference', 'translate_java_zh_reference', 'translate_node_zh_reference',
         'translate_go_zh_reference', 'translate_cli_zh_reference', 'translate_rest_zh_reference',
-        'translate_guides_zh_tools',
       ]
       if (chinesePublishers.some(jobName => {
         const job = workflow.jobs?.[jobName]
@@ -737,8 +732,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const verificationCommands = executableCommandLines(verificationRun)
       const orderedSiteCommands = [
         'pnpm docs-tooling validate-reference --site zh-CN',
-        'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
-        'pnpm docs-tooling validate-tools-sidebar',
+        'pnpm docs-tooling validate-group --site zh-CN --group guides',
         'node scripts/validate-generated-sidebars.js',
         'node scripts/validate-translated-coverage.js --group "$group"',
         'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',
@@ -782,8 +776,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
       const called = workflow.jobs?.translate?.with || {}
-      const targets = ['ja-JP', 'zh-CN-reference', 'zh-CN-tools']
-      const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools', 'reference-landings']
+      const targets = ['ja-JP', 'zh-CN-reference']
+      const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings']
       if (inputs.target?.required !== true || JSON.stringify(inputs.target?.options) !== JSON.stringify(targets) || called.target !== '${{ inputs.target }}') {
         errors.push(`${file}: compatibility boundary must expose and forward the selected translation target`)
       }
@@ -791,8 +785,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: compatibility boundary must expose and forward the selected translation group`)
       }
       if (!/ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/.test(source) ||
-        !/zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/.test(source) ||
-        !/zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/.test(source)) {
+        !/zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/.test(source)) {
         errors.push(`${file}: compatibility boundary must enforce exact target and group pairings`)
       }
       if (['tooling_sha', 'source_sha'].some(input => inputs[input]?.required !== true || called[input] !== `\${{ inputs.${input} }}`)) errors.push(`${file}: compatibility boundary must require and forward exact immutable SHAs`)
@@ -873,7 +866,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       'translate_guides_batches',
       ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}`),
       ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}_zh_reference`),
-      'translate_guides_zh_tools',
     ]
     for (const jobName of paidTranslationJobs) {
       const job = caller?.jobs?.[jobName]

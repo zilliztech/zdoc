@@ -40,34 +40,13 @@ describe('translation target contracts', () => {
     });
   });
 
-  it('defines Chinese Tools as an owned page subtree and sidebar fragment', () => {
-    expect(resolveTranslationTarget('zh-CN-tools')).toMatchObject({
-      id: 'zh-CN-tools',
-      sourceSite: 'en',
-      targetSite: 'zh-CN',
-      locale: 'zh-CN',
-      sourceRoot: 'content/en/guides/tutorials/tools',
-      targetRoot: 'content/zh-CN/guides/tutorials/tools',
-      sidebarSource: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
-      sidebarTarget: 'generated/zh-CN/sidebars/tools.sidebar.js',
-      state: {kind: 'tools-manifest', path: 'generated/zh-CN/manifests/tools-translations.json'},
-      validation: ['validate-mdx', 'validate-tools-sidebar', 'validate-coverage', 'build:zh-CN'],
-    });
-  });
-
-  it('rejects unknown targets, non-NFC paths, and overlapping target ownership', () => {
+  it('rejects retired or unknown targets and non-NFC paths', () => {
     expect(() => resolveTranslationTarget('zh-CN')).toThrow(/unknown translation target/i);
+    expect(() => resolveTranslationTarget('zh-CN-tools')).toThrow(/unknown translation target/i);
     expect(() => parseTranslationTargets([{
       ...resolveTranslationTarget('zh-CN-reference'),
       targetRoot: 'content/zh-CN/re\u0301ference',
     }])).toThrow(/NFC/i);
-    expect(() => parseTranslationTargets([
-      resolveTranslationTarget('zh-CN-reference'),
-      {
-        ...resolveTranslationTarget('zh-CN-tools'),
-        targetRoot: 'content/zh-CN/reference/tools',
-      },
-    ])).toThrow(/overlap|disjoint/i);
   });
 
   it('returns deeply immutable target contracts', () => {

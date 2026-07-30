@@ -51,7 +51,6 @@ function normalizeRetirements({registry, group, exists}) {
 
 function statePathForTarget(target) {
   if (target === 'zh-CN-reference') return 'generated/zh-CN/manifests/reference-translations.json';
-  if (target === 'zh-CN-tools') return 'generated/zh-CN/manifests/tools-translations.json';
   return null;
 }
 

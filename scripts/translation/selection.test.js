@@ -11,9 +11,9 @@ test('selects one Chinese SDK translation group', () => {
   }]);
 });
 
-test('orders all Chinese Reference groups before Tools', () => {
+test('orders all Chinese Reference groups', () => {
   assert.deepEqual(buildTranslationSelection({locale: 'zh-CN', group: 'all'}).map(item => item.group), [
-    'python', 'java', 'node', 'go', 'cli', 'rest', 'tools',
+    'python', 'java', 'node', 'go', 'cli', 'rest',
   ]);
 });
 
@@ -23,7 +23,7 @@ test('expands all locales deterministically', () => {
     'ja-JP:guides', 'ja-JP:python', 'ja-JP:java', 'ja-JP:node', 'ja-JP:go', 'ja-JP:cli', 'ja-JP:rest',
   ]);
   assert.deepEqual(selected.slice(7).map(item => `${item.locale}:${item.group}`), [
-    'zh-CN:python', 'zh-CN:java', 'zh-CN:node', 'zh-CN:go', 'zh-CN:cli', 'zh-CN:rest', 'zh-CN:tools',
+    'zh-CN:python', 'zh-CN:java', 'zh-CN:node', 'zh-CN:go', 'zh-CN:cli', 'zh-CN:rest',
   ]);
 });
 

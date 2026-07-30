@@ -873,34 +873,8 @@ jobs:
     with: { target: zh-CN-reference, group: rest, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', publish: true }
     secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
 
-  detect_guides_tools_translation:
-    needs: [prepare, publish_guides]
-    if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && (needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    outputs: { changed: '${{ steps.diff.outputs.changed }}' }
-    steps:
-      - uses: actions/checkout@v4
-        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
-      - id: diff
-        env: { SOURCE_SHA: '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}' }
-        run: |
-          set -euo pipefail
-          git fetch --no-tags --depth=2 origin "$SOURCE_SHA"
-          git cat-file -e "$SOURCE_SHA^"
-          changed=false
-          if git diff --name-only "$SOURCE_SHA^" "$SOURCE_SHA" | grep -Eq '^(content/en/guides/tutorials/tools/|generated/en/sidebars/guides\.sidebar\.js$)'; then changed=true; fi
-          echo "changed=$changed" >> "$GITHUB_OUTPUT"
-
-  translate_guides_zh_tools:
-    needs: [prepare, publish_guides, detect_guides_tools_translation, guides_translation_publication_barrier, source_publication_barrier]
-    if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.source_publication_barrier.result == 'success' && needs.guides_translation_publication_barrier.result == 'success' && needs.detect_guides_tools_translation.outputs.changed == 'true' }}
-    uses: ./.github/workflows/translate-content.yml
-    with: { target: zh-CN-tools, group: tools, tooling_sha: '${{ needs.prepare.outputs.master_sha }}', source_sha: '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', publish: true }
-    secrets: { TRANSLATION_AGENT_API_KEY: '${{ secrets.TRANSLATION_AGENT_API_KEY }}', REVIEW_AGENT_API_KEY: '${{ secrets.REVIEW_AGENT_API_KEY }}' }
-
   resolve_final:
-    needs: [prepare, finalize_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation, translate_python_zh_reference, translate_java_zh_reference, translate_node_zh_reference, translate_go_zh_reference, translate_cli_zh_reference, translate_rest_zh_reference, translate_guides_zh_tools]
+    needs: [prepare, finalize_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation, translate_python_zh_reference, translate_java_zh_reference, translate_node_zh_reference, translate_go_zh_reference, translate_cli_zh_reference, translate_rest_zh_reference]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15

@@ -115,8 +115,8 @@ test('translation workflows declare immutable target identity and exact target v
   assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
 
   const compatibility = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
-  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
-  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.group.options, ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools', 'reference-landings'])
+  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference'])
+  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.group.options, ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings'])
   for (const input of ['target', 'group', 'tooling_sha', 'source_sha']) assert.equal(compatibility.on.workflow_dispatch.inputs[input]?.required, true)
   assert.equal(compatibility.jobs.translate.with.target, '${{ inputs.target }}')
   assert.equal(compatibility.jobs.translate.with.tooling_sha, '${{ inputs.tooling_sha }}')
@@ -128,7 +128,7 @@ test('translation workflows declare immutable target identity and exact target v
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
   assert.match(compatibilitySource, /ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/)
   assert.match(compatibilitySource, /zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/)
-  assert.match(compatibilitySource, /zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/)
+  assert.doesNotMatch(compatibilitySource, /zh-CN-tools|tools-translations\.json/)
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(source, /validate-reference --site zh-CN|pnpm run build:(?:en|zh-CN)/)
@@ -181,16 +181,16 @@ test('workflow policy rejects Chinese source publication collisions with protect
   }
 })
 
-test('workflow policy rejects missing or miswired site-validation Tools validators', () => {
+test('workflow policy rejects missing or miswired Chinese Guides validators', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
     {
-      from: 'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
-      to: 'pnpm docs-tooling validate-translation --target zh-CN-reference --group tools',
+      from: 'pnpm docs-tooling validate-group --site zh-CN --group guides',
+      to: 'pnpm docs-tooling validate-reference --site zh-CN',
     },
     {
-      from: 'pnpm docs-tooling validate-tools-sidebar',
-      to: 'pnpm docs-tooling validate-reference --site zh-CN',
+      from: 'node scripts/validate-generated-sidebars.js',
+      to: 'echo skipped sidebars',
     },
   ]
   for (const fixture of cases) {
@@ -201,7 +201,7 @@ test('workflow policy rejects missing or miswired site-validation Tools validato
       const source = fs.readFileSync(file, 'utf8')
       assert.ok(source.includes(fixture.from), `site-validation.yml must contain ${fixture.from}`)
       fs.writeFileSync(file, source.replace(fixture.from, fixture.to))
-      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: Chinese Tools coverage must run exact translation and sidebar validators'))
+      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: Chinese Guides validation must cover source ownership, sidebars, and the Chinese build'))
     } finally {
       fs.rmSync(directory, {recursive: true, force: true})
     }
@@ -293,7 +293,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('zh-CN-tools) [[ "$INPUT_GROUP" == tools ]] ;;', 'zh-CN-tools) true ;;'),
+      mutate: source => source.replace('zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest|reference-landings)$ ]] ;;', 'zh-CN-reference) true ;;'),
       expected: 'translate-codex.yml: compatibility boundary must enforce exact target and group pairings',
     },
     {
@@ -611,7 +611,6 @@ test('all paid translation waits for successful selected source publication', ()
     'translate_guides_batches',
     ...['python', 'java', 'node', 'go', 'cli', 'rest'].map(group => `translate_${group}`),
     ...['python', 'java', 'node', 'go', 'cli', 'rest'].map(group => `translate_${group}_zh_reference`),
-    'translate_guides_zh_tools',
   ]
   for (const jobName of paidJobs) {
     const job = workflow.jobs[jobName]
@@ -991,8 +990,8 @@ test('workflow policy rejects final verification waterline and two-site mutation
     ['pnpm docs-tooling validate-reference --site zh-CN', 'echo skipped Chinese reference', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
     ['pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log', "echo 'pnpm docs-tooling validate-reference --site zh-CN' 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log", '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
     [
-      '          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log\n          pnpm docs-tooling validate-translation --target zh-CN-tools --group tools 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-translation.log',
-      '          pnpm docs-tooling validate-translation --target zh-CN-tools --group tools 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-translation.log\n          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log',
+      '          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log\n          pnpm docs-tooling validate-group --site zh-CN --group guides 2>&1 | tee tmp/final-verification-reports/zh-cn-guides.log',
+      '          pnpm docs-tooling validate-group --site zh-CN --group guides 2>&1 | tee tmp/final-verification-reports/zh-cn-guides.log\n          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log',
       '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds',
     ],
     ['node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting', 'echo skipped Chinese build', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
@@ -1775,7 +1774,6 @@ test('Chinese publishers wait for the Guides translation publication barrier', (
     'translate_go_zh_reference',
     'translate_cli_zh_reference',
     'translate_rest_zh_reference',
-    'translate_guides_zh_tools',
   ]
   for (const jobName of publishingJobs) {
     const job = workflow.jobs[jobName]
@@ -1803,11 +1801,6 @@ test('Chinese publishers wait for the Guides translation publication barrier', (
       )
     }
   }
-  assert.equal(
-    workflow.jobs.translate_guides_zh_tools.with.source_sha,
-    '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}',
-  )
-
   const visiting = new Set(), visited = new Set()
   const visit = jobName => {
     if (visiting.has(jobName)) assert.fail(`dependency cycle at ${jobName}`)

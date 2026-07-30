@@ -238,8 +238,6 @@ function releaseInputDefinition(site) {
   return {
     roots: ['content/zh-CN/guides/tutorials/tools'],
     required: [
-      'config/tools-retirements.json',
-      'generated/zh-CN/manifests/tools-translations.json',
       'generated/zh-CN/sidebars/tools.sidebar.js',
     ],
   };
@@ -256,9 +254,7 @@ function translationTargetInputDefinition(target) {
   return {
     site: target.targetSite,
     roots: [target.targetRoot],
-    required: target.id === 'zh-CN-tools'
-      ? [target.sidebarTarget, target.state.path]
-      : [target.state.path],
+    required: [target.state.path],
   };
 }
 

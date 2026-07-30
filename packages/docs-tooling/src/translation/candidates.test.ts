@@ -8,7 +8,6 @@ import {describe, expect, it} from 'vitest';
 import {
   TranslationRetirementRequiredError,
   buildTranslationCandidates,
-  validateTranslatedSidebarFragment,
 } from './candidates.ts';
 
 function sha256(contents: string): string {
@@ -149,86 +148,6 @@ describe('translation candidates', () => {
     expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-reference'})).toEqual({candidates: [], retirementCandidates: []});
   });
 
-  it('maps Tools pages and validates translated sidebar structure without changing stable identities', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'content/en/guides/tutorials/tools/tool.md';
-    write(repositoryRoot, sourcePath, '# tool\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: []});
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'}).candidates).toContainEqual(expect.objectContaining({
-      sourcePath,
-      targetPath: 'content/zh-CN/guides/tutorials/tools/tool.md',
-      reason: 'missing_target',
-    }));
-
-    const source = [{type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: [
-      {type: 'doc', id: 'tutorials/tools/tool', label: 'Tool', key: 'doc:tutorials/tools/tool'},
-      {type: 'link', href: 'https://example.com', label: 'External', key: 'link:tutorials/tools/external'},
-    ]}];
-    const translated = [{type: 'category', label: '工具', key: 'category:tutorials/tools', items: [
-      {type: 'doc', id: 'tutorials/tools/tool', label: '工具页面', key: 'doc:tutorials/tools/tool'},
-      {type: 'link', href: 'https://example.com', label: '外部链接', key: 'link:tutorials/tools/external'},
-    ]}];
-    expect(() => validateTranslatedSidebarFragment(source, translated)).not.toThrow();
-    expect(() => validateTranslatedSidebarFragment(source, [{...translated[0], key: 'category:changed'}])).toThrow(/key|structure/i);
-  });
-
-  it('treats the English Tools sidebar fragment as an independently translated candidate', () => {
-    const repositoryRoot = fixture();
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: []});
-    write(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js', `module.exports = [{
-      type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: [
-        {type: 'doc', id: 'tutorials/tools/tool', label: 'Tool', key: 'doc:tutorials/tools/tool'},
-      ],
-    }]\n`);
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'}).candidates).toContainEqual(expect.objectContaining({
-      sourcePath: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
-      targetPath: 'generated/zh-CN/sidebars/tools.sidebar.js',
-      reason: 'missing_target',
-    }));
-  });
-
-  it('requeues the Tools sidebar when a visible English label changes', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools';
-    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js';
-    write(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js', `module.exports = [{
-      type: 'category', label: 'Updated Tools', key: 'category:tutorials/tools', items: [],
-    }]\n`);
-    write(repositoryRoot, targetPath, 'module.exports = []\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: [{
-      sourcePath,
-      targetPath,
-      sourceHash: sha256(JSON.stringify({type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: []})),
-      kind: 'sidebar',
-    }]});
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'}).candidates).toContainEqual(expect.objectContaining({
-      sourcePath,
-      targetPath,
-      reason: 'stale_source',
-    }));
-  });
-
-  it('blocks removal of the English Tools sidebar fragment until explicitly retired', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools';
-    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js';
-    write(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n');
-    write(repositoryRoot, targetPath, 'module.exports = []\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: [{
-      sourcePath,
-      targetPath,
-      sourceHash: 'a'.repeat(64),
-      kind: 'sidebar',
-    }]});
-
-    expect(() => buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'})).toThrowError(expect.objectContaining({
-      retirementCandidates: [{sourcePath, targetPath, reason: 'sidebar_removed'}],
-    }));
-  });
-
   it('rejects non-NFC names and symlink ancestors while scanning source files', () => {
     const nfcRoot = fixture();
     write(nfcRoot, 'content/en/guides/tutorials/cafe\u0301.md', '# decomposed\n');
@@ -242,25 +161,4 @@ describe('translation candidates', () => {
     expect(() => buildTranslationCandidates({repositoryRoot: symlinkRoot, targetId: 'ja-JP'})).toThrow(/symlink/i);
   });
 
-  it('rejects unsafe paths declared by committed translation state', () => {
-    const repositoryRoot = fixture();
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: [{
-      sourcePath: 'content/en/guides/tutorials/tools/../outside.md',
-      targetPath: 'content/zh-CN/guides/tutorials/tools/outside.md',
-      sourceHash: 'a'.repeat(64),
-    }]});
-
-    expect(() => buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'})).toThrow(/normalized|unsafe|repository-relative/i);
-  });
-
-  it('rejects a missing target below a symlink ancestor', () => {
-    const repositoryRoot = fixture();
-    write(repositoryRoot, 'content/en/guides/tutorials/tools/tool.md', '# tool\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: []});
-    mkdirSync(path.join(repositoryRoot, 'outside'), {recursive: true});
-    mkdirSync(path.join(repositoryRoot, 'content/zh-CN/guides/tutorials'), {recursive: true});
-    symlinkSync(path.join(repositoryRoot, 'outside'), path.join(repositoryRoot, 'content/zh-CN/guides/tutorials/tools'));
-
-    expect(() => buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'})).toThrow(/symlink/i);
-  });
 });

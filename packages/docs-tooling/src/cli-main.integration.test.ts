@@ -105,78 +105,6 @@ function run(repositoryRoot: string, provider?: string) {
   });
 }
 
-function prepareToolsTranslation(repositoryRoot: string): void {
-  const sourcePath = 'content/en/guides/tutorials/tools/tool.md';
-  const targetPath = 'content/zh-CN/guides/tutorials/tools/tool.md';
-  const source = '# Tool\n';
-  const sourceSidebar = [{
-    type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: [
-      {type: 'doc', id: 'tutorials/tools/tool', label: 'Tool', key: 'doc:tutorials/tools/tool'},
-    ],
-  }];
-  const targetSidebar = [{
-    type: 'category', label: '工具', key: 'category:tutorials/tools', items: [
-      {type: 'doc', id: 'tutorials/tools/tool', label: '工具', key: 'doc:tutorials/tools/tool'},
-    ],
-  }];
-  for (const [relativePath, contents] of [
-    [sourcePath, source],
-    [targetPath, '# 工具\n'],
-    ['generated/en/sidebars/guides.sidebar.js', `module.exports = ${JSON.stringify(sourceSidebar)}\n`],
-    ['generated/zh-CN/sidebars/tools.sidebar.js', `module.exports = ${JSON.stringify(targetSidebar)}\n`],
-  ]) {
-    const absolutePath = path.join(repositoryRoot, relativePath);
-    mkdirSync(path.dirname(absolutePath), {recursive: true});
-    writeFileSync(absolutePath, contents);
-  }
-  const hash = (value: string): string => createHash('sha256').update(value).digest('hex');
-  const manifestPath = path.join(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json');
-  mkdirSync(path.dirname(manifestPath), {recursive: true});
-  writeFileSync(manifestPath, `${JSON.stringify({schemaVersion: 1, records: [
-    {sourcePath, targetPath, sourceHash: hash(source)},
-    {
-      sourcePath: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
-      targetPath: 'generated/zh-CN/sidebars/tools.sidebar.js',
-      sourceHash: hash(JSON.stringify(sourceSidebar[0])),
-      kind: 'sidebar',
-    },
-  ]})}\n`);
-  const retirements = path.join(repositoryRoot, 'config/tools-retirements.json');
-  mkdirSync(path.dirname(retirements), {recursive: true});
-  writeFileSync(retirements, '{"schemaVersion":1,"retirements":[]}\n');
-}
-
-function prepareToolsCategoryLandingTranslation(repositoryRoot: string): void {
-  const landingId = 'tutorials/tools/agents-and-prompts/agents-and-prompts';
-  const sourceSidebar = [{
-    type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: [{
-      type: 'category',
-      label: 'Agents and prompts',
-      key: 'category:tutorials/tools/agents-and-prompts',
-      link: {type: 'doc', id: landingId},
-      items: [],
-    }],
-  }];
-  const targetSidebar = [{
-    type: 'category', label: '工具', key: 'category:tutorials/tools', items: [{
-      type: 'category',
-      label: '智能体和提示词',
-      key: 'category:tutorials/tools/agents-and-prompts',
-      link: {type: 'doc', id: landingId},
-      items: [],
-    }],
-  }];
-  for (const [relativePath, contents] of [
-    ['content/zh-CN/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md', '# 智能体和提示词\n'],
-    ['generated/en/sidebars/guides.sidebar.js', `module.exports = ${JSON.stringify(sourceSidebar)}\n`],
-    ['generated/zh-CN/sidebars/tools.sidebar.js', `module.exports = ${JSON.stringify(targetSidebar)}\n`],
-  ]) {
-    const absolutePath = path.join(repositoryRoot, relativePath);
-    mkdirSync(path.dirname(absolutePath), {recursive: true});
-    writeFileSync(absolutePath, contents);
-  }
-}
-
 describe('docs-tooling executable composition root', () => {
   it('uses only the declared Node 22.6 runtime surface for revision inventory loading', () => {
     const source = readFileSync(cliMain, 'utf8');
@@ -323,48 +251,6 @@ describe('docs-tooling executable composition root', () => {
       'media_manifest_path=packages/docs-tooling/src/lark/meta/media-cache/guides-zh-CN.json',
       '',
     ].join('\n'));
-  });
-
-  it('runs Chinese Tools translation coverage and sidebar validators', () => {
-    const repositoryRoot = temporaryRoot();
-    prepareToolsTranslation(repositoryRoot);
-    for (const args of [
-      ['validate-translation', '--target', 'zh-CN-tools', '--group', 'tools'],
-      ['validate-tools-sidebar'],
-    ]) {
-      const result = spawnSync(process.execPath, ['--experimental-strip-types', cliMain, ...args], {
-        cwd: repositoryRoot,
-        encoding: 'utf8',
-        env: process.env,
-      });
-      expect(result.status, result.stderr || result.stdout).toBe(0);
-    }
-  });
-
-  it('treats category doc links as reachable Tools landing pages', () => {
-    const repositoryRoot = temporaryRoot();
-    prepareToolsCategoryLandingTranslation(repositoryRoot);
-    const result = spawnSync(process.execPath, [
-      '--experimental-strip-types', cliMain, 'validate-tools-sidebar',
-    ], {cwd: repositoryRoot, encoding: 'utf8', env: process.env});
-
-    expect(result.status, result.stderr || result.stdout).toBe(0);
-  });
-
-  it('fails Chinese Tools coverage when tracked translation state is incomplete', () => {
-    const repositoryRoot = temporaryRoot();
-    prepareToolsTranslation(repositoryRoot);
-    writeFileSync(
-      path.join(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json'),
-      '{"schemaVersion":1,"records":[]}\n',
-    );
-    const result = spawnSync(process.execPath, [
-      '--experimental-strip-types', cliMain,
-      'validate-translation', '--target', 'zh-CN-tools', '--group', 'tools',
-    ], {cwd: repositoryRoot, encoding: 'utf8', env: process.env});
-
-    expect(result.status).not.toBe(0);
-    expect(result.stderr).toMatch(/coverage.*incomplete|missing_target|stale_source/i);
   });
 
   it('routes publish-group through the typed site-aware registry', () => {
