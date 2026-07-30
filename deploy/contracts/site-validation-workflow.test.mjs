@@ -109,6 +109,7 @@ test('manual site publication selects locale builds and deploys only validated a
   assert.doesNotMatch(deploy, /pnpm (?:run )?build|docusaurus build/);
   assert.match(validation, /options: \[auto, en, zh-CN, all\]/);
   assert.match(validation, /source_ref:[\s\S]*default: dev/);
+  assert.match(validation, /group: site-validation-\$\{\{ github\.event\.pull_request\.number \|\| format\('\{0\}-\{1\}', github\.ref, inputs\.site \|\| 'auto'\) \}\}/);
   assert.match(entry, /needs\.build_en\.result == 'success'[\s\S]*needs\.build_zh_cn\.result == 'success'/);
 });
 

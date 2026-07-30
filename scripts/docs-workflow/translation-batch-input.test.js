@@ -35,21 +35,21 @@ function temporaryDirectory(prefix) {
   return fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), prefix)))
 }
 
-function candidate(name = 'a.md', hash = HASH_A, root = 'docs') {
-  const plugin = root === 'docs' ? 'docs' : 'docs-byoc'
+function candidate(name = 'a.md', hash = HASH_A, root = 'content/en/guides') {
+  const plugin = root === 'content/en/guides' ? 'docs' : 'docs-byoc'
   return {
     sourcePath: `${root}/tutorials/${name}`,
     targetPath: `i18n/ja-JP/docusaurus-plugin-content-${plugin}/current/tutorials/${name}`,
     sourceHash: hash,
     locale: 'ja-JP',
-    type: root === 'docs' ? 'docs' : 'byoc',
+    type: root === 'content/en/guides' ? 'guides' : 'byoc',
     reason: 'current_delta',
   }
 }
 
-function rename(oldName = 'old.md', newName = 'new.md', oldRoot = 'docs', newRoot = oldRoot) {
-  const oldPlugin = oldRoot === 'docs' ? 'docs' : 'docs-byoc'
-  const newPlugin = newRoot === 'docs' ? 'docs' : 'docs-byoc'
+function rename(oldName = 'old.md', newName = 'new.md', oldRoot = 'content/en/guides', newRoot = oldRoot) {
+  const oldPlugin = oldRoot === 'content/en/guides' ? 'docs' : 'docs-byoc'
+  const newPlugin = newRoot === 'content/en/guides' ? 'docs' : 'docs-byoc'
   return {
     oldPath: `${oldRoot}/tutorials/${oldName}`,
     newPath: `${newRoot}/tutorials/${newName}`,
@@ -293,8 +293,8 @@ test('rejects duplicate entries, unrelated overlaps, and ancestor conflicts', ()
 
   const ancestor = batchInput({
     candidates: [
-      { sourcePath: 'docs/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_A },
-      { sourcePath: 'docs/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: HASH_B },
+      { sourcePath: 'content/en/guides/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_A },
+      { sourcePath: 'content/en/guides/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: HASH_B },
     ],
     sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
   })
@@ -302,9 +302,9 @@ test('rejects duplicate entries, unrelated overlaps, and ancestor conflicts', ()
 
   const nonAdjacentAncestor = batchInput({
     candidates: [
-      { sourcePath: 'docs/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_A },
-      { sourcePath: 'docs/tutorials/a.md-b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md-b.md', sourceHash: HASH_B },
-      { sourcePath: 'docs/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: 'c'.repeat(64) },
+      { sourcePath: 'content/en/guides/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_A },
+      { sourcePath: 'content/en/guides/tutorials/a.md-b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md-b.md', sourceHash: HASH_B },
+      { sourcePath: 'content/en/guides/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: 'c'.repeat(64) },
     ],
     batch: { ...selectedManifest().batch, pendingCount: 3 },
     sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
@@ -353,8 +353,8 @@ test('accepts only exact intrinsic rename overlaps and rejects near misses', () 
 test('canonical validation rejects non-deterministic array ordering', () => {
   const input = batchInput({
     candidates: [
-      { sourcePath: 'docs/tutorials/z.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/z.md', sourceHash: HASH_A },
-      { sourcePath: 'docs/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_B },
+      { sourcePath: 'content/en/guides/tutorials/z.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/z.md', sourceHash: HASH_A },
+      { sourcePath: 'content/en/guides/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_B },
     ],
     batch: { ...selectedManifest().batch, pendingCount: 2 },
     sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
@@ -370,7 +370,11 @@ test('rejects non-Guides manifests and unauthorized source-delta shapes', () => 
 
 function cacheEntry(sourcePath, hash = HASH_A) {
   let targetPath
-  if (sourcePath.startsWith('docs/tutorials/')) {
+  if (sourcePath.startsWith('content/en/guides/tutorials/')) {
+    targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/${sourcePath.slice('content/en/guides/tutorials/'.length)}`
+  } else if (sourcePath.startsWith('content/en/byoc/tutorials/')) {
+    targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/${sourcePath.slice('content/en/byoc/tutorials/'.length)}`
+  } else if (sourcePath.startsWith('docs/tutorials/')) {
     targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/${sourcePath.slice('docs/tutorials/'.length)}`
   } else if (sourcePath.startsWith('docs-byoc/tutorials/')) {
     targetPath = `i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/${sourcePath.slice('docs-byoc/tutorials/'.length)}`

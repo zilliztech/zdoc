@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: site-validation-${{ github.event.pull_request.number || github.ref }}
+  group: site-validation-${{ github.event.pull_request.number || format('{0}-{1}', github.ref, inputs.site || 'auto') }}
   cancel-in-progress: true
 
 jobs:

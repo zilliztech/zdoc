@@ -35,16 +35,17 @@ const GUIDES_MAPPINGS = Object.freeze([
 
 const LEGACY_GUIDES_CACHE_MAPPINGS = Object.freeze([
   {
-    sourceRoot: 'docs/tutorials',
+    cacheKeyPrefix: 'docs/tutorials',
     targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
   },
   {
-    sourceRoot: 'docs-byoc/tutorials',
+    cacheKeyPrefix: 'docs-byoc/tutorials',
     targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
   },
 ])
 
 const GUIDES_CACHE_MAPPINGS = Object.freeze([...GUIDES_MAPPINGS, ...LEGACY_GUIDES_CACHE_MAPPINGS])
+const cacheKeyPrefix = mapping => mapping.sourceRoot || mapping.cacheKeyPrefix
 
 function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -272,10 +273,10 @@ function createBatchInput(manifest) {
 }
 
 function cacheTargetForSource(sourcePath) {
-  const guides = GUIDES_CACHE_MAPPINGS.find(mapping => sourcePath.startsWith(`${mapping.sourceRoot}/`))
+  const guides = GUIDES_CACHE_MAPPINGS.find(mapping => sourcePath.startsWith(`${cacheKeyPrefix(mapping)}/`))
   if (guides) {
     assertSafeRelativePath(sourcePath, 'cache source path')
-    const suffix = sourcePath.slice(guides.sourceRoot.length + 1)
+    const suffix = sourcePath.slice(cacheKeyPrefix(guides).length + 1)
     if (!suffix || !MARKDOWN.test(suffix)) throw new Error('cache source path must have a .md or .mdx extension')
     return `${guides.targetRoot}/${suffix}`
   }
@@ -307,13 +308,13 @@ function cacheSourceIdentities(sourcePath) {
   const suffix = sourcePath.slice(mapping.sourceRoot.length + 1)
   return GUIDES_CACHE_MAPPINGS
     .filter(item => item.targetRoot === mapping.targetRoot)
-    .map(item => `${item.sourceRoot}/${suffix}`)
+    .map(item => `${cacheKeyPrefix(item)}/${suffix}`)
 }
 
 function sourcesForDeletedI18n(targetPath) {
   const mappings = GUIDES_CACHE_MAPPINGS.filter(item => targetPath.startsWith(`${item.targetRoot}/`))
   if (!mappings.length) throw new Error('Deletion is outside exact Guides target roots')
-  return mappings.map(mapping => `${mapping.sourceRoot}/${targetPath.slice(mapping.targetRoot.length + 1)}`)
+  return mappings.map(mapping => `${cacheKeyPrefix(mapping)}/${targetPath.slice(mapping.targetRoot.length + 1)}`)
 }
 
 function cacheEntriesEqual(before, after) {
