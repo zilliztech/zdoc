@@ -3,15 +3,25 @@ name: translate docs with Codex agents
 on:
   workflow_dispatch:
     inputs:
+      target:
+        description: Translation product
+        required: true
+        type: choice
+        default: ja-JP
+        options: [ja-JP, zh-CN-reference, zh-CN-tools]
       group:
         description: Content group to translate
         required: true
         type: choice
         default: guides
-        options: [guides, python, java, node, go, cli, rest]
+        options: [guides, python, java, node, go, cli, rest, tools, reference-landings]
       max_files: { description: Maximum files, required: false, default: '500' }
-      include_reference: { description: Legacy compatibility input, required: false, default: 'false' }
+      mode: { description: Translation mode, required: false, type: choice, options: [auto, full, incremental], default: auto }
+      publish: { description: Publish validated translations, required: false, type: boolean, default: false }
+      recovery_run_id: { description: Previous recovery workflow run, required: false, type: string }
       target_branch: { description: Publication branch, required: false, default: dev }
+      tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
+      source_sha: { description: Exact source checkpoint SHA, required: true, type: string }
 
 permissions:
   actions: read
@@ -22,55 +32,39 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  prepare:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    outputs:
-      master_sha: ${{ steps.refs.outputs.master_sha }}
-      source_sha: ${{ steps.refs.outputs.source_sha }}
-      target_branch: ${{ steps.refs.outputs.target_branch }}
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - id: refs
+      - name: Validate immutable translation identities
         env:
-          TARGET_BRANCH_INPUT: ${{ inputs.target_branch }}
+          TRANSLATION_TARGET: ${{ inputs.target }}
+          INPUT_GROUP: ${{ inputs.group }}
+          TOOLING_SHA: ${{ inputs.tooling_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
         run: |
           set -euo pipefail
-          target_branch="${TARGET_BRANCH_INPUT:-dev}"
-          if [[ "$target_branch" == *$'\n'* || "$target_branch" == *$'\r'* || "$target_branch" == -* || "$target_branch" == *:* ]]; then
-            echo "Invalid target branch" >&2
-            exit 2
-          fi
-          git check-ref-format --branch "$target_branch" >/dev/null
-          git remote get-url origin >/dev/null
-          git fetch --no-tags origin \
-            "refs/heads/master:refs/remotes/origin/master" \
-            "refs/heads/$target_branch:refs/remotes/origin/$target_branch"
-          master_sha="$(git rev-parse "refs/remotes/origin/master")"
-          source_sha="$(git rev-parse "refs/remotes/origin/$target_branch")"
-          printf 'master_sha=%s\nsource_sha=%s\ntarget_branch=%s\n' "$master_sha" "$source_sha" "$target_branch" >> "$GITHUB_OUTPUT"
+          node -e 'for(const [name,value] of Object.entries(process.env))if(["TOOLING_SHA","SOURCE_SHA"].includes(name)&&!/^[0-9a-f]{40}$/.test(value))throw new Error(`${name} must be an exact lowercase 40-character SHA`)'
+          case "$TRANSLATION_TARGET" in
+            ja-JP) [[ "$INPUT_GROUP" =~ ^(guides|python|java|node|go|cli|rest)$ ]] ;;
+            zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest|reference-landings)$ ]] ;;
+            zh-CN-tools) [[ "$INPUT_GROUP" == tools ]] ;;
+            *) exit 2 ;;
+          esac
+
   translate:
-    needs: prepare
-    uses: ./.github/workflows/_translate-content-group.yml
+    needs: validate
+    uses: ./.github/workflows/translate-content.yml
     with:
+      target: ${{ inputs.target }}
       group: ${{ inputs.group }}
-      source_commit_sha: ${{ needs.prepare.outputs.source_sha }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: true
+      tooling_sha: ${{ inputs.tooling_sha }}
+      source_sha: ${{ inputs.source_sha }}
       max_files: ${{ inputs.max_files }}
+      mode: ${{ inputs.mode }}
+      publish: ${{ inputs.publish }}
+      recovery_run_id: ${{ inputs.recovery_run_id }}
+      target_branch: ${{ inputs.target_branch }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-  publish:
-    needs: [prepare, translate]
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: ${{ inputs.group }}
-      artifact_name: ${{ needs.translate.outputs.artifact_name }}
-      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
-      commit_message: "${{ inputs.group == 'guides' && 'i18n(guides): publish translations' || inputs.group == 'python' && 'i18n(python): publish translations' || inputs.group == 'java' && 'i18n(java): publish translations' || inputs.group == 'node' && 'i18n(node): publish translations' || inputs.group == 'go' && 'i18n(go): publish translations' || inputs.group == 'cli' && 'i18n(cli): publish translations' || 'i18n(rest): publish translations' }}"
-      should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "${{ inputs.group }}"'

@@ -1,0 +1,99 @@
+name: docs ingestion watchdog
+
+on:
+  schedule:
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.6'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Evaluate recent production ingestion
+        id: watchdog
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/docs-workflow/docs-ingestion-watchdog.js \
+            --repository "$GITHUB_REPOSITORY" \
+            --output tmp/docs-ingestion-watchdog.json
+
+      - name: Upload watchdog result
+        if: ${{ always() && !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-ingestion-watchdog-${{ github.run_id }}
+          path: tmp/docs-ingestion-watchdog.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Build watchdog alert note
+        if: ${{ always() && steps.watchdog.outcome != 'success' }}
+        run: |
+          mkdir -p tmp/docs-tooling/report-card
+          {
+            echo '# Docs ingestion watchdog'
+            echo
+            echo "- Status: Failed"
+            echo "- Reason: $WATCHDOG_REASON"
+            echo "- Last successful production run: ${LAST_SUCCESSFUL_AT:-Unavailable}"
+            echo "- Production run: ${RUN_URL:-Unavailable}"
+            echo "- Final dev SHA: ${FINAL_SHA:-Unavailable}"
+          } > tmp/docs-ingestion-watchdog-alert.md
+        env:
+          WATCHDOG_REASON: ${{ steps.watchdog.outputs.reason }}
+          LAST_SUCCESSFUL_AT: ${{ steps.watchdog.outputs.last_successful_at }}
+          RUN_URL: ${{ steps.watchdog.outputs.run_url }}
+          FINAL_SHA: ${{ steps.watchdog.outputs.final_sha }}
+
+      - name: Create watchdog alert card
+        id: alert_card
+        if: ${{ always() && steps.watchdog.outcome != 'success' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "Docs Ingestion Watchdog" --stages "Inspect production ingestion"
+        env: &alert_credentials
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Attach watchdog alert note
+        if: ${{ always() && steps.watchdog.outcome != 'success' && steps.alert_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card note --file tmp/docs-ingestion-watchdog-alert.md
+        env: *alert_credentials
+
+      - name: Finish watchdog alert card
+        if: ${{ always() && steps.watchdog.outcome != 'success' && steps.alert_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card finish --status fail
+        env: *alert_credentials
+
+      - name: Preserve watchdog result
+        if: ${{ always() }}
+        env:
+          WATCHDOG_OUTCOME: ${{ steps.watchdog.outcome }}
+        run: |
+          if [ "$WATCHDOG_OUTCOME" != "success" ]; then
+            echo "Docs ingestion watchdog failed."
+            exit 1
+          fi

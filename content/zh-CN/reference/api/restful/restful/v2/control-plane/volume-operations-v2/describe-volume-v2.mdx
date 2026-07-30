@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/describe-volume-v2
+beta: FALSE
+title: "查看 Volume 详情 (V2) | RESTful"
+description: "本接口用于查看指定 Volume 的详细信息。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "查看 Volume 详情 (V2)"
+sidebar_custom_props: { badges: ['get']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "查看 Volume 详情 (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# 查看 Volume 详情 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Describe Volume","deprecated":false,"description":"Describes a volume in detail.","x-i18n":{"zh-CN":{"summary":"查看 Volume 详情","description":"本接口用于查看指定 Volume 的详细信息。"}},"tags":["Volume Operations (V2)"],"parameters":[{"name":"VOLUME_NAME","in":"path","description":"The name of the volume to describe.","x-i18n":{"zh-CN":{"description":"待查看的 Volume 名称。"}},"required":true,"example":"my_volume","schema":{"type":"string"}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}}],"responses":{"200":{"description":"Returns details of the specified volume.","x-i18n":{"zh-CN":{"description":"返回指定 Volume 的详细信息。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","description":"Response payload which contains volume details.","x-i18n":{"zh-CN":{"description":"响应载荷，包含 Volume 详情。"}},"properties":{"volumeName":{"type":"string","description":"The name of the volume.","x-i18n":{"zh-CN":{"description":"Volume 名称。"}}},"type":{"type":"string","description":"The category of the volume.","x-i18n":{"zh-CN":{"description":"Volume 的类别。"}}},"regionId":{"type":"string","description":"The ID of the region where the volume is located.","x-i18n":{"zh-CN":{"description":"Volume 所属区域的 ID。"}}},"storageIntegrationId":{"type":"string","description":"The storage integration ID. Only returned for external volumes.","x-i18n":{"zh-CN":{"description":"存储集成 ID。仅对外部 Volume 返回。"}}},"path":{"type":"string","description":"The path prefix within the volume. Only returned for external volumes.","x-i18n":{"zh-CN":{"description":"存储卷内的路径前缀。仅对外部 Volume 返回。"}}},"status":{"type":"string","description":"The current status of the volume.","x-i18n":{"zh-CN":{"description":"Volume 的当前状态。"}}},"createTime":{"type":"string","description":"The creation time of the volume in ISO 8601 format.","x-i18n":{"zh-CN":{"description":"Volume 的创建时间，ISO 8601 格式。"}}}}}}},{"x-tab-label":"failure","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}},"description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"x-i18n-langs":["zh-CN"]}]},"examples":{"1":{"summary":"Managed","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"code":0,"data":{"volumeName":"my_volume","type":"MANAGED","regionId":"aws-us-west-2","status":"RUNNING","createTime":"2026-05-06T03:50:35Z"}}},"2":{"summary":"External","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"code":0,"data":{"volumeName":"my_external_volume","type":"EXTERNAL","regionId":"aws-us-west-2","storageIntegrationId":"integ-xxxxxxxxxxxxxxxxxxx","path":"data/","status":"RUNNING","createTime":"2026-05-06T03:50:35Z"}}},"3":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":63240,"message":"The specified volume not exists, please check your request."}},"4":{"summary":"Managed","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"code":0,"data":{"volumeName":"my_volume","type":"MANAGED","regionId":"ali-cn-hangzhou","status":"RUNNING","createTime":"2026-05-06T03:50:35Z"}}},"5":{"summary":"External","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"code":0,"data":{"volumeName":"my_external_volume","type":"EXTERNAL","regionId":"ali-cn-hangzhou","storageIntegrationId":"integ-xxxxxxxxxxxxxxxxxxx","path":"data/","status":"RUNNING","createTime":"2026-05-06T03:50:35Z"}}}}}}}}}
+export const endpoint = "/v2/volumes/{VOLUME_NAME}"
+export const method = "get"

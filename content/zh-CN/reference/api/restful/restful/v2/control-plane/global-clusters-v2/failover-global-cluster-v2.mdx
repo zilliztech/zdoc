@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 7
+slug: /restful/failover-global-cluster-v2
+beta: FALSE
+title: "故障转移全球集群 (V2) | RESTful"
+description: "强制提升指定从集群为新的主集群。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "故障转移全球集群 (V2)"
+sidebar_custom_props: { badges: ['post']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "故障转移全球集群 (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# 故障转移全球集群 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Failover Global Cluster","description":"Force-promotes a specified secondary cluster as the new primary cluster.","tags":["Global Clusters (V2)"],"x-i18n":{"zh-CN":{"summary":"故障转移全球集群","description":"强制提升指定从集群为新的主集群。"}},"parameters":[{"name":"globalClusterId","in":"path","description":"ID of the Global Cluster.","required":true,"example":"glo-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"全球集群 ID。"}}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}}],"requestBody":{"description":"Parameters for failing over a Global Cluster.","x-i18n":{"zh-CN":{"description":"故障转移全球集群的参数。"}},"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"newPrimaryClusterId":{"type":"string","description":"ID of the secondary cluster to promote as the new primary cluster.","x-i18n":{"zh-CN":{"description":"要提升为新主集群的从集群 ID。"}},"example":"in01-secondary"}},"required":["newPrimaryClusterId"]},"examples":{"1":{"summary":"example","x-target-response":"OPTION 1","value":{"newPrimaryClusterId":"in01-secondary"}}}}}},"responses":{"200":{"description":"Returns the failover job.","x-i18n":{"zh-CN":{"description":"返回故障转移任务。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"globalClusterId":{"type":"string","description":"Global Cluster ID.","x-i18n":{"zh-CN":{"description":"全球集群 ID。"}},"example":"glo-xxxxxxxxxxxxxxx"},"oldPrimaryClusterId":{"type":"string","description":"Previous primary cluster ID.","x-i18n":{"zh-CN":{"description":"原主集群 ID。"}},"example":"in01-primary"},"newPrimaryClusterId":{"type":"string","description":"New primary cluster ID.","x-i18n":{"zh-CN":{"description":"新主集群 ID。"}},"example":"in01-secondary"},"jobId":{"type":"string","description":"Job ID for the asynchronous operation.","x-i18n":{"zh-CN":{"description":"异步操作的任务 ID。"}},"example":"job-xxxxxxxxxxxxxxx"}}},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":400},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}},"example":"Invalid request parameters."}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"globalClusterId":"glo-xxxxxxxxxxxxxxx","oldPrimaryClusterId":"in01-primary","newPrimaryClusterId":"in01-secondary","jobId":"job-xxxxxxxxxxxxxxx"}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":400,"message":"Invalid request parameters."}}}}}}}}
+export const endpoint = "/v2/globalClusters/{globalClusterId}/failover"
+export const method = "post"

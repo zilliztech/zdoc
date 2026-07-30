@@ -1,0 +1,254 @@
+---
+title: "Subscribe to a Private Offer on Google Cloud Marketplace | Cloud"
+slug: /subscribe-on-gcp-marketplace-private-offer
+sidebar_label: "Google Cloud Marketplace (Private Offer)"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "A private offer on Google Cloud Marketplace is a custom purchasing option created for your organization by Zilliz. Unlike a public offer, which uses the standard pricing and terms shown on the Google Cloud Marketplace product page, a private offer can include negotiated pricing, custom contract terms, a specific contract duration, and a defined payment schedule. | Cloud"
+type: origin
+token: Fd8EwsD0JiIt98kmps4c5wGlnrh
+sidebar_position: 5
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+import Procedures from '@site/src/components/Procedures';
+
+# Subscribe to a Private Offer on Google Cloud Marketplace
+
+A private offer on Google Cloud Marketplace is a custom purchasing option created for your organization by Zilliz. Unlike a public offer, which uses the standard pricing and terms shown on the Google Cloud Marketplace product page, a private offer can include negotiated pricing, custom contract terms, a specific contract duration, and a defined payment schedule.
+
+If you need a private offer for Zilliz Cloud, [contact your Zilliz account executive](https://zilliz.com/contact-sales). Provide the Google Cloud Billing account ID and your email address that should receive the offer, the expected contract term, usage requirements, and any procurement or billing requirements your organization needs to include.
+
+This guide walks you through how to accept a Zilliz Cloud private offer on Google Cloud Marketplace and link it to a Zilliz Cloud organization.
+
+## Before you start\{#before-you-start}
+
+Before accepting a private offer, make sure that:
+
+- You have a paid Google Cloud Billing account. You cannot use a Free Trial Google Cloud Billing account.
+
+- You have one of the following the required permissions on the Cloud Billing account:
+
+    - Billing Account Administrator (`roles/billing.admin`)
+
+    - Billing Account User (`roles/billing.user`) and Consumer Procurement Order Administrator (`roles/consumerprocurement.orderAdmin`)
+
+    If you do not have the required permissions, ask your Billing Administrator or Organization Administrator to grant access or accept the offer for you.
+
+- You are an Organization Owner or Organization Billing Admin on Zilliz Cloud. These permissions are required to link a Marketplace subscription to a Zilliz Cloud organization.
+
+## Subscribe to a private offer\{#subscribe-to-a-private-offer}
+
+The following is an overview of the subscription process.
+
+![YSY9wG2TNhNlvMbFCZ9cLrIDnDh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YSY9wG2TNhNlvMbFCZ9cLrIDnDh.png)
+
+You can follow the detailed step-by-step guide below to subscribe to a Private Offer on Google Cloud Marketplace.
+
+<Procedures>
+
+1. Contact Zilliz account executive for the private offer.
+
+    While [contacting your Zilliz account executive](https://zilliz.com/contact-sales), you need to provide your [Google Cloud Billling account ID](https://docs.cloud.google.com/billing/docs/how-to/find-billing-account-id) and your email address to receive the private offer. 
+
+1. Check your email inbox.
+
+    Look for an email from Google Cloud Marketplace with the subject **New Private Offer from Zilliz**. Click the **Review Offer** button in the email.
+
+    ![Oawqwr3rDheYWibpPwQclqh0n3d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Oawqwr3rDheYWibpPwQclqh0n3d.png)
+
+    <Admonition type="info" icon="📘" title="Note">
+
+    You must accept the offer before its expiration date. If the offer has expired, contact your account executive.
+
+    </Admonition>
+
+1. Review the offer details and accept the offer.
+
+    ![NGJ1w2fVKh9ED1bMqK4cuzq2n5w](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NGJ1w2fVKh9ED1bMqK4cuzq2n5w.png)
+
+1. Sign up with Zilliz.
+
+    When offer purchasing is complete, a dialog box with the title **Accepted! Now sign up with Zilliz** appears on the page .
+
+    Click **Sign up**. You will be redirected to Zilliz Cloud.
+
+    <Admonition type="info" icon="📘" title="Note">
+
+    You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
+
+    </Admonition>
+
+    ![IOkkwz2A6hexfnbiBBfcGGmNnxc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/IOkkwz2A6hexfnbiBBfcGGmNnxc.png)
+
+1. Link Marketplace subscription to Zilliz Cloud organization.
+
+    1. Log into your Zilliz Cloud account.
+
+        ![WZuibFtHLofsE5xOfTPccb4Xnxe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/wzuibfthlofse5xoftpccb4xnxe.png "WZuibFtHLofsE5xOfTPccb4Xnxe")
+
+    1. Select a Zilliz Cloud organization to link to the Marketplace subscription.
+
+        If no organization is available to select, or if you have any questions, contact [Zilliz Support](http://support.zilliz.com).
+
+        ![EGjCbIHRGoDylPxCNQdc4YT6nTd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/egjcbihrgodylpxcnqdc4yt6ntd.png "EGjCbIHRGoDylPxCNQdc4YT6nTd")
+
+    1. When the process is complete, the following confirmation window appears.
+
+        ![Hcy6bjddpoGiJfxszMBccAalnoe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/hcy6bjddpogijfxszmbccaalnoe.png "Hcy6bjddpoGiJfxszMBccAalnoe")
+
+    1. On the Zilliz Cloud **Billing** page, find the **Payment Method** section. You can verify your subscription by hovering on the ID icon.
+
+        ![XoiTbm6HzoZMCMxCttVco12GnAn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/xoitbm6hzozmcmxcttvco12gnan.png "XoiTbm6HzoZMCMxCttVco12GnAn")
+
+</Procedures>
+
+## Renew your private offer\{#renew-your-private-offer}
+
+When your private offer is close to expiration, Zilliz will send you a new private offer link for renewal. If you have questions about the renewal process, contact your account executive.
+
+<Admonition type="info" icon="📘" title="Note">
+
+For Google Cloud Marketplace, renewal is handled on the existing private offer order. After the renewal takes effect, it continues from the current private offer subscription, so you do not need to link the subscription to your Zilliz Cloud organization again.
+
+</Admonition>
+
+The following is an overview of the renewal process. 
+
+![CbdUwGifPh2rvFbk0F4c1OVFnxh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/CbdUwGifPh2rvFbk0F4c1OVFnxh.png)
+
+You can follow the detailed step-by-step guide below to subscribe to a Private Offer on Google Cloud Marketplace.
+
+<Procedures>
+
+1. Check your email inbox.
+
+    1. Look for an email from Google Cloud Marketplace with the subject **New Private Offer from Zilliz**. Click the **Review Offer** button in the email.
+
+        ![DYogwUgizhEYNnbIks9cqZVcn1f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/DYogwUgizhEYNnbIks9cqZVcn1f.png)
+
+1. Review the offer details and accept the offer.
+
+    ![Y6cAwGfu0hBF5obUyWScaR63njf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Y6cAwGfu0hBF5obUyWScaR63njf.png)
+
+1. Your offer is successfully renewed.
+
+    When you see the dialog box with the title **Amendment request sent to Zilliz**, the renewal process is complete on Zilliz Cloud.
+
+    ![O7r8wYN4lhED5qbVkrScNkpAned](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/O7r8wYN4lhED5qbVkrScNkpAned.png)
+
+1. Verify the renewal.
+
+    1. You can go to the [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) page. Select your billing account and then click on the order ID to view its details.
+
+        ![A3piwyJD6hz3qwbzry0cAYSunRc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/A3piwyJD6hz3qwbzry0cAYSunRc.png)
+
+    1. In the **Key Events** section, you can verify that the existing order is successfully amended and your private offer is renewed with a new contract end date.
+
+        ![SlGfwioVMhP8uqbFi0ucDEMOnmd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SlGfwioVMhP8uqbFi0ucDEMOnmd.png)
+
+</Procedures>
+
+## Switch from a public offer to a private offer\{#switch-from-a-public-offer-to-a-private-offer}
+
+Similar to [private offer renewal](./subscribe-on-gcp-marketplace-private-offer#renew-your-private-offer), switching from a public offer to a private offer requires you to accept a new private offer. After you accept it, the new private offer automatically replaces the previous public offer. You still need to link the new offer to your Zilliz Cloud organization again.
+
+## Cancel private offer subscription\{#cancel-private-offer-subscription}
+
+You can cancel your private offer subscription from Google Cloud Marketplace. 
+
+<Admonition type="info" icon="📘" title="Note">
+
+After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
+
+</Admonition>
+
+<Procedures>
+
+1. Go to [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) page.
+
+1. Select the relevant **Cloud Billing account**.
+
+1. Find the private offer order.
+
+1. In **Actions**, click **Contact support**. You will be redirected to Zilliz Cloud Support portal. Create a ticket to request cancellation of your active private offer order.
+
+    You can also contact your account executive to request a cancellation.
+
+1. After Zilliz processes your cancelling request, you’ll receive a notification on Google Cloud that you can cancel the order in Cloud Marketplace.
+
+</Procedures>
+
+For details, refer to [Manage your accepted offers](https://docs.cloud.google.com/marketplace/docs/offers/manage-accepted-offer).
+
+## FAQ\{#faq}
+
+**What will happen if my private offer expires and is not renewed?**
+
+If your private offer expires and is not renewed, your Google Cloud Marketplace subscription will lose the private offer terms. If no valid payment method or remaining credits are available for your Zilliz Cloud organization, access to advanced features will be disabled and the organization will be frozen.
+
+**What happens if I accept a private offer but do not complete Sign up with Zilliz Cloud?**
+
+If you accept a private offer but do not complete **Sign up with Zilliz Cloud**, the Marketplace subscription is created but is not linked to any Zilliz Cloud organization. As a result, your organization cannot use the private offer as its payment method.
+
+To complete the setup,
+
+<Procedures>
+
+1. go to **Google Cloud Marketplace > Your orders**, find the Zilliz Cloud order. Click on the product name.
+
+    ![YgzQwi6xDh8eVFbgOSLcNElVnNh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YgzQwi6xDh8eVFbgOSLcNElVnNh.png)
+
+1. Click on **Manage on provider**.
+
+    ![GO3bwCnjWhyzT0bZCk3cpyHonPH](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/GO3bwCnjWhyzT0bZCk3cpyHonPH.png)
+
+1. You will be redirected to Zilliz Cloud. Please complete the operations on Zilliz Cloud.
+
+    ![RYtsbHgYUoaFBuxOspXcxIlrn5b](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/rytsbhgyuoafbuxospxcxilrn5b.png "RYtsbHgYUoaFBuxOspXcxIlrn5b")
+
+</Procedures>
+
+**What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
+
+There could be several reasons.
+
+- **Insufficient permissions** 
+
+    This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
+
+    ![insufficient-permission-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
+
+    To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
+
+- **All organizations have already been successfully linked to a Marketplace subscription**
+
+    This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
+
+    ![marketplace-already-linked-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
+
+    In this case,
+
+    - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
+
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
+
+- **No organizations in the list**
+
+    - This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
+
+    ![no-organization-during-subcription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/no-organization-during-subcription.png "no-organization-during-subcription")
+
+    In this case, you can:
+
+    - [Create a new organization](./organization-settings#create-an-organization).
+
+    - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
+

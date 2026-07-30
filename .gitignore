@@ -41,13 +41,11 @@ node_modules/
 k8s/**/secret.yaml
 
 # Lark-docs pre-fetched source JSON (generated build artifacts)
-/plugins/lark-docs/meta/sources/
-
-# Eval results (generated)
-chat-proxy/scripts/eval/results/
+/packages/docs-tooling/src/lark/meta/sources/
 
 # Local scratch files and build logs
 tmp/
+/.atomic-publication-state/
 
 # AI tooling local state
 .agents/
@@ -59,12 +57,13 @@ skills-lock.json
 # Worktrees
 .worktrees/
 .claude/worktrees/
+.claude/archives/
 
 # Vercel
 .vercel
 
 dist/
 
-data/
+/data/
 .build-card-state.json
 .codegraph

@@ -1,0 +1,92 @@
+---
+displayed_sidbar: javaSidebar
+title: "grantRole() | Java | v2"
+slug: /java/java/v2-Authentication-grantRole
+sidebar_label: "grantRole()"
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
+beta: false
+notebook: false
+description: "This operation grants a role to a user. | Java | v2"
+type: docx
+token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
+sidebar_position: 12
+keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - grantRole()
+  - javaV226
+displayed_sidebar: javaSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# grantRole()
+
+This operation grants a role to a user.
+
+```java
+public void grantRole(GrantRoleReq request)
+```
+
+## Request Syntax
+
+```java
+grantRole(GrantRoleReq.builder()
+    .roleName(String roleName)
+    .userName(String userName)
+    .build()
+)
+```
+
+**BUILDER METHODS:**
+
+- `roleName(String roleName)`
+
+    The name of the role to assign.
+
+- `userName(String userName)`
+
+    The name of an existing user.
+
+**RETURNS:**
+
+*void*
+
+**EXCEPTIONS:**
+
+- **MilvusClientExceptions**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Example
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.rbac.request.GrantRoleReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Grant role to a user
+GrantRoleReq grantRoleReq = GrantRoleReq.builder()
+        .roleName("db_ro")
+        .userName("test")
+        .build();
+client.grantRole(grantRoleReq);
+```
+

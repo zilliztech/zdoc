@@ -27,14 +27,15 @@ function batchInput(batch = batchMetadata(), overrides = {}) {
     sourceCheckpointSha: DEV_SHA,
     batch,
     candidates: reconciliationOnly ? [] : [{
-      sourcePath: 'docs/tutorials/new.md',
+      sourcePath: 'content/en/guides/tutorials/new.md',
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
       sourceHash: 'd'.repeat(64),
     }],
     sourceDelta: reconciliationOnly ? {
       deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
       renamed: [],
-    } : { deletedI18n: [], renamed: [] },
+      retirementCandidates: [],
+    } : { deletedI18n: [], renamed: [], retirementCandidates: [] },
     ...overrides,
   }
 }
@@ -61,6 +62,11 @@ async function translationArtifact({ batch = batchMetadata(), document = batchIn
     group: 'guides',
     masterSha: MASTER_SHA,
     devBaselineSha: DEV_SHA,
+    translationTarget: 'ja-JP',
+    sourceSite: 'en',
+    targetSite: 'en',
+    sourceCheckpointSha: DEV_SHA,
+    toolingSha: MASTER_SHA,
     createdAt: '2026-07-15T00:00:00.000Z',
     ownershipVersion: 1,
     files: [{
@@ -82,7 +88,7 @@ async function translationPair(options = {}) {
   const batch = options.batch || batchMetadata()
   const document = options.document || batchInput(batch)
   return {
-    artifact: await translationArtifact({ batch, document, cacheFiles: options.resultCache || { 'docs/tutorials/new.md': cacheEntry() }, manifest: options.resultManifest }),
+    artifact: await translationArtifact({ batch, document, cacheFiles: options.resultCache || { 'content/en/guides/tutorials/new.md': cacheEntry() }, manifest: options.resultManifest }),
     baseline: await translationArtifact({ batch, document, cacheFiles: options.baselineCache || {}, manifest: options.baselineManifest }),
   }
 }
@@ -99,6 +105,37 @@ test('validates matching translated and baseline batch artifacts', async () => {
   assert.equal(validated.baseline.resolvedDir, await realpath(pair.baseline))
   assert.equal(validated.result.batch.batchNumber, 1)
   assert.equal(Object.isFrozen(validated.result), true)
+})
+
+test('accepts unchanged legacy Guides cache entries beside a unified numbered candidate', async () => {
+  const legacy = {
+    sourceHash: 'e'.repeat(64),
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/legacy.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+  const legacyByoc = {
+    sourceHash: 'f'.repeat(64),
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/legacy-byoc.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+  const pair = await translationPair({
+    baselineCache: {
+      'docs/tutorials/legacy.md': legacy,
+      'docs-byoc/tutorials/legacy-byoc.md': legacyByoc,
+    },
+    resultCache: {
+      'content/en/guides/tutorials/new.md': cacheEntry(),
+      'docs/tutorials/legacy.md': legacy,
+      'docs-byoc/tutorials/legacy-byoc.md': legacyByoc,
+    },
+  })
+
+  await assert.doesNotReject(validateTranslationBatch({
+    artifactDir: pair.artifact,
+    baselineDir: pair.baseline,
+    batchNumber: 1,
+    batchCount: 1,
+  }))
 })
 
 test('infers the expected batch identity from the pinned result when omitted by a caller', async () => {
@@ -146,7 +183,7 @@ test('requires byte-identical batch inputs and complete checkpoint identity', as
   let pair = await translationPair()
   const differentDocument = batchInput(batchMetadata(), {
     candidates: [{
-      sourcePath: 'docs/tutorials/other.md',
+      sourcePath: 'content/en/guides/tutorials/other.md',
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/other.md',
       sourceHash: 'e'.repeat(64),
     }],
@@ -161,7 +198,7 @@ test('requires byte-identical batch inputs and complete checkpoint identity', as
   const otherSource = 'e'.repeat(40)
   pair.artifact = await translationArtifact({
     document: batchInput(batchMetadata(), { sourceCheckpointSha: otherSource }),
-    cacheFiles: { 'docs/tutorials/new.md': cacheEntry() },
+    cacheFiles: { 'content/en/guides/tutorials/new.md': cacheEntry() },
     manifest: { devBaselineSha: otherSource },
   })
   await assert.rejects(validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }), /identity|baseline|source|mismatch/i)
@@ -175,9 +212,29 @@ test('enforces authorized translation cache changes from the shared batch input'
   }
   const changedStable = { ...stable, sourceHash: 'f'.repeat(64) }
   const pair = await translationPair({
-    baselineCache: { 'docs/tutorials/stable.md': stable },
-    resultCache: { 'docs/tutorials/new.md': cacheEntry(), 'docs/tutorials/stable.md': changedStable },
+    baselineCache: { 'content/en/guides/tutorials/stable.md': stable },
+    resultCache: { 'content/en/guides/tutorials/new.md': cacheEntry(), 'content/en/guides/tutorials/stable.md': changedStable },
   })
+  await assert.rejects(
+    validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }),
+    /unauthorized.*cache|cache change/i,
+  )
+})
+
+test('does not grant unified candidates authority to mutate legacy Guides cache entries', async () => {
+  const legacy = {
+    sourceHash: 'e'.repeat(64),
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+  const pair = await translationPair({
+    baselineCache: { 'docs/tutorials/new.md': legacy },
+    resultCache: {
+      'content/en/guides/tutorials/new.md': cacheEntry(),
+      'docs/tutorials/new.md': { ...legacy, sourceHash: 'f'.repeat(64) },
+    },
+  })
+
   await assert.rejects(
     validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }),
     /unauthorized.*cache|cache change/i,
@@ -197,8 +254,8 @@ test('authorizes from authenticated cache buffers even if result cache path is r
         hookCalled = true
         const replacement = {
           files: {
-            'docs/tutorials/new.md': cacheEntry(),
-            'docs/tutorials/unauthorized.md': {
+            'content/en/guides/tutorials/new.md': cacheEntry(),
+            'content/en/guides/tutorials/unauthorized.md': {
               sourceHash: 'e'.repeat(64),
               targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/unauthorized.md',
               translatedAt: '2026-07-18T00:00:00.000Z',

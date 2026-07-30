@@ -4,6 +4,9 @@ on:
   workflow_call:
     inputs:
       group: { required: true, type: string }
+      target: { required: true, type: string }
+      tooling_sha: { required: true, type: string }
+      source_sha: { required: true, type: string }
       master_sha: { required: true, type: string }
       source_commit_sha: { required: true, type: string }
       expected_target_sha: { required: true, type: string }
@@ -32,8 +35,9 @@ jobs:
       report_artifact_name: ${{ steps.result.outputs.report_artifact_name }}
     env:
       GROUP: ${{ inputs.group }}
-      MASTER_SHA: ${{ inputs.master_sha }}
-      SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+      TRANSLATION_TARGET: ${{ inputs.target }}
+      MASTER_SHA: ${{ inputs.tooling_sha }}
+      SOURCE_COMMIT_SHA: ${{ inputs.source_sha }}
       EXPECTED_TARGET_SHA: ${{ inputs.expected_target_sha }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
       BATCH_COUNT: ${{ inputs.batch_count }}
@@ -65,14 +69,21 @@ jobs:
       - name: Check out immutable master tooling
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.master_sha }}
+          ref: ${{ inputs.tooling_sha }}
           fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22.6', cache: pnpm }
+      - name: Install immutable master tooling
+        run: pnpm install --frozen-lockfile
 
       - name: Capture Guides translation publication identities
         shell: bash
         run: |
           set -euo pipefail
           [[ "$GROUP" == guides ]]
+          [[ "$TRANSLATION_TARGET" == ja-JP ]]
           [[ "$MASTER_SHA" =~ ^[0-9a-f]{40}$ ]]
           [[ "$SOURCE_COMMIT_SHA" =~ ^[0-9a-f]{40}$ ]]
           [[ "$EXPECTED_TARGET_SHA" =~ ^[0-9a-f]{40}$ ]]
@@ -95,13 +106,6 @@ jobs:
           git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
           [[ "$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")" == "$EXPECTED_TARGET_SHA" ]]
           git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
-
-      - uses: pnpm/action-setup@v4
-        with: { version: 9 }
-      - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: pnpm }
-      - name: Install immutable master tooling
-        run: pnpm install --frozen-lockfile
 
       - name: Download Guides translation checkpoints
         uses: actions/download-artifact@v4

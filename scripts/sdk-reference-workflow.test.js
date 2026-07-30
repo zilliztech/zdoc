@@ -5,7 +5,8 @@ const path = require('node:path')
 const { test } = require('node:test')
 const yaml = require('js-yaml')
 
-const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'
+const GUIDES_BUILD_MAPPING = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting'
 
 function assertGuidesAssemblySnapshotLifecycle(source) {
   const workflow = yaml.load(source)
@@ -21,17 +22,19 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
   const validation = validations[0]
   const selection = selections[0]
   const checkpoint = checkpoints[0]
+  assert.equal(workflow.jobs.assemble.env.ZDOC_BUILD_COMMAND, GUIDES_BUILD_MAPPING, 'Guides assembly must map each site to its owned build')
   assert.match(validation.run || '', /node scripts\/validate-generated-sidebars\.js/)
   assert.equal((validation.run || '').includes(GUIDES_BUILD_VALIDATION), true, 'combined validation step must run the exact no-card build')
   assert.ok(steps.indexOf(validation) < steps.indexOf(selection), 'snapshot selection and conditional promotion must follow combined validation')
   assert.ok(steps.indexOf(selection) < steps.indexOf(checkpoint), 'checkpoint creation must include the selected snapshot identity')
 
   const selectionRun = selection.run || ''
-  assert.match(selectionRun, /^[ \t]*candidate=plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
-  assert.match(selectionRun, /^[ \t]*snapshot=plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json$/m)
+  assert.match(selectionRun, /^[ \t]*candidate=packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
+  assert.match(selectionRun, /^[ \t]*snapshot=packages\/docs-tooling\/src\/lark\/meta\/snapshots\/guides-uat-last-success\.json$/m)
   assert.match(selectionRun, /guides-cache-generation-lifecycle\.js select[\s\S]*--candidate "\$candidate" --baseline "\$snapshot"/)
   assert.match(selectionRun, /if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js[\s\S]*--candidate "\$candidate"[\s\S]*--output "\$snapshot"/)
-  assert.equal((checkpoint.run || '').includes(`--validation-command '${GUIDES_BUILD_VALIDATION}'`), true, 'checkpoint creation must embed the second exact no-card build validation')
+  assert.match(checkpoint.run || '', /printf -v build_validation 'node scripts\/run-doc-build-stage\.js --build "%s" --skipLinkChecks --skipCardReporting' "\$ZDOC_BUILD_COMMAND"/)
+  assert.match(checkpoint.run || '', /--validation-command "\$build_validation"/, 'checkpoint creation must embed the site-owned no-card build validation')
 
   assert.doesNotMatch(source, /update-lark-doc-snapshot\.js/)
   assert.doesNotMatch(source, /\[snapshot\] Base scan|\[snapshot\] Wiki metadata/)
@@ -40,8 +43,37 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
 test('SDK reference compatibility wrapper invokes content groups in order', () => {
   const fetchScript = fs.readFileSync('scripts/fetch-sdk-reference-docs.sh', 'utf8')
   assert.match(fetchScript, /for group in python java node go cli rest/)
-  assert.match(fetchScript, /run-content-group\.js --group "\$group"/)
+  assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage fetch/)
+  assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage validate/)
+  assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage publish/)
+  assert.doesNotMatch(fetchScript, /run-content-group\.js/)
   assert.doesNotMatch(fetchScript, /report-to-lark/)
+})
+
+test('every workflow that invokes docs-tooling uses its supported Node runtime', () => {
+  const workflowDirectory = path.join(process.cwd(), '.github/workflows')
+  const invoking = fs.readdirSync(workflowDirectory)
+    .filter(file => file.endsWith('.yml'))
+    .filter(file => /pnpm docs-tooling/.test(fs.readFileSync(path.join(workflowDirectory, file), 'utf8')))
+    .sort()
+  assert.deepEqual(invoking, [
+    '_assemble-guides.yml',
+    '_fetch-content-group.yml',
+    '_fetch-guides-sources.yml',
+    '_translate-content-group.yml',
+    'check-404.yml',
+    'fetch-docs.yml',
+    'site-validation.yml',
+  ])
+  for (const file of invoking) {
+    const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
+    assert.match(source, /node-version:\s*['"]?22['"]?/, `${file} must use the supported Node 22 runtime`)
+  }
+})
+
+test('root docs-tooling command uses the shared TypeScript launcher', () => {
+  const rootPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+  assert.equal(rootPackage.scripts['docs-tooling'], 'node scripts/docs-tooling.js')
 })
 
 test('SDK reference snapshots are updated after successful build', () => {
@@ -60,7 +92,7 @@ test('SDK snapshot wrapper clearly rejects groups without an SDK Lark snapshot',
   for (const group of ['rest', 'unknown']) {
     const result = spawnSync('bash', ['scripts/update-sdk-reference-snapshots.sh', group], { encoding: 'utf8' })
     assert.notEqual(result.status, 0)
-    assert.match(result.stderr, group === 'rest' ? /rest.*no SDK Lark snapshot/i : /Unknown content group: unknown/)
+    assert.match(result.stderr, group === 'rest' ? /rest.*no SDK Lark snapshot/i : /Unknown publication group.*unknown/)
   }
 })
 
@@ -73,9 +105,8 @@ test('Guides assembly rejects build validation moved out of the combined validat
   const source = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
   const moved = source
     .replace(`          ${GUIDES_BUILD_VALIDATION}\n`, '          true\n')
-    .replace('          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', `          ${GUIDES_BUILD_VALIDATION}\n          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json`)
-  const escaped = GUIDES_BUILD_VALIDATION.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  assert.equal((moved.match(new RegExp(escaped, 'g')) || []).length, 2, 'mutation retains the misleading global command count')
+    .replace('          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json', `          ${GUIDES_BUILD_VALIDATION}\n          candidate=packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json`)
+  assert.equal((moved.match(/run-doc-build-stage\.js/g) || []).length, 2, 'mutation retains the misleading global command count')
   assert.throws(() => assertGuidesAssemblySnapshotLifecycle(moved), /combined validation step must run the exact no-card build/)
 })
 
@@ -86,7 +117,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /artifact_retention_days:[\s\S]*default: 3/)
   assert.match(source, /target_branch:[\s\S]*type: string[\s\S]*default: dev/)
   assert.match(source, /publish:[\s\S]*type: boolean[\s\S]*default: true/)
-  assert.match(source, /tooling_ref:[\s\S]*description: Non-production tooling ref override[\s\S]*type: string[\s\S]*default: master/)
+  assert.match(source, /tooling_ref:[\s\S]*description: Tooling ref override; exact SHA allowed for controlled dev publication[\s\S]*type: string[\s\S]*default: master/)
   assert.match(source, /git check-ref-format --branch "\$TARGET_BRANCH"/)
   assert.match(source, /refs\/heads\/\$TARGET_BRANCH:refs\/remotes\/origin\/\$TARGET_BRANCH/)
   assert.match(source, /TARGET_BRANCH: \$\{\{ github\.event_name == 'workflow_dispatch' && github\.event\.inputs\.target_branch \|\| 'dev' \}\}/)
@@ -96,7 +127,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /cron: "0 2,10,18 \* \* \*"/)
   assert.match(source, /^  actions: write$/m)
   assert.match(source, /group: docs-production-dev\n  cancel-in-progress: false/)
-  assert.match(source, /if \[\[ "\$PUBLISH" == true && "\$TARGET_BRANCH" == dev \]\]; then\n\s+tooling_ref=master/)
+  assert.match(source, /if \[\[ "\$PUBLISH" == true && "\$TARGET_BRANCH" == dev && ! "\$tooling_ref" =~ \^\[0-9a-f\]\{40\}\$ \]\]; then\n\s+tooling_ref=master/)
   assert.match(source, /\^\[0-9a-f\]\{40\}\$/)
   assert.match(source, /git fetch --no-tags origin "\$tooling_ref"[\s\S]*git rev-parse FETCH_HEAD/)
   assert.match(source, /refs\/heads\/\$tooling_ref:refs\/remotes\/origin\/\$tooling_ref/)

@@ -1,0 +1,221 @@
+const SIMPLE_BOLD_CONTENT_WITH_TRAILING_PUNCTUATION = /^([^*\\`_<>{}\[\]()~\r\n]+?)([：，；！？。])$/u;
+const MARKDOWN_CONTAINER_PREFIX = String.raw`(?: {0,3}> ?)*(?:(?: {0,3})(?:[-+*]|\d+[.)]) +)? {0,3}`;
+const FENCE_RUN = String.raw`(\x60{3,}|~{3,})`;
+const FENCE_START = new RegExp(`^${MARKDOWN_CONTAINER_PREFIX}${FENCE_RUN}`, 'u');
+const FENCE_END = new RegExp(`^${MARKDOWN_CONTAINER_PREFIX}${FENCE_RUN}[ \\t]*$`, 'u');
+const INDENTED_CODE = /^(?: {4}|\t)/u;
+
+interface Fence {
+  marker: '`' | '~';
+  length: number;
+}
+
+interface InlineMarkupState {
+  braceDepth: number;
+  braceQuote: '"' | "'" | '`' | undefined;
+  codeSpanTicks: number;
+  htmlCommentOpen: boolean;
+  tagOpen: boolean;
+  tagQuote: '"' | "'" | undefined;
+}
+
+function fenceAt(line: string): Fence | undefined {
+  const match = line.match(FENCE_START);
+  if (!match) return undefined;
+  return {marker: match[1][0] as Fence['marker'], length: match[1].length};
+}
+
+function closesFence(line: string, fence: Fence): boolean {
+  const match = line.match(FENCE_END);
+  return Boolean(match && match[1][0] === fence.marker && match[1].length >= fence.length);
+}
+
+function htmlBlockTagAt(line: string): string | undefined {
+  const match = line.match(/^\s*<([A-Za-z][\w.-]*)(?:\s[^>]*)?>\s*$/u);
+  if (!match || /\/>\s*$/u.test(line)) return undefined;
+  return match[1];
+}
+
+function isEscaped(line: string, index: number): boolean {
+  let backslashes = 0;
+  for (let cursor = index - 1; cursor >= 0 && line[cursor] === '\\'; cursor -= 1) backslashes += 1;
+  return backslashes % 2 === 1;
+}
+
+function backtickRunLength(line: string, index: number): number {
+  let end = index;
+  while (line[end] === '`') end += 1;
+  return end - index;
+}
+
+function scanInlineMarkup(line: string, initialState: InlineMarkupState): {
+  protected: boolean;
+  state: InlineMarkupState;
+} {
+  let codeSpanTicks = initialState.codeSpanTicks;
+  let htmlCommentOpen = initialState.htmlCommentOpen;
+  let tagOpen = initialState.tagOpen;
+  let tagQuote = initialState.tagQuote;
+  let braceDepth = initialState.braceDepth;
+  let braceQuote = initialState.braceQuote;
+  let protectedLine = codeSpanTicks > 0 || htmlCommentOpen || tagOpen || braceDepth > 0;
+
+  for (let index = 0; index < line.length;) {
+    const character = line[index];
+
+    if (htmlCommentOpen) {
+      protectedLine = true;
+      const closing = line.indexOf('-->', index);
+      if (closing === -1) break;
+      htmlCommentOpen = false;
+      index = closing + 3;
+      continue;
+    }
+
+    if (codeSpanTicks > 0) {
+      protectedLine = true;
+      if (character === '`' && !isEscaped(line, index)) {
+        const ticks = backtickRunLength(line, index);
+        if (ticks === codeSpanTicks) codeSpanTicks = 0;
+        index += ticks;
+      } else index += 1;
+      continue;
+    }
+
+    if (tagOpen) {
+      protectedLine = true;
+      if (tagQuote) {
+        if (character === tagQuote && !isEscaped(line, index)) tagQuote = undefined;
+      } else if (character === '"' || character === "'") tagQuote = character;
+      else if (character === '>') tagOpen = false;
+      index += 1;
+      continue;
+    }
+
+    if (braceDepth > 0) {
+      protectedLine = true;
+      if (braceQuote) {
+        if (character === braceQuote && !isEscaped(line, index)) braceQuote = undefined;
+      } else if (character === '"' || character === "'" || character === '`') braceQuote = character;
+      else if (character === '{') braceDepth += 1;
+      else if (character === '}') braceDepth -= 1;
+      index += 1;
+      continue;
+    }
+
+    if (line.startsWith('<!--', index) && !isEscaped(line, index)) {
+      htmlCommentOpen = true;
+      protectedLine = true;
+      index += 4;
+      continue;
+    }
+    if (character === '`' && !isEscaped(line, index)) {
+      codeSpanTicks = backtickRunLength(line, index);
+      protectedLine = true;
+      index += codeSpanTicks;
+    } else if (character === '<' && /[A-Za-z]/u.test(line[index + 1] ?? '') && !isEscaped(line, index)) {
+      tagOpen = true;
+      protectedLine = true;
+      index += 1;
+    } else if (character === '{' && !isEscaped(line, index)) {
+      braceDepth = 1;
+      protectedLine = true;
+      index += 1;
+    } else index += 1;
+  }
+
+  return {
+    protected: protectedLine,
+    state: {braceDepth, braceQuote, codeSpanTicks, htmlCommentOpen, tagOpen, tagQuote},
+  };
+}
+
+function repairLine(line: string): string {
+  if (INDENTED_CODE.test(line)) return line;
+  const protectedMarkup = line.search(/[`<>{}\[\]()]/u);
+  if (protectedMarkup === 0) return line;
+  const plainPrefix = protectedMarkup === -1 ? line : line.slice(0, protectedMarkup);
+  const delimiters: number[] = [];
+  for (let index = 0; index < plainPrefix.length;) {
+    if (!plainPrefix.startsWith('**', index) || isEscaped(plainPrefix, index)) {
+      index += 1;
+      continue;
+    }
+    let runEnd = index + 2;
+    while (plainPrefix[runEnd] === '*') runEnd += 1;
+    if (runEnd - index === 2) delimiters.push(index);
+    index = runEnd;
+  }
+
+  let repaired = '';
+  let cursor = 0;
+  for (let index = 0; index + 1 < delimiters.length; index += 2) {
+    const opening = delimiters[index];
+    const closing = delimiters[index + 1];
+    const content = plainPrefix.slice(opening + 2, closing);
+    const match = content.match(SIMPLE_BOLD_CONTENT_WITH_TRAILING_PUNCTUATION);
+    const following = plainPrefix[closing + 2] ?? '';
+    if (!match || !/[\p{L}\p{N}]/u.test(following)) continue;
+    repaired += `${plainPrefix.slice(cursor, opening)}**${match[1]}**${match[2]}`;
+    cursor = closing + 2;
+  }
+  repaired += plainPrefix.slice(cursor);
+  return `${repaired}${protectedMarkup === -1 ? '' : line.slice(protectedMarkup)}`;
+}
+
+export function repairChineseBoldPunctuation(contents: string): string {
+  let fence: Fence | undefined;
+  let htmlBlockTag: string | undefined;
+  let inlineMarkupState: InlineMarkupState = {
+    braceDepth: 0,
+    braceQuote: undefined,
+    codeSpanTicks: 0,
+    htmlCommentOpen: false,
+    tagOpen: false,
+    tagQuote: undefined,
+  };
+  const parts = contents.split(/(\r\n|\n|\r)/u);
+
+  for (let index = 0; index < parts.length; index += 2) {
+    const line = parts[index];
+    if (fence) {
+      if (closesFence(line, fence)) fence = undefined;
+      continue;
+    }
+
+    if (htmlBlockTag) {
+      if (line.includes(`</${htmlBlockTag}>`)) htmlBlockTag = undefined;
+      continue;
+    }
+
+    if (
+      inlineMarkupState.codeSpanTicks > 0
+      || inlineMarkupState.htmlCommentOpen
+      || inlineMarkupState.tagOpen
+      || inlineMarkupState.braceDepth > 0
+    ) {
+      inlineMarkupState = scanInlineMarkup(line, inlineMarkupState).state;
+      continue;
+    }
+
+    const openingFence = fenceAt(line);
+    if (openingFence) {
+      fence = openingFence;
+      continue;
+    }
+
+    if (inlineMarkupState.codeSpanTicks === 0) {
+      const openingHtmlBlockTag = htmlBlockTagAt(line);
+      if (openingHtmlBlockTag) {
+        htmlBlockTag = openingHtmlBlockTag;
+        continue;
+      }
+    }
+
+    const inlineMarkup = scanInlineMarkup(line, inlineMarkupState);
+    inlineMarkupState = inlineMarkup.state;
+    parts[index] = repairLine(line);
+  }
+
+  return parts.join('');
+}

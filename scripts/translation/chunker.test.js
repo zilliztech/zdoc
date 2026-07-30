@@ -83,12 +83,12 @@ test('ignores Java generic types while finding the end of a JSX container', () =
 
 test('keeps timeout-prone guides below a 20k request budget by default', () => {
   const files = [
-    'docs/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md',
-    'docs/tutorials/development/schema/use-number-field.md',
-    'docs/tutorials/development/search-and-query/single-vector-search.md',
-    'docs-byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md',
-    'docs-byoc/tutorials/development/schema/use-geometry-field.md',
-    'docs-byoc/tutorials/development/search-and-query/single-vector-search.md',
+    'content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md',
+    'content/en/guides/tutorials/development/schema/use-number-field.md',
+    'content/en/guides/tutorials/development/search-and-query/single-vector-search.md',
+    'content/en/byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md',
+    'content/en/byoc/tutorials/development/schema/use-geometry-field.md',
+    'content/en/byoc/tutorials/development/search-and-query/single-vector-search.md',
   ]
   for (const file of files) {
     const source = fs.readFileSync(path.resolve(file), 'utf8')

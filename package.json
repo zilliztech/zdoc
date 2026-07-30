@@ -2,30 +2,35 @@
   "name": "zdoc-redesign",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
+    "start:en": "pnpm --filter @zilliz/docs-site run start:en",
+    "start:zh-CN": "pnpm --filter @zilliz/docs-site run start:zh-CN",
+    "build": "pnpm run build:en",
+    "build:en": "pnpm --filter @zilliz/docs-site run build:en",
+    "build:zh-CN": "pnpm --filter @zilliz/docs-site run build:zh-CN",
+    "generate:localization-input-inventory": "node scripts/build/write-localization-input-inventory.mjs",
+    "check:localization-input-inventory": "node scripts/build/write-localization-input-inventory.mjs --check",
     "typecheck": "tsc",
     "check:static-env": "node scripts/check-static-env-placeholder.js",
     "check:external-links": "node scripts/check-404.js",
     "test:frontend": "vitest run",
+    "test:containers": "node --test deploy/contracts/container.test.mjs",
+    "test:profiles": "pnpm vitest run packages/site-config",
+    "docs-tooling": "node scripts/docs-tooling.js",
+    "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
+    "test:retirement": "node --test scripts/architecture/verify-retired-layout.test.mjs && node scripts/architecture/verify-retired-layout.mjs",
     "test:e2e": "playwright test --project=chromium",
     "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js && node --test scripts/translation/chunker.test.js scripts/translation/reportSummary.test.js scripts/translation/workflowReporting.test.js",
     "test:guides-coverage": "node --test scripts/validate-guides-coverage.test.js",
     "test:workflow-policy": "node --test scripts/validate-workflow-policy.test.js",
+    "test:typescript-runtime-boundary": "node --test scripts/typescript-runtime-boundary.test.js",
     "test:check-404": "node --test scripts/check-404.test.js",
     "test:external-link-report": "node --test scripts/external-link-report-summary.test.js",
     "test:chat-agent-config": "node --test scripts/chat-agent-nginx.test.js",
     "doc-publish-bot": "node scripts/doc-publish-bot/index.js",
     "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
-    "test:all": "npm run test --prefix chat-proxy && npm run test:frontend"
+    "test:all": "pnpm test:frontend"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.0.0",
@@ -81,9 +86,15 @@
     "@testing-library/react": "^16.3.2",
     "@types/node": "^25.3.5",
     "@vitest/coverage-v8": "^3.2.4",
+    "ajv": "^8.20.0",
     "jsdom": "^29.0.0",
     "typescript": "~5.6.2",
     "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@easyops-cn/docusaurus-search-local>cheerio": "1.0.0-rc.12"
+    }
   },
   "browserslist": {
     "production": [

@@ -10,16 +10,27 @@ const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-
 const { RESTORE_PATHS } = require('./docs-workflow/validate-guides-translation-staging')
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
+const revisionInventoryRoot = 'generated/en/manifests/lark-revisions'
 const restorePaths = [
   'docs',
   'docs-byoc',
   'reference',
   'i18n',
+  'content/en',
   '.translation-cache',
   'config/generated',
-  'plugins/lark-docs/meta/snapshots',
-  'plugins/lark-docs/meta/assembly',
-  'plugins/lark-docs/meta/reports',
+  'generated/en/sidebars/guides.sidebar.js',
+  'generated/en/sidebars/guides-byoc.sidebar.js',
+  'generated/en/sidebars/python.sidebar.js',
+  'generated/en/sidebars/java.sidebar.js',
+  'generated/en/sidebars/node.sidebar.js',
+  'generated/en/sidebars/go.sidebar.js',
+  'generated/en/sidebars/cli.sidebar.js',
+  'generated/en/sidebars/restful.sidebar.js',
+  revisionInventoryRoot,
+  'packages/docs-tooling/src/lark/meta/snapshots',
+  'packages/docs-tooling/src/lark/meta/assembly',
+  'packages/docs-tooling/src/lark/meta/reports',
 ]
 
 function git(cwd, ...args) {
@@ -58,8 +69,9 @@ function createFixture() {
   git(source, 'config', 'user.email', 'test@example.com')
   git(source, 'remote', 'add', 'origin', origin)
 
-  for (const restorePath of restorePaths) {
-    write(source, path.join(restorePath, 'state.txt'), `old:${restorePath}\n`)
+  for (const restorePath of RESTORE_PATHS) {
+    const fixturePath = restorePath.endsWith('.js') ? restorePath : path.join(restorePath, 'state.txt')
+    write(source, fixturePath, `old:${restorePath}\n`)
   }
   git(source, 'add', '.')
   git(source, 'commit', '-m', 'old generated state')
@@ -99,7 +111,7 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
-  assert.deepEqual(actualPaths, RESTORE_PATHS)
+  assert.deepEqual(RESTORE_PATHS, restorePaths)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
@@ -191,9 +203,82 @@ test('exact immutable ref mode makes the index equal a source tree that deletes 
   }
 })
 
-test('exact restore carries the Guides descriptor and translation checkpoints do not delete it', async () => {
+test('exact immutable ref restores revision inventories from the target commit', () => {
   const fixture = createFixture()
-  const descriptor = 'plugins/lark-docs/meta/assembly/guides.json'
+  const inventory = 'generated/en/manifests/lark-revisions/python.json'
+  try {
+    write(fixture.source, inventory, '{"source":"final-dev"}\n')
+    git(fixture.source, 'add', inventory)
+    git(fixture.source, 'commit', '-m', 'advance revision inventory')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, inventory, '{"source":"master-tooling"}\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, inventory), 'utf8'), '{"source":"final-dev"}\n')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref restores unified Guides source authority from the target commit', () => {
+  const fixture = createFixture()
+  const guides = 'content/en/guides/tutorials/source.md'
+  const byoc = 'content/en/byoc/tutorials/source.md'
+  const sidebar = 'generated/en/sidebars/guides.sidebar.js'
+  try {
+    for (const [relative, contents] of [[guides, 'published guides\n'], [byoc, 'published byoc\n'], [sidebar, 'module.exports = ["published"]\n']]) {
+      write(fixture.source, relative, contents)
+    }
+    git(fixture.source, 'add', 'content/en', 'generated/en/sidebars')
+    git(fixture.source, 'commit', '-m', 'publish unified Guides authority')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, guides, 'stale tooling guides\n')
+    write(fixture.work, byoc, 'stale tooling byoc\n')
+    write(fixture.work, sidebar, 'module.exports = ["stale"]\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, guides), 'utf8'), 'published guides\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, byoc), 'utf8'), 'published byoc\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, sidebar), 'utf8'), 'module.exports = ["published"]\n')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref removes absent revision inventories without claiming tooling-owned sidebar helpers', () => {
+  const fixture = createFixture()
+  const inventoryRoot = 'generated/en/manifests/lark-revisions'
+  const toolingSidebarHelper = 'generated/en/sidebars/unmanaged.txt'
+  try {
+    fs.rmSync(path.join(fixture.source, `${inventoryRoot}/state.txt`))
+    write(fixture.source, `${inventoryRoot}/keep.json`, '{"keep":true}\n')
+    git(fixture.source, 'add', '-A', inventoryRoot)
+    git(fixture.source, 'commit', '-m', 'remove stale revision inventory')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, `${inventoryRoot}/state.txt`, 'stale workspace inventory\n')
+    write(fixture.work, toolingSidebarHelper, 'tooling-owned sidebar helper\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(fixture.work, inventoryRoot, 'state.txt')), false)
+    assert.equal(fs.readFileSync(path.join(fixture.work, inventoryRoot, 'keep.json'), 'utf8'), '{"keep":true}\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, toolingSidebarHelper), 'utf8'), 'tooling-owned sidebar helper\n')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact restore carries the unchanged Guides descriptor without checkpoint payload churn', async () => {
+  const fixture = createFixture()
+  const descriptor = 'packages/docs-tooling/src/lark/meta/assembly/guides.json'
   try {
     write(fixture.source, descriptor, '{"schemaVersion":1}\n')
     git(fixture.source, 'add', descriptor)
@@ -217,7 +302,7 @@ test('exact restore carries the Guides descriptor and translation checkpoints do
       group: 'guides', masterSha: 'a'.repeat(40), devBaselineSha: sourceSha,
       baselineDir, workspace, output, includeTranslationCache: true,
     })
-    assert.equal(manifest.files.some((file) => file.path === descriptor), true)
+    assert.equal(manifest.files.some((file) => file.path === descriptor), false)
     assert.equal(manifest.deletions.includes(descriptor), false)
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
@@ -226,7 +311,7 @@ test('exact restore carries the Guides descriptor and translation checkpoints do
 
 test('exact restore carries Guides report payloads used by translation checkpoints', async () => {
   const fixture = createFixture()
-  const report = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
+  const report = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json'
   try {
     write(fixture.source, report, '{"generated_at":"source"}\n')
     git(fixture.source, 'add', report)

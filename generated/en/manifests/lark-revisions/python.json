@@ -1,0 +1,3402 @@
+{
+  "schemaVersion": 1,
+  "group": "python",
+  "complete": true,
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "sourceRunId": "clean-room-seed",
+  "records": [
+    {
+      "canonicalToken": "A6atfZDQxl1INud6VYGcX54zngf",
+      "title": "EmbeddingModels",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "A96udk9seoF5x5xywQZcLasanIe",
+      "title": "Connections",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AC81dpJgtoRwBRxRKwGcLbVinAe",
+      "title": "drop_resource_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AQ1ydMXbOog5VJxITgUc4GFvnVe",
+      "title": "upsert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AXcMd0xiOovIX6xR4ZrcKA15nwh",
+      "title": "get_compaction_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AdSXdtNDsoTMnJx1QoGcSsnZnWd",
+      "title": "drop_database_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AglQd68yqoEn8Ixkn9ociyqKnMx",
+      "title": "use_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AjFZd2XYVoyAKPxokSHcoanRn5b",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AmwJdW0z6opMPcxhMlBcYPIWn2M",
+      "title": "to_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Arn1dIKgwoISFoxT7xVc3UrBnAf",
+      "title": "BulkInsertState",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AtkDdtMAWodFzExARxnco5xLnsg",
+      "title": "drop_index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Aym2dpBuIo81mExCqyLcSWhunBe",
+      "title": "drop_partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "B2fdfjb1nl9Pjidkaa9cM6lAngd",
+      "title": "MilvusClient",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "B3n3db0idoia02xXxJfcONK8nRh",
+      "title": "create_index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BDP4dew9to9tQoxNEMPcBR5xnZb",
+      "title": "RemoteBulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BDupd28JqoNY9HxVOTfcv86enRe",
+      "title": "create_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BHx6dnSmPoaqHAxKCvncbuk9nWb",
+      "title": "compact()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BHyidrVcyoPwxexHLrnceOSAnRe",
+      "title": "list_collections()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BJysdlj1MoksHZxNRxicHn9fnSh",
+      "title": "load_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BOTAfAdGJl7C9Ad00CWcOawendd",
+      "title": "ResourceGroup",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BQKPdDd5xo8OPgxoXorcMxk0nVb",
+      "title": "get_replicas()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BapSdVXjQoQXnbxnRYScCagAn1f",
+      "title": "grant()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BpqpdBWdyoxbmzx0GGCcQxksnBc",
+      "title": "do_bulk_insert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BqtYdPHHPoNhyKxhSnEcVOKenFb",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BvYKfbpMUlczBxdyBvEc5Gb3nfb",
+      "title": "utility",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Bzb6dwkckop6XfxVm2lclXG2nJg",
+      "title": "hybrid_search()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "C2AbdIReZos7HwxiZXIcyW8nnm1",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "C2YSddNqZoDNmNxWqqEcuzhKn4f",
+      "title": "AzureConnectParam",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "C37ldNLbFog6ThxA23ScMldnnmb",
+      "title": "add_connection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "C8vld732kopQNMxbHyLcrORNnze",
+      "title": "create_snapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
+      "title": "prepare_index_params()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CB9edh2ySoJyWhxBoLcchPj9nxg",
+      "title": "get_query_segment_info()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
+      "title": "alter_alias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
+      "title": "release()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CCOhd671iog6rRxu8aOcaPncnLK",
+      "title": "get_users()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CEw1d0nWbonImnxbspDcw4e6nby",
+      "title": "get_replicate_configuration()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CFS4dOq2LowXPSxB124cBwQsn0c",
+      "title": "GroupBy",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CHnGdE7XlosONPxsVDDc6Fv5n8c",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CNQIdgQvXoux0KxpXHxca8EMnjg",
+      "title": "get_import_progress()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
+      "title": "S3ConnectParam",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CWZGd48FJoFHXYx40NMcTd2FnKc",
+      "title": "close()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CbCodEGY9o6pKuxowNdctUppn7d",
+      "title": "insert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ClLXdDs64oixJBxlIrCcEB2dngb",
+      "title": "list_roles()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
+      "title": "list_aliases()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CvxodXz8OoWXrlxD7OVcqqJLn8e",
+      "title": "MistralAIEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "D3sndK8DgoqDkUxaNGcctwcSnuE",
+      "title": "drop()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "D6Q7dq4USotLS3xxMP0cFiGLnsf",
+      "title": "get_compaction_plans()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DCLUdOpVjohl8HxPUx1cGjokngf",
+      "title": "construct_from_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DLsXdlRA3odugzx4sIccnBVKn0d",
+      "title": "remove_file_resource()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DQFbdMhfcodFuxxhYFeccDzEnkf",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DWLXdSCYnoPT4ExktRKceEqLnAd",
+      "title": "delete()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DXTJdXSquo8NutxCqfBccO7pnWw",
+      "title": "LexicalHighlighter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DYuUdc503o1TANxuGozcXhCmnRN",
+      "title": "construct_from_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DhZRdYbfMoYIBtxrudGcwWjrngd",
+      "title": "GeminiEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Dsl1dDLBeoGixjxt2lpcFP5ynSA",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DsnpdZuDGo77TYxFuYvcDpOgnIf",
+      "title": "grant_role()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DthMdlg8Lozw89xNz4TcBv1LnOe",
+      "title": "create_alias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DvaZdhYnyoo7lOxNIBwc5eKEn7d",
+      "title": "search()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
+      "title": "list_partitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DyPldeRNXo4nMqxQeE0cMnd2nEf",
+      "title": "list_connections()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "E2Zlf8PdXlx097dT2sNchgqpnbF",
+      "title": "db",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "E3opdXwZCoY8igxMjQ1cwsTbnzh",
+      "title": "JinaRerankFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
+      "title": "delete_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EBAFdcmoKoNJISxM8i1cqXzRn9H",
+      "title": "hybridts_to_datetime()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
+      "title": "set_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EVKhdy0vwoSLSux2RW2c660unjh",
+      "title": "FieldSchema",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EZ2YdBHoDoRTlxx91tscffm1nSb",
+      "title": "list_users()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EZwsd887JojFjLxbMByckhW0nxg",
+      "title": "describe()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EgeGdZL4LoCuv2xVUfFc9eDAnkd",
+      "title": "TopHits",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EglSdm1jkozDSlxq6SEc4CRonVe",
+      "title": "create_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EiTMdIbTgoc9vVxDHUQc1zPpnch",
+      "title": "grant_privilege_v2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EofGdftYjoQ9E6x8mxLcpbG1nhc",
+      "title": "drop_resource_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Er8vdVepxoqhPFxVyZUcxSHMnqe",
+      "title": "create_schema()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EtBDdoGaFo3bOExKxCHcKgpenib",
+      "title": "commit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "F1MFdP8VvoMu17x4Vg9cH6ztnqb",
+      "title": "append_row()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "F1mJdDLyzoMTrxxarPMcqPkqnqg",
+      "title": "drop_collection_function()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "F8WOdIoz4okn5OxMEymcXNuRnkb",
+      "title": "is_exist()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "F9CHd2o4po3VC2xX3zHczWVan2c",
+      "title": "add_file_resource()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FHcYdN4apoI5TIx0LxScISvtn0f",
+      "title": "drop_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FIyedc51So0onWxtPAjcHFkmnHe",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FXTZd5FgNo9ta0xvjaIclEM1nPf",
+      "title": "list_resource_groups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FZuddXocNopEufxRFGdcbvkRnnb",
+      "title": "list_databases()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FbzLd0f5ToAPRdxa8XWcWfUwnwe",
+      "title": "delete_volume()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FgbjdQHBEoITxgxk7NMc1NzpnAc",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FieTdj7WDoVbBVxp5xjcqO02nrh",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FpWXdmIuforYz9xUCsqclyCXnLe",
+      "title": "drop_alias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Fr3rdPTuXoC0Lzx7urIcwBqWnDb",
+      "title": "upload_file_to_volume()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G1gsdGWwuoPOPrxJdABcfa76nUd",
+      "title": "to_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G2jjdHvbBoko6BxBZj7csemWnFc",
+      "title": "alter_collection_field()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G31wdmzVFo687JxZTAGctQlKnir",
+      "title": "get_flush_all_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G3h4d3jx6oXFHBxFZlyc9jLKnTO",
+      "title": "create()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G4Ftde3kxoHAJbxVNXncI7mpngb",
+      "title": "create_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G5c6dxWkno5FRAxeDMycR6AVntf",
+      "title": "VolumeManager",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GAWOdft83oZPvHxtxzZcjrQunGg",
+      "title": "CohereRerankFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GF0yd9S4RoImivxbIlPcicEynQb",
+      "title": "describe_snapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GRarduHPSoFY3Yx9EWRcdcTfn1g",
+      "title": "mkts_from_hybridts()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GXXTd7JIgoUKhzxiI6ncWtwjnVc",
+      "title": "using_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GaCYdVohYoHFhrx897zcmcNfn6e",
+      "title": "Function",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GfTadfqhAo64XDxc643ci4Zwnwb",
+      "title": "to_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Gj5bdBIMToImOvxXHIlcqFxjnTf",
+      "title": "fit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GtNKdyeDCoPxQXxvohIcYQ47nee",
+      "title": "create_volume()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GxAZd9O9gozzhExhMHWcMnXPngh",
+      "title": "BGERerankFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GyrmdRjGZoOFKdxsYyCcvNG7npg",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "H2zBdRHVtovNQGxvb0xcwpSKnBd",
+      "title": "get_connection_addr()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "H8ncdzr6roh9G6xQm8BcJFamnhf",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HCWBdorQdoONw2xaawacJWQkn1e",
+      "title": "alter_database_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HEWIdid9BoFMyNxN8Bbc0P3nn6g",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HEyLd2lxzo3bl4xqVBOco8vWn1c",
+      "title": "VoyageEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HITBdKb0HotcK0xCKsycEeuqnXe",
+      "title": "get_refresh_external_collection_progress()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HN7nddgueo3scIxmPXAcpjkFnDf",
+      "title": "describe_alias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HNJqdocBjo2zm9xcIVdchRvcnab",
+      "title": "create_privilege_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HQDndiGwloWKIexgPCUcEZGenOh",
+      "title": "load()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HQiHd82orov0XvxAzLWcl5xRnzc",
+      "title": "loading_progress()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HRqudGOOnokInhxczclcADBDn8g",
+      "title": "create_role()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HScCdxLNJotPCcxb4AZcxsNJn9c",
+      "title": "describe_resource_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HTnvdQ8SbodURtxPEv5cURL0n5b",
+      "title": "drop_collection_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HTx1dgoAloCELUxWLGxc0GPlno6",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HVGNdMYOvojQoXxvDmEcnHYanMh",
+      "title": "CrossEncoderRerankFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HVwRdVSbAo2jUexpxmdczdqPnzh",
+      "title": "bulk_import()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HZByd7LqQoiorTxCgyrcu3VUnof",
+      "title": "drop_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HbMMdqtQGoQqwixsyrjcTTh0nu5",
+      "title": "hybridts_to_unixtime()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HkOFdhgbOoz1wlxJIgWcU7EonWc",
+      "title": "drop_partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HrnndnWtKoPuenxvsXBchF1wnnh",
+      "title": "search_iterator()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I2OZdk40IomugOx9MTqcooVcnEf",
+      "title": "restore_snapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I6hvdlYUuoUaw3xWqSnce4Fin9g",
+      "title": "create_partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IGPAdBQ5Von3lFxv4uSc5dGDnAd",
+      "title": "remove_privileges_from_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ISZadjHwyopWr5xRdJ2cqxVanEg",
+      "title": "construct_from_dataframe()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IU0idURLBoJNlZxgkiUcQaOYnIf",
+      "title": "FunctionType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IbWgdAwWOoTa1exF2LicP9henJJ",
+      "title": "VolumeFileManager",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ierbd2hCHoA1YCxzx4ccYhvDnRb",
+      "title": "create_resource_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ih8RfZaaqlEGsudD31DcOpwvn2b",
+      "title": "Volume",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IpSBdcabbosobvxQkAEcv6CvnJd",
+      "title": "disconnect()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IquldHhyGo9s4IxF3cicOXGnnNf",
+      "title": "add_collection_field()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Iv1PdIVxYoDOMax47xDcLnbEnXb",
+      "title": "hybrid_search()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "J76vdPHNgoyp2wxAiTcceIVJnOe",
+      "title": "create_index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JD77dVcjhoI4vyxCchRcV4J1nhe",
+      "title": "list_resource_groups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JJOId59ePoMLefxz1ChcBZ6inOh",
+      "title": "revoke_role()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JJz3dFrE2oJP3AxySWYcJlf4nMh",
+      "title": "describe_role()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JOFedA4h8otTjHxsYQ7cnjsunHd",
+      "title": "SentenceTransformerEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JPkOda4UfoC5JlxUvlXc98IsnKf",
+      "title": "transfer_replica()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JRNidzqX4o6VtkxVB5RcNvmHnnb",
+      "title": "compact()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JT0gfXjE3lCqEAdn6jPcFbHgnnd",
+      "title": "Database",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JXNXdQuwhoYmZQxSohNcdxtwnzh",
+      "title": "list_grant()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JeG6d5Sg2oPmXPxEhnyciq4snNd",
+      "title": "list_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Jjbsd2I8doQ9pBxBp57ckRdZnZd",
+      "title": "get_partition_stats()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JnPrdOiPyo2e5gxzzFycbnvwnSd",
+      "title": "flush()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JzDLdkv3QoCY8OxKpBjc5zsmnId",
+      "title": "CohereEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JzcYdBQ5zoU4KpxPqUHcPLQonKd",
+      "title": "query()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "K1Npdj5Ddod6UWxRN2ecf6K4nxf",
+      "title": "reset_password()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "K7qWdSwtNo976VxcvopczGLjnLf",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KBujdxXhko2zJjx4hFmcsHGhn4g",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KEPYdKup1o3nHdxKbjvcQUzwnnd",
+      "title": "get_load_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KEzNdJPoDoHOjlx2FC8cNcHqngg",
+      "title": "drop()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KSDYfo9pCl89wKdRNGccbzT2nid",
+      "title": "Vector",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KSECdBDcUoIkL7xI4KOc29Ukn1g",
+      "title": "verify()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KUAXdm3o3opQPex8N69cMlPbnTh",
+      "title": "drop_role()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KdiQdpHp3oEQwNx2hd5chqQKn2D",
+      "title": "with_query()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KeoHdMDBCo3PByxKbWncifFMn9e",
+      "title": "construct_from_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KpOtfu1TplkyiadlfQxcTa5vnFe",
+      "title": "BulkImport",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Kqlodu0AWoefKvxczcxc1c36nlf",
+      "title": "create_alias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KrK5fBnFDlG6CedvqyHcfZLynre",
+      "title": "Management",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KsmadNcXRoElO2xJi5HcJO57nwb",
+      "title": "has_partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KtyxdkxpSoTvacxJp27cOXwCnhe",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ky0pdpA6WorUvbxwN3ucwUjgnec",
+      "title": "get_restore_snapshot_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KzCXdTVVSoOmkbxuFjsccDlXnff",
+      "title": "connect()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "L4KSdOVTEotaiyxjTddcVRDhn3E",
+      "title": "remove_connection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "L4PUdEhrpoS1Q5xN3m2chVVEnWg",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "L6i8dmvsBogcmIxtORsc1Mu0nhg",
+      "title": "query_iterator()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "L8UTdDNkPoeew0x6LoDcfHx4nof",
+      "title": "drop()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "L9ozd33RroJ0NZxHUc0czKjpnbh",
+      "title": "VolumeBulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LB90d4VGZogYIZxwCgpcSkgKnng",
+      "title": "revoke_privilege()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LCQTdebkConhUqxwnk7c3EbPnWh",
+      "title": "mkts_from_datetime()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LEaYdk179oZn0vxqa0lcn4mnnrg",
+      "title": "describe_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LJKOd7ZDUopRISxNzamcwb1PnMJ",
+      "title": "append_row()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LJqud2x3AojxV4xKONocTe4YnFb",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LXASdPs6KoRfCJx11A1cl2Ssngg",
+      "title": "describe_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LZL1d0kckouPXNxJLCmcwbCTnkG",
+      "title": "Role",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ld10d5YWJofvgGxtwYscGlWunDg",
+      "title": "construct_from_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LffbdiHhzoHe08xivF9ccmoen5d",
+      "title": "query_iterator()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LrfjdgJXkoe90gxNR1YcrsJMnYg",
+      "title": "ResourceGroupConfig",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LrvhdFR5Vo1ZnExohgicdi58njc",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M0qRdF1cLokrxvxyrXScJ64FnEe",
+      "title": "rename_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M2kXd5zWSoMIOnxXWamcgCkznih",
+      "title": "drop_index_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M6mrdinAjo8CwrxirOQcR6E1nUc",
+      "title": "clear()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M7pWdbu8foKkJAxY3uBcMfHrnrh",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M9bMfXz3llm0ebdks4Hc3KdMnCd",
+      "title": "Client",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MApVdDl17oU8OixzbMPcgceKnOh",
+      "title": "list_roles()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MIKkdpGuuoEaGWx1m7Fcw52inKg",
+      "title": "AsyncMilvusClient",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MKrAdumLvohQfDxgpMwcEB8dnqb",
+      "title": "DataType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MOPzdeyjzoO8DlxAlL0clX00nBc",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MQMzddDnao5Zz0xmSRncZM2nn5b",
+      "title": "upsert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MSDVdu103obklexX8GvcW5cWnCf",
+      "title": "get_compaction_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MVLRdU9nPonUeExs7ogctwZ1n4c",
+      "title": "OnnxEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MbTMdBf7Bow3k6xA4R4c7j1DnRd",
+      "title": "add_privileges_to_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MfR8dw5TioPvw3xvrstcgYixnUb",
+      "title": "wait_for_index_building_complete()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MfTsdrbGcoO9JqxjgPtcMZTvncc",
+      "title": "alter_alias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MhRidjHwYorxaexS8WXcaxWQnjd",
+      "title": "optimize()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Mp7CdNfJnoBF2DxscRNc6RO0n7d",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Mq7idUip3ofMQmxj55XcB98nn0b",
+      "title": "to_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MtF2dkZcso4XduxM194cUaiinqb",
+      "title": "list_users()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MwfQdhukeoxOh0xPLySc0wJjn5f",
+      "title": "describe_volume()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MxTAd0haboKnRrxQvoOckGghn1T",
+      "title": "has_partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "N13hd7jVjoA6B1xlgwic2GKRn5f",
+      "title": "list_import_jobs()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "N2aHdla1Uohk1HxGyPHcdG4lnnb",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "N3Fbd0ZZVoFo8DxJ9r8cNgcCnOd",
+      "title": "add_field()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "N6kjdex5Ao0lRqxPXBhcxq4AnNh",
+      "title": "list_privilege_groups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "N97pdfkjlo9j61xrtL2cbB79nKe",
+      "title": "query()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "N9d9df9IIojLZDxft1HcU0mkn0b",
+      "title": "alter_collection_function()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NPnQdZCJ7oF002xTntecdI2ini8",
+      "title": "drop_index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NV3Ud1M9iojhaSxZY4ec8RjgnlP",
+      "title": "BulkFileType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NbYidGUPcokra9xJ6IAcUNLEn9f",
+      "title": "create_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NnIxd6VYso9IBPx6bJDcJJmUnNd",
+      "title": "to_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NqWDdRxKYoi6uTxHaYEcafx9nGc",
+      "title": "pin_snapshot_data()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "O7mqfZp5fleHncduy7HcWkdTnPb",
+      "title": "Highlighter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OCfid8DdPo1ga1x24JZcV92xnwd",
+      "title": "using_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OF1mdh4tSo8ZQQxxVgEcdITRndb",
+      "title": "MGTEEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OOQvdXDqdoqKfmxEkTecfuVMnsb",
+      "title": "NomicEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OSehdj15Ao3AUvxOIJucXzU8nWW",
+      "title": "Collection",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OVfodiKa6o3qTGxadYicI975nhh",
+      "title": "index_building_progress()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OaM5dkbPjohKhNxHvKNcfnYMnVb",
+      "title": "search()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OcJXde1ppo9h5MxYcBJc5WTunob",
+      "title": "describe_resource_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OxrMdOaVKoDUY5x2DlTcZO6GnHc",
+      "title": "drop_privilege_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "P2n8d2wQtoK8YqxnccocmNwRnKb",
+      "title": "\\_\\_call()\\_\\_",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PLKXdUB1EoNX8gxKHruc9GcEnsg",
+      "title": "wait_for_loading_complete()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PRR7dRfi8o1s61xFRovccAdRnHe",
+      "title": "release_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PV1PdliWZooAB8xAE5scZO2Nn6K",
+      "title": "list_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PWyVfD7HUl1x3ydji7RcraKin1g",
+      "title": "FileResource",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PfJNdkuMDoCqqcxm6S2cDD6TnFh",
+      "title": "FunctionScore",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ph7xfldrplFoihdiSAkciCuenyh",
+      "title": "Rerankers",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PlzSdJTGnoFVH6xSlS6cYBHZnph",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PoPkdkzSnofUihxzKLqcw7hYnrf",
+      "title": "get_server_version()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PtHQdGNfaoI4Mux05rbcRWTVnMp",
+      "title": "list_restore_snapshot_jobs()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Pvdhdb8IrozdCgx3N4fcTWdWnPg",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PwL1dndmVoxP98xp0pXcOci4nSe",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Px9Ydg6KSoNFV2xBumpcGBNqn8d",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Q0rYdTPkEoRZgUx99LCcfMDUnvh",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QHcpd1aJzo5aYbxJtMXc58een4f",
+      "title": "transfer_node()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QI87dhVnioL9JLxnNKxcM8jWnkh",
+      "title": "insert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QPBkdwjMvo6vWzxRQlhcJ21enEf",
+      "title": "get_server_version()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QPcodlsnAoSMvIxEFmlcMNPbntd",
+      "title": "OpenAIEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QWlfd7SO1ojpdHxM968coTYQnYg",
+      "title": "list_loaded_segments()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QXDxdv36FoVgjcxDV1gcDwWXnsd",
+      "title": "insert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QYo4fSeVFlex8ZdeGZ4cAlmcnof",
+      "title": "ORM",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Qa8ZdRkOKocH60xujcLcOxuBnkh",
+      "title": "get_compaction_plans()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Qe3GdWZa9oAxjrx85tkct8ManRe",
+      "title": "add_collection_function()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QejKdv2qKo97mQxEV0CcaSM5nLh",
+      "title": "flush_all()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QgxEdfBMSodYo6xCg24cH3hInr4",
+      "title": "list_collections()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QsGNdp1t3oHaunxgIZGc3PdSnof",
+      "title": "list_persistent_segments()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QsOsda2lRoJP32xNSLWcbgMOnKI",
+      "title": "has_partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "R0E9dLzIAoYGCcxRVj6cjJmWnPe",
+      "title": "add()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "R3gEdUOSfo6JzMxwUsTcevNHn9g",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RSOkdriHRoRd8ixyVZOch1l9nDd",
+      "title": "unpin_snapshot_data()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RXi3dgtNYogU0cxmTsgcdT72nsc",
+      "title": "list_usernames()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RcvXdmCVBog9M8xNyUFcwefnneh",
+      "title": "LocalBulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RkQ8dnWDHo3DiDxiCVRcP1xPnob",
+      "title": "index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RoBzflamplZFzYd1ZSWccuVfnnc",
+      "title": "Snapshot",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RwmUdNd0WoQ75zxrCndcal6HnXT",
+      "title": "commit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "S278drWUVoRZ5fx8XkfcWaZfnwh",
+      "title": "create_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "S9zPdiLkpokjfkxfZ68cWIFynnd",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "S9zrdw1etovCFKx0gcic6AiVn0e",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SGjed7w9toewDlxmXHKc7BFancf",
+      "title": "update_password()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SIN6f7FuAlseoDdllIXck663nBg",
+      "title": "DataImport",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SJ1FdUQQnohtObxhNgpcHalMnUc",
+      "title": "alter_collection_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SM7ld0ZsEoYLqaxVMZxcSH82n9f",
+      "title": "add_index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SOSedRXpcoGr0sx8RF1caGdjnyb",
+      "title": "BM25EmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SSQ6dFGdxouy7hxRwCOcatnEn0e",
+      "title": "has_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SSiodq10FoH26hx2HlccfcAgnje",
+      "title": "CollectionSchema",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SVoVdTdZRotav9xFjdFcZ8V2n3d",
+      "title": "SemanticHighlighter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SeFLdfKVjoGX8Xx11e3cmkY4n7g",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Sf9UdzL3rolQNAxDm8Ecga3snhg",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Sh7HdgJOIoJipXx5AoNcicjMnyd",
+      "title": "create_partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ShzCdNgEGozKi3xa3lUcHpxQnaf",
+      "title": "query()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SlmSdaD7rocMJsxThNHcOtEknVd",
+      "title": "remove_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SlrCd1GEbooMh2xLylZc6Oirnrc",
+      "title": "IndexType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Smobd2lIho2yQPxtRhLcLcKznCf",
+      "title": "VoyageRerankFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Snf8fZZTklTziidxXP2cL4cRnOf",
+      "title": "Partitions",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SojTdgw1joOuA8xMzb5cMUFYnce",
+      "title": "MilvusClient",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SpmqdHRBjoRKQuxTibQcx0zMnnb",
+      "title": "drop_collection_field()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SptWdOyFqoGM5VxVS16cofqfnDg",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SuePdciB0o4du5xtpIhcMVyYnPb",
+      "title": "transfer_replica()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SvCrdEJIdosGQYxQZhrc2OAXnpd",
+      "title": "partition()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SyiHdehPHoO4l4x11tqcjzpOnLd",
+      "title": "list_volumes()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "T1CGdXeVkoG2yAxkualc1jVonRb",
+      "title": "list_bulk_insert_tasks()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "T2lWd4LMOoAkUCxa8wjcJVoinrf",
+      "title": "truncate_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "T9KhdDJQColJEuxZ7YOcV2zdnlb",
+      "title": "search_iterator()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TEUDde2xbo0JT7xtVvtcF53Nnub",
+      "title": "get()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TG3Rd9aM5offvFxKy2CcKXn9nWc",
+      "title": "add_field()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TJMVdi4U2oBFnAxO95jctzVAnzg",
+      "title": "delete()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TJmCdUvGRoOLFAx55qVcqbWGnRs",
+      "title": "update_resource_groups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TJundbM8FoU8UKxczaMcix3QnHb",
+      "title": "add_batch()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TMq5d6wFmoT8u3xwuruc8k6wnTg",
+      "title": "load_partitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TRFadKWOAofCVoxH3qYcdTvynHf",
+      "title": "alter_index_properties()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TWOxdwDYRo4CCHxDdZbc7IOznCg",
+      "title": "has_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TWxddf6iboyM15xK4Kzc8ASknRb",
+      "title": "load()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TWzjdJ61ho613AxKSd7clQt9nrg",
+      "title": "run_analyzer()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TfV3dOYPyoKVSMxShrTc9SZ2nqh",
+      "title": "verify()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Tjq5dE0wdodKcgxH0yZcmNdrnSg",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U7NJd5eKAo0c1TxYZndcgPj2nlc",
+      "title": "JinaEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UASmdlcqvojCe4xNY94cz9Wznyh",
+      "title": "session()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UOIddRBUXotHvyx4Yyocer0mnId",
+      "title": "get_server_type()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UP2GdfHHzoIQ56x2JvScs0sAnzh",
+      "title": "revoke_privileges()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UUJWdoEnjoXx69xahsScdMVSnzf",
+      "title": "revoke()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UUSVdtsbxo9gNSxgqE6cdfytnfh",
+      "title": "update_replicate_configuration()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UdeRd0YVhoDBeVxrQaBcoikVnAI",
+      "title": "SpladeEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UehMdosTGoZVzaxdTcUcpy1ynef",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UgvEdvGORoIQyQxA31mcAj9XnHf",
+      "title": "describe_replica()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UjjpdBwaooRDdlxFHScc6dKwnTg",
+      "title": "upsert()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UknCdYmtRoVIZ9xWcLnc02b0ndZ",
+      "title": "drop_snapshot()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ulypd24byoDBOpxGnnJcbF3Nnkb",
+      "title": "construct_from_dict()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Up73d8d78oPM2FxkvlIcuxeBn9g",
+      "title": "add_field()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UrG5delwyok3RPx0UBlcdBQ5nZd",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Uwsfd443boKKgyx2zZTcYDqKnCe",
+      "title": "flush_all()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V7BWdrC39oPAauxoWBzcaldwnVc",
+      "title": "drop_alias()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V9BidASNqoWYrmxo11ecuN99neg",
+      "title": "delete()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VFKIdx0tDoeAzSx4Ud6c3u5Snsf",
+      "title": "wait_for_compaction_completed()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VRGwdg75Ao7ZXQx7uANc9wzXnVb",
+      "title": "flush()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VWCwdHpnbofX9pxw4D1chAghnJg",
+      "title": "list_file_resources()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VWo0fuUollpgQ5dnvPkcc92Mntf",
+      "title": "Authentication",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VblKdUEU4o4t31xcFiicIGtjn9g",
+      "title": "release_partitions()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VccVd4MTgoPzCixDVtgcEoKWnPf",
+      "title": "commit()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VdiwdqQ9iofbkoxcc8Kcqk5gnhZ",
+      "title": "flush()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ve2WdUAfwoz456xwBIJcGvltn6b",
+      "title": "EmbeddingList",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VfaldXzLUocBrJxffw6cJHPinlh",
+      "title": "get_collection_stats()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Vjd7dE5OyoGvYaxd7OCcubBWnLd",
+      "title": "drop_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VkBFdLHwao9hVMxzRurcBYIynFh",
+      "title": "list_refresh_external_collection_jobs()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VmAIdW9J2oH6iWxDh2PcJYfRnne",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Vqw7d0U1qoVXozxrCMtcJGZ8nkh",
+      "title": "load()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Vy5GdSeTdoNbSqxCdsOcSmQPnvf",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "W39Wdr7S6ohrtfxI8r7cyTeInlb",
+      "title": "grant_privilege()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "W7GJdpYrYoYhSaxW6uzcVAZinYf",
+      "title": "add_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WCxIdVwCpoIaMUxbabWcSRCkn2g",
+      "title": "append_row()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WDk4dXY8IoV3SJxp9e7c3aq1nBh",
+      "title": "has_index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WEsjdspGLokueRxggM1cNFgknze",
+      "title": "get_compact_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WGDod7Qehou4GWx4Co2cJ34VnKb",
+      "title": "update_password()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WJY1dMUO5owB1gxkOlLcaB2Rn7g",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WJpVd6gQzoxCEUxM93ScXsL5ntA",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WR4qdjFUXog2JHxuJpMcWcVlnEf",
+      "title": "rename_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WToudUwm4oVXeKxLg3jcj3IAnjh",
+      "title": "CollectionSchema",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WazKdTlcOoYoBWxIJEEc7gFMnfC",
+      "title": "revoke_privilege_v2()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WgmLdM6nUogd7LxGtmfc5dBKnku",
+      "title": "list_snapshots()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WhsHdyIgyoFlsQxNJt9cFCTxnDe",
+      "title": "describe_index()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WiT4dJ1SJod0fdx4z23cwFbAn7c",
+      "title": "Model2VecEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WidffJPNIlfIlZdHlU8cMiGOnpg",
+      "title": "Collections",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WtyZdeFKMoSv5exaYRxcPLCSndg",
+      "title": "drop_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Wz3HdtvPCoEquvxFY7PcDHxcnEe",
+      "title": "describe_user()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "X3NXdtC2koiAxyxhcUBcv38Wnsh",
+      "title": "refresh_load()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "X5qsdhFQ5oOhkcxOprzcOZq4nMc",
+      "title": "create_resource_group()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "X9scdVMmxoBTuUxlKhecJXEunHd",
+      "title": "Partition",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XBwxdP96Go8ITyx7UuNcL7EonPd",
+      "title": "list_aliases()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XLepdUCcTow6rpx5vxxcbLXZnyb",
+      "title": "list_indexes()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XQAQd2tPKon4JgxKEoAc0CCHnUg",
+      "title": "to_numpy()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XW72dhBuNoqNWhxUQLtcfa6Fnwd",
+      "title": "search()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XYNMdg3Vpo3SE7xTRVqcJNvrn0d",
+      "title": "load_balance()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XYSVdCqCDoJ9Y5xqKEAceYkpnnh",
+      "title": "BGEM3EmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XeZwdeK64oGD8rx9DA3ciqNinnh",
+      "title": "has_connection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XfxvdiIdOokuN1xiVBWct34Wnre",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XhcVd1JXvoAgUfxSEpQcL2H6nVg",
+      "title": "add_function()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XzHhd3AdCo9DCsxawYycr69CnAb",
+      "title": "get_bulk_insert_state()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Y7pOdKR4MoqmvVxcS1TcjqUynMc",
+      "title": "drop_database()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YH58dq1IrotH4gxsFfTcEeMPnid",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YKwldu59qosZBsxdRdSc0l9Hnoe",
+      "title": "get_replicas()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YRoGdgQmWoIEaJx84ICcHTILnMe",
+      "title": "list_grants()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YScUdNEpmobwhbxbOQQcsc8Wnie",
+      "title": "save()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YXogdv0Dpovi2Pxbyh2cdA4nnbe",
+      "title": "verify()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Yf9GddNheoKrFCxcUeYc7NHjnVb",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YmnmdEeHFoctZexccqNcr8xXn8c",
+      "title": "InstructorEmbeddingFunction",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YtiQdxTYzoCaYDxEMZcc8TEenQb",
+      "title": "load_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Z23IddhHhom7AyxDMXecLORVnDh",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Z76PdoAJkoGaMPxG4CFcCmShnwh",
+      "title": "to_flat_array()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZMs1dJJOGobyBjxRo7icXtE8nPe",
+      "title": "encode_documents()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb",
+      "title": "release()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZVs4dDpvmoXI0OxOnKhc9numnJd",
+      "title": "refresh_external_collection()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZWLCdBWwOo4OSVxfnNRcDrv5nhe",
+      "title": "\\_\\_call\\_\\_()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZdKEd2ua6o9AHHxKq25ctNSdncb",
+      "title": "mkts_from_unixtime()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZkWBdbMZkoBjT1xe4qDcTBOHnGx",
+      "title": "encode_queries()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZnKKd2PsyoRc1MxtC1BcJQjgnBh",
+      "title": "StructFieldSchema",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZqmudJWyFonUKGxAxXncYrLZn2e",
+      "title": "list_indexes()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    }
+  ]
+}

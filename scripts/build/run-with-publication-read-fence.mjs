@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+import {spawn} from 'node:child_process';
+import {createRequire} from 'node:module';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const requireFromApp = createRequire(path.join(repositoryRoot, 'apps/docs/package.json'));
+const jiti = requireFromApp('jiti')(fileURLToPath(import.meta.url), {interopDefault: true});
+const {
+  manualRegistry,
+  publicationEntries,
+  publicationOwnedTargets,
+  withAtomicPublicationReads,
+} = jiti(path.join(repositoryRoot, 'packages/docs-tooling/src/index.ts'));
+
+function publicationSetsForSite(site) {
+  if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported documentation site: ${site}`);
+  return publicationEntries(manualRegistry)
+    .filter(entry => entry.site === site && entry.publication.enabled)
+    .map(entry => publicationOwnedTargets(site, entry.publication));
+}
+
+export async function withSitePublicationReadFence(root, site, reader) {
+  return await withAtomicPublicationReads(root, publicationSetsForSite(site), reader);
+}
+
+export async function runBuildWithPublicationReadFence({root = repositoryRoot, site, command, args = [], cwd = process.cwd(), env = process.env, spawnProcess = spawn, signalSource = process}) {
+  if (typeof command !== 'string' || command.length === 0) throw new Error('A build command is required after --');
+  return await withSitePublicationReadFence(root, site, async () => await new Promise((resolve, reject) => {
+    const child = spawnProcess(command, args, {
+      cwd,
+      env: {...env, ZDOC_SITE: site},
+      stdio: 'inherit',
+    });
+
+    let settled = false;
+    const forwardSignal = signal => child.kill(signal);
+    const onSigint = () => forwardSignal('SIGINT');
+    const onSigterm = () => forwardSignal('SIGTERM');
+    const cleanup = () => {
+      signalSource.removeListener('SIGINT', onSigint);
+      signalSource.removeListener('SIGTERM', onSigterm);
+    };
+    const settle = action => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      action();
+    };
+
+    signalSource.on('SIGINT', onSigint);
+    signalSource.on('SIGTERM', onSigterm);
+    child.once('error', error => settle(() => reject(error)));
+    child.once('exit', (code, signal) => {
+      settle(() => {
+        if (signal) reject(new Error(`Build command terminated by ${signal}`));
+        else if (code !== 0) reject(new Error(`Build command exited with status ${code}`));
+        else resolve();
+      });
+    });
+  }));
+}
+
+function parseArgs(argv) {
+  const separator = argv.indexOf('--');
+  if (separator !== 2 || argv[0] !== '--site' || !argv[1] || separator === argv.length - 1) {
+    throw new Error('Usage: run-with-publication-read-fence.mjs --site <en|zh-CN> -- <command> [args...]');
+  }
+  return {site: argv[1], command: argv[separator + 1], args: argv.slice(separator + 2)};
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try {
+    await runBuildWithPublicationReadFence(parseArgs(process.argv.slice(2)));
+  } catch (error) {
+    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+    process.exitCode = 1;
+  }
+}

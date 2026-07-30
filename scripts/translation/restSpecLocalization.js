@@ -1,9 +1,39 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const path = require('node:path')
 
 const LOCALIZABLE_KEYS = new Set(['summary', 'description', 'title', 'label', 'prompt', 'content'])
 const PRESERVED_SUBTREES = new Set(['example', 'examples', 'default', 'enum', 'enums', 'value'])
+
+const PROMPTS_BY_TARGET = Object.freeze({
+  'ja-JP': Object.freeze({
+    translation: 'codex-translation-agent.ja-JP.md',
+    review: 'codex-review-agent.ja-JP.md',
+    rest: 'codex-rest-spec-translation-agent.ja-JP.md',
+  }),
+  'zh-CN-reference': Object.freeze({
+    translation: 'codex-translation-agent.zh-CN-reference.md',
+    review: 'codex-review-agent.zh-CN-reference.md',
+    rest: 'codex-rest-spec-translation-agent.zh-CN-reference.md',
+  }),
+  'zh-CN-tools': Object.freeze({
+    translation: 'codex-translation-agent.zh-CN-tools.md',
+    review: 'codex-review-agent.zh-CN-tools.md',
+    rest: undefined,
+  }),
+})
+
+function promptNamesFor(target) {
+  const prompts = PROMPTS_BY_TARGET[target]
+  if (!prompts) throw new Error(`Unsupported translation target: ${target}`)
+  return prompts
+}
+
+function loadPrompt(name) {
+  return fs.readFileSync(path.join(process.cwd(), '.github', 'prompts', name), 'utf8')
+}
 
 function parseRestDocument(content) {
   const marker = 'export const specs = '
@@ -109,7 +139,10 @@ function batchEntries(entries, maxChars = 12000) {
   return batches
 }
 
-async function translateRestSpecs({ sourceSpecs, locale, callModel, systemPrompt }) {
+async function translateRestSpecs({ sourceSpecs, target, locale, callModel }) {
+  const promptName = promptNamesFor(target).rest
+  if (!promptName) throw new Error(`REST translation is unsupported for translation target ${target}`)
+  const systemPrompt = loadPrompt(promptName)
   const entries = collectLocalizableEntries(sourceSpecs)
   const translated = []
   for (const batch of batchEntries(entries)) {
@@ -132,4 +165,4 @@ function assembleRestDocument({ translatedPrefix, localizedSpecs, suffix, locale
   return `${prefix}export const specs = ${JSON.stringify(localizedSpecs)}${suffix}`
 }
 
-module.exports = { applyLocaleEntries, assembleRestDocument, batchEntries, collectLocalizableEntries, parseRestDocument, parseTranslationEntries, removeLocale, translateRestSpecs }
+module.exports = { applyLocaleEntries, assembleRestDocument, batchEntries, collectLocalizableEntries, loadPrompt, parseRestDocument, parseTranslationEntries, promptNamesFor, removeLocale, translateRestSpecs }

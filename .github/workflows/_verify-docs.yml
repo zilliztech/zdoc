@@ -17,6 +17,9 @@ on:
       status:
         description: passed or failed
         value: ${{ jobs.verify.outputs.status }}
+      revision_status:
+        description: passed or failed
+        value: ${{ jobs.verify.outputs.revision_status }}
 
 permissions:
   contents: read
@@ -27,6 +30,7 @@ jobs:
     timeout-minutes: 180
     outputs:
       status: ${{ steps.result.outputs.status }}
+      revision_status: ${{ steps.revision_result.outputs.status }}
     env:
       FINAL_DEV_SHA: ${{ inputs.final_dev_sha }}
       MASTER_SHA: ${{ inputs.master_sha }}
@@ -43,11 +47,9 @@ jobs:
           ref: ${{ inputs.master_sha }}
           fetch-depth: 0
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22.6'
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -57,18 +59,40 @@ jobs:
           git fetch --no-tags origin "$FINAL_DEV_SHA"
           git worktree add --detach "$RUNNER_TEMP/final-dev" "$FINAL_DEV_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$FINAL_DEV_SHA"
+      - name: Verify revision waterline
+        id: revision
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          mkdir -p tmp/final-verification-reports
+          pnpm check:localization-input-inventory 2>&1 | tee tmp/final-verification-reports/localization-input-inventory.log
+          pnpm docs-tooling validate-revision-inventory --site en 2>&1 | tee tmp/final-verification-reports/revision-inventory.log
+      - name: Emit revision reconciliation result
+        id: revision_result
+        if: ${{ always() }}
+        run: |
+          if [[ "${{ steps.revision.outcome }}" == success ]]; then
+            echo "status=passed" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+          fi
       - name: Verify final documentation state
         id: verification
         continue-on-error: true
         run: |
           set -euo pipefail
           mkdir -p tmp/final-verification-reports
+          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log
+          pnpm docs-tooling validate-translation --target zh-CN-tools --group tools 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-translation.log
+          pnpm docs-tooling validate-tools-sidebar 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-sidebar.log
           node scripts/validate-generated-sidebars.js 2>&1 | tee tmp/final-verification-reports/sidebars.log
           for group in guides python java node go cli rest; do
             node scripts/validate-translated-coverage.js --group "$group"
           done 2>&1 | tee tmp/final-verification-reports/translated-coverage.log
-          node scripts/run-doc-build-stage.js --build "pnpm run build" --skipCardReporting 2>&1 | tee tmp/final-verification-reports/build.log
+          node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting 2>&1 | tee tmp/final-verification-reports/build-en.log
+          node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting 2>&1 | tee tmp/final-verification-reports/build-zh-cn.log
           node scripts/validate-workflow-policy.js 2>&1 | tee tmp/final-verification-reports/workflow-policy.log
+          pnpm test:typescript-runtime-boundary 2>&1 | tee tmp/final-verification-reports/typescript-runtime-boundary.log
           node --test scripts/sdk-reference-workflow.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/build-aggregate-input.test.js scripts/docs-workflow/apply-checkpoint-artifact.test.js scripts/docs-workflow/checkpoint-contention.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/create-checkpoint-artifact.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/docs-workflow/run-content-group.test.js scripts/docs-workflow/validate-checkpoint-artifact.test.js 2>&1 | tee tmp/final-verification-reports/tests.log
       - name: Upload final verification reports
         if: ${{ always() }}
@@ -81,7 +105,7 @@ jobs:
         id: result
         if: ${{ always() }}
         run: |
-          if [[ "${{ steps.verification.outcome }}" == success ]]; then
+          if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then
             echo "status=passed" >> "$GITHUB_OUTPUT"
           else
             echo "status=failed" >> "$GITHUB_OUTPUT"

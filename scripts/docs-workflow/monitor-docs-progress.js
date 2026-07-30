@@ -3,14 +3,32 @@
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
+const { randomUUID } = require('node:crypto')
 const { execFile } = require('node:child_process')
 const { promisify } = require('node:util')
-const { createCardClient } = require('../../plugins/report-to-lark/cardClient')
 const { deriveDocsProgressState } = require('./docs-progress-state')
 const { readCardReport, validateCardReport } = require('./docs-card-report')
 
 const execFileAsync = promisify(execFile)
 const ALL_GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
+
+function createDocsToolingCardPatcher({ repositoryRoot = process.cwd(), messageId, environment = process.env, execute = execFileAsync }) {
+  const directory = path.join(repositoryRoot, 'tmp', 'docs-tooling', 'report-card')
+  return async state => {
+    fs.mkdirSync(directory, { recursive: true })
+    const file = path.join(directory, `monitor-${process.pid}-${randomUUID()}.json`)
+    const relative = path.relative(repositoryRoot, file).split(path.sep).join('/')
+    fs.writeFileSync(file, JSON.stringify(state), { mode: 0o600 })
+    try {
+      await execute('pnpm', ['docs-tooling', 'report-card', 'advance', '--state-file', relative, '--message-id', messageId], {
+        cwd: repositoryRoot,
+        env: environment,
+      })
+    } finally {
+      fs.rmSync(file, { force: true })
+    }
+  }
+}
 
 function delay(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -382,7 +400,15 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
 async function main() {
   const config = readConfiguration()
   const github = createGitHubActionsClient(config)
-  const cardClient = createCardClient(config)
+  const patchCard = createDocsToolingCardPatcher({
+    messageId: config.cardId,
+    environment: {
+      ...process.env,
+      APP_ID: config.appId,
+      APP_SECRET: config.appSecret,
+      FEISHU_HOST: config.feishuHost,
+    },
+  })
   const reportFromFile = config.reportFile && fs.existsSync(config.reportFile)
     ? () => Promise.resolve(readCardReport(config.reportFile, { expectedRunId: config.runId }))
     : github.downloadFinalReport
@@ -392,7 +418,7 @@ async function main() {
     listJobs: github.listJobs,
     downloadProgressMetadata: github.downloadProgressMetadata,
     downloadFinalReport: reportFromFile,
-    patchCard: state => cardClient.patch({ messageId: config.cardId, state }),
+    patchCard,
   })
   const stop = signal => {
     monitor.stop(signal).finally(() => { process.exitCode = 130 })
@@ -411,6 +437,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  createDocsToolingCardPatcher,
   createDocsProgressMonitor,
   createGitHubActionsClient,
   readConfiguration,

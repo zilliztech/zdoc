@@ -2,7 +2,7 @@
 'use strict'
 
 const fs = require('node:fs')
-const { promoteCandidateSnapshot, writeSnapshot } = require('../plugins/lark-docs/sourceSnapshot')
+const { promoteCandidateSnapshot, writeSnapshot } = require('../packages/docs-tooling/src/lark/sourceSnapshot')
 
 function parseArgs(argv) {
   const result = {}, seen = new Set()

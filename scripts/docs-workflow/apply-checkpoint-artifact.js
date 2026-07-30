@@ -4,7 +4,9 @@
 const fs = require('node:fs');
 const { cp, lstat, mkdir, mkdtemp, open, realpath, rename, rm, rmdir, statfs } = require('node:fs/promises');
 const path = require('node:path');
+const { loadTypeScript } = require('../lib/load-typescript');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
+const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
 
 const CACHE = '.translation-cache/ja-JP.json';
 function insideOrEqual(parent, child) { const rel = path.relative(parent, child); return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel)); }
@@ -81,6 +83,65 @@ function mergeCache(baseline, artifact, target) {
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
 }
 
+function recordsBySource(manifest, field, label) {
+  if (!Array.isArray(manifest[field])) throw new Error(`${label} ${field} must be an array`);
+  const records = {};
+  for (const record of manifest[field]) {
+    if (!record || typeof record !== 'object' || Array.isArray(record) || typeof record.sourcePath !== 'string' || !record.sourcePath) throw new Error(`${label} ${field} record requires sourcePath`);
+    if (Object.hasOwn(records, record.sourcePath)) throw new Error(`${label} ${field} has duplicate sourcePath: ${record.sourcePath}`);
+    records[record.sourcePath] = record;
+  }
+  return records;
+}
+
+function compareManifestRecords(left, right) {
+  for (const key of ['manual', 'sourcePath', 'targetPath']) {
+    const leftValue = String(left[key] ?? '');
+    const rightValue = String(right[key] ?? '');
+    const comparison = leftValue < rightValue ? -1 : leftValue > rightValue ? 1 : 0;
+    if (comparison !== 0) return comparison;
+  }
+  return 0;
+}
+
+function mergeRecordEntries(baseline, artifact, target, prefix) {
+  const missing = Symbol('missing');
+  const result = {};
+  for (const key of [...new Set([...Object.keys(baseline), ...Object.keys(artifact), ...Object.keys(target)])].sort()) {
+    const b = Object.hasOwn(baseline, key) ? baseline[key] : missing;
+    const a = Object.hasOwn(artifact, key) ? artifact[key] : missing;
+    const t = Object.hasOwn(target, key) ? target[key] : missing;
+    if ([b, a, t].every(value => value !== missing && value && typeof value === 'object' && !Array.isArray(value))) {
+      result[key] = mergeRecord(b, a, t, `${prefix}${key}.`);
+      continue;
+    }
+    const merged = mergeRecord(
+      b === missing ? {} : {[key]: b},
+      a === missing ? {} : {[key]: a},
+      t === missing ? {} : {[key]: t},
+      prefix,
+    );
+    if (Object.hasOwn(merged, key)) result[key] = merged[key];
+  }
+  return result;
+}
+
+function mergeRecordCollection(baseline, artifact, target, field) {
+  const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field)));
+  const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
+  result[field] = Object.values(mergeRecordEntries(
+    recordsBySource(baseline, field, 'Baseline'),
+    recordsBySource(artifact, field, 'Artifact'),
+    recordsBySource(target, field, 'Target'),
+    `${field}.`,
+  )).sort(compareManifestRecords);
+  return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
+}
+
+function mergeManifest(baseline, artifact, target) {
+  return mergeRecordCollection(baseline, artifact, target, 'records');
+}
+
 async function atomicWrite(target, bytes) {
   const temporary = path.join(path.dirname(target), `.${path.basename(target)}.${process.pid}.${Date.now()}.tmp`);
   const handle = await open(temporary, fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | (fs.constants.O_NOFOLLOW || 0), 0o600);
@@ -120,9 +181,9 @@ async function verifyGuard(identities) {
 function minimalPaths(paths) { return [...new Set(paths)].sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)).filter((rel, i, all) => !all.slice(0, i).some((parent) => rel.startsWith(`${parent}/`))); }
 async function pathSize(full) { const stat = await maybeLstat(full); if (!stat) return 0; if (stat.isSymbolicLink()) throw new Error(`Symlink cannot be journaled: ${full}`); if (stat.isFile()) return stat.size; let total = 0; for (const name of await require('node:fs/promises').readdir(full)) total += await pathSize(path.join(full, name)); return total; }
 
-async function readCacheNoFollow(root, kind, hooks) {
-  await assertSafeAncestors(root, CACHE);
-  return readNoFollow(path.join(root, CACHE), undefined, () => hooks?.afterCacheLstat?.({ kind, file: path.join(root, CACHE) }));
+async function readStateNoFollow(root, statePath, kind, hooks) {
+  await assertSafeAncestors(root, statePath);
+  return readNoFollow(path.join(root, statePath), undefined, () => hooks?.afterCacheLstat?.({ kind, file: path.join(root, statePath) }));
 }
 
 async function applyCheckpointArtifact(options = {}) {
@@ -137,18 +198,30 @@ async function applyCheckpointArtifact(options = {}) {
   const payloadStats = new Map();
   for (const entry of manifest.files) payloadStats.set(entry.path, await lstat(path.join(payload, entry.path)));
 
-  let mergedCache = null;
-  const cacheEntry = manifest.files.find((entry) => entry.path === CACHE);
-  if (cacheEntry) {
+  const mergedStates = new Map();
+  const statePath = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget).state.path : null;
+  const statePaths = statePath
+    ? [statePath, ...(manifest.translationTarget === 'zh-CN-reference' ? ['config/reference-retirements.json'] : [])]
+      .filter((candidate) => manifest.files.some((entry) => entry.path === candidate))
+    : [];
+  if (statePaths.length) {
     if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('baselineDir is required for translation cache merge');
     const baseline = await safeTarget(options.baselineDir);
     if (insideOrEqual(target, baseline) || insideOrEqual(baseline, target) || insideOrEqual(artifact, baseline) || insideOrEqual(baseline, artifact)) throw new Error('Baseline must not overlap artifact or target');
-    const [a, b, t] = await Promise.all([
-      readNoFollow(path.join(payload, CACHE), payloadStats.get(CACHE), () => hooks?.afterCacheLstat?.({ kind: 'artifact', file: path.join(payload, CACHE) })),
-      readCacheNoFollow(baseline, 'baseline', hooks),
-      readCacheNoFollow(target, 'target', hooks),
-    ]);
-    mergedCache = mergeCache(parseObject(b, 'Baseline translation cache'), parseObject(a, 'Artifact translation cache'), parseObject(t, 'Target translation cache'));
+    for (const mergePath of statePaths) {
+      const [a, b, t] = await Promise.all([
+        readNoFollow(path.join(payload, mergePath), payloadStats.get(mergePath), () => hooks?.afterCacheLstat?.({ kind: 'artifact', file: path.join(payload, mergePath) })),
+        readStateNoFollow(baseline, mergePath, 'baseline', hooks),
+        readStateNoFollow(target, mergePath, 'target', hooks),
+      ]);
+      const parsed = [parseObject(b, 'Baseline translation state'), parseObject(a, 'Artifact translation state'), parseObject(t, 'Target translation state')];
+      const merged = manifest.translationTarget === 'ja-JP'
+        ? mergeCache(...parsed)
+        : mergePath === 'config/reference-retirements.json'
+          ? mergeRecordCollection(...parsed, 'retirements')
+          : mergeManifest(...parsed);
+      mergedStates.set(mergePath, merged);
+    }
   }
 
   const mutationPaths = minimalPaths([...manifest.deletions, ...manifest.files.map((entry) => entry.path)]);
@@ -179,11 +252,11 @@ async function applyCheckpointArtifact(options = {}) {
       const existing = await maybeLstat(destination);
       if (existing?.isSymbolicLink()) throw new Error(`Target symlink is not allowed: ${rel}`);
       if (existing?.isDirectory()) { if (!manifest.deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); }
-      const bytes = rel === CACHE ? mergedCache : await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
+      const bytes = mergedStates.get(rel) ?? await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
       await hooks?.beforeCommit?.({ rel }); await verifyGuard(guard); await atomicWrite(destination, bytes); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); await hooks?.afterCopy?.({ rel });
     }
     complete = true;
-    return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: Boolean(cacheEntry) });
+    return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: statePaths.length > 0 });
   } finally {
     if (!complete) {
       try {

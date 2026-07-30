@@ -1,0 +1,142 @@
+{
+  "version": 6,
+  "precedence": [
+    "japaneseLocalization",
+    "canonicalEnglishTools",
+    "zhToolsTranslation",
+    "sharedAgentEngine",
+    "canonicalEnglishReference",
+    "zhReferenceTranslation",
+    "siteOwned.en",
+    "siteOwned.zh-CN",
+    "shared"
+  ],
+  "rules": {
+    "japaneseLocalization": {
+      "include": [
+        ".translation-cache/ja-JP.json",
+        "i18n/ja-JP/**"
+      ],
+      "checks": ["build:en"]
+    },
+    "canonicalEnglishTools": {
+      "include": [
+        "content/en/guides/tutorials/tools/**",
+        "generated/en/sidebars/guides.sidebar.js"
+      ],
+      "checks": ["build:en", "build:zh-CN"]
+    },
+    "zhToolsTranslation": {
+      "include": [
+        "content/zh-CN/guides/tutorials/tools/**",
+        "generated/zh-CN/manifests/tools-translations.json",
+        "generated/zh-CN/sidebars/tools.sidebar.js",
+        "config/tools-retirements.json"
+      ],
+      "checks": ["build:zh-CN"]
+    },
+    "sharedAgentEngine": {
+      "include": [
+        "packages/docs-tooling/src/translation/**",
+        "scripts/translation/**"
+      ],
+      "checks": ["build:en", "build:zh-CN", "zh-reference-translation-coverage", "zh-tools-translation-coverage"]
+    },
+    "canonicalEnglishReference": {
+      "include": [
+        "content/en/reference/**",
+        "generated/en/manifests/reference.json",
+        "generated/en/sidebars/python.sidebar.js",
+        "generated/en/sidebars/java.sidebar.js",
+        "generated/en/sidebars/node.sidebar.js",
+        "generated/en/sidebars/go.sidebar.js",
+        "generated/en/sidebars/restful.sidebar.js",
+        "generated/en/sidebars/cli.sidebar.js",
+        "config/reference-navigation.json",
+        "packages/docs-tooling/src/reference/**",
+        "packages/docs-tooling/src/validation/translation.ts",
+        "scripts/reference/**"
+      ],
+      "checks": ["build:en", "build:zh-CN", "zh-reference-translation-coverage"]
+    },
+    "zhReferenceTranslation": {
+      "include": [
+        "generated/zh-CN/manifests/reference-translations.json",
+        "generated/zh-CN/sidebars/**",
+        "packages/site-config/src/sidebars/zh-CN/reference.ts",
+        "config/reference-retirements.json"
+      ],
+      "exclude": [
+        "generated/zh-CN/sidebars/tools.sidebar.js"
+      ],
+      "checks": ["build:zh-CN", "zh-reference-translation-coverage"]
+    },
+    "siteOwned.en": {
+      "include": [
+        "content/en/**",
+        "packages/site-config/src/sites/en.ts",
+        "packages/site-config/src/sidebars/en/**",
+        "sidebar-overrides/en/**",
+        "generated/en/sidebars/**",
+        "deploy/en/**"
+      ],
+      "exclude": [
+        "content/en/reference/**",
+        "content/en/guides/tutorials/tools/**",
+        "generated/en/sidebars/guides.sidebar.js",
+        "generated/en/sidebars/python.sidebar.js",
+        "generated/en/sidebars/java.sidebar.js",
+        "generated/en/sidebars/node.sidebar.js",
+        "generated/en/sidebars/go.sidebar.js",
+        "generated/en/sidebars/restful.sidebar.js",
+        "generated/en/sidebars/cli.sidebar.js"
+      ],
+      "checks": ["build:en"]
+    },
+    "siteOwned.zh-CN": {
+      "include": [
+        "content/zh-CN/**",
+        "packages/site-config/src/sites/zh-CN.ts",
+        "packages/site-config/src/sidebars/zh-CN/**",
+        "sidebar-overrides/zh-CN/**",
+        "generated/zh-CN/sidebars/**",
+        "deploy/zh-CN/**"
+      ],
+      "exclude": [
+        "content/zh-CN/guides/tutorials/tools/**",
+        "generated/zh-CN/sidebars/**",
+        "packages/site-config/src/sidebars/zh-CN/reference.ts"
+      ],
+      "checks": ["build:zh-CN"]
+    },
+    "shared": {
+      "include": [
+        ".github/actions/**",
+        ".github/workflows/**",
+        "apps/docs/**",
+        "packages/**",
+        ".dockerignore",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "package.json",
+        "deploy/contracts/**",
+        "config/lark-docs.config.ts",
+        "config/applyOverrides.js",
+        "migration/dependencies.json",
+        "migration/legacy-files.json",
+        "scripts/build/**"
+      ],
+      "exclude": [
+        "packages/site-config/src/sites/en.ts",
+        "packages/site-config/src/sites/zh-CN.ts",
+        "packages/site-config/src/sidebars/en/**",
+        "packages/site-config/src/sidebars/zh-CN/**",
+        "packages/docs-tooling/src/reference/**",
+        "packages/docs-tooling/src/validation/translation.ts",
+        "packages/docs-tooling/src/translation/**",
+        "scripts/translation/**"
+      ],
+      "checks": ["build:en", "build:zh-CN"]
+    }
+  }
+}

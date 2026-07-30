@@ -413,7 +413,7 @@ function resolvePrefetchScopes({ sourceDir, snapshotPath, planPath = null, docTo
 
 async function main() {
   const args = parseArgs(process.argv.slice(2))
-  const Downloader = require('../../plugins/lark-docs/larkImageDownloader')
+  const Downloader = require('../../packages/docs-tooling/src/lark/larkImageDownloader')
   const concurrency = Number(args.get('--concurrency') || 4)
   const sourceDir = path.resolve(args.get('--source-dir'))
   const planPath = args.has('--plan') ? path.resolve(args.get('--plan')) : null

@@ -4,7 +4,7 @@
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
-const { hashSnapshot, assertSourceCompleteness } = require('../../plugins/lark-docs/sourceCompleteness')
+const { hashSnapshot, assertSourceCompleteness } = require('../../packages/docs-tooling/src/lark/sourceCompleteness')
 const { assertMediaCoverage, collectMediaReferences, sourceFilesForSnapshot, validateEntries } = require('./guides-media-prefetch')
 
 function readSnapshot(snapshotPath) { return JSON.parse(fs.readFileSync(snapshotPath, 'utf8')) }

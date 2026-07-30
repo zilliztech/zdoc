@@ -26,13 +26,11 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - name: "Setup node.js"
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22.6"
           cache: 'pnpm'
 
       - name: "Install dependencies"
@@ -43,7 +41,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         continue-on-error: true
         run: |
-          npx docusaurus report-to-lark --card-create \
+          pnpm docs-tooling report-card create \
             --title "External Link Check" \
             --stages "Check external links"
         env:
@@ -70,7 +68,7 @@ jobs:
         if: ${{ always() && github.event_name == 'pull_request' && steps.summary.outputs.has_new_broken == 'true' }}
         continue-on-error: true
         run: |
-          npx docusaurus report-to-lark --card-create \
+          pnpm docs-tooling report-card create \
             --title "External Link Check" \
             --stages "Check external links"
         env:
@@ -81,7 +79,7 @@ jobs:
       - name: Attach Feishu result summary
         if: ${{ always() && (steps.push_card.outputs.card_id != '' || steps.pr_card.outputs.card_id != '') }}
         continue-on-error: true
-        run: npx docusaurus report-to-lark --card-note-file tmp/external-link-summary.md
+        run: pnpm docs-tooling report-card note --file tmp/external-link-summary.md
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -91,7 +89,7 @@ jobs:
         if: ${{ always() && (steps.push_card.outputs.card_id != '' || steps.pr_card.outputs.card_id != '') }}
         continue-on-error: true
         run: |
-          npx docusaurus report-to-lark --card-finish \
+          pnpm docs-tooling report-card finish \
             --message-id "$CARD_ID" \
             --status "$CARD_STATUS" \
             --started-at "$CARD_STARTED_AT" \

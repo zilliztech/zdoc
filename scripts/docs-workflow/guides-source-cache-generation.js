@@ -157,9 +157,9 @@ function fixedWorkspacePath(root, relative, label) {
 
 function liveCachePathsFromRoot(root) {
   return {
-    sourceDir: fixedWorkspacePath(root, 'plugins/lark-docs/meta/sources/guides', 'Guides source cache path'),
-    sourceManifestPath: fixedWorkspacePath(root, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides source manifest path'),
-    mediaManifestPath: fixedWorkspacePath(root, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides media manifest path'),
+    sourceDir: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides source cache path'),
+    sourceManifestPath: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides source manifest path'),
+    mediaManifestPath: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides media manifest path'),
   }
 }
 

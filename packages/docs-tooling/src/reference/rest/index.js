@@ -1,0 +1,93 @@
+#!/usr/bin/env node
+const { program } = require('commander')
+const RefGen = require('./refGen')
+const S3Uploader = require('./s3Uploader')
+const fs = require('node:fs')
+const { loadSpecifications } = require('./specLoader')
+
+function registerCommand(command) {
+    command
+        .description('Fetch and generate API reference docs from Apifox')
+        .option('-s, --specifications <specifications>', 'Specifications of the API')
+        .option('-l, --lang <lang>', 'Language of the API Reference', 'en-US')
+        .option('-o, --output_path <target_path>', 'Target path of the API Reference', 'content/en/reference/api/restful/restful')
+        .option('-i, --strings <strings>', 'Localization strings for Chinese docs')
+        .option('-t, --target <string>', 'Publication target of the API Reference', 'zilliz')
+        .option('--upload-s3', 'Upload merged OpenAPI specs to S3 and update about page', false)
+        .action(async (opts) => {
+            let lang = opts.lang
+            let target = opts.target
+            let target_path = opts.output_path
+            let specifications
+            let strings
+
+            console.log('Fetching docs from Apifox...')
+
+            if (opts.specifications === undefined) {
+                throw new Error('Please provide specifications')
+            } else {
+                try {
+                    specifications = loadSpecifications(opts.specifications)
+                } catch (err) {
+                    throw new Error(`Failed to read OpenAPI spec from "${opts.specifications}": ${err.message}`, { cause: err })
+                }
+            }
+
+            if (opts.lang === 'zh-CN' && opts.strings === undefined) {
+                throw new Error('Please provide the localization strings for Chinese docs')
+            }
+
+            if (opts.lang === 'zh-CN') {
+                try {
+                    strings = fs.readFileSync(opts.strings, 'utf-8').split('\n')
+                } catch (err) {
+                    throw new Error(`Failed to read localization strings from "${opts.strings}": ${err.message}`, { cause: err })
+                }
+            }
+
+            const refGen = new RefGen({
+                specifications,
+                lang,
+                target,
+                target_path,
+                strings,
+            })
+
+            fs.mkdirSync(target_path, { recursive: true })
+            const folders = fs.readdirSync(target_path, { recursive: true }).filter(f => fs.statSync(target_path + '/' + f).isDirectory())
+            for (let folder of folders.filter(f => !f.endsWith('v1') && !f.endsWith('v2'))) {
+                fs.rmSync(target_path + '/' + folder, { recursive: true, force: true })
+            }
+
+            refGen.make_groups()
+            refGen.write_refs()
+
+            if (opts.upload_s3) {
+                try {
+                    const uploader = new S3Uploader({ target, lang })
+                    await uploader.upload(specifications, lang)
+                } catch (err) {
+                    throw new Error(`S3 upload failed: ${err.message}`, { cause: err })
+                }
+            }
+        })
+}
+
+module.exports = function () {
+    return {
+        name: 'fetch-apifox-docs',
+        extendCli(cli) {
+            registerCommand(cli.command('fetch-apifox-docs'))
+        },
+    }
+}
+
+if (require.main === module) {
+    program
+        .name('fetch-apifox-docs')
+    registerCommand(program)
+    program.parseAsync().catch(error => {
+        console.error(error instanceof Error ? error.message : String(error))
+        process.exitCode = 1
+    })
+}

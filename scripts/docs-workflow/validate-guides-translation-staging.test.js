@@ -10,7 +10,8 @@ const { execFileSync, spawnSync } = require('node:child_process')
 const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS } = require('./validate-guides-translation-staging')
 
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
-const REPORT = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
+const REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json'
+const CLI_REVISION = 'generated/en/manifests/lark-revisions/cli.json'
 const ENV = { ...process.env, GIT_AUTHOR_NAME: 'Test', GIT_AUTHOR_EMAIL: 'test@example.com', GIT_COMMITTER_NAME: 'Test', GIT_COMMITTER_EMAIL: 'test@example.com' }
 const restoreScript = path.resolve(__dirname, '..', 'restore-generated-state.sh')
 function git(cwd, ...args) { return execFileSync('git', args, { cwd, encoding: 'utf8', env: ENV }).trim() }
@@ -44,7 +45,18 @@ function cloneMaster(repository) {
 function fixture() {
   const repository = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-staging-')))
   git(repository, 'init')
-  const seeds = ['docs/index.md', 'docs-byoc/index.md', 'reference/index.md', 'reference/keep.md', `${ROOT}/a.md`, 'i18n/ja-JP/other.md', '.translation-cache/ja-JP.json', 'config/generated/guides.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides.json', 'plugins/lark-docs/meta/assembly/guides.json', REPORT]
+  const seeds = [
+    'docs/index.md', 'docs-byoc/index.md', 'reference/index.md', 'reference/keep.md',
+    'content/en/guides/index.md', `${ROOT}/a.md`, 'i18n/ja-JP/other.md',
+    '.translation-cache/ja-JP.json', 'config/generated/guides.sidebar.js',
+    'generated/en/sidebars/guides.sidebar.js', 'generated/en/sidebars/guides-byoc.sidebar.js',
+    'generated/en/sidebars/python.sidebar.js', 'generated/en/sidebars/java.sidebar.js',
+    'generated/en/sidebars/node.sidebar.js', 'generated/en/sidebars/go.sidebar.js',
+    'generated/en/sidebars/cli.sidebar.js', 'generated/en/sidebars/restful.sidebar.js',
+    'generated/en/manifests/lark-revisions/cli.json',
+    'packages/docs-tooling/src/lark/meta/snapshots/guides.json',
+    'packages/docs-tooling/src/lark/meta/assembly/guides.json', REPORT,
+  ]
   for (const relative of seeds) { fs.mkdirSync(path.dirname(path.join(repository, relative)), { recursive: true }); fs.writeFileSync(path.join(repository, relative), `${relative}\n`) }
   fs.writeFileSync(path.join(repository, 'tooling.js'), 'tooling\n')
   git(repository, 'add', '.')
@@ -53,7 +65,8 @@ function fixture() {
   git(repository, 'switch', '-c', 'staged')
   fs.writeFileSync(path.join(repository, ROOT, 'a.md'), '# translated\n')
   fs.writeFileSync(path.join(repository, REPORT), '{"generated_at":"staged"}\n')
-  git(repository, 'add', ROOT, REPORT)
+  fs.writeFileSync(path.join(repository, CLI_REVISION), '{"source":"published-cli"}\n')
+  git(repository, 'add', ROOT, REPORT, CLI_REVISION)
   git(repository, 'commit', '-m', 'staged generated state')
   const stagedSha = git(repository, 'rev-parse', 'HEAD')
   git(repository, 'switch', '--detach', masterSha)
@@ -61,7 +74,7 @@ function fixture() {
   return { repository, masterSha, stagedSha }
 }
 
-test('accepts changed Guides reports restored from the exact staged commit', () => {
+test('accepts Guides translations with complete source state restored from the exact staged commit', () => {
   const state = fixture()
   git(state.repository, 'checkout', state.stagedSha, '--', REPORT)
   const result = runGuidesTranslationValidation({ ...state, executor() { return { status: 0, signal: null, stderr: '' } } })
@@ -157,7 +170,7 @@ test('rejects untracked generated files, index contamination, and symlinked stag
 })
 
 test('rejects hybrid authoritative roots and executable-mode drift', t => {
-  for (const relative of ['docs/extra.md', 'docs-byoc/extra.md', 'reference/extra.md', 'i18n/ja-JP/extra.md', '.translation-cache/extra.json', 'config/generated/extra.js', 'plugins/lark-docs/meta/snapshots/extra.json', 'plugins/lark-docs/meta/assembly/extra.json']) {
+  for (const relative of ['docs/extra.md', 'docs-byoc/extra.md', 'reference/extra.md', 'i18n/ja-JP/extra.md', '.translation-cache/extra.json', 'config/generated/extra.js', 'packages/docs-tooling/src/lark/meta/snapshots/extra.json', 'packages/docs-tooling/src/lark/meta/assembly/extra.json']) {
     const state = fixture()
     git(state.repository, 'switch', 'staged'); fs.writeFileSync(path.join(state.repository, relative), 'staged only\n'); git(state.repository, 'add', relative); git(state.repository, 'commit', '-m', `change ${relative}`); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD')
     git(state.repository, 'switch', '--detach', state.masterSha); git(state.repository, 'checkout', state.stagedSha, '--', ROOT)
@@ -242,8 +255,8 @@ test('rejects raw bytes hidden by autocrlf and ignores hostile global configs', 
 })
 
 test('CLI rejects a staged commit missing a required root', () => {
-  const state = fixture(); git(state.repository, 'switch', 'staged'); fs.rmSync(path.join(state.repository, 'plugins/lark-docs/meta/snapshots'), { recursive: true }); git(state.repository, 'add', '-A'); git(state.repository, 'commit', '-m', 'remove root'); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD'); git(state.repository, 'switch', '--detach', state.masterSha)
+  const state = fixture(); git(state.repository, 'switch', 'staged'); fs.rmSync(path.join(state.repository, 'packages/docs-tooling/src/lark/meta/snapshots'), { recursive: true }); git(state.repository, 'add', '-A'); git(state.repository, 'commit', '-m', 'remove root'); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD'); git(state.repository, 'switch', '--detach', state.masterSha)
   const trusted = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validation-cli-'))); fs.chmodSync(trusted, 0o700)
   const result = spawnSync(process.execPath, [path.join(__dirname, 'validate-guides-translation-staging.js'), '--repository', state.repository, '--master-sha', state.masterSha, '--staged-sha', state.stagedSha, '--output', path.join(trusted, 'result.json'), '--trusted-root', trusted], { encoding: 'utf8' })
-  assert.notEqual(result.status, 0); assert.match(result.stderr, /required.*root/i); assert.equal(fs.existsSync(path.join(trusted, 'result.json')), false)
+  assert.notEqual(result.status, 0); assert.match(result.stderr, /required.*(?:root|path)/i); assert.equal(fs.existsSync(path.join(trusted, 'result.json')), false)
 })

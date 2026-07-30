@@ -1,0 +1,5025 @@
+{
+  "schemaVersion": 2,
+  "kind": "direct-dependency-allowlist",
+  "sourceSnapshots": [
+    {
+      "sourceRepository": "zdoc",
+      "revision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+      "revisionSource": "migration/source-snapshots.json",
+      "evidence": [
+        "Task 2 base commit supplied by the migration milestone."
+      ],
+      "lockfilePath": "pnpm-lock.yaml",
+      "lockConsistency": "verified"
+    },
+    {
+      "sourceRepository": "zdoc_cn",
+      "revision": "b1900473dddf8db2d56c11387211a7014b54c160",
+      "revisionSource": "migration/source-snapshots.json",
+      "evidence": [
+        "Task 1 baseline records that package.json and package-lock.json are out of sync and npm ci exits nonzero.",
+        "Locked versions are inventory evidence only and are not clean-install or approval evidence."
+      ],
+      "lockfilePath": "package-lock.json",
+      "lockConsistency": "stale"
+    }
+  ],
+  "policy": "Entries are not allowed until reviewStatus is approved with audited license, vulnerability, and approval evidence. Pinned lock resolution is source evidence, not approval.",
+  "dependencies": [
+    {
+      "package": "@aws-sdk/client-s3",
+      "requestedRange": "^3.0.0",
+      "lockedVersion": "3.1038.0",
+      "lockLocator": "3.1038.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@aws-sdk/client-s3",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "@docusaurus/core",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(debug@4.4.3)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@docusaurus/core",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@docusaurus/faster",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@docusaurus/faster",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@docusaurus/plugin-content-docs",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(debug@4.4.3)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@docusaurus/plugin-content-docs",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@docusaurus/preset-classic",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1(@algolia/client-search@5.51.0)(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(@types/react@18.3.28)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.6.3)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@docusaurus/preset-classic",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@docusaurus/theme-common",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@docusaurus/theme-common",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@easyops-cn/docusaurus-search-local",
+      "requestedRange": "^0.41.0",
+      "lockedVersion": "0.41.1",
+      "lockLocator": "0.41.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@docusaurus/theme-common@3.10.1(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mdx-js/react@3.1.1(@types/react@18.3.28)(react@18.3.1))(@rspack/core@1.7.11)(@swc/core@1.15.32)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@easyops-cn/docusaurus-search-local",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@inkeep/cxkit-docusaurus",
+      "requestedRange": "^0.5.79",
+      "lockedVersion": "0.5.119",
+      "lockLocator": "0.5.119(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.25.76)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@inkeep/cxkit-docusaurus",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@inkeep/cxkit-react",
+      "requestedRange": "^0.5.71",
+      "lockedVersion": "0.5.119",
+      "lockLocator": "0.5.119(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod@3.25.76)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@inkeep/cxkit-react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@inkeep/docusaurus",
+      "requestedRange": "^2.0.16",
+      "lockedVersion": "2.0.16",
+      "lockLocator": "2.0.16",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@inkeep/docusaurus",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@mdx-js/mdx",
+      "requestedRange": "^3.1.1",
+      "lockedVersion": "3.1.1",
+      "lockLocator": "3.1.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@mdx-js/mdx",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "@mdx-js/react",
+      "requestedRange": "^3.0.0",
+      "lockedVersion": "3.1.1",
+      "lockLocator": "3.1.1(@types/react@18.3.28)(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@mdx-js/react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@smithy/node-http-handler",
+      "requestedRange": "^4.5.0",
+      "lockedVersion": "4.6.1",
+      "lockLocator": "4.6.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@smithy/node-http-handler",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "@zdoc/chat-ui",
+      "requestedRange": "workspace:*",
+      "lockedVersion": "1.0.0",
+      "lockLocator": "link:packages/chat-ui",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:@zdoc/chat-ui",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "workspace-link",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "axios",
+      "requestedRange": "^1.6.0",
+      "lockedVersion": "1.15.2",
+      "lockLocator": "1.15.2",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:axios",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "bottleneck",
+      "requestedRange": "^2.19.5",
+      "lockedVersion": "2.19.5",
+      "lockLocator": "2.19.5",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:bottleneck",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "cheerio",
+      "requestedRange": "^1.0.0",
+      "lockedVersion": "1.2.0",
+      "lockLocator": "1.2.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:cheerio",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "clsx",
+      "requestedRange": "^2.0.0",
+      "lockedVersion": "2.1.1",
+      "lockLocator": "2.1.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:clsx",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "docusaurus-gtm-plugin",
+      "requestedRange": "^0.0.2",
+      "lockedVersion": "0.0.2",
+      "lockLocator": "0.0.2",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:docusaurus-gtm-plugin",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "docusaurus-plugin-image-zoom",
+      "requestedRange": "^2.0.0",
+      "lockedVersion": "2.0.0",
+      "lockLocator": "2.0.0(@docusaurus/theme-classic@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@rspack/core@1.7.11)(@swc/core@1.15.32)(@types/react@18.3.28)(lightningcss@1.32.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:docusaurus-plugin-image-zoom",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "dotenv",
+      "requestedRange": "^16.3.1",
+      "lockedVersion": "16.6.1",
+      "lockLocator": "16.6.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:dotenv",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "inquirer",
+      "requestedRange": "^9.2.17",
+      "lockedVersion": "9.3.8",
+      "lockLocator": "9.3.8(@types/node@25.6.0)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:inquirer",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "js-yaml",
+      "requestedRange": "^4.1.1",
+      "lockedVersion": "4.1.1",
+      "lockLocator": "4.1.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:js-yaml",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "lodash",
+      "requestedRange": "^4.17.21",
+      "lockedVersion": "4.18.1",
+      "lockLocator": "4.18.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:lodash",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "lucide-react",
+      "requestedRange": "^0.577.0",
+      "lockedVersion": "0.577.0",
+      "lockLocator": "0.577.0(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:lucide-react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "node-fetch",
+      "requestedRange": "^2.7.0",
+      "lockedVersion": "2.7.0",
+      "lockLocator": "2.7.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:node-fetch",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "nunjucks",
+      "requestedRange": "^3.2.4",
+      "lockedVersion": "3.2.4",
+      "lockLocator": "3.2.4(chokidar@3.6.0)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:nunjucks",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "playwright",
+      "requestedRange": "^1.58.2",
+      "lockedVersion": "1.59.1",
+      "lockLocator": "1.59.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:playwright",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "prism-react-renderer",
+      "requestedRange": "^2.3.0",
+      "lockedVersion": "2.4.1",
+      "lockLocator": "2.4.1(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:prism-react-renderer",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "prismjs",
+      "requestedRange": "^1.30.0",
+      "lockedVersion": "1.30.0",
+      "lockLocator": "1.30.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:prismjs",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "react",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.1",
+      "lockLocator": "18.3.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "react-dom",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.1",
+      "lockLocator": "18.3.1(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:react-dom",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "react-markdown",
+      "requestedRange": "^10.1.0",
+      "lockedVersion": "10.1.0",
+      "lockLocator": "10.1.0(@types/react@18.3.28)(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:react-markdown",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "rehype-katex",
+      "requestedRange": "^7.0.1",
+      "lockedVersion": "7.0.1",
+      "lockLocator": "7.0.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:rehype-katex",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "remark-gfm",
+      "requestedRange": "^4.0.1",
+      "lockedVersion": "4.0.1",
+      "lockLocator": "4.0.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:remark-gfm",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "remark-math",
+      "requestedRange": "^6.0.0",
+      "lockedVersion": "6.0.0",
+      "lockLocator": "6.0.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:remark-math",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "sharp",
+      "requestedRange": "^0.34.5",
+      "lockedVersion": "0.34.5",
+      "lockLocator": "0.34.5",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:sharp",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "showdown",
+      "requestedRange": "^2.1.0",
+      "lockedVersion": "2.1.0",
+      "lockLocator": "2.1.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:showdown",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "slugify",
+      "requestedRange": "^1.6.6",
+      "lockedVersion": "1.6.9",
+      "lockLocator": "1.6.9",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:slugify",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "unist-util-visit",
+      "requestedRange": "^5.0.0",
+      "lockedVersion": "5.1.0",
+      "lockLocator": "5.1.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:unist-util-visit",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "xml2js",
+      "requestedRange": "^0.6.2",
+      "lockedVersion": "0.6.2",
+      "lockLocator": "0.6.2",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:xml2js",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "zod",
+      "requestedRange": "^3.25.13",
+      "lockedVersion": "3.25.76",
+      "lockLocator": "3.25.76",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:zod",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui",
+        "packages/site-config"
+      ]
+    },
+    {
+      "package": "zod-to-json-schema",
+      "requestedRange": "^3.25.1",
+      "lockedVersion": "3.25.2",
+      "lockLocator": "3.25.2(zod@3.25.76)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:dependencies:zod-to-json-schema",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@docusaurus/module-type-aliases",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@docusaurus/module-type-aliases",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@docusaurus/tsconfig",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@docusaurus/tsconfig",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@docusaurus/types",
+      "requestedRange": "3.10.1",
+      "lockedVersion": "3.10.1",
+      "lockLocator": "3.10.1(@swc/core@1.15.32)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@docusaurus/types",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@playwright/test",
+      "requestedRange": "^1.58.2",
+      "lockedVersion": "1.59.1",
+      "lockLocator": "1.59.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@playwright/test",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@testing-library/jest-dom",
+      "requestedRange": "^6.9.1",
+      "lockedVersion": "6.9.1",
+      "lockLocator": "6.9.1",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@testing-library/jest-dom",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@testing-library/react",
+      "requestedRange": "^16.3.2",
+      "lockedVersion": "16.3.2",
+      "lockLocator": "16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@testing-library/react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@types/node",
+      "requestedRange": "^25.3.5",
+      "lockedVersion": "25.6.0",
+      "lockLocator": "25.6.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@types/node",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@vitest/coverage-v8",
+      "requestedRange": "^3.2.4",
+      "lockedVersion": "3.2.4",
+      "lockLocator": "3.2.4(vitest@3.2.4(@types/debug@4.1.13)(@types/node@25.6.0)(jsdom@29.1.0)(lightningcss@1.32.0)(terser@5.46.2))",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:@vitest/coverage-v8",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "jsdom",
+      "requestedRange": "^29.0.0",
+      "lockedVersion": "29.1.0",
+      "lockLocator": "29.1.0",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:jsdom",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "typescript",
+      "requestedRange": "~5.6.2",
+      "lockedVersion": "5.6.3",
+      "lockLocator": "5.6.3",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:typescript",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "vitest",
+      "requestedRange": "^3.2.4",
+      "lockedVersion": "3.2.4",
+      "lockLocator": "3.2.4(@types/debug@4.1.13)(@types/node@25.6.0)(jsdom@29.1.0)(lightningcss@1.32.0)(terser@5.46.2)",
+      "importingWorkspacePackage": "zdoc-redesign",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:package.json:devDependencies:vitest",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "lucide-react",
+      "requestedRange": "^0.577.0",
+      "lockedVersion": "0.577.0",
+      "lockLocator": "0.577.0(react@18.3.1)",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:dependencies:lucide-react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "react-markdown",
+      "requestedRange": "^10.1.0",
+      "lockedVersion": "10.1.0",
+      "lockLocator": "10.1.0(@types/react@18.3.28)(react@18.3.1)",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:dependencies:react-markdown",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "remark-gfm",
+      "requestedRange": "^4.0.1",
+      "lockedVersion": "4.0.1",
+      "lockLocator": "4.0.1",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:dependencies:remark-gfm",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@types/react",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.28",
+      "lockLocator": "18.3.28",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:@types/react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "@types/react-dom",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.7",
+      "lockLocator": "18.3.7(@types/react@18.3.28)",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:@types/react-dom",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "@vitejs/plugin-react",
+      "requestedRange": "^4.0.0",
+      "lockedVersion": "4.7.0",
+      "lockLocator": "4.7.0(vite@5.4.21(@types/node@25.6.0)(lightningcss@1.32.0)(terser@5.46.2))",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:@vitejs/plugin-react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "react",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.1",
+      "lockLocator": "18.3.1",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "react-dom",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.1",
+      "lockLocator": "18.3.1(react@18.3.1)",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:react-dom",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "typescript",
+      "requestedRange": "~5.6.2",
+      "lockedVersion": "5.6.3",
+      "lockLocator": "5.6.3",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=quality.gates"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "quality.gates",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:typescript",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "vite",
+      "requestedRange": "^5.0.0",
+      "lockedVersion": "5.4.21",
+      "lockLocator": "5.4.21(@types/node@25.6.0)(lightningcss@1.32.0)(terser@5.46.2)",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:vite",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "vite-plugin-dts",
+      "requestedRange": "^3.0.0",
+      "lockedVersion": "3.9.1",
+      "lockLocator": "3.9.1(@types/node@25.6.0)(rollup@4.60.2)(typescript@5.6.3)(vite@5.4.21(@types/node@25.6.0)(lightningcss@1.32.0)(terser@5.46.2))",
+      "importingWorkspacePackage": "@zdoc/chat-ui",
+      "importingWorkspacePath": "packages/chat-ui",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "unknown",
+        "evidence": [
+          "License review is required before approval; lock metadata reports unknown."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc:packages/chat-ui/package.json:devDependencies:vite-plugin-dts",
+      "sourceMapping": {
+        "sourceRepository": "zdoc",
+        "sourceRevision": "f15ccdd405f2f385b34f67eed45916ec3a3aff6d",
+        "sourcePackageManifest": "packages/chat-ui/package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "pnpm-lock.yaml",
+        "resolutionStatus": "resolved",
+        "evidence": [
+          "pnpm-lock.yaml direct importer resolution at pinned commit f15ccdd405f2f385b34f67eed45916ec3a3aff6d."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "@docusaurus/core",
+      "requestedRange": "^3.10.0",
+      "lockedVersion": "3.10.0",
+      "lockLocator": "3.10.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@docusaurus/core",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@docusaurus/faster",
+      "requestedRange": "^3.10.0",
+      "lockedVersion": "3.10.0",
+      "lockLocator": "3.10.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@docusaurus/faster",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@docusaurus/preset-classic",
+      "requestedRange": "^3.10.0",
+      "lockedVersion": "3.10.0",
+      "lockLocator": "3.10.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@docusaurus/preset-classic",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@easyops-cn/docusaurus-search-local",
+      "requestedRange": "^0.45.0",
+      "lockedVersion": "0.45.0",
+      "lockLocator": "0.45.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@easyops-cn/docusaurus-search-local",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@inkeep/cxkit-docusaurus",
+      "requestedRange": "^0.5.80",
+      "lockedVersion": "0.5.96",
+      "lockLocator": "0.5.96",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "Inkeep, Inc. Customer License (IICL) v1.1",
+        "evidence": [
+          "License review is required before approval; lock metadata reports Inkeep, Inc. Customer License (IICL) v1.1."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@inkeep/cxkit-docusaurus",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@inkeep/cxkit-react",
+      "requestedRange": "^0.5.75",
+      "lockedVersion": "0.5.96",
+      "lockLocator": "0.5.96",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "Inkeep, Inc. Customer License (IICL) v1.1",
+        "evidence": [
+          "License review is required before approval; lock metadata reports Inkeep, Inc. Customer License (IICL) v1.1."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@inkeep/cxkit-react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@inkeep/docusaurus",
+      "requestedRange": "^2.0.16",
+      "lockedVersion": "2.0.16",
+      "lockLocator": "2.0.16",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@inkeep/docusaurus",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@mdx-js/react",
+      "requestedRange": "^3.0.0",
+      "lockedVersion": "3.1.0",
+      "lockLocator": "3.1.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@mdx-js/react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "@node-rs/jieba",
+      "requestedRange": "^1.10.0",
+      "lockedVersion": "1.10.4",
+      "lockLocator": "1.10.4",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:@node-rs/jieba",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "ali-oss",
+      "requestedRange": "^6.x",
+      "lockedVersion": "6.23.0",
+      "lockLocator": "6.23.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:ali-oss",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "bottleneck",
+      "requestedRange": "^2.19.5",
+      "lockedVersion": "2.19.5",
+      "lockLocator": "2.19.5",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:bottleneck",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "clsx",
+      "requestedRange": "^2.0.0",
+      "lockedVersion": "2.1.1",
+      "lockLocator": "2.1.1",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:clsx",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "docusaurus-gtm-plugin",
+      "requestedRange": "^0.0.2",
+      "lockedVersion": "0.0.2",
+      "lockLocator": "0.0.2",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "Apache-2.0",
+        "evidence": [
+          "License review is required before approval; lock metadata reports Apache-2.0."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:docusaurus-gtm-plugin",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "dotenv",
+      "requestedRange": "^16.3.1",
+      "lockedVersion": "16.6.1",
+      "lockLocator": "16.6.1",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "BSD-2-Clause",
+        "evidence": [
+          "License review is required before approval; lock metadata reports BSD-2-Clause."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:dotenv",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "fast-xml-parser",
+      "requestedRange": "^5.3.2",
+      "lockedVersion": "5.5.11",
+      "lockLocator": "5.5.11",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:fast-xml-parser",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "inquirer",
+      "requestedRange": "^9.2.17",
+      "lockedVersion": "9.3.8",
+      "lockLocator": "9.3.8",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:inquirer",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "lodash",
+      "requestedRange": "^4.17.21",
+      "lockedVersion": "4.18.1",
+      "lockLocator": "4.18.1",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:lodash",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "lucide-react",
+      "requestedRange": "^1.8.0",
+      "lockedVersion": "1.8.0",
+      "lockLocator": "1.8.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "ISC",
+        "evidence": [
+          "License review is required before approval; lock metadata reports ISC."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:lucide-react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/chat-ui",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "node-fetch",
+      "requestedRange": "^2.7.0",
+      "lockedVersion": "2.7.0",
+      "lockLocator": "2.7.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:node-fetch",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "nunjucks",
+      "requestedRange": "^3.2.4",
+      "lockedVersion": "3.2.4",
+      "lockLocator": "3.2.4",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "BSD-2-Clause",
+        "evidence": [
+          "License review is required before approval; lock metadata reports BSD-2-Clause."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:nunjucks",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "prism-react-renderer",
+      "requestedRange": "^2.3.0",
+      "lockedVersion": "2.4.1",
+      "lockLocator": "2.4.1",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:prism-react-renderer",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "react",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.1",
+      "lockLocator": "18.3.1",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:react",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "react-dom",
+      "requestedRange": "^18.0.0",
+      "lockedVersion": "18.3.1",
+      "lockLocator": "18.3.1",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=ui.runtime"
+        ]
+      },
+      "owner": "ui",
+      "capability": "ui.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:react-dom",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/chat-ui"
+      ]
+    },
+    {
+      "package": "rehype-katex",
+      "requestedRange": "7",
+      "lockedVersion": "7.0.1",
+      "lockLocator": "7.0.1",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:rehype-katex",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "remark-math",
+      "requestedRange": "6",
+      "lockedVersion": "6.0.0",
+      "lockLocator": "6.0.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "runtime",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Site and UI capability dependencies are shipped with or loaded by the documentation application.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:remark-math",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "sharp",
+      "requestedRange": "^0.34.5",
+      "lockedVersion": "0.34.5",
+      "lockLocator": "0.34.5",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "Apache-2.0",
+        "evidence": [
+          "License review is required before approval; lock metadata reports Apache-2.0."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:sharp",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "showdown",
+      "requestedRange": "^2.1.0",
+      "lockedVersion": "2.1.0",
+      "lockLocator": "2.1.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:showdown",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "slugify",
+      "requestedRange": "^1.6.6",
+      "lockedVersion": "1.6.6",
+      "lockLocator": "1.6.6",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:slugify",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling"
+      ]
+    },
+    {
+      "package": "uuid",
+      "requestedRange": "^10.0.0",
+      "lockedVersion": "10.0.0",
+      "lockLocator": "10.0.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:uuid",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "xml2js",
+      "requestedRange": "^0.6.2",
+      "lockedVersion": "0.6.2",
+      "lockLocator": "0.6.2",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Publication adapters and documentation tooling execute during generation or build workflows.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=publication.adapters"
+        ]
+      },
+      "owner": "adapter",
+      "capability": "publication.adapters",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:xml2js",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs"
+      ]
+    },
+    {
+      "package": "zod",
+      "requestedRange": "^3.25.13",
+      "lockedVersion": "3.25.76",
+      "lockLocator": "3.25.76",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:zod",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-tooling",
+        "packages/docs-ui",
+        "packages/site-config"
+      ]
+    },
+    {
+      "package": "zod-to-json-schema",
+      "requestedRange": "^3.24.5",
+      "lockedVersion": "3.24.6",
+      "lockLocator": "3.24.6",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=dependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "ISC",
+        "evidence": [
+          "License review is required before approval; lock metadata reports ISC."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:dependencies:zod-to-json-schema",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "dependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "@docusaurus/module-type-aliases",
+      "requestedRange": "^3.10.0",
+      "lockedVersion": "3.10.0",
+      "lockLocator": "3.10.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:devDependencies:@docusaurus/module-type-aliases",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@docusaurus/types",
+      "requestedRange": "^3.10.0",
+      "lockedVersion": "3.10.0",
+      "lockLocator": "3.10.0",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=site.runtime"
+        ]
+      },
+      "owner": "site-config",
+      "capability": "site.runtime",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:devDependencies:@docusaurus/types",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [
+        "apps/docs",
+        "packages/docs-ui"
+      ]
+    },
+    {
+      "package": "husky",
+      "requestedRange": "^9.0.11",
+      "lockedVersion": "9.1.7",
+      "lockLocator": "9.1.7",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "dev",
+      "usageClassification": {
+        "status": "classified",
+        "reason": "Development dependency or quality-gate tooling is not shipped as site runtime.",
+        "evidence": [
+          "dependencyClass=devDependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:devDependencies:husky",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "devDependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    },
+    {
+      "package": "@node-rs/jieba-linux-x64-gnu",
+      "requestedRange": "1.10.4",
+      "lockedVersion": "1.10.4",
+      "lockLocator": "1.10.4",
+      "importingWorkspacePackage": "site",
+      "importingWorkspacePath": ".",
+      "usageClass": "build",
+      "usageClassification": {
+        "status": "review-required",
+        "reason": "No explicit capability classification rule matched; build is a conservative placeholder and approval is blocked.",
+        "evidence": [
+          "dependencyClass=optionalDependencies",
+          "capability=unclassified"
+        ]
+      },
+      "owner": "tooling",
+      "capability": "unclassified",
+      "licenseReview": {
+        "status": "pending",
+        "license": "MIT",
+        "evidence": [
+          "License review is required before approval; lock metadata reports MIT."
+        ]
+      },
+      "vulnerabilityReview": {
+        "status": "pending",
+        "evidence": [
+          "Run and retain the Task 14 vulnerability gate before approval."
+        ]
+      },
+      "replacesLegacyDependency": "zdoc_cn:package.json:optionalDependencies:@node-rs/jieba-linux-x64-gnu",
+      "sourceMapping": {
+        "sourceRepository": "zdoc_cn",
+        "sourceRevision": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "sourcePackageManifest": "package.json",
+        "dependencyClass": "optionalDependencies",
+        "lockfilePath": "package-lock.json",
+        "resolutionStatus": "stale-lock",
+        "evidence": [
+          "package-lock.json direct importer resolution at pinned commit b1900473dddf8db2d56c11387211a7014b54c160.",
+          "Task 1 identified the repository lockfile as stale; the recorded locator is not an approved clean-install gate."
+        ]
+      },
+      "reviewStatus": "pending",
+      "currentImporters": [],
+      "retirementReview": {
+        "status": "reviewed",
+        "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+        "reason": "No current apps/* or packages/* manifest imports this pinned legacy direct dependency."
+      }
+    }
+  ],
+  "currentImportReview": {
+    "reviewedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632",
+    "scope": "Direct dependencies declared by current apps/* and packages/* manifests."
+  }
+}

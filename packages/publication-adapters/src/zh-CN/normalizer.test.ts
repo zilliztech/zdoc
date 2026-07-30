@@ -1,0 +1,507 @@
+import {mkdtempSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+
+import {compile} from '@mdx-js/mdx';
+import {describe, expect, it} from 'vitest';
+
+import {createZhCnPublicationAdapterRegistry} from '../index.ts';
+import type {PublicationContext} from '../types.ts';
+import {compactMarkdownTableFixture, markdownNormalizerFixture} from './legacyFixtures.ts';
+import {ZH_CN_MARKDOWN_NORMALIZER_ID} from './normalizer.ts';
+
+function context(site: 'en' | 'zh-CN'): PublicationContext {
+  return {
+    site,
+    manual: 'guides',
+    publicationRoot: mkdtempSync(path.join(tmpdir(), 'zh-cn-normalizer-')),
+    baselineCommit: 'sha256:baseline',
+    sourceIdentity: {type: 'git', repository: 'zilliztech/zdoc', revision: 'abc123'},
+  };
+}
+
+function frontmatter(contents: string): string {
+  const end = contents.indexOf('\n---\n');
+  return contents.slice(0, end + 5);
+}
+
+function tablePipes(contents: string): string[] {
+  return contents.split(/\r?\n/u).filter(line => line.startsWith('|')).map(line => line.replace(/[^|]/gu, ''));
+}
+
+describe('zh-CN Markdown normalizer adapter', () => {
+  it('normalizes representative Markdown deterministically while preserving table syntax and slug', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const document = {path: 'guides/page.md', contents: markdownNormalizerFixture.input};
+
+    const first = registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], document, context('zh-CN'));
+    const second = registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], document, context('zh-CN'));
+
+    expect(first.contents).toBe(markdownNormalizerFixture.output);
+    expect(second).toEqual(first);
+    expect(first.path).toBe(document.path);
+    expect(frontmatter(first.contents)).toBe(frontmatter(markdownNormalizerFixture.input));
+    expect(first.contents.split('\n')).toContain('| :--- | ---: |');
+    expect(tablePipes(first.contents)).toEqual(tablePipes(markdownNormalizerFixture.input));
+  });
+
+  it('is idempotent', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const once = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'guides/page.md', contents: markdownNormalizerFixture.input},
+      publicationContext,
+    );
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], once, publicationContext)).toEqual(once);
+  });
+
+  it('preserves every pipe in compact Markdown tables while normalizing URL paths, queries, and hashes', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'compact.md', contents: compactMarkdownTableFixture.input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(compactMarkdownTableFixture.output);
+    expect(output.split('\n')[1]).toBe('|---|---|');
+    expect(tablePipes(output)).toEqual(tablePipes(compactMarkdownTableFixture.input));
+    expect(output.split('\n').filter(Boolean).every(line => (line.match(/\|/gu) ?? []).length === 3)).toBe(true);
+  });
+
+  it('does not apply the Chinese transform to an English publication through the real registry', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const document = {path: 'guides/page.md', contents: markdownNormalizerFixture.input};
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], document, context('en'))).toEqual(document);
+  });
+
+  it('preserves BOM, CRLF, and unterminated frontmatter fail-safe', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const valid = '\uFEFF---\r\nslug: https://support.zilliz.com/hc/en-us\r\nnote: https://zilliz.com/pricing\r\n---\r\n\r\nhttps://support.zilliz.com/hc/en-us\r\n';
+    const expected = '\uFEFF---\r\nslug: https://support.zilliz.com/hc/en-us\r\nnote: https://zilliz.com/pricing\r\n---\r\n\r\nhttps://support.zilliz.com.cn/hc/zh-cn\r\n';
+    const unterminated = '\uFEFF---\r\nslug: https://support.zilliz.com/hc/en-us\r\nnote: https://zilliz.com/pricing\r\n';
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'page.md', contents: valid}, publicationContext).contents).toBe(expected);
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'page.md', contents: unterminated}, publicationContext).contents).toBe(unterminated);
+  });
+
+  it('matches complete supported URLs, collapses repeated cn hosts, and preserves suffixes', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const input = [
+      'https://support.zilliz.com.cn.cn/hc/en-us/articles/123?a=1#section',
+      'https://zilliz.com.cn.cn/contact-sales?from=footer#form',
+      'https://zilliz.com.cn.cn/pricing#calculator',
+      'https://support.zilliz.com/article',
+      'https://zilliz.com/contact-salesforce?from=footer',
+      'https://zilliz.com/pricing-guide#calculator',
+    ].join('\n');
+    const expected = [
+      'https://support.zilliz.com.cn/hc/zh-cn/articles/123?a=1#section',
+      'https://zilliz.com.cn/contact-sales?from=footer#form',
+      'https://zilliz.com.cn/pricing#calculator',
+      'https://support.zilliz.com/article',
+      'https://zilliz.com/contact-salesforce?from=footer',
+      'https://zilliz.com/pricing-guide#calculator',
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'urls.md', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
+
+  it('normalizes legacy www sales and pricing hosts in prose and compact tables', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const input = [
+      'Sales: https://www.zilliz.com/contact-sales?from=prose#form',
+      '|pricing|https://www.zilliz.com.cn/pricing?plan=pro#calculator|',
+      'https://www.zilliz.com/contact-salesforce?from=footer',
+      'https://www.zilliz.com/pricing-guide#calculator',
+      'https://www.zilliz.com.evil/contact-sales',
+      'https://notwww.zilliz.com/pricing',
+      'https://www.zilliz.com.cn.evil/pricing',
+    ].join('\n');
+    const expected = [
+      'Sales: https://zilliz.com.cn/contact-sales?from=prose#form',
+      '|pricing|https://zilliz.com.cn/pricing?plan=pro#calculator|',
+      'https://www.zilliz.com/contact-salesforce?from=footer',
+      'https://www.zilliz.com/pricing-guide#calculator',
+      'https://www.zilliz.com.evil/contact-sales',
+      'https://notwww.zilliz.com/pricing',
+      'https://www.zilliz.com.cn.evil/pricing',
+    ].join('\n');
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'www-urls.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(expected);
+    expect(tablePipes(output)).toEqual(tablePipes(input));
+  });
+
+  it('repairs simple Chinese bold punctuation into CommonMark strong nodes', async () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const input = [
+      '**建议：**首次注册后请尽早添加支付方式。',
+      '- **这个操作在什么时候执行？**在搜索之前，还是在搜索之后。',
+      '1. 在左侧导航栏，单击 **Bucket 列表，**然后单击**创建 Bucket**。',
+    ].join('\n');
+    const expected = [
+      '**建议**：首次注册后请尽早添加支付方式。',
+      '- **这个操作在什么时候执行**？在搜索之前，还是在搜索之后。',
+      '1. 在左侧导航栏，单击 **Bucket 列表**，然后单击**创建 Bucket**。',
+    ].join('\n');
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'bold-punctuation.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+    const compiled = String(await compile(output));
+
+    expect(output).toBe(expected);
+    expect(compiled).toContain('strong');
+    expect(compiled).not.toContain('**');
+  });
+
+  it('repairs a plain bold prefix without rewriting a later Markdown link', async () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const input = '**联系销售获取自定义报价。**企业客户可以获得折扣，请[联系销售](https://zilliz.com.cn/contact-sales)。';
+    const expected = '**联系销售获取自定义报价**。企业客户可以获得折扣，请[联系销售](https://zilliz.com.cn/contact-sales)。';
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'bold-before-link.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+    const compiled = String(await compile(output));
+
+    expect(output).toBe(expected);
+    expect(compiled).not.toContain('**');
+    expect(output).toContain('[联系销售](https://zilliz.com.cn/contact-sales)');
+  });
+
+  it('does not cross-pair adjacent strong spans around ordinary Chinese punctuation', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const input = '**实际案例：** 假设配置已经够了，**节省 25% 的 CU 成本**。';
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'adjacent-bold-spans.md', contents: input},
+      context('zh-CN'),
+    ).contents;
+
+    expect(output).toBe(input);
+  });
+
+  it('keeps unsafe bold punctuation contexts unchanged and remains frontmatter-safe and idempotent', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const publicationContext = context('zh-CN');
+    const unsafe = [
+      '**建议：** 首次',
+      '**建议**：首次',
+      '```md',
+      '**建议：**首次',
+      '```',
+      '~~~md',
+      '**问题？**回答',
+      '~~~',
+      '> ```md',
+      '> **建议：**首次',
+      '> ```',
+      '- ~~~md',
+      '  **问题？**回答',
+      '  ~~~',
+      '`**建议：**首次`',
+      '\\**建议：**首次',
+      '[**建议：**](https://example.com)首次',
+      '**建议：`code`**首次',
+      '***建议：***首次',
+      '<span>**建议：**首次</span>',
+      '<Widget label="**建议：**首次" />',
+      '{condition && <Thing>**建议：**首次</Thing>}',
+      '<Widget>',
+      '**建议：**首次',
+      '</Widget>',
+      '{condition ? (',
+      '**问题？**回答',
+      ') : null}',
+      '**建议：**',
+      '首次',
+    ].join('\n');
+    const withFrontmatter = `---\r\ntitle: **建议：**首次\r\n---\r\n${unsafe}\r\n**问题？**回答\r\n`;
+    const expected = `---\r\ntitle: **建议：**首次\r\n---\r\n${unsafe}\r\n**问题**？回答\r\n`;
+
+    const once = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'bold-boundaries.mdx', contents: withFrontmatter},
+      publicationContext,
+    );
+
+    expect(once.contents).toBe(expected);
+    expect(frontmatter(once.contents)).toBe(frontmatter(withFrontmatter));
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], once, publicationContext)).toEqual(once);
+  });
+
+  it('preserves multiline HTML comments across LF and CRLF documents', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const lfInput = [
+      'Before <!-- first comment',
+      '**建议：**首次',
+      '--> after comment',
+      '<!-- same-line comment --> **问题？**回答',
+      '<!-- second comment',
+      '**问题？**回答',
+      '-->',
+      '**建议：**首次',
+    ].join('\n');
+    const lfExpected = [
+      'Before <!-- first comment',
+      '**建议：**首次',
+      '--> after comment',
+      '<!-- same-line comment --> **问题？**回答',
+      '<!-- second comment',
+      '**问题？**回答',
+      '-->',
+      '**建议**：首次',
+    ].join('\n');
+    const crlfInput = '<!-- CRLF comment\r\n**问题？**回答\r\n-->\r\n**问题？**回答\r\n';
+    const crlfExpected = '<!-- CRLF comment\r\n**问题？**回答\r\n-->\r\n**问题**？回答\r\n';
+
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'comments-lf.md', contents: lfInput},
+      context('zh-CN'),
+    ).contents).toBe(lfExpected);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'comments-crlf.md', contents: crlfInput},
+      context('zh-CN'),
+    ).contents).toBe(crlfExpected);
+  });
+
+  it('does not open HTML comment state for protected literal markers', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const input = [
+      '`<!--`',
+      '**建议：**首次',
+      '<Widget marker="<!--" />',
+      '**问题？**回答',
+      '<Widget marker="escaped \\" <!-- literal" />',
+      '**建议：**首次',
+      '{value === "<!--"}',
+      '**问题？**回答',
+      '{value === "escaped \\" <!-- literal"}',
+      '**建议：**首次',
+      'prefix <!-- real comment',
+      '**问题？**回答',
+      '-->',
+      '**建议：**首次',
+    ].join('\n');
+    const expected = [
+      '`<!--`',
+      '**建议**：首次',
+      '<Widget marker="<!--" />',
+      '**问题**？回答',
+      '<Widget marker="escaped \\" <!-- literal" />',
+      '**建议**：首次',
+      '{value === "<!--"}',
+      '**问题**？回答',
+      '{value === "escaped \\" <!-- literal"}',
+      '**建议**：首次',
+      'prefix <!-- real comment',
+      '**问题？**回答',
+      '-->',
+      '**建议**：首次',
+    ].join('\n');
+
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'comment-literals.mdx', contents: input},
+      context('zh-CN'),
+    ).contents).toBe(expected);
+  });
+
+  it('tracks multiline code spans and escaped comment openers without changing bytes', async () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const multilineInput = [
+      '`single tick starts',
+      '**建议：**首次',
+      'single tick ends`',
+      '**建议：**首次',
+      '``double tick starts with ` inside',
+      '**问题？**回答',
+      'double tick ends``',
+      '**问题？**回答',
+    ].join('\n');
+    const multilineExpected = [
+      '`single tick starts',
+      '**建议：**首次',
+      'single tick ends`',
+      '**建议**：首次',
+      '``double tick starts with ` inside',
+      '**问题？**回答',
+      'double tick ends``',
+      '**问题**？回答',
+    ].join('\n');
+    const unclosed = '`unclosed span\r\n**建议：**首次\r\n**问题？**回答\r\n';
+    const escapedInput = [
+      '\\<!-- escaped literal opener',
+      '**建议：**首次',
+      '\\\\<!-- real opener after an escaped backslash',
+      '**问题？**回答',
+      '-->',
+      '**问题？**回答',
+    ].join('\n');
+    const escapedExpected = [
+      '\\<!-- escaped literal opener',
+      '**建议**：首次',
+      '\\\\<!-- real opener after an escaped backslash',
+      '**问题？**回答',
+      '-->',
+      '**问题**？回答',
+    ].join('\n');
+
+    const multilineOutput = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'multiline-code-span.md', contents: multilineInput},
+      context('zh-CN'),
+    ).contents;
+    const compiled = String(await compile(multilineOutput));
+
+    expect(multilineOutput).toBe(multilineExpected);
+    expect(compiled).toContain('code');
+    expect(compiled).toContain('strong');
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'unclosed-code-span.md', contents: unclosed},
+      context('zh-CN'),
+    ).contents).toBe(unclosed);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'escaped-comment.md', contents: escapedInput},
+      context('zh-CN'),
+    ).contents).toBe(escapedExpected);
+  });
+
+  it('persists protected JSX tags and MDX expressions across lines', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const protectedRangesInput = [
+      '<Widget',
+      "  marker='<!--'",
+      '  title="escaped \\" quote <!-- literal"',
+      '/> **建议：**首次',
+      '**建议：**首次',
+      '{{',
+      '  value: "<!--",',
+      '  nested: {',
+      '    label: "escaped \\" <!-- literal",',
+      '  },',
+      '}} **问题？**回答',
+      '**问题？**回答',
+      'prefix <!-- real comment',
+      '**建议：**首次',
+      '--> **问题？**回答',
+      '**建议：**首次',
+    ].join('\n');
+    const protectedRangesExpected = [
+      '<Widget',
+      "  marker='<!--'",
+      '  title="escaped \\" quote <!-- literal"',
+      '/> **建议：**首次',
+      '**建议**：首次',
+      '{{',
+      '  value: "<!--",',
+      '  nested: {',
+      '    label: "escaped \\" <!-- literal",',
+      '  },',
+      '}} **问题？**回答',
+      '**问题**？回答',
+      'prefix <!-- real comment',
+      '**建议：**首次',
+      '--> **问题？**回答',
+      '**建议**：首次',
+    ].join('\n');
+    const unclosedTag = '<Widget\r\n  marker="<!--"\r\n**建议：**首次\r\n';
+    const unclosedExpression = '{{\n  value: "<!--",\n**问题？**回答\n';
+    const publicationContext = context('zh-CN');
+
+    const output = registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'multiline-protected-ranges.mdx', contents: protectedRangesInput},
+      publicationContext,
+    );
+
+    expect(output.contents).toBe(protectedRangesExpected);
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], output, publicationContext)).toEqual(output);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'unclosed-tag.mdx', contents: unclosedTag},
+      publicationContext,
+    ).contents).toBe(unclosedTag);
+    expect(registry.transformDocument(
+      [ZH_CN_MARKDOWN_NORMALIZER_ID],
+      {path: 'unclosed-expression.mdx', contents: unclosedExpression},
+      publicationContext,
+    ).contents).toBe(unclosedExpression);
+  });
+
+  it('normalizes only allowlisted paired decorated http tags', () => {
+    const registry = createZhCnPublicationAdapterRegistry({
+      aliyunOssValidator: {validatePublication: async () => {}},
+    });
+    const input = [
+      '<i>http</i>s://support.zilliz.com/hc/en-us',
+      '<em>http</em>s://support.zilliz.com/hc/en-us',
+      '<strong>http</strong>s://support.zilliz.com/hc/en-us',
+      '<b>http</b>s://support.zilliz.com/hc/en-us',
+      '<code>http</code>s://support.zilliz.com/hc/en-us',
+      '<span>http</span>s://support.zilliz.com/hc/en-us',
+      '<Custom>http</Custom>s://support.zilliz.com/hc/en-us',
+    ].join('\n');
+    const expected = [
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      'https://support.zilliz.com.cn/hc/zh-cn',
+      '<code>http</code>s://support.zilliz.com/hc/en-us',
+      '<span>http</span>s://support.zilliz.com/hc/en-us',
+      '<Custom>http</Custom>s://support.zilliz.com/hc/en-us',
+    ].join('\n');
+
+    expect(registry.transformDocument([ZH_CN_MARKDOWN_NORMALIZER_ID], {path: 'decorated.md', contents: input}, context('zh-CN')).contents).toBe(expected);
+  });
+});

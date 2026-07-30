@@ -8,6 +8,8 @@ const workflowDirectory = path.join(process.cwd(), '.github', 'workflows')
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
+  'translate-content.yml',
+  '_translate-selected-group.yml',
   '_publish-content-group.yml',
   '_publish-translation-batches.yml',
   '_translate-publish-batch.yml',
@@ -32,7 +34,7 @@ function executableShellLineEntries(source) {
 
 function containsFullValidationCommand(source) {
   return executableShellLineEntries(source).some(({ trimmed }) => {
-    if (/\b(?:mdx-parse|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed)) return true
+    if (/\b(?:mdx-parse|validate-mdx|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed)) return true
     const segments = trimmed.split(/\s*(?:&&|\|\||;|\|)\s*/)
     return segments.some(segment => {
       const command = segment.trim().replace(/^(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)*/, '')
@@ -49,9 +51,72 @@ function containsFullValidationCommand(source) {
   })
 }
 
+function containsForcePush(source) {
+  if (/push_options:\s*(?:[^\n]*\s)?(?:-f\b|--force(?:-with-lease)?\b)/.test(source)) return true
+  return executableShellLineEntries(source).some(({trimmed}) => {
+    if (!/\bgit\s+push\b/.test(trimmed)) return false
+    return /(?:^|\s)(?:-f|--force(?:-with-lease)?)(?:=\S+)?(?=\s|$)/.test(trimmed)
+  })
+}
+
+function translationCaseBranches(run) {
+  const results = { 'ja-JP': [], 'zh-CN-reference': [], 'zh-CN-tools': [] }
+  const lines = String(run || '').split('\n')
+  for (let index = 0; index < lines.length; index += 1) {
+    if (!/^\s*case "\$TRANSLATION_TARGET" in\s*$/.test(lines[index])) continue
+    let target = null
+    for (index += 1; index < lines.length && !/^\s*esac\s*$/.test(lines[index]); index += 1) {
+      const branch = lines[index].match(/^\s*(ja-JP|zh-CN-reference|zh-CN-tools)\)\s*(.*)$/)
+      if (branch) { target = branch[1]; if (branch[2]) results[target].push(branch[2]); continue }
+      if (target) results[target].push(lines[index])
+      if (/;;\s*$/.test(lines[index])) target = null
+    }
+  }
+  return Object.fromEntries(Object.entries(results).map(([target, body]) => [target, body.join('\n')]))
+}
+
+function validateTargetBranches(run, file, errors) {
+  const branches = translationCaseBranches(run)
+  const forbidden = {
+    'ja-JP': /content\/zh-CN|generated\/zh-CN/,
+    'zh-CN-reference': /i18n\/ja-JP|content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/(?:sidebars\/guides\.sidebar\.js|manifests\/tools-translations\.json)/,
+    'zh-CN-tools': /i18n\/ja-JP|content\/zh-CN\/reference|generated\/zh-CN\/manifests\/reference-translations\.json/,
+  }
+  for (const [target, pattern] of Object.entries(forbidden)) if (pattern.test(branches[target])) errors.push(`${file}: ${target} branch must not claim cross-target translation paths`)
+  if (/build:zh-CN/.test(branches['ja-JP']) || /build:en/.test(branches['zh-CN-reference']) || /build:en/.test(branches['zh-CN-tools'])) {
+    errors.push(`${file}: translation target branch contains a wrong-site build`)
+  }
+}
+
+function namedJobStep(workflow, jobName, stepName) {
+  return (workflow?.jobs?.[jobName]?.steps || []).find(step => step?.name === stepName)
+}
+
+function executableCommandLines(run) {
+  return executableShellLineEntries(run).map(({ trimmed }) =>
+    trimmed.replace(/\s+2>&1\s*\|\s*tee\s+\S+\s*$/, ''))
+}
+
+function commandsAppearInOrder(actual, required) {
+  let previous = -1
+  return required.every(command => {
+    const index = actual.indexOf(command, previous + 1)
+    if (index < 0) return false
+    previous = index
+    return true
+  })
+}
+
+function terminatesBeforeCommand(actual, finalCommand) {
+  const finalIndex = actual.lastIndexOf(finalCommand)
+  if (finalIndex < 0) return false
+  return actual.slice(0, finalIndex).some(command => /^(?:exit|return|exec)(?:\s|$)/.test(command))
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
+  const sourcePublicationWorkflows = new Set(['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml'])
 
   for (const file of files) {
     const source = fs.readFileSync(path.join(directory, file), 'utf8')
@@ -67,6 +132,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: job-level env must not reference runner.temp`)
       }
     }
+    if (sourcePublicationWorkflows.has(file)) {
+      if (workflow.on?.workflow_call?.inputs?.site?.required !== true) {
+        errors.push(`${file}: source publication workflow must require site input`)
+      }
+      if (!/pnpm docs-tooling publish-group --site/.test(source)) {
+        errors.push(`${file}: source publication workflow must use docs-tooling publish-group`)
+      }
+      if (/run-content-group\.js|config\/generated|(?:^|[\s"'])docs\/tutorials|(?:^|[\s"'])docs-byoc(?:\/|[\s"'])|(?:^|[\s"'])reference\/api/m.test(source)) {
+        errors.push(`${file}: source publication workflow must not use legacy publication roots`)
+      }
+      if (/content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/sidebars\/tools\.sidebar\.js|generated\/zh-CN\/manifests\/tools-translations\.json/.test(source)) {
+        errors.push(`${file}: source publication workflow must not claim Chinese Tools protected paths`)
+      }
+    }
     if (!/^permissions:\n(?:  .+\n)+/m.test(source)) {
       errors.push(`${file}: declare explicit top-level permissions`)
     }
@@ -80,12 +159,24 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (/::set-output\b/.test(source)) {
       errors.push(`${file}: write step outputs through GITHUB_OUTPUT`)
     }
-    if (/push_options:\s*--force/.test(source) || /git push\s+--force/.test(source)) {
+    if (containsForcePush(source)) {
       errors.push(`${file}: force-pushing generated documentation can discard concurrent updates`)
     }
 
+    const immutableTranslationToolingFiles = new Set([
+      '_prepare-translation-batches.yml', '_translate-content-group.yml', '_translate-publish-batch.yml',
+      '_publish-translation-batches.yml',
+    ])
+    if (immutableTranslationToolingFiles.has(file)) {
+      const checkoutSteps = Object.values(workflow.jobs || {}).flatMap(job => Array.isArray(job?.steps) ? job.steps : [])
+        .filter(step => String(step?.uses || '').startsWith('actions/checkout@'))
+      if (checkoutSteps.length === 0 || checkoutSteps.some(step => step.with?.ref !== '${{ inputs.tooling_sha }}')) {
+        errors.push(`${file}: translation tooling checkout must use exact inputs.tooling_sha`)
+      }
+    }
+
     if (publishingWorkflows.has(file)) {
-      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
+      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_translate-selected-group.yml', 'translate-content.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
       if (!/^  contents: write$/m.test(source)) {
@@ -104,17 +195,88 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
     }
 
+    if (file === 'site-validation.yml') {
+      const toolsCoverage = workflow.jobs?.tools_coverage
+      const commands = (toolsCoverage?.steps || []).map(step => String(step?.run || '').trim())
+      if (!commands.includes('pnpm docs-tooling validate-translation --target zh-CN-tools --group tools') ||
+        !commands.includes('pnpm docs-tooling validate-tools-sidebar')) {
+        errors.push(`${file}: Chinese Tools coverage must run exact translation and sidebar validators`)
+      }
+      const siteBuilds = [
+        ['build_en', 'pnpm build:en'],
+        ['build_zh_cn', 'pnpm build:zh-CN'],
+      ]
+      const freshnessCommand = 'pnpm check:localization-input-inventory'
+      if (siteBuilds.some(([jobName, buildCommand]) => {
+        const runs = (workflow.jobs?.[jobName]?.steps || []).map(step => String(step?.run || '').trim())
+        const freshnessIndex = runs.indexOf(freshnessCommand)
+        const buildIndex = runs.indexOf(buildCommand)
+        return freshnessIndex < 0 || buildIndex < 0 || freshnessIndex > buildIndex
+      })) {
+        errors.push(`${file}: both site builds must check the localization input inventory before building`)
+      }
+      const referenceCommand = 'pnpm docs-tooling validate-reference --site zh-CN'
+      const zhBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '').trim())
+      const referenceRuns = (workflow.jobs?.reference_coverage?.steps || []).map(step => String(step?.run || '').trim())
+      const referenceIndex = zhBuildRuns.indexOf(referenceCommand)
+      const zhBuildIndex = zhBuildRuns.indexOf('pnpm build:zh-CN')
+      if (referenceIndex < 0 || zhBuildIndex < 0 || referenceIndex > zhBuildIndex || !referenceRuns.includes(referenceCommand)) {
+        errors.push(`${file}: Chinese Reference validation must run before the Chinese build and in focused coverage`)
+      }
+    }
+
     if (file === '_fetch-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
         [/restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/, 'must exactly restore generated state from the immutable baseline SHA'],
-        [/name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*prepare-content-group-workspace\.js "\$GROUP"[\s\S]*name: Fetch content group/, 'must prepare the selected group after baseline restore and before generation'],
+        [/name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*prepare-content-group-workspace\.js "\$SITE" "\$GROUP"[\s\S]*name: Fetch content group/, 'must prepare the selected site group after baseline restore and before generation'],
         [/create-checkpoint-artifact\.js/, 'must create a checkpoint artifact'],
         [/validate-checkpoint-artifact\.js/, 'must validate the checkpoint artifact'],
         [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const steps = workflow.jobs?.produce?.steps || []
+      const snapshotIndex = steps.findIndex(step => step.name === 'Update content snapshots')
+      const inventoryIndex = steps.findIndex(step => step.name === 'Generate revision inventory')
+      const checkpointIndex = steps.findIndex(step => step.name === 'Create source checkpoint artifact')
+      const inventory = steps[inventoryIndex]
+      const inventoryRun = String(inventory?.run || '')
+      const report = steps.find(step => step.name === 'Upload revision inventory report')
+      const reportPaths = String(report?.with?.path || '')
+      const englishCondition = "${{ inputs.site == 'en' }}"
+      if (!(snapshotIndex >= 0 && snapshotIndex < inventoryIndex && inventoryIndex < checkpointIndex) ||
+        !/pnpm docs-tooling "\$\{inventory_args\[@\]\}"/.test(inventoryRun) ||
+        !/revision-inventory build/.test(inventoryRun) ||
+        !/--output "generated\/en\/manifests\/lark-revisions\/\$GROUP\.json"/.test(inventoryRun) ||
+        !/--report-dir "tmp\/docs-tooling\/revision-diff"/.test(inventoryRun) ||
+        !/--source-run-id "\$GITHUB_RUN_ID"/.test(inventoryRun) ||
+        !/--generated-at "\$GENERATED_AT"/.test(inventoryRun)) {
+        errors.push(`${file}: English producer must generate the selected revision inventory`)
+      }
+      if (String(inventory?.if || '').trim() !== englishCondition || String(report?.if || '').trim() !== englishCondition) {
+        errors.push(`${file}: revision inventory generation and report upload must be English-only`)
+      }
+      if (!/baseline_path="tmp\/docs-tooling\/revision-baseline\/\$GROUP\.json"/.test(inventoryRun) ||
+        !/baseline_source="\$BASELINE_DIR\/generated\/en\/manifests\/lark-revisions\/\$GROUP\.json"/.test(inventoryRun) ||
+        !/if \[\[ -f "\$baseline_source" \]\]; then[\s\S]*cp -- "\$baseline_source" "\$baseline_path"/.test(inventoryRun) ||
+        !/--baseline "tmp\/docs-tooling\/revision-baseline\/\$GROUP\.json"/.test(inventoryRun)) {
+        errors.push(`${file}: revision inventory baseline must use the exact safe repository-relative path`)
+      }
+      if (!/getContentGroup\(process\.env\.GROUP, process\.env\.SITE\)/.test(inventoryRun) ||
+        !/group\.sourceSnapshots\.join\(","\)/.test(inventoryRun) ||
+        !/\[\[ "\$GROUP" != rest && -z "\$SNAPSHOTS" \]\]/.test(inventoryRun) ||
+        !/inventory_args\+\=\(--snapshot "\$SNAPSHOTS"\)/.test(inventoryRun) ||
+        /APP_ID|APP_SECRET|fetch-lark|publish-group|update-lark-doc-snapshot|update-sdk-reference-snapshots/.test(inventoryRun) ||
+        Object.keys(inventory?.env || {}).some(name => /APP_ID|APP_SECRET|FEISHU/i.test(name))) {
+        errors.push(`${file}: revision inventory step must not receive Feishu credentials or fetch source metadata`)
+      }
+      if (!report || report.uses !== 'actions/upload-artifact@v4' || report.with?.['if-no-files-found'] !== 'error' ||
+        !reportPaths.includes('generated/en/manifests/lark-revisions/${{ inputs.group }}.json') ||
+        !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.json') ||
+        !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.md')) {
+        errors.push(`${file}: English producer must upload revision JSON and Markdown reports`)
+      }
       if (/git-auto-commit|git push(?:\s+--force|[^\n]*\s--force)|git push\b/.test(source)) {
         errors.push(`${file}: producer must not publish or push content`)
       }
@@ -128,7 +290,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/, 'must recover source checkpoint ancestry after generated-state restore'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must verify the source checkpoint parent before deriving durable batches'],
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive durable batches from the immutable source checkpoint diff'],
-        [/sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must build the durable pending set from the source delta'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
@@ -139,9 +301,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/, 'must recover source checkpoint ancestry after generated-state restore'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must verify the source checkpoint parent before translation reconciliation'],
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive translation reconciliation from the immutable source checkpoint diff'],
-        [/sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
-        [/applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'must apply translated output and cache deletions before manifest creation'],
+        [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
+        [/manifest\.js[\s\S]*--mode "\$EFFECTIVE_TRANSLATION_MODE"/, 'must build candidates with the resolved bootstrap mode'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
         [/\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/, 'must create checkpoints for batches that only record failed translations'],
       ]
@@ -156,6 +319,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const unbatchedCondition = String(unbatched?.if || '')
       const unbatchedRun = String(unbatched?.run || '')
       const checkpointRun = String(checkpoint?.run || '')
+      const candidateIdentity = {
+        ZDOC_PROVENANCE_CANDIDATE_TARGET: '${{ inputs.target }}',
+        ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: '${{ inputs.tooling_sha }}',
+        ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: '${{ inputs.source_sha }}',
+      }
+      validateTargetBranches(steps.map(step => String(step?.run || '')).join('\n'), file, errors)
       const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
       const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
       const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
@@ -163,7 +332,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!numbered || normalizeCondition(numberedCondition) !== normalizeCondition(expectedNumberedCondition)) {
         errors.push(`${file}: numbered Guides batches must use the dedicated mutation-aware local validation step`)
       }
-      if (/mdx-parse/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree MDX parsing`)
+      if (/mdx-parse|validate-mdx/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree MDX parsing`)
       if (/validate-translated-coverage/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree translated coverage`)
       if (/pnpm\s+run\s+build/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run a full documentation build`)
       if (!/translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/.test(numberedRun)) {
@@ -176,21 +345,23 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
       }
-      if (!/mdx-parse/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build/.test(unbatchedRun)) {
-        errors.push(`${file}: unbatched translations must retain full MDX, coverage, and build validation`)
+      const candidateNames = Object.keys(candidateIdentity)
+      const candidateIdentityIsExact = candidateNames.every(name => unbatched?.env?.[name] === candidateIdentity[name])
+      const leaksCandidateIdentity = steps.some(step => step !== unbatched && candidateNames.some(name =>
+        Object.hasOwn(step?.env || {}, name) || String(step?.run || '').includes(name)))
+      if (!candidateIdentityIsExact || leaksCandidateIdentity) {
+        errors.push(`${file}: candidate provenance must receive exact target, tooling, and source identities only in unbatched validation`)
+      }
+      if (!/node scripts\/translation\/validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/.test(unbatchedRun)) {
+        errors.push(`${file}: unbatched translations must use group-local target validation`)
+      }
+      if (/validate-reference|reference-manifest|build:(?:en|zh-CN)/.test(unbatchedRun)) {
+        errors.push(`${file}: group-local translation validation must not run whole-locale validation or site builds`)
       }
       for (const step of steps) {
-        if (step === unbatched || step === checkpoint) continue
-        if (containsFullValidationCommand(step?.run)) errors.push(`${file}: full validation and build commands must exist only in the exact unbatched validation path`)
+        if (containsFullValidationCommand(step?.run)) errors.push(`${file}: translation producer must not run whole-site build commands`)
       }
-      const checkpointAttestation = 'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi'
-      const checkpointLines = checkpointRun.split('\n')
-      const attestationEntries = executableShellLineEntries(checkpointRun).filter(entry => entry.trimmed === checkpointAttestation)
-      const attestationIndexes = new Set(attestationEntries.map(entry => entry.index))
-      const checkpointWithoutAttestation = checkpointLines.filter((line, index) => !attestationIndexes.has(index)).join('\n')
-      if (attestationEntries.length !== 1 || containsFullValidationCommand(checkpointWithoutAttestation)) {
-        errors.push(`${file}: checkpoint build attestation must remain restricted to unbatched runs`)
-      }
+      if (/--validation-command/.test(checkpointRun)) errors.push(`${file}: translation checkpoints must not attest a whole-site build`)
       if (!/validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/.test(checkpointRun) || !/validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/.test(checkpointRun)) {
         errors.push(`${file}: translation checkpoints must validate baseline and result artifact integrity`)
       }
@@ -222,8 +393,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!/! -L "\$trusted_root"/.test(initialize) || !/realpath -e -- "\$trusted_root"/.test(initialize) || !/stat -c '%u' -- "\$trusted_root"/.test(initialize) || !/id -u/.test(initialize)) errors.push(`${file}: publisher trusted root must be real, private, and owned by the runner user`)
       const capture = byName.get('Capture Guides translation publication identities')
       const captureIndex = steps.indexOf(capture)
+      const installIndex = steps.findIndex(step => step.name === 'Install immutable master tooling')
       const downloadIndex = steps.findIndex(step => step.name === 'Download Guides translation checkpoints')
-      if (!capture || captureIndex < 0 || downloadIndex < 0 || captureIndex >= downloadIndex || !/createInitialPublisherState/.test(capture.run || '') || !/SOURCE_COMMIT_SHA/.test(capture.run || '') || !/EXPECTED_TARGET_SHA/.test(capture.run || '') || !/refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}/.test(capture.run || '')) errors.push(`${file}: publisher must authenticate and persist source and target identities before artifact download`)
+      if (!capture || captureIndex < 0 || installIndex < 0 || downloadIndex < 0 || installIndex >= captureIndex || captureIndex >= downloadIndex || !/createInitialPublisherState/.test(capture.run || '') || !/SOURCE_COMMIT_SHA/.test(capture.run || '') || !/EXPECTED_TARGET_SHA/.test(capture.run || '') || !/refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}/.test(capture.run || '')) errors.push(`${file}: publisher must install tooling, then authenticate and persist source and target identities before artifact download`)
       for (const name of requiredNames.slice(5)) if (String(byName.get(name)?.if || '') !== '${{ always() }}') errors.push(`${file}: cleanup, report, upload, and result steps must always run`)
 
       const identities = String(byName.get(requiredNames[0])?.run || '')
@@ -258,6 +430,29 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (/sed -n ['"]s\/\^status=|tee [^\n]*(?:publication|state)|tail -1/.test(source)) errors.push(`${file}: staging publisher must not derive state from logs`)
     }
 
+    if (file === '_fetch-content-group.yml') {
+      const steps = workflow.jobs?.produce?.steps || []
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
+      const validationIndex = steps.findIndex(step => step?.name === 'Validate content group')
+      if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < validationIndex)) {
+        errors.push(`${file}: must install dependencies before validating the content group`)
+      }
+    }
+
+    if (file === '_publish-content-group.yml') {
+      const publisher = (workflow.jobs?.publish?.steps || []).find(step => step.name === 'Publish checkpoint')
+      const expected = {
+        ZDOC_PROVENANCE_CANDIDATE_TARGET: '${{ inputs.target }}',
+        ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: '${{ inputs.tooling_sha }}',
+        ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: '${{ inputs.source_sha }}',
+      }
+      if (!publisher || Object.entries(expected).some(([name, value]) => publisher.env?.[name] !== value)) {
+        errors.push(`${file}: checkpoint validation must receive exact candidate provenance identities`)
+      }
+    }
+
     if (file === '_render-guides-table.yml') {
       const requiredPatterns = [
         [/render-guides-table\.js/, 'must invoke the table-scoped renderer'],
@@ -274,7 +469,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/inputs\.table_count != '0'[\s\S]*pattern: guides-table-/, 'must skip table artifact download for an empty matrix'],
         [/restore-guides-table-artifacts\.js/, 'must restore validated table artifacts'],
-        [/generate-guides-sidebars\.js --media-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/, 'must generate both combined sidebars through the offline wrapper'],
+        [/generate-guides-sidebars\.js --media-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/, 'must generate both combined sidebars through the offline wrapper'],
+        [/publish-group --site[\s\S]*DOCS_TOOLING_GUIDES_STAGE: baseline/, 'must seed canonical Guides stages through docs-tooling'],
+        [/publish-group --site[\s\S]*DOCS_TOOLING_GUIDES_STAGE: assembled/, 'must validate assembled canonical stages through docs-tooling'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       const steps = workflow.jobs?.assemble?.steps || []
@@ -301,13 +498,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const decisionStep = steps[decisionIndex]
       if (!/validate-decision[\s\S]*decision-sha[\s\S]*inputs\.assembly_decision_sha256/.test(decisionStep?.run || '')) errors.push(`${file}: assembly must validate the restored decision against the plumbed canonical hash`)
       const generatorStep = steps[generateIndex]
-      if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest plugins/lark-docs/meta/media-cache/guides.json') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
+      if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest packages/docs-tooling/src/lark/meta/media-cache/guides.json') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
       const validationStep = steps[validateIndex]
-      if (!/validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "pnpm run build"/.test(validationStep?.run || '')) errors.push(`${file}: combined sidebar and full build validation must run before descriptor promotion`)
+      const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
+      const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+      if (workflow.jobs?.assemble?.env?.ZDOC_BUILD_COMMAND !== expectedBuildMapping ||
+          !/\[\[ -n "\$ZDOC_BUILD_COMMAND" \]\][\s\S]*validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting/.test(validationStep?.run || '') ||
+          !/printf -v build_validation[\s\S]*"\$ZDOC_BUILD_COMMAND"[\s\S]*--validation-command "\$build_validation"/.test(checkpointStep?.run || '') ||
+          /run-doc-build-stage\.js --build "pnpm run build:en"/.test(source)) {
+        errors.push(`${file}: Guides assembly build validation must use the explicit site-owned build mapping`)
+      }
       const finalizeStep = steps[finalizeIndex]
-      if (!/saas=config\/generated\/guides\.sidebar\.js[\s\S]*byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
+      if (!/saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*byoc=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
       if (/npx docusaurus fetch-lark-docs[\s\S]*-sidebar/.test(source) || /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/.test(source)) errors.push(`${file}: observe-only assembly must not restore sidebars or use the legacy split generators`)
-      if (/--output plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must never mutate the immutable assembly decision`)
+      if (/--output packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-assembly-decision\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must never mutate the immutable assembly decision`)
       const selection = stepById.get('promoted_snapshot')
       if (!/guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"[\s\S]*if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js/.test(selection?.run || '')) {
         errors.push(`${file}: unchanged valid-v4 assembly must preserve the baseline snapshot while save-required runs promote the candidate`)
@@ -331,6 +535,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === 'fetch-docs.yml') {
       const requiredPatterns = [
         [/^          GUIDES_TRANSLATION_CANDIDATES: \$\{\{ needs\.prepare_guides_translation_batches\.outputs\.candidate_counts \}\}$/m, 'must pass Guides candidate counts to aggregation'],
+        [/^          REVISION_RECONCILIATION: \$\{\{ needs\.verify\.outputs\.revision_status \}\}$/m, 'aggregate must consume revision reconciliation separately from overall verification'],
         [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],
         [/produce_guides:[\s\S]*render_guides_tables\.result == 'skipped'/, 'must assemble an empty Guides render matrix'],
         [/produce_guides:[\s\S]*cache_version: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_version \}\}[\s\S]*cache_save_required: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_save_required \}\}/, 'must pass Guides cache version and save requirement into assembly'],
@@ -345,6 +550,59 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           finalizeStep?.env?.PUBLISHER_COMMIT_SHA !== '${{ needs.publish_guides_translation_batches.outputs.commit_sha }}' ||
           Object.hasOwn(finalizeStep?.env || {}, 'TARGET_BRANCH')) {
         errors.push(`${file}: Guides translation finalizer must use only exact publisher status and commit outputs`)
+      }
+      const barrierName = 'guides_translation_publication_barrier'
+      const barrier = workflow.jobs?.[barrierName]
+      const barrierNeeds = Array.isArray(barrier?.needs) ? barrier.needs : barrier?.needs ? [barrier.needs] : []
+      const barrierStep = barrier?.steps?.find(step => step.name === 'Accept completed Guides translation publication')
+      const expectedBarrierNeeds = [
+        'produce_guides_sources', 'render_guides_tables', 'produce_guides', 'publish_guides',
+        'prepare_guides_translation_batches', 'translate_guides_batches',
+        'publish_guides_translation_batches', 'finalize_guides_translation',
+      ]
+      const prerequisiteResultInputs = {
+        PRODUCE_GUIDES_SOURCES_RESULT: '${{ needs.produce_guides_sources.result }}',
+        RENDER_GUIDES_TABLES_RESULT: '${{ needs.render_guides_tables.result }}',
+        PRODUCE_GUIDES_RESULT: '${{ needs.produce_guides.result }}',
+        PUBLISH_GUIDES_RESULT: '${{ needs.publish_guides.result }}',
+        PREPARE_GUIDES_TRANSLATION_BATCHES_RESULT: '${{ needs.prepare_guides_translation_batches.result }}',
+        TRANSLATE_GUIDES_BATCHES_RESULT: '${{ needs.translate_guides_batches.result }}',
+        PUBLISH_GUIDES_TRANSLATION_BATCHES_RESULT: '${{ needs.publish_guides_translation_batches.result }}',
+        FINALIZER_RESULT: '${{ needs.finalize_guides_translation.result }}',
+      }
+      if (barrierNeeds.join(',') !== expectedBarrierNeeds.join(',') ||
+          Object.entries(prerequisiteResultInputs).some(([name, value]) => barrierStep?.env?.[name] !== value) ||
+          !/result === 'failure' \|\| result === 'cancelled'/.test(barrierStep?.run || '')) {
+        errors.push(`${file}: Guides translation publication barrier must validate authoritative prerequisite results`)
+      }
+      if (barrier?.if !== "${{ always() && needs.prepare.outputs.run_translations == 'true' }}" ||
+          barrierStep?.env?.FINALIZER_RESULT !== '${{ needs.finalize_guides_translation.result }}' ||
+          barrierStep?.env?.TRANSLATOR_STATUS !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
+          barrierStep?.env?.PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
+          !/translation_ready:published[\s\S]*translation_ready:no_changes[\s\S]*no_changes:no_changes[\s\S]*skipped:skipped/.test(barrierStep?.run || '')) {
+        errors.push(`${file}: Guides translation publication barrier must validate acceptable finalized publication states`)
+      }
+      const chinesePublishers = [
+        'translate_python_zh_reference', 'translate_java_zh_reference', 'translate_node_zh_reference',
+        'translate_go_zh_reference', 'translate_cli_zh_reference', 'translate_rest_zh_reference',
+        'translate_guides_zh_tools',
+      ]
+      if (chinesePublishers.some(jobName => {
+        const job = workflow.jobs?.[jobName]
+        const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
+        return !needs.includes(barrierName) || !String(job?.if || '').includes(`needs.${barrierName}.result == 'success'`)
+      })) {
+        errors.push(`${file}: every Chinese publisher must wait for the Guides translation publication barrier`)
+      }
+      const chineseReferenceOrder = ['python', 'java', 'node', 'go', 'cli', 'rest']
+      if (chineseReferenceOrder.slice(1).some((group, index) => {
+        const predecessor = chineseReferenceOrder[index]
+        const job = workflow.jobs?.[`translate_${group}_zh_reference`]
+        const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
+        return !needs.includes(`translate_${predecessor}_zh_reference`) ||
+          !String(job?.if || '').includes(`needs.translate_${predecessor}_zh_reference.result == 'success'`)
+      })) {
+        errors.push(`${file}: Chinese Reference publishers must form the source-ordered publication queue`)
       }
       const aggregateStep = workflow.jobs?.aggregate?.steps?.find(step => step.id === 'aggregate')
       if (aggregateStep?.env?.GUIDES_TRANSLATOR !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
@@ -370,12 +628,23 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === '_publish-content-group.yml') {
+      const steps = workflow.jobs?.publish?.steps || []
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
+      const contractIndex = steps.findIndex(step => step?.name === 'Validate content group contract')
+      if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < contractIndex)) {
+        errors.push(`${file}: must install dependencies before validating the content group contract`)
+      }
+      if (/require\(['"][^'"]+\.ts['"]\)/.test(source)) {
+        errors.push(`${file}: must load TypeScript modules through the shared loader`)
+      }
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
-        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out immutable publisher tooling'],
+        [/name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out exact translation tooling and separate source tooling'],
         [/actions\/download-artifact@v4/, 'must download the exact checkpoint artifact'],
         [/inputs\.baseline_artifact_name != ''[\s\S]*name: \$\{\{ inputs\.baseline_artifact_name \}\}/, 'must conditionally download the exact baseline artifact'],
-        [/tar -tf[\s\S]*tar -tvf/, 'must inspect archive paths and entry types before extraction'],
+        [/--translation-target[\s\S]*--source-checkpoint-sha[\s\S]*--tooling-sha[\s\S]*--source-site[\s\S]*--target-site[\s\S]*preflight-checkpoint-archive\.js[\s\S]*--manifest-output[\s\S]*tar -xf/, 'must verify the unique checkpoint manifest identity before full extraction'],
         [/extract_checkpoint_archive[\s\S]*extract_checkpoint_archive[\s\S]*manifest\.resolvedDir[\s\S]*payload[\s\S]*--baseline-dir/, 'must reuse safe extraction and pass the validated baseline payload directory'],
         [/validate-checkpoint-artifact\.js/, 'must validate checkpoint identity'],
         [/publish-checkpoint\.sh/, 'must invoke the checkpoint publisher'],
@@ -384,6 +653,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/^concurrency:/m.test(source)) errors.push(`${file}: reusable publisher must let the orchestrator serialize publication`)
       if (/git-auto-commit|git push[^\n]*--force/.test(source)) errors.push(`${file}: publisher must not auto-commit or force-push`)
+    }
+
+    if (file === '_assemble-guides.yml') {
+      const steps = workflow.jobs?.assemble?.steps || []
+      const baselineIndex = steps.findIndex(step => step?.name === 'Prepare immutable baseline')
+      const workspaceIndex = steps.findIndex(step => step?.name === 'Prepare selected Guides workspace')
+      const sourceRestoreIndex = steps.findIndex(step => step?.name === 'Restore validated Guides source')
+      if (baselineIndex < 0 || workspaceIndex <= baselineIndex || sourceRestoreIndex <= workspaceIndex ||
+          steps[workspaceIndex]?.run !== 'node scripts/docs-workflow/prepare-content-group-workspace.js "${{ inputs.site }}" guides') {
+        errors.push(`${file}: Guides assembly must restore and track site-wide build manifests before source assembly`)
+      }
+    }
+
+    if (file === '_translate-publish-batch.yml' && !/preflight-checkpoint-archive\.js[\s\S]*--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--tooling-sha "\$MASTER_SHA"[\s\S]*--source-site en[\s\S]*--target-site en[\s\S]*tar -xf/.test(source)) {
+      errors.push(`${file}: durable publisher must verify checkpoint manifests before full extraction`)
     }
 
     if (file === '_verify-docs.yml') {
@@ -395,39 +679,197 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/name: Clean up final dev worktree[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*git worktree remove --force "\$RUNNER_TEMP\/final-dev"/, 'must always clean up the final dev worktree'],
         [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
         [/for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/, 'must validate translated coverage for every translatable group'],
-        [/run-doc-build-stage\.js --build "pnpm run build"/, 'must run the documentation build stage'],
+        [/run-doc-build-stage\.js --build "pnpm run build:en"/, 'must run the documentation build stage'],
+        [/pnpm test:typescript-runtime-boundary/, 'must test CommonJS TypeScript loading without native stripping'],
         [/name: Verify final documentation state[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/, 'must propagate failures from verification commands piped to report logs'],
         [/validate-workflow-policy\.js/, 'must validate workflow policy'],
         [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const outputs = workflow.on?.workflow_call?.outputs || {}
+      const jobOutputs = workflow.jobs?.verify?.outputs || {}
+      if (outputs.revision_status?.value !== '${{ jobs.verify.outputs.revision_status }}' ||
+        jobOutputs.revision_status !== '${{ steps.revision_result.outputs.status }}') {
+        errors.push(`${file}: must expose revision status separately from overall status`)
+      }
+      const steps = workflow.jobs?.verify?.steps || []
+      const revision = namedJobStep(workflow, 'verify', 'Verify revision waterline')
+      const revisionRun = String(revision?.run || '')
+      const revisionCommands = executableCommandLines(revisionRun)
+      if (revision?.id !== 'revision' || revision?.['continue-on-error'] !== true ||
+        !commandsAppearInOrder(revisionCommands, [
+          'set -euo pipefail',
+          'pnpm check:localization-input-inventory',
+          'pnpm docs-tooling validate-revision-inventory --site en',
+        ]) ||
+        !/tmp\/final-verification-reports/.test(revisionRun)) {
+        errors.push(`${file}: revision waterline must validate localization and revision inventories`)
+      }
+      if (terminatesBeforeCommand(revisionCommands, 'pnpm docs-tooling validate-revision-inventory --site en')) {
+        errors.push(`${file}: revision waterline must not terminate before validation completes`)
+      }
+      const exactRevisionLogs = [
+        'pnpm check:localization-input-inventory 2>&1 | tee tmp/final-verification-reports/localization-input-inventory.log',
+        'pnpm docs-tooling validate-revision-inventory --site en 2>&1 | tee tmp/final-verification-reports/revision-inventory.log',
+      ]
+      if (exactRevisionLogs.some(command => !revisionRun.split('\n').map(line => line.trim()).includes(command))) {
+        errors.push(`${file}: revision waterline commands must preserve exact report logs`)
+      }
+      const revisionResult = namedJobStep(workflow, 'verify', 'Emit revision reconciliation result')
+      const revisionResultCommands = executableCommandLines(revisionResult?.run)
+      const expectedRevisionResult = [
+        'if [[ "${{ steps.revision.outcome }}" == success ]]; then',
+        'echo "status=passed" >> "$GITHUB_OUTPUT"',
+        'else',
+        'echo "status=failed" >> "$GITHUB_OUTPUT"',
+        'fi',
+      ]
+      if (revisionResult?.id !== 'revision_result' || String(revisionResult?.if || '').trim() !== '${{ always() }}' ||
+        JSON.stringify(revisionResultCommands) !== JSON.stringify(expectedRevisionResult)) {
+        errors.push(`${file}: revision reconciliation result must deterministically emit passed or failed`)
+      }
+      const materializeIndex = steps.findIndex(step => step?.name === 'Materialize exact final dev state')
+      const revisionIndex = steps.indexOf(revision)
+      const verification = namedJobStep(workflow, 'verify', 'Verify final documentation state')
+      const verificationIndex = steps.indexOf(verification)
+      const verificationRun = String(verification?.run || '')
+      const verificationCommands = executableCommandLines(verificationRun)
+      const orderedSiteCommands = [
+        'pnpm docs-tooling validate-reference --site zh-CN',
+        'pnpm docs-tooling validate-translation --target zh-CN-tools --group tools',
+        'pnpm docs-tooling validate-tools-sidebar',
+        'node scripts/validate-generated-sidebars.js',
+        'node scripts/validate-translated-coverage.js --group "$group"',
+        'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',
+        'node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting',
+        'node scripts/validate-workflow-policy.js',
+        'pnpm test:typescript-runtime-boundary',
+      ]
+      const orderedSiteValidation = commandsAppearInOrder(verificationCommands, orderedSiteCommands)
+      if (!(materializeIndex >= 0 && materializeIndex < revisionIndex && revisionIndex < verificationIndex) ||
+        verification?.id !== 'verification' || verification?.['continue-on-error'] !== true || !orderedSiteValidation) {
+        errors.push(`${file}: site verification must run ordered Chinese validators before both site builds`)
+      }
+      if (terminatesBeforeCommand(verificationCommands, orderedSiteCommands.at(-1))) {
+        errors.push(`${file}: site verification must not terminate before validation completes`)
+      }
+      const uploadReports = namedJobStep(workflow, 'verify', 'Upload final verification reports')
+      if (String(uploadReports?.if || '').trim() !== '${{ always() }}') {
+        errors.push(`${file}: final verification report upload must always run`)
+      }
+      const resultCommands = executableCommandLines(namedJobStep(workflow, 'verify', 'Emit verification result')?.run)
+      const expectedResult = [
+        'if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then',
+        'echo "status=passed" >> "$GITHUB_OUTPUT"',
+        'else',
+        'echo "status=failed" >> "$GITHUB_OUTPUT"',
+        'fi',
+      ]
+      if (JSON.stringify(resultCommands) !== JSON.stringify(expectedResult)) {
+        errors.push(`${file}: overall status must require revision and site verification success`)
+      }
       if (/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
       if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
     }
 
     if (file === 'translate-codex.yml') {
       const requiredPatterns = [
-        [/TARGET_BRANCH_INPUT: \$\{\{ inputs\.target_branch \}\}/, 'must pass the branch input through the step environment'],
-        [/git check-ref-format --branch "\$target_branch"/, 'must validate the target branch before fetching'],
-        [/refs\/heads\/\$target_branch:refs\/remotes\/origin\/\$target_branch/, 'must fetch the validated branch with an explicit refspec'],
+        [/uses: \.\/\.github\/workflows\/translate-content\.yml/, 'must call the target-aware reusable translation workflow'],
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
-      const resolver = source.slice(source.indexOf('- id: refs'), source.indexOf('  translate:'))
-      if (/run: \|[\s\S]*\$\{\{ inputs\.target_branch \}\}/.test(resolver)) errors.push(`${file}: target branch input must not be interpolated into shell source`)
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
+      const inputs = workflow.on?.workflow_dispatch?.inputs || {}
+      const called = workflow.jobs?.translate?.with || {}
+      const targets = ['ja-JP', 'zh-CN-reference', 'zh-CN-tools']
+      const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools', 'reference-landings']
+      if (inputs.target?.required !== true || JSON.stringify(inputs.target?.options) !== JSON.stringify(targets) || called.target !== '${{ inputs.target }}') {
+        errors.push(`${file}: compatibility boundary must expose and forward the selected translation target`)
+      }
+      if (inputs.group?.required !== true || JSON.stringify(inputs.group?.options) !== JSON.stringify(groups) || called.group !== '${{ inputs.group }}') {
+        errors.push(`${file}: compatibility boundary must expose and forward the selected translation group`)
+      }
+      if (!/ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/.test(source) ||
+        !/zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/.test(source) ||
+        !/zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/.test(source)) {
+        errors.push(`${file}: compatibility boundary must enforce exact target and group pairings`)
+      }
+      if (['tooling_sha', 'source_sha'].some(input => inputs[input]?.required !== true || called[input] !== `\${{ inputs.${input} }}`)) errors.push(`${file}: compatibility boundary must require and forward exact immutable SHAs`)
+    }
+
+    if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
+      errors.push(`${file}: reusable target-aware workflow must not share its caller's publication concurrency group`)
+    }
+    if (file === 'translate-content.yml') {
+      const dispatchInputs = workflow.on?.workflow_dispatch?.inputs || {}
+      const callInputs = workflow.on?.workflow_call?.inputs || {}
+      if (
+        dispatchInputs.tooling_sha?.required !== true
+        || dispatchInputs.source_ref?.default !== 'dev'
+        || callInputs.tooling_sha?.required !== true
+        || callInputs.source_sha?.required !== true
+      ) errors.push(`${file}: manual translation must resolve source_ref while reusable callers pass exact immutable SHAs`)
+      const steps = workflow.jobs?.prepare?.steps || []
+      const validationIndex = steps.findIndex(step => step?.name === 'Validate immutable tooling identity')
+      const checkoutIndex = steps.findIndex(step => String(step?.uses || '').startsWith('actions/checkout@'))
+      if (validationIndex < 0 || checkoutIndex < 0 || validationIndex >= checkoutIndex || steps[checkoutIndex]?.with?.ref !== '${{ inputs.tooling_sha }}' || /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse[^\n]*TARGET_BRANCH/.test(source)) {
+        errors.push(`${file}: validate exact immutable SHAs before checkout without branch-tip fallback`)
+      }
+      const groupValidation = 'node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"'
+      if (workflow.jobs?.publish_exact?.with?.validate_command !== groupValidation) errors.push(`${file}: target publication must use group-local validation without a site build`)
     }
   }
 
   const readWorkflow = (file) => fs.existsSync(path.join(directory, file))
     ? fs.readFileSync(path.join(directory, file), 'utf8')
     : ''
+  const translationWorkflow = yaml.load(readWorkflow('_translate-content-group.yml'))
+  const publisherWorkflow = yaml.load(readWorkflow('_publish-content-group.yml'))
+  const nodeVersion = (workflow, jobName) => (workflow?.jobs?.[jobName]?.steps || [])
+    .find(step => step?.uses === 'actions/setup-node@v4')?.with?.['node-version']
+  const translationNodeVersion = nodeVersion(translationWorkflow, 'translate')
+  const publisherNodeVersion = nodeVersion(publisherWorkflow, 'publish')
+  if (!translationNodeVersion || publisherNodeVersion !== translationNodeVersion) {
+    errors.push('_publish-content-group.yml: publisher Node runtime must match the translation runtime')
+  }
   const callerSource = readWorkflow('fetch-docs.yml')
   if (callerSource) {
     let caller
     try { caller = yaml.load(callerSource) } catch (_) { caller = null }
     const monitor = caller?.jobs?.monitor_docs_progress
+    const prepareSteps = caller?.jobs?.prepare?.steps || []
+    const installIndex = prepareSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
+    const readinessIndex = prepareSteps.findIndex(step => step?.name === 'Verify translation publication readiness')
+    const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
+    const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
+    if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
+        readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
+      errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
+    }
+    const sourceGroups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
+    const sourceBarrier = caller?.jobs?.source_publication_barrier
+    const sourceBarrierNeeds = Array.isArray(sourceBarrier?.needs) ? sourceBarrier.needs : []
+    const expectedSourceBarrierNeeds = ['prepare', ...sourceGroups.map(group => `publish_${group}`)]
+    const sourceBarrierSteps = sourceBarrier?.steps || []
+    if (JSON.stringify(sourceBarrierNeeds) !== JSON.stringify(expectedSourceBarrierNeeds) ||
+        !String(sourceBarrier?.if || '').includes("needs.prepare.outputs.publish == 'true'") ||
+        sourceBarrierSteps.at(-1)?.run !== 'node scripts/docs-workflow/source-publication-barrier.js') {
+      errors.push('fetch-docs.yml: source publication barrier must verify every selected source publisher before paid translation')
+    }
+    const paidTranslationJobs = [
+      'translate_guides_batches',
+      ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}`),
+      ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}_zh_reference`),
+      'translate_guides_zh_tools',
+    ]
+    for (const jobName of paidTranslationJobs) {
+      const job = caller?.jobs?.[jobName]
+      const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
+      if (!needs.includes('source_publication_barrier') || !String(job?.if || '').includes("needs.source_publication_barrier.result == 'success'")) {
+        errors.push(`fetch-docs.yml: ${jobName} must wait for successful source publication barrier`)
+      }
+    }
     const monitorNeeds = Array.isArray(monitor?.needs) ? monitor.needs : monitor?.needs ? [monitor.needs] : []
     if (monitorNeeds.length !== 1 || monitorNeeds[0] !== 'prepare') errors.push('fetch-docs.yml: central monitor must start after prepare only')
     if (monitor?.uses !== './.github/workflows/_monitor-docs-progress.yml') errors.push('fetch-docs.yml: central monitor must use _monitor-docs-progress.yml')
@@ -448,7 +890,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!(restoreReports >= 0 && downloadGuidesReports > restoreReports && collectReports > downloadGuidesReports)) {
       errors.push('fetch-docs.yml: current Guides reports must be downloaded before card collection')
     }
-    if (!/name: Download current Guides reports[\s\S]*path: plugins\/lark-docs\/meta\/reports/.test(aggregateSource)) {
+    if (!/name: Download current Guides reports[\s\S]*path: packages\/docs-tooling\/src\/lark\/meta\/reports/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: Guides reports must restore into the collector report directory')
     }
     if (!/CARD_REPORT_ARTIFACT_URL:/.test(aggregateSource)) {
@@ -470,7 +912,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml',
     '_translate-publish-batch.yml', '_verify-docs.yml',
   ]
-  const distributedPattern = /report-live-card\.sh|report-to-lark --card-(?:phase|finish|state-file|advance)/
+  const distributedPattern = /report-live-card\.sh|report-to-lark --card-(?:phase|finish|state-file|advance)|docs-tooling report-card (?:advance|finish|note)/
   for (const file of distributedFiles) {
     const source = readWorkflow(file)
     if (distributedPattern.test(source)) errors.push(`${file}: distributed card update is forbidden`)
@@ -487,6 +929,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     try { guidesWorkflow = yaml.load(guidesSource) } catch {}
     const guidesSteps = guidesWorkflow.jobs?.fetch?.steps || []
     const stepById = new Map(guidesSteps.filter(step => step.id).map(step => [step.id, step]))
+    const tableMatrix = stepById.get('table_matrix')
+    if (!/guides-tables\.js matrix[\s\S]*--site "\$\{\{ inputs\.site \}\}"/.test(tableMatrix?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: Guides table matrix generation must pass the required site')
+    }
     const requiredCacheSteps = [
       'Compute Guides cache generation keys',
       'Restore Guides v4 cache candidate',
@@ -537,7 +983,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     for (const [id, includesMedia] of [['source_cache_v3_check', true], ['source_cache_v2_check', true], ['source_cache_v1_check', false]]) {
       const run = stepById.get(id)?.run || ''
-      const sourcePresence = /\[\[ -e plugins\/lark-docs\/meta\/sources\/guides \|\| -L plugins\/lark-docs\/meta\/sources\/guides[\s\S]*-e "\$manifest" \|\| -L "\$manifest"/.test(run)
+      const sourcePresence = /\[\[ -e packages\/docs-tooling\/src\/lark\/meta\/sources\/guides \|\| -L packages\/docs-tooling\/src\/lark\/meta\/sources\/guides[\s\S]*-e "\$manifest" \|\| -L "\$manifest"/.test(run)
       const mediaPresence = /-e "\$media" \|\| -L "\$media" \]\] && candidate_present=true/.test(run)
       if (!sourcePresence || (includesMedia && !mediaPresence) || (!includesMedia && !/\|\| -L "\$manifest" \]\] && candidate_present=true/.test(run))) {
         errors.push('_fetch-guides-sources.yml: malformed legacy cache leaves must be reported as invalid candidates')
@@ -545,7 +991,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
     }
     if (/cache-hit/.test(guidesSource)) errors.push('_fetch-guides-sources.yml: Guides fallback must never trust cache-hit before validation')
-    if (/rm -rf[^\n]*plugins\/lark-docs\/meta\/(?:source-cache|media-cache)\/?(?:\s|$)/.test(guidesSource)) {
+    if (/rm -rf[^\n]*packages\/docs-tooling\/src\/lark\/meta\/(?:source-cache|media-cache)\/?(?:\s|$)/.test(guidesSource)) {
       errors.push('_fetch-guides-sources.yml: Guides cleanup must remove exact cache leaves and preserve unrelated cache state')
     }
     for (const [validationName, nextRestoreName, requiredCleanup] of [
@@ -587,9 +1033,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     )
     if (!/steps\.source_cache_check\.outputs\.media_valid/.test(mediaPrefetchBlock) ||
         !/Media cache unavailable; rebuilding complete canonical media coverage/.test(mediaPrefetchBlock) ||
-        !/--snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/.test(mediaPrefetchBlock) ||
-        !/--report plugins\/lark-docs\/meta\/reports\/guides-media-prefetch\.json/.test(mediaPrefetchBlock) ||
-        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/.test(mediaPrefetchBlock) ||
+        !/--snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json/.test(mediaPrefetchBlock) ||
+        !/--report packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-media-prefetch\.json/.test(mediaPrefetchBlock) ||
+        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest packages\/docs-tooling\/src\/lark\/meta\/media-cache\/guides\.json/.test(mediaPrefetchBlock) ||
         !/else[\s\S]*--mode recovery[\s\S]*--cache-state "\$cache_state"/.test(mediaPrefetchBlock)) {
       errors.push('_fetch-guides-sources.yml: invalid media cache must trigger full canonical media recovery')
     }
@@ -625,6 +1071,26 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
   }
 
+  const watchdogSource = readWorkflow('docs-ingestion-watchdog.yml')
+  if (watchdogSource) {
+    const watchdog = yaml.load(watchdogSource)
+    if (watchdog.permissions?.actions !== 'read' || watchdog.permissions?.contents !== 'read' || Object.keys(watchdog.permissions || {}).length !== 2) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog permissions must be actions: read and contents: read only')
+    }
+    if (!/node scripts\/docs-workflow\/docs-ingestion-watchdog\.js[\s\S]*--repository "\$GITHUB_REPOSITORY"[\s\S]*--output tmp\/docs-ingestion-watchdog\.json/.test(watchdogSource)) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog must call the repository evaluator')
+    }
+    if (/git push|workflow_dispatches|gh workflow run|fetch-lark-docs|\bdeploy\b|contents: write|actions: write/.test(watchdogSource)) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog must remain read-only and must not dispatch, publish, or deploy')
+    }
+    if (!/continue-on-error: true[\s\S]*docs-ingestion-watchdog\.js/.test(watchdogSource) ||
+        !/if-no-files-found: error/.test(watchdogSource) ||
+        !/report-card create[\s\S]*report-card note --file[\s\S]*report-card finish/.test(watchdogSource) ||
+        !/if \[ "\$WATCHDOG_OUTCOME" != "success" \][\s\S]*exit 1/.test(watchdogSource)) {
+      errors.push('docs-ingestion-watchdog.yml: watchdog must upload evidence, alert best-effort, and preserve evaluator failure')
+    }
+  }
+
   for (const file of fs.readdirSync(directory).filter(name => /\.ya?ml$/.test(name))) {
     const workflow = yaml.load(fs.readFileSync(path.join(directory, file), 'utf8'))
     if (!workflow?.on || !Object.hasOwn(workflow.on, 'push')) continue
@@ -640,6 +1106,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     [/checkpoint-stage-paths\.js" select/, 'checkpoint publisher must select stageable manifest paths'],
     [/--pathspec-from-file="\$stage_paths_file"[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
     [/checkpoint-stage-paths\.js" verify/, 'checkpoint publisher must verify staged manifest scope'],
+    [/docs-validation\.XXXXXX/, 'checkpoint publisher must validate with pinned tooling'],
+    [/restore-generated-state\.sh" --exact --ref "\$target_sha"/, 'checkpoint publisher must materialize the exact target state for validation'],
+    [/cd "\$validation_worktree" && bash -o errexit/, 'checkpoint publisher must run validation in the pinned tooling worktree'],
   ]) {
     if (!pattern.test(publisherSource)) errors.push(`publish-checkpoint.sh: ${message}`)
   }

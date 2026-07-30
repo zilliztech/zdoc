@@ -1,0 +1,11 @@
+{
+  "overrideCategories": {
+    "Authentication": { "customProps": { "icon": "auth"            } },
+    "Client":         { "customProps": { "icon": "client-code"     } },
+    "Collections":    { "customProps": { "icon": "collections-ref" } },
+    "Database":       { "customProps": { "icon": "db-ref"          } },
+    "Management":     { "customProps": { "icon": "mgmt"            } },
+    "Partitions":     { "customProps": { "icon": "partition"       } },
+    "Vector":         { "customProps": { "icon": "vector-ref"      } }
+  }
+}

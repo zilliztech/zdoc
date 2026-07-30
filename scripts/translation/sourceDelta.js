@@ -5,7 +5,15 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { getGroupPaths } = require('../docs-workflow/group-paths')
 
-const I18N_ROOT = 'i18n/ja-JP'
+const TARGET_MAPPINGS = Object.freeze({
+  'ja-JP': [
+    ['content/en/guides/tutorials', 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'],
+    ['content/en/byoc/tutorials', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'],
+    ['content/en/reference', 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current'],
+  ],
+  'zh-CN-reference': [['content/en/reference', 'content/zh-CN/reference']],
+  'zh-CN-tools': [['content/en/guides/tutorials/tools', 'content/zh-CN/guides/tutorials/tools']],
+})
 
 function normalizeRelativePath(filePath) {
   if (typeof filePath !== 'string' || !filePath || path.isAbsolute(filePath)) {
@@ -19,15 +27,15 @@ function normalizeRelativePath(filePath) {
 }
 
 function mapEnglishToI18nPath(filePath) {
+  return mapSourcePathForTarget('ja-JP', filePath)
+}
+
+function mapSourcePathForTarget(target, filePath) {
   const normalized = normalizeRelativePath(filePath)
-  if (normalized.startsWith('docs/tutorials/')) {
-    return `${I18N_ROOT}/docusaurus-plugin-content-docs/current/${normalized.slice('docs/'.length)}`
-  }
-  if (normalized.startsWith('docs-byoc/tutorials/')) {
-    return `${I18N_ROOT}/docusaurus-plugin-content-docs-byoc/current/${normalized.slice('docs-byoc/'.length)}`
-  }
-  if (normalized.startsWith('reference/')) {
-    return `${I18N_ROOT}/docusaurus-plugin-content-docs-reference/current/${normalized.slice('reference/'.length)}`
+  const mappings = TARGET_MAPPINGS[target]
+  if (!mappings) throw new Error(`Unknown translation target: ${target}`)
+  for (const [sourceRoot, targetRoot] of mappings) {
+    if (normalized.startsWith(`${sourceRoot}/`)) return `${targetRoot}/${normalized.slice(sourceRoot.length + 1)}`
   }
   return null
 }
@@ -55,14 +63,16 @@ function isOwnedPath(filePath, ownedPrefixes) {
   return ownedPrefixes.some(prefix => filePath === prefix || filePath.startsWith(`${prefix}/`))
 }
 
-function classifySourceDelta({ group, changes }) {
+function classifySourceDelta({ group, target = 'ja-JP', changes }) {
   if (!Array.isArray(changes)) throw new Error('Source changes must be an array')
-  const ownedPrefixes = getGroupPaths(group).englishOutputs.filter(prefix => (
-    prefix === 'docs' || prefix === 'docs-byoc' || prefix.startsWith('reference/')
-  ))
+  const ownedPrefixes = target === 'ja-JP'
+    ? getGroupPaths(group).englishOutputs.filter(prefix => prefix.startsWith('content/en/'))
+    : TARGET_MAPPINGS[target]?.map(([sourceRoot]) => sourceRoot)
+  if (!ownedPrefixes) throw new Error(`Unknown translation target: ${target}`)
   const changedEnglish = new Set()
   const deletedI18n = new Set()
   const renamed = []
+  const retirementCandidates = []
 
   for (const change of changes) {
     if (/^R\d{1,3}$/.test(change.status || '')) {
@@ -70,11 +80,12 @@ function classifySourceDelta({ group, changes }) {
       const newPath = normalizeRelativePath(change.newPath)
       const oldOwned = isOwnedPath(oldPath, ownedPrefixes)
       const newOwned = isOwnedPath(newPath, ownedPrefixes)
-      const oldI18nPath = oldOwned ? mapEnglishToI18nPath(oldPath) : null
-      const newI18nPath = newOwned ? mapEnglishToI18nPath(newPath) : null
-      if (oldI18nPath) deletedI18n.add(oldI18nPath)
+      const oldI18nPath = oldOwned ? mapSourcePathForTarget(target, oldPath) : null
+      const newI18nPath = newOwned ? mapSourcePathForTarget(target, newPath) : null
+      if (oldI18nPath && target === 'ja-JP') deletedI18n.add(oldI18nPath)
+      if (oldI18nPath && target !== 'ja-JP') retirementCandidates.push({sourcePath: oldPath, targetPath: oldI18nPath, reason: 'source_renamed'})
       if (newI18nPath) changedEnglish.add(newPath)
-      if (oldI18nPath && newI18nPath) {
+      if (target === 'ja-JP' && oldI18nPath && newI18nPath) {
         renamed.push({ oldPath, newPath, oldI18nPath, newI18nPath })
       }
       continue
@@ -85,9 +96,10 @@ function classifySourceDelta({ group, changes }) {
     }
     const filePath = normalizeRelativePath(change.path)
     if (!isOwnedPath(filePath, ownedPrefixes)) continue
-    const i18nPath = mapEnglishToI18nPath(filePath)
+    const i18nPath = mapSourcePathForTarget(target, filePath)
     if (!i18nPath) continue
-    if (change.status === 'D') deletedI18n.add(i18nPath)
+    if (change.status === 'D' && target === 'ja-JP') deletedI18n.add(i18nPath)
+    else if (change.status === 'D') retirementCandidates.push({sourcePath: filePath, targetPath: i18nPath, reason: 'source_deleted'})
     else changedEnglish.add(filePath)
   }
 
@@ -96,6 +108,7 @@ function classifySourceDelta({ group, changes }) {
     changedEnglish: [...changedEnglish].sort(),
     deletedI18n: [...deletedI18n].sort(),
     renamed: renamed.sort((a, b) => a.oldPath.localeCompare(b.oldPath) || a.newPath.localeCompare(b.newPath)),
+    retirementCandidates: retirementCandidates.sort((a, b) => a.sourcePath.localeCompare(b.sourcePath)),
   }
 }
 
@@ -118,7 +131,7 @@ function parseArgs(argv) {
 function main() {
   const args = parseArgs(process.argv.slice(2))
   const changes = parseGitNameStatus(fs.readFileSync(args.get('--name-status'), 'utf8'))
-  const delta = classifySourceDelta({ group: args.get('--group'), changes })
+  const delta = classifySourceDelta({ group: args.get('--group'), target: args.get('--target') || 'ja-JP', changes })
   const output = path.resolve(args.get('--output'))
   fs.mkdirSync(path.dirname(output), { recursive: true })
   fs.writeFileSync(output, `${JSON.stringify(delta, null, 2)}\n`, 'utf8')
@@ -134,4 +147,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { classifySourceDelta, mapEnglishToI18nPath, parseGitNameStatus }
+module.exports = { classifySourceDelta, mapEnglishToI18nPath, mapSourcePathForTarget, parseGitNameStatus }

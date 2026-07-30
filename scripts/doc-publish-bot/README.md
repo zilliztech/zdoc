@@ -56,7 +56,7 @@ JENKINS_TOKEN="your-jenkins-api-token"
 Docusaurus Feishu fetch/build execution:
 
 ```dotenv
-# Required by plugins/lark-docs when fetch-lark-docs talks to Feishu OpenAPI.
+# Required by packages/docs-tooling/src/lark when fetch-lark-docs talks to Feishu OpenAPI.
 FEISHU_HOST="https://open.feishu.cn"
 APP_ID="cli_xxx"
 APP_SECRET="xxx"

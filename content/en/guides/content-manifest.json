@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "site": "en",
+  "plugin": "default",
+  "source": {
+    "repository": "zdoc",
+    "legacyPath": "docs",
+    "commit": "08425bedcf7af6ac9bdf375a162a526452b94295",
+    "treeId": "9804a861ea57112105878d81c9f26bcb6e8c374c"
+  },
+  "inventory": {
+    "trackedFileCount": 362,
+    "gitLsTreeSha256": "c157bfe590a1136d843f3177b39cc2c955dbe83fbb213d34188ed72756fea6a1"
+  }
+}

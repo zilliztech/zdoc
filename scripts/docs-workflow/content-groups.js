@@ -1,57 +1,34 @@
 'use strict';
 
-const GROUP_ORDER = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
+const { loadTypeScript } = require('../lib/load-typescript');
+const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts');
+const {
+  canonicalPublicationGroupForManual,
+  listPublicationGroups,
+  resolvePublicationGroupWorkflow,
+} = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts');
 
-function deepFreeze(value) {
-  for (const child of Object.values(value)) {
-    if (child && typeof child === 'object') deepFreeze(child);
-  }
-  return Object.freeze(value);
-}
+const REFERENCE_LANDING_PATHS = Object.freeze([
+  'content/en/reference/api/python/python/python.md',
+  'content/en/reference/api/java/java/java.md',
+  'content/en/reference/api/nodejs/nodejs/nodejs.md',
+  'content/en/reference/api/go/go/go.md',
+  'content/en/reference/cli/cli/Overview.md',
+]);
 
-const CONTENT_GROUPS = deepFreeze({
-  guides: {
-    manuals: ['guides'], snapshotManual: 'guides', translate: true, durableTranslationBatchSize: 30,
-    ownedPaths: ['docs', 'docs-byoc', 'config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json', 'plugins/lark-docs/meta/assembly/guides.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md', 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'],
-    commitMessage: 'docs(guides): publish fetched content',
-  },
-  python: {
-    manuals: ['python', 'pymilvus25', 'pymilvus26', 'pymilvus30'], snapshotManual: 'pymilvus30', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/python/python', 'config/generated/python.sidebar.js', 'plugins/lark-docs/meta/snapshots/pymilvus30-uat-last-success.json'],
-    commitMessage: 'docs(python): publish SDK reference',
-  },
-  java: {
-    manuals: ['javaV2', 'javaV225', 'javaV226', 'javaV230'], snapshotManual: 'javaV230', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/java/java/v2', 'reference/api/java/java/java.md', 'config/generated/java.sidebar.js', 'plugins/lark-docs/meta/snapshots/javaV230-uat-last-success.json'],
-    commitMessage: 'docs(java): publish SDK reference',
-  },
-  node: {
-    manuals: ['node', 'nodejs25', 'nodejs26', 'nodejs30'], snapshotManual: 'nodejs30', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/nodejs/nodejs', 'config/generated/node.sidebar.js', 'plugins/lark-docs/meta/snapshots/nodejs30-uat-last-success.json'],
-    commitMessage: 'docs(node): publish SDK reference',
-  },
-  go: {
-    manuals: ['gov226', 'gov230'], snapshotManual: 'gov230', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/go/go/v2', 'reference/api/go/go/go.md', 'config/generated/go.sidebar.js', 'plugins/lark-docs/meta/snapshots/gov230-uat-last-success.json'],
-    commitMessage: 'docs(go): publish SDK reference',
-  },
-  cli: {
-    manuals: ['cliv13', 'cliv14'], snapshotManual: 'cliv14', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/cli/cli', 'config/generated/cli.sidebar.js', 'plugins/lark-docs/meta/snapshots/cliv14-uat-last-success.json'],
-    commitMessage: 'docs(cli): publish CLI reference',
-  },
-  rest: {
-    manuals: [], snapshotManual: null, translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/restful/restful', 'config/generated/restful.sidebar.js'],
-    commitMessage: 'docs(rest): publish REST reference',
-  },
+const REFERENCE_LANDINGS_GROUP = Object.freeze({
+  site: 'en',
+  manuals: Object.freeze([]),
+  snapshotManual: 'reference-landings',
+  translate: true,
+  durableTranslationBatchSize: 0,
+  ownedPaths: REFERENCE_LANDING_PATHS,
+  forceTranslationPaths: REFERENCE_LANDING_PATHS,
+  preservedPaths: Object.freeze([]),
+  protectedPaths: Object.freeze([]),
+  publicationManifest: null,
+  commitMessage: 'i18n(zh-CN): complete reference landing pages',
 });
-
-for (const [name, group] of Object.entries(CONTENT_GROUPS)) {
-  if (!Number.isInteger(group.durableTranslationBatchSize) || group.durableTranslationBatchSize < 0) {
-    throw new Error(`Invalid durable translation batch size for ${name}`);
-  }
-}
 
 function normalizeOwnershipPath(path) {
   if (typeof path !== 'string' || path === '' || path.startsWith('/') || path.endsWith('/')) {
@@ -79,17 +56,40 @@ function validateDisjointOwnership(groups) {
   }
 }
 
-function listContentGroups() {
-  return GROUP_ORDER;
+function defaultSite() {
+  return resolveBootstrapSite(undefined);
 }
 
-function getContentGroup(name) {
-  if (!Object.hasOwn(CONTENT_GROUPS, name)) throw new Error(`Unknown content group: ${name}`);
-  return CONTENT_GROUPS[name];
+function listContentGroups(site = defaultSite()) {
+  return listPublicationGroups(site);
 }
 
-function assertDisjointOwnership() {
-  validateDisjointOwnership(Object.fromEntries(GROUP_ORDER.map((name) => [name, CONTENT_GROUPS[name].ownedPaths])));
+function getContentGroup(name, site = defaultSite()) {
+  if (site === 'en' && name === 'reference-landings') return REFERENCE_LANDINGS_GROUP;
+  const workflow = resolvePublicationGroupWorkflow(site, name);
+  return Object.freeze({
+    site,
+    manuals: workflow.sourceManuals,
+    sourceSnapshots: workflow.sourceSnapshots,
+    snapshotManual: workflow.snapshotManual,
+    translate: workflow.translate,
+    durableTranslationBatchSize: workflow.durableTranslationBatchSize,
+    ownedPaths: workflow.checkpointPaths,
+    preservedPaths: workflow.preservedPaths,
+    protectedPaths: workflow.group.protectedPaths || Object.freeze([]),
+    publicationManifest: workflow.group.publicationManifest || null,
+    commitMessage: workflow.commitMessage,
+  });
 }
 
-module.exports = { assertDisjointOwnership, getContentGroup, listContentGroups, validateDisjointOwnership };
+function assertDisjointOwnership(site = defaultSite()) {
+  validateDisjointOwnership(Object.fromEntries(listContentGroups(site).map((name) => [name, resolvePublicationGroupWorkflow(site, name).group.ownedPaths])));
+}
+
+module.exports = {
+  assertDisjointOwnership,
+  canonicalPublicationGroupForManual,
+  getContentGroup,
+  listContentGroups,
+  validateDisjointOwnership,
+};

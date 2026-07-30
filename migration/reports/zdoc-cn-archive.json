@@ -1,0 +1,150 @@
+{
+  "bundle": {
+    "command": "git -C ../../../../zdoc_cn bundle create \"$PWD/.claude/archives/zdoc-cn-pre-merge.bundle\" HEAD refs/remotes/origin/master refs/remotes/origin/dev '--glob=refs/remotes/origin/v*' --tags",
+    "controlledArchiveLocation": ".claude/archives/zdoc-cn-pre-merge.bundle",
+    "fileMode": "0600",
+    "includedRefs": [
+      {
+        "ref": "HEAD",
+        "sha": "b1900473dddf8db2d56c11387211a7014b54c160"
+      },
+      {
+        "ref": "refs/remotes/origin/master",
+        "sha": "59bb13897f321864d51c120521844b7dcdfd2f98"
+      },
+      {
+        "ref": "refs/remotes/origin/dev",
+        "sha": "082ae21749868869cab136a57892129705906b16"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.10.0",
+        "sha": "6e654dee868c05a538579fc847dbddfb20f33b62"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.10.1",
+        "sha": "65f292eeb8a66f7929f366e24fa6352fff7fcaf1"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.11.0",
+        "sha": "aedc346dc5250805a232d0fbab322319b25cfdab"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.11.1",
+        "sha": "f6f0bceb7cd8e11aaadf8c8f174c2076543032a0"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.12.0",
+        "sha": "2cfefd5cc296acbc179f0ccefdb40a9d274a3995"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.13.0",
+        "sha": "55b83d43e06b68c52490ec89551f76c0c55ff0c4"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.13.1",
+        "sha": "d0922d5d32204cfd8318b0802664c7d7ae75a814"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.14.0",
+        "sha": "cd5e0e66f8e32097a6c365bb05dca484ed2db3ea"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.15.0",
+        "sha": "63563a820d1953df482861ab0a9361f9e1656d77"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.16.0",
+        "sha": "1ee86a1935d1c718d15b421af6b6a534f450cce9"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.17.0",
+        "sha": "6c11dd47eec85f4d5f04aa0d4d35dcb9104d971e"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.18.0",
+        "sha": "017a91b3577e0be9ebca517e768ea1087ceb0c14"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.19.0",
+        "sha": "e2013227f1a624378eadfd0cdea12444265c3da0"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.20.0",
+        "sha": "265a9b2e0a56aef04412ca11be14d49b05a37c7b"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.21.0",
+        "sha": "50132dfe2cb6421db0f52ffbd9fc36aaaf960194"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.22.0",
+        "sha": "01206354f6784e43b94d557730ffee9541b82200"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.23.0",
+        "sha": "76ca5de9adf6fd1d7263a2e12e96b0db6aacf7e0"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.24.0",
+        "sha": "8551660bea7cdf4ff96ee43f8f3d517fe12f32a3"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.25.1",
+        "sha": "952e432ea44479a8ffabaa9bf0a1976f015e3951"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.25.3",
+        "sha": "b04b7d1848250e0ba0677128410902976a3e7d24"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.25.4",
+        "sha": "96b2c7c584036c15f93e44d794b16e8d65e70b38"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.8.0",
+        "sha": "84f2d7700e8afb4c2e07c7f5f22d476a0836e80b"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.9.0",
+        "sha": "18683858bae949c032384880d6897c3f41f843fd"
+      },
+      {
+        "ref": "refs/remotes/origin/v2.9.1",
+        "sha": "c72f0daf4fd79506dec23f56ee1f12a9a572e288"
+      },
+      {
+        "ref": "refs/remotes/origin/v3.0.0",
+        "sha": "2e6f11c6cd618f3e5adf0194cfd24f89277213bf"
+      }
+    ],
+    "refPolicy": {
+      "excluded": [
+        "local branches",
+        "refs/stash",
+        "temporary translation and fix branches",
+        "worktree refs"
+      ],
+      "included": [
+        "HEAD",
+        "refs/remotes/origin/master",
+        "refs/remotes/origin/dev",
+        "refs/remotes/origin/v*",
+        "refs/tags/*"
+      ]
+    },
+    "requiredActionBeforeRetirement": "Copy this bundle to approved immutable archival storage and verify its SHA-256 before retiring zdoc_cn.",
+    "retentionClass": "local-protected-staging",
+    "sha256": "56cfb5d87da352e31b2d84451c299c8beaa1f0729bce4e72daa0ff80fb874e44",
+    "verification": {
+      "command": "git bundle verify .claude/archives/zdoc-cn-pre-merge.bundle",
+      "exitStatus": 0,
+      "listHeadsCommand": "git bundle list-heads .claude/archives/zdoc-cn-pre-merge.bundle",
+      "result": "The bundle is okay; it records a complete history and contains exactly 28 approved refs."
+    }
+  },
+  "source": {
+    "sourceHead": "b1900473dddf8db2d56c11387211a7014b54c160",
+    "sourceHeadIncluded": true,
+    "sourceUrl": "https://github.com/zilliztech/zdoc_cn.git"
+  }
+}

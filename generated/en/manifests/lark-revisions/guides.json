@@ -1,0 +1,3366 @@
+{
+  "schemaVersion": 1,
+  "group": "guides",
+  "complete": true,
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "sourceRunId": "clean-room-seed",
+  "records": [
+    {
+      "canonicalToken": "A33MwQX84iXyQNkzopece3oenye",
+      "title": "Managed Volumes",
+      "contentPath": null,
+      "objectToken": "IQ0UdsCwboRXzkxPsnXcbWCtnwd",
+      "parentToken": "ExhcwMGPEiFysQkk37kcj4Q0nQg",
+      "revisionId": null,
+      "objectEditTime": "1783589998"
+    },
+    {
+      "canonicalToken": "A3YdwRQwoiDLfkkPbwOcEOr3nLe",
+      "title": "Manage Invoices",
+      "contentPath": null,
+      "objectToken": "XiWXdYo16oue5OxWDC4ckzyVnKc",
+      "parentToken": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+      "revisionId": null,
+      "objectEditTime": "1782375002"
+    },
+    {
+      "canonicalToken": "A5lpwIZcZiTLqakdt6rcCmPcnEe",
+      "title": "Release Notes (Dec 11, 2023)",
+      "contentPath": null,
+      "objectToken": "AQXPdm3KWoACwPxjgxuc3sypnve",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591172"
+    },
+    {
+      "canonicalToken": "A6q4wqxGViorDmkD5iKcoDBOnRh",
+      "title": "Zilliz Claude Code Plugin Capabilities",
+      "contentPath": null,
+      "objectToken": "DOirdHmReoBqJxxFYSzcS9gAn9g",
+      "parentToken": "LFepwAKeGiURJUksNA4cqYPYnIb",
+      "revisionId": null,
+      "objectEditTime": "1776246390"
+    },
+    {
+      "canonicalToken": "A9lowWdneiCQbZkgwrocKkT2nxW",
+      "title": "Alter External Collection Schema",
+      "contentPath": null,
+      "objectToken": "NGnLd0n7ToK4J9xwgCEcFdZQnWe",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782181060"
+    },
+    {
+      "canonicalToken": "AAqUwQW3qia3akkjfDNc0kwanlh",
+      "title": "Manage Organization Settings",
+      "contentPath": null,
+      "objectToken": "PMp4d1c9DobrZzx3fOccneK9nRg",
+      "parentToken": "Dh6vwCrzYimC7skvDRUcvPi4n2c",
+      "revisionId": null,
+      "objectEditTime": "1783589786"
+    },
+    {
+      "canonicalToken": "AICcwQ55yiNqEPkjdV6cb2i8nqe",
+      "title": "Global Cluster Explained",
+      "contentPath": null,
+      "objectToken": "SSa0dxdndovYT0xa1DvcK9y2nbb",
+      "parentToken": "VKMNwpMl0idY2nkEntncL9hTncb",
+      "revisionId": null,
+      "objectEditTime": "1783589264"
+    },
+    {
+      "canonicalToken": "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
+      "title": "Filtering Explained",
+      "contentPath": null,
+      "objectToken": "JyDedHtZSoO8okxbPQMciWQbnWe",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1783501485"
+    },
+    {
+      "canonicalToken": "ANK0wJQ8DibXxIkpYDEcScMHnYe",
+      "title": "Search",
+      "contentPath": null,
+      "objectToken": "Aeupd4mezofFerxOhFAcvEIpnJg",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773827248"
+    },
+    {
+      "canonicalToken": "ARalwpaVDiCwDZkoSHtcPNgXnRg",
+      "title": "Dense Vector",
+      "contentPath": null,
+      "objectToken": "OKiOdVU6yoVH9cxPZhrchKRPnac",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1778745159"
+    },
+    {
+      "canonicalToken": "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
+      "title": "Manage Notification Channels",
+      "contentPath": null,
+      "objectToken": "EZFWdEgJdouilgxgpXhctZdEneg",
+      "parentToken": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+      "revisionId": null,
+      "objectEditTime": "1778314622"
+    },
+    {
+      "canonicalToken": "Ah0DwMIWsilLa4kVbYocJGCMnlh",
+      "title": "Prepare for Cluster Connection",
+      "contentPath": null,
+      "objectToken": "Dck6ddscmoRzbJxMsvccC51JnGS",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1782116427"
+    },
+    {
+      "canonicalToken": "AhAhw08MFiB9OpkDjbPcVUTVnlg",
+      "title": "Lowercase",
+      "contentPath": null,
+      "objectToken": "Gb3ZdUJlLoKFPVxw5khcUueJnRg",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1768809662"
+    },
+    {
+      "canonicalToken": "AwmtwHGQii1j9Wk1W04cNxvBnth",
+      "title": "Regex",
+      "contentPath": null,
+      "objectToken": "HG9sdiutroGrwhxDzssclx4MnMf",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1768809823"
+    },
+    {
+      "canonicalToken": "B1XTwQgNRizAMTkZQvrclGSonyc",
+      "title": "Quickstart to Serving Cluster",
+      "contentPath": null,
+      "objectToken": "UFOrdNdE6oC2rExn6LlcAJtonlb",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1778838368"
+    },
+    {
+      "canonicalToken": "B1cSwfWcri4VJLkCR20cHIs6nCf",
+      "title": "Integrate with Model Providers",
+      "contentPath": null,
+      "objectToken": "YQgdd9MMDoY35Yx2wZ5chOAwn9g",
+      "parentToken": "LykvwFyJCiloeQk2WmGce2s8nZg",
+      "revisionId": null,
+      "objectEditTime": "1783589304"
+    },
+    {
+      "canonicalToken": "B7SFwbn76iUM06kkYzBcffE8nYf",
+      "title": "Database Explained",
+      "contentPath": null,
+      "objectToken": "RmODdyutSoYnaTxf9zucAsdjnAe",
+      "parentToken": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "revisionId": null,
+      "objectEditTime": "1781247988"
+    },
+    {
+      "canonicalToken": "BClgwKlHaiushBkPPssclTkYnef",
+      "title": "Data Transfer Cost",
+      "contentPath": null,
+      "objectToken": "Ue5Cdr43SoQR0Ox2ZiycA1tknmc",
+      "parentToken": "PuQOwUaY5irgTrk0V10cNdHUned",
+      "revisionId": null,
+      "objectEditTime": "1783588536"
+    },
+    {
+      "canonicalToken": "BJCjwpj8JizP0nkI11uci1pPndh",
+      "title": "Lexical Highlighter",
+      "contentPath": null,
+      "objectToken": "HAr1d9yVroaasfx3TElctcEHnUc",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778683249"
+    },
+    {
+      "canonicalToken": "BRsZwqOUTiBbrPk9b5WcvFgTnze",
+      "title": "API Keys",
+      "contentPath": null,
+      "objectToken": "NFwhdPnr9oEO3axVHOqcHq2xn3g",
+      "parentToken": "XiOsw8A3eibZInk1aJNceBqznLb",
+      "revisionId": null,
+      "objectEditTime": "1782885337"
+    },
+    {
+      "canonicalToken": "BTrNwoEfYii1e9kf0BScWDpcnA2",
+      "title": "Connect for On-Demand Search",
+      "contentPath": null,
+      "objectToken": "EZNKd6sP5oyCc8xOpmgcIy3Pnfd",
+      "parentToken": "YIJlw9EUpit195kOx5GcYvHCn1e",
+      "revisionId": null,
+      "objectEditTime": "1783301996"
+    },
+    {
+      "canonicalToken": "BX6iwjUzLi7udfksJoxc7jK1nsW",
+      "title": "Terraform Provider",
+      "contentPath": null,
+      "objectToken": "LxBgdCtyPolHupxWlQpcOWrVnSb",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1774227231"
+    },
+    {
+      "canonicalToken": "BYtDwHuOXiG7imkyIjHcWa6fnlb",
+      "title": "MINHASH_LSH",
+      "contentPath": null,
+      "objectToken": "FLW5dEmIboer6QxxVZdcTwLYnrh",
+      "parentToken": "FqFNw9gKdiLpEkkoW16cYMWgnIc",
+      "revisionId": null,
+      "objectEditTime": "1778554479"
+    },
+    {
+      "canonicalToken": "BZkiw99tkiDkLXktLhqcJtjKnmb",
+      "title": "Alphanumonly",
+      "contentPath": null,
+      "objectToken": "OpoPdcwfzo7aMTx1f07czQ0inDf",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1782953342"
+    },
+    {
+      "canonicalToken": "BaGlwzDmyiyVvVk6NurcFclInCd",
+      "title": "Basic Vector Search",
+      "contentPath": null,
+      "objectToken": "KfBAdtbyPoi3kQx19S3cxqhznYd",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1783606575"
+    },
+    {
+      "canonicalToken": "BcXMwUYQ3iD7mEkWKFhcU5PUnB5",
+      "title": "Release Notes (June 11, 2023)",
+      "contentPath": null,
+      "objectToken": "KbxTdLFppoDxuIxSiv4cCLIpnF8",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783606650"
+    },
+    {
+      "canonicalToken": "BcjLwmXTni1fiMkkyx9ct5iWngc",
+      "title": "On-Demand DQL Operations",
+      "contentPath": null,
+      "objectToken": "Gte9dqWrsojz9KxqhYNcgEUbnQc",
+      "parentToken": "GcmOwHsHeiNXxpkfSTIckG5Znmc",
+      "revisionId": null,
+      "objectEditTime": "1782116450"
+    },
+    {
+      "canonicalToken": "BjHZwBkk0iFScik49QMc1Wwjndb",
+      "title": "Data Import Hands-On",
+      "contentPath": null,
+      "objectToken": "TXlrdXzlPokEQ5xnA30c93SLnMc",
+      "parentToken": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "revisionId": null,
+      "objectEditTime": "1780611316"
+    },
+    {
+      "canonicalToken": "BnYLwepruiGNpwkJfBHcdrrOnOh",
+      "title": "Multi-language Analyzers",
+      "contentPath": null,
+      "objectToken": "GLVKdDTWPoBx5HxQwDJccgLjnyb",
+      "parentToken": "Cou4wUDwti8G0FkibG4cFNRNnre",
+      "revisionId": null,
+      "objectEditTime": "1768809863"
+    },
+    {
+      "canonicalToken": "ByBTwOfgIie7e2k090Mc1EPknSf",
+      "title": "Manual Scaling",
+      "contentPath": null,
+      "objectToken": "XGzmdHIfQoRkPzxPd2bczRehnPe",
+      "parentToken": "JFU0w6Ez4iAmOIkjT62cse1unaf",
+      "revisionId": null,
+      "objectEditTime": "1781514078"
+    },
+    {
+      "canonicalToken": "ByJbwcpoCiBkDckR3VCcC4LTneg",
+      "title": "Random Sampling",
+      "contentPath": null,
+      "objectToken": "Rz2PdlIMko4mr7x8mymc79QOn6g",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1778683437"
+    },
+    {
+      "canonicalToken": "C94rw7r38ij0eCkvQKBcEFJ1n0e",
+      "title": "Configure a Customer-Managed VPC on GCP",
+      "contentPath": null,
+      "objectToken": "Q1WTdH09poYBiax68ZBckXSTnme",
+      "parentToken": "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+      "revisionId": null,
+      "objectEditTime": "1782097620"
+    },
+    {
+      "canonicalToken": "CEJrwt9sYizQgtkPlBBcJXvRnff",
+      "title": "Zilliz to Zilliz Migrations",
+      "contentPath": null,
+      "objectToken": "DwEBd1HK4oaOisxGTCTc8VDun7g",
+      "parentToken": "IeNswy8ySiutKAkdphRc4lfynsf",
+      "revisionId": null,
+      "objectEditTime": "1774230376"
+    },
+    {
+      "canonicalToken": "CK0ewQWC2iz6lakP0kscqogbnGh",
+      "title": " November 2025 Release Notes ",
+      "contentPath": null,
+      "objectToken": "Z5tbd2caioQYaoxnLipcwrQWn18",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783590793"
+    },
+    {
+      "canonicalToken": "CPLrwghdWiSvGBkdeEecGjgLnSb",
+      "title": "Cloud Providers & Regions",
+      "contentPath": null,
+      "objectToken": "BVoCd10pyoJDsnx1L7dc16kqnQf",
+      "parentToken": "NM2OwCcfVijX8DkNsIxcdajEnr7",
+      "revisionId": null,
+      "objectEditTime": "1783427321"
+    },
+    {
+      "canonicalToken": "CUuywySLVil4MKkmYZecUl9snLg",
+      "title": "July 2026 Release Notes",
+      "contentPath": null,
+      "objectToken": "S98WdJWM9oCrYjxDf4lcbfx9nye",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783418004"
+    },
+    {
+      "canonicalToken": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+      "title": "Manage Cluster Users (Console)",
+      "contentPath": null,
+      "objectToken": "Oip4diTSTojb5vxLMSocJj8qngg",
+      "parentToken": "UEFXwAUL4icMjMkUej9cqncJncd",
+      "revisionId": null,
+      "objectEditTime": "1782807543"
+    },
+    {
+      "canonicalToken": "CemEwKryciMUepkgYWZcOw6wncb",
+      "title": "Load & Release",
+      "contentPath": null,
+      "objectToken": "KPzZdxbdUoHzUvxQ0EkcKSqDnfh",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1780625645"
+    },
+    {
+      "canonicalToken": "CiVHwbwPwipX5SkFkqVcLpESnfe",
+      "title": "Migrate from PostgreSQL to Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "J2Keds0bwoEKRFxp0fvc1guvnqg",
+      "parentToken": "OpQHwQrMki9brIkTsAGcq93Zndf",
+      "revisionId": null,
+      "objectEditTime": "1749116670"
+    },
+    {
+      "canonicalToken": "CmR5wFcybi3iMokOJBxcXDQcntg",
+      "title": "Manage Collections (Console)",
+      "contentPath": null,
+      "objectToken": "HNs5diDLEoqhobx5gMscnsF6nqc",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1782878814"
+    },
+    {
+      "canonicalToken": "CpBbwcJ87irHp0k9oCSc2RNIn3d",
+      "title": "Filtered Search",
+      "contentPath": null,
+      "objectToken": "XHMed32msofjsHxd69NcpG8tnhe",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1782116443"
+    },
+    {
+      "canonicalToken": "D1E4wLr5xiuHoFkJgblcHZ1FnLb",
+      "title": "Deploy BYOC-I on AWS",
+      "contentPath": null,
+      "objectToken": "SKzEdYYRZoIk1Txw0U2crAlknre",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1782099173"
+    },
+    {
+      "canonicalToken": "D2ctwKZhNilLY0ke1vpcHL62n5G",
+      "title": "Primary Field & AutoID",
+      "contentPath": null,
+      "objectToken": "DemEdrd16oc9NDxhudpcECjInRg",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1778745114"
+    },
+    {
+      "canonicalToken": "D7F1wYcfVinn92kK0l5cTZDLnLf",
+      "title": "Switchover and Failover",
+      "contentPath": null,
+      "objectToken": "FMUYd3kfzo6ZqHxWD8HcbN55noc",
+      "parentToken": "VKMNwpMl0idY2nkEntncL9hTncb",
+      "revisionId": null,
+      "objectEditTime": "1783322921"
+    },
+    {
+      "canonicalToken": "DAk8w3GCJiuUTTkms6IcMtnAnMf",
+      "title": "API Availability",
+      "contentPath": null,
+      "objectToken": "NBPSdPSgsohOoxx0qIjcIogmnsd",
+      "parentToken": "Tve5wxmTHio0LPk50jgcKHe1nWg",
+      "revisionId": null,
+      "objectEditTime": "1774230535"
+    },
+    {
+      "canonicalToken": "DDrHwdsb7idJa9kVU6zc2VwInBf",
+      "title": "Decompounder",
+      "contentPath": null,
+      "objectToken": "FKIidUQhBoWbl8xZhj1chQlUnIe",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1782954120"
+    },
+    {
+      "canonicalToken": "DEUuwEwM4iMLOikU7XpcpNnKnGd",
+      "title": "Drop Collection",
+      "contentPath": null,
+      "objectToken": "HMIjdIrgoomlVhxIRcgcqhfEnjh",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1779853538"
+    },
+    {
+      "canonicalToken": "DF8HwUTD6iScNQkVzs8cZTr8n8b",
+      "title": "Release Notes (June 9, 2025)",
+      "contentPath": null,
+      "objectToken": "UqiqdS7kHoiif6xHnggcYWExnfg",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591896"
+    },
+    {
+      "canonicalToken": "DMrCwn4LXi1uKBkbHGfcpGnsnyh",
+      "title": "Hosted Models",
+      "contentPath": null,
+      "objectToken": "TKQrdVKENoqB6FxnROuctn6InQb",
+      "parentToken": "SyvKwN1f9i40ypk4o7FcRBzJnRe",
+      "revisionId": null,
+      "objectEditTime": "1779182672"
+    },
+    {
+      "canonicalToken": "DW9wwFlgAiwOhBk2PgucY4URnke",
+      "title": "Manage Global Cluster",
+      "contentPath": null,
+      "objectToken": "AQx5dCzO9oJbJnxuRrLczKr1nGe",
+      "parentToken": "VKMNwpMl0idY2nkEntncL9hTncb",
+      "revisionId": null,
+      "objectEditTime": "1783589539"
+    },
+    {
+      "canonicalToken": "DbPIw4jLOiEabCk5uptc6EZ1nbf",
+      "title": "View Metric Charts",
+      "contentPath": null,
+      "objectToken": "O4OwdGeQbol46kxxjCEchNljnxh",
+      "parentToken": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+      "revisionId": null,
+      "objectEditTime": "1774324257"
+    },
+    {
+      "canonicalToken": "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
+      "title": "Restore from Backup Files",
+      "contentPath": null,
+      "objectToken": "H1DWdVmsroJYKVxa7GPc2H3lnSd",
+      "parentToken": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+      "revisionId": null,
+      "objectEditTime": "1781530063"
+    },
+    {
+      "canonicalToken": "Dh8MwFuZliYf9Wkhee3c1FhUnGd",
+      "title": "JSON Shredding",
+      "contentPath": null,
+      "objectToken": "Ca2FdCo1IodfC6xaz23cUS1nnpg",
+      "parentToken": "BkDMwo71MiZMazk7gbtc7fqknbh",
+      "revisionId": null,
+      "objectEditTime": "1762754648"
+    },
+    {
+      "canonicalToken": "Dj2NwrlqTiYlmDkwfAbcJNWSntd",
+      "title": "Tutorial: Implement Time-based Ranking",
+      "contentPath": null,
+      "objectToken": "PYmIdnRcpoFMzPx1q36cE6Pzn0b",
+      "parentToken": "HPP3wBq1xiuGWYk4QfKcZ2PrnHf",
+      "revisionId": null,
+      "objectEditTime": "1782116458"
+    },
+    {
+      "canonicalToken": "DjROwgK6ziCf7Rkoji6ccyEUnsg",
+      "title": "Nullable Fields",
+      "contentPath": null,
+      "objectToken": "UEP2dxP7doTNpnxdQAncsqRun6g",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1779782748"
+    },
+    {
+      "canonicalToken": "DknbwaLS3iAAiUk9ifPc1Vmvnze",
+      "title": "Connect to Global Cluster",
+      "contentPath": null,
+      "objectToken": "AZL3dJ2dQoSys4xvj9XcGetrnAc",
+      "parentToken": "VKMNwpMl0idY2nkEntncL9hTncb",
+      "revisionId": null,
+      "objectEditTime": "1783322916"
+    },
+    {
+      "canonicalToken": "DsqzwjegpiYSdtk1k75c1zXsnZc",
+      "title": "Deploy BYOC on AWS",
+      "contentPath": null,
+      "objectToken": "BasidbPSJo43wmxmtY5cJ7yun8f",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1781592792"
+    },
+    {
+      "canonicalToken": "DtLVw8EUyi6MqMkXh3Cc3rfZnic",
+      "title": "Database in Serving Clusters",
+      "contentPath": null,
+      "objectToken": "ERdpdFc0doLTcKx3jgjceav2nCB",
+      "parentToken": "BIy4we6qXiq8NpkHfXgcxuONngb",
+      "revisionId": null,
+      "objectEditTime": "1783592297"
+    },
+    {
+      "canonicalToken": "E1BCwXVouiDrtpkWp5ecvdXHnAb",
+      "title": "Set Up Console IP Allowlist",
+      "contentPath": null,
+      "objectToken": "RwPZdjECaoFvL9xb9fIcrzadnGd",
+      "parentToken": "WVcuwmMQ8iKlrKk7Kwacu9w1nCZ",
+      "revisionId": null,
+      "objectEditTime": "1783323851"
+    },
+    {
+      "canonicalToken": "E76ywex6GiUKUKkgbFAc95Q0nxe",
+      "title": "Release Notes (Feb 13, 2023)",
+      "contentPath": null,
+      "objectToken": "PmsGdYySzoWnyzxzIJqcvOk3nZd",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1719296926"
+    },
+    {
+      "canonicalToken": "EA2twSf5oiERMDkriKScU9GInc4",
+      "title": "AUTOINDEX Explained",
+      "contentPath": null,
+      "objectToken": "O6zRdbyXvoAH8jxCf7dcKSA1n7e",
+      "parentToken": "L4qDwChWLi1Vy6kbt30cd7W4ntC",
+      "revisionId": null,
+      "objectEditTime": "1773212172"
+    },
+    {
+      "canonicalToken": "EAwdw2ZbtiBKttk66FTctUebn7f",
+      "title": "MinHash Function",
+      "contentPath": null,
+      "objectToken": "SIgjdKQY7oGrQBxrZG8cQzBtnlb",
+      "parentToken": "SyvKwN1f9i40ypk4o7FcRBzJnRe",
+      "revisionId": null,
+      "objectEditTime": "1777277952"
+    },
+    {
+      "canonicalToken": "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
+      "title": "Basic Vector Search with StructArray",
+      "contentPath": null,
+      "objectToken": "GjW0dOBKio3khWx9qC7cnZtEncg",
+      "parentToken": "DGCFwPHDqijeJJklqTScLwUunrh",
+      "revisionId": null,
+      "objectEditTime": "1781684206"
+    },
+    {
+      "canonicalToken": "EHmOwLz5qi3tPDkb0gZcb5ExnJb",
+      "title": "Import from a JSON/JSON Lines File",
+      "contentPath": null,
+      "objectToken": "KVMadIrLxonAG2xgDBpcyk6znhH",
+      "parentToken": "MtGywZwmXiHg0AkJMavcWAtxnCg",
+      "revisionId": null,
+      "objectEditTime": "1768269810"
+    },
+    {
+      "canonicalToken": "EL8jwqHsPikz2okhYzXcuLscnhf",
+      "title": "Release Notes (May 15, 2024)",
+      "contentPath": null,
+      "objectToken": "K6E7dOgavoGWDAxEXFtc1I2Bnkb",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1760064668"
+    },
+    {
+      "canonicalToken": "EO58wVRLpiTBXQkceRjccN28nrh",
+      "title": "Free & Serverless Clusters",
+      "contentPath": null,
+      "objectToken": "Ty9kdYFWSocblmxWUvXcnckdngf",
+      "parentToken": "L8fuwpmhoiMgmlkw1jbc93yznxb",
+      "revisionId": null,
+      "objectEditTime": "1783484146"
+    },
+    {
+      "canonicalToken": "EOxmwUDxMiy2cpkOfIsc1dYzn4c",
+      "title": "Metric Types",
+      "contentPath": null,
+      "objectToken": "HHaZdtBvZopJB6x0zL5cYKMwnqf",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1764644723"
+    },
+    {
+      "canonicalToken": "ERIwwzvfuiLYIik9R4Ec0gCrnLb",
+      "title": "Required Permissions",
+      "contentPath": null,
+      "objectToken": "LSr2dQyttoL5y0xAWjJc81Tmn5c",
+      "parentToken": "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+      "revisionId": null,
+      "objectEditTime": "1749613324"
+    },
+    {
+      "canonicalToken": "ESVGwTkn8iLfUakSSrkc5dWJnye",
+      "title": "Cross-Region Backup",
+      "contentPath": null,
+      "objectToken": "Z265dsL60oohR6xFsRtcrrLmnXf",
+      "parentToken": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+      "revisionId": null,
+      "objectEditTime": "1783588381"
+    },
+    {
+      "canonicalToken": "EV41wG08BiOWW8kbo9xcTGoPnKd",
+      "title": "FAQs",
+      "contentPath": null,
+      "objectToken": "Ly6BdqdNooKWDhxejD8ckxaZnah",
+      "parentToken": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+      "revisionId": null,
+      "objectEditTime": "1783606727"
+    },
+    {
+      "canonicalToken": "EXj3wKsw8ijsqJk8uYPcmfXWn3g",
+      "title": "Zilliz Skill",
+      "contentPath": null,
+      "objectToken": "ZCDldbbN4oouYzx5u9vctFGAnDd",
+      "parentToken": "GEw3wMvvti0FoNk4194c4GHBn8d",
+      "revisionId": null,
+      "objectEditTime": "1779170289"
+    },
+    {
+      "canonicalToken": "EgovwOjveikizfkIk2Accq72nRh",
+      "title": "Enable Tiered Storage for Exisiting Clusters",
+      "contentPath": null,
+      "objectToken": "BGBHdCs30oqD48xawuecmm6Yn3b",
+      "parentToken": "DsqzwjegpiYSdtk1k75c1zXsnZc",
+      "revisionId": null,
+      "objectEditTime": "1780619753"
+    },
+    {
+      "canonicalToken": "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
+      "title": "Pinyin",
+      "contentPath": null,
+      "objectToken": "F2kIdydwZoyk4dx1Mu1cPiaNnRe",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1783061385"
+    },
+    {
+      "canonicalToken": "EmcowmwYpiFbWgkmnqfcMf3knVc",
+      "title": "Create a Collection",
+      "contentPath": null,
+      "objectToken": "Ei8mdoiEgou7ZexX4KjcbL8Qnhg",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1783523532"
+    },
+    {
+      "canonicalToken": "EqSpwh9BaiEISgkG5YVcDbCUnpe",
+      "title": "Hybrid Search with StructArray",
+      "contentPath": null,
+      "objectToken": "UMWCdhossoY0EcxclMJcBSRtnyK",
+      "parentToken": "DGCFwPHDqijeJJklqTScLwUunrh",
+      "revisionId": null,
+      "objectEditTime": "1781685540"
+    },
+    {
+      "canonicalToken": "EwArwXCOPip15hkSvvpciAMJnSe",
+      "title": "Boolean & Number",
+      "contentPath": null,
+      "objectToken": "JIaEdmQJToIf9LxMZGVczVatnMh",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782116433"
+    },
+    {
+      "canonicalToken": "Ex99woZlsico4FkfwxGckjRRnqf",
+      "title": "Integrate with Prometheus",
+      "contentPath": null,
+      "objectToken": "IH2ndzVI0os2kxxOoaRc67XOn3g",
+      "parentToken": "LykvwFyJCiloeQk2WmGce2s8nZg",
+      "revisionId": null,
+      "objectEditTime": "1776047557"
+    },
+    {
+      "canonicalToken": "F2QrwjFSziSUkJkyXzbcwovUnCg",
+      "title": "Whitespace",
+      "contentPath": null,
+      "objectToken": "XobrdPs0goDKcfxQE6scpCJtnSg",
+      "parentToken": "Zu6vw6Aifi1gvNkqqO5cDjmtngh",
+      "revisionId": null,
+      "objectEditTime": "1768809567"
+    },
+    {
+      "canonicalToken": "FDwgwyDbMi98nckzPxkc2qWynW4",
+      "title": "Zilliz Gemini CLI Extension",
+      "contentPath": null,
+      "objectToken": "Teo6dKKw3oR9fixyhuFcYuKfnYc",
+      "parentToken": "GEw3wMvvti0FoNk4194c4GHBn8d",
+      "revisionId": null,
+      "objectEditTime": "1776246484"
+    },
+    {
+      "canonicalToken": "FOamwIi07ia7kpkBPW8cEuIpniu",
+      "title": "AWS KMS",
+      "contentPath": null,
+      "objectToken": "GB6jdJqzBotOO7xnKFncz992nne",
+      "parentToken": "GLxhwO5vWiWkTBkoNCPcg4ahnbe",
+      "revisionId": null,
+      "objectEditTime": "1783324073"
+    },
+    {
+      "canonicalToken": "FOwZwuxaWiuthnkZdedcGbJOnZf",
+      "title": "Import from NumPy Files",
+      "contentPath": null,
+      "objectToken": "ZSzYdKhZyoiLrkxqlCUcAWW9nCe",
+      "parentToken": "MtGywZwmXiHg0AkJMavcWAtxnCg",
+      "revisionId": null,
+      "objectEditTime": "1768270082"
+    },
+    {
+      "canonicalToken": "FSUqwEEIii9k2sklkcLcIFJJnbf",
+      "title": "Release Notes (March 27, 2025)",
+      "contentPath": null,
+      "objectToken": "K1cRdEcQSoAPIhxrag8c1C3Wnke",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1767602482"
+    },
+    {
+      "canonicalToken": "Fb4Ywqocai1i56ktDT4cquNwnke",
+      "title": "Base Prompt",
+      "contentPath": null,
+      "objectToken": "Nhbad1A3CoBbBdxBeBzcoESpnJh",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773656290"
+    },
+    {
+      "canonicalToken": "FbVmwmuaei9WkIkIWJmcs3ManEd",
+      "title": "Exponential Decay",
+      "contentPath": null,
+      "objectToken": "AAQ1daHdrosZduxRaBvcirfSnUL",
+      "parentToken": "HPP3wBq1xiuGWYk4QfKcZ2PrnHf",
+      "revisionId": null,
+      "objectEditTime": "1768378626"
+    },
+    {
+      "canonicalToken": "Fd8EwsD0JiIt98kmps4c5wGlnrh",
+      "title": "Subscribe to a Private Offer on Google Cloud Marketplace",
+      "contentPath": null,
+      "objectToken": "CidxdGkD8og7hvxFfyRc0IBgnMe",
+      "parentToken": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+      "revisionId": null,
+      "objectEditTime": "1780637841"
+    },
+    {
+      "canonicalToken": "FnS1wY0iuia4qgkMycVclZyHnOf",
+      "title": "Set up Cluster IP Allowlist",
+      "contentPath": null,
+      "objectToken": "Om9Hda8pToMoTKxIsctcll0wnoe",
+      "parentToken": "WVcuwmMQ8iKlrKk7Kwacu9w1nCZ",
+      "revisionId": null,
+      "objectEditTime": "1782954512"
+    },
+    {
+      "canonicalToken": "Fz9swr5WwixkH8kKHircWCejnye",
+      "title": "Tune Recall Rate",
+      "contentPath": null,
+      "objectToken": "F5CUdPSEropBEYx6euicxxTbnYb",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1767527411"
+    },
+    {
+      "canonicalToken": "G39mw621Yi3iICkv69JcQ0J5nHf",
+      "title": "Gaussian Decay",
+      "contentPath": null,
+      "objectToken": "R4rxdJcGQokRo3xcHvtcY5EOnHd",
+      "parentToken": "HPP3wBq1xiuGWYk4QfKcZ2PrnHf",
+      "revisionId": null,
+      "objectEditTime": "1768378592"
+    },
+    {
+      "canonicalToken": "G6xpwyghRitwbqkwl86cpb3Gn2g",
+      "title": "Scale Global Cluster",
+      "contentPath": null,
+      "objectToken": "UbbNdkR0AoE8PHx19HJcHgnyn1b",
+      "parentToken": "VKMNwpMl0idY2nkEntncL9hTncb",
+      "revisionId": null,
+      "objectEditTime": "1783322927"
+    },
+    {
+      "canonicalToken": "GAX8wkC1QiTZhXkLBocc1GoTnke",
+      "title": "Standard Tokenizer",
+      "contentPath": null,
+      "objectToken": "ACwyd8KLfoqEhqxb54KcpY1bnqd",
+      "parentToken": "Zu6vw6Aifi1gvNkqqO5cDjmtngh",
+      "revisionId": null,
+      "objectEditTime": "1768809544"
+    },
+    {
+      "canonicalToken": "GBY6wbUmwi9lLjkXSuKccODgnne",
+      "title": "Set up a PrivateLink (AWS)",
+      "contentPath": null,
+      "objectToken": "ATrJd4CuLoDccQxyRa6cip5nnxg",
+      "parentToken": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
+      "revisionId": null,
+      "objectEditTime": "1783324512"
+    },
+    {
+      "canonicalToken": "GBfswoqhviHfTVk2qhHc4eGXnfh",
+      "title": "Audit Logs Cost",
+      "contentPath": null,
+      "objectToken": "M0Ygd8PLIoQG8Jx3YxBcwt3bngh",
+      "parentToken": "PuQOwUaY5irgTrk0V10cNdHUned",
+      "revisionId": null,
+      "objectEditTime": "1781064132"
+    },
+    {
+      "canonicalToken": "GBynwwkyBihIHukvJXfc76dMnth",
+      "title": "Text Field",
+      "contentPath": null,
+      "objectToken": "VMAudsNdxozJ5NxqYZDcejlgnZf",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782092707"
+    },
+    {
+      "canonicalToken": "GEw3wMvvti0FoNk4194c4GHBn8d",
+      "title": "Agents & Prompts",
+      "contentPath": null,
+      "objectToken": "VXRUdg7FVoXTuNxrNrecnXmAnVL",
+      "parentToken": "R8ZwwvHrJivIAyk8JkQchM0Anng",
+      "revisionId": null,
+      "objectEditTime": "1775092146"
+    },
+    {
+      "canonicalToken": "GLG4wi6zhisaxYkBkmacXqItnbJ",
+      "title": "Semantic Highlighter",
+      "contentPath": null,
+      "objectToken": "BCpHdcVSbo8sBfxslibcOZ0znwg",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1782116454"
+    },
+    {
+      "canonicalToken": "GLxhwO5vWiWkTBkoNCPcg4ahnbe",
+      "title": "Customer-Managed Encryption Keys",
+      "contentPath": null,
+      "objectToken": "QHPsdJ4UkoxpdTxt6S1clHqsnuf",
+      "parentToken": "HAF7wZny2ip5BRky4zmcK446nOe",
+      "revisionId": null,
+      "objectEditTime": "1783324067"
+    },
+    {
+      "canonicalToken": "GMdhwQQCRi2QaLkimNOcc3qNnbh",
+      "title": "Email Accounts",
+      "contentPath": null,
+      "objectToken": "FNlcdU22Loec6BxE8uEcjFK9npd",
+      "parentToken": "XiOsw8A3eibZInk1aJNceBqznLb",
+      "revisionId": null,
+      "objectEditTime": "1767852637"
+    },
+    {
+      "canonicalToken": "GOCJwJktXizGTXkRfCEc9GGLnsb",
+      "title": "Plan Cluster Scaling",
+      "contentPath": null,
+      "objectToken": "LjG7dxDRxoksMBxn6ITc81UsnVf",
+      "parentToken": "JFU0w6Ez4iAmOIkjT62cse1unaf",
+      "revisionId": null,
+      "objectEditTime": "1782984079"
+    },
+    {
+      "canonicalToken": "GQN0wDCrni4n36kyeVQcF41Lned",
+      "title": "Quickstart to On-Demand Search",
+      "contentPath": null,
+      "objectToken": "KaFedwfsXoaRXCx9S9Gc7NPSnph",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1783932867"
+    },
+    {
+      "canonicalToken": "GanXwLnJkiymKVkNPhecdi9MnGf",
+      "title": "Release Notes (June 18, 2024)",
+      "contentPath": null,
+      "objectToken": "VO0fd0rEuolo0YxtlQRcXMwLnab",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591841"
+    },
+    {
+      "canonicalToken": "GeaswUCLVi04xQkLl4vc7cbdnVh",
+      "title": "Create a Cross-Account Service Account",
+      "contentPath": null,
+      "objectToken": "RIUgdgUoDopNfjxLb0ZcMIMXnge",
+      "parentToken": "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+      "revisionId": null,
+      "objectEditTime": "1767924444"
+    },
+    {
+      "canonicalToken": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
+      "title": "Detailed Plan Comparison",
+      "contentPath": null,
+      "objectToken": "EvTZdgR6CoVhAQxSUK9cEdfsnOc",
+      "parentToken": "NM2OwCcfVijX8DkNsIxcdajEnr7",
+      "revisionId": null,
+      "objectEditTime": "1783588716"
+    },
+    {
+      "canonicalToken": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
+      "title": "Best Practices for Schema Design",
+      "contentPath": null,
+      "objectToken": "BKd9dlvIeoXVXaxylJAcL8mtn3f",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1777474509"
+    },
+    {
+      "canonicalToken": "GnvtwMeQWi8iRCk7dGccCBQZnOh",
+      "title": "Range Search",
+      "contentPath": null,
+      "objectToken": "M2pEdzqYDovkjjxnFpwceDQQnjb",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778746246"
+    },
+    {
+      "canonicalToken": "GqyhwKVspiYRwDk8OaucNfgJnhd",
+      "title": "Release Notes (Sept 13, 2023)",
+      "contentPath": null,
+      "objectToken": "CnzddJbT2ogdLSx90bxc9fImnPf",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1712140420"
+    },
+    {
+      "canonicalToken": "GthGwnrpEiGpClkV5JXcgWUgn8c",
+      "title": "Set Collection TTL",
+      "contentPath": null,
+      "objectToken": "DniFdKjCso54myxF5VCc8KkknPc",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1781594840"
+    },
+    {
+      "canonicalToken": "H2GHwE8umiuP6WkwjxPcQOfGn0e",
+      "title": "Geometry Field",
+      "contentPath": null,
+      "objectToken": "ArChdIZBKoRTe4xvSQRcPbq8nTc",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782954797"
+    },
+    {
+      "canonicalToken": "H8MVwnjdgihp0hkRHHKcjBe9n5e",
+      "title": "Analyzer Overview",
+      "contentPath": null,
+      "objectToken": "KDneddnS2o2TuexBxBMcJYvxn8d",
+      "parentToken": "Cou4wUDwti8G0FkibG4cFNRNnre",
+      "revisionId": null,
+      "objectEditTime": "1783062276"
+    },
+    {
+      "canonicalToken": "HDmKwGeGLi2P67kGdNXcigXDn3e",
+      "title": "Schedule Automatic Backups",
+      "contentPath": null,
+      "objectToken": "HakgdwcdWoXv2TxeVwJcmUE1nY2",
+      "parentToken": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+      "revisionId": null,
+      "objectEditTime": "1783592107"
+    },
+    {
+      "canonicalToken": "HHXewT7wTiM1zqkySjHcMNX5n9b",
+      "title": "Create Backup",
+      "contentPath": null,
+      "objectToken": "KIVMdxQvdo3hrqxasb4cbGmwncs",
+      "parentToken": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+      "revisionId": null,
+      "objectEditTime": "1783588296"
+    },
+    {
+      "canonicalToken": "HpbSwzS6kiW9gikHpQ0cUZLWnlc",
+      "title": "Feature Availability",
+      "contentPath": null,
+      "objectToken": "Kn9jdszHToOto8xuCuLcHcoOnff",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1783607192"
+    },
+    {
+      "canonicalToken": "HrWfwz48aizTXRkJ7eCc5kzAncR",
+      "title": "Resource Planning",
+      "contentPath": null,
+      "objectToken": "UlgfdXvB1os955xbAzFcQO0Enjf",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773366838"
+    },
+    {
+      "canonicalToken": "HriHwEU3qiQrgskz3a0cdkcpnyf",
+      "title": "Register with Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "FxijdMQtboTeKexlHbucfhyunCg",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1767755417"
+    },
+    {
+      "canonicalToken": "HwWfwN9SViqU0Ukcv68cufBAnBe",
+      "title": "Release Notes (Nov 6, 2024)",
+      "contentPath": null,
+      "objectToken": "GJ7vdkIv8opkVSxt9XxcoFI6n4f",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1731294205"
+    },
+    {
+      "canonicalToken": "HxWmwteOEi1Egukx26pcBnnknSd",
+      "title": "Quickstart to CLI & Agent Integration",
+      "contentPath": null,
+      "objectToken": "OQXBd4Bggos6wxxhdK2cxpzRn1c",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1779190310"
+    },
+    {
+      "canonicalToken": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+      "title": "Manage Cluster User (SDK)",
+      "contentPath": null,
+      "objectToken": "XnYWdBIqUonohaxUb2WcTe2HnQf",
+      "parentToken": "UEFXwAUL4icMjMkUej9cqncJncd",
+      "revisionId": null,
+      "objectEditTime": "1782887038"
+    },
+    {
+      "canonicalToken": "I5qmw4fxDiBxBQksrNwcLHQpnTc",
+      "title": "Auto-scaling",
+      "contentPath": null,
+      "objectToken": "UQNvdOr2FoYUoHxGfQEcut8gn8D",
+      "parentToken": "JFU0w6Ez4iAmOIkjT62cse1unaf",
+      "revisionId": null,
+      "objectEditTime": "1782293046"
+    },
+    {
+      "canonicalToken": "I60hwuYrSiVSWBkYq9RcqRcpnFh",
+      "title": "Grouping Search with StructArray",
+      "contentPath": null,
+      "objectToken": "RNA1dUNodoBBHQxt7UScU1HZn4e",
+      "parentToken": "DGCFwPHDqijeJJklqTScLwUunrh",
+      "revisionId": null,
+      "objectEditTime": "1781684865"
+    },
+    {
+      "canonicalToken": "I8K6wRTMmiyt64k4b5CcBb32nuh",
+      "title": "Indexes",
+      "contentPath": null,
+      "objectToken": "BMs7d06jKocQkBxvRNXcIFr3neg",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1778469024"
+    },
+    {
+      "canonicalToken": "IJBcwPCeGirLRGkVt1Vc580ynff",
+      "title": "Create EKS IAM Role",
+      "contentPath": null,
+      "objectToken": "H1Tldj9x8oZlfDxmA9rcH1gPnUc",
+      "parentToken": "DsqzwjegpiYSdtk1k75c1zXsnZc",
+      "revisionId": null,
+      "objectEditTime": "1767924173"
+    },
+    {
+      "canonicalToken": "INoRwFTjfiindPkaNlwc9XAgnkh",
+      "title": "Integrate with Google Cloud Storage",
+      "contentPath": null,
+      "objectToken": "TEQMdiElxo8vB4xRXEJcH4SpnXb",
+      "parentToken": "LykvwFyJCiloeQk2WmGce2s8nZg",
+      "revisionId": null,
+      "objectEditTime": "1782211803"
+    },
+    {
+      "canonicalToken": "IO4fwm5fJiroaoktKeIcbdkDnRb",
+      "title": "Migrate from Milvus to Zilliz Cloud Via Backup Files",
+      "contentPath": null,
+      "objectToken": "ErxjdKjY4o9AMcxnKzsc8Vgbnsb",
+      "parentToken": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
+      "revisionId": null,
+      "objectEditTime": "1780611373"
+    },
+    {
+      "canonicalToken": "IOPFwYrC2iJDw3k2iElcBrkMnef",
+      "title": "Permissions in Roles",
+      "contentPath": null,
+      "objectToken": "QP9IdX066oWtClxpsngcNSrlnKh",
+      "parentToken": "DsqzwjegpiYSdtk1k75c1zXsnZc",
+      "revisionId": null,
+      "objectEditTime": "1768184317"
+    },
+    {
+      "canonicalToken": "IcSOwHl8nikfM1kOhQxcOdgLnPf",
+      "title": "Schema Design",
+      "contentPath": null,
+      "objectToken": "UuqbdNmSio9Bvgx4ZRlcnpdInAg",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773827242"
+    },
+    {
+      "canonicalToken": "IojuwADAwiRK0hkl4pgcvC2QnQd",
+      "title": "Set up a Private Service Connect (GCP)",
+      "contentPath": null,
+      "objectToken": "PWRpda0gsoT0jExC9Q2c6hjZn3h",
+      "parentToken": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
+      "revisionId": null,
+      "objectEditTime": "1783324524"
+    },
+    {
+      "canonicalToken": "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
+      "title": "OpenAI",
+      "contentPath": null,
+      "objectToken": "KmrzdK8a8o1Kkbx5BGBcmBVNnhe",
+      "parentToken": "AP0lw1SNciBJNYkJ2iDc0qnfnEg",
+      "revisionId": null,
+      "objectEditTime": "1767083677"
+    },
+    {
+      "canonicalToken": "IvO9woB5viX59WkEzfucPSdvnrf",
+      "title": "Agent Plugins and Extensions",
+      "contentPath": null,
+      "objectToken": "AkuOdJvq8okW8zxI5pbcAF0insg",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1778653047"
+    },
+    {
+      "canonicalToken": "IxO5wZ1meiYrTckUPkQca9JOnbS",
+      "title": "Migrate from Milvus to Zilliz Cloud Via Backup Tool",
+      "contentPath": null,
+      "objectToken": "GJstdX8DzouaRox6YeRcgA6Zn2b",
+      "parentToken": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
+      "revisionId": null,
+      "objectEditTime": "1767851553"
+    },
+    {
+      "canonicalToken": "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
+      "title": "Integrate with Azure Blob Storage",
+      "contentPath": null,
+      "objectToken": "Luw2dS8hroQT7ExEeYxcfFmkn2b",
+      "parentToken": "LykvwFyJCiloeQk2WmGce2s8nZg",
+      "revisionId": null,
+      "objectEditTime": "1782211750"
+    },
+    {
+      "canonicalToken": "J0jDwYQb8il1biknRo4cazHPn5d",
+      "title": "Manage Snapshots",
+      "contentPath": null,
+      "objectToken": "ANhxdaBS9o3weCxrvN1c7nXHnnc",
+      "parentToken": "XC1ow3jGBi7hVvkINtBcXhQ6n8g",
+      "revisionId": null,
+      "objectEditTime": "1783411265"
+    },
+    {
+      "canonicalToken": "J274wT61xiEM4fkYeL8cMb4Pnbd",
+      "title": "Install SDKs",
+      "contentPath": null,
+      "objectToken": "Rb8qdNKjCoVLpXxo7RCcr10kneT",
+      "parentToken": "Ecwpw6cImiFV0gkkusgcQhvBnLe",
+      "revisionId": null,
+      "objectEditTime": "1772759552"
+    },
+    {
+      "canonicalToken": "J2prwh2KLis9oqkqNIAcU1d6nsd",
+      "title": "Dedicated Cluster Cost",
+      "contentPath": null,
+      "objectToken": "N4T3dOTOhoZX7SxnGmJc41Bnnyh",
+      "parentToken": "PuQOwUaY5irgTrk0V10cNdHUned",
+      "revisionId": null,
+      "objectEditTime": "1783588646"
+    },
+    {
+      "canonicalToken": "JCMPwIyVciCT4Hk4O20c96MEnch",
+      "title": "Manage Partitions",
+      "contentPath": null,
+      "objectToken": "YrlId83TAokhp6xTq5JcoSyrndc",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1778744984"
+    },
+    {
+      "canonicalToken": "JGFQwMcVmiikeOkhepGcQ8Ken0e",
+      "title": "Integrate with Datadog",
+      "contentPath": null,
+      "objectToken": "MiBrdQwTGohC8nxHy4ocHX4VnUb",
+      "parentToken": "LykvwFyJCiloeQk2WmGce2s8nZg",
+      "revisionId": null,
+      "objectEditTime": "1767852476"
+    },
+    {
+      "canonicalToken": "JGURwBQNOijp2DkspFFctbAGnLh",
+      "title": "Jieba",
+      "contentPath": null,
+      "objectToken": "THmNdsZfMolBSWxhXT5cBvtkn1e",
+      "parentToken": "Zu6vw6Aifi1gvNkqqO5cDjmtngh",
+      "revisionId": null,
+      "objectEditTime": "1778173929"
+    },
+    {
+      "canonicalToken": "JIZEwUFZJilFtVkhlS8cD8GRnyg",
+      "title": "Deploy BYOC-I on GCP",
+      "contentPath": null,
+      "objectToken": "Hr8XdTZ8ZogVqVx9bTOcin0Inng",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1783340974"
+    },
+    {
+      "canonicalToken": "JMtVw2kCYiunF9khkmHcFWbFnxf",
+      "title": "Truncate Collection",
+      "contentPath": null,
+      "objectToken": "DgjXdG7Ufo67qExpMbKcxTurn3f",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1778745054"
+    },
+    {
+      "canonicalToken": "JNWZwEqkwiDmeSkVPBlc4hnanEe",
+      "title": "August 2025 Release Notes",
+      "contentPath": null,
+      "objectToken": "FvWbdedLbowBOPxHp8dcVeynnrg",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1760060743"
+    },
+    {
+      "canonicalToken": "JPNiwF6rPiNe0pkx460cr321nTc",
+      "title": "Release Notes (April 24, 2025)",
+      "contentPath": null,
+      "objectToken": "HmEwdtzN8o6ms4xfk3gcvdf1nkg",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591004"
+    },
+    {
+      "canonicalToken": "JQvjwCDxhiMcj0kpaWicqXsTn1e",
+      "title": "Use Recycle Bin",
+      "contentPath": null,
+      "objectToken": "BUcydx6n5oQsKnx5yjUcbP7Qnmh",
+      "parentToken": "Dh6vwCrzYimC7skvDRUcvPi4n2c",
+      "revisionId": null,
+      "objectEditTime": "1780394440"
+    },
+    {
+      "canonicalToken": "JWZGw89MBiUDBNkhtGfcyyUcnsd",
+      "title": "Grouping Search",
+      "contentPath": null,
+      "objectToken": "Vf3CdHBZMo4HzVxeeZ3cCEnrnxg",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1782115710"
+    },
+    {
+      "canonicalToken": "JYXswRlj9i5KE5kJ2U0cdaM5nBh",
+      "title": "Failed Payments and Organization Recovery",
+      "contentPath": null,
+      "objectToken": "FtPRdJdBSoJTWRxiAcKcSiQunib",
+      "parentToken": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+      "revisionId": null,
+      "objectEditTime": "1780909214"
+    },
+    {
+      "canonicalToken": "JaLdw76LPiX003kLpKHcA0n8n2d",
+      "title": "External Volumes",
+      "contentPath": null,
+      "objectToken": "YJZmdK0BKo9dBwxk72Ucv3Fnnab",
+      "parentToken": "ExhcwMGPEiFysQkk37kcj4Q0nQg",
+      "revisionId": null,
+      "objectEditTime": "1783588759"
+    },
+    {
+      "canonicalToken": "JbPDwHqd0iZZSuk5tYicGqKbn9c",
+      "title": "Sparse Vector",
+      "contentPath": null,
+      "objectToken": "M7MOdb8vRo84oix9mrpc10QVnWb",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782116455"
+    },
+    {
+      "canonicalToken": "JfJvwdGz0iD9LpkrCMccZ2ypn0g",
+      "title": "Use Snapshot as Data Source",
+      "contentPath": null,
+      "objectToken": "E1GPdzZzmovESTxDlOqcsDemnxf",
+      "parentToken": "ZxNgwDAViiwLASkf2OgcD0d4nHg",
+      "revisionId": null,
+      "objectEditTime": "1783588226"
+    },
+    {
+      "canonicalToken": "JiHgw9rQsibSugklTvBcpS1unGe",
+      "title": "Zilliz Claude Code Plugin Examples",
+      "contentPath": null,
+      "objectToken": "HLHGddGW8oKm7OxcR0mc15Vcn4g",
+      "parentToken": "LFepwAKeGiURJUksNA4cqYPYnIb",
+      "revisionId": null,
+      "objectEditTime": "1776246397"
+    },
+    {
+      "canonicalToken": "JkXDwmB2QijMfvkLoWEclz9Nnbe",
+      "title": "Create GKE Service Account",
+      "contentPath": null,
+      "objectToken": "XigAdKpx3oeUejxKl91cDP1kn0d",
+      "parentToken": "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+      "revisionId": null,
+      "objectEditTime": "1767924397"
+    },
+    {
+      "canonicalToken": "JksSwTwJPidjsnk18Olc2TjWnZe",
+      "title": "Stemmer",
+      "contentPath": null,
+      "objectToken": "A2Jodev17oLmoaxQbXOc094Jnbb",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1768809794"
+    },
+    {
+      "canonicalToken": "JzapwWCp7iRPDhky5qWczpTonZf",
+      "title": "Canary Upgrade Approach for Scaling",
+      "contentPath": null,
+      "objectToken": "SmBtd29dNoedIPxa0E9cmNL6nme",
+      "parentToken": "JFU0w6Ez4iAmOIkjT62cse1unaf",
+      "revisionId": null,
+      "objectEditTime": "1783043927"
+    },
+    {
+      "canonicalToken": "K8hFwmeBQiCSO4ktT9ScD9zMnua",
+      "title": "Advance Pay",
+      "contentPath": null,
+      "objectToken": "IgU6dvFVUobB4lx8nfOcxl8CnJc",
+      "parentToken": "At2XwmzCliTWJDkyxBIc1HVSnvg",
+      "revisionId": null,
+      "objectEditTime": "1779678903"
+    },
+    {
+      "canonicalToken": "KHAMwm0HUiU6qdkH2LOcu0FFnug",
+      "title": "MFA",
+      "contentPath": null,
+      "objectToken": "HE1DdqSMWoslMCx5jiLc9mqTn0g",
+      "parentToken": "XiOsw8A3eibZInk1aJNceBqznLb",
+      "revisionId": null,
+      "objectEditTime": "1763631880"
+    },
+    {
+      "canonicalToken": "KTWtw4V6SiTpDMkeGMQc8lChn8b",
+      "title": "Database for On-Demand Search",
+      "contentPath": null,
+      "objectToken": "Y0P3d0FoOoxhTbxOA0mcFprjnZb",
+      "parentToken": "BZNuwqh6di0QOFkrS7ncW8AnnSd",
+      "revisionId": null,
+      "objectEditTime": "1783323386"
+    },
+    {
+      "canonicalToken": "KdwFwQnDNisT4skHH6Hc16uInji",
+      "title": "Quickstart to External Data Lake Search",
+      "contentPath": null,
+      "objectToken": "LscJdLlM6oicevx3mofcPW58nxf",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1778683894"
+    },
+    {
+      "canonicalToken": "Ke8ownBFFiAmZFkBnWec81qEn70",
+      "title": "Slow Logs Reference",
+      "contentPath": null,
+      "objectToken": "EmitdnDTBotoRfxp2vxcONPunBe",
+      "parentToken": "LwFDwQ73ri55rJkByyWckr52nAg",
+      "revisionId": null,
+      "objectEditTime": "1782183322"
+    },
+    {
+      "canonicalToken": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
+      "title": "Zilliz Cloud IPs",
+      "contentPath": null,
+      "objectToken": "Zmi9dgE6toCiYdxKIZZciRmZn9d",
+      "parentToken": "IeNswy8ySiutKAkdphRc4lfynsf",
+      "revisionId": null,
+      "objectEditTime": "1777262956"
+    },
+    {
+      "canonicalToken": "KkdswLx2bi4bgCkY6bEc7Do9neh",
+      "title": "Import Data (Console)",
+      "contentPath": null,
+      "objectToken": "Np4Sdm31soFi7DxOtqncL4lhnHb",
+      "parentToken": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "revisionId": null,
+      "objectEditTime": "1782953047"
+    },
+    {
+      "canonicalToken": "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+      "title": "Deploy BYOC on GCP",
+      "contentPath": null,
+      "objectToken": "FyrMd2IcHoTM6Ax7tNTcoqQenph",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1781593060"
+    },
+    {
+      "canonicalToken": "KnnBwce9JifxvXkd070cvgUPnag",
+      "title": "Metrics Reference",
+      "contentPath": null,
+      "objectToken": "F3rPdjH5soDvywx6Ec9cgDKgnNf",
+      "parentToken": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+      "revisionId": null,
+      "objectEditTime": "1783590157"
+    },
+    {
+      "canonicalToken": "KrbjwFhy3iojF3k97XmcvvXMnW7",
+      "title": "Create Cluster",
+      "contentPath": null,
+      "objectToken": "GQVdd3C8ho6IDexgNBMcTdf1nGc",
+      "parentToken": "BIy4we6qXiq8NpkHfXgcxuONngb",
+      "revisionId": null,
+      "objectEditTime": "1783324127"
+    },
+    {
+      "canonicalToken": "KtAgwMSa6iEoFkkEqzAcEJgRnjc",
+      "title": " February 2026 Release Notes",
+      "contentPath": null,
+      "objectToken": "YYzbdmveIoAnqax7fTGctb2knAc",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1770646233"
+    },
+    {
+      "canonicalToken": "L11Mw0GRTiKALikJaEycwj1wnKg",
+      "title": "Manage On-Demand Cluster",
+      "contentPath": null,
+      "objectToken": "Nxn0dTQhFo3B65x7GyKcy59TnEf",
+      "parentToken": "BZNuwqh6di0QOFkrS7ncW8AnnSd",
+      "revisionId": null,
+      "objectEditTime": "1783323368"
+    },
+    {
+      "canonicalToken": "L5jawEj7FiBXWZkGhLgcQCWQnDd",
+      "title": "Insert Entities",
+      "contentPath": null,
+      "objectToken": "YMRkdDVzmoPUOFx0Gzkcadkenkc",
+      "parentToken": "DCZNwZdcfivVfIkAZ6qcaK5wnHd",
+      "revisionId": null,
+      "objectEditTime": "1780996855"
+    },
+    {
+      "canonicalToken": "LBbUwOGcwi1UMak3eE2cM1gvnUe",
+      "title": "Basic Operators",
+      "contentPath": null,
+      "objectToken": "N0QwdMAghoTuZmxb7pacfZIRn9f",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1783501942"
+    },
+    {
+      "canonicalToken": "LDlOweEzmiLkdQkvPFec5lrcnbf",
+      "title": "Subscribe to a Public Offer on AWS Marketplace",
+      "contentPath": null,
+      "objectToken": "G0qudBnqjoxXb6xywOjcLtBhnTb",
+      "parentToken": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+      "revisionId": null,
+      "objectEditTime": "1783592421"
+    },
+    {
+      "canonicalToken": "LFepwAKeGiURJUksNA4cqYPYnIb",
+      "title": "Zilliz Claude Code Plugin",
+      "contentPath": null,
+      "objectToken": "DnT2drpSqoITZYxr2gicsv9Wnnh",
+      "parentToken": "GEw3wMvvti0FoNk4194c4GHBn8d",
+      "revisionId": null,
+      "objectEditTime": "1776245957"
+    },
+    {
+      "canonicalToken": "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
+      "title": "Analyze Cost",
+      "contentPath": null,
+      "objectToken": "ToZGdhAqSopOWlxqWZ3cXWTfnbh",
+      "parentToken": "XGmzwSmM0imGGYkqsCucdSy7nEf",
+      "revisionId": null,
+      "objectEditTime": "1783586076"
+    },
+    {
+      "canonicalToken": "LMfdwRwKIiJtywkwbHVcGnOFnRf",
+      "title": "Try Zilliz Cloud For Free",
+      "contentPath": null,
+      "objectToken": "NCntd2lfuogqfNxeEmMcKPSunNf",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1783592532"
+    },
+    {
+      "canonicalToken": "LQwnwNY73iCd8Hkj55ZczQTOn6g",
+      "title": "Environment Isolation",
+      "contentPath": null,
+      "objectToken": "QpMJdAE7wox23UxjDZKcud2mnff",
+      "parentToken": "HWzCwbjfci51HHk4BvTcfbiHn1d",
+      "revisionId": null,
+      "objectEditTime": "1782956136"
+    },
+    {
+      "canonicalToken": "LRRVwYzxKioMiMk7cf6czQuhn7d",
+      "title": "Release Notes (Jan 27, 2025)",
+      "contentPath": null,
+      "objectToken": "LsnndnC9soy9YGxtKhYcZyVbnhz",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1747102937"
+    },
+    {
+      "canonicalToken": "LX0RwtoEEihhNukmt1DcSQGfnjb",
+      "title": "December 2025 Release Notes",
+      "contentPath": null,
+      "objectToken": "Do7ldDJhro2q8WxSpYLcP5oOnTb",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783588602"
+    },
+    {
+      "canonicalToken": "LbFXwpruviFWWokwtkhcVmnhnFh",
+      "title": "Subscribe to a Public Offer on Microsoft Marketplace",
+      "contentPath": null,
+      "objectToken": "Sx56dqIsworbtgxeVDscO80nn3b",
+      "parentToken": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+      "revisionId": null,
+      "objectEditTime": "1779354835"
+    },
+    {
+      "canonicalToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "title": "AI Prompts",
+      "contentPath": null,
+      "objectToken": "RnjKdjOwGo4RhYx0b5BcBT8in1e",
+      "parentToken": "Gn6Lw6ugLi10MFkBflFcVCpsnZJ",
+      "revisionId": null,
+      "objectEditTime": "1773978046"
+    },
+    {
+      "canonicalToken": "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
+      "title": "Migrate from Qdrant to Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "YcwQdDniQocxZRxs4z2cm6TLnYc",
+      "parentToken": "OpQHwQrMki9brIkTsAGcq93Zndf",
+      "revisionId": null,
+      "objectEditTime": "1749438697"
+    },
+    {
+      "canonicalToken": "Lv1Pw8lORiaX44kjGL0cNnpPnub",
+      "title": "Create S3 Bucket and IAM Role",
+      "contentPath": null,
+      "objectToken": "FBWtdDnGkoeTi8xRR1VcPvgGnGf",
+      "parentToken": "DsqzwjegpiYSdtk1k75c1zXsnZc",
+      "revisionId": null,
+      "objectEditTime": "1767924154"
+    },
+    {
+      "canonicalToken": "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
+      "title": "VectorDB Audit Logs",
+      "contentPath": null,
+      "objectToken": "MkwKdipEpoBBAkx68GfcrwHmn0d",
+      "parentToken": "UfGkwPQIPiJi6OkEu47cH3Umnvb",
+      "revisionId": null,
+      "objectEditTime": "1783592576"
+    },
+    {
+      "canonicalToken": "M6PLwhVqAipx7wkQNFscmuNPnWc",
+      "title": "Update Billing Profile",
+      "contentPath": null,
+      "objectToken": "TNYNd5j8uoAUgnx8wuHc6suAndb",
+      "parentToken": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+      "revisionId": null,
+      "objectEditTime": "1782373240"
+    },
+    {
+      "canonicalToken": "M7xHwZSIuiAP4Fkfm67cBU7Pn8g",
+      "title": "Linear Decay",
+      "contentPath": null,
+      "objectToken": "Q542du4oZodluvx3phYcSHkZnVb",
+      "parentToken": "HPP3wBq1xiuGWYk4QfKcZ2PrnHf",
+      "revisionId": null,
+      "objectEditTime": "1768378553"
+    },
+    {
+      "canonicalToken": "MBVVww2Zii8k6Bk77GJcXbZJnpf",
+      "title": "JSON Indexing",
+      "contentPath": null,
+      "objectToken": "UMdYdye50oLPSUxVPVwcHGbCnrb",
+      "parentToken": "BkDMwo71MiZMazk7gbtc7fqknbh",
+      "revisionId": null,
+      "objectEditTime": "1779879096"
+    },
+    {
+      "canonicalToken": "MIqTw7iJ4iQAtVkYKiEc98a7nsh",
+      "title": "Subscribe to a Public Offer on Google Cloud Marketplace",
+      "contentPath": null,
+      "objectToken": "HCCVdW5mEoMctyxgxPRc0hE3n5f",
+      "parentToken": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+      "revisionId": null,
+      "objectEditTime": "1781682592"
+    },
+    {
+      "canonicalToken": "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
+      "title": "Length",
+      "contentPath": null,
+      "objectToken": "IG80dHXcwoEOiTxlczFcDqh3nah",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1782956158"
+    },
+    {
+      "canonicalToken": "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
+      "title": "Offline Migration",
+      "contentPath": null,
+      "objectToken": "QadbdhBPJoEfkrxzUi4cHeOjnKf",
+      "parentToken": "CEJrwt9sYizQgtkPlBBcJXvRnff",
+      "revisionId": null,
+      "objectEditTime": "1782116480"
+    },
+    {
+      "canonicalToken": "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+      "title": "Changelogs",
+      "contentPath": null,
+      "objectToken": "LwC9dlhnbovv54xNQ2tcdsEnnRh",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783607284"
+    },
+    {
+      "canonicalToken": "MYHwwhKtri4MMJku6BbcMjF4n1d",
+      "title": "Cost Optimization",
+      "contentPath": null,
+      "objectToken": "Dcmzdfd7Uoe5zgx47vnclEKwnzd",
+      "parentToken": "XGmzwSmM0imGGYkqsCucdSy7nEf",
+      "revisionId": null,
+      "objectEditTime": "1783588142"
+    },
+    {
+      "canonicalToken": "MZ2WwklE5ifX4hkO4ZOcXz0indc",
+      "title": "Create Global Cluster",
+      "contentPath": null,
+      "objectToken": "JbGudE0LLoGXgsxsgtnc2sL8n1g",
+      "parentToken": "VKMNwpMl0idY2nkEntncL9hTncb",
+      "revisionId": null,
+      "objectEditTime": "1783322909"
+    },
+    {
+      "canonicalToken": "MaWywRYCniq6vwkJsT7c2wAyn0f",
+      "title": "ARRAY Operators",
+      "contentPath": null,
+      "objectToken": "Z4SLdQJMxoTj6Cx2mdicyS67nae",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1783477226"
+    },
+    {
+      "canonicalToken": "Mf7GwGwgQiLCcykOi69cvaD8ncz",
+      "title": "Search with EmbeddingLists: ColBERT and ColPali",
+      "contentPath": null,
+      "objectToken": "I59YdqMpioEHGVxFiqccJawsnZf",
+      "parentToken": "DGCFwPHDqijeJJklqTScLwUunrh",
+      "revisionId": null,
+      "objectEditTime": "1781685373"
+    },
+    {
+      "canonicalToken": "Ml6dwBPTfiQOY9koK24cT1Sznge",
+      "title": "Manage Backup Files",
+      "contentPath": null,
+      "objectToken": "W74XdVJudoavysxQEtycYm0lnFf",
+      "parentToken": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+      "revisionId": null,
+      "objectEditTime": "1781511024"
+    },
+    {
+      "canonicalToken": "MocQwCCItiHYEbkkJtOcROPTnod",
+      "title": "Release Notes (Oct 17, 2023)",
+      "contentPath": null,
+      "objectToken": "XS98dONZuouB5OxzM4YcvCbEnxh",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1734411389"
+    },
+    {
+      "canonicalToken": "MtGywZwmXiHg0AkJMavcWAtxnCg",
+      "title": "Format Options",
+      "contentPath": null,
+      "objectToken": "QIfQdRuQNoRRY6xFVG0cF5FYnzb",
+      "parentToken": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "revisionId": null,
+      "objectEditTime": "1734936050"
+    },
+    {
+      "canonicalToken": "Mtxfwvu2fiOLwXkcURCcJxDPnLd",
+      "title": "Cohere Ranker",
+      "contentPath": null,
+      "objectToken": "O4PSdPciQoJaGJxfpAtcfka0nPc",
+      "parentToken": "U1LuwnY58i8nKQkK1ctcJqBjnVf",
+      "revisionId": null,
+      "objectEditTime": "1766998755"
+    },
+    {
+      "canonicalToken": "MvE5wUlFli3gJOk0MkeclZCqnib",
+      "title": "Enforce SSO in Your Organization",
+      "contentPath": null,
+      "objectToken": "FP1cdBCLnoh1YhxLUescsrbanBg",
+      "parentToken": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "revisionId": null,
+      "objectEditTime": "1770082207"
+    },
+    {
+      "canonicalToken": "MvgAwL4HIiuRRJkH0FwcJhxSnld",
+      "title": "Import Data (SDK)",
+      "contentPath": null,
+      "objectToken": "NEO7dfjWXoNUUPxukcpcSVuVn7e",
+      "parentToken": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "revisionId": null,
+      "objectEditTime": "1782115713"
+    },
+    {
+      "canonicalToken": "N0RmwUtmqinQvokWdYLc3yV5nJh",
+      "title": "Array Field",
+      "contentPath": null,
+      "objectToken": "XgbWdAnDwo0RGWxIZjvcKG86nnj",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1783416897"
+    },
+    {
+      "canonicalToken": "N2XtwwchPi79M7kW1UjcnjC4nzc",
+      "title": "April 2026 Release Notes",
+      "contentPath": null,
+      "objectToken": "PxYqdJPLAo3dQVxcgl8ckW2WnW8",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783607493"
+    },
+    {
+      "canonicalToken": "N6fZwCUXqiqoJEkFiVNcvDJEnnc",
+      "title": "Export Data Using Iterators",
+      "contentPath": null,
+      "objectToken": "So5TduP3woNgxXxppjLcz7IznRh",
+      "parentToken": "CeH9wPtUfiOdDckoPszcAuLonce",
+      "revisionId": null,
+      "objectEditTime": "1736477567"
+    },
+    {
+      "canonicalToken": "NRF1wGr3AiWWC1kVfWucZD6Xneb",
+      "title": "May 2026 Release Notes",
+      "contentPath": null,
+      "objectToken": "JPxodMh7poy9ztx8hCgc8ensnJb",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783590092"
+    },
+    {
+      "canonicalToken": "NTwawtvYdiXTkukbss7ccw2RnXc",
+      "title": "Binary Vector",
+      "contentPath": null,
+      "objectToken": "EzXCd6q9Xo2At1xssEecBsvZnhb",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782116432"
+    },
+    {
+      "canonicalToken": "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
+      "title": "Manage Projects",
+      "contentPath": null,
+      "objectToken": "DK4Kdgbs6o8fGlxZ9wfc3tFxnCf",
+      "parentToken": "QHzrwVlEOipspAkPiyucWezqneC",
+      "revisionId": null,
+      "objectEditTime": "1782875749"
+    },
+    {
+      "canonicalToken": "Nby4wCqNviuLg3kEZpkcdKtnnnb",
+      "title": "VectorDB Audit Logs Reference",
+      "contentPath": null,
+      "objectToken": "C3jCdE1wLow2Q6x01khc01Ornlm",
+      "parentToken": "UfGkwPQIPiJi6OkEu47cH3Umnvb",
+      "revisionId": null,
+      "objectEditTime": "1783323892"
+    },
+    {
+      "canonicalToken": "NeUWwqRl2iwn4HkZg3ocjLjmnth",
+      "title": "View Platform Audit Logs",
+      "contentPath": null,
+      "objectToken": "PPrVdUdtaomcs3x3zZgclG3vn4g",
+      "parentToken": "UfGkwPQIPiJi6OkEu47cH3Umnvb",
+      "revisionId": null,
+      "objectEditTime": "1783323900"
+    },
+    {
+      "canonicalToken": "Neq4wR0EdiXokRkhXwbcMPfanCd",
+      "title": "JSON Field Overview",
+      "contentPath": null,
+      "objectToken": "UfezdBEvyoksJYxh3mAcWSwenzc",
+      "parentToken": "BkDMwo71MiZMazk7gbtc7fqknbh",
+      "revisionId": null,
+      "objectEditTime": "1768808825"
+    },
+    {
+      "canonicalToken": "NitBwKVzzi0hXBkjdDFcfwRsngb",
+      "title": "Privileges & Privilege Groups",
+      "contentPath": null,
+      "objectToken": "IXRNdN89eo2ztSxutf6ciVImnah",
+      "parentToken": "UEFXwAUL4icMjMkUej9cqncJncd",
+      "revisionId": null,
+      "objectEditTime": "1780402807"
+    },
+    {
+      "canonicalToken": "NmolwVTkCiQ2yZkXsJhcftyTnhc",
+      "title": "Release Notes (March 13, 2024)",
+      "contentPath": null,
+      "objectToken": "L9widKADsoF3ffxWHoPcNs9ln6d",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1725534662"
+    },
+    {
+      "canonicalToken": "Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
+      "title": "RRF Ranker",
+      "contentPath": null,
+      "objectToken": "Lu2ndUPtboOD4AxxuCZcO590n5M",
+      "parentToken": "BWA2wR1htidZjukxo08cOrj6nvc",
+      "revisionId": null,
+      "objectEditTime": "1776321291"
+    },
+    {
+      "canonicalToken": "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
+      "title": "Manage Project Alerts",
+      "contentPath": null,
+      "objectToken": "NoO5dX5QboENU1xRgADc59x1nog",
+      "parentToken": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+      "revisionId": null,
+      "objectEditTime": "1778314576"
+    },
+    {
+      "canonicalToken": "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
+      "title": "On-Demand Compute Cost",
+      "contentPath": null,
+      "objectToken": "K1KldK76Uotsg9xAgN1cOiLAn0f",
+      "parentToken": "PuQOwUaY5irgTrk0V10cNdHUned",
+      "revisionId": null,
+      "objectEditTime": "1783590875"
+    },
+    {
+      "canonicalToken": "O2YiwLai5iSjT1k1WEsc06E8nEe",
+      "title": "Phrase Match",
+      "contentPath": null,
+      "objectToken": "HnlDdJ3TJoIrUvxCiPwcc3aknLg",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778746631"
+    },
+    {
+      "canonicalToken": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+      "title": "Marketplace Subscription",
+      "contentPath": null,
+      "objectToken": "FktedPJugo2GEax27Wdc63fZn2e",
+      "parentToken": "At2XwmzCliTWJDkyxBIc1HVSnvg",
+      "revisionId": null,
+      "objectEditTime": "1779358008"
+    },
+    {
+      "canonicalToken": "OFl9wHXpriM8aEkoONScpU1lnIf",
+      "title": "Elasticsearch Queries to Milvus",
+      "contentPath": null,
+      "objectToken": "X5QUdj2puoAhyOx5Q98cgrJbnIc",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1782956303"
+    },
+    {
+      "canonicalToken": "OJVrwOiE4i3fFjk2J3NcneLznfh",
+      "title": "Release Notes (Dec 26, 2024)",
+      "contentPath": null,
+      "objectToken": "FL7pdTrj2ouPjhxyJhJcEozanjc",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1760062919"
+    },
+    {
+      "canonicalToken": "OLAEwETZtitiNFkkA9JcE5YZnXf",
+      "title": "Google Workspace (SAML 2.0)",
+      "contentPath": null,
+      "objectToken": "LalFdiXmMo1FKixobJ9cQcMrnah",
+      "parentToken": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "revisionId": null,
+      "objectEditTime": "1783323755"
+    },
+    {
+      "canonicalToken": "OLn1wMgW0iceBlkuey2cBD91neb",
+      "title": "Manage Aliases",
+      "contentPath": null,
+      "objectToken": "JxV3d19eroEBclxKDP1cQhxrnCc",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1778745021"
+    },
+    {
+      "canonicalToken": "OQ2ZwpH9ki5EZIkwK21cghexnOh",
+      "title": "Okta (OIDC)",
+      "contentPath": null,
+      "objectToken": "MuWtd4KqnoOUiuxYoYjcZMQenOg",
+      "parentToken": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "revisionId": null,
+      "objectEditTime": "1783323731"
+    },
+    {
+      "canonicalToken": "OVxRwZWxNi4pYrkdKxCcOuY2nf1",
+      "title": "Dynamic Field",
+      "contentPath": null,
+      "objectToken": "WuFHdK3o7oaYhWxn07gc5AQNnyt",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782956345"
+    },
+    {
+      "canonicalToken": "OZtawoDUci0CKokf9RlchvInnMf",
+      "title": "June 2026 Release Notes",
+      "contentPath": null,
+      "objectToken": "GyQQd12ahoeKoexAnoPcvhvUn2b",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783318367"
+    },
+    {
+      "canonicalToken": "Of8PwuunCihBfxksNJJcSCRYnsf",
+      "title": "Chinese",
+      "contentPath": null,
+      "objectToken": "Reedd7neDop6vJxjOLCcw8fpnFh",
+      "parentToken": "VvJowcWXeiFPlDkYU7ScezGznIb",
+      "revisionId": null,
+      "objectEditTime": "1783062659"
+    },
+    {
+      "canonicalToken": "OfUIwNWVuimZgFk3gBVc61GnnKW",
+      "title": "Count Entities",
+      "contentPath": null,
+      "objectToken": "FKN8dKoNrodu01x9oQrcUXiunqg",
+      "parentToken": "DCZNwZdcfivVfIkAZ6qcaK5wnHd",
+      "revisionId": null,
+      "objectEditTime": "1778745970"
+    },
+    {
+      "canonicalToken": "Oyy6w5DYJiVCMYkdduEc6eD9nZg",
+      "title": "Weighted Ranker",
+      "contentPath": null,
+      "objectToken": "KRDUdbOHooR6OTxai25cBMRxnYc",
+      "parentToken": "BWA2wR1htidZjukxo08cOrj6nvc",
+      "revisionId": null,
+      "objectEditTime": "1774232658"
+    },
+    {
+      "canonicalToken": "OzLjwMmWliJdEBkz0gPcVZrqnZb",
+      "title": "Manage Organization Users",
+      "contentPath": null,
+      "objectToken": "J0w1dXjZ3oYKHdxOXkycGg7Inne",
+      "parentToken": "Dh6vwCrzYimC7skvDRUcvPi4n2c",
+      "revisionId": null,
+      "objectEditTime": "1783589853"
+    },
+    {
+      "canonicalToken": "P3wrwSMNNihy8Vkf9p6cTsWYnTb",
+      "title": "Use mmap",
+      "contentPath": null,
+      "objectToken": "HWJGdNFCHo0LaZxPR37caMa5nBg",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778746750"
+    },
+    {
+      "canonicalToken": "P4KNwDdqaivEZFk7RpOcYeyhn2N",
+      "title": "Voyage AI",
+      "contentPath": null,
+      "objectToken": "TUiydwT09oODGbxs0BVcdotRnBf",
+      "parentToken": "AP0lw1SNciBJNYkJ2iDc0qnfnEg",
+      "revisionId": null,
+      "objectEditTime": "1768984163"
+    },
+    {
+      "canonicalToken": "P9HuwHZyXilwRTkVoDBcjAMlnrb",
+      "title": "External Collection Limits",
+      "contentPath": null,
+      "objectToken": "BVtPdZ63soQiHrxrspZczbgDnJc",
+      "parentToken": "ZxNgwDAViiwLASkf2OgcD0d4nHg",
+      "revisionId": null,
+      "objectEditTime": "1782183195"
+    },
+    {
+      "canonicalToken": "PAViwMSb3iVMzuk56z3c1zfRnwh",
+      "title": "Integrate with AWS S3",
+      "contentPath": null,
+      "objectToken": "CTxFdN35coEB0wx1TZccfTNYn4b",
+      "parentToken": "LykvwFyJCiloeQk2WmGce2s8nZg",
+      "revisionId": null,
+      "objectEditTime": "1782211838"
+    },
+    {
+      "canonicalToken": "PBEbwjRu9iyyaFkZnuzcINHCnke",
+      "title": "Understand Invoices",
+      "contentPath": null,
+      "objectToken": "CFfkdoW30oE6RCxvMPOc7fbRnyf",
+      "parentToken": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+      "revisionId": null,
+      "objectEditTime": "1782374021"
+    },
+    {
+      "canonicalToken": "PBZwwNqWjiikeYkXgHPcGhLznTh",
+      "title": "Manage Cluster Roles (SDK)",
+      "contentPath": null,
+      "objectToken": "V9zpdEbjyoHjY1x54Plcfh3unFc",
+      "parentToken": "UEFXwAUL4icMjMkUej9cqncJncd",
+      "revisionId": null,
+      "objectEditTime": "1782887066"
+    },
+    {
+      "canonicalToken": "PEYWwW3FoiZ08jkOCQDcZCCrnQe",
+      "title": "Pricing",
+      "contentPath": null,
+      "objectToken": "CS4KdFiYMobJrFxZRNrc4jCDnJd",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773814700"
+    },
+    {
+      "canonicalToken": "PFbNwB7Mli18n6k6VWScGcpWndc",
+      "title": "Pattern Matching",
+      "contentPath": null,
+      "objectToken": "MwF8dRoiLoI2U5xsSLmc0kAvnep",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1783075597"
+    },
+    {
+      "canonicalToken": "PIfLwbrMmiOZKAkqtpScjnhinXf",
+      "title": "Access Logs Overview",
+      "contentPath": null,
+      "objectToken": "EO7BdAdkyoQIIRxTBJvczkPUn7g",
+      "parentToken": "VEdBwligrip5h7k4JQHcz58snmb",
+      "revisionId": null,
+      "objectEditTime": "1783323944"
+    },
+    {
+      "canonicalToken": "PJ4hwwD1DiVnv0kWPZBceLrdnSf",
+      "title": "Release Notes (Sept 4, 2024)",
+      "contentPath": null,
+      "objectToken": "K4Shdaop1o274PxeyT8cY2bWnKb",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783592033"
+    },
+    {
+      "canonicalToken": "PLjFwlcT8ilFBakYXyfcg6S2n7d",
+      "title": "Alter Collection Field",
+      "contentPath": null,
+      "objectToken": "QadLdBojYo4RW4xQIcWc0uQPnyc",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1780997099"
+    },
+    {
+      "canonicalToken": "PNj2w5fY9ifr82kbX8ucKgXAn0r",
+      "title": "Storage Cost",
+      "contentPath": null,
+      "objectToken": "RBNPdL9LFoisnKxK9Rccm12nnTd",
+      "parentToken": "PuQOwUaY5irgTrk0V10cNdHUned",
+      "revisionId": null,
+      "objectEditTime": "1783592337"
+    },
+    {
+      "canonicalToken": "PV2bwNENViEjXWkOgzZcXoKHnce",
+      "title": "Data Model Design for Search",
+      "contentPath": null,
+      "objectToken": "Ll7UdZu14oj2l0xrjigcA0onnOR",
+      "parentToken": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
+      "revisionId": null,
+      "objectEditTime": "1782115702"
+    },
+    {
+      "canonicalToken": "PZ4uwwgUfio5OikY0Ecc5nrunFf",
+      "title": "Manage Project Users",
+      "contentPath": null,
+      "objectToken": "Z90tdGCXloExc6x2ItQcrt9Nnuf",
+      "parentToken": "QHzrwVlEOipspAkPiyucWezqneC",
+      "revisionId": null,
+      "objectEditTime": "1783073347"
+    },
+    {
+      "canonicalToken": "PharwAysCiBzvgkuqqecmNzunQf",
+      "title": "Manage Cluster",
+      "contentPath": null,
+      "objectToken": "B1mRdvhLaouOfaxFQq7cEUmMncg",
+      "parentToken": "BIy4we6qXiq8NpkHfXgcxuONngb",
+      "revisionId": null,
+      "objectEditTime": "1782876551"
+    },
+    {
+      "canonicalToken": "PlX3wo82Di6oWVkg2ercRWCUnvV",
+      "title": "Migrate from Milvus to Zilliz Cloud Via Endpoint",
+      "contentPath": null,
+      "objectToken": "R7evdZ9fFoFkJIxRXDccGOpun6d",
+      "parentToken": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
+      "revisionId": null,
+      "objectEditTime": "1767851422"
+    },
+    {
+      "canonicalToken": "PmaowiSUaiTa8ckPMYJcqdRYnQg",
+      "title": " October 2025 Release Notes",
+      "contentPath": null,
+      "objectToken": "Wgbvdl5HDoqBzKxXVTAcWG2Mn3c",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783590826"
+    },
+    {
+      "canonicalToken": "PpGlwYU6PiSsfVkZ7doco50vnKg",
+      "title": "Voyage AI Ranker",
+      "contentPath": null,
+      "objectToken": "Oj2xd3Ofjo0v76xGuwkcvFNunjd",
+      "parentToken": "U1LuwnY58i8nKQkK1ctcJqBjnVf",
+      "revisionId": null,
+      "objectEditTime": "1766999011"
+    },
+    {
+      "canonicalToken": "Pulhw06e5iXJTFkidFXcGbylnod",
+      "title": "Choose the Right Analyzer for Your Use Case",
+      "contentPath": null,
+      "objectToken": "XFIQdQUAqofWRBxu8xncTWhUnWb",
+      "parentToken": "Cou4wUDwti8G0FkibG4cFNRNnre",
+      "revisionId": null,
+      "objectEditTime": "1783062905"
+    },
+    {
+      "canonicalToken": "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
+      "title": "Zilliz Cloud Limits",
+      "contentPath": null,
+      "objectToken": "NIIldYshaoVw2bxiWjrcTt14nac",
+      "parentToken": "Tve5wxmTHio0LPk50jgcKHe1nWg",
+      "revisionId": null,
+      "objectEditTime": "1783592605"
+    },
+    {
+      "canonicalToken": "PvwZwtu3FiBQNqkPa5VcqH6qnmg",
+      "title": "Lindera",
+      "contentPath": null,
+      "objectToken": "NGizdLPIZovxcLxpFfucoivcnsf",
+      "parentToken": "Zu6vw6Aifi1gvNkqqO5cDjmtngh",
+      "revisionId": null,
+      "objectEditTime": "1772679211"
+    },
+    {
+      "canonicalToken": "Py6zwu6r4iPMqVkKAYXcUYLEnXg",
+      "title": "JSON Operators",
+      "contentPath": null,
+      "objectToken": "OVFxduP7zoGbfNx8kg4cq4YfnDe",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1735812448"
+    },
+    {
+      "canonicalToken": "PyrrwqrGbirtGTkh4oacaov7nHh",
+      "title": "Release Notes (Oct 14, 2024)",
+      "contentPath": null,
+      "objectToken": "TH7wdYQUToMDP5x6RfjcayZwnQd",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783592015"
+    },
+    {
+      "canonicalToken": "Q0wpw4xZiimaUsk4GvScAg2un1d",
+      "title": "NGRAM",
+      "contentPath": null,
+      "objectToken": "BUo3dIlU6onItkxU6I8c59FnnGc",
+      "parentToken": "PdSnwO3jWiGZHAkW510c5zg0nmm",
+      "revisionId": null,
+      "objectEditTime": "1780300197"
+    },
+    {
+      "canonicalToken": "Q3gKwc5lkilAbKkalCWcW2AbnLe",
+      "title": "ICU",
+      "contentPath": null,
+      "objectToken": "OecedmLOPoue6hxkSwZcIDaln5e",
+      "parentToken": "Zu6vw6Aifi1gvNkqqO5cDjmtngh",
+      "revisionId": null,
+      "objectEditTime": "1768809618"
+    },
+    {
+      "canonicalToken": "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
+      "title": "StructArray Limits",
+      "contentPath": null,
+      "objectToken": "Vm1FdiWBxo3acex4UiQc62dXnxd",
+      "parentToken": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
+      "revisionId": null,
+      "objectEditTime": "1781683595"
+    },
+    {
+      "canonicalToken": "Q9ZcwPZieiYoU4kwEuOcFjewneP",
+      "title": "Release Notes (Nov 18, 2022)",
+      "contentPath": null,
+      "objectToken": "Xa5JdILgyocpQfx0Y4scmC6enUh",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591962"
+    },
+    {
+      "canonicalToken": "QBXVwP7oiiuEovkprDnckJlEnoK",
+      "title": "VarChar Field",
+      "contentPath": null,
+      "objectToken": "VvA8d6kHPoOyQGx2tXMcUv8vnbg",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782116460"
+    },
+    {
+      "canonicalToken": "QGVxwmnGTidbjtk1LcYcEfqbnOe",
+      "title": "Subscribe to a Private Offer on AWS Marketplace",
+      "contentPath": null,
+      "objectToken": "ZgdFdWyhloDHbZxfbhlcCl8SnIe",
+      "parentToken": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+      "revisionId": null,
+      "objectEditTime": "1783592364"
+    },
+    {
+      "canonicalToken": "QPgEwd4qziOa5RkgJR2c9gpnn3b",
+      "title": "Configure Access Logs",
+      "contentPath": null,
+      "objectToken": "HnYldsgHvoIlr7xvfVZcVQElnld",
+      "parentToken": "VEdBwligrip5h7k4JQHcz58snmb",
+      "revisionId": null,
+      "objectEditTime": "1783323949"
+    },
+    {
+      "canonicalToken": "QUC4wfVYTi73ctkMzEec17oVnjh",
+      "title": "Okta (SAML 2.0)",
+      "contentPath": null,
+      "objectToken": "UKG4drnTbofF3axpBUDc4iwLnQh",
+      "parentToken": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "revisionId": null,
+      "objectEditTime": "1783323751"
+    },
+    {
+      "canonicalToken": "QUTDwkbTTiA2UlkWYDlc796ensf",
+      "title": "Export Backup Files",
+      "contentPath": null,
+      "objectToken": "WwICdhebRoemNtxB9xzcSwhRnkd",
+      "parentToken": "VvikwOKc9iZ5vBkgMnycrXKmnId",
+      "revisionId": null,
+      "objectEditTime": "1778570067"
+    },
+    {
+      "canonicalToken": "QUe4wFnNvifiufkXD9xcs0AAnSc",
+      "title": "Understand Cron Expressions",
+      "contentPath": null,
+      "objectToken": "Xg4Jd2qmMo6PiHxfLQCc57OMnyg",
+      "parentToken": "ZACVwXqTbiCqR3kS9YAccuaQnId",
+      "revisionId": null,
+      "objectEditTime": "1781676930"
+    },
+    {
+      "canonicalToken": "QVTnwVz2aifvSAkgomAc9KWRnHb",
+      "title": "Search Iterator",
+      "contentPath": null,
+      "objectToken": "RZAodNfhYooWpCxlrq2ctfJenYd",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778683773"
+    },
+    {
+      "canonicalToken": "QWqiwrgJViA5AJkv64VcgQX2nKd",
+      "title": "Use Partition Key",
+      "contentPath": null,
+      "objectToken": "HjOldCfOYoZcUGxpYWdc5A8Cnlm",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778746690"
+    },
+    {
+      "canonicalToken": "QZXVwFVH3i1p08kal8vcAmmxnie",
+      "title": "Release Notes (Dec 5, 2022)",
+      "contentPath": null,
+      "objectToken": "CHRidVUwno4xTBxcd3wcaDsWnpc",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591234"
+    },
+    {
+      "canonicalToken": "QZYhwcQhWigYTVkLnHeczkwYnZb",
+      "title": "Decay Ranker Overview",
+      "contentPath": null,
+      "objectToken": "BO7ed6hjgoJnXJxGcY6cwuM9n0b",
+      "parentToken": "HPP3wBq1xiuGWYk4QfKcZ2PrnHf",
+      "revisionId": null,
+      "objectEditTime": "1768378652"
+    },
+    {
+      "canonicalToken": "Qa60w2vDuiqNk0kclKLcZ0uQnkg",
+      "title": "Boost Ranker",
+      "contentPath": null,
+      "objectToken": "RoM6dCXzho2t9Cxtyjdcsvwhnef",
+      "parentToken": "LZ5zwVuJ6iXRvhki0yWcnefTnVg",
+      "revisionId": null,
+      "objectEditTime": "1768814150"
+    },
+    {
+      "canonicalToken": "Qkm3wPF9Titu1MkQ0fgcENs4nZc",
+      "title": "Microsoft Entra (SAML 2.0)",
+      "contentPath": null,
+      "objectToken": "KrQcduJQGoXJZexU9oLciZBcnwb",
+      "parentToken": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "revisionId": null,
+      "objectEditTime": "1783323757"
+    },
+    {
+      "canonicalToken": "QqtGwq7lSimnHJk6IuXcM9synWg",
+      "title": "Shared Responsibilities",
+      "contentPath": null,
+      "objectToken": "BmeMdYLCooGettx17lTcdSqdn3f",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1744872359"
+    },
+    {
+      "canonicalToken": "QuBiwrIJdiDw3ckVDKBcPofinfe",
+      "title": "Deploy BYOC-I on Microsoft Azure",
+      "contentPath": null,
+      "objectToken": "UcmGdBuh1oUmhlxO8TYctUT5nUh",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1782099200"
+    },
+    {
+      "canonicalToken": "QxYZwB4SKiLz5HkDE9LcISZsnCf",
+      "title": "Access Control",
+      "contentPath": null,
+      "objectToken": "HH9Md9mkoodhumxV8v8cDaTCnGh",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773827269"
+    },
+    {
+      "canonicalToken": "QyjpwAaKuihAeJkNBUJcdFesn9e",
+      "title": "Use BulkWriter",
+      "contentPath": null,
+      "objectToken": "HRtvddLG2oWHM7x9FzUcQVkcnye",
+      "parentToken": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+      "revisionId": null,
+      "objectEditTime": "1783303779"
+    },
+    {
+      "canonicalToken": "R33EwQchxiO3HKk4vPnce6vkntc",
+      "title": "Migrate from Pinecone to Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "BYpmduBldozeK4xWpcccVqkZn7b",
+      "parentToken": "OpQHwQrMki9brIkTsAGcq93Zndf",
+      "revisionId": null,
+      "objectEditTime": "1749116568"
+    },
+    {
+      "canonicalToken": "R3r7wFHUbi8KxUk2t2FcUXoJnic",
+      "title": "Cnalphanumonly",
+      "contentPath": null,
+      "objectToken": "RVeddmcawoIV0Sx2eLscYVJLn1d",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1782956741"
+    },
+    {
+      "canonicalToken": "R7F7wY8pCiJ5Q4kbntxcMsE6nLf",
+      "title": "Query",
+      "contentPath": null,
+      "objectToken": "BenVdKzdNodn81xx4Q2cqHBvn3e",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1782116451"
+    },
+    {
+      "canonicalToken": "R8amwM1K6iBDLuk0KcEcHJxtnhb",
+      "title": "Implement Multi-tenancy",
+      "contentPath": null,
+      "objectToken": "JTpWd5gthoWm5hxp4tecuxqcnU2",
+      "parentToken": "HWzCwbjfci51HHk4BvTcfbiHn1d",
+      "revisionId": null,
+      "objectEditTime": "1782115689"
+    },
+    {
+      "canonicalToken": "RH6MwFlaCig6LRkR6Qec206OnUc",
+      "title": "Use Large TopK",
+      "contentPath": null,
+      "objectToken": "TYPcdOpaXozdcBxBK1Ic3iVLn8c",
+      "parentToken": "JzjowuY0diiYz8kdv4Wck6h1nGh",
+      "revisionId": null,
+      "objectEditTime": "1778050181"
+    },
+    {
+      "canonicalToken": "RLu1wO0FpiisJxkkViQcq039nff",
+      "title": "Separate Zilliz Cloud Billing on Microsoft Marketplace",
+      "contentPath": null,
+      "objectToken": "UZ7zd96hAoYQbFxP4yNc9rq1nLc",
+      "parentToken": "ItpQwEBvjix1z5kb5qEcYf0Pngc",
+      "revisionId": null,
+      "objectEditTime": "1781682625"
+    },
+    {
+      "canonicalToken": "RQQKwqhZUiubFzkHo4WcR62Gnvh",
+      "title": "Text Match",
+      "contentPath": null,
+      "objectToken": "OrJ7dZi2BoHVx0x1N3iczsXFnbh",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1782115725"
+    },
+    {
+      "canonicalToken": "RQTRwhOVPiwnwokqr4scAtyfnBf",
+      "title": "Full Text Search",
+      "contentPath": null,
+      "objectToken": "A3mAdX5a0oCGO5xV0ylcH2AGnTb",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1780903601"
+    },
+    {
+      "canonicalToken": "RY8ww0NDQi8yU9kNpjicHP7Gn4b",
+      "title": "Manage Project Jobs",
+      "contentPath": null,
+      "objectToken": "ZVIydpbtCoMuvkxahDHcldXPnJd",
+      "parentToken": "QHzrwVlEOipspAkPiyucWezqneC",
+      "revisionId": null,
+      "objectEditTime": "1783589917"
+    },
+    {
+      "canonicalToken": "RZqzw4UPkiikHOkdoa4chGDgnWX",
+      "title": "BYOC Overview",
+      "contentPath": null,
+      "objectToken": "M10Qd6mhZoBxHjxhMLkcl0c7nCb",
+      "parentToken": "BDOHwqlMDiei78kdUefcjSQUnEg",
+      "revisionId": null,
+      "objectEditTime": "1782956800"
+    },
+    {
+      "canonicalToken": "RhKcwNACpi3WihkTzo8cr4BCnee",
+      "title": "Delete Entities",
+      "contentPath": null,
+      "objectToken": "F79AdBqEpobEc8xOQzQco5Tynpf",
+      "parentToken": "DCZNwZdcfivVfIkAZ6qcaK5wnHd",
+      "revisionId": null,
+      "objectEditTime": "1778746009"
+    },
+    {
+      "canonicalToken": "RlY2wylVQiZswikT0G2cBHVznTf",
+      "title": "RTREE",
+      "contentPath": null,
+      "objectToken": "Jh8udHeRDoMjB7xcn0lcU8qpnOc",
+      "parentToken": "PdSnwO3jWiGZHAkW510c5zg0nmm",
+      "revisionId": null,
+      "objectEditTime": "1761615972"
+    },
+    {
+      "canonicalToken": "RlhDw3Fr9iCpWSkylfAcyes1nLh",
+      "title": "Release Notes (July 23, 2024)",
+      "contentPath": null,
+      "objectToken": "Dxe4dtrhgopRhyxH24ncUe2RnLf",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1760064710"
+    },
+    {
+      "canonicalToken": "RoxawNJhki1vXXkFsEEc7laMnxe",
+      "title": "Create On-Demand Cluster",
+      "contentPath": null,
+      "objectToken": "IazbdHagJonQoMxM9DhcZoVynhb",
+      "parentToken": "BZNuwqh6di0QOFkrS7ncW8AnnSd",
+      "revisionId": null,
+      "objectEditTime": "1783323320"
+    },
+    {
+      "canonicalToken": "Rru4wUtrfiPkeYkuuTIc7pQGnLh",
+      "title": "On-Demand Search",
+      "contentPath": null,
+      "objectToken": "EN8td7jY0owjCixNdf4c1Wf3nkg",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1778300856"
+    },
+    {
+      "canonicalToken": "RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "title": "Create an External Collection",
+      "contentPath": null,
+      "objectToken": "Z7JXd1gcWoosPgxs9jxc79denEg",
+      "parentToken": "Uowdw7rFKi8bwckJ2vscxbEmnGh",
+      "revisionId": null,
+      "objectEditTime": "1783588255"
+    },
+    {
+      "canonicalToken": "RxUiwJ77WiFKZGkC8rEcLeopnTf",
+      "title": "TIMESTAMPTZ Field",
+      "contentPath": null,
+      "objectToken": "Kh2YdHyZJoNjA0xJa1ocrrMDncd",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782957115"
+    },
+    {
+      "canonicalToken": "RymGwWsFMi3VV1kXGmHckc2WnKc",
+      "title": "Create Cloud Storage Bucket and Service Account",
+      "contentPath": null,
+      "objectToken": "GSRBdaa99onYYExsMhFcWIFcnuh",
+      "parentToken": "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+      "revisionId": null,
+      "objectEditTime": "1767924384"
+    },
+    {
+      "canonicalToken": "RzSBwW7dUizQeekka9CcZ3Etnyg",
+      "title": "Create a StructArray Field",
+      "contentPath": null,
+      "objectToken": "S42mdbcmaoCTLXxBARScu5f3nBb",
+      "parentToken": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
+      "revisionId": null,
+      "objectEditTime": "1781682572"
+    },
+    {
+      "canonicalToken": "S7PMwgqGOiURCpkTFT4cTnTjnAc",
+      "title": "Release Notes (April 3, 2024)",
+      "contentPath": null,
+      "objectToken": "QAxQd2cpeodWlJxlgT0cMSZbn5e",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591063"
+    },
+    {
+      "canonicalToken": "SFLCweOuaiChuVkjazqcqyE7neb",
+      "title": "ASCII folding",
+      "contentPath": null,
+      "objectToken": "CDCEdKkepomuG8xVUpgccNeFnCg",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1782957137"
+    },
+    {
+      "canonicalToken": "SFPlwOh8cigh8wkm9xLcXHlfnVh",
+      "title": "Connect to Serving Clusters",
+      "contentPath": null,
+      "objectToken": "TLygd5QUboQRDCxTFtccDN90nec",
+      "parentToken": "YIJlw9EUpit195kOx5GcYvHCn1e",
+      "revisionId": null,
+      "objectEditTime": "1781247406"
+    },
+    {
+      "canonicalToken": "SHy1wIJ58iGIhykpBW6cZ3Ibndf",
+      "title": "Integrations",
+      "contentPath": null,
+      "objectToken": "HII0dPE6youxeTxOiUocRAv5nAJ",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773826787"
+    },
+    {
+      "canonicalToken": "SIhBwKFJri4u2CkyD3ucnO7an3g",
+      "title": "Data Security",
+      "contentPath": null,
+      "objectToken": "HAEQdkX3No0cm0xg8VocaRmOnsh",
+      "parentToken": "HAF7wZny2ip5BRky4zmcK446nOe",
+      "revisionId": null,
+      "objectEditTime": "1782957329"
+    },
+    {
+      "canonicalToken": "SOgiwzPxpisy8MkhtuecZqFbnaf",
+      "title": "Geometry Operators",
+      "contentPath": null,
+      "objectToken": "BbhPdw9szof0xvxRZSVc9wyPn2b",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1762325654"
+    },
+    {
+      "canonicalToken": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "title": "Single Sign-on (SSO)",
+      "contentPath": null,
+      "objectToken": "DTPDdT64ooNdG5xKe4PcBJJln6f",
+      "parentToken": "XiOsw8A3eibZInk1aJNceBqznLb",
+      "revisionId": null,
+      "objectEditTime": "1783323740"
+    },
+    {
+      "canonicalToken": "ScncwBnDBiVoLjksXAwcUgrgnod",
+      "title": "Stop",
+      "contentPath": null,
+      "objectToken": "JAF2dpeW6oF6K5xYjqxcA52lnKc",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1782957353"
+    },
+    {
+      "canonicalToken": "SkJtwgkCDiGYeOkakIgcLT46nee",
+      "title": "BITMAP",
+      "contentPath": null,
+      "objectToken": "NjExdekkwon2wIxedJick0fcnfd",
+      "parentToken": "PdSnwO3jWiGZHAkW510c5zg0nmm",
+      "revisionId": null,
+      "objectEditTime": "1773819114"
+    },
+    {
+      "canonicalToken": "SsGkwyGJDirNDwk170rcHbUjnVe",
+      "title": "Default Values",
+      "contentPath": null,
+      "objectToken": "IG0BdZ2HxoyJr9xzoIPc1MhYnse",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1779421054"
+    },
+    {
+      "canonicalToken": "SwgXwdHG6iqpbUknXrHcOPd7nRe",
+      "title": "Migrate from Tencent Cloud to Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "SsK1d9GC5o3rvWxgxlacjtxMnRf",
+      "parentToken": "OpQHwQrMki9brIkTsAGcq93Zndf",
+      "revisionId": null,
+      "objectEditTime": "1749116713"
+    },
+    {
+      "canonicalToken": "TBErwF79wil25bkkUIocVqI2nfb",
+      "title": "Manage File Resources",
+      "contentPath": null,
+      "objectToken": "MvtwdG4bYoC6YvxUpTecbWESn2F",
+      "parentToken": "Cou4wUDwti8G0FkibG4cFNRNnre",
+      "revisionId": null,
+      "objectEditTime": "1777000918"
+    },
+    {
+      "canonicalToken": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
+      "title": "Migrate from Milvus to Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "RsIed9EfSokMbWxSW5ncJjXInYg",
+      "parentToken": "IeNswy8ySiutKAkdphRc4lfynsf",
+      "revisionId": null,
+      "objectEditTime": "1754036662"
+    },
+    {
+      "canonicalToken": "TQpDw2mkViTQ98k9RbfcxUarneb",
+      "title": "Create Cross-Account IAM Role",
+      "contentPath": null,
+      "objectToken": "UjjndpUsuo8uccxiVBkcMDcTnSg",
+      "parentToken": "DsqzwjegpiYSdtk1k75c1zXsnZc",
+      "revisionId": null,
+      "objectEditTime": "1767924205"
+    },
+    {
+      "canonicalToken": "TVfnwtCEQico7Bk9bngcnV1cnGb",
+      "title": "Remove Punct",
+      "contentPath": null,
+      "objectToken": "PzfgdaFZLoMCGIx6gl9cO3Xjnkb",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1768809808"
+    },
+    {
+      "canonicalToken": "TVnkwXupUiX3zDkzYPWcxKP3nvg",
+      "title": "Credit Card",
+      "contentPath": null,
+      "objectToken": "Ugd9dlygComG36xn2rWcJADrn4b",
+      "parentToken": "At2XwmzCliTWJDkyxBIc1HVSnvg",
+      "revisionId": null,
+      "objectEditTime": "1779417197"
+    },
+    {
+      "canonicalToken": "TeLbw6guCimFLgkQWdmcZB2unMd",
+      "title": "Access Log Reference",
+      "contentPath": null,
+      "objectToken": "Az3mdfBYhobNAHxpsAjc5IpRnec",
+      "parentToken": "VEdBwligrip5h7k4JQHcz58snmb",
+      "revisionId": null,
+      "objectEditTime": "1783323953"
+    },
+    {
+      "canonicalToken": "TfzMwdLsWibd0UkGpGAcLhuInvb",
+      "title": "Update Payment Method",
+      "contentPath": null,
+      "objectToken": "BuJ4dHv9Ho8sVlxLaLmcGDsrnOc",
+      "parentToken": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+      "revisionId": null,
+      "objectEditTime": "1782373169"
+    },
+    {
+      "canonicalToken": "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
+      "title": "Release Notes (Aug 16, 2023)",
+      "contentPath": null,
+      "objectToken": "DqmydKtaeoONxPxdiJtcG072nVu",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1712140564"
+    },
+    {
+      "canonicalToken": "TjxAw7lx6iNluBkR4a6czoHpn0f",
+      "title": "Storage Options",
+      "contentPath": null,
+      "objectToken": "Rigrd9OqjoVaU7x0WvVcfnydnRe",
+      "parentToken": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "revisionId": null,
+      "objectEditTime": "1780611233"
+    },
+    {
+      "canonicalToken": "TumJwDYrhiDYcUkKsUIcuSnbnCf",
+      "title": "Filter Templating",
+      "contentPath": null,
+      "objectToken": "QTCSdR1dYoI8DKxBzyhcQSDsnXt",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1783075580"
+    },
+    {
+      "canonicalToken": "U1dnw1bYyid9pTkjBhkcjOkenVc",
+      "title": "Migration",
+      "contentPath": null,
+      "objectToken": "D5ehdWAdjoR2CUxxBnUcUqB3nub",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773827261"
+    },
+    {
+      "canonicalToken": "U3mEwtr42i7GJsk25nzcc4KonUc",
+      "title": "Configure a Customer-Managed VPC on AWS",
+      "contentPath": null,
+      "objectToken": "GyvJdWeV1ov6CzxGNyxcx34rnpd",
+      "parentToken": "DsqzwjegpiYSdtk1k75c1zXsnZc",
+      "revisionId": null,
+      "objectEditTime": "1781612373"
+    },
+    {
+      "canonicalToken": "U7OvwHP3AiUWlckzIEKclLQQnPr",
+      "title": "Primary-Key Search",
+      "contentPath": null,
+      "objectToken": "BaAKdUcdQoP31ExwJElcxebGn5W",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778746329"
+    },
+    {
+      "canonicalToken": "UDjcwWISuixYjqkQy3GcmBpsnmV",
+      "title": "Access Control Explained",
+      "contentPath": null,
+      "objectToken": "GcQqdbC5qoZlDExDqaicpJpvny7",
+      "parentToken": "UEFXwAUL4icMjMkUej9cqncJncd",
+      "revisionId": null,
+      "objectEditTime": "1783073563"
+    },
+    {
+      "canonicalToken": "UDxnwONhSidaQikY6NGcRdmOnUh",
+      "title": "Zilliz Claude Code Plugin Setup",
+      "contentPath": null,
+      "objectToken": "FesYdT3qbo7Ea4xQoJdcIM1qnif",
+      "parentToken": "LFepwAKeGiURJUksNA4cqYPYnIb",
+      "revisionId": null,
+      "objectEditTime": "1779169176"
+    },
+    {
+      "canonicalToken": "UIaAwGay9iJHhlkxx8VcxfZ3nvb",
+      "title": "Release Notes (Jan 10, 2023)",
+      "contentPath": null,
+      "objectToken": "GE8tdn29boPA8GxeS21ctiaPnVk",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1719297097"
+    },
+    {
+      "canonicalToken": "UPg7wiU71ioeELk8I8KcLDYqncb",
+      "title": "Manage Organization Alerts",
+      "contentPath": null,
+      "objectToken": "J1nddT7ZzoxYq5xvSO2crscMnxe",
+      "parentToken": "Xma9w6Ne9ihcsZkFkSmcHidEnZg",
+      "revisionId": null,
+      "objectEditTime": "1762164708"
+    },
+    {
+      "canonicalToken": "UR9SwucAIiQ2TYkc9EucsgvSnng",
+      "title": "Alter Collection Schema",
+      "contentPath": null,
+      "objectToken": "DGkYdgae0oj89YxVxqnccARYnEf",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782888930"
+    },
+    {
+      "canonicalToken": "UgqvwKh2QiKE1kkYNLJcaHt0nkg",
+      "title": "Select the Right Cluster Type",
+      "contentPath": null,
+      "objectToken": "JZAsdh6Cpok9GIxpOo0caUnondg",
+      "parentToken": "NM2OwCcfVijX8DkNsIxcdajEnr7",
+      "revisionId": null,
+      "objectEditTime": "1781595334"
+    },
+    {
+      "canonicalToken": "Uk0Nw1ZdbiOEBtkAOKacLTf8nGe",
+      "title": "Serverless Cluster Cost",
+      "contentPath": null,
+      "objectToken": "KN3sdIAnGoXmHHxOzakcnNUWnod",
+      "parentToken": "PuQOwUaY5irgTrk0V10cNdHUned",
+      "revisionId": null,
+      "objectEditTime": "1783592223"
+    },
+    {
+      "canonicalToken": "V7nZwzmpFiOokGksfTqcAcjcnXh",
+      "title": "Separate Zilliz Cloud Billing on AWS Marketplace",
+      "contentPath": null,
+      "objectToken": "QYjpdAfOLoUbLexLaOUcDdxqnPc",
+      "parentToken": "ItpQwEBvjix1z5kb5qEcYf0Pngc",
+      "revisionId": null,
+      "objectEditTime": "1779175681"
+    },
+    {
+      "canonicalToken": "V7xfwDariioU5GkcmfXctzSEnyc",
+      "title": "Function Overview",
+      "contentPath": null,
+      "objectToken": "FJQcdo9Mnou26Ux4sJ9cBUyFnzb",
+      "parentToken": "LnJkw4UbEihtXjknZKHclGsBn4c",
+      "revisionId": null,
+      "objectEditTime": "1782957686"
+    },
+    {
+      "canonicalToken": "VAirw0c7ZiKCSqkjtDscAsC4nAf",
+      "title": "View Collections",
+      "contentPath": null,
+      "objectToken": "S1sodgieLo4QwyxIXZWcRSa5nRd",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1778744833"
+    },
+    {
+      "canonicalToken": "VFMLwxpsniVGKYkE3DecmpQ2nrg",
+      "title": "Migrate from OpenSearch to Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "Ry00dUDWuo9Dymx5zjYcMNGdnOe",
+      "parentToken": "OpQHwQrMki9brIkTsAGcq93Zndf",
+      "revisionId": null,
+      "objectEditTime": "1749116764"
+    },
+    {
+      "canonicalToken": "VOkIwd5adiziGQkoDO1cRoRFnre",
+      "title": "Data Model Design with an Array of Structs",
+      "contentPath": null,
+      "objectToken": "EmRZdpJ1No87NhxLKT1cDFxqnHR",
+      "parentToken": "Gi6KwjOlKiBhdOkxlL3cdobBnLe",
+      "revisionId": null,
+      "objectEditTime": "1782115703"
+    },
+    {
+      "canonicalToken": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "title": "Import Data",
+      "contentPath": null,
+      "objectToken": "MomDdhGAioojyTxn3HfcUrNqnjb",
+      "parentToken": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "revisionId": null,
+      "objectEditTime": "1708757996"
+    },
+    {
+      "canonicalToken": "VbjiwU5RYi4bWdkC48Jceltnnpd",
+      "title": "Release Notes (Jan 18, 2024)",
+      "contentPath": null,
+      "objectToken": "NOmsdWN7PoMEM8xxJqlcFtpEn8g",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783607548"
+    },
+    {
+      "canonicalToken": "VcI1wZ5mQiGqdPkCzHccj1RLnbd",
+      "title": "Configure Slow Logs",
+      "contentPath": null,
+      "objectToken": "Fx3udHOwzoeQPDx8REbcxnLFnAe",
+      "parentToken": "LwFDwQ73ri55rJkByyWckr52nAg",
+      "revisionId": null,
+      "objectEditTime": "1782183237"
+    },
+    {
+      "canonicalToken": "VeDpwQV7wiodggkf10pcJbxMnjf",
+      "title": "Backfill and Schema Iteration",
+      "contentPath": null,
+      "objectToken": "MeR4dZ6PgoOSUwxpP15c7FRHneh",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1778467183"
+    },
+    {
+      "canonicalToken": "VlAlwAJvEiVVW6k0RBvcvkpWnhK",
+      "title": "StructArray Overview",
+      "contentPath": null,
+      "objectToken": "F5YwdM1feog30qxPSGYcuTkLnud",
+      "parentToken": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
+      "revisionId": null,
+      "objectEditTime": "1782889158"
+    },
+    {
+      "canonicalToken": "VmGMwsTliiGZdFkzzeBckRNlnCh",
+      "title": "StructArray Operators",
+      "contentPath": null,
+      "objectToken": "WPecdPKNeoRHvlxYF2gcXSVRneF",
+      "parentToken": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
+      "revisionId": null,
+      "objectEditTime": "1783077556"
+    },
+    {
+      "canonicalToken": "Vs4YwNnvzitoQ8kunlGcWMJInbf",
+      "title": "Schema Explained",
+      "contentPath": null,
+      "objectToken": "Fjuud4io6oifNZxpoJjclHT2nyb",
+      "parentToken": "NuWQwL1AhiDzokkx5UPckhthnsf",
+      "revisionId": null,
+      "objectEditTime": "1782116452"
+    },
+    {
+      "canonicalToken": "VsLcwDK6SiGs0CkJ7i0cmRYWnof",
+      "title": "Understand BYOC Billing",
+      "contentPath": null,
+      "objectToken": "ITEzdRxKZoEyoixi0mLc2E1Gn3b",
+      "parentToken": "RDMDwm8ojizBA7keZgjcakTOnGd",
+      "revisionId": null,
+      "objectEditTime": "1782373706"
+    },
+    {
+      "canonicalToken": "VvkEwug9ciPZYVk6hM1chLydnib",
+      "title": "Index StructArray Fields",
+      "contentPath": null,
+      "objectToken": "ATkTdEgAioEZnSxNIyYcmjDxnsf",
+      "parentToken": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
+      "revisionId": null,
+      "objectEditTime": "1783061580"
+    },
+    {
+      "canonicalToken": "W04nwxHqNiqyrykxMZOcu4ianle",
+      "title": "Manage External Collections (Console)",
+      "contentPath": null,
+      "objectToken": "AByzdrRIFoVB0SxzFhEcTvWanIe",
+      "parentToken": "ZxNgwDAViiwLASkf2OgcD0d4nHg",
+      "revisionId": null,
+      "objectEditTime": "1778220224"
+    },
+    {
+      "canonicalToken": "W0WhwqRyciRMRLklcsdca1U2nae",
+      "title": "English",
+      "contentPath": null,
+      "objectToken": "PLbMdMWRtoNtDTxeehscSsNxnof",
+      "parentToken": "VvJowcWXeiFPlDkYU7ScezGznIb",
+      "revisionId": null,
+      "objectEditTime": "1768809287"
+    },
+    {
+      "canonicalToken": "W2fZwrrhVibvpGkd0MbcQGJQnib",
+      "title": "Set up a Private Link (Azure)",
+      "contentPath": null,
+      "objectToken": "MTE5dObSNob11OxwKtecpElhnfg",
+      "parentToken": "O5W3wHvmbiVSoLkzKgHcvB9XnUb",
+      "revisionId": null,
+      "objectEditTime": "1783324534"
+    },
+    {
+      "canonicalToken": "WBONwyqFAi02DTkCG41c93wCn6e",
+      "title": "Release Notes (July 15, 2025)",
+      "contentPath": null,
+      "objectToken": "VNUddhdMaoOH1zxXr50cVePbnYg",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591553"
+    },
+    {
+      "canonicalToken": "WDOJwtKkAijW4gkUpQhcAL0Rn1d",
+      "title": "Other IdP (SAML 2.0)",
+      "contentPath": null,
+      "objectToken": "Euz2dDmO2oCWsixczMic2faanJh",
+      "parentToken": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "revisionId": null,
+      "objectEditTime": "1783323761"
+    },
+    {
+      "canonicalToken": "WDjyw7hO3i26RckEgqIcf36snMh",
+      "title": "Filtered Search with StructArray",
+      "contentPath": null,
+      "objectToken": "BxOudLjD8oPBgexFVz8cWwlwnlh",
+      "parentToken": "DGCFwPHDqijeJJklqTScLwUunrh",
+      "revisionId": null,
+      "objectEditTime": "1781684430"
+    },
+    {
+      "canonicalToken": "WMSvwXXz4iR7mZkGmUscF3Y1nxs",
+      "title": "Standard Analyzer",
+      "contentPath": null,
+      "objectToken": "M2eXdbyn6o0htVxR8bMc1MTsnse",
+      "parentToken": "VvJowcWXeiFPlDkYU7ScezGznIb",
+      "revisionId": null,
+      "objectEditTime": "1768809254"
+    },
+    {
+      "canonicalToken": "WMh8w3tbKiBhukk3ICMc4ctznEg",
+      "title": "Modify Collection",
+      "contentPath": null,
+      "objectToken": "PI78ddMIsoXk43xlHIhcc5ubnrj",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1782116449"
+    },
+    {
+      "canonicalToken": "WOQHwAlG0ibUgQkM18PcArMWnOc",
+      "title": "Required GCP API Services",
+      "contentPath": null,
+      "objectToken": "VCfRd0GbBoLgtSx2xIHcQsrmnmf",
+      "parentToken": "KmYgwHNOFiPQ9sk4bSDcMuIHnjC",
+      "revisionId": null,
+      "objectEditTime": "1749194870"
+    },
+    {
+      "canonicalToken": "WQvUw9c9lifskGkgz0fcmUWvnFb",
+      "title": "Tune Index Build Level",
+      "contentPath": null,
+      "objectToken": "OEJsd8OKwoitzYx2KRpct8PXnWc",
+      "parentToken": "Qc0SwFomWiEXvMkDAH9cMAhlnIh",
+      "revisionId": null,
+      "objectEditTime": "1782957775"
+    },
+    {
+      "canonicalToken": "WRuXwuBYli07B5kudtCc1Omanyh",
+      "title": "Import",
+      "contentPath": null,
+      "objectToken": "Mso7dNpVkoEHulxKkbpcGOIMnAg",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1773805852"
+    },
+    {
+      "canonicalToken": "WTPbww9GkifmAvkuRWLcVd4jnnh",
+      "title": "Insert Data into StructArray Fields",
+      "contentPath": null,
+      "objectToken": "XcEFdhEudo1T7ExB5dWci43Zn4f",
+      "parentToken": "LIMbwXk1OiS5SykUyNhc5FtSnPb",
+      "revisionId": null,
+      "objectEditTime": "1781683362"
+    },
+    {
+      "canonicalToken": "WTsmwWdgOiKnwpkdZdScp093njh",
+      "title": "Multi-Vector Hybrid Search",
+      "contentPath": null,
+      "objectToken": "KNoHdUgnPoTXm6xmvb3c0KF6ndc",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778746365"
+    },
+    {
+      "canonicalToken": "WVaVw8J7UiYZ52kaqVUcktqAnAf",
+      "title": "Cohere",
+      "contentPath": null,
+      "objectToken": "ExuHdkKpHoOyOIxO7MYcIJG6nmd",
+      "parentToken": "AP0lw1SNciBJNYkJ2iDc0qnfnEg",
+      "revisionId": null,
+      "objectEditTime": "1768814003"
+    },
+    {
+      "canonicalToken": "WZe4w7lNji6RVHkR5alcrTw8nQ2",
+      "title": "External Migration Basics",
+      "contentPath": null,
+      "objectToken": "QIy7dTPcSop0z1xwrrYc1kTenLe",
+      "parentToken": "OpQHwQrMki9brIkTsAGcq93Zndf",
+      "revisionId": null,
+      "objectEditTime": "1782957811"
+    },
+    {
+      "canonicalToken": "Wo5xwhRaWitCP9kXOG2c082en2c",
+      "title": "Synonym",
+      "contentPath": null,
+      "objectToken": "WrCvdw4TSoXAfzx7FMVcTF3Bnqd",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1777003335"
+    },
+    {
+      "canonicalToken": "WtkSwXgDdiB0eTkEkorcDCFlnme",
+      "title": "Import from a Parquet File",
+      "contentPath": null,
+      "objectToken": "F149dJ9PFoNUrNxk5iccD2dxnDe",
+      "parentToken": "MtGywZwmXiHg0AkJMavcWAtxnCg",
+      "revisionId": null,
+      "objectEditTime": "1768270090"
+    },
+    {
+      "canonicalToken": "X16rw3C4giUT6bkPLXAcsBapnpe",
+      "title": "Cncharonly",
+      "contentPath": null,
+      "objectToken": "SrAgdyRwwoh9Eex0PI8cBDINnBd",
+      "parentToken": "ZIakwn5V8i1msRk7EDscPNqsnUf",
+      "revisionId": null,
+      "objectEditTime": "1782957848"
+    },
+    {
+      "canonicalToken": "X6nAwrgYAiJ3Lzku8mBczdbXnuo",
+      "title": "Subscribe to a Free Trial on AWS Marketplace",
+      "contentPath": null,
+      "objectToken": "At1TdvfF5oKgJaxRhqYclG2Vn2d",
+      "parentToken": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+      "revisionId": null,
+      "objectEditTime": "1779782638"
+    },
+    {
+      "canonicalToken": "X6wiwFkuFiF8nekse05cnBIPnic",
+      "title": "Language Identifier",
+      "contentPath": null,
+      "objectToken": "Bvj5dStCFoV7hKxQcCjcG7Son0e",
+      "parentToken": "Zu6vw6Aifi1gvNkqqO5cDjmtngh",
+      "revisionId": null,
+      "objectEditTime": "1762417165"
+    },
+    {
+      "canonicalToken": "XC1ow3jGBi7hVvkINtBcXhQ6n8g",
+      "title": "Snapshots",
+      "contentPath": null,
+      "objectToken": "PsGYdbK0zoGXbAxlBEGcigWDn0d",
+      "parentToken": "OUWXw5c4gia34ZkQUcEcMFbWn6s",
+      "revisionId": null,
+      "objectEditTime": "1783408164"
+    },
+    {
+      "canonicalToken": "XCZaw6aKbixxWIkMssEchOtOnlg",
+      "title": "Monitor Billing Alerts",
+      "contentPath": null,
+      "objectToken": "S8hZd6O46ouMf8xs9tccrG2Cn8d",
+      "parentToken": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+      "revisionId": null,
+      "objectEditTime": "1783590219"
+    },
+    {
+      "canonicalToken": "XgbAwy9ZUimC1Pk7kBtcEKsIn7d",
+      "title": "Cluster Connection",
+      "contentPath": null,
+      "objectToken": "Xj0Ld4tw7ohNAKxhEGIcca0PnRf",
+      "parentToken": "Li1gwPA8HiBgsokLgO4cKA7nnDg",
+      "revisionId": null,
+      "objectEditTime": "1778301567"
+    },
+    {
+      "canonicalToken": "XmUYwRgNDitesQkl9QDc3IslnOh",
+      "title": "Release Notes (March 6, 2023)",
+      "contentPath": null,
+      "objectToken": "TAEedr1hho6UpjxGHhBcn9nFnbf",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783607622"
+    },
+    {
+      "canonicalToken": "Xx9EwWtekinLZfkWKqic37dDnFb",
+      "title": "Consistency Level",
+      "contentPath": null,
+      "objectToken": "WOFEd8zMuo8DAhxAX4ecxiOgnNh",
+      "parentToken": "CSYrwhK4Gigk07kd6ufcNTGMnZf",
+      "revisionId": null,
+      "objectEditTime": "1778682950"
+    },
+    {
+      "canonicalToken": "Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
+      "title": "Payment and Billing Overview",
+      "contentPath": null,
+      "objectToken": "QPkidcq1BogfgAxaXmEclhy7nZA",
+      "parentToken": "FmkCwm1QHitB7uk9U9ncLnHrnse",
+      "revisionId": null,
+      "objectEditTime": "1783590964"
+    },
+    {
+      "canonicalToken": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
+      "title": "Migrate from Elasticsearch to Zilliz Cloud",
+      "contentPath": null,
+      "objectToken": "LCR9dQcdKojgN1x9GSKcu8lJnch",
+      "parentToken": "OpQHwQrMki9brIkTsAGcq93Zndf",
+      "revisionId": null,
+      "objectEditTime": "1749116647"
+    },
+    {
+      "canonicalToken": "YBDGwmFYkiRmRIkKGsscRjDmnIb",
+      "title": "Data Resilience",
+      "contentPath": null,
+      "objectToken": "GbaAdZIygofOSixK2bKczXRynMb",
+      "parentToken": "NM2OwCcfVijX8DkNsIxcdajEnr7",
+      "revisionId": null,
+      "objectEditTime": "1770084904"
+    },
+    {
+      "canonicalToken": "YBYmwvx68iMKFRknytJccwk0nPf",
+      "title": "STL_SORT",
+      "contentPath": null,
+      "objectToken": "QBzYdegjGoBdfKxJwwEcoDTTn9b",
+      "parentToken": "PdSnwO3jWiGZHAkW510c5zg0nmm",
+      "revisionId": null,
+      "objectEditTime": "1773819322"
+    },
+    {
+      "canonicalToken": "YHG0wCYxfiZILvkZ2VLclmvsn7g",
+      "title": "Manage Cluster Roles (Console)",
+      "contentPath": null,
+      "objectToken": "Y3kCdxxaPovRK9xtQgWck8jDnAg",
+      "parentToken": "UEFXwAUL4icMjMkUej9cqncJncd",
+      "revisionId": null,
+      "objectEditTime": "1782885772"
+    },
+    {
+      "canonicalToken": "YMYFwJhUuibUTxkJ1lTcNVSxnhg",
+      "title": "Storage Request Cost",
+      "contentPath": null,
+      "objectToken": "AqypdcKx1o3Fdfxg79icjnFcnUd",
+      "parentToken": "PuQOwUaY5irgTrk0V10cNdHUned",
+      "revisionId": null,
+      "objectEditTime": "1778151674"
+    },
+    {
+      "canonicalToken": "YNbGwiEjAinaQfkSdNlcTehwn8I",
+      "title": "Convert Your Data",
+      "contentPath": null,
+      "objectToken": "S7WEdHeJ1oaQ4mxhVOjcpIEtn9b",
+      "parentToken": "T5BnwoXuFiwXyekEJ1ZcfaJGnqd",
+      "revisionId": null,
+      "objectEditTime": "1734935092"
+    },
+    {
+      "canonicalToken": "YNczwtWpFiN0CckMvDVcn0pvnEb",
+      "title": "INVERTED",
+      "contentPath": null,
+      "objectToken": "SDNadIvLNomYYTxeREAcPmvWnug",
+      "parentToken": "PdSnwO3jWiGZHAkW510c5zg0nmm",
+      "revisionId": null,
+      "objectEditTime": "1782115714"
+    },
+    {
+      "canonicalToken": "YWhwwvlxOiGk9gkTm0Pc2w00npe",
+      "title": "Credits",
+      "contentPath": null,
+      "objectToken": "TfDndUVyVoJycZxvCHQchz2Zngb",
+      "parentToken": "At2XwmzCliTWJDkyxBIc1HVSnvg",
+      "revisionId": null,
+      "objectEditTime": "1782372823"
+    },
+    {
+      "canonicalToken": "YbChwcPMBim5ryk1EQocEbDenDd",
+      "title": "BM25 Function",
+      "contentPath": null,
+      "objectToken": "DE3MdfQv9oqo8dxKIcJcqdnlntf",
+      "parentToken": "SyvKwN1f9i40ypk4o7FcRBzJnRe",
+      "revisionId": null,
+      "objectEditTime": "1767167302"
+    },
+    {
+      "canonicalToken": "YmsVwIzOBinv4OklCfmc2nyznAe",
+      "title": "Cluster Credentials",
+      "contentPath": null,
+      "objectToken": "PzMyd5SaNoBKZQxh51LcmGwZnwh",
+      "parentToken": "XiOsw8A3eibZInk1aJNceBqznLb",
+      "revisionId": null,
+      "objectEditTime": "1746696622"
+    },
+    {
+      "canonicalToken": "YtJPwEVETiTaPMkWSfAccjXTnge",
+      "title": "Upsert Entities",
+      "contentPath": null,
+      "objectToken": "RmCCd1QRBo6nlixUnmMcjr5Xnrg",
+      "parentToken": "DCZNwZdcfivVfIkAZ6qcaK5wnHd",
+      "revisionId": null,
+      "objectEditTime": "1783306410"
+    },
+    {
+      "canonicalToken": "YtxBwrPfBiuFDdk10GVcYY1DnGg",
+      "title": "Release Notes (Sept 27, 2023)",
+      "contentPath": null,
+      "objectToken": "GJdCdQYjKodPgPxzs4lck9jQnoh",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1712140341"
+    },
+    {
+      "canonicalToken": "Z9AMwNkVLiog0jkXxNscuMpJnjL",
+      "title": "Collection Explained",
+      "contentPath": null,
+      "objectToken": "YE9vdhY0oo11tkxzrOicfM2jnSm",
+      "parentToken": "XpEzwyxaJi181OkIKwqcQDWrnIh",
+      "revisionId": null,
+      "objectEditTime": "1782116435"
+    },
+    {
+      "canonicalToken": "ZACVwXqTbiCqR3kS9YAccuaQnId",
+      "title": "Scheduled Scaling",
+      "contentPath": null,
+      "objectToken": "GxCGdm5fBop9DlxhiPOctcOPnNg",
+      "parentToken": "JFU0w6Ez4iAmOIkjT62cse1unaf",
+      "revisionId": null,
+      "objectEditTime": "1781676912"
+    },
+    {
+      "canonicalToken": "ZBEiwpvlbijhYDkmnNScc7zyn5d",
+      "title": "January 2026 Release Notes",
+      "contentPath": null,
+      "objectToken": "Qfm6d9S0SoLdcaxOMuPcFzmonBe",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783589489"
+    },
+    {
+      "canonicalToken": "ZOikw2pIUiAZj9kuLYRcdhLnnoc",
+      "title": "Import Data (RESTful API)",
+      "contentPath": null,
+      "objectToken": "PSRUdR7rVo8acGxFNZ7c0Gu1nPg",
+      "parentToken": "VTZZwCkkCi7FwnklLDhcMJwvnQb",
+      "revisionId": null,
+      "objectEditTime": "1782115711"
+    },
+    {
+      "canonicalToken": "ZQqowpu4Oi0xIPkyRSTconB6nnb",
+      "title": "Monitor Global Cluster",
+      "contentPath": null,
+      "objectToken": "WSGwdY0UDo4p3Dx12XkcvM7TnJb",
+      "parentToken": "VKMNwpMl0idY2nkEntncL9hTncb",
+      "revisionId": null,
+      "objectEditTime": "1783322933"
+    },
+    {
+      "canonicalToken": "ZR1bwJFFSio2jkkabd7c1YAYncf",
+      "title": "Range Search with StructArray",
+      "contentPath": null,
+      "objectToken": "Xrn5d296folMzaxrDBucPtsAnPf",
+      "parentToken": "DGCFwPHDqijeJJklqTScLwUunrh",
+      "revisionId": null,
+      "objectEditTime": "1781684678"
+    },
+    {
+      "canonicalToken": "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh",
+      "title": "Connect to Clusters",
+      "contentPath": null,
+      "objectToken": "KKlkdRw2Uoe1YoxTElkcogdFnnd",
+      "parentToken": "YIJlw9EUpit195kOx5GcYvHCn1e",
+      "revisionId": null,
+      "objectEditTime": "1783484151"
+    },
+    {
+      "canonicalToken": "Za3QwAcfjiSSvxk8UzUcTPmfnmb",
+      "title": "Performance Benchmarking with VectorDBBench",
+      "contentPath": null,
+      "objectToken": "DWF6dab5jo7xX5x8WYWcxNGRnSg",
+      "parentToken": "HWzCwbjfci51HHk4BvTcfbiHn1d",
+      "revisionId": null,
+      "objectEditTime": "1782958053"
+    },
+    {
+      "canonicalToken": "ZvSOwB7zkir7PjkzrOPciC5WnTe",
+      "title": "Release Notes (April 6, 2023)",
+      "contentPath": null,
+      "objectToken": "INVidpiyDoaoQGxCxwWcK0ALnKe",
+      "parentToken": "NOYvw884PigqIhk1gwLcw1OYnfe",
+      "revisionId": null,
+      "objectEditTime": "1783591124"
+    }
+  ]
+}

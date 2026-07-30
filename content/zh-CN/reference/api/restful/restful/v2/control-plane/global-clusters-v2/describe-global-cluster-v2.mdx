@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/describe-global-cluster-v2
+beta: FALSE
+title: "查看全球集群 (V2) | RESTful"
+description: "返回全球集群的基础拓扑和连接信息。本接口不返回复制延迟。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "查看全球集群 (V2)"
+sidebar_custom_props: { badges: ['get']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "查看全球集群 (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# 查看全球集群 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Describe Global Cluster","description":"Returns base topology and connection information for a Global Cluster. Replication lag is intentionally excluded from this endpoint.","tags":["Global Clusters (V2)"],"x-i18n":{"zh-CN":{"summary":"查看全球集群","description":"返回全球集群的基础拓扑和连接信息。本接口不返回复制延迟。"}},"parameters":[{"name":"globalClusterId","in":"path","description":"ID of the Global Cluster to describe.","required":true,"example":"glo-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"要查看的全球集群 ID。"}}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}}],"responses":{"200":{"description":"Returns information about the Global Cluster.","x-i18n":{"zh-CN":{"description":"返回全球集群信息。"}},"content":{"application/json":{"schema":{"oneOf":[{"type":"object","properties":{"globalClusterId":{"type":"string","description":"Global Cluster ID.","x-i18n":{"zh-CN":{"description":"全球集群 ID。"}},"example":"glo-xxxxxxxxxxxxxxx"},"globalClusterName":{"type":"string","description":"Global Cluster display name.","x-i18n":{"zh-CN":{"description":"全球集群显示名称。"}},"example":"my-global-cluster"},"projectId":{"type":"string","description":"Project ID.","x-i18n":{"zh-CN":{"description":"项目 ID。"}},"example":"proj-xxxxxxxxxxxxxxx"},"regionIds":{"type":"array","description":"Region IDs of member clusters. Values keep member order and are not deduplicated.","x-i18n":{"zh-CN":{"description":"成员集群的区域 ID。取值保留成员顺序且不会去重。"}},"items":{"type":"string","example":"aws-us-west-2"}},"cuType":{"type":"string","description":"CU type shared by member clusters.","x-i18n":{"zh-CN":{"description":"成员集群共享的 CU 类型。"}},"enum":["Performance-optimized","Capacity-optimized","Tiered-storage"],"example":"Performance-optimized"},"cuSize":{"type":"integer","description":"CU size shared by member clusters.","x-i18n":{"zh-CN":{"description":"成员集群共享的 CU 大小。"}},"example":4},"connectAddress":{"type":"string","description":"Global endpoint address.","x-i18n":{"zh-CN":{"description":"全球端点地址。"}},"example":"https://glo-xxxxxxxx.global-cluster.vectordb.zillizcloud.com"},"createTime":{"type":"string","description":"Creation time in ISO 8601 format.","x-i18n":{"zh-CN":{"description":"ISO 8601 格式的创建时间。"}},"format":"date-time","example":"2026-06-04T10:00:00Z"},"clusters":{"type":"array","description":"Member clusters in the Global Cluster.","x-i18n":{"zh-CN":{"description":"全球集群中的成员集群。"}},"items":{"type":"object","properties":{"clusterId":{"type":"string","description":"Member cluster ID.","x-i18n":{"zh-CN":{"description":"成员集群 ID。"}},"example":"in01-xxxxxxxxxxxxxxx"},"clusterName":{"type":"string","description":"Member cluster name.","x-i18n":{"zh-CN":{"description":"成员集群名称。"}},"example":"primary-cluster"},"regionId":{"type":"string","description":"Region ID where the member cluster is deployed.","x-i18n":{"zh-CN":{"description":"成员集群部署的区域 ID。"}},"example":"aws-us-west-2"},"role":{"type":"string","description":"Member role.","x-i18n":{"zh-CN":{"description":"成员角色。"}},"enum":["PRIMARY","SECONDARY"],"example":"PRIMARY"},"status":{"type":"string","description":"Member cluster status.","x-i18n":{"zh-CN":{"description":"成员集群状态。"}},"example":"RUNNING"}}}}},"x-tab-label":"success"},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":400},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}},"example":"Invalid request parameters."}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"globalClusterId":"glo-xxxxxxxxxxxxxxx","globalClusterName":"my-global-cluster","projectId":"proj-xxxxxxxxxxxxxxx","regionIds":["aws-us-west-2","aws-eu-west-1"],"cuType":"Performance-optimized","cuSize":4,"connectAddress":"https://glo-xxxxxxxx.global-cluster.vectordb.zillizcloud.com","createTime":"2026-06-04T10:00:00Z","clusters":[{"clusterId":"in01-primary","clusterName":"primary-cluster","regionId":"aws-us-west-2","role":"PRIMARY","status":"RUNNING"},{"clusterId":"in01-secondary","clusterName":"secondary-cluster-eu","regionId":"aws-eu-west-1","role":"SECONDARY","status":"RUNNING"}]}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":400,"message":"Invalid request parameters."}}}}}}}}
+export const endpoint = "/v2/globalClusters/{globalClusterId}"
+export const method = "get"

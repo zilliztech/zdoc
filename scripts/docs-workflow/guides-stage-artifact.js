@@ -5,37 +5,40 @@ const crypto = require('node:crypto')
 const { constants } = require('node:fs')
 const fs = require('node:fs/promises')
 const path = require('node:path')
-const { assertSourceCompleteness } = require('../../plugins/lark-docs/sourceCompleteness')
+const { assertSourceCompleteness } = require('../../packages/docs-tooling/src/lark/sourceCompleteness')
 const { validateEntries, validateMediaPrefetchMetrics } = require('./guides-media-prefetch')
 const { validateAssemblyDecision } = require('./guides-assembly-identity')
 
 const SHA = /^[0-9a-f]{40}$/
-const MEDIA_MANIFEST = 'plugins/lark-docs/meta/media-cache/guides.json'
-const MEDIA_PREFETCH_REPORT = 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'
-const ASSEMBLY_DECISION = 'plugins/lark-docs/meta/reports/guides-assembly-decision.json'
+const MEDIA_MANIFEST = 'packages/docs-tooling/src/lark/meta/media-cache/guides.json'
+const MEDIA_PREFETCH_REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'
+const ASSEMBLY_DECISION = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json'
 const STAGE_PATHS = Object.freeze({
   source: [
-    'plugins/lark-docs/meta/sources/guides',
+    'packages/docs-tooling/src/lark/meta/sources/guides',
     MEDIA_MANIFEST,
-    'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json',
-    'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md',
-    'plugins/lark-docs/meta/reports/guides-broken-content-links.json',
-    'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
+    'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json',
+    'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.md',
+    'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json',
+    'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     MEDIA_PREFETCH_REPORT,
     ASSEMBLY_DECISION,
   ],
   saas: [
-    'docs',
-    'config/generated/guides.sidebar.js',
-    'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json',
-    'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md',
-    'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv',
+    'tmp/docs-tooling/en/guides/content/en/guides',
+    'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js',
+    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
+    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md',
+    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv',
   ],
-  byoc: ['docs-byoc', 'config/generated/guides-byoc.sidebar.js'],
+  byoc: [
+    'tmp/docs-tooling/en/guides-byoc/content/en/byoc',
+    'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js',
+  ],
 })
 const REQUIRED_STAGE_FILES = Object.freeze({
   source: [
-    'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
+    'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     MEDIA_MANIFEST,
     MEDIA_PREFETCH_REPORT,
     ASSEMBLY_DECISION,
@@ -353,7 +356,7 @@ async function writePinnedFile(pinned, relative, bytes) {
 
 async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken }) {
   if (!rootToken) throw new Error('Guides source artifact requires rootToken')
-  const relativeSnapshot = snapshotCandidatePath || 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json'
+  const relativeSnapshot = snapshotCandidatePath || 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'
   const snapshotPath = path.join(workspace, relativeSnapshot)
   let snapshot
   try {
@@ -366,7 +369,7 @@ async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath,
     manual: 'guides',
     buildEnv: 'uat',
     rootToken,
-    sourceDir: path.join(workspace, 'plugins/lark-docs/meta/sources/guides'),
+    sourceDir: path.join(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides'),
     snapshot,
   })
 }

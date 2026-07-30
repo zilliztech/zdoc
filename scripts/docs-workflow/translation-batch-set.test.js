@@ -52,8 +52,8 @@ function managedArtifactPointer(directory, name) {
 }
 
 function sourcePathForTarget(targetPath) {
-  if (targetPath.startsWith(`${SAAS_ROOT}/`)) return `docs/tutorials/${targetPath.slice(SAAS_ROOT.length + 1)}`
-  if (targetPath.startsWith(`${BYOC_ROOT}/`)) return `docs-byoc/tutorials/${targetPath.slice(BYOC_ROOT.length + 1)}`
+  if (targetPath.startsWith(`${SAAS_ROOT}/`)) return `content/en/guides/tutorials/${targetPath.slice(SAAS_ROOT.length + 1)}`
+  if (targetPath.startsWith(`${BYOC_ROOT}/`)) return `content/en/byoc/tutorials/${targetPath.slice(BYOC_ROOT.length + 1)}`
   throw new Error(`unknown target ${targetPath}`)
 }
 
@@ -65,19 +65,19 @@ async function repositoryFixture() {
   git(sourceRepository, 'config', 'user.name', 'Batch Set Test')
   git(sourceRepository, 'config', 'user.email', 'batch-set@example.com')
   const english = {
-    'docs/tutorials/a.md': '# A\n',
-    'docs/tutorials/b.md': '# B\n',
-    'docs/tutorials/old.md': '# Old\n',
-    'docs/tutorials/same.md': '# Same\n',
-    'docs/tutorials/folder.md/child.md': '# Child\n',
-    'docs/tutorials/tree.md': '# Tree\n',
-    'docs-byoc/tutorials/byoc.md': '# BYOC\n',
+    'content/en/guides/tutorials/a.md': '# A\n',
+    'content/en/guides/tutorials/b.md': '# B\n',
+    'content/en/guides/tutorials/old.md': '# Old\n',
+    'content/en/guides/tutorials/same.md': '# Same\n',
+    'content/en/guides/tutorials/folder.md/child.md': '# Child\n',
+    'content/en/guides/tutorials/tree.md': '# Tree\n',
+    'content/en/byoc/tutorials/byoc.md': '# BYOC\n',
   }
   for (const [relative, bytes] of Object.entries(english)) write(sourceRepository, relative, bytes)
-  write(sourceRepository, 'config/generated/guides.sidebar.js', 'module.exports = []\n')
-  write(sourceRepository, 'config/generated/guides-byoc.sidebar.js', 'module.exports = []\n')
-  write(sourceRepository, 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json', '{"ok":true}\n')
-  write(sourceRepository, 'plugins/lark-docs/meta/assembly/guides.json', '{"version":1}\n')
+  write(sourceRepository, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'generated/en/sidebars/guides-byoc.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', '{"ok":true}\n')
+  write(sourceRepository, 'packages/docs-tooling/src/lark/meta/assembly/guides.json', '{"version":1}\n')
   write(sourceRepository, `${SAAS_ROOT}/old.md`, '# 古い\n')
   write(sourceRepository, `${SAAS_ROOT}/folder.md`, '# 古いフォルダー\n')
   write(sourceRepository, `${SAAS_ROOT}/tree.md/child.md`, '# 古い子\n')
@@ -88,7 +88,7 @@ async function repositoryFixture() {
   git(root, 'clone', sourceRepository, targetRepository)
   git(targetRepository, 'config', 'user.name', 'Batch Set Test')
   git(targetRepository, 'config', 'user.email', 'batch-set@example.com')
-  write(targetRepository, 'reference/api/python/unrelated.md', '# unrelated\n')
+  write(targetRepository, 'content/en/reference/api/python/unrelated.md', '# unrelated\n')
   git(targetRepository, 'add', '.')
   git(targetRepository, 'commit', '-m', 'unrelated target change')
   const expectedTargetSha = git(targetRepository, 'rev-parse', 'HEAD')
@@ -146,7 +146,7 @@ async function createPair(fixture, batchNumber, options = {}) {
     sourceCheckpointSha: options.sourceCheckpointSha || fixture.sourceCheckpointSha,
     batch,
     candidates: includeCandidate ? [{ sourcePath, targetPath, sourceHash: sha256(sourceBytes) }] : [],
-    sourceDelta: { deletedI18n, renamed: [] },
+    sourceDelta: { deletedI18n, renamed: [], retirementCandidates: [] },
   }
   if (options.batchInput) Object.assign(batchInput, options.batchInput)
   const batchInputPath = path.join(fixture.root, `batch-input-${suffix}.json`)
@@ -352,9 +352,11 @@ test('rejects baseline disagreement and baseline drift from source checkpoint tr
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /source checkpoint|baseline.*tree|mismatch/i)
 })
 
-test('rejects English payload changes while ignoring unchanged full English payload', async () => {
-  const state = await twoPairFixture({}, { mutateResult(root) { write(root, 'docs/tutorials/a.md', '# changed English\n') } })
-  await assert.rejects(planFor(state.fixture, [state.first, state.second]), /english|owned.*baseline|source payload/i)
+test('excludes English workspace changes from translation artifacts', async () => {
+  const state = await twoPairFixture({}, { mutateResult(root) { write(root, 'content/en/guides/tutorials/a.md', '# changed English\n') } })
+  const resultManifest = JSON.parse(fs.readFileSync(path.join(state.second.artifactDir, 'manifest.json'), 'utf8'))
+  assert.equal(resultManifest.files.some(entry => entry.path.startsWith('content/en/')), false)
+  await assert.doesNotReject(planFor(state.fixture, [state.first, state.second]))
 })
 
 test('rejects direct tutorial writes and deletions absent from batch authority', async () => {
@@ -377,9 +379,9 @@ test('rejects direct tutorial writes and deletions absent from batch authority',
 
 test('compares target source authority from the expected commit while the checkout remains elsewhere', async () => {
   const state = await twoPairFixture()
-  write(state.fixture.targetRepository, 'docs/tutorials/a.md', '# dirty checkout only\n')
-  write(state.fixture.targetRepository, 'reference/api/python/later.md', '# later\n')
-  git(state.fixture.targetRepository, 'add', 'reference/api/python/later.md')
+  write(state.fixture.targetRepository, 'content/en/guides/tutorials/a.md', '# dirty checkout only\n')
+  write(state.fixture.targetRepository, 'content/en/reference/api/python/later.md', '# later\n')
+  git(state.fixture.targetRepository, 'add', 'content/en/reference/api/python/later.md')
   git(state.fixture.targetRepository, 'commit', '-m', 'later unrelated target change')
   assert.doesNotThrow(() => assertGuidesSourceAuthority({
     sourceRepository: state.fixture.sourceRepository,
@@ -392,8 +394,8 @@ test('compares target source authority from the expected commit while the checko
 
 test('rejects source-authority drift in the expected target commit', async () => {
   const state = await twoPairFixture()
-  write(state.fixture.targetRepository, 'docs/tutorials/a.md', '# committed drift\n')
-  git(state.fixture.targetRepository, 'add', 'docs/tutorials/a.md')
+  write(state.fixture.targetRepository, 'content/en/guides/tutorials/a.md', '# committed drift\n')
+  git(state.fixture.targetRepository, 'add', 'content/en/guides/tutorials/a.md')
   git(state.fixture.targetRepository, 'commit', '-m', 'drift target authority')
   state.fixture.expectedTargetSha = git(state.fixture.targetRepository, 'rev-parse', 'HEAD')
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /source authority|target.*drift|mismatch/i)
@@ -401,7 +403,7 @@ test('rejects source-authority drift in the expected target commit', async () =>
 
 test('rejects committed source-authority mode drift with byte-identical content', async () => {
   const state = await twoPairFixture()
-  git(state.fixture.targetRepository, 'update-index', '--chmod=+x', 'docs/tutorials/a.md')
+  git(state.fixture.targetRepository, 'update-index', '--chmod=+x', 'content/en/guides/tutorials/a.md')
   git(state.fixture.targetRepository, 'commit', '-m', 'drift target authority mode')
   state.fixture.expectedTargetSha = git(state.fixture.targetRepository, 'rev-parse', 'HEAD')
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /source authority|target.*drift|mismatch/i)
@@ -456,7 +458,7 @@ test('allows identical overlapping deletions and rejects unauthorized cache chan
 
   state = await twoPairFixture({}, {
     mutateResultCache(cache) {
-      cache.files['docs/tutorials/unauthorized.md'] = {
+      cache.files['content/en/guides/tutorials/unauthorized.md'] = {
         sourceHash: 'e'.repeat(64),
         targetPath: `${SAAS_ROOT}/unauthorized.md`,
         translatedAt: '2026-07-18T00:00:00.000Z',
@@ -474,7 +476,7 @@ test('allows identical cache final states and removals across batches', async ()
   let plan = await planFor(state.fixture, [state.first, state.second])
   assert.deepEqual(plan.batches[0].cache.additions, plan.batches[1].cache.additions)
 
-  const sourcePath = 'docs/tutorials/old.md'
+  const sourcePath = 'content/en/guides/tutorials/old.md'
   const targetPath = `${SAAS_ROOT}/old.md`
   const baselineEntry = {
     sourceHash: 'e'.repeat(64),
@@ -505,12 +507,12 @@ test('rejects different cache final entries and update-removal overlaps across b
     { targetPath: `${SAAS_ROOT}/same.md`, resultBytes: '# 同じ\n' },
     {
       targetPath: `${SAAS_ROOT}/same.md`, resultBytes: '# 同じ\n',
-      mutateResultCache(cache) { cache.files['docs/tutorials/same.md'].translatedAt = '2026-07-19T00:00:00.000Z' },
+      mutateResultCache(cache) { cache.files['content/en/guides/tutorials/same.md'].translatedAt = '2026-07-19T00:00:00.000Z' },
     },
   )
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /cache.*conflict|different.*cache/i)
 
-  const sourcePath = 'docs/tutorials/old.md'
+  const sourcePath = 'content/en/guides/tutorials/old.md'
   const targetPath = `${SAAS_ROOT}/old.md`
   const baselineEntry = {
     sourceHash: 'e'.repeat(64),
@@ -537,11 +539,12 @@ test('authorizes the old Japanese path deletion from a validated rename', async 
       sourceDelta: {
         deletedI18n: [],
         renamed: [{
-          oldPath: 'docs/tutorials/old.md',
-          newPath: 'docs/tutorials/a.md',
+          oldPath: 'content/en/guides/tutorials/old.md',
+          newPath: 'content/en/guides/tutorials/a.md',
           oldI18nPath,
           newI18nPath,
         }],
+        retirementCandidates: [],
       },
     },
   })

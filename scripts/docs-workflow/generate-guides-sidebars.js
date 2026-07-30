@@ -5,11 +5,17 @@ const fs = require('node:fs')
 const crypto = require('node:crypto')
 const path = require('node:path')
 const { spawnSync: defaultSpawnSync } = require('node:child_process')
+const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts')
 
-const SIDEBAR_OUTPUTS = Object.freeze([
-  'config/generated/guides.sidebar.js',
-  'config/generated/guides-byoc.sidebar.js',
-])
+function sidebarOutputs(site = resolveBootstrapSite(undefined)) {
+  site = resolveBootstrapSite(site)
+  return Object.freeze([
+    `tmp/docs-tooling/${site}/guides/generated/${site}/sidebars/guides.sidebar.js`,
+    `tmp/docs-tooling/${site}/guides-byoc/generated/${site}/sidebars/guides-byoc.sidebar.js`,
+  ])
+}
+
+const SIDEBAR_OUTPUTS = sidebarOutputs('en')
 
 function parseArgs(argv) {
   if (argv.length !== 2) throw new Error('Exactly one --media-manifest argument is required')
@@ -151,10 +157,10 @@ function removeEntryPathIfPresent(entry, target, fsImpl) {
   verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
 }
 
-function quarantineSidebarOutputs(workspace, fsImpl = fs) {
+function quarantineSidebarOutputs(workspace, fsImpl = fs, outputs = SIDEBAR_OUTPUTS) {
   const entries = []
   try {
-    for (const relativePath of SIDEBAR_OUTPUTS) {
+    for (const relativePath of outputs) {
       const finalPath = ensureSafeOutputPath(workspace, relativePath, fsImpl)
       const directoryIdentity = recordOutputDirectoryIdentity(workspace, finalPath, fsImpl)
       const entry = { relativePath, finalPath, backupPath: null, backupMade: false, hadOriginal: false, directoryIdentity }
@@ -256,7 +262,7 @@ function verifyManifestIdentity(identity, workspace, mediaManifest, fsImpl = fs)
   if (primaryError) throw primaryError
 }
 
-function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultSpawnSync, fsImpl = fs }) {
+function generateGuidesSidebars({ workspace, mediaManifest, site = resolveBootstrapSite(undefined), spawnSync = defaultSpawnSync, fsImpl = fs }) {
   if (!workspace) throw new Error('workspace is required')
   let identity
   let quarantined = []
@@ -264,9 +270,11 @@ function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultS
   let committed = false
   try {
     identity = openManifestIdentity(workspace, mediaManifest, fsImpl)
-    quarantined = quarantineSidebarOutputs(workspace, fsImpl)
+    const outputs = sidebarOutputs(site)
+    quarantined = quarantineSidebarOutputs(workspace, fsImpl, outputs)
     const args = [
-      'docusaurus', 'fetch-lark-docs',
+      path.join(workspace, 'packages/docs-tooling/src/lark/standalone-cli.js'),
+      'fetch-lark-docs',
       '--manual', 'guides',
       '--sidebarOnly',
       '--skipSourceDown',
@@ -274,7 +282,7 @@ function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultS
       '--sidebarTargets', 'zilliz.saas,zilliz.paas',
       '--mediaManifest', mediaManifest,
     ]
-    const result = spawnSync('npx', args, { cwd: workspace, stdio: 'inherit', env: process.env })
+    const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
     if (result.error) throw new Error(`Guides sidebar generation could not spawn: ${result.error.message}`)
     if (result.signal) throw new Error(`Guides sidebar generation failed with signal ${result.signal}`)
     if (result.status !== 0) throw new Error(`Guides sidebar generation failed with status ${result.status}`)
@@ -321,7 +329,7 @@ function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultS
     }
   }
   if (primaryError) throw primaryError
-  return { outputs: [...SIDEBAR_OUTPUTS] }
+  return { outputs: [...sidebarOutputs(site)] }
 }
 
 if (require.main === module) {
@@ -339,6 +347,7 @@ module.exports = {
   parseArgs,
   requireRepoRelativeRegularFile,
   SIDEBAR_OUTPUTS,
+  sidebarOutputs,
   openManifestIdentity,
   quarantineSidebarOutputs,
 }

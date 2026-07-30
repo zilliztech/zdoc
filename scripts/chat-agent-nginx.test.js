@@ -2,10 +2,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const test = require('node:test');
 
-const nginx = fs.readFileSync('nginx.conf', 'utf8');
-const entrypoint = fs.readFileSync('docker-entrypoint.d/40-zdoc-env.sh', 'utf8');
-const dockerfile = fs.readFileSync('Dockerfile', 'utf8');
-const docusaurusConfig = fs.readFileSync('docusaurus.config.ts', 'utf8');
+const nginx = fs.readFileSync('deploy/en/nginx.conf', 'utf8');
+const entrypoint = fs.readFileSync('deploy/runtime/40-zdoc-env.sh', 'utf8');
+const dockerfile = fs.readFileSync('deploy/en/Dockerfile', 'utf8');
+const docusaurusConfig = fs.readFileSync('apps/docs/docusaurus.config.ts', 'utf8');
 
 function tokenizeNginx(config) {
   let statement = '';

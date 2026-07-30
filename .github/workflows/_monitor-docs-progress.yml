@@ -28,9 +28,8 @@ jobs:
         with:
           ref: ${{ inputs.master_sha }}
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: pnpm }
+        with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Monitor workflow and update Feishu card
         run: node scripts/docs-workflow/monitor-docs-progress.js

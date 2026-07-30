@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "site": "zh-CN",
+  "plugin": "byoc",
+  "source": {
+    "repository": "zdoc_cn",
+    "legacyPath": "versioned_docs/version-byoc",
+    "commit": "b1900473dddf8db2d56c11387211a7014b54c160",
+    "treeId": "51ba832620b2c20eedfe27be79c6530954cb25b8"
+  },
+  "inventory": {
+    "trackedFileCount": 226,
+    "gitLsTreeSha256": "154df9e982147f003e19a19e768c767b09add99743e30eb1be747801befb4f54"
+  }
+}

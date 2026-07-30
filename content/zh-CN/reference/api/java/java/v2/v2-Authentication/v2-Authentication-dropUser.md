@@ -1,0 +1,85 @@
+---
+displayed_sidbar: javaSidebar
+title: "dropUser() | Java | v2"
+slug: /java/java/v2-Authentication-dropUser
+sidebar_label: "dropUser()"
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
+beta: false
+notebook: false
+description: "This operation drops a user. | Java | v2"
+type: docx
+token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
+sidebar_position: 9
+keywords: 
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropUser()
+  - javaV226
+displayed_sidebar: javaSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# dropUser()
+
+This operation drops a user.
+
+```java
+public void dropUser(DropUserReq request)
+```
+
+## Request Syntax
+
+```java
+dropUser(DropUserReq.builder()
+    .userName(String userName)
+    .build()
+)
+```
+
+**BUILDER METHODS:**
+
+- `userName(String userName)`
+
+    The name of the user to drop.
+
+**RETURNS:**
+
+*void*
+
+**EXCEPTIONS:**
+
+- **MilvusClientExceptions**
+
+    This exception will be raised when any error occurs during this operation.
+
+## Example
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.rbac.request.DropUserReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Drop a user
+DropUserReq dropUserReq = DropUserReq.builder()
+        .userName("test")
+        .build();
+client.dropUser(dropUserReq);
+```

@@ -1,0 +1,87 @@
+---
+displayed_sidbar: pythonSidebar
+title: "disconnect() | Python | ORM"
+slug: /python/python/Connections-disconnect
+sidebar_label: "disconnect()"
+added_since: Inherit
+last_modified: false
+deprecate_since: false
+beta: NEAR DEPRECATE
+notebook: false
+description: "This operation disconnects the client from the specified connection. | Python | ORM"
+type: docx
+token: IpSBdcabbosobvxQkAEcv6CvnJd
+sidebar_position: 4
+keywords: 
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - disconnect()
+  - pymilvus26
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# disconnect()
+
+This operation disconnects the client from the specified connection.
+
+## Request Syntax
+
+```python
+disconnect(alias: str)
+```
+
+**PARAMETERS:**
+
+- **alias** (*string*) -
+
+    **[REQUIRED]**
+
+    A connection alias.
+
+**RETURN TYPE:**
+
+None
+
+**RETURNS:**
+
+None
+
+**EXCEPTIONS:**
+
+- **ConnectionConfigException**
+
+    This exception will be raised when the connection configuration is invalid.
+
+## Examples
+
+```python
+from pymilvus import connections
+
+connections.disconnect(alias="default")
+```
+
+## Related operations
+
+The following operations are related to `disconnect()`:
+
+- [add_connection()](./Connections-add_connection)
+
+- [connect()](./Connections-connect)
+
+- [get_connection_addr()](./Connections-get_connection_addr)
+
+- [has_connection()](./Connections-has_connection)
+
+- [list_connections()](./Connections-list_connections)
+
+- [remove_connection()](./Connections-remove_connection)
+

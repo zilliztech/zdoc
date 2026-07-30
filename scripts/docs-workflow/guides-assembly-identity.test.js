@@ -25,15 +25,15 @@ const SHA_A = 'a'.repeat(40)
 const SHA_B = 'b'.repeat(40)
 const HASH_A = 'a'.repeat(64)
 const ALLOWLIST = [
-  'plugins/lark-docs/index.js',
-  'plugins/lark-docs/larkDocWriter.js',
-  'plugins/lark-docs/larkSourceIndex.js',
-  'plugins/lark-docs/guidesBaseRecordSemantics.js',
+  'packages/docs-tooling/src/lark/index.js',
+  'packages/docs-tooling/src/lark/larkDocWriter.js',
+  'packages/docs-tooling/src/lark/larkSourceIndex.js',
+  'packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js',
   'scripts/docs-workflow/guides-assembly-identity.js',
   'scripts/docs-workflow/generate-guides-sidebars.js',
   'config/lark-docs.config.ts',
-  'config/sidebar-overrides/guides.json',
-  'config/sidebar-overrides/guides-byoc.json',
+  'sidebar-overrides/en/guides.json',
+  'sidebar-overrides/en/guides-byoc.json',
 ]
 
 function hash(bytes) { return crypto.createHash('sha256').update(bytes).digest('hex') }
@@ -49,7 +49,7 @@ function snapshot(overrides = {}) {
     source_branch: null,
     publish_url: null,
     link_check_remote: 'https://docs.zilliz.com',
-    source_dir: 'plugins/lark-docs/meta/sources/guides',
+    source_dir: 'packages/docs-tooling/src/lark/meta/sources/guides',
     records: [{
       record_id: 'record', placement_type: 'canonical', source_file: 'doc.json', source_hash: HASH_A,
       doc_token: 'doc', node_token: 'node', origin_node_token: 'origin', obj_token: 'object', obj_type: 'docx',
@@ -232,7 +232,7 @@ test('generator fingerprint changes with masterSha and approved file bytes', () 
 test('generator fingerprint fails closed when an intermediate allowlist parent is replaced before open', () => {
   const f = fixture()
   const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-assembly-outside-tooling-'))
-  const parent = path.join(fs.realpathSync(f.root), 'plugins/lark-docs')
+  const parent = path.join(fs.realpathSync(f.root), 'packages/docs-tooling/src/lark')
   const displaced = `${parent}.displaced`
   const targetFile = path.join(parent, 'index.js')
   fs.mkdirSync(outside, { recursive: true })

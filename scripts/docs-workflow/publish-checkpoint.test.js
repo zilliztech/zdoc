@@ -14,7 +14,8 @@ function setup() {
   const remote = path.join(root, 'remote.git'), seed = path.join(root, 'seed');
   git(root, 'init', '--bare', remote); git(root, 'init', seed);
   git(seed, 'config', 'user.name', 'Test'); git(seed, 'config', 'user.email', 'test@example.com');
-  mkdirSync(path.join(seed, 'docs')); writeFileSync(path.join(seed, 'docs', 'a.md'), 'old\n');
+  mkdirSync(path.join(seed, 'content/en/guides/tutorials'), { recursive: true });
+  writeFileSync(path.join(seed, 'content/en/guides/tutorials/a.md'), 'old\n');
   git(seed, 'add', '.'); git(seed, 'commit', '-m', 'seed'); git(seed, 'branch', '-M', 'dev'); git(seed, 'remote', 'add', 'origin', remote); git(seed, 'push', '-u', 'origin', 'dev');
   return { root, remote, seed };
 }
@@ -24,7 +25,7 @@ function artifact(root, baseline, workspace, extra = []) {
   return out;
 }
 function publish(cwd, args, env = {}) { return spawnSync('bash', [script, ...args], { cwd, encoding: 'utf8', env: { ...process.env, ...env } }); }
-function args(a) { return ['--artifact', a, '--branch', 'dev', '--message', 'publish docs', '--max-attempts', '3', '--validate-command', 'test -f docs/a.md']; }
+function args(a) { return ['--artifact', a, '--branch', 'dev', '--message', 'publish docs', '--max-attempts', '3', '--validate-command', 'test -f content/en/guides/tutorials/a.md']; }
 function repeatedDeletionScenario() {
   const fixture = setup();
   const baseline = path.join(fixture.root, 'baseline');
@@ -33,19 +34,19 @@ function repeatedDeletionScenario() {
   execFileSync('cp', ['-R', fixture.seed, baseline]);
   execFileSync('cp', ['-R', fixture.seed, batchOne]);
   execFileSync('cp', ['-R', fixture.seed, batchTwo]);
-  require('node:fs').unlinkSync(path.join(batchOne, 'docs/a.md'));
-  require('node:fs').unlinkSync(path.join(batchTwo, 'docs/a.md'));
-  writeFileSync(path.join(batchTwo, 'docs/batch-two.md'), 'translated\n');
+  require('node:fs').unlinkSync(path.join(batchOne, 'content/en/guides/tutorials/a.md'));
+  require('node:fs').unlinkSync(path.join(batchTwo, 'content/en/guides/tutorials/a.md'));
+  writeFileSync(path.join(batchTwo, 'content/en/guides/tutorials/batch-two.md'), 'translated\n');
   const batchOneArtifact = artifact(fixture.root, baseline, batchOne);
   const batchTwoArtifact = artifact(fixture.root, baseline, batchTwo);
 
   const firstArgs = args(batchOneArtifact);
-  firstArgs[firstArgs.indexOf('test -f docs/a.md')] = 'test ! -e docs/a.md';
+  firstArgs[firstArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'test ! -e content/en/guides/tutorials/a.md';
   const first = publish(fixture.seed, firstArgs);
   assert.equal(first.status, 0, `${first.stdout}\n${first.stderr}`);
 
   const secondArgs = args(batchTwoArtifact);
-  secondArgs[secondArgs.indexOf('test -f docs/a.md')] = 'test ! -e docs/a.md && test -f docs/batch-two.md';
+  secondArgs[secondArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'test ! -e content/en/guides/tutorials/a.md && test -f content/en/guides/tutorials/batch-two.md';
   const second = publish(fixture.seed, secondArgs);
   return { fixture, batchTwoArtifact, secondArgs, second };
 }
@@ -57,11 +58,11 @@ function gitWrapper(root, mode, moveRepo) {
 }
 
 test('publishes a fast-forward checkpoint with the prior tip as parent', () => {
-  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n');
+  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
   const prior = git(s.seed, 'rev-parse', 'HEAD'), a = artifact(s.root, s.seed, work), r = publish(s.seed, args(a));
   assert.equal(r.status, 0, r.stderr); assert.match(r.stdout, /status=published/);
   git(s.seed, 'fetch', 'origin', 'dev'); const tip = git(s.seed, 'rev-parse', 'origin/dev');
-  assert.equal(git(s.seed, 'rev-parse', `${tip}^`), prior); assert.equal(git(s.seed, 'show', `${tip}:docs/a.md`), 'new');
+  assert.equal(git(s.seed, 'rev-parse', `${tip}^`), prior); assert.equal(git(s.seed, 'show', `${tip}:content/en/guides/tutorials/a.md`), 'new');
 });
 
 test('strictly rejects invalid arguments and contains no force push', () => {
@@ -72,9 +73,9 @@ test('strictly rejects invalid arguments and contains no force push', () => {
 });
 
 test('preserves an unrelated commit already on the remote', () => {
-  const s = setup(), base = path.join(s.root, 'base'), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, base]); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n');
+  const s = setup(), base = path.join(s.root, 'base'), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, base]); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
   writeFileSync(path.join(s.seed, 'remote.txt'), 'keep\n'); git(s.seed, 'add', 'remote.txt'); git(s.seed, 'commit', '-m', 'remote unrelated'); git(s.seed, 'push', 'origin', 'dev');
-  const r = publish(s.seed, args(artifact(s.root, base, work))); assert.equal(r.status, 0, r.stderr); git(s.seed, 'fetch', 'origin', 'dev'); assert.equal(git(s.seed, 'show', 'origin/dev:remote.txt'), 'keep'); assert.equal(git(s.seed, 'show', 'origin/dev:docs/a.md'), 'new');
+  const r = publish(s.seed, args(artifact(s.root, base, work))); assert.equal(r.status, 0, r.stderr); git(s.seed, 'fetch', 'origin', 'dev'); assert.equal(git(s.seed, 'show', 'origin/dev:remote.txt'), 'keep'); assert.equal(git(s.seed, 'show', 'origin/dev:content/en/guides/tutorials/a.md'), 'new');
 });
 
 test('every failure emits exactly one failed status and empty commit SHA', () => {
@@ -84,10 +85,10 @@ test('every failure emits exactly one failed status and empty commit SHA', () =>
 });
 
 test('publishes owned deletions', () => {
-  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); require('node:fs').unlinkSync(path.join(work, 'docs/a.md'));
-  const publishArgs = args(artifact(s.root, s.seed, work)); publishArgs[publishArgs.indexOf('test -f docs/a.md')] = 'true';
+  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); require('node:fs').unlinkSync(path.join(work, 'content/en/guides/tutorials/a.md'));
+  const publishArgs = args(artifact(s.root, s.seed, work)); publishArgs[publishArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'true';
   const r = publish(s.seed, publishArgs); assert.equal(r.status, 0, `${r.stdout}\n${r.stderr}`);
-  git(s.seed, 'fetch', 'origin', 'dev'); assert.throws(() => git(s.seed, 'show', 'origin/dev:docs/a.md'));
+  git(s.seed, 'fetch', 'origin', 'dev'); assert.throws(() => git(s.seed, 'show', 'origin/dev:content/en/guides/tutorials/a.md'));
 });
 
 test('publishes a later batch when its source deletion was already committed', () => {
@@ -96,8 +97,8 @@ test('publishes a later batch when its source deletion was already committed', (
   assert.equal(second.status, 0, `${second.stdout}\n${second.stderr}`);
   assert.match(second.stdout, /status=published/);
   git(fixture.seed, 'fetch', 'origin', 'dev');
-  assert.equal(git(fixture.seed, 'show', 'origin/dev:docs/batch-two.md'), 'translated');
-  assert.throws(() => git(fixture.seed, 'show', 'origin/dev:docs/a.md'));
+  assert.equal(git(fixture.seed, 'show', 'origin/dev:content/en/guides/tutorials/batch-two.md'), 'translated');
+  assert.throws(() => git(fixture.seed, 'show', 'origin/dev:content/en/guides/tutorials/a.md'));
 });
 
 test('reapplying a batch with an already-applied deletion returns no_changes', () => {
@@ -119,20 +120,54 @@ test('returns no_changes without creating a commit', () => {
 });
 
 test('validation failure does not push', () => {
-  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n');
-  const before = git(s.seed, 'rev-parse', 'HEAD'), bad = args(artifact(s.root, s.seed, work)); bad[bad.indexOf('test -f docs/a.md')] = 'exit 7';
+  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
+  const before = git(s.seed, 'rev-parse', 'HEAD'), bad = args(artifact(s.root, s.seed, work)); bad[bad.indexOf('test -f content/en/guides/tutorials/a.md')] = 'exit 7';
   const env = gitWrapper(s.root, 'pass', s.seed), r = publish(s.seed, bad, env); assert.notEqual(r.status, 0); assert.equal(git(s.remote, 'rev-parse', 'refs/heads/dev'), before); assert.equal(readFileSync(env.log, 'utf8'), '');
 });
 
 test('validation worktree can use dependencies installed in the publisher checkout', () => {
   const s = setup(), work = path.join(s.root, 'work');
-  mkdirSync(path.join(s.seed, 'node_modules', '.bin'), { recursive: true });
-  writeFileSync(path.join(s.seed, 'node_modules', '.bin', 'docusaurus'), '#!/usr/bin/env bash\nexit 0\n');
-  chmodSync(path.join(s.seed, 'node_modules', '.bin', 'docusaurus'), 0o755);
+  mkdirSync(path.join(s.seed, 'apps', 'docs'), { recursive: true });
+  writeFileSync(path.join(s.seed, 'apps', 'docs', 'package.json'), '{"private":true}\n');
+  writeFileSync(path.join(s.seed, 'validate.js'), [
+    "const {createRequire} = require('node:module')",
+    "const path = require('node:path')",
+    "const requireFromDocsApp = createRequire(path.join(process.cwd(), 'apps/docs/package.json'))",
+    "requireFromDocsApp('fixture-dependency')",
+    '',
+  ].join('\n'));
+  git(s.seed, 'add', 'apps/docs/package.json', 'validate.js');
+  git(s.seed, 'commit', '-m', 'add workspace validation fixture');
+  git(s.seed, 'push', 'origin', 'dev');
+  mkdirSync(path.join(s.seed, 'apps', 'docs', 'node_modules', 'fixture-dependency'), { recursive: true });
+  writeFileSync(path.join(s.seed, 'apps', 'docs', 'node_modules', 'fixture-dependency', 'index.js'), 'module.exports = true\n');
   execFileSync('cp', ['-R', s.seed, work]);
-  writeFileSync(path.join(work, 'docs/a.md'), 'new\n');
+  writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
   const publishArgs = args(artifact(s.root, s.seed, work));
-  publishArgs[publishArgs.indexOf('test -f docs/a.md')] = 'test -x node_modules/.bin/docusaurus';
+  publishArgs[publishArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'node validate.js';
+
+  const result = publish(s.seed, publishArgs);
+
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /status=published/);
+});
+
+test('validation uses pinned publisher tooling when the target branch predates that tooling', () => {
+  const s = setup(), work = path.join(s.root, 'work');
+  const targetSha = git(s.seed, 'rev-parse', 'HEAD');
+  writeFileSync(path.join(s.seed, 'validate-with-pinned-tooling.js'), [
+    "const fs = require('node:fs')",
+    "if (!fs.existsSync('content/en/guides/tutorials/a.md')) process.exit(2)",
+    "if (fs.readFileSync('content/en/guides/tutorials/a.md', 'utf8') !== 'new\\n') process.exit(3)",
+    '',
+  ].join('\n'));
+  git(s.seed, 'add', 'validate-with-pinned-tooling.js');
+  git(s.seed, 'commit', '-m', 'add pinned validation tooling');
+  assert.equal(git(s.remote, 'rev-parse', 'refs/heads/dev'), targetSha);
+  execFileSync('cp', ['-R', s.seed, work]);
+  writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
+  const publishArgs = args(artifact(s.root, s.seed, work));
+  publishArgs[publishArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'node validate-with-pinned-tooling.js';
 
   const result = publish(s.seed, publishArgs);
 
@@ -141,28 +176,28 @@ test('validation worktree can use dependencies installed in the publisher checko
 });
 
 test('checksum failure happens before fetch or push', () => {
-  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n'); const a = artifact(s.root, s.seed, work);
-  writeFileSync(path.join(realpathSync(a), 'payload/docs/a.md'), 'tampered\n'); const env = gitWrapper(s.root, 'pass', s.seed), r = publish(s.seed, args(a), env);
+  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n'); const a = artifact(s.root, s.seed, work);
+  writeFileSync(path.join(realpathSync(a), 'payload/content/en/guides/tutorials/a.md'), 'tampered\n'); const env = gitWrapper(s.root, 'pass', s.seed), r = publish(s.seed, args(a), env);
   assert.notEqual(r.status, 0); assert.match(r.stdout, /status=failed/); assert.equal(readFileSync(env.log, 'utf8'), '');
 });
 
 test('non-NFF push rejection is not retried', () => {
-  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n'); const env = gitWrapper(s.root, 'reject', s.seed), r = publish(s.seed, args(artifact(s.root, s.seed, work)), env);
+  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n'); const env = gitWrapper(s.root, 'reject', s.seed), r = publish(s.seed, args(artifact(s.root, s.seed, work)), env);
   assert.notEqual(r.status, 0); assert.equal(readFileSync(env.log, 'utf8').trim().split('\n').length, 1); assert.match(r.stdout, /status=failed/);
 });
 
 test('repeated remote moves exhaust max attempts', () => {
-  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n'); const env = gitWrapper(s.root, 'race-always', s.seed), a = args(artifact(s.root, s.seed, work)); a[a.indexOf('3')] = '2';
+  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n'); const env = gitWrapper(s.root, 'race-always', s.seed), a = args(artifact(s.root, s.seed, work)); a[a.indexOf('3')] = '2';
   const r = publish(s.seed, a, env); assert.notEqual(r.status, 0); assert.equal(readFileSync(env.log, 'utf8').trim().split('\n').length, 2); assert.deepEqual(r.stdout.match(/^status=.*$/gm), ['status=failed']);
 });
 
 test('cleans temporary worktrees and scratch files after success and failure', () => {
-  for (const fail of [false, true]) { const s = setup(), temp = path.join(s.root, 'runner'); mkdirSync(temp); const work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n'); const a = args(artifact(s.root, s.seed, work)); if (fail) a[a.indexOf('test -f docs/a.md')] = 'false'; const r = publish(s.seed, a, { RUNNER_TEMP: temp }); assert.equal(r.status === 0, !fail); assert.deepEqual(readdirSync(temp), []); assert.doesNotMatch(git(s.seed, 'worktree', 'list'), /docs-publish/); }
+  for (const fail of [false, true]) { const s = setup(), temp = path.join(s.root, 'runner'); mkdirSync(temp); const work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n'); const a = args(artifact(s.root, s.seed, work)); if (fail) a[a.indexOf('test -f content/en/guides/tutorials/a.md')] = 'false'; const r = publish(s.seed, a, { RUNNER_TEMP: temp }); assert.equal(r.status === 0, !fail); assert.deepEqual(readdirSync(temp), []); assert.doesNotMatch(git(s.seed, 'worktree', 'list'), /docs-publish/); }
 });
 
 test('SIGTERM cleans the active temporary worktree', async () => {
-  const s = setup(), temp = path.join(s.root, 'runner'), marker = path.join(s.root, 'validating'); mkdirSync(temp); const work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n');
-  const a = args(artifact(s.root, s.seed, work)); a[a.indexOf('test -f docs/a.md')] = `touch '${marker}'; sleep 30`;
+  const s = setup(), temp = path.join(s.root, 'runner'), marker = path.join(s.root, 'validating'); mkdirSync(temp); const work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
+  const a = args(artifact(s.root, s.seed, work)); a[a.indexOf('test -f content/en/guides/tutorials/a.md')] = `touch '${marker}'; sleep 30`;
   const child = spawn('bash', [script, ...a], { cwd: s.seed, env: { ...process.env, RUNNER_TEMP: temp }, stdio: 'ignore', detached: true });
   for (let i = 0; i < 100 && !require('node:fs').existsSync(marker); i++) await new Promise(resolve => setTimeout(resolve, 25));
   assert.equal(require('node:fs').existsSync(marker), true); process.kill(-child.pid, 'SIGTERM'); await new Promise(resolve => child.once('exit', resolve));
@@ -177,7 +212,7 @@ test('publishes translation cache through baseline three-way merge', () => {
 });
 
 test('retries a non-fast-forward race and preserves the remote move', () => {
-  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n');
+  const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
   const env = gitWrapper(s.root, 'race-once', s.seed), r = publish(s.seed, args(artifact(s.root, s.seed, work)), env); assert.equal(r.status, 0, `${r.stdout}\n${r.stderr}`);
-  git(s.seed, 'fetch', 'origin', 'dev'); assert.match(git(s.seed, 'show', 'origin/dev:remote.txt'), /1/); assert.equal(git(s.seed, 'show', 'origin/dev:docs/a.md'), 'new'); assert.equal(readFileSync(env.log, 'utf8').trim().split('\n').length, 2);
+  git(s.seed, 'fetch', 'origin', 'dev'); assert.match(git(s.seed, 'show', 'origin/dev:remote.txt'), /1/); assert.equal(git(s.seed, 'show', 'origin/dev:content/en/guides/tutorials/a.md'), 'new'); assert.equal(readFileSync(env.log, 'utf8').trim().split('\n').length, 2);
 });

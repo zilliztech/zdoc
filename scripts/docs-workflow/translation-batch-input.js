@@ -9,27 +9,43 @@ const SHA256 = /^[0-9a-f]{64}$/
 const MARKDOWN = /\.(?:md|mdx)$/
 const REASONS = new Set(['current_delta', 'missing_target', 'stale_source'])
 const ROOT_KEYS = ['schemaVersion', 'group', 'sourceCheckpointSha', 'batch', 'candidates', 'sourceDelta']
-const MANIFEST_KEYS = ['locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch']
+const MANIFEST_KEYS = ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch']
 const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256']
 const ITEM_KEYS = ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason']
 const CANDIDATE_KEYS = ['sourcePath', 'targetPath', 'sourceHash']
-const SOURCE_DELTA_KEYS = ['deletedI18n', 'renamed']
-const MANIFEST_SOURCE_DELTA_KEYS = ['deleted_i18n', 'renamed']
+const SOURCE_DELTA_KEYS = ['deletedI18n', 'renamed', 'retirementCandidates']
+const MANIFEST_SOURCE_DELTA_KEYS = ['deleted_i18n', 'renamed', 'retirement_candidates']
 const RENAME_KEYS = ['oldPath', 'newPath', 'oldI18nPath', 'newI18nPath']
+const RETIREMENT_KEYS = ['sourcePath', 'targetPath', 'reason']
+const RETIREMENT_REASONS = new Set(['source_deleted', 'source_renamed', 'sidebar_removed'])
 const CACHE_ENTRY_KEYS = ['sourceHash', 'targetPath', 'translatedAt']
 
 const GUIDES_MAPPINGS = Object.freeze([
   {
-    sourceRoot: 'docs/tutorials',
+    sourceRoot: 'content/en/guides/tutorials',
     targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
-    type: 'docs',
+    type: 'guides',
   },
   {
-    sourceRoot: 'docs-byoc/tutorials',
+    sourceRoot: 'content/en/byoc/tutorials',
     targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
     type: 'byoc',
   },
 ])
+
+const LEGACY_GUIDES_CACHE_MAPPINGS = Object.freeze([
+  {
+    cacheKeyPrefix: 'docs/tutorials',
+    targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
+  },
+  {
+    cacheKeyPrefix: 'docs-byoc/tutorials',
+    targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
+  },
+])
+
+const GUIDES_CACHE_MAPPINGS = Object.freeze([...GUIDES_MAPPINGS, ...LEGACY_GUIDES_CACHE_MAPPINGS])
+const cacheKeyPrefix = mapping => mapping.sourceRoot || mapping.cacheKeyPrefix
 
 function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -125,6 +141,13 @@ function assertRename(rename, label = 'rename') {
   if (rename.oldPath === rename.newPath || rename.oldI18nPath === rename.newI18nPath) throw new Error(`${label} must change paths`)
 }
 
+function assertRetirementCandidate(candidate, label = 'retirement candidate') {
+  assertExactKeys(candidate, RETIREMENT_KEYS, label)
+  assertSafeRelativePath(candidate.sourcePath, `${label} source path`)
+  assertSafeRelativePath(candidate.targetPath, `${label} target path`)
+  if (!RETIREMENT_REASONS.has(candidate.reason)) throw new Error(`${label} reason is not authorized`)
+}
+
 function assertNoDuplicates(values, label) {
   if (new Set(values).size !== values.length) throw new Error(`Duplicate ${label}`)
 }
@@ -148,9 +171,11 @@ function validateCrossRelationships(input) {
   const candidates = input.candidates
   const deletions = input.sourceDelta.deletedI18n
   const renames = input.sourceDelta.renamed
+  const retirements = input.sourceDelta.retirementCandidates
   assertNoDuplicates(candidates.map(item => item.sourcePath), 'candidate source path')
   assertNoDuplicates(candidates.map(item => item.targetPath), 'candidate target path')
   assertNoDuplicates(deletions, 'deleted i18n path')
+  assertNoDuplicates(retirements.map(item => `${item.sourcePath}\0${item.targetPath}\0${item.reason}`), 'retirement candidate')
   for (const field of RENAME_KEYS) assertNoDuplicates(renames.map(item => item[field]), `rename ${field}`)
   assertNoDuplicates(renames.flatMap(item => [item.oldPath, item.newPath]), 'rename English path overlap')
   assertNoDuplicates(renames.flatMap(item => [item.oldI18nPath, item.newI18nPath]), 'rename Japanese path overlap')
@@ -158,6 +183,7 @@ function validateCrossRelationships(input) {
   assertCanonicalOrder(candidates, (a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath), 'candidates')
   assertCanonicalOrder(deletions, compareText, 'deleted i18n paths')
   assertCanonicalOrder(renames, (a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath), 'renames')
+  assertCanonicalOrder(retirements, (a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.reason, b.reason), 'retirement candidates')
 
   const candidateSources = new Set(candidates.map(item => item.sourcePath))
   const candidateTargets = new Set(candidates.map(item => item.targetPath))
@@ -196,7 +222,7 @@ function validateBatchInput(input) {
   if (!SHA1.test(input.sourceCheckpointSha || '')) throw new Error('source checkpoint SHA must be 40 lowercase hexadecimal characters')
   if (!Array.isArray(input.candidates)) throw new Error('candidates must be an array')
   assertExactKeys(input.sourceDelta, SOURCE_DELTA_KEYS, 'sourceDelta')
-  if (!Array.isArray(input.sourceDelta.deletedI18n) || !Array.isArray(input.sourceDelta.renamed)) throw new Error('sourceDelta arrays are required')
+  if (!Array.isArray(input.sourceDelta.deletedI18n) || !Array.isArray(input.sourceDelta.renamed) || !Array.isArray(input.sourceDelta.retirementCandidates)) throw new Error('sourceDelta arrays are required')
   for (const item of input.candidates) assertCandidate(item)
   for (const deleted of input.sourceDelta.deletedI18n) {
     assertSafeRelativePath(deleted, 'deleted i18n path')
@@ -204,23 +230,26 @@ function validateBatchInput(input) {
     if (!mapping || !MARKDOWN.test(deleted.slice(mapping.targetRoot.length + 1))) throw new Error('deleted i18n path is outside exact Guides roots or has an invalid extension')
   }
   for (const entry of input.sourceDelta.renamed) assertRename(entry)
+  for (const entry of input.sourceDelta.retirementCandidates) assertRetirementCandidate(entry)
   validateCrossRelationships(input)
-  const hasReconciliation = input.sourceDelta.deletedI18n.length > 0 || input.sourceDelta.renamed.length > 0
+  const hasReconciliation = input.sourceDelta.deletedI18n.length > 0 || input.sourceDelta.renamed.length > 0 || input.sourceDelta.retirementCandidates.length > 0
   assertBatch(input.batch, input.candidates.length, hasReconciliation)
   return input
 }
 
 function assertSelectedManifest(manifest) {
   assertExactKeys(manifest, MANIFEST_KEYS, 'selected translation manifest')
+  if (manifest.target !== 'ja-JP') throw new Error('selected manifest target must be ja-JP')
   if (manifest.locale !== 'ja-JP') throw new Error('selected manifest locale must be ja-JP')
   if (manifest.group !== 'guides') throw new Error('selected manifest group must be guides')
   if (!SHA1.test(manifest.sourceCheckpointSha || '')) throw new Error('selected manifest source checkpoint SHA is invalid')
   assertTimestamp(manifest.generatedAt, 'selected manifest generatedAt')
   if (!Array.isArray(manifest.items)) throw new Error('selected manifest items must be an array')
   assertExactKeys(manifest.source_delta, MANIFEST_SOURCE_DELTA_KEYS, 'selected manifest source_delta')
-  if (!Array.isArray(manifest.source_delta.deleted_i18n) || !Array.isArray(manifest.source_delta.renamed)) throw new Error('selected manifest source_delta arrays are required')
+  if (!Array.isArray(manifest.source_delta.deleted_i18n) || !Array.isArray(manifest.source_delta.renamed) || !Array.isArray(manifest.source_delta.retirement_candidates)) throw new Error('selected manifest source_delta arrays are required')
   for (const item of manifest.items) assertCandidate(item, true)
   for (const entry of manifest.source_delta.renamed) assertRename(entry, 'manifest rename')
+  for (const entry of manifest.source_delta.retirement_candidates) assertRetirementCandidate(entry, 'manifest retirement candidate')
 }
 
 function createBatchInput(manifest) {
@@ -236,20 +265,28 @@ function createBatchInput(manifest) {
       deletedI18n: [...manifest.source_delta.deleted_i18n].sort(compareText),
       renamed: manifest.source_delta.renamed.map(entry => ({ ...entry }))
         .sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath)),
+      retirementCandidates: manifest.source_delta.retirement_candidates.map(entry => ({ ...entry }))
+        .sort((a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.reason, b.reason)),
     },
   }
   return validateBatchInput(result)
 }
 
 function cacheTargetForSource(sourcePath) {
-  const guides = matchingGuideMapping(sourcePath)
+  const guides = GUIDES_CACHE_MAPPINGS.find(mapping => sourcePath.startsWith(`${cacheKeyPrefix(mapping)}/`))
   if (guides) {
-    const { targetPath } = expectedGuideTarget(sourcePath, 'cache source path')
-    return targetPath
+    assertSafeRelativePath(sourcePath, 'cache source path')
+    const suffix = sourcePath.slice(cacheKeyPrefix(guides).length + 1)
+    if (!suffix || !MARKDOWN.test(suffix)) throw new Error('cache source path must have a .md or .mdx extension')
+    return `${guides.targetRoot}/${suffix}`
   }
   assertSafeRelativePath(sourcePath, 'cache source path')
-  if (!sourcePath.startsWith('reference/') || !MARKDOWN.test(sourcePath)) throw new Error('cache source path is outside known translation roots')
-  return `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${sourcePath.slice('reference/'.length)}`
+  for (const sourceRoot of ['content/en/reference', 'reference']) {
+    if (sourcePath.startsWith(`${sourceRoot}/`) && MARKDOWN.test(sourcePath)) {
+      return `i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${sourcePath.slice(sourceRoot.length + 1)}`
+    }
+  }
+  throw new Error('cache source path is outside known translation roots')
 }
 
 function validateCache(cache, label) {
@@ -265,10 +302,19 @@ function validateCache(cache, label) {
   }
 }
 
-function sourceForDeletedI18n(targetPath) {
-  const mapping = GUIDES_MAPPINGS.find(item => targetPath.startsWith(`${item.targetRoot}/`))
-  if (!mapping) throw new Error('Deletion is outside exact Guides target roots')
-  return `${mapping.sourceRoot}/${targetPath.slice(mapping.targetRoot.length + 1)}`
+function cacheSourceIdentities(sourcePath) {
+  const mapping = matchingGuideMapping(sourcePath)
+  if (!mapping) return [sourcePath]
+  const suffix = sourcePath.slice(mapping.sourceRoot.length + 1)
+  return GUIDES_CACHE_MAPPINGS
+    .filter(item => item.targetRoot === mapping.targetRoot)
+    .map(item => `${cacheKeyPrefix(item)}/${suffix}`)
+}
+
+function sourcesForDeletedI18n(targetPath) {
+  const mappings = GUIDES_CACHE_MAPPINGS.filter(item => targetPath.startsWith(`${item.targetRoot}/`))
+  if (!mappings.length) throw new Error('Deletion is outside exact Guides target roots')
+  return mappings.map(mapping => `${cacheKeyPrefix(mapping)}/${targetPath.slice(mapping.targetRoot.length + 1)}`)
 }
 
 function cacheEntriesEqual(before, after) {
@@ -280,8 +326,10 @@ function assertAuthorizedCacheChanges(beforeCache, afterCache, batchInput) {
   validateCache(beforeCache, 'before cache')
   validateCache(afterCache, 'after cache')
   const candidates = new Map(batchInput.candidates.map(item => [item.sourcePath, item]))
-  const removalOnly = new Set(batchInput.sourceDelta.renamed.map(entry => entry.oldPath))
-  for (const targetPath of batchInput.sourceDelta.deletedI18n) removalOnly.add(sourceForDeletedI18n(targetPath))
+  const removalOnly = new Set(batchInput.sourceDelta.renamed.flatMap(entry => cacheSourceIdentities(entry.oldPath)))
+  for (const targetPath of batchInput.sourceDelta.deletedI18n) {
+    for (const sourcePath of sourcesForDeletedI18n(targetPath)) removalOnly.add(sourcePath)
+  }
   for (const key of candidates.keys()) {
     if (removalOnly.has(key)) throw new Error(`Cache key has conflicting candidate and removal-only authority: ${key}`)
   }

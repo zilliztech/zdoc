@@ -1,0 +1,7 @@
+{
+  "overrideCategories": {
+    "Cloud Management": { "customProps": { "icon": "cloud-ctrl" }, "collapsed": false },
+    "Configuration": { "customProps": { "icon": "administration" }, "collapsed": false },
+    "Data Operations": { "customProps": { "icon": "data-plane" }, "collapsed": false }
+  }
+}

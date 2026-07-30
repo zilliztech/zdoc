@@ -6,7 +6,34 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 const yaml = require('js-yaml')
-const { createDocsProgressMonitor, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
+const { createDocsProgressMonitor, createDocsToolingCardPatcher, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
+
+test('production monitor patches cards through docs-tooling instead of the retired plugin', () => {
+  const source = fs.readFileSync('scripts/docs-workflow/monitor-docs-progress.js', 'utf8')
+  assert.doesNotMatch(source, /plugins\/report-to-lark/)
+  assert.match(source, /docs-tooling['"],?\s*['"]report-card['"],?\s*['"]advance/)
+})
+
+test('docs-tooling card patcher removes its temporary state file when the command fails', async () => {
+  const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'docs-monitor-patcher-'))
+  let stateFile
+  const patch = createDocsToolingCardPatcher({
+    repositoryRoot,
+    messageId: 'om_123',
+    environment: { APP_ID: 'app-id' },
+    execute: async (_command, args, options) => {
+      const stateFileIndex = args.indexOf('--state-file')
+      stateFile = path.join(repositoryRoot, args[stateFileIndex + 1])
+      assert.equal(options.cwd, repositoryRoot)
+      assert.equal(fs.existsSync(stateFile), true)
+      throw new Error('injected patch failure')
+    },
+  })
+
+  await assert.rejects(patch({ overallStatus: 'running' }), /injected patch failure/)
+  assert.equal(fs.existsSync(stateFile), false)
+  assert.deepEqual(fs.readdirSync(path.dirname(stateFile)), [])
+})
 
 test('aggregate downloads exact Guides publication evidence before collecting notes', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))

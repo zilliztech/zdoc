@@ -1,0 +1,195 @@
+{
+  "baseline": {
+    "branch": "codex/unified-docs/01-foundation",
+    "mergeBaseWithMaster": "b20b942facaa7774da4e5a769b9c918d056c4ac4",
+    "reviewedMasterSha": "b20b942facaa7774da4e5a769b9c918d056c4ac4",
+    "worktree": ".claude/worktrees/unified-docs-clean-room"
+  },
+  "latestSynchronization": {
+    "reviewedMasterSha": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+    "mergeCommit": "808501bce676ca106334a2e97778415b91336719",
+    "validatedHead": "f3c889e01e6e462156e3080ce46baeb394364805",
+    "mergeBaseWithReviewedMaster": "9ae596fd95b092d07f146aacb45d6ef52e934f2c",
+    "strategy": "merge",
+    "validatedAt": "2026-07-26T15:55:00+08:00",
+    "notes": [
+      "The reviewed master was merged without using an orphan history or build-time dependency on zdoc_cn.",
+      "The merged agent-chat frontend increased Chinese SSG memory pressure. The validated fix keeps the 4096 MiB heap and enables two Docusaurus SSG worker threads with built-in worker recycling for zh-CN only."
+    ]
+  },
+  "commands": [
+    {
+      "artifacts": [
+        {
+          "path": "node_modules",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "pnpm install --frozen-lockfile",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [],
+      "command": "pnpm typecheck",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [],
+      "command": "pnpm test:frontend",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "testSummary": "6 test files passed; 31 tests passed.",
+      "warningSummary": [
+        "Vite CJS Node API deprecation warning.",
+        "Node experimental localStorage warnings.",
+        "The existing SearchModal test logs that navigation to another Document is not implemented."
+      ]
+    },
+    {
+      "artifacts": [
+        {
+          "path": "build",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "pnpm build",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc",
+      "warningSummary": [
+        "Docusaurus reports pre-existing broken links, including frequently /reference/cpp, ./undefined, and ./data-import-format-options.",
+        "Docusaurus reports pre-existing broken anchors.",
+        "Docusaurus update check cannot access the local update config store."
+      ]
+    },
+    {
+      "artifacts": [],
+      "command": "npm ci --prefix ../../../../zdoc_cn",
+      "dependencyState": "legacy package.json and package-lock.json are out of sync",
+      "eligibleAsCleanBaselineGate": false,
+      "exitStatus": 1,
+      "repository": "zdoc_cn",
+      "warningSummary": [
+        "Known legacy baseline defect: package.json and package-lock.json are out of sync.",
+        "npm reports missing multiple @node-rs/jieba-* 1.10.4 packages and @napi-rs/wasm-runtime@0.2.12."
+      ]
+    },
+    {
+      "artifacts": [],
+      "command": "pnpm --dir ../../../../zdoc_cn test:cn-publish-normalizer",
+      "dependencyState": "pre-existing and unverified zdoc_cn node_modules",
+      "eligibleAsCleanBaselineGate": false,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "testSummary": "normalizeCnContent, remarkCnPublishNormalizer, and verify-cn-publish-artifacts test suites passed.",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [],
+      "command": "pnpm --dir ../../../../zdoc_cn test:docs-workflow",
+      "dependencyState": "pre-existing and unverified zdoc_cn node_modules",
+      "eligibleAsCleanBaselineGate": false,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "testSummary": "622 passed; 2 skipped.",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [
+        {
+          "path": ".zdoc-assembled",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "npm run assemble",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "sourceInputs": {
+        "downstreamZdocCnSha": "b1900473dddf8db2d56c11387211a7014b54c160",
+        "upstreamZdocSha": "12cf657f0f1ecca6fc9f85860b0662a2e923757b"
+      },
+      "warningSummary": []
+    },
+    {
+      "artifacts": [],
+      "command": "node scripts/upstream/validate-assembled.js",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "testSummary": "validate-assembled passed.",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [
+        {
+          "path": ".zdoc-assembled/node_modules",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "pnpm --dir .zdoc-assembled install --frozen-lockfile",
+      "dependencyState": "canonical assembled frozen-lockfile install",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "testSummary": "1697 packages installed; @zdoc/chat-ui workspace package linked.",
+      "warningSummary": []
+    },
+    {
+      "artifacts": [
+        {
+          "path": ".zdoc-assembled/build",
+          "produced": true,
+          "temporary": true
+        },
+        {
+          "path": ".zdoc-assembled/build/ja-JP",
+          "produced": true,
+          "temporary": true
+        }
+      ],
+      "command": "pnpm --dir .zdoc-assembled run build",
+      "eligibleAsCleanBaselineGate": true,
+      "exitStatus": 0,
+      "repository": "zdoc_cn",
+      "warningSummary": [
+        "Docusaurus reports the same pre-existing broken-link warnings.",
+        "Docusaurus reports the same pre-existing broken-anchor warnings.",
+        "Node emits the same experimental localStorage warnings."
+      ]
+    }
+  ],
+  "notes": [
+    "The originally planned pnpm --dir ../../../../zdoc_cn install --frozen-lockfile command is not applicable: zdoc_cn has package-lock.json and yarn.lock but no pnpm-lock.yaml.",
+    "npm ci is retained solely to reproduce the legacy zdoc_cn package-lock/CI baseline. The unified target workspace, both replacement-site builds, and Jenkins are pnpm-only.",
+    "The passing zdoc_cn normalizer and docs-workflow tests used pre-existing, unverified node_modules and are not eligible as clean baseline gates.",
+    "A noncanonical pnpm --dir ../../../../zdoc_cn build:assembled helper attempt exited 1 after assembly because the helper skips the assembled frozen-lockfile install; this is an incomplete helper path, not a verified legacy product defect.",
+    "The canonical locked-upstream-overlay workflow assembled, validated, installed, and built the legacy site successfully."
+  ],
+  "repositories": {
+    "zdoc": {
+      "head": "b20b942facaa7774da4e5a769b9c918d056c4ac4",
+      "sourceUrl": "git@github.com:zilliztech/zdoc"
+    },
+    "zdoc_cn": {
+      "head": "b1900473dddf8db2d56c11387211a7014b54c160",
+      "sourceUrl": "https://github.com/zilliztech/zdoc_cn.git"
+    }
+  },
+  "toolVersions": {
+    "node": "v26.3.0",
+    "npm": "11.16.0",
+    "pnpm": "10.32.1"
+  }
+}

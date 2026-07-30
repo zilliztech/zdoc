@@ -19,8 +19,8 @@ export default defineConfig({
       use: {...devices['Desktop Chrome'], channel: 'chrome'},
     },
   ],
-  webServer: {
-    command: 'CHAT_ENDPOINT=/api/chat npm run start -- --host 0.0.0.0',
+  webServer: process.env.PLAYWRIGHT_EXTERNAL_SERVERS === '1' ? undefined : {
+    command: 'CHAT_ENDPOINT=/api/chat pnpm start -- --host 0.0.0.0',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
   },

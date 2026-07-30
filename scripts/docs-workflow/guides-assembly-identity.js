@@ -31,15 +31,15 @@ const REASONS = Object.freeze([
   'saas-sidebar-hash-mismatch', 'byoc-sidebar-hash-mismatch',
 ])
 const FINGERPRINT_FILES = Object.freeze([
-  'plugins/lark-docs/index.js',
-  'plugins/lark-docs/larkDocWriter.js',
-  'plugins/lark-docs/larkSourceIndex.js',
-  'plugins/lark-docs/guidesBaseRecordSemantics.js',
+  'packages/docs-tooling/src/lark/index.js',
+  'packages/docs-tooling/src/lark/larkDocWriter.js',
+  'packages/docs-tooling/src/lark/larkSourceIndex.js',
+  'packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js',
   'scripts/docs-workflow/guides-assembly-identity.js',
   'scripts/docs-workflow/generate-guides-sidebars.js',
   'config/lark-docs.config.ts',
-  'config/sidebar-overrides/guides.json',
-  'config/sidebar-overrides/guides-byoc.json',
+  'sidebar-overrides/en/guides.json',
+  'sidebar-overrides/en/guides-byoc.json',
 ])
 const SEMANTIC_FIELDS = Object.freeze([
   'record_id', 'placement_type', 'source_file', 'source_hash', 'doc_token',

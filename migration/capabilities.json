@@ -1,0 +1,669 @@
+{
+  "schemaVersion": 1,
+  "capabilities": [
+    {
+      "id": "chinese.normalization",
+      "owner": "adapter",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Chinese normalization remains deterministic."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:plugins/cn-publish-normalizer"
+      ],
+      "replacementEntryPoints": [
+        "packages/publication-adapters/src/zh-CN/normalizer.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "chinese.rest-replacements",
+      "owner": "adapter",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Chinese REST replacements remain explicit and validated."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:config/cn-publish-replacements.js",
+        "zdoc_cn:rest-overrides/zh-CN"
+      ],
+      "replacementEntryPoints": [
+        "packages/publication-adapters/src/zh-CN/restReplacements.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "chinese.storage",
+      "owner": "adapter",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Storage publication preserves failure and retry behavior without embedding credentials."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:plugins/adapters/aliyun-oss"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/src"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "content.chinese",
+      "owner": "content",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Chinese content plugins, routes, sidebars, and navigation remain available."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:docs",
+        "zdoc_cn:i18n",
+        "zdoc_cn:docusaurus.config.js#plugins",
+        "zdoc_cn:sidebarsTutorial.js",
+        "zdoc_cn:sidebarsReference.js",
+        "zdoc_cn:sidebarsAgents.js",
+        "zdoc_cn:sidebarsOnPremise.js"
+      ],
+      "replacementEntryPoints": [
+        "content/zh-CN"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Task 11 site build and bounded route comparison passed for zh-CN; see migration/reports/routes-zh-CN-replacement.json and migration/approved-differences.json.",
+        "Task 12 clean-checkout site build, local image build, image smoke, and runtime inspection passed at source SHA 63d0a0825ef0305c1f4c109597171d55b4bcac60; see migration/reports/shadow-zh-CN.json.",
+        "External registry digest, UAT release, shadow observation, and approved immutable external archive storage and owner acceptance remain pending."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "63d0a0825ef0305c1f4c109597171d55b4bcac60",
+      "verificationScope": "task12-local-image-acceptance",
+      "releaseGateStatus": "local-accepted-external-release-pending"
+    },
+    {
+      "id": "content.english",
+      "owner": "content",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "English content plugins, routes, sidebars, and navigation remain available."
+      ],
+      "legacyEntryPoints": [
+        "docs",
+        "docusaurus.config.ts#plugins",
+        "sidebarsTutorial.ts",
+        "sidebarsByoc.ts",
+        "sidebarsReference.ts"
+      ],
+      "replacementEntryPoints": [
+        "content/en"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Task 11 site build and bounded route comparison passed for en; see migration/reports/routes-en-replacement.json and migration/approved-differences.json.",
+        "Task 12 clean-checkout site build, local image build, image smoke, and runtime inspection passed at source SHA 63d0a0825ef0305c1f4c109597171d55b4bcac60; see migration/reports/shadow-en.json.",
+        "External registry digest, UAT release, shadow observation, and approved immutable external archive storage and owner acceptance remain pending."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "63d0a0825ef0305c1f4c109597171d55b4bcac60",
+      "verificationScope": "task12-local-image-acceptance",
+      "releaseGateStatus": "local-accepted-external-release-pending"
+    },
+    {
+      "id": "content.japanese",
+      "owner": "content",
+      "consumers": [
+        "Japanese documentation readers",
+        "documentation maintainers"
+      ],
+      "contracts": [
+        "Japanese translation remains a locale of the English site and is built only by the English profile."
+      ],
+      "legacyEntryPoints": [
+        "zdoc:i18n/ja-JP"
+      ],
+      "replacementEntryPoints": [
+        "i18n/ja-JP",
+        "apps/docs/docusaurus.config.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Japanese is not a Chinese-site input and is not classified as a retired legacy tree.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "deploy.container",
+      "owner": "deploy",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Container build and runtime environment injection remain functional."
+      ],
+      "legacyEntryPoints": [
+        "Dockerfile",
+        "docker-entrypoint.d"
+      ],
+      "replacementEntryPoints": [
+        "deploy/en/Dockerfile",
+        "deploy/zh-CN/Dockerfile"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "deploy.jenkins-pipelines",
+      "owner": "deploy",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Four English/Chinese development and production pipelines preserve rebuild behavior, specified-image production mode, immutable image selection, and rollback behavior."
+      ],
+      "legacyEntryPoints": [
+        "vdc-jenkins:zilliz-docs/zilliz-docs-dev.groovy",
+        "vdc-jenkins:zilliz-docs/zilliz-docs-prod.groovy",
+        "vdc-jenkins:zilliz-docs/zilliz-docs-cn-dev.groovy",
+        "vdc-jenkins:zilliz-docs/zilliz-docs-cn-prod.groovy"
+      ],
+      "replacementEntryPoints": [
+        ".github/workflows/site-validation.yml",
+        "deploy/contracts"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Release contract tests and dual-mode verifier are implemented under deploy/contracts.",
+        "Repository GitHub Actions use the versioned path-filter contract for site-selective validation without deployment credentials.",
+        "English and Chinese external UAT validation must run through zilliz-docs-dev and zilliz-docs-cn-dev respectively. Live four-pipeline UAT/Prod rehearsal remains outside repository control; see migration/runbooks/cutover-zh-CN.md.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "deploy.nginx-health",
+      "owner": "deploy",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Nginx routing and health checks serve both locales."
+      ],
+      "legacyEntryPoints": [
+        "nginx.conf",
+        "zdoc_cn:nginx/zh-CN"
+      ],
+      "replacementEntryPoints": [
+        "deploy/en/nginx.conf",
+        "deploy/zh-CN/nginx.conf",
+        "deploy/runtime/40-zdoc-env.sh"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Container contracts verify exact chat routes, conversation affinity, and stripped Authorization headers; production-equivalent CDN/Nginx shadow remains external.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "feature.embedded-markdown",
+      "owner": "ui",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Embedded Markdown mirrors Docusaurus locale fallback from the canonical route set and is exposed through sanitized plugin data."
+      ],
+      "legacyEntryPoints": [
+        "src/components/Markdown",
+        "@mdx-js/react"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/plugins/embed-markdown/index.js",
+        "apps/docs/src/config/createDocusaurusConfig.test.ts",
+        "packages/docs-ui/src/docusaurus.test.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "apps/docs/src/config/createDocusaurusConfig.test.ts invokes separate English and Japanese embed-markdown lifecycles and verifies translated files, canonical fallback files, and translation-only orphan exclusion for default, byoc, and reference IDs.",
+        "packages/docs-ui/src/docusaurus.test.ts verifies both copy-page implementations consume sanitized embed-markdown plugin data.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "feature.llms-txt",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "llms.txt outputs mirror Docusaurus locale fallback, remain route-complete for canonical sources, and are contained under the locale outDir."
+      ],
+      "legacyEntryPoints": [
+        "plugins/llms-txt"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/plugins/llms-txt/index.js",
+        "apps/docs/src/config/createDocusaurusConfig.test.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "apps/docs/src/config/createDocusaurusConfig.test.ts invokes separate English and Japanese LLMS lifecycles, verifies translated files, canonical fallback files, translation-only orphan exclusion, and rejects relative sources, traversal, absolute destinations, unsafe tokens, duplicates, and exact or ancestor path collisions before writing.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "feature.search",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Search integrations remain configured by environment."
+      ],
+      "legacyEntryPoints": [
+        "@easyops-cn/docusaurus-search-local",
+        "@inkeep/docusaurus"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs",
+        "packages/site-config"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "feature.structured-data",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Structured data mirrors Docusaurus locale fallback from the canonical route set, uses locale-adjusted URLs, and serializes script-safe JSON."
+      ],
+      "legacyEntryPoints": [
+        "docusaurus.config.ts",
+        "src/theme"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/plugins/structured-data/index.js",
+        "apps/docs/src/config/createDocusaurusConfig.test.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "apps/docs/src/config/createDocusaurusConfig.test.ts invokes separate English and Japanese structured-data lifecycles for default, byoc, and reference IDs and verifies translated metadata, canonical metadata fallback, translation-only orphan exclusion, localized URLs, and safe handling of closing-script frontmatter.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "feature.web-metadata",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Metadata, robots directives, and redirects retain intended behavior."
+      ],
+      "legacyEntryPoints": [
+        "static/robots.txt",
+        "docusaurus.config.ts",
+        "nginx.conf"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs",
+        "packages/site-config"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Live robots, redirect, and CDN metadata checks remain part of the external shadow gate.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "generation.lark-manuals",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Manual generation preserves content-group ownership, bounded concurrency, and atomic publication."
+      ],
+      "legacyEntryPoints": [
+        "plugins/lark-docs",
+        "scripts/docs-workflow"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/src/lark"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "generation.reference-rest",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "REST generation preserves provenance and translation coverage."
+      ],
+      "legacyEntryPoints": [
+        "plugins/apifox-docs"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/src/reference"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "generation.reference-sdk",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "SDK generation preserves supported language/version coverage and provenance."
+      ],
+      "legacyEntryPoints": [
+        "plugins/lark-docs",
+        "sidebarsReference.ts"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/src/lark"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "legacy.assembly-overlay",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Assembly, overlay validation, and copy behavior are retired after parity gates."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:scripts/upstream/assemble.js",
+        "zdoc_cn:scripts/upstream/validate-assembled.js",
+        "zdoc_cn:overlay-manifest.json"
+      ],
+      "replacementEntryPoints": [
+        "migration/legacy-files.json"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "legacy.generated-artifacts",
+      "owner": "app",
+      "consumers": [
+        "documentation maintainers"
+      ],
+      "contracts": [
+        "Historical temporary logs are not production providers and are not migrated."
+      ],
+      "legacyEntryPoints": [
+        "zdoc:tmp"
+      ],
+      "replacementEntryPoints": [
+        "migration/legacy-files.json"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Task 10 removed the named historical log artifacts; Task 11 records their absence at the reviewed Git revision.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "legacy.overlay-patching",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Patch behavior is replaced by first-class extension points before retirement."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:patches/upstream/0001-cn-build-normalizer.patch"
+      ],
+      "replacementEntryPoints": [
+        "packages/publication-adapters/src/zh-CN"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "legacy.run-content-group-adapter",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "The adapter invokes only the closed docs-tooling fetch, validate, and publish commands."
+      ],
+      "legacyEntryPoints": [
+        "scripts/docs-workflow/run-content-group.js"
+      ],
+      "replacementEntryPoints": [
+        "packages/docs-tooling/src/cli-main.ts"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Task 6 gate: node --test scripts/docs-workflow/run-content-group.test.js.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "removalMilestone": 7,
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "legacy.sample-content",
+      "owner": "content",
+      "consumers": [
+        "documentation maintainers"
+      ],
+      "contracts": [
+        "Docusaurus sample blog content is intentionally absent from the production documentation site."
+      ],
+      "legacyEntryPoints": [
+        "zdoc:blog",
+        "zdoc_cn:blog"
+      ],
+      "replacementEntryPoints": [
+        "migration/approved-differences.json"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Task 10 removed the sample blog trees; Task 11 records per-provider absence at the reviewed Git revision.",
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "legacy.upstream-materialization",
+      "owner": "tooling",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Retire only after unified source cutover and archive verification."
+      ],
+      "legacyEntryPoints": [
+        "zdoc_cn:scripts/upstream/materialize.js"
+      ],
+      "replacementEntryPoints": [
+        "migration/legacy-files.json"
+      ],
+      "disposition": "retire",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "site.docusaurus-application",
+      "owner": "app",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Docusaurus application and registered plugins render the documentation site."
+      ],
+      "legacyEntryPoints": [
+        "docusaurus.config.ts",
+        "src/pages"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/docusaurus.config.ts"
+      ],
+      "disposition": "preserve",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "site.shared-configuration",
+      "owner": "site-config",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Shared configuration and plugin registration are centralized without route loss."
+      ],
+      "legacyEntryPoints": [
+        "docusaurus.config.ts",
+        "config",
+        "sidebars*.ts"
+      ],
+      "replacementEntryPoints": [
+        "packages/site-config",
+        "generated/en",
+        "generated/zh-CN"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    },
+    {
+      "id": "workspace.commands",
+      "owner": "app",
+      "consumers": [
+        "documentation maintainers",
+        "release engineering"
+      ],
+      "contracts": [
+        "Install, build, typecheck, and test commands preserve nonzero exit behavior on failure."
+      ],
+      "legacyEntryPoints": [
+        "pnpm install --frozen-lockfile",
+        "package.json#scripts.build",
+        "package.json#scripts.typecheck",
+        "package.json#scripts.test:frontend"
+      ],
+      "replacementEntryPoints": [
+        "apps/docs/package.json",
+        "packages/docs-tooling/package.json"
+      ],
+      "disposition": "change",
+      "acceptanceEvidence": [
+        "Repository verification evidence reviewed at 758adc2dad38bd5f89e9f3d077a109777a431632: replacement entry points are present and covered by the Task 11 migration and architecture gates."
+      ],
+      "verificationStatus": "verified",
+      "verifiedAtRevision": "758adc2dad38bd5f89e9f3d077a109777a431632"
+    }
+  ]
+}

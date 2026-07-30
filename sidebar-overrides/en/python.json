@@ -1,0 +1,11 @@
+{
+  "linkSameNameChildren": true,
+  "overrideCategories": {
+    "DataImport":      { "customProps": { "icon": "import-ref"      } },
+    "EmbeddingModels": { "customProps": { "icon": "embed-ref"        } },
+    "MilvusClient":    { "customProps": { "icon": "client-code"      } },
+    "Rerankers":       { "customProps": { "icon": "rerank-ref"       } },
+    "Volume":          { "customProps": { "icon": "storage-ref"      } }
+  },
+  "hideCategories": ["ORM"]
+}

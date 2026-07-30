@@ -1,330 +1,83 @@
-# Website
+# Zilliz Documentation
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This repository builds the English/Japanese and Chinese documentation sites from one audited codebase. The two sites share tooling and UI packages, but use independent site profiles and content trees. Chinese is not rebuilt through Docusaurus i18n because its product capabilities and document structure differ from English.
 
-## Installation
+## Prerequisites
 
-```bash
-yarn
-```
+- Node.js 22 or newer
+- pnpm 10.33.0 (`corepack enable`)
 
-## Local Development
-
-```bash
-yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
+Install dependencies with:
 
 ```bash
-yarn build
+pnpm install --frozen-lockfile
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+## Local development and builds
 
-## Deployment
-
-Using SSH:
+English includes the Japanese translation tree:
 
 ```bash
-USE_SSH=true yarn deploy
+pnpm start:en
+pnpm build:en
 ```
 
-Not using SSH:
+Preview Japanese locally with `pnpm start:en --locale ja-JP`. The English build includes both locales and writes Japanese pages below `build/en/ja-JP`.
+
+Chinese is an independent site profile:
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+pnpm start:zh-CN
+pnpm build:zh-CN
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Build output is written to `build/en` and `build/zh-CN`.
 
-## Sidebar overrides
+## Content ownership
 
-Generated sidebar files (in `config/generated/`) are raw output from the Feishu fetch and should not be edited by hand. To customise the sidebar without re-fetching from Feishu, edit the corresponding override file in `config/sidebar-overrides/`:
+- English source content: `content/en`
+- Chinese source and translated content: `content/zh-CN`
+- Japanese translations: `i18n/ja-JP`
+- Generated sidebars and manifests: `generated/<site>`
+- Site configuration: `packages/site-config`
+- Docusaurus application: `apps/docs`
+- Shared and site-specific UI: `packages/docs-ui`
+- Content production and publication CLI: `packages/docs-tooling`
 
-| Sidebar | Override file |
-| ------- | ------------- |
-| Cloud guides | `config/sidebar-overrides/guides.json` |
-| BYOC guides | `config/sidebar-overrides/guides-byoc.json` |
-| Python SDK | `config/sidebar-overrides/python.json` |
-| Java SDK | `config/sidebar-overrides/java.json` |
-| Node SDK | `config/sidebar-overrides/node.json` |
-| Go SDK | `config/sidebar-overrides/go.json` |
+Japanese content follows the English document structure and ships as part of the English site. Agent-driven translation has three explicit targets: `ja-JP`, `zh-CN-reference`, and `zh-CN-tools`. Chinese source publication must preserve the Agent-owned `content/zh-CN/guides/tutorials/tools` subtree.
 
-Overrides are applied automatically on every `npm start` and `npm run build` — no re-fetch needed. The override JSON supports six actions, processed in this order: `override → overrideCategories → group → move → hide → inject`.
+## Content production
 
-### Finding a doc id
+Use the site-qualified docs tooling commands and workflows. Do not publish by invoking retired root Docusaurus or plugin wrappers.
 
-Doc ids match the file path relative to the docs root, without the `.md` extension. For example, `docs/cloud/get-started/overview.md` has id `cloud/get-started/overview`. The easiest way to find an id is to look inside the generated `.sidebar.js` file for the relevant sidebar.
-
----
-
-### `override` — relabel or restyle an item
-
-Merges extra properties onto a doc item matched by id. Useful for renaming a page in the sidebar without changing the file.
-
-```json
-{
-  "override": {
-    "cloud/get-started/overview": {
-      "label": "Quick Start"
-    },
-    "cloud/advanced/tuning": {
-      "label": "Performance Tuning",
-      "className": "sidebar-item--highlight"
-    }
-  }
-}
+```bash
+pnpm test:workflow-policy
+pnpm test:retirement
 ```
 
-Any key accepted by Docusaurus sidebar doc items (`label`, `className`, `customProps`, etc.) can be set here.
+GitHub Actions owns source production, translation, validation, and image build orchestration. English and Chinese production remain independently addressable. External `vdc-jenkins` pipelines consume the resulting repository state or promote an approved UAT image; Jenkins configuration is maintained outside this repository.
 
----
+## Containers
 
-### `overrideCategories` — reconfigure a category by label
+The runtime images contain only Nginx plus the selected static build output. Build from the repository root:
 
-Like `override` but matches categories by their `label` string instead of a doc id. Use this to change `collapsed`, `collapsible`, `className`, or any other Docusaurus category property without touching the generated file.
-
-```json
-{
-  "overrideCategories": {
-    "Get Started": {
-      "label": "Quick Start",
-      "collapsed": false
-    },
-    "Data": {
-      "className": "data",
-      "collapsible": false
-    }
-  }
-}
+```bash
+ZDOC_SHA="$(git rev-parse HEAD)"
+docker build --build-arg ZDOC_SHA="$ZDOC_SHA" --build-arg JENKINS_BUILD_ID=local-preview -f deploy/en/Dockerfile -t zdoc-en .
+docker build --build-arg ZDOC_SHA="$ZDOC_SHA" --build-arg JENKINS_BUILD_ID=local-preview -f deploy/zh-CN/Dockerfile -t zdoc-zh-cn .
 ```
 
-Setting `collapsible: false` makes the category permanently expanded (users cannot collapse it). Setting `collapsed: false` starts it expanded but still allows collapsing.
+The site-owned Nginx configurations are `deploy/en/nginx.conf` and `deploy/zh-CN/nginx.conf`. Runtime environment rendering is owned by `deploy/runtime/40-zdoc-env.sh`.
 
----
+## Verification
 
-### `group` — wrap existing categories under a new parent
+Run proportional checks while developing. Before a repository-wide retirement or release change, run:
 
-Extracts one or more existing top-level (or nested) categories by label and nests them under a newly created parent category. Categories are placed in the declared order inside the new parent.
-
-**Group with placement after a doc:**
-
-```json
-{
-  "group": [
-    {
-      "label": "Quickstarts",
-      "afterDoc": "tutorials/home",
-      "categories": ["Get Started"]
-    }
-  ]
-}
-```
-
-**Group with placement after a sibling category:**
-
-```json
-{
-  "group": [
-    {
-      "label": "Infrastructure",
-      "afterCategory": "Data",
-      "categories": ["Cluster", "Volume", "Migrations", "Metrics & Alerts", "Backup & Restore"]
-    }
-  ]
-}
-```
-
-**Group appended to the end (default when no placement key is given):**
-
-```json
-{
-  "group": [
-    {
-      "label": "Administration",
-      "categories": ["Security", "Payment & Billing", "Limits & Restrictions"]
-    }
-  ]
-}
-```
-
-Placement options: `afterDoc` (doc id), `afterCategory` (category label), `beforeCategory` (category label), `prepend` (boolean), or omit for append. Any extra properties (`className`, `collapsed`, `collapsible`, etc.) are spread onto the new category node. Categories left empty after extraction are removed automatically.
-
----
-
-### `move` — relocate an item within the sidebar
-
-Extracts a doc item from its current position and reinserts it elsewhere. The source must exist; if the target is missing, the move is skipped with a warning and the item stays put.
-
-**Place before another doc item:**
-
-```json
-{
-  "move": [
-    { "id": "cloud/billing/overview", "before": "cloud/billing/plans" }
-  ]
-}
-```
-
-**Place after another doc item:**
-
-```json
-{
-  "move": [
-    { "id": "cloud/billing/overview", "after": "cloud/billing/plans" }
-  ]
-}
-```
-
-**Move into a category (appended by default):**
-
-```json
-{
-  "move": [
-    { "id": "cloud/billing/overview", "into": "Billing" }
-  ]
-}
-```
-
-**Move into a category as the first item:**
-
-```json
-{
-  "move": [
-    { "id": "cloud/billing/overview", "into": "Billing", "position": "first" }
-  ]
-}
-```
-
-Multiple moves are applied in array order. Categories that become empty after a move are removed automatically.
-
----
-
-### `hide` — remove items from the sidebar
-
-Hides one or more doc items by id. The underlying pages are still built and accessible by direct URL; they just won't appear in the sidebar.
-
-```json
-{
-  "hide": [
-    "cloud/internal/roadmap",
-    "cloud/internal/changelog-draft"
-  ]
-}
-```
-
----
-
-### `inject` — insert custom items
-
-Inserts arbitrary Docusaurus sidebar items (links, categories, html items, etc.) that don't come from Feishu.
-
-**Prepend to the top of the sidebar:**
-
-```json
-{
-  "inject": [
-    {
-      "prepend": true,
-      "item": { "type": "link", "label": "What's New", "href": "/changelog" }
-    }
-  ]
-}
-```
-
-**Append to the bottom of the sidebar:**
-
-```json
-{
-  "inject": [
-    {
-      "append": true,
-      "item": { "type": "link", "label": "Give feedback", "href": "https://feedback.zilliz.com" }
-    }
-  ]
-}
-```
-
-**Insert before a specific top-level doc:**
-
-```json
-{
-  "inject": [
-    {
-      "before": "cloud/get-started/overview",
-      "item": { "type": "html", "value": "<hr/>" }
-    }
-  ]
-}
-```
-
-**Insert after a specific top-level doc:**
-
-```json
-{
-  "inject": [
-    {
-      "after": "cloud/get-started/quickstart",
-      "item": { "type": "link", "label": "Interactive tutorial", "href": "https://learn.zilliz.com" }
-    }
-  ]
-}
-```
-
-**Insert into a named category (appended by default):**
-
-```json
-{
-  "inject": [
-    {
-      "into": "Get Started",
-      "item": { "type": "link", "label": "Video walkthrough", "href": "https://www.youtube.com/watch?v=example" }
-    }
-  ]
-}
-```
-
-**Insert as the first item in a named category:**
-
-```json
-{
-  "inject": [
-    {
-      "into": "Get Started",
-      "position": "first",
-      "item": { "type": "link", "label": "Video walkthrough", "href": "https://www.youtube.com/watch?v=example" }
-    }
-  ]
-}
-```
-
-`into` matches the first category with that label anywhere in the tree (depth-first). If the category is not found, the injection is skipped with a console warning.
-
----
-
-### Combining actions
-
-All four actions can be used together in one file. They are always applied in the fixed order `override → move → hide → inject`, regardless of the key order in the JSON.
-
-```json
-{
-  "override": {
-    "cloud/get-started/overview": { "label": "Quick Start" }
-  },
-  "move": [
-    { "id": "cloud/billing/overview", "into": "Billing", "position": "first" }
-  ],
-  "hide": [
-    "cloud/internal/roadmap"
-  ],
-  "inject": [
-    {
-      "append": true,
-      "item": { "type": "link", "label": "Give feedback", "href": "https://feedback.zilliz.com" }
-    }
-  ]
-}
+```bash
+pnpm test:retirement
+pnpm typecheck
+pnpm test:frontend
+pnpm test:containers
+pnpm build:en
+pnpm build:zh-CN
 ```

@@ -25,7 +25,7 @@ function validateCandidateCounts(counts, group) {
 
 function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) invalid('root must be an object');
-  if (Object.keys(input).some((key) => !['mode', 'requestedGroups', 'groups', 'finalVerification'].includes(key))) invalid('unknown root property');
+  if (Object.keys(input).some((key) => !['mode', 'requestedGroups', 'groups', 'revisionReconciliation', 'finalVerification'].includes(key))) invalid('unknown root property');
   if (input.mode !== undefined && !['publish', 'artifact_only'].includes(input.mode)) invalid('mode must be publish or artifact_only');
   if (!Array.isArray(input.requestedGroups) || input.requestedGroups.length === 0) invalid('requestedGroups must be a non-empty array');
   const validGroups = new Set(listContentGroups());
@@ -47,6 +47,11 @@ function validate(input) {
     if (!['translation_published', 'no_changes'].includes(entry.translation) && entry.translationCommitSha !== undefined) invalid(`${group} translationCommitSha is only allowed for published or no_changes translation`);
     if (entry.translationCandidates !== undefined) validateCandidateCounts(entry.translationCandidates, group);
   }
+  const translationsRequested = input.requestedGroups.some(group => input.groups[group].translationRequested);
+  if (!FINAL_STATES.has(input.revisionReconciliation)) invalid('revisionReconciliation has unknown state');
+  const mode = input.mode || 'publish';
+  if (mode === 'artifact_only' && input.revisionReconciliation !== 'skipped') invalid('revisionReconciliation must be skipped in artifact_only mode');
+  if (mode === 'publish' && translationsRequested && input.revisionReconciliation === 'skipped') invalid('revisionReconciliation must not be skipped when translation is requested');
   if (!FINAL_STATES.has(input.finalVerification)) invalid('finalVerification has unknown state');
 }
 
@@ -55,7 +60,12 @@ function aggregateResults(input) {
   const mode = input.mode || 'publish';
   const sourceSuccess = mode === 'artifact_only' ? new Set(['artifact_ready']) : new Set(['source_published', 'no_changes']);
   const translationSuccess = new Set(['translation_published', 'no_changes']);
-  let success = mode === 'artifact_only' ? input.finalVerification === 'skipped' : input.finalVerification === 'passed';
+  const translationsRequested = input.requestedGroups.some(group => input.groups[group].translationRequested);
+  let success = mode === 'artifact_only'
+    ? input.revisionReconciliation === 'skipped' && input.finalVerification === 'skipped'
+    : translationsRequested
+      ? input.revisionReconciliation === 'passed' && input.finalVerification === 'passed'
+      : input.revisionReconciliation === 'skipped' && input.finalVerification === 'skipped';
   const rows = [];
   for (const group of listContentGroups().filter((name) => input.requestedGroups.includes(name))) {
     const entry = input.groups[group];
@@ -67,7 +77,7 @@ function aggregateResults(input) {
   const summaryText = success ? 'Documentation workflow succeeded.' : 'Documentation workflow failed.';
   const candidateSummary = input.groups.guides?.translationCandidates;
   const candidateLines = candidateSummary ? [`Guides translation candidates: ${candidateSummary.total} total — ${candidateSummary.current_delta} current English changes, ${candidateSummary.missing_target} missing Japanese targets, ${candidateSummary.stale_source} stale translations.`, ''] : [];
-  const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', ...candidateLines, `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
+  const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', ...candidateLines, `Revision reconciliation: ${input.revisionReconciliation}`, '', `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
   return Object.freeze({ overallStatus, summaryText, markdown });
 }
 

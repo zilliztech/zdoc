@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 9
+slug: /restful/remove-global-endpoint-v2
+beta: FALSE
+title: "移除全球端点 (V2) | RESTful"
+description: "在所有从集群均已删除后解散全球集群端点。剩余主集群会继续作为普通 Dedicated 集群运行。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "移除全球端点 (V2)"
+sidebar_custom_props: { badges: ['post']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "移除全球端点 (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# 移除全球端点 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Remove Global Endpoint","description":"Disbands the Global Cluster endpoint after all secondary clusters have been removed. The remaining primary cluster continues as a regular dedicated cluster.","tags":["Global Clusters (V2)"],"x-i18n":{"zh-CN":{"summary":"移除全球端点","description":"在所有从集群均已删除后解散全球集群端点。剩余主集群会继续作为普通 Dedicated 集群运行。"}},"parameters":[{"name":"globalClusterId","in":"path","description":"ID of the Global Cluster.","required":true,"example":"glo-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"全球集群 ID。"}}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}}],"responses":{"200":{"description":"Returns information about the removed Global Cluster endpoint.","x-i18n":{"zh-CN":{"description":"返回已移除全球集群端点的信息。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"oldGlobalClusterId":{"type":"string","description":"ID of the removed Global Cluster endpoint.","x-i18n":{"zh-CN":{"description":"已移除全球集群端点的 ID。"}},"example":"glo-xxxxxxxxxxxxxxx"}}},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":400},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}},"example":"Invalid request parameters."}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"oldGlobalClusterId":"glo-xxxxxxxxxxxxxxx"}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":400,"message":"Invalid request parameters."}}}}}}}}
+export const endpoint = "/v2/globalClusters/{globalClusterId}/removeGlobalEndpoint"
+export const method = "post"

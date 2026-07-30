@@ -29,9 +29,9 @@ function isTruthy(value) {
 
 function reportCard(status, reportPath) {
   if (reportPath && fs.existsSync(reportPath)) {
-    return run(`npx docusaurus report-to-lark --card-advance --status ${status} --note-file ${reportPath}`)
+    return run(`pnpm docs-tooling report-card advance --status ${status} --note-file ${reportPath}`)
   }
-  return run(`npx docusaurus report-to-lark --card-advance --status ${status}`)
+  return run(`pnpm docs-tooling report-card advance --status ${status}`)
 }
 
 function linkReportHasChanges(reportPath) {
@@ -55,7 +55,7 @@ function linkReportHasChanges(reportPath) {
 function main() {
   const args = parseArgs(process.argv.slice(2))
   const buildCommand = args.build || 'pnpm run build'
-  const reportPath = args.reportPath || 'plugins/link-checks/meta/reports/latest.md'
+  const reportPath = args.reportPath || 'packages/docs-tooling/src/links/meta/reports/latest.md'
   const skipCardReporting = isTruthy(args.skipCardReporting) || isTruthy(process.env.SKIP_CARD_REPORTING)
 
   const buildStatus = run(buildCommand)
@@ -67,12 +67,12 @@ function main() {
   if (isTruthy(args.skipLinkChecks) || isTruthy(process.env.SKIP_LINK_CHECKS)) {
     console.log('Skipping link checks because skipLinkChecks is enabled.')
     if (skipCardReporting) return
-    const advanceStatus = run('npx docusaurus report-to-lark --card-advance --status done')
+    const advanceStatus = run('pnpm docs-tooling report-card advance --status done')
     if (advanceStatus !== 0) process.exit(advanceStatus)
     return
   }
 
-  const linkStatus = run('npx docusaurus link-checks', {
+  const linkStatus = run(`pnpm docs-tooling check-links --site en --output ${reportPath}`, {
     LINK_CHECKS_REMOTE_BASE_URL: process.env.LINK_CHECKS_REMOTE_BASE_URL || 'https://docs.zilliz.com',
   })
   if (linkStatus !== 0) {
@@ -83,13 +83,13 @@ function main() {
   if (skipCardReporting) return
 
   if (linkReportHasChanges(reportPath)) {
-    const noteStatus = run(`npx docusaurus report-to-lark --card-note-file ${reportPath}`)
+    const noteStatus = run(`pnpm docs-tooling report-card note --file ${reportPath}`)
     if (noteStatus !== 0) process.exit(noteStatus)
   } else {
     console.log('Link-check report is clean; no report note will be attached to the card.')
   }
 
-  const advanceStatus = run('npx docusaurus report-to-lark --card-advance --status done')
+  const advanceStatus = run('pnpm docs-tooling report-card advance --status done')
   if (advanceStatus !== 0) process.exit(advanceStatus)
 }
 

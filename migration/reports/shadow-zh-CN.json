@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "site": "zh-CN",
+  "sourceRepository": "zdoc",
+  "sourceSha": "63d0a0825ef0305c1f4c109597171d55b4bcac60",
+  "evidenceRecordedAt": "2026-07-28T17:59:34+08:00",
+  "localImage": {
+    "status": "built-and-smoked",
+    "tag": "zdoc-zh-cn:retirement",
+    "imageId": "sha256:c91833f81525830ba255f13f22570239401bf3658ae56b5ec40078b697ece5f5",
+    "configDigest": "sha256:c91833f81525830ba255f13f22570239401bf3658ae56b5ec40078b697ece5f5",
+    "repoDigest": null,
+    "sizeBytes": 815600094,
+    "buildId": "local-retirement-zh-CN",
+    "embeddedProvenanceArtifactHash": "094981d10eb4b81d65dcfbc7d59a2ef2a62fa951e834e31b46200a76236f01ab",
+    "runtimeInspection": {
+      "status": "passed",
+      "builderToolchainAbsent": true,
+      "repositorySourceRootsAbsent": true,
+      "forbiddenStateAbsent": true
+    }
+  },
+  "build": {
+    "status": "site-build-passed",
+    "command": "pnpm build:zh-CN",
+    "exitStatus": 0,
+    "artifact": "build/zh-CN",
+    "artifactHash": "32135f0fbe02481418066fce6f7b7c6b69467ecc7d246e8914e011ed426e699a",
+    "provenance": "build/zh-CN/build-provenance.json",
+    "dependencyInstall": "pnpm install --frozen-lockfile in a brand-new detached clean worktree",
+    "publicationNetworkFence": true,
+    "ssgMemoryControl": "DOCUSAURUS_SSG_WORKER_THREAD_COUNT=2 with a 4096 MiB V8 heap",
+    "imageBuildCommand": "docker build --file deploy/zh-CN/Dockerfile --build-arg ZDOC_SHA=63d0a0825ef0305c1f4c109597171d55b4bcac60 --build-arg ZDOC_SITE=zh-CN --build-arg JENKINS_BUILD_ID=local-retirement-zh-CN --tag zdoc-zh-cn:retirement ."
+  },
+  "localSmoke": {
+    "status": "image-smoke-passed",
+    "imageCommand": "bash deploy/contracts/smoke.sh zdoc-zh-cn:retirement zh-CN",
+    "imageExitStatus": 0,
+    "artifactChecks": [
+      "build/zh-CN/index.html exists",
+      "build/zh-CN/docs/home.html exists",
+      "replacement inventory contains 1620 Chinese routes",
+      "Chinese build contains no /ja-JP route inventory"
+    ],
+    "completedImageChecks": [
+      "OCI source and revision labels",
+      "Jenkins identity label",
+      "/healthz",
+      "/docs/home",
+      "representative guide, BYOC, on-premise, Agent, and reference routes",
+      "/ja-JP/docs/home returns 404",
+      "temporary container cleanup",
+      "runtime image excludes /app, Node, npm, pnpm, node_modules, Markdown, .git, translation caches, reports, migration evidence, and repository source roots"
+    ]
+  },
+  "differential": {
+    "legacyRoutes": 1686,
+    "replacementRoutes": 1620,
+    "approvedExactDifferences": 314,
+    "evidence": [
+      "migration/reports/routes-zh-CN-legacy.json",
+      "migration/reports/routes-zh-CN-replacement.json",
+      "migration/approved-differences.json"
+    ]
+  },
+  "warnings": [
+    "Known broken-link, broken-anchor, one-page HTML-minifier, KaTeX Unicode, and lunr diagnostics remained non-blocking during the current site build.",
+    "The runtime image contains no repository Markdown or source roots and no builder tools or mutable repository state.",
+    "The image is local-only, so no registry repository digest is claimed.",
+    "External UAT, shadow observation, and approved immutable external archive storage and owner acceptance remain pending."
+  ],
+  "externalShadow": {
+    "status": "not-executed",
+    "uatPipeline": "zilliz-docs-cn-dev",
+    "blocker": "The externally managed pipeline, registry, non-production Chinese hostname, CDN/Nginx environment, deployment credentials, and environment owners are outside repository control.",
+    "requiredEvidence": [
+      "registry digest for exact source SHA 63d0a0825ef0305c1f4c109597171d55b4bcac60",
+      "Chinese UAT release record",
+      "shadow hostname",
+      "Chinese synthetic-check output",
+      "observation window",
+      "owner approval",
+      "approved immutable external archive location with reverified archive SHA-256 and owner acceptance"
+    ]
+  }
+}

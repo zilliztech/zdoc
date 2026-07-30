@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 9
+slug: /restful/modify-on-demand-cluster-v2
+beta: PUBLIC
+title: "修改按需集群 (V2) | RESTful"
+description: "修改按需集群的设置。你可以更新自动挂起空闲时间、集群名称、描述，或同时更新这些设置。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "修改按需集群 (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "修改按需集群 (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# 修改按需集群 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Modify On-Demand Cluster","deprecated":false,"description":"Modify the settings of an on-demand cluster. You can update the auto-suspend idle window, cluster name, description, or any combination of these settings.","x-i18n":{"zh-CN":{"summary":"修改按需集群","description":"修改按需集群的设置。你可以更新自动挂起空闲时间、集群名称、描述，或同时更新这些设置。"}},"tags":["Cluster Operations (V2)"],"x-beta":"PUBLIC","parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"CLUSTER_ID","in":"path","description":"The ID of the on-demand cluster to modify.","required":true,"example":"inxx-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"待修改按需集群的 ID。"}}},{"name":"Accept","in":"header","description":"Use `application/json`.","required":false,"example":"application/json","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"使用 `application/json`。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"autoSuspend":{"type":"string","description":"Auto-suspend idle window. The value must use the `<number><s|m|h>` format, such as `60s`, `5m`, or `1h`, and must be at least 60 seconds.","pattern":"^\\d+[smh]$","example":"5m","x-i18n":{"zh-CN":{"description":"自动挂起空闲时间。该值必须使用 `<number><s|m|h>` 格式，例如 `60s`、`5m` 或 `1h`，且至少为 60 秒。","example":"5m"}}},"clusterName":{"type":"string","description":"The new name of the on-demand cluster. The name can contain letters, digits, spaces, underscores, hyphens, or Chinese characters.","minLength":1,"maxLength":64,"example":"My On-Demand Cluster","x-i18n":{"zh-CN":{"description":"按需集群的新名称。名称可以包含字母、数字、空格、下划线、连字符或中文字符。","example":"我的按需集群"}}},"description":{"type":"string","description":"The new description of the on-demand cluster. The description must be shorter than 255 characters.","maxLength":255,"example":"Query cluster for production search workloads.","x-i18n":{"zh-CN":{"description":"按需集群的新描述。描述必须少于 255 个字符。","example":"用于生产搜索工作负载的 Query Cluster。"}}}},"description":"Request payload for modifying an on-demand cluster. Specify at least one of `autoSuspend`, `clusterName`, or `description`.","x-i18n":{"zh-CN":{"description":"修改按需集群的请求负载。请至少指定 `autoSuspend`、`clusterName` 或 `description` 中的一个。"}}},"examples":{"1":{"summary":"Modify settings","x-target-lang":"en-US","value":{"autoSuspend":"5m","clusterName":"My On-Demand Cluster","description":"Query cluster for production search workloads."}},"2":{"summary":"修改设置","x-target-lang":"zh-CN","value":{"autoSuspend":"5m","clusterName":"我的按需集群","description":"用于生产搜索工作负载的 Query Cluster。"}}}}}},"responses":{"200":{"description":"Returns a success response.","x-i18n":{"zh-CN":{"description":"返回成功响应。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"string","description":"A string 'success' indicating the on-demand cluster has been modified.","x-i18n":{"zh-CN":{"description":"字符串 'success'，表示按需集群已修改。"}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-lang":"en-US","value":{"code":0,"data":"success"}},"2":{"summary":"failure","x-target-lang":"en-US","value":{"code":1801,"message":"At least one of autoSuspend, clusterName or description must be specified."}},"3":{"summary":"failure","x-target-lang":"zh-CN","value":{"code":1801,"message":"必须指定 autoSuspend、clusterName 或 description 中的至少一个。"}}}}}}}}
+export const endpoint = "/v2/clusters/onDemandClusters/{CLUSTER_ID}/modify"
+export const method = "post"

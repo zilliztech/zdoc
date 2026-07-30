@@ -64,8 +64,8 @@ function validateGuidesCoverage({ outputDir, idPrefix = 'tutorials', sidebar, ig
 if (require.main === module) {
   try {
     for (const config of [
-      { outputDir: 'docs/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides.sidebar.js' },
-      { outputDir: 'docs-byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides-byoc.sidebar.js' },
+      { outputDir: 'content/en/guides/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides.sidebar.js' },
+      { outputDir: 'content/en/byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js' },
     ]) {
       delete require.cache[require.resolve(path.resolve(config.sidebarPath))]
       const result = validateGuidesCoverage({ ...config, sidebar: require(path.resolve(config.sidebarPath)) })

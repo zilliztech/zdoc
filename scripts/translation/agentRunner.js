@@ -1,18 +1,75 @@
 'use strict'
 
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
-const { applyMdxPatches, validateMdxStructure } = require('../../plugins/mdx-parse/mdxPatcher')
+const { loadTypeScript } = require('../lib/load-typescript')
+const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
-const { assembleRestDocument, parseRestDocument, translateRestSpecs } = require('./restSpecLocalization')
+const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
+const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
+const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
+const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
+const {
+  assertSafeRepositoryPathChain,
+  parseReferenceSourceManifest,
+  parseReferenceTranslationManifest,
+} = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts')
+const { validateTranslatedSidebarFragment } = loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts')
+const { defaultReferenceManualForPath } = loadTypeScript('../../packages/docs-tooling/src/cli.ts')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
 const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
+const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
+const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.2
+
+let referenceLandingContracts
+
+function loadReferenceLandingContracts() {
+  if (referenceLandingContracts) return referenceLandingContracts
+  const configPath = path.resolve(__dirname, '../../config/reference-navigation.json')
+  const config = JSON.parse(fs.readFileSync(configPath, 'utf8'))
+  if (!Array.isArray(config?.targets)) throw new Error('Reference navigation config must contain a targets array')
+  const contracts = new Map()
+  for (const target of config.targets) {
+    if (
+      typeof target?.landingPage !== 'string' ||
+      !Number.isInteger(target.minimumProseCharacters) || target.minimumProseCharacters <= 0 ||
+      !Number.isInteger(target.minimumHeadingCount) || target.minimumHeadingCount <= 0
+    ) {
+      throw new Error('Reference navigation landing contracts must declare valid paths, prose minimums, and heading minimums')
+    }
+    const sourcePath = `${REFERENCE_LANDING_SOURCE_ROOT}${target.landingPage}`
+    if (contracts.has(sourcePath)) throw new Error(`Duplicate Reference landing contract: ${sourcePath}`)
+    contracts.set(sourcePath, {
+      minimumHeadingCount: target.minimumHeadingCount,
+      minimumProseCharacters: target.minimumProseCharacters,
+      targetProseCharacters: Math.ceil(target.minimumProseCharacters * REFERENCE_LANDING_PROSE_SAFETY_FACTOR),
+    })
+  }
+  referenceLandingContracts = contracts
+  return contracts
+}
+
+function formatReferenceLandingContract(target, sourcePath) {
+  if (target !== 'zh-CN-reference') return ''
+  const contract = loadReferenceLandingContracts().get(sourcePath)
+  if (!contract) return ''
+  return [
+    'Reference landing-page contract from config/reference-navigation.json:',
+    `- The final translated file must contain at least ${contract.minimumHeadingCount} Markdown headings.`,
+    `- Validator minimum meaningful prose: ${contract.minimumProseCharacters} Unicode letters or digits after front matter, code fences, imports, and standalone JSX tags are excluded.`,
+    `- Aim for at least ${contract.targetProseCharacters} meaningful prose characters (20% safety margin) without repetitive filler.`,
+    '- Preserve all source facts and structure while expanding concise phrasing naturally when needed.',
+    '- The reviewer must return pass=false if the translated draft does not satisfy this contract.',
+    '',
+  ].join('\n')
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -40,11 +97,6 @@ function loadChunkLimits(env = process.env) {
 function normalizeBaseUrl(raw) {
   const base = String(raw || '').replace(/\/+$/, '')
   return base.endsWith('/v1') ? base : `${base}/v1`
-}
-
-function loadPrompt(name) {
-  const promptPath = path.join(process.cwd(), '.github', 'prompts', name)
-  return fs.readFileSync(promptPath, 'utf8')
 }
 
 function stripCodeFence(text) {
@@ -204,13 +256,13 @@ function formatDocumentContext(chunkContext) {
   return `${lines.join('\n')}\n`
 }
 
-function buildTranslationMessages({ sourcePath, sourceContent, locale, chunkContext }) {
-  const context = formatDocumentContext(chunkContext)
+function buildTranslationMessages({ target, sourcePath, sourceContent, locale, chunkContext }) {
+  const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const instruction = chunkContext
     ? 'Translate this consecutive MDX/Markdown section:'
     : 'Translate this complete MDX/Markdown file:'
   return [
-    { role: 'system', content: loadPrompt('codex-translation-agent.md') },
+    { role: 'system', content: loadPrompt(promptNamesFor(target).translation) },
     {
       role: 'user',
       content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\n${instruction}\n\n${sourceContent}`,
@@ -218,10 +270,10 @@ function buildTranslationMessages({ sourcePath, sourceContent, locale, chunkCont
   ]
 }
 
-function buildReviewMessages({ sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
-  const context = formatDocumentContext(chunkContext)
+function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
+  const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   return [
-    { role: 'system', content: loadPrompt('codex-review-agent.md') },
+    { role: 'system', content: loadPrompt(promptNamesFor(target).review) },
     {
       role: 'user',
       content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nTranslated draft${chunkContext ? ' section' : ''}:\n${translatedContent}`,
@@ -229,10 +281,18 @@ function buildReviewMessages({ sourcePath, sourceContent, translatedContent, loc
   ]
 }
 
-function buildCorrectionMessages({ sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
-  const context = formatDocumentContext(chunkContext)
+function correctionPromptFor(target) {
+  if (target === 'ja-JP') return loadPrompt('codex-correction-agent.md')
+  return `${loadPrompt(promptNamesFor(target).translation)}\n\nRevise the current translation to fix every issue in the supplied review JSON. Prefer surgical correction and return only the corrected content.`
+}
+
+function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
+  const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   return [
-    { role: 'system', content: loadPrompt('codex-correction-agent.md') },
+    {
+      role: 'system',
+      content: correctionPromptFor(target),
+    },
     {
       role: 'user',
       content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nCurrent translation${chunkContext ? ' section' : ''}:\n${translatedContent}\n\nReview JSON:\n${JSON.stringify(review, null, 2)}`,
@@ -312,6 +372,7 @@ function restoreEsmStatements(sourceContent, translatedContent) {
 }
 
 async function translateAndReviewUnit({
+  target,
   sourcePath,
   sourceContent,
   locale,
@@ -323,22 +384,85 @@ async function translateAndReviewUnit({
   const modelSourceContent = protectedEsm.content
   let translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
     agent: 'translation',
-    messages: buildTranslationMessages({ sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
+    messages: buildTranslationMessages({ target, sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
   })))
 
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
     review = parseReview(await callModel({
       agent: 'review',
-      messages: buildReviewMessages({ sourcePath, sourceContent: modelSourceContent, translatedContent, locale, chunkContext }),
+      messages: buildReviewMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, locale, chunkContext }),
     }))
     if (review.pass || round === maxReviewRounds) break
     translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
       agent: 'correction',
-      messages: buildCorrectionMessages({ sourcePath, sourceContent: modelSourceContent, translatedContent, review, locale, chunkContext }),
+      messages: buildCorrectionMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, review, locale, chunkContext }),
     })))
   }
   return { translatedContent: restoreProtectedEsm(translatedContent, protectedEsm), review }
+}
+
+function collectSidebarFragments(value, key, matches = []) {
+  if (Array.isArray(value)) {
+    for (const child of value) collectSidebarFragments(child, key, matches)
+    return matches
+  }
+  if (!value || typeof value !== 'object') return matches
+  if (value.key === key) matches.push(value)
+  collectSidebarFragments(value.items, key, matches)
+  return matches
+}
+
+function readToolsSidebarFragment(siteDir, item) {
+  const target = resolveTranslationTarget('zh-CN-tools')
+  if (item.target !== target.id) throw new Error('Sidebar fragment pseudo-paths are supported only for zh-CN-tools')
+  if (item.sourcePath !== target.sidebarSource || item.targetPath !== target.sidebarTarget) {
+    throw new Error('Sidebar fragment paths must match the zh-CN-tools target registry')
+  }
+  const [relativePath, key, extra] = item.sourcePath.split('#')
+  if (!relativePath || !key || extra !== undefined) throw new Error(`Invalid sidebar fragment pseudo-path: ${item.sourcePath}`)
+  const absolutePath = assertSafeRepositoryPathChain(siteDir, relativePath, 'Tools sidebar source module')
+  const resolved = require.resolve(absolutePath)
+  delete require.cache[resolved]
+  const loaded = require(resolved)
+  const sidebar = loaded && typeof loaded === 'object' && 'default' in loaded ? loaded.default : loaded
+  const matches = collectSidebarFragments(sidebar, key)
+  if (matches.length === 0) throw new Error(`Missing sidebar fragment ${key}`)
+  if (matches.length > 1) throw new Error(`Ambiguous sidebar fragment ${key}`)
+  return matches[0]
+}
+
+async function processToolsSidebarFragment({siteDir, item, callModel, maxReviewRounds}) {
+  const sourceFragment = readToolsSidebarFragment(siteDir, item)
+  const sourceContent = `${JSON.stringify(sourceFragment, null, 2)}\n`
+  const unit = await translateAndReviewUnit({
+    target: item.target,
+    sourcePath: item.sourcePath,
+    sourceContent,
+    locale: item.locale,
+    callModel,
+    maxReviewRounds,
+    chunkContext: null,
+  })
+  if (!unit.review.pass) return {...item, status: 'failed', review: unit.review, validationErrors: []}
+
+  let translatedFragment
+  try {
+    translatedFragment = JSON.parse(unit.translatedContent)
+    validateTranslatedSidebarFragment(sourceFragment, translatedFragment)
+  } catch (error) {
+    return {
+      ...item,
+      status: 'failed',
+      review: unit.review,
+      validationErrors: [`Sidebar fragment validation failed: ${String(error?.message || error)}`],
+    }
+  }
+
+  const absTargetPath = path.join(siteDir, item.targetPath)
+  fs.mkdirSync(path.dirname(absTargetPath), {recursive: true})
+  fs.writeFileSync(absTargetPath, `'use strict'\n\nmodule.exports = ${JSON.stringify([translatedFragment], null, 2)}\n`, 'utf8')
+  return {...item, status: 'translated', review: unit.review, validationErrors: [], chunks: {total: 1}}
 }
 
 async function processManifestItem({
@@ -350,12 +474,19 @@ async function processManifestItem({
   chunkMaxChars = DEFAULT_MAX_CHARS,
   validate = validateTranslatedContent,
 }) {
+  if (item.sourcePath.includes('#')) {
+    return processToolsSidebarFragment({siteDir, item, callModel, maxReviewRounds})
+  }
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
   const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
-  const restDocument = item.sourcePath.startsWith('reference/api/restful/restful/') ? parseRestDocument(sourceContent) : null
+  const restDocument = (
+    item.sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
+    item.sourcePath.startsWith('reference/api/restful/restful/')
+  ) ? parseRestDocument(sourceContent) : null
   if (restDocument) {
     const shell = await translateAndReviewUnit({
+      target: item.target,
       sourcePath: item.sourcePath,
       sourceContent: restDocument.prefix,
       locale: item.locale,
@@ -366,9 +497,9 @@ async function processManifestItem({
     if (!shell.review.pass) return { ...item, status: 'failed', review: shell.review, validationErrors: [] }
     const specResult = await translateRestSpecs({
       sourceSpecs: restDocument.sourceSpecs,
+      target: item.target,
       locale: item.locale,
       callModel,
-      systemPrompt: loadPrompt('codex-rest-spec-translation-agent.md'),
     })
     const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
       translatedPrefix: shell.translatedContent,
@@ -398,6 +529,7 @@ async function processManifestItem({
         }
       : null
     const unit = await translateAndReviewUnit({
+      target: item.target,
       sourcePath: item.sourcePath,
       sourceContent: chunk.source,
       locale: item.locale,
@@ -421,7 +553,7 @@ async function processManifestItem({
 
   const translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
     restoreEsmStatements(sourceContent, translatedChunks.join('')),
-  ))
+  ), { repairInvalidMdxEsmProse: true })
 
   const validationErrors = [
     ...validateHeadingAnchorIdentity(sourceContent, translatedContent),
@@ -446,6 +578,74 @@ async function processManifestItem({
     validationErrors: [],
     chunks: { total: chunks.length },
   }
+}
+
+function assertExactKeys(value, allowedKeys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object with an exact schema`)
+  const unexpected = Object.keys(value).filter(key => !allowedKeys.includes(key))
+  if (unexpected.length) throw new Error(`${label} must use the exact schema; unexpected field(s): ${unexpected.join(', ')}`)
+}
+
+function mappedTargetPath(target, sourcePath) {
+  if (target.id === 'ja-JP') {
+    for (const mapping of target.mappings) {
+      if (sourcePath.startsWith(`${mapping.sourceRoot}/`)) {
+        return `${mapping.targetRoot}/${sourcePath.slice(mapping.sourceRoot.length + 1)}`
+      }
+    }
+    return null
+  }
+  if (target.id === 'zh-CN-tools' && sourcePath === target.sidebarSource) return target.sidebarTarget
+  if (!sourcePath.startsWith(`${target.sourceRoot}/`)) return null
+  return `${target.targetRoot}/${sourcePath.slice(target.sourceRoot.length + 1)}`
+}
+
+function expectedItemType(target, sourcePath) {
+  if (target.id === 'zh-CN-reference') return 'reference'
+  if (target.id === 'zh-CN-tools') return sourcePath === target.sidebarSource ? 'sidebar' : 'tools'
+  if (sourcePath.startsWith(`${target.mappings[0].sourceRoot}/`)) return 'guides'
+  if (sourcePath.startsWith(`${target.mappings[1].sourceRoot}/`)) return 'byoc'
+  if (sourcePath.startsWith(`${target.mappings[2].sourceRoot}/`)) return 'reference'
+  return null
+}
+
+function validateTranslationManifest(manifest) {
+  assertExactKeys(manifest, ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch'], 'Translation manifest')
+  if (typeof manifest.target !== 'string') throw new Error('Translation manifest target is required')
+  let target
+  try {
+    target = resolveTranslationTarget(manifest.target)
+  } catch {
+    throw new Error(`Unsupported translation target: ${manifest.target}`)
+  }
+  promptNamesFor(manifest.target)
+  if (manifest.locale !== target.locale) throw new Error(`Translation manifest locale must be ${target.locale} for target ${target.id}`)
+  if (!Array.isArray(manifest.items)) throw new Error('Translation manifest items must be an array')
+  for (const [index, item] of manifest.items.entries()) {
+    const label = `Translation manifest item ${index}`
+    assertExactKeys(item, ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason'], label)
+    if (item.locale !== target.locale) throw new Error(`${label} locale must be ${target.locale}`)
+    if (!(target.id === 'zh-CN-tools' && item.sourcePath === target.sidebarSource)) {
+      try {
+        assertSafeRepositoryRelativePath(item.sourcePath, `${label} source path`)
+      } catch {
+        throw new Error(`${label} source path must be a safe normalized repository-relative path`)
+      }
+    }
+    try {
+      assertSafeRepositoryRelativePath(item.targetPath, `${label} target path`)
+    } catch {
+      throw new Error(`${label} target path must be a safe normalized repository-relative path`)
+    }
+    const expectedTargetPath = mappedTargetPath(target, item.sourcePath)
+    if (!expectedTargetPath) throw new Error(`${label} source path is outside target ${target.id}`)
+    if (item.targetPath !== expectedTargetPath) throw new Error(`${label} target path must be ${expectedTargetPath}`)
+    const expectedType = expectedItemType(target, item.sourcePath)
+    if (item.type !== expectedType) throw new Error(`${label} type must be ${expectedType}`)
+    if (!/^[0-9a-f]{64}$/.test(item.sourceHash || '')) throw new Error(`${label} sourceHash must be 64 lowercase hex characters`)
+    if (!['current_delta', 'missing_target', 'stale_source'].includes(item.reason)) throw new Error(`${label} has an unsupported reason`)
+  }
+  return manifest
 }
 
 function loadAgentConfigsFromEnv() {
@@ -498,9 +698,120 @@ async function runWorkerPool(items, options) {
   return results
 }
 
+function readJsonIfPresent(siteDir, relativePath, fallback) {
+  const absolutePath = path.join(siteDir, relativePath)
+  return fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : fallback
+}
+
+function loadProgressState(siteDir, manifest, cacheOverride) {
+  const target = resolveTranslationTarget(manifest.target)
+  if (target.state.kind === 'cache') {
+    return {
+      kind: 'cache',
+      path: target.state.path,
+      target,
+      value: cacheOverride || readCache(siteDir, target.locale),
+    }
+  }
+  const value = readJsonIfPresent(siteDir, target.state.path, {schemaVersion: 1, records: []})
+  return {
+    kind: target.state.kind,
+    path: target.state.path,
+    target,
+    sourceCheckpointSha: manifest.sourceCheckpointSha,
+    value: target.state.kind === 'reference-manifest' ? parseReferenceTranslationManifest(value) : value,
+  }
+}
+
+function targetFileHash(siteDir, targetPath) {
+  return crypto.createHash('sha256').update(fs.readFileSync(path.join(siteDir, targetPath))).digest('hex')
+}
+
+function compareCanonicalText(left, right) {
+  return left < right ? -1 : left > right ? 1 : 0
+}
+
+function updateReferenceProgressState(siteDir, progressState, result) {
+  const sourceManifest = parseReferenceSourceManifest(readJsonIfPresent(
+    siteDir,
+    'generated/en/manifests/reference.json',
+    null,
+  ))
+  const previous = progressState.value.records.find(record => record.sourcePath === result.sourcePath)
+  const sourceRecord = sourceManifest.records.find(record => record.sourcePath === result.sourcePath)
+  const manual = sourceRecord?.manual || previous?.manual || defaultReferenceManualForPath(result.sourcePath)
+  const targetHash = targetFileHash(siteDir, result.targetPath)
+  const record = {
+    manual,
+    sourcePath: result.sourcePath,
+    targetPath: result.targetPath,
+    sourceCommit: progressState.sourceCheckpointSha,
+    sourceHash: result.sourceHash,
+    targetHash,
+    status: result.sourceHash === targetHash ? 'unchanged' : 'translated',
+  }
+  progressState.value = parseReferenceTranslationManifest({
+    ...progressState.value,
+    records: [
+      ...progressState.value.records.filter(existing => existing.sourcePath !== result.sourcePath),
+      record,
+    ].sort((left, right) => (
+      compareCanonicalText(left.manual, right.manual) ||
+      compareCanonicalText(left.sourcePath, right.sourcePath) ||
+      compareCanonicalText(left.targetPath, right.targetPath)
+    )),
+  })
+}
+
+function updateToolsProgressState(progressState, result) {
+  const previous = progressState.value.records.find(record => record.sourcePath === result.sourcePath) || {}
+  const record = {
+    ...previous,
+    sourcePath: result.sourcePath,
+    targetPath: result.targetPath,
+    sourceHash: result.sourceHash,
+    status: 'translated',
+    ...(result.type === 'sidebar' ? {kind: 'sidebar'} : {}),
+  }
+  progressState.value = {
+    ...progressState.value,
+    schemaVersion: 1,
+    records: [
+      ...progressState.value.records.filter(existing => existing.sourcePath !== result.sourcePath),
+      record,
+    ].sort((left, right) => (
+      left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath)
+    )),
+  }
+}
+
+function updateProgressState(siteDir, progressState, result, translatedAt) {
+  if (progressState.kind === 'cache') {
+    progressState.value.files[result.sourcePath] = {
+      sourceHash: result.sourceHash,
+      targetPath: result.targetPath,
+      translatedAt,
+    }
+    return
+  }
+  if (progressState.kind === 'reference-manifest') {
+    updateReferenceProgressState(siteDir, progressState, result)
+    return
+  }
+  updateToolsProgressState(progressState, result)
+}
+
+function writeProgressState(siteDir, progressState) {
+  if (progressState.kind === 'cache') {
+    writeCache(siteDir, progressState.target.locale, progressState.value)
+    return
+  }
+  writeJsonAtomic(path.join(siteDir, progressState.path), progressState.value)
+}
+
 function createProgressCoordinator(options) {
   const results = new Array(options.manifest.items.length)
-  const cache = options.cache
+  const progressState = loadProgressState(options.siteDir, options.manifest, options.cache)
   const checkpointFiles = parsePositiveInteger(options.checkpointFiles, 10)
   const checkpointIntervalMs = parsePositiveInteger(options.checkpointIntervalMs, 300000)
   const absReportPath = path.join(options.siteDir, options.reportPath)
@@ -510,6 +821,7 @@ function createProgressCoordinator(options) {
   function metadata() {
     const processed = results.filter(Boolean).length
     return {
+      target: options.manifest.target,
       processed,
       remaining: options.manifest.items.length - processed,
       translated: results.filter(result => result?.status === 'translated').length,
@@ -522,8 +834,9 @@ function createProgressCoordinator(options) {
     const currentTime = options.now?.() || Date.now()
     if (!force && completedSinceCheckpoint < checkpointFiles && currentTime - lastCheckpointAt < checkpointIntervalMs) return false
     const checkpointMetadata = metadata()
-    writeCache(options.siteDir, options.manifest.locale, cache)
+    writeProgressState(options.siteDir, progressState)
     writeJsonAtomic(absReportPath, {
+      target: options.manifest.target,
       locale: options.manifest.locale,
       results: results.filter(Boolean),
       checkpoint: checkpointMetadata,
@@ -535,19 +848,37 @@ function createProgressCoordinator(options) {
   }
 
   async function record(result, index) {
-    results[index] = result
-    if (result.status === 'translated') {
-      cache.files[result.sourcePath] = {
-        sourceHash: result.sourceHash,
-        targetPath: result.targetPath,
-        translatedAt: new Date(options.now?.() || Date.now()).toISOString(),
-      }
-    }
+    const targetResult = {...result, target: options.manifest.target}
+    results[index] = targetResult
+    if (targetResult.status === 'translated') updateProgressState(
+      options.siteDir,
+      progressState,
+      targetResult,
+      new Date(options.now?.() || Date.now()).toISOString(),
+    )
     completedSinceCheckpoint += 1
     await checkpoint(false)
   }
 
-  return { cache, checkpoint, metadata, record, results }
+  return {
+    cache: progressState.kind === 'cache' ? progressState.value : undefined,
+    checkpoint,
+    metadata,
+    record,
+    results,
+  }
+}
+
+function partitionRecoveryWork(manifest, restoredResults = []) {
+  const restoredBySource = new Map(restoredResults.map(result => [result.sourcePath, result]))
+  const recovered = []
+  const pending = []
+  manifest.items.forEach((item, index) => {
+    const result = restoredBySource.get(item.sourcePath)
+    if (result && result.targetPath === item.targetPath && result.sourceHash === item.sourceHash) recovered.push({index, result})
+    else pending.push({index, item})
+  })
+  return {recovered, pending}
 }
 
 async function main() {
@@ -570,16 +901,33 @@ async function main() {
   const softDeadlineMs = parsePositiveInteger(process.env.TRANSLATION_SOFT_DEADLINE_MS, 18000000)
   const chunkLimits = loadChunkLimits()
   const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
-  const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8'))
-  const callModel = await createProviderCall(loadAgentConfigsFromEnv(), {
-    maxRetries: maxProviderRetries,
-    timeoutMs: providerTimeoutMs,
-  })
-  const cache = readCache(siteDir, manifest.locale)
+  const manifest = validateTranslationManifest(JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8')))
+  const recoveryDir = args.get('--recovery-dir') || ''
+  const recovery = recoveryDir
+    ? restoreRecoveryFiles({
+        siteDir,
+        candidates: manifest.items,
+        artifacts: discoverRecoveryArtifacts(path.resolve(siteDir, recoveryDir)),
+        identity: {
+          locale: manifest.locale,
+          group: manifest.group,
+          promptContractSha256: promptContractSha256(manifest.target, siteDir),
+          model: process.env.TRANSLATION_AGENT_MODEL,
+          sourceSha: manifest.sourceCheckpointSha,
+          toolingSha: process.env.MASTER_SHA,
+        },
+      })
+    : {restored: [], pending: manifest.items, rejected: []}
+  const work = partitionRecoveryWork(manifest, recovery.restored)
+  const callModel = work.pending.length > 0
+    ? await createProviderCall(loadAgentConfigsFromEnv(), {
+        maxRetries: maxProviderRetries,
+        timeoutMs: providerTimeoutMs,
+      })
+    : null
   const coordinator = createProgressCoordinator({
     siteDir,
     manifest,
-    cache,
     reportPath,
     checkpointFiles,
     checkpointIntervalMs,
@@ -596,20 +944,23 @@ async function main() {
   process.once('SIGINT', onSigint)
   process.once('SIGTERM', onSigterm)
 
-  console.log(`[translation-agent] workers=${concurrency} manifest=${manifest.items.length} softDeadlineMs=${softDeadlineMs}`)
+  for (const recovered of work.recovered) await coordinator.record(recovered.result, recovered.index)
+  console.log(`[translation-agent] workers=${concurrency} manifest=${manifest.items.length} recovered=${work.recovered.length} pending=${work.pending.length} softDeadlineMs=${softDeadlineMs}`)
   try {
-    await runWorkerPool(manifest.items, {
+    await runWorkerPool(work.pending, {
       concurrency,
       shouldStopAssigning: () => stopRequested || Date.now() - startedAt >= softDeadlineMs,
-      processItem: async item => {
+      processItem: async entry => {
+        const item = entry.item
         console.log(`[translation-agent] ${item.sourcePath}`)
-        const result = await processItemWithRetry(item, {
+        const targetItem = {...item, target: manifest.target}
+        const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           log: console,
           processItem: () => withTimeout(
             processManifestItem({
               siteDir,
-              item,
+              item: targetItem,
               callModel,
               maxReviewRounds,
               chunkTargetChars: chunkLimits.targetChars,
@@ -622,7 +973,7 @@ async function main() {
         if (result.status !== 'translated') console.error(`[translation-agent] failed ${item.sourcePath}: ${summarizeFailedResult(result)}`)
         return result
       },
-      onResult: coordinator.record,
+      onResult: (result, pendingIndex) => coordinator.record(result, work.pending[pendingIndex].index),
     })
   } finally {
     process.removeListener('SIGINT', onSigint)
@@ -662,6 +1013,8 @@ module.exports = {
   parseReview,
   parsePositiveInteger,
   parseNonNegativeInteger,
+  partitionRecoveryWork,
+  promptNamesFor,
   processItemWithRetry,
   processManifestItem,
   protectEsmStatements,
@@ -671,6 +1024,7 @@ module.exports = {
   restoreProtectedEsm,
   stabilizeBareUrlFormatting,
   stripCodeFence,
+  validateTranslationManifest,
   validateTranslatedContent,
   withTimeout,
 }

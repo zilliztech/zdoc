@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "site": "zh-CN",
+  "plugin": "onpremise",
+  "source": {
+    "repository": "zdoc_cn",
+    "legacyPath": "onpremise",
+    "commit": "b1900473dddf8db2d56c11387211a7014b54c160",
+    "treeId": "bf36b7fa4c5e2b8a7598752373ec909868710a7a"
+  },
+  "inventory": {
+    "trackedFileCount": 17,
+    "gitLsTreeSha256": "9ed28238ba537c00a124f0c044c525ce219c0ea4bec2cf2aba7d61312975a666"
+  }
+}

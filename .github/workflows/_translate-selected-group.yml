@@ -1,0 +1,60 @@
+name: translate selected content group
+
+on:
+  workflow_call:
+    inputs:
+      target: { required: true, type: string }
+      group: { required: true, type: string }
+      source_group: { required: true, type: string }
+      bootstrap_group: { required: true, type: string }
+      tooling_sha: { required: true, type: string }
+      source_sha: { required: true, type: string }
+      target_branch: { required: true, type: string }
+      mode: { required: true, type: string }
+      publish: { required: true, type: boolean }
+      recovery_run_id: { required: false, type: string, default: '' }
+      batch_size: { required: false, type: number, default: 25 }
+    secrets:
+      TRANSLATION_AGENT_API_KEY: { required: true }
+      REVIEW_AGENT_API_KEY: { required: true }
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  translate:
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      target: ${{ inputs.target }}
+      group: ${{ inputs.source_group }}
+      bootstrap_group: ${{ inputs.bootstrap_group }}
+      tooling_sha: ${{ inputs.tooling_sha }}
+      source_sha: ${{ inputs.source_sha }}
+      master_sha: ${{ inputs.tooling_sha }}
+      source_commit_sha: ${{ inputs.source_sha }}
+      should_translate: true
+      max_files: '500'
+      batch_size: ${{ inputs.batch_size }}
+      mode: ${{ inputs.mode }}
+      recovery_run_id: ${{ inputs.recovery_run_id }}
+      artifact_retention_days: 14
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+
+  publish:
+    needs: translate
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      target: ${{ inputs.target }}
+      tooling_sha: ${{ inputs.tooling_sha }}
+      source_sha: ${{ inputs.source_sha }}
+      group: ${{ inputs.source_group }}
+      artifact_name: ${{ needs.translate.outputs.artifact_name }}
+      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
+      commit_message: "${{ inputs.target == 'zh-CN-tools' && 'i18n(zh-CN-tools): publish tools translations' || format('i18n({0}): publish {1} translations', inputs.target, inputs.group) }}"
+      should_publish: ${{ inputs.publish && needs.translate.outputs.status == 'translation_ready' }}
+      master_sha: ${{ inputs.tooling_sha }}
+      target_branch: ${{ inputs.target_branch }}
+      validate_command: node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"

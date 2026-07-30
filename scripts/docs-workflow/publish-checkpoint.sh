@@ -7,10 +7,11 @@ emit_line() { printf '%s=%s\n' "$1" "$2"; [[ -z "${GITHUB_OUTPUT:-}" ]] || print
 finish_output() { [[ $terminal_output -eq 0 ]] || return 0; terminal_output=1; emit_line status "$1"; emit_line commit_sha "$2"; }
 die() { echo "Checkpoint publication failed: $*" >&2; finish_output failed ''; exit 1; }
 
-active_worktree=; temp_files=''
+active_worktree= validation_worktree=; temp_files=''
 cleanup() {
   local item
   if [[ -n "$active_worktree" ]]; then git worktree remove --force "$active_worktree" >/dev/null 2>&1 || true; active_worktree=; fi
+  if [[ -n "$validation_worktree" ]]; then git worktree remove --force "$validation_worktree" >/dev/null 2>&1 || true; validation_worktree=; fi
   while IFS= read -r item; do [[ -z "$item" ]] || rm -rf "$item"; done <<< "$temp_files"
   git worktree prune >/dev/null 2>&1 || true
 }
@@ -40,6 +41,7 @@ git check-ref-format --branch "$branch" >/dev/null 2>&1 || die 'Unsafe branch na
 git config --get "remote.$remote.url" >/dev/null || die 'Remote is not configured'
 
 repo_root=$(git rev-parse --show-toplevel)
+tooling_sha=$(git rev-parse HEAD)
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 node "$script_dir/validate-checkpoint-artifact.js" --artifact "$artifact" >/dev/null
 manifest_json=$(node -e "const {validateCheckpointArtifact}=require(process.argv[1]);validateCheckpointArtifact(process.argv[2]).then(m=>process.stdout.write(JSON.stringify({group:m.group,stage:m.stage,masterSha:m.masterSha,devBaselineSha:m.devBaselineSha}))).catch(e=>{console.error(e.message);process.exit(1)})" "$script_dir/validate-checkpoint-artifact.js" "$artifact")
@@ -52,12 +54,23 @@ while (( attempt <= max_attempts )); do
   git fetch --no-tags "$remote" "+refs/heads/$branch:refs/remotes/$remote/$branch"
   active_worktree=$(mktemp -d "$root/docs-publish.XXXXXX"); temp_files="$temp_files"$'\n'"$active_worktree"; rmdir "$active_worktree"
   git worktree add --detach "$active_worktree" "refs/remotes/$remote/$branch" >/dev/null
-  if [[ ! -e "$active_worktree/node_modules" && -d "$repo_root/node_modules" ]]; then
-    ln -s "$repo_root/node_modules" "$active_worktree/node_modules"
-  fi
+  target_sha=$(git -C "$active_worktree" rev-parse HEAD)
+  validation_worktree=$(mktemp -d "$root/docs-validation.XXXXXX"); temp_files="$temp_files"$'\n'"$validation_worktree"; rmdir "$validation_worktree"
+  git worktree add --detach "$validation_worktree" "$tooling_sha" >/dev/null
+  for dependency_dir in "$repo_root/node_modules" "$repo_root"/apps/*/node_modules "$repo_root"/packages/*/node_modules; do
+    [[ -d "$dependency_dir" ]] || continue
+    relative_dependency_dir=${dependency_dir#"$repo_root/"}
+    validation_dependency_dir="$validation_worktree/$relative_dependency_dir"
+    [[ -e "$validation_dependency_dir" || -L "$validation_dependency_dir" ]] && continue
+    mkdir -p "$(dirname "$validation_dependency_dir")"
+    ln -s "$dependency_dir" "$validation_dependency_dir"
+  done
   apply_args=(--artifact "$artifact" --target "$active_worktree"); [[ -z "$baseline_dir" ]] || apply_args+=(--baseline-dir "$baseline_dir")
   node "$script_dir/apply-checkpoint-artifact.js" "${apply_args[@]}"
-  (cd "$active_worktree" && bash -o errexit -o nounset -o pipefail -c "$validate_command")
+  (cd "$validation_worktree" && bash "$script_dir/../restore-generated-state.sh" --exact --ref "$target_sha")
+  validation_apply_args=(--artifact "$artifact" --target "$validation_worktree"); [[ -z "$baseline_dir" ]] || validation_apply_args+=(--baseline-dir "$baseline_dir")
+  node "$script_dir/apply-checkpoint-artifact.js" "${validation_apply_args[@]}"
+  (cd "$validation_worktree" && bash -o errexit -o nounset -o pipefail -c "$validate_command")
   stage_paths_dir=$(mktemp -d "$root/docs-stage-paths.XXXXXX"); temp_files="$temp_files"$'\n'"$stage_paths_dir"
   stage_paths_file="$stage_paths_dir/paths.bin"
   node "$script_dir/checkpoint-stage-paths.js" select \

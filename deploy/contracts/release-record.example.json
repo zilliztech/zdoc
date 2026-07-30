@@ -1,0 +1,12 @@
+{
+  "site": "zh-CN",
+  "environment": "prod",
+  "mode": "specified-image",
+  "sourceRepository": "zdoc",
+  "sourceSha": "0123456789abcdef0123456789abcdef01234567",
+  "operatorImageRef": "registry.example.invalid/zdoc-zh:uat-1042",
+  "sourceUatDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "finalDeployedDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "jenkinsBuildIdentity": "vdc-jenkins/chinese-prod/903",
+  "status": "succeeded"
+}

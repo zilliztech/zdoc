@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict')
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -12,6 +13,8 @@ const {
   isRetryableProviderError,
   loadChunkLimits,
   parseNonNegativeInteger,
+  partitionRecoveryWork,
+  promptNamesFor,
   processItemWithRetry,
   processManifestItem,
   protectEsmStatements,
@@ -19,22 +22,183 @@ const {
   runWorkerPool,
   stabilizeBareUrlFormatting,
   stripCodeFence,
+  validateTranslationManifest,
   withTimeout,
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
+const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
+const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
 function withTempDir(callback) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-agent-'))
   try {
-    return callback(dir)
-  } finally {
+    const result = callback(dir)
+    if (result && typeof result.then === 'function') return result.finally(() => fs.rmSync(dir, { recursive: true, force: true }))
     fs.rmSync(dir, { recursive: true, force: true })
+    return result
+  } catch (error) {
+    fs.rmSync(dir, { recursive: true, force: true })
+    throw error
   }
 }
 
 function write(filePath, content) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   fs.writeFileSync(filePath, content, 'utf8')
+}
+
+function sha256(content) {
+  return crypto.createHash('sha256').update(content).digest('hex')
+}
+
+function testSelectsPromptsByTranslationTarget() {
+  assert.deepEqual(promptNamesFor('ja-JP'), {
+    translation: 'codex-translation-agent.ja-JP.md',
+    review: 'codex-review-agent.ja-JP.md',
+    rest: 'codex-rest-spec-translation-agent.ja-JP.md',
+  })
+  assert.equal(promptNamesFor('zh-CN-reference').review, 'codex-review-agent.zh-CN-reference.md')
+  assert.equal(promptNamesFor('zh-CN-tools').translation, 'codex-translation-agent.zh-CN-tools.md')
+  assert.equal(promptNamesFor('zh-CN-tools').rest, undefined)
+  assert.throws(() => promptNamesFor('zh-CN'), /Unsupported translation target/)
+  assert.throws(() => promptNamesFor('unknown'), /Unsupported translation target/)
+}
+
+function testPartitionsRecoveredFilesWithoutChangingOriginalIndexes() {
+  const items = [
+    {sourcePath: 'content/en/a.md'},
+    {sourcePath: 'content/en/b.md'},
+    {sourcePath: 'content/en/c.md'},
+  ]
+  const recovered = [{...items[1], status: 'translated', recovered: true}]
+  const partitioned = partitionRecoveryWork({items}, recovered)
+  assert.deepEqual(partitioned.recovered, [{index: 1, result: recovered[0]}])
+  assert.deepEqual(partitioned.pending, [{index: 0, item: items[0]}, {index: 2, item: items[2]}])
+}
+
+function testMessageBuildersSelectPromptsFromTarget() {
+  const common = {
+    target: 'zh-CN-tools',
+    sourcePath: 'content/en/guides/tutorials/tools/test.md',
+    sourceContent: '# Tool\n',
+    locale: 'zh-CN',
+  }
+  assert.match(buildTranslationMessages(common)[0].content, /complete .*Tools chapter/i)
+  assert.match(buildReviewMessages({...common, translatedContent: '# 工具\n'})[0].content, /materially English/i)
+  assert.match(buildCorrectionMessages({
+    ...common,
+    translatedContent: '# Tool\n',
+    review: {pass: false, issues: [{severity: 'high', type: 'style', comment: 'Translate the heading.'}]},
+  })[0].content, /complete .*Tools chapter/i)
+  assert.match(buildCorrectionMessages({
+    target: 'ja-JP',
+    sourcePath: 'content/en/guides/tutorials/test.md',
+    sourceContent: '# Test\n',
+    translatedContent: '# テスト\n',
+    review: {pass: false, issues: []},
+    locale: 'ja-JP',
+  })[0].content, /Correction Agent for Japanese/)
+}
+
+function testReferenceLandingMessagesContainNavigationContract() {
+  const common = {
+    target: 'zh-CN-reference',
+    sourcePath: 'content/en/reference/api/go/go/go.md',
+    sourceContent: '# Go SDK\n\n## Install\n\nUse the Go SDK.\n',
+    locale: 'zh-CN',
+  }
+  const messages = [
+    buildTranslationMessages(common).at(-1).content,
+    buildReviewMessages({...common, translatedContent: '# Go SDK\n\n## 安装\n\n使用 Go SDK。\n'}).at(-1).content,
+    buildCorrectionMessages({
+      ...common,
+      translatedContent: '# Go SDK\n\n## 安装\n\n使用 Go SDK。\n',
+      review: {pass: false, issues: []},
+    }).at(-1).content,
+  ]
+
+  for (const message of messages) {
+    assert.match(message, /Reference landing-page contract.*config\/reference-navigation\.json/is)
+    assert.match(message, /at least 2 Markdown headings/i)
+    assert.match(message, /validator minimum meaningful prose: 250/i)
+    assert.match(message, /aim for at least 300 meaningful prose characters/i)
+    assert.match(message, /reviewer must return pass=false/i)
+  }
+
+  const ordinaryReference = buildTranslationMessages({
+    ...common,
+    sourcePath: 'content/en/reference/api/go/go/client.md',
+  }).at(-1).content
+  assert.doesNotMatch(ordinaryReference, /Reference landing-page contract/i)
+
+  const cliLanding = buildTranslationMessages({
+    ...common,
+    sourcePath: 'content/en/reference/cli/cli/Overview.md',
+  }).at(-1).content
+  assert.match(cliLanding, /at least 3 Markdown headings/i)
+  assert.match(cliLanding, /validator minimum meaningful prose: 400/i)
+  assert.match(cliLanding, /aim for at least 480 meaningful prose characters/i)
+}
+
+function validManifest(overrides = {}) {
+  return {
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    group: null,
+    sourceCheckpointSha: null,
+    generatedAt: '2026-07-27T00:00:00.000Z',
+    items: [{
+      sourcePath: 'content/en/reference/api/python/search.md',
+      targetPath: 'content/zh-CN/reference/api/python/search.md',
+      sourceHash: 'a'.repeat(64),
+      locale: 'zh-CN',
+      type: 'reference',
+      reason: 'current_delta',
+    }],
+    ...overrides,
+  }
+}
+
+function testValidatesExactManifestTargetContract() {
+  assert.equal(validateTranslationManifest(validManifest()).target, 'zh-CN-reference')
+  assert.throws(() => validateTranslationManifest(validManifest({target: undefined})), /target/i)
+  assert.throws(() => validateTranslationManifest(validManifest({target: 'zh-CN'})), /Unsupported translation target/)
+  assert.throws(() => validateTranslationManifest(validManifest({locale: undefined})), /locale/i)
+  assert.throws(() => validateTranslationManifest(validManifest({locale: 'ja-JP'})), /locale/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    locale: 'ja-JP',
+  }]})), /locale/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    sourcePath: 'content/en/guides/tutorials/tools/search.md',
+  }]})), /source path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    sourcePath: undefined,
+  }]})), /source path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    targetPath: 'content/zh-CN/guides/tutorials/tools/search.md',
+  }]})), /target path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    targetPath: undefined,
+  }]})), /target path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    sourcePath: 'content/en/reference/../guides/search.md',
+    targetPath: 'content/zh-CN/reference/../guides/search.md',
+  }]})), /source path/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    type: 'tools',
+  }]})), /type/i)
+  assert.throws(() => validateTranslationManifest({...validManifest(), retirementAuthority: true}), /exact schema/i)
+  assert.throws(() => validateTranslationManifest(validManifest({items: [{
+    ...validManifest().items[0],
+    retirementReason: 'source_deleted',
+  }]})), /exact schema/i)
 }
 
 async function testCorrectionRunsWhenReviewFails() {
@@ -59,6 +223,7 @@ async function testCorrectionRunsWhenReviewFails() {
     const result = await processManifestItem({
       siteDir,
       item: {
+        target: 'ja-JP',
         sourcePath,
         targetPath,
         sourceHash: 'abc123',
@@ -78,7 +243,7 @@ async function testCorrectionRunsWhenReviewFails() {
 
 async function testRestSpecsUseStructuredLocaleTranslation() {
   await withTempDir(async siteDir => {
-    const sourcePath = 'reference/api/restful/restful/v1/search.mdx'
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/search.mdx'
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/search.mdx'
     write(path.join(siteDir, sourcePath), '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","example":{"message":"User has not authenticated"}}\nexport const endpoint = "/v1/search"\nexport const method = "post"\n')
     const callModel = async ({ agent, messages }) => {
@@ -91,7 +256,7 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
     }
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'rest', locale: 'ja-JP', type: 'reference' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'rest', locale: 'ja-JP', type: 'reference' },
       callModel,
       validate: async () => [],
     })
@@ -102,6 +267,142 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
     assert.match(output, /"ja-JP":\{"summary":"JA:Search","description":"JA:Search a collection\."\}/)
     assert.match(output, /"message":"User has not authenticated"/)
     assert.match(output, /export const endpoint = "\/v1\/search"/)
+  })
+}
+
+function toolsSidebarItem() {
+  return {
+    target: 'zh-CN-tools',
+    sourcePath: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
+    targetPath: 'generated/zh-CN/sidebars/tools.sidebar.js',
+    sourceHash: 'b'.repeat(64),
+    locale: 'zh-CN',
+    type: 'sidebar',
+  }
+}
+
+function toolsSidebarFragment(label = 'Tools') {
+  return {
+    type: 'category',
+    label,
+    key: 'category:tutorials/tools',
+    items: [
+      {
+        type: 'doc',
+        id: 'tutorials/tools/cli',
+        label: 'CLI Tool',
+        key: 'doc:tutorials/tools/cli',
+      },
+      {
+        type: 'link',
+        href: 'https://example.com/tools',
+        label: 'External Tool',
+        key: 'link:tutorials/tools/external',
+      },
+    ],
+  }
+}
+
+async function testTranslatesToolsSidebarFragmentWithoutReadingPseudoPath() {
+  await withTempDir(async siteDir => {
+    write(
+      path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'),
+      `module.exports = ${JSON.stringify([{type: 'category', label: 'Other', key: 'category:other', items: []}, toolsSidebarFragment()])}\n`,
+    )
+    const translated = toolsSidebarFragment('工具')
+    translated.items[0].label = 'CLI 工具'
+    translated.items[1].label = '外部工具'
+    const calls = []
+    const result = await processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      maxReviewRounds: 0,
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        assert.match(messages[0].content, /Tools chapter/i)
+        return agent === 'translation'
+          ? JSON.stringify(translated)
+          : '{"pass":true,"issues":[]}'
+      },
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.equal(result.sourcePath, toolsSidebarItem().sourcePath)
+    assert.equal(result.targetPath, toolsSidebarItem().targetPath)
+    assert.deepEqual(calls, ['translation', 'review'])
+    const outputPath = path.join(siteDir, toolsSidebarItem().targetPath)
+    const resolved = require.resolve(outputPath)
+    delete require.cache[resolved]
+    const output = require(resolved)
+    assert.deepEqual(output, [translated])
+    assert.equal(output[0].items[0].id, 'tutorials/tools/cli')
+    assert.equal(output[0].items[1].href, 'https://example.com/tools')
+  })
+}
+
+async function testToolsSidebarReviewFailureDoesNotWriteTarget() {
+  await withTempDir(async siteDir => {
+    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), `module.exports = ${JSON.stringify([toolsSidebarFragment()])}\n`)
+    const result = await processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      maxReviewRounds: 0,
+      callModel: async ({agent}) => agent === 'translation'
+        ? JSON.stringify(toolsSidebarFragment())
+        : '{"pass":false,"issues":[{"severity":"high","type":"untranslated_prose","comment":"Labels remain materially English."}]}',
+    })
+    assert.equal(result.status, 'failed')
+    assert.match(result.review.issues[0].comment, /materially English/i)
+    assert.equal(fs.existsSync(path.join(siteDir, toolsSidebarItem().targetPath)), false)
+  })
+}
+
+async function testToolsSidebarRejectsChangedStructure() {
+  await withTempDir(async siteDir => {
+    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), `module.exports = ${JSON.stringify([toolsSidebarFragment()])}\n`)
+    const changed = toolsSidebarFragment('工具')
+    changed.items[0].id = 'tutorials/tools/changed'
+    const result = await processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      maxReviewRounds: 0,
+      callModel: async ({agent}) => agent === 'translation'
+        ? JSON.stringify(changed)
+        : '{"pass":true,"issues":[]}',
+    })
+    assert.equal(result.status, 'failed')
+    assert.match(result.validationErrors.join('\n'), /sidebar fragment validation.*structure/i)
+    assert.equal(fs.existsSync(path.join(siteDir, toolsSidebarItem().targetPath)), false)
+  })
+}
+
+async function testToolsSidebarFragmentIdentityFailsClosed() {
+  await withTempDir(async siteDir => {
+    const sourceModule = path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js')
+    write(sourceModule, `module.exports = ${JSON.stringify([{type: 'category', label: 'Other', key: 'category:other', items: []}])}\n`)
+    await assert.rejects(processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      callModel: async () => { throw new Error('model must not be called') },
+    }), /missing.*category:tutorials\/tools/i)
+
+    write(sourceModule, `module.exports = ${JSON.stringify([toolsSidebarFragment(), toolsSidebarFragment('Duplicate')])}\n`)
+    delete require.cache[require.resolve(sourceModule)]
+    await assert.rejects(processManifestItem({
+      siteDir,
+      item: toolsSidebarItem(),
+      callModel: async () => { throw new Error('model must not be called') },
+    }), /ambiguous.*category:tutorials\/tools/i)
+  })
+}
+
+async function testRejectsSidebarPseudoPathForNonToolsTarget() {
+  await withTempDir(async siteDir => {
+    await assert.rejects(processManifestItem({
+      siteDir,
+      item: {...toolsSidebarItem(), target: 'ja-JP'},
+      callModel: async () => { throw new Error('model must not be called') },
+    }), /fragment pseudo-path.*zh-CN-tools/i)
   })
 }
 
@@ -238,7 +539,7 @@ function testChunkMessagesContainContinuityContext() {
     documentTitle: 'Analyzer overview',
     previousTranslatedHeading: '概要',
   }
-  const common = { sourcePath: 'docs/test.md', sourceContent: '# Section\n', locale: 'ja-JP', chunkContext }
+  const common = { target: 'ja-JP', sourcePath: 'docs/test.md', sourceContent: '# Section\n', locale: 'ja-JP', chunkContext }
   const translation = buildTranslationMessages(common).at(-1).content
   const review = buildReviewMessages({ ...common, translatedContent: '# セクション\n' }).at(-1).content
   const correction = buildCorrectionMessages({
@@ -254,6 +555,7 @@ function testChunkMessagesContainContinuityContext() {
   }
   assert.match(translation, /Translate this consecutive MDX\/Markdown section/)
   assert.match(buildTranslationMessages({
+    target: 'ja-JP',
     sourcePath: 'docs/test.md',
     sourceContent: '# Complete\n',
     locale: 'ja-JP',
@@ -292,7 +594,7 @@ async function testLongDocumentTranslatesChunksSequentially() {
 
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
       chunkTargetChars: 45,
@@ -326,7 +628,7 @@ async function testRestoresSourceImportsBeforeValidation() {
 
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'import-hash', locale: 'ja-JP', type: 'reference' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'import-hash', locale: 'ja-JP', type: 'reference' },
       callModel,
       maxReviewRounds: 0,
     })
@@ -361,12 +663,31 @@ async function testRepairsUnescapedHeadingAnchorsAfterTranslation() {
       : '{"pass":true,"issues":[]}'
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'anchor-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'anchor-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
     })
     assert.equal(result.status, 'translated')
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /\\\{#stable-anchor\}/)
+  })
+}
+
+async function testRepairsTranslatedProseThatLooksLikeInvalidMdxEsm() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/python/import-jobs.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/import-jobs.md'
+    write(path.join(siteDir, sourcePath), '# Import jobs\n\nReturns import jobs and pagination details.\n')
+    const callModel = async ({ agent }) => agent === 'translation'
+      ? '# インポートジョブ\n\nimport jobs の一覧とページネーション情報を含む HTTP レスポンス。\n'
+      : '{"pass":true,"issues":[]}'
+    const result = await processManifestItem({
+      siteDir,
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'import-prose-hash', locale: 'ja-JP', type: 'reference' },
+      callModel,
+      maxReviewRounds: 0,
+    })
+    assert.equal(result.status, 'translated')
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /`import` jobs/)
   })
 }
 
@@ -380,7 +701,7 @@ async function testRejectsChangedHeadingAnchorIdentity() {
       : '{"pass":true,"issues":[]}'
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'changed-anchor-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'changed-anchor-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
     })
@@ -410,7 +731,7 @@ async function testFailedChunkDoesNotWritePartialTarget() {
 
     const result = await processManifestItem({
       siteDir,
-      item: { sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
+      item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'long-hash', locale: 'ja-JP', type: 'docs' },
       callModel,
       maxReviewRounds: 0,
       chunkTargetChars: 20,
@@ -522,6 +843,7 @@ async function testWorkerPoolStopsAssigningNewItems() {
 async function testProgressCoordinatorCheckpointsCacheAndReport() {
   await withTempDir(async siteDir => {
     const manifest = {
+      target: 'ja-JP',
       locale: 'ja-JP',
       items: Array.from({ length: 4 }, (_, index) => ({
         sourcePath: `docs/${index}.md`,
@@ -550,6 +872,9 @@ async function testProgressCoordinatorCheckpointsCacheAndReport() {
     const cache = JSON.parse(fs.readFileSync(path.join(siteDir, '.translation-cache/ja-JP.json'), 'utf8'))
     assert.deepEqual(Object.keys(cache.files).sort(), ['docs/0.md', 'docs/1.md', 'docs/3.md'])
     const report = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/report.json'), 'utf8'))
+    assert.equal(report.target, 'ja-JP')
+    assert.equal(report.locale, 'ja-JP')
+    assert.equal(report.checkpoint.target, 'ja-JP')
     assert.equal(report.checkpoint.processed, 4)
     assert.equal(report.checkpoint.remaining, 0)
     assert.deepEqual(report.results.map(item => item.sourcePath), ['docs/0.md', 'docs/1.md', 'docs/2.md', 'docs/3.md'])
@@ -557,9 +882,337 @@ async function testProgressCoordinatorCheckpointsCacheAndReport() {
   })
 }
 
+async function testJapaneseProgressStatePreservesExistingLocaleCache() {
+  await withTempDir(async siteDir => {
+    write(path.join(siteDir, '.translation-cache/ja-JP.json'), JSON.stringify({files: {
+      'content/en/guides/tutorials/existing.md': {
+        sourceHash: 'a'.repeat(64),
+        targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/existing.md',
+        translatedAt: '2026-07-01T00:00:00.000Z',
+      },
+    }}))
+    const manifest = {
+      target: 'ja-JP',
+      locale: 'ja-JP',
+      items: [{
+        sourcePath: 'content/en/guides/tutorials/new.md',
+        targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+        sourceHash: 'b'.repeat(64),
+      }],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      reportPath: 'tmp/ja-report.json',
+      checkpointFiles: 1,
+      now: () => Date.parse('2026-07-27T00:00:00.000Z'),
+    })
+    await coordinator.record({...manifest.items[0], status: 'translated'}, 0)
+    const cache = JSON.parse(fs.readFileSync(path.join(siteDir, '.translation-cache/ja-JP.json'), 'utf8'))
+    assert.deepEqual(Object.keys(cache.files).sort(), [
+      'content/en/guides/tutorials/existing.md',
+      'content/en/guides/tutorials/new.md',
+    ])
+    assert.equal(cache.files['content/en/guides/tutorials/existing.md'].translatedAt, '2026-07-01T00:00:00.000Z')
+    assert.equal(cache.files['content/en/guides/tutorials/new.md'].translatedAt, '2026-07-27T00:00:00.000Z')
+  })
+}
+
+async function testChineseProgressStateUsesIndependentTargetManifests() {
+  await withTempDir(async siteDir => {
+    const sourceCommit = 'c'.repeat(40)
+    const workflowSha = 'a'.repeat(40)
+    const changedSourcePath = 'content/en/reference/api/python/changed.md'
+    const changedTargetPath = 'content/zh-CN/reference/api/python/changed.md'
+    const unchangedSourcePath = 'content/en/reference/api/python/unchanged.md'
+    const unchangedTargetPath = 'content/zh-CN/reference/api/python/unchanged.md'
+    const changedSource = '# Changed Reference\n'
+    const changedTarget = '# 已更改的参考\n'
+    const unchanged = '# Same Reference\n'
+    write(path.join(siteDir, changedSourcePath), changedSource)
+    write(path.join(siteDir, changedTargetPath), changedTarget)
+    write(path.join(siteDir, unchangedSourcePath), unchanged)
+    write(path.join(siteDir, unchangedTargetPath), unchanged)
+    const referenceSourceManifest = {
+      schemaVersion: 1,
+      sourceCommit,
+      records: [
+        {manual: 'python', sourcePath: changedSourcePath, sourceHash: sha256(changedSource)},
+        {manual: 'python', sourcePath: unchangedSourcePath, sourceHash: sha256(unchanged)},
+      ],
+    }
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify(referenceSourceManifest))
+    const retiredTargetPath = 'content/zh-CN/reference/api/python/retired.md'
+    const retiredTarget = '# 退役\n'
+    write(path.join(siteDir, retiredTargetPath), retiredTarget)
+    const retiredReference = {
+      manual: 'python',
+      sourcePath: 'content/en/reference/api/python/retired.md',
+      targetPath: retiredTargetPath,
+      sourceCommit,
+      sourceHash: sha256(''),
+      targetHash: sha256(retiredTarget),
+      status: 'retired',
+    }
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [retiredReference],
+    }))
+
+    const referenceManifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      sourceCheckpointSha: workflowSha,
+      items: [
+        {
+          sourcePath: changedSourcePath,
+          targetPath: changedTargetPath,
+          sourceHash: sha256(changedSource),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+        {
+          sourcePath: unchangedSourcePath,
+          targetPath: unchangedTargetPath,
+          sourceHash: sha256(unchanged),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+      ],
+    }
+    const referenceCoordinator = createProgressCoordinator({
+      siteDir,
+      manifest: referenceManifest,
+      cache: {files: {}},
+      reportPath: 'tmp/reference-report.json',
+      checkpointFiles: 1,
+    })
+    await referenceCoordinator.record({...referenceManifest.items[0], status: 'translated'}, 0)
+    await referenceCoordinator.record({...referenceManifest.items[1], status: 'translated'}, 1)
+    await referenceCoordinator.checkpoint(true)
+
+    const toolsSourcePath = 'content/en/guides/tutorials/tools/tool.md'
+    const toolsTargetPath = 'content/zh-CN/guides/tutorials/tools/tool.md'
+    const toolsSource = '# Tool\n'
+    write(path.join(siteDir, toolsSourcePath), toolsSource)
+    write(path.join(siteDir, toolsTargetPath), '# 工具\n')
+    const retiredTool = {
+      sourcePath: 'content/en/guides/tutorials/tools/retired.md',
+      targetPath: 'content/zh-CN/guides/tutorials/tools/retired.md',
+      sourceHash: 'f'.repeat(64),
+      status: 'retired',
+    }
+    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [retiredTool],
+    }))
+    const toolsManifest = {
+      target: 'zh-CN-tools',
+      locale: 'zh-CN',
+      sourceCheckpointSha: sourceCommit,
+      items: [{
+        sourcePath: toolsSourcePath,
+        targetPath: toolsTargetPath,
+        sourceHash: sha256(toolsSource),
+        locale: 'zh-CN',
+        type: 'tools',
+        reason: 'missing_target',
+      }],
+    }
+    const toolsCoordinator = createProgressCoordinator({
+      siteDir,
+      manifest: toolsManifest,
+      cache: {files: {}},
+      reportPath: 'tmp/tools-report.json',
+      checkpointFiles: 1,
+    })
+    await toolsCoordinator.record({...toolsManifest.items[0], status: 'translated'}, 0)
+    await toolsCoordinator.checkpoint(true)
+
+    assert.equal(fs.existsSync(path.join(siteDir, '.translation-cache/zh-CN.json')), false)
+    const referenceState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
+    const toolsState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), 'utf8'))
+    assert.deepEqual(referenceState.records.map(record => record.sourcePath), [
+      changedSourcePath,
+      retiredReference.sourcePath,
+      unchangedSourcePath,
+    ])
+    assert.equal(referenceState.records[0].manual, 'python')
+    assert.equal(referenceState.records[0].sourceCommit, workflowSha)
+    assert.equal(referenceState.records[0].sourceHash, sha256(changedSource))
+    assert.equal(referenceState.records[0].targetHash, sha256(changedTarget))
+    assert.equal(referenceState.records[0].status, 'translated')
+    assert.equal(referenceState.records[1].status, 'retired')
+    assert.equal(referenceState.records[2].sourceCommit, workflowSha)
+    assert.equal(referenceState.records[2].sourceHash, sha256(unchanged))
+    assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
+    assert.equal(referenceState.records[2].status, 'unchanged')
+    assert.deepEqual(toolsState.records.map(record => record.sourcePath), [retiredTool.sourcePath, toolsSourcePath])
+    assert.equal(toolsState.records[0].status, 'retired')
+    assert.equal(toolsState.records[1].sourceHash, sha256(toolsSource))
+    assert.ok(referenceState.records.every(record => record.sourcePath.startsWith('content/en/reference/')))
+    assert.ok(toolsState.records.every(record => record.sourcePath.startsWith('content/en/guides/tutorials/tools/')))
+    assert.deepEqual(buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-reference'}).candidates, [])
+    assert.deepEqual(buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-tools'}).candidates, [])
+
+    const referenceReport = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/reference-report.json'), 'utf8'))
+    const toolsReport = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/tools-report.json'), 'utf8'))
+    assert.equal(referenceReport.target, 'zh-CN-reference')
+    assert.equal(toolsReport.target, 'zh-CN-tools')
+    assert.equal(referenceReport.checkpoint.target, 'zh-CN-reference')
+    assert.equal(toolsReport.checkpoint.target, 'zh-CN-tools')
+    assert.ok(referenceReport.results.every(result => result.target === 'zh-CN-reference'))
+    assert.ok(toolsReport.results.every(result => result.target === 'zh-CN-tools'))
+    assert.doesNotThrow(() => validateReferenceTranslation({
+      repositoryRoot: siteDir,
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: {...referenceSourceManifest, sourceCommit: workflowSha},
+      translationManifest: {
+        ...referenceState,
+        records: referenceState.records.map(record => ({...record, sourceCommit: workflowSha})),
+      },
+    }))
+  })
+}
+
+async function testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest() {
+  await withTempDir(async siteDir => {
+    const staleSourceCommit = 'a'.repeat(40)
+    const currentSourceCommit = 'b'.repeat(40)
+    const sourcePath = 'content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md'
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/')
+    const source = '# Create user\n'
+    const target = '# 创建用户\n'
+    write(path.join(siteDir, sourcePath), source)
+    write(path.join(siteDir, targetPath), target)
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit: staleSourceCommit,
+      records: [],
+    }))
+
+    const manifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      group: 'python',
+      sourceCheckpointSha: currentSourceCommit,
+      items: [{
+        sourcePath,
+        targetPath,
+        sourceHash: sha256(source),
+        locale: 'zh-CN',
+        type: 'reference',
+        reason: 'missing_target',
+      }],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      reportPath: 'tmp/reference-new-source-report.json',
+      checkpointFiles: 1,
+    })
+    await coordinator.record({...manifest.items[0], status: 'translated'}, 0)
+    await coordinator.checkpoint(true)
+
+    const state = JSON.parse(fs.readFileSync(
+      path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'),
+      'utf8',
+    ))
+    assert.equal(state.records[0].manual, 'python')
+    assert.equal(state.records[0].sourceCommit, currentSourceCommit)
+  })
+}
+
+async function testReferenceProgressStateUsesCanonicalRawLexicalOrder() {
+  await withTempDir(async siteDir => {
+    const sourceCommit = 'c'.repeat(40)
+    const importSourcePath = 'content/en/reference/api/go/v2-DataImport.md'
+    const databaseSourcePath = 'content/en/reference/api/go/v2-Database.md'
+    const importTargetPath = 'content/zh-CN/reference/api/go/v2-DataImport.md'
+    const databaseTargetPath = 'content/zh-CN/reference/api/go/v2-Database.md'
+    const importSource = '# Data Import\n'
+    const databaseSource = '# Database\n'
+
+    write(path.join(siteDir, importSourcePath), importSource)
+    write(path.join(siteDir, databaseSourcePath), databaseSource)
+    write(path.join(siteDir, importTargetPath), '# 数据导入\n')
+    write(path.join(siteDir, databaseTargetPath), '# 数据库\n')
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit,
+      records: [
+        {manual: 'go', sourcePath: importSourcePath, sourceHash: sha256(importSource)},
+        {manual: 'go', sourcePath: databaseSourcePath, sourceHash: sha256(databaseSource)},
+      ],
+    }))
+
+    const manifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      sourceCheckpointSha: sourceCommit,
+      items: [
+        {
+          sourcePath: importSourcePath,
+          targetPath: importTargetPath,
+          sourceHash: sha256(importSource),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+        {
+          sourcePath: databaseSourcePath,
+          targetPath: databaseTargetPath,
+          sourceHash: sha256(databaseSource),
+          locale: 'zh-CN',
+          type: 'reference',
+          reason: 'missing_target',
+        },
+      ],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      reportPath: 'tmp/reference-order-report.json',
+      checkpointFiles: 1,
+    })
+
+    await runWorkerPool(manifest.items, {
+      concurrency: 2,
+      processItem: async (item, index) => {
+        if (index === 0) await new Promise(resolve => setTimeout(resolve, 5))
+        return {...item, status: 'translated'}
+      },
+      onResult: coordinator.record,
+    })
+    await coordinator.checkpoint(true)
+
+    const referenceState = JSON.parse(fs.readFileSync(
+      path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'),
+      'utf8',
+    ))
+    assert.deepEqual(referenceState.records.map(record => record.sourcePath), [
+      importSourcePath,
+      databaseSourcePath,
+    ])
+  })
+}
+
 async function run() {
+  testSelectsPromptsByTranslationTarget()
+  testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
+  testMessageBuildersSelectPromptsFromTarget()
+  testReferenceLandingMessagesContainNavigationContract()
+  testValidatesExactManifestTargetContract()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
+  await testTranslatesToolsSidebarFragmentWithoutReadingPseudoPath()
+  await testToolsSidebarReviewFailureDoesNotWriteTarget()
+  await testToolsSidebarRejectsChangedStructure()
+  await testToolsSidebarFragmentIdentityFailsClosed()
+  await testRejectsSidebarPseudoPathForNonToolsTarget()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
@@ -574,6 +1227,7 @@ async function run() {
   testProtectsEsmBeforeModelTranslation()
   await testRestoresSourceImportsBeforeValidation()
   await testRepairsUnescapedHeadingAnchorsAfterTranslation()
+  await testRepairsTranslatedProseThatLooksLikeInvalidMdxEsm()
   await testRejectsChangedHeadingAnchorIdentity()
   await testFailedChunkDoesNotWritePartialTarget()
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
@@ -581,7 +1235,11 @@ async function run() {
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
+  await testChineseProgressStateUsesIndependentTargetManifests()
+  await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()
+  await testReferenceProgressStateUsesCanonicalRawLexicalOrder()
   await testProgressCoordinatorCheckpointsCacheAndReport()
+  await testJapaneseProgressStatePreservesExistingLocaleCache()
   console.log('translation agent runner tests passed')
 }
 

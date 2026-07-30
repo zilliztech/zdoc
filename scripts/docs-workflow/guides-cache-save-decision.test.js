@@ -20,7 +20,7 @@ function snapshot(overrides = {}) {
     publish_url: null,
     link_check_remote: 'https://docs.zilliz.com',
     generated_at: '2026-07-17T00:00:00.000Z',
-    source_dir: 'plugins/lark-docs/meta/sources/guides',
+    source_dir: 'packages/docs-tooling/src/lark/meta/sources/guides',
     base_app_token: 'base-token',
     records: [{
       record_id: 'record', table_id: 'table', table_name: 'Tools', placement_type: 'canonical',

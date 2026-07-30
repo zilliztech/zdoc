@@ -9,10 +9,10 @@ const path = require('node:path');
 const test = require('node:test');
 
 const { applyCheckpointArtifact } = require('./apply-checkpoint-artifact');
-const ROOT = 'reference/api/python/python';
+const ROOT = 'content/en/reference/api/python/python';
 const CACHE = '.translation-cache/ja-JP.json';
 
-async function fixture({ files = {}, deletions = [], cache, baselineCache, targetCache } = {}) {
+async function fixture({ files = {}, deletions = [], cache, baselineCache, targetCache, translationTarget = 'ja-JP', group = 'python' } = {}) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'checkpoint-apply-'));
   const artifactDir = path.join(root, 'artifact'), targetDir = path.join(root, 'target'), baselineDir = path.join(root, 'baseline');
   await Promise.all([mkdir(path.join(artifactDir, 'payload'), { recursive: true }), mkdir(targetDir), mkdir(baselineDir)]);
@@ -24,7 +24,8 @@ async function fixture({ files = {}, deletions = [], cache, baselineCache, targe
     await mkdir(path.dirname(full), { recursive: true }); await writeFile(full, bytes);
     entries.push({ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length });
   }
-  const manifest = { schemaVersion: 1, stage: cache === undefined ? 'source' : 'translation', group: 'python', masterSha: 'a'.repeat(40), devBaselineSha: 'b'.repeat(40), createdAt: '2026-01-02T03:04:05.000Z', ownershipVersion: 1, files: entries, deletions: [...deletions].sort(), snapshotManual: 'pymilvus30', validation: { commands: [], passed: true } };
+  const manifest = { schemaVersion: 1, stage: cache === undefined ? 'source' : 'translation', group, masterSha: 'a'.repeat(40), devBaselineSha: 'b'.repeat(40), createdAt: '2026-01-02T03:04:05.000Z', ownershipVersion: 1, files: entries, deletions: [...deletions].sort(), snapshotManual: group === 'guides' ? 'guides' : 'pymilvus30', validation: { commands: [], passed: true } };
+  if (cache !== undefined) Object.assign(manifest, { translationTarget, sourceSite: 'en', targetSite: translationTarget === 'ja-JP' ? 'en' : 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40) });
   await writeFile(path.join(artifactDir, 'manifest.json'), JSON.stringify(manifest));
   for (const [dir, value] of [[baselineDir, baselineCache], [targetDir, targetCache]]) if (value !== undefined) { await mkdir(path.join(dir, '.translation-cache'), { recursive: true }); await writeFile(path.join(dir, CACHE), typeof value === 'string' ? value : JSON.stringify(value)); }
   return { root, artifactDir, targetDir, baselineDir };
@@ -59,7 +60,7 @@ test('rejects missing or symlink targets, overlap, symlink ancestors, and payloa
   await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: path.join(f.root, 'missing') }), /existing.*directory/i);
   const link = path.join(f.root, 'target-link'); await symlink(f.targetDir, link); await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: link }), /symlink/i);
   await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.artifactDir }), /overlap/i);
-  f = await fixture({ files: { [`${ROOT}/x.md`]: 'x' } }); await mkdir(path.join(f.targetDir, 'reference/api'), { recursive: true }); await symlink(f.root, path.join(f.targetDir, 'reference/api/python'));
+  f = await fixture({ files: { [`${ROOT}/x.md`]: 'x' } }); await mkdir(path.join(f.targetDir, 'content/en/reference/api'), { recursive: true }); await symlink(f.root, path.join(f.targetDir, 'content/en/reference/api/python'));
   await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir }), /symlink/i);
   f = await fixture({ files: { [`${ROOT}/x.md`]: 'x' } });
   await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async beforeCopy() { const p = path.join(f.artifactDir, 'payload', ROOT, 'x.md'); await rm(p); await symlink('/etc/hosts', p); } } }), /symlink|identity|regular/i);
@@ -97,6 +98,68 @@ test('three-way merges translation cache changes and writes deterministic JSON',
     const f = await fixture({ cache, baselineCache, targetCache }); const result = await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir });
     assert.equal(await readFile(path.join(f.targetDir, CACHE), 'utf8'), `${JSON.stringify(expected, null, 2)}\n`); assert.equal(result.translationCacheMerged, true);
   }
+});
+
+test('three-way merges Chinese translation manifests by immutable source-relative key', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const record = (manual, sourcePath, value) => ({manual, sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});
+  const python = {...record('python', 'content/en/reference/a.md', 1), sourceCommit: 'old'};
+  const baseline = {schemaVersion: 1, records: [python]};
+  const artifact = {schemaVersion: 1, records: [{...python, value: 2}]};
+  const target = {schemaVersion: 1, records: [
+    {...python, sourceCommit: 'new'},
+    record('java', 'content/en/reference/z.md', 3),
+    record('python', 'content/en/reference/Z.md', 4),
+  ]};
+  const f = await fixture({
+    files: {[statePath]: `${JSON.stringify(artifact)}\n`},
+    cache: undefined,
+  });
+  Object.assign(f, {statePath});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
+  }
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    schemaVersion: 1,
+    records: [
+      record('java', 'content/en/reference/z.md', 3),
+      record('python', 'content/en/reference/Z.md', 4),
+      {...python, sourceCommit: 'new', value: 2},
+    ],
+  });
+});
+
+test('three-way merges revived Reference retirements across stale group artifacts', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const registryPath = 'config/reference-retirements.json';
+  const state = {schemaVersion: 1, records: []};
+  const python = {manual: 'python', sourcePath: 'content/en/reference/api/python/a.md', targetPath: 'content/zh-CN/reference/api/python/a.md', reason: 'old'};
+  const java = {manual: 'java', sourcePath: 'content/en/reference/api/java/a.md', targetPath: 'content/zh-CN/reference/api/java/a.md', reason: 'old'};
+  const baselineRegistry = {schemaVersion: 1, retirements: [java, python]};
+  const artifactRegistry = {schemaVersion: 1, retirements: [java]};
+  const targetRegistry = {schemaVersion: 1, retirements: [python]};
+  const f = await fixture({files: {
+    [statePath]: `${JSON.stringify(state)}\n`,
+    [registryPath]: `${JSON.stringify(artifactRegistry)}\n`,
+  }});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, registry] of [[f.baselineDir, baselineRegistry], [f.targetDir, targetRegistry]]) {
+    for (const [relativePath, value] of [[statePath, state], [registryPath, registry]]) {
+      await mkdir(path.dirname(path.join(root, relativePath)), {recursive: true});
+      await writeFile(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
+    }
+  }
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, registryPath), 'utf8')), {schemaVersion: 1, retirements: []});
 });
 
 test('translation merge conflicts and invalid inputs leave target unchanged', async () => {
@@ -156,7 +219,7 @@ test('translation cache descriptor reads reject target identity swaps and preser
 });
 
 test('journals only touched paths and preflights disk capacity before mutation', async () => {
-  let f = await fixture({ files: { [`${ROOT}/changed.md`]: 'new' } }); await targetWrite(f, `${ROOT}/changed.md`, 'old'); await targetWrite(f, 'reference/huge-unrelated.bin', Buffer.alloc(1024 * 1024));
+  let f = await fixture({ files: { [`${ROOT}/changed.md`]: 'new' } }); await targetWrite(f, `${ROOT}/changed.md`, 'old'); await targetWrite(f, 'content/en/reference/huge-unrelated.bin', Buffer.alloc(1024 * 1024));
   const copied = []; await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { afterJournalCopy({ rel }) { copied.push(rel); } } }); assert.deepEqual(copied, [`${ROOT}/changed.md`]);
   f = await fixture({ files: { [`${ROOT}/x.md`]: 'payload' }, deletions: [`${ROOT}/old.md`] }); await targetWrite(f, `${ROOT}/old.md`, 'old');
   await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { statfs() { return { bavail: 0, bsize: 4096 }; } } }), /insufficient disk/i);
@@ -167,7 +230,7 @@ test('ancestor swaps before delete, commit, and rollback fail closed without tou
   for (const phase of ['beforeDelete', 'beforeCommit', 'beforeRollback']) {
     const files = phase === 'beforeDelete' ? {} : { [`${ROOT}/x.md`]: 'new' }; const deletions = phase === 'beforeDelete' ? [`${ROOT}/old.md`] : [];
     const f = await fixture({ files, deletions }); await targetWrite(f, `${ROOT}/old.md`, 'inside');
-    const ancestor = path.join(f.targetDir, 'reference/api/python'), parked = `${ancestor}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'python'), { recursive: true }); await writeFile(path.join(outside, 'python/marker'), 'outside');
+    const ancestor = path.join(f.targetDir, 'content/en/reference/api/python'), parked = `${ancestor}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'python'), { recursive: true }); await writeFile(path.join(outside, 'python/marker'), 'outside');
     let swapped = false; const swap = async () => { if (swapped) return; swapped = true; await rename(ancestor, parked); await symlink(path.join(outside, 'python'), ancestor); };
     const hooks = { [phase]: swap }; if (phase === 'beforeRollback') hooks.afterCopy = async () => { throw new Error('trigger rollback'); };
     await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks }), /identity lost|manual cleanup/i);

@@ -122,8 +122,8 @@ function liveSourceCachePaths(workspace, label) {
   const root = requireDirectory(workspace, label)
   return {
     root,
-    sourceDir: fixedWorkspacePath(root, 'plugins/lark-docs/meta/sources/guides', 'Guides live source path', 'directory'),
-    sourceManifestPath: fixedWorkspacePath(root, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
+    sourceDir: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides live source path', 'directory'),
+    sourceManifestPath: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
   }
 }
 
@@ -140,7 +140,7 @@ function validateLiveSourceCache({ workspace, snapshotPath, rootToken, acceptedS
 
 function validateLiveMediaCache({ workspace, snapshotPath }) {
   const paths = liveSourceCachePaths(workspace, 'Guides live media validation workspace')
-  const mediaManifestPath = fixedWorkspacePath(paths.root, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides live media manifest path', 'file')
+  const mediaManifestPath = fixedWorkspacePath(paths.root, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides live media manifest path', 'file')
   return validateMediaCache({
     sourceDir: paths.sourceDir,
     snapshotPath,
@@ -194,9 +194,9 @@ function cleanupGuidesLiveCache({ workspace, scope = 'all' }) {
   if (!['all', 'media'].includes(scope)) throw new Error('Guides cleanup scope must be all or media')
   const workspaceRoot = requireDirectory(workspace, 'Guides cleanup workspace')
   const destinations = {
-    sourceDir: cleanupWorkspaceLeaf(workspaceRoot, 'plugins/lark-docs/meta/sources/guides', 'Guides live source path'),
-    sourceManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides live source manifest path'),
-    mediaManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides live media manifest path'),
+    sourceDir: cleanupWorkspaceLeaf(workspaceRoot, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides live source path'),
+    sourceManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides live source manifest path'),
+    mediaManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides live media manifest path'),
   }
   const removals = scope === 'media'
     ? [destinations.mediaManifestPath]
@@ -214,9 +214,9 @@ function promoteSourceGenerationPayload({ payloadDir, workspace, snapshotPath, r
   const workspaceRoot = requireDirectory(workspace, 'Guides source promotion workspace')
   if (pathsOverlap(validation.paths.root, workspaceRoot)) throw new Error('Guides source promotion workspace must not overlap the payload')
   const destinations = {
-    sourceDir: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/sources/guides', 'Guides live source path', 'directory'),
-    sourceManifestPath: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
-    mediaManifestPath: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides live media manifest path', 'file'),
+    sourceDir: fixedWorkspacePath(workspaceRoot, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides live source path', 'directory'),
+    sourceManifestPath: fixedWorkspacePath(workspaceRoot, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
+    mediaManifestPath: fixedWorkspacePath(workspaceRoot, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides live media manifest path', 'file'),
   }
   const operations = [
     { source: validation.paths.sourceDir, destination: destinations.sourceDir },

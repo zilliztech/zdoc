@@ -39,8 +39,8 @@ function copyTree(source, target) {
 }
 
 function sourcePathForTarget(targetPath) {
-  if (targetPath.startsWith(`${SAAS_ROOT}/`)) return `docs/tutorials/${targetPath.slice(SAAS_ROOT.length + 1)}`
-  if (targetPath.startsWith(`${BYOC_ROOT}/`)) return `docs-byoc/tutorials/${targetPath.slice(BYOC_ROOT.length + 1)}`
+  if (targetPath.startsWith(`${SAAS_ROOT}/`)) return `content/en/guides/tutorials/${targetPath.slice(SAAS_ROOT.length + 1)}`
+  if (targetPath.startsWith(`${BYOC_ROOT}/`)) return `content/en/byoc/tutorials/${targetPath.slice(BYOC_ROOT.length + 1)}`
   throw new Error(`Unknown target path: ${targetPath}`)
 }
 
@@ -52,17 +52,17 @@ async function repositoryFixture() {
   git(sourceRepository, 'config', 'user.name', 'Translation Apply Test')
   git(sourceRepository, 'config', 'user.email', 'translation-apply@example.com')
   for (const [relative, bytes] of Object.entries({
-    'docs/tutorials/a.md': '# A\n',
-    'docs/tutorials/b.md': '# B\n',
-    'docs/tutorials/old.md': '# Old\n',
-    'docs/tutorials/top.md': '# Top\n',
-    'docs/tutorials/folder/child.md': '# Child\n',
-    'docs-byoc/tutorials/byoc.md': '# BYOC\n',
+    'content/en/guides/tutorials/a.md': '# A\n',
+    'content/en/guides/tutorials/b.md': '# B\n',
+    'content/en/guides/tutorials/old.md': '# Old\n',
+    'content/en/guides/tutorials/top.md': '# Top\n',
+    'content/en/guides/tutorials/folder/child.md': '# Child\n',
+    'content/en/byoc/tutorials/byoc.md': '# BYOC\n',
   })) write(sourceRepository, relative, bytes)
-  write(sourceRepository, 'config/generated/guides.sidebar.js', 'module.exports = []\n')
-  write(sourceRepository, 'config/generated/guides-byoc.sidebar.js', 'module.exports = []\n')
-  write(sourceRepository, 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json', '{"ok":true}\n')
-  write(sourceRepository, 'plugins/lark-docs/meta/assembly/guides.json', '{"version":1}\n')
+  write(sourceRepository, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'generated/en/sidebars/guides-byoc.sidebar.js', 'module.exports = []\n')
+  write(sourceRepository, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', '{"ok":true}\n')
+  write(sourceRepository, 'packages/docs-tooling/src/lark/meta/assembly/guides.json', '{"version":1}\n')
   write(sourceRepository, `${SAAS_ROOT}/old.md`, '# 古い\n')
   write(sourceRepository, `${SAAS_ROOT}/top.md`, '# 上\n')
   write(sourceRepository, `${SAAS_ROOT}/folder/child.md`, '# 子\n')
@@ -73,7 +73,7 @@ async function repositoryFixture() {
   git(root, 'clone', sourceRepository, targetRepository)
   git(targetRepository, 'config', 'user.name', 'Translation Apply Test')
   git(targetRepository, 'config', 'user.email', 'translation-apply@example.com')
-  write(targetRepository, 'reference/api/python/unrelated.md', '# unrelated\n')
+  write(targetRepository, 'content/en/reference/api/python/unrelated.md', '# unrelated\n')
   git(targetRepository, 'add', '.')
   git(targetRepository, 'commit', '-m', 'unrelated target change')
   const expectedTargetSha = git(targetRepository, 'rev-parse', 'HEAD')
@@ -125,7 +125,7 @@ async function createPair(fixture, {
     sourceCheckpointSha: fixture.sourceCheckpointSha,
     batch,
     candidates,
-    sourceDelta: { deletedI18n: [...deletions].sort(), renamed: [] },
+    sourceDelta: { deletedI18n: [...deletions].sort(), renamed: [], retirementCandidates: [] },
   }
   const batchInputPath = path.join(fixture.root, `batch-input-${suffix}.json`)
   fs.writeFileSync(batchInputPath, `${JSON.stringify(batchInput, null, 2)}\n`)
@@ -218,8 +218,8 @@ test('applies authorized writes, deletions, and semantic cache changes', async (
   assert.equal(fs.statSync(path.join(fixture.targetRepository, ...newPath.split('/'))).mode & 0o777, 0o644)
   assert.equal(fs.existsSync(path.join(fixture.targetRepository, ...oldPath.split('/'))), false)
   const cache = JSON.parse(fs.readFileSync(path.join(fixture.targetRepository, CACHE_PATH), 'utf8'))
-  assert.equal(cache.files['docs/tutorials/a.md'].targetPath, newPath)
-  assert.equal(fs.readFileSync(path.join(fixture.targetRepository, 'reference/api/python/unrelated.md'), 'utf8'), '# unrelated\n')
+  assert.equal(cache.files['content/en/guides/tutorials/a.md'].targetPath, newPath)
+  assert.equal(fs.readFileSync(path.join(fixture.targetRepository, 'content/en/reference/api/python/unrelated.md'), 'utf8'), '# unrelated\n')
   assert.deepEqual(result, { changedPaths: [newPath], deletedPaths: [oldPath], cacheChanged: true, idempotent: false })
   assert.equal(Object.isFrozen(result), true)
   assert.equal(Object.isFrozen(result.changedPaths), true)
@@ -234,7 +234,7 @@ test('batch 2 preserves accumulated batch 1 files and cache entries', async () =
   assert.equal(fs.readFileSync(path.join(state.fixture.targetRepository, SAAS_ROOT, 'a.md'), 'utf8'), '# 翻訳 A\n')
   assert.equal(fs.readFileSync(path.join(state.fixture.targetRepository, SAAS_ROOT, 'b.md'), 'utf8'), '# 翻訳 B\n')
   const cache = JSON.parse(fs.readFileSync(path.join(state.fixture.targetRepository, CACHE_PATH), 'utf8'))
-  assert.deepEqual(Object.keys(cache.files).sort(), ['docs/tutorials/a.md', 'docs/tutorials/b.md'])
+  assert.deepEqual(Object.keys(cache.files).sort(), ['content/en/guides/tutorials/a.md', 'content/en/guides/tutorials/b.md'])
 })
 
 test('batch 2 rejects a descendant commit that corrupts an earlier planned batch path', async () => {
@@ -443,7 +443,7 @@ test('requires real artifact and baseline directories and rejects target drift b
   assert.deepEqual(worktreeSnapshot(state.fixture.targetRepository), before)
 
   state = await plannedSingleBatch()
-  write(state.fixture.targetRepository, 'reference/api/python/later-commit.md', '# unexpected descendant\n')
+  write(state.fixture.targetRepository, 'content/en/reference/api/python/later-commit.md', '# unexpected descendant\n')
   git(state.fixture.targetRepository, 'add', '.')
   git(state.fixture.targetRepository, 'commit', '-m', 'unexpected descendant commit')
   before = worktreeSnapshot(state.fixture.targetRepository)
@@ -466,8 +466,8 @@ test('strictly validates options, hooks, plan checksum, and fixed mutation roots
 
   await assert.rejects(applyTranslationBatch({ ...base, plan: { ...state.plan, planSha256: 'e'.repeat(64) } }), /plan checksum mismatch/i)
   const outside = resignPlan(state.plan, plan => {
-    plan.batches[0].writes[0].path = 'reference/api/python/unsafe.md'
-    plan.batches[0].writes[0].artifactRelativePath = 'payload/reference/api/python/unsafe.md'
+    plan.batches[0].writes[0].path = 'content/en/reference/api/python/unsafe.md'
+    plan.batches[0].writes[0].artifactRelativePath = 'payload/content/en/reference/api/python/unsafe.md'
   })
   await assert.rejects(applyTranslationBatch({ ...base, plan: outside }), /outside.*fixed Guides translation roots/i)
 
@@ -478,9 +478,9 @@ test('strictly validates options, hooks, plan checksum, and fixed mutation roots
 
 test('preserves dirty unrelated state and never mutates HEAD or the Git index', async () => {
   const state = await plannedSingleBatch()
-  write(state.fixture.targetRepository, 'reference/api/python/unrelated.md', '# dirty unrelated\n')
+  write(state.fixture.targetRepository, 'content/en/reference/api/python/unrelated.md', '# dirty unrelated\n')
   write(state.fixture.targetRepository, 'untracked-unrelated.txt', 'untracked\n')
-  git(state.fixture.targetRepository, 'add', 'reference/api/python/unrelated.md')
+  git(state.fixture.targetRepository, 'add', 'content/en/reference/api/python/unrelated.md')
   const head = git(state.fixture.targetRepository, 'rev-parse', 'HEAD')
   const cached = execFileSync('git', ['diff', '--cached', '--binary'], { cwd: state.fixture.targetRepository })
   await applyTranslationBatch({
@@ -488,7 +488,7 @@ test('preserves dirty unrelated state and never mutates HEAD or the Git index', 
   })
   assert.equal(git(state.fixture.targetRepository, 'rev-parse', 'HEAD'), head)
   assert.deepEqual(execFileSync('git', ['diff', '--cached', '--binary'], { cwd: state.fixture.targetRepository }), cached)
-  assert.equal(fs.readFileSync(path.join(state.fixture.targetRepository, 'reference/api/python/unrelated.md'), 'utf8'), '# dirty unrelated\n')
+  assert.equal(fs.readFileSync(path.join(state.fixture.targetRepository, 'content/en/reference/api/python/unrelated.md'), 'utf8'), '# dirty unrelated\n')
   assert.equal(fs.readFileSync(path.join(state.fixture.targetRepository, 'untracked-unrelated.txt'), 'utf8'), 'untracked\n')
 })
 
@@ -529,7 +529,7 @@ test('detects incompatible accumulated cache state before any file mutation', as
   const state = await plannedSingleBatch()
   write(state.fixture.targetRepository, CACHE_PATH, `${JSON.stringify({
     files: {
-      'docs/tutorials/a.md': {
+      'content/en/guides/tutorials/a.md': {
         sourceHash: 'e'.repeat(64),
         targetPath: `${SAAS_ROOT}/a.md`,
         translatedAt: '2026-07-17T00:00:00.000Z',

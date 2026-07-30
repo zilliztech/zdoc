@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/validate-spark-job-artifact-v2
+beta: FALSE
+title: "校验 Spark 任务工件 (V2) | RESTful"
+description: "本接口用于校验 JAR 工件是否存在于 Volume 中，并确认该工件可用于提交 Spark 任务。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "校验 Spark 任务工件 (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "校验 Spark 任务工件 (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# 校验 Spark 任务工件 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Validate Spark Job Artifact","deprecated":false,"description":"This operation validates that a JAR artifact exists in a Volume and can be used to submit a Spark job.","x-i18n":{"zh-CN":{"summary":"校验 Spark 任务工件","description":"本接口用于校验 JAR 工件是否存在于 Volume 中，并确认该工件可用于提交 Spark 任务。"}},"tags":["Spark Job (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"Content-Type","in":"header","description":"Use `application/json`.","required":true,"example":"application/json","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"使用 `application/json`。"}}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","description":"Request payload for validating a Spark job artifact.","x-i18n":{"zh-CN":{"description":"校验 Spark 任务工件的请求负载。"}},"properties":{"clusterId":{"type":"string","description":"The Zilliz Cloud cluster to associate with the Spark job. The Volume must be in the same project and region as this cluster.","x-i18n":{"zh-CN":{"description":"与 Spark 任务关联的 Zilliz Cloud 集群。Volume 必须与该集群在同一项目和地域。"}},"example":"in01-xxxxxxxxxxxxxxx"},"artifact":{"type":"object","description":"The JAR artifact stored in a Zilliz Cloud Volume.","x-i18n":{"zh-CN":{"description":"存储在 Zilliz Cloud Volume 中的 JAR 工件。"}},"properties":{"volumeId":{"type":"string","description":"The ID of the volume that stores the JAR file.","x-i18n":{"zh-CN":{"description":"存储 JAR 文件的 Volume ID。"}},"example":"stg-xxxxxxxxxxxxxxxxxxx"},"path":{"type":"string","description":"The path to the JAR file in the volume. The path must point to a `.jar` file and can contain letters, digits, dots, underscores, hyphens, and slashes.","x-i18n":{"zh-CN":{"description":"Volume 中 JAR 文件的路径。该路径必须指向 `.jar` 文件，可包含字母、数字、点、下划线、连字符和斜杠。"}},"example":"/jars/example-job.jar","pattern":"^[A-Za-z0-9._/-]+\\.[jJ][aA][rR]$"}},"required":["volumeId","path"]}},"required":["clusterId","artifact"]},"examples":{"1":{"summary":"example","value":{"clusterId":"in01-xxxxxxxxxxxxxxx","artifact":{"volumeId":"stg-xxxxxxxxxxxxxxxxxxx","path":"/jars/example-job.jar"}}}}}}},"responses":{"200":{"description":"Returns the artifact validation result.","x-i18n":{"zh-CN":{"description":"返回工件校验结果。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","description":"Response payload that contains the artifact validation result.","x-i18n":{"zh-CN":{"description":"响应载荷，包含工件校验结果。"}},"properties":{"valid":{"type":"boolean","description":"Whether the artifact can be used to submit a Spark job.","x-i18n":{"zh-CN":{"description":"该工件是否可用于提交 Spark 任务。"}},"example":true},"artifactUri":{"type":"string","description":"The internal artifact URI resolved from the volume and path.","x-i18n":{"zh-CN":{"description":"根据 Volume 和路径解析出的内部工件 URI。"}},"example":"volume://my-volume/jars/example-job.jar"},"fileName":{"type":"string","description":"The file name of the JAR artifact.","x-i18n":{"zh-CN":{"description":"JAR 工件的文件名。"}},"example":"example-job.jar"},"sizeBytes":{"type":"integer","description":"The artifact size in bytes.","x-i18n":{"zh-CN":{"description":"工件大小，单位为字节。"}},"example":10485760},"regionId":{"type":"string","description":"The cloud region of the volume data.","x-i18n":{"zh-CN":{"description":"Volume 数据所在的云地域。"}},"example":"aws-us-west-2"}}}}},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"valid":true,"artifactUri":"volume://my-volume/jars/example-job.jar","fileName":"example-job.jar","sizeBytes":10485760,"regionId":"aws-us-west-2"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":21119,"message":"The apikey is illegal."}}}}}}},"security":[]}
+export const endpoint = "/v2/jobs/spark/artifacts/validate"
+export const method = "post"

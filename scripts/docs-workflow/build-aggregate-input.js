@@ -23,6 +23,7 @@ function parseCandidateCounts(value) {
 
 function buildAggregateInput(env) {
   const mode = env.MODE === 'artifact_only' ? 'artifact_only' : 'publish'
+  const translationsRequested = mode === 'publish' && env.RUN_TRANSLATIONS !== 'false'
   const requestedGroups = env.SELECTED_GROUP === 'all' ? listContentGroups() : [env.SELECTED_GROUP]
   const groups = {}
   for (const group of requestedGroups) {
@@ -35,13 +36,13 @@ function buildAggregateInput(env) {
       : producer !== 'artifact_ready' ? 'fetch_failed'
       : publisher === 'published' ? 'source_published'
         : publisher === 'no_changes' ? 'no_changes' : 'publish_failed'
-    let translation = mode === 'artifact_only' ? 'skipped'
+    let translation = !translationsRequested ? 'skipped'
       : !['source_published', 'no_changes'].includes(source) ? 'skipped'
       : translator === 'failed' ? 'translation_failed'
         : translator === 'no_changes' ? 'no_changes'
           : translationPublisher === 'published' ? 'translation_published'
             : translationPublisher === 'no_changes' ? 'no_changes' : 'translation_failed'
-    const entry = { source, translation, translationRequested: mode === 'publish' }
+    const entry = { source, translation, translationRequested: translationsRequested }
     if (source === 'source_published') entry.sourceCommitSha = env[`${prefix}_SOURCE_SHA`]
     if (translation === 'translation_published') entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
     if (translation === 'no_changes' && env[`${prefix}_TRANSLATION_SHA`]) entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
@@ -51,7 +52,13 @@ function buildAggregateInput(env) {
     }
     groups[group] = entry
   }
-  return { mode, requestedGroups, groups, finalVerification: mode === 'artifact_only' ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed') }
+  return {
+    mode,
+    requestedGroups,
+    groups,
+    revisionReconciliation: mode === 'artifact_only' || !translationsRequested ? 'skipped' : (env.REVISION_RECONCILIATION === 'passed' ? 'passed' : 'failed'),
+    finalVerification: mode === 'artifact_only' || !translationsRequested ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed'),
+  }
 }
 
 function main() {

@@ -1,0 +1,68 @@
+import {deepFreeze} from '../immutable.ts';
+import {SiteProfileSchema} from '../schema.ts';
+
+export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
+  id: 'zh-CN',
+  language: 'zh-Hans',
+  title: 'Zilliz Cloud 开发指南',
+  url: 'https://docs.zilliz.com.cn',
+  baseUrl: '/',
+  outputDir: 'build/zh-CN',
+  localization: {
+    defaultLocale: 'zh-CN',
+    translationRoot: 'i18n',
+    locales: [{id: 'zh-CN', htmlLang: 'zh-Hans', source: 'canonical'}],
+  },
+  content: [
+    {id: 'default', sourcePath: 'content/zh-CN/guides', routeBasePath: 'docs', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/guides.ts', exclude: ['tutorials/get-started/release-notes/release-notes.md']},
+    {id: 'byoc', sourcePath: 'content/zh-CN/byoc', routeBasePath: 'docs/byoc', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/byoc.ts'},
+    {id: 'onpremise', sourcePath: 'content/zh-CN/onpremise', routeBasePath: 'on-premise', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/onpremise.ts', currentVersionPath: 'v2.4.11'},
+    {id: 'reference', sourcePath: 'content/zh-CN/reference', routeBasePath: 'reference', sidebarPath: 'packages/site-config/src/sidebars/zh-CN/reference.ts'},
+  ],
+  manuals: [],
+  staticRoots: ['apps/docs/static/shared', 'apps/docs/static/zh-CN'],
+  features: {
+    chat: true,
+    askAi: true,
+    feedback: true,
+    cloudSelector: false,
+    byoc: true,
+    onpremise: true,
+    agents: false,
+    referenceKinds: ['python', 'java', 'nodejs', 'go', 'restful', 'cli'],
+  },
+  navigation: {
+    items: [],
+    secondaryItems: [
+      {label: 'Cloud 开发指南', href: '/docs/quick-start', prefix: '/docs', icon: 'cloud'},
+      {label: 'BYOC 开发指南', href: '/docs/byoc/quick-start', prefix: '/docs/byoc', icon: 'server'},
+      {
+        label: 'API & SDK',
+        prefix: '/reference',
+        icon: 'code',
+        items: [
+          {label: 'RESTful API', href: '/reference/restful', prefix: '/reference/restful', icon: 'rest'},
+          {label: 'Python SDK', href: '/reference/python', prefix: '/reference/python', icon: 'python'},
+          {label: 'Java SDK', href: '/reference/java', prefix: '/reference/java', icon: 'java'},
+          {label: 'Go SDK', href: '/reference/go', prefix: '/reference/go', icon: 'go'},
+          {label: 'Node.js SDK', href: '/reference/nodejs', prefix: '/reference/nodejs', icon: 'nodejs'},
+        ],
+      },
+      {label: 'CLI', href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal'},
+      {
+        label: '版本文档',
+        prefix: '/docs/changelogs',
+        icon: 'tag',
+        items: [
+          {label: '功能支持情况', href: '/docs/feature-availability', prefix: '/docs/feature-availability', icon: 'book'},
+          {label: '版本说明书', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'},
+        ],
+      },
+    ],
+  },
+  markdown: {remarkPlugins: ['math', 'math-brace-fix'], rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks']},
+  publicationAdapters: ['zh-CN.markdown-normalizer', 'zh-CN.rest-replacements', 'zh-CN.aliyun-oss'],
+  integrations: {searchProvider: 'local', chatProvider: 'inkeep'},
+  redirects: {rules: []},
+  robots: {index: true},
+}));

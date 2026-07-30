@@ -1,0 +1,87 @@
+name: publish documentation sites
+
+on:
+  workflow_dispatch:
+    inputs:
+      site: { description: Site selection, required: true, type: choice, options: [auto, en, zh-CN, all], default: auto }
+      source_ref: { description: Exact content ref, required: false, type: string, default: dev }
+      publish: { description: Publish validated artifacts, required: false, type: boolean, default: false }
+      environment: { description: Deployment environment, required: false, type: choice, options: [uat, prod], default: uat }
+      retention_days: { description: Artifact retention days, required: false, type: number, default: 14 }
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      build_sha: ${{ steps.ref.outputs.build_sha }}
+      build_en: ${{ steps.selection.outputs.build_en }}
+      build_zh_cn: ${{ steps.selection.outputs.build_zh_cn }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: ref
+        env: { SOURCE_REF: '${{ inputs.source_ref }}' }
+        run: |
+          set -euo pipefail
+          node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
+          git fetch --no-tags origin "$SOURCE_REF"
+          echo "build_sha=$(git rev-parse FETCH_HEAD)" >> "$GITHUB_OUTPUT"
+      - id: selection
+        env: { SITE: '${{ inputs.site }}', BUILD_SHA: '${{ steps.ref.outputs.build_sha }}' }
+        run: |
+          set -euo pipefail
+          case "$SITE" in
+            en) printf 'build_en=true\nbuild_zh_cn=false\n' >> "$GITHUB_OUTPUT" ;;
+            zh-CN) printf 'build_en=false\nbuild_zh_cn=true\n' >> "$GITHUB_OUTPUT" ;;
+            all) printf 'build_en=true\nbuild_zh_cn=true\n' >> "$GITHUB_OUTPUT" ;;
+            auto)
+              git cat-file -e "$BUILD_SHA^"
+              node deploy/contracts/evaluate-path-filters.mjs \
+                --base "$BUILD_SHA^" --head "$BUILD_SHA" \
+                --filters deploy/contracts/path-filters.json \
+                --github-output "$GITHUB_OUTPUT"
+              ;;
+            *) exit 2 ;;
+          esac
+
+  build_en:
+    needs: resolve
+    if: needs.resolve.outputs.build_en == 'true'
+    uses: ./.github/workflows/_build-publish-site.yml
+    with:
+      build_sha: ${{ needs.resolve.outputs.build_sha }}
+      site: en
+      environment: ${{ inputs.environment }}
+      publish: ${{ inputs.publish && inputs.site != 'all' }}
+      retention_days: ${{ inputs.retention_days }}
+
+  build_zh_cn:
+    needs: resolve
+    if: needs.resolve.outputs.build_zh_cn == 'true'
+    uses: ./.github/workflows/_build-publish-site.yml
+    with:
+      build_sha: ${{ needs.resolve.outputs.build_sha }}
+      site: zh-CN
+      environment: ${{ inputs.environment }}
+      publish: ${{ inputs.publish && inputs.site != 'all' }}
+      retention_days: ${{ inputs.retention_days }}
+
+  deploy_all:
+    needs: [resolve, build_en, build_zh_cn]
+    if: ${{ always() && inputs.site == 'all' && inputs.publish && needs.build_en.result == 'success' && needs.build_zh_cn.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: 'site-build-en-${{ needs.resolve.outputs.build_sha }}', path: '${{ runner.temp }}/en' }
+      - uses: actions/download-artifact@v4
+        with: { name: 'site-build-zh-CN-${{ needs.resolve.outputs.build_sha }}', path: '${{ runner.temp }}/zh-CN' }
+      - name: Require both validated deployment artifacts
+        run: |
+          test -s "$RUNNER_TEMP/en/build/en.provenance.json"
+          test -s "$RUNNER_TEMP/zh-CN/build/zh-CN.provenance.json"

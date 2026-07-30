@@ -1,0 +1,150 @@
+{
+  "records": [
+    {
+      "sourceHash": "e881131f6ef8ca6416f7b01dfbb37ece2cd0d7fef7a5ea54342ebcf2eb80c5a6",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/agents-and-prompts.md"
+    },
+    {
+      "sourceHash": "e9954dd30c6ffa05e57acbfe645cdbc15f1e77f9b35e1bcfa700489dbea3f4e3",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions.md"
+    },
+    {
+      "sourceHash": "eafc80b41812c7e22e9195d4f99fa20b88fa9bc87aa8c6de8362842abbbb314f",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration.md"
+    },
+    {
+      "sourceHash": "c7a4aaa1987e572e45102f25f07fa7d0d87f3e2e043be8331d7c2a4d28252963",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/indexes.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/indexes.md"
+    },
+    {
+      "sourceHash": "2f0cce1e20e706aa0fb1dd8aab08391c7a3c748d93aca98ab11d6feac5c522c5",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/on-demand-search.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/on-demand-search.md"
+    },
+    {
+      "sourceHash": "320f59a43de0157b25b12929cd345a3a86b4dd4c7335afa5b456476975b48ca1",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts.md"
+    },
+    {
+      "sourceHash": "d7cc42bda844010848ba7bd7954f6edd8c8297f206057c72afa21fe86d00be8c",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts.md"
+    },
+    {
+      "sourceHash": "b983d0dbd953c2d1c5a0fd58e18f46d9d1474dc2dc71adbddd52e7c27006527c",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts.md"
+    },
+    {
+      "sourceHash": "49a5cca21689812824a7ccd69aa55ff072b16f45ab580b8e325fb25bf82362e2",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts.md"
+    },
+    {
+      "sourceHash": "da620d67d441d6dbae0c688b6ddb8aba181af7820d43f4c9fd16d56099b8170d",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts.md"
+    },
+    {
+      "sourceHash": "fb915efd6b48234fb9f8c2f69e7ad621b1ef94507cf04d267553cffc2b78aca9",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts.md"
+    },
+    {
+      "sourceHash": "89d4efc7c066a459a7a229dddb20ecd7fb67d940c95bbd19db41bd2086eddade",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts.md"
+    },
+    {
+      "sourceHash": "99fdeeb04f7d5c21addf3216d80e935a98a68bddbcea4ef98a6acf4300358126",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts.md"
+    },
+    {
+      "sourceHash": "24cb07f0df0e9766ff0a902e363f2564bb0eb8fff218874c8ff429afca2fe021",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts.md"
+    },
+    {
+      "sourceHash": "e849aebdcf5becf5c1ef32f8db642a60d206e4f770eb615b55a52a1c86df527b",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts.md"
+    },
+    {
+      "sourceHash": "ba704a1345b3ba4fa242f6586f487985b1ef4f760d90f8f2402f28dca4e058e3",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts.md"
+    },
+    {
+      "sourceHash": "0c846eaa91c7791db505b06d213b1eb4ea9eddd1a02f21ed3e09fdf3f4089405",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-gemini-extension.md"
+    },
+    {
+      "sourceHash": "79b7242584b84efd4ee335dfb7c08cb0cd071b8effc4cdef6d032aeab58ee69e",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities.md"
+    },
+    {
+      "sourceHash": "0277d9c417e02fef39ae5a871824054537563dd33875ab366e5c43141947f7d6",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples.md"
+    },
+    {
+      "sourceHash": "e99e733f9b35d244323b80d2ff9adfc5ef04b9a9c70dd5df733726f9ae363aee",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup.md"
+    },
+    {
+      "sourceHash": "6dfc51d1275b94be57c0a0c6853c62978f364ba1015c0d0427908f51673973a8",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin.md"
+    },
+    {
+      "sourceHash": "f830efc6a08b1755697a7fdfb082134b30ab0239d937d5294da4bcc2c0e898ca",
+      "sourcePath": "content/en/guides/tutorials/tools/agents-and-prompts/zilliz-skill.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-skill.md"
+    },
+    {
+      "sourceHash": "b70c6cd66f3cda7365a8df70a1751a3e636e6a6a112856230d66876aaf74cc05",
+      "sourcePath": "content/en/guides/tutorials/tools/terraform-provider.md",
+      "status": "translated",
+      "targetPath": "content/zh-CN/guides/tutorials/tools/terraform-provider.md"
+    },
+    {
+      "kind": "sidebar",
+      "sourceHash": "cbc023d1d864d7aeff91c4f080579c7bd46d8080023928076d2e69402c9c1d8d",
+      "sourcePath": "generated/en/sidebars/guides.sidebar.js#category:tutorials/tools",
+      "status": "translated",
+      "targetPath": "generated/zh-CN/sidebars/tools.sidebar.js"
+    }
+  ],
+  "schemaVersion": 1
+}

@@ -112,26 +112,26 @@ function validatePreservedEnglishFiles({ cwd = process.cwd() } = {}) {
 }
 
 function main() {
-  const directory = path.join(process.cwd(), 'config/generated')
+  const directory = path.join(process.cwd(), 'generated/en/sidebars')
   const count = validateAllGeneratedSidebars(directory)
   console.log(`[sidebar-validation] validated ${count} generated sidebar file(s)`)
   for (const result of validateReferenceSidebarTargets({
     directory,
-    outputDir: path.join(process.cwd(), 'reference'),
+    outputDir: path.join(process.cwd(), 'content/en/reference'),
   })) {
     console.log(`[sidebar-validation] ${result.sidebar}: ${result.checked} doc target(s) checked`)
   }
   const preserved = validatePreservedEnglishFiles()
   console.log(`[sidebar-validation] ${preserved.checked} preserved landing page(s) checked`)
-  const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
+  const candidate = path.join(process.cwd(), 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')
   if (fs.existsSync(candidate)) {
     const applyOverrides = require('../config/applyOverrides')
     const { validateGuidesCoverage } = require('./validate-guides-coverage')
     const { validateGuidesSourceContract } = require('./validate-guides-source-contract')
     const snapshot = JSON.parse(fs.readFileSync(candidate, 'utf8'))
     for (const config of [
-      { target: 'zilliz.saas', outputDir: 'docs/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides.sidebar.js', overridePath: 'config/sidebar-overrides/guides.json', ignoredGeneratedIds: ['tutorials/home'] },
-      { target: 'zilliz.paas', outputDir: 'docs-byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides-byoc.sidebar.js', overridePath: 'config/sidebar-overrides/guides-byoc.json', ignoredGeneratedIds: [] },
+      { target: 'zilliz.saas', outputDir: 'content/en/guides/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides.sidebar.js', overridePath: 'sidebar-overrides/en/guides.json', ignoredGeneratedIds: ['tutorials/home'] },
+      { target: 'zilliz.paas', outputDir: 'content/en/byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js', overridePath: 'sidebar-overrides/en/guides-byoc.json', ignoredGeneratedIds: [] },
     ]) {
       delete require.cache[require.resolve(path.resolve(config.sidebarPath))]
       const sidebar = require(path.resolve(config.sidebarPath))

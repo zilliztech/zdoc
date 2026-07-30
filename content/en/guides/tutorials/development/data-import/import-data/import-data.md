@@ -1,0 +1,27 @@
+---
+title: "Import Data | Cloud"
+slug: /import-data
+sidebar_label: "Import Data"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "Once you have prepared your data by following the procedures in Prepare Data Import, you can start the data import on the Zilliz Cloud console, via RESTful API, or via SDKs. | Cloud"
+type: origin
+token: VTZZwCkkCi7FwnklLDhcMJwvnQb
+sidebar_position: 4
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Import Data
+
+Once you have prepared your data by following the procedures in [Prepare Data Import](./prepare-data-import), you can start the data import on the Zilliz Cloud console, via RESTful API, or via SDKs.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 5
+slug: /restful/delete-global-member-cluster-v2
+beta: FALSE
+title: "删除全球集群成员集群 (V2) | RESTful"
+description: "从全球集群中删除成员集群。从集群可直接删除；主集群只有在同一全球集群中的所有从集群均已删除后才能删除。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "删除全球集群成员集群 (V2)"
+sidebar_custom_props: { badges: ['delete']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "删除全球集群成员集群 (V2)"
+  - "delete"
+  - RESTful
+  - API
+---
+
+# 删除全球集群成员集群 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Delete Global Member Cluster","description":"Deletes a member cluster from a Global Cluster. A secondary member cluster can be deleted directly. The primary member cluster can be deleted only after all secondary member clusters in the same Global Cluster have been deleted.","tags":["Global Clusters (V2)"],"x-i18n":{"zh-CN":{"summary":"删除全球集群成员集群","description":"从全球集群中删除成员集群。从集群可直接删除；主集群只有在同一全球集群中的所有从集群均已删除后才能删除。"}},"parameters":[{"name":"globalClusterId","in":"path","description":"ID of the Global Cluster.","required":true,"example":"glo-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"全球集群 ID。"}}},{"name":"clusterId","in":"path","description":"Member cluster ID to delete. It can be either a primary or secondary member cluster ID.","required":true,"example":"in01-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"要删除的成员集群 ID，可以是主集群或从集群 ID。"}}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}}],"responses":{"200":{"description":"Returns information about the deleted member cluster.","x-i18n":{"zh-CN":{"description":"返回已删除成员集群的信息。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"globalClusterId":{"type":"string","description":"Global Cluster ID.","x-i18n":{"zh-CN":{"description":"全球集群 ID。"}},"example":"glo-xxxxxxxxxxxxxxx"},"clusterId":{"type":"string","description":"Deleted member cluster ID.","x-i18n":{"zh-CN":{"description":"已删除成员集群 ID。"}},"example":"in01-xxxxxxxxxxxxxxx"},"prompt":{"type":"string","description":"Deletion prompt shown to users.","x-i18n":{"zh-CN":{"description":"展示给用户的删除提示。"}},"example":"The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."}}},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":400},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}},"example":"Invalid request parameters."}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"globalClusterId":"glo-xxxxxxxxxxxxxxx","clusterId":"in01-xxxxxxxxxxxxxxx","prompt":"The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":400,"message":"Invalid request parameters."}}}}}}}}
+export const endpoint = "/v2/globalClusters/{globalClusterId}/clusters/{clusterId}"
+export const method = "delete"

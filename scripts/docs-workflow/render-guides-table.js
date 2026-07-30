@@ -4,13 +4,18 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { spawnSync: defaultSpawnSync } = require('node:child_process')
+const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts')
 
 function tableOutputPath(entry) {
   if (!entry?.table_slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.table_slug)) throw new Error('Invalid Guides table slug')
+  const site = resolveBootstrapSite(entry.site)
+  if (site === 'zh-CN' && entry.target === 'zilliz.saas' && entry.table_slug === 'tools') {
+    throw new Error('Chinese Guides source publication cannot render the Agent-owned Tools table')
+  }
   const root = entry.target === 'zilliz.saas'
-    ? 'docs/tutorials'
+    ? `tmp/docs-tooling/${site}/guides/content/${site}/guides/tutorials`
     : entry.target === 'zilliz.paas'
-      ? 'docs-byoc/tutorials'
+      ? `tmp/docs-tooling/${site}/guides-byoc/content/${site}/byoc/tutorials`
       : null
   if (!root) throw new Error(`Invalid Guides target: ${entry.target}`)
   return `${root}/${entry.table_slug}`
@@ -25,12 +30,13 @@ function renderGuidesTable(options) {
   if (options.cleanup) return { outputPath, cleanup: true }
 
   const args = [
-    'docusaurus', 'fetch-lark-docs', '-man', 'guides', '-tar', options.target,
+    path.join(workspace, 'packages/docs-tooling/src/lark/standalone-cli.js'),
+    'fetch-lark-docs', '-man', 'guides', '-tar', options.target,
     '-token', `base:${options.table_id}`, '-skipS', '--buildEnv', 'uat',
-    '--snapshotCandidatePath', 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
-    '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json',
+    '--snapshotCandidatePath', 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
+    '--offline', '--mediaManifest', 'packages/docs-tooling/src/lark/meta/media-cache/guides.json',
   ]
-  const result = spawnSync('npx', args, { cwd: workspace, stdio: 'inherit', env: process.env })
+  const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
   if (result.error) throw new Error(`Guides table render could not start: ${result.error.message}`)
   if (result.status !== 0) throw new Error(`Guides table render failed with status ${result.status}`)
   return { outputPath, cleanup: false }
