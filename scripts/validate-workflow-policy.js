@@ -850,12 +850,24 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const sourceGroups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
     const sourceBarrier = caller?.jobs?.source_publication_barrier
     const sourceBarrierNeeds = Array.isArray(sourceBarrier?.needs) ? sourceBarrier.needs : []
-    const expectedSourceBarrierNeeds = ['prepare', ...sourceGroups.map(group => `publish_${group}`)]
+    const expectedSourceBarrierNeeds = ['prepare', 'publish_guides', 'publish_zh_guides', ...sourceGroups.filter(group => group !== 'guides').map(group => `publish_${group}`)]
     const sourceBarrierSteps = sourceBarrier?.steps || []
     if (JSON.stringify(sourceBarrierNeeds) !== JSON.stringify(expectedSourceBarrierNeeds) ||
         !String(sourceBarrier?.if || '').includes("needs.prepare.outputs.publish == 'true'") ||
-        sourceBarrierSteps.at(-1)?.run !== 'node scripts/docs-workflow/source-publication-barrier.js') {
+        !/ZH_GUIDES_RESULT[\s\S]*ZH_GUIDES_STATUS/.test(JSON.stringify(sourceBarrierSteps.at(-1)?.env || {})) ||
+        !/\[\[ "\$ZH_GUIDES_RESULT" == success[\s\S]*"\$ZH_GUIDES_STATUS" == published[\s\S]*node scripts\/docs-workflow\/source-publication-barrier\.js/.test(sourceBarrierSteps.at(-1)?.run || '')) {
       errors.push('fetch-docs.yml: source publication barrier must verify every selected source publisher before paid translation')
+    }
+    const zhSource = caller?.jobs?.produce_zh_guides_sources
+    const zhRender = caller?.jobs?.render_zh_guides_tables
+    const zhAssemble = caller?.jobs?.produce_zh_guides
+    const zhPublish = caller?.jobs?.publish_zh_guides
+    if (zhSource?.with?.site !== 'zh-CN' || zhRender?.with?.site !== 'zh-CN' || zhAssemble?.with?.site !== 'zh-CN' ||
+        JSON.stringify(zhRender?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides_sources']) ||
+        JSON.stringify(zhAssemble?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides_sources', 'render_zh_guides_tables']) ||
+        JSON.stringify(zhPublish?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides', 'publish_guides']) ||
+        zhPublish?.with?.group !== 'guides' || !/build:zh-CN/.test(zhPublish?.with?.validate_command || '')) {
+      errors.push('fetch-docs.yml: Chinese Guides must use a complete site-qualified lane and serialize after English publication')
     }
     const paidTranslationJobs = [
       'translate_guides_batches',

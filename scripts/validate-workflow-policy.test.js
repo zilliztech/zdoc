@@ -604,9 +604,9 @@ test('all paid translation waits for successful selected source publication', ()
   const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
   const barrier = workflow.jobs.source_publication_barrier
-  assert.deepEqual(barrier.needs, ['prepare', ...groups.map(group => `publish_${group}`)])
+  assert.deepEqual(barrier.needs, ['prepare', 'publish_guides', 'publish_zh_guides', ...groups.filter(group => group !== 'guides').map(group => `publish_${group}`)])
   assert.match(barrier.if, /always\(\).*needs\.prepare\.outputs\.publish == 'true'/)
-  assert.equal(barrier.steps.at(-1).run, 'node scripts/docs-workflow/source-publication-barrier.js')
+  assert.match(barrier.steps.at(-1).run, /\[\[ "\$ZH_GUIDES_RESULT" == success[\s\S]*"\$ZH_GUIDES_STATUS" == published[\s\S]*node scripts\/docs-workflow\/source-publication-barrier\.js/)
   const paidJobs = [
     'translate_guides_batches',
     ...['python', 'java', 'node', 'go', 'cli', 'rest'].map(group => `translate_${group}`),
@@ -619,6 +619,22 @@ test('all paid translation waits for successful selected source publication', ()
     assert.equal(needs.includes('source_publication_barrier'), true, jobName)
     assert.match(job.if, /needs\.source_publication_barrier\.result == 'success'/, jobName)
   }
+})
+
+test('Chinese Guides uses a complete lane and publishes after English Guides', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  assert.equal(workflow.jobs.produce_guides_sources.with.site, 'en')
+  assert.equal(workflow.jobs.render_guides_tables.with.site, 'en')
+  assert.equal(workflow.jobs.produce_guides.with.site, 'en')
+  assert.equal(workflow.jobs.produce_zh_guides_sources.with.site, 'zh-CN')
+  assert.equal(workflow.jobs.render_zh_guides_tables.with.site, 'zh-CN')
+  assert.equal(workflow.jobs.produce_zh_guides.with.site, 'zh-CN')
+  assert.deepEqual(workflow.jobs.render_zh_guides_tables.needs, ['prepare', 'produce_zh_guides_sources'])
+  assert.deepEqual(workflow.jobs.produce_zh_guides.needs, ['prepare', 'produce_zh_guides_sources', 'render_zh_guides_tables'])
+  assert.deepEqual(workflow.jobs.publish_zh_guides.needs, ['prepare', 'produce_zh_guides', 'publish_guides'])
+  assert.equal(workflow.jobs.publish_zh_guides.with.group, 'guides')
+  assert.match(workflow.jobs.publish_zh_guides.with.validate_command, /build:zh-CN/)
+  assert.equal(workflow.jobs.prepare_guides_translation_batches.with.source_sha, '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}')
 })
 
 test('job-level env must not reference the runner context', () => {

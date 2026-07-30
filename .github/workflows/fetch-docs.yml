@@ -209,6 +209,64 @@ jobs:
       cache_save_required: ${{ needs.produce_guides_sources.outputs.cache_save_required }}
       assembly_decision_sha256: ${{ needs.produce_guides_sources.outputs.assembly_decision_sha256 }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+
+  produce_zh_guides_sources:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+    uses: ./.github/workflows/_fetch-guides-sources.yml
+    with:
+      site: zh-CN
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  render_zh_guides_tables:
+    name: render_zh_guides_tables / ${{ matrix.target_name }} / ${{ matrix.table_name }}
+    needs: [prepare, produce_zh_guides_sources]
+    if: ${{ needs.produce_zh_guides_sources.outputs.status == 'artifact_ready' && needs.produce_zh_guides_sources.outputs.table_count != '0' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.produce_zh_guides_sources.outputs.table_matrix) }}
+    uses: ./.github/workflows/_render-guides-table.yml
+    with:
+      site: zh-CN
+      table_id: ${{ matrix.table_id }}
+      table_name: ${{ matrix.table_name }}
+      table_slug: ${{ matrix.table_slug }}
+      target: ${{ matrix.target }}
+      target_name: ${{ matrix.target_name }}
+      cleanup: ${{ matrix.cleanup }}
+      source_artifact_name: ${{ needs.produce_zh_guides_sources.outputs.artifact_name }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+
+  produce_zh_guides:
+    needs: [prepare, produce_zh_guides_sources, render_zh_guides_tables]
+    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides_sources.outputs.status == 'artifact_ready' && (needs.render_zh_guides_tables.result == 'success' || needs.render_zh_guides_tables.result == 'skipped') }}
+    uses: ./.github/workflows/_assemble-guides.yml
+    with:
+      site: zh-CN
+      source_artifact_name: ${{ needs.produce_zh_guides_sources.outputs.artifact_name || 'unavailable' }}
+      table_matrix: ${{ needs.produce_zh_guides_sources.outputs.table_matrix || '{"include":[]}' }}
+      table_count: ${{ needs.produce_zh_guides_sources.outputs.table_count || '0' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      cache_version: ${{ needs.produce_zh_guides_sources.outputs.cache_version }}
+      cache_save_required: ${{ needs.produce_zh_guides_sources.outputs.cache_save_required }}
+      assembly_decision_sha256: ${{ needs.produce_zh_guides_sources.outputs.assembly_decision_sha256 }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+
   produce_python:
     needs: prepare
     if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python' }}
@@ -336,14 +394,27 @@ jobs:
     with:
       group: guides
       artifact_name: ${{ needs.produce_guides.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(guides): publish fetched content'
+      commit_message: 'docs(guides): publish fetched English content'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_guides.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
 
+  publish_zh_guides:
+    needs: [prepare, produce_zh_guides, publish_guides]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.publish_guides.result == 'success' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: guides
+      artifact_name: ${{ needs.produce_zh_guides.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(guides): publish fetched Chinese content'
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && pnpm run build:zh-CN'
+
   source_publication_barrier:
-    needs: [prepare, publish_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
+    needs: [prepare, publish_guides, publish_zh_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -355,6 +426,8 @@ jobs:
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
           GUIDES_RESULT: ${{ needs.publish_guides.result }}
           GUIDES_STATUS: ${{ needs.publish_guides.outputs.status }}
+          ZH_GUIDES_RESULT: ${{ needs.publish_zh_guides.result }}
+          ZH_GUIDES_STATUS: ${{ needs.publish_zh_guides.outputs.status }}
           PYTHON_RESULT: ${{ needs.publish_python.result }}
           PYTHON_STATUS: ${{ needs.publish_python.outputs.status }}
           JAVA_RESULT: ${{ needs.publish_java.result }}
@@ -367,7 +440,11 @@ jobs:
           CLI_STATUS: ${{ needs.publish_cli.outputs.status }}
           REST_RESULT: ${{ needs.publish_rest.result }}
           REST_STATUS: ${{ needs.publish_rest.outputs.status }}
-        run: node scripts/docs-workflow/source-publication-barrier.js
+        run: |
+          if [[ "$SELECTED_GROUP" == all || "$SELECTED_GROUP" == guides ]]; then
+            [[ "$ZH_GUIDES_RESULT" == success && ( "$ZH_GUIDES_STATUS" == published || "$ZH_GUIDES_STATUS" == no_changes ) ]]
+          fi
+          node scripts/docs-workflow/source-publication-barrier.js
 
   prepare_guides_translation_batches:
     needs: [prepare, publish_guides]
@@ -851,7 +928,7 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
   aggregate:
-    needs: [prepare, produce_guides, publish_guides, prepare_guides_translation_batches, translate_guides_batches, publish_guides_translation_batches, finalize_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, resolve_final, verify]
+    needs: [prepare, produce_guides, publish_guides, produce_zh_guides, publish_zh_guides, prepare_guides_translation_batches, translate_guides_batches, publish_guides_translation_batches, finalize_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, resolve_final, verify]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -874,6 +951,9 @@ jobs:
           GUIDES_PRODUCER: ${{ needs.produce_guides.outputs.status }}
           GUIDES_SOURCE: ${{ needs.publish_guides.outputs.status }}
           GUIDES_SOURCE_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
+          ZH_GUIDES_PRODUCER: ${{ needs.produce_zh_guides.outputs.status }}
+          ZH_GUIDES_SOURCE: ${{ needs.publish_zh_guides.outputs.status }}
+          ZH_GUIDES_SOURCE_SHA: ${{ needs.publish_zh_guides.outputs.commit_sha }}
           GUIDES_TRANSLATOR: ${{ needs.finalize_guides_translation.outputs.translator_status }}
           GUIDES_TRANSLATION: ${{ needs.finalize_guides_translation.outputs.publisher_status }}
           GUIDES_TRANSLATION_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha }}
