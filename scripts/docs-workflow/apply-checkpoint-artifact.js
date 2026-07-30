@@ -104,10 +104,32 @@ function compareManifestRecords(left, right) {
   return 0;
 }
 
+function mergeRecordEntries(baseline, artifact, target, prefix) {
+  const missing = Symbol('missing');
+  const result = {};
+  for (const key of [...new Set([...Object.keys(baseline), ...Object.keys(artifact), ...Object.keys(target)])].sort()) {
+    const b = Object.hasOwn(baseline, key) ? baseline[key] : missing;
+    const a = Object.hasOwn(artifact, key) ? artifact[key] : missing;
+    const t = Object.hasOwn(target, key) ? target[key] : missing;
+    if ([b, a, t].every(value => value !== missing && value && typeof value === 'object' && !Array.isArray(value))) {
+      result[key] = mergeRecord(b, a, t, `${prefix}${key}.`);
+      continue;
+    }
+    const merged = mergeRecord(
+      b === missing ? {} : {[key]: b},
+      a === missing ? {} : {[key]: a},
+      t === missing ? {} : {[key]: t},
+      prefix,
+    );
+    if (Object.hasOwn(merged, key)) result[key] = merged[key];
+  }
+  return result;
+}
+
 function mergeRecordCollection(baseline, artifact, target, field) {
   const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field)));
   const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
-  result[field] = Object.values(mergeRecord(
+  result[field] = Object.values(mergeRecordEntries(
     recordsBySource(baseline, field, 'Baseline'),
     recordsBySource(artifact, field, 'Artifact'),
     recordsBySource(target, field, 'Target'),

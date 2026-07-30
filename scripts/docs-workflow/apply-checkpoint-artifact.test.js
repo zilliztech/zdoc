@@ -103,11 +103,11 @@ test('three-way merges translation cache changes and writes deterministic JSON',
 test('three-way merges Chinese translation manifests by immutable source-relative key', async () => {
   const statePath = 'generated/zh-CN/manifests/reference-translations.json';
   const record = (manual, sourcePath, value) => ({manual, sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});
-  const python = record('python', 'content/en/reference/a.md', 1);
+  const python = {...record('python', 'content/en/reference/a.md', 1), sourceCommit: 'old'};
   const baseline = {schemaVersion: 1, records: [python]};
   const artifact = {schemaVersion: 1, records: [{...python, value: 2}]};
   const target = {schemaVersion: 1, records: [
-    python,
+    {...python, sourceCommit: 'new'},
     record('java', 'content/en/reference/z.md', 3),
     record('python', 'content/en/reference/Z.md', 4),
   ]};
@@ -130,7 +130,7 @@ test('three-way merges Chinese translation manifests by immutable source-relativ
     records: [
       record('java', 'content/en/reference/z.md', 3),
       record('python', 'content/en/reference/Z.md', 4),
-      {...python, value: 2},
+      {...python, sourceCommit: 'new', value: 2},
     ],
   });
 });
