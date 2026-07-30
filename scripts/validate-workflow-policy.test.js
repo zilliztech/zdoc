@@ -64,9 +64,9 @@ test('translation workflows declare immutable target identity and exact target v
 
   const wrapper = yaml.load(fs.readFileSync('.github/workflows/translate-content.yml', 'utf8'))
   assert.deepEqual(wrapper.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
-  for (const boundary of ['workflow_dispatch', 'workflow_call']) {
-    for (const input of ['tooling_sha', 'source_sha']) assert.equal(wrapper.on[boundary].inputs[input]?.required, true)
-  }
+  assert.equal(wrapper.on.workflow_dispatch.inputs.tooling_sha?.required, true)
+  assert.equal(wrapper.on.workflow_dispatch.inputs.source_ref?.default, 'dev')
+  for (const input of ['tooling_sha', 'source_sha']) assert.equal(wrapper.on.workflow_call.inputs[input]?.required, true)
   assert.equal(wrapper.concurrency, undefined)
   const wrapperSource = fs.readFileSync('.github/workflows/translate-content.yml', 'utf8')
   assert.ok(wrapperSource.indexOf('name: Validate immutable translation identities') < wrapperSource.indexOf('uses: actions/checkout@v4'))
@@ -1976,4 +1976,23 @@ test('manual translation wrapper calls the target-aware reusable workflow withou
   assert.doesNotMatch(workflow, /secrets: inherit/)
   assert.match(workflow, /secrets:\n      TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}\n      REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/)
   assert.match(workflow, /target_branch: \$\{\{ inputs\.target_branch \}\}/)
+})
+
+test('top-level production workflows resolve separate tooling and source refs once', () => {
+  const fetchWorkflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
+  assert.equal(fetchWorkflow.on.workflow_dispatch.inputs.tooling_ref.default, 'master')
+  assert.equal(fetchWorkflow.on.workflow_dispatch.inputs.source_ref.default, 'dev')
+  for (const output of ['tooling_sha', 'source_sha']) assert.ok(fetchWorkflow.jobs.prepare.outputs[output])
+  const fetchSource = fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8')
+  assert.match(fetchSource, /SOURCE_REF: \$\{\{ github\.event\.inputs\.source_ref \|\| 'dev' \}\}/)
+  assert.match(fetchSource, /tooling_sha=%s\\nsource_sha=%s/)
+
+  const translationWorkflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-content.yml'), 'utf8'))
+  assert.equal(translationWorkflow.on.workflow_dispatch.inputs.source_ref.default, 'dev')
+  assert.equal(translationWorkflow.on.workflow_dispatch.inputs.source_sha, undefined)
+  assert.equal(translationWorkflow.on.workflow_call.inputs.source_sha.required, true)
+  const translationSource = fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-content.yml'), 'utf8')
+  assert.match(translationSource, /SOURCE_REF: \$\{\{ inputs\.source_ref \}\}/)
+  assert.match(translationSource, /source_sha=\$\(git rev-parse/)
+  assert.match(translationSource, /ref: ['"]?\$\{\{ inputs\.tooling_sha \}\}['"]?/)
 })

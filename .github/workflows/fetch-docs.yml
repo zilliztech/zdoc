@@ -23,6 +23,10 @@ on:
         description: Tooling ref override; exact SHA allowed for controlled dev publication
         type: string
         default: master
+      source_ref:
+        description: English content baseline branch, tag, or exact SHA
+        type: string
+        default: dev
   schedule:
     - cron: "0 2,10,18 * * *"
 
@@ -39,6 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
+      tooling_sha: ${{ steps.refs.outputs.tooling_sha }}
+      source_sha: ${{ steps.refs.outputs.source_sha }}
       master_sha: ${{ steps.refs.outputs.master_sha }}
       dev_baseline_sha: ${{ steps.refs.outputs.dev_baseline_sha }}
       target_branch: ${{ steps.refs.outputs.target_branch }}
@@ -50,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master
+          ref: ${{ github.sha }}
           fetch-depth: 0
       - id: refs
         name: Resolve immutable refs and selection
@@ -60,6 +66,7 @@ jobs:
           TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}
           PUBLISH: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.publish == 'true' }}
           TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
+          SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
         run: |
           set -euo pipefail
           if [[ "$TARGET_BRANCH" == -* || "$TARGET_BRANCH" == *:* || "$TARGET_BRANCH" == *$'\n'* || "$TARGET_BRANCH" == *$'\r'* ]]; then
@@ -84,9 +91,12 @@ jobs:
             master_sha=$(git rev-parse "refs/remotes/origin/$tooling_ref")
           fi
           git cat-file -e "$master_sha^{commit}"
-          git fetch --no-tags origin "refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
-          dev_baseline_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH")
-          [[ "$master_sha" =~ ^[0-9a-f]{40}$ && "$dev_baseline_sha" =~ ^[0-9a-f]{40}$ ]]
+          node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
+          git fetch --no-tags origin "$SOURCE_REF"
+          source_sha=$(git rev-parse FETCH_HEAD)
+          tooling_sha=$master_sha
+          dev_baseline_sha=$source_sha
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ ]]
           case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest) ;; *) exit 2 ;; esac
           [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]]
           git checkout --detach "$master_sha"
@@ -106,7 +116,7 @@ jobs:
             [[ "$PUBLISH" == true ]] && card_parts+=(Verify)
           fi
           card_stages=$(IFS=,; echo "${card_parts[*]}")
-          printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
+          printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22.6', cache: pnpm }

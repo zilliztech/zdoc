@@ -10,7 +10,7 @@ on:
         options: [ja-JP, zh-CN-reference, zh-CN-tools]
       group: { description: Translation group, required: true, type: string }
       tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
-      source_sha: { description: Exact source checkpoint SHA, required: true, type: string }
+      source_ref: { description: English source branch, tag, or exact SHA, required: false, default: dev }
       max_files: { description: Maximum files, required: false, default: '500' }
       target_branch: { description: Existing publication branch, required: false, default: dev }
   workflow_call:
@@ -21,6 +21,7 @@ on:
       target_branch: { required: false, type: string, default: dev }
       tooling_sha: { required: true, type: string }
       source_sha: { required: true, type: string }
+      source_ref: { required: false, type: string, default: '' }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -42,8 +43,7 @@ jobs:
       - name: Validate immutable translation identities
         env:
           TOOLING_SHA: ${{ inputs.tooling_sha }}
-          SOURCE_SHA: ${{ inputs.source_sha }}
-        run: node -e 'for(const [name,value] of Object.entries(process.env))if(["TOOLING_SHA","SOURCE_SHA"].includes(name)&&!/^[0-9a-f]{40}$/.test(value))throw new Error(`${name} must be an exact lowercase 40-character SHA`)'
+        run: node -e 'if(!/^[0-9a-f]{40}$/.test(process.env.TOOLING_SHA))throw new Error("TOOLING_SHA must be an exact lowercase 40-character SHA")'
       - uses: actions/checkout@v4
         with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
       - id: refs
@@ -53,6 +53,7 @@ jobs:
           TARGET_BRANCH: ${{ inputs.target_branch }}
           TOOLING_SHA: ${{ inputs.tooling_sha }}
           SOURCE_SHA: ${{ inputs.source_sha }}
+          SOURCE_REF: ${{ inputs.source_ref }}
         run: |
           set -euo pipefail
           case "$TRANSLATION_TARGET" in
@@ -62,10 +63,18 @@ jobs:
             *) exit 2 ;;
           esac
           git check-ref-format --branch "$TARGET_BRANCH"
-          git fetch --no-tags origin "$SOURCE_SHA"
           git cat-file -e "$TOOLING_SHA^{commit}"
-          git cat-file -e "$SOURCE_SHA^{commit}"
-          printf 'tooling_sha=%s\nsource_sha=%s\nsource_group=%s\ntarget_branch=%s\n' "$TOOLING_SHA" "$SOURCE_SHA" "$source_group" "$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
+          if [[ -n "$SOURCE_SHA" ]]; then
+            [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'source_sha must be an exact lowercase 40-character SHA' >&2; exit 2; }
+            git fetch --no-tags origin "$SOURCE_SHA"
+            source_sha=$(git rev-parse FETCH_HEAD)
+          else
+            node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
+            git fetch --no-tags origin "$SOURCE_REF"
+            source_sha=$(git rev-parse FETCH_HEAD)
+          fi
+          git cat-file -e "$source_sha^{commit}"
+          printf 'tooling_sha=%s\nsource_sha=%s\nsource_group=%s\ntarget_branch=%s\n' "$TOOLING_SHA" "$source_sha" "$source_group" "$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
 
   translate:
     needs: prepare

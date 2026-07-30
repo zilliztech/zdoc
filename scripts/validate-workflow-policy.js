@@ -809,7 +809,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === 'translate-content.yml') {
       const dispatchInputs = workflow.on?.workflow_dispatch?.inputs || {}
       const callInputs = workflow.on?.workflow_call?.inputs || {}
-      if (['tooling_sha', 'source_sha'].some(input => dispatchInputs[input]?.required !== true || callInputs[input]?.required !== true)) errors.push(`${file}: public translation boundaries must require exact tooling and source SHAs`)
+      if (
+        dispatchInputs.tooling_sha?.required !== true
+        || dispatchInputs.source_ref?.default !== 'dev'
+        || callInputs.tooling_sha?.required !== true
+        || callInputs.source_sha?.required !== true
+      ) errors.push(`${file}: manual translation must resolve source_ref while reusable callers pass exact immutable SHAs`)
       const steps = workflow.jobs?.prepare?.steps || []
       const validationIndex = steps.findIndex(step => step?.name === 'Validate immutable translation identities')
       const checkoutIndex = steps.findIndex(step => String(step?.uses || '').startsWith('actions/checkout@'))
