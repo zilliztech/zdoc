@@ -152,6 +152,29 @@ test('validation worktree can use dependencies installed in the publisher checko
   assert.match(result.stdout, /status=published/);
 });
 
+test('validation uses pinned publisher tooling when the target branch predates that tooling', () => {
+  const s = setup(), work = path.join(s.root, 'work');
+  const targetSha = git(s.seed, 'rev-parse', 'HEAD');
+  writeFileSync(path.join(s.seed, 'validate-with-pinned-tooling.js'), [
+    "const fs = require('node:fs')",
+    "if (!fs.existsSync('content/en/guides/tutorials/a.md')) process.exit(2)",
+    "if (fs.readFileSync('content/en/guides/tutorials/a.md', 'utf8') !== 'new\\n') process.exit(3)",
+    '',
+  ].join('\n'));
+  git(s.seed, 'add', 'validate-with-pinned-tooling.js');
+  git(s.seed, 'commit', '-m', 'add pinned validation tooling');
+  assert.equal(git(s.remote, 'rev-parse', 'refs/heads/dev'), targetSha);
+  execFileSync('cp', ['-R', s.seed, work]);
+  writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
+  const publishArgs = args(artifact(s.root, s.seed, work));
+  publishArgs[publishArgs.indexOf('test -f content/en/guides/tutorials/a.md')] = 'node validate-with-pinned-tooling.js';
+
+  const result = publish(s.seed, publishArgs);
+
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /status=published/);
+});
+
 test('checksum failure happens before fetch or push', () => {
   const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n'); const a = artifact(s.root, s.seed, work);
   writeFileSync(path.join(realpathSync(a), 'payload/content/en/guides/tutorials/a.md'), 'tampered\n'); const env = gitWrapper(s.root, 'pass', s.seed), r = publish(s.seed, args(a), env);

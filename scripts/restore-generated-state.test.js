@@ -16,8 +16,17 @@ const restorePaths = [
   'docs-byoc',
   'reference',
   'i18n',
+  'content/en',
   '.translation-cache',
   'config/generated',
+  'generated/en/sidebars/guides.sidebar.js',
+  'generated/en/sidebars/guides-byoc.sidebar.js',
+  'generated/en/sidebars/python.sidebar.js',
+  'generated/en/sidebars/java.sidebar.js',
+  'generated/en/sidebars/node.sidebar.js',
+  'generated/en/sidebars/go.sidebar.js',
+  'generated/en/sidebars/cli.sidebar.js',
+  'generated/en/sidebars/restful.sidebar.js',
   revisionInventoryRoot,
   'packages/docs-tooling/src/lark/meta/snapshots',
   'packages/docs-tooling/src/lark/meta/assembly',
@@ -61,7 +70,8 @@ function createFixture() {
   git(source, 'remote', 'add', 'origin', origin)
 
   for (const restorePath of RESTORE_PATHS) {
-    write(source, path.join(restorePath, 'state.txt'), `old:${restorePath}\n`)
+    const fixturePath = restorePath.endsWith('.js') ? restorePath : path.join(restorePath, 'state.txt')
+    write(source, fixturePath, `old:${restorePath}\n`)
   }
   git(source, 'add', '.')
   git(source, 'commit', '-m', 'old generated state')
@@ -101,7 +111,7 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
-  assert.deepEqual(actualPaths.filter((entry) => entry !== revisionInventoryRoot), RESTORE_PATHS)
+  for (const requiredPath of RESTORE_PATHS) assert.ok(actualPaths.includes(requiredPath), requiredPath)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
@@ -213,10 +223,38 @@ test('exact immutable ref restores revision inventories from the target commit',
   }
 })
 
-test('exact immutable ref removes absent revision inventories without claiming unrelated generated paths', () => {
+test('exact immutable ref restores unified Guides source authority from the target commit', () => {
+  const fixture = createFixture()
+  const guides = 'content/en/guides/tutorials/source.md'
+  const byoc = 'content/en/byoc/tutorials/source.md'
+  const sidebar = 'generated/en/sidebars/guides.sidebar.js'
+  try {
+    for (const [relative, contents] of [[guides, 'published guides\n'], [byoc, 'published byoc\n'], [sidebar, 'module.exports = ["published"]\n']]) {
+      write(fixture.source, relative, contents)
+    }
+    git(fixture.source, 'add', 'content/en', 'generated/en/sidebars')
+    git(fixture.source, 'commit', '-m', 'publish unified Guides authority')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, guides, 'stale tooling guides\n')
+    write(fixture.work, byoc, 'stale tooling byoc\n')
+    write(fixture.work, sidebar, 'module.exports = ["stale"]\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, guides), 'utf8'), 'published guides\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, byoc), 'utf8'), 'published byoc\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, sidebar), 'utf8'), 'module.exports = ["published"]\n')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref removes absent revision inventories without claiming tooling-owned sidebar helpers', () => {
   const fixture = createFixture()
   const inventoryRoot = 'generated/en/manifests/lark-revisions'
-  const unrelated = 'generated/en/sidebars/unmanaged.txt'
+  const toolingSidebarHelper = 'generated/en/sidebars/unmanaged.txt'
   try {
     write(fixture.source, `${inventoryRoot}/keep.json`, '{"keep":true}\n')
     git(fixture.source, 'add', '-A', inventoryRoot)
@@ -225,13 +263,13 @@ test('exact immutable ref removes absent revision inventories without claiming u
     git(fixture.source, 'push', 'origin', 'dev')
 
     write(fixture.work, `${inventoryRoot}/state.txt`, 'stale workspace inventory\n')
-    write(fixture.work, unrelated, 'outside restore contract\n')
+    write(fixture.work, toolingSidebarHelper, 'tooling-owned sidebar helper\n')
     const result = run(fixture.work, ['--exact', '--ref', sourceSha])
 
     assert.equal(result.status, 0, result.stderr)
     assert.equal(fs.existsSync(path.join(fixture.work, inventoryRoot, 'state.txt')), false)
     assert.equal(fs.readFileSync(path.join(fixture.work, inventoryRoot, 'keep.json'), 'utf8'), '{"keep":true}\n')
-    assert.equal(fs.readFileSync(path.join(fixture.work, unrelated), 'utf8'), 'outside restore contract\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, toolingSidebarHelper), 'utf8'), 'tooling-owned sidebar helper\n')
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }

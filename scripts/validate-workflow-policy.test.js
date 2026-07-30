@@ -501,6 +501,18 @@ test('workflow policy independently requires checkpoint stage selection and veri
       token: 'checkpoint-stage-paths.js" verify',
       expected: 'publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope',
     },
+    {
+      token: 'docs-validation.XXXXXX',
+      expected: 'publish-checkpoint.sh: checkpoint publisher must validate with pinned tooling',
+    },
+    {
+      token: 'restore-generated-state.sh" --exact --ref "$target_sha"',
+      expected: 'publish-checkpoint.sh: checkpoint publisher must materialize the exact target state for validation',
+    },
+    {
+      token: 'cd "$validation_worktree" && bash -o errexit',
+      expected: 'publish-checkpoint.sh: checkpoint publisher must run validation in the pinned tooling worktree',
+    },
   ]
 
   for (const fixture of cases) {
@@ -508,7 +520,7 @@ test('workflow policy independently requires checkpoint stage selection and veri
     const publisherPath = path.join(directory, 'publish-checkpoint.sh')
     try {
       assert.ok(publisherSource.includes(fixture.token))
-      fs.writeFileSync(publisherPath, publisherSource.replace(fixture.token, fixture.token.replace(/ (select|verify)$/, ' missing_$1')))
+      fs.writeFileSync(publisherPath, publisherSource.replace(fixture.token, 'REMOVED_POLICY_TOKEN'))
       assert.ok(validateWorkflowPolicies(undefined, { publisherPath }).includes(fixture.expected))
     } finally {
       fs.rmSync(directory, { recursive: true, force: true })
@@ -1894,6 +1906,19 @@ test('durable translation batch preparation uses the same source delta as batch 
   assert.match(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
   assert.match(workflow, /sourceDelta\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
   assert.match(workflow, /manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/)
+})
+
+test('fetch preparation blocks paid translation until publication readiness regressions pass', () => {
+  const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
+  const steps = workflow.jobs.prepare.steps
+  const installIndex = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
+  const readinessIndex = steps.findIndex(step => step.name === 'Verify translation publication readiness')
+  const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
+  assert.ok(installIndex >= 0 && readinessIndex > installIndex && readinessIndex < cardIndex)
+  const command = steps[readinessIndex].run
+  assert.match(command, /validation uses pinned publisher tooling/)
+  assert.match(command, /exact immutable ref restores unified Guides source authority/)
+  assert.match(command, /workflow policy independently requires checkpoint stage selection/)
 })
 
 test('manual translation wrapper calls the target-aware reusable workflow without legacy automation', () => {

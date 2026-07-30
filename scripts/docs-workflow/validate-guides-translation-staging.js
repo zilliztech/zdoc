@@ -13,8 +13,11 @@ const RESTORE_PATHS = Object.freeze([
   'docs-byoc',
   'reference',
   'i18n',
+  'content/en',
   '.translation-cache',
   'config/generated',
+  'generated/en/sidebars/guides.sidebar.js',
+  'generated/en/sidebars/guides-byoc.sidebar.js',
   'packages/docs-tooling/src/lark/meta/snapshots',
   'packages/docs-tooling/src/lark/meta/assembly',
   'packages/docs-tooling/src/lark/meta/reports',
@@ -52,7 +55,7 @@ function stagedStateProof(repository, masterSha, stagedSha, environment) {
   sha(masterSha, 'masterSha'); sha(stagedSha, 'stagedSha')
   if (git(repository, ['rev-parse', 'HEAD'], environment).trim() !== masterSha) throw new Error('repository HEAD does not match masterSha')
   if (git(repository, ['rev-parse', '--verify', `${stagedSha}^{commit}`], environment).trim() !== stagedSha) throw new Error('stagedSha is not an exact commit')
-  for (const root of RESTORE_PATHS) if (!git(repository, ['ls-tree', '-d', '--name-only', stagedSha, '--', root], environment).trim()) throw new Error(`required staged generated root is missing: ${root}`)
+  for (const root of RESTORE_PATHS) if (!git(repository, ['ls-tree', '--name-only', stagedSha, '--', root], environment).trim()) throw new Error(`required staged generated path is missing: ${root}`)
   const generatedUntracked = nul(git(repository, ['ls-files', '--others', '-z', '--', ...RESTORE_PATHS], environment, true))
   if (generatedUntracked.length) throw new Error(`untracked generated file is not allowed in restored state: ${generatedUntracked[0]}`)
   const untracked = nul(git(repository, ['ls-files', '--others', '--exclude-standard', '-z'], environment, true))

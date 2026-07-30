@@ -817,6 +817,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     let caller
     try { caller = yaml.load(callerSource) } catch (_) { caller = null }
     const monitor = caller?.jobs?.monitor_docs_progress
+    const prepareSteps = caller?.jobs?.prepare?.steps || []
+    const installIndex = prepareSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
+    const readinessIndex = prepareSteps.findIndex(step => step?.name === 'Verify translation publication readiness')
+    const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
+    const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
+    if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
+        !/validation uses pinned publisher tooling/.test(readinessCommand) ||
+        !/exact immutable ref restores unified Guides source authority/.test(readinessCommand) ||
+        !/workflow policy independently requires checkpoint stage selection/.test(readinessCommand)) {
+      errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
+    }
     const monitorNeeds = Array.isArray(monitor?.needs) ? monitor.needs : monitor?.needs ? [monitor.needs] : []
     if (monitorNeeds.length !== 1 || monitorNeeds[0] !== 'prepare') errors.push('fetch-docs.yml: central monitor must start after prepare only')
     if (monitor?.uses !== './.github/workflows/_monitor-docs-progress.yml') errors.push('fetch-docs.yml: central monitor must use _monitor-docs-progress.yml')
@@ -1053,6 +1064,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     [/checkpoint-stage-paths\.js" select/, 'checkpoint publisher must select stageable manifest paths'],
     [/--pathspec-from-file="\$stage_paths_file"[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
     [/checkpoint-stage-paths\.js" verify/, 'checkpoint publisher must verify staged manifest scope'],
+    [/docs-validation\.XXXXXX/, 'checkpoint publisher must validate with pinned tooling'],
+    [/restore-generated-state\.sh" --exact --ref "\$target_sha"/, 'checkpoint publisher must materialize the exact target state for validation'],
+    [/cd "\$validation_worktree" && bash -o errexit/, 'checkpoint publisher must run validation in the pinned tooling worktree'],
   ]) {
     if (!pattern.test(publisherSource)) errors.push(`publish-checkpoint.sh: ${message}`)
   }
