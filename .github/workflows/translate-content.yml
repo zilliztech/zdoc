@@ -3,16 +3,28 @@ name: translate content
 on:
   workflow_dispatch:
     inputs:
-      target:
-        description: Translation product
+      locale:
+        description: Locale to translate
         required: true
         type: choice
-        options: [ja-JP, zh-CN-reference, zh-CN-tools]
-      group: { description: Translation group, required: true, type: string }
+        options: [ja-JP, zh-CN, all]
+      group:
+        description: Content group
+        required: true
+        type: choice
+        options: [all, guides, python, java, node, go, cli, rest, tools]
+      mode:
+        description: Bootstrap or incremental mode
+        required: false
+        type: choice
+        options: [auto, full, incremental]
+        default: auto
+      publish: { description: Publish validated translations, required: false, type: boolean, default: false }
+      source_ref: { description: English source branch, tag, or exact SHA, required: false, type: string, default: dev }
+      target_branch: { description: Existing publication branch, required: false, type: string, default: dev }
       tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
-      source_ref: { description: English source branch, tag, or exact SHA, required: false, default: dev }
-      max_files: { description: Maximum files, required: false, default: '500' }
-      target_branch: { description: Existing publication branch, required: false, default: dev }
+      recovery_run_id: { description: Previous workflow run containing recovery artifacts, required: false, type: string }
+      batch_size: { description: Translation batch size, required: false, type: number, default: 25 }
   workflow_call:
     inputs:
       target: { required: true, type: string }
@@ -22,6 +34,9 @@ on:
       tooling_sha: { required: true, type: string }
       source_sha: { required: true, type: string }
       source_ref: { required: false, type: string, default: '' }
+      mode: { required: false, type: string, default: auto }
+      recovery_run_id: { required: false, type: string, default: '' }
+      publish: { required: false, type: boolean, default: true }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -32,15 +47,16 @@ permissions:
 
 jobs:
   prepare:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
       tooling_sha: ${{ steps.refs.outputs.tooling_sha }}
       source_sha: ${{ steps.refs.outputs.source_sha }}
-      source_group: ${{ steps.refs.outputs.source_group }}
       target_branch: ${{ steps.refs.outputs.target_branch }}
+      matrix: ${{ steps.selection.outputs.matrix }}
     steps:
-      - name: Validate immutable translation identities
+      - name: Validate immutable tooling identity
         env:
           TOOLING_SHA: ${{ inputs.tooling_sha }}
         run: node -e 'if(!/^[0-9a-f]{40}$/.test(process.env.TOOLING_SHA))throw new Error("TOOLING_SHA must be an exact lowercase 40-character SHA")'
@@ -48,62 +64,122 @@ jobs:
         with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
       - id: refs
         env:
-          TRANSLATION_TARGET: ${{ inputs.target }}
-          INPUT_GROUP: ${{ inputs.group }}
-          TARGET_BRANCH: ${{ inputs.target_branch }}
           TOOLING_SHA: ${{ inputs.tooling_sha }}
-          SOURCE_SHA: ${{ inputs.source_sha }}
           SOURCE_REF: ${{ inputs.source_ref }}
+          TARGET_BRANCH: ${{ inputs.target_branch }}
         run: |
           set -euo pipefail
-          case "$TRANSLATION_TARGET" in
-            ja-JP) source_group="$INPUT_GROUP" ;;
-            zh-CN-reference) [[ "$INPUT_GROUP" != guides && "$INPUT_GROUP" != tools ]]; source_group="$INPUT_GROUP" ;;
-            zh-CN-tools) [[ "$INPUT_GROUP" == tools ]]; source_group=guides ;;
-            *) exit 2 ;;
-          esac
+          node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
           git check-ref-format --branch "$TARGET_BRANCH"
-          git cat-file -e "$TOOLING_SHA^{commit}"
-          if [[ -n "$SOURCE_SHA" ]]; then
-            [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo 'source_sha must be an exact lowercase 40-character SHA' >&2; exit 2; }
-            git fetch --no-tags origin "$SOURCE_SHA"
-            source_sha=$(git rev-parse FETCH_HEAD)
-          else
-            node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
-            git fetch --no-tags origin "$SOURCE_REF"
-            source_sha=$(git rev-parse FETCH_HEAD)
-          fi
-          git cat-file -e "$source_sha^{commit}"
-          printf 'tooling_sha=%s\nsource_sha=%s\nsource_group=%s\ntarget_branch=%s\n' "$TOOLING_SHA" "$source_sha" "$source_group" "$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
+          git fetch --no-tags origin "$SOURCE_REF"
+          source_sha=$(git rev-parse FETCH_HEAD)
+          printf 'tooling_sha=%s\nsource_sha=%s\ntarget_branch=%s\n' "$TOOLING_SHA" "$source_sha" "$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
+      - id: selection
+        name: Select translation groups before paid work
+        env:
+          INPUT_LOCALE: ${{ inputs.locale }}
+          INPUT_GROUP: ${{ inputs.group }}
+        run: |
+          set -euo pipefail
+          matrix=$(node scripts/translation/selection.js --locale "$INPUT_LOCALE" --group "$INPUT_GROUP")
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   translate:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: prepare
-    uses: ./.github/workflows/_translate-content-group.yml
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    uses: ./.github/workflows/_translate-selected-group.yml
     with:
-      target: ${{ inputs.target }}
-      group: ${{ needs.prepare.outputs.source_group }}
+      target: ${{ matrix.target }}
+      group: ${{ matrix.group }}
+      source_group: ${{ matrix.sourceGroup }}
+      bootstrap_group: ${{ matrix.group }}
       tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
       source_sha: ${{ needs.prepare.outputs.source_sha }}
-      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
-      source_commit_sha: ${{ needs.prepare.outputs.source_sha }}
-      should_translate: true
-      max_files: ${{ inputs.max_files }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      mode: ${{ inputs.mode }}
+      publish: ${{ inputs.publish }}
+      recovery_run_id: ${{ inputs.recovery_run_id }}
+      batch_size: ${{ inputs.batch_size }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
 
-  publish:
+  validate_locale:
+    if: ${{ inputs.group == 'all' && inputs.publish && needs.translate.result == 'success' }}
     needs: [prepare, translate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ needs.prepare.outputs.target_branch }}', fetch-depth: 0 }
+      - name: Restore exact validation tooling
+        env:
+          TOOLING_SHA: ${{ needs.prepare.outputs.tooling_sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$TOOLING_SHA"
+          node - <<'NODE'
+          const {DOCS_REF_PATHS} = require('./scripts/docs-workflow/resolve-docs-refs')
+          const {execFileSync} = require('node:child_process')
+          execFileSync('git', ['restore', '--source', process.env.TOOLING_SHA, '--', ...DOCS_REF_PATHS.tooling], {stdio: 'inherit'})
+          NODE
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Validate complete selected locales
+        env:
+          INPUT_LOCALE: ${{ inputs.locale }}
+          SOURCE_SHA: ${{ needs.prepare.outputs.source_sha }}
+        run: |
+          set -euo pipefail
+          if [[ "$INPUT_LOCALE" == ja-JP || "$INPUT_LOCALE" == all ]]; then
+            pnpm docs-tooling validate-mdx --path i18n/ja-JP
+            for group in guides python java node go cli rest; do pnpm docs-tooling validate-translation --target ja-JP --group "$group"; done
+          fi
+          if [[ "$INPUT_LOCALE" == zh-CN || "$INPUT_LOCALE" == all ]]; then
+            pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write
+            pnpm docs-tooling validate-reference --site zh-CN
+            pnpm docs-tooling validate-translation --target zh-CN-tools --group tools
+            pnpm docs-tooling validate-tools-sidebar
+          fi
+
+  translate_exact:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      target: ${{ inputs.target }}
+      group: ${{ inputs.group }}
+      bootstrap_group: ${{ inputs.group == 'guides' && inputs.target == 'zh-CN-tools' && 'tools' || inputs.group }}
+      tooling_sha: ${{ inputs.tooling_sha }}
+      source_sha: ${{ inputs.source_sha }}
+      master_sha: ${{ inputs.tooling_sha }}
+      source_commit_sha: ${{ inputs.source_sha }}
+      should_translate: true
+      max_files: ${{ inputs.max_files }}
+      mode: ${{ inputs.mode }}
+      recovery_run_id: ${{ inputs.recovery_run_id }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+
+  publish_exact:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    needs: translate_exact
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       target: ${{ inputs.target }}
-      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
-      source_sha: ${{ needs.prepare.outputs.source_sha }}
-      group: ${{ needs.prepare.outputs.source_group }}
-      artifact_name: ${{ needs.translate.outputs.artifact_name }}
-      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
+      tooling_sha: ${{ inputs.tooling_sha }}
+      source_sha: ${{ inputs.source_sha }}
+      group: ${{ inputs.group }}
+      artifact_name: ${{ needs.translate_exact.outputs.artifact_name }}
+      baseline_artifact_name: ${{ needs.translate_exact.outputs.baseline_artifact_name }}
       commit_message: "${{ inputs.target == 'zh-CN-tools' && 'i18n(zh-CN-tools): publish tools translations' || format('i18n({0}): publish {1} translations', inputs.target, inputs.group) }}"
-      should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
-      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      validate_command: "${{ inputs.target == 'ja-JP' && format('pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group {0} && pnpm run build:en', inputs.group) || inputs.target == 'zh-CN-reference' && 'pnpm docs-tooling validate-mdx --path content/zh-CN/reference --check && pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit \"$SOURCE_SHA\" --write && pnpm docs-tooling validate-reference --site zh-CN && pnpm run build:zh-CN' || 'pnpm docs-tooling validate-mdx --path content/zh-CN/guides/tutorials/tools && pnpm docs-tooling validate-translation --target zh-CN-tools --group tools && pnpm docs-tooling validate-tools-sidebar && pnpm run build:zh-CN' }}"
+      should_publish: ${{ inputs.publish && needs.translate_exact.outputs.status == 'translation_ready' }}
+      master_sha: ${{ inputs.tooling_sha }}
+      target_branch: ${{ inputs.target_branch }}
+      validate_command: node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"

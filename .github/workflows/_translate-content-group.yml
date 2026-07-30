@@ -19,6 +19,8 @@ on:
       pending_set_sha256: { required: false, type: string, default: '' }
       artifact_retention_days: { required: false, type: number, default: 3 }
       recovery_run_id: { required: false, type: string, default: '' }
+      mode: { required: false, type: string, default: auto }
+      bootstrap_group: { required: false, type: string, default: '' }
     outputs:
       status: { value: '${{ jobs.translate.outputs.status }}' }
       artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
@@ -47,6 +49,7 @@ jobs:
       remaining_count: ${{ steps.result.outputs.remaining_count }}
     env:
       GROUP: ${{ inputs.group }}
+      BOOTSTRAP_GROUP: ${{ inputs.bootstrap_group || inputs.group }}
       TRANSLATION_TARGET: ${{ inputs.target }}
       SOURCE_COMMIT_SHA: ${{ inputs.source_sha }}
       MASTER_SHA: ${{ inputs.tooling_sha }}
@@ -105,6 +108,16 @@ jobs:
           node scripts/translation/sourceDelta.js --target "$TRANSLATION_TARGET" --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
           node scripts/translation/applySourceDelta.js --target "$TRANSLATION_TARGET" --delta tmp/source-delta.json --report tmp/source-delta-report.json
           echo "has_mutation=$(node -p "require('./tmp/source-delta-report.json').hasTranslationMutation ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
+      - name: Resolve effective translation mode
+        id: mode
+        if: ${{ inputs.should_translate }}
+        env:
+          REQUESTED_TRANSLATION_MODE: ${{ inputs.mode }}
+        run: |
+          set -euo pipefail
+          effective_mode=$(node scripts/translation/bootstrap-state.js resolve --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP" --mode "$REQUESTED_TRANSLATION_MODE")
+          echo "EFFECTIVE_TRANSLATION_MODE=$effective_mode" >> "$GITHUB_ENV"
+          echo "effective_mode=$effective_mode" >> "$GITHUB_OUTPUT"
       - name: Build group translation manifest
         id: manifest
         if: ${{ inputs.should_translate }}
@@ -113,7 +126,7 @@ jobs:
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json "${batch_args[@]}"
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}"
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
             node scripts/docs-workflow/translation-batch-input.js create \
@@ -169,33 +182,7 @@ jobs:
           ZDOC_PROVENANCE_CANDIDATE_TARGET: ${{ inputs.target }}
           ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: ${{ inputs.tooling_sha }}
           ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_sha }}
-        run: |
-          case "$TRANSLATION_TARGET" in
-            ja-JP)
-              pnpm docs-tooling validate-mdx --path i18n/ja-JP
-              pnpm docs-tooling validate-translation --target ja-JP --group "$GROUP"
-              pnpm run build:en
-              ;;
-            zh-CN-reference)
-              if [[ "$GROUP" == reference-landings ]]; then
-                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/python/python/python.md --write
-                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/java/java/java.md --write
-                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/nodejs/nodejs/nodejs.md --write
-                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/api/go/go/go.md --write
-                pnpm docs-tooling validate-mdx --path content/zh-CN/reference/cli/cli/Overview.md --write
-              fi
-              pnpm docs-tooling validate-mdx --path content/zh-CN/reference --check
-              pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_COMMIT_SHA" --write
-              pnpm docs-tooling validate-reference --site zh-CN
-              pnpm run build:zh-CN
-              ;;
-            zh-CN-tools)
-              pnpm docs-tooling validate-mdx --path content/zh-CN/guides/tutorials/tools
-              pnpm docs-tooling validate-translation --target zh-CN-tools --group tools
-              pnpm docs-tooling validate-tools-sidebar
-              pnpm run build:zh-CN
-              ;;
-          esac
+        run: node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"
       - name: Validate translated batch outputs
         if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:
@@ -215,24 +202,22 @@ jobs:
             --translated-count "$TRANSLATED_COUNT" \
             --failed-count "$FAILED_COUNT" \
             --remaining-count "$REMAINING_COUNT"
+      - name: Mark completed translation bootstrap
+        if: ${{ inputs.should_translate && inputs.batch_number == 0 && steps.mode.outputs.effective_mode == 'full' && (steps.agents.outputs.failed_count || '0') == '0' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' && inputs.target != 'ja-JP' }}
+        run: node scripts/translation/bootstrap-state.js mark --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP"
       - name: Create validated translation checkpoints
         id: checkpoint
         if: ${{ inputs.should_translate && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           batch_args=()
           batch_input_args=()
-          validation_args=()
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
             if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input tmp/translation-batch-input.json); fi
           fi
-          if (( ${{ inputs.batch_number }} == 0 )); then
-            if [[ "$TRANSLATION_TARGET" == ja-JP ]]; then validation_args=(--validation-command "pnpm run build:en");
-            else validation_args=(--validation-command "pnpm run build:zh-CN"); fi
-          fi
           identity_args=(--translation-target "$TRANSLATION_TARGET" --source-site en --target-site "$([[ "$TRANSLATION_TARGET" == ja-JP ]] && echo en || echo zh-CN)" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --tooling-sha "$MASTER_SHA")
           node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}"
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}" "${validation_args[@]}"
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --tooling-sha "$MASTER_SHA"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --tooling-sha "$MASTER_SHA"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then

@@ -12,6 +12,32 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('manual translation entry selects recoverable locale groups before paid work', () => {
+  const source = fs.readFileSync('.github/workflows/translate-content.yml', 'utf8')
+  const workflow = yaml.load(source)
+  const inputs = workflow.on.workflow_dispatch.inputs
+  assert.deepEqual(inputs.locale.options, ['ja-JP', 'zh-CN', 'all'])
+  assert.deepEqual(inputs.group.options, ['all', 'guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'tools'])
+  assert.deepEqual(inputs.mode.options, ['auto', 'full', 'incremental'])
+  assert.equal(inputs.mode.default, 'auto')
+  assert.equal(inputs.publish.default, false)
+  assert.equal(inputs.source_ref.default, 'dev')
+  assert.equal(inputs.target_branch.default, 'dev')
+  assert.equal(inputs.tooling_sha.required, true)
+  assert.equal(inputs.recovery_run_id.required, false)
+  assert.equal(inputs.batch_size.default, 25)
+
+  assert.match(source, /selection\.js --locale "\$INPUT_LOCALE" --group "\$INPUT_GROUP"/)
+  assert.equal(workflow.jobs.translate.needs, 'prepare')
+  assert.equal(workflow.jobs.translate.strategy['max-parallel'], 1)
+  assert.equal(workflow.jobs.translate.strategy['fail-fast'], true)
+  assert.equal(workflow.jobs.translate.with.mode, '${{ inputs.mode }}')
+  assert.equal(workflow.jobs.translate.with.recovery_run_id, '${{ inputs.recovery_run_id }}')
+  assert.match(source, /if: \$\{\{ inputs\.group == 'all' && inputs\.publish/)
+  assert.match(source, /validate-reference --site zh-CN/)
+  assert.doesNotMatch(source, /pnpm run build:(?:en|zh-CN)/)
+})
+
 test('docs ingestion watchdog is read-only and preserves evaluator failures after alerting', () => {
   const file = '.github/workflows/docs-ingestion-watchdog.yml'
   const source = fs.readFileSync(file, 'utf8')
@@ -63,15 +89,15 @@ test('translation workflows declare immutable target identity and exact target v
   for (const input of ['target', 'tooling_sha', 'source_sha']) assert.ok(publisherInputs[input], `_publish-content-group.yml must declare ${input}`)
 
   const wrapper = yaml.load(fs.readFileSync('.github/workflows/translate-content.yml', 'utf8'))
-  assert.deepEqual(wrapper.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
+  assert.deepEqual(wrapper.on.workflow_dispatch.inputs.locale.options, ['ja-JP', 'zh-CN', 'all'])
   assert.equal(wrapper.on.workflow_dispatch.inputs.tooling_sha?.required, true)
   assert.equal(wrapper.on.workflow_dispatch.inputs.source_ref?.default, 'dev')
   for (const input of ['tooling_sha', 'source_sha']) assert.equal(wrapper.on.workflow_call.inputs[input]?.required, true)
   assert.equal(wrapper.concurrency, undefined)
   const wrapperSource = fs.readFileSync('.github/workflows/translate-content.yml', 'utf8')
-  assert.ok(wrapperSource.indexOf('name: Validate immutable translation identities') < wrapperSource.indexOf('uses: actions/checkout@v4'))
+  assert.ok(wrapperSource.indexOf('name: Validate immutable tooling identity') < wrapperSource.indexOf('uses: actions/checkout@v4'))
   assert.match(wrapperSource, /ref: ['"]?\$\{\{ inputs\.tooling_sha \}\}['"]?/)
-  assert.match(wrapperSource, /validate-mdx --path content\/zh-CN\/reference --check/)
+  assert.match(wrapperSource, /validate-reference --site zh-CN/)
   assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
 
   const compatibility = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
@@ -86,19 +112,8 @@ test('translation workflows declare immutable target identity and exact target v
   assert.match(compatibilitySource, /zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/)
   assert.match(compatibilitySource, /zh-CN-tools\) \[\[ "\$INPUT_GROUP" == tools \]\] ;;/)
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
-  assert.match(source, /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP[\s\S]*build:en/)
-  for (const landing of [
-    'content/zh-CN/reference/api/python/python/python.md',
-    'content/zh-CN/reference/api/java/java/java.md',
-    'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
-    'content/zh-CN/reference/api/go/go/go.md',
-    'content/zh-CN/reference/cli/cli/Overview.md',
-  ]) {
-    assert.ok(source.includes(`validate-mdx --path ${landing} --write`))
-  }
-  assert.match(source, /validate-mdx --path content\/zh-CN\/reference --check[\s\S]*reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_COMMIT_SHA" --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/)
-  assert.doesNotMatch(source, /validate-mdx --path content\/zh-CN\/reference --write/)
-  assert.match(source, /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/)
+  assert.match(source, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
+  assert.doesNotMatch(source, /validate-reference --site zh-CN|reference-manifest --source|pnpm run build:(?:en|zh-CN)/)
   assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
   for (const name of [
     'ZDOC_PROVENANCE_CANDIDATE_TARGET',
@@ -251,7 +266,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     {
       file: 'translate-content.yml',
       mutate: source => source.replace("ref: '${{ inputs.tooling_sha }}'", 'ref: master'),
-      expected: 'translate-content.yml: translation tooling checkout must use exact inputs.tooling_sha',
+      expected: 'translate-content.yml: validate exact immutable SHAs before checkout without branch-tip fallback',
     },
     {
       file: 'translate-codex.yml',
@@ -275,35 +290,11 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: '_translate-content-group.yml',
-      mutate: source => source.replace('ja-JP)\n              pnpm docs-tooling', 'ja-JP)\n              test -f content/zh-CN/reference/forbidden.md\n              pnpm docs-tooling'),
-      expected: '_translate-content-group.yml: ja-JP branch must not claim cross-target translation paths',
-    },
-    {
-      file: '_translate-content-group.yml',
-      mutate: source => source.replace('zh-CN-reference)\n              if [[ "$GROUP" == reference-landings ]]; then', 'zh-CN-reference)\n              test -f i18n/ja-JP/forbidden.md\n              if [[ "$GROUP" == reference-landings ]]; then'),
-      expected: '_translate-content-group.yml: zh-CN-reference branch must not claim cross-target translation paths',
-    },
-    {
-      file: '_translate-content-group.yml',
-      mutate: source => source.replace('zh-CN-tools)\n              pnpm docs-tooling', 'zh-CN-tools)\n              test -f content/zh-CN/reference/forbidden.md\n              pnpm docs-tooling'),
-      expected: '_translate-content-group.yml: zh-CN-tools branch must not claim cross-target translation paths',
-    },
-    ...[
-      ['ja-JP', 'pnpm run build:zh-CN'],
-      ['zh-CN-reference', 'pnpm run build:en'],
-      ['zh-CN-tools', 'pnpm run build:en'],
-    ].map(([target, command]) => ({
-      file: '_translate-content-group.yml',
-      mutate: source => {
-        const firstCommand = target === 'zh-CN-reference' ? 'if [[ "$GROUP" == reference-landings ]]; then' : 'pnpm docs-tooling'
-        return source.replace(`${target})\n              ${firstCommand}`, `${target})\n              ${command}\n              ${firstCommand}`)
-      },
-      expected: '_translate-content-group.yml: translation target branch contains a wrong-site build',
-    })),
-    {
-      file: 'translate-content.yml',
-      mutate: source => source.replace('pnpm run build:zh-CN\' || \'pnpm docs-tooling validate-mdx --path content/zh-CN/guides', 'pnpm run build:zh-CN && pnpm run build:en\' || \'pnpm docs-tooling validate-mdx --path content/zh-CN/guides'),
-      expected: 'translate-content.yml: target publication must use the exact target-owned validation and build command',
+      mutate: source => source.replace(
+        'validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"',
+        'validate-group.js --target zh-CN-tools --group tools',
+      ),
+      expected: '_translate-content-group.yml: unbatched translations must use group-local target validation',
     },
   ]
   for (const fixture of cases) {
@@ -1842,13 +1833,11 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
   assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
 
-  assert.ok(unbatched, 'unbatched translations need their existing full validation')
+  assert.ok(unbatched, 'unbatched translations need group-local validation')
   assert.match(unbatched.if, /inputs\.batch_number == 0/)
   assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
-  assert.match(unbatched.run, /validate-mdx/)
-  assert.match(unbatched.run, /validate-translation --target ja-JP --group "\$GROUP"[\s\S]*pnpm run build:en/)
-  assert.match(unbatched.run, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_COMMIT_SHA" --write[\s\S]*validate-reference --site zh-CN[\s\S]*pnpm run build:zh-CN/)
-  assert.match(unbatched.run, /validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*pnpm run build:zh-CN/)
+  assert.match(unbatched.run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
+  assert.doesNotMatch(unbatched.run, /validate-reference|reference-manifest|build:(?:en|zh-CN)/)
 
   assert.match(checkpoint.run, /--include-translation-cache/)
   assert.match(checkpoint.run, /--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--tooling-sha "\$MASTER_SHA"/)
@@ -1893,27 +1882,27 @@ test('workflow policy rejects numbered translation batch validation regressions'
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\npnpm run build:en' },
-      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+      expected: `${workflowName}: translation producer must not run whole-site build commands`,
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\nnpx docusaurus build' },
-      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+      expected: `${workflowName}: translation producer must not run whole-site build commands`,
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\nnpm run build' },
-      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+      expected: `${workflowName}: translation producer must not run whole-site build commands`,
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Run translation agents').run += '\nyarn build' },
-      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+      expected: `${workflowName}: translation producer must not run whole-site build commands`,
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\npnpm exec docusaurus build' },
-      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+      expected: `${workflowName}: translation producer must not run whole-site build commands`,
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\ndocusaurus build' },
-      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+      expected: `${workflowName}: translation producer must not run whole-site build commands`,
     },
     ...[
       'npm --prefix . run build',
@@ -1922,7 +1911,7 @@ test('workflow policy rejects numbered translation batch validation regressions'
       'npx -p @docusaurus/core docusaurus build',
     ].map(command => ({
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += `\n${command}` },
-      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+      expected: `${workflowName}: translation producer must not run whole-site build commands`,
     })),
   ]
 
@@ -2014,4 +2003,23 @@ test('translation workers restore and always upload per-file recovery artifacts'
   assert.equal(steps[uploadIndex].if, '${{ always() && inputs.should_translate && steps.manifest.outputs.count != \'0\' }}')
   assert.equal(steps[uploadIndex].with['retention-days'], 30)
   assert.match(steps[uploadIndex].with.name, /translation-recovery-/)
+})
+
+test('translation workers resolve bootstrap mode and validate only their selected group', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  assert.equal(workflow.on.workflow_call.inputs.mode.default, 'auto')
+  const steps = workflow.jobs.translate.steps
+  const resolveIndex = steps.findIndex(step => step.name === 'Resolve effective translation mode')
+  const manifestIndex = steps.findIndex(step => step.name === 'Build group translation manifest')
+  const validationIndex = steps.findIndex(step => step.name === 'Validate unbatched translated group')
+  const markerIndex = steps.findIndex(step => step.name === 'Mark completed translation bootstrap')
+  const checkpointIndex = steps.findIndex(step => step.name === 'Create validated translation checkpoints')
+  assert.ok(resolveIndex >= 0 && resolveIndex < manifestIndex)
+  assert.match(steps[manifestIndex].run, /--mode "\$EFFECTIVE_TRANSLATION_MODE"/)
+  assert.match(steps[validationIndex].run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
+  assert.doesNotMatch(steps[validationIndex].run, /validate-reference|build:en|build:zh-CN|reference-manifest/)
+  assert.ok(validationIndex < markerIndex && markerIndex < checkpointIndex)
+  assert.match(steps[markerIndex].if, /steps\.agents\.outputs\.failed_count.*== '0'/)
+  assert.match(steps[markerIndex].if, /steps\.agents\.outputs\.remaining_count.*== '0'/)
 })

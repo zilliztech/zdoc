@@ -9,6 +9,7 @@ const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
   'translate-content.yml',
+  '_translate-selected-group.yml',
   '_publish-content-group.yml',
   '_publish-translation-batches.yml',
   '_translate-publish-batch.yml',
@@ -164,7 +165,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     const immutableTranslationToolingFiles = new Set([
       '_prepare-translation-batches.yml', '_translate-content-group.yml', '_translate-publish-batch.yml',
-      '_publish-translation-batches.yml', 'translate-content.yml',
+      '_publish-translation-batches.yml',
     ])
     if (immutableTranslationToolingFiles.has(file)) {
       const checkoutSteps = Object.values(workflow.jobs || {}).flatMap(job => Array.isArray(job?.steps) ? job.steps : [])
@@ -175,7 +176,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', 'translate-content.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
+      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_translate-selected-group.yml', 'translate-content.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
       if (!/^  contents: write$/m.test(source)) {
@@ -303,6 +304,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
         [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
+        [/manifest\.js[\s\S]*--mode "\$EFFECTIVE_TRANSLATION_MODE"/, 'must build candidates with the resolved bootstrap mode'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
         [/\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/, 'must create checkpoints for batches that only record failed translations'],
       ]
@@ -350,23 +352,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!candidateIdentityIsExact || leaksCandidateIdentity) {
         errors.push(`${file}: candidate provenance must receive exact target, tooling, and source identities only in unbatched validation`)
       }
-      const targetValidation = /validate-mdx --path i18n\/ja-JP[\s\S]*validate-translation --target ja-JP --group "\$GROUP"[\s\S]*build:en/.test(unbatchedRun)
-        && /if \[\[ "\$GROUP" == reference-landings \]\]; then[\s\S]*validate-mdx --path content\/zh-CN\/reference\/api\/python\/python\/python\.md --write[\s\S]*validate-mdx --path content\/zh-CN\/reference\/api\/java\/java\/java\.md --write[\s\S]*validate-mdx --path content\/zh-CN\/reference\/api\/nodejs\/nodejs\/nodejs\.md --write[\s\S]*validate-mdx --path content\/zh-CN\/reference\/api\/go\/go\/go\.md --write[\s\S]*validate-mdx --path content\/zh-CN\/reference\/cli\/cli\/Overview\.md --write[\s\S]*fi[\s\S]*validate-mdx --path content\/zh-CN\/reference --check[\s\S]*reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_COMMIT_SHA" --write[\s\S]*validate-reference --site zh-CN[\s\S]*build:zh-CN/.test(unbatchedRun)
-        && /validate-mdx --path content\/zh-CN\/guides\/tutorials\/tools[\s\S]*validate-translation --target zh-CN-tools --group tools[\s\S]*validate-tools-sidebar[\s\S]*build:zh-CN/.test(unbatchedRun)
-      if (!targetValidation) {
-        errors.push(`${file}: unbatched translations must retain exact target validation and build commands`)
+      if (!/node scripts\/translation\/validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/.test(unbatchedRun)) {
+        errors.push(`${file}: unbatched translations must use group-local target validation`)
+      }
+      if (/validate-reference|reference-manifest|build:(?:en|zh-CN)/.test(unbatchedRun)) {
+        errors.push(`${file}: group-local translation validation must not run whole-locale validation or site builds`)
       }
       for (const step of steps) {
-        if (step === unbatched || step === checkpoint) continue
-        if (containsFullValidationCommand(step?.run)) errors.push(`${file}: full validation and build commands must exist only in the exact unbatched validation path`)
+        if (containsFullValidationCommand(step?.run)) errors.push(`${file}: translation producer must not run whole-site build commands`)
       }
-      const checkpointLines = checkpointRun.split('\n')
-      const attestationEntries = executableShellLineEntries(checkpointRun).filter(entry => /validation_args=\(--validation-command "pnpm run build:(?:en|zh-CN)"\)/.test(entry.trimmed))
-      const attestationIndexes = new Set(attestationEntries.map(entry => entry.index))
-      const checkpointWithoutAttestation = checkpointLines.filter((line, index) => !attestationIndexes.has(index)).join('\n')
-      if (attestationEntries.length !== 2 || !/if \(\( \$\{\{ inputs\.batch_number \}\} == 0 \)\); then/.test(checkpointRun) || containsFullValidationCommand(checkpointWithoutAttestation)) {
-        errors.push(`${file}: checkpoint build attestation must remain restricted to unbatched runs`)
-      }
+      if (/--validation-command/.test(checkpointRun)) errors.push(`${file}: translation checkpoints must not attest a whole-site build`)
       if (!/validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/.test(checkpointRun) || !/validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/.test(checkpointRun)) {
         errors.push(`${file}: translation checkpoints must validate baseline and result artifact integrity`)
       }
@@ -816,13 +811,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         || callInputs.source_sha?.required !== true
       ) errors.push(`${file}: manual translation must resolve source_ref while reusable callers pass exact immutable SHAs`)
       const steps = workflow.jobs?.prepare?.steps || []
-      const validationIndex = steps.findIndex(step => step?.name === 'Validate immutable translation identities')
+      const validationIndex = steps.findIndex(step => step?.name === 'Validate immutable tooling identity')
       const checkoutIndex = steps.findIndex(step => String(step?.uses || '').startsWith('actions/checkout@'))
       if (validationIndex < 0 || checkoutIndex < 0 || validationIndex >= checkoutIndex || steps[checkoutIndex]?.with?.ref !== '${{ inputs.tooling_sha }}' || /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse[^\n]*TARGET_BRANCH/.test(source)) {
         errors.push(`${file}: validate exact immutable SHAs before checkout without branch-tip fallback`)
       }
-      const exactValidationCommand = "${{ inputs.target == 'ja-JP' && format('pnpm docs-tooling validate-mdx --path i18n/ja-JP && pnpm docs-tooling validate-translation --target ja-JP --group {0} && pnpm run build:en', inputs.group) || inputs.target == 'zh-CN-reference' && 'pnpm docs-tooling validate-mdx --path content/zh-CN/reference --check && pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit \"$SOURCE_SHA\" --write && pnpm docs-tooling validate-reference --site zh-CN && pnpm run build:zh-CN' || 'pnpm docs-tooling validate-mdx --path content/zh-CN/guides/tutorials/tools && pnpm docs-tooling validate-translation --target zh-CN-tools --group tools && pnpm docs-tooling validate-tools-sidebar && pnpm run build:zh-CN' }}"
-      if (workflow.jobs?.publish?.with?.validate_command !== exactValidationCommand) errors.push(`${file}: target publication must use the exact target-owned validation and build command`)
+      const groupValidation = 'node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"'
+      if (workflow.jobs?.publish_exact?.with?.validate_command !== groupValidation) errors.push(`${file}: target publication must use group-local validation without a site build`)
     }
   }
 
