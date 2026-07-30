@@ -254,7 +254,7 @@ jobs:
         run: |
           status=failed; artifact_name=; baseline_artifact_name=; translated_count="${{ steps.agents.outputs.translated_count || '0' }}"; failed_count="${{ steps.agents.outputs.failed_count || '0' }}"; remaining_count="${{ steps.agents.outputs.remaining_count || '0' }}"
           if [[ "${{ inputs.should_translate }}" != true || ( "${{ steps.manifest.outputs.count || '0' }}" == 0 && "${{ steps.source_delta.outputs.has_mutation || 'false' }}" != true ) ]]; then status=no_changes
-          elif [[ "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success ]]; then status=translation_ready; artifact_name="translation-checkpoint-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
+          elif [[ "${{ steps.agents.outcome }}" == success && "${{ steps.agents.outputs.failed_count || '0' }}" == 0 && "${{ steps.agents.outputs.remaining_count || '0' }}" == 0 && "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success ]]; then status=translation_ready; artifact_name="translation-checkpoint-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
           printf 'status=%s\nartifact_name=%s\nbaseline_artifact_name=%s\ntranslated_count=%s\nfailed_count=%s\nremaining_count=%s\n' "$status" "$artifact_name" "$baseline_artifact_name" "$translated_count" "$failed_count" "$remaining_count" >> "$GITHUB_OUTPUT"
       - name: Fail unsuccessful translation
         if: ${{ always() && steps.result.outputs.status == 'failed' }}
