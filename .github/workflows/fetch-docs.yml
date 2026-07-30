@@ -112,10 +112,7 @@ jobs:
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Verify translation publication readiness
-        run: |
-          node --test --test-name-pattern='validation uses pinned publisher tooling' scripts/docs-workflow/publish-checkpoint.test.js
-          node --test --test-name-pattern='exact immutable ref restores unified Guides source authority' scripts/restore-generated-state.test.js
-          node --test --test-name-pattern='workflow policy independently requires checkpoint stage selection' scripts/validate-workflow-policy.test.js
+        run: node --test scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
       - id: card
         name: Create progress card
         run: pnpm docs-tooling report-card create --title "$CARD_TITLE" --stages "$CARD_STAGES" --target-branch "$TARGET_BRANCH"

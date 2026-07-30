@@ -823,9 +823,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
-        !/validation uses pinned publisher tooling/.test(readinessCommand) ||
-        !/exact immutable ref restores unified Guides source authority/.test(readinessCommand) ||
-        !/workflow policy independently requires checkpoint stage selection/.test(readinessCommand)) {
+        readinessCommand !== 'node --test scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
     }
     const monitorNeeds = Array.isArray(monitor?.needs) ? monitor.needs : monitor?.needs ? [monitor.needs] : []

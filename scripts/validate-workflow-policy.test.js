@@ -1916,9 +1916,7 @@ test('fetch preparation blocks paid translation until publication readiness regr
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
   assert.ok(installIndex >= 0 && readinessIndex > installIndex && readinessIndex < cardIndex)
   const command = steps[readinessIndex].run
-  assert.match(command, /validation uses pinned publisher tooling/)
-  assert.match(command, /exact immutable ref restores unified Guides source authority/)
-  assert.match(command, /workflow policy independently requires checkpoint stage selection/)
+  assert.equal(command, 'node --test scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
 })
 
 test('manual translation wrapper calls the target-aware reusable workflow without legacy automation', () => {
