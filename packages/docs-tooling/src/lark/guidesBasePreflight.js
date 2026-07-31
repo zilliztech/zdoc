@@ -104,13 +104,33 @@ function validateGuidesBasePreflight({site, tables, records}) {
     const unsupportedTarget = configuredTargets.find(target => !TARGETS.has(target))
     if (unsupportedTarget) throw new Error(`Guides Base record ${record.record_id} has unsupported publish target ${unsupportedTarget}`)
     if (record.placement_type === 'section' && !String(record.slug || '').trim()) {
-      throw new Error(`Guides Base section ${record.record_id} is missing Slug`)
+      preflightError(site, {
+        record_id: record.record_id,
+        base_table_id: record.table_id,
+        base_table_name: record.table_name,
+        fields: {Labels: record.labels || record.title, Slug: record.slug},
+      }, {
+        problem: 'section is missing Slug',
+        field: 'Slug',
+        value: record.slug,
+        fix: 'Set a stable English kebab-case Slug matching the corresponding English section.',
+      })
     }
     if (record.placement_type === 'ref') {
       const targetToken = record.ref_target_token
       const canonicalTargets = targetToken ? (canonicalByToken.get(targetToken) || []) : []
       if (canonicalTargets.length !== 1) {
-        throw new Error(`Guides Base ref ${record.record_id} must resolve to exactly one canonical record for ${targetToken || '(missing Ref Target Doc)'}`)
+        preflightError(site, {
+          record_id: record.record_id,
+          base_table_id: record.table_id,
+          base_table_name: record.table_name,
+          fields: {Labels: record.labels || record.title, 'Ref Target Doc': targetToken},
+        }, {
+          problem: 'ref must resolve to exactly one canonical record',
+          field: 'Ref Target Doc',
+          value: targetToken,
+          fix: 'Set Ref Target Doc to a Feishu document owned by exactly one canonical record in this Base. Ref records cannot target sections, links, or other refs.',
+        })
       }
     }
     if (!guidesCanonicalIsPublishable(record)) continue

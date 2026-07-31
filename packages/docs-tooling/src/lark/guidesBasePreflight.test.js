@@ -45,7 +45,15 @@ for (const fixture of [
         record_id: 'section-1', base_table_id: 'table-1', base_table_name: fixture.tableName, base_record_index: 0,
         fields: {'Placement Type': 'section', Labels: 'Section', Slug: ''},
       }],
-    }), /section-1.*missing Slug/)
+    }), new RegExp([
+      'section is missing Slug',
+      `Site: ${fixture.site}`,
+      `Table: ${fixture.tableName}`,
+      'Record: section-1',
+      'Title: Section',
+      'Field: Slug',
+      'How to fix: Set a stable English kebab-case Slug',
+    ].join('[\\s\\S]*')))
   })
 
   test(`Guides Base preflight requires ref target canonical for ${fixture.site}`, () => {
@@ -57,7 +65,16 @@ for (const fixture of [
       site: fixture.site,
       tables: [{table_id: 'table-1', name: fixture.tableName}],
       records: [canonical({base_table_name: fixture.tableName}), ref],
-    }), /ref-1.*canonical.*missing-token/)
+    }), new RegExp([
+      'ref must resolve to exactly one canonical record',
+      `Site: ${fixture.site}`,
+      `Table: ${fixture.tableName}`,
+      'Record: ref-1',
+      'Title: Reference',
+      'Field: Ref Target Doc',
+      'Current value: missing-token',
+      'How to fix:',
+    ].join('[\\s\\S]*')))
   })
 
   test(`Guides Base preflight resolves URL ref target canonical for ${fixture.site}`, () => {
