@@ -1230,7 +1230,7 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(validation, /guides-assembly-decision\.json/)
   assert.match(validation, /generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js/)
   const chineseValidation = assemble.slice(indices[2], indices[3])
-  assert.match(chineseValidation, /inputs\.site == 'zh-CN'[\s\S]*validate-guides-source-contract\.js --site zh-CN[\s\S]*validate-guides-coverage\.js --site zh-CN/)
+  assert.match(chineseValidation, /inputs\.site == 'zh-CN'[\s\S]*validate-guides-source-contract\.js --site zh-CN --snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json[\s\S]*validate-guides-coverage\.js --site zh-CN/)
   const finalValidation = assemble.slice(indices[3], indices[4])
   assert.match(finalValidation, /validate-generated-sidebars\.js/)
   assert.match(assemble, /ZDOC_BUILD_COMMAND: \$\{\{ inputs\.site == 'en' && 'pnpm run build:en' \|\| inputs\.site == 'zh-CN' && 'pnpm run build:zh-CN' \|\| '' \}\}/)

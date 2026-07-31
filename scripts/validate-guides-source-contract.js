@@ -192,9 +192,14 @@ function validateGuidesSourceSite({ site, config = sourceContractConfig(site), l
 if (require.main === module) {
   try {
     const argv = process.argv.slice(2)
-    if (argv.length !== 2 || argv[0] !== '--site') throw new Error('Usage: validate-guides-source-contract.js --site <en|zh-CN>')
+    if ((argv.length !== 2 && argv.length !== 4) || argv[0] !== '--site' || (argv.length === 4 && argv[2] !== '--snapshot')) {
+      throw new Error('Usage: validate-guides-source-contract.js --site <en|zh-CN> [--snapshot <path>]')
+    }
+    const config = sourceContractConfig(argv[1])
+    if (argv.length === 4) config.snapshotPath = argv[3]
     const results = validateGuidesSourceSite({
       site: argv[1],
+      config,
       loadSidebar(file) {
         delete require.cache[require.resolve(path.resolve(file))]
         return require(path.resolve(file))

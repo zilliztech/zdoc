@@ -135,7 +135,7 @@ jobs:
       - name: Validate Chinese Guides publication
         if: ${{ inputs.site == 'zh-CN' }}
         run: |
-          node scripts/validate-guides-source-contract.js --site zh-CN
+          node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
           node scripts/validate-guides-coverage.js --site zh-CN
           node scripts/validate-generated-sidebars.js
       - name: Validate combined guides output

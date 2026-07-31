@@ -1,6 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const { spawnSync } = require('node:child_process')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -140,6 +141,17 @@ test('Chinese source contract resolves its own source, snapshot, media, Cloud, a
     'content/zh-CN/guides/tutorials',
     'content/zh-CN/byoc/tutorials',
   ])
+})
+
+test('CLI accepts an explicit candidate snapshot for first-run validation', () => {
+  const missing = path.join(os.tmpdir(), `guides-candidate-${process.pid}.json`)
+  const result = spawnSync(process.execPath, [
+    path.join(__dirname, 'validate-guides-source-contract.js'),
+    '--site', 'zh-CN', '--snapshot', missing,
+  ], { encoding: 'utf8' })
+  assert.notEqual(result.status, 0)
+  assert.doesNotMatch(result.stderr, /Usage:/)
+  assert.match(result.stderr, new RegExp(path.basename(missing).replaceAll('.', '\\.')))
 })
 
 test('site validation fails separately for an incomplete source graph and missing media manifest', () => {

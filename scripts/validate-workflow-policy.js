@@ -508,7 +508,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const validationStep = steps[validateIndex]
       const chineseValidationStep = steps[validateChineseIndex]
       if (chineseValidationStep?.if !== "${{ inputs.site == 'zh-CN' }}" ||
-          chineseValidationStep?.run !== 'node scripts/validate-guides-source-contract.js --site zh-CN\nnode scripts/validate-guides-coverage.js --site zh-CN\nnode scripts/validate-generated-sidebars.js\n') {
+          chineseValidationStep?.run !== 'node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json\nnode scripts/validate-guides-coverage.js --site zh-CN\nnode scripts/validate-generated-sidebars.js\n') {
         errors.push(`${file}: Chinese Guides assembly must fail early on source completeness, media, coverage, and generated navigation`)
       }
       const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
