@@ -266,7 +266,7 @@ function sourceOwnedRecordsFrom(records, {guidesPublishableOnly = false} = {}) {
     .filter(record => {
       const placement = placementType(record)
       if (placement === 'canonical') return !guidesPublishableOnly || guidesCanonicalIsPublishable(record)
-      return placement === 'section' && !!recordToken(record)
+      return placement === 'section' && !!contentLinkTarget(docLink(docField(record.fields || {})))
     })
     .map(record => {
       const doc = docField(record.fields || {})

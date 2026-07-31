@@ -4,7 +4,6 @@ const {
   guidesCanonicalIsPublishable,
   guidesPlacementType,
   guidesRecordPublishTargets,
-  isFeishuDocumentLink,
 } = require('./guidesBaseRecordSemantics')
 const {createGuidesNavigationState} = require('./sourceSnapshot')
 const {validateGuidesTableNames} = require('./guidesTableSlugs')
@@ -70,19 +69,6 @@ function validateGuidesBasePreflight({site, tables, records}) {
         value: plain(record?.fields?.['Placement Type']),
         fix: 'Set Placement Type to exactly canonical, section, ref, or link.',
       })
-    }
-    if (explicitPlacement === 'section') {
-      const docs = record?.fields?.Docs
-      const docsValue = plain(docs)
-      const docsLink = docs && typeof docs === 'object' && !Array.isArray(docs) ? plain(docs.link) : docsValue.match(/https?:\/\/[^\s)]+/)?.[0] || ''
-      if (docsValue && !isFeishuDocumentLink(docsLink)) {
-        preflightError(site, record, {
-          problem: 'section Docs must be a Feishu or Lark document link',
-          field: 'Docs',
-          value: docsValue,
-          fix: 'Use a valid Feishu/Lark wiki, doc, docs, or docx link; clear Docs to keep a navigation-only section.',
-        })
-      }
     }
   }
 

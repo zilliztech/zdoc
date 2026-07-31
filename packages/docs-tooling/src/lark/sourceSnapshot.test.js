@@ -152,6 +152,20 @@ test('Guides snapshot includes section records only when the section owns Docs',
   ])
 })
 
+test('Guides snapshot treats a non-Feishu section Link value as no Docs source', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-section-placeholder-'))
+  const records = [{
+    record_id: 'section-placeholder', base_table_id: 'tbl', base_table_name: 'Get Started',
+    fields: { Docs: { text: 'Quickstarts', link: 'http://Quickstarts' }, Labels: 'Quickstarts', Slug: 'quickstarts', 'Placement Type': 'section' },
+  }]
+
+  const snapshot = createSourceSnapshot({ manualName: 'guides', buildEnv: 'uat', docSourceDir: dir, records })
+
+  assert.deepEqual(snapshot.records, [])
+  assert.equal(snapshot.navigation_records[0].doc_token, null)
+  assert.equal(snapshot.navigation_records[0].doc_link, '')
+})
+
 test('Guides navigation snapshot changes table digest for section, link, and ref edits', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-nav-'))
   fs.writeFileSync(path.join(dir, 'doc.json'), JSON.stringify({ node_token: 'doc', blocks: { items: [] } }))

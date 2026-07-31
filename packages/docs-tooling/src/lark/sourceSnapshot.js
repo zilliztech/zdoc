@@ -207,6 +207,7 @@ function createGuidesNavigationState(records) {
     const placementType = guidesPlacementType(record, { guidesMode: true })
     const doc = docField(fields)
     const link = docLink(doc)
+    const sectionOwnsDocs = placementType !== 'section' || !!contentLinkTarget(link)
     const refTarget = guidesRecordRefTarget(record)
     const refLink = typeof refTarget === 'string' ? refTarget : null
     return {
@@ -221,8 +222,8 @@ function createGuidesNavigationState(records) {
       slug: plainValue(fields.Slug) || '',
       targets: guidesRecordPublishTargets(record).sort(),
       progress: plainValue(fields.Progress ?? fields.Status) || '',
-      doc_token: recordToken(record),
-      doc_link: link || '',
+      doc_token: sectionOwnsDocs ? recordToken(record) : null,
+      doc_link: sectionOwnsDocs ? (link || '') : '',
       ref_target: refTarget || null,
       ref_target_token: refTargetToken(refLink),
       ref_target_anchor: refTargetAnchor(refLink),

@@ -110,11 +110,11 @@ test('Guides Base preflight rejects duplicate canonical ownership with repair gu
   }), /multiple canonical[\s\S]*token-1[\s\S]*How to fix:/)
 })
 
-test('Guides Base preflight validates optional section Docs', () => {
-  assert.throws(() => validateGuidesBasePreflight({
+test('Guides Base preflight treats non-Feishu section Docs as empty', () => {
+  assert.doesNotThrow(() => validateGuidesBasePreflight({
     site: 'en', tables: [{table_id: 'table-1', name: 'Get Started'}], records: [{
       record_id: 'section-1', base_table_id: 'table-1', base_table_name: 'Get Started', base_record_index: 0,
       fields: {'Placement Type': 'section', Labels: 'Section', Slug: 'section', Docs: {text: 'Section', link: 'https://example.com/not-feishu'}},
     }],
-  }), /section Docs[\s\S]*Record: section-1[\s\S]*How to fix:/)
+  }))
 })
