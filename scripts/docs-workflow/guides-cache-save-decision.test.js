@@ -68,7 +68,7 @@ test('stable Guides identity ignores operational snapshot metadata but immutable
 
   assert.equal(semanticGuidesSnapshotHash(candidate), semanticGuidesSnapshotHash(baseline))
   assert.notEqual(sourceCacheKey(candidate, { version: 4 }), sourceCacheKey(baseline, { version: 4 }))
-  assert.equal(cacheSaveRequired({ cacheVersion: 'v4', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: baseline }), false)
+  assert.equal(cacheSaveRequired({ cacheVersion: 'v5', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: baseline }), false)
 })
 
 test('stable Guides identity changes for source, ownership, navigation, and table identity', () => {
@@ -86,7 +86,7 @@ test('stable Guides identity changes for source, ownership, navigation, and tabl
 
   for (const [index, changed] of changes.entries()) {
     const candidate = json(root, `candidate-${index}.json`, changed)
-    assert.equal(cacheSaveRequired({ cacheVersion: 'v4', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: baseline }), true)
+    assert.equal(cacheSaveRequired({ cacheVersion: 'v5', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: baseline }), true)
   }
 })
 
@@ -96,14 +96,14 @@ test('legacy, recovery, and missing baseline always require a cache save', () =>
   const baseline = json(root, 'baseline.json', snapshot({ generated_at: '2026-07-18T00:00:00.000Z' }))
 
   assert.equal(cacheSaveRequired({ cacheVersion: 'v3', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: baseline }), true)
-  assert.equal(cacheSaveRequired({ cacheVersion: 'v4', prefetchMode: 'recovery', candidateSnapshotPath: candidate, baselineSnapshotPath: baseline }), true)
-  assert.equal(cacheSaveRequired({ cacheVersion: 'v4', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: path.join(root, 'missing.json') }), true)
+  assert.equal(cacheSaveRequired({ cacheVersion: 'v5', prefetchMode: 'recovery', candidateSnapshotPath: candidate, baselineSnapshotPath: baseline }), true)
+  assert.equal(cacheSaveRequired({ cacheVersion: 'v5', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: path.join(root, 'missing.json') }), true)
   const invalidBaseline = json(root, 'invalid-baseline.json', { schema_version: 2, manual: 'guides' })
-  assert.equal(cacheSaveRequired({ cacheVersion: 'v4', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: invalidBaseline }), true)
+  assert.equal(cacheSaveRequired({ cacheVersion: 'v5', prefetchMode: 'incremental', candidateSnapshotPath: candidate, baselineSnapshotPath: invalidBaseline }), true)
 
   const cli = path.resolve(__dirname, 'guides-cache-save-decision.js')
   const result = spawnSync(process.execPath, [
-    cli, 'decide', '--cache-version', 'v4', '--prefetch-mode', 'incremental',
+    cli, 'decide', '--cache-version', 'v5', '--prefetch-mode', 'incremental',
     '--candidate', candidate, '--baseline', baseline,
   ], { encoding: 'utf8' })
   assert.equal(result.status, 0, result.stderr)

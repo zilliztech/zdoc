@@ -42,7 +42,7 @@ function json(root, name, value) {
   return file
 }
 
-test('unchanged valid-v4 selection preserves exact baseline bytes and the next-run restore identity', () => {
+test('unchanged valid-v5 selection preserves exact baseline bytes and the next-run restore identity', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-lifecycle-'))
   const baselineValue = snapshot()
   const baseline = json(root, 'baseline.json', baselineValue)
@@ -55,15 +55,15 @@ test('unchanged valid-v4 selection preserves exact baseline bytes and the next-r
   const existing = generationKeys({ snapshotPath: baseline, runId: 100, runAttempt: 1 }).saveKey
 
   const selected = selectPromotedSnapshotIdentity({
-    cacheVersion: 'v4', saveRequired: false, candidateSnapshotPath: candidate, baselineSnapshotPath: baseline,
+    cacheVersion: 'v5', saveRequired: false, candidateSnapshotPath: candidate, baselineSnapshotPath: baseline,
   })
 
   assert.deepEqual(selected, { selection: 'baseline', snapshotPath: fs.realpathSync(baseline) })
   assert.deepEqual(fs.readFileSync(baseline), baselineBytes)
-  assert.notEqual(sourceCacheKey(candidate, { version: 4 }), sourceCacheKey(baseline, { version: 4 }))
+  assert.notEqual(sourceCacheKey(candidate, { version: 5 }), sourceCacheKey(baseline, { version: 5 }))
   const nextRun = generationKeys({ snapshotPath: selected.snapshotPath, runId: 101, runAttempt: 1 })
-  assert.equal(nextRun.prefix, `${sourceCacheKey(baseline, { version: 4 })}-`)
-  assert.equal(existing.startsWith(nextRun.prefix), true, 'next run can restore the existing full-key generation by the same prefix')
+  assert.equal(nextRun.prefix, 'guides-source-en-v5-')
+  assert.equal(existing.startsWith(nextRun.prefix), true, 'next run can restore the latest self-contained generation by the site prefix')
 })
 
 test('semantic changes, recovery, and legacy migration select the candidate and key the exact promoted snapshot', () => {
@@ -77,10 +77,10 @@ test('semantic changes, recovery, and legacy migration select the candidate and 
   }))
 
   assert.deepEqual(selectPromotedSnapshotIdentity({
-    cacheVersion: 'v4', saveRequired: true, candidateSnapshotPath: recoveryCandidate, baselineSnapshotPath: baseline,
+    cacheVersion: 'v5', saveRequired: true, candidateSnapshotPath: recoveryCandidate, baselineSnapshotPath: baseline,
   }), { selection: 'candidate', snapshotPath: fs.realpathSync(recoveryCandidate) })
 
-  for (const cacheVersion of ['v4', 'v3', 'v2', 'v1', 'none']) {
+  for (const cacheVersion of ['v5', 'v4', 'v3', 'v2', 'v1', 'none']) {
     const selected = selectPromotedSnapshotIdentity({
       cacheVersion, saveRequired: true, candidateSnapshotPath: candidate, baselineSnapshotPath: baseline,
     })
@@ -90,34 +90,34 @@ test('semantic changes, recovery, and legacy migration select the candidate and 
   const promoted = path.join(root, 'promoted.json')
   fs.copyFileSync(candidate, promoted)
   const keys = generationKeys({ snapshotPath: promoted, runId: 200, runAttempt: 2 })
-  assert.equal(keys.saveKey.startsWith(`${sourceCacheKey(promoted, { version: 4 })}-`), true)
+  assert.equal(keys.saveKey.startsWith(`guides-source-en-v5-${sourceCacheKey(promoted, { version: 5 }).split('-').at(-1)}-`), true)
 })
 
-test('a no-save selection rejects non-v4 or semantically changed candidates', () => {
+test('a no-save selection rejects non-v5 or semantically changed candidates', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-lifecycle-reject-'))
   const baseline = json(root, 'baseline.json', snapshot())
   const changed = json(root, 'changed.json', snapshot({ table_digests: { table: 'c'.repeat(64) } }))
   assert.throws(() => selectPromotedSnapshotIdentity({
     cacheVersion: 'v3', saveRequired: false, candidateSnapshotPath: baseline, baselineSnapshotPath: baseline,
-  }), /valid v4/i)
+  }), /valid v5/i)
   assert.throws(() => selectPromotedSnapshotIdentity({
-    cacheVersion: 'v4', saveRequired: false, candidateSnapshotPath: changed, baselineSnapshotPath: baseline,
+    cacheVersion: 'v5', saveRequired: false, candidateSnapshotPath: changed, baselineSnapshotPath: baseline,
   }), /semantic identity/i)
 })
 
-test('generation persistence reports saved, skipped-valid-v4, and save-failed exactly', () => {
+test('generation persistence reports saved, skipped-valid-v5, and save-failed exactly', () => {
   const generatedAt = '2026-07-17T12:00:00.000Z'
-  const saveKey = `guides-source-v4-${'a'.repeat(64)}-100-1`
+  const saveKey = `guides-source-v5-${'a'.repeat(64)}-100-1`
   const siteQualifiedSaveKeys = [
-    `guides-source-en-v4-${'a'.repeat(64)}-100-1`,
-    `guides-source-zh-CN-v4-${'a'.repeat(64)}-100-1`,
+    `guides-source-en-v5-${'a'.repeat(64)}-100-1`,
+    `guides-source-zh-CN-v5-${'a'.repeat(64)}-100-1`,
   ]
   assert.deepEqual(generationPersistenceReport({
-    generatedAt, sourceCacheVersion: 'v4', saveRequired: false,
+    generatedAt, sourceCacheVersion: 'v5', saveRequired: false,
     preparationOutcome: 'skipped', saveOutcome: 'skipped', saveKey: null,
   }), {
-    schemaVersion: 1, generated_at: generatedAt, sourceCacheVersion: 'v4', saveRequired: false,
-    persistence: 'skipped-valid-v4', saveKey: null,
+    schemaVersion: 1, generated_at: generatedAt, sourceCacheVersion: 'v5', saveRequired: false,
+    persistence: 'skipped-valid-v5', saveKey: null,
   })
   assert.equal(generationPersistenceReport({
     generatedAt, sourceCacheVersion: 'v3', saveRequired: true,
@@ -129,7 +129,7 @@ test('generation persistence reports saved, skipped-valid-v4, and save-failed ex
   }).persistence, 'save-failed')
   for (const qualifiedSaveKey of siteQualifiedSaveKeys) {
     assert.equal(generationPersistenceReport({
-      generatedAt, sourceCacheVersion: 'v4', saveRequired: true,
+    generatedAt, sourceCacheVersion: 'v5', saveRequired: true,
       preparationOutcome: 'success', saveOutcome: 'success', saveKey: qualifiedSaveKey,
     }).saveKey, qualifiedSaveKey)
   }
@@ -138,7 +138,7 @@ test('generation persistence reports saved, skipped-valid-v4, and save-failed ex
     preparationOutcome: 'failure', saveOutcome: 'skipped', saveKey: null,
   }), /preparation failed/i)
   assert.throws(() => generationPersistenceReport({
-    generatedAt, sourceCacheVersion: 'v4', saveRequired: false,
+    generatedAt, sourceCacheVersion: 'v5', saveRequired: false,
     selectionOutcome: 'failure', manifestOutcome: 'skipped',
     preparationOutcome: 'skipped', saveOutcome: 'skipped', saveKey: null,
   }), /assembly prerequisites failed/i)
@@ -146,11 +146,11 @@ test('generation persistence reports saved, skipped-valid-v4, and save-failed ex
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-report-'))
   const output = path.join(root, 'reports', 'guides-cache-generation.json')
   writeGenerationPersistenceReport(output, {
-    generatedAt, sourceCacheVersion: 'v4', saveRequired: false,
+    generatedAt, sourceCacheVersion: 'v5', saveRequired: false,
     preparationOutcome: 'skipped', saveOutcome: 'skipped', saveKey: null,
   })
   assert.deepEqual(JSON.parse(fs.readFileSync(output, 'utf8')), generationPersistenceReport({
-    generatedAt, sourceCacheVersion: 'v4', saveRequired: false,
+    generatedAt, sourceCacheVersion: 'v5', saveRequired: false,
     preparationOutcome: 'skipped', saveOutcome: 'skipped', saveKey: null,
   }))
 })
@@ -160,15 +160,15 @@ test('lifecycle CLI supports the skipped empty key and truthful failed-save outc
   const cli = path.resolve(__dirname, 'guides-cache-generation-lifecycle.js')
   const skippedOutput = path.join(root, 'skipped.json')
   const skipped = spawnSync(process.execPath, [
-    cli, 'report', '--cache-version', 'v4', '--save-required', 'false',
+    cli, 'report', '--cache-version', 'v5', '--save-required', 'false',
     '--selection-outcome', 'success', '--manifest-outcome', 'success',
     '--preparation-outcome', 'skipped', '--save-outcome', 'skipped', '--save-key', '', '--output', skippedOutput,
   ], { encoding: 'utf8' })
   assert.equal(skipped.status, 0, skipped.stderr)
-  assert.equal(JSON.parse(fs.readFileSync(skippedOutput, 'utf8')).persistence, 'skipped-valid-v4')
+  assert.equal(JSON.parse(fs.readFileSync(skippedOutput, 'utf8')).persistence, 'skipped-valid-v5')
 
   const failedOutput = path.join(root, 'failed.json')
-  const key = `guides-source-v4-${'a'.repeat(64)}-100-1`
+  const key = `guides-source-v5-${'a'.repeat(64)}-100-1`
   const failed = spawnSync(process.execPath, [
     cli, 'report', '--cache-version', 'v3', '--save-required', 'true',
     '--selection-outcome', 'success', '--manifest-outcome', 'success',

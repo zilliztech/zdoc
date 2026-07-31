@@ -73,12 +73,9 @@ jobs:
           snapshot="$snapshot_path"
           if [[ -f "$snapshot" ]]; then
             v4_restore_enabled=true
-            generation=$(node scripts/docs-workflow/guides-source-cache-generation.js keys \
-              --snapshot "$snapshot" \
-              --run-id "${{ github.run_id }}" \
-              --run-attempt "${{ github.run_attempt }}")
-            v4_lookup=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).lookupKey)' "$generation")
-            v4_prefix=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).prefix)' "$generation")
+            v4=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 4)
+            v4_prefix="${v4}-"
+            v4_lookup="${v4_prefix}lookup-${{ github.run_id }}-${{ github.run_attempt }}"
             v3=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 3)
             v2=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 2)
             v1=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 1)
@@ -92,9 +89,46 @@ jobs:
           fi
           printf 'v4_restore_enabled=%s\nv4_lookup=%s\nv4_prefix=%s\nv3=%s\nv2=%s\nv1=%s\n' \
             "$v4_restore_enabled" "$v4_lookup" "$v4_prefix" "$v3" "$v2" "$v1" >> "$GITHUB_OUTPUT"
+      - id: source_cache_v5
+        name: Restore Guides v5 cache candidate
+        uses: actions/cache/restore@v4
+        with:
+          path: tmp/guides-source-cache-v5
+          key: guides-source-${{ inputs.site }}-v5-lookup-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: guides-source-${{ inputs.site }}-v5-
+      - id: source_cache_v5_check
+        name: Validate and promote Guides v5 cache candidate
+        run: |
+          source_valid=false
+          media_valid=false
+          candidate_present=false
+          snapshot="$snapshot_path"
+          payload=tmp/guides-source-cache-v5
+          staged="$RUNNER_TEMP/guides-source-cache-v5"
+          rm -rf "$staged"
+          [[ -e "$payload" || -L "$payload" ]] && candidate_present=true
+          if [[ -d "$payload" && ! -L "$payload" ]]; then
+            cp -a "$payload" "$staged"
+            rm -rf "$payload"
+            if node scripts/docs-workflow/guides-source-cache-generation.js validate \
+              --payload "$staged" --snapshot "$snapshot" --root-token "$root_token"; then
+              node scripts/docs-workflow/guides-source-cache-generation.js promote \
+                --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
+                --snapshot "$snapshot" --root-token "$root_token"
+              source_valid=true
+              media_valid=true
+            fi
+          fi
+          rm -rf "$staged" "$payload"
+          if [[ "$source_valid" != true ]]; then
+            node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+              --workspace "$GITHUB_WORKSPACE" --scope all
+          fi
+          printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
+            "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
       - id: source_cache_v4
         name: Restore Guides v4 cache candidate
-        if: ${{ steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}
         uses: actions/cache/restore@v4
         with:
           path: tmp/guides-source-cache-v4
@@ -102,6 +136,7 @@ jobs:
           restore-keys: ${{ steps.source_cache_keys.outputs.v4_prefix }}
       - id: source_cache_v4_check
         name: Validate and promote Guides v4 cache candidate
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
         run: |
           source_valid=false
           media_valid=false
@@ -146,7 +181,7 @@ jobs:
             "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
       - id: source_cache_v3
         name: Restore Guides v3 cache candidate
-        if: ${{ steps.source_cache_v4_check.outputs.source_valid != 'true' }}
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v4_check.outputs.source_valid != 'true' }}
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -156,6 +191,7 @@ jobs:
           key: ${{ steps.source_cache_keys.outputs.v3 }}
       - id: source_cache_v3_check
         name: Validate Guides v3 cache candidate
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
         run: |
           source_valid=false
           media_valid=false
@@ -163,7 +199,12 @@ jobs:
           snapshot="$snapshot_path"
           manifest="$source_manifest_path"
           media="$media_manifest_path"
-          if [[ "${{ steps.source_cache_v4_check.outputs.source_valid }}" == true ]]; then
+          if [[ "${{ steps.source_cache_v5_check.outputs.source_valid }}" == true ]]; then
+            source_valid=true
+            media_valid=true
+            cache_version=v5
+            cache_state=valid
+          elif [[ "${{ steps.source_cache_v4_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             media_valid="${{ steps.source_cache_v4_check.outputs.media_valid }}"
           else
@@ -190,7 +231,7 @@ jobs:
             "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
       - id: source_cache_v2
         name: Restore Guides v2 cache candidate
-        if: ${{ steps.source_cache_v3_check.outputs.source_valid != 'true' }}
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v3_check.outputs.source_valid != 'true' }}
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -200,6 +241,7 @@ jobs:
           key: ${{ steps.source_cache_keys.outputs.v2 }}
       - id: source_cache_v2_check
         name: Validate Guides v2 cache candidate
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
         run: |
           source_valid=false
           media_valid=false
@@ -234,7 +276,7 @@ jobs:
             "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
       - id: source_cache_v1
         name: Restore Guides v1 cache candidate
-        if: ${{ steps.source_cache_v2_check.outputs.source_valid != 'true' }}
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v2_check.outputs.source_valid != 'true' }}
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -243,6 +285,7 @@ jobs:
           key: ${{ steps.source_cache_keys.outputs.v1 }}
       - id: source_cache_v1_check
         name: Validate Guides v1 cache candidate
+        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
         run: |
           source_valid=false
           media_valid=false
@@ -295,7 +338,8 @@ jobs:
             source_valid=true
             cache_version=v1
             cache_state=legacy
-          elif [[ "${{ steps.source_cache_v4_check.outputs.candidate_present }}" == true || \
+          elif [[ "${{ steps.source_cache_v5_check.outputs.candidate_present }}" == true || \
+                  "${{ steps.source_cache_v4_check.outputs.candidate_present }}" == true || \
                   "${{ steps.source_cache_v3_check.outputs.candidate_present }}" == true || \
                   "${{ steps.source_cache_v2_check.outputs.candidate_present }}" == true || \
                   "${{ steps.source_cache_v1_check.outputs.candidate_present }}" == true ]]; then

@@ -487,11 +487,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const validateChineseIndex = stepIndex('Validate Chinese Guides publication')
       const finalizeIndex = stepIndex('Finalize Guides assembly identity')
       const selectIndex = stepIndex('Select promoted Guides source snapshot')
-      const createIndex = stepIndex('Create Guides v4 generation payload')
-      const saveIndex = stepIndex('Save Guides v4 generation')
+      const createIndex = stepIndex('Create Guides v5 generation payload')
+      const saveIndex = stepIndex('Save Guides v5 generation')
       const reportIndex = stepIndex('Record Guides cache generation persistence')
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
-        errors.push(`${file}: Guides v4 generation must follow combined validation and promoted snapshot selection before save and reporting`)
+        errors.push(`${file}: Guides v5 generation must follow combined validation and promoted snapshot selection before save and reporting`)
       }
       if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateChineseIndex && validateChineseIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
         errors.push(`${file}: observe-only assembly must validate decision, generate, validate both site and Chinese source contracts, then finalize identity`)
@@ -520,19 +520,19 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (/--output packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-assembly-decision\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must never mutate the immutable assembly decision`)
       const selection = stepById.get('promoted_snapshot')
       if (!/guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"[\s\S]*if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js/.test(selection?.run || '')) {
-        errors.push(`${file}: unchanged valid-v4 assembly must preserve the baseline snapshot while save-required runs promote the candidate`)
+        errors.push(`${file}: unchanged valid-v5 assembly must preserve the baseline snapshot while save-required runs promote the candidate`)
       }
-      const generation = stepById.get('guides_v4_generation')
+      const generation = stepById.get('guides_v5_generation')
       if (generation?.if !== "${{ inputs.cache_save_required == 'true' }}" ||
           !/guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate[\s\S]*key=\$key/.test(generation?.run || '')) {
-        errors.push(`${file}: v4 generation payload must be created, keyed, and revalidated from the exact promoted snapshot only when save is required`)
+        errors.push(`${file}: v5 generation payload must be created, keyed, and revalidated from the exact promoted snapshot only when save is required`)
       }
-      const save = stepById.get('save_guides_v4_generation')
-      if (save?.if !== "${{ inputs.cache_save_required == 'true' && steps.guides_v4_generation.outcome == 'success' }}" || save?.['continue-on-error'] !== true || save?.uses !== 'actions/cache/save@v4' || save?.with?.path !== 'tmp/guides-source-cache-v4' || save?.with?.key !== '${{ steps.guides_v4_generation.outputs.key }}') {
-        errors.push(`${file}: Guides v4 cache save must be conditional, nonfatal, and use the promoted snapshot generation key`)
+      const save = stepById.get('save_guides_v5_generation')
+      if (save?.if !== "${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}" || save?.['continue-on-error'] !== true || save?.uses !== 'actions/cache/save@v4' || save?.with?.path !== 'tmp/guides-source-cache-v5' || save?.with?.key !== '${{ steps.guides_v5_generation.outputs.key }}') {
+        errors.push(`${file}: Guides v5 cache save must be conditional, nonfatal, and use the promoted snapshot generation key`)
       }
       const report = steps.find(step => step.name === 'Record Guides cache generation persistence')
-      if (report?.if !== '${{ always() }}' || !/guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*steps\.guides_v4_generation\.outcome[\s\S]*steps\.save_guides_v4_generation\.outcome[\s\S]*guides-cache-generation\.json/.test(report?.run || '')) {
+      if (report?.if !== '${{ always() }}' || !/guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*steps\.guides_v5_generation\.outcome[\s\S]*steps\.save_guides_v5_generation\.outcome[\s\S]*guides-cache-generation\.json/.test(report?.run || '')) {
         errors.push(`${file}: Guides cache generation report must run after save and record the actual preparation and save outcomes`)
       }
       if (/guides-source-cache\.js key[^\n]*--version 3/.test(source)) errors.push(`${file}: legacy v3 cache persistence is forbidden`)
@@ -896,6 +896,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     const requiredCacheSteps = [
       'Compute Guides cache generation keys',
+      'Restore Guides v5 cache candidate',
+      'Validate and promote Guides v5 cache candidate',
       'Restore Guides v4 cache candidate',
       'Validate and promote Guides v4 cache candidate',
       'Restore Guides v3 cache candidate',
@@ -909,19 +911,25 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     for (const name of requiredCacheSteps) {
       const index = guidesSteps.findIndex(step => step.name === name)
       if (index <= lastCacheStep) {
-        errors.push('_fetch-guides-sources.yml: Guides cache candidates must restore and validate in v4, v3, v2, v1 order')
+        errors.push('_fetch-guides-sources.yml: Guides cache candidates must restore and validate in v5, v4, v3, v2, v1 order')
         break
       }
       lastCacheStep = index
     }
     const restoreKeyLines = guidesSource.match(/^\s+restore-keys:/gm) || []
+    const v5Restore = stepById.get('source_cache_v5')
     const v4Restore = stepById.get('source_cache_v4')
     const keyStep = stepById.get('source_cache_keys')
-    if (restoreKeyLines.length !== 1 || v4Restore?.if !== "${{ steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}" || v4Restore?.with?.['restore-keys'] !== '${{ steps.source_cache_keys.outputs.v4_prefix }}' || v4Restore?.with?.path !== 'tmp/guides-source-cache-v4' || v4Restore?.with?.key !== '${{ steps.source_cache_keys.outputs.v4_lookup }}' ||
-        !/guides-source-cache-generation\.js keys[\s\S]*\.prefix[\s\S]*v4_prefix[\s\S]*v4_restore_enabled/.test(keyStep?.run || '')) {
-      errors.push('_fetch-guides-sources.yml: Guides v4 restore requires the sole snapshot-scoped restore prefix and isolated payload path')
+    if (restoreKeyLines.length !== 2 || v5Restore?.with?.['restore-keys'] !== 'guides-source-${{ inputs.site }}-v5-' || v5Restore?.with?.path !== 'tmp/guides-source-cache-v5' ||
+        v4Restore?.if !== "${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}" || v4Restore?.with?.['restore-keys'] !== '${{ steps.source_cache_keys.outputs.v4_prefix }}' || v4Restore?.with?.path !== 'tmp/guides-source-cache-v4' || v4Restore?.with?.key !== '${{ steps.source_cache_keys.outputs.v4_lookup }}' ||
+        !/guides-source-cache\.js key[^\n]*--version 4[\s\S]*v4_prefix[\s\S]*v4_restore_enabled/.test(keyStep?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: Guides v5 self-contained restore and v4 snapshot-scoped fallback require isolated payload paths')
     }
     const v4Validation = stepById.get('source_cache_v4_check')?.run || ''
+    const v5Validation = stepById.get('source_cache_v5_check')?.run || ''
+    if (!/\[\[ -e "\$payload" \|\| -L "\$payload" \]\] && candidate_present=true[\s\S]*\[\[ -d "\$payload" && ! -L "\$payload" \]\][\s\S]*guides-source-cache-generation\.js validate[\s\S]*guides-source-cache-generation\.js promote[\s\S]*source_valid=true[\s\S]*media_valid=true/.test(v5Validation)) {
+      errors.push('_fetch-guides-sources.yml: malformed v5 cache payload must be rejected before self-contained snapshot promotion')
+    }
     if (!/guides-source-cache-source-promotion\.js validate[\s\S]*--payload "\$staged"[\s\S]*guides-source-cache\.js validate-media[\s\S]*"\$staged\/media-manifest\.json"/.test(v4Validation) ||
         !/else[\s\S]*guides-source-cache-source-promotion\.js promote[\s\S]*--payload "\$staged"[\s\S]*source_valid=true/.test(v4Validation)) {
       errors.push('_fetch-guides-sources.yml: v4 Guides source and media validity must remain independent before promotion')
@@ -930,14 +938,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push('_fetch-guides-sources.yml: malformed v4 cache payload must be reported as an invalid candidate')
     }
     for (const [id, preceding] of [['source_cache_v3', 'source_cache_v4_check'], ['source_cache_v2', 'source_cache_v3_check'], ['source_cache_v1', 'source_cache_v2_check']]) {
-      if (stepById.get(id)?.if !== `\${{ steps.${preceding}.outputs.source_valid != 'true' }}`) {
+      if (stepById.get(id)?.if !== `\${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.${preceding}.outputs.source_valid != 'true' }}`) {
         errors.push('_fetch-guides-sources.yml: legacy Guides fallback must depend on preceding source validity')
         break
       }
     }
     for (const [id, preceding] of [['source_cache_v3_check', 'source_cache_v4_check'], ['source_cache_v2_check', 'source_cache_v3_check'], ['source_cache_v1_check', 'source_cache_v2_check']]) {
       const validation = stepById.get(id)
-      if (validation?.if || !new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`).test(validation?.run || '')) {
+      if (validation?.if !== "${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}" || !new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`).test(validation?.run || '')) {
         errors.push('_fetch-guides-sources.yml: Guides validation chain must propagate prior source validity to stop fallback')
         break
       }
@@ -956,6 +964,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push('_fetch-guides-sources.yml: Guides cleanup must remove exact cache leaves and preserve unrelated cache state')
     }
     for (const [validationName, nextRestoreName, requiredCleanup] of [
+      ['Validate and promote Guides v5 cache candidate', 'Restore Guides v4 cache candidate', /rm -rf "\$staged" "\$payload"[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
       ['Validate and promote Guides v4 cache candidate', 'Restore Guides v3 cache candidate', /rm -rf "\$staged" tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
       ['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate', /guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
       ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate', /guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],

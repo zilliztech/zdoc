@@ -55,8 +55,11 @@ const INFRASTRUCTURE_STEP = /^(?:actions\/checkout@|checkout|set up (?:node|pnpm
 const TASK_NAMES = new Map([
   ['restore guides v4 cache candidate', 'Restore Guides v4 cache candidate'],
   ['validate and promote guides v4 cache candidate', 'Validate Guides media cache'],
+  ['restore guides v5 cache candidate', 'Restore Guides v5 cache candidate'],
+  ['validate and promote guides v5 cache candidate', 'Validate Guides media cache'],
   ['prefetch shared guides media', 'Prefetch shared Guides media'],
   ['save guides v4 generation', 'Save Guides media cache'],
+  ['save guides v5 generation', 'Save Guides media cache'],
   ['evaluate guides assembly reuse', 'Evaluate Guides assembly reuse'],
   ['validate guides assembly decision', 'Validate Guides assembly decision'],
   ['generate combined guides sidebars offline', 'Generate combined Guides sidebars offline'],

@@ -49,18 +49,20 @@ function writeLegacyManifest(f, manifestPath) {
   }, null, 2)}\n`)
 }
 
-test('uses site-qualified snapshot hashes with a v3 default and v4-compatible explicit prefixes', () => {
+test('uses site-qualified snapshot hashes with a v3 default and v5-compatible explicit prefixes', () => {
   const f = fixture()
   const v1 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 1 })
   const v2 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 2 })
   const v3 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 3 })
   const v4 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 4 })
+  const v5 = sourceCacheKey(f.snapshotPath, { site: 'en', version: 5 })
   assert.match(v1, /^guides-source-en-v1-[0-9a-f]{64}$/)
   assert.equal(v2.replace('guides-source-en-v2-', ''), v1.replace('guides-source-en-v1-', ''))
   assert.equal(v3.replace('guides-source-en-v3-', ''), v1.replace('guides-source-en-v1-', ''))
   assert.equal(v4.replace('guides-source-en-v4-', ''), v1.replace('guides-source-en-v1-', ''))
+  assert.equal(v5.replace('guides-source-en-v5-', ''), v1.replace('guides-source-en-v1-', ''))
   assert.notEqual(v3, sourceCacheKey(f.snapshotPath, { site: 'zh-CN', version: 3 }))
-  assert.throws(() => sourceCacheKey(f.snapshotPath, { site: 'en', version: 5 }), /unsupported/i)
+  assert.throws(() => sourceCacheKey(f.snapshotPath, { site: 'en', version: 6 }), /unsupported/i)
   assert.throws(() => sourceCacheKey(f.snapshotPath, { site: 'fr', version: 3 }), /site/i)
 })
 

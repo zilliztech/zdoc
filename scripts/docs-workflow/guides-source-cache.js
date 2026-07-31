@@ -19,7 +19,7 @@ function guidesSite(site) {
   return site
 }
 function sourceCacheKey(snapshotPath, { site = process.env.ZDOC_SITE || 'en', version = 3 } = {}) {
-  if (![1, 2, 3, 4].includes(version)) throw new Error(`Unsupported Guides source cache version: ${version}`)
+  if (![1, 2, 3, 4, 5].includes(version)) throw new Error(`Unsupported Guides source cache version: ${version}`)
   return `guides-source-${guidesSite(site)}-v${version}-${hashSnapshot(readSnapshot(snapshotPath))}`
 }
 

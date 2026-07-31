@@ -55,7 +55,7 @@ function fixture() {
     entries: [{ id: 'feishu-image:image', type: 'feishu-image', token: 'image', caption: 'Image', objectKey: 'image.png' }],
   })
   createSourceCacheManifest({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath, rootToken: 'root' })
-  return { root, workspace, sourceDir, snapshot, snapshotPath, mediaManifestPath, sourceManifestPath, outputDir: path.join(root, 'tmp/guides-source-cache-v4') }
+  return { root, workspace, sourceDir, snapshot, snapshotPath, mediaManifestPath, sourceManifestPath, outputDir: path.join(root, 'tmp/guides-source-cache-v5') }
 }
 
 function treeBytes(root) {
@@ -93,13 +93,13 @@ test('generation keys use canonical snapshot hash and isolate generated_at chang
   const one = generationKeys({ snapshotPath: f.snapshotPath, runId: 29550685342, runAttempt: 3 })
   const same = generationKeys({ snapshotPath: reordered, runId: 29550685342, runAttempt: 3 })
   assert.deepEqual(same, one)
-  assert.match(one.prefix, /^guides-source-en-v4-[0-9a-f]{64}-$/)
-  assert.notEqual(generationKeys({ site: 'zh-CN', snapshotPath: f.snapshotPath, runId: 29550685342, runAttempt: 3 }).prefix, one.prefix)
+  assert.equal(one.prefix, 'guides-source-en-v5-')
+  assert.equal(generationKeys({ site: 'zh-CN', snapshotPath: f.snapshotPath, runId: 29550685342, runAttempt: 3 }).prefix, 'guides-source-zh-CN-v5-')
   assert.equal(one.lookupKey, `${one.prefix}lookup-29550685342-3`)
-  assert.equal(one.saveKey, `${one.prefix}29550685342-3`)
+  assert.match(one.saveKey, new RegExp(`^${one.prefix}[0-9a-f]{64}-29550685342-3$`))
   const changed = { ...f.snapshot, generated_at: '2026-07-18T00:00:00.000Z' }
   const changedPath = write(f.root, 'snapshot-changed.json', changed)
-  assert.notEqual(generationKeys({ snapshotPath: changedPath, runId: 29550685342, runAttempt: 3 }).prefix, one.prefix)
+  assert.notEqual(generationKeys({ snapshotPath: changedPath, runId: 29550685342, runAttempt: 3 }).saveKey, one.saveKey)
 })
 
 test('generation module exports only the four public generation operations', () => {
@@ -233,7 +233,7 @@ test('promote rejects internal workspace symlink boundaries without touching ext
   }
 })
 
-test('creates, validates, and promotes the exact v4 payload while removing stale live sources', () => {
+test('creates, validates, and promotes a self-contained v5 payload including its snapshot', () => {
   const f = fixture()
   const created = createGenerationPayload({
     workspace: f.workspace,
@@ -242,11 +242,13 @@ test('creates, validates, and promotes the exact v4 payload while removing stale
     outputDir: f.outputDir,
   })
   assert.equal(created, path.resolve(f.outputDir))
-  assert.deepEqual(fs.readdirSync(f.outputDir).sort(), ['media-manifest.json', 'source-manifest.json', 'sources'])
+  assert.deepEqual(fs.readdirSync(f.outputDir).sort(), ['media-manifest.json', 'snapshot.json', 'source-manifest.json', 'sources'])
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(f.outputDir, 'snapshot.json'), 'utf8')), f.snapshot)
   assert.equal(validateGenerationPayload({ payloadDir: f.outputDir, snapshotPath: f.snapshotPath, rootToken: 'root' }).source.complete, true)
 
   const workspace = path.join(f.root, 'promotion-workspace')
   const live = livePaths(workspace)
+  const promotedSnapshot = write(workspace, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json', '{"stale":true}')
   write(live.sourceDir, 'stale.json', '{"stale":true}')
   write(workspace, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'old source manifest')
   write(workspace, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'old media manifest')
@@ -254,6 +256,7 @@ test('creates, validates, and promotes the exact v4 payload while removing stale
   assert.deepEqual(treeBytes(live.sourceDir), treeBytes(path.join(f.outputDir, 'sources')))
   assert.equal(fs.readFileSync(live.sourceManifestPath, 'utf8'), fs.readFileSync(path.join(f.outputDir, 'source-manifest.json'), 'utf8'))
   assert.equal(fs.readFileSync(live.mediaManifestPath, 'utf8'), fs.readFileSync(path.join(f.outputDir, 'media-manifest.json'), 'utf8'))
+  assert.equal(fs.readFileSync(promotedSnapshot, 'utf8'), fs.readFileSync(path.join(f.outputDir, 'snapshot.json'), 'utf8'))
   assert.equal(fs.existsSync(path.join(live.sourceDir, 'stale.json')), false)
 })
 
@@ -271,24 +274,25 @@ test('rejected payload cannot mutate live paths', () => {
   assert.deepEqual(treeBytes(workspace), before)
 })
 
-test('snapshot-B validation and promotion reject a snapshot-A payload without mutating live state', () => {
+test('promotion restores the payload snapshot instead of depending on the checkout snapshot', () => {
   const f = fixture()
   createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
   const snapshotBPath = write(f.root, 'snapshot-b.json', {
     ...f.snapshot,
     generated_at: '2026-07-18T00:00:00.000Z',
   })
-  const before = treeBytes(f.workspace)
+  assert.equal(validateGenerationPayload({ payloadDir: f.outputDir, snapshotPath: snapshotBPath, rootToken: 'root' }).source.complete, true)
+  promoteGenerationPayload({ payloadDir: f.outputDir, workspace: f.workspace, snapshotPath: snapshotBPath, rootToken: 'root' })
+  const restored = path.join(f.workspace, 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json')
+  assert.equal(fs.readFileSync(restored, 'utf8'), fs.readFileSync(path.join(f.outputDir, 'snapshot.json'), 'utf8'))
+})
 
-  assert.throws(
-    () => validateGenerationPayload({ payloadDir: f.outputDir, snapshotPath: snapshotBPath, rootToken: 'root' }),
-    /snapshot/i,
-  )
-  assert.throws(
-    () => promoteGenerationPayload({ payloadDir: f.outputDir, workspace: f.workspace, snapshotPath: snapshotBPath, rootToken: 'root' }),
-    /snapshot/i,
-  )
-  assert.deepEqual(treeBytes(f.workspace), before)
+test('legacy v4 payload remains valid only against its external snapshot', () => {
+  const f = fixture()
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  fs.rmSync(path.join(f.outputDir, 'snapshot.json'))
+  assert.equal(validateGenerationPayload({ payloadDir: f.outputDir, snapshotPath: f.snapshotPath, rootToken: 'root' }).source.complete, true)
+  assert.throws(() => validateGenerationPayload({ payloadDir: f.outputDir, snapshotPath: path.join(f.root, 'missing.json'), rootToken: 'root' }), /snapshot|missing/i)
 })
 
 test('validation rejects symlinks, nonregular children, and manifest traversal', async (t) => {
@@ -370,15 +374,15 @@ test('promotion aggregates rollback faults, attempts later actions, and preserve
     snapshotPath: f.snapshotPath,
     rootToken: 'root',
     hooks: {
-      afterInstall({ index }) { if (index === 0) throw new Error('original promotion failure') },
+      afterInstall({ index }) { if (index === 1) throw new Error('original promotion failure') },
       beforeRollbackRemove({ index, journal }) {
         calls.push(`remove-${index}`)
         journalRoot = journal
-        if (index === 0) throw new Error('remove rollback failure')
+        if (index === 1) throw new Error('remove rollback failure')
       },
       beforeRollbackRestore({ index }) {
         calls.push(`restore-${index}`)
-        if (index === 0) throw new Error('restore rollback failure')
+        if (index === 1) throw new Error('restore rollback failure')
       },
       beforeRollbackDirectoryCleanup({ path: directory }) {
         calls.push(`directory-${path.basename(directory)}`)
@@ -392,8 +396,8 @@ test('promotion aggregates rollback faults, attempts later actions, and preserve
 
   assert.equal(error instanceof AggregateError, true)
   assert.match(error.message, /original promotion failure.*remove rollback failure.*restore rollback failure.*directory cleanup failure/i)
-  assert.deepEqual(calls.slice(0, 3), ['remove-0', 'remove-1', 'remove-2'])
-  assert.equal(calls.includes('restore-0'), true)
+  assert.deepEqual(calls.slice(0, 4), ['remove-0', 'remove-1', 'remove-2', 'remove-3'])
+  assert.equal(calls.includes('restore-1'), true)
   assert.equal(calls.filter(call => call.startsWith('directory-')).length >= 2, true)
   assert.equal(fs.existsSync(journalRoot), true)
   fs.rmSync(journalRoot, { recursive: true, force: true })

@@ -558,7 +558,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
       mutate(source) {
         return source.replace('        name: Validate Guides v1 cache candidate', '        name: Validate Guides v1 candidate')
       },
-      expected: /restore and validate in v4, v3, v2, v1 order/,
+      expected: /restore and validate in v5, v4, v3, v2, v1 order/,
     },
     {
       mutate(source) {
@@ -568,7 +568,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     },
     {
       mutate(source) {
-        return source.replace("if: ${{ steps.source_cache_v3_check.outputs.source_valid != 'true' }}", "if: ${{ steps.source_cache_v3.outputs.cache-hit != 'true' }}")
+        return source.replace("if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v3_check.outputs.source_valid != 'true' }}", "if: ${{ steps.source_cache_v3.outputs.cache-hit != 'true' }}")
       },
       expected: /preceding source validity|never trust cache-hit/,
     },
@@ -576,7 +576,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
       mutate(source) {
         return source.replace('          key: ${{ steps.source_cache_keys.outputs.v2 }}', '          key: ${{ steps.source_cache_keys.outputs.v2 }}\n          restore-keys: guides-source-v2-')
       },
-      expected: /sole snapshot-scoped restore prefix/,
+      expected: /self-contained restore and v4 snapshot-scoped fallback/,
     },
     {
       mutate(source) {
@@ -600,7 +600,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
       mutate(source) {
         return source.replace('[[ -e "$payload" || -L "$payload" ]] && candidate_present=true', 'candidate_present=false')
       },
-      expected: /malformed v4 cache payload must be reported as an invalid candidate/,
+      expected: /malformed v5 cache payload must be rejected/,
     },
     {
       mutate(source) {
@@ -642,12 +642,12 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
 
   const assemblyCases = [
     {
-      mutate(source) { return source.replace("if: ${{ inputs.cache_save_required == 'true' && steps.guides_v4_generation.outcome == 'success' }}", 'if: ${{ always() }}') },
-      expected: /v4 cache save must be conditional, nonfatal/,
+      mutate(source) { return source.replace("if: ${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}", 'if: ${{ always() }}') },
+      expected: /v5 cache save must be conditional, nonfatal/,
     },
     {
       mutate(source) { return source.replace('continue-on-error: true\n        uses: actions/cache/save@v4', 'continue-on-error: false\n        uses: actions/cache/save@v4') },
-      expected: /v4 cache save must be conditional, nonfatal/,
+      expected: /v5 cache save must be conditional, nonfatal/,
     },
     {
       mutate(source) { return source.replace('guides-cache-generation-lifecycle.js select', 'guides-cache-generation-lifecycle.js unsafe') },
@@ -1019,6 +1019,8 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   const sourceConfigIndex = sourceSteps.findIndex(step => step.name === 'Resolve site-owned Guides source')
   const requiredCacheSteps = [
     'Compute Guides cache generation keys',
+    'Restore Guides v5 cache candidate',
+    'Validate and promote Guides v5 cache candidate',
     'Restore Guides v4 cache candidate',
     'Validate and promote Guides v4 cache candidate',
     'Restore Guides v3 cache candidate',
@@ -1056,7 +1058,7 @@ test('guides workflows bootstrap full sources and persist only verified caches',
     assert.ok(index > previousIndex, `${name} must appear in the required order`)
     previousIndex = index
   }
-  assert.equal((source.match(/^\s+restore-keys:/gm) || []).length, 1)
+  assert.equal((source.match(/^\s+restore-keys:/gm) || []).length, 2)
 
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-render-readiness-policy-'))
   try {
@@ -1069,18 +1071,19 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   } finally {
     fs.rmSync(directory, { recursive: true, force: true })
   }
-  assert.match(source, /name: Restore Guides v4 cache candidate[\s\S]*if: \$\{\{ steps\.source_cache_keys\.outputs\.v4_restore_enabled == 'true' \}\}[\s\S]*path: tmp\/guides-source-cache-v4[\s\S]*key: \$\{\{ steps\.source_cache_keys\.outputs\.v4_lookup \}\}[\s\S]*restore-keys: \$\{\{ steps\.source_cache_keys\.outputs\.v4_prefix \}\}/)
-  assert.match(source, /guides-source-cache-generation\.js keys[\s\S]*\.prefix[\s\S]*v4_prefix/)
+  assert.match(source, /name: Restore Guides v5 cache candidate[\s\S]*path: tmp\/guides-source-cache-v5[\s\S]*restore-keys: guides-source-\$\{\{ inputs\.site \}\}-v5-/)
+  assert.match(source, /name: Restore Guides v4 cache candidate[\s\S]*if: \$\{\{ steps\.source_cache_v5_check\.outputs\.source_valid != 'true' && steps\.source_cache_keys\.outputs\.v4_restore_enabled == 'true' \}\}[\s\S]*path: tmp\/guides-source-cache-v4[\s\S]*key: \$\{\{ steps\.source_cache_keys\.outputs\.v4_lookup \}\}[\s\S]*restore-keys: \$\{\{ steps\.source_cache_keys\.outputs\.v4_prefix \}\}/)
+  assert.match(source, /guides-source-cache\.js key[^\n]*--version 4[\s\S]*v4_prefix/)
   assert.match(source, /\[\[ -e "\$payload" \|\| -L "\$payload" \]\] && candidate_present=true[\s\S]*\[\[ -d "\$payload" && ! -L "\$payload" && -f "\$snapshot" \]\]/)
   assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*guides-source-cache-source-promotion\.js validate[\s\S]*--payload "\$staged"[\s\S]*guides-source-cache\.js validate-media[\s\S]*"\$staged\/media-manifest\.json"[\s\S]*else[\s\S]*guides-source-cache-source-promotion\.js promote[\s\S]*--payload "\$staged"[\s\S]*source_valid=true/)
   assert.doesNotMatch(source, /cp -a "\$staged\/sources" packages\/docs-tooling\/src\/lark\/meta\/sources/)
-  assert.match(source, /name: Restore Guides v3 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v4_check\.outputs\.source_valid != 'true' \}\}/)
-  assert.match(source, /name: Restore Guides v2 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v3_check\.outputs\.source_valid != 'true' \}\}/)
-  assert.match(source, /name: Restore Guides v1 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v2_check\.outputs\.source_valid != 'true' \}\}/)
+  assert.match(source, /name: Restore Guides v3 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v5_check\.outputs\.source_valid != 'true' && steps\.source_cache_v4_check\.outputs\.source_valid != 'true' \}\}/)
+  assert.match(source, /name: Restore Guides v2 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v5_check\.outputs\.source_valid != 'true' && steps\.source_cache_v3_check\.outputs\.source_valid != 'true' \}\}/)
+  assert.match(source, /name: Restore Guides v1 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v5_check\.outputs\.source_valid != 'true' && steps\.source_cache_v2_check\.outputs\.source_valid != 'true' \}\}/)
   assert.doesNotMatch(source, /cache-hit/)
   for (const [id, preceding] of [['source_cache_v3_check', 'source_cache_v4_check'], ['source_cache_v2_check', 'source_cache_v3_check'], ['source_cache_v1_check', 'source_cache_v2_check']]) {
     const step = sourceSteps.find(candidate => candidate.id === id)
-    assert.equal(step.if, undefined)
+    assert.equal(step.if, "${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}")
     assert.match(step.run, new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`))
   }
   assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*rm -rf tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v3 cache candidate/)
@@ -1116,14 +1119,14 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(assemble, /cache_save_required: \{ required: true, type: string \}/)
   assert.match(assemble, /name: Select promoted Guides source snapshot[\s\S]*guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"/)
   assert.match(assemble, /name: Prepare promoted Guides source manifest[\s\S]*guides-source-cache\.js create/)
-  assert.match(assemble, /id: guides_v4_generation\n\s+name: Create Guides v4 generation payload\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' \}\}[\s\S]*guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate/)
+  assert.match(assemble, /id: guides_v5_generation\n\s+name: Create Guides v5 generation payload\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' \}\}[\s\S]*guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate/)
   assert.match(assemble, /--media-manifest "\$media_manifest_path"/)
-  assert.match(assemble, /id: save_guides_v4_generation\n\s+name: Save Guides v4 generation\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' && steps\.guides_v4_generation\.outcome == 'success' \}\}\n\s+continue-on-error: true\n\s+uses: actions\/cache\/save@v4[\s\S]*path: tmp\/guides-source-cache-v4[\s\S]*key: \$\{\{ steps\.guides_v4_generation\.outputs\.key \}\}/)
+  assert.match(assemble, /id: save_guides_v5_generation\n\s+name: Save Guides v5 generation\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' && steps\.guides_v5_generation\.outcome == 'success' \}\}\n\s+continue-on-error: true\n\s+uses: actions\/cache\/save@v4[\s\S]*path: tmp\/guides-source-cache-v5[\s\S]*key: \$\{\{ steps\.guides_v5_generation\.outputs\.key \}\}/)
   assert.match(assemble, /name: Record Guides cache generation persistence\n\s+if: \$\{\{ always\(\) \}\}[\s\S]*guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*guides-cache-generation\.json/)
   assert.match(assemble, /^  actions: write$/m)
   assert.ok(assemble.indexOf('Validate combined guides output') < assemble.indexOf('Select promoted Guides source snapshot'))
-  assert.ok(assemble.indexOf('Select promoted Guides source snapshot') < assemble.indexOf('Create Guides v4 generation payload'))
-  assert.ok(assemble.indexOf('Create Guides v4 generation payload') < assemble.indexOf('Save Guides v4 generation'))
+  assert.ok(assemble.indexOf('Select promoted Guides source snapshot') < assemble.indexOf('Create Guides v5 generation payload'))
+  assert.ok(assemble.indexOf('Create Guides v5 generation payload') < assemble.indexOf('Save Guides v5 generation'))
   assert.doesNotMatch(assemble, /guides-source-cache\.js key[^\n]*--version 3/)
 })
 

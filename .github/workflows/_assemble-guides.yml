@@ -197,7 +197,7 @@ jobs:
               --publish-url https://docs.cloud-uat3.zilliz.com \
               --link-check-remote https://docs.zilliz.com
           else
-            echo '[source-cache] Preserving exact baseline snapshot identity for unchanged valid v4 cache'
+            echo '[source-cache] Preserving exact baseline snapshot identity for unchanged valid v5 cache'
           fi
           echo "selection=$selected" >> "$GITHUB_OUTPUT"
       - id: promoted_source_manifest
@@ -207,8 +207,8 @@ jobs:
           snapshot="$snapshot_path"
           manifest="$source_manifest_path"
           node scripts/docs-workflow/guides-source-cache.js create --source-dir "$source_dir" --snapshot "$snapshot" --output "$manifest" --media-manifest "$media_manifest_path" --root-token "$root_token"
-      - id: guides_v4_generation
-        name: Create Guides v4 generation payload
+      - id: guides_v5_generation
+        name: Create Guides v5 generation payload
         if: ${{ inputs.cache_save_required == 'true' }}
         run: |
           snapshot="$snapshot_path"
@@ -216,20 +216,20 @@ jobs:
             --snapshot "$snapshot" --run-id "${{ github.run_id }}" --run-attempt "${{ github.run_attempt }}")
           key=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).saveKey)' "$generation")
           node scripts/docs-workflow/guides-source-cache-generation.js create \
-            --workspace "$GITHUB_WORKSPACE" --output tmp/guides-source-cache-v4 \
+            --workspace "$GITHUB_WORKSPACE" --output tmp/guides-source-cache-v5 \
             --snapshot "$snapshot" --root-token "$root_token"
           node scripts/docs-workflow/guides-source-cache-generation.js validate \
-            --payload tmp/guides-source-cache-v4 --snapshot "$snapshot" \
+            --payload tmp/guides-source-cache-v5 --snapshot "$snapshot" \
             --root-token "$root_token"
           echo "key=$key" >> "$GITHUB_OUTPUT"
-      - id: save_guides_v4_generation
-        name: Save Guides v4 generation
-        if: ${{ inputs.cache_save_required == 'true' && steps.guides_v4_generation.outcome == 'success' }}
+      - id: save_guides_v5_generation
+        name: Save Guides v5 generation
+        if: ${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}
         continue-on-error: true
         uses: actions/cache/save@v4
         with:
-          path: tmp/guides-source-cache-v4
-          key: ${{ steps.guides_v4_generation.outputs.key }}
+          path: tmp/guides-source-cache-v5
+          key: ${{ steps.guides_v5_generation.outputs.key }}
       - name: Record Guides cache generation persistence
         if: ${{ always() }}
         run: |
@@ -238,9 +238,9 @@ jobs:
             --save-required "${{ inputs.cache_save_required }}" \
             --selection-outcome "${{ steps.promoted_snapshot.outcome }}" \
             --manifest-outcome "${{ steps.promoted_source_manifest.outcome }}" \
-            --preparation-outcome "${{ steps.guides_v4_generation.outcome }}" \
-            --save-outcome "${{ steps.save_guides_v4_generation.outcome }}" \
-            --save-key "${{ steps.guides_v4_generation.outputs.key }}" \
+            --preparation-outcome "${{ steps.guides_v5_generation.outcome }}" \
+            --save-outcome "${{ steps.save_guides_v5_generation.outcome }}" \
+            --save-key "${{ steps.guides_v5_generation.outputs.key }}" \
             --output packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json
       - name: Create combined guides checkpoint
         run: |
