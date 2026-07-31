@@ -492,7 +492,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const reportIndex = stepIndex('Record Guides cache generation persistence')
       const publicationStep = steps.find(step => step.name === 'Publish assembled Guides through docs-tooling')
       if (publicationStep?.env?.DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER !== "${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}" ||
-          publicationStep?.env?.IMAGE_BED_URL !== "${{ inputs.site == 'zh-CN' && vars.IMAGE_BED_URL || '' }}") {
+          publicationStep?.env?.IMAGE_BED_URL !== "${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || '' }}") {
         errors.push(`${file}: Chinese Guides publication must inject the repository-local Aliyun OSS validator without changing English validation`)
       }
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {

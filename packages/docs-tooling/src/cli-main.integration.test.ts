@@ -126,6 +126,11 @@ describe('docs-tooling executable composition root', () => {
         ...process.env,
         DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: 'providers/validator.mjs',
         IMAGE_BED_URL: 'https://docs-images.oss-cn-hangzhou.aliyuncs.com',
+        OSS_ACCESS_KEY_ID: 'test-id',
+        OSS_ACCESS_KEY_SECRET: 'test-secret',
+        OSS_REGION: 'oss-cn-hangzhou',
+        OSS_BUCKET: 'test-bucket',
+        OSS_ENDPOINT: 'https://oss-cn-hangzhou.aliyuncs.com',
       },
     });
     expect(chinese.status, chinese.stderr || chinese.stdout).toBe(0);
@@ -134,6 +139,30 @@ describe('docs-tooling executable composition root', () => {
     const english = runCli(repositoryRoot, ['validate-publication-provider', '--site', 'en']);
     expect(english.status, english.stderr || english.stdout).toBe(0);
     expect(english.stdout).toMatch(/does not require/i);
+  });
+
+  it('fails Chinese publication preflight before fetch when OSS storage is incomplete', () => {
+    const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'providers'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'providers/validator.mjs'), 'export function createAliyunOssValidator() { return {validatePublication: async () => {}}; }\n');
+    const result = spawnSync(process.execPath, [
+      '--experimental-strip-types', cliMain, 'validate-publication-provider', '--site', 'zh-CN',
+    ], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: 'providers/validator.mjs',
+        IMAGE_BED_URL: 'https://zdoc-images.s3.us-west-2.amazonaws.com',
+        OSS_ACCESS_KEY_ID: '',
+        OSS_ACCESS_KEY_SECRET: '',
+        OSS_REGION: '',
+        OSS_BUCKET: '',
+        OSS_ENDPOINT: '',
+      },
+    });
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/OSS_ACCESS_KEY_ID|Aliyun OSS storage/i);
   });
 
   it('uses only the declared Node 22.6 runtime surface for revision inventory loading', () => {

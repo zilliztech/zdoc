@@ -122,7 +122,7 @@ jobs:
         run: node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest "$media_manifest_path"
         env:
           DOCS_BUILD_ENV: uat
-          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
           NO_UPDATE_NOTIFIER: '1'
       - name: Publish assembled Guides through docs-tooling
         run: |
@@ -131,7 +131,7 @@ jobs:
         env:
           DOCS_TOOLING_GUIDES_STAGE: assembled
           DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: ${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}
-          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.IMAGE_BED_URL || '' }}
+          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || '' }}
       - name: Validate Chinese Guides publication
         if: ${{ inputs.site == 'zh-CN' }}
         run: |

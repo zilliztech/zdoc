@@ -54,7 +54,7 @@ jobs:
         run: node scripts/docs-workflow/render-guides-table.js --workspace "$GITHUB_WORKSPACE" --entry "$ENTRY_JSON"
         env:
           ENTRY_JSON: ${{ toJSON(inputs) }}
-          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
           NO_UPDATE_NOTIFIER: '1'
       - name: Create table artifact
         run: |

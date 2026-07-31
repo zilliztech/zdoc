@@ -225,8 +225,8 @@ jobs:
       SPACE_ID: ${{ secrets.SPACE_ID }}
       FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
       MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
+      OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
   render_zh_guides_tables:
     name: render_zh_guides_tables / ${{ matrix.target_name }} / ${{ matrix.table_name }}

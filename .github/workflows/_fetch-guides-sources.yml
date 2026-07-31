@@ -23,8 +23,10 @@ on:
       SPACE_ID: { required: true }
       FIGMA_API_KEY: { required: true }
       MODEL_API_KEY: { required: true }
-      AWS_ACCESS_KEY_ID: { required: true }
-      AWS_SECRET_ACCESS_KEY: { required: true }
+      AWS_ACCESS_KEY_ID: { required: false }
+      AWS_SECRET_ACCESS_KEY: { required: false }
+      OSS_ACCESS_KEY_ID: { required: false }
+      OSS_ACCESS_KEY_SECRET: { required: false }
 
 permissions:
   actions: read
@@ -60,7 +62,12 @@ jobs:
         run: pnpm docs-tooling validate-publication-provider --site zh-CN
         env:
           DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: packages/docs-tooling/providers/aliyun-oss-validator.mjs
-          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+          IMAGE_BED_URL: ${{ vars.ZH_CN_IMAGE_BED_URL }}
+          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
+          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
+          OSS_REGION: ${{ vars.OSS_REGION }}
+          OSS_BUCKET: ${{ vars.OSS_BUCKET }}
+          OSS_ENDPOINT: ${{ vars.OSS_ENDPOINT }}
       - name: Preflight Guides Base before source fetch
         run: node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs --manual guides --guidesBasePreflight --buildEnv uat
         env:
@@ -405,11 +412,16 @@ jobs:
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
           FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-          AWS_BUCKET: ${{ vars.AWS_BUCKET }}
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+          AWS_BUCKET: ${{ inputs.site == 'en' && vars.AWS_BUCKET || '' }}
+          AWS_REGION: ${{ inputs.site == 'en' && vars.AWS_REGION || '' }}
+          AWS_ACCESS_KEY_ID: ${{ inputs.site == 'en' && secrets.AWS_ACCESS_KEY_ID || '' }}
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.site == 'en' && secrets.AWS_SECRET_ACCESS_KEY || '' }}
+          OSS_ACCESS_KEY_ID: ${{ inputs.site == 'zh-CN' && secrets.OSS_ACCESS_KEY_ID || '' }}
+          OSS_ACCESS_KEY_SECRET: ${{ inputs.site == 'zh-CN' && secrets.OSS_ACCESS_KEY_SECRET || '' }}
+          OSS_REGION: ${{ inputs.site == 'zh-CN' && vars.OSS_REGION || '' }}
+          OSS_BUCKET: ${{ inputs.site == 'zh-CN' && vars.OSS_BUCKET || '' }}
+          OSS_ENDPOINT: ${{ inputs.site == 'zh-CN' && vars.OSS_ENDPOINT || '' }}
+          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
           GUIDES_FIGMA_MAX_CONCURRENT: '1'
           GUIDES_FIGMA_MIN_TIME_MS: '1000'
       - id: source_cache_result
