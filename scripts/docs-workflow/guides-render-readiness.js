@@ -4,8 +4,8 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { loadTypeScript } = require('../lib/load-typescript')
-const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts')
-const { resolveManualPublication } = require('../../packages/docs-tooling/src/manuals/registry.ts')
+const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts')
+const { resolveManualPublication } = loadTypeScript('../../packages/docs-tooling/src/manuals/registry.ts')
 const { assertSourceCompleteness } = require('../../packages/docs-tooling/src/lark/sourceCompleteness')
 
 function normalizeRepositoryPath(value) {
