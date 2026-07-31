@@ -12,8 +12,11 @@ test('Chinese Guides tables use their corresponding English table name slugs', (
     {table_id: 'clients', name: '客户端参考'},
     {table_id: 'tools', name: '工具'},
     {table_id: 'models', name: 'AI 模型'},
+    {table_id: 'architecture', name: '产品架构'},
+    {table_id: 'solutions', name: '解决方案'},
   ]).map(table => table.table_slug), [
     'get-started', 'development', 'management', 'client-libraries', 'tools', 'ai-models',
+    'product-architecture', 'solutions',
   ])
 })
 

@@ -9,6 +9,8 @@ const ZH_CN_TABLE_SLUGS = Object.freeze({
   '客户端参考': 'client-libraries',
   '工具': 'tools',
   'AI 模型': 'ai-models',
+  '产品架构': 'product-architecture',
+  '解决方案': 'solutions',
 })
 
 function guidesTableSlug(site, tableName) {
