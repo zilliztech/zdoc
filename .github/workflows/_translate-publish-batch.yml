@@ -73,8 +73,8 @@ jobs:
       TARGET_BRANCH: ${{ inputs.target_branch }}
       BATCH_NUMBER: ${{ inputs.batch_number }}
       BATCH_COUNT: ${{ inputs.batch_count }}
-      ARTIFACT_NAME: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
-      BASELINE_ARTIFACT_NAME: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+      ARTIFACT_NAME: translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+      BASELINE_ARTIFACT_NAME: translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
       COMMIT_MESSAGE: "i18n(${{ inputs.target }}): publish ${{ inputs.group }} translations"
     steps:
       - name: Initialize publication paths
@@ -125,13 +125,13 @@ jobs:
       - name: Download translation checkpoint
         uses: actions/download-artifact@v4
         with:
-          name: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+          name: translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
           path: ${{ runner.temp }}/download
 
       - name: Download translation baseline
         uses: actions/download-artifact@v4
         with:
-          name: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+          name: translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
           path: ${{ runner.temp }}/baseline-download
 
       - name: Safely extract translation artifacts
@@ -215,7 +215,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: publication-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+          name: publication-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
           path: |
             ${{ runner.temp }}/publication-output.txt
             ${{ runner.temp }}/*-archive-paths.txt
