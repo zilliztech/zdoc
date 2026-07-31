@@ -27,7 +27,13 @@ const { canonicalizeInternalDocLink } = require('./internalDocLink')
 // MDX compilation will be loaded dynamically as it's an ES module
 
 const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com'
-const { guidesPlacementType, guidesRecordPublishTargets, guidesCanonicalIsPublishable } = require('./guidesBaseRecordSemantics')
+const {
+    guidesPlacementType,
+    guidesRecordPublishTargets,
+    guidesCanonicalIsPublishable,
+    guidesNavigationIsPublishable,
+} = require('./guidesBaseRecordSemantics')
+const { guidesTableSlug } = require('./guidesTableSlugs')
 
 // Known JSX block components that the MDX patcher must never escape.
 // Shared by __escape_non_html_tags (safeUppercaseTags seed) and __mdx_patches
@@ -191,7 +197,7 @@ class larkDocWriter {
         const seenChildTokens = new Map()
 
         for (let i = 0; i < children.length; i++) {
-            const child = children[i]
+            let child = children[i]
             const childToken = child.node_token || child.token
             if (childToken && seenChildTokens.has(childToken)) {
                 console.warn(`[sidebar] Skipping duplicate child token ${childToken} under ${token}: "${child.title || child.name}" duplicates "${seenChildTokens.get(childToken)}"`)
@@ -201,6 +207,11 @@ class larkDocWriter {
             let childSource = null
             try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {
                 if (this.sourceIndex) throw e
+            }
+            const tableToken = child.node_token || childSource?.node_token
+            if (/^base:tbl[^:]+$/.test(tableToken || '')) {
+                const site = node_path.basename(this.docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
+                child = { ...child, slug: guidesTableSlug(site, childSource?.title || child.title) }
             }
 
             if (childSource?.base_placement_type === 'section') {
@@ -332,7 +343,7 @@ class larkDocWriter {
         if (placement) {
             const targets = guidesRecordPublishTargets(source)
             const targetMatches = targets.length === 0 || targets.includes(this.targets.toLowerCase())
-            if (placement !== 'canonical') return targetMatches
+            if (placement !== 'canonical') return targetMatches && guidesNavigationIsPublishable(source)
             return targetMatches && guidesCanonicalIsPublishable(source)
         }
         const targetsField = source.base_targets

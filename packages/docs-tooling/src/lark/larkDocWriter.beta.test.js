@@ -313,6 +313,97 @@ async function testSidebarSkipsRefToTargetFilteredOutForCurrentTarget() {
     })
 }
 
+async function testSidebarSkipsExplicitlyUnpublishedRefBeforeResolvingTargetMetadata() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+            title: 'Root',
+            slug: 'root',
+            node_token: 'root',
+            has_child: true,
+            children: [{
+                title: 'Hugging Face',
+                slug: 'hugging-face',
+                node_token: 'ref-token',
+                has_child: false,
+            }],
+        }, null, 2))
+        fs.writeFileSync(path.join(dir, 'ref.json'), JSON.stringify({
+            title: 'Hugging Face',
+            name: 'Hugging Face',
+            slug: 'hugging-face',
+            node_token: 'ref-token',
+            base_record_id: 'recRef',
+            base_placement_type: 'ref',
+            base_nav_ref: true,
+            base_nav_ref_target_token: 'target-token',
+            base_targets: [],
+            base_status: 'Not Start Yet',
+        }, null, 2))
+        fs.writeFileSync(path.join(dir, 'target.json'), JSON.stringify({
+            title: 'Hugging Face',
+            name: 'Hugging Face',
+            slug: 'hugging-face',
+            node_token: 'target-token',
+        }, null, 2))
+
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false, null, {},
+        )
+
+        try {
+            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [])
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
+async function testChineseSidebarUsesEnglishSlugForTopLevelBaseTable() {
+    await withTempDir(async dir => {
+        const sourceDir = path.join(dir, 'guides-zh-CN')
+        fs.mkdirSync(sourceDir)
+        fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify({
+            title: 'Cloud Docs',
+            slug: null,
+            node_token: 'root',
+            has_child: true,
+            children: [{
+                title: '工具',
+                slug: '',
+                node_token: 'base:tblTools',
+                has_child: true,
+            }],
+        }, null, 2))
+        fs.writeFileSync(path.join(sourceDir, 'tools.json'), JSON.stringify({
+            title: '工具',
+            name: '工具',
+            slug: '',
+            node_token: 'base:tblTools',
+            base_placement_type: 'section',
+            base_nav_virtual: true,
+            has_child: true,
+            children: [],
+        }, null, 2))
+
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', sourceDir, path.join(dir, 'images'),
+            'zilliz.saas', true, false,
+        )
+
+        try {
+            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [{
+                type: 'category',
+                label: '工具',
+                key: 'category:tutorials/tools',
+                items: [],
+            }])
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
 async function testSidebarEmitsRefAsExistingDocItem() {
     await withTempDir(async dir => {
         fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
@@ -873,6 +964,8 @@ async function run() {
     await testScraperKeepsRecordsHiddenBySelectedView()
     await testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug()
     await testSidebarSkipsRefToTargetFilteredOutForCurrentTarget()
+    await testSidebarSkipsExplicitlyUnpublishedRefBeforeResolvingTargetMetadata()
+    await testChineseSidebarUsesEnglishSlugForTopLevelBaseTable()
     await testSidebarEmitsRefAsExistingDocItem()
     await testSidebarKeepsEmptySectionAsCategory()
     await testBaseCanonicalWithChildrenKeepsLandingPage()

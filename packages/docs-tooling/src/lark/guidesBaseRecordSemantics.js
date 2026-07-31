@@ -66,6 +66,13 @@ function guidesCanonicalIsPublishable(record) {
   return PUBLISHABLE_PROGRESS.has(progress || '')
 }
 
+function guidesNavigationIsPublishable(record) {
+  const placement = guidesPlacementType(record, { guidesMode: true })
+  if (!placement || placement === 'canonical') return false
+  const progress = plain(record?.base_status ?? record?.progress ?? fields(record).Progress ?? fields(record).Status)?.trim().toLowerCase()
+  return !progress || PUBLISHABLE_PROGRESS.has(progress)
+}
+
 function guidesRecordRefTarget(record) {
   return plain(record?.base_ref_target_doc ?? fields(record)['Ref Target Doc'])
 }
@@ -75,6 +82,7 @@ module.exports = {
   guidesRecordCreatesNavigation,
   guidesRecordCreatesPage,
   guidesCanonicalIsPublishable,
+  guidesNavigationIsPublishable,
   guidesRecordPublishTargets,
   guidesRecordRefTarget,
   isFeishuDocumentLink,
