@@ -7,7 +7,6 @@ const {
   guidesRecordCreatesNavigation,
   guidesRecordCreatesPage,
   guidesCanonicalIsPublishable,
-  guidesNavigationIsPublishable,
   guidesRecordPublishTargets,
   guidesRecordRefTarget,
 } = require('./guidesBaseRecordSemantics')
@@ -29,16 +28,6 @@ test('publishes canonical only for explicitly allowed Progress values', () => {
     assert.equal(guidesCanonicalIsPublishable({ placement_type: 'canonical', progress }), false)
   }
   assert.equal(guidesCanonicalIsPublishable({ placement_type: 'section', progress: 'Draft' }), false)
-})
-
-test('publishes navigation by default but honors an explicit Progress value', () => {
-  assert.equal(guidesNavigationIsPublishable({ placement_type: 'ref' }), true)
-  assert.equal(guidesNavigationIsPublishable({ placement_type: 'section', progress: 'Draft' }), true)
-  assert.equal(guidesNavigationIsPublishable({ placement_type: 'link', progress: 'Published' }), true)
-  assert.equal(guidesNavigationIsPublishable({ placement_type: 'ref', progress: 'Suspended' }), false)
-  assert.equal(guidesNavigationIsPublishable({ placement_type: 'ref', progress: 'Not Start Yet' }), false)
-  assert.equal(guidesNavigationIsPublishable({ placement_type: 'section', progress: 'WIP' }), false)
-  assert.equal(guidesNavigationIsPublishable({ placement_type: 'canonical', progress: 'Draft' }), false)
 })
 
 test('infers canonical only from Feishu or Lark document links in Guides mode', () => {

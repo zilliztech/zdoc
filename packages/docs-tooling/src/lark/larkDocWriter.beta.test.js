@@ -313,52 +313,6 @@ async function testSidebarSkipsRefToTargetFilteredOutForCurrentTarget() {
     })
 }
 
-async function testSidebarSkipsExplicitlyUnpublishedRefBeforeResolvingTargetMetadata() {
-    await withTempDir(async dir => {
-        fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
-            title: 'Root',
-            slug: 'root',
-            node_token: 'root',
-            has_child: true,
-            children: [{
-                title: 'Hugging Face',
-                slug: 'hugging-face',
-                node_token: 'ref-token',
-                has_child: false,
-            }],
-        }, null, 2))
-        fs.writeFileSync(path.join(dir, 'ref.json'), JSON.stringify({
-            title: 'Hugging Face',
-            name: 'Hugging Face',
-            slug: 'hugging-face',
-            node_token: 'ref-token',
-            base_record_id: 'recRef',
-            base_placement_type: 'ref',
-            base_nav_ref: true,
-            base_nav_ref_target_token: 'target-token',
-            base_targets: [],
-            base_status: 'Suspended',
-        }, null, 2))
-        fs.writeFileSync(path.join(dir, 'target.json'), JSON.stringify({
-            title: 'Hugging Face',
-            name: 'Hugging Face',
-            slug: 'hugging-face',
-            node_token: 'target-token',
-        }, null, 2))
-
-        const writer = new LarkDocWriter(
-            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
-            'zilliz.saas', true, false, null, {},
-        )
-
-        try {
-            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [])
-        } finally {
-            writer.destroy()
-        }
-    })
-}
-
 async function testChineseSidebarUsesEnglishSlugForTopLevelBaseTable() {
     await withTempDir(async dir => {
         const sourceDir = path.join(dir, 'guides-zh-CN')
@@ -454,7 +408,6 @@ async function testSidebarEmitsRefAsExistingDocItem() {
             base_nav_ref: true,
             base_nav_ref_target_token: 'target-token',
             base_targets: ['Zilliz.SaaS'],
-            base_status: 'Draft',
         }, null, 2))
 
         const writer = new LarkDocWriter(
@@ -964,7 +917,6 @@ async function run() {
     await testScraperKeepsRecordsHiddenBySelectedView()
     await testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug()
     await testSidebarSkipsRefToTargetFilteredOutForCurrentTarget()
-    await testSidebarSkipsExplicitlyUnpublishedRefBeforeResolvingTargetMetadata()
     await testChineseSidebarUsesEnglishSlugForTopLevelBaseTable()
     await testSidebarEmitsRefAsExistingDocItem()
     await testSidebarKeepsEmptySectionAsCategory()

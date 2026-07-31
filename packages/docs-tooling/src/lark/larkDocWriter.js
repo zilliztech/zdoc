@@ -31,7 +31,6 @@ const {
     guidesPlacementType,
     guidesRecordPublishTargets,
     guidesCanonicalIsPublishable,
-    guidesNavigationIsPublishable,
 } = require('./guidesBaseRecordSemantics')
 const { guidesTableSlug } = require('./guidesTableSlugs')
 
@@ -343,7 +342,7 @@ class larkDocWriter {
         if (placement) {
             const targets = guidesRecordPublishTargets(source)
             const targetMatches = targets.length === 0 || targets.includes(this.targets.toLowerCase())
-            if (placement !== 'canonical') return targetMatches && guidesNavigationIsPublishable(source)
+            if (placement !== 'canonical') return targetMatches
             return targetMatches && guidesCanonicalIsPublishable(source)
         }
         const targetsField = source.base_targets
