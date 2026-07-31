@@ -4,7 +4,7 @@ slug: /java/v1-HighlevelAPI-search
 sidebar_label: "search()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with a Boolean expression to conduct filtering on scalar fields before searching. | Java | v1"
+description: "MilvusClient 接口。此方法在向量字段上执行近似最近邻（ANN）搜索，并结合布尔表达式在搜索前对标量字段执行过滤。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#J7mOdolPjo1iByxIFZ3cjqYwntg
 sidebar_position: 7
@@ -17,86 +17,86 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with a Boolean expression to conduct filtering on scalar fields before searching.
+MilvusClient 接口。此方法在向量字段上执行近似最近邻（ANN）搜索，并结合布尔表达式在搜索前对标量字段执行过滤。
 
 ```java
 R<SearchResponse> search(SearchSimpleParam requestParam);
 ```
 
-#### SearchSimpleParam
+#### SearchSimpleParam\{#searchsimpleparam}
 
-Use the `SearchSimpleParam.Builder` to construct a `SearchSimpleParam` object.
+使用 `SearchSimpleParam.Builder` 构建 `SearchSimpleParam` 对象。
 
 ```java
 import io.milvus.param.highlevel.dml.SearchSimpleParam;
 SearchSimpleParam.Builder builder = SearchSimpleParam.newBuilder();
 ```
 
-Methods of `SearchSimpleParam.Builder`:
+`SearchSimpleParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(collectionName)</p></td>
-        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: target collection name</p></td>
+        <td><p>设置集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName: 目标集合名称</p></td>
     </tr>
     <tr>
         <td><p>withOutFields(List\<String> outFields)</p></td>
-        <td><p>Specifies output scalar fields (Optional).</p></td>
-        <td><p><br/>outFields: The name list of fields to be outputed</p></td>
+        <td><p>指定输出的标量字段（可选）。</p></td>
+        <td><p><br/>outFields: 要输出的字段名称列表</p></td>
     </tr>
     <tr>
         <td><p>withFilter(String filter)</p></td>
-        <td><p>Set the expression to filter scalar fields before searching(Optional).For more information please refer to <a href="https://milvus.io/docs/v2.1.x/boolean.md">this doc</a>.</p></td>
-        <td><p>filter: The expression to filter scalar fields</p></td>
+        <td><p>设置在搜索前过滤标量字段的表达式（可选）。更多信息请参见<a href="https://milvus.io/docs/v2.1.x/boolean.md">此文档</a>。</p></td>
+        <td><p>filter: 用于过滤标量字段的表达式</p></td>
     </tr>
     <tr>
         <td><p>withVectors(List\<?> vectors)</p></td>
-        <td><p>Set the target vector. Up to 16384 vectors allowed.</p></td>
-        <td><p>vectors: <br/>- If target field type is float vector, List\< List\<Float>gt; is required;<br/>- If target field type is binary vector, List\<ByteBuffer> is required;</p></td>
+        <td><p>设置目标向量。最多允许 16384 个向量。</p></td>
+        <td><p>vectors: <br/>- 如果目标字段类型为 float vector，则需要 List\< List\<Float>gt;；<br/>- 如果目标字段类型为 binary vector，则需要 List\<ByteBuffer>；</p></td>
     </tr>
     <tr>
         <td><p>withOffset(Long offset)</p></td>
-        <td><p>Specify a position, the returned entities before this position will be ignored. Only take effect when the 'limit' value is specified.Default value is 0, start from begin.</p></td>
-        <td><p>offset: A value to define the position</p></td>
+        <td><p>指定一个位置，返回结果中此位置之前的实体将被忽略。仅在指定了 'limit' 值时生效。默认值为 0，表示从开始位置起。</p></td>
+        <td><p>offset: 用于定义位置的值</p></td>
     </tr>
     <tr>
         <td><p>withLimit(Long limit)</p></td>
-        <td><p>Specify a value to control the returned number of entities. Must be a positive value.Default value is 10, will return without limit.</p></td>
-        <td><p>limit: A value to define the limit of returned entities</p></td>
+        <td><p>指定一个值以控制返回的实体数量。必须为正值。默认值为 10，将在没有限制的情况下返回。</p></td>
+        <td><p>limit: 用于定义返回实体数量限制的值</p></td>
     </tr>
     <tr>
         <td><p>withConsistencyLevel(ConsistencyLevelEnum consistencyLevel)</p></td>
-        <td><p>Consistency level used in the search. If no level is specified, will use default consistency. Please refer to ConsistencyLevelEnum in Misc.</p></td>
-        <td><p>consistencyLevel: The consistency level used in the search</p></td>
+        <td><p>搜索中使用的一致性级别。如果未指定级别，则使用默认一致性。请参见 Misc 中的 ConsistencyLevelEnum。</p></td>
+        <td><p>consistencyLevel: 搜索中使用的一致性级别</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a SearchSimpleParam object.</p></td>
+        <td><p>构建一个 SearchSimpleParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `SearchSimpleParam.Builder.build()` can throw the following exceptions:
+`SearchSimpleParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### 返回值\{#returns}
 
-This method catches all the exceptions and returns an `R<SearchResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<SearchResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns a valid `SearchResponse` held by the `R` template.
+- 如果 API 成功，则返回由 `R` 模板持有的有效 `SearchResponse`。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.*;

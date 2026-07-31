@@ -1,7 +1,7 @@
 ---
-title: "Index | Java | v1"
+title: "索引 | Java | v1"
 slug: /java/v1-Index
-sidebar_label: "Index"
+sidebar_label: "索引"
 beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
@@ -15,7 +15,7 @@ displayed_sidebar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Index
+# 索引
 
 import DocCardList from '@theme/DocCardList';
 

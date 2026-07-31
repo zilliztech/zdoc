@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "renameCollection() | Java | v2"
 slug: /java/java/v2-Collections-renameCollection
 sidebar_label: "renameCollection()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation renames an existing collection. | Java | v2"
+description: "此操作会重命名现有集合。 | Java | v2"
 type: docx
-token: JCutdOT9Polf2dxej0mcoP24n9c
+token: U7Ipdm0FTo8FCVxaxbZcwMygnWd
 sidebar_position: 21
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,52 +31,53 @@ import Admonition from '@theme/Admonition';
 
 # renameCollection()
 
-This operation renames an existing collection.
+此操作会重命名现有集合。
 
 ```java
 public void renameCollection(RenameCollectionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 renameCollection(RenameCollectionReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
     .newCollectionName(String newCollectionName)
+    .targetDbName(String targetDbName)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database to which the target collection belongs.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of an existing collection.
+    目标集合的名称。
 
-    Setting this to a non-existing collection results in a **MilvusException**.
+- `newCollectionName(String newCollectionName)` -
 
-- `newCollectionName(String newCollectionName)`
+    集合的新名称。
 
-    The name of the target collection after this operation.
+- `targetDbName(String targetDbName)` -
 
-    Setting this to the value of **old_name** results in a **MilvusException**.
+    目标数据库的名称。当重命名后的集合应移动到另一个数据库时设置此参数。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -98,4 +99,3 @@ RenameCollectionReq renameCollectionReq = RenameCollectionReq.builder()
         .build();
 client.renameCollection(renameCollectionReq);
 ```
-

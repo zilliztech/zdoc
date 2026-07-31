@@ -4,7 +4,7 @@ slug: /java/v1-Collection-alterCollection
 sidebar_label: "alterCollection()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "Alter collection properties. Currently, it supports modifying the time to live (TTL) of a collection's data and enabling MMap of a collection. | Java | v1"
+description: "修改集合属性。目前支持修改集合数据的生存时间（TTL）以及启用集合的 MMap。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#Ms4Udr3rPo9BEmxRpF9cdk9hnbg
 sidebar_position: 7
@@ -17,76 +17,76 @@ import Admonition from '@theme/Admonition';
 
 # alterCollection()
 
-Alter collection properties. Currently, it supports modifying the time to live (TTL) of a collection's data and enabling MMap of a collection.
+修改集合属性。目前支持修改集合数据的生存时间（TTL）以及启用集合的 MMap。
 
 ```java
 R<RpcStatus> alterCollection(AlterCollectionParam requestParam);
 ```
 
-#### AlterCollectionParam
+#### AlterCollectionParam\{#altercollectionparam}
 
-Use the `AlterCollectionParam.Builder` to construct an `AlterCollectionParam` object.
+使用 `AlterCollectionParam.Builder` 构造 `AlterCollectionParam` 对象。
 
 ```java
 import io.milvus.param.AlterCollectionParam;
 AlterCollectionParam.Builder builder = AlterCollectionParam.newBuilder();
 ```
 
-Methods of `AlterCollectionParam.Builder`:
+`AlterCollectionParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the collection to alter properties.</p></td>
+        <td><p>设置集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName: 要修改属性的集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. Database name can be null for default database.</p></td>
-        <td><p>databaseName: The name of the database.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，数据库名称可以为 null。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withTTL(Integer ttlSeconds)</p></td>
-        <td><p>Collection time to live (TTL) is the expiration time of data in a collection. Expired data in the collection will be cleaned up and will not be involved in searches or queries. Specify TTL in the unit of seconds.<br/>This method internally calls the withProperty() to set value.</p></td>
-        <td><p>ttlSeconds: The time to live value. The value should be 0 or greater.</p></td>
+        <td><p>集合生存时间（TTL）是集合中数据的过期时间。集合中过期的数据将被清理，并且不会参与搜索或查询。TTL 的单位为秒。<br/>此方法在内部调用 withProperty() 来设置值。</p></td>
+        <td><p>ttlSeconds: 生存时间值。该值应大于或等于 0。</p></td>
     </tr>
     <tr>
         <td><p>withMMapEnabled(boolean enabledMMap)</p></td>
-        <td><p>Enable MMap or not for original data files.<br/>This method internally calls the withProperty() to set value.</p></td>
-        <td><p>enabledMMap: Set to true to enable MMap.</p></td>
+        <td><p>是否为原始数据文件启用 MMap。<br/>此方法在内部调用 withProperty() 来设置值。</p></td>
+        <td><p>enabledMMap: 设置为 true 以启用 MMap。</p></td>
     </tr>
     <tr>
         <td><p>withProperty(String key,  String value)</p></td>
-        <td><p>Basic method to set a key-value property.</p></td>
-        <td><p>key: The key of a property.<br/>value: The value of a property.</p></td>
+        <td><p>用于设置键值属性的基础方法。</p></td>
+        <td><p>key: 属性的键。<br/>value: 属性的值。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a AlterCollectionParam object.</p></td>
+        <td><p>构造一个 AlterCollectionParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `AlterCollectionParam.Builder.build()` can throw the following exceptions:
+`AlterCollectionParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException: 当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<RpcStatus>` object.
+此方法会捕获所有异常并返回一个 `R<RpcStatus>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 以及该异常的错误消息。
 
-- If the API succeeds, it returns `R.Status.Success`.
+- 如果 API 执行成功，则返回 `R.Status.Success`。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

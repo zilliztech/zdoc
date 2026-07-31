@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterDatabaseProperties() | Java | v2"
 slug: /java/java/v2-Database-alterDatabaseProperties
 sidebar_label: "alterDatabaseProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: v2.4.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation alters a database's properties. | Java | v2"
+description: "此操作用于更改数据库的属性。 | Java | v2"
 type: docx
 token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
 sidebar_position: 1
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alterDatabaseProperties()
 
-This operation alters a database's properties. 
+此操作用于更改数据库的属性。 
 
 ```java
 public Void alterDatabaseProperties(AlterDatabasePropertiesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
@@ -47,51 +47,51 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database.
+    数据库名称。
 
 - `properties(Map<String, String> properties)`
 
-    The properties of the database, such as replica number, resource groups. Possible database properties are as follows:
+    数据库的属性，例如副本数量、资源组。可用的数据库属性如下：
 
     - **database.replica.number** -
 
-        Number of replicas for the database.
+        数据库的副本数量。
 
     - **database.resource_groups**  -
 
-        Resource groups dedicated to the database.
+        专用于该数据库的资源组。
 
     - **database.diskQuota.mb** -
 
-        Disk quota allocated to the database in megabytes (**MB**).
+        分配给数据库的磁盘配额，以兆字节（**MB**）为单位。
 
     - **database.max.collections** -
 
-        Maximum number of collections allowed in the database.
+        数据库中允许的 collection 最大数量。
 
     - **database.force.deny.writing** -
 
-        Whether to deny all write operations in the database.
+        是否拒绝数据库中的所有写操作。
 
     - **database.force.deny.reading** -
 
-        Whether to deny all read operations in the database.
+        是否拒绝数据库中的所有读操作。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

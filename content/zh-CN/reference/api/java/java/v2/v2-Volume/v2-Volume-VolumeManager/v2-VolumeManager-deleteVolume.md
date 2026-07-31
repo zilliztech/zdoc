@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "deleteVolume() | Java | v2"
 slug: /java/java/v2-VolumeManager-deleteVolume
 sidebar_label: "deleteVolume()"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation deletes a volume. | Java | v2"
+description: "此操作会删除一个卷。 | Java | v2"
 type: docx
 token: OalndLUMRoUqpMxr2QscYTCenre
 sidebar_position: 2
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - deleteVolume()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # deleteVolume()
 
-This operation deletes a volume.
+此操作会删除一个卷。
 
 ```java
 public void deleteVolume(DeleteVolumeRequest request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 deleteVolume(DeleteVolumeRequest.builder()
@@ -46,23 +46,23 @@ deleteVolume(DeleteVolumeRequest.builder()
 )
 ```
 
-**PARAMETERS**
+**参数**
 
 - **volumeName** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the volume to delete.
+    要删除的卷名称。
 
-**RETURN TYPE**
+**返回类型**
 
 *void*
 
-**RETURNS**
+**返回值**
 
-None
+无
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.bulkwriter.VolumeManager;
@@ -70,7 +70,7 @@ import io.milvus.bulkwriter.VolumeManagerParam;
 import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
 
 VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+    .withCloudEndpoint("https://api.cloud.zilliz.com")
     .withApiKey("YOUR_API_KEY")
     .build();
         

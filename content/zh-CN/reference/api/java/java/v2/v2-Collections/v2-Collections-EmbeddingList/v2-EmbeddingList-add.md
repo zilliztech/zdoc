@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "add() | Java | v2"
 slug: /java/java/v2-EmbeddingList-add
 sidebar_label: "add()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds vector embeddings to an EmbeddingList instance. | Java | v2"
+description: "此操作将向一个 EmbeddingList 实例添加向量嵌入。 | Java | v2"
 type: docx
 token: PUOBd229uoQGUIxnHLWcMSidnQh
 sidebar_position: 1
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - 什么是非结构化数据
+  - 向量嵌入
+  - 向量存储
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - add()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,33 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-This operation adds vector embeddings to an **EmbeddingList** instance.
+此操作将向一个 **[EmbeddingList](./v2-Collections-EmbeddingList)** 实例添加向量嵌入。
 
 ```java
 public void add(BaseVector vector)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **vector** (*BaseVector*) -
 
-    A vector embedding to be added to the current EmbeddingList. 
+    要添加到当前 EmbeddingList 中的一个向量嵌入。 
 
-**RETURN TYPE:**
+**返回类型：**
 
-*EmbeddingList*
+*[EmbeddingList](./v2-Collections-EmbeddingList)*
 
-**RETURNS:**
+**返回：**
 
-An EmbeddingList instance that can be used again to chain up other `add()` methods.
+一个 EmbeddingList 实例，可再次用于链式调用其他 `add()` 方法。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 
-    This exception arises if different types of vector embeddings are provided.
+    如果提供了不同类型的向量嵌入，则会引发此异常。
 
-## Examples:
+## 示例：\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

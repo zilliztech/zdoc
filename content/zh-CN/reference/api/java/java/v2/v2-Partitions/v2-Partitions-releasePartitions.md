@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "releasePartitions() | Java | v2"
 slug: /java/java/v2-Partitions-releasePartitions
 sidebar_label: "releasePartitions()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
-description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
+description: "此操作会将指定 collection 中的 partitions 从内存中释放。 | Java | v2"
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 7
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # releasePartitions()
 
-This operation releases the partitions in a specified collection from memory.
+此操作会将指定 collection 中的 partitions 从内存中释放。
 
 ```java
 public void releasePartitions(ReleasePartitionsReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 releasePartitions(ReleasePartitionsReq.builder()
@@ -48,31 +48,31 @@ releasePartitions(ReleasePartitionsReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the collection belongs.
+    collection 所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    现有 collection 的名称。
 
 - `partitionNames(List<String> partitionNames)`
 
-    A list of the names of the partitions to release.
+    要释放的 partitions 名称列表。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

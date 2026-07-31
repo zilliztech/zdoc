@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "bulkImport() | Java | v2"
 slug: /java/java/v2-BulkImport-bulkImport
 sidebar_label: "bulkImport()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Java | v2"
+description: "此操作将准备好的数据文件导入到 Zilliz Cloud。要了解如何准备数据文件，请阅读 Prepare Data Import。 | Java | v2"
 type: docx
 token: S0ITdsnpYoDpH9xKv9fcBhe5nWA
 sidebar_position: 2
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - bulkImport()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # bulkImport()
 
-This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](/docs/prepare-data-import).
+此操作将准备好的数据文件导入到 Zilliz Cloud。要了解如何准备数据文件，请阅读[准备数据导入](/docs/prepare-data-import)。
 
 ```java
 public static String bulkImport(String url, BaseImportRequest request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 bulkImport.bulkImport(
@@ -46,34 +46,33 @@ bulkImport.bulkImport(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **url** (*String*) -
 
-    Zilliz Cloud's Control Plane API endpoint. The endpoint URL should be in the following format:
+    Zilliz Cloud 的控制平面 API 端点。端点 URL 应采用以下格式：
 
     ```python
     https://api.cloud.zilliz.com
-    # https://api.cloud.zilliz.com.cn 
     ```
 
 - **request** (*[BaseImportRequest](./v2-BulkImport-bulkImport#baseimportrequest)*) -  
 
-    A **BaseImportRequest** instance.
+    一个 **BaseImportRequest** 实例。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *String*
 
-**RETURNS:**
+**返回：**
 
-The ID of the created import job.
+已创建导入任务的 ID。
 
-## BaseImportRequest
+## BaseImportRequest\{#baseimportrequest}
 
-A **BaseImportRequest** instance is implemented in **CloudImportRequest**.
+**BaseImportRequest** 实例通过 **CloudImportRequest** 实现。
 
-### CloudImportRequest
+### CloudImportRequest\{#cloudimportrequest}
 
 ```java
 CloudImportRequest.builder()
@@ -88,15 +87,15 @@ CloudImportRequest.builder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `apiKey(String apiKey)`
 
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
+    具有足够权限来操作集群的有效 Zilliz Cloud API 密钥。
 
 - `objectUrl(String objectUrl)`
 
-    The URL of your data files in one of your block storage buckets. The following are some examples of some renowned block storage services:
+    您的数据文件在某个块存储桶中的 URL。以下是一些常见块存储服务的示例：
 
     ```python
     # Google Cloud Storage
@@ -108,31 +107,31 @@ CloudImportRequest.builder()
 
 - `accessKey(String accessKey)`
 
-    The access key that is used to authenticate access to your data files.
+    用于验证对您的数据文件访问权限的 access key。
 
 - `secrectKey(String secrectKey)`
 
-    The secret key that is used to authenticate access to your data files.
+    用于验证对您的数据文件访问权限的 secret key。
 
 - `clusterId(String clusterId)`
 
-    The instance ID of the target cluster of this operation.
+    此操作目标集群的实例 ID。
 
-    You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
+    您可以在 Zilliz Cloud 控制台中集群详情页面获取集群的实例 ID。
 
 - `dbName(String dbName)`
 
-    The name of the target database. The value of this parameter defaults to `default`.
+    目标数据库的名称。此参数的默认值为 `default`。
 
 - `collectionName(String collectionName)`
 
-    The name of a collection in the target cluster of this operation.
+    此操作目标集群中某个 collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    The name of the partition in the target cluster of this operation. The value defaults to `default`.
+    此操作目标集群中 partition 的名称。默认值为 `default`。
 
-## Example
+## 示例\{#example}
 
 ```java
 import com.google.gson.Gson;

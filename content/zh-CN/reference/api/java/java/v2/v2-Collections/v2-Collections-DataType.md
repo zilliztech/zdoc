@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "DataType | Java | v2"
 slug: /java/java/v2-Collections-DataType
 sidebar_label: "DataType"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "这是一个提供以下常量的枚举。 | Java | v2"
 type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 10
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - 无服务器向量数据库
+  - milvus 开源
+  - milvus 如何工作
+  - Zilliz 向量数据库
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,86 +31,86 @@ import Admonition from '@theme/Admonition';
 
 # DataType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - None(0)
 
-    Sets the data type to **NoneType**.
+    将数据类型设置为 **NoneType**。
 
 - Bool(1)
 
-    Sets the data type to **Boolean**.
+    将数据类型设置为 **Boolean**。
 
 - Int8(2)
 
-    Sets the data type to **Int8**.
+    将数据类型设置为 **Int8**。
 
 - Int16(3)
 
-    Sets the data type to **Int16**.
+    将数据类型设置为 **Int16**。
 
 - Int32(4)
 
-    Sets the data type to **Int32**.
+    将数据类型设置为 **Int32**。
 
 - Int64(5)
 
-    Sets the data type to **Int64**.
+    将数据类型设置为 **Int64**。
 
 - Float(10)
 
-    Sets the data type to **Float**.
+    将数据类型设置为 **Float**。
 
 - Double(11)
 
-    Sets the data type to **Double**.
+    将数据类型设置为 **Double**。
 
 - VarChar(21)
 
-    Sets the data type to **VarChar**.
+    将数据类型设置为 **VarChar**。
 
 - Array(22)
 
-    Sets the data type to **Array**.
+    将数据类型设置为 **Array**。
 
 - JSON(23)
 
-    Sets the data type to **JSON**.
+    将数据类型设置为 **JSON**。
 
 - Geometry(24)
 
-    Sets the data type to **Geometry**.
+    将数据类型设置为 **Geometry**。
 
 - Timestamptz(26)
 
-    Sets the data type to **Timestamptz**.
+    将数据类型设置为 **Timestamptz**。
 
 - BinaryVector(100)
 
-    Sets the data type to **Binary Vector**.
+    将数据类型设置为 **Binary Vector**。
 
 - FloatVector(101)
 
-    Sets the data type to **Float Vector**.
+    将数据类型设置为 **Float Vector**。
 
 - Float16Vector(102)
 
-    Sets the data type to **Float16 Vector**.
+    将数据类型设置为 **Float16 Vector**。
 
 - BFloat16Vector(103)
 
-    Sets the data type to **BFloat16 Vector**.
+    将数据类型设置为 **BFloat16 Vector**。
 
 - SparseFloatVector(104)
 
-      Sets the data type to **Sparse Vector**.
+    将数据类型设置为 **Sparse Vector**。
 
 - Inv8Vector(105)
 
-    Sets the data type to **Int8 Vector**.
+    将数据类型设置为 **Int8 Vector**。
 
 - Struct(201)
 
-    Sets the data type to **Struct**, which should be the element type of an **Array** field.
+    将数据类型设置为 **Struct**，它应作为 **Array** 字段的元素类型。

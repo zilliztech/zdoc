@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "revokePrivilegeV2() | Java | v2"
 slug: /java/java/v2-Authentication-revokePrivilegeV2
 sidebar_label: "revokePrivilegeV2()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation revokes privileges or privilege groups from a specific role. | Java | v2"
+description: "此操作会从特定角色中撤销权限或权限组。 | Java | v2"
 type: docx
 token: FZN8dtlIRoMSGBxF7b1cWX48n0b
 sidebar_position: 18
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # revokePrivilegeV2()
 
-This operation revokes privileges or privilege groups from a specific role.
+此操作会从特定角色中撤销权限或权限组。
 
 ```java
 public Void revokePrivilegeV2(RevokePrivilegeReqV2 request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 revokePrivilegeV2(RevokePrivilegeReqV2.builder()
@@ -49,35 +49,35 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
 - `roleName(String roleName)`
 
-    The name of the target role.
+    目标角色的名称。
 
 - `privilege(String privilege)`
 
-    The privilege or privilege group to be revoked from the specified role. For details on possible privileges, refer to [Privileges](/docs/cluster-privileges).
+    要从指定角色中撤销的权限或权限组。有关可能的权限详情，请参见 [Privileges](/docs/cluster-privileges)。
 
 - `dbName(String dbName)`
 
-    The target resource database. After this operation, the specified role loses access to the specified privileges within the specified database.
+    目标资源数据库。执行此操作后，指定角色将失去在指定数据库中对指定权限的访问。
 
 - `collectionName(String collectionName)`
 
-    The target resource collection in the specified database. After this operation, the specified role loses access to the specified privileges within the specified collection.
+    指定数据库中的目标资源集合。执行此操作后，指定角色将失去在指定集合中对指定权限的访问。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

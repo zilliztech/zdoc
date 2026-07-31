@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "uploadFilesAsync | Java | v2"
 slug: /java/java/v2-VolumeFileManager-uploadFilesAsync
 sidebar_label: "uploadFilesAsync"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation uploads the local file at the specified source path to the target file path within the specified volume. | Java | v2"
+description: "此操作会将指定源路径下的本地文件上传到指定 volume 内的目标文件路径。 | Java | v2"
 type: docx
 token: GE25dbBmMoU8glxCWbJckYObnN1
 sidebar_position: 1
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - uploadFilesAsync
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # uploadFilesAsync
 
-This operation uploads the local file at the specified source path to the target file path within the specified volume.
+此操作会将指定源路径下的本地文件上传到指定 volume 内的目标文件路径。
 
 ```java
 public CompletableFuture<UploadFilesResult> uploadFilesAsync(UploadFilesRequest request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 uploadFileAsync(UploadFilesRequest.builder()
@@ -47,41 +47,41 @@ uploadFileAsync(UploadFilesRequest.builder()
 )
 ```
 
-**PARAMETERS**
+**参数**
 
 - **sourceFilePath** (*str*) -
 
     **[REQUIRED]**
 
-    The path to the local data file to be uploaded to the specified volume.
+    要上传到指定 volume 的本地数据文件路径。
 
 - **targetVolumePath** (*str*) -
 
     **[REQUIRED]**
 
-    The path to the data file within the specified volume after this operation.
+    此操作完成后，数据文件在指定 volume 中的路径。
 
-**RETURN TYPE**
+**返回类型**
 
-*CompletableFuture\<UploadFilesResult>*
+*CompletableFuture&lt;UploadFilesResult&gt;*
 
-**RETURNS**
+**返回值**
 
-A **CompletableFuture\<UploadFilesResult>** instance that resolves to an **UploadFilesResult** instance that has the following attributes.
+一个 **CompletableFuture&lt;UploadFilesResult&gt;** 实例，解析后得到一个 **UploadFilesResult** 实例，该实例具有以下属性。
 
 - **volumeName** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the target volume of this operation.
+    此操作目标 volume 的名称。
 
 - **path** (*str*) -
 
     **[REQUIRED]**
 
-    The path to the data file within the specified volume after this operation.
+    此操作完成后，数据文件在指定 volume 中的路径。
 
-## Example
+## 示例\{#example}
 
 ```java
 import com.google.gson.Gson;
@@ -92,7 +92,7 @@ import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
 import io.milvus.bulkwriter.model.UploadFilesResult;
 
 VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+    .withCloudEndpoint("https://api.cloud.zilliz.com")
     .withApiKey("YOUR_API_KEY")
     .withVolumeName("my_volume")
     .build();

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listRoles() | Java | v2"
 slug: /java/java/v2-Authentication-listRoles
 sidebar_label: "listRoles()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all custom roles. | Java | v2"
+description: "此操作列出所有自定义角色。 | Java | v2"
 type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 14
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listRoles()
 
-This operation lists all custom roles.
+此操作列出所有自定义角色。
 
 ```java
 public List<String> listRoles()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
@@ -45,21 +45,21 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 List<String> roles = client.listRoles();
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List\<String\>*
 
-**RETURNS:**
+**返回：**
 
-A list of strings containing the role names.
+包含角色名称的字符串列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropRole() | Java | v2"
 slug: /java/java/v2-Authentication-dropRole
 sidebar_label: "dropRole()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a custom role. | Java | v2"
+description: "此操作会删除一个自定义角色。 | Java | v2"
 type: docx
 token: OLVbdsTOAoQwybx7oLPcZE3wnCf
 sidebar_position: 8
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropRole()
 
-This operation drops a custom role.
+此操作会删除一个自定义角色。
 
 ```java
 public void dropRole(DropRoleReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropRole(DropRoleReq.builder()
@@ -50,7 +50,7 @@ dropRole(DropRoleReq.builder()
 
 - `roleName(String roleName)`
 
-    The name of the role to drop.
+    要删除的角色名称。
 
 **RETURNS:**
 
@@ -60,16 +60,16 @@ dropRole(DropRoleReq.builder()
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.DropRoleReq;
 
-// 1. Set up a client
+// 1. 设置客户端
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -77,7 +77,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Drop a role
+// 2. 删除角色
 DropRoleReq dropRoleReq = DropRoleReq.builder()
         .roleName("test")
         .build();

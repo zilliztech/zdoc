@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "StructFieldSchema | Java | v2"
 slug: /java/java/v2-Collections-StructFieldSchema
 sidebar_label: "StructFieldSchema"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "A StructFieldSchema instance represents the schema of the Struct elements in an Array of Structs field. A schema sketches the structure of its Struct elements. | Java | v2"
+description: "StructFieldSchema 实例表示 Array of Structs 字段中 Struct 元素的模式。模式勾勒出其 Struct 元素的结构。 | Java | v2"
 type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - StructFieldSchema
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-A **StructFieldSchema** instance represents the schema of the Struct elements in an Array of Structs field. A schema sketches the structure of its Struct elements.
+**StructFieldSchema** 实例表示 Array of Structs 字段中 Struct 元素的模式。模式勾勒出其 Struct 元素的结构。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.StructFieldSchema
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This class cannot be explicitly instantiated. You need to describe a collection with an Array of Structs field to view its instances.</p>
+无法显式实例化此类。你需要描述一个包含 Array of Structs 字段的集合，才能查看其实例。
 
 </Admonition>
 
-## Example
+## 示例\{#example}
 
-The following example illustrates how to create an Array of Structs field and add fields to its Struct elements. 
+以下示例说明了如何创建一个 Array of Structs 字段，并为其 Struct 元素添加字段。
 
 ```java
 import io.milvus.v2.common.DataType;
@@ -87,6 +87,6 @@ collectionSchema.addField(AddFieldReq.builder()
         .build());
 ```
 
-## Methods
+## 方法\{#methods}
 
-The following are the methods of the `StructFieldSchema` class:
+以下是 `StructFieldSchema` 类的方法：

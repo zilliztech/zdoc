@@ -4,7 +4,7 @@ slug: /java/v1-Partition-showPartitions
 sidebar_label: "showPartitions()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method shows all partitions in the specified collection. | Java | v1"
+description: "MilvusClient 接口。此方法显示指定 collection 中的所有 partition。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#IdiRd3KOxoQR7Jxs9P4clGjdnOh
 sidebar_position: 7
@@ -17,132 +17,132 @@ import Admonition from '@theme/Admonition';
 
 # showPartitions()
 
-MilvusClient interface. This method shows all partitions in the specified collection.
+MilvusClient 接口。此方法显示指定 collection 中的所有 partition。
 
 ```java
 R<ShowPartitionsResponse> showPartitions(ShowPartitionsParam requestParam);
 ```
 
-#### ShowPartitionsParam
+#### ShowPartitionsParam\{#showpartitionsparam}
 
-Use the `ShowPartitionsParam.Builder` to construct a `ShowPartitionsParam` object.
+使用 `ShowPartitionsParam.Builder` 构建 `ShowPartitionsParam` 对象。
 
 ```java
 import io.milvus.param.ShowPartitionsParam;
 ShowPartitionsParam.Builder builder = ShowPartitionsParam.newBuilder();
 ```
 
-Methods of `ShowPartitionsParam.Builder`:
+`ShowPartitionsParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The target collection name.</p></td>
+        <td><p>设置 collection 名称。Collection 名称不能为空或 null。</p></td>
+        <td><p>collectionName: 目标 collection 名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。database name 可以为 null，表示默认数据库。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
-        <td><p>Set the partition names list. Partition names list cannot be null or empty.</p></td>
-        <td><p>partitionNames: The name list of partitions to show.</p></td>
+        <td><p>设置 partition 名称列表。Partition 名称列表不能为 null 或为空。</p></td>
+        <td><p>partitionNames: 要显示的 partition 名称列表。</p></td>
     </tr>
     <tr>
         <td><p>addPartitionName(String partitionName)</p></td>
-        <td><p>Add a partition by name. Partition name cannot be empty or null.</p></td>
-        <td><p>partitionName: A target partition name.</p></td>
+        <td><p>按名称添加一个 partition。Partition 名称不能为空或 null。</p></td>
+        <td><p>partitionName: 目标 partition 名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a ShowPartitionsParam object.</p></td>
+        <td><p>构建一个 ShowPartitionsParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `ShowPartitionsParam.Builder.build()` can throw the following exceptions:
+`ShowPartitionsParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<ShowPartitionsResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<ShowPartitionsResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 以及对应异常的错误消息。
 
-- If the API succeeds, it returns a valid `ShowPartitionsResponse` held by the `R` template. You can use ShowPartResponseWrapper to get information easily.
+- 如果 API 调用成功，则返回由 `R` 模板持有的有效 `ShowPartitionsResponse`。你可以使用 ShowPartResponseWrapper 更方便地获取相关信息。
 
-#### ShowPartResponseWrapper
+#### ShowPartResponseWrapper\{#showpartresponsewrapper}
 
-A tool class to encapsulate the `ShowPartitionsResponse`. 
+用于封装 `ShowPartitionsResponse` 的工具类。
 
 ```java
 import io.milvus.response.ShowPartResponseWrapper;
 ShowPartResponseWrapper wrapper = new ShowPartResponseWrapper(showPartitionsResponse);
 ```
 
-Methods of `ShowPartitionsResponse`:
+`ShowPartitionsResponse` 的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Parameters</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>参数</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getPartitionsInfo()</p></td>
-     <td><p>Return a list of PartitionInfo.</p></td>
+     <td><p>返回 PartitionInfo 列表。</p></td>
      <td><p>N/A</p></td>
      <td><p>List\<PartitionInfo></p></td>
    </tr>
    <tr>
      <td><p>getPartitionInfoByName(String partitionName)</p></td>
-     <td><p>Return a PartitionInfo object by a partition name.</p></td>
-     <td><p>partitionName: The target partition name.</p></td>
+     <td><p>根据 partition 名称返回一个 PartitionInfo 对象。</p></td>
+     <td><p>partitionName: 目标 partition 名称。</p></td>
      <td><p>PartitionInfo</p></td>
    </tr>
 </table>
 
-#### PartitionInfo
+#### PartitionInfo\{#partitioninfo}
 
-A tool class to hold information of a partition.
+用于保存 partition 信息的工具类。
 
-Methods of `ShowPartitionsResponse.PartitionInfo`
+`ShowPartitionsResponse.PartitionInfo` 的方法
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getIndexType()</p></td>
-     <td><p>Get index type.</p></td>
+     <td><p>获取索引类型。</p></td>
      <td><p>IndexType</p></td>
    </tr>
    <tr>
      <td><p>getMetricType()</p></td>
-     <td><p>Get metric type.</p></td>
+     <td><p>获取度量类型。</p></td>
      <td><p>MetricType</p></td>
    </tr>
    <tr>
      <td><p>getExtraParam()</p></td>
-     <td><p>Get index parameters in JSON format.</p></td>
+     <td><p>获取 JSON 格式的索引参数。</p></td>
      <td><p>String</p></td>
    </tr>
 </table>
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

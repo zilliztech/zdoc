@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getField() | Java | v2"
 slug: /java/java/v2-CollectionSchema-getField
 sidebar_label: "getField()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets the details of a specific field, including schema information. | Java | v2"
+description: "此操作获取特定字段的详细信息，包括 schema 信息。 | Java | v2"
 type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - getField()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,39 +31,39 @@ import Admonition from '@theme/Admonition';
 
 # getField()
 
-This operation gets the details of a specific field, including schema information.
+此操作获取特定字段的详细信息，包括 schema 信息。
 
 ```java
 public CreateCollectionReq.FieldSchema getField(String fieldName)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 CollectionSchema.getField(String fieldName)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - `fieldName` (*String*)
 
-    The name of the field.
+    字段名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *CreateCollectionReq.FieldSchema*
 
-**RETURNS:**
+**返回：**
 
-A [FieldSchema](./v2-Collections-FieldSchema) object containing details of the field.
+包含字段详细信息的 [FieldSchema](./v2-Collections-FieldSchema) 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq;

@@ -4,7 +4,7 @@ slug: /java/v1-QuerySearch-search
 sidebar_label: "search()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with a Boolean expression to conduct filtering on scalar fields before searching. | Java | v1"
+description: "MilvusClient 接口。此方法会在向量字段上执行近似最近邻（ANN）搜索，并结合布尔表达式在搜索前对标量字段进行过滤。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#WggndVzAGoDW80xfaq3cY5MMnzd
 sidebar_position: 3
@@ -17,228 +17,228 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with a Boolean expression to conduct filtering on scalar fields before searching.
+MilvusClient 接口。此方法会在向量字段上执行近似最近邻（ANN）搜索，并结合布尔表达式在搜索前对标量字段进行过滤。
 
 ```java
 R<SearchResults> search(SearchParam requestParam);
 ```
 
-#### SearchParam
+#### SearchParam\{#searchparam}
 
-Use the `SearchParam.Builder` to construct a `SearchParam` object.
+使用 `SearchParam.Builder` 构建 `SearchParam` 对象。
 
 ```java
 import io.milvus.param.dml.SearchParam;
 SearchParam.Builder builder = SearchParam.newBuilder();
 ```
 
-Methods of `SearchParam.Builder`:
+`SearchParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(collectionName)</p></td>
-        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The target collection name.</p></td>
+        <td><p>设置集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName: 目标集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，数据库名称可以为 null。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withConsistencyLevel(ConsistencyLevelEnum consistencyLevel)</p></td>
-        <td><p>Consistency level used in the search. If the level is not set, will use the default consistency level of the collection.</p></td>
-        <td><p>consistencyLevel: The consistency level used in the search.</p></td>
+        <td><p>搜索中使用的一致性级别。如果未设置该级别，则使用集合的默认一致性级别。</p></td>
+        <td><p>consistencyLevel: 搜索中使用的一致性级别。</p></td>
     </tr>
     <tr>
         <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
-        <td><p>Sets partition names list to specify search scope (Optional).</p></td>
-        <td><p>partitionNames: The name list of partitions to be searched.</p></td>
+        <td><p>设置分区名称列表以指定搜索范围（可选）。</p></td>
+        <td><p>partitionNames: 要搜索的分区名称列表。</p></td>
     </tr>
     <tr>
         <td><p>addPartitionName(String partitionName)</p></td>
-        <td><p>Adds a partition to specify search scope (Optional).</p></td>
-        <td><p>partitionName: A partition name to be searched.</p></td>
+        <td><p>添加一个分区以指定搜索范围（可选）。</p></td>
+        <td><p>partitionName: 要搜索的分区名称。</p></td>
     </tr>
     <tr>
         <td><p>withOutFields(List\<String> outFields)</p></td>
-        <td><p>Specifies output scalar fields (Optional).</p></td>
-        <td><p><br/>outFields: The name list of fields to be outputed.</p></td>
+        <td><p>指定输出的标量字段（可选）。</p></td>
+        <td><p><br/>outFields: 要输出的字段名称列表。</p></td>
     </tr>
     <tr>
         <td><p>addOutField(String fieldName)</p></td>
-        <td><p>Specifies an output scalar field (Optional).</p></td>
-        <td><p>fieldName: An output field name.</p></td>
+        <td><p>指定一个输出的标量字段（可选）。</p></td>
+        <td><p>fieldName: 输出字段名称。</p></td>
     </tr>
     <tr>
         <td><p>withExpr(String expr)</p></td>
-        <td><p>Set the expression to filter scalar fields before searching(Optional).For more information please refer to <a href="https://milvus.io/docs/v2.1.x/boolean.md">this doc</a>.</p></td>
-        <td><p>expr: The expression to filter scalar fields.</p></td>
+        <td><p>设置在搜索前过滤标量字段的表达式（可选）。更多信息请参见<a href="https://milvus.io/docs/v2.1.x/boolean.md">此文档</a>。</p></td>
+        <td><p>expr: 用于过滤标量字段的表达式。</p></td>
     </tr>
     <tr>
         <td><p>withMetricType(MetricType metricType)</p></td>
-        <td><p>Set metric type of ANN search.<br/>Default value is MetricType.None, which means let the server determine the defaul metric type. Please refer to MetricType in Misc.</p></td>
-        <td><p>metricType: The metric type to search.</p></td>
+        <td><p>设置 ANN 搜索的度量类型。<br/>默认值为 MetricType.None，表示由服务器决定默认度量类型。请参见 Misc 中的 MetricType。</p></td>
+        <td><p>metricType: 搜索使用的度量类型。</p></td>
     </tr>
     <tr>
         <td><p>withVectorFieldName(String vectorFieldName)</p></td>
-        <td><p>Set target vector field by name. Field name cannot be empty or null.</p></td>
-        <td><p>vectorFieldName: The target vector field name to do ANN search.</p></td>
+        <td><p>通过名称设置目标向量字段。字段名称不能为空或 null。</p></td>
+        <td><p>vectorFieldName: 执行 ANN 搜索的目标向量字段名称。</p></td>
     </tr>
     <tr>
         <td><p>withTopK(Integer topK)</p></td>
-        <td><p>Set topK value of ANN search.<br/>Avaiable range: [1, 16384]</p></td>
-        <td><p>topK: The topk value.</p></td>
+        <td><p>设置 ANN 搜索的 topK 值。<br/>可用范围：[1, 16384]</p></td>
+        <td><p>topK: topk 值。</p></td>
     </tr>
     <tr>
         <td><p>withVectors(List\<?> vectors)</p></td>
-        <td><p>Set the target vectors. Up to 16384 vectors allowed.<br/>Note: this method works for FloatVector/BinaryVector/SparseFloatVector, but it doesn't work for Float16Vector/BFloat16Vector.<br/>It is recommended to use withFloatVectors/withBinaryVectors/withFloat16Vectors/withBFloat16Vectors/withSparseFloatVectors to input vectors expilicitly.</p></td>
-        <td><p>vectors: <br/>- If target field type is FloatVector, List\< List\<Float>gt; is required.<br/>- If target field type is BinaryVector, List\<ByteBuffer> is required.<br/>- If target field type is SparseFloatVector, List\<SortedMap[Long, Float]> is required.</p></td>
+        <td><p>设置目标向量。最多允许 16384 个向量。<br/>注意：此方法适用于 FloatVector/BinaryVector/SparseFloatVector，但不适用于 Float16Vector/BFloat16Vector。<br/>建议使用 withFloatVectors/withBinaryVectors/withFloat16Vectors/withBFloat16Vectors/withSparseFloatVectors 显式输入向量。</p></td>
+        <td><p>vectors: <br/>- 如果目标字段类型为 FloatVector，则需要 List\< List\<Float>gt;。<br/>- 如果目标字段类型为 BinaryVector，则需要 List\<ByteBuffer>。<br/>- 如果目标字段类型为 SparseFloatVector，则需要 List\<SortedMap[Long, Float]>。</p></td>
     </tr>
     <tr>
         <td><p>withFloatVectors(List\<List\<Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
-        <td><p>vectors: The target vectors</p></td>
+        <td><p>设置用于搜索 FloatVector 字段的目标向量。最多允许 16384 个向量。<br/>注意：此方法会重置 SearchParam 的目标向量。输入向量时仅调用一次。</p></td>
+        <td><p>vectors: 目标向量</p></td>
     </tr>
     <tr>
         <td><p>withBinaryVectors(List\<ByteBuffer> vectors)</p></td>
-        <td><p>Set the target vectors to search BinaryVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
-        <td><p>vectors: The target vectors</p></td>
+        <td><p>设置用于搜索 BinaryVector 字段的目标向量。最多允许 16384 个向量。<br/>注意：此方法会重置 SearchParam 的目标向量。输入向量时仅调用一次。</p></td>
+        <td><p>vectors: 目标向量</p></td>
     </tr>
     <tr>
         <td><p>withFloat16Vectors(List\<ByteBuffer> vectors)</p></td>
-        <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
-        <td><p>vectors: The target vectors</p></td>
+        <td><p>设置用于搜索 Float16Vector 字段的目标向量。最多允许 16384 个向量。<br/>注意：此方法会重置 SearchParam 的目标向量。输入向量时仅调用一次。</p></td>
+        <td><p>vectors: 目标向量</p></td>
     </tr>
     <tr>
         <td><p>withBFloat16Vectors(List\<List\<Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
-        <td><p>vectors: The target vectors</p></td>
+        <td><p>设置用于搜索 BFloat16Vector 字段的目标向量。最多允许 16384 个向量。<br/>注意：此方法会重置 SearchParam 的目标向量。输入向量时仅调用一次。</p></td>
+        <td><p>vectors: 目标向量</p></td>
     </tr>
     <tr>
         <td><p>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</p></td>
-        <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
-        <td><p>vectors: The target vectors</p></td>
+        <td><p>设置用于搜索 SparseFloatVector 字段的目标向量。最多允许 16384 个向量。<br/>注意：此方法会重置 SearchParam 的目标向量。输入向量时仅调用一次。</p></td>
+        <td><p>vectors: 目标向量</p></td>
     </tr>
     <tr>
         <td><p>withRoundDecimal(Integer decimal)</p></td>
-        <td><p>Specifies the decimal place for returned distance.<br/>Avaiable range: [-1, 6]<br/>Default value is -1, return all digits.</p></td>
-        <td><p>decimal: How many digits reserved after the decimal point.</p></td>
+        <td><p>指定返回距离的小数位数。<br/>可用范围：[-1, 6]<br/>默认值为 -1，返回所有位数。</p></td>
+        <td><p>decimal: 小数点后保留的位数。</p></td>
     </tr>
     <tr>
         <td><p>withParams(String params)</p></td>
-        <td><p>Specifies the parameters of search in JSON format. The followings are valid keys of param:<br/>1. special parameters for index, such as "nprobe", "ef", "search_k"<br/>2. metric type with key "metric_type" and a string value such as "L2", "IP".<br/>3. offset for pagination with key "offset" and an integer value</p></td>
-        <td><p>params: A JSON format string for extra parameters.</p></td>
+        <td><p>以 JSON 格式指定搜索参数。param 的有效键如下：<br/>1. 索引的特殊参数，例如 "nprobe"、"ef"、"search_k"<br/>2. 度量类型，键为 "metric_type"，值为字符串，例如 "L2"、"IP"。<br/>3. 分页偏移量，键为 "offset"，值为整数</p></td>
+        <td><p>params: 额外参数的 JSON 格式字符串。</p></td>
     </tr>
     <tr>
         <td><p>withIgnoreGrowing(Boolean ignoreGrowing)</p></td>
-        <td><p>Ignore the growing segments to get best search performance. For the user case that don't require data visibility.<br/>Default is False.</p></td>
-        <td><p>ignoreGrowing: Ignore growing segments or not.</p></td>
+        <td><p>忽略增长段以获得最佳搜索性能。适用于不要求数据可见性的用户场景。<br/>默认值为 False。</p></td>
+        <td><p>ignoreGrowing: 是否忽略增长段。</p></td>
     </tr>
     <tr>
         <td><p>withGroupByFieldName(String groupByFieldName)</p></td>
-        <td><p>Sets field name to do grouping.</p></td>
-        <td><p>groupByFieldName: The name of a field to do grouping.</p></td>
+        <td><p>设置用于分组的字段名称。</p></td>
+        <td><p>groupByFieldName: 用于分组的字段名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a SearchParam object.</p></td>
+        <td><p>构建一个 SearchParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `SearchParam.Builder.build()` can throw the following exceptions:
+`SearchParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException: 当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<SearchResults>` object.
+此方法会捕获所有异常并返回一个 `R<SearchResults>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端失败，则返回服务端的错误码和错误信息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 和该异常的错误信息。
 
-- If the API succeeds, it returns valid `SearchResults` held by the `R` template. You can use `SearchResultsWrapper` to get the results.
+- 如果 API 成功，则返回由 `R` 模板持有的有效 `SearchResults`。你可以使用 `SearchResultsWrapper` 获取结果。
 
-#### SearchResultsWrapper
+#### SearchResultsWrapper\{#searchresultswrapper}
 
-A tool class to encapsulate the `SearchResults`. 
+用于封装 `SearchResults` 的工具类。
 
 ```java
 import io.milvus.response.SearchResultsWrapper;
 SearchResultsWrapper wrapper = new SearchResultsWrapper(searchResults);
 ```
 
-Methods of `SearchResultsWrapper`:
+`SearchResultsWrapper` 的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Parameters</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>参数</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getFieldData(String fieldName, int indexOfTarget)</p></td>
-     <td><p>Gets data for an output field which is specified by SearchParam.</p><p>Throws ParamException if the field doesn't exist or indexOfTarget is illegal.</p></td>
-     <td><p>fieldName: A field name which is specified by the withOutFields() of SearchParam.</p><p>indexOfTarget: The order number of a target vector.</p></td>
-     <td><ul><li><p>Return List\<List\<Float>gt; for FloatVector field.</p></li><li><p>Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloat16Vector field.</p></li><li><p>Return List\<SortedMap[Long, Float]> for SparseFloatVector field.</p></li><li><p>Return List\<Long> for Int64 field.</p></li><li><p>Return List\<Integer> for Int32/Int16/Int8 field.</p></li><li><p>Return List\<Boolean> for Bool field.</p></li><li><p>Return List\<Float> for Float field.</p></li><li><p>Return List\<Double> for Double field.</p></li><li><p>Return List\<String> for Varchar field.</p></li></ul></td>
+     <td><p>获取由 SearchParam 指定的输出字段的数据。</p><p>如果字段不存在或 indexOfTarget 非法，则抛出 ParamException。</p></td>
+     <td><p>fieldName: 由 SearchParam 的 withOutFields() 指定的字段名称。</p><p>indexOfTarget: 目标向量的序号。</p></td>
+     <td><ul><li><p>对于 FloatVector 字段，返回 List\<List\<Float>gt;。</p></li><li><p>对于 BinaryVector/Float16Vector/BFloat16Vector 字段，返回 List\<ByteBuffer>。</p></li><li><p>对于 SparseFloatVector 字段，返回 List\<SortedMap[Long, Float]>。</p></li><li><p>对于 Int64 字段，返回 List\<Long>。</p></li><li><p>对于 Int32/Int16/Int8 字段，返回 List\<Integer>。</p></li><li><p>对于 Bool 字段，返回 List\<Boolean>。</p></li><li><p>对于 Float 字段，返回 List\<Float>。</p></li><li><p>对于 Double 字段，返回 List\<Double>。</p></li><li><p>对于 Varchar 字段，返回 List\<String>。</p></li></ul></td>
    </tr>
    <tr>
      <td><p>getIDScore(int indexOfTarget)</p></td>
-     <td><p>Gets ID-score pairs returned by search().</p><p>Throws ParamException if the indexOfTarget is illegal.</p><p>Throws IllegalResponseException if the returned results are illegal.</p></td>
-     <td><p>indexOfTarget: The order number of a target vector.</p></td>
+     <td><p>获取 search() 返回的 ID-score 对。</p><p>如果 indexOfTarget 非法，则抛出 ParamException。</p><p>如果返回结果非法，则抛出 IllegalResponseException。</p></td>
+     <td><p>indexOfTarget: 目标向量的序号。</p></td>
      <td><p>List\<IDScore></p></td>
    </tr>
    <tr>
      <td><p>getRowRecords(int indexOfTarget)</p></td>
-     <td><p>Gets row records from the search result.</p><p>The ID is put into a QueryResultsWrapper.RowRecord with key "id".</p><p>The distance is put into a QueryResultsWrapper.RowRecord with key "distance".</p></td>
-     <td><p>indexOfTarget: The order number of a target vector.</p></td>
-     <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
+     <td><p>从搜索结果中获取行记录。</p><p>ID 会以键 "id" 放入 QueryResultsWrapper.RowRecord 中。</p><p>距离会以键 "distance" 放入 QueryResultsWrapper.RowRecord 中。</p></td>
+     <td><p>indexOfTarget: 目标向量的序号。</p></td>
+     <td><p>List&lt;QueryResultsWrapper.RowRecord&gt;</p></td>
    </tr>
 </table>
 
-#### IDScore
+#### IDScore\{#idscore}
 
-A tool class to hold a pair of ID and distance, along with values of the output fields.
+一个工具类，用于保存 ID 与距离的配对，以及输出字段的值。
 
-Methods of `SearchResultsWrapper.IDScore`:
+`SearchResultsWrapper.IDScore` 的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getLongID()</p></td>
-     <td><p>Get integer ID if the primary key type is Int64.</p></td>
+     <td><p>如果主键类型为 Int64，则获取整数 ID。</p></td>
      <td><p>long</p></td>
    </tr>
    <tr>
      <td><p>getStrID()</p></td>
-     <td><p>Get string ID if the primary key type is VarChar.</p></td>
+     <td><p>如果主键类型为 VarChar，则获取字符串 ID。</p></td>
      <td><p>String</p></td>
    </tr>
    <tr>
      <td><p>getScore()</p></td>
-     <td><p>Get distance value.</p></td>
+     <td><p>获取距离值。</p></td>
      <td><p>float</p></td>
    </tr>
    <tr>
      <td><p>get(String keyName)</p></td>
-     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.</p><p>If the key name is in the dynamic field, return the value from the dynamic field.</p><p>Throws ParamException if the key name doesn't exist.</p></td>
+     <td><p>通过键名获取值。如果键名是字段名，则返回该字段的值。</p><p>如果键名位于动态字段中，则返回动态字段中的值。</p><p>如果键名不存在，则抛出 ParamException。</p></td>
      <td><p>Object</p></td>
    </tr>
 </table>
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.dml.*;

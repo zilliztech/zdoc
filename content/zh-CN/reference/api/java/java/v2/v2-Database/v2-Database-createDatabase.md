@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createDatabase() | Java | v2"
 slug: /java/java/v2-Database-createDatabase
 sidebar_label: "createDatabase()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a database with a name. | Java | v2"
+description: "此操作使用指定名称创建数据库。 | Java | v2"
 type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # createDatabase()
 
-This operation creates a database with a name. 
+此操作使用指定名称创建数据库。 
 
 ```java
 public void createDatabase(CreateDatabaseReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 createDatabase(CreateDatabaseReq.builder()
@@ -47,27 +47,27 @@ createDatabase(CreateDatabaseReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to create.
+    要创建的数据库名称。
 
 - `properties(Map<String, String> properties)`
 
-The properties of the database, such as replica number, resource groups.
+数据库的属性，例如副本数量、资源组。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.param.Constant;

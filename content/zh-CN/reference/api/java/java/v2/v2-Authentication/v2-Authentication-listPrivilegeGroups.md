@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listPrivilegeGroups() | Java | v2"
 slug: /java/java/v2-Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all privilege groups. | Java | v2"
+description: "此操作列出所有权限组。 | Java | v2"
 type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listPrivilegeGroups()
 
-This operation lists all privilege groups.
+此操作列出所有权限组。
 
 ```java
 public ListPrivilegeGroupsResp listPrivilegeGroups(ListPrivilegeGroupsReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
@@ -45,33 +45,33 @@ listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
 )
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *ListPrivilegeGroupsResp*
 
-**RETURNS:**
+**返回：**
 
-A **ListPrivilegeGroupsResp** object contains the following fields:
+**ListPrivilegeGroupsResp** 对象包含以下字段：
 
-- **privilegeGroups** (*List\<PrivilegeGroup>*) -
+- **privilegeGroups** (*List&lt;PrivilegeGroup&gt;*) -
 
-    A list of privilege groups, each of which is a **PrivilegeGroup** object.
+    权限组列表，其中每一项都是一个 **PrivilegeGroup** 对象。
 
     - **groupName** (String) -
 
-        The name of the current privilege group.
+        当前权限组的名称。
 
-    - **privileges** (List\<String>) - 
+    - **privileges** (List&lt;String&gt;) - 
 
-        The privileges added into the current privilege group.
+        添加到当前权限组中的权限。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

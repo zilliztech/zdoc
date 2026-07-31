@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "IndexType | Java | v2"
 slug: /java/java/v2-Management-IndexType
 sidebar_label: "IndexType"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "这是一个提供以下常量的枚举。 | Java | v2"
 type: docx
-token: SVbSdttVjoTGJrxdLiIcr9VLnPg
+token: RcJhdfB29okLpcx3w8KcvcL7nU9
 sidebar_position: 11
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,115 +31,122 @@ import Admonition from '@theme/Admonition';
 
 # IndexType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
-- FLAT(1)
+### FLAT\{#flat}
 
-    Sets the index type to **FLAT**.
+将索引类型设置为 FLAT。
 
-- IVF_FLAT(2)
+### IVF_FLAT\{#ivfflat}
 
-    Sets the index type to **IVF_FLAT**.
+将索引类型设置为 IVF_FLAT。
 
-- IVF_SQ8(3)
+### IVF_SQ8\{#ivfsq8}
 
-    Sets the index type to **IVF_SQ8**.
+将索引类型设置为 IVF_SQ8。
 
-- IVF_PQ(4)
+### IVF_PQ\{#ivfpq}
 
-    Sets the index type to **IVF_PQ**.
+将索引类型设置为 IVF_PQ。
 
-- HNSW(5)
+### HNSW\{#hnsw}
 
-    Sets the index type to **HNSW**.
+将索引类型设置为 HNSW。
 
-- HNSW_SQ(6)
+### HNSW_SQ\{#hnswsq}
 
-    Sets the index type to **HNSW**.
+将索引类型设置为 HNSW。
 
-- HNSW_PQ
+### HNSW_PQ\{#hnswpq}
 
-    Sets the index type to **HNSW_PQ**.
+将索引类型设置为 HNSW_PQ。
 
-- HNSW_PRQ
+### HNSW_PRQ\{#hnswprq}
 
-    Sets the index type to **HNSW_PRQ**.
+将索引类型设置为 HNSW_PRQ。
 
-- DISKANN(10)
+### DISKANN\{#diskann}
 
-    Sets the index type to **DISKANN**.
+将索引类型设置为 DISKANN。
 
-- AUTOINDEX(11)
+### AUTOINDEX\{#autoindex}
 
-    Sets the index type to **AUTOINDEX**.
+将索引类型设置为 AUTOINDEX。
 
-- SCANN(12)
+### SCANN\{#scann}
 
-    Sets the index type to **SCANN**.
+将索引类型设置为 SCANN。
 
-- GPU_IVF_FLAT(50)
+### IVF_RABITQ\{#ivfrabitq}
 
-    Sets the index type to **GPU_IVF_FLAT**. This applies to GPU indexes only.
+将索引类型设置为 IVF_RABITQ。适用于稠密 float 向量。
 
-- GPU_IVF_PQ(51)
+### AISAQ\{#aisaq}
 
-    Sets the index type to **GPU_IVF_PQ**. This applies to GPU indexes only.
+将索引类型设置为 AISAQ。适用于 GPU 上的稠密 float 向量。
 
-- GPU_BRUTE_FORCE(52)
+### GPU_IVF_FLAT\{#gpuivfflat}
 
-    Sets the index type to **GPU_BRUTE_FORCE**. This applies to GPU indexes only.
+将索引类型设置为 GPU_IVF_FLAT。仅适用于 GPU 索引。
 
-- GPU_CAGRA(53)
+### GPU_IVF_PQ\{#gpuivfpq}
 
-    Sets the index type to **GPU_CAGRA**. This applies to GPU indexes only.
+将索引类型设置为 GPU_IVF_PQ。仅适用于 GPU 索引。
 
-- BIN_FLAT(80)
+### GPU_BRUTE_FORCE\{#gpubruteforce}
 
-    Sets the index type to **BIN_FLAT**. This applies to binary vectors only.
+将索引类型设置为 GPU_BRUTE_FORCE。仅适用于 GPU 索引。
 
-- BIN_IVF_FLAT(81)
+### GPU_CAGRA\{#gpucagra}
 
-    Sets the index type to **BIN_IVF_FLAT**. This applies to binary vectors only.
+将索引类型设置为 GPU_CAGRA。仅适用于 GPU 索引。
 
-- MINHASH_LSH(82)
+### BIN_FLAT\{#binflat}
 
-    Sets the index type to **MINHASH_LSH**. This applies to binary vectors only.
+将索引类型设置为 BIN_FLAT。仅适用于二进制向量。
 
-- TRIE("Trie", 100)
+### BIN_IVF_FLAT\{#binivfflat}
 
-    Sets the index type to **TRIE**. This applies to VarChar fields only.
+将索引类型设置为 BIN_IVF_FLAT。仅适用于二进制向量。
 
-- NGRAM(101)
+### MINHASH_LSH\{#minhashlsh}
 
-    Sets the index type to **NGRAM**. This applies to VarChar fields and JSON Path indexes.
+将索引类型设置为 MINHASH_LSH。仅适用于二进制向量。
 
-- RTREE(120)
+### TRIE("Trie")\{#trietrie}
 
-    Sets the index type to **RTREE**. This applies to geometry fields only.
+将索引类型设置为 TRIE。仅适用于 VarChar 字段。
 
-- STL_SORT(200)
+### NGRAM\{#ngram}
 
-    Sets the index type to **SLT_SORT**. This applies to fields of numeric types only.
+将索引类型设置为 NGRAM。适用于 VarChar 字段和 JSON Path 索引。
 
-- INVERTED(201)
+### RTREE\{#rtree}
 
-    Sets the index type to **INVERTED**. This applies to all scalar fields except JSON fields.
+将索引类型设置为 RTREE。仅适用于几何字段。
 
-- BITMAP(202)
+### STL_SORT\{#stlsort}
 
-    Sets the index type to **BITMAP**. This applies to all scalar fields except JSON, FLOAT, and DOUBLE fields.
+将索引类型设置为 SLT_SORT。仅适用于数值类型字段。
 
-- SPARSE_INVERTED_INDEX
+### INVERTED\{#inverted}
 
-    Sets the index type to **SPARSE_INVERTED_INDEX**. This applies to sparse vectors only.
+将索引类型设置为 INVERTED。适用于除 JSON 字段之外的所有标量字段。
 
-- SPARSE_WAND
+### BITMAP\{#bitmap}
 
-    Sets the index type to **SPARSE_WAND**. This applies to sparse vectors only.
+将索引类型设置为 BITMAP。适用于除 JSON、FLOAT 和 DOUBLE 字段之外的所有标量字段。
 
-- EMB_LIST_HNSW
+### SPARSE_INVERTED_INDEX\{#sparseinvertedindex}
 
-    Sets the index type to **EMB_LIST_HNSW**. This applies to an Array of Structs field.
+将索引类型设置为 SPARSE_INVERTED_INDEX。仅适用于稀疏向量。
 
+### SPARSE_WAND\{#sparsewand}
+
+将索引类型设置为 SPARSE_WAND。仅适用于稀疏向量。
+
+### EMB_LIST_HNSW\{#emblisthnsw}
+
+将索引类型设置为 EMB_LIST_HNSW。适用于 Array of Structs 字段。

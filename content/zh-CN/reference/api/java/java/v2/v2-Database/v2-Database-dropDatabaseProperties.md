@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropDatabaseProperties() | Java | v2"
 slug: /java/java/v2-Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation resets the database properties to their default values. | Java | v2"
+description: "此操作会将数据库属性重置为其默认值。 | Java | v2"
 type: docx
-token: CzC6dm9N8oBvQZxRMyocNfTpn9f
+token: HSYzdg59FoBzeIxymrLc0EbBnyd
 sidebar_position: 5
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,67 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabaseProperties()
 
-This operation resets the database properties to their default values.
+此操作会将数据库属性重置为其默认值。
 
 ```java
-public Void dropDatabaseProperties(DropDatabasePropertiesReq request)
+public void dropDatabaseProperties(DropDatabasePropertiesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropDatabaseProperties(DropDatabasePropertiesReq.builder()
     .databaseName(String databaseName)
     .propertyKeys(List<String> propertyKeys)
     .build()
-)
+);
 ```
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `propertyKeys(List<String propertyKeys>)`
+- `propertyKeys(List<String> propertyKeys)` -
 
-    The properties of the database, such as replica number, resource groups. Possible database properties are as follows:
-
-    - **database.replica.number** -
-
-        Number of replicas for the database.
-
-    - **database.resource_groups**  -
-
-        Resource groups dedicated to the database.
-
-    - **database.diskQuota.mb** -
-
-        Disk quota allocated to the database in megabytes (**MB**).
-
-    - **database.max.collections** -
-
-        Maximum number of collections allowed in the database.
-
-    - **database.force.deny.writing** -
-
-        Whether to deny all write operations in the database.
-
-    - **database.force.deny.reading** -
-
-        Whether to deny all read operations in the database.
+    要删除的属性键名称列表。
 
 **RETURNS:**
 
 *void*
 
+*void*
+
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -116,4 +94,3 @@ DropDatabasePropertiesReq dropDatabasePropertiesReq = DropDatabasePropertiesReq.
         .build();
 client.dropDatabaseProperties(alterDatabaseReq);
 ```
-

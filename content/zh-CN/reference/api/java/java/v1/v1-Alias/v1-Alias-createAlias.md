@@ -4,7 +4,7 @@ slug: /java/v1-Alias-createAlias
 sidebar_label: "createAlias()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method creates an alias for a collection. Alias cannot be duplicated. The same alias cannot be assigned to different collections. Instead, you can specify multiple aliases for each collection. | Java | v1"
+description: "一个 MilvusClient 接口。此方法为集合创建别名。别名不能重复。同一个别名不能分配给不同的集合。不过，你可以为每个集合指定多个别名。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MdbJddBe1osFqRxlhL0cLvtxnVh
 sidebar_position: 1
@@ -17,66 +17,66 @@ import Admonition from '@theme/Admonition';
 
 # createAlias()
 
-A MilvusClient interface. This method creates an alias for a collection. Alias cannot be duplicated. The same alias cannot be assigned to different collections. Instead, you can specify multiple aliases for each collection.
+一个 MilvusClient 接口。此方法为集合创建别名。别名不能重复。同一个别名不能分配给不同的集合。不过，你可以为每个集合指定多个别名。
 
 ```java
 R<RpcStatus> createAlias(CreateAliasParam requestParam);
 ```
 
-#### CreateAliasParam
+#### CreateAliasParam\{#createaliasparam}
 
-Use the `CreateAliasParam.Builder` to construct a `CreateAliasParam` object.
+使用 `CreateAliasParam.Builder` 构造 `CreateAliasParam` 对象。
 
 ```java
 import io.milvus.param.CreateAliasParam;
 CreateAliasParam.Builder builder = CreateAliasParam.newBuilder();
 ```
 
-Methods of `CreateAliasParam.Builder`:
+`CreateAliasParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(<br/>String collectionName)</p></td>
-        <td><p>Sets the target collection name. <br/>Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the target collection to create an alias for.</p></td>
+        <td><p>设置目标集合名称。<br/>集合名称不能为空或 null。</p></td>
+        <td><p>collectionName：要为其创建别名的目标集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，数据库名称可以为 null。</p></td>
+        <td><p>databaseName：数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withAlias(String alias)</p></td>
-        <td><p>Sets the collection alias.<br/>Collection alias cannot be empty or null.</p></td>
-        <td><p>alias: The alias of the target collection.</p></td>
+        <td><p>设置集合别名。<br/>集合别名不能为空或 null。</p></td>
+        <td><p>alias：目标集合的别名。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a CreateAliasParam object.</p></td>
+        <td><p>构造一个 CreateAliasParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-`CreateAliasParam.Builder.build()` can throw the following exceptions:
+`CreateAliasParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### 返回值\{#returns}
 
-This method catches all the exceptions and returns an `R<RpcStatus>` object.
+此方法会捕获所有异常，并返回一个 `R<RpcStatus>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务器端执行失败，则返回服务器的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns `R.Status.Success`.
+- 如果 API 执行成功，则返回 `R.Status.Success`。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.*;

@@ -4,7 +4,7 @@ slug: /java/v1-BulkWriter-LocalBulkWriter
 sidebar_label: "LocalBulkWriter"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands. | Java | v1"
+description: "LocalBulkWriter 实例会在本地将您的原始数据重写为 Milvus 可理解的格式。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#H8hMd76S8oBYqoxCJ5Kcp7U5njc
 sidebar_position: 1
@@ -17,82 +17,82 @@ import Admonition from '@theme/Admonition';
 
 # LocalBulkWriter
 
-A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands.
+`LocalBulkWriter` 实例会在本地将您的原始数据重写为 Milvus 可理解的格式。
 
 ```java
 LocalBulkWriter(LocalBulkWriterParam bulkWriterParam)
 ```
 
-Methods of `LocalBulkWriter`:
+`LocalBulkWriter` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>appendRow(JsonObject rowData)</p></td>
-        <td><p>Append a row into buffer. Once the buffer size exceeds a threshold, the writer will persist the buffer to data file.</p></td>
-        <td><p>rowData: A gson.JsonObject to store the data of a row.<br/>For each field:<br/>- If dataType is Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar, use JsonObject.addProperty(key, value) to input;<br/>- If dataType is FloatVector, use JsonObject.add(key, gson.toJsonTree(List[Float]) to input;<br/>- If dataType is BinaryVector/Float16Vector/BFloat16Vector, use JsonObject.add(key, gson.toJsonTree(byte[])) to input;<br/>- If dataType is SparseFloatVector, use JsonObject.add(key, gson.toJsonTree(SortedMap[Long, Float])) to input;<br/>- If dataType is Array, use JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) to input;<br/>- If dataType is JSON, use JsonObject.add(key, JsonElement) to input;</p></td>
+        <td><p>向缓冲区追加一行数据。一旦缓冲区大小超过阈值，写入器将把缓冲区持久化到数据文件中。</p></td>
+        <td><p>rowData: 用于存储一行数据的 gson.JsonObject。<br/>对于每个字段：<br/>- 如果 dataType 为 Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar，使用 JsonObject.addProperty(key, value) 输入；<br/>- 如果 dataType 为 FloatVector，使用 JsonObject.add(key, gson.toJsonTree(List[Float]) 输入；<br/>- 如果 dataType 为 BinaryVector/Float16Vector/BFloat16Vector，使用 JsonObject.add(key, gson.toJsonTree(byte[])) 输入；<br/>- 如果 dataType 为 SparseFloatVector，使用 JsonObject.add(key, gson.toJsonTree(SortedMap[Long, Float])) 输入；<br/>- 如果 dataType 为 Array，使用 JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) 输入；<br/>- 如果 dataType 为 JSON，使用 JsonObject.add(key, JsonElement) 输入；</p></td>
     </tr>
     <tr>
         <td><p>commit(boolean async)</p></td>
-        <td><p>Force persist data files and complete the writer.</p></td>
-        <td><p>async: Set to true to wait until all data files are persisted.</p></td>
+        <td><p>强制持久化数据文件并完成写入器。</p></td>
+        <td><p>async: 设置为 true 以等待所有数据文件都完成持久化。</p></td>
     </tr>
     <tr>
         <td><p>getBatchFiles()</p></td>
-        <td><p>Returns a List\<List\<String>gt; of the persisted data files. Each List\<String> is a batch files that can be input as a job for the bulkinsert interface.</p></td>
+        <td><p>返回一个 List\<List\<String>gt;，其中包含已持久化的数据文件。每个 List\<String> 都是一批可作为作业输入到 bulkinsert 接口的文件。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-#### LocalBulkWriterParam
+#### LocalBulkWriterParam\{#localbulkwriterparam}
 
-Use the `LocalBulkWriterParam.Builder` to construct a `LocalBulkWriterParam` object.
+使用 `LocalBulkWriterParam.Builder` 构造 `LocalBulkWriterParam` 对象。
 
 ```java
 import io.milvus.bulkwriter.LocalBulkWriterParam;
 LocalBulkWriterParam.Builder builder = LocalBulkWriterParam.newBuilder();
 ```
 
-Methods of `LocalBulkWriterParam.Builder`:
+`LocalBulkWriterParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionSchema(CollectionSchemaParam collectionSchema)</p></td>
-        <td><p>Sets the collection schema. See the CollectionSchemaParam description in the Collection.createCollection() section.</p></td>
+        <td><p>设置集合 schema。请参见 Collection.createCollection() 小节中的 CollectionSchemaParam 说明。</p></td>
         <td><p>collectionSchema: collection schema</p></td>
     </tr>
     <tr>
         <td><p>withLocalPath(tring localPath)</p></td>
-        <td><p>Sets the local path to output the data files.</p></td>
-        <td><p>localPath: A local path.</p></td>
+        <td><p>设置输出数据文件的本地路径。</p></td>
+        <td><p>localPath: 本地路径。</p></td>
     </tr>
     <tr>
         <td><p>withChunkSize(int chunkSize)</p></td>
-        <td><p>Sets the maximum size of a data chunk.<br/>While rewriting your raw data, This tool splits your raw data into chunks.<br/>The value defaults to 128 MB.</p></td>
-        <td><p>chunkSize: the maximum size of a data chunk.</p></td>
+        <td><p>设置数据分块的最大大小。<br/>在重写原始数据时，此工具会将原始数据拆分为多个分块。<br/>默认值为 128 MB。</p></td>
+        <td><p>chunkSize: 数据分块的最大大小。</p></td>
     </tr>
     <tr>
         <td><p>withFileType(BulkFileType fileType)</p></td>
-        <td><p>The type of the output file. Currently, only PARQUET is available.</p></td>
-        <td><p>fileType: The output file type.</p></td>
+        <td><p>输出文件的类型。目前仅支持 PARQUET。</p></td>
+        <td><p>fileType: 输出文件类型。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a LocalBulkWriterParam object</p></td>
+        <td><p>构造一个 LocalBulkWriterParam 对象</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.bulkwriter.*;

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listDatabases() | Java | v2"
 slug: /java/java/v2-Database-listDatabases
 sidebar_label: "listDatabases()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all the database names. | Java | v2"
+description: "此操作列出所有数据库名称。 | Java | v2"
 type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # listDatabases()
 
-This operation lists all the database names. 
+此操作列出所有数据库名称。 
 
 ```java
 public ListDatabasesResp listDatabases()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *ListDatabasesResp*
 
-**RETURNS:**
+**返回：**
 
-A ListDatabasesResp object contains a list of all database names.
+ListDatabasesResp 对象包含所有数据库名称的列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

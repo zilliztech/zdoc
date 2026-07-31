@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listAliases() | Java | v2"
 slug: /java/java/v2-Collections-listAliases
 sidebar_label: "listAliases()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all existing aliases for a specific collection. | Java | v2"
+description: "此操作会列出特定集合的所有现有别名。 | Java | v2"
 type: docx
 token: X6JXdPN7IoRffJxnaZccBvRanIM
 sidebar_position: 19
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listAliases()
 
-This operation lists all existing aliases for a specific collection.
+此操作会列出特定集合的所有现有别名。
 
 ```java
 public ListAliasResp listAliases()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 MilvusClientV2.listAliases(ListAliasesReq.builder()
@@ -47,41 +47,41 @@ MilvusClientV2.listAliases(ListAliasesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of the target collection of this operation.
+    此操作的目标集合的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *ListAliasResp*
 
-**RETURNS:**
+**返回：**
 
-A **ListAliasResp** object containing a list of aliases for the specified collection. If the collection has no aliases, an empty list will be returned.
+返回一个 **ListAliasResp** 对象，其中包含指定集合的别名列表。如果该集合没有别名，则返回空列表。
 
-**PARAMETERS:**
+**参数：**
 
 - **alias** (*List\<String\>*)
 
-    A list of strings containing the aliases.
+    包含别名的字符串列表。
 
 - **collectionName** (*String*)
 
-    The name of the collection.
+    集合的名称。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

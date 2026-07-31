@@ -1,5 +1,6 @@
 {
   "bootstrapCompletedGroups": [
+    "java",
     "python"
   ],
   "records": [
@@ -2970,7 +2971,7 @@
       "sourceHash": "2fc51d5a1139c13a5e062379279613118d6505cb03c2ac9624c48f9642027c0e",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-About.md",
       "status": "translated",
-      "targetHash": "be645bc6df0df5fbfe725957478c70a7b1dbcefb2c55a829ea485609b14a8a4f",
+      "targetHash": "2eb86c6b415557cd7ce55fc68a3926f91b7475e0f5bfb7c0c468961c853361b0",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-About.md"
     },
     {
@@ -2979,7 +2980,7 @@
       "sourceHash": "2e652e3fea5a481700aeacf13522623d01f0fa425d63450c965c1bd14965dc3d",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-alterAlias.md",
       "status": "translated",
-      "targetHash": "885f07c2b9ad7a5452871302616633c742ec9b2cc5ec6346947d91521e6be5f7",
+      "targetHash": "b7cc98ab089da7f22cb7cd0bf761d63115235cccd4b0699a3f562f3de19e5070",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-alterAlias.md"
     },
     {
@@ -2988,7 +2989,7 @@
       "sourceHash": "66e9de904d38a6a6502d879283599f277a8f1ac6e9a652ee37c268ae8d56aab7",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-createAlias.md",
       "status": "translated",
-      "targetHash": "42f4018fe05bd094df92db4ead3f74902a7f760a8546b031fb42bf0fb944f503",
+      "targetHash": "ee5853ea08f881dc6aca62f4463a268d85a44eaba2bd6a9fac707da9f0d8c12b",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-createAlias.md"
     },
     {
@@ -2997,7 +2998,7 @@
       "sourceHash": "9af5c4a5e72b059a23bf797b8399bc170b4af82f94b0f07743dea95bca76553a",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-dropAlias.md",
       "status": "translated",
-      "targetHash": "269ca9e8a7eaff1c12cc10f93ef63a4bb0f14dfa07dc610481debf549787a115",
+      "targetHash": "0676569055763ae07082bee7843d476f80a482a94130bf64c2c774279dbc8a39",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-dropAlias.md"
     },
     {
@@ -3006,7 +3007,7 @@
       "sourceHash": "b47d8ba8745824ed69a423d29ebc11f7c7a99734293cb6b6f90123a9e09c0db3",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-listAliases.md",
       "status": "translated",
-      "targetHash": "80a36c6c29b9295caf9426c2ed4f40f572cdf9c0e26e3b9ec06d73ad680802a5",
+      "targetHash": "dee500360f97db2890e36c0ba4ef6bbfcf37e93fcd6004903dd81fd85271a3f1",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-listAliases.md"
     },
     {
@@ -3014,8 +3015,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "e251ae19682561e31fa78f0386c0917cec6fe71fa1f7def77f440e56e8320197",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias.md",
-      "status": "unchanged",
-      "targetHash": "e251ae19682561e31fa78f0386c0917cec6fe71fa1f7def77f440e56e8320197",
+      "status": "translated",
+      "targetHash": "36892dd07afd015a9145501159f8cbda58743d4434b8c5716413d9f6f0bd3d6a",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias.md"
     },
     {
@@ -3024,7 +3025,7 @@
       "sourceHash": "ee5d17c38403b0008087da99d214af366446c0e40cd633cfc1580491b513c54e",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-createCredential.md",
       "status": "translated",
-      "targetHash": "137886c9b4055d8239cdd3a39e2d2e9444bd263b7962579904cf6c72935f53ba",
+      "targetHash": "5c42f7cc89da861c21028bc38166650b61b59f557e24b238ba4b4ec2bc879c6d",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-createCredential.md"
     },
     {
@@ -3033,7 +3034,7 @@
       "sourceHash": "34e41ff28b2cfc8316479f8510efa1a6d824d5a1b9678299096b9f8ab6948e55",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-deleteCredential.md",
       "status": "translated",
-      "targetHash": "fdc2834c206ade50cea6dc1056e7c7879882793232f62d7b85745d1f9ddcf58f",
+      "targetHash": "d0af938ad08abd8b26365f9c729b1d5ae92432be06e05939f7237b6b98281201",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-deleteCredential.md"
     },
     {
@@ -3042,7 +3043,7 @@
       "sourceHash": "661ab865ccf6c8f5d0b3d8dc4aeffd1d8ddb958fcbf6eb2c64287461d698b815",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-listCredUsers.md",
       "status": "translated",
-      "targetHash": "b9b186110031c3da4394944a7571a520214660fa30e4f63c8971b4c4e0b372f4",
+      "targetHash": "c9657407bffc206f1501b2ded00d42cb868bb50a580a8fb3630d6556d90de204",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-listCredUsers.md"
     },
     {
@@ -3051,7 +3052,7 @@
       "sourceHash": "229e7784b52d82e41c47bae76926ae9702da4b81e4c60d4b8347726f5005704d",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-updateCredential.md",
       "status": "translated",
-      "targetHash": "5b02fe8d75a7cc5e36d17ea0208e5227ed99579d964e5943c2bc6f123ba3036f",
+      "targetHash": "695a7efa78c03008512193d5b7baad4328dcb3029169cf625737f5375a72e4c5",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-updateCredential.md"
     },
     {
@@ -3059,8 +3060,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "ea0a22c140ac29f59a75ba32d3a3e6901fa6ca16ec90bf51a85f8ae218e4cb73",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication.md",
-      "status": "unchanged",
-      "targetHash": "ea0a22c140ac29f59a75ba32d3a3e6901fa6ca16ec90bf51a85f8ae218e4cb73",
+      "status": "translated",
+      "targetHash": "c1cd7894657d3c037b89b9fdbb4acb18550d37d39383a448aec4446d9a66e3ab",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication.md"
     },
     {
@@ -3069,7 +3070,7 @@
       "sourceHash": "affcf74c99175b5b62ab641341a75db598665b0262401fe683e8543cc8d3b17b",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-LocalBulkWriter.md",
       "status": "translated",
-      "targetHash": "8a7b986f1e1589bc68da3339c95d88b71791a35b9b924597656985ef152733da",
+      "targetHash": "f40065b25a7453ccd2f0d64c7b52c0fdd0dc1cc26ade5e0c59dbcc5702e6226e",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-LocalBulkWriter.md"
     },
     {
@@ -3078,7 +3079,7 @@
       "sourceHash": "066286a1ea6356b37640822165ad52c176c0078d0d20bfd9ad28fbe63eee769f",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-RemoteBulkWriter.md",
       "status": "translated",
-      "targetHash": "280e621dd4fdc8936eed4e016620522b1aec439358282c6358ca30af27e5dc69",
+      "targetHash": "66cb415204518965d9566fe40506ccc2a3bc650f67800945bb8bf586d0c3827f",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-RemoteBulkWriter.md"
     },
     {
@@ -3086,8 +3087,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "d62dfee7ddfe7941eea34a8bdabd7f02c3dc898016f379abc8b10058c4769bb2",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter.md",
-      "status": "unchanged",
-      "targetHash": "d62dfee7ddfe7941eea34a8bdabd7f02c3dc898016f379abc8b10058c4769bb2",
+      "status": "translated",
+      "targetHash": "bde980bcad14a3456dbfa26095cd9c9e272abb868a3a4906cb6eb64c3e9d2976",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter.md"
     },
     {
@@ -3096,7 +3097,7 @@
       "sourceHash": "42aafd11ac08000faacb41b97e836a3384a738e3f1b22fbb9b99ba26aaff1ffa",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-alterCollection.md",
       "status": "translated",
-      "targetHash": "c66cc590ba58afef1c6cc69e44db85589c9930cbfa9c96af1448b609bd06d9bc",
+      "targetHash": "6e67acd56aee0952325fd1c011c7ff71d59dfc8894143d4bb18c3baeec815bff",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-alterCollection.md"
     },
     {
@@ -3105,7 +3106,7 @@
       "sourceHash": "096582e20d624e606cb8761709643cd2ed15a9533e94e53b6db75ed540a2f40c",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-createCollection.md",
       "status": "translated",
-      "targetHash": "1e8707e4effdfcbe8145d7a0b6a3e5cb6af97f766e3633d59d7febdbb5fcca59",
+      "targetHash": "c58904edf211d160c14c3470f7a4943aebe486c2b00d9b622d6c94e1b7ded3b6",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-createCollection.md"
     },
     {
@@ -3114,7 +3115,7 @@
       "sourceHash": "15a4ba74596b47f219c6da065e400db3888ee73cb828f1464a811bb1d833f763",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-delete.md",
       "status": "translated",
-      "targetHash": "f4b0eb9f8edc49a6a8ea396d9516b82c2c5ec75a5cb3635c2cd58eb67c155114",
+      "targetHash": "3ab3f681fc787d4037ccdd7497f733a90e3f0ee9ac2ca0eb95d16e94aafea5ca",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-delete.md"
     },
     {
@@ -3123,7 +3124,7 @@
       "sourceHash": "b4c4f3a16b315dc960c38a0490fb2e9dbb080afc98b441b203fdf2c98db7045f",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-describeCollection.md",
       "status": "translated",
-      "targetHash": "097cd0dd8bd076d158ced608b7655a62e5cfa93112202f3b2a5d35245c666042",
+      "targetHash": "698fc441260bdb5cff76be95c4eacaa39c127b1cbe3668ec93ac6f9a28ed26a4",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-describeCollection.md"
     },
     {
@@ -3132,7 +3133,7 @@
       "sourceHash": "b42bb1ac768f0ba3142bda88a9a4c0da5c2d776cc2fa174f2e834567a53805fa",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-dropCollection.md",
       "status": "translated",
-      "targetHash": "82316420d72544df751e28e15c70faeabc76533f5d6d4a5f2ebbc04c2d9c62e8",
+      "targetHash": "cac8cd4805973232c32e28a6d8f12e186301a981bf070ac809ebbdd169a9a0dd",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-dropCollection.md"
     },
     {
@@ -3141,7 +3142,7 @@
       "sourceHash": "fc689bf118b4b0ff219cffa38e0374dba77d48b9422f3891efa872f493441e52",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-flush.md",
       "status": "translated",
-      "targetHash": "fbc954a964d0298b4006d909fe5ff6f652c130fa34a6e2fd082141cb014d1c70",
+      "targetHash": "a6f8fc63394cbd2cb1abb5c73b9a10e80570e9eb8ed2b0c81715f26c92eab7f7",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-flush.md"
     },
     {
@@ -3150,7 +3151,7 @@
       "sourceHash": "38f4284d277711906cf0c2d5cacb0c861231edc4d418983ade1d138ed5e03d10",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getCollectionStatistics.md",
       "status": "translated",
-      "targetHash": "6ecc1b8a34110b73b87d261fdd6865a45afda8b462f05f86f88e3e59f0e129e1",
+      "targetHash": "cf297b1637fc1b439246935a51bbd3ced80f7ea40168081efbf218c564b48f0e",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getCollectionStatistics.md"
     },
     {
@@ -3159,7 +3160,7 @@
       "sourceHash": "0c0cbac08f39a5b85c8500ea44ade7895196aface4f132df429395061eaac9ab",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
       "status": "translated",
-      "targetHash": "cf15f17700d53463bfd1b2d2fb3f6facebefddfae7f6e54fc496d2bc7fa26a09",
+      "targetHash": "039c1da55c9d5b8d6b50572334dc10bdc97f2d8893065fc1abde3f6ae7760599",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md"
     },
     {
@@ -3168,7 +3169,7 @@
       "sourceHash": "5baf3a14f2ce5cb3647e5dcbdc251f96e5ba56615f482e842a82cf1958486c5e",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
       "status": "translated",
-      "targetHash": "cf606cddeae23bd1ddbe59b9834ba32f8b435826a3394174b227e3232d1fd2e6",
+      "targetHash": "1f38aabb43ccc73f7bb4b681a80b53a3bb1fbd24cf66966bbce7ee7cc2e7dcc8",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md"
     },
     {
@@ -3177,7 +3178,7 @@
       "sourceHash": "f5bcddb7c5a68cee91c00622ba3f398b5ccf574a6170a09b37035d8ec6c0f34c",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-insert.md",
       "status": "translated",
-      "targetHash": "4ce6cd9e3357162a8097f22d71d7c662a0dfa3b5a1765515e828edc87a141d1e",
+      "targetHash": "96bcc9b858de469db6f3938f672042197e98d1c81ec4fb0eedfce3dcc22879cc",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-insert.md"
     },
     {
@@ -3186,7 +3187,7 @@
       "sourceHash": "5987eb515bfd5e40ec86da2ac39094c82d2cb64d63171b5fcf6c38326d5f2973",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-insertAsync.md",
       "status": "translated",
-      "targetHash": "3cb4d104a03321cef1dde398899cdcbdc89f7a67ed08225cd4c86441e93fbe2e",
+      "targetHash": "a1a8f9a78f1cf1b10bfb633f45adc65d69d7f54f4b2788dbcb579697709a5e1d",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-insertAsync.md"
     },
     {
@@ -3195,7 +3196,7 @@
       "sourceHash": "9cbb5a02b7a91dda1a08c882dd56c3907e0f49037d041e82db73b2de2d9f8f19",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-loadCollection.md",
       "status": "translated",
-      "targetHash": "a9b198df69a84519f1dec73016b3449609f15b2c917f47754082a7caf3336069",
+      "targetHash": "bd4c16808f37abeb0ea5d885f74dafc07cdb41898d325907c077dc2521df238b",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-loadCollection.md"
     },
     {
@@ -3204,7 +3205,7 @@
       "sourceHash": "cd019f784402190b52766f0fc289abc52fa620ec66dec45721355b146c4d06f9",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-releaseCollection.md",
       "status": "translated",
-      "targetHash": "3248377dbae061857893f7ccaa44b56776ea28e19a32990116b78217ca05808d",
+      "targetHash": "49f6a4686e64a37f22d99eaca5967a187212054ca0285cd8c82f8be67bf9ac59",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-releaseCollection.md"
     },
     {
@@ -3213,7 +3214,7 @@
       "sourceHash": "4a3ab959b3df6a60f1b62699357b74c206bd70577fde3c05a2fe075090c0420b",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-renameCollection.md",
       "status": "translated",
-      "targetHash": "df916ffe45241b1753c07b3c65e0fdea701b2c18f80172db10349e05272f8501",
+      "targetHash": "9d886bb5f6d73177fa8c39e649dbc35f9766e5622f99cb6cb0720f926b820176",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-renameCollection.md"
     },
     {
@@ -3222,7 +3223,7 @@
       "sourceHash": "464a62ab7af7a10ee7633ee3c5110a9f4e3338e538d09d2abdb16a477dbf348a",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-showCollections.md",
       "status": "translated",
-      "targetHash": "1f59de468e8d405a7bde83ed175ff3f1a0e6140bb60cb795d8f20b1425db0ff7",
+      "targetHash": "21d2651476900aa626b8293fda7db8b5783d08ea3e6f5e49386e0afd021cfe9e",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-showCollections.md"
     },
     {
@@ -3231,7 +3232,7 @@
       "sourceHash": "e68a20a62d79ee43e3b05ad65d0799633424e74741963ea0e45e8fb2ccccb227",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-upsert.md",
       "status": "translated",
-      "targetHash": "2bfcc446c5ab44a0e8097e181d79b5ab008479cb9371d56305230b9ab92b3138",
+      "targetHash": "e6b6441e0f49de07cdfb2bc08db5c519840582641a21ca74713e0c1e3f52128a",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-upsert.md"
     },
     {
@@ -3240,7 +3241,7 @@
       "sourceHash": "c1f054c1827713d4a9eef0fcb88a3c16c4de963e8d262078161e188bff14b7fa",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-upsertAsync.md",
       "status": "translated",
-      "targetHash": "c101916f23128d4863ee8e78873fe98b066615f97d447d729289b35701bfd8e6",
+      "targetHash": "cad48f15d6a1881112a5e880226e03e4fcb0c0ef1988fde5fba69a45c54aa729",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-upsertAsync.md"
     },
     {
@@ -3248,8 +3249,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "d76b7248f5c5a3665cdf53c2f35530fda324023ad208035979d62067afd612b8",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection.md",
-      "status": "unchanged",
-      "targetHash": "d76b7248f5c5a3665cdf53c2f35530fda324023ad208035979d62067afd612b8",
+      "status": "translated",
+      "targetHash": "80a361a4c64e34a5162106ac8709a09bc105be5da27ac123f16d1d07f7e18ea9",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection.md"
     },
     {
@@ -3258,7 +3259,7 @@
       "sourceHash": "431ce36b2d36812281bec5a68c3960455e7a5fc8f59079bca7e157b4c32b3fc2",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClient.md",
       "status": "translated",
-      "targetHash": "b15f4839e34c6de91e238775654cbd69cba260ccaa3820c962225d383a110241",
+      "targetHash": "e4a944adff914239b04a3588dc82e3b5ecbce016f2fc2f119e176d30251871fc",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClient.md"
     },
     {
@@ -3267,7 +3268,7 @@
       "sourceHash": "deb632c1ceea6f0e28bcc7ee175bc309827f8e98d3b0c38b848d70b842bf7023",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClientV1Pool.md",
       "status": "translated",
-      "targetHash": "81f97d48ddcc31dd98363076c0d0f777ab7b40602e2dba50510d2dcd816fe745",
+      "targetHash": "ab1ffe92c1058336c1684dad48abe83ecb4d7708f7167c6ec2f58636eee16e4b",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClientV1Pool.md"
     },
     {
@@ -3275,8 +3276,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "b9b414a31413a4d0417e0ad8a77c939cb210cf16a1bb73ecf4023abc778baa28",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections.md",
-      "status": "unchanged",
-      "targetHash": "b9b414a31413a4d0417e0ad8a77c939cb210cf16a1bb73ecf4023abc778baa28",
+      "status": "translated",
+      "targetHash": "2056c7b25639ac5394928fb389b11c7330c6a3412395fd50b93e8ae252cdfd0f",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Connections/v1-Connections.md"
     },
     {
@@ -3285,7 +3286,7 @@
       "sourceHash": "86506bffa43a662e8610a5de8edf224d54787d5710e19e8009f03111af2dafff",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-createCollection.md",
       "status": "translated",
-      "targetHash": "9d892f4ae5a4d61fb7dd9bb5121f00d4c24bf22b4035a569c815163016b7ffae",
+      "targetHash": "6f432e4494de4525175838a634cbbf11c886a06519f14b96177d1a580e02b7a2",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-createCollection.md"
     },
     {
@@ -3294,7 +3295,7 @@
       "sourceHash": "ca998855491880517a3c65f90131aa3cdf6f3f0e68be47f9958093d574704a9a",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-delete.md",
       "status": "translated",
-      "targetHash": "e726bc81172cf2704ba938626166f90fd4aa1ab61fe27e71ac47a2e9cc6e6831",
+      "targetHash": "17a96839075d4627e80643209821ba6ce5817c066a9a493e1cad04757ce6dc21",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-delete.md"
     },
     {
@@ -3303,7 +3304,7 @@
       "sourceHash": "ef373f81d79a880cc004042f705c37a62bb19afb2f3cd7a35f2ba5caf44e81da",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-get.md",
       "status": "translated",
-      "targetHash": "63e198f1e3eafda9e93281a9ec1100968ac8de7618e8cfa3f341a79396f660d4",
+      "targetHash": "c2690e3847b86f2f5965150bff95ddcc385d160a02f0b71a81bda910cbea7ac4",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-get.md"
     },
     {
@@ -3312,7 +3313,7 @@
       "sourceHash": "7ce073bdaf66380710c0aa728eff87722e2127e05e5074f3d1a14c85b55bb556",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-insert.md",
       "status": "translated",
-      "targetHash": "0f24f8dcfb8a51609d2c23113b968fc60e9a00a982a727b674e6b05c13de550b",
+      "targetHash": "a8fddb0f4539b5f4ce418cda345a59613bdd3c731bba540dc1ab693b13c3ab0a",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-insert.md"
     },
     {
@@ -3321,7 +3322,7 @@
       "sourceHash": "72216f144d8bd65fcbe12d0090341314183aa52fdf908ad40bb5260f90173a45",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-listCollections.md",
       "status": "translated",
-      "targetHash": "8fe75717cb754d78119354db31f06423869bca193e8033180133ac37457569fb",
+      "targetHash": "c278362a55e51f8d965e0569152b6ccfcb7eb94391251b5f625d2d1dd20f970c",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-listCollections.md"
     },
     {
@@ -3330,7 +3331,7 @@
       "sourceHash": "2cc790c8b7ee83f09e634e2265df3a2db6ed0f1b57b54a7b9a56a98722d3cfad",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-query.md",
       "status": "translated",
-      "targetHash": "8aaa141dffbc6c41cdbb0a821ad701b890e955c13252f0ba38bdaf469f8fc7db",
+      "targetHash": "85a047f334f961702f8fca89b5193420301d50afa49c08da3c96730eb8273569",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-query.md"
     },
     {
@@ -3339,7 +3340,7 @@
       "sourceHash": "f721db95b7a99dd2ab7c0142b78e651bb34b22a2de1e015276a8775900ffa6eb",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-search.md",
       "status": "translated",
-      "targetHash": "68c2075a77b1c4c7ab30babab37dc59520fcd4427e5d688261be7dd07964345b",
+      "targetHash": "b36ff8fc431b4c21b21db3565d1ed10799323c1c206dbe284ee506f36994a9cd",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-search.md"
     },
     {
@@ -3347,8 +3348,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "f9fd668d0dae2f0cb46a97fd2b424023f0679c17cc0f6d5fb03a8b1d2d234bc4",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI.md",
-      "status": "unchanged",
-      "targetHash": "f9fd668d0dae2f0cb46a97fd2b424023f0679c17cc0f6d5fb03a8b1d2d234bc4",
+      "status": "translated",
+      "targetHash": "c4b61374d6c444412faf7295b69b8adba395a9d189ed9dd1e84a9a5302824307",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI.md"
     },
     {
@@ -3357,7 +3358,7 @@
       "sourceHash": "ebd95e0a8f025753018d4c888a361ae56e65774a87501e3106836877a4a609ac",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-alterIndex.md",
       "status": "translated",
-      "targetHash": "4d6d05f7641be208a47db9f7d4b77a3b501e515b4e7016b53e16b2199c4d9b2c",
+      "targetHash": "9be03dce3f3764b6ffb94267e14cec3416ebd018a04598261f1c216b172c7dcb",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-alterIndex.md"
     },
     {
@@ -3366,7 +3367,7 @@
       "sourceHash": "4dbc457ef0ea6f1c14305e4689e62c5816c5a198bbe73ad440aa24ba4cc9935f",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-createIndex.md",
       "status": "translated",
-      "targetHash": "b19f900f86b3caf680ad257e40bd41d8628a8705fa1922b184e8e3e414542a77",
+      "targetHash": "1f307f42385384c604fafeb11f828257bf20f32deb0c323d2ddf35be397bbb4e",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-createIndex.md"
     },
     {
@@ -3375,7 +3376,7 @@
       "sourceHash": "bbfff5dc0cfdaa77d40728e4e7844f9b0b7cd078a656cd2d01a4300eeb6243c9",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-describeIndex.md",
       "status": "translated",
-      "targetHash": "cfa8315a25b3efe24291e522768afc1cccba69e4440fa84772b821c3f72235c1",
+      "targetHash": "7d5eed2741b9a3c65f78e2b34d090783f274349bf82f2d18e701522bac92833d",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-describeIndex.md"
     },
     {
@@ -3384,7 +3385,7 @@
       "sourceHash": "e417588e4c824e5d2a3aa8b42b9c9dbf060b8e57ab060846b018ddfd12926f7d",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-dropIndex.md",
       "status": "translated",
-      "targetHash": "b9b55f3a9334b8a1f83ad6a0a7c490803deb52360023feaebec74bfcf3309708",
+      "targetHash": "eb88a23708c12dc71d11eba64df9dfab792f31a5c6ef8e9c866618bb15cc4a47",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-dropIndex.md"
     },
     {
@@ -3393,7 +3394,7 @@
       "sourceHash": "c52cb840f3e933d01768457bbfdaea149b8e420ecacdfc70986ced7fc6aa8d75",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-getIndexBuildingProgress.md",
       "status": "translated",
-      "targetHash": "fb05c023dd10e52a41ac7d80ebc73a8d30cc8768693406b619c7b5b5a341af26",
+      "targetHash": "8169cc243ac06a7f6c6624a11c248dd5472fe5f8fa761cf921deedfd73760da2",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-getIndexBuildingProgress.md"
     },
     {
@@ -3402,7 +3403,7 @@
       "sourceHash": "06424f036113e123ceac1256ce1a3fcd53c40fefbf8daa83f5a3e57f32467852",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-getIndexState.md",
       "status": "translated",
-      "targetHash": "cad57f575d5c7a5bb59eaabab62c040505d90d5731f7a5c4174d6c0de2ac5b5a",
+      "targetHash": "57f013de21070ee1a9b74681124df45c178547f089fd1ba2d7643041a2643c63",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-getIndexState.md"
     },
     {
@@ -3410,8 +3411,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "a578f4d264e59193942598237082eda3170ff8652c76d90757c37541078d5f29",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index.md",
-      "status": "unchanged",
-      "targetHash": "a578f4d264e59193942598237082eda3170ff8652c76d90757c37541078d5f29",
+      "status": "translated",
+      "targetHash": "9ca28fc171b5086612f38c1828285c57d63010173fdddd07de9d38b7991f7bda",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index.md"
     },
     {
@@ -3419,8 +3420,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "92edc5c4a1af10dc79d07fd6c91eb29171cfe60426f4259cec9feb59c9801c1d",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-ConsistencyLevelEnum.md",
-      "status": "unchanged",
-      "targetHash": "92edc5c4a1af10dc79d07fd6c91eb29171cfe60426f4259cec9feb59c9801c1d",
+      "status": "translated",
+      "targetHash": "2d35a60d2374e490862647282aacda0302d4048e6373fbbf1493f3aa9329d3fc",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-ConsistencyLevelEnum.md"
     },
     {
@@ -3428,8 +3429,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "e51e29d5ee7f0ad114f4181fa10803f3a067a558c0bb8c7128538488fc988301",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-Constant.md",
-      "status": "unchanged",
-      "targetHash": "e51e29d5ee7f0ad114f4181fa10803f3a067a558c0bb8c7128538488fc988301",
+      "status": "translated",
+      "targetHash": "75af123d7a764ca969cd2971dd8fd5d693bb9fe7b858f6739e4f2d747ad5e518",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-Constant.md"
     },
     {
@@ -3437,8 +3438,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "bdecb052f3f8dfe551648f19bc2b2fd615f024a6e0341d383ee1c7e119ee0c44",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-DataType.md",
-      "status": "unchanged",
-      "targetHash": "bdecb052f3f8dfe551648f19bc2b2fd615f024a6e0341d383ee1c7e119ee0c44",
+      "status": "translated",
+      "targetHash": "02dca9e9f493ff7dda0e58f4c5489ac5b68658e8cc008fa5492c5aae030b3735",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-DataType.md"
     },
     {
@@ -3446,8 +3447,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "6ded00554a84630d78b94d4f000cec6afad00d78691a7173fd6b7b95441772c9",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-IndexType.md",
-      "status": "unchanged",
-      "targetHash": "6ded00554a84630d78b94d4f000cec6afad00d78691a7173fd6b7b95441772c9",
+      "status": "translated",
+      "targetHash": "bd04916475d2d99bf6f4f8968b0683363e6b249e36e27d447384af36ea76592b",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-IndexType.md"
     },
     {
@@ -3455,8 +3456,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "96114861346a60ca8bb1e2532d168973816f3506065b1d9c866467f698a15712",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-LogLevel.md",
-      "status": "unchanged",
-      "targetHash": "96114861346a60ca8bb1e2532d168973816f3506065b1d9c866467f698a15712",
+      "status": "translated",
+      "targetHash": "1e643f27e96ee1ca5f0c700fee7b693fe08b44b7ce07cf0f7bb9a338d1588a63",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-LogLevel.md"
     },
     {
@@ -3464,8 +3465,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "4ffc669b4d1647b7d474fb1d954a24650079e4fb759c4d86f1699e6c644a8ce2",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-MetricType.md",
-      "status": "unchanged",
-      "targetHash": "4ffc669b4d1647b7d474fb1d954a24650079e4fb759c4d86f1699e6c644a8ce2",
+      "status": "translated",
+      "targetHash": "6ab28cd95b673aef53f71b173843eafadc5f27736849528ca6311b07d0d1d942",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-MetricType.md"
     },
     {
@@ -3474,7 +3475,7 @@
       "sourceHash": "33c60b8f041040e19f6195744dc58425ca9883d3aefd88029acb9593147e0501",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-RT.md",
       "status": "translated",
-      "targetHash": "727be53042e1b695b7a91908418c12541323d2d03e977ca45a44eddc34ad89f9",
+      "targetHash": "577f2f7d0869838285ce9bc8f69dcd3c44c53d7968d280388c37801845045bfa",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-RT.md"
     },
     {
@@ -3482,8 +3483,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "badac14a30e77ae9cb024ef316efe08d6e5111822e0e6f09f4728c3afaa74064",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc.md",
-      "status": "unchanged",
-      "targetHash": "badac14a30e77ae9cb024ef316efe08d6e5111822e0e6f09f4728c3afaa74064",
+      "status": "translated",
+      "targetHash": "9297dfcdfe556700cfa1a0cfe548a21af3c58bdaf3881a348f053f5f63f2bd7a",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc.md"
     },
     {
@@ -3492,7 +3493,7 @@
       "sourceHash": "52dc3fffdc1f9db4bdc6749a4edf2961aa1f90c01bbe3d91e7b768bcec0428c6",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-createPartition.md",
       "status": "translated",
-      "targetHash": "471dc5a07d7eaf0f4f3dfe4e3f269e1040e91ab3d5f1fc60353edbeb8dbdf61e",
+      "targetHash": "53a808e78e7ce198c35bd8ba2fa8fe21a7dc46f55ccef4a166b8c553276a837c",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-createPartition.md"
     },
     {
@@ -3501,7 +3502,7 @@
       "sourceHash": "ed778b2c4d314b836ac8433cc7299fae43ca1d46f552c22907db5301bc1643d3",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-dropPartition.md",
       "status": "translated",
-      "targetHash": "b856a29f3d46495ad751ac6d9fe0be96af6b2221271aa827585b8bd7e2d0bcb3",
+      "targetHash": "7b527f5468e3b5cc549f86d6eebca8120e7a241f5a91649d394db5dac7031170",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-dropPartition.md"
     },
     {
@@ -3510,7 +3511,7 @@
       "sourceHash": "ef037bdc1769aeaf25f483252d7083cb5cff0795e06999ddbfce840417c3a331",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-getPartitionStatistics.md",
       "status": "translated",
-      "targetHash": "6513bb0079ac82d454e10b4b24971ff2b403f723e1fa7b28ce7c8e639f6f7f76",
+      "targetHash": "fdc09c9abfd6e3229c9fc6a299d65cfb7d04014142eca091f8f9994ff8ea79a5",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-getPartitionStatistics.md"
     },
     {
@@ -3519,7 +3520,7 @@
       "sourceHash": "60c42d090f83a92f2da49f30949bf3c6707951168efa063dc988dd7765310ea6",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-hasPartition.md",
       "status": "translated",
-      "targetHash": "b797a789ad2054adff26362815d3f1f3d94d5bbe337d193b2cbcafb0e29244df",
+      "targetHash": "7a34969c4b0e0bf63a834581d4444f535e84f843a966d2bca2754113e8027cfc",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-hasPartition.md"
     },
     {
@@ -3528,7 +3529,7 @@
       "sourceHash": "2eba00763b902887e066901266043b027cacb7ec7d3d7347ef39932e81951032",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-loadPartitions.md",
       "status": "translated",
-      "targetHash": "ee9b2dfac4e1e42623bfb61611e8eb0a51ccfcde3d8c390ba6b6aa0eca5d73ec",
+      "targetHash": "c928fb7d0e681689c26f3d61f05f41e3e9986df7c7504ce6de1654ae06885660",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-loadPartitions.md"
     },
     {
@@ -3537,7 +3538,7 @@
       "sourceHash": "5cc55882fd2a26fd121fabffa1eee8b2d44579dfd1e94b3550016d4171284df4",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-releasePartitions.md",
       "status": "translated",
-      "targetHash": "70c81231414a17412fa3bacb77821f46b4431a1e17ae1aa466ae84f7a9d91768",
+      "targetHash": "75a96ec31e581d1ad5897e5ef6f883189178bf1b91d985d307ae07dda71f2cd7",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-releasePartitions.md"
     },
     {
@@ -3546,7 +3547,7 @@
       "sourceHash": "5f446ff897d7f3a948fc8b1c0f8d375bb9a5d67882bb809a1cd2a537401e92fc",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-showPartitions.md",
       "status": "translated",
-      "targetHash": "d765e44f2d5f628af67d4b2d9d9b94d3e924e779d1c2e60204a3c719b96be384",
+      "targetHash": "a0792a076c5bd48dca340bc487ad61eca7d3e210dc07d747460b67234dfb8290",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-showPartitions.md"
     },
     {
@@ -3554,8 +3555,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "dde05b245851d0cd735d7c57fb6bf34d5dab52a596447741058519bde5b40cb7",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition.md",
-      "status": "unchanged",
-      "targetHash": "dde05b245851d0cd735d7c57fb6bf34d5dab52a596447741058519bde5b40cb7",
+      "status": "translated",
+      "targetHash": "a141a50e4ddbbfc331d8969a66114bde044a86ac61af8d3755842da36f1f3250",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition.md"
     },
     {
@@ -3564,7 +3565,7 @@
       "sourceHash": "1bc3859a1ed636693ed14460d8a0f752c66e3e64fa0d54aae7b5438c373dd30b",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-hybridSearch.md",
       "status": "translated",
-      "targetHash": "419817ac75f1c84a6b04e20b5e7c821e62545b944ff1281dd82c3e6f125e711c",
+      "targetHash": "9c3a29997d27ca2ff46ffa9ff553848beef02df398d69ad3c85a0755e70123a5",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-hybridSearch.md"
     },
     {
@@ -3573,7 +3574,7 @@
       "sourceHash": "83ec20e0c7f6310a8c375bea3d4a6bcda146c995b4fe8799c048d8ff47d6cde7",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-query.md",
       "status": "translated",
-      "targetHash": "dc07505cb2b0920dd33fff92d94a0fd92b904d80230481ebd9166024b25f1976",
+      "targetHash": "8070292604edcb5bfdc107b06704fcb64a7b05d3464eb38b013e1b2f618d0c24",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-query.md"
     },
     {
@@ -3582,7 +3583,7 @@
       "sourceHash": "78cdecc71596a98dbe87074929b71213ae8b7b3a8e262bd922d5e6bfde411ea9",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryAsync.md",
       "status": "translated",
-      "targetHash": "5beb1c25f699ea861bb61bbf4327094c426f264f6f50f409bfaddd19f9be7727",
+      "targetHash": "bc3664f1e59c856afcc37e6541da551f6edbf7202e741c4a932771239f65e7ce",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryAsync.md"
     },
     {
@@ -3591,7 +3592,7 @@
       "sourceHash": "0d7e9eb0f173b4793a506a0362f852248ff87db6adcb941ee0686de7d53a6e22",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryIterator.md",
       "status": "translated",
-      "targetHash": "54994e9d337fc21c9a5e3f36342f1b0e95f7241526cc17f8ae978dd1d1d8c1a2",
+      "targetHash": "8ab3a922058e25d91afef0b603c397423a013340010fea74b2a17016efb009d6",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryIterator.md"
     },
     {
@@ -3600,7 +3601,7 @@
       "sourceHash": "5da509925fbd6a814ecd5c0ea9701d40afde62fc22615250d3e1583f4b641c0b",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-search.md",
       "status": "translated",
-      "targetHash": "e72be8f7f03a7256298c4e2c9085147c270dab0480f32fe4f6d0338e76aed6b0",
+      "targetHash": "3d44e50a8158f56edc5d5a0a9c5fe737dc3ad0019fd4dafdefc48bfa79080e52",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-search.md"
     },
     {
@@ -3609,7 +3610,7 @@
       "sourceHash": "b1e72f50d026a6eb1cd7da4db1523c476248f8fc4ba0d751854185b6fb43f91b",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchAsync.md",
       "status": "translated",
-      "targetHash": "db3115247ffee7eb6dc977ad93c147cc25957675891a6b700c89340ba7511b02",
+      "targetHash": "d632bc4e62b31bab626ba22012d3574e4e33ebeee0cb77a8be1cc9e49cdb0de0",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchAsync.md"
     },
     {
@@ -3618,7 +3619,7 @@
       "sourceHash": "189d8a1b6d090ac99152d5f8c8e35a6cd0ebe36073b68f154fdd13139fe66940",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchIterator.md",
       "status": "translated",
-      "targetHash": "1527bcd596fca2594681aaaf36b63642d79cb2d9e02d2c3498bc5b9ebfa6682d",
+      "targetHash": "64ef6c6cb5767c0b54aa6bf4cfc89959f4335bd9b758699b318089aca78bff82",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchIterator.md"
     },
     {
@@ -3626,8 +3627,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "bdceb59000f383eb719d3791c943fbdb9e64136fb7d35367bd3fa83d309cd4cc",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch.md",
-      "status": "unchanged",
-      "targetHash": "bdceb59000f383eb719d3791c943fbdb9e64136fb7d35367bd3fa83d309cd4cc",
+      "status": "translated",
+      "targetHash": "1e39ee47ce11bd5e98794472653e5d3a1a038be76a8879c8509e1b101cdd0cc7",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch.md"
     },
     {
@@ -3636,7 +3637,7 @@
       "sourceHash": "2bd6fb15ba90fea6a83d229abc3f30fae0adb5758d67e4bba7f2ffe061ba1508",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-addUserToRole.md",
       "status": "translated",
-      "targetHash": "49382975416e6ceaea71afede3425fb4fdc7627b8fc6fceb12422e38fa901e01",
+      "targetHash": "35fbc84a858b29950a3814bde034d929555c4239721fdef1e2d74aaef8fdcc9d",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-addUserToRole.md"
     },
     {
@@ -3645,7 +3646,7 @@
       "sourceHash": "17d3ffc75600247f48cfea7f17e11aacc542a9ca900d9f0593c45ee74e32fe28",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-removeUserFromRole.md",
       "status": "translated",
-      "targetHash": "4e93e3cb8902114b16c4103590a49d5c6cdbe56377e898a5cf1e652d6e636f10",
+      "targetHash": "5f76d2a841606c013c657df728867b8067180c79e3b6714e07f8c689015520c9",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-removeUserFromRole.md"
     },
     {
@@ -3654,7 +3655,7 @@
       "sourceHash": "0d1640ec94880abe0f3f2e96afd37bea99458e79786bd30f03f9d6427481d26f",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRole.md",
       "status": "translated",
-      "targetHash": "8fcb7e855cbb8706dce88042eb79990b7337963ec00ebc77b9d1414eab16765e",
+      "targetHash": "9bb0d8dbec04efb54439b8f13413de6e4e1efa392416458bb72ba50fba59d9bf",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRole.md"
     },
     {
@@ -3663,7 +3664,7 @@
       "sourceHash": "22778f035a6cdaf511be092acbd347930261a9b197f34f0b8766f4ecae15a89f",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRoleAndObject.md",
       "status": "translated",
-      "targetHash": "47698d805eb9e03823c4090ed93b09b014ee5e53ca450912726bc67f9e5b4c09",
+      "targetHash": "9e1ed35ff29f9a550efc12a70b5935a97380c2b71cb49eeb7dae9e201cf3d396",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRoleAndObject.md"
     },
     {
@@ -3672,7 +3673,7 @@
       "sourceHash": "4a443ea5bebc37587b27e34e6fe1716af113d772d8ec1a9004ac7b3eefa52c85",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectRole.md",
       "status": "translated",
-      "targetHash": "2061e0cdcf002a768b981065d0f331dced4292905f050c742aff6b4b555657fb",
+      "targetHash": "b71792c080a08e5cc1b914cdfdc7e27dd2abbc218add11f4c9867674116005ff",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectRole.md"
     },
     {
@@ -3681,7 +3682,7 @@
       "sourceHash": "224d0c05f0332afb6f76464a2d63cdfac77b2842077c3b2c6b8be566845b16f2",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectUser.md",
       "status": "translated",
-      "targetHash": "f923084c30e11f3d7d0d45bd1f7904ca0bf8da907d4db6351bc5caf4b916e4e7",
+      "targetHash": "53a3e0e4ab0bd579ca3742ba424850bd58697d5a7a527d41c91a92729983293a",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectUser.md"
     },
     {
@@ -3689,8 +3690,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "9a4cfe56f12d1cbfe5eaac8accd0b55f8dea06a835c12e96cc4a8895838efc6a",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC.md",
-      "status": "unchanged",
-      "targetHash": "9a4cfe56f12d1cbfe5eaac8accd0b55f8dea06a835c12e96cc4a8895838efc6a",
+      "status": "translated",
+      "targetHash": "2a283330a36e6ee9d1cedd4cf7ead75669ce0012cdcea3a89513424e02fd41ea",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC.md"
     },
     {
@@ -3699,7 +3700,7 @@
       "sourceHash": "3688f5627cd5eb3f6e8f65f4cbef10dbd72ffd9e40afe3fdeab10e98f44c18d3",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System-checkHealth.md",
       "status": "translated",
-      "targetHash": "9ec98d58dd578ad69ffbe31068d4aa6cdd2757cb542c0982ec0e006f6a777de6",
+      "targetHash": "f94784fb7bd698d59cdcae7bb85778d4726e28d3bc520556723dd1d19863f91c",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-System/v1-System-checkHealth.md"
     },
     {
@@ -3708,7 +3709,7 @@
       "sourceHash": "d1036fcb60058c58727026435b12be169b8ed6d9f757460603acbf3cebafa800",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System-getVersion.md",
       "status": "translated",
-      "targetHash": "fbcb3dc4cdc11c1e690fb29d0e3e88066eb9754ef3f37904aa8fd963742fb9ea",
+      "targetHash": "8cda9f5185b748f1e0b244fabfe46dfa80017014466e82849f551d10c66d3782",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-System/v1-System-getVersion.md"
     },
     {
@@ -3716,8 +3717,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "8b014d427d4ab4519eb38456186250d197dd379141245a850a020d82845876b5",
       "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System.md",
-      "status": "unchanged",
-      "targetHash": "8b014d427d4ab4519eb38456186250d197dd379141245a850a020d82845876b5",
+      "status": "translated",
+      "targetHash": "bdb716eccbe54fe641e9523d9353685110b037da269cdf9d247c5864ca820d24",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-System/v1-System.md"
     },
     {
@@ -3726,7 +3727,7 @@
       "sourceHash": "55f08e92e8f7bbff4d1c6147b29380799c797c90d546a548a018415fa643aa75",
       "sourcePath": "content/en/reference/api/java/java/v1/v1.md",
       "status": "translated",
-      "targetHash": "c62fa939217ce135a9e245707ffcef16af78cd00a1fdea44e4eded513fdb0ba2",
+      "targetHash": "216e0f4be9e89f4bec2af3ff8feec32770f6b51369d2cd9944895df9c4e6acdf",
       "targetPath": "content/zh-CN/reference/api/java/java/v1/v1.md"
     },
     {
@@ -3734,8 +3735,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "1ffe8bc23ed1cbd50bc6de9101f42f06cda9b16a5ddb2b0229c8a418edb0e1b7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "380a92438c085bea5a3a6aef3803566ab1646d833518eeffe6f1c7ad95590380",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md"
     },
     {
@@ -3744,7 +3745,7 @@
       "sourceHash": "801bd0cec9a289e29d9e360404a19d5467daaf81fc34318c721623da95a5a7fa",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createRole.md",
       "status": "translated",
-      "targetHash": "b54b5ca90eee95e09c9b18f5d5f4b708590854de86d46af53c75b2271456dcc3",
+      "targetHash": "b54d849ff862e5e078e847204a7507ca925cfc67d6c45c444445f6b1278f9b86",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createRole.md"
     },
     {
@@ -3753,7 +3754,7 @@
       "sourceHash": "968c7712ffab8c546314636352cde32cf06561638fac963ab5f3e5b8c100a81b",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createUser.md",
       "status": "translated",
-      "targetHash": "8cb2df6e90ab8fb35b709666bfbb7388104489c40647a04a60f2c7006ce598bd",
+      "targetHash": "84cd37715da9368e518c6701895bcde777e1e2c435db6c581f800b154a3a4ea5",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createUser.md"
     },
     {
@@ -3762,7 +3763,7 @@
       "sourceHash": "64aa2db2fac1083dcb40e802cd927bff73cb01984340fcaf0b23979e90e5e03e",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md",
       "status": "translated",
-      "targetHash": "623226c957b3d74f6810e8e2ed599d445c7fbd620a04b896ca1d59b202b6386f",
+      "targetHash": "d5fcfcb94a4fdaecdc2f0b025f9bedac75a39b6bb1f3e73f2c985d6d5eb16bc6",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md"
     },
     {
@@ -3771,7 +3772,7 @@
       "sourceHash": "690a77fa373b548ea4969fb839b4a721aa2e85e955c37cc21842b24ce2187874",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeUser.md",
       "status": "translated",
-      "targetHash": "d5104860c6d143eb0e75f4a1870c9b105796bb834afc464ad5ea3433e8ead6c6",
+      "targetHash": "8c7665e46c0b5915387be65546aba94b3dfca507c91dd4478a77c0e9f7f98d22",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeUser.md"
     },
     {
@@ -3780,7 +3781,7 @@
       "sourceHash": "526c7bbd9f389632ccd998080e2b5fc8fc6b7c90b8d9c996a08760a37adeb114",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md",
       "status": "translated",
-      "targetHash": "0cacd0c099406703d61d7135bb784ae2f0725877be11c3d5f4d26b8aaf04b872",
+      "targetHash": "691b22a40f3a715aaa2154f0ca1ed36a7bb478d8e5832d70a1c148ec0f2d6e7b",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md"
     },
     {
@@ -3789,7 +3790,7 @@
       "sourceHash": "eb53fc33e907bf0cbd2bc6532baba29740242c6145b1626e2da009b124c0aa05",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md",
       "status": "translated",
-      "targetHash": "94032e90c588001063d2edaa76184721b63cbe1ff6a599e7eda5145390be740a",
+      "targetHash": "4d46eedc59b4319f8e79d87fc904d7bbbda98b810f1a8c01dab978d5d84d04e6",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md"
     },
     {
@@ -3798,7 +3799,7 @@
       "sourceHash": "aad0e7966129bec1e9f2bdd516abb9c8f8b73bb2b00043f8b90de314a002c16e",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md",
       "status": "translated",
-      "targetHash": "824c5f4de4970bbf8e1b03440bc661bc10d1526521f7f75eaac79c0bf8e8d176",
+      "targetHash": "26b76b3213d8b0a71864df613ea0432e200ba06ee62214f0fe0047c38bdbc3fc",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md"
     },
     {
@@ -3807,7 +3808,7 @@
       "sourceHash": "dc3bd153c339f22a740aba1d089949fba9aab540b28f68dd6f78b88305916cec",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md",
       "status": "translated",
-      "targetHash": "d3fe5929f3482182ac9c306f0af4f114a092b62a7acc4de3695049fb11102678",
+      "targetHash": "bcdbf6c6d92e4c11270d121d5e3fb635308935457820c8eaa73d163f84f2f048",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md"
     },
     {
@@ -3816,7 +3817,7 @@
       "sourceHash": "00c090711c95ab6d0edd00b566c46a91b943a6e010fcdc77ca52d99485ddf3ff",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md",
       "status": "translated",
-      "targetHash": "99c4abebb0769da84888a32fb7360565469b337b6197d0ba5f49ff0b858e61c6",
+      "targetHash": "0c5488409bcb66ed9d65f94a7d6e5e73c5b04fa12fbeb2fbf9ec11cd2ae601af",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md"
     },
     {
@@ -3825,7 +3826,7 @@
       "sourceHash": "d54de80a9fc85f4caea950f095e4bc9a69441f992c6d4c67534f3dd8fa8a4baf",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md",
       "status": "translated",
-      "targetHash": "c4ad75cb3b6f9746b5848e4dd329e306746193921138fbfef9bfd967d541d430",
+      "targetHash": "ba0576e227fd1e65dbe22a38e3eafb25aa69a6c27ee8677c4405d255b8ffc144",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md"
     },
     {
@@ -3834,7 +3835,7 @@
       "sourceHash": "9f6da27a2f493fba3ee15635e70edc875cb59d84e1e0c474a5a0944d9ca13830",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md",
       "status": "translated",
-      "targetHash": "985745ff8f13f70b8524c5c1990d52f19491c864050510ba47254fee5234a4e0",
+      "targetHash": "70740540bace8fb6810efbd8566a3b61b8bb1f9b57cf96d1e963cbed31e28b01",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md"
     },
     {
@@ -3843,7 +3844,7 @@
       "sourceHash": "5bb738aafb5672a98060c22cc64a02e1380e054689a183b2d414bc01f6db9a21",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md",
       "status": "translated",
-      "targetHash": "b706e54e4d43272eb3e3287af736021566c38492a351ceb8e7d7abbfbf070e23",
+      "targetHash": "622b868d4924babb59bb52a49d95c2de5e373b20c0feb33c0a5819d2ea9c2b9d",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md"
     },
     {
@@ -3852,7 +3853,7 @@
       "sourceHash": "3b67e7eea2d0c34efbb55b5b0b7359985f689331113423bc69a5cc9c83af171f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md",
       "status": "translated",
-      "targetHash": "e2eb46b4c178d26bf9923394118e57ca6cee9594434598a0c95d6f4b63b37e40",
+      "targetHash": "889ece959e8e24a071574083e4754a8982729a7a65c192333db228bb970b4874",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md"
     },
     {
@@ -3861,7 +3862,7 @@
       "sourceHash": "8b6b6a31ab4f15a741793f5f4d247c30ed015c200f7afc7bf7ccaf604c214614",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updatePassword.md",
       "status": "translated",
-      "targetHash": "87f0db01be089469daa68e303aba4ac5898541107bd654e8183585cc45159cf4",
+      "targetHash": "a6c3c08941eb8470fdcae4bcf32e49eb83c9d4e292f562d117d4578fde832970",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updatePassword.md"
     },
     {
@@ -3869,8 +3870,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "05a03eb2011d38a6910b0a7a504a3ac1bbe85413a17c6a7914c48089b67447fb",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "8a3196a801ffc150f00fc69331119e2ec7da1271a6e3a43af09ae07f10da5052",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md"
     },
     {
@@ -3887,8 +3888,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "140cd31461983e776658dafd716bd45d34715bdfbfafca288acfec9454a3aee8",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "6cc01cd423be4f104ffbf103c2a5cf1a50750cd63d44099234b0a79ca85c8825",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md"
     },
     {
@@ -3897,7 +3898,7 @@
       "sourceHash": "4cf06e1555d8696c23e179ff7bd9d4c3b9d5850b52b9414e74ed0590bda30b0f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2.md",
       "status": "translated",
-      "targetHash": "b8e4277f650503c05377dbe82d7c3685cbbe40f65351f9564152924ff5d85762",
+      "targetHash": "69660a9c9e60e1607b12c828fcebab914dcb07999515e3fbc623c3b7b33e20c4",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2.md"
     },
     {
@@ -3906,7 +3907,7 @@
       "sourceHash": "67055b93fcff02c8f4e308f5a1d7df4adf0859c83810eefe0bdc828624c2fa66",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2Pool.md",
       "status": "translated",
-      "targetHash": "25178efc251dfb5f52cb0803b85b988b34fa676f7989c445359e98bbef2d3399",
+      "targetHash": "6ab8d91bfb15d14b6f8493784242d29ec544fb03c2fdc9d7ddb3d86922411bee",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2Pool.md"
     },
     {
@@ -3914,8 +3915,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "993ec948a1366df5dfa9f6b5e4a03f1f19bc71feaf3c21d41b3ef5bb6072e376",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "17e005ad9a2c12c92300c6f56cba32ee749508866eee886840c7b4ef856c80bf",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md"
     },
     {
@@ -3923,8 +3924,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "8d99189e8a75a09d33cf52e90a16f39165758f60f7830b865b6b0d5e39890dd9",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "47240d253079f5243e079721f05eaa5656e0d5899e937e011c8164622e501452",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md"
     },
     {
@@ -3942,7 +3943,7 @@
       "sourceHash": "ef8b80575507dd5a756b3192877457f93d6dcb0160a1697cd6dcf1f5123abcac",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addField.md",
       "status": "translated",
-      "targetHash": "1a30b0e133c36fbc91c1f4e6e58dee0d242e4d5e49d8413c44f1202c554372d6",
+      "targetHash": "e0da175909ded35f2d521552544d2abcfed2a7c62345495a56ac88b417cee008",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addField.md"
     },
     {
@@ -3951,7 +3952,7 @@
       "sourceHash": "438516a6d395fbbab570af6126dc1bbb8d2ad620ec3d3f7b5d7723709dfe6bff",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addFunction.md",
       "status": "translated",
-      "targetHash": "1578ba7c979ac16f7c44f7203c82d21a30556b6783847f400d5158f5e2eaaf35",
+      "targetHash": "5d7289c8b4284be1b828c898aece695f2ba76a1e2d625a66f62bc03d836079b9",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addFunction.md"
     },
     {
@@ -3960,7 +3961,7 @@
       "sourceHash": "c71e61ec07522462608375c87ef4af648e31bee5ce4ee72093d42eaeeaa2f9a5",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getField.md",
       "status": "translated",
-      "targetHash": "d2ca5699c2ab309955c01c98acfbaeb756a11bcd0375001fbaf0a49e565d9791",
+      "targetHash": "58d2d6e5a3593dd3ff965c480c9a9deea0ef7abf13d1249cc9b2af3c4ff68612",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getField.md"
     },
     {
@@ -3968,8 +3969,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "a3859b34737a1f3a7b436e70e6d269077d29991faa90d55a668c0c80068c1753",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "44ec37bca10fb947a60ba01472041585b02e83709e00a42d1743e13fb3200cab",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList.md"
     },
     {
@@ -3977,8 +3978,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "4cc5cc5bab4174556dcb81e7fff1a064e24bc1b1153aa483b8a285f8dc911884",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "335179cce0ba4036643dee39115694152cb7051ac3f1c31083d50aa81871f991",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList.md"
     },
     {
@@ -3986,8 +3987,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "46361ee6a5171808d3be31129a27cc3673576e9772ab86dc10f408c7442afc80",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "d708cbd301fda82d219bfb89cecb83218e7234196e41fcacec89c54f0f78e4e6",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField.md"
     },
     {
@@ -3995,8 +3996,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "05ac375aec2ab9e3b573099491afb51a6bd8a50078c23884690028e638143a76",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "e84726c9e393276f540b7e071c47372bc55c77d0d54944b6f3f7258190c5daec",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields.md"
     },
     {
@@ -4004,8 +4005,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "28062c1e4771d61d12d3ae0da5c3906199eb426048ca7240ea914cc709f5e8e5",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "30b81a34ef0a2fe3694a49e8203452ae61f4dd59280e35e5ce157118e33bbcff",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md"
     },
     {
@@ -4014,7 +4015,7 @@
       "sourceHash": "208cff0ff2702ee38e4580c2be2ba40c48ede5073996098fc620ef5cda5a45d1",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md",
       "status": "translated",
-      "targetHash": "8b9690c1ed6160f77bdbf67cea63e70446488012c4e0d669ce5cbf8dd8799e02",
+      "targetHash": "7b73d3592a27aa909c66232f15361d5534665920514cc54efd4633355041674d",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md"
     },
     {
@@ -4023,7 +4024,7 @@
       "sourceHash": "8c3b9a77a98a8cdbc714bf0ada564085df775504381fc8a161050b25ea339072",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ConsistencyLevel.md",
       "status": "translated",
-      "targetHash": "8fae94ed7caa71896e2c983c34c72ae9c9d1411d991aeb00b7b4c5fbe6db53c1",
+      "targetHash": "293796f3ac0d59dbcc5ed346e72ab865ea331f53abcc3c336fddcd9ce54fcafd",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-ConsistencyLevel.md"
     },
     {
@@ -4032,7 +4033,7 @@
       "sourceHash": "9f536b6c5459bcc6d55c928ca5e07ab628cebb66e071ec872351d8a88c061c46",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md",
       "status": "translated",
-      "targetHash": "e8a201b33a8c58b977a17eddda1eb7221398e7e8b46a546a642871c1b8195fcf",
+      "targetHash": "5a0f4eeb4902c008ae0a7a0c0c4e0d4c4f33374bb0889b04940a3422fbd54a18",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md"
     },
     {
@@ -4041,7 +4042,7 @@
       "sourceHash": "e966d3d3d544bec24d13da8172f2c62f1340e37b236565278c34c238b4ee71a8",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-DataType.md",
       "status": "translated",
-      "targetHash": "2a15a442f88cdd225a983744206027118f15cd6f6ed1df910366bc1bd7561f79",
+      "targetHash": "6cd8402fa9f4d6afdc92630bed647935e281f7dab291f04ca1cfaf4b035531a6",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-DataType.md"
     },
     {
@@ -4050,7 +4051,7 @@
       "sourceHash": "492f8c1949f96fd318d8f25158f249005d288dcc2d56e9486062f138fb0e2429",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md",
       "status": "translated",
-      "targetHash": "1fd426c241a4c9d1999a8178a8ed383f43b8cabe9c9133203c10f29debe2fc85",
+      "targetHash": "9c76bb465481323cf807751a98bd0126efa94f2eab68bb7ff798ccfaba710802",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md"
     },
     {
@@ -4059,7 +4060,7 @@
       "sourceHash": "356423d2e23b10af497d5f2d4542cf90679ffc668f0d3cff130d768b307bf6e3",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md",
       "status": "translated",
-      "targetHash": "d5a8d4c732cd46a427b9567c8c479d809c5c9bd3d089450efe551e16fa4553dc",
+      "targetHash": "41acf4870469601938ef279336ceabb9adf38f1108b54a117d547986e01b6ea8",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md"
     },
     {
@@ -4067,8 +4068,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "374e2b3748030c9a27f6abef04bc72168820b94414d9a5b2ea8a7cc14b5451ea",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "c5d2a245ef487ddc295ab610805109ef078711016a1ef1f993e7c670edad6b85",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md"
     },
     {
@@ -4076,8 +4077,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "5896ae154ab1249d22cafe34dcc6b257339cf3f361f63ccf9c62f542b9bd24aa",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "ec255490333b6d9c5d61bf70e4e7b677f43ec4e38e762e9f2091deb1aa836df0",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md"
     },
     {
@@ -4086,7 +4087,7 @@
       "sourceHash": "b90cbfad187ef6851346a249105573e5d5b394464de945e7df81a51faefd2c9f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-FieldSchema.md",
       "status": "translated",
-      "targetHash": "e9ca676f6fcccb680843f0b3585ec29c2d180ba34eab03a5e000d7fee0d506be",
+      "targetHash": "348a743fedd69b0804e14e7d82db8233124e0d685c61d0e40574c42b30d32a83",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-FieldSchema.md"
     },
     {
@@ -4095,7 +4096,7 @@
       "sourceHash": "2c7a56881fec25ced211c52d368e3518c93f052f76d73cccc1aea07b5ad0d71c",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function.md",
       "status": "translated",
-      "targetHash": "724ede958cb60d6a0eac4b7c287965a95f375e6ee2bcd40cc5f88f719e54197b",
+      "targetHash": "3c756dfa6fb3d5dca45a4a4e4814324377b311038e426f460b5f9a37c444e422",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function.md"
     },
     {
@@ -4104,7 +4105,7 @@
       "sourceHash": "4605ba893c30d69481f6ae0d3b84cc4b76dbf2c04409fa2bfacc1da29a68b56d",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker.md",
       "status": "translated",
-      "targetHash": "2cf4130dbf774e4cc4291ce44606ba41c1e2446936103eaaf7086328246e9f60",
+      "targetHash": "effc9e610f4d6aeb65dd8b252f9ff7f5e281e312cca46d498a462a8675432a53",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker.md"
     },
     {
@@ -4113,7 +4114,7 @@
       "sourceHash": "b99eb9dc6e4e1b99bf113cd2b766ea97c60d13c52314645d84cd80e66c7397f4",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker.md",
       "status": "translated",
-      "targetHash": "6eb6a4e592b8493d8fc63cbecb22a52e8a4cb64497d9bf987ab0b8e4621f623c",
+      "targetHash": "fd47c9ca0cfc387060d179fbc4e892898d68b644a5d4db974438d457815fb5b9",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker.md"
     },
     {
@@ -4122,7 +4123,7 @@
       "sourceHash": "54f53ea32f1a868505dfa111df4abafaca161b2903160e1703d6d5e051d027b4",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md",
       "status": "translated",
-      "targetHash": "aefcbb52cb71139f0e00e88e6be78caebab479da5c218e3bbb9638ad55454cad",
+      "targetHash": "2e07fbd3bcc714c8bca989188810efa1248cb5b6af4f2bd464f6c367ae37c0a9",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md"
     },
     {
@@ -4131,7 +4132,7 @@
       "sourceHash": "36e006219ae2e41a73f4ca7769c2f95f1b4990f33a5f8f1e23029bd1fb0afeb1",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker.md",
       "status": "translated",
-      "targetHash": "c9c68e7ae4581a4278227f80d7524f019b771192a61b526a84982dc2381d4be2",
+      "targetHash": "a194c7755d67f4606ef934256cbb12b7d1a0d53577d4f31c0045a1b9f7a10a88",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker.md"
     },
     {
@@ -4140,7 +4141,7 @@
       "sourceHash": "e63550e97dc9d7e1bd86fd30194f44796d6f120cc8cd165069ed28b084d4fa10",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker.md",
       "status": "translated",
-      "targetHash": "a04813507be0dcd8c68611fba4cf11141404eb051dc2402084b04fd0adac2b12",
+      "targetHash": "788f1cc84a6dda84fa7b062fc300cca61227dc5b913be6b5277a79f7e95bba8a",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker.md"
     },
     {
@@ -4149,7 +4150,7 @@
       "sourceHash": "55a536db7279ec608818a7488a5ebadbf9c84f84b3ad3567ea972bbb77227597",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker.md",
       "status": "translated",
-      "targetHash": "229ad6184aee0a44bb19039a7a9674032d9c31a1324b1849f92941cc2f454ef4",
+      "targetHash": "690f617cb419ed0e579f5da5267b35314d6a0463d24150ecacba4c7031f7fc13",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker.md"
     },
     {
@@ -4158,7 +4159,7 @@
       "sourceHash": "bf47b622442743c101daa191c2aa681d95d58d86a7db2bbddb476bf790fe9a3a",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2.md",
       "status": "translated",
-      "targetHash": "9d646bc6750379737cf2d990dc9fd3242245503f4b697a3dd2f44f70e781c721",
+      "targetHash": "20134d042935031e66e831e0c91f0bcf786aed5876e4aa60b46985c655b5f751",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2.md"
     },
     {
@@ -4167,7 +4168,7 @@
       "sourceHash": "e6bdadc8e2f62f6d5cb0fc2d2765c95704d5b8262519ea4ea8101640eb7be991",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md",
       "status": "translated",
-      "targetHash": "8ad1ceb9c2d97bea8d5cef302eb17573674193991e90b77a96b94e14b800152b",
+      "targetHash": "6cf8c77d495e4f67cbf23aefc3f9c4132f0a8d60d9cf1021f7864d5b6368dba7",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md"
     },
     {
@@ -4175,8 +4176,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "9a3d5dde050bd38f1d3ca3a86c86e0d00f3317c0f74c4b6606c940506c5ba1cc",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "f06d1f29c30e4f6a14d08d8768583485fa74f573296159d7780d76c3d59b5783",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md"
     },
     {
@@ -4185,7 +4186,7 @@
       "sourceHash": "13ecc164090f3540fab633414c484f4541524b1436ef86758835b05c564dc57e",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md",
       "status": "translated",
-      "targetHash": "c231c62baa1af34164a099d0e1c8f8702a9f943abb10ffe2299cfa161bfd256d",
+      "targetHash": "477b32cf53edb89dad417143f5694db043c904a75cce0760a56d04b323d3960e",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md"
     },
     {
@@ -4194,7 +4195,7 @@
       "sourceHash": "3b86ca00c5b8bca9014d0fad5481e339b00a730ea2bf61e3b61461f6cc272784",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md",
       "status": "translated",
-      "targetHash": "7fa43c56c0b3aea36453aa6ffbddeba21e7724754acee1dbeb25a6d2d3165e75",
+      "targetHash": "ffe7034d6d60202807540546518193f8eca5f06b6419464b110d2f6398423fd1",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md"
     },
     {
@@ -4203,7 +4204,7 @@
       "sourceHash": "d696665fed8b76c0427630d3a057524906f238064b453b1aed107622e962bc3b",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md",
       "status": "translated",
-      "targetHash": "e949b31e02443e08380be6effeed5ff42c4d1e959ccae9e5b6bf47d606c083ab",
+      "targetHash": "4c2e3ab8aa57e0c966f53d834af32fc561485ff8975c7b31286731b4617f9a8c",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md"
     },
     {
@@ -4212,7 +4213,7 @@
       "sourceHash": "47dae415860366781ab5ac1bc0e30173a9d016e3f23b6dedebeb29d17974b436",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md",
       "status": "translated",
-      "targetHash": "a2b8d029fc2a1d549539684b1abf587a1606ebc891dc001586edf23c82e58d2a",
+      "targetHash": "ce42c0be3997246bba87d3b306ff31f31d6ab4aa36562eb2fdabea42830dabef",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md"
     },
     {
@@ -4221,7 +4222,7 @@
       "sourceHash": "a9810a3213211bdde63c6f0d2be634af48f2dbb0da72f25b922e2a4fa581bad8",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md",
       "status": "translated",
-      "targetHash": "7dfc923fcc6a065eb030d632f601f3c3e6a065a5a2362174963ad911bfcad9dc",
+      "targetHash": "b001f642f00e4dad61434ed6ca12da00056abc15fea9feba94f935d856b09aba",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md"
     },
     {
@@ -4230,7 +4231,7 @@
       "sourceHash": "10e5b1256f8358148146cbc2fd8bd23bb5348d87d057ac0d6ddd50383b9763bb",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md",
       "status": "translated",
-      "targetHash": "b1e8a6d26aca493973343d56563efacf79083b35e7d794e77da0d43ae63c00c5",
+      "targetHash": "22fc850e5d56674af9f2f17a3ba69717f9c570f9267a77bd155cff6d5e1623bb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md"
     },
     {
@@ -4239,7 +4240,7 @@
       "sourceHash": "40b3122a86d00bcdd96d076d1c29f585ae0fd76496b8f09edd01c5c6a16ec2cf",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionField.md",
       "status": "translated",
-      "targetHash": "4e75f159bf47de471b3a64ca0719d1f231289aba43efad014c3855376cb71b6d",
+      "targetHash": "661c901ee629569c98703af621ecb7152718fc4e43d76a77832b1b94e45284cb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionField.md"
     },
     {
@@ -4247,8 +4248,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "08f5b370f27cd9bca9e7abe046354385561e7cd0468362eeeaf605b156f44a4b",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "c18e1d8610989c210a97ceb9755f8a725924021798f7e992b1e8cef836c6924f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md"
     },
     {
@@ -4256,8 +4257,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "408d29e9161503d5464caafdd3c517a478ee6418cc19aaaf2a4a49960281fa45",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "0e3efe072d059f1aba46c41c9717cc9afd7c51b084343ab03eb91b0d448947a8",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md"
     },
     {
@@ -4266,7 +4267,7 @@
       "sourceHash": "4809bf02da0fe37e00636e49e96bb42033701bf0443e13a9c5a18d34809d8eac",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterAlias.md",
       "status": "translated",
-      "targetHash": "04bc785f7b3b09ba5be8c750679d5ac88e1c722796a4e762fea2a3ce46917b59",
+      "targetHash": "fb71ae642400bd47b6fbf106024f815384a2b6bcf4b3d46eb60a21e00b599ef1",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-alterAlias.md"
     },
     {
@@ -4275,7 +4276,7 @@
       "sourceHash": "b9ea769875fb53ea9a35ff87b6328cb4fa6ba10939526fa329b6543836cbc061",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md",
       "status": "translated",
-      "targetHash": "cd923d62100332aaeb27a6ea13d052350b63c1acaa57a543815fd74a5998070e",
+      "targetHash": "fa8691236781c05ea3d966f07889d55c19f8d5bc05ba41b025b6e12b12cd3d04",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md"
     },
     {
@@ -4283,8 +4284,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "8aa3f8f16b235cac8a3f884176a3c09645a00b586d0bc9940637d7f55c0f9f4c",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "6698fce794927c596de4a527505d9e1e5052d476fd3e5e04e474250a542c6dc0",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md"
     },
     {
@@ -4293,7 +4294,7 @@
       "sourceHash": "a2b30e369061bc772f1bb3b63974625de9661a1436ba956f116eff4c303b6e2b",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties.md",
       "status": "translated",
-      "targetHash": "5e11447724937b445780808690dd9a7262c563aacff30df051a5150f066d71e9",
+      "targetHash": "21286fd1e41787a806ae0a876ed7496bfe06f4283c75e14ef87b6891dadab1af",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties.md"
     },
     {
@@ -4302,7 +4303,7 @@
       "sourceHash": "63d55f5b886257a9c83b41438c779feb55294adb9feca708b0b96fdf8e8c53f0",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md",
       "status": "translated",
-      "targetHash": "b4df2b4f25820a635d096a15464af5ae384d5892ae84408ff1d6d1decbf0e622",
+      "targetHash": "b7fe3b842996073ae8580b77dd4599ba6faf70b9be88c8e024de0b4de0009a9b",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md"
     },
     {
@@ -4311,7 +4312,7 @@
       "sourceHash": "32ccb071b2ebe74d03a97838db832f26dcc7db355074df47bb89315a3f2122f2",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createAlias.md",
       "status": "translated",
-      "targetHash": "16e1e8604171d2d82671023523be3c541cae1d7df37c0b7a2e4610d53403cc0b",
+      "targetHash": "b96fe631047bab323ea4891d54dd120f9c75f98166a7a210e0d1243dc79bafa2",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-createAlias.md"
     },
     {
@@ -4320,7 +4321,7 @@
       "sourceHash": "70bfd268dec90b8690a3d23650ef850f44ac540ca1bf2be85340c5e031054c1d",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createCollection.md",
       "status": "translated",
-      "targetHash": "1ce96dbaa8ab1bad3bfedad834bc236145e77070c29ee59506cf20f997f85cbd",
+      "targetHash": "a013e69db7f6741cbba1c3c4978308625cc1974187294f5020b666d58b47cf1c",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-createCollection.md"
     },
     {
@@ -4329,7 +4330,7 @@
       "sourceHash": "48a448ca85a4955a478aa45479672752f5a7decd9209d6970be2fdaa4a67bc85",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeAlias.md",
       "status": "translated",
-      "targetHash": "b6890223ee92be5fe429bf3d979c636eff38be1f6c1cd6a7fc84857e43e41225",
+      "targetHash": "9f96131f07717e027f73141c32da27170e8aebf797aa1b1dbd9f67a5d9889c57",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-describeAlias.md"
     },
     {
@@ -4338,7 +4339,7 @@
       "sourceHash": "db2802b19857c3dbcd7a16830890f6d5bcbd00f2fe90441603f8c8931877ec41",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeCollection.md",
       "status": "translated",
-      "targetHash": "8748bfd336db79c914ad61dbbbb9c840a2c1f8ad262e4edb406bca51c0b6dd42",
+      "targetHash": "31f14ffcdfe5133833bd01c11c85fc0b57713cd66d880e2e10b80c23c5799108",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-describeCollection.md"
     },
     {
@@ -4347,7 +4348,7 @@
       "sourceHash": "dcdbaa78ab7be071088b7c09ae1c58fb5b146b7e7a98611a1f6be3f5f3d7bad4",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeReplicas.md",
       "status": "translated",
-      "targetHash": "bb2f9eebfad6451bbdc4135f8223b8361ede84a8fd06010f4e2d2d902290e6f9",
+      "targetHash": "b2bdd973c267ad411967125738717bda9818a403d736fc2f69da2bfd80001a0d",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-describeReplicas.md"
     },
     {
@@ -4356,7 +4357,7 @@
       "sourceHash": "1cf8003335d43ff31cdc8b1aaa70b25cb6ad94789e62349362eea4012a8a0f91",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropAlias.md",
       "status": "translated",
-      "targetHash": "5aea9716eed77bd821704fc622bc505c3c984565492219f8cf8ae287c8c16693",
+      "targetHash": "74918c01a71f2a6565304f228d67d65340b33c7a7d7f22a8cd5f68842183f31a",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropAlias.md"
     },
     {
@@ -4365,7 +4366,7 @@
       "sourceHash": "301e11a5dded5d780d678356f742604e9713a7941f5b0c1f072650208342e8a9",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollection.md",
       "status": "translated",
-      "targetHash": "8309ee51961d4d5726b8b093827bc644a073b4a6beae0874195ed6d2ef655d74",
+      "targetHash": "18bc8610ef90df6d049f781fd937af877809382ca4e2f9c244096547c98faa3f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollection.md"
     },
     {
@@ -4374,7 +4375,7 @@
       "sourceHash": "d56036f1d01664e0dabdd3dba4e77272758137742a673f9823ef2861518d2161",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties.md",
       "status": "translated",
-      "targetHash": "6d6b9cfdb0e12c80263954a3d15dae72191c5868874844c527b3854bb2d182a1",
+      "targetHash": "8dac0603f17ac77073d4547a1e86e9678fe61ef86244b3db29a6a33ef70d243b",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties.md"
     },
     {
@@ -4382,8 +4383,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "86e90811ca05a061617d9e1ef21da15c6469bfa1e38c7eecdae56262ee830b99",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "0419ec6569088f147b96958a89c8de53eb642208254025e49258a35c9c87ced0",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md"
     },
     {
@@ -4392,7 +4393,7 @@
       "sourceHash": "8908ad65bb6c67d9842ee1611d1c08264b438b89fbc12d14560021a1a940a295",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties.md",
       "status": "translated",
-      "targetHash": "23962b2d660fcfe617db411bb6efca976e5d5570c4256bd6c981335c0f919028",
+      "targetHash": "ec3b22678f6786b670f8605785590379caa01e4fe7dcaa2bbabba8e440819857",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties.md"
     },
     {
@@ -4401,7 +4402,7 @@
       "sourceHash": "ec13204b3bca384b6ca6c0c3711f7fa121fae669877d6a43c92a362d6730a851",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats.md",
       "status": "translated",
-      "targetHash": "18c937c1bca0a0b76711ecfcbeb1cfa8b248f843eb0498b5b91cb29499d7771d",
+      "targetHash": "c3d491cc9ac51d906825065de77e4455bccfbf78c233a9a2a43ac24e8474b1ad",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats.md"
     },
     {
@@ -4409,8 +4410,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "a34cf75751c2f20e18cf55a45381a6c6375571dd358ca398257625ef01d7c152",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "aa3dd9ee9f8a62be42e3a43644aadd2672f81826b00f028d5da2a3b1aaa4556d",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md"
     },
     {
@@ -4419,7 +4420,7 @@
       "sourceHash": "9825ba278ecd5184a67a9ef90ed33d21fc27f7b9a157eb9421f21cfc0b0b30d5",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-hasCollection.md",
       "status": "translated",
-      "targetHash": "3f26a854cee3962da414bdc7b9164934f038b5def12414935f16b88ef2cb10f8",
+      "targetHash": "026c0f18276dff91d894db42ead64e415bade28063f43bfcb885061ab8b8345b",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-hasCollection.md"
     },
     {
@@ -4428,7 +4429,7 @@
       "sourceHash": "2f3c431740ace8cf22dec00f3bd17167dcce8da12191f0e81101440bfe055863",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listAliases.md",
       "status": "translated",
-      "targetHash": "d0e52da72962bf59ee2bf9214d8b339e533aa62ce0da04f417af6ab43863c851",
+      "targetHash": "265f891e30913ea106bff22b1250e5681b14df014e1cf9e291e15948b7a1267c",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-listAliases.md"
     },
     {
@@ -4437,7 +4438,7 @@
       "sourceHash": "193e31a7d2382d3d1dc7dc8e18c4ad7ec6c9a9bff1509353f1569c2794c010a7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listCollections.md",
       "status": "translated",
-      "targetHash": "f07a3d52ad0f97d490643bb84125272a8c76e96072a50167fd00dc4aeabc391e",
+      "targetHash": "f302533a1be629d9e47a9dfb7e282e959c9d2e51ee3aa63074176d4642c4c964",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-listCollections.md"
     },
     {
@@ -4446,7 +4447,7 @@
       "sourceHash": "d275858d2c2917b416941e817182ca3db348a6ed1e965d90cef2871af465c619",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-renameCollection.md",
       "status": "translated",
-      "targetHash": "96b0b8108914d130a59382f45409a97af8ea923f4f8fb18c1c4a4b6d2cfbd07f",
+      "targetHash": "58f5a2479e492e01bb0980f6bfaab10505b1b2652e70283bb79b4cf9932eb37c",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-renameCollection.md"
     },
     {
@@ -4454,8 +4455,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "8698d56de7c139a894d2542194311a5d369c800d803df32acacce4d6b9f6cd6a",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-truncateCollection.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "a06ecc4d2394f04f0c6dae956bcc3a97241d62be0420816800ee18af918763d0",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-truncateCollection.md"
     },
     {
@@ -4473,7 +4474,7 @@
       "sourceHash": "505f1185f4550a617626b4851ad882027b55588654c57bffa36cfb18729d676a",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkFileType.md",
       "status": "translated",
-      "targetHash": "b774e8d469b44b0c024cd28dc9f532ac0d80761cd25473b4a8107104c67b87b6",
+      "targetHash": "ecd4025a22b669d6e81c8d1b4c565944fc6bc07161c8c1605a36b60e9aa7771e",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkFileType.md"
     },
     {
@@ -4482,7 +4483,7 @@
       "sourceHash": "8d52d953c9753888e7d04f01301c36c5bd1570ae32b92e3101ee6b1c430baa00",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport.md",
       "status": "translated",
-      "targetHash": "10b6d33c2364b877d963c390de3e21f794b803508f6472c5f8e9a74a5097ec35",
+      "targetHash": "1bf12ca67eb27dec8080fcf271974cc45588ce4f97fe8b13168f9e63ffa1be61",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport.md"
     },
     {
@@ -4491,7 +4492,7 @@
       "sourceHash": "052e6d411c94be60d03255fccf6215f6c840657d7abacb2e07cb041767d9e130",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress.md",
       "status": "translated",
-      "targetHash": "3d83ebf8be498e1c7cafe1c9c454bd5d944e07e711621431e20d13dcf9aa1b4a",
+      "targetHash": "44ae5f65eeb705090adfdda5567d1f936009fc4ade216e08632c2f8fa067c8a6",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress.md"
     },
     {
@@ -4500,7 +4501,7 @@
       "sourceHash": "fc2c7bf7ca91cc2cc20c185fddc455d3df81468ad44da57caefebaa070001f04",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs.md",
       "status": "translated",
-      "targetHash": "e66b2ad3719f4dee9e048f7de146a708dad468c18fdbd1dc4cb65bed71d1739e",
+      "targetHash": "b30daa439495b65e9728312f6952fc5319d75711f405e151242ce9cd5aecf3c4",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs.md"
     },
     {
@@ -4509,7 +4510,7 @@
       "sourceHash": "f1ffb0f80d732fdfd95bb3083b2e520eea4be14d4f445496c08b2cbb6bd0c73f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-DataImport-BulkImport.md",
       "status": "translated",
-      "targetHash": "524a8ce3fc2d9ad42e132ce5c612c6aaea5f52c15d91aba042196373474364d9",
+      "targetHash": "3b68bde85b495743042e7ad9ab7084d9afa5b7206f14bbb92ab317110165d070",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-DataImport-BulkImport.md"
     },
     {
@@ -4518,7 +4519,7 @@
       "sourceHash": "a6cb3b5745917d539e1a1bbadb413ef78c7a2d660a9e1b59d3d80c4d2231b832",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter.md",
       "status": "translated",
-      "targetHash": "415db9136c6a9acb198422b00e86358486064a6eadd6cb6bb4a119504857da6a",
+      "targetHash": "41d70dbe2154ccafd676ca23467ee3c577d82530cd6e93c6f6985b3fabf2dbeb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter.md"
     },
     {
@@ -4526,8 +4527,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "c7f6f5ce7ff6d0a83abb65b98be3a402ee9b239abd9593d884db182cb973e5f9",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "eeb442731a7c31c4723efb62f54b949986f1e8c605b5c764d3700ed3a7668441",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md"
     },
     {
@@ -4545,7 +4546,7 @@
       "sourceHash": "c6e12d3647f9ad2b428371a79299a0f6e23a1674b505f7719a99a1d32c61c649",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close.md",
       "status": "translated",
-      "targetHash": "02bea646680ca47ce3a581c33645dd9f297a3c5effde4395d38911ab244b6380",
+      "targetHash": "a218aa9bb75e6f6d86fede44906ea81b3ddb9d6fc9aa3670610b90c12cd32c15",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close.md"
     },
     {
@@ -4554,7 +4555,7 @@
       "sourceHash": "7b544f207b86b36cc3ae16a7e17277693c1de067a74f76fb264d94e9e033f04a",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit.md",
       "status": "translated",
-      "targetHash": "cc6ecd863fae1a77c3aafe882b8c841503b6af2304ae9a2f6ac7bdd8debed558",
+      "targetHash": "ab0b894ac004666ee3cf481fae66da60c898e7cc915e7eee9cb1924310743867",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit.md"
     },
     {
@@ -4563,7 +4564,7 @@
       "sourceHash": "d78ff883a41107ff2aeb9af3e2e89955b75d1912bb59ca5eabd4137569893d92",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md",
       "status": "translated",
-      "targetHash": "a05315256ac00229a165c2e4d57a103b768dc1ea53d9ef746d288819cc4a87b1",
+      "targetHash": "1ff7055a6f2de4b984f7ed61b4c81b900a68cd536881d715ea2860dddf4bc839",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md"
     },
     {
@@ -4571,8 +4572,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "af7bffd241fbc1f87748f7f826385c4197aea036af1a19ff3c5b7b86deb94eb7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "20c42690f4a6c962daf54c063af0f082781c3a6b4a8dc25ce658f0208c0fdb83",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md"
     },
     {
@@ -4581,7 +4582,7 @@
       "sourceHash": "47f955dd6fcc63ac6998aca1216a57b150a7e6be3951d183bf1d9f6bcc511ae5",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter.md",
       "status": "translated",
-      "targetHash": "26bba8f645b687d5f04d7e88b22e694d25082c7bfae3298ca576d2637fe2bc4b",
+      "targetHash": "ed2595d47bc17157912f86ba478e02021ab363d8a8480863e31cf4d9d9b933f2",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter.md"
     },
     {
@@ -4589,8 +4590,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "89730743bede46527276d2100e96054383f4212c558bd359953c7f490a06e9d9",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "3810aac0e403d78af990261d42e190b9029449d015ddc16e4425b0501e85a0c2",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md"
     },
     {
@@ -4608,7 +4609,7 @@
       "sourceHash": "6b6ef88844d83d319c7179f3e7b20a370848349cc229d85d3ef4b6b0804700fd",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close.md",
       "status": "translated",
-      "targetHash": "a285ebe1d715156a8c5a7244756d2f0fab52ecae83b5e6c4818bb48357a69e96",
+      "targetHash": "4534a538e4ea6912de2236c31e0720e47225d6fa0f24f75564a20d0e48bc1375",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close.md"
     },
     {
@@ -4617,7 +4618,7 @@
       "sourceHash": "15bba314dccf3cca237b15e6baf172b3c9d585035c13060ed9c232141ca1f3f7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit.md",
       "status": "translated",
-      "targetHash": "ef688f57aa86636294f7fe330c3363ce06d13e1c0f8557009fdf5e0965ab384b",
+      "targetHash": "298136e5cb62925e2384d567dbe70fc8109b06f93fb9e958b6878c454a934d91",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit.md"
     },
     {
@@ -4626,7 +4627,7 @@
       "sourceHash": "9a8a8dc5fb9c02ad2bf2a0ae6c5380c3b634a917bd3a5f8a4c354af81c4a4892",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles.md",
       "status": "translated",
-      "targetHash": "be76c07a0afaebcd6fdc2632f39a1ac5b6ecd271b5a96eb3c0cf6463372c7bf5",
+      "targetHash": "6a1bad86fbe3e03f6cf0570200bf7354648b37579b9cbd4fa2c50dd043224ba2",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles.md"
     },
     {
@@ -4634,8 +4635,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "15510777d3dad7153bb8c551c9013466978e75044e5c26cb17246410d67263ba",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "2744fd807891f4308ede0dce2d56af4f6fa9038e40389d11e1b643dd08064aa4",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md"
     },
     {
@@ -4643,8 +4644,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "bad434dde4a71671c9207dc3c5d4c4810808d33270506ce8b6959e0734850e7b",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "97a5b2ba36ab7303a41364de1ac369fdfcf6a3ebf9a7457bc2d3f2f2cf2ccade",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md"
     },
     {
@@ -4652,8 +4653,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "b97fd0a4eb44988b4f507295f7f569750a8af549ee681b69020f8d59c28d88d6",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "f7f57c7aa967fd3eb0229ea76d26553a723e6bc794356fa8e2396101fc35ae62",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md"
     },
     {
@@ -4661,8 +4662,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "f6a11cd5d66b889a5332c3fb1eb04dd194af45fde835ae4e85a5593cd65c0f56",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "401b49f695712fa8d2d912d7b92e80cbe068d49108627bff6f0528f33fd84252",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close.md"
     },
     {
@@ -4670,8 +4671,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "429e02cd5bab2372cd44c27db01f518e8408a3b7aa065d220834ea5b7780729e",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "8e8ebfd5b6fc7de5661b3b2c74e6fda0b92e566f509d10d831b793c90f213885",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md"
     },
     {
@@ -4679,8 +4680,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "158f0b064c1151dcd33f0eff3d53200c7d911c83d2ac8510d47dddf085161dc3",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "edeaad32b481c0fee1280172248aec09e96dba6c93d658d18f89b69ebdd35195",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles.md"
     },
     {
@@ -4688,8 +4689,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "3ff8e8b147bf6545b050b783a469671b948386533db9a65f3c5f33fa9df3d4ba",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "aa06d3ae634f47442bd7bd991902fb9d956ce75c5836bacfe15a55b8ce56df08",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount.md"
     },
     {
@@ -4697,8 +4698,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "84e5ddbf3f4c08bec5689aa72d216d1fa523b1aa5e782f7e7b1261e7990da960",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "204fbd60477bf9a6132dd5205ff9c579089c7a1b2e4ffade3979b36ff1986630",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult.md"
     },
     {
@@ -4716,7 +4717,7 @@
       "sourceHash": "3ffe1e098d76e30b394c5ce6ace29f47f466ffa3cc7abd531c1a998a38a22e05",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties.md",
       "status": "translated",
-      "targetHash": "b028c03d177172ea023f628366c0f1fd084ebfd288d7a71e174a4a54638ba745",
+      "targetHash": "d4d144f8adf00cda24a634701f30249fbc5976cb874d8103490bbeb8aa514cf7",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties.md"
     },
     {
@@ -4725,7 +4726,7 @@
       "sourceHash": "a0dbb7105d89758fd6bb929d50c9d68b72de46ac3564ba73040be3cd4dcd6c04",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-createDatabase.md",
       "status": "translated",
-      "targetHash": "0c65481124b46c59796b295d139c91794e377f784649d6c08c1f882c6641f02e",
+      "targetHash": "517946bd7195df1c6dfd59529321920116b22255e4201ac35a72d44785f12147",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-createDatabase.md"
     },
     {
@@ -4733,8 +4734,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "f229e3f715d3c608178673b6fa0507a4bb79c00514237a314b9788e9a2858a98",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "ba25c56a454033305c4d0a779f99aa49ce6f67d98ff92f16ebc3a9a1164e7057",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md"
     },
     {
@@ -4743,7 +4744,7 @@
       "sourceHash": "8a486db25513d8a91d8d972f6f968fad319c76824cfe35f9f78d461d24755e45",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-describeDatabase.md",
       "status": "translated",
-      "targetHash": "35c67f73cae42b847a5880e533e2f859f86fcdea58322109130402e85c204481",
+      "targetHash": "ff11fba555fdcb5ffea44724c55bbe3a4657f8d12f920c7f9f5d78d50aa258bb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-describeDatabase.md"
     },
     {
@@ -4752,7 +4753,7 @@
       "sourceHash": "7d8ef1d5024d9753786baab71bd60635b7704548995571548214cc96daded37a",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabase.md",
       "status": "translated",
-      "targetHash": "fc501f1f09796083c0136dd67482447f5226144e2ff668fe066138c5c7f4ed43",
+      "targetHash": "9d29251f41f5c4321b805b21e568eab57db390c288486ce967090b1d354c0b32",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabase.md"
     },
     {
@@ -4761,7 +4762,7 @@
       "sourceHash": "4483f170c9457ad4c1e8fd791b830e9e5c3bcb80f68303b7bdaf93f148382b31",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties.md",
       "status": "translated",
-      "targetHash": "8ff3c7b07305c70050c47fff98c4a61fde75a79afec7d180b8f145cac29b37c0",
+      "targetHash": "176d158b7c374962fee4833dd7bb153ea108c720e76d691891a6de1fd94ff9bb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties.md"
     },
     {
@@ -4770,7 +4771,7 @@
       "sourceHash": "5870c6d1f9aaeea446b07d21910893b98f932f12517143d9f0b9f87d1de939b1",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-listDatabases.md",
       "status": "translated",
-      "targetHash": "53ae51b813b7a1ce29085cf3f1005c01e2cab8c0b51a72e83e6e6ddd5a5a6837",
+      "targetHash": "b5ac1b8f0fae54456ca07691f29b899cdc1e02398611f965447306d1246588a9",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-listDatabases.md"
     },
     {
@@ -4779,7 +4780,7 @@
       "sourceHash": "ce323ffa3bcfbe7f2fc39b00bf17c5544a3f068ab164e596524bf93f73b15230",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-useDatabase.md",
       "status": "translated",
-      "targetHash": "d0396f99b302fa5b905eab6722eb0dca968230261cb4a3b33c491b1073766acb",
+      "targetHash": "cef1f12e0ffe1e44bf72584a8d18f16cea506ee6c9f0096e58e9267d1c7555f5",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-useDatabase.md"
     },
     {
@@ -4796,8 +4797,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "30eaafbc2e78bc87fd423154b1cd2572ad890fe71c2eed5a74251f2baabc99c8",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "556ea4dbf4b83b57648b367deb59bae4acd1e6d61285afc2beb543eea63c80d4",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource.md"
     },
     {
@@ -4805,8 +4806,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "65740889c19bb3ecae12580e12561aa8360e00b1013b5fac3065dac53d44a9ab",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "eb463aef0634b95cc54484a7823f613a635f087f017dc9aa8d25f9cccdebbb5e",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources.md"
     },
     {
@@ -4814,8 +4815,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "0cc61a4968b8b5487ab1f56ede09102a1435f93e9e19a57473a96dcc98e82bd6",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "25f94725e714f7e88d62aca8d92a24e9acc444daf5d9251d9ab3095feb3d4495",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource.md"
     },
     {
@@ -4824,7 +4825,7 @@
       "sourceHash": "4a3a69887666c41f6aa0ba94755f3b398a26cd52639083c995ccb3db13769924",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexParam.md",
       "status": "translated",
-      "targetHash": "51c2f30f7129d0a4279f83b5b4149eaa8cd009367d295c699bed5cfe1a61de6c",
+      "targetHash": "0d4e8ad4425a3515b9edfcb3b97252f394d9c29bda08c987a4147118ba0df661",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-IndexParam.md"
     },
     {
@@ -4833,7 +4834,7 @@
       "sourceHash": "7a56eb7c299650a2853286f9e598baf0df892154587ec099b04cf2f0ae1579ee",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexType.md",
       "status": "translated",
-      "targetHash": "a1baa625327546a1ef21aac4f304c48ea0ce4df6f95f2dc162b5f8fde50b9abe",
+      "targetHash": "bf494c3ec71323f4c707742266ad94c2b9a31947bdcfd89461c34ee35b5d201c",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-IndexType.md"
     },
     {
@@ -4842,7 +4843,7 @@
       "sourceHash": "ea5c391f741e9748eb7d97e0d1e47cfd54be1783850dbd6c06ff03de60874957",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-MetricType.md",
       "status": "translated",
-      "targetHash": "8dc6d2dd484abc94692dac7ea52a216546fcbda1c2be8653fe4d4665fb06dc77",
+      "targetHash": "9b846a2383af17446893892b79e1cc449d6e45b2af8f13cbfce64ff57acc5902",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-MetricType.md"
     },
     {
@@ -4851,7 +4852,7 @@
       "sourceHash": "fa5c5ab20a8d080cd58dd497cffa9439b65a4d1e6f8b15fdf7f543edd2d79db0",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-alterIndexProperties.md",
       "status": "translated",
-      "targetHash": "1ca6471ed4096c6548c0db3889bedc51c6cd4ebc25beae9d53411e293c1e75b7",
+      "targetHash": "c46fa24dc3e1f65d5fdf11eecc118233971c262893d2872318cb0ffea928fcbe",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-alterIndexProperties.md"
     },
     {
@@ -4860,7 +4861,7 @@
       "sourceHash": "f5bec09af588d7e68ebb2c02175ac42923f3326290e5c757057c0259f56c49e7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-compact.md",
       "status": "translated",
-      "targetHash": "53dcfd35b67071441d851f9bce870c608a4924e9329fbcf1d66bfa0b2aaec220",
+      "targetHash": "c47000f34cf472f16061cbbb6f522112934ef5bbd6f459ac217f033ce2724ed7",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-compact.md"
     },
     {
@@ -4869,7 +4870,7 @@
       "sourceHash": "f7419b4d92fc181b08c07a6a93434126cb91d9e381bb7a68cec913ea4a01036d",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-createIndex.md",
       "status": "translated",
-      "targetHash": "9c5a6e243bcbf19d5cafd25ae2672e05b2ba57d5c71f769505f8860f994f9b54",
+      "targetHash": "45100f210f44d5356db0bad75183e0b127051e2fa00f45a593f998576cc97b07",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-createIndex.md"
     },
     {
@@ -4878,7 +4879,7 @@
       "sourceHash": "ca222e0a7f1454bb016cf860fc5a411e21b3a7fc10437bac888cea9d2e240a26",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-describeIndex.md",
       "status": "translated",
-      "targetHash": "cdf16a56c17e6f57dcedc0d0498fbccd1fcfdbe77cb17c6c11e03fef1fef3c06",
+      "targetHash": "0f08cb33c12f5147dac46c4258e1ced6e24a6013525d73f5247b611da70bb721",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-describeIndex.md"
     },
     {
@@ -4887,7 +4888,7 @@
       "sourceHash": "889f33c0a0429367005d1477024b661c7872c0625b0fca0f711989449baea318",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md",
       "status": "translated",
-      "targetHash": "5412107529e10dd98b74b05918c8281ddfd510e8a33a3b67437361cff894f219",
+      "targetHash": "43ea6290ac0200912c2bf2a793cc4458ecc9de235d311b71f7e01b2a7787b026",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md"
     },
     {
@@ -4896,7 +4897,7 @@
       "sourceHash": "b7b44cb7ee6d14bb8d129f6d2dc07d7cf18244044c2d15957708773b9bc93e0f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md",
       "status": "translated",
-      "targetHash": "6cb004711c5a8b9b4f4d3a59d57b2db94937fe4b98b1e4597a1113d2981af406",
+      "targetHash": "20564871b9a6c4ddd26f26a2f15131fe158525e4a9a9aea3c511d72ab84aeaaf",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md"
     },
     {
@@ -4905,7 +4906,7 @@
       "sourceHash": "4cb70852087a4f84c6226d39da53bc1e62d75010f2d34eea44ef9e2587009f10",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flush.md",
       "status": "translated",
-      "targetHash": "d40538d95fcf68d97b7e1d2e088310bbd68ea0e2e249ecd9be335a3e8ab744b2",
+      "targetHash": "45aa3e62c65029b11b121d63b308491b5af6ca2123ce3155eb629f0aa8685409",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-flush.md"
     },
     {
@@ -4913,8 +4914,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "472ab2579c3ccf80f8c6c911462877c13179a5589849f0e6b53ada9f8bfdd31f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "0d28bcd02b1eb47247e6ab2a1501b6de466588ca40f62fe19db0dc2f9b767b72",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md"
     },
     {
@@ -4922,8 +4923,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "117f3830812bb30343a36fb99048476bdfa720ed5ec5ec06cbbb47754eafe93f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "b81fc39c364b79a7c182750e292054e7da1d8ac73d7837937fab9a416cb96c38",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md"
     },
     {
@@ -4931,8 +4932,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "3317c67296cdf0a3b3c602e117f57bc9974caa8689a2bcd34f4c29d59a80dc45",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "0054a733645a87c745e4cead030ad486a242220d29f9fd04f58ea69f649394ea",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md"
     },
     {
@@ -4941,7 +4942,7 @@
       "sourceHash": "a51a79792dd12961a55f9a03a3d5310089677135e4f3de50e68d2e522d454621",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md",
       "status": "translated",
-      "targetHash": "b52c5c7e38cc5203694b459f888cc9f2d0b6ea206216d7d250fcbcf9ce45448e",
+      "targetHash": "97bff306bb49823f9236c0ed58e4f5c5c2f5e311f6bf5229d33667838c312678",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md"
     },
     {
@@ -4949,8 +4950,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "9cc3ce1895ca3f74e0948da0112813a9b2a2eef9abf3619b7e8ca069f63ce1f7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "8bf9dbacb1b00171bf7f9593406f566c5f0cdae00ce9c2f92632df4f44fb2d5a",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md"
     },
     {
@@ -4958,8 +4959,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "ab4dda98a2a8c21f20e407bd4182a73837b8b6abecf328883329c89432cf2caa",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "51606100467ebd06bb654c6940dea122ddf7d586a40a28d9c9483537d385e04f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md"
     },
     {
@@ -4968,7 +4969,7 @@
       "sourceHash": "5906d1edd10ff4f4409d5544916609628ccd003ca6e3c16eaf5d9a041a4ac393",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md",
       "status": "translated",
-      "targetHash": "bff4acde40138450c60160b9151b0ef33f9017ae90a14e9a65a101ecfaee6fdb",
+      "targetHash": "3cb62ec3bc37bb50850d0ee3a96d0a177f61cd894ba85da3ac878fe8689328ef",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md"
     },
     {
@@ -4976,8 +4977,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "284d49bbd2fef847b3f3638ecfc87d4ae7b11e97eaf97993b1889e4981bc1119",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "7ce05c1accdbe1302b88af38a59c1c869d83cd3308c3e01445dedac49b61158c",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md"
     },
     {
@@ -4986,7 +4987,7 @@
       "sourceHash": "6a2f0ee35df79c3b9cf2ae46d064adf2c873d4656e2b6fc02c21ff5db37d8f34",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md",
       "status": "translated",
-      "targetHash": "65114ea162d92059f08abf7a2e54b27cdb36a8762567b56e607bb101f96f4706",
+      "targetHash": "e892505f14f18c24f200f47373f93ea769597e38e3abd5859785ab5f597b7330",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md"
     },
     {
@@ -4994,8 +4995,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "58a7552ebb79fcd4306842ab4351376465e830aa082b3748ca47ceaa6a1ed27e",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "c974d31702b9405bd51e6f8875dd9b69bcf95acce6238996d2e20e9bfaa4b955",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md"
     },
     {
@@ -5004,7 +5005,7 @@
       "sourceHash": "f40f0112e9c978ecbf4d809bae35e560363adb97a3279745667ac814ec8e5562",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md",
       "status": "translated",
-      "targetHash": "dde7a086db0173d88121b19b670824d06201eb7455569dfa8cbcdddb40914433",
+      "targetHash": "141e9e33f006f6aea51b73e01f2e053194bd181cfa5c087c0cd3e2c3b6396f69",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md"
     },
     {
@@ -5013,7 +5014,7 @@
       "sourceHash": "16b4d9609d69a1e67f3142d9d5d1432e159ddae57100583714ff39bbcfc98a86",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md",
       "status": "translated",
-      "targetHash": "ae96ed5d8410789f56a24014e7fc97260a159b93414d131f5b985c7d47d2c340",
+      "targetHash": "8fd499ff1911952614b08f59574ebf1ebc0e21e9b7e7d76de86d589f6548ad11",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md"
     },
     {
@@ -5031,7 +5032,7 @@
       "sourceHash": "4ec4ab67e55aabb185a3e622bba17c5d332b41ab05f7b912ce21d84b0e6d78de",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md",
       "status": "translated",
-      "targetHash": "67a9c25559ae601b04b0013a17299b679df4724945764513d549e7bbf3e419e0",
+      "targetHash": "921d3d5526d0fe24a43d0879f6e14ef5f3392c0b4c887546d83d024b50b08ef2",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md"
     },
     {
@@ -5040,7 +5041,7 @@
       "sourceHash": "392303e79b68c3d6692efae03bf164c1c20103daf03a73226813cfff750606cd",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md",
       "status": "translated",
-      "targetHash": "12f6d2d3b3e5b4b5d3832828fc5c5c8f3980f127e19bebf46500e783db961efd",
+      "targetHash": "2e9e6d0f34fa84f7a5a78ade3d1b73e89b028bc9e50208d54995545850e94866",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md"
     },
     {
@@ -5049,7 +5050,7 @@
       "sourceHash": "4a022bf3bd3ea7c1fafff5d6ffc7ba30825885b81c6279f2b3eb7c71b573726b",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
       "status": "translated",
-      "targetHash": "f79ec09d421debb272983baca6134f0b93cf2aa4d29be9fe81606f2e28686f09",
+      "targetHash": "bc9691877d5f27cbf324d6bc56f1ef77bb7e3d3079b46f2bb086b3d917016da9",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md"
     },
     {
@@ -5058,7 +5059,7 @@
       "sourceHash": "ad2383f10a6d862444f007f1600dd3f9f36ef0d8f4cfca87c666208a55f83e15",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md",
       "status": "translated",
-      "targetHash": "2ff7d392cd5dc08da4243997afbb6888fad651a3eb432fffe4349601439e4174",
+      "targetHash": "cb3ea15417708f8f3eb2fc4b06f6b246dc6f959c4a8b6f9e88fc656d3e3a29a1",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md"
     },
     {
@@ -5067,7 +5068,7 @@
       "sourceHash": "0023fdb74ac209a37fd841afa58c2214fa988d21bff03f43d81a4cc809de76ec",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md",
       "status": "translated",
-      "targetHash": "ac5abd496bc8f7b94dee83f8368c3926437b01aabe352ed59679519b4d9f20c9",
+      "targetHash": "a2b6e0628ab98d39b44d70a6bdbcb0513eff9af44c3b84ec9787a54244e4f63e",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md"
     },
     {
@@ -5076,7 +5077,7 @@
       "sourceHash": "d3b17aca29aef4a12c1cfdcddb47401c4dd41c9bc577bd2c645cd8a5cfeac622",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md",
       "status": "translated",
-      "targetHash": "7516693a6c472da7450390881234270db38af9fa0e2274753ad9204eb4dc678e",
+      "targetHash": "44d58c26a601487a621b37c0abd25a96a3d4214b78d555edc01003e19989bb1f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md"
     },
     {
@@ -5085,7 +5086,7 @@
       "sourceHash": "2c8ae287b937dd1679f2e64a3458905782aea2cd92ecf523085951c37b998def",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md",
       "status": "translated",
-      "targetHash": "35087e97cbc03631b10e6f9049a97005710673e040363ee94f7785940bc06bf4",
+      "targetHash": "4837bf49e540520c05e6822a9ecd90d0cba84d348316f26c74396b64c285ce4a",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md"
     },
     {
@@ -5102,8 +5103,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "51a7dd5f0ba63c2a834c3c3604d253be7e24ff04af5a250628e3191bf6780569",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "85633ba1e969635705cc1cdbbea6b164c422ea3e1b187063712e86a7b321b73f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot.md"
     },
     {
@@ -5111,8 +5112,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "7c003d9d5a0960d344d04ebdd520c0840a23ec7f28e636953afe651e765689e3",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "ac81b1bd6ca5718911fb70eaacbe87ec4c3162784da4544b293252154e0d41be",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot.md"
     },
     {
@@ -5120,8 +5121,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "f0326782b35f186855d395cc688a1533c9ff12735a2de310fe5bf664a7b0dcf6",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "6c74fed7ab1c6ff5d4ab3af47ff58360e7224d1fabdadc980facd1eda04772fb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md"
     },
     {
@@ -5129,8 +5130,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "44d56ec74e9ede5d96a91b7dfef0112e55275e8bcedcbc8ec42aa1c07f91fef4",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "02e243c21c2d2571b59e75bf26365a1070535d8ed1cd0d3cb6e3cc1933af244e",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState.md"
     },
     {
@@ -5138,8 +5139,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "61184872bdd0dc1a7afdc2550ce402aa86f3d0da0d6c9deff70c9987388209d9",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "0d7d77e7e141939415922bb8a03699f438b39eb003be946bd7da8db05c95ffb4",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md"
     },
     {
@@ -5147,8 +5148,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "9f0cc4e5de76010e9b05ebb339f654f618d0c03552389fccb78b19cbdd0600e7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "492585f65b2ac5aaf27c49ee1039dbfcc3ebf54b9df2bfb1e2bd0c0b0587bc1b",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md"
     },
     {
@@ -5156,8 +5157,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "fc805a870082b7c02c6679c6482a08e80873d56e702abbf5bb9440d12b083392",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "5b3a60038f57bba893b2540ac7626fed13e15ea5fbe6961f7d227aeb677589d6",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData.md"
     },
     {
@@ -5165,8 +5166,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "1bdf329c6d6d7f07cd09dbec9000442df76323c025aa4541d699e0185e361e71",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "7de27ad290eba422e43f5a53d5b45ca75f89e2a99f2b17516df72e9f6905c00b",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot.md"
     },
     {
@@ -5174,8 +5175,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "33d8d40d6257b15ef9b07eecb96896f932f6e132591af0e54c904aca4cdbcd9f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "45d0744869e383abbb400c1cd5427cfb5b46e9115fb4df5b9a72d9e3cf6511e8",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData.md"
     },
     {
@@ -5183,8 +5184,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "ede31ff7872a266f2b91fe4a708e2d7d5eb9fd5404f46f40d88cd81ccec00807",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "39f6c610490f983d5d6f50e2a385e0bb0bf7f99026b03c2a30ed33900b41165f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md"
     },
     {
@@ -5192,8 +5193,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "4403b763b66961107abcaea5433244c13aef7f0262bcf1c7df882c5a1fc1f7c9",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "f8bbfe30cb66255e158dbcdcbf7e8c016ef4646911a645dc12cb5d0e920ce023",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md"
     },
     {
@@ -5201,8 +5202,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "4aed10d741bd7272251c83c1b8b864d762058afa295168a3211faeab004b666f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "34fea3e13d7c2acd0af1358010e6789219bc8489f06be7fcf0a9747dc1aeb27f",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md"
     },
     {
@@ -5210,8 +5211,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "705638d3721ee579cfc24a8bee474aa4b090b4c9fc04827d45bb2e7b0fc43fbf",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "21fd35bc845b55c42499017595bc4838d014acbf35a25e7a6a5c6c53fa92618c",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md"
     },
     {
@@ -5219,8 +5220,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "c1557cfee29ce2e256ee84d0bbb25c192dc5d071b9799fa78b55efa6b650bc37",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "61ce2bc88c62ba90db69d173f3bf7e733d3cf1a86c20774135b4d887badd8e27",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md"
     },
     {
@@ -5228,8 +5229,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "3d724626f6a2909e081f0f4b63ad5eeacc667b4c14faddc775f9fd6d03387170",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "ef32eb3da3274372af5cae540d036cf4795212d89dfd0f873cbbd5cc18d4c9ff",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md"
     },
     {
@@ -5237,8 +5238,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "7cb800638b0f214070d41fd23a846e59fc44d2986ce6babfd53eb728c92b51b7",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "d13c13eff3435b757dc74c881fc9a98f98d355baeecd438a80949bfb00748863",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md"
     },
     {
@@ -5247,7 +5248,7 @@
       "sourceHash": "2c1ae71c3dff86a387aa8b4c837903b25f9770724d1fa31d69b6a53833dc6e4e",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2.md",
       "status": "translated",
-      "targetHash": "3e794762446b483badff5ee8e63b48a47f2a67b3e0db9b31f54bfdc62d5743f0",
+      "targetHash": "b42a95fa8b39265dac9bb65047a248f8adf16adafad77df541fa91bc715777d1",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2.md"
     },
     {
@@ -5256,7 +5257,7 @@
       "sourceHash": "d6e41edb91da0ac8428b7966684ac409ffbad87e81f2860d466a059cc6db7e8c",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md",
       "status": "translated",
-      "targetHash": "1d878ada1b2eae88f9404b5cfe6c1fbb43be032db563edaf35818b27e1c15097",
+      "targetHash": "5074ca5bd3bbe8296ed1f6c7b86233ba23d85b6afe3ae5ee014523123757ddb6",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md"
     },
     {
@@ -5265,7 +5266,7 @@
       "sourceHash": "c5e0f95a583d995e29c10b698b4b39bedb10c44f0ee9aa2df757f07c942d1c8f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-get.md",
       "status": "translated",
-      "targetHash": "3f10667694d03eaa2389fee7f2485d877466232fe09680984f20b3e7df16aab2",
+      "targetHash": "017b74a96015c2c329f56973fc1c172e551cb7cc798d3f30c511d82d4b67ef30",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-get.md"
     },
     {
@@ -5274,7 +5275,7 @@
       "sourceHash": "447efb4b032f7bbdd13429d496a45adc4de0582fc9645de6b5f78fb63641d15c",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearch.md",
       "status": "translated",
-      "targetHash": "0f3b57b94ae9a5d8de229f3ddcab4dfd329e1710bca8e1524a742a09272b58a5",
+      "targetHash": "ba6434523838513004caaebbcacb4c01daa72cab4ff6c148bbd758869ce7d9d9",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearch.md"
     },
     {
@@ -5283,7 +5284,7 @@
       "sourceHash": "7390e091e3566e2eb9427873047b3952e1e340546c954f104af353431bb785d9",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-insert.md",
       "status": "translated",
-      "targetHash": "252272dc9c0e9661e5e3a119a579ac739c2ad9a6f44ae2496e3e14a3dd2cc43e",
+      "targetHash": "08093df5cdc75a16a30156dd7aa7eae1bfc947fd527f2ff14ce7b3fa082975e5",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-insert.md"
     },
     {
@@ -5292,7 +5293,7 @@
       "sourceHash": "9f5cc0786f7180e7b1243b7e18084eaba7caeb44d2ad71665c07a86ec55f5a28",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-query.md",
       "status": "translated",
-      "targetHash": "07f8e0f6def3f88bf64f00c3e5bc906d035d28c237a82f87cfa39c67ba509645",
+      "targetHash": "79b17a09405b3e5c67e9f38e6e8c2216d59cf63d222e56050bfa1c8f14d493cb",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-query.md"
     },
     {
@@ -5301,7 +5302,7 @@
       "sourceHash": "3961ab5fcd4bac4f9156ea9d3ba56d5528ad824c02583c99ece8eaf3985215e5",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryIterator.md",
       "status": "translated",
-      "targetHash": "2b73427fc670d4ab0bec248cc0bb431982f8a78ca6c0f0ea36b94e7252f4ea46",
+      "targetHash": "3f2d09ed558d3880014c758df62b30a9729148ba3f343f9729f6bb9f925a5c44",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-queryIterator.md"
     },
     {
@@ -5310,7 +5311,7 @@
       "sourceHash": "c267bb0fb2ccdbb01cce688309c4caee9c7e65ca3d0b551ea03c866be6d026e4",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-runAnalyzer.md",
       "status": "translated",
-      "targetHash": "790322f7d9bd1be2b1e69a225e663890d4c0446a91b33f708d5db839723aa98d",
+      "targetHash": "6ef2dcd2a9dcf4e3b87b5d31af2495ef4081b956e1eac4d107c30bc36eab6508",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-runAnalyzer.md"
     },
     {
@@ -5319,7 +5320,7 @@
       "sourceHash": "488ff95287d0d930f4fc592e29e2acdf04d1d99bc8137f956c9e7df066ece5f6",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-search.md",
       "status": "translated",
-      "targetHash": "3004a2396d5b66177fcb739cfa55c04cba170a95730f2250dc179f827badb522",
+      "targetHash": "ba2ab648adf470c912c32b26478b7fcfb6f9face203177f61cea5bbc87acc49a",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-search.md"
     },
     {
@@ -5328,7 +5329,7 @@
       "sourceHash": "84bcea8c906cbb7d54ecf867424de8d09e4b0e5e1e8768e2f4b41e9316fb1814",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchIterator.md",
       "status": "translated",
-      "targetHash": "813c5f19f17de0044898a08b3580828a4f29eaaf6a1e4df5114eb428ec17c50c",
+      "targetHash": "c0acffe7384471f7e052967aac98a40506cafa08d428546e65bc94939a956aa7",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-searchIterator.md"
     },
     {
@@ -5337,7 +5338,7 @@
       "sourceHash": "023c9662e95bc11ab34556e17dd084c57ee415965e888468a0cc54cc5d5d00e3",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-upsert.md",
       "status": "translated",
-      "targetHash": "06250a1eb84a78e04f86fbf5158ab673b15325de4d7098a13e7e7bfaea67dacf",
+      "targetHash": "32dd04e284e64fbca2d8ec624b662897963d52a2edb9254d1a57e90235186ae4",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-upsert.md"
     },
     {
@@ -5355,7 +5356,7 @@
       "sourceHash": "ee4fa5af37eed1f92d1279bc0a54fd35159e544fb387bb4822263c06b1965efc",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager.md",
       "status": "translated",
-      "targetHash": "b7ca9171100e265710a3f1b269cbd774c010d2b464e345fea76c0bdec82c3388",
+      "targetHash": "d4a1415b533a67b80102df4657ab98785e3783908faa912c22a162fa7acd7219",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager.md"
     },
     {
@@ -5364,7 +5365,7 @@
       "sourceHash": "3d811ea33604603c5677fad8baa8850a9960264163a421f148db2b93704e178a",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md",
       "status": "translated",
-      "targetHash": "cbd0ef639be9b14565bc0ccdfba2dd3b5dba0194978dd000c21eb1634c734cbe",
+      "targetHash": "056527ac8a99cebbed081e56bf60fe7db356ef3800a33a3b2e8612e6159c3193",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md"
     },
     {
@@ -5373,7 +5374,7 @@
       "sourceHash": "2bfb1b59bfeadd32c6f7f81118a477b716c701593099eb8af6839fc861fff7da",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md",
       "status": "translated",
-      "targetHash": "252f96f2b17be40228380435bc7fc38a47eb938488f46dfa4863551d9fcffd86",
+      "targetHash": "644548d572225b956afd4d8787da55a5d3d64904d47ef8ada8d177d4b8967664",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md"
     },
     {
@@ -5382,7 +5383,7 @@
       "sourceHash": "4833cb292b411995d57debe95c6a949a143d21aeae33caff6e2221ecad76811b",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md",
       "status": "translated",
-      "targetHash": "bb1cc6881f5279ac68f0b6686a9b76ca245495248e5cfc3d3f07a69f8ff5a004",
+      "targetHash": "fc9c29da7656b7386ab73b59fb20fcf00cf38412e1d0c1e1b62cf693df358231",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md"
     },
     {
@@ -5391,7 +5392,7 @@
       "sourceHash": "ea73acc256d48b9b130c47063cae3b326d9c3888a556091288df16a87a8d9e53",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume.md",
       "status": "translated",
-      "targetHash": "6583154f0031d12a907d7ffcf4b433bb4aafae0d9fb5127cfca3b9b238abf6bb",
+      "targetHash": "2e5297b43a1017a1332b0c67ba6faea55776bb3374269e7911077efc03d99979",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume.md"
     },
     {
@@ -5400,7 +5401,7 @@
       "sourceHash": "3f11d9e34d9f931c04a17790fb5010060372c8d9a6ab5fe2086a1b1196eb2104",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md",
       "status": "translated",
-      "targetHash": "d18edab6881ea2d5e4814a877d559f565ab9f289872bb3625acce0107ad21d30",
+      "targetHash": "d790ae39d8544b34e5d3f96884cbe46e039b3f39f3391db68f15f36d0f5860ce",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md"
     },
     {
@@ -5417,8 +5418,8 @@
       "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
       "sourceHash": "42c8a564954d84ddbaca49f6d478322ed11a74ee90ae71f8aa47a2d7ce5ce30f",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md",
-      "status": "retired",
-      "targetHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "translated",
+      "targetHash": "651000bb8ca381cc738b2648533993d8b7cc5f71c2831bc280305d8b6227bd4e",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md"
     },
     {

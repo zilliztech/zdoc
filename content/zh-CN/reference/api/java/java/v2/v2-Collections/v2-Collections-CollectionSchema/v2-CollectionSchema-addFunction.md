@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "addFunction() | Java | v2"
 slug: /java/java/v2-CollectionSchema-addFunction
 sidebar_label: "addFunction()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds a function to convert raw data into vector representations. | Java | v2"
+description: "此操作会添加一个函数，用于将原始数据转换为向量表示。 | Java | v2"
 type: docx
 token: WI76dwejQosQWcxuhkccHOl7nXf
 sidebar_position: 4
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - addFunction()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # addFunction()
 
-This operation adds a function to convert raw data into vector representations.
+此操作会添加一个函数，用于将原始数据转换为向量表示。
 
 ```java
 public CollectionSchema addFunction(Function function)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 addFunction(Function.builder()
@@ -49,45 +49,45 @@ addFunction(Function.builder()
         .build());
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `functionType(FunctionType functionType)`
 
-    The type of function for processing raw data. Possible values:
+    用于处理原始数据的函数类型。可能的值：
 
-    - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
+    - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
 
 - `name(String name)`
 
-    The name of the function. This identifier is used to reference the function within queries and collections.
+    函数名称。此标识符用于在查询和集合中引用该函数。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
 
 - `outputFieldNames(List<String> outputFieldNames)`
 
-    The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+    用于存储生成的嵌入的字段名称。该字段应对应于集合 schema 中定义的向量字段。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
 
 - `description(String description)`
 
-    A brief description of the function’s purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
+    对函数用途的简要说明。这在较大的项目中可用于文档说明或提高清晰度，默认值为空字符串。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Function*
 
-**RETURNS:**
+**返回：**
 
-A `Function` object
+一个 `Function` 对象
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.common.clientenum.FunctionType;

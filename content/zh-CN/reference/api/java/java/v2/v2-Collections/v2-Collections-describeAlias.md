@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeAlias() | Java | v2"
 slug: /java/java/v2-Collections-describeAlias
 sidebar_label: "describeAlias()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation displays the details of an alias. | Java | v2"
+description: "此操作显示别名的详细信息。 | Java | v2"
 type: docx
-token: RWaHdvzdvoxGdbxj44cc5SmBnzd
+token: BDqGdp4uqo3XRexslRNcts9knmd
 sidebar_position: 11
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,54 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # describeAlias()
 
-This operation displays the details of an alias.
+此操作显示别名的详细信息。
 
 ```java
 public DescribeAliasResp describeAlias(DescribeAliasReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 describeAlias(DescribeAliasReq.builder()
     .databaseName(String databaseName)
-    .collection(String collectionName)
     .alias(String alias)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database to which the target collection belongs.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `collectionName(String collectionName)`
+- `alias(String alias)` -
 
-    The name of the target collection of this operation.
+    别名名称。
 
-- `alias(String alias)`
-
-    The alias of a collection. 
-
-    Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
-
-**RETURN TYPE:**
+**返回：**
 
 *DescribeAliasResp*
 
-**RETURNS:**
+一个包含别名详细信息的 **DescribeAliasResp** 对象。
 
-A **DescribeAliasResp** object containing the alias details.
+**异常：**
 
-**EXCEPTIONS:**
+- **MilvusClientException**
 
-- **MilvusClientExceptions**
+    当此操作期间发生任何错误时，将引发此异常。
 
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -102,4 +93,3 @@ DescribeAliasReq describeAliasReq = DescribeAliasReq.builder()
         .build();
 DescribeAliasResp describeAliasResp = client.describeAlias(describeAliasReq);
 ```
-

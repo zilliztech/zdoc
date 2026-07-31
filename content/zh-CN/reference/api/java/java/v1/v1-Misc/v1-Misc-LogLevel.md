@@ -4,7 +4,7 @@ slug: /java/v1-Misc-LogLevel
 sidebar_label: "LogLevel"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "The enumeration for setting log level in runtime. | Java | v1"
+description: "用于在运行时设置日志级别的枚举。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#GqbrdhNhkooVlLxepyPcCB0unhg
 sidebar_position: 6
@@ -17,7 +17,7 @@ import Admonition from '@theme/Admonition';
 
 # LogLevel
 
-The enumeration for setting log level in runtime.
+用于在运行时设置日志级别的枚举。
 
 ```java
 package io.milvus.param;
@@ -26,23 +26,23 @@ public enum LogLevel
 
 <table>
    <tr>
-     <th><p><strong>Type</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>类型</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
    </tr>
    <tr>
      <td><p>Debug</p></td>
-     <td><p>Debug level, All the logs are visible.</p></td>
+     <td><p>Debug 级别，所有日志均可见。</p></td>
    </tr>
    <tr>
      <td><p>Info</p></td>
-     <td><p>Debug level, information, warning, error logs are visible.</p></td>
+     <td><p>Debug 级别、信息、警告和错误日志可见。</p></td>
    </tr>
    <tr>
      <td><p>Warning</p></td>
-     <td><p>Debug level, warning and error logs are visible.</p></td>
+     <td><p>Debug 级别、警告和错误日志可见。</p></td>
    </tr>
    <tr>
      <td><p>Error</p></td>
-     <td><p>Error level, only error logs are visible.</p></td>
+     <td><p>Error 级别，仅错误日志可见。</p></td>
    </tr>
 </table>

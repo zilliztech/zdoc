@@ -4,7 +4,7 @@ slug: /java/v1-Collection-insert
 sidebar_label: "insert()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method inserts entities into a specified collection. | Java | v1"
+description: "一个 MilvusClient 接口。此方法将实体插入到指定集合中。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#LSztdn2VAohrv3xksJocdjdynXd
 sidebar_position: 11
@@ -17,145 +17,145 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-A MilvusClient interface. This method inserts entities into a specified collection.
+一个 MilvusClient 接口。此方法将实体插入到指定集合中。
 
 ```java
 R<MutationResult> insert(InsertParam requestParam);
 ```
 
-#### InsertParam
+#### InsertParam\{#insertparam}
 
-Use the `InsertParam.Builder` to construct an `InsertParam` object.
+使用 `InsertParam.Builder` 构造 `InsertParam` 对象。
 
 ```java
 import io.milvus.param.InsertParam;
 InsertParam.Builder builder = InsertParam.newBuilder();
 ```
 
-Methods of `InsertParam.Builder`:
+`InsertParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Sets the target collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the collection to insert data into.</p></td>
+        <td><p>设置目标集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName：要插入数据的集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，数据库名称可以为 null。</p></td>
+        <td><p>databaseName：数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withPartitionName(String partitionName)</p></td>
-        <td><p>Sets the target partition name(optional).</p></td>
-        <td><p>partitionName: The name of the partition to insert data into.</p></td>
+        <td><p>设置目标分区名称（可选）。</p></td>
+        <td><p>partitionName：要插入数据的分区名称。</p></td>
     </tr>
     <tr>
-        <td><p>withFields(List\<InsertParam.Field> fields)</p></td>
-        <td><p>Sets the data to be inserted. The field list cannot be empty. <br/>Note that no input is required for the primary key field if auto_id is enabled.</p></td>
-        <td><p>fields: A list of Field objects, each representing a field.</p></td>
+        <td><p>withFields(List&lt;InsertParam.Field&gt; fields)</p></td>
+        <td><p>设置要插入的数据。字段列表不能为空。<br/>请注意，如果启用了 auto_id，则主键字段无需输入。</p></td>
+        <td><p>fields：Field 对象列表，每个对象表示一个字段。</p></td>
     </tr>
     <tr>
         <td><p>withRows(List\<gson.JsonObject> rows)</p></td>
-        <td><p>Sets the row-based data to be inserted. The row list cannot be empty.<br/>Note that if the withFields() is called, the rows by withRows() will be ignored.</p></td>
-        <td><p>rows: A list of gson.JsonObject objects, each representing a row in key-value format.<br/>For each field:<br/>- If dataType is Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar, use JsonObject.addProperty(key, value) to input;<br/>- If dataType is FloatVector, use JsonObject.add(key, gson.toJsonTree(List[Float]) to input;<br/>- If dataType is BinaryVector/Float16Vector/BFloat16Vector, use JsonObject.add(key, gson.toJsonTree(byte[])) to input;<br/>- If dataType is SparseFloatVector, use JsonObject.add(key, gson.toJsonTree(SortedMap[Long, Float])) to input;<br/>- If dataType is Array, use JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) to input;<br/>- If dataType is JSON, use JsonObject.add(key, JsonElement) to input;<br/>Note:<br/>1. For scalar numeric values, value will be cut according to the type of the field.<br/>For example:<br/>  An Int8 field named "XX", you set the value to be 128 by JsonObject.addProperty("XX", 128), the value 128 is cut to -128.<br/>  An Int64 field named "XX", you set the value to be 3.9 by JsonObject.addProperty("XX", 3.9), the value 3.9 is cut to 3.<br/>2. String value can be parsed to numeric/boolean type if the value is valid.<br/>For example:<br/>  A Bool field named "XX", you set the value to be "TRUE" by JsonObject.addProperty("XX", "TRUE"), the string "TRUE" is parsed as true.<br/>  A Float field named "XX", you set the value to be "3.5" by JsonObject.addProperty("XX", "3.5", the string "3.5" is parsed as 3.5.</p></td>
+        <td><p>设置按行插入的数据。行列表不能为空。<br/>请注意，如果调用了 withFields()，则会忽略通过 withRows() 传入的 rows。</p></td>
+        <td><p>rows：gson.JsonObject 对象列表，每个对象表示一行键值格式的数据。<br/>对于每个字段：<br/>- 如果 dataType 是 Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar，使用 JsonObject.addProperty(key, value) 输入；<br/>- 如果 dataType 是 FloatVector，使用 JsonObject.add(key, gson.toJsonTree(List[Float]) 输入；<br/>- 如果 dataType 是 BinaryVector/Float16Vector/BFloat16Vector，使用 JsonObject.add(key, gson.toJsonTree(byte[])) 输入；<br/>- 如果 dataType 是 SparseFloatVector，使用 JsonObject.add(key, gson.toJsonTree(SortedMap[Long, Float])) 输入；<br/>- 如果 dataType 是 Array，使用 JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) 输入；<br/>- 如果 dataType 是 JSON，使用 JsonObject.add(key, JsonElement) 输入；<br/>注意：<br/>1. 对于标量数值，value 将根据字段类型被截断。<br/>例如：<br/>  名为 "XX" 的 Int8 字段，如果你通过 JsonObject.addProperty("XX", 128) 将值设为 128，则值 128 会被截断为 -128。<br/>  名为 "XX" 的 Int64 字段，如果你通过 JsonObject.addProperty("XX", 3.9) 将值设为 3.9，则值 3.9 会被截断为 3。<br/>2. 如果字符串值有效，则可以被解析为数值/布尔类型。<br/>例如：<br/>  名为 "XX" 的 Bool 字段，如果你通过 JsonObject.addProperty("XX", "TRUE") 将值设为 "TRUE"，则字符串 "TRUE" 会被解析为 true。<br/>  名为 "XX" 的 Float 字段，如果你通过 JsonObject.addProperty("XX", "3.5", 将值设为 "3.5"，则字符串 "3.5" 会被解析为 3.5。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs an InsertParam object.</p></td>
+        <td><p>构造 InsertParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>In Java SDK versions v2.4.1 or earlier versions, the input is a <code>fastjson.JSONObject</code>. But <code>fastjson</code> is not recommended to use now because of its unsafe deserialization vulnerability. Therefore, replace <code>fastjson</code> with <code>gson</code> if you use the Java SDK of v2.4.2 or later releases.</p>
+<p>在 Java SDK v2.4.1 及更早版本中，输入类型为 <code>fastjson.JSONObject</code>。但由于 <code>fastjson</code> 存在不安全反序列化漏洞，目前不建议使用。因此，如果你使用的是 v2.4.2 或更高版本的 Java SDK，请将 <code>fastjson</code> 替换为 <code>gson</code>。</p>
 
 </Admonition>
 
-The `InsertParam.Builder.build()` can throw the following exceptions:
+`InsertParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：参数无效时抛出错误。
 
-#### Field
+#### Field\{#field}
 
-A tool class to hold a data field.
+用于保存数据字段的工具类。
 
-Methods of `InsertParam.Field`:
+`InsertParam.Field` 的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Parameters</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>参数</strong></p></th>
    </tr>
    <tr>
      <td><p>Field(String name, List\<?> values)</p></td>
-     <td><p>This class only provides a constructor to create a Field object.</p></td>
-     <td><p>name: The name of the data field. values:</p><ul><li><p>Requires List\<Boolean> if the data type is Bool.</p></li><li><p>Requires List\<Long> if the data type is Int64.</p></li><li><p>Requires List\<Integer> or List\<Short> if the data type is Int8/Int16/Int32.</p></li><li><p>Requires List\<Float> if the data type is Float.</p></li><li><p>Requires List\<Double> if the data type is Double.</p></li><li><p>Requires List\<String> if the data type is Varchar.</p></li><li><p>Requires List\<List\<?>gt; if the data type is Array, the inner List type must be equal to the element type of the Array field.</p></li><li><p>Requires List\<List\<Float>gt;, if the data type is FloatVector.</p></li><li><p>Requires List\<ByteBuffer>, if the data type is BinaryVector/Float16Vector/BFloat16Vector.</p></li><li><p>Requires List\<SortedMap\<Long, Float>gt; if the data type is SparseFloatVector.</p></li></ul></td>
+     <td><p>此类仅提供构造函数来创建 Field 对象。</p></td>
+     <td><p>name：数据字段名称。values：</p><ul><li><p>如果数据类型为 Bool，则需要 List\<Boolean>。</p></li><li><p>如果数据类型为 Int64，则需要 List\<Long>。</p></li><li><p>如果数据类型为 Int8/Int16/Int32，则需要 List\<Integer> 或 List\<Short>。</p></li><li><p>如果数据类型为 Float，则需要 List\<Float>。</p></li><li><p>如果数据类型为 Double，则需要 List\<Double>。</p></li><li><p>如果数据类型为 Varchar，则需要 List\<String>。</p></li><li><p>如果数据类型为 Array，则需要 List\<List\<?>gt;，内部 List 的类型必须与 Array 字段的元素类型一致。</p></li><li><p>如果数据类型为 FloatVector，则需要 List\<List\<Float>gt;。</p></li><li><p>如果数据类型为 BinaryVector/Float16Vector/BFloat16Vector，则需要 List\<ByteBuffer>。</p></li><li><p>如果数据类型为 SparseFloatVector，则需要 List\<SortedMap\<Long, Float>gt;。</p></li></ul></td>
    </tr>
 </table>
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<MutationResult>` object.
+此方法会捕获所有异常，并返回一个 `R<MutationResult>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 以及该异常的错误消息。
 
-- If the API succeeds, it returns a valid `MutationResult` held by the `R` template. You can use `MutationResultWrapper` to get the returned information.
+- 如果 API 成功，则返回由 `R` 模板持有的有效 `MutationResult`。你可以使用 `MutationResultWrapper` 获取返回的信息。
 
-#### MutationResultWrapper
+#### MutationResultWrapper\{#mutationresultwrapper}
 
-A tool class to encapsulate the MutationResult. 
+用于封装 MutationResult 的工具类。
 
 ```java
 import io.milvus.response.MutationResultWrapper;
 MutationResultWrapper wrapper = new MutationResultWrapper(mutationResult);
 ```
 
-Methods of `MutationResultWrapper`:
+`MutationResultWrapper` 的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getInsertCount()</p></td>
-     <td><p>Gets the row count of the inserted entities.</p></td>
+     <td><p>获取已插入实体的行数。</p></td>
      <td><p>long</p></td>
    </tr>
    <tr>
      <td><p>getLongIDs()</p></td>
-     <td><p>Gets the long ID array returned by the insert() interface if the primary key field is int64 type. Throw ParamException if the primary key type is not int64.</p></td>
+     <td><p>如果主键字段类型为 int64，则获取 insert() 接口返回的 long ID 数组。如果主键类型不是 int64，则抛出 ParamException。</p></td>
      <td><p>List\<Long></p></td>
    </tr>
    <tr>
      <td><p>getStringIDs()</p></td>
-     <td><p>Gets the string ID array returned by the insert() interface if the primary key field is varchar type. Throw ParamException if the primary key type is not varchar type.</p></td>
+     <td><p>如果主键字段类型为 varchar，则获取 insert() 接口返回的 string ID 数组。如果主键类型不是 varchar，则抛出 ParamException。</p></td>
      <td><p>List\<String></p></td>
    </tr>
    <tr>
      <td><p>getDeleteCount()</p></td>
-     <td><p>Gets the row count of the deleted entities. Currently, this value is always equal to the input row count.</p></td>
+     <td><p>获取已删除实体的行数。当前，该值始终等于输入的行数。</p></td>
      <td><p>long</p></td>
    </tr>
    <tr>
      <td><p>getOperationTs()</p></td>
-     <td><p>Gets the timestamp of the operation marked by the server.</p></td>
+     <td><p>获取由服务器标记的操作时间戳。</p></td>
      <td><p>long</p></td>
    </tr>
 </table>
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

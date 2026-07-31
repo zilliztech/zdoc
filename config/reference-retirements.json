@@ -813,38 +813,8 @@
     {
       "manual": "java",
       "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md"
     },
     {
       "manual": "java",
@@ -855,98 +825,8 @@
     {
       "manual": "java",
       "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-truncateCollection.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections-truncateCollection.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md"
     },
     {
       "manual": "java",
@@ -957,68 +837,8 @@
     {
       "manual": "java",
       "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult.md"
     },
     {
       "manual": "java",
@@ -1029,74 +849,8 @@
     {
       "manual": "java",
       "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md"
     },
     {
       "manual": "java",
@@ -1113,102 +867,6 @@
     {
       "manual": "java",
       "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector.md"
     },
@@ -1217,12 +875,6 @@
       "reason": "Imported baseline retirement from the clean-room Reference migration",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume.md",
       "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume.md"
-    },
-    {
-      "manual": "java",
-      "reason": "Imported baseline retirement from the clean-room Reference migration",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md",
-      "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md"
     },
     {
       "manual": "java",

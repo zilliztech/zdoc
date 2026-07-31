@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropAlias() | Java | v2"
 slug: /java/java/v2-Collections-dropAlias
 sidebar_label: "dropAlias()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a specified collection alias. | Java | v2"
+description: "此操作会删除指定的 collection 别名。 | Java | v2"
 type: docx
 token: ARw0dIb0hojCNbxKkOacs1K7nQf
 sidebar_position: 13
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropAlias()
 
-This operation drops a specified collection alias. 
+此操作会删除指定的 collection 别名。 
 
 ```java
 public void dropAlias(DropAliasReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropAlias(DropAliasReq.builder()
@@ -47,29 +47,29 @@ dropAlias(DropAliasReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target alias belongs.
+    目标别名所属数据库的名称。
 
 - `alias(String alias)`
 
-    The alias of a collection. 
+    collection 的别名。 
 
-    Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
+    在执行此操作之前，请确保该别名已存在。否则，将会发生异常。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

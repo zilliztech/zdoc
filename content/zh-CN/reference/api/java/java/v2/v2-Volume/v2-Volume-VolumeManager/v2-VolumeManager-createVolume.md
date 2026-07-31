@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createVolume() | Java | v2"
 slug: /java/java/v2-VolumeManager-createVolume
 sidebar_label: "createVolume()"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates volume. | Java | v2"
+description: "此操作用于创建 volume。 | Java | v2"
 type: docx
 token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
 sidebar_position: 1
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - createVolume()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # createVolume()
 
-This operation creates volume.
+此操作用于创建 volume。
 
 ```java
 public void createVolume(CreateVolumeRequest request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 createVolume(CreateVolumeRequest.builder()
@@ -48,35 +48,35 @@ createVolume(CreateVolumeRequest.builder()
 )
 ```
 
-**PARAMETERS**
+**参数**
 
 - **projectId** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The ID of the project to which the volume to be created belongs.
+    要创建的 volume 所属项目的 ID。
 
 - **regionId** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The ID of the cloud region in which the volume will be created. You can use [List Cloud Regions](/reference/restful/list-cloud-regions-v2) to view possible values.
+    将创建 volume 的云区域 ID。你可以使用 [列出云区域](/reference/restful/list-cloud-regions-v2) 查看可选值。
 
 - **volumeName** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the volume to create.
+    要创建的 volume 名称。
 
-**RETURN TYPE**
+**返回类型**
 
 *void*
 
-**RETURNS**
+**返回值**
 
-None
+无
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.bulkwriter.VolumeManager;
@@ -84,7 +84,7 @@ import io.milvus.bulkwriter.VolumeManagerParam;
 import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
 
 VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+    .withCloudEndpoint("https://api.cloud.zilliz.com")
     .withApiKey("YOUR_API_KEY")
     .build();
         
@@ -92,7 +92,7 @@ VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
 
 CreateVolumeRequest request = CreateVolumeRequest.builder()
     .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-    .regionId("ali-cn-hangzhou")
+    .regionId("aws-us-west-1")
     .volumeName("my_volume")
     .build();
 

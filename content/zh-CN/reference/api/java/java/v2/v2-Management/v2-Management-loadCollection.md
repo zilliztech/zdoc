@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "loadCollection() | Java | v2"
 slug: /java/java/v2-Management-loadCollection
 sidebar_label: "loadCollection()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation loads the data of a specific collection into memory. | Java | v2"
+description: "此操作将特定 collection 的数据加载到内存中。 | Java | v2"
 type: docx
-token: SAAmdJbZxoYTlNxKrX7cDLvAnFy
+token: Y3q1d5FzmoSiNkxsWDLcHnAlnQf
 sidebar_position: 13
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # loadCollection()
 
-This operation loads the data of a specific collection into memory.
+此操作将特定 collection 的数据加载到内存中。
 
 ```java
 public void loadCollection(LoadCollectionReq request)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This operation is required only if the target collection is not loaded. A collection is in the <strong>NotLoad</strong> state only if you have released it or created it without any index parameters.</p>
-
-</Admonition>
-
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 loadCollection(LoadCollectionReq.builder()
@@ -51,72 +45,69 @@ loadCollection(LoadCollectionReq.builder()
     .collectionName(String collectionName)
     .numReplicas(Integer numReplicas)
     .async(Boolean async)
+    .sync(Boolean sync)
     .timeout(Long timeout)
     .refresh(Boolean refresh)
     .loadFields(List<String> loadFields)
     .skipLoadDynamicField(Boolean skipLoadDynamicField)
     .resourceGroups(List<String> resourceGroups)
     .build()
-)
+);
 ```
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database.
+    数据库名称。若未指定，则默认为当前数据库。
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of a collection.
+    目标 collection 的名称。
 
-- `numReplicas(Integer numReplicas)`
+- `numReplicas(Integer numReplicas)` -
 
-    The number of replicas to create upon collection load.
+    要加载的副本数量。默认为 `1`。
 
-    The value defaults to **1**, indicating that one replica is to be created upon collection load.
+- `async(Boolean async)` -
 
-- `async(Boolean async)`
+    是否异步运行该操作。默认为 `Boolean.FALSE`。
 
-    Whether this operation is asynchronous.
+- `sync(Boolean sync)` -
 
-    The value defaults to `Boolean.True`, indicating immediate return while the process may still run in the background.
+    是否同步等待操作完成。默认为 `Boolean.TRUE`。
 
-- `timeout(Long timeout)`
+- `timeout(Long timeout)` -
 
-    The timeout duration of the process. The process terminates after the specified duration expires.
+    超时时长，单位为毫秒。默认为 `60000L`。
 
-    The value defaults to `60000L`, indicating the timeout duration is one minute.
+- `refresh(Boolean refresh)` -
 
-- `refresh(Boolean refresh)`
+    是否刷新加载以包含新字段。默认为 `Boolean.FALSE`。
 
-    Whether to refresh after load.
+- `loadFields(List<String> loadFields)` -
 
-- `loadFields(List<String> loadFields)`
+    要加载的特定字段名称列表。默认为 `new ArrayList<>()`。
 
-    The names of the fields to load.
+- `skipLoadDynamicField(Boolean skipLoadDynamicField)` -
 
-    If this parameter is left unspecified, Milvus loads all vector field indexes plus all scalar field data into memory. Setting this parameter makes Milvus load the data of the specified fields into memory, reducing memory usage and improving search performance.
+    是否跳过加载动态字段。默认为 `Boolean.FALSE`。
 
-- `skipLoadDynamicField(Boolean skipLoadDynamicField)`
+- `resourceGroups(List<String> resourceGroups)` -
 
-    Setting this to true makes Milvus skip loading the dynamic field, making it unavailable for filtering conditions and output fields for searches and queries.
+    用于负载均衡的资源组名称列表。默认为 `new ArrayList<>()`。
 
-- `resourceGroups(List<String> resourceGroups)`
-
-    The target resource groups of this operation.
-
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -137,4 +128,3 @@ LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .build();
 client.loadCollection(loadCollectionReq);
 ```
-

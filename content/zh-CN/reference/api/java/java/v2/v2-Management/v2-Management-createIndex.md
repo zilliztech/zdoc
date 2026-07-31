@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createIndex() | Java | v2"
 slug: /java/java/v2-Management-createIndex
 sidebar_label: "createIndex()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation creates an index for a specific collection. | Java | v2"
+description: "此操作为特定集合创建索引。 | Java | v2"
 type: docx
-token: YXPSdlp3JoP82qxhFMYc5GRnn4g
+token: JLCudD7MYoQdxQxLwlpcbBnpn8c
 sidebar_position: 3
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,48 +31,58 @@ import Admonition from '@theme/Admonition';
 
 # createIndex()
 
-This operation creates an index for a specific collection.
+此操作为特定集合创建索引。
 
 ```java
 public void createIndex(CreateIndexReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 createIndex(CreateIndexReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .indexParams(List<IndexParam> indexParams)
     .sync(Boolean sync)
+    .timeout(Long timeout)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
-- `collectionName(String collectionName)`
+- `databaseName(String databaseName)` -
 
-    The name of an existing collection.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `indexParams(List<[IndexParam](./v2-Management-IndexParam)> indexParams)`
+- `collectionName(String collectionName)` -
 
-    A list of **IndexParam** objects.
+    目标集合的名称。
 
-- `sync(Boolean sync)`
+- `indexParams(List<IndexParam> indexParams)` -
 
-    Whether the current operation is synchronous. The default value is `True`.
+    定义索引配置的 `IndexParam` 对象列表。
 
-**RETURNS:**
+- `sync(Boolean sync)` -
+
+    是否同步等待操作完成。默认为 `Boolean.TRUE`。
+
+- `timeout(Long timeout)` -
+
+    超时时长（毫秒）。默认为 `60000L`。
+
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -100,4 +110,3 @@ CreateIndexReq createIndexReq = CreateIndexReq.builder()
         .build();
 client.createIndex(createIndexReq);
 ```
-

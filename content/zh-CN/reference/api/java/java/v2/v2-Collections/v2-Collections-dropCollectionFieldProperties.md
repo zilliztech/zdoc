@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropCollectionFieldProperties() | Java | v2"
 slug: /java/java/v2-Collections-dropCollectionFieldProperties
 sidebar_label: "dropCollectionFieldProperties()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops the specified properties of a field. | Java | v2"
+description: "此操作会删除字段的指定属性。 | Java | v2"
 type: docx
 token: O3E9duLvfoMC26x8AmDcomlWneh
 sidebar_position: 26
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionFieldProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFieldProperties()
 
-This operation drops the specified properties of a field.
+此操作会删除字段的指定属性。
 
 ```java
 public void dropCollectionFieldProperties(DropCollectionFieldPropertiesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
@@ -49,33 +49,33 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - `databaseName(String databaseName)`
 
-    The name of a database that has the collection mentioned above. 
+    包含上述集合的数据库名称。
 
 - `fieldName(String fieldName)`
 
-    The name of the target field in the specified collection.
+    指定集合中目标字段的名称。
 
 - `propertyKeys(List<String> propertyKeys)`
 
-    The names of the properties to drop from the specified field.
+    要从指定字段中删除的属性名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *void*
 
-**RETURNS:** 
+**返回值：** 
 
-None
+无
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

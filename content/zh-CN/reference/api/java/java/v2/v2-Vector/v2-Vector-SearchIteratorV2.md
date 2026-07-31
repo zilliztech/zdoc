@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "SearchIteratorV2() | Java | v2"
 slug: /java/java/v2-Vector-SearchIteratorV2
 sidebar_label: "SearchIteratorV2()"
-added_since: v2.5.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.5.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation creates an iterator for you to iterate over the search results. It is useful, especially when the search result contains a large volume of data. | Java | v2"
+description: "此操作会创建一个迭代器，供您遍历搜索结果。尤其当搜索结果包含大量数据时，它会非常有用。 | Java | v2"
 type: docx
-token: JxXHdFBRhoDT8MxlTvEc42IsnEh
+token: ZouQdklUsoSZEDxWkJvc90pvnmg
 sidebar_position: 11
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,239 +31,166 @@ import Admonition from '@theme/Admonition';
 
 # SearchIteratorV2()
 
-This operation creates an iterator for you to iterate over the search results. It is useful, especially when the search result contains a large volume of data.
+此操作会创建一个迭代器，供您遍历搜索结果。尤其当搜索结果包含大量数据时，它会非常有用。
 
 ```java
 public SearchIteratorV2 searchIteratorV2(SearchIteratorReqV2 request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 searchIteratorV2(SearchIteratorReqV2.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
-    .metricType(IndexParam.MetricType)
     .vectorFieldName(String vectorFieldName)
     .topK(int topK)
+    .limit(long limit)
     .filter(String filter)
     .outputFields(List<String> outputFields)
     .vectors(List<BaseVector> vectors)
     .roundDecimal(int roundDecimal)
     .searchParams(Map<String, Object> searchParams)
-    .consistencyLevel(ConsistencyLevel)
+    .consistencyLevel(ConsistencyLevel consistencyLevel)
     .ignoreGrowing(boolean ignoreGrowing)
-    .groupByFieldName(String groupbyFieldName)
+    .timezone(String timezone)
+    .groupByFieldName(String groupByFieldName)
     .batchSize(long batchSize)
-    .externalFilterFunc(Function<List<SearchResp.SearchResult>, List<SearchResp.SearchResult>> externalFilterFunc)
+    .filterTemplateValues(Map<String, Object> filterTemplateValues)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The database to which the collection belongs. You can ignore it if the database is the default.
+    数据库名称。若未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    目标集合的名称。
+
+- `clusterId(String clusterId)`
+
+    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    A list of target partition names. The search scope is limited to the designated partitions if specified.
-
-- `metricType(IndexParam.MetricType)`
-
-    The metric type used during the vector search. For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
+    要查询的分区名称列表。
 
 - `vectorFieldName(String vectorFieldName)`
 
-    The name of the target vector field.
+    要搜索的向量字段名称。
 
-- `topK(int topk)`
+- `topK(int topK)`
 
-    The top-K value, which indicates the number of entities to return.
+    返回的前 K 个结果数量。
+
+- `limit(long limit)`
+
+    返回结果的最大数量。
 
 - `filter(String filter)`
 
-    A scalar filtering condition to filter matching entities. 
-
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering](https://milvus.io/docs/boolean.md). 
+    用于筛选结果的布尔表达式。
 
 - `outputFields(List<String> outputFields)`
 
-    A list of field names to include in each entity in return.
-
-    The value defaults to **None**. If left unspecified, all fields in the collection are selected as the output fields.
+    要包含在输出中的字段名称列表。
 
 - `vectors(List<BaseVector> vectors)`
 
-    Set the target vectors to do ANN search.
+    用于搜索的向量列表。
 
-    BaseVector is a base class for abstract vector classes. The following classes are derived from BaseVector. Choose the correct class as input according to DataType of the vector field.
+- `roundDecimal(int roundDecimal)`
 
-    <table>
-       <tr>
-         <th><p><strong>Class Name</strong></p></th>
-         <th><p><strong>Constructors</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>FloatVec</p></td>
-         <td><p>FloatVec(List\<Float> data)</p><p>FloatVec(float[] data)</p></td>
-         <td><p>For DataType.FloatVector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>BinaryVec</p></td>
-         <td><p>BinaryVec(ByteBuffer data)</p><p>BinaryVec(byte[] data)</p></td>
-         <td><p>For DataType.BinaryVector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>Float16Vec</p></td>
-         <td><p>Float16Vec(ByteBuffer data)</p><p>Float16Vec(byte[] data)</p><p>Float16Vec(List\<Float> data)</p></td>
-         <td><p>For DataType.Float16Vector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>BFloat16Vec</p></td>
-         <td><p>BFloat16Vec(ByteBuffer data)</p><p>BFloat16Vec(byte[] data)</p><p>BFloat16Vec(List\<Float> data)</p></td>
-         <td><p>For DataType.BFloat16Vector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>SparseFloatVec</p></td>
-         <td><p>SparseFloatVec(SortedMap\<Long, Float> data)</p></td>
-         <td><p>For DataType.SparseFloatVector type field.</p></td>
-       </tr>
-    </table>
-
-- `roundDecimal(int decimal)`
-
-How many digits are reserved after the decimal point.
+    distance/score 的四舍五入小数位数。
 
 - `searchParams(Map<String, Object> searchParams)`
 
-A JSON format string for extra serach parameters.
+    以键值对形式提供的附加搜索参数。
 
-- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    The consistency level of the target collection.
+    此操作的一致性级别。
 
-    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+- `ignoreGrowing(boolean ignoreGrowing)`
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    操作期间是否忽略 growing segment。
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+- `timezone(String timezone)`
 
-    </Admonition>
+    用于时间相关筛选的时区字符串。
 
-- `ignoreGrowing(boolean ignoreGrwing)`
+- `groupByFieldName(String groupByFieldName)`
 
-Ignore growing segments or not.
+    用于对搜索结果进行分组的字段名称。
 
-- `groupByFieldName(String fieldName)`
+- `batchSize(long batchSize)`
 
-Sets the field name to do grouping for results.
+    迭代器操作的批大小。
 
-- `batchSize(long size)`
+- `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-A value to define the number of entities returned per batch.
+    参数化筛选器的模板变量值映射。
 
-- `externalFilterFunc(Function<List<SearchResp.SearchResult>, List<SearchResp.SearchResult>> externalFilterFunc)`
-
-    A list of external filter functions, used to further filter the search results.
-
-**RETURN TYPE:**
+**返回：**
 
 *SearchIteratorV2*
 
-**RETURNS:**
+*SearchIteratorV2*
 
-A *SearchIteratorV2* object to iterate search results, which offers the following methods:
+**异常：**
 
-- `List<QueryResultsWrapper.RowRecord> next()`
+- **MilvusClientException**
 
-    Returns a batch of results.
+    当此操作期间发生任何错误时，将引发此异常。
 
-- `close()`
-
-    Releases the cache results.
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.orm.iterator.SearchIteratorV2;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.ConsistencyLevel;
-import io.milvus.v2.common.IndexParam;
 import io.milvus.v2.service.vector.request.SearchIteratorReqV2;
 import io.milvus.v2.service.vector.request.data.FloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.common.IndexParam;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Prepare inputs
-List<Float> vector = generateFloatVector();
-
-Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("radius",15.0);
-
-Function<List<SearchResp.SearchResult>, List<SearchResp.SearchResult>> externalFilterFunc = (List<SearchResp.SearchResult> src)->{
-    List<SearchResp.SearchResult> newRes = new ArrayList<>();
-    for (SearchResp.SearchResult res : src) {
-        long id = (long)res.getId();
-        if (id%2 == 0) {
-            newRes.add(res);
-        }
-    }
-    return newRes;
-};
-
-// 3. Iterator search
+// 创建一个 SearchIteratorV2，用于分页向量搜索。
+// 相比 V1，推荐使用 V2：速度提升 20-30%，且召回率更高。
 SearchIteratorV2 searchIterator = client.searchIteratorV2(SearchIteratorReqV2.builder()
-        .collectionName("test")
-        .outputFields(Lists.newArrayList("vector"))
-        .batchSize(50L)
-        .vectorFieldName("vector")
-        .vectors(Collections.singletonList(new FloatVec(vector)))
-        .filter("id > 100")
-        .searchParams(extraParams)
-        .topK(300)
+        .collectionName("my_collection")
+        .outputFields(Arrays.asList("userAge"))
+        .batchSize(50)
+        .vectorFieldName("userFace")
+        .vectors(Collections.singletonList(new FloatVec(queryVector)))
+        .filter("userAge > 10 && userAge < 20")
+        .searchParams(new HashMap<>())
+        .limit(120)
         .metricType(IndexParam.MetricType.L2)
         .consistencyLevel(ConsistencyLevel.BOUNDED)
-        .externalFilterFunc(externalFilterFunc)
         .build());
 
-System.out.println("SearchIteratorV2 results:");
+// 遍历搜索结果
+int counter = 0;
 while (true) {
     List<SearchResp.SearchResult> res = searchIterator.next();
     if (res.isEmpty()) {
-        System.out.println("Search iteration finished, close");
         searchIterator.close();
         break;
     }
-
-    for (SearchResp.SearchResult record : res) {
-        System.out.println(record);
+    for (SearchResp.SearchResult result : res) {
+        System.out.println(result);
+        counter++;
     }
 }
+System.out.printf("%d search results returned%n", counter);
 ```

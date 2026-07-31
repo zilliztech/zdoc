@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "commit() | Java | v2"
 slug: /java/java/v2-LocalBulkWriter-commit
 sidebar_label: "commit()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation commits the appended data. | Java | v2"
+description: "此操作提交已追加的数据。 | Java | v2"
 type: docx
 token: OUhTdWnXBoHqKdxTA0HcdMY5n4b
 sidebar_position: 3
 keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # commit()
 
-This operation commits the appended data.
+此操作提交已追加的数据。
 
 ```java
  public void commit(boolean async)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 localBulkWriter.commit(
@@ -45,17 +45,17 @@ localBulkWriter.commit(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **async** (*boolean*) -
 
-    Whether the commit operation returns immediately after being called.
+    提交操作在被调用后是否立即返回。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *void*
 
-## Examples
+## 示例\{#examples}
 
 ```java
 localBulkWriter.commit(false);

@@ -4,7 +4,7 @@ slug: /java/v1-Collection-flush
 sidebar_label: "flush()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method triggers a flush action in which all growing segments in the specified collection are marked as sealed and then flushed to storage. | Java | v1"
+description: "一个 MilvusClient 接口。此方法会触发一次 flush 操作，将指定 collection 中所有 growing segment 标记为 sealed，然后将其刷新到存储。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#FY0mdKe4noioOGxPlCxcuIZKnve
 sidebar_position: 10
@@ -17,11 +17,11 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-A MilvusClient interface. This method triggers a flush action in which all growing segments in the specified collection are marked as sealed and then flushed to storage. 
+一个 MilvusClient 接口。此方法会触发一次 flush 操作，将指定 collection 中所有 growing segment 标记为 sealed，然后将其刷新到存储。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Typically, this method is called once all the data is ingested. You are advised not to call this method frequently since it could generate a lot of tiny segments and lead to unstable problems.</p>
+<p>通常，此方法会在所有数据摄取完成后调用。建议不要频繁调用此方法，因为这可能会生成大量微小 segment，并导致不稳定问题。</p>
 
 </Admonition>
 
@@ -29,75 +29,75 @@ A MilvusClient interface. This method triggers a flush action in which all growi
 R<FlushResponse> flush(FlushParam requestParam);
 ```
 
-#### FlushParam
+#### FlushParam\{#flushparam}
 
-Use the `FlushParam.Builder` to construct a `FlushParam` object.
+使用 `FlushParam.Builder` 构造 `FlushParam` 对象。
 
 ```java
 import io.milvus.param.FlushParam;
 FlushParam.Builder builder = FlushParam.newBuilder();
 ```
 
-Methods of `FlushParam.Builder`:
+`FlushParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionNames(List\<String> collectionNames)</p></td>
-        <td><p>Sets a list of collections to be flushed.</p></td>
-        <td><p>collectionNames: a list of the names of the collections to be flushed.</p></td>
+        <td><p>设置要执行 flush 的 collection 列表。</p></td>
+        <td><p>collectionNames：要执行 flush 的 collection 名称列表。</p></td>
     </tr>
     <tr>
         <td><p>addCollectionName(String collectionName)</p></td>
-        <td><p>Adds a collection to be flushed.</p></td>
-        <td><p>collectionName: The name of the collection to be flushed.</p></td>
+        <td><p>添加一个要执行 flush 的 collection。</p></td>
+        <td><p>collectionName：要执行 flush 的 collection 名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，database name 可以为 null。</p></td>
+        <td><p>databaseName：数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withSyncFlush(Boolean syncFlush)</p></td>
-        <td><p>Sets the flush function to sync mode. With sync mode enabled, the client keeps waiting until all segments of the collection are successfully flushed. If sync mode is disabled, the client immediately returns the result after flush() is called.</p></td>
-        <td><p>syncFlush: A Boolean value to indicate if sync mode is enabled. Sync mode is enabled if the value is set to True.</p></td>
+        <td><p>将 flush 功能设置为同步模式。启用同步模式后，客户端会持续等待，直到 collection 的所有 segment 都成功完成 flush。如果禁用同步模式，客户端会在调用 flush() 后立即返回结果。</p></td>
+        <td><p>syncFlush：用于指示是否启用同步模式的 Boolean 值。如果该值设置为 True，则启用同步模式。</p></td>
     </tr>
     <tr>
         <td><p>withSyncFlushWaitingInterval(Long milliseconds)</p></td>
-        <td><p>Sets the waiting interval in sync mode. With sync mode enabled, the client will check segments status at intervals. The value must be greater than zero, and cannot be greater than Constant.MAX_WAITING_FLUSHING_INTERVAL. The default value is 500 miliseconds.</p></td>
-        <td><p>milliseconds: The time interval in milliseconds for checking the flush status.</p></td>
+        <td><p>设置同步模式下的等待间隔。启用同步模式后，客户端会按间隔检查 segment 状态。该值必须大于零，且不能大于 Constant.MAX_WAITING_FLUSHING_INTERVAL。默认值为 500 毫秒。</p></td>
+        <td><p>milliseconds：检查 flush 状态的时间间隔（毫秒）。</p></td>
     </tr>
     <tr>
         <td><p><br/>withSyncFlushWaitingTimeout(Long seconds)</p></td>
-        <td><p>Sets the timeout period for sync mode. The value must be greater than zero, and cannot be greater than Constant.MAX_WAITING_FLUSHING_TIMEOUT. The default value is 60 seconds.</p></td>
-        <td><p>seconds: A during of time in seconds to wait till timeout.</p></td>
+        <td><p>设置同步模式的超时时间。该值必须大于零，且不能大于 Constant.MAX_WAITING_FLUSHING_TIMEOUT。默认值为 60 秒。</p></td>
+        <td><p>seconds：等待直到超时的时长，单位为秒。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a FlushParam object.</p></td>
+        <td><p>构造一个 FlushParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `FlushParam.Builder.build()` can throw the following exceptions:
+`FlushParam.Builder.build()` 可能会抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### 返回值\{#returns}
 
-This method catches all the exceptions and returns an `R<FlushResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<FlushResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回服务端的错误码和错误信息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和该异常的错误信息。
 
-- If the API succeeds, it returns a valid `FlushResponse` held by the `R` template. The `FlushResponse` contains a map of the collection name and a corresponding list of flushed segments. The map is internally used by other SDK methods such as `createIndex()`.
+- 如果 API 执行成功，则返回由 `R` 模板持有的有效 `FlushResponse`。`FlushResponse` 包含一个 collection 名称到对应已 flush 的 segment 列表的映射。该映射在内部供其他 SDK 方法使用，例如 `createIndex()`。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.*;

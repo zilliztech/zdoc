@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "ListCollectionsV2() | Java | v2"
 slug: /java/java/v2-Collections-ListCollectionsV2
 sidebar_label: "ListCollectionsV2()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all existing collections in a specified database. | Java | v2"
+description: "此操作列出指定数据库中的所有现有集合。 | Java | v2"
 type: docx
 token: WY4idJdzCozGGnxmLoFcIjC2ndw
 sidebar_position: 29
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - ListCollectionsV2()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # ListCollectionsV2()
 
-This operation lists all existing collections in a specified database.
+此操作列出指定数据库中的所有现有集合。
 
 ```java
 public ListCollectionsResp listCollectionsV2(ListCollectionsReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 listCollectionsV2(ListCollectionsReq.builder()
@@ -46,45 +46,45 @@ listCollectionsV2(ListCollectionsReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the target database. Once specified, this operation returns all collections in the specified database.
+    目标数据库的名称。指定后，此操作将返回指定数据库中的所有集合。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *ListCollectionsResp*
 
-**RETURNS:**
+**返回：**
 
-A **ListCollectionsResp** object containing a list of collection names. If there is not any collection, an empty list will be returned.
+一个包含集合名称列表的 **ListCollectionsResp** 对象。如果当前没有任何集合，则返回空列表。
 
-**PARAMETERS:**
+**参数：**
 
-- **collectionNames** (*List\<String>*)
+- **collectionNames** (*List&lt;String&gt;*)
 
-    A list of strings containing the names of all existing collections.
+    一个字符串列表，包含所有现有集合的名称。
 
-- **collectionInfos** (*List\<CollectionInfo>*)
+- **collectionInfos** (*List&lt;CollectionInfo&gt;*)
 
-    A list of **CollectionInfo** objects. A **CollectionInfo** object has the following fields:
+    一个 **CollectionInfo** 对象列表。**CollectionInfo** 对象包含以下字段：
 
     - **collectionName** (*String*)
 
-        The name of a collection.
+        集合的名称。
 
     - **shardNum** (*Integer*)
 
-        The number of shards in the above collection.
+        上述集合中的分片数量。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

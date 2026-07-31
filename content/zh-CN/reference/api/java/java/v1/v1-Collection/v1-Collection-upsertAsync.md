@@ -4,7 +4,7 @@ slug: /java/v1-Collection-upsertAsync
 sidebar_label: "upsertAsync"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method inserts new entities into a specified collection, and replaces them if the entities already exist. | Java | v1"
+description: "MilvusClient 接口。此方法将新实体插入到指定集合中，如果实体已存在，则将其替换。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#L9dudvetmoHTKxxoPx5c4QSInhe
 sidebar_position: 14
@@ -17,15 +17,15 @@ import Admonition from '@theme/Admonition';
 
 # upsertAsync()
 
-A MilvusClient interface. This method inserts new entities into a specified collection, and replaces them if the entities already exist.
+MilvusClient 接口。此方法将新实体插入到指定集合中，如果实体已存在，则将其替换。
 
 ```java
 ListenableFuture<R<MutationResult>> upsertAsync(UpsertParam requestParam);
 ```
 
-This method uses the same parameter as `upsert()`, it invokes the RPC interface and returns a `ListenableFuture` object immediately.
+此方法使用与 `upsert()` 相同的参数。它调用 RPC 接口并立即返回一个 `ListenableFuture` 对象。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.*;

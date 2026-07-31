@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getBatchFiles() | Java | v2"
 slug: /java/java/v2-LocalBulkWriter-getBatchFiles
 sidebar_label: "getBatchFiles()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation returns a list of files passed to the current LocalBulkWriter instance. | Java | v2"
+description: "此操作返回传递给当前 LocalBulkWriter 实例的文件列表。 | Java | v2"
 type: docx
 token: BLFEde4BuoCjTSxjYSUcZerEnOb
 sidebar_position: 4
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - getBatchFiles()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # getBatchFiles()
 
-This operation returns a list of files passed to the current LocalBulkWriter instance.
+此操作返回传递给当前 LocalBulkWriter 实例的文件列表。
 
 ```java
 public List<List<String>> getBatchFiles()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 localBulkWriter.getBatchFiles()
 ```
 
-**PARAMETERS:**
+**参数：**
 
-*None*
+*无*
 
-**RETURNS TYPE:**
+**返回类型：**
 
 *List\<List\<String>>*
 
-## Example
+## 示例\{#example}
 
 ```java
 List<List<String>> batchFiles = localBulkWriter.getBatchFiles();

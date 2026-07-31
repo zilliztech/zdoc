@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createRole() | Java | v2"
 slug: /java/java/v2-Authentication-createRole
 sidebar_label: "createRole()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation creates a custom role. | Java | v2"
+description: "此操作会创建一个角色，并可选择为该角色存储描述。 | Java | v2"
 type: docx
-token: V0xwdLOrhog7OBxTX76cQGQknSb
+token: IzfldHDU4o8dDRx377ecqJmlnSf
 sidebar_position: 3
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - createRole()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,56 +31,53 @@ import Admonition from '@theme/Admonition';
 
 # createRole()
 
-This operation creates a custom role.
+此操作会创建一个角色，并可选择为该角色存储描述。
 
 ```java
 public void createRole(CreateRoleReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
-createRole(CreateRoleReq.builder()
+client.createRole(CreateRoleReq.builder()
     .roleName(String roleName)
+    .description(String description)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `roleName(String roleName)`
 
-    The name of the role to create.
+    **[必需]**
 
-**RETURNS:**
+    要创建的角色名称。
+
+- `description(String description)`
+
+    角色的可选描述。默认为空字符串。
+
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+此操作不返回任何值。
 
-- **MilvusClientExceptions**
+**异常：**
 
-    This exception will be raised when any error occurs during this operation.
+- **MilvusClientException**
 
-## Example
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.CreateRoleReq;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Create a role
-CreateRoleReq createRoleReq = CreateRoleReq.builder()
-        .roleName("read_only")
-        .build();
-        
-client.createRole(createRoleReq);
+client.createRole(CreateRoleReq.builder()
+    .roleName("analytics_reader")
+    .description("Grants read-only access to analytics collections")
+    .build());
 ```

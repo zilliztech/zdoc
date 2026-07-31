@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropUser() | Java | v2"
 slug: /java/java/v2-Authentication-dropUser
 sidebar_label: "dropUser()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a user. | Java | v2"
+description: "此操作会删除一个用户。 | Java | v2"
 type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 9
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - dropUser()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropUser()
 
-This operation drops a user.
+此操作会删除一个用户。
 
 ```java
 public void dropUser(DropUserReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropUser(DropUserReq.builder()
@@ -46,23 +46,23 @@ dropUser(DropUserReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `userName(String userName)`
 
-    The name of the user to drop.
+    要删除的用户名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

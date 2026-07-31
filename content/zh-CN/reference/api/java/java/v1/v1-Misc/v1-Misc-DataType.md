@@ -4,7 +4,7 @@ slug: /java/v1-Misc-DataType
 sidebar_label: "DataType"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "The enum for available data types, defined by RPC proto. | Java | v1"
+description: "由 RPC proto 定义的可用数据类型枚举。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MdMXdCNstouL1fxstYbcfzc9nTc
 sidebar_position: 2
@@ -17,7 +17,7 @@ import Admonition from '@theme/Admonition';
 
 # DataType
 
-The enum for available data types, defined by RPC proto.
+由 RPC proto 定义的可用数据类型枚举。
 
 ```java
 package io.milvus.grpc;
@@ -26,14 +26,14 @@ public enum DataType
 
 <table>
    <tr>
-     <th><p><strong>Type</strong></p></th>
-     <th><p><strong>Code</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>类型</strong></p></th>
+     <th><p><strong>代码</strong></p></th>
+     <th><p><strong>描述</strong></p></th>
    </tr>
    <tr>
      <td><p>None</p></td>
      <td><p>0</p></td>
-     <td><p>For internal usage.</p></td>
+     <td><p>供内部使用。</p></td>
    </tr>
    <tr>
      <td><p>Bool</p></td>
@@ -73,17 +73,17 @@ public enum DataType
    <tr>
      <td><p>String</p></td>
      <td><p>20</p></td>
-     <td><p>Reserved. Do not use this.</p></td>
+     <td><p>保留。请勿使用。</p></td>
    </tr>
    <tr>
      <td><p>VarChar</p></td>
      <td><p>21</p></td>
-     <td><p>Variable-length string with a limit on the maximum length.</p></td>
+     <td><p>可变长度字符串，对最大长度有限制。</p></td>
    </tr>
    <tr>
      <td><p>Array</p></td>
      <td><p>22</p></td>
-     <td><p>Array data type. The element type can be one of the data types: Int8, Int16, Int32, Int64, Varchar, Bool, Float, or Double.</p></td>
+     <td><p>数组数据类型。元素类型可以是以下数据类型之一：Int8、Int16、Int32、Int64、Varchar、Bool、Float 或 Double。</p></td>
    </tr>
    <tr>
      <td><p>JSON</p></td>
@@ -93,26 +93,26 @@ public enum DataType
    <tr>
      <td><p>BinaryVector</p></td>
      <td><p>100</p></td>
-     <td><p>Binary vector. Each dimension is represented by 1 bit.</p></td>
+     <td><p>二进制向量。每个维度由 1 bit 表示。</p></td>
    </tr>
    <tr>
      <td><p>FloatVector</p></td>
      <td><p>101</p></td>
-     <td><p>Float vector. Each dimension is represented by 1 float(4 bits) value.</p></td>
+     <td><p>Float 向量。每个维度由 1 个 float（4 bits）值表示。</p></td>
    </tr>
    <tr>
      <td><p>Float16Vector</p></td>
      <td><p>102</p></td>
-     <td><p>Float16 vector. Each dimension is a 16-bit half-precision floating-point number.</p></td>
+     <td><p>Float16 向量。每个维度都是一个 16 位半精度浮点数。</p></td>
    </tr>
    <tr>
      <td><p>BFloat16Vector</p></td>
      <td><p>103</p></td>
-     <td><p>BFloat16 vector. Each dimension is a 16-bit floating-point number with reduced precision but the same exponent range as Float32.</p></td>
+     <td><p>BFloat16 向量。每个维度都是一个 16 位浮点数，精度较低，但指数范围与 Float32 相同。</p></td>
    </tr>
    <tr>
      <td><p>SparseFloatVector</p></td>
      <td><p>104</p></td>
-     <td><p>Sparse vectors represent words or phrases using vector embeddings where most elements are zeros. A sparse vector is a list of key-value pairs, the key type is an unsigned integer and the value type is Float32.</p></td>
+     <td><p>稀疏向量使用向量嵌入表示单词或短语，其中大多数元素为零。稀疏向量是键值对列表，键类型为无符号整数，值类型为 Float32。</p></td>
    </tr>
 </table>

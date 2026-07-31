@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "batchDescribeCollection() | Java | v2"
 slug: /java/java/v2-Collections-batchDescribeCollection
 sidebar_label: "batchDescribeCollection()"
-added_since: v2.6.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.6.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation gets the descriptions of multiple collections in a batch. | Java | v2"
+description: "此操作用于批量获取多个集合的描述。 | Java | v2"
 type: docx
-token: SRI6dEn82oNe4Uxro8hcyFV3n1d
-sidebar_position: 30
+token: B4CpdqvN7oZy3zxB9fscTAG8n7E
+sidebar_position: 32
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - batchDescribeCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,115 +31,46 @@ import Admonition from '@theme/Admonition';
 
 # batchDescribeCollection()
 
-This operation gets the descriptions of multiple collections in a batch.
+此操作用于批量获取多个集合的描述。
 
 ```java
 public List<DescribeCollectionResp> batchDescribeCollection(BatchDescribeCollectionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 batchDescribeCollection(BatchDescribeCollectionReq.builder()
     .databaseName(String databaseName)
     .collectionNames(List<String> collectionNames)
-    .build();
-)
+    .collectionIds(List<Long> collectionIds)
+    .build()
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
+数据库名称。如果未指定，则默认使用当前数据库。
 
-    The name of the database to which the target collections belong.
+- `collectionNames(List<String> collectionNames)` -
 
-- `collectionNames(List<String> collectionNames)`
+- `collectionIds(List<Long> collectionIds)` -
+要批量描述的集合 ID 列表。
 
-    The names of the target collections.
+**返回：**
 
-**RETURN TYPE:**
+*List&lt;DescribeCollectionResp&gt;*
 
-*List\<DescribeCollectionResp>*
+**DescribeCollectionResp** 对象列表。
 
-**RETURNS:**
+**异常：**
 
-A list of **DescribeCollectionResp** objects.
+- **MilvusClientException**
 
-A **DescribeCollectionResp** object that contains detailed information about the specified collection.
+    当此操作期间发生任何错误时，将引发此异常。
 
-**PARAMETERS:**
-
-- **collectionName** (*String*)
-
-    The name of the current collection.
-
-- **collectionID** (*Long*)
-
-    The ID of the collection.
-
-- **databaseName** (*String*)
-
-    The name of the database to which the current collection belongs.
-
-- **description** (*String*)
-
-    The description of the current collection.
-
-- **numOfPartitions** (*long*)
-
-    The number of partitions in the current collection.
-
-- **fieldNames** (*List\<String\>*)
-
-    A list of fields in the current collection.
-
-- **vectorFieldName** (*List\<String\>*)
-
-    The name of the vector field.
-
-- **primaryFieldName** (*String*)
-
-    The name of the primary field.
-
-- **enableDynamicField** (*Boolean*)
-
-    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
-
-- **autoID** (*Boolean*)
-
-    Whether Zilliz Cloud automatically generates the primary key for the collection.
-
-- **collectionSchema** (*CreateCollectionReq.CollectionSchema*)
-
-    The scheme of the collection.
-
-- **createTime** (*Long*)
-
-    The time when the collection was created.
-
-- **createUtcTime** (*Long*) -
-
-    The time when the collection was created in UTC.
-
-- **consistencyLevel** (*ConsistencyLevel*) -
-
-    The consistency level of the collection.
-
-- **shardsNum** (*Integer*) -
-
-    The number of shards in the collection.
-
-- **properties** (*Map\<String, String>*) -
-
-    The properties of the current collection. 
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -160,6 +91,4 @@ BatchDescribeCollectionReq describeCollectionReq = BatchDescribeCollectionReq.bu
         .collectionNames(Collections.singletonList("test"))
         .build();
 List<DescribeCollectionResp> batchResp = client.batchDescribeCollection(describeCollectionReq);
-
 ```
-

@@ -4,7 +4,7 @@ slug: /java/v1-System-getVersion
 sidebar_label: "getVersion()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method gets the milvus kernel version. | Java | v1"
+description: "MilvusClient 接口。此方法获取 milvus 内核版本。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#QK1rdJJazo2ZqhxClzack6ucnDc
 sidebar_position: 2
@@ -17,11 +17,11 @@ import Admonition from '@theme/Admonition';
 
 # getVersion()
 
-MilvusClient interface. This method gets the milvus kernel version. 
+MilvusClient 接口。此方法获取 milvus 内核版本。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This method works for open-source Milvus, but might not work for Zilliz Cloud.</p>
+<p>此方法适用于开源版 Milvus，但可能不适用于 Zilliz Cloud。</p>
 
 </Admonition>
 
@@ -29,17 +29,17 @@ MilvusClient interface. This method gets the milvus kernel version.
 R<GetVersionResponse> getVersion();
 ```
 
-#### Returns
+#### 返回值\{#returns}
 
-This method catches all the exceptions and returns an `R<CheckHealthResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<CheckHealthResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns a valid `GetVersionResponse` held by the `R` template. You can use `GetVersionResponse` to get resource group information.
+- 如果 API 调用成功，则返回由 `R` 模板持有的有效 `GetVersionResponse`。您可以使用 `GetVersionResponse` 获取资源组信息。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 

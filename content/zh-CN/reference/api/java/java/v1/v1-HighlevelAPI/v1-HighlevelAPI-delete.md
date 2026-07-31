@@ -4,7 +4,7 @@ slug: /java/v1-HighlevelAPI-delete
 sidebar_label: "delete()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method deletes entity(s) based on the primary key ids. | Java | v1"
+description: "MilvusClient 接口。此方法根据主键 id 删除实体。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#G46mdTMB4oIR4fxWz5kcZ9GhnKc
 sidebar_position: 4
@@ -17,71 +17,71 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-A MilvusClient interface. This method deletes entity(s) based on the primary key ids.
+MilvusClient 接口。此方法根据主键 id 删除实体。
 
 ```java
 R<DeleteResponse> delete(DeleteIdsParam requestParam);
 ```
 
-#### DeleteIdsParam
+#### DeleteIdsParam\{#deleteidsparam}
 
-Use the `DeleteIdsParam.Builder` to construct a `DeleteIdsParam` object.
+使用 `DeleteIdsParam.Builder` 构造 `DeleteIdsParam` 对象。
 
 ```java
 import io.milvus.param.highlevel.dml.DeleteIdsParam;
 DeleteIdsParam.Builder builder = DeleteIdsParam.newBuilder();
 ```
 
-Methods of `DeleteIdsParam.Builder`:
+`DeleteIdsParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>描述</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Sets the target collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the collection to insert data into.</p></td>
+        <td><p>设置目标 collection 名称。Collection 名称不能为空或 null。</p></td>
+        <td><p>collectionName: 要插入数据的 collection 名称。</p></td>
     </tr>
     <tr>
         <td><p>withPartitionName(tring partitionName)</p></td>
-        <td><p>Sets the partition name (Optional).</p></td>
-        <td><p>partitionName: The target partition name.</p></td>
+        <td><p>设置 partition 名称（可选）。</p></td>
+        <td><p>partitionName: 目标 partition 名称。</p></td>
     </tr>
     <tr>
         <td><p>withPrimaryIds(List\<T> primaryIds)</p></td>
-        <td><p>Specifies primaryField ids. PrimaryIds cannot be empty or null.<br/>Note only support the value of primary key.</p></td>
-        <td><p>primaryIds: A list of primary field id.</p></td>
+        <td><p>指定 primaryField id。PrimaryIds 不能为空或 null。<br/>注意：仅支持主键的值。</p></td>
+        <td><p>primaryIds: 主字段 id 列表。</p></td>
     </tr>
     <tr>
         <td><p>addPrimaryId(T primaryId)</p></td>
-        <td><p>Specifies primaryField id. PrimaryId cannot be empty or null.<br/>Note only support the value of primary key.</p></td>
-        <td><p>primaryId: The id of primary field key.</p></td>
+        <td><p>指定 primaryField id。PrimaryId 不能为空或 null。<br/>注意：仅支持主键的值。</p></td>
+        <td><p>primaryId: 主字段键的 id。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs an DeleteIdsParam object.</p></td>
+        <td><p>构造一个 DeleteIdsParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `DeleteIdsParam.Builder.build()` can throw the following exceptions:
+`DeleteIdsParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### 返回值\{#returns}
 
-This method catches all the exceptions and returns an `R<DeleteResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<DeleteResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 以及该异常的错误消息。
 
-- If the API succeeds, it returns a valid `DeleteResponse` held by the `R` template.
+- 如果 API 执行成功，则返回由 `R` 模板持有的有效 `DeleteResponse`。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.highlevel.*;

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "IndexParam | Java | v2"
 slug: /java/java/v2-Management-IndexParam
 sidebar_label: "IndexParam"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation prepares index parameters to build indexes for a specific collection. | Java | v2"
+description: "IndexParam 用于定义在集合字段上配置索引的参数。 | Java | v2"
 type: docx
-token: FUNwdQQqAon41YxMWiIcHIBmned
+token: SXgodgq99ozZoHxfnakc0fpCnJh
 sidebar_position: 10
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - IndexParam
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,71 +31,54 @@ import Admonition from '@theme/Admonition';
 
 # IndexParam
 
-This operation prepares index parameters to build indexes for a specific collection.
-
-```java
-io.milvus.v2.common.IndexParam
-```
-
-## Request Syntax
+IndexParam 用于定义在集合字段上配置索引的参数。
 
 ```java
 IndexParam.builder()
     .fieldName(String fieldName)
-    .indexName(String indexName)
-    .indexType(IndexParam.IndexType indexType)
-    .metricType(IndexParam.MetricType metricType)
+    .indexType(IndexType indexType)
+    .metricType(MetricType metricType)
     .extraParams(Map<String, Object> extraParams)
-    .build();
+    .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `fieldName(String fieldName)`
+- `fieldName(String fieldName)` -
 
-    The name of the target field to apply this **IndexParam** object applies.
+    要建立索引的字段名称。
 
-- `indexName(String indexName)`
+- `indexType(IndexType indexType)` -
 
-    The name of the index field generated after this **IndexParam** object has been applied.
+    要在该字段上构建的索引类型。有关可用的索引类型，请参见 IndexType。
 
-- `indexType(IndexParam.[IndexType](./v2-Management-IndexType) indexType)`
+- `metricType(MetricType metricType)` -
 
-    The name of the algorithm used to arrange data in the specific field. On Zilliz Cloud, the index type is always **AUTOINDEX**. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
+    用于向量相似度度量的指标类型。有关可用的指标类型，请参见 MetricType。
 
-- `metricType(IndexParam.[MetricType](./v2-Management-MetricType) metricType)`
+- `extraParams(Map<String, Object> extraParams)` -
 
-    The algorithm that is used to measure similarity between vectors. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
+    额外的索引特定参数，以键值对形式提供。例如，对于 HNSW 索引，可设置为 `{"M": 16, "efConstruction": 256}`。
 
-    This is available only when the specified field is a vector field.
-
-- `extraParams(Map<String, Object> extraParams)`
-
-    Extra index parameters. For details, refer to [In-memory Index](https://milvus.io/docs/index.md), [On-disk Index](https://milvus.io/docs/disk_index.md), and [GPU index](https://milvus.io/docs/gpu_index.md).
-
-**RETURN TYPE:**
+**返回：**
 
 *IndexParam*
 
-**RETURNS:**
+**异常：**
 
-An **IndexParam** object.
+*MilvusClientException*
 
-**EXCEPTIONS:**
+当此操作期间发生任何错误时，将引发此异常。
 
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
-// define index param for field "vector"
-IndexParam indexParam = IndexParam.builder()
-        .metricType(IndexParam.MetricType.L2)
-        .indexType(IndexParam.IndexType.AUTOINDEX)
-        .fieldName("vector")
-        .indexName("idx")
-        .build();
-```
+import io.milvus.v2.common.IndexParam;
 
+IndexParam indexParam = IndexParam.builder()
+    .fieldName("vector")
+    .indexType(IndexParam.IndexType.HNSW)
+    .metricType(IndexParam.MetricType.COSINE)
+    .extraParams(Map.of("M", 16, "efConstruction", 256))
+    .build();
+```

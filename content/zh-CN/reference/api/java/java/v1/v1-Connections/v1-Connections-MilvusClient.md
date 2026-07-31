@@ -4,7 +4,7 @@ slug: /java/v1-Connections-MilvusClient
 sidebar_label: "MilvusClient"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient is an abstract interface of the Milvus client. MilvusServiceClient class is the implementation. | Java | v1"
+description: "MilvusClient 是 Milvus 客户端的抽象接口。MilvusServiceClient 类是其实现。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#MJ3dd20ldo0ZUfxQV7mcDy1on7c
 sidebar_position: 1
@@ -17,222 +17,222 @@ import Admonition from '@theme/Admonition';
 
 # MilvusClient
 
-MilvusClient is an abstract interface of the Milvus client. MilvusServiceClient class is the implementation.
+MilvusClient 是 Milvus 客户端的抽象接口。MilvusServiceClient 类是其实现。
 
 ```java
 package io.milvus.client;
 MilvusServiceClient(ConnectParam connectParam)
 ```
 
-Methods of MilvusClient for connection:
+MilvusClient 中与连接相关的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Parameters</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>参数</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>withTimeout(long timeout, TimeUnit timeoutUnit)</p></td>
-     <td><p>Timeout setting for RPC call.</p></td>
-     <td><p>timeout: The timeout period when invoking a method.</p><p>timeoutUnit: The unit for timeout.</p></td>
+     <td><p>为 RPC 调用设置超时时间。</p></td>
+     <td><p>timeout: 调用方法时的超时时长。</p><p>timeoutUnit: 超时时间的单位。</p></td>
      <td><p>MilvusClient</p></td>
    </tr>
    <tr>
      <td><p>withRetry(RetryParam retryParam)</p></td>
-     <td><p>Sets the parameters for retry.</p></td>
-     <td><p>retryParam: Parameter for retry on failure.</p></td>
+     <td><p>设置重试参数。</p></td>
+     <td><p>retryParam: 失败时的重试参数。</p></td>
      <td><p>MilvusClient</p></td>
    </tr>
    <tr>
      <td><p>close(long maxWaitSeconds)</p></td>
-     <td><p>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.</p><p>This method throws an <code>InterruptedException</code> exception if it is interrupted.</p></td>
-     <td><p>maxWaitSeconds: The timeout period to wait for the RPC channel to close.</p></td>
+     <td><p>使用可配置的超时值断开与 Milvus 服务器的连接。请在应用程序终止前调用此方法。</p><p>如果该方法被中断，将抛出 <code>InterruptedException</code> 异常。</p></td>
+     <td><p>maxWaitSeconds: 等待 RPC 通道关闭的超时时长。</p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p>setLogLevel(LogLevel level)</p></td>
-     <td><p>Set log level in runtime.</p><p>Note: this method cannot change the log level configured by log4j configurations. It only hides some logs inside the MilvusClient class.</p></td>
-     <td><p>level: A log level</p></td>
+     <td><p>在运行时设置日志级别。</p><p>注意：此方法无法更改由 log4j 配置指定的日志级别。它只能隐藏 MilvusClient 类内部的一些日志。</p></td>
+     <td><p>level: 日志级别</p></td>
      <td><p>N/A</p></td>
    </tr>
 </table>
 
-#### ConnectParam
+#### ConnectParam\{#connectparam}
 
-Use the `ConnectParam.Builder` to construct a `ConnectParam` object for the MilvusClient.
+使用 `ConnectParam.Builder` 为 MilvusClient 构造 `ConnectParam` 对象。
 
 ```java
 import io.milvus.param.ConnectParam;
 ConnectParam.Builder builder = ConnectParam.newBuilder();
 ```
 
-Methods of `ConnectParam.Builder`:
+`ConnectParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Patameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withHost(String host)</p></td>
-        <td><p>Sets the host name or address.</p></td>
-        <td><p>host: The name or address of the host.</p></td>
+        <td><p>设置主机名或地址。</p></td>
+        <td><p>host: 主机名称或地址。</p></td>
     </tr>
     <tr>
         <td><p>withPort(int port)</p></td>
-        <td><p>Sets the connection port. <br/>The value must be greater than zero and less than 65536.</p></td>
-        <td><p>port: The connection port.</p></td>
+        <td><p>设置连接端口。<br/>该值必须大于零且小于 65536。</p></td>
+        <td><p>port: 连接端口。</p></td>
     </tr>
     <tr>
         <td><p>withUri(String uri)</p></td>
-        <td><p>Sets the uri of remote service.</p></td>
-        <td><p>uri: The uri of remote service.</p></td>
+        <td><p>设置远程服务的 uri。</p></td>
+        <td><p>uri: 远程服务的 uri。</p></td>
     </tr>
     <tr>
         <td><p>withToken(String token)</p></td>
-        <td><p>Sets the token of remote service.</p></td>
-        <td><p>token: serving as the key for identification and authentication purposes.</p></td>
+        <td><p>设置远程服务的 token。</p></td>
+        <td><p>token: 用作身份识别和认证的密钥。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。数据库名称可以为 null，表示默认数据库。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withConnectTimeout(long connectTimeout, TimeUnit timeUnit)</p></td>
-        <td><p>Sets the connection timeout value of client channel. The timeout value must be greater than zero. The default value is 10 seconds.</p></td>
-        <td><p>connectTimeout: The connection timeout period.<br/>timeUnit: The unit of timeout.</p></td>
+        <td><p>设置客户端通道的连接超时值。超时值必须大于零。默认值为 10 秒。</p></td>
+        <td><p>connectTimeout: 连接超时时长。<br/>timeUnit: 超时时间单位。</p></td>
     </tr>
     <tr>
         <td><p>withKeepAliveTime(long keepAliveTime, TimeUnit timeUnit)</p></td>
-        <td><p>Sets the keep-alive time value of the client channel. The time value must be greater than zero. The default value is 55 seconds.</p></td>
-        <td><p>keepAliveTime: The keep-alive time period.<br/>timeUnit: The unit of time.</p></td>
+        <td><p>设置客户端通道的 keep-alive 时间值。该时间值必须大于零。默认值为 55 秒。</p></td>
+        <td><p>keepAliveTime: keep-alive 时长。<br/>timeUnit: 时间单位。</p></td>
     </tr>
     <tr>
         <td><p>withKeepAliveTimeout(long keepAliveTimeout, TimeUnit timeUnit)</p></td>
-        <td><p>Sets the keep-alive timeout value of client channel. The timeout value must be greater than zero. The default value is 20 seconds.</p></td>
-        <td><p>keepAliveTimeout: The keep-alive timeout value.<br/>timeUnit: The unit of timeout.</p></td>
+        <td><p>设置客户端通道的 keep-alive 超时值。超时值必须大于零。默认值为 20 秒。</p></td>
+        <td><p>keepAliveTimeout: keep-alive 超时值。<br/>timeUnit: 超时时间单位。</p></td>
     </tr>
     <tr>
         <td><p>keepAliveWithoutCalls(boolean enable)</p></td>
-        <td><p>Enables the keep-alive function for the client channel. The default value is false.</p></td>
-        <td><p>enable: Boolean value to indicate if the keep-alive function is enabled. The keep-alive function is enabled if the value is set to true.</p></td>
+        <td><p>启用客户端通道的 keep-alive 功能。默认值为 false。</p></td>
+        <td><p>enable: 布尔值，用于指示是否启用 keep-alive 功能。设置为 true 时启用该功能。</p></td>
     </tr>
     <tr>
         <td><p>secure(boolean enable)<br/>withSecure(boolean enable)</p></td>
-        <td><p>Enables security for the client channel.</p></td>
-        <td><p>enable: Security is enabled if the value is set to true.</p></td>
+        <td><p>为客户端通道启用安全连接。</p></td>
+        <td><p>enable: 设置为 true 时启用安全连接。</p></td>
     </tr>
     <tr>
         <td><p>withIdleTimeout(long idleTimeout, TimeUnit timeUnit)</p></td>
-        <td><p>Sets the value of idle timeout of the client channel. The timeout value must be greater than zero. The default value is 24 hours.</p></td>
-        <td><p>idleTimeout: The idle timeout period of the client channel.<br/>timeUnit: The unit of timeout.</p></td>
+        <td><p>设置客户端通道的空闲超时值。超时值必须大于零。默认值为 24 小时。</p></td>
+        <td><p>idleTimeout: 客户端通道的空闲超时时长。<br/>timeUnit: 超时时间单位。</p></td>
     </tr>
     <tr>
         <td><p>withRpcDeadline(long deadline, TimeUnit timeUnit)</p></td>
-        <td><p>Set a deadline for how long you are willing to wait for a reply from the server.<br/>With a deadline setting, the client will wait when encounter fast RPC fail caused by network fluctuations.<br/>The deadline value must be larger than or equal to zero. Default value is 0, deadline is disabled.</p></td>
-        <td><p>deadline: deadline value<br/>timeUnit: deadline unit</p></td>
+        <td><p>设置你愿意等待服务器回复的截止时间。<br/>设置 deadline 后，客户端在遇到由网络波动引起的快速 RPC 失败时会继续等待。<br/>deadline 值必须大于或等于零。默认值为 0，表示禁用 deadline。</p></td>
+        <td><p>deadline: deadline 值<br/>timeUnit: deadline 单位</p></td>
     </tr>
     <tr>
         <td><p>withAuthorization(String username, String password)</p></td>
-        <td><p>Sets the username and password for this connection.</p></td>
-        <td><p>username: The username of the current user.<br/>password: The password corresponding to the username.</p></td>
+        <td><p>为此连接设置用户名和密码。</p></td>
+        <td><p>username: 当前用户的用户名。<br/>password: 与用户名对应的密码。</p></td>
     </tr>
     <tr>
         <td><p>withClientKeyPath(String clientKeyPath)</p></td>
-        <td><p>Set the client.key path for tls two-way authentication, only takes effect when "secure" is True.</p></td>
-        <td><p>clientKeyPath: The local path of client.key</p></td>
+        <td><p>设置用于 TLS 双向认证的 client.key 路径，仅当 "secure" 为 True 时生效。</p></td>
+        <td><p>clientKeyPath: client.key 的本地路径</p></td>
     </tr>
     <tr>
         <td><p>withClientPemPath(String clientPemPath)</p></td>
-        <td><p>Set the client.pem path for tls two-way authentication, only takes effect when "secure" is True.</p></td>
-        <td><p>clientPemPath: The local path of client.pem</p></td>
+        <td><p>设置用于 TLS 双向认证的 client.pem 路径，仅当 "secure" 为 True 时生效。</p></td>
+        <td><p>clientPemPath: client.pem 的本地路径</p></td>
     </tr>
     <tr>
         <td><p>withCaPemPath(String caPemPath)</p></td>
-        <td><p>Set the ca.pem path for tls two-way authentication, only takes effect when "secure" is True.</p></td>
-        <td><p>caPemPath: The local path of ca.pem</p></td>
+        <td><p>设置用于 TLS 双向认证的 ca.pem 路径，仅当 "secure" 为 True 时生效。</p></td>
+        <td><p>caPemPath: ca.pem 的本地路径</p></td>
     </tr>
     <tr>
         <td><p>withServerPemPath(String serverPemPath)</p></td>
-        <td><p>Set the server.pem path for tls one-way authentication, only takes effect when "secure" is True.</p></td>
-        <td><p>serverPemPath: The local path of server.pem</p></td>
+        <td><p>设置用于 TLS 单向认证的 server.pem 路径，仅当 "secure" 为 True 时生效。</p></td>
+        <td><p>serverPemPath: server.pem 的本地路径</p></td>
     </tr>
     <tr>
         <td><p>withServerName(String serverName)</p></td>
-        <td><p>Set target name override for SSL host name checking, only takes effect when "secure" is True.<br/>Note: this value is passed to grpc.ssl_target_name_override</p></td>
-        <td><p>serverName: The override name for SSL host.</p></td>
+        <td><p>为 SSL 主机名检查设置目标名称覆盖，仅当 "secure" 为 True 时生效。<br/>注意：该值会传递给 grpc.ssl_target_name_override</p></td>
+        <td><p>serverName: SSL 主机的覆盖名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a ConnectParam object.</p></td>
+        <td><p>构造一个 ConnectParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `ConnectParam.Builder.build()` can throw the following exceptions:
+`ConnectParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException: 参数无效时抛出错误。
 
-#### RetryParam
+#### RetryParam\{#retryparam}
 
-Use the `RetryParam.Builder` to construct a RetryParam object for the `MilvusClient`.
+使用 `RetryParam.Builder` 为 `MilvusClient` 构造 RetryParam 对象。
 
 ```java
 import io.milvus.param.RetryParam;
 RetryParam.Builder builder = RetryParam.newBuilder();
 ```
 
-Methods of `RetryParam.Builder`:
+`RetryParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Patameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withMaxRetryTimes(int maxRetryTimes)</p></td>
-        <td><p>Sets the max retry times on failure.Default value is 75.</p></td>
-        <td><p>maxRetryTimes: The maxinum times to retry.</p></td>
+        <td><p>设置失败时的最大重试次数。默认值为 75。</p></td>
+        <td><p>maxRetryTimes: 最大重试次数。</p></td>
     </tr>
     <tr>
         <td><p>withInitialBackOffMs(long initialBackOffMs)</p></td>
-        <td><p>Sets the first time interval between two retries, units: millisecond. Default value is 10ms.</p></td>
-        <td><p>initialBackOffMs: Retry initial interval value in milliseconds.</p></td>
+        <td><p>设置两次重试之间的首次时间间隔，单位：毫秒。默认值为 10ms。</p></td>
+        <td><p>initialBackOffMs: 以毫秒为单位的重试初始间隔值。</p></td>
     </tr>
     <tr>
         <td><p>withMaxBackOffMs(long maxBackOffMs)</p></td>
-        <td><p>Sets the maximum time interval between two retries, units: millisecond. Default value is 3000ms.</p></td>
-        <td><p>maxBackOffMs: Retry maximum interval value in milliseconds.</p></td>
+        <td><p>设置两次重试之间的最大时间间隔，单位：毫秒。默认值为 3000ms。</p></td>
+        <td><p>maxBackOffMs: 以毫秒为单位的重试最大间隔值。</p></td>
     </tr>
     <tr>
         <td><p>withBackOffMultiplier(int backOffMultiplier)</p></td>
-        <td><p>Sets multiplier to increase time interval after each retry. Default value is 3.</p></td>
-        <td><p>backOffMultiplier: The multiplier to increase time interval after each retry.</p></td>
+        <td><p>设置每次重试后增加时间间隔的倍数。默认值为 3。</p></td>
+        <td><p>backOffMultiplier: 每次重试后增加时间间隔的倍数。</p></td>
     </tr>
     <tr>
         <td><p>withRetryOnRateLimie(boolean retryOnRateLimie)</p></td>
-        <td><p>Sets whether to retry when the returned error is rate limit. Default value is true.</p></td>
-        <td><p>retryOnRateLimit: Whether to retry when the returned error is rate limit.</p></td>
+        <td><p>设置当返回的错误为 rate limit 时是否重试。默认值为 true。</p></td>
+        <td><p>retryOnRateLimit: 当返回的错误为 rate limit 时是否重试。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a RetryParam object.</p></td>
+        <td><p>构造一个 RetryParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `RetryParam.Builder.build()` can throw the following exceptions:
+`RetryParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException: 参数无效时抛出错误。
 
-#### Example
+#### 示例\{#example}
 
-- Without timeout setting for RPC call:
+- 不为 RPC 调用设置超时时间：
 
 ```java
 import io.milvus.param.*;
@@ -254,7 +254,7 @@ R<ShowCollectionsResponse> response = client.showCollections(param);
 client.close(1);
 ```
 
-- With timeout setting for RPC call:
+- 为 RPC 调用设置超时时间：
 
 ```java
 import io.milvus.param.*;

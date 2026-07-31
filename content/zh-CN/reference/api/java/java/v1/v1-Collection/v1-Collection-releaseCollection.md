@@ -4,7 +4,7 @@ slug: /java/v1-Collection-releaseCollection
 sidebar_label: "releaseCollection()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method releases the specified collection and all data within it from memory. | Java | v1"
+description: "MilvusClient 接口。此方法会将指定集合及其中的所有数据从内存中释放。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#QwQ6dmpUcorF5vxyHipcR3uqnoh
 sidebar_position: 4
@@ -17,61 +17,61 @@ import Admonition from '@theme/Admonition';
 
 # releaseCollection()
 
-A MilvusClient interface. This method releases the specified collection and all data within it from memory.
+MilvusClient 接口。此方法会将指定集合及其中的所有数据从内存中释放。
 
 ```java
 R<RpcStatus> releaseCollection(ReleaseCollectionParam requestParam);
 ```
 
-#### ReleaseCollectionParam
+#### ReleaseCollectionParam\{#releasecollectionparam}
 
-Use the `ReleaseCollectionParam.Builder` to construct a `ReleaseCollectionParam` object.
+使用 `ReleaseCollectionParam.Builder` 构造 `ReleaseCollectionParam` 对象。
 
 ```java
 import io.milvus.param.ReleaseCollectionParam;
 ReleaseCollectionParam.Builder builder = ReleaseCollectionParam.newBuilder();
 ```
 
-Methods of `ReleaseCollectionParam.Builder`:
+`ReleaseCollectionParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the collection to release.</p></td>
+        <td><p>设置集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName: 要释放的集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，database name 可以为 null。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a ReleaseCollectionParam object.</p></td>
+        <td><p>构造一个 ReleaseCollectionParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `ReleaseCollectionParam.Builder.build()` can throw the following exceptions:
+`ReleaseCollectionParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### 返回值\{#returns}
 
-This method catches all the exceptions and returns an `R<RpcStatus>` object.
+此方法会捕获所有异常，并返回一个 `R<RpcStatus>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 以及该异常的错误消息。
 
-- If the API succeeds, it returns `R.Status.Success`.
+- 如果 API 成功，则返回 `R.Status.Success`。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.*;

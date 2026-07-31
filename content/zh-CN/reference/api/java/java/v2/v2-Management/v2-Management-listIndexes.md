@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listIndexes() | Java | v2"
 slug: /java/java/v2-Management-listIndexes
 sidebar_label: "listIndexes()"
+beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists the indexes of a field in a specific collection. | Java | v2"
+description: "此操作列出特定集合中某个字段的索引。 | Java | v2"
 type: docx
 token: LxwIdeFiGoYaRAxKS72cdjNkneh
 sidebar_position: 12
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listIndexes()
 
-This operation lists the indexes of a field in a specific collection.
+此操作列出特定集合中某个字段的索引。
 
 ```java
 public List<String> listIndexes(ListIndexesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 listIndexes(ListIndexesReq.builder()
@@ -48,31 +48,31 @@ listIndexes(ListIndexesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of a collection.
+    集合名称。
 
 - `fieldName(String fieldName)`
 
-    The name of the target field.
+    目标字段的名称。
 
-**RETURNS:**
+**返回：**
 
-*List\<String>*
+*List&lt;String&gt;*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

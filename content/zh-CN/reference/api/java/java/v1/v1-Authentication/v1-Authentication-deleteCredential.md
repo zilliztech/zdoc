@@ -4,7 +4,7 @@ slug: /java/v1-Authentication-deleteCredential
 sidebar_label: "deleteCredential()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method deletes the credentials of a corresponding username. | Java | v1"
+description: "MilvusClient 接口。此方法用于删除对应用户名的凭证。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#BImddM2M9oepyDxuwcEcXZvOnfe
 sidebar_position: 3
@@ -17,56 +17,56 @@ import Admonition from '@theme/Admonition';
 
 # deleteCredential()
 
-A MilvusClient interface. This method deletes the credentials of a corresponding username.
+MilvusClient 接口。此方法用于删除对应用户名的凭证。
 
 ```java
 R<RpcStatus> deleteCredential(DeleteCredentialParam requestParam);
 ```
 
-#### DeleteCredentialParam
+#### DeleteCredentialParam\{#deletecredentialparam}
 
-Use the `DeleteCredentialParam.Builder` to construct a `DeleteCredentialParam` object.
+使用 `DeleteCredentialParam.Builder` 构建 `DeleteCredentialParam` 对象。
 
 ```java
 import io.milvus.param.DeleteCredentialParam;
 DeleteCredentialParam.Builder builder = DeleteCredentialParam.newBuilder();
 ```
 
-Methods of `DeleteCredentialParam.Builder`:
+`DeleteCredentialParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withUsername(String username)</p></td>
-        <td><p>Sets the username. Username cannot be empty or null.</p></td>
-        <td><p>username: The user name used to delete a credential.</p></td>
+        <td><p>设置用户名。用户名不能为空或为 null。</p></td>
+        <td><p>username：用于删除凭证的用户名。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a DeleteCredentialParam object.</p></td>
+        <td><p>构建一个 DeleteCredentialParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `DeleteCredentialParam.Builder.build()` can throw the following exceptions:
+`DeleteCredentialParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<RpcStatus>` object.
+此方法会捕获所有异常并返回一个 `R<RpcStatus>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回来自服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 以及该异常的错误消息。
 
-- If the API succeeds, it returns `R.Status.Success`.
+- 如果 API 执行成功，则返回 `R.Status.Success`。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

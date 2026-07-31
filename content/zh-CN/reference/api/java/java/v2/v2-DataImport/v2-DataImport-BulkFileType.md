@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "BulkFileType | Java | v2"
 slug: /java/java/v2-DataImport-BulkFileType
 sidebar_label: "BulkFileType"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "这是一个提供以下常量的枚举。 | Java | v2"
 type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Milvus 基准测试
+  - 托管式 Milvus
+  - Serverless 向量数据库
+  - Milvus 开源
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,18 +31,18 @@ import Admonition from '@theme/Admonition';
 
 # BulkFileType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - **PARQUET**
 
-    Sets the file type to [Parquet](https://parquet.apache.org/) (*.parquet*).
+    将文件类型设置为 [Parquet](https://parquet.apache.org/) (*.parquet*)。
 
 - **JSON**
 
-    Sets the file type to JSON (*.json*).
+    将文件类型设置为 JSON (*.json*)。
 
 - **CSV**
 
-    Sets the file type to CSV (*.csv*)
+    将文件类型设置为 CSV (*.csv*)。

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeDatabase() | Java | v2"
 slug: /java/java/v2-Database-describeDatabase
 sidebar_label: "describeDatabase()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets detailed information about a specific database. | Java | v2"
+description: "此操作获取特定数据库的详细信息。 | Java | v2"
 type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeDatabase()
 
-This operation gets detailed information about a specific database.
+此操作获取特定数据库的详细信息。
 
 ```java
 public DescribeDatabaseResp describeDatabase(DescribeDatabaseReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 describeDatabase(DescribeDatabaseReq.builder()
@@ -46,27 +46,27 @@ describeDatabase(DescribeDatabaseReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database.
+    数据库的名称。
 
-**RETURN TYPE**:
+**返回类型**：
 
 *DescribeDatabaseResp*
 
-**RETURNS:**
+**返回：**
 
-A **DescribeDatabaseResp** object that contains detailed information about the specified database.
+一个包含指定数据库详细信息的 **DescribeDatabaseResp** 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.param.Constant;

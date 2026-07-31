@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getFields() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getFields
 sidebar_label: "getFields()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation returns the fields of the Struct elements in an Array of Structs. | Java | v2"
+description: "此操作返回 Struct 数组中 Struct 元素的字段。 | Java | v2"
 type: docx
 token: FIzIdKrRNooFttxaf3Pc1vOlnnc
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - getFields()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # getFields()
 
-This operation returns the fields of the Struct elements in an Array of Structs.
+此操作返回 Struct 数组中 Struct 元素的字段。
 
 ```java
 public List<CreateCollectionReq.FieldSchema> getFields()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 getFields()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
-*List\<CreateCollectionReq.FieldSchema>*
+*List&lt;CreateCollectionReq.FieldSchema&gt;*
 
-**RETURNS:**
+**返回：**
 
-The return value will be the fields of the Struct elements in an Array of Structs.
+返回值为 Struct 数组中 Struct 元素的字段。
 
-## Examples
+## 示例\{#examples}
 
 ```java
 // You can get an instance of StructFieldSchema by describing

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "addField() | Java | v2"
 slug: /java/java/v2-CollectionSchema-addField
 sidebar_label: "addField()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation adds a vector field to the schema of a collection. | Java | v2"
+description: "此操作向集合的 schema 添加一个字段。 | Java | v2"
 type: docx
-token: X6MudyTkmoIsE5x0XiKcbwPdntq
+token: XB9idvIRPo2fEix50dvcAsQHnCg
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # addField()
 
-This operation adds a vector field to the schema of a collection.
+此操作向集合的 schema 添加一个字段。
 
 ```java
 public void addField(AddFieldReq addFieldReq)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 CollectionSchema.addField(AddFieldReq.builder()
@@ -59,156 +59,122 @@ CollectionSchema.addField(AddFieldReq.builder()
     .typeParams(Map<String, String> typeParams)
     .multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)
     .structFields(List<CreateCollectionReq.FieldSchema> structFields)
+    .externalField(String externalField)
     .build()
 )
 ```
 
-**BUILDER METHODS**
+**BUILDER METHODS：**
 
-- `fieldName(String fieldName)`
+- `fieldName(String fieldName)` -
 
-    The name of the field.
+    字段名称。
 
-- `description(String description)`
+- `description(String description)` -
 
-    The description of the field.
+    字段描述。
 
-- `dataType(DataType dataType)`
+- `dataType(DataType dataType)` -
 
-    The data type of the field.
+    字段的数据类型。
 
-    You can choose from the following options when selecting a data type for different fields:
+    为不同字段选择数据类型时，可从以下选项中进行选择。
 
-    - Primary key field: Use **DataType.Int64** or **DataType.VarChar**.
+- `maxLength(Integer maxLength)` -
 
-    - Scalar fields: Choose from a variety of options, including **DataType.Bool**, **DataType.Int8**, **DataType.Int16**, **DataType.Int32**, **DataType.Int64**, **DataType.Float**, **DataType.Double**, **DataType.VarChar**, **DataType.JSON**, and **DataType.Array**.
+    值可包含的最大字符数。
 
-    - Vector fields: Select **DataType.BinaryVector** or **DataType.FloatVector**.
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.VarChar**，则此参数为必需。
 
-- `maxLength(Integer maxLength)`
+- `isPrimaryKey(Boolean isPrimaryKey)` -
 
-    The maximum number of characters a value should contain.
+    当前字段是否为主字段。
 
-    This is required if **dataType** of this field is set to **DataType.VarChar.**
+    将其设置为 **True** 会使当前字段成为主字段。
 
-- `isPrimaryKey(Boolean isPrimaryKey)`
+- `isPartitionKey(Boolean isPartitionKey)` -
 
-    Whether the current field is the primary field.
+    当前字段是否为 partitionKey 字段。
 
-    Setting this to **True** makes the current field the primary field.
+    将其设置为 **True** 会使当前字段成为分区键。
 
-- `isPartitionKey(Boolean isPartitionKey)`
+- `autoID(Boolean autoID)` -
 
-    Whether the current field is the partitionKey field.
+    是否允许主字段自动递增。
 
-    Setting this to **True** makes the current field the partition key.
+    将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免错误，不应在待插入的数据中包含主字段。
 
-- `autoID(Boolean autoID)`
+    请在 **isPrimaryKey** 设置为 **True** 的字段中设置此参数。
 
-    Whether allows the primary field to automatically increment.
+- `dimension(int dimension)` -
 
-    Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+    向量字段的维度。该值应大于 1，通常由所使用的 embedding 模型决定。
 
-    Set this parameter in the field with **isPrimaryKey** set to **True**.
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.FloatVector**，则此参数为必需。
 
-- `dimension(int dimension)`
+- `elementType(DataType elementType)` -
 
-    The dimensionality of a vector field. 
+    数组字段中元素的数据类型。
 
-    The value should be greater than 1 and is usually determined by the embedding model in use.
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必需。
 
-    This is required if **dataType** of this field is set to **DataType.FloatVector**.
+- `maxCapacity(Integer maxCapacity)` -
 
-- `elementType(DataType elementType)`
+    数组字段可包含的最大元素数量。
 
-    The data type of elements in array fields.
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必需。
 
-    This is required if **dataType** of this field is set to **DataType.Array**.
+- `isNullable(Boolean isNullable)` -
 
-- `maxCapacity(Integer maxCapacity)`
+    一个布尔参数，用于指定该字段是否可以接受 null 值。
 
-    The maximum number of elements that an array field can contain.
+    更多信息，请参见 Nullable & Default。
 
-    This is required if **dataType** of this field is set to **DataType.Array**.
+- `defaultValue(DataType dataType)` -
 
-- `isNullable(Boolean isNullable)`
+    在创建集合 schema 时，为其中的特定字段设置默认值。当你希望某些字段即使在插入数据时未显式提供值，也具有初始值时，这一功能尤其有用。
 
-    A Boolean parameter that specifies whether the field can accept null values. Valid values:
+- `enableAnalyzer(Boolean enableAnalyzer)` -
 
-    - **True**: The field can contain null values, indicating that the field is optional, and missing data is permitted for entries.
+    是否为指定的 `VARCHAR` 字段启用文本分析。设置为 `true` 时，将指示 Milvus 使用文本分析器，对字段中的文本内容进行分词和过滤。
 
-    - **False** (default): The field must contain a valid value for each entity; missing data is not allowed, making the field mandatory.
+- `enableMatch(Boolean enableMatch)` -
 
-    For more information, refer to [Nullable & Default](https://milvus.io/docs/nullable-and-default.md).
+    是否为指定的 `VARCHAR` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，从而支持快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供基于结构化词项的文本搜索。
 
-- `defaultValue(DataType dataType)`
+- `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    Sets a default value for a specific field in a collection schema when creating it. This is particularly useful when you want certain fields to have an initial value even if no value is explicitly provided during data insertion.
+    配置用于文本处理的分析器，专用于 `DataType.VarChar` 字段。此参数用于配置分词器和过滤器设置，尤其适用于用于关键词匹配或全文搜索的文本字段。
 
-- `enableAnalyzer(Boolean enableAnalyzer)`
+- `typeParams(Map<String, String> typeParams)` -
 
-    Whether to enable text analysis for the specified `VARCHAR` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.
+    待添加当前字段的数据类型专属参数。例如，你可以为 `VarChar` 字段设置 `maxLength`。指定后，它会覆盖上方对应参数中设置的值。
 
-- `enableMatch(Boolean enableMatch)`
+- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
-    Whether to enable keyword matching for the specified `VARCHAR` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enableMatch` works in conjunction with `enableAnalyzer` to provide structured term-based text search, with `enableAnalyzer` handling tokenization and `enableMatch` handling the search operations on these tokens.
+    多语言分析器，允许你为一个文本字段配置多个分析器，并在该文本字段中存储多语言文档。
 
-- `analyzerParams(Map<String, Object>, analyzerParams)`
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -
 
-    Configures the analyzer for text processing, specifically for `DataType.VarChar` fields. This parameter configures tokenizer and filter settings, particularly for text fields used in [keyword matching](https://milvus.io/docs/keyword-match.md) or [full text search](https://milvus.io/docs/full-text-search.md). Depending on the type of analyzer, it can be configured in either of the following methods:
+    Array of Structs 字段中的字段列表。
 
-    - Built-in analyzer
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，且此字段的 **elementType** 设置为 **DataType.Struct**，则此参数为必需。
 
-        ```java
-        Map<String, Object> analyzerParams = new HashMap<>();
-        analyzerParams.put("type", "english");
-        ```
+- `externalField(String externalField)` -
 
-        - `type` (*String*) -
+    此 Milvus 字段映射到的外部字段名称。与 `CollectionSchema` 上的 `externalSource` 和 `externalSpec` 一起使用，用于声明由外部数据源支持的集合。刷新时，外部字段的值会被拉取到此 Milvus 字段中。
 
-            Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. For more information, refer to [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md), [English Analyzer](https://milvus.io/docs/english-analyzer.md), and [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md).
-
-    - Custom analyzer
-
-        ```java
-        Map<String, Object> analyzerParams = new HashMap<>();
-        analyzerParams.put("tokenizer", "standard");
-        analyzerParams.put("filter", Collections.singletonList("lowercase"));
-        ```
-
-        - `tokenizer` (*String*) -
-
-            Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
-
-        - `filter` (*List\<String>*) -
-
-            Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
-
-- `typeParams(Map<String, String> typeParams)`
-
-    The parameters specific to the data type of the current field to add. For example, you can set `maxLength` for a `VarChar` field. Once specified, it overrides the corresponding parameter values specified above.
-
-- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)`
-
-    A multi-language analyzer that allows you to configure multiple analyzers for a text field and store multilingual documents in this text field.
-
-- `structFields(List<CreateCollectionReq.FieldSchema> structFields)`
-
-    A list of fields in the Array of Structs field. 
-
-    This is required if **dataType** of this field is set to **DataType.Array** and **elementType** of this field is set to **DataType.Struct**.
-
-**RETURNS:**
+**RETURNS：**
 
 *void*
 
-**EXCEPTIONS:**
+**EXCEPTIONS：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.common.DataType;
@@ -216,8 +182,7 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
-// add two field, id and vector
+// add two fields, id and vector
 collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
-collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
+collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(128).build());
 ```
-

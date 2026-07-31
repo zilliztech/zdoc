@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "DecayRanker | Java | v2"
 slug: /java/java/v2-Function-DecayRanker
 sidebar_label: "DecayRanker"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "The DecayRanker class extends from the Function class and provides extra parameters. | Java | v2"
+description: "DecayRanker 类继承自 Function 类，并提供额外参数。 | Java | v2"
 type: docx
 token: QIpldgpB1oP5IYxNSSdcyRNcn1c
 sidebar_position: 2
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - DecayRanker
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # DecayRanker
 
-The **DecayRanker** class extends from the **Function** class and provides extra parameters.
+**DecayRanker** 类继承自 **Function** 类，并提供额外参数。
 
 ```java
 public class DecayRanker extends CreateCollectionReq.Function
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-This constructor initializes a new `DecayRanker` instance designed to create a decay ranker instance.
+该构造器初始化一个新的 `DecayRanker` 实例，用于创建一个衰减排序器实例。
 
 ```java
 DecayRanker.builder()
@@ -56,63 +56,63 @@ DecayRanker.builder()
     .build();
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
 - `name(String name)`
 
-    The name of the function. This identifier is used to reference the function within queries and collections.
+    函数的名称。该标识符用于在查询和集合中引用该函数。
 
 - `description(String description)`
 
-    A brief description of the function's purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
+    函数用途的简要描述。这对于文档编写或在较大的项目中提高清晰度很有帮助，默认值为空字符串。
 
 - `functionType(FunctionType functionType)`
 
-    The type of function for processing raw data. For **DecayRanker**, set this to `FunctionType.RERANK`.
+    用于处理原始数据的函数类型。对于 **DecayRanker**，请将其设置为 `FunctionType.RERANK`。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.RERANK`, this parameter accepts only one field name.
+    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.RERANK` 的函数，该参数只接受一个字段名。
 
 - `params(Map<String, String> params)`
 
-    A set of key-value pairs that configures the function properties.
+    用于配置函数属性的一组键值对。
 
 - `function(String function)`
 
-    The type of decay ranker to create. Possible values are: `gauss`, `exp`, and `linear`.
+    要创建的衰减排序器类型。可选值包括：`gauss`、`exp` 和 `linear`。
 
 - `origin(Number origin)`
 
-    The reference point from which decay score is calculated. Items at this value receive maximum relevance scores. For time-based decay, the time unit must match your collection data.
+    计算衰减分数的参考点。位于该值处的项会获得最高相关性分数。对于基于时间的衰减，时间单位必须与集合数据保持一致。
 
 - `scale(Number scale)`
 
-    The distance or time at which relevance drops to the `decay` value. Controls how quickly relevance declines. For time-based decay, the time unit must match your collection data. Larger values create a more gradual decline in relevance; smaller values create a steeper decline.
+    相关性下降到 `decay` 值时对应的距离或时间。用于控制相关性下降的速度。对于基于时间的衰减，时间单位必须与集合数据保持一致。较大的值会使相关性下降更平缓；较小的值会使下降更陡峭。
 
 - `offset(Number offset)`
 
-    A "no-decay zone" around the `origin` where items maintain full scores (decay score = 1.0).
+    在 `origin` 周围的“无衰减区”，该范围内的项保持满分（衰减分数 = 1.0）。
 
-    For time-based decay, the time unit must match your collection data.
+    对于基于时间的衰减，时间单位必须与集合数据保持一致。
 
-    Items within this range of the `origin` maintain maximum relevance.
+    位于距 `origin` 该范围内的项会保持最高相关性。
 
 - `decay(Number decay)`
 
-    A score value at the `scale` distance, controls curve steepness. Lower values create steeper decline curves; higher values create more gradual decline curves.
+    在 `scale` 距离处对应的分数值，用于控制曲线的陡峭程度。较低的值会产生更陡的下降曲线；较高的值会产生更平缓的下降曲线。
 
-    Must be between 0 and 1.
+    该值必须介于 0 和 1 之间。
 
-**RETURN TYPE:**
+**RETURN TYPE：**
 
 *DecayRanker*
 
-**RETURNS:**
+**RETURNS：**
 
- A decay ranker instance.
+一个衰减排序器实例。
 
-## Examples:
+## Examples:\{#examples}
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "RRFRanker | Java | v2"
 slug: /java/java/v2-Function-RRFRanker
 sidebar_label: "RRFRanker"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "The RRFRanker class extends from the Function class and provides extra parameters. | Java | v2"
+description: "RRFRanker 类继承自 Function 类，并提供额外参数。 | Java | v2"
 type: docx
 token: FuSTdeSCdojDu0xSBEmcYgv9n4g
 sidebar_position: 6
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - RRFRanker
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # RRFRanker
 
-The **RRFRanker** class extends from the **Function** class and provides extra parameters.
+**RRFRanker** 类继承自 **Function** 类，并提供额外参数。
 
 ```java
 public class RRFRanker extends CreateCollectionReq.Function
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 RRFRanker.builder()
@@ -48,33 +48,33 @@ RRFRanker.builder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `name(String name)`
 
-    The name of the function. This identifier is used to reference the function within queries and collections.
+    函数的名称。此标识符用于在查询和集合中引用该函数。
 
 - `description(String description)`
 
-    A brief description of the function's purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
+    对函数用途的简要说明。这在较大的项目中可用于文档说明或提高清晰度，默认为空字符串。
 
 - `params(Map<String, String> params)`
 
-    A set of key-value pairs that configures the function properties.
+    一组用于配置函数属性的键值对。
 
 - `k(int k)`
 
-    A smoothing parameter that controls the impact of document ranks; higher `k` reduces sensitivity to top ranks. The value ranges from `1` to `16383` and defaults to `60`. 
+    用于控制文档排名影响的平滑参数；较高的 `k` 会降低对靠前排名的敏感度。取值范围为 `1` 到 `16383`，默认值为 `60`。 
 
-**RETURN TYPE:**
+**返回类型：**
 
 *RRFRanker*
 
-**RETURNS:**
+**返回：**
 
- A RRF ranker instance.
+一个 RRF ranker 实例。
 
-## Examples:
+## 示例：\{#examples}
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;

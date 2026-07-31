@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createAlias() | Java | v2"
 slug: /java/java/v2-Collections-createAlias
 sidebar_label: "createAlias()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation creates an alias for an existing collection. | Java | v2"
+description: "此操作为现有集合创建别名。 | Java | v2"
 type: docx
-token: MQxvdwd7QoUu5zxyHTjc0MUKnhe
+token: BujpdsEJnozVT4xY3NFczyfrnDe
 sidebar_position: 6
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,66 +31,48 @@ import Admonition from '@theme/Admonition';
 
 # createAlias()
 
-This operation creates an alias for an existing collection.
+此操作为现有集合创建别名。
 
 ```java
 public void createAlias(CreateAliasReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 createAlias(CreateAliasReq.builder()
-    .alias(String alias)
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .alias(String alias)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
-- `alias(String alias)`
+- `databaseName(String databaseName)` -
 
-    The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+- `collectionName(String collectionName)` -
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling the <code>alterAlias</code> function with the parameters <code>collection_2</code> and <code>bob</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    目标集合的名称。
 
-    </Admonition>
+- `alias(String alias)` -
 
-- `databaseName(String databaseName)`
+    别名名称。
 
-    The name of the database to which the target collection belongs.
-
-- `collectionName(String collectionName)`
-
-    The name of the collection to create an alias for.
-
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -113,4 +95,3 @@ CreateAliasReq createAliasReq = CreateAliasReq.builder()
         .build();
 client.createAlias(createAliasReq);
 ```
-

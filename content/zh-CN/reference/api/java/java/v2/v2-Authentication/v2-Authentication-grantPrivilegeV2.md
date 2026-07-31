@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "grantPrivilegeV2() | Java | v2"
 slug: /java/java/v2-Authentication-grantPrivilegeV2
 sidebar_label: "grantPrivilegeV2()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation grants privileges or privilege groups to a specific role. | Java | v2"
+description: "此操作会向特定角色授予权限或权限组。 | Java | v2"
 type: docx
 token: MFv3drbbXouqVxxE1OicBBl5ndf
 sidebar_position: 11
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - grantPrivilegeV2()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # grantPrivilegeV2()
 
-This operation grants privileges or privilege groups to a specific role.
+此操作会向特定角色授予权限或权限组。
 
 ```java
 public Void grantPrivilegeV2(GrantPrivilegeReqV2 request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 grantPrivilegeV2(GrantPrivilegeReqV2.builder()
@@ -49,35 +49,35 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `roleName(String roleName)`
 
-    The name of the target role.
+    目标角色的名称。
 
 - `privilege(String privilege)`
 
-    The privilege or privilege group to be granted to the specified role. For details on possible privileges, refer to [Privileges](/docs/cluster-privileges).
+    要授予指定角色的权限或权限组。有关可用权限的详细信息，请参见 [Privileges](/docs/cluster-privileges)。
 
 - `dbName(String dbName)`
 
-    The target resource database. The specified role has access to the specified privileges within the specified database.
+    目标资源数据库。指定角色将在指定数据库内拥有指定权限的访问权。
 
 - `collectionName(String collectionName)`
 
-    The target resource collection in the specified database. The specified role has access to the specified privileges within the specified collection.
+    指定数据库中的目标资源集合。指定角色将在指定集合内拥有指定权限的访问权。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

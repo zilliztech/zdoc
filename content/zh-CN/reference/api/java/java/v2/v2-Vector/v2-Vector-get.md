@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "get() | Java | v2"
 slug: /java/java/v2-Vector-get
 sidebar_label: "get()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation gets specific entities by their IDs. | Java | v2"
+description: "此操作通过实体 ID 获取特定实体。 | Java | v2"
 type: docx
-token: DDshdoIEoo7X1BxpciBc66Rlndd
+token: Xl3QdxmFxo3MNCxWlrxc9jFbnFc
 sidebar_position: 2
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,18 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-This operation gets specific entities by their IDs.
+此操作通过实体 ID 获取特定实体。
 
 ```java
 public GetResp get(GetReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 get(GetReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionName(String partitionName)
     .ids(List<Object> ids)
     .outputFields(List<String> outputFields)
@@ -50,53 +51,57 @@ get(GetReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    现有集合的名称。
+
+- `clusterId(String clusterId)`
+
+    此向量读取请求的目标集群 ID。当多个请求应共享同一个集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionName(String partitionName)`
 
-    The name of a partition.
+    分区名称。
 
 - `ids(List<Object> ids)`
 
-    A specific entity ID or a list of entity IDs.
+    单个特定实体 ID 或实体 ID 列表。
 
 - `outputFields(List<String> outputFields)`
 
-    A list of names of the fields to be included in the query result.
+    查询结果中要包含的字段名称列表。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *GetResp*
 
-**RETURNS:**
+**返回：**
 
-A **GetResp** object representing one or more queried entities.
+表示一个或多个已查询实体的 **GetResp** 对象。
 
-**PARAMETERS:**
+**参数：**
 
-- **getResults** (*List&lt;QueryResp.QueryResult&gt;*)
+- **getResults** (*List\\\&lt;QueryResp.QueryResult\\\&gt;*)
 
-    A list of **QueryResp.QueryResult** objects.
+    **QueryResp.QueryResult** 对象列表。
 
-- **fields** (*Map&lt;String,Object&gt;*)
+- **fields** (*Map\\\&lt;String,Object\\\&gt;*)
 
-    A map that contains key-value pairs of field names and their values.
+    包含字段名称及其值键值对的映射。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -119,4 +124,3 @@ GetReq getReq = GetReq.builder()
         .build();
 GetResp getResp = client.get(getReq);
 ```
-

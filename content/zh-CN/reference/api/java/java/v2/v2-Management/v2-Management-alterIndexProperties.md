@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterIndexProperties() | Java | v2"
 slug: /java/java/v2-Management-alterIndexProperties
 sidebar_label: "alterIndexProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation modifies the properties of a specified index. | Java | v2"
+description: "此操作会修改指定索引的属性。 | Java | v2"
 type: docx
 token: ITkydrfmroQyLLxusZtc6t1nnjf
 sidebar_position: 1
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alterIndexProperties()
 
-This operation modifies the properties of a specified index.
+此操作会修改指定索引的属性。
 
 ```java
 public Void alterIndexProperties(AlterIndexPropertiesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 alterIndexProperties(AlterIndexPropertiesReq.builder()
@@ -49,39 +49,39 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - `collectionName(String collectionName)`
 
-    The name of the target collection.
+    目标集合的名称。
 
 - `indexName(String indexName)`
 
-    The name of the target index.
+    目标索引的名称。
 
 - `properties(Map<String, String> properties)`
 
-    The properties to modify and their expected values. Note that the property values should be strings. Available database properties are as follows:
+    要修改的属性及其期望值。请注意，属性值应为字符串。可用的数据库属性如下：
 
     - **mmap.enabled** -
 
-        Whether to enable mmap for the current index.
+        是否为当前索引启用 mmap。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

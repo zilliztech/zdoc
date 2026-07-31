@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getDescription() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getDescription
 sidebar_label: "getDescription()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation returns the description of an Array of Structs field. | Java | v2"
+description: "此操作返回 Array of Structs 字段的描述。 | Java | v2"
 type: docx
 token: QbfPdyw7EoXpGwxSkGgcytBBnAb
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - getDescription()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # getDescription()
 
-This operation returns the description of an Array of Structs field.
+此操作返回 Array of Structs 字段的描述。
 
 ```java
 public String getDescription()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 getDescription()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *String*
 
-**RETURNS:**
+**返回：**
 
-The return value will be the description of the specified Array of Struct field.
+返回值将是指定 Array of Struct 字段的描述。
 
-## Examples
+## 示例\{#examples}
 
 ```java
 // You can get an instance of StructFieldSchema by describing

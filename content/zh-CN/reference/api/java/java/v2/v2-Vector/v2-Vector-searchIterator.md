@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "searchIterator() | Java | v2"
 slug: /java/java/v2-Vector-searchIterator
 sidebar_label: "searchIterator()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This method returns a search iterator to iterate search results. | Java | v2"
+description: "（占位符）| Java | v2"
 type: docx
-token: M4IqdsRCNotiM4xdOA0cWSnUngb
+token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,159 +31,117 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
-This method returns a search iterator to iterate search results.
+# searchIterator()\{#searchiterator}
+
+此方法返回一个搜索迭代器，用于迭代搜索结果。
 
 ```java
 public SearchIterator searchIterator(SearchIteratorReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 searchIterator(SearchIteratorReq.builder()
-        .collectionName(String collectionName)
-        .databaseName(String databaseName)
-        .outputFields(List<String> outputFields)
-        .expr(String expr)
-        .batchSize(long size)
-        .vectorFieldName(String vectorFieldName)
-        .vectors(List<BaseVector> vectors)
-        .params(String params)
-        .topK(int topk)
-        .metricType(IndexParam.MetricType metricType)
-        .consistencyLevel(ConsistencyLevel consistencyLevel)
-        .roundDecimal(int decimal)
-        .ignoreGrowing(boolean ignoreGrwing)
-        .groupByFieldName(String fieldName)
-        .build());
+    .databaseName(String databaseName)
+    .collectionName(String collectionName)
+    .clusterId(String clusterId)
+    .partitionNames(List<String> partitionNames)
+    .vectorFieldName(String vectorFieldName)
+    .topK(int topK)
+    .limit(long limit)
+    .expr(String expr)
+    .outputFields(List<String> outputFields)
+    .vectors(List<BaseVector> vectors)
+    .roundDecimal(int roundDecimal)
+    .params(String params)
+    .consistencyLevel(ConsistencyLevel consistencyLevel)
+    .ignoreGrowing(boolean ignoreGrowing)
+    .groupByFieldName(String groupByFieldName)
+    .batchSize(long batchSize)
+    .build()
+);
 ```
 
-**BUILDER METHODS:**
-
-- `collectionName(String collectionName)`
-
-    The name of an existing collection.
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The database to which the collection belongs. You can ignore it if the database is the default.
+    数据库名称。如果未指定，则默认使用当前数据库。
 
-- `outputFields(List<String> outputFields)`
+- `collectionName(String collectionName)`
 
-    A list of field names to include in each entity in return.
+    目标集合的名称。
 
-    The value defaults to **None**. If left unspecified, all fields in the collection are selected as the output fields.
+- `clusterId(String clusterId)`
 
-- `expr(String expr)`
+    此向量读取请求的目标集群 ID。当多个请求应共享同一个集群 ID 时，请使用 `session(String clusterId)`。
 
-    A scalar filtering condition to filter matching entities. 
+- `partitionNames(List<String> partitionNames)`
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
-
-- `batchSize(long size)`
-
-    A value to define the number of entities returned per batch.
+    要查询的分区名称列表。
 
 - `vectorFieldName(String vectorFieldName)`
 
-    The target vector field name for which an ANN search will be conducted.
+    向量字段名称。
+
+- `topK(int topK)`
+
+    返回的前 K 个结果数量。
+
+- `limit(long limit)`
+
+    返回结果的最大数量。
+
+- `expr(String expr)`
+
+    用于过滤结果的布尔表达式。
+
+- `outputFields(List<String> outputFields)`
+
+    输出中要包含的字段名称列表。
 
 - `vectors(List<BaseVector> vectors)`
 
-    Set the target vectors to do ANN search.
+    用于搜索的向量列表。
 
-    BaseVector is a base class for abstract vector classes. The following classes are derived from BaseVector. Choose the correct class as input according to DataType of the vector field.
+- `roundDecimal(int roundDecimal)`
 
-    <table>
-       <tr>
-         <th><p><strong>Class Name</strong></p></th>
-         <th><p><strong>Constructors</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>FloatVec</p></td>
-         <td><p>FloatVec(List\<Float> data)</p><p>FloatVec(float[] data)</p></td>
-         <td><p>For DataType.FloatVector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>BinaryVec</p></td>
-         <td><p>BinaryVec(ByteBuffer data)</p><p>BinaryVec(byte[] data)</p></td>
-         <td><p>For DataType.BinaryVector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>Float16Vec</p></td>
-         <td><p>Float16Vec(ByteBuffer data)</p><p>Float16Vec(byte[] data)</p><p>Float16Vec(List\<Float> data)</p></td>
-         <td><p>For DataType.Float16Vector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>BFloat16Vec</p></td>
-         <td><p>BFloat16Vec(ByteBuffer data)</p><p>BFloat16Vec(byte[] data)</p><p>BFloat16Vec(List\<Float> data)</p></td>
-         <td><p>For DataType.BFloat16Vector type field.</p></td>
-       </tr>
-       <tr>
-         <td><p>SparseFloatVec</p></td>
-         <td><p>SparseFloatVec(SortedMap\<Long, Float> data)</p></td>
-         <td><p>For DataType.SparseFloatVector type field.</p></td>
-       </tr>
-    </table>
+    distance/score 的四舍五入小数位数。
 
 - `params(String params)`
 
-    A JSON format string for extra parameters.
+    以 JSON 字符串形式提供的其他搜索参数。
 
-- `topK(int topk)`
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    The topk value.
+    此操作的一致性级别。
 
-- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
+- `ignoreGrowing(boolean ignoreGrowing)`
 
-    The consistency level of the target collection.
+    操作期间是否忽略 growing segments。
 
-    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+- `groupByFieldName(String groupByFieldName)`
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    用于对搜索结果进行分组的字段名称。
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+- `batchSize(long batchSize)`
 
-    </Admonition>
+    迭代器操作的批大小。
 
-- `roundDecimal(int decimal)`
-
-    How many digits are reserved after the decimal point.
-
-- `ignoreGrowing(boolean ignoreGrwing)`
-
-    Ignore growing segments or not.
-
-- `groupByFieldName(String fieldName)`
-
-    Sets the field name to do grouping for results.
-
-**RETURN TYPE:**
+**返回值：**
 
 *SearchIterator*
 
-**RETURNS:**
+用于迭代搜索结果的 *SearchIterator* 对象，提供以下方法：
 
-A *SearchIterator* object to iterate search results, which offers the following methods:
+**异常：**
 
-- `List<QueryResultsWrapper.RowRecord> next()`
+- **MilvusClientException**
 
-    Return a batch of results.
+    当此操作期间发生任何错误时，将引发此异常。
 
-- `close()`
-
-    Release the cache results.
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.orm.iterator.SearchIterator;
@@ -232,4 +190,3 @@ while (true) {
     }
 }
 ```
-

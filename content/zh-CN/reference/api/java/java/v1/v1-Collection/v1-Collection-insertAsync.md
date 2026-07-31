@@ -4,7 +4,7 @@ slug: /java/v1-Collection-insertAsync
 sidebar_label: "insertAsync()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method inserts entities asynchronously into a specified collection. | Java | v1"
+description: "MilvusClient 接口。此方法将实体异步插入到指定集合中。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#FGntdToQEod74ZxBuS7cJ1gInjd
 sidebar_position: 12
@@ -17,15 +17,15 @@ import Admonition from '@theme/Admonition';
 
 # insertAsync()
 
-A MilvusClient interface. This method inserts entities asynchronously into a specified collection. 
+MilvusClient 接口。此方法将实体异步插入到指定集合中。 
 
 ```java
 ListenableFuture<R<MutationResult>> insertAsync(InsertParam requestParam);
 ```
 
-This method uses the same parameter as `insert()`, it invokes the RPC interface and returns a `ListenableFuture` object immediately.
+此方法使用与 `insert()` 相同的参数。它调用 RPC 接口并立即返回一个 `ListenableFuture` 对象。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.*;

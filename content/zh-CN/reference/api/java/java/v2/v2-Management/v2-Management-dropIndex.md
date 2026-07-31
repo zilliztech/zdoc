@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropIndex() | Java | v2"
 slug: /java/java/v2-Management-dropIndex
 sidebar_label: "dropIndex()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops an index from a specific collection. | Java | v2"
+description: "此操作从特定集合中删除索引。 | Java | v2"
 type: docx
 token: XHyydLsEAoPwB2xNhcwc9KBwn7g
 sidebar_position: 5
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropIndex()
 
-This operation drops an index from a specific collection.
+此操作从特定集合中删除索引。
 
 ```java
 public void dropIndex(DropIndexReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropIndex(DropIndexReq.builder()
@@ -49,35 +49,35 @@ dropIndex(DropIndexReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - `fieldName(String fieldName)`
 
-    The name of the field on which the index is created.
+    创建索引的字段名称。
 
 - `indexName(String indexName)`
 
-    The name of the index to drop.
+    要删除的索引名称。
 
-**RETURNS:**
+**返回值：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    在此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

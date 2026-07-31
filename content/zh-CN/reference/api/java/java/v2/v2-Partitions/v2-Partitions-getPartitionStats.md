@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getPartitionStats() | Java | v2"
 slug: /java/java/v2-Partitions-getPartitionStats
 sidebar_label: "getPartitionStats()"
+beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists the statistics collected on a specific partition. | Java | v2"
+description: "此操作列出在特定分区上收集的统计信息。 | Java | v2"
 type: docx
 token: ZCESd1IrfoFHByx125kcd38Zndg
 sidebar_position: 3
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStats()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getPartitionStats()
 
-This operation lists the statistics collected on a specific partition.
+此操作列出在特定分区上收集的统计信息。
 
 ```java
 public GetPartitionStatsResp getPartitionStats(GetPartitionStatsReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 getPartitionStats(GetPartitionStatsReq.builder()
@@ -48,41 +48,41 @@ getPartitionStats(GetPartitionStatsReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**BUILDER 方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of a collection.
+    集合的名称。
 
 - `partitionName(String partitionName)`
 
-    The name of a partition in the specified collection.
+    指定集合中某个分区的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *GetPartitionStatsResp*
 
-**RETURNS:**
+**返回：**
 
-A **GetPartitionStatsResp** object containing collected statistics on the specified collection.
+一个 **GetPartitionStatsResp** 对象，包含在指定集合上收集的统计信息。
 
-**PARAMETERS:**
+**参数：**
 
 - **numOfEntities** (*long*)
 
-    The count of entities in the partition.
+    分区中的实体数量。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

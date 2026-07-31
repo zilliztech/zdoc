@@ -4,7 +4,7 @@ slug: /java/v1-Connections-MilvusClientV1Pool
 sidebar_label: "MilvusClientV1Pool"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClientV1Pool instance is a connection pool for MilvusClient objects. The number of MilvusClient objects automatically increases or decreases to avoid frequent opening and closing connections, improving your application's performance. | Java | v1"
+description: "MilvusClientV1Pool 实例是 MilvusClient 对象的连接池。MilvusClient 对象的数量会自动增加或减少，以避免频繁打开和关闭连接，从而提升应用程序性能。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#QPdGdvQkuoSQ7pxYAJ8cz3Konmc
 sidebar_position: 2
@@ -17,143 +17,143 @@ import Admonition from '@theme/Admonition';
 
 # MilvusClientV1Pool
 
-A MilvusClientV1Pool instance is a connection pool for MilvusClient objects. The number of MilvusClient objects automatically increases or decreases to avoid frequent opening and closing connections, improving your application's performance.
+MilvusClientV1Pool 实例是 MilvusClient 对象的连接池。MilvusClient 对象的数量会自动增加或减少，以避免频繁打开和关闭连接，从而提升应用程序性能。
 
-Methods of MilvusClient for connection:
+用于连接的 MilvusClient 方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Parameters</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>参数</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getClient(String key)</p></td>
-     <td><p>Get a client object that is idle from the pool.</p><p>Once the caller holds the client, it will be marked as an active state and cannot be fetched by other callers.</p><p>If the number of clients hits the MaxTotalPerKey value, this method will be blocked for MaxBlockWaitDuration.</p><p>If no idle client is available after MaxBlockWaitDuration, this method will return a null object to the caller.</p></td>
-     <td><p>key: the key of a group where the client belongs</p></td>
+     <td><p>从连接池中获取一个空闲的客户端对象。</p><p>一旦调用方持有该客户端，它将被标记为活跃状态，其他调用方将无法获取。</p><p>如果客户端数量达到 MaxTotalPerKey 值，此方法将阻塞 MaxBlockWaitDuration。</p><p>如果在 MaxBlockWaitDuration 之后仍无可用的空闲客户端，此方法将向调用方返回一个 null 对象。</p></td>
+     <td><p>key: 客户端所属组的键</p></td>
      <td><p>MilvusClient</p></td>
    </tr>
    <tr>
      <td><p>returnClient(String key, MilvusClient grpcClient)</p></td>
-     <td><p>Return a client object. Once a client is returned, it becomes idle state and waits for the next caller.</p><p>The caller should ensure the client is returned. Otherwise, the client will keep in active state and cannot be used by the next caller.</p><p>Throw exceptions if the key doesn't exist or the client does not belong to this key group.</p></td>
-     <td><p>key: the key of a group where the client belongs</p><p>grpcClient: the client object to return</p></td>
+     <td><p>归还一个客户端对象。客户端归还后会变为空闲状态，并等待下一个调用方使用。</p><p>调用方应确保客户端被归还。否则，该客户端将持续处于活跃状态，无法被下一个调用方使用。</p><p>如果 key 不存在，或者该客户端不属于此 key 组，则会抛出异常。</p></td>
+     <td><p>key: 客户端所属组的键</p><p>grpcClient: 要归还的客户端对象</p></td>
      <td><p>void</p></td>
    </tr>
    <tr>
      <td><p>getIdleClientNumber(String key)</p></td>
-     <td><p>Return the number of idle clients of a key group.</p></td>
-     <td><p>key: the key of a group</p></td>
+     <td><p>返回某个 key 组的空闲客户端数量。</p></td>
+     <td><p>key: 组的键</p></td>
      <td><p>int</p></td>
    </tr>
    <tr>
      <td><p>getActiveClientNumber(String key)</p></td>
-     <td><p>Return the number of active clients of a key group.</p></td>
-     <td><p>key: the key of a group</p></td>
+     <td><p>返回某个 key 组的活跃客户端数量。</p></td>
+     <td><p>key: 组的键</p></td>
      <td><p>int</p></td>
    </tr>
    <tr>
      <td><p>getTotalIdleClientNumber()</p></td>
-     <td><p>Return the number of idle clients of all key groups.</p></td>
+     <td><p>返回所有 key 组的空闲客户端总数。</p></td>
      <td></td>
      <td><p>int</p></td>
    </tr>
    <tr>
      <td><p>getTotalActiveClientNumber()</p></td>
-     <td><p>Return the number of active clients of all key groups</p></td>
+     <td><p>返回所有 key 组的活跃客户端总数</p></td>
      <td></td>
      <td><p>int</p></td>
    </tr>
    <tr>
      <td><p>clear(String key)</p></td>
-     <td><p>Release/disconnect idle clients of a key group.</p></td>
-     <td><p>key: the key of a group</p></td>
+     <td><p>释放/断开某个 key 组中的空闲客户端。</p></td>
+     <td><p>key: 组的键</p></td>
      <td><p>void</p></td>
    </tr>
    <tr>
      <td><p>clear()</p></td>
-     <td><p>Release/disconnect idle clients of all key groups.</p></td>
+     <td><p>释放/断开所有 key 组中的空闲客户端。</p></td>
      <td></td>
      <td><p>void</p></td>
    </tr>
    <tr>
      <td><p>close()</p></td>
-     <td><p>Release/disconnect all clients of all key groups, and close the pool.</p></td>
+     <td><p>释放/断开所有 key 组中的所有客户端，并关闭连接池。</p></td>
      <td></td>
      <td><p>void</p></td>
    </tr>
 </table>
 
-#### PoolConfig
+#### PoolConfig\{#poolconfig}
 
-Use the PoolConfig.PoolConfigBuilder to construct a PoolConfig.
+使用 PoolConfig.PoolConfigBuilder 构建 PoolConfig。
 
 ```java
 import io.milvus.pool.PoolConfig;
 PoolConfig.PoolConfigBuilder builder = PoolConfig.builder();
 ```
 
-Methods of PoolConfig.PoolConfigBuilder:
+PoolConfig.PoolConfigBuilder 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Patameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>maxIdlePerKey(int maxIdlePerKey)</p></td>
-        <td><p>The maximum number of idle clients for each key. If the number of idle clients exceeds this number, some clients will be automatically closed. The default value is 5.</p></td>
-        <td><p>maxIdlePerKey: The maximum number of idle clients .</p></td>
+        <td><p>每个 key 的最大空闲客户端数量。如果空闲客户端数量超过该值，部分客户端将被自动关闭。默认值为 5。</p></td>
+        <td><p>maxIdlePerKey: 最大空闲客户端数量。</p></td>
     </tr>
     <tr>
         <td><p>minIdlePerKey(int minIdlePerKey)</p></td>
-        <td><p>The minimize number of idle clients for each key. The default value is 0.</p></td>
-        <td><p>minIdlePerKey: The minimize number of idle clients.</p></td>
+        <td><p>每个 key 的最小空闲客户端数量。默认值为 0。</p></td>
+        <td><p>minIdlePerKey: 最小空闲客户端数量。</p></td>
     </tr>
     <tr>
         <td><p>maxTotalPerKey(int maxTotalPerKey)</p></td>
-        <td><p>The maximum number of clients for each key, including idle clients and active clients. The default value is 10.</p></td>
-        <td><p>maxTotalPerKey: The maximum number of clients</p></td>
+        <td><p>每个 key 的最大客户端数量，包括空闲客户端和活跃客户端。默认值为 10。</p></td>
+        <td><p>maxTotalPerKey: 最大客户端数量</p></td>
     </tr>
     <tr>
         <td><p>maxTotal(int maxTotal)</p></td>
-        <td><p>The maximum number of clients in total, including idle clients and active clients. The default value is 50.</p></td>
-        <td><p>maxTotal: The maximum number of clients.</p></td>
+        <td><p>客户端总数的最大值，包括空闲客户端和活跃客户端。默认值为 50。</p></td>
+        <td><p>maxTotal: 最大客户端数量。</p></td>
     </tr>
     <tr>
         <td><p>blockWhenExhausted(boolean blockWhenExhausted)</p></td>
-        <td><p>Block the getClient() method for a duration when the maximum number of clients is hit and all the clients are active. If this flag is false, the getClient() will instantly throw an exception if the maximum number of clients is hit and all the clients are active. The default value is true.</p></td>
-        <td><p>blockWhenExhausted: Set to true for blocking getClient() when the pool is full.</p></td>
+        <td><p>当达到最大客户端数量且所有客户端都处于活跃状态时，使 getClient() 方法阻塞一段时间。如果该标志为 false，则当达到最大客户端数量且所有客户端都处于活跃状态时，getClient() 会立即抛出异常。默认值为 true。</p></td>
+        <td><p>blockWhenExhausted: 设置为 true 时，当连接池已满会阻塞 getClient()。</p></td>
     </tr>
     <tr>
         <td><p>maxBlockWaitDuration(Duration maxBlockWaitDuration)</p></td>
-        <td><p>Max block duration when the maximum number of clients is hit and all the clients are active. The default value is 3 seconds.</p></td>
-        <td><p>maxBlockWaitDuration: Duration of blocking getClient().</p></td>
+        <td><p>当达到最大客户端数量且所有客户端都处于活跃状态时的最大阻塞时长。默认值为 3 秒。</p></td>
+        <td><p>maxBlockWaitDuration: 阻塞 getClient() 的时长。</p></td>
     </tr>
     <tr>
         <td><p>evictionPollingInterval(Duration evictionPollingInterval)</p></td>
-        <td><p>Trigger an eviction action to evict expired idle clients for each duration. The default value is 60 seconds.</p></td>
-        <td><p>evictionPollingInterval: Interval to trigger eviction action.</p></td>
+        <td><p>按设定时长触发一次清理操作，以清除已过期的空闲客户端。默认值为 60 秒。</p></td>
+        <td><p>evictionPollingInterval: 触发清理操作的间隔。</p></td>
     </tr>
     <tr>
         <td><p>minEvictableIdleDuration(Duration minEvictableIdleDuration)</p></td>
-        <td><p>An idle client expires after this duration and can be evicted.</p></td>
-        <td><p>minEvictableIdleDuration: Duration to evict idle client.</p></td>
+        <td><p>空闲客户端在达到该时长后会过期，并可被清理。</p></td>
+        <td><p>minEvictableIdleDuration: 清理空闲客户端的时长阈值。</p></td>
     </tr>
     <tr>
         <td><p>testOnBorrow(boolean testOnBorrow)</p></td>
-        <td><p>If this flag is set to true, the pool will check if the grpc connection of a client is terminated or closed each time the getClient() is called.</p></td>
-        <td><p>testOnBorrow: Set to true to check connection when getClient() is called.</p></td>
+        <td><p>如果此标志设置为 true，则每次调用 getClient() 时，连接池都会检查客户端的 grpc 连接是否已终止或关闭。</p></td>
+        <td><p>testOnBorrow: 设置为 true 时，在调用 getClient() 时检查连接。</p></td>
     </tr>
     <tr>
         <td><p>testOnReturn(boolean testOnReturn)</p></td>
-        <td><p>If this flag is set to true, the pool will check if the grpc connection of a client is terminated or closed each time the returnClient() is called.</p></td>
-        <td><p>testOnReturn: Set to true to check connection when returnClient() is called.</p></td>
+        <td><p>如果此标志设置为 true，则每次调用 returnClient() 时，连接池都会检查客户端的 grpc 连接是否已终止或关闭。</p></td>
+        <td><p>testOnReturn: 设置为 true 时，在调用 returnClient() 时检查连接。</p></td>
     </tr>
 </table>
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.ConnectParam

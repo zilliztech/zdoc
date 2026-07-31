@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "LocalBulkWriter | Java | v2"
 slug: /java/java/v2-DataImport-LocalBulkWriter
 sidebar_label: "LocalBulkWriter"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands. | Java | v2"
+description: "LocalBulkWriter 实例会在本地将原始数据重写为 Milvus 可理解的格式。 | Java | v2"
 type: docx
 token: G7F9dQ8DwoZsaVxExdnc7K6an3g
 sidebar_position: 5
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - 什么是向量数据库
+  - vectordb
+  - 多模态向量数据库检索
+  - 检索增强生成
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # LocalBulkWriter
 
-A **LocalBulkWriter** instance rewrites your raw data locally in a format that Milvus understands.
+**LocalBulkWriter** 实例会在本地将原始数据重写为 Milvus 可理解的格式。
 
 ```java
 io.milvus.bulkwriter.LocalBulkWriter
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a **LocalBulkWriter** instance by schema, output path, segment size, and file type.
+根据 schema、输出路径、分段大小和文件类型构造一个 **LocalBulkWriter** 实例。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A <strong>LocalBulkWriter</strong> object intends to rewrite your raw data locally in a format that Milvus understands.</p>
+**LocalBulkWriter** 对象旨在本地将原始数据重写为 Milvus 可理解的格式。
 
 </Admonition>
 
@@ -55,11 +55,11 @@ LocalBulkWriter(LocalBulkWriterParam bulkWriterParam)
 
 - **bulkWriterParam** (*LocalBulkWriterParam*) -
 
-    A [LocalBulkWriterParam](./v2-DataImport-LocalBulkWriter#localbulkwriterparam) instance.
+    一个 [LocalBulkWriterParam](./v2-DataImport-LocalBulkWriter#localbulkwriterparam) 实例。
 
-## LocalBulkWriterParam
+## LocalBulkWriterParam\{#localbulkwriterparam}
 
-**LocalBulkWriterParam** allows you to configure properties for your **LocalBulkWriter** instances in one place so that you can instantiate the **LocalBulkWriter** class.
+**LocalBulkWriterParam** 允许你在一个位置集中配置 **LocalBulkWriter** 实例的属性，从而实例化 **LocalBulkWriter** 类。
 
 ```java
 LocalBulkWriterParam.newBuilder()
@@ -75,42 +75,43 @@ LocalBulkWriterParam.newBuilder()
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    The schema of the target collection that is defined by instantiating **[CreateCollectionReq.CollectionSchema](./v2-Collections-CollectionSchema)**.
+    目标集合的 schema，通过实例化 **CreateCollectionReq.CollectionSchema** 定义。
 
 - `withLocalPath(String localPath)`
 
-    The path to the directory that is to hold the rewritten data.
+    用于存放重写后数据的目录路径。
 
 - `withChunkSize(long chunkSize)`
 
-    The maximum size of a file segment. While rewriting your raw data, Milvus splits it into segments.
+    单个文件分段的最大大小。在重写原始数据时，Milvus 会将其拆分为多个分段。
 
-    The value defaults to **536,870,912** in bytes, which is **512 MB**.
+    默认值为 **536,870,912** 字节，即 **512 MB**。
 
-    <Admonition type="info" icon="📘" title="**How does BulkWriter segment my data?**">
+    <Admonition type="info" icon="📘" title="**BulkWriter 如何对我的数据进行分段？**">
 
-    <p>The way BulkWriter segments your data varies with the target file type.</p>
-    <p>If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
+    BulkWriter 对数据进行分段的方式会因目标文件类型而异。
+    
+    如果生成的文件超过指定的分段大小，BulkWriter 会创建多个文件，并按顺序编号命名，每个文件都不会大于该分段大小。
 
     </Admonition>
 
 - `withFileType(BulkFileType fileType)`
 
-    The type of the output file. Possible options are listed in [BulkFileType](./v2-DataImport-BulkFileType).
+    输出文件的类型。可选项见 [BulkFileType](./v2-DataImport-BulkFileType)。
 
 - `withConfig(String key, Object val)`
 
-    A dictionary specifying optional configurations for processing CSV files. This parameter applies only when you set `fileType` to `CSV` in `withFileType()`. The dictionary contains the following fields:
+    一个字典，用于指定处理 CSV 文件时的可选配置。仅当你在 `withFileType()` 中将 `fileType` 设置为 `CSV` 时，此参数才生效。该字典包含以下字段：
 
     - **sep** (*string*) -
 
-        The delimiter of CSV file. The value must be a string of length 1, which defaults to `","`. The following strings are not allowed: `"\0"`, `"\n"`, `"\r"`, `"""`.
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*) -
 
-        Special string representing null value. The value defaults to empty string: `""`.
+        表示 null 值的特殊字符串。默认值为空字符串：`""`。
 
-## Example
+## Example\{#example}
 
 ```java
 import com.google.gson.JsonObject;

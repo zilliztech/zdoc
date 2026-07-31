@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "grantRole() | Java | v2"
 slug: /java/java/v2-Authentication-grantRole
 sidebar_label: "grantRole()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation grants a role to a user. | Java | v2"
+description: "此操作为用户授予角色。 | Java | v2"
 type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
 sidebar_position: 12
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # grantRole()
 
-This operation grants a role to a user.
+此操作为用户授予角色。
 
 ```java
 public void grantRole(GrantRoleReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 grantRole(GrantRoleReq.builder()
@@ -47,27 +47,27 @@ grantRole(GrantRoleReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `roleName(String roleName)`
 
-    The name of the role to assign.
+    要分配的角色名称。
 
 - `userName(String userName)`
 
-    The name of an existing user.
+    现有用户的名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

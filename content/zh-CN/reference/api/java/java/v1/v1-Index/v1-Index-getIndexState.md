@@ -4,7 +4,7 @@ slug: /java/v1-Index-getIndexState
 sidebar_label: "getIndexState()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method shows the index building state, and the reason for failure (if any). | Java | v1"
+description: "MilvusClient 接口。此方法显示索引构建状态以及失败原因（如果有）。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#RtDpdfeTiog4anxHq5Xcdbzengg
 sidebar_position: 4
@@ -17,66 +17,66 @@ import Admonition from '@theme/Admonition';
 
 # getIndexState()
 
-MilvusClient interface. This method shows the index building state, and the reason for failure (if any).
+MilvusClient 接口。此方法显示索引构建状态以及失败原因（如果有）。
 
 ```java
 R<GetIndexStateResponse> getIndexState(GetIndexStateParam requestParam);
 ```
 
-#### GetIndexStateParam
+#### GetIndexStateParam\{#getindexstateparam}
 
-Use the `GetIndexStateParam.Builder` to construct a `GetIndexStateParam` object.
+使用 `GetIndexStateParam.Builder` 构造 `GetIndexStateParam` 对象。
 
 ```java
 import io.milvus.param.GetIndexStateParam;
 GetIndexStateParam.Builder builder = GetIndexStateParam.newBuilder();
 ```
 
-Methods of `GetIndexStateParam.Builder`:
+`GetIndexStateParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(collectionName)</p></td>
-        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The target collection name.</p></td>
+        <td><p>设置 collection 名称。collection 名称不能为空或 null。</p></td>
+        <td><p>collectionName: 目标 collection 名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，database name 可以为 null。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withIndexName(String indexName)</p></td>
-        <td><p>Set the target index name. If no index name is specified, the default index name is empty string which means let the server determine it.</p></td>
-        <td><p>indexName: The name of the index.</p></td>
+        <td><p>设置目标索引名称。如果未指定索引名称，则默认索引名称为空字符串，这表示由服务器来决定。</p></td>
+        <td><p>indexName: 索引名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a GetIndexStateParam object.</p></td>
+        <td><p>构造一个 GetIndexStateParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `GetIndexStateParam.Builder.build()` can throw the following exceptions:
+`GetIndexStateParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<GetIndexStateResponse>` object.
+此方法会捕获所有异常并返回一个 `R<GetIndexStateResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务器端执行失败，则返回服务器返回的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和异常的错误消息。
 
-- If the API succeeds, it returns a valid `GetIndexStateResponse` held by the R template.
+- 如果 API 执行成功，则返回一个由 R 模板持有的有效 `GetIndexStateResponse`。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

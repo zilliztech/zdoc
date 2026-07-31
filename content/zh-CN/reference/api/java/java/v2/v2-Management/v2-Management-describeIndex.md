@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeIndex() | Java | v2"
 slug: /java/java/v2-Management-describeIndex
 sidebar_label: "describeIndex()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation describes a specific index. | Java | v2"
+description: "此操作描述特定索引。 | Java | v2"
 type: docx
-token: Lp8AdBebwoF7bLx7Q8Jc3Qz0nF9
+token: SgJ7dKfisomLkqx1E3BccMO7nqf
 sidebar_position: 4
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,83 +31,60 @@ import Admonition from '@theme/Admonition';
 
 # describeIndex()
 
-This operation describes a specific index.
+此操作描述特定索引。
 
 ```java
 public DescribeIndexResp describeIndex(DescribeIndexReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 describeIndex(DescribeIndexReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .fieldName(String fieldName)
     .indexName(String indexName)
     .timestamp(Long timestamp)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
-- `collectionName(String collectionName)`
+- `databaseName(String databaseName)` -
 
-    The name of an existing collection.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-    Setting this to a non-existing collection results in **MilvusException**.
+- `collectionName(String collectionName)` -
 
-- `fieldName(String fieldName)`
+    目标集合的名称。
 
-    The name of the field on which the index is created.
+- `fieldName(String fieldName)` -
 
-- `indexName(String indexName)`
+    目标字段的名称。
 
-    The name of the index to describe.
+- `indexName(String indexName)` -
 
-    Setting this to a non-existing collection results in **MilvusException**.
+    目标索引的名称。
 
-- `timestamp(Long timestamp)`
+- `timestamp(Long timestamp)` -
 
-    A timestamp, the segments generated before which will be checked before this operation returns. The value defaults to `0L`, indicating that all segments generated till now will be checked.
+    用于时间旅行查询的时间戳。默认为 `0L`。
 
-**RETURN TYPE:** 
+**RETURNS：**
 
 *DescribeIndexResp*
 
-**RETURNS:**
+包含指定索引详细信息的 **DescribeIndexResp** 对象。
 
-A **DescribeIndexResp** object that contains the details of the specified index.
+**EXCEPTIONS：**
 
-**PARAMETERS:**
+- **MilvusClientException**
 
-- **indexName** (*String*)
+    当此操作期间发生任何错误时，将引发此异常。
 
-    The name of the created index.
-
-- **indexType** (*String*)
-
-    The algorithm that is used to build the index. 
-
-    On Zilliz Cloud, the value is always **AUTOINDEX**. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
-
-- **metricType** (*String*)
-
-    The algorithm that is used to measure similarity between vectors. Possible values are **IP**, **L2**, and **COSINE**.
-
-    This is available only when the specified field is a vector field.
-
-- **fieldName** (*String*)
-
-    The name of the field on which the index has been created.
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -130,4 +107,3 @@ DescribeIndexReq describeIndexReq = DescribeIndexReq.builder()
         .build();
 DescribeIndexResp describeIndexResp = client.describeIndex(describeIndexReq);
 ```
-

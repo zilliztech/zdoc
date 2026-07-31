@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterCollectionField() | Java | v2"
 slug: /java/java/v2-Collections-alterCollectionField
 sidebar_label: "alterCollectionField()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation modifies the properties of a specified collection field. | Java | v2"
+description: "此操作修改指定集合字段的属性。 | Java | v2"
 type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 什么是 milvus
+  - milvus 数据库
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionField()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionField()
 
-This operation modifies the properties of a specified collection field.
+此操作修改指定集合字段的属性。
 
 ```java
 public Void alterCollectionField(AlterCollectionFieldReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 alterCollectionField(AlterCollectionFieldReq.builder()
@@ -49,57 +49,57 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - `collectionName(String collectionName)`
 
     **[REQUIRED]**
 
-    The name of the target collection.
+    目标集合的名称。
 
 - `fieldName(String fieldName)`
 
     **[REQUIRED]**
 
-    The name of the target field.
+    目标字段的名称。
 
 - `properties(Map<String, String> properties)`
 
     **[REQUIRED]**
 
-    The properties to modify and their expected values. Note that the property values should be strings. Available database properties are as follows:
+    要修改的属性及其期望值。请注意，属性值应为字符串。可用的数据库属性如下：
 
     - **max_length** -
 
-        The maximum byte length for strings allowed to be inserted. Note that multibyte characters (e.g., Unicode characters) may occupy more than one byte each, so ensure the byte length of inserted strings does not exceed the specified limit. Value range: [1, 65,535].
+        允许插入的字符串的最大字节长度。请注意，多字节字符（例如 Unicode 字符）每个可能占用多个字节，因此请确保插入字符串的字节长度不超过指定限制。取值范围：[1, 65,535]。
 
-        This is mandatory for a varchar field.
+        这是 varchar 字段的必填项。
 
     - **max_capacity** -
 
-        The number of elements in an Array field value.
+        Array 字段值中的元素数量。
 
-        This is mandatory for an array field.
+        这是 array 字段的必填项。
 
     - **mmap_enabled** -
 
-        Whether Milvus maps the field data into memory instead of fully loading it. For details, refer to MMap-enabled Data Storage.
+        是否让 Milvus 将字段数据映射到内存中，而不是将其完全加载到内存。更多信息请参见 MMap-enabled Data Storage。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

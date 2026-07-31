@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "runAnalyzer() | Java | v2"
 slug: /java/java/v2-Vector-runAnalyzer
 sidebar_label: "runAnalyzer()"
-added_since: v2.6.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.6.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation processes the input data and generates tokenized output. | Java | v2"
+description: "此操作会处理输入数据并生成分词后的输出。 | Java | v2"
 type: docx
-token: S2RfdHUQro7atExpfJBc6FPfnZe
+token: AXt2dvFmQoP04wx9zlVciuitnQf
 sidebar_position: 10
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,18 +31,18 @@ import Admonition from '@theme/Admonition';
 
 # runAnalyzer()
 
-This operation processes the input data and generates tokenized output.
+此操作会处理输入数据并生成分词后的输出。
 
 ```java
 public RunAnalyzerResp runAnalyzer(RunAnalyzerReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 runAnalyzer(RunAnalyzerReq.builder()
     .texts(List<String> texts)
-    .analyzerParams(Map<String, Object> analzyerParams)
+    .analyzerParams(Map<String, Object> analyzerParams)
     .withDetail(Boolean withDetail)
     .withHash(Boolean withHash)
     .databaseName(String databaseName)
@@ -50,90 +50,56 @@ runAnalyzer(RunAnalyzerReq.builder()
     .fieldName(String fieldName)
     .analyzerNames(List<String> analyzerNames)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `texts(List<String> texts)`
+- `texts(List<String> texts)` -
 
-    The input text or a list of texts to be analyzed.
+    要分析的文本字符串列表。
 
-- `analyzerParams(Map<String, Object> analzyerParams)`
+- `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    The parameters for the analyzer. If left unspecified, defaults to an empty dictionary.
+    analyzer 参数映射。
 
-- `withDetail(Boolean withDetail)`
+- `withDetail(Boolean withDetail)` -
 
-    An optional flag indicating whether to return detailed analysis output.
+    是否包含详细的 token 信息。
 
-- `withHash(Boolean withHash)`
+- `withHash(Boolean withHash)` -
 
-    An optional flag indicating whether to include hash-based processing.
+    是否在输出中包含哈希值。
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the target database. The value defaults to an empty string, indicating the default database.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of the target collection in the above-specified database.
+    目标 collection 的名称。
 
-- `fieldName(String fieldName)`
+- `fieldName(String fieldName)` -
 
-    The name of the target field in the above-specified collection.
+    目标字段的名称。
 
-- `analyzerNames(List<String> analyzerNames)`
+- `analyzerNames(List<String> analyzerNames)` -
 
-    The names of the analyzers to be used.
+    要使用的 analyzer 名称列表。
 
-**RETURN TYPE:**
+**返回：**
 
 *RunAnalyzerResp*
 
-**RETURNS:**
+**RunAnalyzerResp** 包含一个 **AnalyzerResult** 对象列表，其中每个对象都是一个 **AnalyzerToken** 对象列表。
 
-A **RunAnalyzerResp** contains a list of **AnalyzerResult** objects, each of which is a list of **AnalyzerToken** objects. 
+**异常：**
 
-```java
-├── RunAnalyzerResp
-│       ├── AnalyzerResult_00
-│       │       ├── AnalyzerToken_00   
-│       │       ├── AnalyzerToken_01
-│       │       ├── ...
-│       │       └── AnalyzerToken_0x
-│       ├── AnalyzerResult_01
-│       ├── ...
-│       └── AnalyzerResult_0x
-```
+- **MilvusClientException**
 
-An **AnalyzerToken** has the following attributes:
+    当此操作过程中发生任何错误时，将引发此异常。
 
-- **token** (*String*) -
-
-    An analyzed token string
-
-- **startOffset** (*Long*) -
-
-    The offset of the above token's first character in the analyzed text.
-
-- **endOffset** (*Long*) -
-
-    The offset of the above token's last character in the analyzed text.
-
-- **position** (*Long*) -
-
-    The position of the above token in the analyzed text.
-
-- **positionLength** (*Long*) -
-
-    The length of the above token.
-
-- **hash** (*Long*) - 
-
-    The hash value of the above token.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

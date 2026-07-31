@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "FieldSchema | Java | v2"
 slug: /java/java/v2-Collections-FieldSchema
 sidebar_label: "FieldSchema"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
+description: "FieldSchema 实例用于定义集合中特定字段的数据类型及相关属性。 | Java | v2"
 type: docx
-token: WeXmdv8bioJ7AEx9sEtct6kgnUd
+token: ZwKPdk2rzoQUU7xm4CHcPiZqnjh
 sidebar_position: 16
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,99 +31,132 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-A **FieldSchema** instance defines the data type and related attributes of a specific field in a collection.
+**FieldSchema** 实例用于定义集合中特定字段的数据类型及相关属性。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.FieldSchema
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs the schema of a field by defining the field name, data type, and other parameters.
+通过定义字段名称、数据类型和其他参数来构造字段的 schema。
 
 ```java
 CreateCollectionReq.FieldSchema.builder()
-    .name(String fieldName)
+    .name(String name)
     .description(String description)
     .dataType(DataType dataType)
-    .maxLength(int maxLength)
-    .dimension(int dimension)
-    .isPrimaryKey(boolean isPrimaryKey)
-    .isPartitionKey(boolean isPartitionKey)
-    .autoID(boolean autoID)
+    .maxLength(Integer maxLength)
+    .dimension(Integer dimension)
+    .isPrimaryKey(Boolean isPrimaryKey)
+    .isPartitionKey(Boolean isPartitionKey)
+    .isClusteringKey(Boolean isClusteringKey)
+    .autoID(Boolean autoID)
 
+    .isNullable(Boolean isNullable)
+    .defaultValue(Object defaultValue)
+    .enableAnalyzer(Boolean enableAnalyzer)
+    .analyzerParams(Map<String, Object> analyzerParams)
+    .enableMatch(Boolean enableMatch)
+    .typeParams(Map<String, String> typeParams)
+    .multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)
+    .externalField(String externalField)
     .build();
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
-- `name(String fieldName)`
+- `name(String name)` -
 
-    The name of the field.
+    字段名称。
 
-- `description(String description)`
+- `description(String description)` -
 
-    The description of the field.
+    字段描述。
 
-- `dataType([DataType](./v2-Collections-DataType) dataType)`
+- `dataType(DataType dataType)` -
 
-    The data type of the field.
+    字段的数据类型。为不同字段选择数据类型时，可从以下选项中进行选择：主键字段——使用 **DataType.Int64** 或 **DataType.VarChar**；标量字段——从 **DataType.Bool**、**DataType.Int8**、**DataType.Int16**、**DataType.Int32**、**DataType.Int64**、**DataType.Float**、**DataType.Double**、**DataType.VarChar**、**DataType.JSON** 或 **DataType.Array** 中选择；向量字段——选择 **DataType.BinaryVector** 或 **DataType.FloatVector**。
 
-    You can choose from the following options when selecting a data type for different fields:
+- `maxLength(Integer maxLength)` -
 
-    - Primary key field: Use **DataType.Int64** or **DataType.VarChar**.
+    值可包含的最大字符数。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.VarChar**，则此参数为必填。
 
-    - Scalar fields: Choose from a variety of options, including **DataType.Bool**, **DataType.Int8**, **DataType.Int16**, **DataType.Int32**, **DataType.Int64**, **DataType.Float**, **DataType.Double**, **DataType.VarChar**, **DataType.JSON**.
+- `dimension(Integer dimension)` -
 
-    - Vector fields: Select **DataType.FloatVector**.
+    值应具有的维度数。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.FloatVector**，则此参数为必填。
 
-- `maxLength(int maxLength)`
+- `isPrimaryKey(Boolean isPrimaryKey)` -
 
-    The maximum number of characters a value should contain.
+    当前字段是否为主字段。将其设置为 **True** 时，当前字段将成为主字段。
 
-    This is required if **dataType** of this field is set to **DataType.VarChar.**
+- `isPartitionKey(Boolean isPartitionKey)` -
 
-- `dimension(int dimension)`
+    当前字段是否为分区键字段。将其设置为 **True** 时，当前字段将成为分区键。
 
-    The number of dimensions a value should have.
+- `isClusteringKey(Boolean isClusteringKey)` -
 
-    This is required if **dataType** of this field is set to **DataType.FloatVector**.
+    当前字段是否为聚簇键。聚簇键控制磁盘上 segment 的分组，以加速基于此字段过滤的查询。
 
-- `isPrimaryKey(boolean isPrimaryKey)`
+- `autoID(Boolean autoID)` -
 
-    Whether the current field is the primary field.
+    是否允许主字段自动递增。将其设置为 **True** 时，主字段将自动递增。在这种情况下，为避免出错，插入数据时不应包含主字段。请在 **isPrimaryKey** 设置为 **True** 的字段中设置此参数。
 
-    Setting this to **True** makes the current field the primary field.
+- `elementType(DataType elementType)` -
 
-- `isPartitionKey(boolean isPartitionKey)`
+    数组字段中元素的数据类型。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必填。
 
-    Whether the current field is the partitionKey field.
+- `maxCapacity(Integer maxCapacity)` -
 
-    Setting this to **True** makes the current field the partition key.
+    数组字段可包含的最大元素数量。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必填。
 
-- `autoID(boolean autoID)`
+- `isNullable(Boolean isNullable)` -
 
-    Whether allows the primary field to automatically increment.
+    允许此字段使用 `null` 值。默认值：`false`。更多信息请参见 Nullable & Default。
 
-    Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+- `defaultValue(Object defaultValue)` -
 
-    Set this parameter in the field with **isPrimaryKey** set to **True**.
+    为字段设置默认值，当插入时缺少该字段时使用。运行时类型必须与 `dataType` 匹配。
 
-**RETURN TYPE:**
+- `enableAnalyzer(Boolean enableAnalyzer)` -
+
+    是否为指定的 `VARCHAR` 字段启用文本分析。设置为 `true` 时，Milvus 会使用文本分析器对字段的文本内容进行分词和过滤。全文检索需要启用此功能。
+
+- `analyzerParams(Map<String, Object> analyzerParams)` -
+
+    `DataType.VarChar` 字段的字段级分析器配置（tokenizer、filters）。与 `enableAnalyzer` 搭配使用。
+
+- `enableMatch(Boolean enableMatch)` -
+
+    是否为指定的 `VARCHAR` 字段启用关键词匹配。当设置为 `true` 时，Milvus 会为该字段创建倒排索引，从而支持快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供基于结构化词项的文本搜索。
+
+- `typeParams(Map<String, String> typeParams)` -
+
+    未通过专用 builder 方法暴露的通用类型参数。指定后，此处的值会覆盖上面设置的对应参数值。
+
+- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
+
+    多语言分析器，允许你为文本字段配置多个分析器，并在该文本字段中存储多语言文档。
+
+- `externalField(String externalField)` -
+
+    将此 Milvus 字段映射到 schema 的 `externalSource` 所标识的外部数据源中的某一列。用于外部集合。
+
+**RETURN TYPE：**
 
 *FieldSchema*
 
-**RETURNS:**
+**RETURNS：**
 
-A **FieldSchema** object.
+一个 **FieldSchema** 对象。
 
-**EXCEPTIONS:**
+**EXCEPTIONS：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## Example\{#example}
 
 ```java
 // define a id field with autoID set to false

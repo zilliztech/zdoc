@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "insert() | Java | v2"
 slug: /java/java/v2-Vector-insert
 sidebar_label: "insert()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation inserts data into a specific collection. | Java | v2"
+description: "此操作将数据插入到特定集合中。 | Java | v2"
 type: docx
-token: P0XRd2Mgfo1uG6xk47icWRd4n6b
+token: Y0N1dL4bVoyUnXxfSu7cjrgRnlc
 sidebar_position: 4
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,93 +31,55 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-This operation inserts data into a specific collection.
+此操作将数据插入到特定集合中。
 
 ```java
 public InsertResp insert(InsertReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 insert(InsertReq.builder()
-    .collectionName(String collectionName)
     .data(List<JsonObject> data)
+    .databaseName(String databaseName)
+    .collectionName(String collectionName)
     .partitionName(String partitionName)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `collectionName(String collectionName)`
+- `data(List<JsonObject> data)` -
 
-    The name of an existing collection.
+    要以 JSON 对象形式插入或 upsert 的数据行列表。
 
-- `data(List<JsonObject> data)`
+- `databaseName(String databaseName)` -
 
-    The data to insert into the current collection.
+    数据库名称。如果未指定，则默认使用当前数据库。
 
-    The data to insert should be a `gson.JsonObject` that matches the schema of the current collection or a list of such dictionaries. 
+- `collectionName(String collectionName)` -
 
-    The following code assumes that the schema of the current collection has two fields named **id** and **vector**. The former is the primary field and the latter is a field to hold 5-dimensional vector embeddings.
+    目标集合的名称。
 
-    <Admonition type="info" icon="📘" title="Notes">
+- `partitionName(String partitionName)` -
 
-    <p>In Java SDK versions v2.4.1 or earlier versions, the input is a <code>fastjson.JSONObject</code>. But <code>fastjson</code> is not recommended to use now because of its unsafe deserialization vulnerability. Therefore, replace <code>fastjson</code> with <code>gson</code> if you use the Java SDK of v2.4.2 or later releases.</p>
+    目标分区的名称。
 
-    </Admonition>
-
-    ```java
-    import com.google.gson.JsonObject;
-    
-    List<JsonObject> data = new ArrayList<>();
-    
-    JsonObject dict1 = new JsonObject();
-    List<Float> vectorArray1 = new ArrayList<>();
-    vectorArray1.add(0.37417449965222693);
-    vectorArray1.add(-0.9401784221711342);
-    vectorArray1.add(0.9197526367693833);
-    vectorArray1.add(0.49519396415367245);
-    vectorArray1.add(-0.558567588166478);
-    
-    dict1.addProperty("id", 1L);
-    dict1.add("vector", gson.toJsonTree(vectorArray1));
-    
-    JsonObject dict2 = new JsonObject();
-    List<Float> vectorArray2 = new ArrayList<>();
-    vectorArray2.add(0.46949086179692356);
-    vectorArray2.add(-0.533609076732849);
-    vectorArray2.add(-0.8344432775467099);
-    vectorArray2.add(0.9797361846081416);
-    vectorArray2.add(0.6294256393761057);
-    
-    dict2.addProperty("id", 2L);
-    dict2.add("vector", gson.toJsonTree(vectorArray2));
-    
-    data.add(dict1);
-    data.add(dict2);
-    ```
-
-- `partitionName(String partitionName)`
-
-    The name of a partition.
-
-**RETURN TYPE:**
+**返回：**
 
 *InsertResp*
 
-**RETURNS:**
+一个 **InsertResp** 对象，包含已插入实体数量的信息。
 
-An **InsertResp** object containing information about the number of inserted entities.
+**异常：**
 
-**EXCEPTIONS:**
+- **MilvusClientException**
 
-- **MilvusClientExceptions**
+    当此操作期间发生任何错误时，将引发此异常。
 
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import com.google.gson.JsonObject;
@@ -148,4 +110,3 @@ InsertReq insertReq = InsertReq.builder()
         .build();
 client.insert(insertReq);
 ```
-

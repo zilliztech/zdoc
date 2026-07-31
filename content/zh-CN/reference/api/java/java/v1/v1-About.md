@@ -1,10 +1,10 @@
 ---
-title: "About | Java | v1"
+title: "关于 | Java | v1"
 slug: /java/v1-About
-sidebar_label: "About"
+sidebar_label: "关于"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "Milvus Java SDK is an open-source project and its source code is hosted on GitHub. | Java | v1"
+description: "Milvus Java SDK 是一个开源项目，其源代码托管在 GitHub 上。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#doxcnwl3WAzrojyyvlllUicOGBd
 sidebar_position: 1
@@ -15,16 +15,20 @@ displayed_sidebar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# About
+# 关于
 
-Milvus Java SDK is an open-source project and its source code is hosted on [GitHub](https://github.com/milvus-io/milvus-sdk-java).
+Milvus Java SDK 是一个开源项目，其源代码托管在 [GitHub](https://github.com/milvus-io/milvus-sdk-java) 上。
 
-## **Compatibility**
+<Admonition type="caution" title="已弃用">
+  Java SDK v1 API（旧版 `io.milvus` 包）已弃用。新开发请使用 [Java SDK v2](./v2)。
+</Admonition>
+
+## **兼容性**\{#compatibility}
 
 <table>
     <tr>
-        <th><p>Milvus version</p></th>
-        <th><p>Recommended SDK version</p></th>
+        <th><p>Milvus 版本</p></th>
+        <th><p>推荐的 SDK 版本</p></th>
     </tr>
     <tr>
         <td><p>2.0.2</p></td>
@@ -50,11 +54,19 @@ Milvus Java SDK is an open-source project and its source code is hosted on [GitH
         <td><p>2.4.x</p></td>
         <td><p>2.4.3</p></td>
     </tr>
+    <tr>
+        <td><p>2.5.x</p></td>
+        <td><p>2.5.15</p></td>
+    </tr>
+    <tr>
+        <td><p>2.6.x</p></td>
+        <td><p>2.6.18</p></td>
+    </tr>
 </table>
 
-## **Installation**
+## **安装**\{#installation}
 
-You can use **[Apache Maven](https://maven.apache.org/install.html)** or **[Gradle](https://gradle.org/install/)** to download the SDK.
+您可以使用 **[Apache Maven](https://maven.apache.org/install.html)** 或 **[Gradle](https://gradle.org/install/)** 下载 SDK。
 
 - Apache Maven
 
@@ -62,22 +74,22 @@ You can use **[Apache Maven](https://maven.apache.org/install.html)** or **[Grad
  <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>2.4.3</version>
+     <version>2.6.18</version>
  </dependency>
 ```
 
 - Gradle/Groovy
 
 ```plaintext
-implementation 'io.milvus:milvus-sdk-java:2.4.3'
+implementation 'io.milvus:milvus-sdk-java:2.6.18'
 ```
 
 - Gradle/Kotlin
 
 ```sql
-implementation("io.milvus:milvus-sdk-java:2.4.3")
+implementation("io.milvus:milvus-sdk-java:2.6.18")
 ```
 
-## **Contributing**
+## **贡献**\{#contributing}
 
-We are committed to building a collaborative, exuberant open-source community for Milvus. Therefore, contributions to Milvus Java SDK are welcome from everyone. Refer to [Contributing Guideline](https://github.com/milvus-io/milvus-sdk-java/blob/master/CONTRIBUTING.md) before making contributions to this project. You can [file an issue](https://github.com/milvus-io/milvus-sdk-java/issues/new) if you need any assistance or want to propose your ideas
+我们致力于为 Milvus 构建一个协作开放、充满活力的开源社区。因此，欢迎所有人参与 Milvus Java SDK 的贡献。在为此项目做出贡献之前，请参阅[贡献指南](https://github.com/milvus-io/milvus-sdk-java/blob/master/CONTRIBUTING.md)。如果您需要任何帮助或希望提出自己的想法，可以[提交 issue](https://github.com/milvus-io/milvus-sdk-java/issues/new)。

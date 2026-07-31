@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "MilvusClientV2 | Java | v2"
 slug: /java/java/v2-Client-MilvusClientV2
 sidebar_label: "MilvusClientV2"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "A MilvusClientV2 instance represents a Java client that connects to a specific Zilliz Cloud cluster. | Java | v2"
+description: "MilvusClientV2 实例表示一个连接到特定 Zilliz Cloud 集群的 Java 客户端。 | Java | v2"
 type: docx
 token: IeOWd0yR2onm5Ex6XyqcrGjKnpS
 sidebar_position: 1
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # MilvusClientV2
 
-A **MilvusClientV2** instance represents a Java client that connects to a specific Zilliz Cloud cluster.
+**MilvusClientV2** 实例表示一个连接到特定 Zilliz Cloud 集群的 Java 客户端。
 
 ```java
 io.milvus.v2.client.MilvusClientV2
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-Constructs a client for common use cases.
+为常见用例构造一个客户端。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This client serves as an easy-to-use alternative for the current set of APIs that handles Create, Read, Update, and Delete (CRUD) operations on Zilliz Cloud.</p>
+该客户端可作为当前这组 API 的一个易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
 
 </Admonition>
 
@@ -51,9 +51,9 @@ Constructs a client for common use cases.
 MilvusClientV2(ConnectConfig connectConfig);
 ```
 
-## ConnectConfig
+## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
 
-**ConnectConfig** allows you to configure the connection properties in one place so that **MilvusClientV2** can reference it to create and manage the connection pool.
+**[ConnectConfig](./v2-Client-ConnectConfig)** 允许您在一个地方配置连接属性，以便 **MilvusClientV2** 可以引用它来创建和管理连接池。
 
 ```java
 // use either token or username/password
@@ -81,155 +81,155 @@ ConnectConfig.builder()
     .build();
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `uri(String uri)`
 
-    The URI of the Zilliz Cloud cluster. For example:
+    Zilliz Cloud 集群的 URI。例如：
 
     ```plaintext
-    https://inxx-xxxxxxxxxxxxxxxxx.ali-cn-hangzhou.zillizcloud.com:19540
+    https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
     ```
 
 - `token(String token)`
 
-    A valid access token to access the specified Zilliz Cloud cluster. 
+    用于访问指定 Zilliz Cloud 集群的有效访问令牌。
 
-    This can be used as a recommended alternative to setting **user** and **password** separately.
+    这可以作为分别设置 **user** 和 **password** 的推荐替代方式。
 
-    When setting this field, notice that:
+    设置此字段时，请注意：
 
-    A valid token should be either
+    有效的 token 应为以下之一：
 
-    - An [API key](/docs/manage-api-keys) with sufficient permissions, or
+    - 具有足够权限的 [API key](/docs/manage-api-keys)，或
 
-    - A pair of [username and password ](/docs/cluster-credentials)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+    - 用于访问目标集群的一组[用户名和密码](/docs/cluster-credentials)，并用冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。
 
 - `username(String userName)`
 
-    A valid username used to connect to the specified Zilliz Cloud cluster.
+    用于连接指定 Zilliz Cloud 集群的有效用户名。
 
-    This should be used along with **password**.
+    应与 **password** 一起使用。
 
 - `password(String password)`
 
-    A valid password used to connect to the specified Zilliz Cloud cluster.
+    用于连接指定 Zilliz Cloud 集群的有效密码。
 
-    This should be used along with **user**.
+    应与 **user** 一起使用。
 
 - `connectTimeoutMs(long connectTimeout)`
 
-    The timeout duration for this operation, in milliseconds. 
+    此操作的超时时长，单位为毫秒。
 
-    The value defaults to **10000**.
+    默认值为 **10000**。
 
 - `keepAliveTimeMs(long keepAliveTime)`
 
-    The time in milliseconds between keep-alive probes sent by the client to the server.
+    客户端向服务器发送 keep-alive 探测之间的时间间隔（毫秒）。
 
-    The value defaults to **55000**.
+    默认值为 **55000**。
 
 - `keepAliveTimeoutMs(long keepAliveTimeout)`
 
-    The timeout duration in milliseconds for the server to respond to a keep-alive probe sent by the client.
+    服务器响应客户端发送的 keep-alive 探测的超时时长，单位为毫秒。
 
-    The value defaults to **20000**.
+    默认值为 **20000**。
 
 - `keepAliveWithoutCalls(boolean enable)`
 
-    Whether to send keep-alive probes without making requests.
+    是否在不发起请求的情况下发送 keep-alive 探测。
 
-    The value defaults to **false**.
+    默认值为 **false**。
 
 - `rpcDeadlineMs(long rpcDeadline)`
 
-    The deadline for RPC calls (disabled).
+    RPC 调用的截止时间（已禁用）。
 
-    The value defaults to **0**, which indicates the deadline is disabled.
+    默认值为 **0**，表示截止时间已禁用。
 
 - `clientKeyPath(String clientKeyPath)`
 
-    The path to the client key file for two-way authentication.
+    用于双向认证的客户端密钥文件路径。
 
 - `clientPemPath(String clientPemPath)`
 
-    The path to the client PEM file for two-way authentication.
+    用于双向认证的客户端 PEM 文件路径。
 
 - `caPemPath(String caPemPath)`
 
-    The path to the CA PEM file for two-way authentication.
+    用于双向认证的 CA PEM 文件路径。
 
 - `serverPemPath(String serverPemPath)`
 
-    The path to the server PEM file for two-way authentication.
+    用于双向认证的服务器 PEM 文件路径。
 
 - `serverName(String serverName)`
 
-    The expected name of the server.
+    预期的服务器名称。
 
 - `proxyAddress(String proxyAddress)`
 
-    The proxy server's address through which the connection is to be established.
+    建立连接时要经过的代理服务器地址。
 
 - `secure(boolean enable)`
 
-    Whether to use TLS for the connection.
+    是否对连接使用 TLS。
 
-    The value defaults to **true**.
+    默认值为 **true**。
 
 - `idleTimeoutMs(long idleTimeout)`
 
-    The idle timeout for a connection.
+    连接的空闲超时时间。
 
 - `.clientRequestId(ThreadLocal<String> clientRequestId)`
 
-    The ID of a client request. You can use this parameter to maintain a map of threads, with each thread mapping to a specific request ID. 
+    客户端请求的 ID。您可以使用此参数维护一个线程映射，其中每个线程映射到一个特定的请求 ID。
 
-    The request ID will be passed to the server, so that you can learn about which client calls this interface from the access logs.
+    请求 ID 会传递到服务器，以便您可以从访问日志中了解是哪个客户端调用了此接口。
 
-**PUBLIC METHODS:**
+**公共方法：**
 
 - `getHost()`
 
-    Returns the hostname of the currently connected Milvus instance.
+    返回当前已连接的 Milvus 实例的主机名。
 
 - `getPort()`
 
-    Returns the port number at which the currently connected Milvus instance.
+    返回当前已连接的 Milvus 实例的端口号。
 
 - `getAuthorization()`
 
-    Returns the credentials used to set up the current connection.
+    返回用于建立当前连接的凭证。
 
 - `getDbName()`
 
-    Returns the name of the database currently in use.
+    返回当前正在使用的数据库名称。
 
 - `isSecure()`
 
-    Returns whether the current connection is over TLS.
+    返回当前连接是否通过 TLS 建立。
 
 - `getProxyAddress()`
 
-    Returns the proxy server's address specified in **ConnectConfig**.
+    返回 **[ConnectConfig](./v2-Client-ConnectConfig)** 中指定的代理服务器地址。
 
-## Examples
+## 示例\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("https://in01-******.ali-cn-hangzhou.zillizcloud.com:19531")
+        .uri("https://in01-******.aws-us-west-2.vectordb.zillizcloud.com:19531")
         .token("user:password") // replace this with your token
         .build();
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p>
+将 **uri** 设置为您的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
 
 </Admonition>
 

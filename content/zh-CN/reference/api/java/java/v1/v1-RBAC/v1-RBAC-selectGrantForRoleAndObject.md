@@ -4,7 +4,7 @@ slug: /java/v1-RBAC-selectGrantForRoleAndObject
 sidebar_label: "selectGrantForRoleAndObject()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method lists grant info for a role. | Java | v1"
+description: "MilvusClient 接口。此方法列出某个角色的授权信息。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#CaRWdR3PRop7dMxejYXcvsrMnXg
 sidebar_position: 10
@@ -17,66 +17,66 @@ import Admonition from '@theme/Admonition';
 
 # selectGrantForRoleAndObject()
 
-MilvusClient interface. This method lists grant info for a role.
+MilvusClient 接口。此方法列出某个角色的授权信息。
 
 ```java
 R<SelectGrantResponse> selectGrantForRoleAndObject(SelectGrantForRoleAndObjectParam requestParam);
 ```
 
-#### SelectGrantForRoleAndObjectParam
+#### SelectGrantForRoleAndObjectParam\{#selectgrantforroleandobjectparam}
 
-Use the `SelectGrantForRoleAndObjectParam.Builder` to construct a `SelectGrantForRoleAndObjectParam` object.
+使用 `SelectGrantForRoleAndObjectParam.Builder` 构造 `SelectGrantForRoleAndObjectParam` 对象。
 
 ```java
 import io.milvus.param.SelectGrantForRoleAndObjectParam;
 SelectGrantForRoleAndObjectParam.Builder builder = SelectGrantForRoleAndObjectParam.newBuilder();
 ```
 
-Methods of `SelectGrantForRoleAndObjectParam.Builder`:
+`SelectGrantForRoleAndObjectParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withRoleName(String roleName)</p></td>
-        <td><p>Sets the roleName. RoleName cannot be empty or null.</p></td>
-        <td><p>roleName: The role name.</p></td>
+        <td><p>设置 roleName。roleName 不能为空或 null。</p></td>
+        <td><p>roleName：角色名称。</p></td>
     </tr>
     <tr>
         <td><p>withObject(String object)</p></td>
-        <td><p>Sets the object. object cannot be empty or null.</p></td>
-        <td><p>object: A granted object in Milvus, such as collection, partition, and database.</p></td>
+        <td><p>设置 object。object 不能为空或 null。</p></td>
+        <td><p>object：Milvus 中被授予权限的对象，例如 collection、partition 和 database。</p></td>
     </tr>
     <tr>
         <td><p>withObjectName(String objectName)</p></td>
-        <td><p>Sets the objectName. objectName cannot be empty or null.</p></td>
-        <td><p>objectName: The object name.</p></td>
+        <td><p>设置 objectName。objectName 不能为空或 null。</p></td>
+        <td><p>objectName：对象名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a SelectGrantForRoleAndObjectParam object.</p></td>
+        <td><p>构造一个 SelectGrantForRoleAndObjectParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `SelectGrantForRoleAndObjectParam.Builder.build()` can throw the following exceptions:
+`SelectGrantForRoleAndObjectParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时发生错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<SelectGrantResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<SelectGrantResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回来自服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns a valid `SelectGrantResponse` held by the `R` template. You can use `SelectGrantResponse` to get the grant information.
+- 如果 API 执行成功，则返回由 `R` 模板承载的有效 `SelectGrantResponse`。你可以使用 `SelectGrantResponse` 获取授权信息。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.SelectGrantForRoleParam;

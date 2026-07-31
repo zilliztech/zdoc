@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "hasCollection() | Java | v2"
 slug: /java/java/v2-Collections-hasCollection
 sidebar_label: "hasCollection()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation checks whether a specific collection exists. | Java | v2"
+description: "此操作检查特定 collection 是否存在。 | Java | v2"
 type: docx
 token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
 sidebar_position: 18
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # hasCollection()
 
-This operation checks whether a specific collection exists.
+此操作检查特定 collection 是否存在。
 
 ```java
 public Boolean hasCollection(HasCollectionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 hasCollection(HasCollectionReq.builder()
@@ -47,31 +47,31 @@ hasCollection(HasCollectionReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标 collection 所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of a collection.
+    collection 的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *bool*
 
-**RETURNS:**
+**返回：**
 
-A boolean value indicating whether the specified collection exists.
+一个布尔值，用于指示指定的 collection 是否存在。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

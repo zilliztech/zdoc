@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropCollectionProperties() | Java | v2"
 slug: /java/java/v2-Collections-dropCollectionProperties
 sidebar_label: "dropCollectionProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation resets the properties of a specified collection to their default values. | Java | v2"
+description: "此操作会将指定 collection 的属性重置为其默认值。 | Java | v2"
 type: docx
 token: OPPHd2AabonMIzxzfupcyNS9n1a
 sidebar_position: 15
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionProperties()
 
-This operation resets the properties of a specified collection to their default values.
+此操作会将指定 collection 的属性重置为其默认值。
 
 ```java
 public Void dropCollectionProperties(DropCollectionPropertiesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropCollectionProperties(DropCollectionPropertiesReq.builder()
@@ -48,39 +48,39 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database that holds the target collection.
+    持有目标 collection 的数据库名称。
 
 - `collectionName(String collectionName)`
 
-    The name of the target collection.
+    目标 collection 的名称。
 
 - `propertyKeys(List<String> propertyKeys)`
 
-    The properties to reset to their default values. Possible properties are as follows:
+    要重置为默认值的属性。可选属性如下：
 
     - **collection.ttl.seconds** -
 
-        The time-to-live (TTL) of a collection in seconds.
+        collection 的生存时间（TTL），单位为秒。
 
     - **mmap.enabled** -
 
-        Whether to enable mmap for the raw data and indexes of all fields in the collection.
+        是否为 collection 中所有字段的原始数据和索引启用 mmap。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

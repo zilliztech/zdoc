@@ -4,7 +4,7 @@ slug: /java/v1-Partition-loadPartitions
 sidebar_label: "loadPartitions()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method loads partitions' data into query nodes' memory before the search or query. | Java | v1"
+description: "MilvusClient 接口。此方法会在搜索或查询之前，将分区数据加载到 query node 的内存中。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#UBPYdCwZDoNGybxZsXTc8lobnwd
 sidebar_position: 5
@@ -17,96 +17,96 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-MilvusClient interface. This method loads partitions' data into query nodes' memory before the search or query.
+MilvusClient 接口。此方法会在搜索或查询之前，将分区数据加载到 query node 的内存中。
 
 ```java
 R<RpcStatus> loadPartitions(LoadPartitionsParam requestParam);
 ```
 
-#### LoadPartitionsParam
+#### LoadPartitionsParam\{#loadpartitionsparam}
 
-Use the `LoadPartitionsParam.Builder` to construct a `LoadPartitionsParam` object.
+使用 `LoadPartitionsParam.Builder` 构造 `LoadPartitionsParam` 对象。
 
 ```java
 import io.milvus.param.LoadPartitionsParam;
 LoadPartitionsParam.Builder builder = LoadPartitionsParam.newBuilder();
 ```
 
-Methods of `LoadPartitionsParam.Builder`:
+`LoadPartitionsParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The target collection name.</p></td>
+        <td><p>设置集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName：目标集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，database name 可以为 null。</p></td>
+        <td><p>databaseName：数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
-        <td><p>Set the partition names list. Partition names list cannot be null or empty.</p></td>
-        <td><p>partitionNames: <br/>The name list of partitions to be loaded.</p></td>
+        <td><p>设置分区名称列表。分区名称列表不能为空或 null。</p></td>
+        <td><p>partitionNames：<br/>要加载的分区名称列表。</p></td>
     </tr>
     <tr>
         <td><p>addPartitionName(String partitionName)</p></td>
-        <td><p>Add a partition by name. Partition name cannot be empty or null.</p></td>
-        <td><p>partitionName: A target partition name.</p></td>
+        <td><p>按名称添加分区。分区名称不能为空或 null。</p></td>
+        <td><p>partitionName：目标分区名称。</p></td>
     </tr>
     <tr>
         <td><p>withSyncLoad(Boolean syncLoad)</p></td>
-        <td><p>Enable sync mode for load action. With sync mode enabled, the client keeps waiting until all segments of the partition are successfully loaded.If sync mode is disabled, client returns instantly after the loadPartitions() is called.<br/>By default sync mode is enabled.</p></td>
-        <td><p>syncLoad: set to True is sync mode</p></td>
+        <td><p>为加载操作启用同步模式。启用同步模式后，客户端会持续等待，直到该分区的所有 segment 都成功加载完成。如果禁用同步模式，调用 loadPartitions() 后客户端会立即返回。<br/>默认启用同步模式。</p></td>
+        <td><p>syncLoad：设为 True 表示同步模式</p></td>
     </tr>
     <tr>
         <td><p>withSyncLoadWaitingInterval(Long milliseconds)</p></td>
-        <td><p>Set the waiting interval for sync mode. In sync mode, the client constantly checks partition load state by interval.<br/>Interval must be greater than zero, and cannot be greater than <code>Constant.MAX_WAITING_LOADING_INTERVAL</code>.<br/>Default value is 500 milliseconds</p></td>
-        <td><p>milliseconds: interval value(units: millisecond)</p></td>
+        <td><p>设置同步模式的等待间隔。在同步模式下，客户端会按该间隔持续检查分区加载状态。<br/>间隔值必须大于零，且不能大于 <code>Constant.MAX_WAITING_LOADING_INTERVAL</code>。<br/>默认值为 500 毫秒</p></td>
+        <td><p>milliseconds：间隔值（单位：毫秒）</p></td>
     </tr>
     <tr>
         <td><p>withSyncLoadWaitingTimeout(Long seconds)</p></td>
-        <td><p>Set the timeout value for sync mode.<br/>Timeout value must be greater than zero, and cannot be greater than <code>Constant.MAX_WAITING_LOADING_TIMEOUT</code>.<br/>Default value is 60 seconds.</p></td>
-        <td><p>seconds: timeout value(units: second)</p></td>
+        <td><p>设置同步模式的超时时间。<br/>超时时间必须大于零，且不能大于 <code>Constant.MAX_WAITING_LOADING_TIMEOUT</code>。<br/>默认值为 60 秒。</p></td>
+        <td><p>seconds：超时值（单位：秒）</p></td>
     </tr>
     <tr>
         <td><p>withReplicaNumber(Integer replicaNumber)</p></td>
-        <td><p>Specify replica number to load.<br/>Default value is 1.</p></td>
-        <td><p>replicaNumber: replica number</p></td>
+        <td><p>指定要加载的副本数。<br/>默认值为 1。</p></td>
+        <td><p>replicaNumber：副本数</p></td>
     </tr>
     <tr>
         <td><p>withRefresh(Boolean refresh)</p></td>
-        <td><p>Whether to renew the segment list of this partition before loading. This flag must be set to FALSE when first time call the loadPartitions(). After loading a partition, call loadPartitions() again with refresh=TRUE, the server will look for new segments that are not loaded yet and tries to load them up.<br/>This method is mainly for bulkinsert() interface.</p></td>
-        <td><p>refresh: The flag whether to renew segment list.</p></td>
+        <td><p>是否在加载前刷新该分区的 segment 列表。首次调用 loadPartitions() 时，此标志必须设置为 FALSE。分区加载完成后，再次调用 loadPartitions() 并设置 refresh=TRUE，服务器会查找尚未加载的新 segment，并尝试将其加载。<br/>该方法主要用于 bulkinsert() 接口。</p></td>
+        <td><p>refresh：是否刷新 segment 列表的标志。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a LoadPartitionsParam object.</p></td>
+        <td><p>构造一个 LoadPartitionsParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `LoadPartitionsParam.Builder.build()` can throw the following exceptions:
+`LoadPartitionsParam.Builder.build()` 可能会抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<RpcStatus>` object.
+此方法会捕获所有异常，并返回一个 `R<RpcStatus>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，将返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常而失败，将返回 `R.Status.Unknown` 以及该异常的错误消息。
 
-- If the API succeeds, it returns `R.Status.Success`.
+- 如果 API 执行成功，将返回 `R.Status.Success`。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

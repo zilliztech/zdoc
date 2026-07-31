@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getElementType() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getElementType
 sidebar_label: "getElementType()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation returns the data type of the Struct elements within an Array of Structs field. | Java | v2"
+description: "此操作返回 Struct 数组字段中 Struct 元素的数据类型。 | Java | v2"
 type: docx
 token: PvRGdribPou7PHxcoSWcRK3unUc
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - getElementType()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # getElementType()
 
-This operation returns the data type of the Struct elements within an Array of Structs field.
+此操作返回 Struct 数组字段中 Struct 元素的数据类型。
 
 ```java
 public DataType getElementType()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 getElementType()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
-*DataType*
+*[DataType](./v2-Collections-DataType)*
 
-**RETURNS:**
+**返回：**
 
-The return value will always be `DataType.Array`.
+返回值始终为 `DataType.Array`。
 
-## Examples
+## 示例\{#examples}
 
 ```java
 // You can get an instance of StructFieldSchema by describing

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listVolumes() | Java | v2"
 slug: /java/java/v2-VolumeManager-listVolumes
 sidebar_label: "listVolumes()"
+beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all volumes within a specific project in a paginated manner. | Java | v2"
+description: "此操作以分页方式列出特定项目中的所有卷。 | Java | v2"
 type: docx
 token: Cde1dlUbDosa86xjuShcoKgQnvg
 sidebar_position: 3
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - listVolumes()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listVolumes()
 
-This operation lists all volumes within a specific project in a paginated manner.
+此操作以分页方式列出特定项目中的所有卷。
 
 ```java
 public ListVolumesResponse listVolumes(ListVolumesRequest request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 listVolumes(ListVolumesRequest.builder()
@@ -48,55 +48,55 @@ listVolumes(ListVolumesRequest.builder()
 )
 ```
 
-**PARAMETERS**
+**参数**
 
 - **projectId** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The ID of the project to which the volume to be created belongs.
+    要创建的卷所属项目的 ID。
 
 - **currentPage** (*int*) -
 
-    The current page of the volume lists. When specified, only the volumes on the specified page will be returned.
+    卷列表的当前页码。指定后，将仅返回指定页上的卷。
 
-    This parameter is optional and its value defaults to `1`, indicating that the first page will be returned.
+    此参数为可选参数，默认值为 `1`，表示返回第一页。
 
 - **pageSize** (*int*) -
 
-    The current page size of the volume lists. When specified, only the specified number of volumes will be returned.
+    卷列表的当前分页大小。指定后，将仅返回指定数量的卷。
 
-    This parameter is optional and its value defaults to `10`, indicating that a list of up to 10 volumes will be returned.
+    此参数为可选参数，默认值为 `10`，表示最多返回 10 个卷的列表。
 
-**RETURN TYPE**
+**返回类型**
 
 *ListVolumesResponse*
 
-**RETURNS**
+**返回**
 
-A **ListVolumesResponse** object that contains a list of volumes in a paginated manner.
+一个 **ListVolumesResponse** 对象，包含以分页方式返回的卷列表。
 
 - **count** (*Integer*) -
 
-    The total number of volumes found.
+    找到的卷总数。
 
 - **currentPage** (*Integer*) -
 
-    The current page.
+    当前页码。
 
 - **pageSize** (*Integer*) -
 
-    The maximum number of volumes per page.
+    每页的最大卷数量。
 
-- **volumes** (*List\<VolumeInfo>*) -
+- **volumes** (*List&lt;VolumeInfo&gt;*) -
 
-    A list of `VolumeInfo` instances.
+    `VolumeInfo` 实例列表。
 
     - **volumeName** (*String*) -
 
-        The name of a volume.
+        卷名称。
 
-## Example
+## 示例\{#example}
 
 ```java
 import com.google.gson.Gson;
@@ -106,7 +106,7 @@ import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
 import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
 
 VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com.cn")
+    .withCloudEndpoint("https://api.cloud.zilliz.com")
     .withApiKey("YOUR_API_KEY")
     .build();
         

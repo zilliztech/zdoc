@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "useDatabase() | Java | v2"
 slug: /java/java/v2-Database-useDatabase
 sidebar_label: "useDatabase()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation changes the database in use. | Java | v2"
+description: "此操作将更改当前使用的数据库。 | Java | v2"
 type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,35 +31,35 @@ import Admonition from '@theme/Admonition';
 
 # useDatabase()
 
-This operation changes the database in use.
+此操作将更改当前使用的数据库。
 
 ```java
 public void useDatabase(String dbName)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 useDatabase(String dbName)
 ```
 
-**PARAMETERS**
+**参数**
 
 - **dbName** (*String*) -
 
-    The name of the target database.
+    目标数据库的名称。
 
-**RETURNS**
+**返回值**
 
 *void*
 
-**EXCEPTIONS**
+**异常**
 
 - InterruptedException
 
-    This exception will be raised when any error occurs during disconnection from Milvus.
+    当从 Milvus 断开连接期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

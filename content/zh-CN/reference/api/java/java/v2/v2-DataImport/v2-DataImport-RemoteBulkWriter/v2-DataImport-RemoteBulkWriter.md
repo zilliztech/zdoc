@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "RemoteBulkWriter | Java | v2"
 slug: /java/java/v2-DataImport-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "A RemoteBulkWriter instance writes your raw data in a format that Milvus understands into an AWS-S3-compatible bucket. | Java | v2"
+description: "RemoteBulkWriter 实例会将您的原始数据以 Milvus 可识别的格式写入兼容 AWS-S3 的 bucket。 | Java | v2"
 type: docx
 token: XAIndF6XWoQzvRxDvpLcgEE1nEb
 sidebar_position: 5
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-A **RemoteBulkWriter** instance writes your raw data in a format that Milvus understands into an AWS-S3-compatible bucket.
+**RemoteBulkWriter** 实例会将您的原始数据以 Milvus 可识别的格式写入兼容 AWS-S3 的 bucket。
 
 ```java
 io.milvus.bulkwriter.RemoteBulkWriter
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs a **RemoteBulkWriter** instance with a set of parameters, such as **schema**, **remote_path**, **connect_param,** etc.
+使用一组参数（如 **schema**、**remote_path**、**connect_param** 等）构造一个 **RemoteBulkWriter** 实例。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A <strong>RemoteBulkWriter</strong> object intends to rewrite your raw data in a format that Milvus understands into an AWS-S3-compatible or a Microsoft Azure Blob Storage bucket.</p>
+**RemoteBulkWriter** 对象旨在将您的原始数据重写为 Milvus 可识别的格式，并写入兼容 AWS-S3 的 bucket 或 Microsoft Azure Blob Storage 容器。
 
 </Admonition>
 
@@ -51,15 +51,15 @@ Constructs a **RemoteBulkWriter** instance with a set of parameters, such as **s
 public RemoteBulkWriter(RemoteBulkWriterParam bulkWriterParam)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **bulkWriterParam** (*RemoteBulkWriterParam*) -
 
-    A [RemoteBulkWriterParam](./v2-DataImport-RemoteBulkWriter#remotebulkwriterparam) instance.
+    一个 [RemoteBulkWriterParam](./v2-DataImport-RemoteBulkWriter#remotebulkwriterparam) 实例。
 
-## RemoteBulkWriterParam
+## RemoteBulkWriterParam\{#remotebulkwriterparam}
 
-**RemoteBulkWriterParam** allows you to configure properties for your **RemoteBulkWriter** instances in one place so that you can instantiate the **RemoteBulkWriter** class.
+**RemoteBulkWriterParam** 允许您在一个位置为 **RemoteBulkWriter** 实例配置属性，以便实例化 **RemoteBulkWriter** 类。
 
 ```java
 RemoteBulkWriterParam.newBuilder()
@@ -72,56 +72,57 @@ RemoteBulkWriterParam.newBuilder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**BUILDER 方法：**
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    The schema of the target collection that is defined by instantiating [CreateCollectionReq.CollectionSchema](./v2-Collections-CollectionSchema).
+    目标 collection 的 schema，通过实例化 CreateCollectionReq.CollectionSchema 定义。
 
 - `withConnectParam(StorageConnectParam connectParam)`
 
-    The parameters used to connect to a remote bucket, which is defined by instantiating [StorageConnectParam](./v2-DataImport-RemoteBulkWriter#storageconnectparam).
+    用于连接远程 bucket 的参数，通过实例化 [StorageConnectParam](./v2-DataImport-RemoteBulkWriter#storageconnectparam) 定义。
 
 - `withRemotePath(String remotePath)`
 
-    The path to the directory that is to hold the rewritten data.
+    用于存放重写后数据的目录路径。
 
 - `withChunkSize(long chunkSize)`
 
-    The maximum size of a file segment. While rewriting your raw data, Milvus splits it into segments.
+    文件分段的最大大小。在重写原始数据时，Milvus 会将其拆分为多个分段。
 
-    The value defaults to **536,870,912** in bytes, which is **512 MB**.
+    该值默认为 **536,870,912** 字节，即 **512 MB**。
 
-    <Admonition type="info" icon="📘" title="**How does BulkWriter segment my data?**">
+    <Admonition type="info" icon="📘" title="**BulkWriter 如何对我的数据进行分段？**">
 
-    <p>The way BulkWriter segments your data varies with the target file type.</p>
-    <p>If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
+    BulkWriter 对数据进行分段的方式会因目标文件类型而异。
+    
+    如果生成的文件超过指定的分段大小，BulkWriter 会创建多个文件，并按顺序编号命名，每个文件都不会大于该分段大小。
 
     </Admonition>
 
 - `withFileType(BulkFileType fileType)`
 
-    The type of the output file. Possible options are listed in [BulkFileType](./v2-DataImport-BulkFileType).
+    输出文件的类型。可选项列于 [BulkFileType](./v2-DataImport-BulkFileType) 中。
 
 - `withConfig(String key, Object val)`
 
-    A dictionary specifying optional configurations for processing CSV files. This parameter applies only when you set `fileType` to `CSV` in `withFileType()`. The dictionary contains the following fields:
+    用于指定处理 CSV 文件的可选配置的字典。仅当您在 `withFileType()` 中将 `fileType` 设置为 `CSV` 时，此参数才生效。该字典包含以下字段：
 
     - **sep** (*string*) -
 
-        The delimiter of CSV file. The value must be a string of length 1, which defaults to `","`. The following strings are not allowed: `"\0"`, `"\n"`, `"\r"`, `"""`.
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*) -
 
-        Special string representing null value. The value defaults to empty string: `""`.
+        表示 null 值的特殊字符串。默认值为空字符串：`""`。
 
-## StorageConnectParam
+## StorageConnectParam\{#storageconnectparam}
 
-**StorageConnectParam** is implemented in **AzureConnectParam** and **S3ConnectParam**.
+**StorageConnectParam** 由 **AzureConnectParam** 和 **S3ConnectParam** 实现。
 
-### AzureConnectParam
+### AzureConnectParam\{#azureconnectparam}
 
-**AzureConnectParam** prepares the parameters to connect to a Microsoft Azure Blob Storage container.
+**AzureConnectParam** 用于准备连接 Microsoft Azure Blob Storage 容器所需的参数。
 
 ```java
 AzureConnectParam.newBuilder()
@@ -132,27 +133,27 @@ AzureConnectParam.newBuilder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**BUILDER 方法：**
 
 - `withContainerName(String containerName)`
 
-    The name of the remote Azure blob storage container to connect to.
+    要连接的远程 Azure blob storage 容器名称。
 
 - `withConnStr(String connStr)`
 
-    A connection string to an Azure Storage account, which can be parsed to an account_url and a credential. To generate a connection string, read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string).
+    Azure Storage 账户的连接字符串，可被解析为 account_url 和 credential。要生成连接字符串，请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string)。
 
 - `withAccountUrl(String accountUrl)`
 
-    A string in format like `<i>http</i>s://<storage-account>.blob.core.windows.net`. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) for more info.
+    格式类似 `https://<storage-account>.blob.core.windows.net` 的字符串。更多信息请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview)。
 
 - `withCredential(TokenCrendtial credential)`
 
-    Account access key for the account. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for more info.
+    账户的访问密钥。更多信息请参见[此链接](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)。
 
-### S3ConnectParam
+### S3ConnectParam\{#s3connectparam}
 
-S3ConnectParam prepares the parameters to connect to an S3-compatible object storage bucket
+S3ConnectParam 用于准备连接兼容 S3 的对象存储 bucket 所需的参数
 
 ```java
 S3ConnectParam.newBuilder()
@@ -167,11 +168,11 @@ S3ConnectParam.newBuilder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**BUILDER 方法：**
 
 - `withCloudName(String cloudName)`
 
-    A cloud provider that provides S3-compatible object storage services. Possible options are as follows:
+    提供兼容 S3 对象存储服务的云服务提供商。可选项如下：
 
     - **MINIO** (MinIO)
 
@@ -185,35 +186,35 @@ S3ConnectParam.newBuilder()
 
 - `withBucketName(String bucketName)`
 
-    The name of the remote bucket to connect to.
+    要连接的远程 bucket 名称。
 
 - `withEndpoint(String endpoint)`
 
-    The URL of the AWS-S3-compatible service.
+    兼容 AWS-S3 服务的 URL。
 
-    The value can be the URL of a MinIO service or that of any AWS S3-compatible public service.
+    该值可以是 MinIO 服务的 URL，也可以是任何兼容 AWS S3 的公共服务的 URL。
 
 - `withAccessKey(String accessKey)`
 
-    The access key (user ID) used to authenticate access to the specified bucket.
+    用于对指定 bucket 的访问进行身份验证的访问密钥（用户 ID）。
 
 - `withSecretKey(String secretKey)`
 
-    The secret_key (password) used to authenticate access to the specified bucket.
+    用于对指定 bucket 的访问进行身份验证的 secret_key（密码）。
 
 - `withSessionToken(String sessionToken)`
 
-    A session token of your account in the AWS S3 compatible service.
+    您在兼容 AWS S3 服务中的账户会话令牌。
 
 - `withRegion(String region)`
 
-    The name or ID of the region where the bucket resides.
+    bucket 所在区域的名称或 ID。
 
 - `withHttpClient(OkHttpClient httpClient)`
 
-    Whether to use an OkHttp client to set up a secure (TLS) connection to the AWS S3 compatible service.
+    是否使用 OkHttp 客户端与兼容 AWS S3 的服务建立安全的（TLS）连接。
 
-## Example
+## Example\{#example}
 
 ```java
 import com.google.gson.JsonObject;

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeRole() | Java | v2"
 slug: /java/java/v2-Authentication-describeRole
 sidebar_label: "describeRole()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation describes a specific role. | Java | v2"
+description: "此操作返回授予某个角色的权限以及角色描述。 | Java | v2"
 type: docx
-token: VDKPdBJzdoAu7exEOE2czN2gnTd
+token: ZmeDd4zoPo7EynxnyGOckvzvnsh
 sidebar_position: 5
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,81 +31,49 @@ import Admonition from '@theme/Admonition';
 
 # describeRole()
 
-This operation describes a specific role.
+此操作返回授予某个角色的权限以及角色描述。
 
 ```java
 public DescribeRoleResp describeRole(DescribeRoleReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
-describeRole(DescribeRoleReq.builder()
+DescribeRoleResp resp = client.describeRole(DescribeRoleReq.builder()
     .roleName(String roleName)
-    .dbName(String dbName)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `roleName(String roleName)`
 
-    The name of the role to describe.
+    **[必需]**
 
-- `dbName(String dbName)`
+    要描述的角色名称。
 
-    The name of the database associated with the role.
+**返回：**
 
-**RETURN Type:**
+*DescribeRoleResp*
 
-*DescribeRoleResp.GrantInfo*
+响应包含 `roleName`、`grantInfos` 和 `description`。
 
-**RETURNS:**
+**异常：**
 
-A **DescribeRoleResp.GrantInfo** object representing the permissions assigned to the role.
+- **MilvusClientException**
 
-**PARAMETERS:**
+    当此操作期间发生任何错误时，将引发此异常。
 
-- **objectType** (*String*):
-The type of the object being granted a privilege.
-
-- **privilege** (*String*):
-The specific privilege granted to the object.
-
-- **objectName** (*String*):
-The name of the object to which the privilege is granted.
-
-- **dbName** (*String*):
-The name of the database associated with the granted privilege.
-
-- **grantor** (*String*):
-The name of the entity (user or role) that granted the privilege.
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.rbac.request.DescribeUserReq;
+import io.milvus.v2.service.rbac.request.DescribeRoleReq;
+import io.milvus.v2.service.rbac.response.DescribeRoleResp;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Describe a role
-DescribeRoleReq describeRoleReq = DescribeRoleReq.builder()
-        .roleName("test")
-        .build();
-client.describeRole(describeRoleReq);
+DescribeRoleResp resp = client.describeRole(DescribeRoleReq.builder()
+    .roleName("analytics_reader")
+    .build());
+System.out.println(resp.getDescription());
 ```

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "compact() | Java | v2"
 slug: /java/java/v2-Management-compact
 sidebar_label: "compact()"
-added_since: v2.4.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection. | Java | v2"
+description: "此操作通过将小段合并为较大的段来压缩集合。建议在向集合中插入大量数据后调用此操作。 | Java | v2"
 type: docx
-token: Df6GdjeIXoThhVxM6dMcvDqenSe
+token: LDQsdzUJQotV2GxWGaqcFkDenuq
 sidebar_position: 2
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,45 +31,55 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection.
+此操作通过将小段合并为较大的段来压缩集合。建议在向集合中插入大量数据后调用此操作。
 
 ```java
 public CompactResp compact(CompactReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 compact(CompactReq.builder()
-    .databaseName(String database)
-    .collectionName(String collection)
+    .databaseName(String databaseName)
+    .collectionName(String collectionName)
+    .isClustering(Boolean isClustering)
+    .isL0(Boolean isL0)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `databaseName(String database)`
+- `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    数据库名称。如果未指定，则默认为当前数据库。
 
-- `collectionName(String collection)`
+- `collectionName(String collectionName)`
 
-    The name of the target collection.
+    目标集合的名称。
 
-**RETURN TYPE:**
+- `isClustering(Boolean isClustering)`
+
+    是否执行聚类压缩。默认为 `Boolean.FALSE`。
+
+- `isL0(Boolean isL0)`
+
+    是否请求 L0 压缩。默认为 `Boolean.FALSE`，并且与聚类压缩相互独立。
+
+**返回：**
 
 *CompactResp*
 
-**RETURNS:**
+**CompactResp** 对象包含一个压缩 ID。
 
-A **CompactResp** object contains a compaction ID.
+**异常：**
 
-- **compactionID** (*Long*)
+- **MilvusClientException**
 
-    The ID of the current compact operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -91,4 +101,3 @@ client.compact(CompactReq.builder()
     .build();
 );
 ```
-

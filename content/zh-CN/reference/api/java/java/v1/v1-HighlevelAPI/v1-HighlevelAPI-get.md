@@ -4,7 +4,7 @@ slug: /java/v1-HighlevelAPI-get
 sidebar_label: "get()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "The MilvusClient interface. This method gets entity(s) based on the primary field ids. Note that the order of the returned entities can not be guaranteed. | Java | v1"
+description: "MilvusClient 接口。此方法根据主字段 ID 获取实体。请注意，返回实体的顺序无法保证。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#LfsTd6Zw5oxgDNxuIKacXhBrnTc
 sidebar_position: 5
@@ -17,76 +17,76 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-The MilvusClient interface. This method gets entity(s) based on the primary field ids. Note that the order of the returned entities can not be guaranteed.
+MilvusClient 接口。此方法根据主字段 ID 获取实体。请注意，返回实体的顺序无法保证。
 
 ```java
 R<GetResponse> get(GetIdsParam requestParam);
 ```
 
-#### GetIdsParam
+#### GetIdsParam\{#getidsparam}
 
-Use the `GetIdsParam.Builder` to construct a `GetIdsParam` object.
+使用 `GetIdsParam.Builder` 构造 `GetIdsParam` 对象。
 
 ```java
 import io.milvus.param.highlevel.dml.GetIdsParam;
 GetIdsParam.Builder builder = GetIdsParam.newBuilder();
 ```
 
-Methods of `GetIdsParam.Builder`:
+`GetIdsParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Sets the target collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the collection to insert data into.</p></td>
+        <td><p>设置目标集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName: 要插入数据的集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withPrimaryIds(List\<T> primaryIds)</p></td>
-        <td><p>Specifies id fields. ID cannot be empty or null.<br/>Note only support the value of primary key.</p></td>
-        <td><p>primaryIds: a list of primary field key objects.</p></td>
+        <td><p>指定 ID 字段。ID 不能为空或 null。<br/>注意：仅支持主键的值。</p></td>
+        <td><p>primaryIds: 主字段键对象列表。</p></td>
     </tr>
     <tr>
         <td><p>addPrimaryId(T primaryId)</p></td>
-        <td><p>Specifies primaryField id. PrimaryId cannot be empty or null.<br/>Note only support the value of primary key.</p></td>
-        <td><p>primaryId: The id of primary field key.</p></td>
+        <td><p>指定 primaryField ID。PrimaryId 不能为空或 null。<br/>注意：仅支持主键的值。</p></td>
+        <td><p>primaryId: 主字段键的 ID。</p></td>
     </tr>
     <tr>
         <td><p>withOutputFields(List\<String> outputFields)</p></td>
-        <td><p>Specifies output fields (Optional).</p></td>
-        <td><p>outputFields: A list of output field you need.</p></td>
+        <td><p>指定输出字段（可选）。</p></td>
+        <td><p>outputFields: 你需要的输出字段列表。</p></td>
     </tr>
     <tr>
         <td><p>withConsistencyLevel(ConsistencyLevelEnum consistencyLevel)</p></td>
-        <td><p>Consistency level used in the get. If no level is specified, will use default consistency. Please refer to ConsistencyLevelEnum in Misc.</p></td>
-        <td><p>consistencyLevel: The consistency level used in the get.</p></td>
+        <td><p>get 操作中使用的一致性级别。如果未指定级别，将使用默认一致性。请参考 Misc 中的 ConsistencyLevelEnum。</p></td>
+        <td><p>consistencyLevel: get 操作中使用的一致性级别。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs an GetIdsParam object.</p></td>
+        <td><p>构造一个 GetIdsParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `GetIdsParam.Builder.build()` can throw the following exceptions:
+`GetIdsParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException: 参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<GetResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<GetResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，将返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，将返回 `R.Status.Unknown` 以及异常的错误消息。
 
-- If the API succeeds, it returns a valid `GetResponse` held by the `R` template.
+- 如果 API 执行成功，将返回由 `R` 模板持有的有效 `GetResponse`。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

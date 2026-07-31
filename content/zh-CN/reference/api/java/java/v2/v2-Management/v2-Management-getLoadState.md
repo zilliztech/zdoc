@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getLoadState() | Java | v2"
 slug: /java/java/v2-Management-getLoadState
 sidebar_label: "getLoadState()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation displays whether a specified collection or partition is loaded or not. | Java | v2"
+description: "此操作用于显示指定集合或分区是否已加载。 | Java | v2"
 type: docx
 token: PAs7dwIIrop4OixCUr8ctHVLnXc
 sidebar_position: 9
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-This operation displays whether a specified collection or partition is loaded or not.
+此操作用于显示指定集合或分区是否已加载。
 
 ```java
 public Boolean getLoadState(GetLoadStateReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 getLoadState(GetLoadStateReq.builder()
@@ -48,41 +48,41 @@ getLoadState(GetLoadStateReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of a collection.
+    集合的名称。
 
 - `partitionName(String partitionName)`
 
-    The name of a partition.
+    分区的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Boolean*
 
-**RETURNS:**
+**返回值：**
 
-A Boolean value that indicates the status of the specified collection or partition. 
+一个 Boolean 值，用于指示指定集合或分区的状态。 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>A collection is in the loaded state if any or all of its partitions are loaded.</p>
+如果集合中的任意一个或全部分区已加载，则该集合处于已加载状态。
 
 </Admonition>
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

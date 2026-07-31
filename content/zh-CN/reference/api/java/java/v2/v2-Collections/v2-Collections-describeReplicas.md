@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeReplicas() | Java | v2"
 slug: /java/java/v2-Collections-describeReplicas
 sidebar_label: "describeReplicas()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation returns information about the replicas of a specific collection. | Java | v2"
+description: "此操作返回有关特定 collection 的副本信息。 | Java | v2"
 type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 25
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeReplicas()
 
-This operation returns information about the replicas of a specific collection.
+此操作返回有关特定 collection 的副本信息。
 
 ```java
 public DescribeReplicasResp describeReplicas(DescribeReplicasReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 describeReplicas(DescribeReplicasReq.builder()
@@ -47,81 +47,81 @@ describeReplicas(DescribeReplicasReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String alias)`
 
-    The name of the database that holds the target collection.
+    包含目标 collection 的数据库名称。
 
 - `collectionName(String collectionName)`
 
-    The name of the target collection.
+    目标 collection 的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *DescribeReplicasResp*
 
-**RETURNS:**
+**返回：**
 
-A DescribeReplicasResp that contains detailed information about the replicas in the specified collection.
+一个 DescribeReplicasResp，其中包含指定 collection 中副本的详细信息。
 
-**PARAMETERS:**
+**参数：**
 
-- **replicas** (*List\<ReplicaInfo>*) -
+- **replicas** (*List&lt;ReplicaInfo&gt;*) -
 
-    A list of replicas, each of which contains the following fields:
+    副本列表，其中每个副本都包含以下字段：
 
     - **replicaID** (*Long*) -
 
-        The ID of a replica.
+        副本的 ID。
 
     - **collectionID** (*Long*) -
 
-        The ID of the specified collection.
+        指定 collection 的 ID。
 
-    - **partitionIDs** (*List\<Long>*) -
+    - **partitionIDs** (*List&lt;Long&gt;*) -
 
-        The IDs of partitions associated with the current replica.
+        与当前副本关联的 partition 的 ID。
 
-    - **shardReplicas** (*List\<ShardReplicas>*) -
+    - **shardReplicas** (*List&lt;ShardReplicas&gt;*) -
 
-        The shards associated with the current replica. Each of the shards contains the following information:
+        与当前副本关联的 shard。每个 shard 包含以下信息：
 
         - **leaderID** (*Long*) -
 
-            The ID of the leader shard
+            leader shard 的 ID
 
         - **leaderAddress** (*String*) -
 
-            The address of the leader shard in the form of `IP:PORT`.
+            leader shard 的地址，格式为 `IP:PORT`。
 
         - **channelName** (*String*) -
 
-            The name of the channel associated with the current shard.
+            与当前 shard 关联的 channel 名称。
 
-        - **nodeIDs** (*List\<Long>*) -
+        - **nodeIDs** (*List&lt;Long&gt;*) -
 
-            The IDs of the query nodes associated with the current shard.
+            与当前 shard 关联的 query node 的 ID。
 
-    - **nodeIDs** (*List\<Long>*) -
+    - **nodeIDs** (*List&lt;Long&gt;*) -
 
-        The IDs of the query nodes associated with the current replica.
+        与当前副本关联的 query node 的 ID。
 
     - **resourceGroupName** (*String*) -
 
-        The name of the resource group associated with the current replica.
+        与当前副本关联的资源组名称。
 
-    - **numOutboundNode** (*Map\<String, Integer>*) -
+    - **numOutboundNode** (*Map&lt;String, Integer&gt;*) -
 
-        The number of outbound query nodes.
+        出站 query node 的数量。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

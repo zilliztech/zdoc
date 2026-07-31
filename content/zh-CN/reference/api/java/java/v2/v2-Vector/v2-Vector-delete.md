@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "delete() | Java | v2"
 slug: /java/java/v2-Vector-delete
 sidebar_label: "delete()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation deletes entities by their IDs or with a boolean expression. | Java | v2"
+description: "此操作通过实体 ID 或布尔表达式删除实体。 | Java | v2"
 type: docx
-token: NOX7dAR3zodEH3xinMecMjq5n4S
+token: NTCHdGKwNo9kl2xFzgKcjo8wndg
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,67 +31,65 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-This operation deletes entities by their IDs or with a boolean expression.
+此操作通过实体 ID 或布尔表达式删除实体。
 
 ```java
 public DeleteResp delete(DeleteReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 delete(DeleteReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionName(String partitionName)
     .filter(String filter)
     .ids(List<Object> ids)
+    .filterTemplateValues(Map<String, Object> filterTemplateValues)
     .build()
-)
+);
 ```
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)`
+- `databaseName(String databaseName)` -
 
-    The name of an existing collection.
+    数据库名称。若未指定，则默认为当前数据库。
 
-- `partitionName(String partitionName)`
+- `collectionName(String collectionName)` -
 
-    The name of a partition.
+    目标集合的名称。
 
-- `filter(String filter)`
+- `partitionName(String partitionName)` -
 
-    A scalar filtering condition to filter matching entities. 
+    目标分区的名称。
 
-    The value defaults to an empty string, indicating that no condition applies.
+- `filter(String filter)` -
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Scalar Expression Rules](https://milvus.io/docs/boolean.md).
+    用于筛选结果的布尔表达式。
 
-- `ids(List<Object> ids)`
+- `ids(List<Object> ids)` -
 
-    A specific entity ID or a list of entity IDs.
+    用于标识特定实体的主键值列表。
 
-**RETURN TYPE:**
+- `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
 
-*DeleteResp*
+    用于参数化过滤器的模板变量值映射。
 
 **RETURNS:**
 
-A **DeleteResp** object contains the number of deleted entities.
+*DeleteResp*
 
-**PARAMETERS:**
-
-- **deleteCnt** (*long*)
-
-    The count of deleted entities.
+**DeleteResp** 对象包含已删除实体的数量。
 
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -114,4 +112,3 @@ DeleteReq deleteReq = DeleteReq.builder()
         .build();
 DeleteResp deleteResp = client.delete(deleteReq);
 ```
-

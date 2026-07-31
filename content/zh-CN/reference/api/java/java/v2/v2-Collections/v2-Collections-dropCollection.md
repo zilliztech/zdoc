@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropCollection() | Java | v2"
 slug: /java/java/v2-Collections-dropCollection
 sidebar_label: "dropCollection()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation drops a collection. | Java | v2"
+description: "此操作会删除一个集合。 | Java | v2"
 type: docx
-token: DMh5d1uiGolDtLxSNpCcWx9On7c
+token: SW6Cdt9QeoY1J1x9SYQcZrc6nbg
 sidebar_position: 14
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,45 +31,53 @@ import Admonition from '@theme/Admonition';
 
 # dropCollection()
 
-This operation drops a collection.
+此操作会删除一个集合。
 
 ```java
 public void dropCollection(DropCollectionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropCollection(DropCollectionReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .async(Boolean async)
     .timeout(Long timeout)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `collectionName(String collectionName)`
+- `databaseName(String databaseName)` -
 
-    The name of an existing collection.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `timeout(Long timeout)`
+- `collectionName(String collectionName)` -
 
-    The timeout duration of the process. The process terminates after the specified duration expires.
+    目标集合的名称。
 
-    The value defaults to `60000L`, indicating the timeout duration is **1** minute.
+- `async(Boolean async)` -
 
-**RETURNS:**
+    是否异步运行该操作。
+
+- `timeout(Long timeout)` -
+
+    超时时长，以毫秒为单位。
+
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -90,4 +98,3 @@ DropCollectionReq dropCollectionReq = DropCollectionReq.builder()
         .build();
 client.dropCollection(dropCollectionReq);
 ```
-

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createUser() | Java | v2"
 slug: /java/java/v2-Authentication-createUser
 sidebar_label: "createUser()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation creates a user. | Java | v2"
+description: "此操作将创建一个用户，并可选择为该用户存储描述。 | Java | v2"
 type: docx
-token: OTMXd9uNWoMwe4xvg70cg49Pnmh
+token: DMr4dKSItoNvtYx2XFscQA8RnWf
 sidebar_position: 4
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,62 +31,61 @@ import Admonition from '@theme/Admonition';
 
 # createUser()
 
-This operation creates a user.
+此操作将创建一个用户，并可选择为该用户存储描述。
 
 ```java
 public void createUser(CreateUserReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
-createUser(CreateUserReq.builder()
+client.createUser(CreateUserReq.builder()
     .userName(String userName)
     .password(String password)
+    .description(String description)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `userName(String roleName)`
+- `userName(String userName)`
 
-    The name of the user to create.
+    **[必需]**
+
+    要创建的用户名。
 
 - `password(String password)`
 
-    The password of the user to create.
+    **[必需]**
 
-**RETURNS:**
+    用户的密码。
+
+- `description(String description)`
+
+    用户的可选描述。默认为空字符串。
+
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+此操作不返回任何值。
 
-- **MilvusClientExceptions**
+**异常：**
 
-    This exception will be raised when any error occurs during this operation.
+- **MilvusClientException**
 
-## Example
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig
-import io.milvus.v2.client.MilvusClientV2
-import io.milvus.v2.service.rbac.request.CreateUserReq
+import io.milvus.v2.service.rbac.request.CreateUserReq;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("https://inxx-xxxxxxxxxxxx.api.ali-cn-hangzhou.zillizcloud.com:19530")
-        .token("user:password")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Create a role
-CreateUserReq createUserReq = CreateUserReq.builder()
-        .userName("user_1")
-        .password("P@ssw0rd")
-        .build();
-client.createUser(createUserReq);
+client.createUser(CreateUserReq.builder()
+    .userName("analyst_user")
+    .password("P@ssw0rd!")
+    .description("Read-only analyst account")
+    .build());
 ```
-

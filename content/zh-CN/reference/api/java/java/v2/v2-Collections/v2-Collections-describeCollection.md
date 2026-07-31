@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeCollection() | Java | v2"
 slug: /java/java/v2-Collections-describeCollection
 sidebar_label: "describeCollection()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists detailed information about a specific collection. | Java | v2"
+description: "此操作列出特定 collection 的详细信息。 | Java | v2"
 type: docx
-token: F8lCdDCa3oD48WxWyURcmfoznYt
+token: WEE6ddFntowCIixVMCmc3pESnug
 sidebar_position: 12
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,115 +31,50 @@ import Admonition from '@theme/Admonition';
 
 # describeCollection()
 
-This operation lists detailed information about a specific collection.
+此操作列出特定 collection 的详细信息。
 
 ```java
 public DescribeCollectionResp describeCollection(DescribeCollectionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 describeCollection(DescribeCollectionReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .collectionId(Long collectionId)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database to which the target collection belongs.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of an existing collection.
+    目标 collection 的名称。
 
-    Setting this to a non-existing collection results in **MilvusException**.
+- `collectionId(Long collectionId)` -
 
-**RETURN TYPE:**
+    collection 的数字 ID。当你需要通过 ID 而不是名称来标识 collection 时，请使用此项。
+
+**RETURNS：**
 
 *DescribeCollectionResp*
 
-**RETURNS:**
+一个 **DescribeCollectionResp** 对象，其中包含指定 collection 的详细信息。
 
-A **DescribeCollectionResp** object that contains detailed information about the specified collection.
+**EXCEPTIONS：**
 
-**PARAMETERS:**
+- **MilvusClientException**
 
-- **collectionName** (*String*)
+    当此操作过程中发生任何错误时，将引发此异常。
 
-    The name of the current collection.
-
-- **collectionID** (*Long*)
-
-    The ID of the collection.
-
-- **databaseName** (*String*)
-
-    The name of the database to which the current collection belongs.
-
-- **description** (*String*)
-
-    The description of the current collection.
-
-- **numOfPartitions** (*long*)
-
-    The number of partitions in the current collection.
-
-- **fieldNames** (*List\<String\>*)
-
-    A list of fields in the current collection.
-
-- **vectorFieldName** (*List\<String\>*)
-
-    The name of the vector field.
-
-- **primaryFieldName** (*String*)
-
-    The name of the primary field.
-
-- **enableDynamicField** (*Boolean*)
-
-    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
-
-- **autoID** (*Boolean*)
-
-    Whether Zilliz Cloud automatically generates the primary key for the collection.
-
-- **collectionSchema** (*CreateCollectionReq.CollectionSchema*)
-
-    The scheme of the collection.
-
-- **createTime** (*Long*)
-
-    The time when the collection was created.
-
-- **createUtcTime** (*Long*) -
-
-    The time when the collection was created in UTC.
-
-- **consistencyLevel** (*ConsistencyLevel*) -
-
-    The consistency level of the collection.
-
-- **shardsNum** (*Integer*) -
-
-    The number of shards in the collection.
-
-- **properties** (*Map\<String, String>*) -
-
-    The properties of the current collection. 
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -160,5 +95,4 @@ DescribeCollectionReq describeCollectionReq = DescribeCollectionReq.builder()
         .collectionName("test")
         .build();
 DescribeCollectionResp describeCollectionResp = client.describeCollection(describeCollectionReq);
-
 ```

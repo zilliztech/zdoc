@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "queryIterator() | Java | v2"
 slug: /java/java/v2-Vector-queryIterator
 sidebar_label: "queryIterator()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This method returns a query iterator to iterate data. | Java | v2"
+description: "(placeholder) | Java | v2"
 type: docx
-token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
+token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - 什么是向量数据库
+  - 向量数据库对比
+  - Faiss
+  - 视频搜索
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,142 +31,140 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()
 
-This method returns a query iterator to iterate data.
+# queryIterator()\{#queryiterator}
+
+此方法返回一个查询迭代器，用于遍历数据。
 
 ```java
 public QueryIterator queryIterator(QueryIteratorReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 queryIterator(QueryIteratorReq.builder()
-        .collectionName(String collectionName)
-        .outputFields(List<String> outputFields)
-        .expr(String expr)
-        .batchSize(long size)
-        .consistencyLevel(ConsistencyLevel consistencyLevel)
-        .offset(long offset)
-        .limit(long limit)
-        .build());
+    .databaseName(String databaseName)
+    .collectionName(String collectionName)
+    .clusterId(String clusterId)
+    .partitionNames(List<String> partitionNames)
+    .outputFields(List<String> outputFields)
+    .expr(String expr)
+    .consistencyLevel(ConsistencyLevel consistencyLevel)
+    .offset(long offset)
+    .limit(long limit)
+    .ignoreGrowing(boolean ignoreGrowing)
+    .timezone(String timezone)
+    .batchSize(long batchSize)
+    .reduceStopForBest(boolean reduceStopForBest)
+    .filterTemplateValues(Map<String, Object> filterTemplateValues)
+    .build()
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
+
+- `databaseName(String databaseName)`
+
+    数据库名称。若未指定，则默认为当前数据库。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    目标集合的名称。
+
+- `clusterId(String clusterId)`
+
+    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
+
+- `partitionNames(List<String> partitionNames)`
+
+    要定位的分区名称列表。
 
 - `outputFields(List<String> outputFields)`
 
-    A list of field names to include in each entity in return.
-
-    The value defaults to **None**. If left unspecified, all fields in the collection are selected as the output fields.
+    要包含在输出中的字段名称列表。
 
 - `expr(String expr)`
 
-    A scalar filtering condition to filter matching entities. 
+    用于筛选结果的布尔表达式。
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-- `batchSize(long size)`
-
-A value to define the number of entities returned per batch.
-
-- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
-
-    The consistency level of the target collection.
-
-    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
-
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
-
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
-
-    </Admonition>
+    此操作的一致性级别。
 
 - `offset(long offset)`
 
-    The number of records to skip in the query result. 
-
-    You can use this parameter in combination with `limit` to enable pagination.
-
-    The sum of this value and `limit` should be less than 16,384. 
+    返回结果前要跳过的结果数量。
 
 - `limit(long limit)`
 
-    The number of records to return in the query result.
+    要返回的最大结果数。
 
-    You can use this parameter in combination with `offset` to enable pagination.
+- `ignoreGrowing(boolean ignoreGrowing)`
 
-    The sum of this value and `offset` should be less than 16,384. 
+    操作期间是否忽略 growing segment。
 
-**RETURN TYPE:**
+- `timezone(String timezone)`
+
+    用于时间相关过滤条件的时区字符串。
+
+- `batchSize(long batchSize)`
+
+    迭代器操作的批大小。
+
+- `reduceStopForBest(boolean reduceStopForBest)`
+
+    找到最佳结果时是否停止迭代。
+
+- `filterTemplateValues(Map<String, Object> filterTemplateValues)`
+
+    参数化过滤器的模板变量值映射。
+
+**返回：**
 
 *QueryIterator*
 
-**RETURNS:**
+*QueryIterator*
 
-A *QueryIterator* object to iterate data.
+**异常：**
 
-**METHODS:**
+- **MilvusClientException**
 
-- List&lt;QueryResultsWrapper.RowRecord&gt; next()
+    当此操作期间发生任何错误时，将引发此异常。
 
-Return a batch of results.
-
-- close()
-
-Release the cache results.
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.orm.iterator.QueryIterator;
 import io.milvus.response.QueryResultsWrapper;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.QueryIteratorReq;
+import io.milvus.v2.common.ConsistencyLevel;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
+import java.util.Arrays;
+import java.util.List;
 
-// 2. Iterator data
+// Create a query iterator to retrieve results in batches
 QueryIterator queryIterator = client.queryIterator(QueryIteratorReq.builder()
-        .collectionName("test")
-        .expr("id < 300")
-        .outputFields(Lists.newArrayList("id", "vector"))
-        .batchSize(50L)
-        .offset(5)
-        .limit(400)
+        .collectionName("my_collection")
+        .expr("userID < 3000")
+        .outputFields(Arrays.asList("userID", "userAge"))
+        .batchSize(100)
+        .offset(0)
+        .limit(10000)
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build());
 
+// Iterate through all results
+int counter = 0;
 while (true) {
     List<QueryResultsWrapper.RowRecord> res = queryIterator.next();
     if (res.isEmpty()) {
-        System.out.println("query iteration finished, close");
         queryIterator.close();
         break;
     }
-
     for (QueryResultsWrapper.RowRecord record : res) {
         System.out.println(record);
+        counter++;
     }
 }
+System.out.printf("%d query results returned%n", counter);
 ```
-

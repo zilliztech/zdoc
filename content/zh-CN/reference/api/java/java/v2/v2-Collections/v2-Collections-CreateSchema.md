@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "CreateSchema() | Java | v2"
 slug: /java/java/v2-Collections-CreateSchema
 sidebar_label: "CreateSchema()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a collection schema. | Java | v2"
+description: "此操作用于创建集合模式。 | Java | v2"
 type: docx
 token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
 sidebar_position: 24
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - 语义搜索
+  - 异常检测
+  - sentence transformers
+  - 推荐系统
   - zilliz
   - zilliz cloud
   - cloud
   - CreateSchema()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,31 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # CreateSchema()
 
-This operation creates a collection schema.
+此操作用于创建集合模式。
 
 ```java
 public static CreateCollectionReq.CollectionSchema CreateSchema()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 MilvusClientV2.createSchema()
 ```
 
-**PARAMETERS:**
+**参数：**
 
-None
+无
 
-**RETURN TYPE:**
+**返回类型：**
 
 *CreateCollectionReq.CollectionSchema*
 
-**RETURNS:**
+**返回：**
 
-A **CreateCollectionReq.CollectionSchema** object.
+一个 **CreateCollectionReq.CollectionSchema** 对象。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -64,7 +64,7 @@ import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
-// 1. Set up a client
+// 1. 设置客户端
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -72,7 +72,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2 Quickly create a collectionSchema
+// 2 快速创建一个 collectionSchema
 CreateCollectionReq.CollectionSchema collectionSchema = client.CreateSchema();
 collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
 collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());

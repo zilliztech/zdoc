@@ -4,7 +4,7 @@ slug: /java/v1-Collection-describeCollection
 sidebar_label: "describeCollection()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method shows the details of a collection, e.g. name, schema. | Java | v1"
+description: "MilvusClient 接口。此方法显示集合的详细信息，例如名称、schema。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#L4XLdP8yyoKRuNxBM7ScYodznke
 sidebar_position: 5
@@ -17,141 +17,141 @@ import Admonition from '@theme/Admonition';
 
 # describeCollection()
 
-A MilvusClient interface. This method shows the details of a collection, e.g. name, schema.
+MilvusClient 接口。此方法显示集合的详细信息，例如名称、schema。
 
 ```java
 R<DescribeCollectionResponse> describeCollection(DescribeCollectionParam requestParam);
 ```
 
-#### DescribeCollectionParam
+#### DescribeCollectionParam\{#describecollectionparam}
 
-Use the `DescribeCollectionParam.Builder` to construct a `DescribeCollectionParam` object.
+使用 `DescribeCollectionParam.Builder` 构造 `DescribeCollectionParam` 对象。
 
 ```java
 import io.milvus.param.DescribeCollectionParam;
 DescribeCollectionParam.Builder builder = DescribeCollectionParam.newBuilder();
 ```
 
-Methods of `DescribeCollectionParam.Builder`:
+`DescribeCollectionParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(String collectionName)</p></td>
-        <td><p>Sets the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the collection to release.</p></td>
+        <td><p>设置集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName: 要释放的集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，数据库名称可以为 null。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a ReleaseCollectionParam object.</p></td>
+        <td><p>构造一个 ReleaseCollectionParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `DescribeCollectionParam.Builder.build()` can throw the following exceptions:
+`DescribeCollectionParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException: 当参数无效时返回错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<DescribeCollectionResponse>` object.
+此方法会捕获所有异常并返回一个 `R<DescribeCollectionResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回来自服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns a valid `DescribeCollectionResponse` held by the `R` template. You can use `DescCollResponseWrapper` to get the information.
+- 如果 API 执行成功，则返回由 `R` 模板持有的有效 `DescribeCollectionResponse`。您可以使用 `DescCollResponseWrapper` 获取相关信息。
 
-#### DescCollResponseWrapper
+#### DescCollResponseWrapper\{#desccollresponsewrapper}
 
-A tool class to encapsulate the DescribeCollectionResponse. 
+用于封装 DescribeCollectionResponse 的工具类。
 
 ```java
 import io.milvus.response.DescCollResponseWrapper;
 DescCollResponseWrapper wrapper = new DescCollResponseWrapper(response);
 ```
 
-Methods of `DescCollResponseWrapper`:
+`DescCollResponseWrapper` 的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Parameters</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>参数</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getCollectionName()</p></td>
-     <td><p>Get the name of the collection.</p></td>
+     <td><p>获取集合名称。</p></td>
      <td><p>N/A</p></td>
      <td><p>String</p></td>
    </tr>
    <tr>
      <td><p>getCollectionDescription()</p></td>
-     <td><p>Get the description of the collection.</p></td>
+     <td><p>获取集合描述。</p></td>
      <td><p>N/A</p></td>
      <td><p>String</p></td>
    </tr>
    <tr>
      <td><p>getCollectionID()</p></td>
-     <td><p>Get the internal ID of the collection.</p></td>
+     <td><p>获取集合的内部 ID。</p></td>
      <td><p>N/A</p></td>
      <td><p>long</p></td>
    </tr>
    <tr>
      <td><p>getShardNumber()</p></td>
-     <td><p>Get the shard number of the collection.</p></td>
+     <td><p>获取集合的分片数量。</p></td>
      <td><p>N/A</p></td>
      <td><p>int</p></td>
    </tr>
    <tr>
      <td><p>getCreatedUtcTimestamp()</p></td>
-     <td><p>Get UTC timestamp when the collection is created.</p></td>
+     <td><p>获取集合创建时的 UTC 时间戳。</p></td>
      <td><p>N/A</p></td>
      <td><p>long</p></td>
    </tr>
    <tr>
      <td><p>getAliases()</p></td>
-     <td><p>Get aliases of the collection.</p></td>
+     <td><p>获取集合的别名。</p></td>
      <td><p>N/A</p></td>
      <td><p>List\<String></p></td>
    </tr>
    <tr>
      <td><p>getFields()</p></td>
-     <td><p>Get the schema of the collection's fields.</p></td>
+     <td><p>获取集合字段的 schema。</p></td>
      <td><p>N/A</p></td>
      <td><p>List\<FieldType></p></td>
    </tr>
    <tr>
      <td><p>getFieldByName(String fieldName)</p></td>
-     <td><p>Get the schema of a field by name.</p><p>Return null if the field doesn't exist.</p></td>
-     <td><p>fieldName: The name of a field</p></td>
+     <td><p>根据名称获取字段的 schema。</p><p>如果该字段不存在，则返回 null。</p></td>
+     <td><p>fieldName: 字段名称</p></td>
      <td><p>FieldType</p></td>
    </tr>
    <tr>
      <td><p>isDynamicFieldEnabled()</p></td>
-     <td><p>Get whether the collection dynamic field is enabled</p></td>
+     <td><p>获取集合动态字段是否已启用</p></td>
      <td><p>N/A</p></td>
      <td><p>boolean</p></td>
    </tr>
    <tr>
      <td><p>getPartitionKeyField()</p></td>
-     <td><p>Get the partition key field.</p><p>Return null if the partition key field doesn't exist.</p></td>
+     <td><p>获取分区键字段。</p><p>如果分区键字段不存在，则返回 null。</p></td>
      <td><p>N/A</p></td>
      <td><p>FieldType</p></td>
    </tr>
 </table>
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.*;

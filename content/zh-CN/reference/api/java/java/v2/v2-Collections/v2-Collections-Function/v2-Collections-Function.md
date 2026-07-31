@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "Function | Java | v2"
 slug: /java/java/v2-Collections-Function
 sidebar_label: "Function"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "A `Function` instance for generating vector embeddings from user-provided raw data or configuring rerankers for searches. | Java | v2"
+description: "用于从用户提供的原始数据生成向量嵌入或为搜索配置 reranker 的 `Function` 实例。 | Java | v2"
 type: docx
 token: CW06d3MZQo2AzuxIv2ycCFpsn4b
 sidebar_position: 3
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - Function
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-A `Function` instance for generating vector embeddings from user-provided raw data or configuring rerankers for searches.
+用于从用户提供的原始数据生成向量嵌入或为搜索配置 reranker 的 `Function` 实例。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.Function
 ```
 
-## Constructor
+## 构造函数\{#constructor}
 
-This constructor initializes a new `Function` instance designed to transform user's raw data into vector embeddings or configure rerankers for searches. This is achieved through an automated process that simplifies similarity search operations.
+该构造函数会初始化一个新的 `Function` 实例，用于将用户的原始数据转换为向量嵌入，或为搜索配置 reranker。这通过自动化流程实现，可简化相似性搜索操作。
 
 ```java
 CreateCollectionReq.Function.builder()
@@ -52,49 +52,49 @@ CreateCollectionReq.Function.builder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `name(String name)`
 
-    The name of the function. This identifier is used to reference the function within queries and collections.
+    函数的名称。该标识符用于在查询和集合中引用此函数。
 
 - `description(String description)`
 
-    A brief description of the function's purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
+    对函数用途的简要描述。这在文档编写或大型项目中提升可读性时会很有帮助，默认值为空字符串。
 
 - `functionType(FunctionType functionType)`
 
-    The type of function for processing raw data. Possible values:
+    用于处理原始数据的函数类型。可能的值：
 
-    - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
+    - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
 
 - `outputFieldNames(List<String> outputFieldNames)`
 
-    The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+    用于存储生成嵌入的字段名称。该字段应与集合 schema 中定义的向量字段对应。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
 
 - `params(Map<String, String> params)`
 
-    A set of key-value pairs that configures the function properties.
+    用于配置函数属性的一组键值对。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Function*
 
-**RETURNS:**
+**返回值：**
 
-A `Function` object that can be registered with a Milvus collection, facilitating automatic embedding generation during data insertion.
+可注册到 Milvus collection 的 `Function` 对象，用于在数据插入期间自动生成嵌入。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.common.clientenum.FunctionType;

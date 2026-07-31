@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "FunctionType | Java | v2"
 slug: /java/java/v2-Function-FunctionType
 sidebar_label: "FunctionType"
+beta: false
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "这是一个提供以下常量的枚举。 | Java | v2"
 type: docx
 token: Va2Fd7J6EoKmKCxaww0caOdInpF
 sidebar_position: 4
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,18 +31,18 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - **BM25** (1)
 
-    Sets the function type to **BM25**.
+    将函数类型设置为 **BM25**。
 
 - **TextEmbedding** (2)
 
-    Sets the function type to **TextEmbedding**.
+    将函数类型设置为 **TextEmbedding**。
 
 - **Rerank** (3)
 
-    Sets the function type to **Rerank**.
+    将函数类型设置为 **Rerank**。

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listPartitions() | Java | v2"
 slug: /java/java/v2-Partitions-listPartitions
 sidebar_label: "listPartitions()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists the partitions in a specified collection. | Java | v2"
+description: "此操作列出指定集合中的分区。 | Java | v2"
 type: docx
 token: Bjs5dej7ZoBKhXxZzMjclPCynmd
 sidebar_position: 5
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listPartitions()
 
-This operation lists the partitions in a specified collection.
+此操作列出指定集合中的分区。
 
 ```java
 public List<String> listPartitions(ListPartitionsReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 listPartitions(ListPartitionsReq.builder()
@@ -47,31 +47,31 @@ listPartitions(ListPartitionsReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    现有集合的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List\<String\>*
 
-**RETURNS:**
+**返回：**
 
-A list of partition names.
+分区名称列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

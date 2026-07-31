@@ -4,7 +4,7 @@ slug: /java/v1-QuerySearch-queryAsync
 sidebar_label: "queryAsync()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "The MilvusClient interface. This method queries entity(s) asynchronously based on scalar field(s) filtered by boolean expression. Note that the order of the returned entities cannot be guaranteed. | Java | v1"
+description: "MilvusClient 接口。此方法根据由布尔表达式筛选的标量字段异步查询实体。请注意，返回实体的顺序无法保证。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#PUtDdkD1yoZWtAxjwiccFgybnWc
 sidebar_position: 2
@@ -17,15 +17,15 @@ import Admonition from '@theme/Admonition';
 
 # queryAsync()
 
-The MilvusClient interface. This method queries entity(s) asynchronously based on scalar field(s) filtered by boolean expression. Note that the order of the returned entities cannot be guaranteed.
+MilvusClient 接口。此方法根据由布尔表达式筛选的标量字段异步查询实体。请注意，返回实体的顺序无法保证。
 
 ```java
 ListenableFuture<R<QueryResults>> queryAsync(QueryParam requestParam);
 ```
 
-This method uses the same parameter as `query()`, it invokes RPC interface and returns a ListenableFuture object immediately.
+此方法使用与 `query()` 相同的参数。它会调用 RPC 接口并立即返回一个 ListenableFuture 对象。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.dml.*;

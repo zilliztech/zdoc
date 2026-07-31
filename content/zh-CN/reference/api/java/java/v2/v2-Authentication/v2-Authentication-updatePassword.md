@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "updatePassword() | Java | v2"
 slug: /java/java/v2-Authentication-updatePassword
 sidebar_label: "updatePassword()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation updates the password of a specific user. | Java | v2"
+description: "此操作会更新用户密码，也可以更新用户描述。 | Java | v2"
 type: docx
-token: GQH8dgqlPoRY1sxFhCRcLlgInNc
+token: AnuCd3jgDojhA8x2kNFcddCynLh
 sidebar_position: 20
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,67 +31,71 @@ import Admonition from '@theme/Admonition';
 
 # updatePassword()
 
-This operation updates the password of a specific user.
+此操作会更新用户密码，也可以更新用户描述。
 
 ```java
 public void updatePassword(UpdatePasswordReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
-updatePassword(UpdatePasswordReq.builder()
+client.updatePassword(UpdatePasswordReq.builder()
     .userName(String userName)
     .password(String password)
     .newPassword(String newPassword)
+    .resetConnection(Boolean resetConnection)
+    .description(String description)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `userName(String userName)`
 
-    The name of an existing user.
+    **[必填]**
+
+    要更新的用户名称。
 
 - `password(String password)`
 
-    The original password of the user.
+    用户的当前密码。更改密码时，请将此参数与 `newPassword` 一起提供。
 
 - `newPassword(String newPassword)`
 
-    The new password of the user.
+    用户的新密码。更改密码时，请将此参数与 `password` 一起提供。
 
-**RETURNS:**
+- `resetConnection(Boolean resetConnection)`
+
+    密码更新后是否重置当前客户端连接。默认为 `false`。
+
+- `description(String description)`
+
+    用户的可选新描述。默认为空字符串。
+
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+此操作不返回任何值。
 
-- **MilvusClientExceptions**
+**异常：**
 
-    This exception will be raised when any error occurs during this operation.
+- **MilvusClientException**
 
-## Example
+    当此操作过程中发生任何错误时，将引发此异常。
+
+## 示例\{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Reset password
-UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
-        .userName("test")
-        .password("Zilliz@2023")
-        .newPassword("Zilliz@2024")
-        .build();
-client.updatePassword(updatePasswordReq);
+client.updatePassword(UpdatePasswordReq.builder()
+    .userName("analyst_user")
+    .password("P@ssw0rd!")
+    .newPassword("N3wP@ssw0rd!")
+    .resetConnection(true)
+    .description("Read-only analyst account")
+    .build());
 ```

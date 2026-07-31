@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "close() | Java | v2"
 slug: /java/java/v2-LocalBulkWriter-close
 sidebar_label: "close()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation closes the current LocalBulkWriter instance. | Java | v2"
+description: "此操作将关闭当前的 LocalBulkWriter 实例。 | Java | v2"
 type: docx
 token: OEcUdoX1yoc94axfwpjcdA2jnEf
 sidebar_position: 2
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 最近邻搜索
+  - Agentic RAG
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
   - cloud
   - close()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # close()
 
-This operation closes the current LocalBulkWriter instance.
+此操作将关闭当前的 LocalBulkWriter 实例。
 
 ```java
 public void close()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 localBulkWriter.close()
 ```
 
-**PARAMETERS:**
+**参数：**
 
-*None*
+*无*
 
-**RETURNS TYPE:**
+**返回类型：**
 
 *void*
 
-## Example
+## 示例\{#example}
 
 ```java
 localBulkWriter.close()

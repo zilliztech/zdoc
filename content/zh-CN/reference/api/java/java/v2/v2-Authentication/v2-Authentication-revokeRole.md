@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "revokeRole() | Java | v2"
 slug: /java/java/v2-Authentication-revokeRole
 sidebar_label: "revokeRole()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation revokes the role assigned to a user. | Java | v2"
+description: "此操作会撤销分配给用户的角色。 | Java | v2"
 type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # revokeRole()
 
-This operation revokes the role assigned to a user.
+此操作会撤销分配给用户的角色。
 
 ```java
 public void revokeRole(RevokeRoleReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 revokeRole(RevokeRoleReq.builder()
@@ -47,27 +47,27 @@ revokeRole(RevokeRoleReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `roleName(String roleName)`
 
-    The name of the role to revoke.
+    要撤销的角色名称。
 
 - `userName(String userName)`
 
-    The name of an existing user.
+    现有用户的名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

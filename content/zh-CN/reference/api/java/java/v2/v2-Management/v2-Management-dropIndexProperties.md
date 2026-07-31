@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropIndexProperties() | Java | v2"
 slug: /java/java/v2-Management-dropIndexProperties
 sidebar_label: "dropIndexProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation resets the specified index properties to their default values. | Java | v2"
+description: "此操作会将指定的索引属性重置为其默认值。 | Java | v2"
 type: docx
 token: IdNAdlMhjoM40pxjpKecpc7inbd
 sidebar_position: 6
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropIndexProperties()
 
-This operation resets the specified index properties to their default values.
+此操作会将指定的索引属性重置为其默认值。
 
 ```java
 public Void dropIndexProperties(DropIndexPropertiesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropIndexProperties(DropIndexPropertiesReq.builder()
@@ -53,23 +53,23 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
 - `databaseName(String databaseName)`
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - `collectionName(String collectionName)`
 
-    The name of the target collection.
+    目标集合的名称。
 
 - `indexName(String indexName)`
 
-    The name of the target index.
+    目标索引的名称。
 
 - `propertyKeys(List<String> propertyKeys)`
 
-    The properties to drop. Note that the property values should be strings. Available database properties are as follows:
+    要删除的属性。请注意，属性值应为字符串。可用的数据库属性如下：
 
     - **mmap.enabled** -
 
-        Whether to enable mmap for the current index.
+        是否为当前索引启用 mmap。
 
 **RETURNS:**
 
@@ -79,9 +79,9 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -4,7 +4,7 @@ slug: /java/v1-Alias-alterAlias
 sidebar_label: "alterAlias()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "A MilvusClient interface. This method alters an alias from one collection to another. | Java | v1"
+description: "MilvusClient 接口。此方法将别名从一个 collection 更改到另一个 collection。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#CISLdYUTuon6MUx2OZmcwExGn5g
 sidebar_position: 3
@@ -17,66 +17,66 @@ import Admonition from '@theme/Admonition';
 
 # alterAlias()
 
-A MilvusClient interface. This method alters an alias from one collection to another.
+MilvusClient 接口。此方法将别名从一个 collection 更改到另一个 collection。
 
 ```java
 R<RpcStatus> alterAlias(AlterAliasParam requestParam);
 ```
 
-#### AlterAliasParam
+#### AlterAliasParam\{#alteraliasparam}
 
-Use the `AlterAliasParam.Builder` to construct an `AlterAliasParam` object.
+使用 `AlterAliasParam.Builder` 构造 `AlterAliasParam` 对象。
 
 ```java
 import io.milvus.param.AlterAliasParam;
 AlterAliasParam.Builder builder = AlterAliasParam.newBuilder();
 ```
 
-Methods of `AlterAliasParam.Builder`:
+`AlterAliasParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p><br/>withCollectionName(String collectionName)</p></td>
-        <td><p>Sets the target collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The name of the target collection to alter the alias to.</p></td>
+        <td><p>设置目标 collection 名称。Collection 名称不能为空或为 null。</p></td>
+        <td><p>collectionName: 要将别名更改到的目标 collection 名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，database name 可以为 null。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withAlias(String alias)</p></td>
-        <td><p>Sets the collection alias to alter. Collection alias cannot be empty or null.</p></td>
-        <td><p>alias: The alias to alter.</p></td>
+        <td><p>设置要更改的 collection 别名。Collection 别名不能为空或为 null。</p></td>
+        <td><p>alias: 要更改的别名。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Constructs a CreateAliasParam object.</p></td>
+        <td><p>构造一个 CreateAliasParam 对象。</p></td>
         <td></td>
     </tr>
 </table>
 
-The `AlterAliasParam.Builder.build()` can throw the following exceptions:
+`AlterAliasParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<RpcStatus>` object.
+此方法会捕获所有异常并返回一个 `R<RpcStatus>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and the error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns `R.Status.Success`.
+- 如果 API 成功，则返回 `R.Status.Success`。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

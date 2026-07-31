@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "loadPartitions() | Java | v2"
 slug: /java/java/v2-Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
+description: "此操作会将指定集合中的分区从内存中释放。 | Java | v2"
 type: docx
-token: IBTSd8lrvoAYLzxl6Z8cEVoXnMd
+token: MH8cdNxkgoliJ5xU0f9cBKqunYe
 sidebar_position: 6
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,75 +31,85 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-This operation releases the partitions in a specified collection from memory.
+此操作会将指定集合中的分区从内存中释放。
 
 ```java
 public void loadPartitions(LoadPartitionsReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 loadPartitions(LoadPartitionsReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionNames(List<String> partitionNames)
-    .numReplicas(Interger numReplicas)
+    .numReplicas(Integer numReplicas)
     .sync(Boolean sync)
     .timeout(Long timeout)
     .refresh(Boolean refresh)
     .loadFields(List<String> loadFields)
+    .skipLoadDynamicField(Boolean skipLoadDynamicField)
+    .resourceGroups(List<String> resourceGroups)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database to which the target collection belongs.
+    数据库名称。若未指定，则默认为当前数据库。
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of an existing collection.
+    目标集合的名称。
 
-- `partitionNames(List<String> partitionNames)`
+- `partitionNames(List<String> partitionNames)` -
 
-    A list of the names of the partitions to load.
+    目标分区名称列表。
 
-- `numReplicas(Interger numReplicas)`
+- `numReplicas(Integer numReplicas)` -
 
-    The number of replicas to create during the load process.
+    要加载的副本数量。
 
-- `sync(Boolean sync)`
+- `sync(Boolean sync)` -
 
-    Whether the current operation is synchronous.
+    是否同步等待操作完成。
 
-    The value defaults to `Boolean.True`, indicating that the operation returns only after the specified partitions are fully loaded.
+- `timeout(Long timeout)` -
 
-- `timeout(Long timeout)`
+    超时时长，单位为毫秒。
 
-    The timeout duration for this operation. The value defaults to `60000L`, indicating the operation times out after 1000 hours.
+- `refresh(Boolean refresh)` -
 
-- `refresh(Boolean refresh)`
+    是否刷新加载以包含新字段。
 
-    Whether to refresh the data after load.
+- `loadFields(List<String> loadFields)` -
 
-- `loadFields(List<String> loadFields)`
+    要加载的特定字段名称列表。
 
-    A name list of the fields to load during the process.
+- `skipLoadDynamicField(Boolean skipLoadDynamicField)` -
 
-**RETURNS:**
+    是否跳过加载动态字段。
+
+- `resourceGroups(List<String> resourceGroups)` -
+
+    用于负载均衡的资源组名称列表。
+
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+*void*
 
-- **MilvusClientExceptions**
+**异常：**
 
-    This exception will be raised when any error occurs during this operation.
+- **MilvusClientException**
 
-## Example
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -121,4 +131,3 @@ LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq.builder()
         .build();
 client.loadPartitions(loadPartitionsReq);
 ```
-

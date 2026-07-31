@@ -4,7 +4,7 @@ slug: /java/v1-RBAC-selectUser
 sidebar_label: "selectUser()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method gets all roles the user has. | Java | v1"
+description: "MilvusClient 接口。此方法获取用户拥有的所有角色。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#KkFWd37sBoF0XrxMhNHcGWDVnYg
 sidebar_position: 6
@@ -17,61 +17,61 @@ import Admonition from '@theme/Admonition';
 
 # selectUser()
 
-MilvusClient interface. This method gets all roles the user has.
+MilvusClient 接口。此方法获取用户拥有的所有角色。
 
 ```java
 R<SelectUserResponse> selectUser(SelectUserParam requestParam);
 ```
 
-#### SelectUserParam
+#### SelectUserParam\{#selectuserparam}
 
-Use the `SelectUserParam.Builder` to construct a `SelectUserParam` object.
+使用 `SelectUserParam.Builder` 构造 `SelectUserParam` 对象。
 
 ```java
 import io.milvus.param.SelectUserParam;
 SelectUserParam.Builder builder = SelectUserParam.newBuilder();
 ```
 
-Methods of `SelectUserParam.Builder`:
+`SelectUserParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withUsername(String username)</p></td>
-        <td><p>Sets the username. Username cannot be empty or null.</p></td>
-        <td><p>username: The user name.</p></td>
+        <td><p>设置用户名。用户名不能为空或 null。</p></td>
+        <td><p>username: 用户名。</p></td>
     </tr>
     <tr>
         <td><p>withIncludeRoleInfo(boolean includeRoleInfo)</p></td>
-        <td><p>Sets the includeRoleInfo. Default value is false.</p></td>
-        <td><p>includeRoleInfo: The include role info or not.</p></td>
+        <td><p>设置 includeRoleInfo。默认值为 false。</p></td>
+        <td><p>includeRoleInfo: 是否包含角色信息。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a SelectUserParam object.</p></td>
+        <td><p>构造一个 SelectUserParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `SelectUserParam.Builder.build()` can throw the following exceptions:
+`SelectUserParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<SelectUserResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<SelectUserResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns a valid `SelectUserResponse` held by the `R` template. You can use `SelectUserResponse` to get the user information.
+- 如果 API 执行成功，则返回由 `R` 模板持有的有效 `SelectUserResponse`。您可以使用 `SelectUserResponse` 获取用户信息。
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.SelectUserParam;

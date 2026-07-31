@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "BoostRanker | Java | v2"
 slug: /java/java/v2-Function-BoostRanker
 sidebar_label: "BoostRanker"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "The BoostRanker extends from the Function class and provides extra parameters. | Java | v2"
+description: "BoostRanker 继承自 Function 类并提供额外参数。 | Java | v2"
 type: docx
 token: QO5ldltYOoo5uFxS4ZJc24JWnUh
 sidebar_position: 1
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - BoostRanker
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # BoostRanker
 
-The BoostRanker extends from the **Function** class and provides extra parameters.
+BoostRanker 继承自 **Function** 类，并提供额外参数。
 
 ```java
 public class BoostRanker extends CreateCollectionReq.Function
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 BoostRanker.builder()
@@ -52,65 +52,65 @@ BoostRanker.builder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `name(String name)`
 
-    The name of the function. This identifier is used to reference the function within queries and collections.
+    函数名称。此标识符用于在查询和集合中引用该函数。
 
 - `description(String description)`
 
-    A brief description of the function's purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
+    对函数用途的简要描述。这对于文档说明或提升大型项目中的可读性很有帮助，默认为空字符串。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.RERANK`, this parameter accepts only one field name.
+    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.RERANK` 的函数，此参数仅接受一个字段名。
 
 - `params(Map<String, String> params)`
 
-    A set of key-value pairs that configures the function properties.
+    用于配置函数属性的一组键值对。
 
 - `filter(String filter)`
 
-    The filter expression that will be used to match entities among search result entities. It can be any valid basic filter expression mentioned in [Filtering Explained](https://milvus.io/docs/boolean.md).
+    用于在搜索结果实体中匹配实体的过滤表达式。它可以是 [Filtering Explained](https://milvus.io/docs/boolean.md) 中提到的任何有效基础过滤表达式。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>Only use basic operators, such as <code>==</code>, <code>&gt;</code>, or <code>&lt;</code>. Using advanced operators, such as <code>text_match</code> or <code>phrase_match</code>, will degrade search performance.</p>
+    仅使用基础运算符，例如 `==`、`>` 或 `<`。使用高级运算符（如 `text_match` 或 `phrase_match`）会降低搜索性能。
 
     </Admonition>
 
 - `weight(Float weight)`
 
-    The weight that will be multiplied by the scores of any matching entities in the raw search results.
+    该权重会与原始搜索结果中任何匹配实体的分数相乘。
 
-    The value should be a floating-point number.
+    该值应为浮点数。
 
-    - To emphasize the importance of matching entities, set it to a value that boosts the scores.
+    - 若要突出匹配实体的重要性，请将其设置为能够提升分数的值。
 
-    - To demote matching entities, assign this parameter a value that lowers their scores.
+    - 若要降低匹配实体的排序，请为此参数指定一个会降低其分数的值。
 
 - `randomScoreSeed(Long randomScoreSeed)`
 
-    The random function that works with `randomScoreField(String randomScoreField)` to generate a value between `0` and `1` randomly. 
+    该随机函数与 `randomScoreField(String randomScoreField)` 配合使用，以随机生成一个介于 `0` 到 `1` 之间的值。 
 
-    You should specify an initial value to start a pseudorandom number generator (PRNG).
+    你应指定一个初始值来启动伪随机数生成器（PRNG）。
 
 - `randomScoreField(String randomScoreField)`
 
-    The random function that works with `randomScoreSeed(Long randomScoreSeed)` to generate a value between `0` and `1` randomly. 
+    该随机函数与 `randomScoreSeed(Long randomScoreSeed)` 配合使用，以随机生成一个介于 `0` 到 `1` 之间的值。 
 
-    You should specify the name of a field whose value will be used as a random factor in generating the random number. A field with unique values will suffice.
+    你应指定一个字段名称，该字段的值将作为生成随机数时的随机因子。具有唯一值的字段即可满足需求。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *BoostRanker*
 
-**RETURNS:**
+**返回：**
 
- A boost ranker instance.
+一个 boost ranker 实例。
 
-## Examples:
+## 示例：\{#examples}
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;

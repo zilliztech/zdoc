@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getMaxCapacity() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getMaxCapacity
 sidebar_label: "getMaxCapacity()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation returns the maximum capacity of an Array of Structs field. | Java | v2"
+description: "此操作返回 Struct 数组字段的最大容量。 | Java | v2"
 type: docx
 token: PSdEdxU7ZoTxelx7sLzcAAXsnQH
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - getMaxCapacity()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # getMaxCapacity()
 
-This operation returns the maximum capacity of an Array of Structs field.
+此操作返回 Struct 数组字段的最大容量。
 
 ```java
 public Integer getMaxCapacity()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 getMaxCapacity()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Integer*
 
-**RETURNS:**
+**返回值：**
 
-The return value will be the maximum capacity of the specified Array of Struct field.
+返回值为指定 Struct 数组字段的最大容量。
 
-## Examples
+## 示例\{#examples}
 
 ```java
 // You can get an instance of StructFieldSchema by describing

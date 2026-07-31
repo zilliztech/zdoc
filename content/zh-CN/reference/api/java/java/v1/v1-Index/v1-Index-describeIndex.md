@@ -4,7 +4,7 @@ slug: /java/v1-Index-describeIndex
 sidebar_label: "describeIndex()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method shows the information of the specified index. | Java | v1"
+description: "MilvusClient 接口。此方法显示指定索引的信息。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#NEewdHY5MoS1o1xsSeFcCeicnld
 sidebar_position: 3
@@ -17,132 +17,132 @@ import Admonition from '@theme/Admonition';
 
 # describeIndex()
 
-MilvusClient interface. This method shows the information of the specified index.
+MilvusClient 接口。此方法显示指定索引的信息。
 
 ```java
 R<DescribeIndexResponse> describeIndex(DescribeIndexParam requestParam);
 ```
 
-#### DescribeIndexParam
+#### DescribeIndexParam\{#describeindexparam}
 
-Use the `DescribeIndexParam.Builder` to construct a `DescribeIndexParam` object.
+使用 `DescribeIndexParam.Builder` 构建 `DescribeIndexParam` 对象。
 
 ```java
 import io.milvus.param.DescribeIndexParam;
 DescribeIndexParam.Builder builder = DescribeIndexParam.newBuilder();
 ```
 
-Methods of `DescribeIndexParam.Builder`:
+`DescribeIndexParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withCollectionName(collectionName)</p></td>
-        <td><p>Set the collection name. Collection name cannot be empty or null.</p></td>
-        <td><p>collectionName: The target collection name.</p></td>
+        <td><p>设置集合名称。集合名称不能为空或 null。</p></td>
+        <td><p>collectionName: 目标集合名称。</p></td>
     </tr>
     <tr>
         <td><p>withDatabaseName(String databaseName)</p></td>
-        <td><p>Sets the database name. database name can be null for default database.</p></td>
-        <td><p>databaseName: The database name.</p></td>
+        <td><p>设置数据库名称。对于默认数据库，数据库名称可以为 null。</p></td>
+        <td><p>databaseName: 数据库名称。</p></td>
     </tr>
     <tr>
         <td><p>withIndexName(String indexName)</p></td>
-        <td><p>Set the target index name. If no index name is specified, the default index name is empty string which means let the server determine it.</p></td>
-        <td><p>indexName: The name of the index.</p></td>
+        <td><p>设置目标索引名称。如果未指定索引名称，则默认索引名称为空字符串，这表示由服务器决定。</p></td>
+        <td><p>indexName: 索引名称。</p></td>
     </tr>
     <tr>
         <td><p>withFieldName(String fieldName)</p></td>
-        <td><p>Sets the target field name. Field name can be empty or null.<br/>If no field name is specified, then return all this collection indexes.</p></td>
-        <td><p>fieldName: The field name.</p></td>
+        <td><p>设置目标字段名称。字段名称可以为空或 null。<br/>如果未指定字段名称，则返回此集合上的所有索引。</p></td>
+        <td><p>fieldName: 字段名称。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a DescribeIndexParam object.</p></td>
+        <td><p>构建一个 DescribeIndexParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `DropIndexParam.Builder.build()` can throw the following exceptions:
+`DropIndexParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException: 如果参数无效则报错。
 
-#### Returns
+#### Returns\{#returns}
 
-This method catches all the exceptions and returns an `R<DescribeIndexResponse>` object.
+此方法会捕获所有异常，并返回一个 `R<DescribeIndexResponse>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务器端执行失败，它将返回服务器返回的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常而失败，它将返回 `R.Status.Unknown` 以及该异常的错误消息。
 
-- If the API succeeds, it returns a valid `DescribeIndexResponse` held by the `R` template. You can use `DescIndexResponseWrapper` to get index descriptions easily.
+- 如果 API 执行成功，它将返回一个由 `R` 模板持有的有效 `DescribeIndexResponse`。你可以使用 `DescIndexResponseWrapper` 更方便地获取索引描述。
 
-#### DescIndexResponseWrapper
+#### DescIndexResponseWrapper\{#descindexresponsewrapper}
 
-A tool class to encapsulate the `DescribeIndexResponse`. 
+一个用于封装 `DescribeIndexResponse` 的工具类。
 
 ```java
 import io.milvus.response.DescIndexResponseWrapper;
 DescIndexResponseWrapper wrapper = new DescIndexResponseWrapper(descIndexResponse);
 ```
 
-Methods of `DescIndexResponseWrapper`:
+`DescIndexResponseWrapper` 的方法：
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Parameters</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>参数</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getIndexDescriptions()</p></td>
-     <td><p>Get a list of all index descriptions. (Currently only return one index information)</p></td>
+     <td><p>获取所有索引描述的列表。（当前仅返回一个索引信息）</p></td>
      <td><p>N/A</p></td>
      <td><p>List\<IndexDesc></p></td>
    </tr>
    <tr>
      <td><p>getIndexDescByFieldName(String fieldName)</p></td>
-     <td><p>Get index description by field name. Return null if the field doesn't exist.</p></td>
-     <td><p>fieldName: A field name</p></td>
+     <td><p>根据字段名称获取索引描述。如果字段不存在则返回 null。</p></td>
+     <td><p>fieldName: 一个字段名称</p></td>
      <td><p>IndexDesc</p></td>
    </tr>
 </table>
 
-#### IndexDesc
+#### IndexDesc\{#indexdesc}
 
-A tool class to describe an index.
+一个用于描述索引的工具类。
 
-Methods of `DescIndexResponseWrapper.IndexDesc`
+`DescIndexResponseWrapper.IndexDesc` 的方法
 
 <table>
    <tr>
-     <th><p><strong>Method</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Returns</strong></p></th>
+     <th><p><strong>方法</strong></p></th>
+     <th><p><strong>说明</strong></p></th>
+     <th><p><strong>返回值</strong></p></th>
    </tr>
    <tr>
      <td><p>getIndexType()</p></td>
-     <td><p>Get index type.</p></td>
+     <td><p>获取索引类型。</p></td>
      <td><p>IndexType</p></td>
    </tr>
    <tr>
      <td><p>getMetricType()</p></td>
-     <td><p>Get metric type.</p></td>
+     <td><p>获取度量类型。</p></td>
      <td><p>MetricType</p></td>
    </tr>
    <tr>
      <td><p>getExtraParam()</p></td>
-     <td><p>Get index parameters in JSON format.</p></td>
+     <td><p>以 JSON 格式获取索引参数。</p></td>
      <td><p>String</p></td>
    </tr>
 </table>
 
-#### Example
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

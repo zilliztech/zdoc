@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "EmbeddingList | Java | v2"
 slug: /java/java/v2-Collections-EmbeddingList
 sidebar_label: "EmbeddingList"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "An EmbeddingList instance represents a list of vector embeddings. You can use an EmbeddingList instance to build the query vectors in a search against a vector field in an Array of Structs field. | Java | v2"
+description: "EmbeddingList 实例表示一个向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以便在 Array of Structs 字段中的某个向量字段上执行搜索。 | Java | v2"
 type: docx
 token: EXcNdtZrro7Ufkxp3G6cUArOn7b
 sidebar_position: 2
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingList
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingList
 
-An **EmbeddingList** instance represents a list of vector embeddings. You can use an **EmbeddingList** instance to build the query vectors in a search against a vector field in an Array of Structs field.
+**EmbeddingList** 实例表示一个向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以便在 Array of Structs 字段中的某个向量字段上执行搜索。
 
 ```java
 io.milvus.v2.service.vector.request.data.EmbeddingList
 ```
 
-## Constructor
+## Constructor\{#constructor}
 
-Constructs an empty embedding list or a list of given vector embeddings.
+构造一个空的嵌入列表，或一个包含给定向量嵌入的列表。
 
 ```java
 EmbeddingList()
@@ -51,9 +51,9 @@ EmbeddingList
 
 **RETURNS:**
 
-An EmbeddingList instance comprises one or multiple vector embeddings. You can use it to search against the vector fields in the Struct elements of an Array of Structs field.
+一个 EmbeddingList 实例包含一个或多个向量嵌入。您可以使用它对 Array of Structs 字段中 Struct 元素里的向量字段执行搜索。
 
-## Examples:
+## Examples:\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

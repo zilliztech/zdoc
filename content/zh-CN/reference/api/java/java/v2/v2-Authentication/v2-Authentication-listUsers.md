@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listUsers() | Java | v2"
 slug: /java/java/v2-Authentication-listUsers
 sidebar_label: "listUsers()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists the names of all existing users. | Java | v2"
+description: "此操作列出所有现有用户的名称。 | Java | v2"
 type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 15
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,33 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # listUsers()
 
-This operation lists the names of all existing users.
+此操作列出所有现有用户的名称。
 
 ```java
 public List<String> listUsers()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 listUsers();
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *List\<String\>*
 
-**RETURNS:**
+**返回：**
 
-A list of strings containing the user names.
+包含用户名的字符串列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

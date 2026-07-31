@@ -4,7 +4,7 @@ slug: /java/v1-QuerySearch-searchAsync
 sidebar_label: "searchAsync()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search asynchronously. | Java | v1"
+description: "MilvusClient 接口。此方法以异步方式执行近似最近邻（ANN）搜索。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#DfhddHld8oaWoHxBfWUcDMZFn7d
 sidebar_position: 4
@@ -17,15 +17,15 @@ import Admonition from '@theme/Admonition';
 
 # searchAsync()
 
-The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search asynchronously.
+MilvusClient 接口。此方法以异步方式执行近似最近邻（ANN）搜索。
 
 ```java
 ListenableFuture<R<SearchResults>> searchAsync(SearchParam requestParam);
 ```
 
-This method uses the same parameter as `search()`, it invokes RPC interface and returns a ListenableFuture object immediately.
+此方法使用与 `search()` 相同的参数；它调用 RPC 接口并立即返回一个 ListenableFuture 对象。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.dml.*;

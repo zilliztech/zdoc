@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeUser() | Java | v2"
 slug: /java/java/v2-Authentication-describeUser
 sidebar_label: "describeUser()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation describes a specific user. | Java | v2"
+description: "此操作返回分配给某个用户的角色以及该用户的描述。 | Java | v2"
 type: docx
-token: YLQJdvVA8odibAx7mQscYwMVn8g
+token: TR9OdLX5PoMZbMx4l2tcWKVmn3b
 sidebar_position: 6
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,66 +31,49 @@ import Admonition from '@theme/Admonition';
 
 # describeUser()
 
-This operation describes a specific user.
+此操作返回分配给某个用户的角色以及该用户的描述。
 
 ```java
 public DescribeUserResp describeUser(DescribeUserReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
-describeUser(DescribeUserReq.builder()
+DescribeUserResp resp = client.describeUser(DescribeUserReq.builder()
     .userName(String userName)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `userName(String userName)`
 
-    The name of the user to describe.
+    **[必需]**
 
-**RETURN TYPE:**
+    要描述的用户名称。
+
+**返回：**
 
 *DescribeUserResp*
 
-**RETURNS:**
+响应中包含 `userName`、`roles` 和 `description`。
 
-A **DescribeUserResp** object containing the details of the user.
+**异常：**
 
-**PARAMETERS:**
+- **MilvusClientException**
 
-- **roles** (*List\<String\>*) -
+    当此操作期间发生任何错误时，将引发此异常。
 
-    A list of role names associated with the user.
-
-**EXCEPTIONS:**
-
-- **MilvusClientExceptions**
-
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.DescribeUserReq;
+import io.milvus.v2.service.rbac.response.DescribeUserResp;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Describe a user
-DescribeUserReq describeUserReq = DescribeUserReq.builder()
-        .userName("test")
-        .build();
-DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
+DescribeUserResp resp = client.describeUser(DescribeUserReq.builder()
+    .userName("analyst_user")
+    .build());
+System.out.println(resp.getDescription());
 ```
-

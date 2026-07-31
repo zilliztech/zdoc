@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "upsert() | Java | v2"
 slug: /java/java/v2-Vector-upsert
 sidebar_label: "upsert()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation inserts or updates data in a specific collection. | Java | v2"
+description: "(占位符) | Java | v2"
 type: docx
-token: Ei2hd8dE4oGCvJxKbEvcamxTnke
+token: I7UWdVnAJobbSSxSPdHc024unMe
 sidebar_position: 9
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,119 +31,103 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-This operation inserts or updates data in a specific collection.
+# upsert()\{#upsert}
+
+此操作会向集合中插入新行，或在主键已存在时更新现有行。您还可以使用部分更新和字段级操作来更新选定字段。
 
 ```java
 public UpsertResp upsert(UpsertReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 upsert(UpsertReq.builder()
     .data(List<JsonObject> data)
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionName(String partitionName)
-    .partialUpdate(Boolean partialUpdate)
+    .partialUpdate(boolean partialUpdate)
+    .fieldOps(List<UpsertReq.FieldPartialUpdateOp> fieldOps)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**BUILDER 方法：**
 
 - `data(List<JsonObject> data)`
 
-    The data to insert or update into the current collection.
+    要插入/upsert 的数据行列表，采用 JSON 对象形式。
 
-    The data to insert or update should be a `gson.JsonObject` that matches the schema of the current collection or a list of such dictionaries. 
+- `databaseName(String databaseName)`
 
-    To perform an update, you are advised first to retrieve the target entity from the collection, modify the values of any relevant fields, and then save it back to the collection. 
-
-    The following code assumes that the schema of the current collection has three fields named **id**, **vector** ,and **color**. The `id` field is the primary field, the `vector` field is a field to hold 5-dimensional vector embeddings, and the `color` field is a scalar field holding strings.
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>In Java SDK versions v2.4.1 or earlier versions, the input is a <code>fastjson.JSONObject</code>. But <code>fastjson</code> is not recommended to use now because of its unsafe deserialization vulnerability. Therefore, replace <code>fastjson</code> with <code>gson</code> if you use the Java SDK of v2.4.2 or later releases.</p>
-
-    </Admonition>
-
-    ```java
-    List<JsonObject> data = new ArrayList<>();
-    
-    JsonObject dict1 = new JsonObject();
-    List<Float> vectorArray1 = new ArrayList<>();
-    vectorArray1.add(0.37417449965222693);
-    vectorArray1.add(-0.9401784221711342);
-    vectorArray1.add(0.9197526367693833);
-    vectorArray1.add(0.49519396415367245);
-    vectorArray1.add(-0.558567588166478);
-    
-    dict1.addProperty("id", 1L);
-    dict1.add("vector", gson.toJsonTree(vectorArray1));
-    dict1.add("color", "green")
-    
-    JsonObject dict2 = new JsonObject();
-    JSONArray vectorArray2 = new ArrayList<>();
-    vectorArray2.add(0.46949086179692356);
-    vectorArray2.add(-0.533609076732849);
-    vectorArray2.add(-0.8344432775467099);
-    vectorArray2.add(0.9797361846081416);
-    vectorArray2.add(0.6294256393761057);
-    
-    dict2.addProperty("id", 2L);
-    dict2.add("vector", gson.toJsonTree(vectorArray2));
-    dict2.add("color", "brown")
-    
-    data.add(dict1);
-    data.add(dict2);
-    ```
+    数据库名称。如未指定，则默认为当前数据库。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    目标集合的名称。
 
 - `partitionName(String partitionName)`
 
-    The name of an existing partition.
+    目标分区的名称。
 
-**RETURN TYPE:**
+- `partialUpdate(boolean partialUpdate)`
+
+    是否在 upsert 期间启用部分字段更新。当您只想更新主键和每一行中提供的字段时，请将其设置为 `true`。如果您在 `fieldOps` 中使用 `ARRAY_APPEND` 或 `ARRAY_REMOVE`，SDK 会自动以部分更新语义发送请求。
+
+- `fieldOps(List<UpsertReq.FieldPartialUpdateOp> fieldOps)`
+
+    控制在部分 upsert 期间如何应用 `data` 中的字段。对于大多数字段，可省略此参数，或使用默认的 `REPLACE` 操作来替换请求中携带的字段值。对于 `ARRAY` 字段，使用 `ARRAY_APPEND` 将请求负载追加到现有数组，或使用 `ARRAY_REMOVE` 删除所有与请求负载匹配的现有元素，而无需先读取并重写整个数组。每个 `FieldPartialUpdateOp` 都只针对一个 `fieldName`。该字段在 `data` 中的值必须与数组的 `element_type` 匹配；执行 `ARRAY_APPEND` 后，最终数组不得超过该字段的 `max_capacity`。
+
+**FieldPartialUpdateOp BUILDER 方法：**
+
+- `fieldName(String fieldName)`
+
+    受部分更新操作影响的字段。
+
+- `opType(UpsertReq.FieldPartialUpdateOp.OpType opType)`
+
+    要应用的操作。有效值为 `REPLACE`、`ARRAY_APPEND` 和 `ARRAY_REMOVE`。非 `REPLACE` 操作意味着采用部分更新语义。
+
+**返回：**
 
 *UpsertResp*
 
-**RETURNS:**
+一个 **UpsertResp** 对象，其中包含已插入或已更新实体数量的信息。
 
-An **UpsertResp** object that contains information about the number of inserted or updated entities.
+**异常：**
 
-**EXCEPTIONS:**
+- **MilvusClientException**
 
-- **MilvusClientExceptions**
+    当此操作期间发生任何错误时，将引发此异常，包括无效的字段级操作参数，例如 `null` 操作、空的 `fieldName` 或 `null` 的 `opType`。
 
-    This exception will be raised when any error occurs during this operation.
-
-## Example
+## 示例\{#example}
 
 ```java
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.UpsertReq;
 
-// 1. Set up a client
+import java.util.Arrays;
+import java.util.Collections;
+
+Gson gson = new Gson();
+
+// 1. Set up a client.
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build();
-        
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Upsert operation
+// 2. Upsert a complete row.
 JsonObject row = new JsonObject();
-List<Float> vectorList = new ArrayList<>();
-vectorList.add(2.0f);
-vectorList.add(3.0f);
-row.add("vector", gson.toJsonTree(vectorList));
 row.addProperty("id", 0L);
-row.addProperty("color", "purple")
+row.add("vector", gson.toJsonTree(Arrays.asList(2.0f, 3.0f)));
+row.addProperty("color", "purple");
 
 UpsertReq upsertReq = UpsertReq.builder()
         .collectionName("test")
@@ -151,5 +135,32 @@ UpsertReq upsertReq = UpsertReq.builder()
         .build();
 client.upsert(upsertReq);
 
-```
+// 3. Partially update selected fields.
+JsonObject partialRow = new JsonObject();
+partialRow.addProperty("id", 0L);
+partialRow.addProperty("color", "green");
 
+UpsertReq partialUpdateReq = UpsertReq.builder()
+        .collectionName("test")
+        .data(Collections.singletonList(partialRow))
+        .partialUpdate(true)
+        .build();
+client.upsert(partialUpdateReq);
+
+// 4. Apply a field-level operation during upsert.
+JsonObject arrayRow = new JsonObject();
+arrayRow.addProperty("id", 0L);
+arrayRow.add("tags", gson.toJsonTree(Arrays.asList("new-tag")));
+
+UpsertReq fieldOpReq = UpsertReq.builder()
+        .collectionName("test")
+        .data(Collections.singletonList(arrayRow))
+        .partialUpdate(true)
+        .fieldOps(Collections.singletonList(
+                UpsertReq.FieldPartialUpdateOp.builder()
+                        .fieldName("tags")
+                        .opType(UpsertReq.FieldPartialUpdateOp.OpType.ARRAY_APPEND)
+                        .build()))
+        .build();
+client.upsert(fieldOpReq);
+```

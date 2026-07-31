@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "ConsistencyLevel | Java | v2"
 slug: /java/java/v2-Collections-ConsistencyLevel
 sidebar_label: "ConsistencyLevel"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Java | v2"
+description: "这是一个提供以下常量的枚举。 | Java | v2"
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - 开源向量数据库
+  - 向量索引
+  - 开源向量数据库
+  - 开源 vector db
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ConsistencyLevel
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +31,23 @@ import Admonition from '@theme/Admonition';
 
 # ConsistencyLevel
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - **STRONG**
 
-    Sets the consistency level to **Strong**, with a code value of 0.
+    将一致性级别设置为 **Strong**，代码值为 0。
 
 - **SESSION**
 
-    Sets the consistency level to **Session**, with a code value of 1.
+    将一致性级别设置为 **Session**，代码值为 1。
 
 - **BOUNDED**
 
-    Sets the consistency level to **Bounded**, with a code value of 2.
+    将一致性级别设置为 **Bounded**，代码值为 2。
 
 - **EVENTUALLY**
 
-    Sets the consistency level to **Eventually**, with a code value of 3.
+    将一致性级别设置为 **Eventually**，代码值为 3。
 

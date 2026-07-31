@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createPartition() | Java | v2"
 slug: /java/java/v2-Partitions-createPartition
 sidebar_label: "createPartition()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a partition in the target collection. | Java | v2"
+description: "此操作将在目标集合中创建一个分区。 | Java | v2"
 type: docx
 token: WE4gduIjooCgQUxcKyLcwQe1n3g
 sidebar_position: 1
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # createPartition()
 
-This operation creates a partition in the target collection.
+此操作将在目标集合中创建一个分区。
 
 ```java
 public void createPartition(CreatePartitionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 createPartition(CreatePartitionReq.builder()
@@ -48,31 +48,31 @@ createPartition(CreatePartitionReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    (Required) The name of an existing collection.
+    （必需）现有集合的名称。
 
 - `partitionName(String partitionName)`
 
-    (Required) The name of the partition to create.
+    （必需）要创建的分区名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

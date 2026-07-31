@@ -4,7 +4,7 @@ slug: /java/v1-RBAC-removeUserFromRole
 sidebar_label: "removeUserFromRole()"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "MilvusClient interface. This method removes a user from a role. The user will remove permissions that the role is allowed to perform operations. | Java | v1"
+description: "MilvusClient 接口。此方法将用户从角色中移除。用户将失去该角色所允许执行操作的权限。 | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#BxKjdyAvpoUDDYxanhBcykrKncc
 sidebar_position: 4
@@ -17,61 +17,61 @@ import Admonition from '@theme/Admonition';
 
 # removeUserFromRole()
 
-MilvusClient interface. This method removes a user from a role. The user will remove permissions that the role is allowed to perform operations.
+MilvusClient 接口。此方法将用户从角色中移除。用户将失去该角色所允许执行操作的权限。
 
 ```java
 R<RpcStatus> removeUserFromRole(RemoveUserFromRoleParam requestParam);
 ```
 
-#### RemoveUserFromRoleParam
+#### RemoveUserFromRoleParam\{#removeuserfromroleparam}
 
-Use the `RemoveUserFromRoleParam.Builder` to construct a `RemoveUserFromRoleParam` object.
+使用 `RemoveUserFromRoleParam.Builder` 构造 `RemoveUserFromRoleParam` 对象。
 
 ```java
 import io.milvus.param.RemoveUserFromRoleParam;
 RemoveUserFromRoleParam.Builder builder = RemoveUserFromRoleParam.newBuilder();
 ```
 
-Methods of `AddUserToRoleParam.Builder`:
+`AddUserToRoleParam.Builder` 的方法：
 
 <table>
     <tr>
-        <th><p>Method</p></th>
-        <th><p>Description</p></th>
-        <th><p>Parameters</p></th>
+        <th><p>方法</p></th>
+        <th><p>说明</p></th>
+        <th><p>参数</p></th>
     </tr>
     <tr>
         <td><p>withRoleName(String roleName)</p></td>
-        <td><p>Sets the roleName. RoleName cannot be empty or null.</p></td>
-        <td><p>roleName: The role name used to create the privilege.</p></td>
+        <td><p>设置 roleName。RoleName 不能为空或为 null。</p></td>
+        <td><p>roleName：用于创建权限的角色名称。</p></td>
     </tr>
     <tr>
         <td><p>withUsername(String username)</p></td>
-        <td><p>Sets the username. Username cannot be empty or null.</p></td>
-        <td><p>username: The user name.</p></td>
+        <td><p>设置 username。Username 不能为空或为 null。</p></td>
+        <td><p>username：用户名。</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
-        <td><p>Construct a RemoveUserFromRoleParam object.</p></td>
+        <td><p>构造一个 RemoveUserFromRoleParam 对象。</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
 
-The `RemoveUserFromRoleParam.Builder.build()` can throw the following exceptions:
+`RemoveUserFromRoleParam.Builder.build()` 可能抛出以下异常：
 
-- ParamException: error if the parameter is invalid.
+- ParamException：当参数无效时抛出错误。
 
-#### Returns
+#### 返回值\{#returns}
 
-This method catches all the exceptions and returns an `R<RpcStatus>` object.
+此方法会捕获所有异常并返回一个 `R<RpcStatus>` 对象。
 
-- If the API fails on the server side, it returns the error code and message from the server.
+- 如果 API 在服务端执行失败，则返回服务端的错误码和错误消息。
 
-- If the API fails by RPC exception, it returns `R.Status.Unknown` and error message of the exception.
+- 如果 API 因 RPC 异常而失败，则返回 `R.Status.Unknown` 和该异常的错误消息。
 
-- If the API succeeds, it returns `R.Status.Success`.
+- 如果 API 执行成功，则返回 `R.Status.Success`。
 
-#### Example
+#### 示例\{#example}
 
 ```java
 import io.milvus.param.AddUserToRoleParam;

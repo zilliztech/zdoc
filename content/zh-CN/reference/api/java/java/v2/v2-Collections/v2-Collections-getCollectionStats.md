@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getCollectionStats() | Java | v2"
 slug: /java/java/v2-Collections-getCollectionStats
 sidebar_label: "getCollectionStats()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists the statistics collected on a specific collection. | Java | v2"
+description: "此操作列出在特定 collection 上收集的统计信息。 | Java | v2"
 type: docx
 token: E27SdesNPoKA8zx6jHkcejt0nWg
 sidebar_position: 17
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getCollectionStats()
 
-This operation lists the statistics collected on a specific collection.
+此操作列出在特定 collection 上收集的统计信息。
 
 ```java
 public GetCollectionStatsResp getCollectionStats(GetCollectionStatsReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 getCollectionStats(GetCollectionStatsReq.builder()
@@ -47,37 +47,37 @@ getCollectionStats(GetCollectionStatsReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标 collection 所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of a collection.
+    collection 的名称。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *GetCollectionStatsResp*
 
-**RETURNS:**
+**返回：**
 
-A **GetCollectionStatsResp** object containing collected statistics on the specified collection.
+一个 **GetCollectionStatsResp** 对象，包含指定 collection 的已收集统计信息。
 
-**PARAMETERS:**
+**参数：**
 
 - **numOfEntities** (*long*)
 
-    The count of entities in the collection.
+    collection 中实体的数量。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

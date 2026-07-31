@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "releaseCollection() | Java | v2"
 slug: /java/java/v2-Management-releaseCollection
 sidebar_label: "releaseCollection()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation releases the data of a specific collection from memory. | Java | v2"
+description: "此操作将特定 collection 的数据从内存中释放。 | Java | v2"
 type: docx
-token: KJArdiXZvoBtdIxumpocfe5knJc
+token: K5t2dl0XloN4VHx1lcpc6Uq3nye
 sidebar_position: 16
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # releaseCollection()
 
-This operation releases the data of a specific collection from memory.
+此操作将特定 collection 的数据从内存中释放。
 
 ```java
 public void releaseCollection(ReleaseCollectionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 releaseCollection(ReleaseCollectionReq.builder()
@@ -46,42 +46,38 @@ releaseCollection(ReleaseCollectionReq.builder()
     .async(Boolean async)
     .timeout(Long timeout)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database to which the target collection belongs.
+    数据库名称。如未指定，则默认为当前数据库。
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of a collection.
+    目标 collection 的名称。
 
-- `async(Boolean async)`
+- `async(Boolean async)` -
 
-    Whether this operation is asynchronous.
+    是否异步运行该操作。默认为 `Boolean.TRUE`。
 
-    The value defaults to `Boolean.True`, indicating immediate return while the process may still run in the background.
+- `timeout(Long timeout)` -
 
-- `timeout(Long timeout)`
+    超时时长，单位为毫秒。默认为 `60000L`。
 
-    The timeout duration of the process. The process terminates after the specified duration expires.
-
-    The value defaults to `60000L`, indicating the timeout duration is one minute.
-
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将抛出此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

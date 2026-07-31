@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "flush() | Java | v2"
 slug: /java/java/v2-Management-flush
 sidebar_label: "flush()"
+beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation flushes the streaming data onto the disk and seals the current segment. | Java | v2"
+description: "此操作会将流式数据刷新到磁盘并封存当前 segment。 | Java | v2"
 type: docx
-token: PmHrdRirloGrFExMMfcc5un0n1g
+token: N4R0dHR6MoiW2Rx9ClGc9MSlnOe
 sidebar_position: 7
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,46 +31,48 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-This operation flushes the streaming data onto the disk and seals the current segment.
+此操作会将流式数据刷新到磁盘并封存当前 segment。
 
 ```java
 public void flush(FlushReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 flush(FlushReq.builder()
     .databaseName(String databaseName)
-    .collectionNames(List<String>)
-    .waitFlushedTimeoutMs(Long)
+    .collectionNames(List<String> collectionNames)
+    .waitFlushedTimeoutMs(Long waitFlushedTimeoutMs)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database to which the target collections belong.
+    数据库名称。若未指定，则默认使用当前数据库。
 
-- `collectionNames(List<String>)`
+- `collectionNames(List<String> collectionNames)` -
 
-    The names of the the target collections.
+    collection 名称列表。
 
-- `waitFlushedTimeoutMs(Long)`
+- `waitFlushedTimeoutMs(Long waitFlushedTimeoutMs)` -
 
-    The timeout duration for the current operation in milliseconds.
+    等待 flush 完成的超时时间，单位为毫秒。
 
-**RETURN TYPE:**
+**返回：**
 
 *void*
 
-**RETURNS:**
+**异常：**
 
-N/A
+- **MilvusClientException**
 
-## Example
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

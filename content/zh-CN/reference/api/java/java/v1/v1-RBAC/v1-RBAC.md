@@ -4,7 +4,7 @@ slug: /java/v1-RBAC
 sidebar_label: "RBAC"
 beta: NEAR DEPRECATE
 notebook: FALSE
-description: "(placeholder) | Java | v1"
+description: "（占位符） | Java | v1"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#N5UmdVnnKoK8SsxfIvaccNgZnPb
 sidebar_position: 15

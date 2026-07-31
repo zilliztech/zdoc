@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterAlias() | Java | v2"
 slug: /java/java/v2-Collections-alterAlias
 sidebar_label: "alterAlias()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation reassigns the alias of one collection to another. | Java | v2"
+description: "此操作会将一个集合的别名重新分配给另一个集合。 | Java | v2"
 type: docx
 token: Fv8EdYIt4oThstxgpzqcm7C0nug
 sidebar_position: 1
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alterAlias()
 
-This operation reassigns the alias of one collection to another.
+此操作会将一个集合的别名重新分配给另一个集合。
 
 ```java
 public void alterAlias(AlterAliasReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 alterAlias(AlterAliasReq.builder()
@@ -48,49 +48,55 @@ alterAlias(AlterAliasReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `alias(String alias)`
 
-    The alias of the collection. Note that the alias should exist beforehand.
+    集合的别名。请注意，该别名应事先已存在。
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling the <code>alterAlias</code> function with the parameters <code>collection_2</code> and <code>bob</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    什么是集合别名？
+    
+        集合别名是集合的一个附加名称。当你希望将应用切换到新集合而无需修改代码时，集合别名会非常有用。 
+    
+        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能分配给一个集合。反过来，一个集合可以拥有多个别名。
+    
+        下面是一个将一个集合的别名重新分配给另一个集合的示例：
+    
+        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初被分配给 `collection_1`：
+    
+        - `collection_1` 的别名 = ["bob"]
+    
+        - `collection_2` 的别名 = []
+    
+        使用参数 `collection_2` 和 `bob` 调用 `alterAlias` 函数后：
+    
+        - `collection_1` 的别名 = []
+    
+        - `collection_2` 的别名 = ["bob"]
 
     </Admonition>
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    The name of the target collection to reassign an alias to.
+    要重新分配别名的目标集合名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

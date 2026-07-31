@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getImportProgress() | Java | v2"
 slug: /java/java/v2-BulkImport-getImportProgress
 sidebar_label: "getImportProgress()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets the progress of the specified bulk-import job. | Java | v2"
+description: "此操作获取指定批量导入任务的进度。 | Java | v2"
 type: docx
 token: EjnFdC5EfoIkoExSBOxcEC2hnbg
 sidebar_position: 3
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - getImportProgress()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getImportProgress()
 
-This operation gets the progress of the specified bulk-import job.
+此操作获取指定批量导入任务的进度。
 
 ```java
 public static String getImportProgress(String url, BaseDescribeImportRequest request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 bulkImport.getImportProgress(
@@ -46,34 +46,33 @@ bulkImport.getImportProgress(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **url** (*String*) -
 
-    Zilliz Cloud's Control Plane API endpoint. The endpoint URL should be in the following format:
+    Zilliz Cloud 的控制平面 API 端点。端点 URL 应采用以下格式：
 
     ```python
     https://api.cloud.zilliz.com
-    # https://api.cloud.zilliz.com.cn 
     ```
 
 - **request** (*[BaseDescribeImportRequest](./v2-BulkImport-getImportProgress#basedescribeimportrequest)*) -  
 
-    A **BaseImportRequest** instance.
+    一个 **BaseImportRequest** 实例。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *String*
 
-**RETURNS:**
+**返回：**
 
-The import progress of the specified import job.
+指定导入任务的导入进度。
 
-## BaseDescribeImportRequest
+## BaseDescribeImportRequest\{#basedescribeimportrequest}
 
-A **BaseDescribeImportRequest** instance is implemented in **CloudDescribeImportRequest**.
+**BaseDescribeImportRequest** 实例由 **CloudDescribeImportRequest** 实现。
 
-### CloudDescribeImportRequest
+### CloudDescribeImportRequest\{#clouddescribeimportrequest}
 
 ```java
 CloudDescribeImportRequest.builder()
@@ -82,17 +81,17 @@ CloudDescribeImportRequest.builder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `apiKey(String apiKey)`
 
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
+    具有足够权限来操作集群的有效 Zilliz Cloud API 密钥。
 
 - `jobId(String jobId)`
 
-    The ID of an existing import job.
+    现有导入任务的 ID。
 
-## Example
+## 示例\{#example}
 
 ```java
 

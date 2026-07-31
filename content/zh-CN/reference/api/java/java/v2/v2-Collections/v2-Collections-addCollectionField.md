@@ -1,16 +1,15 @@
 ---
-displayed_sidbar: javaSidebar
 title: "addCollectionField() | Java | v2"
-slug: /java/java/v2-Collections-addCollectionField
+slug: /java/java/v2-Collections/v2-Collections-addCollectionField
 sidebar_label: "addCollectionField()"
-added_since: v2.6.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.6.x
+last_modified: v3.0.1
+deprecate_since: false
 notebook: false
-description: "This operation adds a new scalar field to an existing collection without recreating it. The field becomes available almost immediately with minimal delay due to internal schema synchronization. | Java | v2"
+description: "此操作可向现有集合添加新的标量或向量字段，而无需重新创建集合。现有行不会为新字段提供值，因此新增的向量字段必须可为空。 | Java | v2"
 type: docx
-token: AImudC3YNoa1PZxj4zNckcvsnXc
+token: LaHmdGNGZog0JbxA8amcblpsnDR
 sidebar_position: 23
 keywords: 
   - milvus open source
@@ -21,9 +20,10 @@ keywords:
   - zilliz cloud
   - cloud
   - addCollectionField()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,221 +31,143 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionField()
 
-This operation adds a new scalar field to an existing collection without recreating it. The field becomes available almost immediately with minimal delay due to internal schema synchronization.
+此操作可向现有集合添加新的标量或向量字段，而无需重新创建集合。现有行不会为新字段提供值，因此新增的向量字段必须可为空。
 
 ```java
 public void addCollectionField(AddCollectionFieldReq request)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>If the collection has dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via <code>$meta['field_name']</code> syntax.</p>
-
-</Admonition>
-
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
-addCollectionField(AddCollectionFieldReq.builder()
+client.addCollectionField(AddCollectionFieldReq.builder()
     .collectionName(String collectionName)
     .databaseName(String databaseName)
     .fieldName(String fieldName)
     .description(String description)
     .dataType(DataType dataType)
     .maxLength(Integer maxLength)
-    .isPrimaryKey(Boolean isPrimaryKey)
-    .isPartitionKey(Boolean isPartitionKey)
-    .autoID(Boolean autoID)
-    .dimension(int dimension)
+    .dimension(Integer dimension)
     .elementType(DataType elementType)
     .maxCapacity(Integer maxCapacity)
     .isNullable(Boolean isNullable)
-    .defaultValue(DataType dataType)
+    .defaultValue(Object defaultValue)
     .enableAnalyzer(Boolean enableAnalyzer)
-    .enableMatch(Boolean enableMatch)
     .analyzerParams(Map<String, Object> analyzerParams)
+    .enableMatch(Boolean enableMatch)
     .typeParams(Map<String, String> typeParams)
     .multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)
     .structFields(List<CreateCollectionReq.FieldSchema> structFields)
+    .externalField(String externalField)
     .build()
-)
+);
 ```
 
-**BUILDER METHODS**
+**构建器方法：**
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of the target collection.
+    目标集合的名称。
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of an existing database that has the collection specified above.
+    数据库名称。如未指定，则默认为当前数据库。
 
-- `fieldName(String fieldName)`
+- `fieldName(String fieldName)` -
 
-    The name of the field.
+    要添加的字段名称。
 
-- `description(String description)`
+- `description(String description)` -
 
-    The description of the field.
+    字段的人类可读描述。
 
-- `dataType(DataType dataType)`
+- `dataType(DataType dataType)` -
 
-    The data type of the field.
+    字段的数据类型。标量、向量、数组、JSON 以及与 struct 相关的字段类型，使用与创建集合时相同的 `DataType` 值。
 
-    You can choose from the following options when selecting a data type for different fields:
+- `maxLength(Integer maxLength)` -
 
-    - Primary key field: Use **DataType.Int64** or **DataType.VarChar**.
+    `DataType.VarChar` 字段允许的最大字符数。对于 VarChar 字段，除非该值通过 `typeParams` 提供，否则此项为必填。
 
-    - Scalar fields: Choose from a variety of options, including **DataType.Bool**, **DataType.Int8**, **DataType.Int16**, **DataType.Int32**, **DataType.Int64**, **DataType.Float**, **DataType.Double**, **DataType.VarChar**, **DataType.JSON**, and **DataType.Array**.
+- `dimension(Integer dimension)` -
 
-    - Vector fields: Select **DataType.BinaryVector** or **DataType.FloatVector**.
+    向量维度。对于固定维度的向量字段（例如 `DataType.FloatVector`），此项为必填。
 
-- `maxLength(Integer maxLength)`
+- `elementType(DataType elementType)` -
 
-    The maximum number of characters a value should contain.
+    数组字段的元素类型。
 
-    This is required if **dataType** of this field is set to **DataType.VarChar.**
+- `maxCapacity(Integer maxCapacity)` -
 
-- `isPrimaryKey(Boolean isPrimaryKey)`
+    数组字段中允许的最大元素数量。
 
-    Whether the current field is the primary field.
+- `isNullable(Boolean isNullable)` -
 
-    Setting this to **True** makes the current field the primary field.
+    新增字段是否接受 `null` 值。对于 v3.0.1 及更高版本，向现有集合中添加的向量字段必须将此项设置为 `true`；否则 SDK 会抛出 `MilvusClientException`。
 
-- `isPartitionKey(Boolean isPartitionKey)`
+- `defaultValue(Object defaultValue)` -
 
-    Whether the current field is the partitionKey field.
+    新增字段的默认值。其运行时类型必须与 `dataType` 匹配。
 
-    Setting this to **True** makes the current field the partition key.
+- `enableAnalyzer(Boolean enableAnalyzer)` -
 
-- `autoID(Boolean autoID)`
+    是否为 `DataType.VarChar` 字段启用文本分析。
 
-    Whether allows the primary field to automatically increment.
+- `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+    VarChar 字段的分析器配置，例如分词器和过滤器设置。
 
-    Set this parameter in the field with **isPrimaryKey** set to **True**.
+- `enableMatch(Boolean enableMatch)` -
 
-- `dimension(int dimension)`
+    是否为 VarChar 字段启用关键词匹配。
 
-    The dimensionality of a vector field. 
+- `typeParams(Map<String, String> typeParams)` -
 
-    The value should be greater than 1 and is usually determined by the embedding model in use.
+    其他字段类型参数。像 `dimension` 或 `maxLength` 这样的专用构建器方法会覆盖此映射中的对应条目。
 
-    This is required if **dataType** of this field is set to **DataType.FloatVector**.
+- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
-- `elementType(DataType elementType)`
+    文本字段的多语言分析器配置。
 
-    The data type of elements in array fields.
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -
 
-    This is required if **dataType** of this field is set to **DataType.Array**.
+    struct 字段的嵌套字段 schema。
 
-- `maxCapacity(Integer maxCapacity)`
+- `externalField(String externalField)` -
 
-    The maximum number of elements that an array field can contain.
+    当集合由外部数据源支持时，映射到此 Milvus 字段的外部源字段。
 
-    This is required if **dataType** of this field is set to **DataType.Array**.
-
-- `isNullable(Boolean isNullable)`
-
-    A Boolean parameter that specifies whether the field can accept null values. Valid values:
-
-    - **True**: The field can contain null values, indicating that the field is optional, and missing data is permitted for entries.
-
-    - **False** (default): The field must contain a valid value for each entity; missing data is not allowed, making the field mandatory.
-
-    For more information, refer to [Nullable & Default](https://milvus.io/docs/nullable-and-default.md).
-
-- `defaultValue(DataType dataType)`
-
-    Sets a default value for a specific field in a collection schema when creating it. This is particularly useful when you want certain fields to have an initial value even if no value is explicitly provided during data insertion.
-
-- `enableAnalyzer(Boolean enableAnalyzer)`
-
-    Whether to enable text analysis for the specified `VARCHAR` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.
-
-- `enableMatch(Boolean enableMatch)`
-
-    Whether to enable keyword matching for the specified `VARCHAR` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enableMatch` works in conjunction with `enableAnalyzer` to provide structured term-based text search, with `enableAnalyzer` handling tokenization and `enableMatch` handling the search operations on these tokens.
-
-- `analyzerParams(Map<String, Object>, analyzerParams)`
-
-    Configures the analyzer for text processing, specifically for `DataType.*VarChar* fields. This parameter configures tokenizer and filter settings, particularly for text fields used in [keyword matching](https://milvus.io/docs/keyword-match.md) or [full text search](https://milvus.io/docs/full-text-search.md). Depending on the type of analyzer, it can be configured in either of the following methods:
-
-    - Built-in analyzer
-
-        ```java
-        Map<String, Object> analyzerParams = new HashMap<>();
-        analyzerParams.put("type", "english");
-        ```
-
-        - `type` (*String*) -
-
-            Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. For more information, refer to [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md), [English Analyzer](https://milvus.io/docs/english-analyzer.md), and [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md).
-
-    - Custom analyzer
-
-        ```java
-        Map<String, Object> analyzerParams = new HashMap<>();
-        analyzerParams.put("tokenizer", "standard");
-        analyzerParams.put("filter", Collections.singletonList("lowercase"));
-        ```
-
-        - `tokenizer` (*String*) -
-
-            Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
-
-        - `filter` (*List\<String>*) -
-
-            Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
-
-- `typeParams(Map<String, String> typeParams)`
-
-    The parameters specific to the data type of the current field to add. For example, you can set `maxLength` for a `VarChar` field. Once specified, it overrides the corresponding parameter values specified above.
-
-- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)`
-
-    A multi-language analyzer that allows you to configure multiple analyzers for a text field and store multilingual documents in this text field.
-
-- `structFields(List<CreateCollectionReq.FieldSchema> structFields)`
-
-    A list of fields in the Array of Structs field. 
-
-    This is required if **dataType** of this field is set to **DataType.Array** and **elementType** of this field is set to **DataType.Struct**.
-
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将抛出此异常，包括以 `isNullable(false)` 添加向量字段，或未将 `isNullable(true)` 设置到向量字段时。
 
-## Example
+## 示例\{#example}
 
-```plaintext
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
+```java
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Add a new field
+// 向现有集合添加一个可为空的标量字段。
 client.addCollectionField(AddCollectionFieldReq.builder()
-        .collectionName(collectionName)
+        .collectionName("my_collection")
         .fieldName("text")
         .dataType(DataType.VarChar)
         .maxLength(100)
-        .isNullable(true) // must be nullable
+        .isNullable(true)
+        .build());
+
+// 向现有集合添加一个可为空的向量字段。
+client.addCollectionField(AddCollectionFieldReq.builder()
+        .collectionName("my_collection")
+        .fieldName("embedding_v2")
+        .dataType(DataType.FloatVector)
+        .dimension(128)
+        .isNullable(true)
         .build());
 ```
-

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropPartition() | Java | v2"
 slug: /java/java/v2-Partitions-dropPartition
 sidebar_label: "dropPartition()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a specified partition from the current collection. | Java | v2"
+description: "此操作从当前 collection 中删除指定的 partition。 | Java | v2"
 type: docx
 token: CSaVdr3zao9zFpxaJBgcCTCYnPd
 sidebar_position: 2
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # dropPartition()
 
-This operation drops a specified partition from the current collection.
+此操作从当前 collection 中删除指定的 partition。
 
-Before dropping a partition, you must first release it.
+在删除 partition 之前，您必须先将其释放。
 
 ```java
 public void dropPartition(DropPartitionReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropPartition(DropPartitionReq.builder()
@@ -50,31 +50,31 @@ dropPartition(DropPartitionReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**BUILDER 方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to which the target collection belongs.
+    目标 collection 所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    (Required) The name of an existing collection.
+    （必需）现有 collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    (Required) The name of the partition to drop.
+    （必需）要删除的 partition 名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

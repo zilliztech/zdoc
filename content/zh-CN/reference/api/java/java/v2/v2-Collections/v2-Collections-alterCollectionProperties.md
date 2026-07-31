@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterCollectionProperties() | Java | v2"
 slug: /java/java/v2-Collections-alterCollectionProperties
 sidebar_label: "alterCollectionProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation modifies the properties of a specified collection. | Java | v2"
+description: "此操作会修改指定 collection 的属性。 | Java | v2"
 type: docx
 token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
 sidebar_position: 3
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - 向量索引
+  - 开源向量数据库
+  - 开源向量数据库
+  - 向量数据库示例
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alterCollectionProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionProperties()
 
-This operation modifies the properties of a specified collection.
+此操作会修改指定 collection 的属性。
 
 ```java
 public Void alterCollectionProperties(AlterCollectionPropertiesReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 alterCollectionProperties(AlterCollectionPropertiesReq.builder()
@@ -48,39 +48,39 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database that holds the target collection.
+    持有目标 collection 的数据库名称。
 
 - `collectionName(String collectionName)`
 
-    The name of the target collection.
+    目标 collection 的名称。
 
 - `properties(Map<String, String> properties)`
 
-    The properties to modify and their expected values. Note that the property values should be strings. Available database properties are as follows:
+    要修改的属性及其期望值。请注意，属性值应为字符串。可用的数据库属性如下：
 
     - **collection.ttl.seconds** -
 
-        The time-to-live (TTL) of a collection in seconds.
+        collection 的生存时间（TTL），单位为秒。
 
     - **mmap.enabled** -
 
-        Whether to enable mmap for the raw data and indexes of all fields in the collection.
+        是否为 collection 中所有字段的原始数据和索引启用 mmap。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

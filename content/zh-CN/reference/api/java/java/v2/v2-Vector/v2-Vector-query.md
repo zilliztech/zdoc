@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "query() | Java | v2"
 slug: /java/java/v2-Vector-query
 sidebar_label: "query()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation conducts a scalar filtering with a specified boolean expression. | Java | v2"
+description: "此操作使用指定的布尔表达式执行标量过滤。 | Java | v2"
 type: docx
-token: DI5tdxM92oBdXHxk0LFcsBSInVe
+token: U7eQdBzB0opJOXxRUcncnRDInSf
 sidebar_position: 5
 keywords: 
+  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,18 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-This operation conducts a scalar filtering with a specified boolean expression.
+此操作使用指定的布尔表达式执行标量过滤。
 
 ```java
 public QueryResp query(QueryReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 query(QueryReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .outputFields(List<String> outputFields)
     .ids(List<Object> ids)
@@ -51,122 +52,84 @@ query(QueryReq.builder()
     .offset(long offset)
     .limit(long limit)
     .ignoreGrowing(boolean ignoreGrowing)
+    .timezone(String timezone)
     .queryParams(Map<String, Object> queryParams)
+    .filterTemplateValues(Map<String, Object> filterTemplateValues)
     .build()
-)
+);
 ```
 
 **BUILDER METHODS:**
 
 - `databaseName(String databaseName)`
 
-    The name of an existing database.
+    数据库名称。如未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
-    The name of an existing collection in the above-specified database.
+    目标集合的名称。
+
+- `clusterId(String clusterId)`
+
+    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    A list of partition names in the above-specified collection.
+    要查询的分区名称列表。
 
 - `outputFields(List<String> outputFields)`
 
-    A list of field names to include in each entity in return.
-
-    The value defaults to **None**. If left unspecified, all fields in the collection are selected as the output fields.
+    输出中要包含的字段名称列表。
 
 - `ids(List<Object> ids)`
 
-    The IDs of entities to query.
+    用于标识特定实体的主键值列表。
 
 - `filter(String filter)`
 
-    A scalar filtering condition to filter matching entities. 
+    用于过滤结果的布尔表达式。
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
-
-    The consistency level of the target collection.
-
-    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
-
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
-
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
-
-    </Admonition>
+    此操作的一致性级别。
 
 - `offset(long offset)`
 
-    The number of records to skip in the query result. 
-
-    You can use this parameter in combination with `limit` to enable pagination.
-
-    The sum of this value and `limit` should be less than 16,384. 
+    返回结果前要跳过的结果数量。
 
 - `limit(long limit)`
 
-    The number of records to return in the query result.
-
-    You can use this parameter in combination with `offset` to enable pagination.
-
-    The sum of this value and `offset` should be less than 16,384. 
+    要返回的最大结果数量。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    Whether to ignore growing segments during similarity searches.
+    是否在操作期间忽略 growing segments。
+
+- `timezone(String timezone)`
+
+    用于时间相关过滤的时区字符串。
 
 - `queryParams(Map<String, Object> queryParams)`
 
-    The parameter settings specific to this operation. Possible values are:
+    以键值对形式提供的附加查询参数。默认为 `new HashMap<>()`。
 
-    - **timezone** (String)
+- `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-        The timezone  of this operation. For example, `America/Chicago`.
-
-    - **time_fields** (String)
-
-        The time format that is concatenated with the information extracted from the Timestamptz field in the output fields, such as `year, month, day`.
-
-**RETURN TYPE:**
-
-*QueryResp*
+    用于参数化过滤器的模板变量值映射。
 
 **RETURNS:**
 
-A **QueryResp object representing specific query results with the specified output fields
+*QueryResp*
 
-**PARAMETERS:**
-
-- queryResults(List&lt;QueryResp.QueryResult&gt;)
-
-    A list of QueryResult objects with each QueryResult representing a queried entity. The members of QueryResult:
-
-    - **entity** (*Map&lt;String,Object&gt;*)
-
-        A map that contains key-value pairs of field names and their values.
-
-- **sessionTs** (*long*) -
-
-    Whether the **Eventually** consistency level applies.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>If the number of returned entities is less than expected, duplicate entities may exist in your collection.</p>
-
-</Admonition>
+表示特定查询结果的 **QueryResp** 对象，其中包含指定的输出字段
 
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropDatabase() | Java | v2"
 slug: /java/java/v2-Database-dropDatabase
 sidebar_label: "dropDatabase()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a database with a name. | Java | v2"
+description: "此操作根据名称删除数据库。 | Java | v2"
 type: docx
 token: LwqSdN6s5oZBhAxzQsxcnXswnah
 sidebar_position: 4
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-This operation drops a database with a name. 
+此操作根据名称删除数据库。 
 
 ```java
 public void dropDatabase(DropDatabaseReq request)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```java
 dropDatabase(DropDatabaseReq.builder()
@@ -46,23 +46,23 @@ dropDatabase(DropDatabaseReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    The name of the database to drop.
+    要删除的数据库名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    This exception will be raised when any error occurs during this operation.
+    当此操作期间发生任何错误时，将引发此异常。
 
-## Example
+## 示例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
