@@ -7,7 +7,7 @@ const { analyzeTranslatedCoverage } = require('../validate-translated-coverage')
 
 const CACHE_PATH = '.translation-cache/ja-JP.json'
 const I18N_PREFIX = 'i18n/ja-JP/'
-const TARGETS = new Set(['ja-JP', 'zh-CN-reference', 'zh-CN-tools'])
+const TARGETS = new Set(['ja-JP', 'zh-CN-reference'])
 
 function normalizeSafeRelative(filePath, requiredPrefix = null) {
   if (typeof filePath !== 'string' || !filePath || path.isAbsolute(filePath)) {

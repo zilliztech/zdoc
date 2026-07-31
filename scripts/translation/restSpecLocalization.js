@@ -18,11 +18,6 @@ const PROMPTS_BY_TARGET = Object.freeze({
     review: 'codex-review-agent.zh-CN-reference.md',
     rest: 'codex-rest-spec-translation-agent.zh-CN-reference.md',
   }),
-  'zh-CN-tools': Object.freeze({
-    translation: 'codex-translation-agent.zh-CN-tools.md',
-    review: 'codex-review-agent.zh-CN-tools.md',
-    rest: undefined,
-  }),
 })
 
 function promptNamesFor(target) {

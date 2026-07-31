@@ -243,3 +243,21 @@ test('CLI rejects CR, LF, and NUL path injection before writing files or GitHub 
   assert.equal(fs.existsSync(githubOutput), false);
   assert.throws(() => writeSummaryAtomic(`${path.join(dir, 'summary.md')}\0forged`, 'content'), /single-line path/);
 });
+
+test('requires a requested downstream translation handoff to have an authenticated run URL', () => {
+  const base = payload({
+    groups: { guides: { source: 'no_changes', translation: 'skipped', translationRequested: false }, python: { source: 'no_changes', translation: 'skipped', translationRequested: false } },
+    revisionReconciliation: 'skipped', finalVerification: 'skipped',
+  });
+  const success = aggregateResults({...base, translationHandoff: {
+    requested: true, dispatched: true, runId: '30599999999',
+    runUrl: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
+  }});
+  assert.equal(success.overallStatus, 'success');
+  assert.match(success.markdown, /Downstream translation: dispatched/);
+  assert.match(success.markdown, /30599999999/);
+  assert.equal(aggregateResults({...base, translationHandoff: {requested: true, dispatched: false}}).overallStatus, 'failure');
+  assert.throws(() => aggregateResults({...base, translationHandoff: {
+    requested: true, dispatched: true, runId: '30599999999', runUrl: 'https://example.com/actions/runs/30599999999',
+  }}), /handoff|run URL/i);
+});

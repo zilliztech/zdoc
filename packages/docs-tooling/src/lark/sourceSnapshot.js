@@ -4,6 +4,7 @@ const path = require('node:path')
 const {
   extractContentLinks,
   canonicalRecordsFrom,
+  sourceOwnedRecordsFrom,
   sourceTokenAliases,
   plainValue,
   docField,
@@ -176,12 +177,37 @@ function navigationOrder(record) {
   return explicit != null && explicit !== '' && Number.isFinite(Number(explicit)) ? Number(explicit) : Number(record.base_record_index || 0)
 }
 
+function refTargetToken(value) {
+  if (typeof value !== 'string' || !value.trim()) return null
+  const target = value.trim()
+  const contentTarget = contentLinkTarget(target)
+  if (contentTarget?.token) return contentTarget.token
+  try {
+    return new URL(target).pathname.split('/').filter(Boolean).pop() || null
+  } catch (_) {
+    return target.startsWith('http://') || target.startsWith('https://') ? null : target
+  }
+}
+
+function refTargetAnchor(value) {
+  if (typeof value !== 'string' || !value.trim()) return null
+  const target = value.trim()
+  try {
+    const url = new URL(target)
+    return url.hash ? decodeURIComponent(url.hash.slice(1)) : null
+  } catch (_) {
+    const index = target.indexOf('#')
+    return index >= 0 && target.slice(index + 1) ? target.slice(index + 1) : null
+  }
+}
+
 function createGuidesNavigationState(records) {
   const navigationRecords = (records || []).map(record => {
     const fields = record.fields || {}
     const placementType = guidesPlacementType(record, { guidesMode: true })
     const doc = docField(fields)
     const link = docLink(doc)
+    const sectionOwnsDocs = placementType !== 'section' || !!contentLinkTarget(link)
     const refTarget = guidesRecordRefTarget(record)
     const refLink = typeof refTarget === 'string' ? refTarget : null
     return {
@@ -196,10 +222,11 @@ function createGuidesNavigationState(records) {
       slug: plainValue(fields.Slug) || '',
       targets: guidesRecordPublishTargets(record).sort(),
       progress: plainValue(fields.Progress ?? fields.Status) || '',
-      doc_token: recordToken(record),
-      doc_link: link || '',
+      doc_token: sectionOwnsDocs ? recordToken(record) : null,
+      doc_link: sectionOwnsDocs ? (link || '') : '',
       ref_target: refTarget || null,
-      ref_target_token: refLink ? (contentLinkTarget(refLink)?.token || null) : null,
+      ref_target_token: refTargetToken(refLink),
+      ref_target_anchor: refTargetAnchor(refLink),
     }
   }).filter(record => record.record_id && record.table_id && record.placement_type)
     .sort((a, b) => a.table_id.localeCompare(b.table_id) || a.order - b.order || a.record_id.localeCompare(b.record_id))
@@ -229,7 +256,9 @@ function createSourceSnapshot({
   outputPathsByToken = new Map(),
 }) {
   const sourceByToken = sourceFilesByToken(docSourceDir)
-  const canonicalRecords = canonicalRecordsFrom(records, { guidesPublishableOnly: manualName === 'guides' })
+  const canonicalRecords = manualName === 'guides'
+    ? sourceOwnedRecordsFrom(records, {guidesPublishableOnly: true})
+    : canonicalRecordsFrom(records)
   const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
   const snapshot = {
     schema_version: manualName === 'guides' ? 3 : 2,
@@ -250,7 +279,7 @@ function createSourceSnapshot({
         record_id: record.record_id,
         table_id: record.table_id,
         table_name: record.table_name,
-        placement_type: 'canonical',
+        placement_type: record.placement_type || 'canonical',
         title: record.title,
         slug: record.slug,
         doc_token: record.doc_token,

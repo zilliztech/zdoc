@@ -52,13 +52,23 @@ function buildAggregateInput(env) {
     }
     groups[group] = entry
   }
-  return {
+  const result = {
     mode,
     requestedGroups,
     groups,
     revisionReconciliation: mode === 'artifact_only' || !translationsRequested ? 'skipped' : (env.REVISION_RECONCILIATION === 'passed' ? 'passed' : 'failed'),
     finalVerification: mode === 'artifact_only' || !translationsRequested ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed'),
   }
+  if (env.TRANSLATION_HANDOFF_REQUESTED !== undefined) {
+    const requested = env.TRANSLATION_HANDOFF_REQUESTED === 'true'
+    const dispatched = requested && env.TRANSLATION_HANDOFF_RESULT === 'success'
+    result.translationHandoff = { requested, dispatched }
+    if (dispatched) {
+      result.translationHandoff.runId = env.TRANSLATION_HANDOFF_RUN_ID
+      result.translationHandoff.runUrl = env.TRANSLATION_HANDOFF_RUN_URL
+    }
+  }
+  return result
 }
 
 function main() {

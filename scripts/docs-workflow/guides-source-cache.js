@@ -14,9 +14,13 @@ function readRegularJson(file, label) {
   return JSON.parse(fs.readFileSync(file, 'utf8'))
 }
 function sha(bytes) { return crypto.createHash('sha256').update(bytes).digest('hex') }
-function sourceCacheKey(snapshotPath, { version = 3 } = {}) {
-  if (![1, 2, 3, 4].includes(version)) throw new Error(`Unsupported Guides source cache version: ${version}`)
-  return `guides-source-v${version}-${hashSnapshot(readSnapshot(snapshotPath))}`
+function guidesSite(site) {
+  if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
+  return site
+}
+function sourceCacheKey(snapshotPath, { site = process.env.ZDOC_SITE || 'en', version = 3 } = {}) {
+  if (![1, 2, 3, 4, 5].includes(version)) throw new Error(`Unsupported Guides source cache version: ${version}`)
+  return `guides-source-${guidesSite(site)}-v${version}-${hashSnapshot(readSnapshot(snapshotPath))}`
 }
 
 function sourceFiles(sourceDir) {
@@ -46,11 +50,12 @@ function mediaManifestFile(mediaManifestPath, sourceDir, snapshot) {
   return { size: bytes.length, sha256: sha(bytes) }
 }
 
-function createSourceCacheManifest({ sourceDir, snapshotPath, manifestPath, mediaManifestPath, rootToken }) {
+function createSourceCacheManifest({ site = process.env.ZDOC_SITE || 'en', sourceDir, snapshotPath, manifestPath, mediaManifestPath, rootToken }) {
   const snapshot = readSnapshot(snapshotPath)
   assertSourceCompleteness({ manual: 'guides', buildEnv: 'uat', rootToken, sourceDir, snapshot })
   const manifest = {
     schemaVersion: 2,
+    site: guidesSite(site),
     manual: 'guides',
     buildEnv: 'uat',
     snapshotHash: hashSnapshot(snapshot),
@@ -65,23 +70,27 @@ function createSourceCacheManifest({ sourceDir, snapshotPath, manifestPath, medi
   return manifest
 }
 
-function validateSourceCache({ sourceDir, snapshotPath, manifestPath, rootToken, acceptedSchemaVersions = [2] }) {
+function validateSourceCache({ site = process.env.ZDOC_SITE || 'en', sourceDir, snapshotPath, manifestPath, rootToken, acceptedSchemaVersions = [2] }) {
   if (!Array.isArray(acceptedSchemaVersions) || acceptedSchemaVersions.length === 0 || acceptedSchemaVersions.some(version => ![1, 2].includes(version))) {
     throw new Error('Accepted source cache schemas must contain only versions 1 or 2')
   }
   const snapshot = readSnapshot(snapshotPath), manifest = readRegularJson(manifestPath, 'Guides source cache manifest')
   if (!acceptedSchemaVersions.includes(manifest.schemaVersion) || manifest.manual !== 'guides' || manifest.buildEnv !== 'uat') throw new Error('Source cache manifest identity is invalid')
+  const expectedSite = guidesSite(site)
+  if ((manifest.site === undefined && expectedSite !== 'en') || (manifest.site !== undefined && manifest.site !== expectedSite)) throw new Error('Source cache site identity mismatch')
   if (manifest.snapshotHash !== hashSnapshot(snapshot)) throw new Error('Source cache snapshot identity mismatch')
   const actual = sourceFiles(sourceDir)
   if (JSON.stringify(actual) !== JSON.stringify(manifest.files)) throw new Error('Source cache is invalid: file manifest mismatch')
   return assertSourceCompleteness({ manual: 'guides', buildEnv: 'uat', rootToken, sourceDir, snapshot })
 }
 
-function validateMediaCache({ sourceDir, snapshotPath, manifestPath, mediaManifestPath }) {
+function validateMediaCache({ site = process.env.ZDOC_SITE || 'en', sourceDir, snapshotPath, manifestPath, mediaManifestPath }) {
   const snapshot = readSnapshot(snapshotPath), manifest = readRegularJson(manifestPath, 'Guides source cache manifest')
   if (manifest.schemaVersion !== 2 || manifest.manual !== 'guides' || manifest.buildEnv !== 'uat' || !manifest.mediaManifest) {
     throw new Error('Source cache does not contain v2 media identity')
   }
+  const expectedSite = guidesSite(site)
+  if ((manifest.site === undefined && expectedSite !== 'en') || (manifest.site !== undefined && manifest.site !== expectedSite)) throw new Error('Source cache site identity mismatch')
   if (manifest.snapshotHash !== hashSnapshot(snapshot)) throw new Error('Source cache snapshot identity mismatch')
   const actualMedia = mediaManifestFile(mediaManifestPath, sourceDir, snapshot)
   if (JSON.stringify(actualMedia) !== JSON.stringify(manifest.mediaManifest)) throw new Error('Source cache is invalid: media manifest mismatch')
@@ -101,19 +110,20 @@ function args(argv) {
 if (require.main === module) {
   try {
     const input = args(process.argv.slice(2))
-    if (input.operation === 'key') process.stdout.write(sourceCacheKey(input.snapshot, { version: Number(input.version || 2) }))
-    else if (input.operation === 'create') createSourceCacheManifest({ sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.output, mediaManifestPath: input['media-manifest'], rootToken: input['root-token'] })
+    if (input.operation === 'key') process.stdout.write(sourceCacheKey(input.snapshot, { site: input.site || process.env.ZDOC_SITE || 'en', version: Number(input.version || 2) }))
+    else if (input.operation === 'create') createSourceCacheManifest({ site: input.site || process.env.ZDOC_SITE || 'en', sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.output, mediaManifestPath: input['media-manifest'], rootToken: input['root-token'] })
     else if (input.operation === 'validate-source') validateSourceCache({
       sourceDir: input['source-dir'],
+      site: input.site || process.env.ZDOC_SITE || 'en',
       snapshotPath: input.snapshot,
       manifestPath: input.manifest,
       rootToken: input['root-token'],
       acceptedSchemaVersions: String(input.schemas || '2').split(',').map(Number),
     })
-    else if (input.operation === 'validate-media') validateMediaCache({ sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.manifest, mediaManifestPath: input['media-manifest'] })
+    else if (input.operation === 'validate-media') validateMediaCache({ site: input.site || process.env.ZDOC_SITE || 'en', sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.manifest, mediaManifestPath: input['media-manifest'] })
     else if (input.operation === 'validate') {
-      validateSourceCache({ sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.manifest, rootToken: input['root-token'] })
-      validateMediaCache({ sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.manifest, mediaManifestPath: input['media-manifest'] })
+      validateSourceCache({ site: input.site || process.env.ZDOC_SITE || 'en', sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.manifest, rootToken: input['root-token'] })
+      validateMediaCache({ site: input.site || process.env.ZDOC_SITE || 'en', sourceDir: input['source-dir'], snapshotPath: input.snapshot, manifestPath: input.manifest, mediaManifestPath: input['media-manifest'] })
     }
     else throw new Error('Unknown operation')
   } catch (error) { console.error(error.message); process.exitCode = 1 }

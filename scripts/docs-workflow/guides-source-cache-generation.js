@@ -6,7 +6,8 @@ const os = require('node:os')
 const path = require('node:path')
 const { sourceCacheKey, validateMediaCache, validateSourceCache } = require('./guides-source-cache')
 
-const PAYLOAD_CHILDREN = Object.freeze(['media-manifest.json', 'source-manifest.json', 'sources'])
+const V5_PAYLOAD_CHILDREN = Object.freeze(['media-manifest.json', 'snapshot.json', 'source-manifest.json', 'sources'])
+const V4_PAYLOAD_CHILDREN = Object.freeze(['media-manifest.json', 'source-manifest.json', 'sources'])
 const PATH_FLAGS = new Set(['snapshot', 'payload', 'output', 'workspace'])
 const OPERATIONS = Object.freeze({
   keys: ['snapshot', 'run-id', 'run-attempt'],
@@ -60,14 +61,15 @@ function attempt(failures, operation) {
   try { operation(); return true } catch (error) { failures.push(error); return false }
 }
 
-function generationKeys({ snapshotPath, runId, runAttempt }) {
+function generationKeys({ site = process.env.ZDOC_SITE || 'en', snapshotPath, runId, runAttempt }) {
   const id = positiveInteger(runId, 'runId')
   const attempt = positiveInteger(runAttempt, 'runAttempt', 100)
-  const prefix = `${sourceCacheKey(snapshotPath, { version: 4 })}-`
+  const prefix = `guides-source-${site}-v5-`
+  const snapshotHash = sourceCacheKey(snapshotPath, { site, version: 5 }).slice(prefix.length)
   return Object.freeze({
     prefix,
     lookupKey: `${prefix}lookup-${id}-${attempt}`,
-    saveKey: `${prefix}${id}-${attempt}`,
+    saveKey: `${prefix}${snapshotHash}-${id}-${attempt}`,
   })
 }
 
@@ -96,7 +98,9 @@ function requireRegularFile(target, label) {
 function payloadPaths(payloadDir) {
   const root = requireDirectory(payloadDir, 'Guides cache generation payload')
   const actual = fs.readdirSync(root).sort()
-  if (JSON.stringify(actual) !== JSON.stringify(PAYLOAD_CHILDREN)) throw new Error('Guides cache generation payload has unexpected children')
+  const isV5 = JSON.stringify(actual) === JSON.stringify(V5_PAYLOAD_CHILDREN)
+  const isV4 = JSON.stringify(actual) === JSON.stringify(V4_PAYLOAD_CHILDREN)
+  if (!isV5 && !isV4) throw new Error('Guides cache generation payload has unexpected children')
   const sources = requireDirectory(path.join(root, 'sources'), 'Guides cache generation sources')
   for (const name of fs.readdirSync(sources).sort()) {
     if (!/^[^/\\]+\.json$/.test(name)) throw new Error(`Unsafe Guides cache source path: ${name}`)
@@ -104,25 +108,29 @@ function payloadPaths(payloadDir) {
   }
   return {
     root,
+    snapshotPath: isV5 ? requireRegularFile(path.join(root, 'snapshot.json'), 'Guides cache snapshot') : null,
     sourceDir: sources,
     sourceManifestPath: requireRegularFile(path.join(root, 'source-manifest.json'), 'Guides cache source manifest'),
     mediaManifestPath: requireRegularFile(path.join(root, 'media-manifest.json'), 'Guides cache media manifest'),
   }
 }
 
-function validateGenerationPayload({ payloadDir, snapshotPath, rootToken }) {
+function validateGenerationPayload({ site = process.env.ZDOC_SITE || 'en', payloadDir, snapshotPath, rootToken }) {
   if (typeof rootToken !== 'string' || !rootToken || /[\0\r\n]/.test(rootToken)) throw new Error('rootToken must be a non-empty safe string')
   const paths = payloadPaths(payloadDir)
+  const validationSnapshot = paths.snapshotPath || requireRegularFile(snapshotPath, 'Legacy Guides cache snapshot')
   const source = validateSourceCache({
+    site,
     sourceDir: paths.sourceDir,
-    snapshotPath,
+    snapshotPath: validationSnapshot,
     manifestPath: paths.sourceManifestPath,
     rootToken,
     acceptedSchemaVersions: [2],
   })
   const media = validateMediaCache({
+    site,
     sourceDir: paths.sourceDir,
-    snapshotPath,
+    snapshotPath: validationSnapshot,
     manifestPath: paths.sourceManifestPath,
     mediaManifestPath: paths.mediaManifestPath,
   })
@@ -155,26 +163,29 @@ function fixedWorkspacePath(root, relative, label) {
   return current
 }
 
-function liveCachePathsFromRoot(root) {
+function liveCachePathsFromRoot(root, site = process.env.ZDOC_SITE || 'en') {
+  if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
+  const identity = site === 'en' ? 'guides' : 'guides-zh-CN'
   return {
-    sourceDir: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides source cache path'),
-    sourceManifestPath: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides source manifest path'),
-    mediaManifestPath: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides media manifest path'),
+    snapshotPath: fixedWorkspacePath(root, `packages/docs-tooling/src/lark/meta/snapshots/${identity}-uat-last-success.json`, 'Guides snapshot path'),
+    sourceDir: fixedWorkspacePath(root, `packages/docs-tooling/src/lark/meta/sources/${identity}`, 'Guides source cache path'),
+    sourceManifestPath: fixedWorkspacePath(root, `packages/docs-tooling/src/lark/meta/source-cache/${identity}-manifest.json`, 'Guides source manifest path'),
+    mediaManifestPath: fixedWorkspacePath(root, `packages/docs-tooling/src/lark/meta/media-cache/${identity}.json`, 'Guides media manifest path'),
   }
 }
 
-function liveCachePaths(workspace) {
-  return liveCachePathsFromRoot(requireDirectory(workspace, 'Guides cache generation workspace'))
+function liveCachePaths(workspace, site = process.env.ZDOC_SITE || 'en') {
+  return liveCachePathsFromRoot(requireDirectory(workspace, 'Guides cache generation workspace'), site)
 }
 
-function createGenerationPayload({ workspace, snapshotPath, rootToken, outputDir, hooks = {} }) {
+function createGenerationPayload({ site = process.env.ZDOC_SITE || 'en', workspace, snapshotPath, rootToken, outputDir, hooks = {} }) {
   const allowedHooks = new Set(['beforeSwapCommit', 'afterSwapCommit', 'beforeBackupCleanup', 'beforeRollbackRemoveOutput', 'beforeRollbackRestoreBackup', 'beforeTemporaryCleanup'])
   if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid generation hooks')
   }
-  const { sourceDir, sourceManifestPath, mediaManifestPath } = liveCachePaths(workspace)
-  validateSourceCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, rootToken, acceptedSchemaVersions: [2] })
-  validateMediaCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath })
+  const { sourceDir, sourceManifestPath, mediaManifestPath } = liveCachePaths(workspace, site)
+  validateSourceCache({ site, sourceDir, snapshotPath, manifestPath: sourceManifestPath, rootToken, acceptedSchemaVersions: [2] })
+  validateMediaCache({ site, sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath })
   const sourceRoot = requireDirectory(sourceDir, 'Generation source directory')
   const requestedOutput = path.resolve(outputDir)
   let outputExists = false
@@ -204,7 +215,8 @@ function createGenerationPayload({ workspace, snapshotPath, rootToken, outputDir
     }
     copyRegularFile(sourceManifestPath, path.join(temporary, 'source-manifest.json'))
     copyRegularFile(mediaManifestPath, path.join(temporary, 'media-manifest.json'))
-    validateGenerationPayload({ payloadDir: temporary, snapshotPath, rootToken })
+    copyRegularFile(snapshotPath, path.join(temporary, 'snapshot.json'))
+    validateGenerationPayload({ site, payloadDir: temporary, snapshotPath, rootToken })
     if (outputExists) {
       fs.renameSync(output, backup)
       oldMoved = true
@@ -273,16 +285,17 @@ function removeEmptyDirectory(directory) {
   }
 }
 
-function promoteGenerationPayload({ payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
+function promoteGenerationPayload({ site = process.env.ZDOC_SITE || 'en', payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
   const allowedHooks = new Set(['afterInstall', 'beforeRollbackRemove', 'beforeRollbackRestore', 'beforeRollbackDirectoryCleanup', 'beforeJournalCleanup'])
   if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid promotion hooks')
   }
-  const validation = validateGenerationPayload({ payloadDir, snapshotPath, rootToken })
+  const validation = validateGenerationPayload({ site, payloadDir, snapshotPath, rootToken })
   const workspaceRoot = requireDirectory(workspace, 'Guides cache promotion workspace')
   if (pathsOverlap(validation.paths.root, workspaceRoot)) throw new Error('Promotion workspace must not overlap the generation payload')
-  const live = liveCachePathsFromRoot(workspaceRoot)
+  const live = liveCachePathsFromRoot(workspaceRoot, site)
   const installs = [
+    ...(validation.paths.snapshotPath ? [{ source: validation.paths.snapshotPath, destination: live.snapshotPath }] : []),
     { source: validation.paths.sourceDir, destination: live.sourceDir },
     { source: validation.paths.sourceManifestPath, destination: live.sourceManifestPath },
     { source: validation.paths.mediaManifestPath, destination: live.mediaManifestPath },
@@ -312,7 +325,12 @@ function promoteGenerationPayload({ payloadDir, workspace, snapshotPath, rootTok
     }
     hooks.beforeJournalCleanup?.({ journal })
     fs.rmSync(journal, { recursive: true, force: true })
-    return Object.freeze({ sourceDir: installs[0].destination, sourceManifestPath: installs[1].destination, mediaManifestPath: installs[2].destination })
+    return Object.freeze({
+      snapshotPath: validation.paths.snapshotPath ? live.snapshotPath : path.resolve(snapshotPath),
+      sourceDir: live.sourceDir,
+      sourceManifestPath: live.sourceManifestPath,
+      mediaManifestPath: live.mediaManifestPath,
+    })
   } catch (original) {
     const failures = []
     for (let index = 0; index < snapshots.length; index += 1) {
@@ -360,7 +378,7 @@ function parseArgs(argv) {
     const flag = flags[index], value = flags[index + 1]
     if (!flag?.startsWith('--') || value === undefined) throw new Error('Missing or invalid argument')
     const key = flag.slice(2)
-    if (!required.includes(key)) throw new Error(`Unknown argument: ${flag}`)
+    if (!required.includes(key) && key !== 'site') throw new Error(`Unknown argument: ${flag}`)
     if (Object.hasOwn(result, key)) throw new Error(`Duplicate argument: ${flag}`)
     if (PATH_FLAGS.has(key)) safePathValue(value, key)
     if (typeof value !== 'string' || !value || /[\0\r\n]/.test(value)) throw new Error(`Invalid argument: ${flag}`)
@@ -373,15 +391,15 @@ function parseArgs(argv) {
 function main(argv = process.argv.slice(2)) {
   const input = parseArgs(argv)
   if (input.operation === 'keys') {
-    process.stdout.write(`${JSON.stringify(generationKeys({ snapshotPath: input.snapshot, runId: input['run-id'], runAttempt: input['run-attempt'] }))}\n`)
+    process.stdout.write(`${JSON.stringify(generationKeys({ site: input.site || process.env.ZDOC_SITE || 'en', snapshotPath: input.snapshot, runId: input['run-id'], runAttempt: input['run-attempt'] }))}\n`)
   } else if (input.operation === 'validate') {
-    const result = validateGenerationPayload({ payloadDir: input.payload, snapshotPath: input.snapshot, rootToken: input['root-token'] })
+    const result = validateGenerationPayload({ site: input.site || process.env.ZDOC_SITE || 'en', payloadDir: input.payload, snapshotPath: input.snapshot, rootToken: input['root-token'] })
     process.stdout.write(`${JSON.stringify({ valid: true, sources: result.source.validCanonicalSources })}\n`)
   } else if (input.operation === 'create') {
-    const output = createGenerationPayload({ workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'], outputDir: input.output })
+    const output = createGenerationPayload({ site: input.site || process.env.ZDOC_SITE || 'en', workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'], outputDir: input.output })
     process.stdout.write(`${JSON.stringify({ output })}\n`)
   } else {
-    const result = promoteGenerationPayload({ payloadDir: input.payload, workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'] })
+    const result = promoteGenerationPayload({ site: input.site || process.env.ZDOC_SITE || 'en', payloadDir: input.payload, workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'] })
     process.stdout.write(`${JSON.stringify(result)}\n`)
   }
 }

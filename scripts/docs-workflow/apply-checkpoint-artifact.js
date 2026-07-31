@@ -126,9 +126,28 @@ function mergeRecordEntries(baseline, artifact, target, prefix) {
   return result;
 }
 
+function mergeBootstrapCompletedGroups(manifests) {
+  const groups = [];
+  for (const manifest of manifests) {
+    if (!Object.hasOwn(manifest, 'bootstrapCompletedGroups')) continue;
+    const value = manifest.bootstrapCompletedGroups;
+    if (!Array.isArray(value)) throw new Error('Translation manifest bootstrapCompletedGroups must be an array');
+    for (let groupIndex = 0; groupIndex < value.length; groupIndex++) {
+      const group = value[groupIndex];
+      if (typeof group !== 'string' || !/^[a-z][a-z0-9-]*$/u.test(group)) throw new Error('Translation manifest bootstrapCompletedGroups must contain valid group names');
+      if (groupIndex > 0 && value[groupIndex - 1] >= group) throw new Error('Translation manifest bootstrapCompletedGroups must be unique and canonically sorted');
+      groups.push(group);
+    }
+  }
+  return [...new Set(groups)].sort((left, right) => left < right ? -1 : left > right ? 1 : 0);
+}
+
 function mergeRecordCollection(baseline, artifact, target, field) {
-  const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field)));
+  const manifests = [baseline, artifact, target];
+  const mergesBootstrapGroups = manifests.some((manifest) => Object.hasOwn(manifest, 'bootstrapCompletedGroups'));
+  const metadata = manifests.map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field && (!mergesBootstrapGroups || key !== 'bootstrapCompletedGroups'))));
   const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
+  if (mergesBootstrapGroups) result.bootstrapCompletedGroups = mergeBootstrapCompletedGroups(manifests);
   result[field] = Object.values(mergeRecordEntries(
     recordsBySource(baseline, field, 'Baseline'),
     recordsBySource(artifact, field, 'Artifact'),

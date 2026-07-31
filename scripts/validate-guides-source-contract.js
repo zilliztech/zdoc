@@ -6,7 +6,10 @@ const path = require('node:path')
 const slugify = require('slugify')
 const yaml = require('js-yaml')
 const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
+const { guidesTableSlug } = require('../packages/docs-tooling/src/lark/guidesTableSlugs')
 const { canonicalizeInternalDocLink } = require('../packages/docs-tooling/src/lark/internalDocLink')
+const { assertSourceCompleteness } = require('../packages/docs-tooling/src/lark/sourceCompleteness')
+const { assertMediaCoverage, collectMediaReferences, sourceFilesForSnapshot, validateEntries } = require('./docs-workflow/guides-media-prefetch')
 
 function targetMatches(record, target) {
   const targets = guidesRecordPublishTargets(record)
@@ -57,7 +60,7 @@ function collectGeneratedDocsByToken(outputDir, idPrefix) {
   return docsByToken
 }
 
-function validateGuidesSourceContract({ snapshot, target, outputDir, idPrefix = 'tutorials', sidebar }) {
+function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir, idPrefix = 'tutorials', sidebar }) {
   if (!snapshot || snapshot.manual !== 'guides' || snapshot.schema_version !== 3 || !Array.isArray(snapshot.navigation_records)) throw new Error('Guides source contract requires a schema v3 snapshot')
   const records = snapshot.navigation_records
   const byId = new Map(records.map(record => [record.record_id, record]))
@@ -71,7 +74,7 @@ function validateGuidesSourceContract({ snapshot, target, outputDir, idPrefix = 
   const recordSegment = record => record.slug || slugify(record.title || record.record_id, { lower: true, strict: true })
   const relativeDir = (record, seen = new Set()) => {
     if (seen.has(record.record_id)) throw new Error(`Guides navigation cycle at ${record.record_id}`)
-    const tableSlug = slugify(record.table_name || record.table_id, { lower: true, strict: true })
+    const tableSlug = guidesTableSlug(site, record.table_name || record.table_id)
     const parentId = (record.parent_record_ids || []).find(id => byId.has(id))
     if (!parentId) return tableSlug
     seen.add(record.record_id)
@@ -121,7 +124,11 @@ function validateGuidesSourceContract({ snapshot, target, outputDir, idPrefix = 
     if (record.placement_type === 'section') {
       const item = entries.find(entry => entry.type === 'category' && entry.key === key)
       if (!item) errors.push(`section ${record.record_id} missing category: ${key}`)
-      else if (item.link) errors.push(`section ${record.record_id} generated forbidden landing page link`)
+      const ids = record.doc_token ? (generatedDocsByToken.get(record.doc_token) || []) : []
+      if (record.doc_token) {
+        if (ids.length !== 1) errors.push(`section ${record.record_id} must generate exactly one index file for token: ${record.doc_token}`)
+        else if (!item?.link || item.link.type !== 'doc' || item.link.id !== ids[0]) errors.push(`section ${record.record_id} landing page target mismatch: ${ids[0]}`)
+      } else if (item?.link) errors.push(`section ${record.record_id} generated forbidden landing page link`)
       continue
     }
     if (record.placement_type === 'link') {
@@ -136,13 +143,17 @@ function validateGuidesSourceContract({ snapshot, target, outputDir, idPrefix = 
       const refSegment = record.slug || canonical?.slug || recordSegment(record)
       const refKey = `ref:${path.posix.join(idPrefix, relativeDir(record), refSegment)}`
       const targetPublishes = canonical && targetMatches(canonical, target) && guidesCanonicalIsPublishable(canonical)
-      const item = entries.find(entry => entry.type === 'doc' && entry.key === refKey)
+      const item = entries.find(entry => entry.type === 'link' && entry.key === refKey)
       if (!targetPublishes) {
         if (item) errors.push(`ref ${record.record_id} target is not publishable for ${target}: ${targetToken || '(missing)'}`)
         continue
       }
-      const ids = generatedDocsByToken.get(targetToken) || []
-      if (ids.length !== 1 || !item || item.id !== ids[0]) errors.push(`ref ${record.record_id} target mismatch: ${targetToken || '(missing)'}`)
+      const routeBase = target === 'zilliz.paas' ? '/docs/byoc' : '/docs'
+      const expectedHref = canonical ? `${routeBase}/${String(canonical.slug || '').replace(/^\/+/, '')}` : null
+      const hrefMatches = record.ref_target_anchor
+        ? item?.href?.startsWith(`${expectedHref}#`) && item.href.length > expectedHref.length + 1
+        : item?.href === expectedHref
+      if (!hrefMatches) errors.push(`ref ${record.record_id} target mismatch: ${targetToken || '(missing)'}`)
     }
   }
 
@@ -150,4 +161,65 @@ function validateGuidesSourceContract({ snapshot, target, outputDir, idPrefix = 
   return { checkedRecords, errors }
 }
 
-module.exports = { collectGeneratedDocsByToken, collectSidebarEntries, validateGuidesSourceContract }
+function sourceContractConfig(site) {
+  if (!['en', 'zh-CN'].includes(site)) throw new Error(`Unsupported Guides site: ${site}`)
+  const chinese = site === 'zh-CN'
+  return {
+    site,
+    rootToken: chinese ? 'XyeFwdx6kiK9A6kq3yIcLNdEnDd' : 'Tg6mwbRGDitPQ3kLUQzc44I7nth',
+    sourceDir: `packages/docs-tooling/src/lark/meta/sources/guides${chinese ? '-zh-CN' : ''}`,
+    snapshotPath: `packages/docs-tooling/src/lark/meta/snapshots/guides${chinese ? '-zh-CN' : ''}-uat-last-success.json`,
+    mediaManifestPath: `packages/docs-tooling/src/lark/meta/media-cache/guides${chinese ? '-zh-CN' : ''}.json`,
+    targets: [
+      { target: 'zilliz.saas', outputDir: `content/${site}/guides/tutorials`, sidebarPath: `generated/${site}/sidebars/guides.sidebar.js` },
+      { target: 'zilliz.paas', outputDir: `content/${site}/byoc/tutorials`, sidebarPath: `generated/${site}/sidebars/guides-byoc.sidebar.js` },
+    ],
+  }
+}
+
+function validateGuidesSourceSite({ site, config = sourceContractConfig(site), loadJson = file => JSON.parse(fs.readFileSync(file, 'utf8')), loadSidebar = file => require(path.resolve(file)) }) {
+  const snapshot = loadJson(config.snapshotPath)
+  assertSourceCompleteness({
+    manual: 'guides', buildEnv: 'uat', rootToken: config.rootToken,
+    sourceDir: config.sourceDir, snapshot,
+  })
+  const mediaManifest = loadJson(config.mediaManifestPath)
+  if (mediaManifest.schemaVersion !== 1) throw new Error('Invalid guides media manifest schema')
+  validateEntries(mediaManifest.entries)
+  assertMediaCoverage(
+    mediaManifest.entries,
+    collectMediaReferences(config.sourceDir, sourceFilesForSnapshot(config.sourceDir, snapshot)),
+  )
+  return config.targets.map(target => validateGuidesSourceContract({
+    snapshot,
+    site,
+    target: target.target,
+    outputDir: target.outputDir,
+    sidebar: loadSidebar(target.sidebarPath),
+  }))
+}
+
+if (require.main === module) {
+  try {
+    const argv = process.argv.slice(2)
+    if ((argv.length !== 2 && argv.length !== 4) || argv[0] !== '--site' || (argv.length === 4 && argv[2] !== '--snapshot')) {
+      throw new Error('Usage: validate-guides-source-contract.js --site <en|zh-CN> [--snapshot <path>]')
+    }
+    const config = sourceContractConfig(argv[1])
+    if (argv.length === 4) config.snapshotPath = argv[3]
+    const results = validateGuidesSourceSite({
+      site: argv[1],
+      config,
+      loadSidebar(file) {
+        delete require.cache[require.resolve(path.resolve(file))]
+        return require(path.resolve(file))
+      },
+    })
+    console.log(`[guides-source-contract] ${argv[1]}: ${results.reduce((sum, result) => sum + result.checkedRecords, 0)} records checked`)
+  } catch (error) {
+    console.error(error.message)
+    process.exitCode = 1
+  }
+}
+
+module.exports = { collectGeneratedDocsByToken, collectSidebarEntries, sourceContractConfig, validateGuidesSourceContract, validateGuidesSourceSite }

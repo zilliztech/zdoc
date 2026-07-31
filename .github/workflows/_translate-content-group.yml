@@ -70,7 +70,7 @@ jobs:
           echo "ARTIFACT_SUFFIX=$suffix" >> "$GITHUB_ENV"
 
       - name: Validate immutable inputs
-        run: node -e 'if(!["ja-JP","zh-CN-reference","zh-CN-tools"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.MASTER_SHA,source_sha:process.env.SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(`${n} must be a lowercase 40-character Git SHA`)'
+        run: node -e 'if(!["ja-JP","zh-CN-reference"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.MASTER_SHA,source_sha:process.env.SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(`${n} must be a lowercase 40-character Git SHA`)'
       - name: Check out immutable master tooling
         uses: actions/checkout@v4
         with:
@@ -92,7 +92,6 @@ jobs:
           case "$TRANSLATION_TARGET" in
             ja-JP) state=.translation-cache/ja-JP.json; empty='{"files":{}}' ;;
             zh-CN-reference) state=generated/zh-CN/manifests/reference-translations.json; empty='{"schemaVersion":1,"records":[]}' ;;
-            zh-CN-tools) state=generated/zh-CN/manifests/tools-translations.json; empty='{"schemaVersion":1,"records":[]}' ;;
             *) exit 2 ;;
           esac
           mkdir -p "$(dirname "$state")" "$BASELINE_DIR/$(dirname "$state")"
@@ -213,7 +212,7 @@ jobs:
         run: pnpm docs-tooling reference-sidebar --group "$GROUP" --write
       - name: Create validated translation checkpoints
         id: checkpoint
-        if: ${{ inputs.should_translate && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        if: ${{ inputs.should_translate && ((inputs.batch_number == 0 && (steps.agents.outcome == 'success' || steps.agents.outcome == 'skipped')) || (steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           batch_args=()
           batch_input_args=()
@@ -240,12 +239,12 @@ jobs:
         id: baseline_upload
         if: ${{ steps.checkpoint.outcome == 'success' }}
         uses: actions/upload-artifact@v4
-        with: { name: 'translation-baseline-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
+        with: { name: 'translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
       - name: Upload translation checkpoint
         id: translation_upload
         if: ${{ steps.checkpoint.outcome == 'success' }}
         uses: actions/upload-artifact@v4
-        with: { name: 'translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/translation-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
+        with: { name: 'translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/translation-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
       - name: Upload translation report
         if: ${{ always() }}
         run: node scripts/translation/reportSummary.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json --output tmp/translation-report.md
@@ -253,14 +252,14 @@ jobs:
       - name: Archive translation report
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
-        with: { name: 'translation-report-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: 'tmp/translation-report*', if-no-files-found: ignore }
+        with: { name: 'translation-report-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: 'tmp/translation-report*', if-no-files-found: ignore }
       - name: Emit translation result
         id: result
         if: ${{ always() }}
         run: |
           status=failed; artifact_name=; baseline_artifact_name=; translated_count="${{ steps.agents.outputs.translated_count || '0' }}"; failed_count="${{ steps.agents.outputs.failed_count || '0' }}"; remaining_count="${{ steps.agents.outputs.remaining_count || '0' }}"
-          if [[ "${{ inputs.should_translate }}" != true || ( "${{ steps.manifest.outputs.count || '0' }}" == 0 && "${{ steps.source_delta.outputs.has_mutation || 'false' }}" != true ) ]]; then status=no_changes
-          elif [[ "${{ steps.agents.outcome }}" == success && "${{ steps.agents.outputs.failed_count || '0' }}" == 0 && "${{ steps.agents.outputs.remaining_count || '0' }}" == 0 && "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success ]]; then status=translation_ready; artifact_name="translation-checkpoint-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
+          if [[ "${{ inputs.should_translate }}" != true ]]; then status=no_changes
+          elif [[ ( "${{ steps.agents.outcome }}" == success || "${{ steps.agents.outcome }}" == skipped ) && "${{ steps.agents.outputs.failed_count || '0' }}" == 0 && "${{ steps.agents.outputs.remaining_count || '0' }}" == 0 && "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success ]]; then status=translation_ready; artifact_name="translation-checkpoint-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
           printf 'status=%s\nartifact_name=%s\nbaseline_artifact_name=%s\ntranslated_count=%s\nfailed_count=%s\nremaining_count=%s\n' "$status" "$artifact_name" "$baseline_artifact_name" "$translated_count" "$failed_count" "$remaining_count" >> "$GITHUB_OUTPUT"
       - name: Fail unsuccessful translation
         if: ${{ always() && steps.result.outputs.status == 'failed' }}

@@ -10,6 +10,8 @@ const FINAL_STATES = new Set(['passed', 'failed', 'skipped']);
 const SHA = /^[0-9a-f]{40}$/;
 const ENTRY_KEYS = new Set(['source', 'translation', 'translationRequested', 'sourceCommitSha', 'translationCommitSha', 'translationCandidates']);
 const CANDIDATE_COUNT_KEYS = ['total', 'current_delta', 'missing_target', 'stale_source'];
+const RUN_ID = /^[1-9][0-9]*$/;
+const RUN_URL = /^https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/actions\/runs\/([1-9][0-9]*)$/;
 
 function invalid(message) { throw new Error(`Invalid aggregate results schema: ${message}`); }
 function escapeMarkdownCell(value) { return String(value ?? '').replaceAll('|', '\\|').replace(/[\r\n]+/g, ' '); }
@@ -25,7 +27,7 @@ function validateCandidateCounts(counts, group) {
 
 function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) invalid('root must be an object');
-  if (Object.keys(input).some((key) => !['mode', 'requestedGroups', 'groups', 'revisionReconciliation', 'finalVerification'].includes(key))) invalid('unknown root property');
+  if (Object.keys(input).some((key) => !['mode', 'requestedGroups', 'groups', 'revisionReconciliation', 'finalVerification', 'translationHandoff'].includes(key))) invalid('unknown root property');
   if (input.mode !== undefined && !['publish', 'artifact_only'].includes(input.mode)) invalid('mode must be publish or artifact_only');
   if (!Array.isArray(input.requestedGroups) || input.requestedGroups.length === 0) invalid('requestedGroups must be a non-empty array');
   const validGroups = new Set(listContentGroups());
@@ -53,6 +55,15 @@ function validate(input) {
   if (mode === 'artifact_only' && input.revisionReconciliation !== 'skipped') invalid('revisionReconciliation must be skipped in artifact_only mode');
   if (mode === 'publish' && translationsRequested && input.revisionReconciliation === 'skipped') invalid('revisionReconciliation must not be skipped when translation is requested');
   if (!FINAL_STATES.has(input.finalVerification)) invalid('finalVerification has unknown state');
+  if (input.translationHandoff !== undefined) {
+    const handoff = input.translationHandoff;
+    if (!handoff || typeof handoff !== 'object' || Array.isArray(handoff) || Object.keys(handoff).some(key => !['requested', 'dispatched', 'runId', 'runUrl'].includes(key))) invalid('translation handoff is invalid');
+    if (typeof handoff.requested !== 'boolean' || typeof handoff.dispatched !== 'boolean' || (handoff.dispatched && !handoff.requested)) invalid('translation handoff request state is invalid');
+    if (handoff.dispatched) {
+      const match = typeof handoff.runUrl === 'string' ? handoff.runUrl.match(RUN_URL) : null;
+      if (typeof handoff.runId !== 'string' || !RUN_ID.test(handoff.runId) || !match || match[1] !== handoff.runId) invalid('translation handoff run URL is invalid');
+    } else if (handoff.runId !== undefined || handoff.runUrl !== undefined) invalid('undispatched translation handoff must not declare a run');
+  }
 }
 
 function aggregateResults(input) {
@@ -66,6 +77,7 @@ function aggregateResults(input) {
     : translationsRequested
       ? input.revisionReconciliation === 'passed' && input.finalVerification === 'passed'
       : input.revisionReconciliation === 'skipped' && input.finalVerification === 'skipped';
+  if (input.translationHandoff?.requested && !input.translationHandoff.dispatched) success = false;
   const rows = [];
   for (const group of listContentGroups().filter((name) => input.requestedGroups.includes(name))) {
     const entry = input.groups[group];
@@ -77,7 +89,10 @@ function aggregateResults(input) {
   const summaryText = success ? 'Documentation workflow succeeded.' : 'Documentation workflow failed.';
   const candidateSummary = input.groups.guides?.translationCandidates;
   const candidateLines = candidateSummary ? [`Guides translation candidates: ${candidateSummary.total} total — ${candidateSummary.current_delta} current English changes, ${candidateSummary.missing_target} missing Japanese targets, ${candidateSummary.stale_source} stale translations.`, ''] : [];
-  const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', ...candidateLines, `Revision reconciliation: ${input.revisionReconciliation}`, '', `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
+  const handoffLine = input.translationHandoff
+    ? `Downstream translation: ${input.translationHandoff.dispatched ? `dispatched (${input.translationHandoff.runUrl})` : input.translationHandoff.requested ? 'dispatch failed' : 'not requested'}`
+    : 'Downstream translation: not recorded';
+  const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', ...candidateLines, `Revision reconciliation: ${input.revisionReconciliation}`, '', `Final verification: ${input.finalVerification}`, '', handoffLine, '', `Overall status: ${overallStatus}`, ''].join('\n');
   return Object.freeze({ overallStatus, summaryText, markdown });
 }
 

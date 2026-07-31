@@ -2,7 +2,6 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
-const { getGroupPaths } = require('./docs-workflow/group-paths')
 
 const referenceSidebarTargets = Object.freeze([
   { sidebar: 'python.sidebar.js', idPrefix: 'api/python/python' },
@@ -102,45 +101,29 @@ function validateReferenceSidebarTargets({ directory, outputDir }) {
   return results
 }
 
-function validatePreservedEnglishFiles({ cwd = process.cwd() } = {}) {
-  const missing = ['python', 'java', 'node', 'go', 'cli']
-    .flatMap(group => getGroupPaths(group).preservedEnglish)
-    .filter(relativePath => !fs.existsSync(path.join(cwd, ...relativePath.split('/'))))
-    .sort()
-  if (missing.length) throw new Error(`Missing preserved landing pages:\n- ${missing.join('\n- ')}`)
-  return { checked: 5, missing }
+function parseSite(argv) {
+  if (argv.length !== 2 || argv[0] !== '--site' || !['en', 'zh-CN'].includes(argv[1])) {
+    throw new Error('Usage: validate-generated-sidebars.js --site <en|zh-CN>')
+  }
+  return argv[1]
+}
+
+function validateGeneratedSidebarsForSite({ site, cwd = process.cwd() }) {
+  if (!['en', 'zh-CN'].includes(site)) throw new Error(`Unsupported documentation site: ${site}`)
+  const directory = path.join(cwd, 'generated', site, 'sidebars')
+  const count = validateAllGeneratedSidebars(directory)
+  const referenceResults = site === 'en'
+    ? validateReferenceSidebarTargets({ directory, outputDir: path.join(cwd, 'content/en/reference') })
+    : []
+  return { count, directory, referenceResults }
 }
 
 function main() {
-  const directory = path.join(process.cwd(), 'generated/en/sidebars')
-  const count = validateAllGeneratedSidebars(directory)
-  console.log(`[sidebar-validation] validated ${count} generated sidebar file(s)`)
-  for (const result of validateReferenceSidebarTargets({
-    directory,
-    outputDir: path.join(process.cwd(), 'content/en/reference'),
-  })) {
-    console.log(`[sidebar-validation] ${result.sidebar}: ${result.checked} doc target(s) checked`)
-  }
-  const preserved = validatePreservedEnglishFiles()
-  console.log(`[sidebar-validation] ${preserved.checked} preserved landing page(s) checked`)
-  const candidate = path.join(process.cwd(), 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json')
-  if (fs.existsSync(candidate)) {
-    const applyOverrides = require('../config/applyOverrides')
-    const { validateGuidesCoverage } = require('./validate-guides-coverage')
-    const { validateGuidesSourceContract } = require('./validate-guides-source-contract')
-    const snapshot = JSON.parse(fs.readFileSync(candidate, 'utf8'))
-    for (const config of [
-      { target: 'zilliz.saas', outputDir: 'content/en/guides/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides.sidebar.js', overridePath: 'sidebar-overrides/en/guides.json', ignoredGeneratedIds: ['tutorials/home'] },
-      { target: 'zilliz.paas', outputDir: 'content/en/byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js', overridePath: 'sidebar-overrides/en/guides-byoc.json', ignoredGeneratedIds: [] },
-    ]) {
-      delete require.cache[require.resolve(path.resolve(config.sidebarPath))]
-      const sidebar = require(path.resolve(config.sidebarPath))
-      const contract = validateGuidesSourceContract({ snapshot, target: config.target, outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar })
-      console.log(`[guides-contract] ${config.sidebarPath}: ${contract.checkedRecords} Base record(s) checked`)
-      const effectiveSidebar = applyOverrides(sidebar, path.resolve(config.overridePath))
-      const result = validateGuidesCoverage({ outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar: effectiveSidebar, ignoredGeneratedIds: config.ignoredGeneratedIds })
-      console.log(`[guides-coverage] ${config.sidebarPath}: ${result.generatedDocs} generated docs covered`)
-    }
+  const site = parseSite(process.argv.slice(2))
+  const result = validateGeneratedSidebarsForSite({ site })
+  console.log(`[sidebar-validation] ${site}: validated ${result.count} generated sidebar file(s)`)
+  for (const reference of result.referenceResults) {
+    console.log(`[sidebar-validation] ${reference.sidebar}: ${reference.checked} doc target(s) checked`)
   }
 }
 
@@ -148,9 +131,10 @@ if (require.main === module) main()
 
 module.exports = {
   collectSidebarDocIds,
+  parseSite,
   referenceSidebarTargets,
   validateAllGeneratedSidebars,
-  validatePreservedEnglishFiles,
+  validateGeneratedSidebarsForSite,
   validateReferenceSidebarTargets,
   validateSidebar,
   validateSidebarDocTargets,

@@ -13,8 +13,6 @@ const CANDIDATE_REASON_ORDER = Object.freeze({
   missing_target: 1,
   stale_source: 2,
 })
-const TOOLS_SIDEBAR_SOURCE = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'
-const TOOLS_SIDEBAR_TARGET = 'generated/zh-CN/sidebars/tools.sidebar.js'
 
 function candidateReason({ changedEnglish, sourcePath, targetExists }) {
   if (changedEnglish?.has(sourcePath)) return 'current_delta'
@@ -24,29 +22,6 @@ function candidateReason({ changedEnglish, sourcePath, targetExists }) {
 
 function hashContent(text) {
   return crypto.createHash('sha256').update(text, 'utf8').digest('hex')
-}
-
-function findSidebarNode(value, key) {
-  if (Array.isArray(value)) {
-    for (const child of value) {
-      const found = findSidebarNode(child, key)
-      if (found !== undefined) return found
-    }
-    return undefined
-  }
-  if (!value || typeof value !== 'object') return undefined
-  if (value.key === key) return value
-  return findSidebarNode(value.items, key)
-}
-
-function readToolsSidebarFragment(siteDir) {
-  const [relativePath, key] = TOOLS_SIDEBAR_SOURCE.split('#')
-  const absolutePath = path.join(siteDir, relativePath)
-  if (!fs.existsSync(absolutePath)) return undefined
-  const resolved = require.resolve(absolutePath)
-  delete require.cache[resolved]
-  const loaded = require(resolved)
-  return findSidebarNode(loaded?.default ?? loaded, key)
 }
 
 function walkMarkdown(root) {
@@ -101,9 +76,8 @@ function writeCache(siteDir, locale, cache) {
 
 function readTargetState(siteDir, target, locale) {
   if (target === 'ja-JP') return canonicalizeJapaneseCache(readCache(siteDir, locale))
-  const relativePath = target === 'zh-CN-reference'
-    ? 'generated/zh-CN/manifests/reference-translations.json'
-    : 'generated/zh-CN/manifests/tools-translations.json'
+  if (target !== 'zh-CN-reference') throw new Error(`Unknown translation target: ${target}`)
+  const relativePath = 'generated/zh-CN/manifests/reference-translations.json'
   const absolutePath = path.join(siteDir, relativePath)
   if (!fs.existsSync(absolutePath)) return { files: {} }
   const parsed = JSON.parse(fs.readFileSync(absolutePath, 'utf8'))
@@ -113,7 +87,6 @@ function readTargetState(siteDir, target, locale) {
 
 function retirementRegistryPath(target) {
   if (target === 'zh-CN-reference') return 'config/reference-retirements.json'
-  if (target === 'zh-CN-tools') return 'config/tools-retirements.json'
   return null
 }
 
@@ -176,17 +149,12 @@ function sourceMappingsForTarget(target) {
     sourceRoot: 'content/en/reference',
     targetRoot: 'content/zh-CN/reference',
   }]
-  if (target === 'zh-CN-tools') return [{
-    type: 'tools',
-    sourceRoot: 'content/en/guides/tutorials/tools',
-    targetRoot: 'content/zh-CN/guides/tutorials/tools',
-  }]
   throw new Error(`Unknown translation target: ${target}`)
 }
 
 function localeForTarget(target) {
   if (target === 'ja-JP') return 'ja-JP'
-  if (target === 'zh-CN-reference' || target === 'zh-CN-tools') return 'zh-CN'
+  if (target === 'zh-CN-reference') return 'zh-CN'
   throw new Error(`Unknown translation target: ${target}`)
 }
 
@@ -243,32 +211,6 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = target === 'ja-JP' 
         locale,
         type: mapping.type,
         reason: candidateReason({ changedEnglish, sourcePath, targetExists }),
-      })
-    }
-  }
-
-  if (target === 'zh-CN-tools') {
-    const fragment = readToolsSidebarFragment(siteDir)
-    if (fragment !== undefined) {
-      activeSourceCount += 1
-      const sourceHash = hashContent(JSON.stringify(fragment))
-      const cached = cache.files[TOOLS_SIDEBAR_SOURCE]
-      const targetExists = fs.existsSync(path.join(siteDir, TOOLS_SIDEBAR_TARGET))
-      if (mode === 'full' || !targetExists || cached?.sourceHash !== sourceHash) {
-        items.push({
-          sourcePath: TOOLS_SIDEBAR_SOURCE,
-          targetPath: TOOLS_SIDEBAR_TARGET,
-          sourceHash,
-          locale,
-          type: 'sidebar',
-          reason: candidateReason({changedEnglish, sourcePath: TOOLS_SIDEBAR_SOURCE, targetExists}),
-        })
-      }
-    } else if (cache.files[TOOLS_SIDEBAR_SOURCE]?.status !== 'retired' && cache.files[TOOLS_SIDEBAR_SOURCE]) {
-      retirementCandidates.push({
-        sourcePath: TOOLS_SIDEBAR_SOURCE,
-        targetPath: cache.files[TOOLS_SIDEBAR_SOURCE].targetPath || TOOLS_SIDEBAR_TARGET,
-        reason: 'sidebar_removed',
       })
     }
   }

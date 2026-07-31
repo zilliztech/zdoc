@@ -83,8 +83,7 @@ jobs:
           set -euo pipefail
           mkdir -p tmp/final-verification-reports
           pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log
-          pnpm docs-tooling validate-translation --target zh-CN-tools --group tools 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-translation.log
-          pnpm docs-tooling validate-tools-sidebar 2>&1 | tee tmp/final-verification-reports/zh-cn-tools-sidebar.log
+          pnpm docs-tooling validate-group --site zh-CN --group guides 2>&1 | tee tmp/final-verification-reports/zh-cn-guides.log
           node scripts/validate-generated-sidebars.js 2>&1 | tee tmp/final-verification-reports/sidebars.log
           for group in guides python java node go cli rest; do
             node scripts/validate-translated-coverage.js --group "$group"

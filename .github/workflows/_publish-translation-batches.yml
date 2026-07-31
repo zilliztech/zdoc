@@ -110,12 +110,12 @@ jobs:
       - name: Download Guides translation checkpoints
         uses: actions/download-artifact@v4
         with:
-          pattern: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-*
+          pattern: translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-checkpoints
       - name: Download Guides translation baselines
         uses: actions/download-artifact@v4
         with:
-          pattern: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-*
+          pattern: translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-baselines
 
       - name: Validate Guides translation batch identities

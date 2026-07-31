@@ -25,14 +25,13 @@ describe('site-owned publication groups', () => {
         'content/zh-CN/byoc',
         'generated/zh-CN/sidebars/guides.sidebar.js',
         'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
-      ],
-      protectedPaths: [
-        'content/zh-CN/guides/tutorials/tools',
         'generated/zh-CN/sidebars/tools.sidebar.js',
-        'generated/zh-CN/manifests/tools-translations.json',
       ],
       publicationManifest: 'generated/zh-CN/manifests/guides-source-publication.json',
     });
+    expect(resolvePublicationGroupWorkflow('zh-CN', 'guides').checkpointPaths).toContain(
+      'content/zh-CN/guides',
+    );
   });
 
   it('exposes Chinese On-premise and English Reference producers only', () => {
@@ -68,7 +67,6 @@ describe('site-owned publication groups', () => {
     expect(Object.isFrozen(group)).toBe(true);
     expect(Object.isFrozen(group.manuals)).toBe(true);
     expect(Object.isFrozen(group.ownedPaths)).toBe(true);
-    expect(Object.isFrozen(group.protectedPaths)).toBe(true);
     expect(() => (group.manuals as string[]).push('other')).toThrow(TypeError);
   });
 

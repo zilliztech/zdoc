@@ -66,10 +66,10 @@ function semanticGuidesSnapshotHash(snapshotPath) {
 }
 
 function cacheSaveRequired({ cacheVersion, prefetchMode, candidateSnapshotPath, baselineSnapshotPath }) {
-  if (!['v4', 'v3', 'v2', 'v1', 'none'].includes(cacheVersion)) throw new Error('Invalid Guides cache version')
+  if (!['v5', 'v4', 'v3', 'v2', 'v1', 'none'].includes(cacheVersion)) throw new Error('Invalid Guides cache version')
   if (!['incremental', 'recovery'].includes(prefetchMode)) throw new Error('Invalid Guides media prefetch mode')
   const candidateHash = semanticGuidesSnapshotHash(candidateSnapshotPath)
-  if (cacheVersion !== 'v4' || prefetchMode === 'recovery' || !fs.existsSync(baselineSnapshotPath)) return true
+  if (cacheVersion !== 'v5' || prefetchMode === 'recovery' || !fs.existsSync(baselineSnapshotPath)) return true
   try { return candidateHash !== semanticGuidesSnapshotHash(baselineSnapshotPath) } catch { return true }
 }
 

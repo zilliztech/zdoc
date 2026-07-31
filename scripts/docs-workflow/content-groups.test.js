@@ -79,7 +79,7 @@ test('consumes the Chinese manifest-owned Guides registry contract', () => {
     'content/zh-CN/byoc',
     'generated/zh-CN/sidebars/guides.sidebar.js',
     'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
-    'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+    'generated/zh-CN/sidebars/tools.sidebar.js',
   ]);
   assert.equal(guides.publicationManifest, 'generated/zh-CN/manifests/guides-source-publication.json');
   for (const group of ['guides', 'onpremise']) {

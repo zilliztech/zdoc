@@ -76,7 +76,7 @@ function testSourceMappingsCanIncludeReference() {
 function testExplicitTargetsUseUnifiedContentRoots() {
   assert.equal(localeForTarget('ja-JP'), 'ja-JP')
   assert.equal(localeForTarget('zh-CN-reference'), 'zh-CN')
-  assert.equal(localeForTarget('zh-CN-tools'), 'zh-CN')
+  assert.throws(() => localeForTarget('zh-CN-tools'), /unknown translation target/i)
   assert.deepEqual(sourceMappingsForTarget('ja-JP'), [
     {
       type: 'guides',
@@ -99,11 +99,7 @@ function testExplicitTargetsUseUnifiedContentRoots() {
     sourceRoot: 'content/en/reference',
     targetRoot: 'content/zh-CN/reference',
   }])
-  assert.deepEqual(sourceMappingsForTarget('zh-CN-tools'), [{
-    type: 'tools',
-    sourceRoot: 'content/en/guides/tutorials/tools',
-    targetRoot: 'content/zh-CN/guides/tutorials/tools',
-  }])
+  assert.throws(() => sourceMappingsForTarget('zh-CN-tools'), /unknown translation target/i)
 }
 
 function testChineseTargetsUseCommittedManifestStateInsteadOfLocaleCache() {
@@ -528,10 +524,6 @@ function run() {
   testBuildManifestIncludesChangedAndMissingDocs()
   testSourceMappingsCanIncludeReference()
   testExplicitTargetsUseUnifiedContentRoots()
-  testChineseTargetsUseCommittedManifestStateInsteadOfLocaleCache()
-  testToolsSidebarLabelChangeBecomesCandidate()
-  testToolsSidebarRemovalRequiresExactRetirementApproval()
-  testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries()
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
   testFullChineseBootstrapIncludesEveryActiveSource()
   testReferenceLandingGroupForcesExactlyFiveCurrentTargets()

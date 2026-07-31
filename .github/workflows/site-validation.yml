@@ -167,10 +167,11 @@ jobs:
           node-version: '22'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Validate Chinese Tools translation coverage
-        run: pnpm docs-tooling validate-translation --target zh-CN-tools --group tools
-      - name: Validate Chinese Tools sidebar ownership
-        run: pnpm docs-tooling validate-tools-sidebar
+      - name: Validate Chinese Guides and Tools navigation
+        run: |
+          pnpm docs-tooling validate-group --site zh-CN --group guides
+          node scripts/validate-generated-sidebars.js
+          pnpm run build:zh-CN
 
   retirement:
     name: Verify retired layout

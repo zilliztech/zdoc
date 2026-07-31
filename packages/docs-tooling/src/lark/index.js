@@ -8,6 +8,7 @@ const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnap
 const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
 const { cleanupRemovedIncrementalRecords } = require('./incrementalReconciliation')
 const { createOfflineMediaResolver } = require('./offlineMediaResolver')
+const { validateGuidesBasePreflight } = require('./guidesBasePreflight')
 const LarkSourceIndex = require('./larkSourceIndex')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
@@ -452,6 +453,7 @@ function larkDocsPlugin(context, options) {
                 .option('--incremental', 'Fetch only changed Base docs and cross-reference neighbors when a last-success snapshot exists')
                 .option('--incrementalRender', 'Reuse a recent incremental plan for a validated, seeded publication stage')
                 .option('--incrementalPlanOnly', 'Write the incremental fetch plan and exit without fetching')
+                .option('--guidesBasePreflight', 'Validate Guides Base metadata before fetching document sources')
                 .option('--incrementalMaxReferenceDepth <n>', 'Reference expansion depth for --incremental', '1')
                 .option('--snapshotPath <path>', 'Override last-success snapshot path')
                 .option('--snapshotCandidatePath <path>', 'Write a source snapshot candidate after an incremental source-only fetch')
@@ -705,6 +707,18 @@ function larkDocsPlugin(context, options) {
                         })
                         writeSnapshot(opts.snapshotCandidatePath, candidate)
                         console.log(`[snapshot] Candidate written to ${opts.snapshotCandidatePath}`)
+                    }
+
+                    if (opts.guidesBasePreflight) {
+                        if (manualName !== 'guides' || sourceType !== 'wiki' || !base.endsWith(':*')) throw new Error('--guidesBasePreflight requires the Guides Base manual')
+                        await scraper.__base({ progressLabel: '[guides-preflight]' })
+                        const result = validateGuidesBasePreflight({
+                            site: process.env.ZDOC_SITE || 'en',
+                            tables: scraper.base_tables,
+                            records: scraper.records,
+                        })
+                        console.log(`[guides-preflight] Validated ${result.tables} table(s) and ${result.records} navigation record(s).`)
+                        return
                     }
 
                     const injectedDocFilesToPreserve = (targetConfig) => {
