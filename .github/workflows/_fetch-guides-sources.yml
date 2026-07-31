@@ -55,6 +55,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Resolve site-owned Guides source
         run: pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"
+      - name: Preflight Guides Base before source fetch
+        run: node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs --manual guides --guidesBasePreflight --buildEnv uat
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          SPACE_ID: ${{ secrets.SPACE_ID }}
       - name: Prepare immutable baseline
         run: |
           git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"

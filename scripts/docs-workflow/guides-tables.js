@@ -2,12 +2,11 @@
 'use strict'
 
 const fs = require('node:fs')
-const slugify = require('slugify')
 const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
+const { guidesTableSlug } = require('../../packages/docs-tooling/src/lark/guidesTableSlugs')
 
 const TARGETS = ['zilliz.paas', 'zilliz.saas']
 const SITES = new Set(['en', 'zh-CN'])
-const ZH_CN_PROTECTED_TABLE_IDENTITY = 'tools'
 
 function normalizeTarget(target) {
   const value = String(target || '').trim().toLowerCase()
@@ -45,15 +44,13 @@ function buildGuidesTableMatrix({ site, plan, snapshot }) {
   const entries = []
 
   for (const tableId of affected) {
-    if (site === 'zh-CN' && tableId === ZH_CN_PROTECTED_TABLE_IDENTITY) continue
     const currentTargets = current.targets.get(tableId) || new Set()
     const previousTargets = new Set(plan.previous_table_targets?.[tableId] || [])
     const tableTargets = new Set([...currentTargets, ...previousTargets])
     if (tableTargets.size === 0) continue
     const tableName = current.names.get(tableId) || plan.current_table_names?.[tableId] || plan.previous_table_names?.[tableId]
     if (!tableName) throw new Error(`Missing Guides table name for ${tableId}`)
-    const tableSlug = slugify(tableName, { lower: true, strict: true })
-    if (site === 'zh-CN' && tableSlug === ZH_CN_PROTECTED_TABLE_IDENTITY) continue
+    const tableSlug = guidesTableSlug(site, tableName)
     for (const target of tableTargets) {
       const normalizedTarget = normalizeTarget(target)
       if (!TARGETS.includes(normalizedTarget)) continue

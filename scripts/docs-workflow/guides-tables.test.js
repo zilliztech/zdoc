@@ -103,20 +103,18 @@ test('incremental matrix ignores an affected table with no current or previous t
   assert.deepEqual(matrix, [])
 })
 
-test('Chinese Guides matrix omits protected Tools identities before render while preserving other cleanup rows', () => {
+test('Chinese Guides matrix renders Tools as part of the regular Cloud and BYOC Guides tables', () => {
   const matrix = buildGuidesTableMatrix({
     site: 'zh-CN',
     plan: {
       mode: 'incremental',
-      affected_tables: ['tools', 'tools-alias', 'removed'],
+      affected_tables: ['tools', 'removed'],
       previous_table_targets: {
-        tools: ['zilliz.saas'],
-        'tools-alias': ['zilliz.paas'],
+        tools: ['zilliz.saas', 'zilliz.paas'],
         removed: ['zilliz.paas'],
       },
       previous_table_names: {
-        tools: 'Renamed protected table',
-        'tools-alias': 'Tools',
+        tools: '工具',
         removed: 'Removed Table',
       },
     },
@@ -128,10 +126,63 @@ test('Chinese Guides matrix omits protected Tools identities before render while
     },
   })
 
-  assert.deepEqual(matrix, [{
-    site: 'zh-CN', table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
-    target: 'zilliz.paas', target_name: 'byoc', cleanup: true,
-  }])
+  assert.deepEqual(matrix, [
+    {
+      site: 'zh-CN', table_id: 'removed', table_name: 'Removed Table', table_slug: 'removed-table',
+      target: 'zilliz.paas', target_name: 'byoc', cleanup: true,
+    },
+    {
+      site: 'zh-CN', table_id: 'tools', table_name: '工具', table_slug: 'tools',
+      target: 'zilliz.paas', target_name: 'byoc', cleanup: true,
+    },
+    {
+      site: 'zh-CN', table_id: 'tools', table_name: '工具', table_slug: 'tools',
+      target: 'zilliz.saas', target_name: 'saas', cleanup: true,
+    },
+  ])
+})
+
+test('Chinese Guides matrix uses the corresponding English table name slugs', () => {
+  const chineseTables = [
+    ['tbl-start', '从这里开始', 'get-started'],
+    ['tbl-development', '开发指南', 'development'],
+    ['tbl-management', '运维指南', 'management'],
+    ['tbl-clients', '客户端参考', 'client-libraries'],
+    ['tbl-models', 'AI 模型', 'ai-models'],
+  ]
+  const current = {
+    schema_version: 3,
+    manual: 'guides',
+    navigation_records: chineseTables.map(([tableId, tableName], index) => ({
+      record_id: `record-${index}`,
+      table_id: tableId,
+      table_name: tableName,
+      placement_type: 'canonical',
+      progress: 'Draft',
+      targets: ['zilliz.saas'],
+    })),
+    table_digests: {},
+  }
+  const matrix = buildGuidesTableMatrix({site: 'zh-CN', plan: {mode: 'full'}, snapshot: current})
+  assert.deepEqual(new Map(matrix.map(entry => [entry.table_name, entry.table_slug])), new Map(
+    chineseTables.map(([, tableName, tableSlug]) => [tableName, tableSlug]),
+  ))
+})
+
+test('Chinese Guides matrix fails before render when a table has no English slug mapping', () => {
+  assert.throws(() => buildGuidesTableMatrix({
+    site: 'zh-CN',
+    plan: {mode: 'full'},
+    snapshot: {
+      schema_version: 3,
+      manual: 'guides',
+      navigation_records: [{
+        record_id: 'unknown-0', table_id: 'tbl-unknown', table_name: '未知表格',
+        placement_type: 'canonical', progress: 'Draft', targets: ['zilliz.saas'],
+      }],
+      table_digests: {},
+    },
+  }), /Missing English Guides table slug mapping for Chinese table/)
 })
 
 test('matrix CLI rejects a missing or unsupported site with a clear contract error', () => {
