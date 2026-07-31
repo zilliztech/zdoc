@@ -62,11 +62,22 @@ test('cleanup render removes the owned directory without invoking Docusaurus', (
 
 test('Chinese table render uses the site-owned media manifest', () => {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'render-guides-table-'))
+  const root = path.join(workspace, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials')
+  const owned = path.join(root, 'tools')
   let command
   renderGuidesTable({
     workspace, site: 'zh-CN', table_id: 'tbl-tools', table_name: '工具', table_slug: 'tools', target: 'zilliz.saas', cleanup: false,
-    spawnSync(bin, args) { command = [bin, ...args]; return { status: 0 } },
+    spawnSync(bin, args) {
+      command = [bin, ...args]
+      fs.mkdirSync(path.join(root, 'agents'), { recursive: true })
+      fs.writeFileSync(path.join(root, 'agents/agent.md'), 'agent')
+      fs.writeFileSync(path.join(root, 'install.md'), 'install')
+      return { status: 0 }
+    },
   })
   const mediaIndex = command.indexOf('--mediaManifest')
   assert.equal(command[mediaIndex + 1], 'packages/docs-tooling/src/lark/meta/media-cache/guides-zh-CN.json')
+  assert.equal(fs.readFileSync(path.join(owned, 'agents/agent.md'), 'utf8'), 'agent')
+  assert.equal(fs.readFileSync(path.join(owned, 'install.md'), 'utf8'), 'install')
+  assert.equal(fs.existsSync(path.join(root, 'agents')), false)
 })

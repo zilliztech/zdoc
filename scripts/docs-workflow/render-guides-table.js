@@ -19,6 +19,24 @@ function tableOutputPath(entry) {
   return `${root}/${entry.table_slug}`
 }
 
+function normalizeChineseTableOutput(root, ownedPath, tableSlug) {
+  const entries = fs.readdirSync(root, { withFileTypes: true })
+  if (entries.length === 1 && entries[0].name === tableSlug && entries[0].isDirectory()) return
+  if (entries.some(entry => entry.name === tableSlug)) throw new Error(`Chinese Guides table output collides with owned directory: ${tableSlug}`)
+  for (const entry of entries) {
+    if (entry.isSymbolicLink()) throw new Error(`Chinese Guides table output must not contain symlinks: ${entry.name}`)
+  }
+  const staging = path.join(root, `.__table-output-${tableSlug}`)
+  fs.mkdirSync(staging)
+  try {
+    for (const entry of entries) fs.renameSync(path.join(root, entry.name), path.join(staging, entry.name))
+    fs.renameSync(staging, ownedPath)
+  } catch (error) {
+    fs.rmSync(staging, { recursive: true, force: true })
+    throw error
+  }
+}
+
 function renderGuidesTable(options) {
   const { workspace, spawnSync = defaultSpawnSync } = options
   if (!workspace || !options.table_id) throw new Error('workspace and table_id are required')
@@ -26,7 +44,13 @@ function renderGuidesTable(options) {
   const sourceConfig = resolveGuidesSourceConfig(site)
   const outputPath = tableOutputPath(options)
   const absoluteOutput = path.join(workspace, outputPath)
-  fs.rmSync(absoluteOutput, { recursive: true, force: true })
+  const outputRoot = path.dirname(absoluteOutput)
+  if (site === 'zh-CN' && !options.cleanup) {
+    fs.rmSync(outputRoot, { recursive: true, force: true })
+    fs.mkdirSync(outputRoot, { recursive: true })
+  } else {
+    fs.rmSync(absoluteOutput, { recursive: true, force: true })
+  }
   if (options.cleanup) return { outputPath, cleanup: true }
 
   const args = [
@@ -39,6 +63,7 @@ function renderGuidesTable(options) {
   const result = spawnSync(process.execPath, args, { cwd: workspace, stdio: 'inherit', env: process.env })
   if (result.error) throw new Error(`Guides table render could not start: ${result.error.message}`)
   if (result.status !== 0) throw new Error(`Guides table render failed with status ${result.status}`)
+  if (site === 'zh-CN') normalizeChineseTableOutput(outputRoot, absoluteOutput, options.table_slug)
   return { outputPath, cleanup: false }
 }
 
