@@ -115,19 +115,14 @@ test('translation workflows declare immutable target identity and exact target v
   assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
 
   const compatibility = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
-  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.target.options, ['ja-JP', 'zh-CN-reference'])
-  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.group.options, ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings'])
-  for (const input of ['target', 'group', 'tooling_sha', 'source_sha']) assert.equal(compatibility.on.workflow_dispatch.inputs[input]?.required, true)
-  assert.equal(compatibility.jobs.translate.with.target, '${{ inputs.target }}')
-  assert.equal(compatibility.jobs.translate.with.tooling_sha, '${{ inputs.tooling_sha }}')
-  assert.equal(compatibility.jobs.translate.with.source_sha, '${{ inputs.source_sha }}')
+  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.locale.options, ['all', 'ja-JP', 'zh-CN'])
+  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.group.options, ['all', 'guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings'])
+  for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json']) assert.equal(compatibility.on.workflow_dispatch.inputs[input]?.required, true)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
-  assert.equal(compatibility.jobs.translate.with.mode, '${{ inputs.mode }}')
-  assert.equal(compatibility.jobs.translate.with.publish, '${{ inputs.publish }}')
-  assert.equal(compatibility.jobs.translate.with.recovery_run_id, '${{ inputs.recovery_run_id }}')
+  assert.equal(compatibility.concurrency, undefined)
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
-  assert.match(compatibilitySource, /ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/)
-  assert.match(compatibilitySource, /zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/)
+  assert.match(compatibilitySource, /strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
+  assert.match(compatibilitySource, /publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/)
   assert.doesNotMatch(compatibilitySource, /zh-CN-tools|tools-translations\.json/)
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
@@ -288,13 +283,13 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('target: ${{ inputs.target }}', 'target: ja-JP'),
-      expected: 'translate-codex.yml: compatibility boundary must expose and forward the selected translation target',
+      mutate: source => source.replace('matrix: ${{ fromJSON(needs.prepare.outputs.sdk_producer_matrix) }}', 'matrix: {target: [ja-JP]}'),
+      expected: 'translate-codex.yml: must run selected SDK translation producers through one matrix',
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest|reference-landings)$ ]] ;;', 'zh-CN-reference) true ;;'),
-      expected: 'translate-codex.yml: compatibility boundary must enforce exact target and group pairings',
+      mutate: source => source.replace('--source-shas-json "$SOURCE_SHAS_JSON"', '--source-shas-json {}'),
+      expected: 'translate-codex.yml: must validate the exact translation handoff before paid work',
     },
     {
       file: '_publish-content-group.yml',
@@ -1895,6 +1890,8 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.doesNotMatch(unbatched.run, /validate-reference|reference-manifest|build:(?:en|zh-CN)/)
 
   assert.match(checkpoint.run, /--include-translation-cache/)
+  assert.match(checkpoint.if, /inputs\.batch_number == 0/)
+  assert.match(checkpoint.if, /steps\.agents\.outcome == 'skipped'/)
   assert.match(checkpoint.run, /--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--tooling-sha "\$MASTER_SHA"/)
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/)
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/)
@@ -1906,6 +1903,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(result.run, /steps\.agents\.outputs\.failed_count \|\| '0'[\s\S]*== 0/)
   assert.match(result.run, /steps\.agents\.outputs\.remaining_count \|\| '0'[\s\S]*== 0/)
   assert.match(result.run, /steps\.agents\.outcome[\s\S]*== success/)
+  assert.match(result.run, /steps\.agents\.outcome[\s\S]*== skipped/)
   assert.equal(failureGate.if, "${{ always() && steps.result.outputs.status == 'failed' }}")
   for (const status of ['translation_ready', 'no_changes', 'failed']) assert.match(source, new RegExp(`status=${status}`))
   assert.doesNotMatch(source, /git push|git-auto-commit|contents: write/)
@@ -2015,15 +2013,30 @@ test('fetch preparation blocks paid translation until publication readiness regr
   assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
 })
 
-test('manual translation wrapper calls the target-aware reusable workflow without legacy automation', () => {
+test('manual translation workflow owns parallel producers and serial publication without legacy automation', () => {
   const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8')
+  const parsed = yaml.load(workflow)
   assert.doesNotMatch(workflow, /workflow_run|git-auto-commit|git push/)
   assert.match(workflow, /workflow_dispatch:/)
-  assert.match(workflow, /uses: \.\/.github\/workflows\/translate-content\.yml/)
-  assert.match(workflow, /target: \$\{\{ inputs\.target \}\}/)
+  assert.match(workflow, /uses: \.\/.github\/workflows\/_translate-content-group\.yml/)
+  assert.match(workflow, /matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
   assert.doesNotMatch(workflow, /secrets: inherit/)
-  assert.match(workflow, /secrets:\n      TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}\n      REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/)
-  assert.match(workflow, /target_branch: \$\{\{ inputs\.target_branch \}\}/)
+  assert.match(workflow, /TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}/)
+  assert.match(workflow, /REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/)
+  const publishers = [
+    'publish_ja_guides',
+    'publish_ja_python', 'publish_zh_python',
+    'publish_ja_java', 'publish_zh_java',
+    'publish_ja_node', 'publish_zh_node',
+    'publish_ja_go', 'publish_zh_go',
+    'publish_ja_cli', 'publish_zh_cli',
+    'publish_ja_rest', 'publish_zh_rest',
+    'publish_zh_reference_landings',
+  ]
+  for (let index = 1; index < publishers.length; index += 1) {
+    assert.ok(parsed.jobs[publishers[index]].needs.includes(publishers[index - 1]), `${publishers[index]} must wait for ${publishers[index - 1]}`)
+    assert.match(parsed.jobs[publishers[index]].if, new RegExp(`needs\\.${publishers[index - 1]}\\.result`))
+  }
 })
 
 test('top-level production workflows resolve separate tooling and source refs once', () => {

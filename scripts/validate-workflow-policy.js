@@ -175,7 +175,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_translate-selected-group.yml', 'translate-content.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
+      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_translate-selected-group.yml', 'translate-content.yml', 'translate-codex.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
       if (!/^  contents: write$/m.test(source)) {
@@ -779,26 +779,22 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === 'translate-codex.yml') {
       const requiredPatterns = [
-        [/uses: \.\/\.github\/workflows\/translate-content\.yml/, 'must call the target-aware reusable translation workflow'],
+        [/strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}[\s\S]*uses: \.\/\.github\/workflows\/_translate-content-group\.yml/, 'must run selected SDK translation producers through one matrix'],
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
+        [/translation-handoff\.js[\s\S]*--source-shas-json "\$SOURCE_SHAS_JSON"/, 'must validate the exact translation handoff before paid work'],
+        [/publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/, 'must declare the deterministic publication chain'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
+      if (/^concurrency:/m.test(source)) errors.push(`${file}: translation producers must not share publication concurrency`)
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
-      const called = workflow.jobs?.translate?.with || {}
-      const targets = ['ja-JP', 'zh-CN-reference']
-      const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings']
-      if (inputs.target?.required !== true || JSON.stringify(inputs.target?.options) !== JSON.stringify(targets) || called.target !== '${{ inputs.target }}') {
-        errors.push(`${file}: compatibility boundary must expose and forward the selected translation target`)
+      if (JSON.stringify(inputs.locale?.options) !== JSON.stringify(['all', 'ja-JP', 'zh-CN']) ||
+        JSON.stringify(inputs.group?.options) !== JSON.stringify(['all', 'guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings'])) {
+        errors.push(`${file}: must expose the canonical locale and group selection contract`)
       }
-      if (inputs.group?.required !== true || JSON.stringify(inputs.group?.options) !== JSON.stringify(groups) || called.group !== '${{ inputs.group }}') {
-        errors.push(`${file}: compatibility boundary must expose and forward the selected translation group`)
+      if (['locale', 'group', 'tooling_sha', 'source_shas_json'].some(input => inputs[input]?.required !== true)) {
+        errors.push(`${file}: must require exact selection and immutable source identities`)
       }
-      if (!/ja-JP\) \[\[ "\$INPUT_GROUP" =~ \^\(guides\|python\|java\|node\|go\|cli\|rest\)\$ \]\] ;;/.test(source) ||
-        !/zh-CN-reference\) \[\[ "\$INPUT_GROUP" =~ \^\(python\|java\|node\|go\|cli\|rest\|reference-landings\)\$ \]\] ;;/.test(source)) {
-        errors.push(`${file}: compatibility boundary must enforce exact target and group pairings`)
-      }
-      if (['tooling_sha', 'source_sha'].some(input => inputs[input]?.required !== true || called[input] !== `\${{ inputs.${input} }}`)) errors.push(`${file}: compatibility boundary must require and forward exact immutable SHAs`)
     }
 
     if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
