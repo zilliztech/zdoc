@@ -337,7 +337,7 @@ async function testSidebarSkipsExplicitlyUnpublishedRefBeforeResolvingTargetMeta
             base_nav_ref: true,
             base_nav_ref_target_token: 'target-token',
             base_targets: [],
-            base_status: 'Not Start Yet',
+            base_status: 'Suspended',
         }, null, 2))
         fs.writeFileSync(path.join(dir, 'target.json'), JSON.stringify({
             title: 'Hugging Face',
