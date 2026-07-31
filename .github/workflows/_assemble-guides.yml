@@ -130,6 +130,8 @@ jobs:
           pnpm docs-tooling publish-group --site "${{ inputs.site }}" --group guides --stage publish
         env:
           DOCS_TOOLING_GUIDES_STAGE: assembled
+          DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: ${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}
+          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.IMAGE_BED_URL || '' }}
       - name: Validate Chinese Guides publication
         if: ${{ inputs.site == 'zh-CN' }}
         run: |

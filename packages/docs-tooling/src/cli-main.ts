@@ -223,6 +223,19 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 }
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
+  if (argv[0] === 'validate-publication-provider') {
+    const options = parseOptions(argv.slice(1));
+    const site = requiredOption(options, 'site');
+    if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported documentation site: ${site}`);
+    if (site === 'en') {
+      process.stdout.write('English publication does not require a locale-specific validator.\n');
+      return true;
+    }
+    const validator = await loadAliyunOssValidator(repositoryRoot, process.env);
+    if (!validator) throw new Error('zh-CN publication validation requires explicit Aliyun OSS validator injection');
+    process.stdout.write('Chinese publication validator is ready.\n');
+    return true;
+  }
   if (argv[0] === 'guides-source-config') {
     const options = parseOptions(argv.slice(1));
     const site = requiredOption(options, 'site');

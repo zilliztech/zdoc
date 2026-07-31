@@ -55,6 +55,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Resolve site-owned Guides source
         run: pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"
+      - name: Preflight Chinese publication validator
+        if: ${{ inputs.site == 'zh-CN' }}
+        run: pnpm docs-tooling validate-publication-provider --site zh-CN
+        env:
+          DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: packages/docs-tooling/providers/aliyun-oss-validator.mjs
+          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
       - name: Preflight Guides Base before source fetch
         run: node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs --manual guides --guidesBasePreflight --buildEnv uat
         env:

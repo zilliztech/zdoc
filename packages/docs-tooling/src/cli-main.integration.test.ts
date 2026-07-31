@@ -106,6 +106,36 @@ function run(repositoryRoot: string, provider?: string) {
 }
 
 describe('docs-tooling executable composition root', () => {
+  it('preflights the Chinese publication validator while leaving English provider-free', () => {
+    const repositoryRoot = temporaryRoot();
+    mkdirSync(path.join(repositoryRoot, 'providers'), {recursive: true});
+    writeFileSync(path.join(repositoryRoot, 'providers/validator.mjs'), [
+      'export function createAliyunOssValidator() {',
+      "  if (!process.env.IMAGE_BED_URL) throw new Error('IMAGE_BED_URL is required');",
+      '  return {validatePublication: async () => {}};',
+      '}',
+      '',
+    ].join('\n'));
+
+    const chinese = spawnSync(process.execPath, [
+      '--experimental-strip-types', cliMain, 'validate-publication-provider', '--site', 'zh-CN',
+    ], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: 'providers/validator.mjs',
+        IMAGE_BED_URL: 'https://docs-images.oss-cn-hangzhou.aliyuncs.com',
+      },
+    });
+    expect(chinese.status, chinese.stderr || chinese.stdout).toBe(0);
+    expect(chinese.stdout).toMatch(/Chinese publication validator is ready/i);
+
+    const english = runCli(repositoryRoot, ['validate-publication-provider', '--site', 'en']);
+    expect(english.status, english.stderr || english.stdout).toBe(0);
+    expect(english.stdout).toMatch(/does not require/i);
+  });
+
   it('uses only the declared Node 22.6 runtime surface for revision inventory loading', () => {
     const source = readFileSync(cliMain, 'utf8');
     expect(source).not.toMatch(/stripTypeScriptTypes/u);

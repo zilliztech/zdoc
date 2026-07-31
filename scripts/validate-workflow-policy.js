@@ -490,6 +490,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const createIndex = stepIndex('Create Guides v5 generation payload')
       const saveIndex = stepIndex('Save Guides v5 generation')
       const reportIndex = stepIndex('Record Guides cache generation persistence')
+      const publicationStep = steps.find(step => step.name === 'Publish assembled Guides through docs-tooling')
+      if (publicationStep?.env?.DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER !== "${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}" ||
+          publicationStep?.env?.IMAGE_BED_URL !== "${{ inputs.site == 'zh-CN' && vars.IMAGE_BED_URL || '' }}") {
+        errors.push(`${file}: Chinese Guides publication must inject the repository-local Aliyun OSS validator without changing English validation`)
+      }
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
         errors.push(`${file}: Guides v5 generation must follow combined validation and promoted snapshot selection before save and reporting`)
       }
