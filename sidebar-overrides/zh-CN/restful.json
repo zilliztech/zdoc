@@ -1,1 +1,31 @@
-[]
+{
+  "overrideCategories": {
+    "Import Operations (V2)":    { "label": "Import (V2)",     "customProps": { "icon": "import-ref"      } },
+    "Volume Operations (V2)":    { "label": "Volume (V2)",     "customProps": { "icon": "storage-ref"     } },
+    "Project Operations (V2)":   { "label": "Project (V2)",    "customProps": { "icon": "rest-project"    } },
+    "Cluster Operations (V2)":   { "label": "Cluster (V2)",    "customProps": { "icon": "rest-cluster"    } },
+    "Vector Operations (V2)":    { "label": "Vector (V2)",     "customProps": { "icon": "vector-ref"      } },
+    "Collection Operations (V2)":{ "label": "Collection (V2)", "customProps": { "icon": "collections-ref" } },
+    "Database Operations (V2)":  { "label": "Database (V2)",   "customProps": { "icon": "db-ref"          } },
+    "Index Operations (V2)":     { "label": "Index (V2)",      "customProps": { "icon": "rest-index"      } },
+    "Partition Operations (V2)": { "label": "Partition (V2)",  "customProps": { "icon": "partition"       } },
+    "Role Operations (V2)":      { "label": "Role (V2)",       "customProps": { "icon": "rest-role"       } },
+    "Alias Operations (V2)":     { "label": "Alias (V2)",      "customProps": { "icon": "rest-alias"      } },
+    "User Operations (V2)":      { "label": "User (V2)",       "customProps": { "icon": "rest-user"       } },
+    "Cloud Meta (V2)":           { "customProps": { "icon": "rest-cloud-meta" } },
+    "Extract, Load & Transform (V2)": { "label": "ETL (V2)", "customProps": { "icon": "rest-elt"  } },
+    "Cloud Migration (V2)":      { "customProps": { "icon": "rest-migrate"   } },
+    "Backup & Restore (V2)":     { "customProps": { "icon": "rest-backup"    } },
+    "Metrics & Alerts (V2)":     { "customProps": { "icon": "rest-metrics"   } },
+    "Cloud Job (V2)":            { "customProps": { "icon": "rest-job"       } },
+    "Invoices (V2)":             { "customProps": { "icon": "rest-invoices"  } },
+    "Usage (V2)":                { "customProps": { "icon": "rest-usage"     } }
+  },
+  "moveCategory": [
+    { "label": "Control Plane (V2)", "prepend": true },
+    { "label": "Data Plane (V2)",    "afterCategory": "Control Plane (V2)" }
+  ],
+  "hideCategories": ["V2", "V1"],
+  "flattenCategories": ["Control Plane (V2)", "Data Plane (V2)"],
+  "sectionGroupers": []
+}
