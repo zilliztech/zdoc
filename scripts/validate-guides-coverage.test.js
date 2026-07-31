@@ -18,7 +18,7 @@ test('fails when generated docs are missing from the sidebar', () => {
   )
 })
 
-test('accepts category links and excludes only explicit release sidebar docs', () => {
+test('accepts category links and does not require explicit release sidebar docs in the main sidebar', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-')), docs = path.join(root, 'docs')
   write(docs, 'guide/guide.md')
   write(docs, 'releases/note.md', '---\ndisplayed_sidebar: releasesSidebar\n---\n# Release')
@@ -27,8 +27,21 @@ test('accepts category links and excludes only explicit release sidebar docs', (
     idPrefix: 'tutorials',
     sidebar: [{ type: 'category', label: 'Guide', link: { type: 'doc', id: 'tutorials/guide/guide' }, items: [] }],
   })
+  assert.equal(result.generatedDocs, 2)
+  assert.equal(result.sidebarDocs, 1)
+})
+
+test('counts release sidebar docs as generated when the main sidebar references them', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-')), docs = path.join(root, 'docs')
+  write(docs, 'releases/note.md', '---\ndisplayed_sidebar: releasesSidebar\n---\n# Release')
+  const result = validateGuidesCoverage({
+    outputDir: docs,
+    idPrefix: 'tutorials',
+    sidebar: [{ type: 'doc', id: 'tutorials/releases/note' }],
+  })
   assert.equal(result.generatedDocs, 1)
   assert.equal(result.sidebarDocs, 1)
+  assert.deepEqual(result.missingGeneratedFiles, [])
 })
 
 test('fails when the sidebar references a missing generated document', () => {
@@ -79,6 +92,24 @@ test('Chinese site coverage ignores the preserved Cloud Guides home page', () =>
     'byoc.sidebar.js': [{ type: 'doc', id: 'tutorials/guide' }],
   }
   assert.equal(validateGuidesSite({ site: 'zh-CN', configs, loadSidebar: name => sidebars[name] }).length, 2)
+})
+
+test('English site coverage ignores the preserved Cloud Guides home page', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-en-home-'))
+  const cloud = path.join(root, 'cloud')
+  const byoc = path.join(root, 'byoc')
+  write(cloud, 'home.md')
+  write(cloud, 'guide.md')
+  write(byoc, 'guide.md')
+  const configs = [
+    { outputDir: cloud, idPrefix: 'tutorials', sidebarPath: 'cloud.sidebar.js', kind: 'cloud' },
+    { outputDir: byoc, idPrefix: 'tutorials', sidebarPath: 'byoc.sidebar.js', kind: 'byoc' },
+  ]
+  const sidebars = {
+    'cloud.sidebar.js': [{ type: 'doc', id: 'tutorials/guide' }],
+    'byoc.sidebar.js': [{ type: 'doc', id: 'tutorials/guide' }],
+  }
+  assert.equal(validateGuidesSite({ site: 'en', configs, loadSidebar: name => sidebars[name] }).length, 2)
 })
 
 test('Chinese coverage requires Cloud, BYOC, and reachable Tools content', () => {

@@ -24,8 +24,9 @@ function standaloneSidebar(contents) {
   return sidebar === 'releasesSidebar'
 }
 
-function collectGeneratedDocIds(outputDir, idPrefix) {
+function collectGeneratedDocInventory(outputDir, idPrefix) {
   const ids = new Set()
+  const standaloneIds = new Set()
   function visit(relative = '') {
     const directory = path.join(outputDir, relative)
     if (!fs.existsSync(directory)) return
@@ -34,20 +35,25 @@ function collectGeneratedDocIds(outputDir, idPrefix) {
       if (entry.isDirectory()) visit(child)
       else if (entry.isFile() && /\.mdx?$/.test(entry.name)) {
         const contents = fs.readFileSync(path.join(outputDir, child), 'utf8')
-        if (standaloneSidebar(contents)) continue
-        ids.add(path.posix.join(idPrefix, child.replace(/\.mdx?$/, '')))
+        const id = path.posix.join(idPrefix, child.replace(/\.mdx?$/, ''))
+        ids.add(id)
+        if (standaloneSidebar(contents)) standaloneIds.add(id)
       }
     }
   }
   visit()
-  return ids
+  return { ids, standaloneIds }
+}
+
+function collectGeneratedDocIds(outputDir, idPrefix) {
+  return collectGeneratedDocInventory(outputDir, idPrefix).ids
 }
 
 function validateGuidesCoverage({ outputDir, idPrefix = 'tutorials', sidebar, ignoredGeneratedIds = [] }) {
-  const generated = collectGeneratedDocIds(outputDir, idPrefix)
+  const { ids: generated, standaloneIds } = collectGeneratedDocInventory(outputDir, idPrefix)
   const sidebarIds = collectSidebarIds(sidebar)
   const ignored = new Set(ignoredGeneratedIds)
-  const missingFromSidebar = [...generated].filter(id => !ignored.has(id) && !sidebarIds.has(id)).sort()
+  const missingFromSidebar = [...generated].filter(id => !ignored.has(id) && !standaloneIds.has(id) && !sidebarIds.has(id)).sort()
   const missingGeneratedFiles = [...sidebarIds].filter(id => id.startsWith(`${idPrefix}/`) && !generated.has(id)).sort()
   if (missingFromSidebar.length || missingGeneratedFiles.length) {
     throw new Error([
@@ -73,7 +79,7 @@ function validateGuidesSite({ site, configs = coverageConfigs(site), loadSidebar
   const results = []
   for (const config of configs) {
     const sidebar = loadSidebar(config.sidebarPath)
-    const ignoredGeneratedIds = site === 'zh-CN' && config.kind === 'cloud' ? ['tutorials/home'] : []
+    const ignoredGeneratedIds = config.kind === 'cloud' ? ['tutorials/home'] : []
     const result = validateGuidesCoverage({ ...config, sidebar, ignoredGeneratedIds })
     if (site === 'zh-CN' && config.kind === 'cloud') {
       const generated = collectGeneratedDocIds(config.outputDir, config.idPrefix)
