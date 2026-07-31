@@ -539,97 +539,35 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === 'fetch-docs.yml') {
-      const requiredPatterns = [
-        [/^          GUIDES_TRANSLATION_CANDIDATES: \$\{\{ needs\.prepare_guides_translation_batches\.outputs\.candidate_counts \}\}$/m, 'must pass Guides candidate counts to aggregation'],
-        [/^          REVISION_RECONCILIATION: \$\{\{ needs\.verify\.outputs\.revision_status \}\}$/m, 'aggregate must consume revision reconciliation separately from overall verification'],
+      const forbidden = [
+        '_translate-content-group.yml', '_prepare-translation-batches.yml',
+        '_publish-translation-batches.yml', 'translate-content.yml',
+        'TRANSLATION_AGENT_API_KEY', 'REVIEW_AGENT_API_KEY',
+      ]
+      for (const value of forbidden) if (source.includes(value)) errors.push(`${file}: source workflow must not embed translation implementation: ${value}`)
+      const dispatches = source.match(/gh workflow run translate-codex\.yml/g) || []
+      if (dispatches.length !== 1) errors.push(`${file}: source workflow must dispatch translate-codex.yml exactly once`)
+      const handoff = workflow.jobs?.prepare_translation_handoff
+      const handoffNeeds = Array.isArray(handoff?.needs) ? handoff.needs : []
+      if (!handoffNeeds.includes('source_publication_barrier') ||
+          !/translation-handoff\.js[\s\S]*--locale all[\s\S]*--source-shas-json "\$source_shas_json"/.test(source) ||
+          !/WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/.test(source)) {
+        errors.push(`${file}: translation handoff must validate exact published source SHAs and trusted workflow ref`)
+      }
+      const dispatch = workflow.jobs?.dispatch_translations
+      const dispatchNeeds = Array.isArray(dispatch?.needs) ? dispatch.needs : []
+      if (dispatchNeeds.join(',') !== 'prepare,prepare_translation_handoff' ||
+          !String(dispatch?.if || '').includes("needs.prepare_translation_handoff.result == 'success'") ||
+          !/request_id="\$REQUEST_ID"[\s\S]*displayTitle[\s\S]*expected_title[\s\S]*run_url/.test(source) ||
+          !/run_url[\s\S]*https:\/\/github\\\.com\/[\s\S]*actions\/runs\//.test(source) || !source.includes('[1-9][0-9]*')) {
+        errors.push(`${file}: downstream dispatch must wait for a validated handoff and authenticate its run URL`)
+      }
+      const requiredSourcePatterns = [
         [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],
         [/produce_guides:[\s\S]*render_guides_tables\.result == 'skipped'/, 'must assemble an empty Guides render matrix'],
         [/produce_guides:[\s\S]*cache_version: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_version \}\}[\s\S]*cache_save_required: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_save_required \}\}/, 'must pass Guides cache version and save requirement into assembly'],
-        [/publish_guides_translation_batches:[\s\S]*needs: \[[^\]]*publish_guides[^\]]*\][\s\S]*source_commit_sha: \$\{\{ needs\.publish_guides\.outputs\.commit_sha \|\| needs\.prepare\.outputs\.dev_baseline_sha \}\}[\s\S]*expected_target_sha: \$\{\{ needs\.publish_guides\.outputs\.commit_sha \}\}/, 'must pass authenticated final Guides source and target identities'],
       ]
-      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
-      const finalizeStep = workflow.jobs?.finalize_guides_translation?.steps?.find(step => step.id === 'result')
-      if (finalizeStep?.env?.BATCH_COUNT !== "${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}" ||
-          finalizeStep?.env?.BATCH_RESULT !== '${{ needs.translate_guides_batches.result }}' ||
-          finalizeStep?.env?.PUBLISHER_RESULT !== '${{ needs.publish_guides_translation_batches.result }}' ||
-          finalizeStep?.env?.PUBLISHER_STATUS !== '${{ needs.publish_guides_translation_batches.outputs.status }}' ||
-          finalizeStep?.env?.PUBLISHER_COMMIT_SHA !== '${{ needs.publish_guides_translation_batches.outputs.commit_sha }}' ||
-          Object.hasOwn(finalizeStep?.env || {}, 'TARGET_BRANCH')) {
-        errors.push(`${file}: Guides translation finalizer must use only exact publisher status and commit outputs`)
-      }
-      const barrierName = 'guides_translation_publication_barrier'
-      const barrier = workflow.jobs?.[barrierName]
-      const barrierNeeds = Array.isArray(barrier?.needs) ? barrier.needs : barrier?.needs ? [barrier.needs] : []
-      const barrierStep = barrier?.steps?.find(step => step.name === 'Accept completed Guides translation publication')
-      const expectedBarrierNeeds = [
-        'produce_guides_sources', 'render_guides_tables', 'produce_guides', 'publish_guides',
-        'prepare_guides_translation_batches', 'translate_guides_batches',
-        'publish_guides_translation_batches', 'finalize_guides_translation',
-      ]
-      const prerequisiteResultInputs = {
-        PRODUCE_GUIDES_SOURCES_RESULT: '${{ needs.produce_guides_sources.result }}',
-        RENDER_GUIDES_TABLES_RESULT: '${{ needs.render_guides_tables.result }}',
-        PRODUCE_GUIDES_RESULT: '${{ needs.produce_guides.result }}',
-        PUBLISH_GUIDES_RESULT: '${{ needs.publish_guides.result }}',
-        PREPARE_GUIDES_TRANSLATION_BATCHES_RESULT: '${{ needs.prepare_guides_translation_batches.result }}',
-        TRANSLATE_GUIDES_BATCHES_RESULT: '${{ needs.translate_guides_batches.result }}',
-        PUBLISH_GUIDES_TRANSLATION_BATCHES_RESULT: '${{ needs.publish_guides_translation_batches.result }}',
-        FINALIZER_RESULT: '${{ needs.finalize_guides_translation.result }}',
-      }
-      if (barrierNeeds.join(',') !== expectedBarrierNeeds.join(',') ||
-          Object.entries(prerequisiteResultInputs).some(([name, value]) => barrierStep?.env?.[name] !== value) ||
-          !/result === 'failure' \|\| result === 'cancelled'/.test(barrierStep?.run || '')) {
-        errors.push(`${file}: Guides translation publication barrier must validate authoritative prerequisite results`)
-      }
-      if (barrier?.if !== "${{ always() && needs.prepare.outputs.run_translations == 'true' }}" ||
-          barrierStep?.env?.FINALIZER_RESULT !== '${{ needs.finalize_guides_translation.result }}' ||
-          barrierStep?.env?.TRANSLATOR_STATUS !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
-          barrierStep?.env?.PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
-          !/translation_ready:published[\s\S]*translation_ready:no_changes[\s\S]*no_changes:no_changes[\s\S]*skipped:skipped/.test(barrierStep?.run || '')) {
-        errors.push(`${file}: Guides translation publication barrier must validate acceptable finalized publication states`)
-      }
-      const chinesePublishers = [
-        'translate_python_zh_reference', 'translate_java_zh_reference', 'translate_node_zh_reference',
-        'translate_go_zh_reference', 'translate_cli_zh_reference', 'translate_rest_zh_reference',
-      ]
-      if (chinesePublishers.some(jobName => {
-        const job = workflow.jobs?.[jobName]
-        const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
-        return !needs.includes(barrierName) || !String(job?.if || '').includes(`needs.${barrierName}.result == 'success'`)
-      })) {
-        errors.push(`${file}: every Chinese publisher must wait for the Guides translation publication barrier`)
-      }
-      const chineseReferenceOrder = ['python', 'java', 'node', 'go', 'cli', 'rest']
-      if (chineseReferenceOrder.slice(1).some((group, index) => {
-        const predecessor = chineseReferenceOrder[index]
-        const job = workflow.jobs?.[`translate_${group}_zh_reference`]
-        const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
-        return !needs.includes(`translate_${predecessor}_zh_reference`) ||
-          !String(job?.if || '').includes(`needs.translate_${predecessor}_zh_reference.result == 'success'`)
-      })) {
-        errors.push(`${file}: Chinese Reference publishers must form the source-ordered publication queue`)
-      }
-      const aggregateStep = workflow.jobs?.aggregate?.steps?.find(step => step.id === 'aggregate')
-      if (aggregateStep?.env?.GUIDES_TRANSLATOR !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
-          aggregateStep?.env?.GUIDES_TRANSLATION !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
-          aggregateStep?.env?.GUIDES_TRANSLATION_SHA !== '${{ needs.finalize_guides_translation.outputs.commit_sha }}') {
-        errors.push(`${file}: aggregate must consume the exact finalized Guides translation result without fallback`)
-      }
-      const aggregateSteps = workflow.jobs?.aggregate?.steps || []
-      const publicationDownload = aggregateSteps.find(step => step.name === 'Download Guides translation publication report')
-      const cardNotes = aggregateSteps.find(step => step.id === 'reports')
-      if (!publicationDownload || aggregateSteps.indexOf(publicationDownload) >= aggregateSteps.indexOf(cardNotes) || publicationDownload['continue-on-error'] !== true ||
-          publicationDownload.with?.name !== 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}' ||
-          publicationDownload.with?.path !== '${{ runner.temp }}/guides-translation-publication-evidence' || !/always\(\)/.test(publicationDownload.if || '') ||
-          cardNotes?.env?.CARD_GUIDES_PUBLICATION_REPORT !== '${{ runner.temp }}/guides-translation-publication-evidence/publication-report.json' ||
-          cardNotes?.env?.CARD_GUIDES_RUN_ID !== '${{ github.run_id }}' || cardNotes?.env?.CARD_GUIDES_RUN_ATTEMPT !== '${{ github.run_attempt }}' ||
-          cardNotes?.env?.CARD_GUIDES_SOURCE_SHA !== '${{ needs.publish_guides.outputs.commit_sha }}' || cardNotes?.env?.CARD_GUIDES_TARGET_SHA !== '${{ needs.publish_guides.outputs.commit_sha }}' ||
-          cardNotes?.env?.CARD_GUIDES_PENDING_SET_SHA256 !== '${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}' ||
-          cardNotes?.env?.CARD_GUIDES_FINAL_PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
-          cardNotes?.env?.CARD_GUIDES_FINAL_COMMIT_SHA !== '${{ needs.finalize_guides_translation.outputs.commit_sha }}' ||
-          /resolve_final|\|\|/.test(JSON.stringify({ path: cardNotes?.env?.CARD_GUIDES_PUBLICATION_REPORT, source: cardNotes?.env?.CARD_GUIDES_SOURCE_SHA, target: cardNotes?.env?.CARD_GUIDES_TARGET_SHA }))) {
-        errors.push(`${file}: aggregate must collect exact run-attempt Guides publication evidence before card notes`)
-      }
+      for (const [pattern, message] of requiredSourcePatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
     }
 
     if (file === '_publish-content-group.yml') {
@@ -843,7 +781,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
-        readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
+        readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
     }
     const sourceGroups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
@@ -868,17 +806,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         zhPublish?.with?.group !== 'guides' || !/build:zh-CN/.test(zhPublish?.with?.validate_command || '')) {
       errors.push('fetch-docs.yml: Chinese Guides must use a complete site-qualified lane and serialize after English publication')
     }
-    const paidTranslationJobs = [
-      'translate_guides_batches',
-      ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}`),
-      ...sourceGroups.filter(group => group !== 'guides').map(group => `translate_${group}_zh_reference`),
-    ]
-    for (const jobName of paidTranslationJobs) {
-      const job = caller?.jobs?.[jobName]
-      const needs = Array.isArray(job?.needs) ? job.needs : job?.needs ? [job.needs] : []
-      if (!needs.includes('source_publication_barrier') || !String(job?.if || '').includes("needs.source_publication_barrier.result == 'success'")) {
-        errors.push(`fetch-docs.yml: ${jobName} must wait for successful source publication barrier`)
-      }
+    const handoffJob = caller?.jobs?.prepare_translation_handoff
+    const dispatchJob = caller?.jobs?.dispatch_translations
+    const handoffNeeds = Array.isArray(handoffJob?.needs) ? handoffJob.needs : []
+    const dispatchNeeds = Array.isArray(dispatchJob?.needs) ? dispatchJob.needs : []
+    if (!handoffNeeds.includes('source_publication_barrier') ||
+        dispatchNeeds.join(',') !== 'prepare,prepare_translation_handoff' ||
+        !String(dispatchJob?.if || '').includes("needs.prepare_translation_handoff.result == 'success'")) {
+      errors.push('fetch-docs.yml: downstream translation dispatch must wait for successful source publication handoff')
     }
     const monitorNeeds = Array.isArray(monitor?.needs) ? monitor.needs : monitor?.needs ? [monitor.needs] : []
     if (monitorNeeds.length !== 1 || monitorNeeds[0] !== 'prepare') errors.push('fetch-docs.yml: central monitor must start after prepare only')
@@ -893,11 +828,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!/name: docs-card-report-\$\{\{ github\.run_id \}\}/.test(aggregateSource) || !/name: Upload final card report artifact[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*continue-on-error: true/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: aggregate must always attempt the final card report artifact')
     }
-    const restoreReports = aggregateSource.indexOf('name: Restore committed report directories')
     const downloadGuidesReports = aggregateSource.indexOf('name: Download current Guides reports')
     const collectReports = aggregateSource.indexOf('name: Collect card report summaries')
     if (downloadGuidesReports < 0) errors.push('fetch-docs.yml: aggregate must download current Guides reports')
-    if (!(restoreReports >= 0 && downloadGuidesReports > restoreReports && collectReports > downloadGuidesReports)) {
+    if (!(downloadGuidesReports >= 0 && collectReports > downloadGuidesReports)) {
       errors.push('fetch-docs.yml: current Guides reports must be downloaded before card collection')
     }
     if (!/name: Download current Guides reports[\s\S]*path: packages\/docs-tooling\/src\/lark\/meta\/reports/.test(aggregateSource)) {
@@ -910,7 +844,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push('fetch-docs.yml: must pass the canonical Guides assembly decision hash into assembly')
     }
     const createReport = aggregateSource.indexOf('name: Create final card report artifact')
-    const reportIngestion = aggregateSource.slice(Math.max(0, restoreReports), createReport >= 0 ? createReport : aggregateSource.length)
+    const reportIngestion = aggregateSource.slice(Math.max(0, downloadGuidesReports), createReport >= 0 ? createReport : aggregateSource.length)
     if (/APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY/.test(reportIngestion)) {
       errors.push('fetch-docs.yml: aggregate report ingestion must not receive Feishu credentials')
     }
@@ -952,6 +886,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const tableMatrix = stepById.get('table_matrix')
     if (!/guides-tables\.js matrix[\s\S]*--site "\$\{\{ inputs\.site \}\}"/.test(tableMatrix?.run || '')) {
       errors.push('_fetch-guides-sources.yml: Guides table matrix generation must pass the required site')
+    }
+    const sourceFetchIndex = guidesSteps.findIndex(step => step.name === 'Fetch shared guides sources')
+    const renderReadinessIndex = guidesSteps.findIndex(step => step.name === 'Validate Guides render readiness')
+    const tableMatrixIndex = guidesSteps.findIndex(step => step.id === 'table_matrix')
+    if (!(renderReadinessIndex > sourceFetchIndex && renderReadinessIndex < tableMatrixIndex) ||
+        !/guides-render-readiness\.js[\s\S]*--site "\$\{\{ inputs\.site \}\}"/.test(guidesSteps[renderReadinessIndex]?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: Guides render readiness must be validated before table matrix fan-out')
     }
     const requiredCacheSteps = [
       'Compute Guides cache generation keys',

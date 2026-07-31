@@ -1,9 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
-const fs = require('node:fs')
 const test = require('node:test')
-const yaml = require('js-yaml')
 const { buildAggregateInput, parseCandidateCounts } = require('./build-aggregate-input')
 
 const GUIDES_TRANSLATION_CANDIDATES = JSON.stringify({ total: 163, current_delta: 15, missing_target: 18, stale_source: 130 })
@@ -46,6 +44,21 @@ test('maps revision reconciliation exactly by workflow mode', () => {
   assert.equal(buildAggregateInput({ ...base, MODE: 'artifact_only', REVISION_RECONCILIATION: 'passed' }).revisionReconciliation, 'skipped')
 })
 
+test('records a validated downstream translation handoff without treating translation as completed inline', () => {
+  const result = buildAggregateInput({
+    MODE: 'publish', SELECTED_GROUP: 'java', RUN_TRANSLATIONS: 'false',
+    JAVA_PRODUCER: 'artifact_ready', JAVA_SOURCE: 'published', JAVA_SOURCE_SHA: 'a'.repeat(40),
+    TRANSLATION_HANDOFF_REQUESTED: 'true', TRANSLATION_HANDOFF_RESULT: 'success',
+    TRANSLATION_HANDOFF_RUN_ID: '30599999999',
+    TRANSLATION_HANDOFF_RUN_URL: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
+  })
+  assert.deepEqual(result.translationHandoff, {
+    requested: true, dispatched: true, runId: '30599999999',
+    runUrl: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
+  })
+  assert.equal(result.groups.java.translationRequested, false)
+  assert.equal(result.groups.java.translation, 'skipped')
+})
 test('includes optional Guides translation candidate counts when supplied', () => {
   const result = buildAggregateInput({
     MODE: 'publish', SELECTED_GROUP: 'guides', FINAL_VERIFICATION: 'passed',
@@ -55,25 +68,6 @@ test('includes optional Guides translation candidate counts when supplied', () =
   assert.deepEqual(result.groups.guides.translationCandidates, {
     total: 163, current_delta: 15, missing_target: 18, stale_source: 130,
   })
-})
-
-test('workflow passes the exact publisher result through finalization and aggregation without branch fallback', () => {
-  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
-  const finalize = workflow.jobs.finalize_guides_translation.steps.find(step => step.id === 'result')
-  assert.equal(finalize.env.BATCH_COUNT, "${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}")
-  assert.equal(finalize.env.BATCH_RESULT, '${{ needs.translate_guides_batches.result }}')
-  assert.equal(finalize.env.PUBLISHER_RESULT, '${{ needs.publish_guides_translation_batches.result }}')
-  assert.equal(finalize.env.PUBLISHER_STATUS, '${{ needs.publish_guides_translation_batches.outputs.status }}')
-  assert.equal(finalize.env.PUBLISHER_COMMIT_SHA, '${{ needs.publish_guides_translation_batches.outputs.commit_sha }}')
-  assert.equal(finalize.env.TARGET_BRANCH, undefined)
-
-  const aggregate = workflow.jobs.aggregate.steps.find(step => step.id === 'aggregate')
-  assert.equal(aggregate.env.REVISION_RECONCILIATION, '${{ needs.verify.outputs.revision_status }}')
-  assert.notEqual(aggregate.env.REVISION_RECONCILIATION, aggregate.env.FINAL_VERIFICATION)
-  assert.equal(aggregate.env.GUIDES_TRANSLATOR, '${{ needs.finalize_guides_translation.outputs.translator_status }}')
-  assert.equal(aggregate.env.GUIDES_TRANSLATION, '${{ needs.finalize_guides_translation.outputs.publisher_status }}')
-  assert.equal(aggregate.env.GUIDES_TRANSLATION_SHA, '${{ needs.finalize_guides_translation.outputs.commit_sha }}')
-  assert.doesNotMatch(aggregate.env.GUIDES_TRANSLATION_SHA, /\|\|/)
 })
 
 test('aggregate input preserves the finalized Guides translation SHA exactly', () => {

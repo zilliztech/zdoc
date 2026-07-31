@@ -7,7 +7,7 @@ const { semanticGuidesSnapshotHash } = require('./guides-cache-save-decision')
 
 const CACHE_VERSIONS = new Set(['v4', 'v3', 'v2', 'v1', 'none'])
 const OUTCOMES = new Set(['success', 'failure', 'skipped', 'cancelled'])
-const SAVE_KEY = /^guides-source-v4-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/
+const SAVE_KEY = /^guides-source-(?:(?:en|zh-CN)-)?v4-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/
 
 function booleanValue(value, label) {
   if (value === true || value === 'true') return true

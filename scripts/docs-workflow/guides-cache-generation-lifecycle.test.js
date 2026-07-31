@@ -108,6 +108,10 @@ test('a no-save selection rejects non-v4 or semantically changed candidates', ()
 test('generation persistence reports saved, skipped-valid-v4, and save-failed exactly', () => {
   const generatedAt = '2026-07-17T12:00:00.000Z'
   const saveKey = `guides-source-v4-${'a'.repeat(64)}-100-1`
+  const siteQualifiedSaveKeys = [
+    `guides-source-en-v4-${'a'.repeat(64)}-100-1`,
+    `guides-source-zh-CN-v4-${'a'.repeat(64)}-100-1`,
+  ]
   assert.deepEqual(generationPersistenceReport({
     generatedAt, sourceCacheVersion: 'v4', saveRequired: false,
     preparationOutcome: 'skipped', saveOutcome: 'skipped', saveKey: null,
@@ -123,6 +127,12 @@ test('generation persistence reports saved, skipped-valid-v4, and save-failed ex
     generatedAt, sourceCacheVersion: 'none', saveRequired: true,
     preparationOutcome: 'success', saveOutcome: 'failure', saveKey,
   }).persistence, 'save-failed')
+  for (const qualifiedSaveKey of siteQualifiedSaveKeys) {
+    assert.equal(generationPersistenceReport({
+      generatedAt, sourceCacheVersion: 'v4', saveRequired: true,
+      preparationOutcome: 'success', saveOutcome: 'success', saveKey: qualifiedSaveKey,
+    }).saveKey, qualifiedSaveKey)
+  }
   assert.throws(() => generationPersistenceReport({
     generatedAt, sourceCacheVersion: 'v3', saveRequired: true,
     preparationOutcome: 'failure', saveOutcome: 'skipped', saveKey: null,

@@ -1,4 +1,5 @@
 name: translate docs with Codex agents
+run-name: ${{ inputs.request_id != '' && format('translate docs ({0})', inputs.request_id) || 'translate docs' }}
 
 on:
   workflow_dispatch:
@@ -11,6 +12,7 @@ on:
       mode: { description: Translation mode, required: false, type: choice, options: [auto, full, incremental], default: auto }
       publish: { description: Publish validated translations, required: false, type: boolean, default: false }
       recovery_run_ids_json: { description: Recovery run IDs by target/group, required: false, type: string, default: '{}' }
+      request_id: { description: Parent workflow correlation ID, required: false, type: string, default: '' }
   workflow_call:
     inputs:
       locale: { required: true, type: string }
@@ -21,6 +23,7 @@ on:
       mode: { required: false, type: string, default: auto }
       publish: { required: false, type: boolean, default: false }
       recovery_run_ids_json: { required: false, type: string, default: '{}' }
+      request_id: { required: false, type: string, default: '' }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -56,8 +59,10 @@ jobs:
           RECOVERY_RUN_IDS_JSON: ${{ inputs.recovery_run_ids_json }}
           TARGET_BRANCH: ${{ inputs.target_branch }}
           TOOLING_SHA: ${{ inputs.tooling_sha }}
+          REQUEST_ID: ${{ inputs.request_id }}
         run: |
           set -euo pipefail
+          [[ -z "$REQUEST_ID" || "$REQUEST_ID" =~ ^[1-9][0-9]*-[1-9][0-9]*$ ]]
           node scripts/docs-workflow/translation-handoff.js \
             --locale "$INPUT_LOCALE" \
             --group "$INPUT_GROUP" \

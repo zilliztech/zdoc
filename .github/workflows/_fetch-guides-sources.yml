@@ -375,6 +375,12 @@ jobs:
             --baseline "$baseline")
           printf 'source_valid=true\nmedia_valid=true\ncache_version=%s\ncache_save_required=%s\n' \
             "$cache_version" "$cache_save_required" >> "$GITHUB_OUTPUT"
+      - name: Validate Guides render readiness
+        run: |
+          node scripts/docs-workflow/guides-render-readiness.js \
+            --workspace "$GITHUB_WORKSPACE" \
+            --site "${{ inputs.site }}" \
+            --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
       - id: table_matrix
         name: Build Guides table render matrix
         run: |
