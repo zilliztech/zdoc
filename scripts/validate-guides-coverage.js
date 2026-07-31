@@ -73,7 +73,8 @@ function validateGuidesSite({ site, configs = coverageConfigs(site), loadSidebar
   const results = []
   for (const config of configs) {
     const sidebar = loadSidebar(config.sidebarPath)
-    const result = validateGuidesCoverage({ ...config, sidebar })
+    const ignoredGeneratedIds = site === 'zh-CN' && config.kind === 'cloud' ? ['tutorials/home'] : []
+    const result = validateGuidesCoverage({ ...config, sidebar, ignoredGeneratedIds })
     if (site === 'zh-CN' && config.kind === 'cloud') {
       const generated = collectGeneratedDocIds(config.outputDir, config.idPrefix)
       const sidebarIds = collectSidebarIds(sidebar)

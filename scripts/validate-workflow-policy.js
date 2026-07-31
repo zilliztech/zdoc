@@ -484,7 +484,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const decisionIndex = stepIndex('Validate Guides assembly decision')
       const generateIndex = stepIndex('Generate combined Guides sidebars offline')
       const validateIndex = stepIndex('Validate combined guides output')
-      const validateChineseIndex = stepIndex('Validate Chinese Guides publication')
       const finalizeIndex = stepIndex('Finalize Guides assembly identity')
       const selectIndex = stepIndex('Select promoted Guides source snapshot')
       const createIndex = stepIndex('Create Guides v5 generation payload')
@@ -498,23 +497,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
         errors.push(`${file}: Guides v5 generation must follow combined validation and promoted snapshot selection before save and reporting`)
       }
-      if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateChineseIndex && validateChineseIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
-        errors.push(`${file}: observe-only assembly must validate decision, generate, validate both site and Chinese source contracts, then finalize identity`)
+      if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
+        errors.push(`${file}: observe-only assembly must validate decision, generate, validate the selected site, then finalize identity`)
       }
       const decisionStep = steps[decisionIndex]
       if (!/validate-decision[\s\S]*decision-sha[\s\S]*inputs\.assembly_decision_sha256/.test(decisionStep?.run || '')) errors.push(`${file}: assembly must validate the restored decision against the plumbed canonical hash`)
       const generatorStep = steps[generateIndex]
       if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest "$media_manifest_path"') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
       const validationStep = steps[validateIndex]
-      const chineseValidationStep = steps[validateChineseIndex]
-      if (chineseValidationStep?.if !== "${{ inputs.site == 'zh-CN' }}" ||
-          chineseValidationStep?.run !== 'node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json\nnode scripts/validate-guides-coverage.js --site zh-CN\nnode scripts/validate-generated-sidebars.js\n') {
-        errors.push(`${file}: Chinese Guides assembly must fail early on source completeness, media, coverage, and generated navigation`)
+      if (!/validate-guides-source-contract\.js --site "\$ZDOC_SITE" --snapshot[\s\S]*validate-guides-coverage\.js --site "\$ZDOC_SITE"[\s\S]*validate-generated-sidebars\.js --site "\$ZDOC_SITE"/.test(validationStep?.run || '')) {
+        errors.push(`${file}: Guides assembly must fail early on source completeness, media, coverage, and generated navigation for the selected site`)
       }
       const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
       const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
       if (workflow.jobs?.assemble?.env?.ZDOC_BUILD_COMMAND !== expectedBuildMapping ||
-          !/\[\[ -n "\$ZDOC_BUILD_COMMAND" \]\][\s\S]*validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting/.test(validationStep?.run || '') ||
+          !/\[\[ -n "\$ZDOC_BUILD_COMMAND" \]\][\s\S]*validate-generated-sidebars\.js --site "\$ZDOC_SITE"[\s\S]*run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting/.test(validationStep?.run || '') ||
           !/printf -v build_validation[\s\S]*"\$ZDOC_BUILD_COMMAND"[\s\S]*--validation-command "\$build_validation"/.test(checkpointStep?.run || '') ||
           /run-doc-build-stage\.js --build "pnpm run build:en"/.test(source)) {
         errors.push(`${file}: Guides assembly build validation must use the explicit site-owned build mapping`)
@@ -905,18 +902,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       'Validate and promote Guides v5 cache candidate',
       'Restore Guides v4 cache candidate',
       'Validate and promote Guides v4 cache candidate',
-      'Restore Guides v3 cache candidate',
-      'Validate Guides v3 cache candidate',
-      'Restore Guides v2 cache candidate',
-      'Validate Guides v2 cache candidate',
-      'Restore Guides v1 cache candidate',
-      'Validate Guides v1 cache candidate',
     ]
     let lastCacheStep = -1
     for (const name of requiredCacheSteps) {
       const index = guidesSteps.findIndex(step => step.name === name)
       if (index <= lastCacheStep) {
-        errors.push('_fetch-guides-sources.yml: Guides cache candidates must restore and validate in v5, v4, v3, v2, v1 order')
+        errors.push('_fetch-guides-sources.yml: Guides cache candidates must restore and validate in v5 then v4 order')
         break
       }
       lastCacheStep = index
@@ -942,27 +933,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!/\[\[ -e "\$payload" \|\| -L "\$payload" \]\] && candidate_present=true[\s\S]*\[\[ -d "\$payload" && ! -L "\$payload" && -f "\$snapshot" \]\]/.test(v4Validation)) {
       errors.push('_fetch-guides-sources.yml: malformed v4 cache payload must be reported as an invalid candidate')
     }
-    for (const [id, preceding] of [['source_cache_v3', 'source_cache_v4_check'], ['source_cache_v2', 'source_cache_v3_check'], ['source_cache_v1', 'source_cache_v2_check']]) {
-      if (stepById.get(id)?.if !== `\${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.${preceding}.outputs.source_valid != 'true' }}`) {
-        errors.push('_fetch-guides-sources.yml: legacy Guides fallback must depend on preceding source validity')
-        break
-      }
-    }
-    for (const [id, preceding] of [['source_cache_v3_check', 'source_cache_v4_check'], ['source_cache_v2_check', 'source_cache_v3_check'], ['source_cache_v1_check', 'source_cache_v2_check']]) {
-      const validation = stepById.get(id)
-      if (validation?.if !== "${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}" || !new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`).test(validation?.run || '')) {
-        errors.push('_fetch-guides-sources.yml: Guides validation chain must propagate prior source validity to stop fallback')
-        break
-      }
-    }
-    for (const [id, includesMedia] of [['source_cache_v3_check', true], ['source_cache_v2_check', true], ['source_cache_v1_check', false]]) {
-      const run = stepById.get(id)?.run || ''
-      const sourcePresence = /\[\[ -e "\$source_dir" \|\| -L "\$source_dir"[\s\S]*-e "\$manifest" \|\| -L "\$manifest"/.test(run)
-      const mediaPresence = /-e "\$media" \|\| -L "\$media" \]\] && candidate_present=true/.test(run)
-      if (!sourcePresence || (includesMedia && !mediaPresence) || (!includesMedia && !/\|\| -L "\$manifest" \]\] && candidate_present=true/.test(run))) {
-        errors.push('_fetch-guides-sources.yml: malformed legacy cache leaves must be reported as invalid candidates')
-        break
-      }
+    if (/source_cache_v[123]|Guides v[123] cache|--version [123]\b/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides cache compatibility must retain only v5 and temporary v4')
     }
     if (/cache-hit/.test(guidesSource)) errors.push('_fetch-guides-sources.yml: Guides fallback must never trust cache-hit before validation')
     if (/rm -rf[^\n]*packages\/docs-tooling\/src\/lark\/meta\/(?:source-cache|media-cache)\/?(?:\s|$)/.test(guidesSource)) {
@@ -970,9 +942,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     for (const [validationName, nextRestoreName, requiredCleanup] of [
       ['Validate and promote Guides v5 cache candidate', 'Restore Guides v4 cache candidate', /rm -rf "\$staged" "\$payload"[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
-      ['Validate and promote Guides v4 cache candidate', 'Restore Guides v3 cache candidate', /rm -rf "\$staged" tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
-      ['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate', /guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
-      ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate', /guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
+      ['Validate and promote Guides v4 cache candidate', 'Select validated Guides cache candidate', /rm -rf "\$staged" tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
     ]) {
       const block = guidesSource.slice(guidesSource.indexOf(`name: ${validationName}`), guidesSource.indexOf(`name: ${nextRestoreName}`))
       if (!requiredCleanup.test(block)) {
@@ -980,20 +950,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         break
       }
     }
-    for (const [validationName, nextRestoreName] of [['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate'], ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate']]) {
-      const block = guidesSource.slice(guidesSource.indexOf(`name: ${validationName}`), guidesSource.indexOf(`name: ${nextRestoreName}`))
-      if (!/guides-source-cache-source-promotion\.js validate-live-source[\s\S]*guides-source-cache-source-promotion\.js validate-live-media/.test(block)) {
-        errors.push('_fetch-guides-sources.yml: legacy Guides physical validation must precede semantic source and media reads')
-        break
-      }
-      if (!/elif \[\[ "\$media_valid" != true \]\]; then[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope media/.test(block)) {
-        errors.push('_fetch-guides-sources.yml: invalid legacy media must preserve valid Guides sources and select recovery')
-        break
-      }
-    }
-    const v1Validation = guidesSource.slice(guidesSource.indexOf('name: Validate Guides v1 cache candidate'), guidesSource.indexOf('id: source_cache_check'))
-    if (!/guides-source-cache-source-promotion\.js validate-live-source[\s\S]*--schemas 1,2/.test(v1Validation)) {
-      errors.push('_fetch-guides-sources.yml: v1 Guides physical validation must precede semantic source reads')
+    const cacheSelection = stepById.get('source_cache_check')?.run || ''
+    if (!/source_cache_v5_check\.outputs\.source_valid[\s\S]*cache_version=v5[\s\S]*cache_state=valid[\s\S]*source_cache_v4_check\.outputs\.source_valid[\s\S]*cache_version=v4[\s\S]*cache_state=legacy/.test(cacheSelection)) {
+      errors.push('_fetch-guides-sources.yml: Guides cache selection must prefer valid v5 and classify v4 as legacy')
     }
     const sourceFetchBlock = guidesSource.slice(
       guidesSource.indexOf('name: Fetch shared guides sources'),

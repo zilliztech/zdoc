@@ -64,6 +64,16 @@ jobs:
         env:
           DOCS_TOOLING_GUIDES_STAGE: baseline
           DOCS_TOOLING_BASELINE_ROOT: ${{ runner.temp }}/baseline
+      - name: Prepare Chinese Guides first bootstrap output
+        if: ${{ inputs.site == 'zh-CN' }}
+        run: |
+          node -e 'require("fs").writeFileSync(process.argv[1], process.env.MATRIX_JSON)' "$RUNNER_TEMP/guides-table-matrix.json"
+          node scripts/docs-workflow/prepare-guides-bootstrap-stage.js \
+            --site zh-CN --workspace "$GITHUB_WORKSPACE" \
+            --decision packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json \
+            --matrix-file "$RUNNER_TEMP/guides-table-matrix.json"
+        env:
+          MATRIX_JSON: ${{ inputs.table_matrix }}
       - name: Restore validated Guides table artifacts
         if: ${{ inputs.table_count != '0' }}
         run: |
@@ -75,7 +85,9 @@ jobs:
             tar -tf "$archive" | node -e 'const fs=require("fs");for(const p of fs.readFileSync(0,"utf8").trim().split("\n"))if(p!=="guides-table"&&!p.startsWith("guides-table/"))throw Error("unsafe archive path")'
             tar -xf "$archive" -C "$destination"
           done
-          node -e 'require("fs").writeFileSync(process.argv[1], process.env.MATRIX_JSON)' "$RUNNER_TEMP/guides-table-matrix.json"
+          if [[ ! -f "$RUNNER_TEMP/guides-table-matrix.json" ]]; then
+            node -e 'require("fs").writeFileSync(process.argv[1], process.env.MATRIX_JSON)' "$RUNNER_TEMP/guides-table-matrix.json"
+          fi
           source_sha=$(sha256sum "$RUNNER_TEMP/source-download/guides-source/manifest.json" | cut -d' ' -f1)
           node scripts/docs-workflow/restore-guides-table-artifacts.js --matrix-file "$RUNNER_TEMP/guides-table-matrix.json" --artifacts-root "$RUNNER_TEMP/table-artifacts" --target "$GITHUB_WORKSPACE" --source-artifact-sha256 "$source_sha"
         env:
@@ -132,16 +144,12 @@ jobs:
           DOCS_TOOLING_GUIDES_STAGE: assembled
           DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: ${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}
           IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || '' }}
-      - name: Validate Chinese Guides publication
-        if: ${{ inputs.site == 'zh-CN' }}
-        run: |
-          node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
-          node scripts/validate-guides-coverage.js --site zh-CN
-          node scripts/validate-generated-sidebars.js
       - name: Validate combined guides output
         run: |
           [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }
-          node scripts/validate-generated-sidebars.js
+          node scripts/validate-guides-source-contract.js --site "$ZDOC_SITE" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+          node scripts/validate-guides-coverage.js --site "$ZDOC_SITE"
+          node scripts/validate-generated-sidebars.js --site "$ZDOC_SITE"
           node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting
       - name: Finalize Guides assembly identity
         run: |
@@ -248,7 +256,7 @@ jobs:
         run: |
           [[ -n "$ZDOC_BUILD_COMMAND" ]] || { echo "Unsupported documentation site: $ZDOC_SITE" >&2; exit 2; }
           printf -v build_validation 'node scripts/run-doc-build-stage.js --build "%s" --skipLinkChecks --skipCardReporting' "$ZDOC_BUILD_COMMAND"
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command "$build_validation"
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js --site $ZDOC_SITE" --validation-command "$build_validation"
           tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
       - id: upload
         uses: actions/upload-artifact@v4

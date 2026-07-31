@@ -51,4 +51,5 @@ test('normalizes publish targets and ref targets without using Progress', () => 
   assert.deepEqual(guidesRecordPublishTargets(canonical), ['zilliz.saas', 'zilliz.paas'])
   assert.equal(guidesRecordCreatesPage(canonical), true)
   assert.equal(guidesRecordRefTarget({ base_placement_type: 'ref', base_ref_target_doc: 'wiki-token' }), 'wiki-token')
+  assert.equal(guidesRecordRefTarget({ fields: {'Ref Target Doc': {text: 'Canonical page', link: 'https://zilliverse.feishu.cn/wiki/wiki-token'}} }), 'https://zilliverse.feishu.cn/wiki/wiki-token')
 })

@@ -556,9 +556,9 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
   const cases = [
     {
       mutate(source) {
-        return source.replace('        name: Validate Guides v1 cache candidate', '        name: Validate Guides v1 candidate')
+        return source.replace('        name: Validate and promote Guides v4 cache candidate', '        name: Validate Guides v4 candidate')
       },
-      expected: /restore and validate in v5, v4, v3, v2, v1 order/,
+      expected: /restore and validate in v5 then v4 order/,
     },
     {
       mutate(source) {
@@ -568,13 +568,13 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     },
     {
       mutate(source) {
-        return source.replace("if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v3_check.outputs.source_valid != 'true' }}", "if: ${{ steps.source_cache_v3.outputs.cache-hit != 'true' }}")
+        return source.replace("if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}", "if: ${{ steps.source_cache_v5.outputs.cache-hit != 'true' }}")
       },
       expected: /preceding source validity|never trust cache-hit/,
     },
     {
       mutate(source) {
-        return source.replace('          key: ${{ steps.source_cache_keys.outputs.v2 }}', '          key: ${{ steps.source_cache_keys.outputs.v2 }}\n          restore-keys: guides-source-v2-')
+        return source.replace('          restore-keys: ${{ steps.source_cache_keys.outputs.v4_prefix }}', '          restore-keys: guides-source-v4-')
       },
       expected: /self-contained restore and v4 snapshot-scoped fallback/,
     },
@@ -604,12 +604,13 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     },
     {
       mutate(source) {
-        return source.replace('guides-source-cache-source-promotion.js validate-live-source', 'guides-source-cache.js validate-source')
+        return `${source}\n# source_cache_v3 must not return\n`
       },
-      expected: /physical validation must precede semantic/,
+      expected: /retain only v5 and temporary v4/,
     },
     {
       mutate(source) {
+        source += '\n# Guides v2 cache must not return\n'
         if (source.includes('[[ -e "$source_dir" || -L "$source_dir"')) {
           return source.replace('[[ -e "$source_dir" || -L "$source_dir"', '[[ -d "$source_dir"')
         }
@@ -618,7 +619,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
           '[[ -d packages/docs-tooling/src/lark/meta/sources/guides || -f "$manifest" || -f "$media" ]]',
         )
       },
-      expected: /malformed legacy cache leaves must be reported as invalid candidates/,
+      expected: /retain only v5 and temporary v4/,
     },
     {
       mutate(source) {
@@ -1023,12 +1024,6 @@ test('guides workflows bootstrap full sources and persist only verified caches',
     'Validate and promote Guides v5 cache candidate',
     'Restore Guides v4 cache candidate',
     'Validate and promote Guides v4 cache candidate',
-    'Restore Guides v3 cache candidate',
-    'Validate Guides v3 cache candidate',
-    'Restore Guides v2 cache candidate',
-    'Validate Guides v2 cache candidate',
-    'Restore Guides v1 cache candidate',
-    'Validate Guides v1 cache candidate',
   ]
   const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
   const assembleSteps = yaml.load(assemble).jobs.assemble.steps
@@ -1053,6 +1048,9 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(sourceSteps[basePreflightIndex].run, /--manual guides --guidesBasePreflight/)
   assert.ok(renderReadinessIndex > sourceFetchIndex && renderReadinessIndex < tableMatrixIndex)
   assert.match(sourceSteps[renderReadinessIndex].run, /guides-render-readiness\.js[\s\S]*--site "\$\{\{ inputs\.site \}\}"/)
+  const auditIndex = sourceSteps.findIndex(step => step.name === 'Audit canonical links in fetched Guides sources')
+  assert.ok(auditIndex > sourceFetchIndex && auditIndex < renderReadinessIndex)
+  assert.match(sourceSteps[auditIndex].run, /--manual guides --auditCanonicalLinks[\s\S]*guides-\$\{\{ inputs\.site \}\}-canonical-link-audit/)
   assert.match(source, /artifact_name: guides-sources-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(source, /name: guides-sources-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(assemble, /artifact_name: docs-checkpoint-guides-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
@@ -1095,33 +1093,12 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(source, /\[\[ -e "\$payload" \|\| -L "\$payload" \]\] && candidate_present=true[\s\S]*\[\[ -d "\$payload" && ! -L "\$payload" && -f "\$snapshot" \]\]/)
   assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*guides-source-cache-source-promotion\.js validate[\s\S]*--payload "\$staged"[\s\S]*guides-source-cache\.js validate-media[\s\S]*"\$staged\/media-manifest\.json"[\s\S]*else[\s\S]*guides-source-cache-source-promotion\.js promote[\s\S]*--payload "\$staged"[\s\S]*source_valid=true/)
   assert.doesNotMatch(source, /cp -a "\$staged\/sources" packages\/docs-tooling\/src\/lark\/meta\/sources/)
-  assert.match(source, /name: Restore Guides v3 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v5_check\.outputs\.source_valid != 'true' && steps\.source_cache_v4_check\.outputs\.source_valid != 'true' \}\}/)
-  assert.match(source, /name: Restore Guides v2 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v5_check\.outputs\.source_valid != 'true' && steps\.source_cache_v3_check\.outputs\.source_valid != 'true' \}\}/)
-  assert.match(source, /name: Restore Guides v1 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v5_check\.outputs\.source_valid != 'true' && steps\.source_cache_v2_check\.outputs\.source_valid != 'true' \}\}/)
+  assert.doesNotMatch(source, /source_cache_v[123]|Guides v[123] cache|--version [123]\b/)
   assert.doesNotMatch(source, /cache-hit/)
-  for (const [id, preceding] of [['source_cache_v3_check', 'source_cache_v4_check'], ['source_cache_v2_check', 'source_cache_v3_check'], ['source_cache_v1_check', 'source_cache_v2_check']]) {
-    const step = sourceSteps.find(candidate => candidate.id === id)
-    assert.equal(step.if, "${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}")
-    assert.match(step.run, new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`))
-  }
-  assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*rm -rf tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v3 cache candidate/)
-  assert.match(source, /name: Validate Guides v3 cache candidate[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v2 cache candidate/)
-  assert.match(source, /name: Validate Guides v2 cache candidate[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v1 cache candidate/)
-  for (const validationName of ['Validate Guides v3 cache candidate', 'Validate Guides v2 cache candidate', 'Validate Guides v1 cache candidate']) {
-    const start = source.indexOf(`name: ${validationName}`)
-    const end = source.indexOf('\n      - id:', start + 1)
-    const block = source.slice(start, end)
-    assert.match(block, /\[\[ -e "\$source_dir" \|\| -L "\$source_dir"/)
-    assert.match(block, /-e "\$manifest" \|\| -L "\$manifest"/)
-    if (validationName !== 'Validate Guides v1 cache candidate') assert.match(block, /-e "\$media" \|\| -L "\$media"/)
-  }
+  assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*rm -rf tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Select validated Guides cache candidate/)
   assert.doesNotMatch(source, /rm -rf[^\n]*packages\/docs-tooling\/src\/lark\/meta\/(?:source-cache|media-cache)\/?(?:\s|$)/)
-  assert.match(source, /guides-source-cache-source-promotion\.js validate-live-source/)
   assert.match(source, /guides-source-cache\.js validate-media/)
-  for (const [validationName, nextName] of [['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate'], ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate']]) {
-    const block = source.slice(source.indexOf(`name: ${validationName}`), source.indexOf(`name: ${nextName}`))
-    assert.ok(block.indexOf('guides-source-cache-source-promotion.js validate-live-source') < block.indexOf('guides-source-cache-source-promotion.js validate-live-media'))
-  }
+  assert.match(source, /source_cache_v5_check\.outputs\.source_valid[\s\S]*cache_version=v5[\s\S]*cache_state=valid[\s\S]*source_cache_v4_check\.outputs\.source_valid[\s\S]*cache_version=v4[\s\S]*cache_state=legacy/)
   assert.match(source, /guides-source-cache-generation\.js promote/)
   assert.match(source, /--previous-manifest "\$media_manifest_path"/)
   assert.match(source, /--media-manifest "\$media_manifest_path"/)
@@ -1214,7 +1191,6 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   const names = [
     'Validate Guides assembly decision',
     'Generate combined Guides sidebars offline',
-    'Validate Chinese Guides publication',
     'Validate combined guides output',
     'Finalize Guides assembly identity',
   ]
@@ -1229,13 +1205,11 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(validation, /decision-sha/)
   assert.match(validation, /guides-assembly-decision\.json/)
   assert.match(validation, /generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js/)
-  const chineseValidation = assemble.slice(indices[2], indices[3])
-  assert.match(chineseValidation, /inputs\.site == 'zh-CN'[\s\S]*validate-guides-source-contract\.js --site zh-CN --snapshot packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json[\s\S]*validate-guides-coverage\.js --site zh-CN/)
-  const finalValidation = assemble.slice(indices[3], indices[4])
-  assert.match(finalValidation, /validate-generated-sidebars\.js/)
+  const finalValidation = assemble.slice(indices[2], indices[3])
+  assert.match(finalValidation, /validate-guides-source-contract\.js --site "\$ZDOC_SITE"[\s\S]*validate-guides-coverage\.js --site "\$ZDOC_SITE"[\s\S]*validate-generated-sidebars\.js --site "\$ZDOC_SITE"/)
   assert.match(assemble, /ZDOC_BUILD_COMMAND: \$\{\{ inputs\.site == 'en' && 'pnpm run build:en' \|\| inputs\.site == 'zh-CN' && 'pnpm run build:zh-CN' \|\| '' \}\}/)
   assert.match(finalValidation, /run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND"/)
-  const finalize = assemble.slice(indices[4], assemble.indexOf('name: Select promoted Guides source snapshot'))
+  const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
   assert.match(finalize, /saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
   assert.match(finalize, /byoc=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
   assert.match(finalize, /write-descriptor[\s\S]*--expected-decision-sha256/)

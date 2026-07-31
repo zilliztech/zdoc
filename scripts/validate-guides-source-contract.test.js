@@ -33,7 +33,7 @@ function fixture() {
         { type: 'doc', id: 'tutorials/tools/section/page', key: 'doc:tutorials/tools/section/page', label: 'Page' },
       ] },
       { type: 'link', href: 'https://example.com/docs', key: 'link:tutorials/tools/external', label: 'External' },
-      { type: 'doc', id: 'tutorials/tools/section/page', key: 'ref:tutorials/tools/reuse', label: 'Reuse' },
+      { type: 'link', href: '/docs/page', key: 'ref:tutorials/tools/reuse', label: 'Reuse' },
     ],
   }]
   return { outputDir, snapshot, sidebar }
@@ -53,7 +53,7 @@ test('canonical requires both a generated file and a sidebar node', () => {
   assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }), /canonical.*missing navigation/i)
 })
 
-test('section requires navigation but forbids a landing page', () => {
+test('pure section requires navigation but forbids a landing page', () => {
   const f = fixture()
   f.sidebar[0].items = f.sidebar[0].items.filter(item => item.key !== 'category:tutorials/tools/section')
   assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }), /section.*missing category/i)
@@ -62,14 +62,26 @@ test('section requires navigation but forbids a landing page', () => {
   assert.throws(() => validateGuidesSourceContract({ ...g, target: 'zilliz.saas' }), /section.*landing page/i)
 })
 
-test('canonical and ref identities follow generated token frontmatter paths', () => {
+test('canonical identity follows generated token frontmatter paths while ref keeps the canonical route', () => {
   const f = fixture()
   fs.rmSync(path.join(f.outputDir, 'tools/section/page.md'))
   write(f.outputDir, 'tools/section/page/page.md', 'page-token')
   f.sidebar[0].items[0].items[0].id = 'tutorials/tools/section/page/page'
-  f.sidebar[0].items.find(item => item.key?.startsWith('ref:')).id = 'tutorials/tools/section/page/page'
 
   assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
+})
+
+test('section with Docs generates exactly one index and links the category to it', () => {
+  const f = fixture()
+  const section = f.snapshot.navigation_records.find(record => record.record_id === 'section')
+  section.doc_token = 'section-token'
+  write(f.outputDir, 'tools/section/index.md', 'section-token')
+  f.sidebar[0].items[0].link = { type: 'doc', id: 'tutorials/tools/section/index' }
+
+  assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
+
+  write(f.outputDir, 'tools/section/duplicate.md', 'section-token')
+  assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }), /section.*exactly one index/i)
 })
 
 test('accepts the shared canonical route for internal links', () => {
@@ -81,12 +93,12 @@ test('accepts the shared canonical route for internal links', () => {
   assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
 })
 
-test('link href and ref doc target must match', () => {
+test('link href and ref href target must match', () => {
   const f = fixture()
   f.sidebar[0].items.find(item => item.type === 'link').href = 'https://example.com/wrong'
   assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }), /link.*href/i)
   const g = fixture()
-  g.sidebar[0].items.find(item => item.key?.startsWith('ref:')).id = 'tutorials/missing'
+  g.sidebar[0].items.find(item => item.key?.startsWith('ref:')).href = '/docs/missing'
   assert.throws(() => validateGuidesSourceContract({ ...g, target: 'zilliz.saas' }), /ref.*target/i)
 })
 
@@ -102,15 +114,36 @@ test('ref key uses the canonical slug when the Base ref slug is empty', () => {
   f.sidebar[0].items[0].items[0].id = 'tutorials/tools/section/canonical-page'
   const refItem = f.sidebar[0].items.find(item => item.key?.startsWith('ref:'))
   refItem.key = 'ref:tutorials/tools/canonical-page'
-  refItem.id = 'tutorials/tools/section/canonical-page'
+  refItem.href = '/docs/canonical-page'
 
   assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
+})
+
+test('anchored ref requires a resolved fragment on the canonical route', () => {
+  const f = fixture()
+  const ref = f.snapshot.navigation_records.find(record => record.record_id === 'ref')
+  ref.ref_target_anchor = 'block-id'
+  const refItem = f.sidebar[0].items.find(item => item.key?.startsWith('ref:'))
+  refItem.href = '/docs/page#resolved-heading'
+
+  assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
+  refItem.href = '/docs/page'
+  assert.throws(() => validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }), /ref.*target/i)
 })
 
 test('canonical token must generate exactly one body even when referenced elsewhere', () => {
   const h = fixture()
   write(h.outputDir, 'tools/reuse.md', 'page-token')
   assert.throws(() => validateGuidesSourceContract({ ...h, target: 'zilliz.saas' }), /canonical.*duplicate files/i)
+})
+
+test('Chinese contract uses the canonical English slug for localized table names', () => {
+  const f = fixture()
+  for (const record of f.snapshot.navigation_records) record.table_name = '运维指南'
+  fs.renameSync(path.join(f.outputDir, 'tools'), path.join(f.outputDir, 'management'))
+  f.sidebar = JSON.parse(JSON.stringify(f.sidebar).replaceAll('tutorials/tools', 'tutorials/management'))
+
+  assert.equal(validateGuidesSourceContract({ ...f, site: 'zh-CN', target: 'zilliz.saas' }).checkedRecords, 4)
 })
 
 test('FAQ canonical accepts generated child pages that inherit the source token', () => {

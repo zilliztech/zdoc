@@ -63,6 +63,24 @@ test('maps both Chinese Cloud and BYOC publication units', () => {
   ])
 })
 
+test('Chinese site coverage ignores the preserved Cloud Guides home page', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-zh-home-'))
+  const cloud = path.join(root, 'cloud')
+  const byoc = path.join(root, 'byoc')
+  write(cloud, 'home.md')
+  write(cloud, 'tools/tool.md')
+  write(byoc, 'guide.md')
+  const configs = [
+    { outputDir: cloud, idPrefix: 'tutorials', sidebarPath: 'cloud.sidebar.js', kind: 'cloud' },
+    { outputDir: byoc, idPrefix: 'tutorials', sidebarPath: 'byoc.sidebar.js', kind: 'byoc' },
+  ]
+  const sidebars = {
+    'cloud.sidebar.js': [{ type: 'doc', id: 'tutorials/tools/tool' }],
+    'byoc.sidebar.js': [{ type: 'doc', id: 'tutorials/guide' }],
+  }
+  assert.equal(validateGuidesSite({ site: 'zh-CN', configs, loadSidebar: name => sidebars[name] }).length, 2)
+})
+
 test('Chinese coverage requires Cloud, BYOC, and reachable Tools content', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-zh-'))
   const cloud = path.join(root, 'cloud')

@@ -261,6 +261,30 @@ function canonicalRecordsFrom(records, { guidesPublishableOnly = false } = {}) {
     .filter(record => record.doc_token)
 }
 
+function sourceOwnedRecordsFrom(records, {guidesPublishableOnly = false} = {}) {
+  return (records || [])
+    .filter(record => {
+      const placement = placementType(record)
+      if (placement === 'canonical') return !guidesPublishableOnly || guidesCanonicalIsPublishable(record)
+      return placement === 'section' && !!recordToken(record)
+    })
+    .map(record => {
+      const doc = docField(record.fields || {})
+      return {
+        record_id: record.record_id,
+        table_id: record.base_table_id,
+        table_name: record.base_table_name,
+        placement_type: placementType(record),
+        title: docTitle(doc),
+        labels: plainValue(record.fields?.Labels) || '',
+        slug: plainValue(record.fields?.Slug) || '',
+        doc_token: recordToken(record),
+        doc_link: docLink(doc) || '',
+      }
+    })
+    .filter(record => record.doc_token)
+}
+
 function loadSources(docSourceDir) {
   const sources = new Map()
   if (!fs.existsSync(docSourceDir)) return sources
@@ -583,4 +607,5 @@ module.exports = {
   contentLinkTarget,
   sourceTokenAliases,
   canonicalRecordsFrom,
+  sourceOwnedRecordsFrom,
 }

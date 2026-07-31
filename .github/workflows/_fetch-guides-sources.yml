@@ -89,19 +89,13 @@ jobs:
             v4=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 4)
             v4_prefix="${v4}-"
             v4_lookup="${v4_prefix}lookup-${{ github.run_id }}-${{ github.run_attempt }}"
-            v3=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 3)
-            v2=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 2)
-            v1=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 1)
           else
             v4_restore_enabled=false
             v4_prefix=
             v4_lookup="guides-source-${{ inputs.site }}-v4-no-snapshot-${{ github.run_id }}-${{ github.run_attempt }}"
-            v3="guides-source-${{ inputs.site }}-v3-bootstrap-${{ inputs.dev_baseline_sha }}"
-            v2="guides-source-${{ inputs.site }}-v2-bootstrap-${{ inputs.dev_baseline_sha }}"
-            v1="guides-source-${{ inputs.site }}-v1-bootstrap-${{ inputs.dev_baseline_sha }}"
           fi
-          printf 'v4_restore_enabled=%s\nv4_lookup=%s\nv4_prefix=%s\nv3=%s\nv2=%s\nv1=%s\n' \
-            "$v4_restore_enabled" "$v4_lookup" "$v4_prefix" "$v3" "$v2" "$v1" >> "$GITHUB_OUTPUT"
+          printf 'v4_restore_enabled=%s\nv4_lookup=%s\nv4_prefix=%s\n' \
+            "$v4_restore_enabled" "$v4_lookup" "$v4_prefix" >> "$GITHUB_OUTPUT"
       - id: source_cache_v5
         name: Restore Guides v5 cache candidate
         uses: actions/cache/restore@v4
@@ -192,137 +186,6 @@ jobs:
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
             "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
-      - id: source_cache_v3
-        name: Restore Guides v3 cache candidate
-        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v4_check.outputs.source_valid != 'true' }}
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            ${{ env.source_dir }}
-            ${{ env.source_manifest_path }}
-            ${{ env.media_manifest_path }}
-          key: ${{ steps.source_cache_keys.outputs.v3 }}
-      - id: source_cache_v3_check
-        name: Validate Guides v3 cache candidate
-        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
-        run: |
-          source_valid=false
-          media_valid=false
-          candidate_present=false
-          snapshot="$snapshot_path"
-          manifest="$source_manifest_path"
-          media="$media_manifest_path"
-          if [[ "${{ steps.source_cache_v5_check.outputs.source_valid }}" == true ]]; then
-            source_valid=true
-            media_valid=true
-            cache_version=v5
-            cache_state=valid
-          elif [[ "${{ steps.source_cache_v4_check.outputs.source_valid }}" == true ]]; then
-            source_valid=true
-            media_valid="${{ steps.source_cache_v4_check.outputs.media_valid }}"
-          else
-            [[ -e "$source_dir" || -L "$source_dir" || \
-               -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
-            if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
-              --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
-              --root-token "$root_token" --schemas 2; then
-              source_valid=true
-              if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-media \
-                --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot"; then
-                media_valid=true
-              fi
-            fi
-            if [[ "$source_valid" != true ]]; then
-              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
-                --workspace "$GITHUB_WORKSPACE" --scope all
-            elif [[ "$media_valid" != true ]]; then
-              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
-                --workspace "$GITHUB_WORKSPACE" --scope media
-            fi
-          fi
-          printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
-            "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
-      - id: source_cache_v2
-        name: Restore Guides v2 cache candidate
-        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v3_check.outputs.source_valid != 'true' }}
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            ${{ env.source_dir }}
-            ${{ env.source_manifest_path }}
-            ${{ env.media_manifest_path }}
-          key: ${{ steps.source_cache_keys.outputs.v2 }}
-      - id: source_cache_v2_check
-        name: Validate Guides v2 cache candidate
-        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
-        run: |
-          source_valid=false
-          media_valid=false
-          candidate_present=false
-          snapshot="$snapshot_path"
-          manifest="$source_manifest_path"
-          media="$media_manifest_path"
-          if [[ "${{ steps.source_cache_v3_check.outputs.source_valid }}" == true ]]; then
-            source_valid=true
-            media_valid="${{ steps.source_cache_v3_check.outputs.media_valid }}"
-          else
-            [[ -e "$source_dir" || -L "$source_dir" || \
-               -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
-            if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
-              --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
-              --root-token "$root_token" --schemas 2; then
-              source_valid=true
-              if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-media \
-                --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot"; then
-                media_valid=true
-              fi
-            fi
-            if [[ "$source_valid" != true ]]; then
-              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
-                --workspace "$GITHUB_WORKSPACE" --scope all
-            elif [[ "$media_valid" != true ]]; then
-              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
-                --workspace "$GITHUB_WORKSPACE" --scope media
-            fi
-          fi
-          printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
-            "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
-      - id: source_cache_v1
-        name: Restore Guides v1 cache candidate
-        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_v2_check.outputs.source_valid != 'true' }}
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            ${{ env.source_dir }}
-            ${{ env.source_manifest_path }}
-          key: ${{ steps.source_cache_keys.outputs.v1 }}
-      - id: source_cache_v1_check
-        name: Validate Guides v1 cache candidate
-        if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' }}
-        run: |
-          source_valid=false
-          media_valid=false
-          candidate_present=false
-          snapshot="$snapshot_path"
-          manifest="$source_manifest_path"
-          if [[ "${{ steps.source_cache_v2_check.outputs.source_valid }}" == true ]]; then
-            source_valid=true
-            media_valid="${{ steps.source_cache_v2_check.outputs.media_valid }}"
-          else
-            [[ -e "$source_dir" || -L "$source_dir" || \
-               -e "$manifest" || -L "$manifest" ]] && candidate_present=true
-            if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
-              --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
-              --root-token "$root_token" --schemas 1,2; then
-              source_valid=true
-            fi
-            if [[ "$source_valid" != true ]]; then
-              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
-                --workspace "$GITHUB_WORKSPACE" --scope all
-            fi
-          fi
-          printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
-            "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
       - id: source_cache_check
         name: Select validated Guides cache candidate
         run: |
@@ -330,32 +193,18 @@ jobs:
           media_valid=false
           cache_version=none
           cache_state=missing
-          if [[ "${{ steps.source_cache_v4_check.outputs.source_valid }}" == true ]]; then
+          if [[ "${{ steps.source_cache_v5_check.outputs.source_valid }}" == true ]]; then
+            source_valid=true
+            media_valid=true
+            cache_version=v5
+            cache_state=valid
+          elif [[ "${{ steps.source_cache_v4_check.outputs.source_valid }}" == true ]]; then
             source_valid=true
             cache_version=v4
             media_valid="${{ steps.source_cache_v4_check.outputs.media_valid }}"
-            if [[ "$media_valid" == true ]]; then
-              cache_state=valid
-            else
-              cache_state=invalid
-            fi
-          elif [[ "${{ steps.source_cache_v3_check.outputs.source_valid }}" == true ]]; then
-            source_valid=true
-            cache_version=v3
-            cache_state=legacy
-          elif [[ "${{ steps.source_cache_v2_check.outputs.source_valid }}" == true ]]; then
-            source_valid=true
-            cache_version=v2
-            cache_state=legacy
-          elif [[ "${{ steps.source_cache_v1_check.outputs.source_valid }}" == true ]]; then
-            source_valid=true
-            cache_version=v1
             cache_state=legacy
           elif [[ "${{ steps.source_cache_v5_check.outputs.candidate_present }}" == true || \
-                  "${{ steps.source_cache_v4_check.outputs.candidate_present }}" == true || \
-                  "${{ steps.source_cache_v3_check.outputs.candidate_present }}" == true || \
-                  "${{ steps.source_cache_v2_check.outputs.candidate_present }}" == true || \
-                  "${{ steps.source_cache_v1_check.outputs.candidate_present }}" == true ]]; then
+                  "${{ steps.source_cache_v4_check.outputs.candidate_present }}" == true ]]; then
             cache_state=invalid
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncache_version=%s\ncache_state=%s\n' \
@@ -378,6 +227,16 @@ jobs:
           MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
           MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           MODEL_ID: ${{ vars.MODEL_ID }}
+      - name: Audit canonical links in fetched Guides sources
+        run: |
+          node packages/docs-tooling/src/lark/standalone-cli.js fetch-lark-docs \
+            --manual guides --auditCanonicalLinks \
+            --canonicalLinkReportPrefix "packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-canonical-link-audit"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          SPACE_ID: ${{ secrets.SPACE_ID }}
       - id: media_prefetch
         name: Prefetch shared guides media
         run: |

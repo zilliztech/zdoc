@@ -1,10 +1,46 @@
 'use strict'
 
-const {guidesCanonicalIsPublishable, guidesRecordPublishTargets} = require('./guidesBaseRecordSemantics')
+const {
+  guidesCanonicalIsPublishable,
+  guidesPlacementType,
+  guidesRecordPublishTargets,
+  isFeishuDocumentLink,
+} = require('./guidesBaseRecordSemantics')
 const {createGuidesNavigationState} = require('./sourceSnapshot')
 const {validateGuidesTableNames} = require('./guidesTableSlugs')
 
 const TARGETS = new Set(['zilliz.paas', 'zilliz.saas'])
+
+function plain(value) {
+  if (value == null) return ''
+  if (Array.isArray(value)) return plain(value[0])
+  if (typeof value === 'object') return plain(value.text ?? value.name ?? value.value ?? value.link ?? value.url)
+  return String(value).trim()
+}
+
+function recordContext(site, record) {
+  const fields = record?.fields || {}
+  return {
+    site,
+    table: record?.base_table_name || record?.base_table_id || '(missing)',
+    record: record?.record_id || '(missing)',
+    title: plain(fields.Labels ?? fields.Docs) || record?.record_id || '(missing)',
+  }
+}
+
+function preflightError(site, record, {problem, field, value, fix}) {
+  const context = recordContext(site, record)
+  throw new Error([
+    `[Guides Base preflight] ${problem}`,
+    `Site: ${context.site}`,
+    `Table: ${context.table}`,
+    `Record: ${context.record}`,
+    `Title: ${context.title}`,
+    `Field: ${field}`,
+    `Current value: ${value || '(empty)'}`,
+    `How to fix: ${fix}`,
+  ].join('\n'))
+}
 
 function normalizeTarget(target) {
   const value = String(target || '').trim().toLowerCase()
@@ -25,8 +61,54 @@ function validateGuidesBasePreflight({site, tables, records}) {
     tableSlugs.set(table.table_slug, table.table_id)
   }
 
+  for (const record of records || []) {
+    const explicitPlacement = guidesPlacementType(record)
+    if (!explicitPlacement) {
+      preflightError(site, record, {
+        problem: 'Placement Type is missing or unsupported',
+        field: 'Placement Type',
+        value: plain(record?.fields?.['Placement Type']),
+        fix: 'Set Placement Type to exactly canonical, section, ref, or link.',
+      })
+    }
+    if (explicitPlacement === 'section') {
+      const docs = record?.fields?.Docs
+      const docsValue = plain(docs)
+      const docsLink = docs && typeof docs === 'object' && !Array.isArray(docs) ? plain(docs.link) : docsValue.match(/https?:\/\/[^\s)]+/)?.[0] || ''
+      if (docsValue && !isFeishuDocumentLink(docsLink)) {
+        preflightError(site, record, {
+          problem: 'section Docs must be a Feishu or Lark document link',
+          field: 'Docs',
+          value: docsValue,
+          fix: 'Use a valid Feishu/Lark wiki, doc, docs, or docx link; clear Docs to keep a navigation-only section.',
+        })
+      }
+    }
+  }
+
   const navigation = createGuidesNavigationState(records).navigationRecords
   const recordIds = new Set(navigation.map(record => record.record_id))
+  const canonicalByToken = new Map()
+  for (const record of navigation) {
+    if (record.placement_type !== 'canonical' || !record.doc_token) continue
+    if (!canonicalByToken.has(record.doc_token)) canonicalByToken.set(record.doc_token, [])
+    canonicalByToken.get(record.doc_token).push(record)
+  }
+  for (const [token, owners] of canonicalByToken) {
+    if (owners.length <= 1) continue
+    const owner = owners[1]
+    preflightError(site, {
+      record_id: owner.record_id,
+      base_table_id: owner.table_id,
+      base_table_name: owner.table_name,
+      fields: {Labels: owner.labels || owner.title},
+    }, {
+      problem: `multiple canonical records own Feishu document ${token}`,
+      field: 'Docs',
+      value: token,
+      fix: `Keep exactly one canonical owner for ${token}; change every other navigation occurrence to ref targeting that canonical.`,
+    })
+  }
   for (const record of navigation) {
     if (!tableIds.has(record.table_id)) throw new Error(`Guides Base record references an unknown table: ${record.table_id}`)
     for (const parentId of record.parent_record_ids) {
@@ -35,6 +117,16 @@ function validateGuidesBasePreflight({site, tables, records}) {
     const configuredTargets = guidesRecordPublishTargets(record).map(normalizeTarget)
     const unsupportedTarget = configuredTargets.find(target => !TARGETS.has(target))
     if (unsupportedTarget) throw new Error(`Guides Base record ${record.record_id} has unsupported publish target ${unsupportedTarget}`)
+    if (record.placement_type === 'section' && !String(record.slug || '').trim()) {
+      throw new Error(`Guides Base section ${record.record_id} is missing Slug`)
+    }
+    if (record.placement_type === 'ref') {
+      const targetToken = record.ref_target_token
+      const canonicalTargets = targetToken ? (canonicalByToken.get(targetToken) || []) : []
+      if (canonicalTargets.length !== 1) {
+        throw new Error(`Guides Base ref ${record.record_id} must resolve to exactly one canonical record for ${targetToken || '(missing Ref Target Doc)'}`)
+      }
+    }
     if (!guidesCanonicalIsPublishable(record)) continue
     if (!record.slug) throw new Error(`Publishable Guides record ${record.record_id} is missing Slug`)
     if (!record.doc_token || !record.doc_link) throw new Error(`Publishable Guides record ${record.record_id} is missing a Feishu document link`)

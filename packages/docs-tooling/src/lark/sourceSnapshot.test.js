@@ -125,6 +125,33 @@ test('Guides snapshot requires sources only for publishable canonical records', 
   assert.deepEqual(snapshot.navigation_records.map(record => record.record_id), ['draft', 'empty'])
 })
 
+test('Guides snapshot includes section records only when the section owns Docs', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-section-docs-'))
+  fs.writeFileSync(path.join(dir, 'section-doc.json'), JSON.stringify({
+    node_token: 'section-doc',
+    base_placement_type: 'section',
+    blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] },
+  }))
+  const records = [
+    {
+      record_id: 'section-doc', base_table_id: 'tbl', base_table_name: 'Development',
+      fields: { Docs: { text: 'Overview', link: 'https://example.feishu.cn/wiki/section-doc' }, Labels: 'Overview', Slug: 'overview', 'Placement Type': 'section' },
+    },
+    {
+      record_id: 'section-pure', base_table_id: 'tbl', base_table_name: 'Development',
+      fields: { Labels: 'Pure', Slug: 'pure', 'Placement Type': 'section' },
+    },
+  ]
+
+  const snapshot = createSourceSnapshot({ manualName: 'guides', buildEnv: 'uat', docSourceDir: dir, records })
+
+  assert.deepEqual(snapshot.records.map(record => [record.record_id, record.placement_type]), [['section-doc', 'section']])
+  assert.deepEqual(snapshot.navigation_records.map(record => [record.record_id, record.doc_token]), [
+    ['section-doc', 'section-doc'],
+    ['section-pure', null],
+  ])
+})
+
 test('Guides navigation snapshot changes table digest for section, link, and ref edits', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-nav-'))
   fs.writeFileSync(path.join(dir, 'doc.json'), JSON.stringify({ node_token: 'doc', blocks: { items: [] } }))

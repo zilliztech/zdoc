@@ -30,6 +30,9 @@ function stagePaths(site = process.env.ZDOC_SITE || 'en') {
     'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json',
     'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.md',
     'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json',
+    `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.json`,
+    `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.md`,
+    `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.csv`,
     'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     MEDIA_PREFETCH_REPORT,
     ASSEMBLY_DECISION,
@@ -37,9 +40,6 @@ function stagePaths(site = process.env.ZDOC_SITE || 'en') {
   saas: [
     `tmp/docs-tooling/${site}/guides/content/${site}/guides`,
     `tmp/docs-tooling/${site}/guides/generated/${site}/sidebars/guides.sidebar.js`,
-    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
-    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md',
-    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv',
   ],
   byoc: [
     `tmp/docs-tooling/${site}/guides-byoc/content/${site}/byoc`,
