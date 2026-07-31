@@ -1867,6 +1867,15 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
   assert.match(source, /\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/)
   assert.match(source, /agentRunner\.js[\s\S]*TRANSLATION_ALLOW_PARTIAL: "true"/)
+  for (const artifactPrefix of ['translation-checkpoint', 'translation-baseline', 'translation-report', 'translation-recovery']) {
+    assert.match(
+      source,
+      new RegExp(`${artifactPrefix}-\\$\\{\\{ inputs\\.target \\}\\}-\\$\\{\\{ inputs\\.group \\}\\}`),
+      `${artifactPrefix} artifacts must include target and group`,
+    )
+  }
+  assert.match(source, /artifact_name="translation-checkpoint-\$TRANSLATION_TARGET-\$GROUP-/)
+  assert.match(source, /baseline_artifact_name="translation-baseline-\$TRANSLATION_TARGET-\$GROUP-/)
 
   assert.ok(numbered, 'numbered Guides batches need a dedicated local-output validation step')
   assert.match(numbered.if, /inputs\.should_translate/)
@@ -1891,8 +1900,8 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/)
   assert.match(checkpoint.run, /if \(\( \$\{\{ inputs\.batch_number \}\} > 0 \)\) && \[\[ "\$GROUP" == guides \]\]; then[\s\S]*validate-translation-batch\.js[\s\S]*--artifact "\$CHECKPOINT_DIR"[\s\S]*--baseline "\$BASELINE_CHECKPOINT_DIR"[\s\S]*--batch-number "\$\{\{ inputs\.batch_number \}\}"[\s\S]*--batch-count "\$\{\{ inputs\.batch_count \}\}"[\s\S]*\n\s*fi/)
 
-  assert.match(source, /translation-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
-  assert.match(source, /translation-baseline-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /translation-baseline-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(source, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(result.run, /steps\.agents\.outputs\.failed_count \|\| '0'[\s\S]*== 0/)
   assert.match(result.run, /steps\.agents\.outputs\.remaining_count \|\| '0'[\s\S]*== 0/)

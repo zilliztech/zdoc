@@ -303,6 +303,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/manifest\.js[\s\S]*--mode "\$EFFECTIVE_TRANSLATION_MODE"/, 'must build candidates with the resolved bootstrap mode'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
         [/\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/, 'must create checkpoints for batches that only record failed translations'],
+        [/translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'checkpoint artifacts must include target and group'],
+        [/translation-baseline-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'baseline artifacts must include target and group'],
+        [/translation-report-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'report artifacts must include target and group'],
+        [/translation-recovery-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'recovery artifacts must include target and group'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
 
