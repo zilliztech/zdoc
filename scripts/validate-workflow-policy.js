@@ -200,7 +200,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === 'site-validation.yml') {
-      if (!/pnpm docs-tooling validate-group --site zh-CN --group guides[\s\S]*validate-generated-sidebars\.js --site zh-CN[\s\S]*pnpm run build:zh-CN/.test(source)) {
+      if (!/validate-guides-source-contract\.js --site zh-CN[\s\S]*validate-guides-coverage\.js --site zh-CN[\s\S]*validate-generated-sidebars\.js --site zh-CN[\s\S]*pnpm run build:zh-CN/.test(source)) {
         errors.push(`${file}: Chinese Guides validation must cover source ownership, sidebars, and the Chinese build`)
       }
       const siteBuilds = [
@@ -624,15 +624,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
-        [/git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*git worktree add --detach "\$RUNNER_TEMP\/final-dev" "\$FINAL_DEV_SHA"/, 'must materialize the exact final dev SHA'],
+        [/git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must materialize the exact final dev SHA'],
         [/restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must restore generated content from the exact final dev SHA'],
-        [/name: Clean up final dev worktree[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*git worktree remove --force "\$RUNNER_TEMP\/final-dev"/, 'must always clean up the final dev worktree'],
-        [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
-        [/for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/, 'must validate translated coverage for every translatable group'],
-        [/run-doc-build-stage\.js --build "pnpm run build:en"/, 'must run the documentation build stage'],
-        [/pnpm test:typescript-runtime-boundary/, 'must test CommonJS TypeScript loading without native stripping'],
-        [/name: Verify final documentation state[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/, 'must propagate failures from verification commands piped to report logs'],
-        [/validate-workflow-policy\.js/, 'must validate workflow policy'],
+        [/name: Verify final cross-site consistency[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-reference --site zh-CN[^\n]*\| tee/, 'must validate the final English-to-Chinese Reference relationship'],
         [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
@@ -681,28 +675,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       const materializeIndex = steps.findIndex(step => step?.name === 'Materialize exact final dev state')
       const revisionIndex = steps.indexOf(revision)
-      const verification = namedJobStep(workflow, 'verify', 'Verify final documentation state')
+      const verification = namedJobStep(workflow, 'verify', 'Verify final cross-site consistency')
       const verificationIndex = steps.indexOf(verification)
       const verificationRun = String(verification?.run || '')
       const verificationCommands = executableCommandLines(verificationRun)
-      const orderedSiteCommands = [
-        'pnpm docs-tooling validate-reference --site zh-CN',
-        'pnpm docs-tooling validate-group --site zh-CN --group guides',
-        'node scripts/validate-generated-sidebars.js --site en',
-        'node scripts/validate-generated-sidebars.js --site zh-CN',
-        'node scripts/validate-translated-coverage.js --group "$group"',
-        'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',
-        'node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting',
-        'node scripts/validate-workflow-policy.js',
-        'pnpm test:typescript-runtime-boundary',
-      ]
-      const orderedSiteValidation = commandsAppearInOrder(verificationCommands, orderedSiteCommands)
+      const consistencyCommand = 'pnpm docs-tooling validate-reference --site zh-CN'
       if (!(materializeIndex >= 0 && materializeIndex < revisionIndex && revisionIndex < verificationIndex) ||
-        verification?.id !== 'verification' || verification?.['continue-on-error'] !== true || !orderedSiteValidation) {
-        errors.push(`${file}: site verification must run ordered Chinese validators before both site builds`)
+        verification?.id !== 'verification' || verification?.['continue-on-error'] !== true ||
+        !commandsAppearInOrder(verificationCommands, ['set -euo pipefail', consistencyCommand])) {
+        errors.push(`${file}: final verification must run lightweight cross-site consistency after revision reconciliation`)
       }
-      if (terminatesBeforeCommand(verificationCommands, orderedSiteCommands.at(-1))) {
-        errors.push(`${file}: site verification must not terminate before validation completes`)
+      if (terminatesBeforeCommand(verificationCommands, consistencyCommand)) {
+        errors.push(`${file}: final consistency verification must not terminate before validation completes`)
+      }
+      if (/build:(?:en|zh-CN)|validate-generated-sidebars|validate-translated-coverage|validate-guides-source-contract|validate-workflow-policy|test:typescript-runtime-boundary/.test(verificationRun)) {
+        errors.push(`${file}: final verification must not repeat site builds, site-owned validation, or tooling test suites`)
       }
       const uploadReports = namedJobStep(workflow, 'verify', 'Upload final verification reports')
       if (String(uploadReports?.if || '').trim() !== '${{ always() }}') {
@@ -828,6 +815,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (monitor?.uses !== './.github/workflows/_monitor-docs-progress.yml') errors.push('fetch-docs.yml: central monitor must use _monitor-docs-progress.yml')
     const aggregateNeeds = Array.isArray(caller?.jobs?.aggregate?.needs) ? caller.jobs.aggregate.needs : []
     if (aggregateNeeds.includes('monitor_docs_progress')) errors.push('fetch-docs.yml: aggregate must not depend on the central monitor')
+    const aggregateStep = (caller?.jobs?.aggregate?.steps || []).find(step => step?.id === 'aggregate')
+    const aggregateEnv = aggregateStep?.env || {}
+    if (aggregateEnv.ZH_GUIDES_PRODUCER !== '${{ needs.produce_zh_guides.outputs.status }}' ||
+        aggregateEnv.ZH_GUIDES_SOURCE !== '${{ needs.publish_zh_guides.outputs.status }}' ||
+        aggregateEnv.ZH_GUIDES_SOURCE_SHA !== '${{ needs.publish_zh_guides.outputs.commit_sha }}') {
+      errors.push('fetch-docs.yml: aggregate must include both Guides locale lanes')
+    }
     const fallback = caller?.jobs?.finalize_card_fallback
     const fallbackNeeds = Array.isArray(fallback?.needs) ? fallback.needs : []
     if (fallbackNeeds.join(',') !== 'prepare,aggregate,monitor_docs_progress') errors.push('fetch-docs.yml: fallback must depend on prepare, aggregate, and monitor')

@@ -24,14 +24,15 @@ test('builds artifact-only rows directly from producer terminal states', () => {
   })
 })
 
-test('builds English-only publication rows when translations are disabled', () => {
+test('requires lightweight final verification even when translations are disabled', () => {
   assert.deepEqual(buildAggregateInput({
     MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'python',
+    FINAL_VERIFICATION: 'passed', REVISION_RECONCILIATION: 'passed',
     PYTHON_PRODUCER: 'artifact_ready', PYTHON_SOURCE: 'published', PYTHON_SOURCE_SHA: 'a'.repeat(40),
   }), {
     mode: 'publish', requestedGroups: ['python'], groups: { python: {
       source: 'source_published', translation: 'skipped', translationRequested: false, sourceCommitSha: 'a'.repeat(40),
-    } }, revisionReconciliation: 'skipped', finalVerification: 'skipped',
+    } }, revisionReconciliation: 'passed', finalVerification: 'passed',
   })
 })
 
@@ -118,4 +119,30 @@ test('maps producer, publisher, and translator failures to aggregate terminal st
   assert.equal(failedPublish.groups.java.source, 'publish_failed')
   const failedTranslation = buildAggregateInput({ SELECTED_GROUP: 'go', FINAL_VERIFICATION: 'passed', GO_PRODUCER: 'artifact_ready', GO_SOURCE: 'no_changes', GO_TRANSLATOR: 'failed' })
   assert.equal(failedTranslation.groups.go.translation, 'translation_failed')
+})
+
+test('requires both English and Chinese Guides lanes to finish successfully', () => {
+  const failedChineseFetch = buildAggregateInput({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'guides',
+    GUIDES_PRODUCER: 'artifact_ready', GUIDES_SOURCE: 'published', GUIDES_SOURCE_SHA: 'a'.repeat(40),
+    ZH_GUIDES_PRODUCER: 'failed', ZH_GUIDES_SOURCE: '',
+  })
+  assert.equal(failedChineseFetch.groups.guides.source, 'fetch_failed')
+
+  const failedChinesePublish = buildAggregateInput({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'guides',
+    GUIDES_PRODUCER: 'artifact_ready', GUIDES_SOURCE: 'no_changes',
+    ZH_GUIDES_PRODUCER: 'artifact_ready', ZH_GUIDES_SOURCE: 'failed',
+  })
+  assert.equal(failedChinesePublish.groups.guides.source, 'publish_failed')
+})
+
+test('uses the published Chinese Guides SHA when English Guides has no changes', () => {
+  const result = buildAggregateInput({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'guides',
+    GUIDES_PRODUCER: 'artifact_ready', GUIDES_SOURCE: 'no_changes',
+    ZH_GUIDES_PRODUCER: 'artifact_ready', ZH_GUIDES_SOURCE: 'published', ZH_GUIDES_SOURCE_SHA: 'b'.repeat(40),
+  })
+  assert.equal(result.groups.guides.source, 'source_published')
+  assert.equal(result.groups.guides.sourceCommitSha, 'b'.repeat(40))
 })

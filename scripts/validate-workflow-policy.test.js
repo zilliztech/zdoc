@@ -180,8 +180,12 @@ test('workflow policy rejects missing or miswired Chinese Guides validators', ()
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
     {
-      from: 'pnpm docs-tooling validate-group --site zh-CN --group guides',
+      from: 'node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
       to: 'pnpm docs-tooling validate-reference --site zh-CN',
+    },
+    {
+      from: 'node scripts/validate-guides-coverage.js --site zh-CN',
+      to: 'echo skipped Guides coverage',
     },
     {
       from: 'node scripts/validate-generated-sidebars.js --site zh-CN',
@@ -751,56 +755,30 @@ test('workflow validator rejects incomplete aggregate report ingestion', () => {
   }
 })
 
-test('reusable final verification uses immutable master tooling against exact final dev content read-only', () => {
+test('reusable final verification uses immutable master tooling for lightweight final consistency', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')
   const workflow = fs.readFileSync(workflowPath, 'utf8')
-  const rootPackage = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'))
-  assert.equal(rootPackage.scripts['test:typescript-runtime-boundary'], 'node --test scripts/typescript-runtime-boundary.test.js')
   for (const input of ['final_dev_sha', 'master_sha', 'target_branch']) assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   assert.match(workflow, /^  contents: read$/m)
   assert.match(workflow, /timeout-minutes: 180/)
   assert.match(workflow, /name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/)
   assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"/)
-  assert.match(workflow, /git worktree add --detach "\$RUNNER_TEMP\/final-dev" "\$FINAL_DEV_SHA"/)
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/)
-  assert.match(workflow, /name: Clean up final dev worktree[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*git worktree remove --force "\$RUNNER_TEMP\/final-dev"/)
+  assert.doesNotMatch(workflow, /git worktree add --detach "\$RUNNER_TEMP\/final-dev"/)
   assert.doesNotMatch(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
-  assert.match(workflow, /validate-generated-sidebars\.js --site en[\s\S]*validate-generated-sidebars\.js --site zh-CN/)
-  assert.match(workflow, /for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/)
-  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en"/)
-  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en" --skipCardReporting/)
-  const verificationStep = workflow.slice(workflow.indexOf('name: Verify final documentation state'), workflow.indexOf('name: Upload final verification reports'))
-  assert.match(verificationStep, /pnpm test:typescript-runtime-boundary[^\n]*\| tee tmp\/final-verification-reports\/typescript-runtime-boundary\.log/)
-  assert.match(verificationStep, /run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/)
-  assert.ok(verificationStep.indexOf('set -euo pipefail') < verificationStep.indexOf('validate-generated-sidebars.js'))
-  assert.match(workflow, /validate-workflow-policy\.js/)
-  for (const testFile of ['sdk-reference-workflow.test.js', 'restore-generated-state.test.js', 'validate-workflow-policy.test.js', 'aggregate-results.test.js', 'build-aggregate-input.test.js', 'checkpoint-contention.test.js']) assert.match(workflow, new RegExp(testFile.replaceAll('.', '\\.')))
+  const verificationStep = workflow.slice(workflow.indexOf('name: Verify final cross-site consistency'), workflow.indexOf('name: Upload final verification reports'))
+  assert.match(verificationStep, /pnpm docs-tooling validate-reference --site zh-CN[^\n]*\| tee/)
+  assert.doesNotMatch(verificationStep, /build:(?:en|zh-CN)|validate-generated-sidebars|validate-translated-coverage|validate-guides-source-contract|validate-workflow-policy|test:typescript-runtime-boundary/)
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(workflow, /value: \$\{\{ jobs\.verify\.outputs\.status \}\}/)
   assert.match(workflow, /status=passed[\s\S]*status=failed/)
   assert.doesNotMatch(workflow, /contents: write|git push/)
-  const verificationBody = workflow.slice(workflow.indexOf('name: Verify final documentation state'), workflow.indexOf('name: Report verification phase'))
+  const verificationBody = workflow.slice(workflow.indexOf('name: Verify final cross-site consistency'), workflow.indexOf('name: Upload final verification reports'))
   assert.doesNotMatch(verificationBody, /secrets\./)
 })
 
-test('workflow policy rejects final verification without the TypeScript runtime boundary regression', () => {
-  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
-  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'typescript-runtime-boundary-policy-'))
-  try {
-    fs.cpSync(sourceDirectory, directory, { recursive: true })
-    const file = path.join(directory, '_verify-docs.yml')
-    const source = fs.readFileSync(file, 'utf8')
-    const requiredCommand = 'pnpm test:typescript-runtime-boundary'
-    assert.ok(source.includes(requiredCommand))
-    fs.writeFileSync(file, source.replace(requiredCommand, 'pnpm test:workflow-policy'))
-    assert.ok(validateWorkflowPolicies(directory).includes('_verify-docs.yml: must test CommonJS TypeScript loading without native stripping'))
-  } finally {
-    fs.rmSync(directory, { recursive: true, force: true })
-  }
-})
-
-test('workflow policy rejects final verification waterline and two-site mutations', () => {
+test('workflow policy rejects final verification waterline and consistency mutations', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
     ['      revision_status:\n        description: passed or failed\n        value: ${{ jobs.verify.outputs.revision_status }}\n', '', '_verify-docs.yml: must expose revision status separately from overall status'],
@@ -810,18 +788,11 @@ test('workflow policy rejects final verification waterline and two-site mutation
       '      - name: Verify revision waterline\n        id: revision\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n          exit 0\n',
       '_verify-docs.yml: revision waterline must not terminate before validation completes',
     ],
-    ['pnpm docs-tooling validate-reference --site zh-CN', 'echo skipped Chinese reference', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
-    ['pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log', "echo 'pnpm docs-tooling validate-reference --site zh-CN' 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log", '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
+    ['pnpm docs-tooling validate-reference --site zh-CN', 'echo skipped Chinese reference', '_verify-docs.yml: final verification must run lightweight cross-site consistency after revision reconciliation'],
     [
-      '          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log\n          pnpm docs-tooling validate-group --site zh-CN --group guides 2>&1 | tee tmp/final-verification-reports/zh-cn-guides.log',
-      '          pnpm docs-tooling validate-group --site zh-CN --group guides 2>&1 | tee tmp/final-verification-reports/zh-cn-guides.log\n          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log',
-      '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds',
-    ],
-    ['node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting', 'echo skipped Chinese build', '_verify-docs.yml: site verification must run ordered Chinese validators before both site builds'],
-    [
-      '      - name: Verify final documentation state\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n',
-      '      - name: Verify final documentation state\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n          exit 0\n',
-      '_verify-docs.yml: site verification must not terminate before validation completes',
+      '      - name: Verify final cross-site consistency\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n',
+      '      - name: Verify final cross-site consistency\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n          exit 0\n',
+      '_verify-docs.yml: final consistency verification must not terminate before validation completes',
     ],
     ['steps.revision.outcome }}" == success && "${{ steps.verification.outcome', 'steps.verification.outcome }}" == success && "${{ steps.verification.outcome', '_verify-docs.yml: overall status must require revision and site verification success'],
     [
@@ -830,7 +801,7 @@ test('workflow policy rejects final verification waterline and two-site mutation
       '_verify-docs.yml: overall status must require revision and site verification success',
     ],
     ['fetch-depth: 0', 'fetch-depth: 1', '_verify-docs.yml: must check out immutable master tooling'],
-    ['git worktree add --detach "$RUNNER_TEMP/final-dev" "$FINAL_DEV_SHA"', 'git worktree add --detach "$RUNNER_TEMP/final-dev" origin/dev', '_verify-docs.yml: must materialize the exact final dev SHA'],
+    ['git fetch --no-tags origin "$FINAL_DEV_SHA"', 'git fetch --no-tags origin dev', '_verify-docs.yml: must materialize the exact final dev SHA'],
     ['restore-generated-state.sh --exact --ref "$FINAL_DEV_SHA"', 'restore-generated-state.sh --ref "$FINAL_DEV_SHA"', '_verify-docs.yml: must restore generated content from the exact final dev SHA'],
   ]
   for (const [from, to, expected] of cases) {
@@ -1692,6 +1663,22 @@ test('source aggregate reports downstream handoff and downloads Guides reports b
   assert.equal(aggregate.env.TRANSLATION_HANDOFF_RUN_URL, '${{ needs.dispatch_translations.outputs.run_url }}')
   assert.ok(steps.findIndex(step => step.name === 'Download current Guides reports') < steps.findIndex(step => step.name === 'Collect card report summaries'))
   assert.equal(aggregate.env.REVISION_RECONCILIATION, "${{ needs.verify.outputs.revision_status || 'skipped' }}")
+  assert.equal(aggregate.env.ZH_GUIDES_PRODUCER, '${{ needs.produce_zh_guides.outputs.status }}')
+  assert.equal(aggregate.env.ZH_GUIDES_SOURCE, '${{ needs.publish_zh_guides.outputs.status }}')
+  assert.equal(aggregate.env.ZH_GUIDES_SOURCE_SHA, '${{ needs.publish_zh_guides.outputs.commit_sha }}')
+})
+
+test('workflow policy rejects aggregate wiring that ignores the Chinese Guides lane', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'zh-guides-aggregate-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    fs.writeFileSync(file, original.replace(/^\s+ZH_GUIDES_PRODUCER:.*\n/m, ''))
+    assert.ok(validateWorkflowPolicies(directory).some(error => error.includes('aggregate must include both Guides locale lanes')))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
 })
 
 test('manual translation workflow owns parallel producers and serial publication without legacy automation', () => {

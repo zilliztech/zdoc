@@ -311,6 +311,24 @@ describe('Reference manifest executable security boundary', () => {
     expect(result.stderr).toMatch(/retirement|registry|missing|json/i);
   });
 
+  it('ignores an obsolete retirement approval after both source and translation are restored', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
+      schemaVersion: 1,
+      retirements: [{
+        manual: 'python',
+        sourcePath: 'content/en/reference/api/python/page.md',
+        targetPath: 'content/zh-CN/reference/api/python/page.md',
+        reason: 'Obsolete fixture retirement',
+      }],
+    }, null, 2) + '\n');
+
+    const result = validateChinese(root);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+  });
+
   it('rejects a source manifest manual that does not match authoritative ownership', () => {
     const root = repository();
     expect(generate(root).status).toBe(0);

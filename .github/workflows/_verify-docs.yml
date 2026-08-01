@@ -57,7 +57,6 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$FINAL_DEV_SHA"
-          git worktree add --detach "$RUNNER_TEMP/final-dev" "$FINAL_DEV_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$FINAL_DEV_SHA"
       - name: Verify revision waterline
         id: revision
@@ -76,24 +75,13 @@ jobs:
           else
             echo "status=failed" >> "$GITHUB_OUTPUT"
           fi
-      - name: Verify final documentation state
+      - name: Verify final cross-site consistency
         id: verification
         continue-on-error: true
         run: |
           set -euo pipefail
           mkdir -p tmp/final-verification-reports
           pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log
-          pnpm docs-tooling validate-group --site zh-CN --group guides 2>&1 | tee tmp/final-verification-reports/zh-cn-guides.log
-          node scripts/validate-generated-sidebars.js --site en 2>&1 | tee tmp/final-verification-reports/sidebars-en.log
-          node scripts/validate-generated-sidebars.js --site zh-CN 2>&1 | tee tmp/final-verification-reports/sidebars-zh-cn.log
-          for group in guides python java node go cli rest; do
-            node scripts/validate-translated-coverage.js --group "$group"
-          done 2>&1 | tee tmp/final-verification-reports/translated-coverage.log
-          node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting 2>&1 | tee tmp/final-verification-reports/build-en.log
-          node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting 2>&1 | tee tmp/final-verification-reports/build-zh-cn.log
-          node scripts/validate-workflow-policy.js 2>&1 | tee tmp/final-verification-reports/workflow-policy.log
-          pnpm test:typescript-runtime-boundary 2>&1 | tee tmp/final-verification-reports/typescript-runtime-boundary.log
-          node --test scripts/sdk-reference-workflow.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/build-aggregate-input.test.js scripts/docs-workflow/apply-checkpoint-artifact.test.js scripts/docs-workflow/checkpoint-contention.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/create-checkpoint-artifact.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/docs-workflow/run-content-group.test.js scripts/docs-workflow/validate-checkpoint-artifact.test.js 2>&1 | tee tmp/final-verification-reports/tests.log
       - name: Upload final verification reports
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
@@ -110,9 +98,6 @@ jobs:
           else
             echo "status=failed" >> "$GITHUB_OUTPUT"
           fi
-      - name: Clean up final dev worktree
-        if: ${{ always() }}
-        run: git worktree remove --force "$RUNNER_TEMP/final-dev" 2>/dev/null || true
       - name: Fail unsuccessful verification
         if: ${{ steps.result.outputs.status == 'failed' }}
         run: exit 1

@@ -99,7 +99,6 @@ jobs:
     timeout-minutes: 90
     env:
       NODE_OPTIONS: --max-old-space-size=4096
-      DOCUSAURUS_SSG_WORKER_THREAD_COUNT: '2'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -169,7 +168,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Validate Chinese Guides and Tools navigation
         run: |
-          pnpm docs-tooling validate-group --site zh-CN --group guides
+          node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+          node scripts/validate-guides-coverage.js --site zh-CN
           node scripts/validate-generated-sidebars.js --site zh-CN
           pnpm run build:zh-CN
 

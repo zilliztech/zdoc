@@ -624,11 +624,27 @@ jobs:
       - id: ref
         env:
           TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+          GUIDES_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
+          ZH_GUIDES_SHA: ${{ needs.publish_zh_guides.outputs.commit_sha }}
+          PYTHON_SHA: ${{ needs.publish_python.outputs.commit_sha }}
+          JAVA_SHA: ${{ needs.publish_java.outputs.commit_sha }}
+          NODE_SHA: ${{ needs.publish_node.outputs.commit_sha }}
+          GO_SHA: ${{ needs.publish_go.outputs.commit_sha }}
+          CLI_SHA: ${{ needs.publish_cli.outputs.commit_sha }}
+          REST_SHA: ${{ needs.publish_rest.outputs.commit_sha }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin "refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
           sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH")
           [[ "$sha" =~ ^[0-9a-f]{40}$ ]]
+          for expected in "$GUIDES_SHA" "$ZH_GUIDES_SHA" "$PYTHON_SHA" "$JAVA_SHA" "$NODE_SHA" "$GO_SHA" "$CLI_SHA" "$REST_SHA"; do
+            [[ -z "$expected" ]] && continue
+            [[ "$expected" =~ ^[0-9a-f]{40}$ ]]
+            git merge-base --is-ancestor "$expected" "$sha" || {
+              echo "Published commit $expected is not contained in final $TARGET_BRANCH state $sha" >&2
+              exit 1
+            }
+          done
           echo "final_dev_sha=$sha" >> "$GITHUB_OUTPUT"
   verify:
     needs: [prepare, resolve_final]
@@ -666,6 +682,9 @@ jobs:
           GUIDES_PRODUCER: ${{ needs.produce_guides.outputs.status }}
           GUIDES_SOURCE: ${{ needs.publish_guides.outputs.status }}
           GUIDES_SOURCE_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
+          ZH_GUIDES_PRODUCER: ${{ needs.produce_zh_guides.outputs.status }}
+          ZH_GUIDES_SOURCE: ${{ needs.publish_zh_guides.outputs.status }}
+          ZH_GUIDES_SOURCE_SHA: ${{ needs.publish_zh_guides.outputs.commit_sha }}
           PYTHON_PRODUCER: ${{ needs.produce_python.outputs.status }}
           PYTHON_SOURCE: ${{ needs.publish_python.outputs.status }}
           PYTHON_SOURCE_SHA: ${{ needs.publish_python.outputs.commit_sha }}
@@ -689,7 +708,7 @@ jobs:
           node scripts/docs-workflow/build-aggregate-input.js --output tmp/docs-workflow-results.json
           node scripts/docs-workflow/aggregate-results.js --input tmp/docs-workflow-results.json --output tmp/docs-workflow-summary.md
       - name: Download current Guides reports
-        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.result == 'success' && needs.produce_guides.outputs.status == 'artifact_ready' }}
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:

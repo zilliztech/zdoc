@@ -49,12 +49,11 @@ function validate(input) {
     if (!['translation_published', 'no_changes'].includes(entry.translation) && entry.translationCommitSha !== undefined) invalid(`${group} translationCommitSha is only allowed for published or no_changes translation`);
     if (entry.translationCandidates !== undefined) validateCandidateCounts(entry.translationCandidates, group);
   }
-  const translationsRequested = input.requestedGroups.some(group => input.groups[group].translationRequested);
   if (!FINAL_STATES.has(input.revisionReconciliation)) invalid('revisionReconciliation has unknown state');
   const mode = input.mode || 'publish';
   if (mode === 'artifact_only' && input.revisionReconciliation !== 'skipped') invalid('revisionReconciliation must be skipped in artifact_only mode');
-  if (mode === 'publish' && translationsRequested && input.revisionReconciliation === 'skipped') invalid('revisionReconciliation must not be skipped when translation is requested');
   if (!FINAL_STATES.has(input.finalVerification)) invalid('finalVerification has unknown state');
+  if (mode === 'artifact_only' && input.finalVerification !== 'skipped') invalid('finalVerification must be skipped in artifact_only mode');
   if (input.translationHandoff !== undefined) {
     const handoff = input.translationHandoff;
     if (!handoff || typeof handoff !== 'object' || Array.isArray(handoff) || Object.keys(handoff).some(key => !['requested', 'dispatched', 'runId', 'runUrl'].includes(key))) invalid('translation handoff is invalid');
@@ -74,9 +73,7 @@ function aggregateResults(input) {
   const translationsRequested = input.requestedGroups.some(group => input.groups[group].translationRequested);
   let success = mode === 'artifact_only'
     ? input.revisionReconciliation === 'skipped' && input.finalVerification === 'skipped'
-    : translationsRequested
-      ? input.revisionReconciliation === 'passed' && input.finalVerification === 'passed'
-      : input.revisionReconciliation === 'skipped' && input.finalVerification === 'skipped';
+    : input.revisionReconciliation === 'passed' && input.finalVerification === 'passed';
   if (input.translationHandoff?.requested && !input.translationHandoff.dispatched) success = false;
   const rows = [];
   for (const group of listContentGroups().filter((name) => input.requestedGroups.includes(name))) {

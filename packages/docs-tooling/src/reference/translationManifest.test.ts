@@ -178,7 +178,7 @@ describe('Reference translation provenance', () => {
     })).not.toThrow();
   });
 
-  it('rejects a retired mapping when both source and target are present', () => {
+  it('treats a revived mapping as translated even when its obsolete retirement approval remains', () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
     writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
@@ -186,8 +186,8 @@ describe('Reference translation provenance', () => {
     expect(() => validateReferenceTranslation({
       ...roots,
       sourceManifest: sourceManifest(),
-      translationManifest: translationManifest({records: [{...translationManifest().records[0], status: 'retired'}]}),
-    })).toThrow(/retired.*exactly one.*missing/i);
+      translationManifest: translationManifest(),
+    })).not.toThrow();
   });
 
   it('rejects a retired mapping when both source and target are missing', () => {
