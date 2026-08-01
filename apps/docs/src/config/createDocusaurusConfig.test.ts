@@ -938,6 +938,9 @@ describe('createDocusaurusConfig', () => {
   it('keeps the root build command behind the English publication fence', () => {
     const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
     expect(packageJson.scripts.build).toBe('pnpm run build:en');
+    expect(packageJson.scripts['build:zh-CN:site']).toBe(
+      'pnpm --filter @zilliz/docs-site run build:zh-CN:site',
+    );
   });
 
   it('resolves repository paths from the factory module instead of the caller cwd', async () => {
