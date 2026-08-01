@@ -154,7 +154,7 @@ The maximum number of collections and partitions in a Zilliz Cloud cluster varie
 
 You can create a maximum of **1,024** collections or **4,096** partitions per CU, with up to **1,024** partitions allowed per collection. You can use the following formulae to calculate the upper limits for the number of collections and partitions in a cluster:
 
-![I1aJwA2LShihxQbyG30cFm14ngf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/I1aJwA2LShihxQbyG30cFm14ngf.png)
+![I1aJwA2LShihxQbyG30cFm14ngf](https://zdoc-images.s3.us-west-2.amazonaws.com/I1aJwA2LShihxQbyG30cFm14ngf.png)
 
 - The total number of collections in a cluster should be less than 1,024 times the number of CUs in the cluster or 16,384, whichever is lower.
 

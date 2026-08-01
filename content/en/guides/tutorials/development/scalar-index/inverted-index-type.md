@@ -46,7 +46,7 @@ As shown in the diagram, the process works in two steps:
 
 For example, the value **"electronics"** maps to IDs **1** and **3**, while **"books"** maps to IDs **2** and **5**.
 
-![A19NwPlGIh1YrGbSBZKcNKz0nhd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/A19NwPlGIh1YrGbSBZKcNKz0nhd.png)
+![A19NwPlGIh1YrGbSBZKcNKz0nhd](https://zdoc-images.s3.us-west-2.amazonaws.com/A19NwPlGIh1YrGbSBZKcNKz0nhd.png)
 
 When you filter for a specific value (e.g., `category == "electronics"`), Zilliz Cloud simply looks up the term in the index and retrieves the matching IDs directly. This avoids scanning the full dataset and enables fast filtering, especially for categorical or repeated values.
 

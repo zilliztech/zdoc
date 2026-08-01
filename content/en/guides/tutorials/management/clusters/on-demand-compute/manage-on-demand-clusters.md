@@ -96,7 +96,7 @@ Example response:
 
 ### Via web console\{#via-web-console}
 
-![W3nYwPc0AhxRDWbjEsWceJGVnbh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/W3nYwPc0AhxRDWbjEsWceJGVnbh.png)
+![W3nYwPc0AhxRDWbjEsWceJGVnbh](https://zdoc-images.s3.us-west-2.amazonaws.com/W3nYwPc0AhxRDWbjEsWceJGVnbh.png)
 
 <Procedures>
 
@@ -136,7 +136,7 @@ Example response:
 
 ### Via web console\{#via-web-console}
 
-![XiWTwTJ3mhgjHBbS5dycYi4bn4c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/XiWTwTJ3mhgjHBbS5dycYi4bn4c.png)
+![XiWTwTJ3mhgjHBbS5dycYi4bn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/XiWTwTJ3mhgjHBbS5dycYi4bn4c.png)
 
 <Procedures>
 
@@ -197,11 +197,11 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
     1. Click on **Actions** and then select **Rename**.
 
-        ![IvU4bhPSfo7u76xC67DcESHpnfg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ivu4bhpsfo7u76xc67dceshpnfg.png "IvU4bhPSfo7u76xC67DcESHpnfg")
+        ![IvU4bhPSfo7u76xC67DcESHpnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/ivu4bhpsfo7u76xc67dceshpnfg.png "IvU4bhPSfo7u76xC67DcESHpnfg")
 
     1. Enter the new name of the cluster and click on **Save**.
 
-        ![GPBzb78W3ojP0HxalhHc6M4Zn6c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/gpbzb78w3ojp0hxalhhc6m4zn6c.png "GPBzb78W3ojP0HxalhHc6M4Zn6c")
+        ![GPBzb78W3ojP0HxalhHc6M4Zn6c](https://zdoc-images.s3.us-west-2.amazonaws.com/gpbzb78w3ojp0hxalhhc6m4zn6c.png "GPBzb78W3ojP0HxalhHc6M4Zn6c")
 
     </Procedures>
 
@@ -242,11 +242,11 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
     1. Hover on the description and click on the **Edit description** icon.
 
-        ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
+        ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
 
     1. Enter the new description of the cluster and click on **Save**.
 
-        ![HKlybJYCFo2uMHxmVZ0cBs7Gnid](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/hklybjycfo2umhxmvz0cbs7gnid.png "HKlybJYCFo2uMHxmVZ0cBs7Gnid")
+        ![HKlybJYCFo2uMHxmVZ0cBs7Gnid](https://zdoc-images.s3.us-west-2.amazonaws.com/hklybjycfo2umhxmvz0cbs7gnid.png "HKlybJYCFo2uMHxmVZ0cBs7Gnid")
 
     </Procedures>
 
@@ -290,7 +290,7 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
     You can modify the cluster name, description, and auto-suspend time of an existing on-demand cluster via the web console.
 
-    ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
+    ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
 ## Drop an on-demand cluster\{#drop-an-on-demand-cluster}
 
@@ -323,7 +323,7 @@ Example response:
 
 ### Via web console\{#via-web-console}
 
-![H9p9wioiohNX3Ub6evBcWGTBnse](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/H9p9wioiohNX3Ub6evBcWGTBnse.png)
+![H9p9wioiohNX3Ub6evBcWGTBnse](https://zdoc-images.s3.us-west-2.amazonaws.com/H9p9wioiohNX3Ub6evBcWGTBnse.png)
 
 <Procedures>
 

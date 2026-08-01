@@ -27,7 +27,7 @@ Sparse vectors are an important method of capturing surface-level term matching 
 
 A sparse vector is a special high-dimensional vector where most elements are zero, and only a few dimensions have non-zero values. As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., `[0.3, 0.8, 0.2, 0.3, 0.1]`). In contrast, sparse vectors store only non-zero elements and their indices of the dimension, often represented as key-value pairs of `{ index: value}` (e.g., `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`). 
 
-![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
+![VPhswBhHmhJrh3byaVnc3onYnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
 With tokenization and scoring, documents can be represented as bag-of-words vectors, where each dimension corresponds to a specific word in the vocabulary. Only the words present in the document have non-zero values, creating a sparse vector representation. Sparse vectors can be generated using two approaches:
 
@@ -37,7 +37,7 @@ With tokenization and scoring, documents can be represented as bag-of-words vect
 
 Sparse vectors and the original text can be stored in Zilliz Cloud for efficient retrieval. The diagram below outlines the overall process.
 
-![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
+![A7FvwnB5bhpBlKbgrzYcQijbnxg](https://zdoc-images.s3.us-west-2.amazonaws.com/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 

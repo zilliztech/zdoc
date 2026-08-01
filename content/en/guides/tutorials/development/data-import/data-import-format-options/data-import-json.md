@@ -43,7 +43,7 @@ The following table provides an example of data in a JSON or JSON Line file.
 
 You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into JSON files. The following figure demonstrates how your raw data can be mapped into a JSON file.
 
-![json_data_structure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/json_data_structure.png "json_data_structure")
+![json_data_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/json_data_structure.png "json_data_structure")
 
 <Admonition type="info" icon="📘" title="Notes">
 

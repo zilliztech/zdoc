@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files or audit logs to designated S3 buckets.
 
-![BUEcwkZiChJrTlbziBMc3V49nFe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/BUEcwkZiChJrTlbziBMc3V49nFe.png)
+![BUEcwkZiChJrTlbziBMc3V49nFe](https://zdoc-images.s3.us-west-2.amazonaws.com/BUEcwkZiChJrTlbziBMc3V49nFe.png)
 
 ## Before you start\{#before-you-start}
 
@@ -405,7 +405,7 @@ As an alternative to working on Zilliz Cloud console, you can also programmatica
 
 Once the integration is added, you can view its details or remove the integration as needed.
 
-![YODhb5leToWLsjxGRrpcyuZNnPb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/yodhb5letowlsjxgrrpcyuznnpb.png "YODhb5leToWLsjxGRrpcyuZNnPb")
+![YODhb5leToWLsjxGRrpcyuZNnPb](https://zdoc-images.s3.us-west-2.amazonaws.com/yodhb5letowlsjxgrrpcyuznnpb.png "YODhb5leToWLsjxGRrpcyuZNnPb")
 
 ### Obtain the integration ID\{#obtain-the-integration-id}
 

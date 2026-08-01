@@ -72,7 +72,7 @@ Based on this data, the keys would be classified as follows:
 
 The classification from [Phase 1](./json-shredding#phase-1-ingestion-and-key-classification) dictates the storage layout. Zilliz Cloud uses a columnar format optimized for queries.
 
-![FcrMw6pY8h2jE8b2PQ3cp4fTnch](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/FcrMw6pY8h2jE8b2PQ3cp4fTnch.png)
+![FcrMw6pY8h2jE8b2PQ3cp4fTnch](https://zdoc-images.s3.us-west-2.amazonaws.com/FcrMw6pY8h2jE8b2PQ3cp4fTnch.png)
 
 - **Shredded columns**: For **typed** and **dynamic** **keys**, data is written to dedicated columns. This columnar storage allows for fast, direct scans during queries, as Zilliz Cloud can read only the required data for a given key without processing the entire document.
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Semantic Highlighter identifies and highlights the most semantically relevant portions of your search results at the sentence level, helping you extract only what matters from retrieved top K documents. | Cloud"
 type: origin
 token: GLG4wi6zhisaxYkBkmacXqItnbJ
-sidebar_position: 14
+sidebar_position: 15
 displayed_sidebar: default
 
 ---
@@ -66,7 +66,7 @@ Semantic Highlighter runs after semantic search and only operates on the top K r
 
 The diagram below shows the workflow of Semantic Highlighter:
 
-![U9E0bdlHRoAb9OxwBr6cl1Xhn0q](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/u9e0bdlhroab9oxwbr6cl1xhn0q.png "U9E0bdlHRoAb9OxwBr6cl1Xhn0q")
+![U9E0bdlHRoAb9OxwBr6cl1Xhn0q](https://zdoc-images.s3.us-west-2.amazonaws.com/u9e0bdlhroab9oxwbr6cl1xhn0q.png "U9E0bdlHRoAb9OxwBr6cl1Xhn0q")
 
 ### Stage 1: Semantic search\{#stage-1-semantic-search}
 

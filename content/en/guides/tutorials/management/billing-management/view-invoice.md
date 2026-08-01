@@ -32,13 +32,13 @@ If you subscribe on Marketplace, you will receive invoices for your Zilliz Cloud
 
 Each invoice is composed of several key components. This section will walk through an example invoice to help you understand each element.
 
-![example-invoice](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/example-invoice.png "example-invoice")
+![example-invoice](https://zdoc-images.s3.us-west-2.amazonaws.com/example-invoice.png "example-invoice")
 
 ## Billing cycle\{#billing-cycle}
 
 The billing cycle, displayed at the top of your invoice, shows the period during which charges are calculated, along with the payment due date.
 
-![Vp6Rwz3Eph1IuXbQgKScVcSEnZg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Vp6Rwz3Eph1IuXbQgKScVcSEnZg.png)
+![Vp6Rwz3Eph1IuXbQgKScVcSEnZg](https://zdoc-images.s3.us-west-2.amazonaws.com/Vp6Rwz3Eph1IuXbQgKScVcSEnZg.png)
 
 - **Billing Cycle:** Typically a month-long period starting at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month. For example, Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC). Charges accumulate for your usage throughout this period and your invoice status remains “**unbilled**”.
 

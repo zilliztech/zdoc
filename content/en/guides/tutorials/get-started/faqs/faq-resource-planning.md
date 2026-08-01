@@ -63,7 +63,7 @@ To request a new cloud service provider region for Zilliz Cloud, please [fill ou
 
 To view your plan, go to the project list. You will see the plan of each project.
 
-![XMRtb3eYsoWUnsxQM0ecyjj2nqf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/xmrtb3eysowunsxqm0ecyjj2nqf.png "XMRtb3eYsoWUnsxQM0ecyjj2nqf")
+![XMRtb3eYsoWUnsxQM0ecyjj2nqf](https://zdoc-images.s3.us-west-2.amazonaws.com/xmrtb3eysowunsxqm0ecyjj2nqf.png "XMRtb3eYsoWUnsxQM0ecyjj2nqf")
 
 ### How many query CUs do I need for a given collection?\{#how-many-query-cus-do-i-need-for-a-given-collection}
 

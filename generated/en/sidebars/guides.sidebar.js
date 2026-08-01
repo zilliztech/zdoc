@@ -459,6 +459,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/development/search-and-query/search-aggregation",
+            "label": "Search Aggregation",
+            "key": "doc:tutorials/development/search-and-query/search-aggregation"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/search-and-query/primary-key-search",
             "label": "Primary-Key Search",
             "key": "doc:tutorials/development/search-and-query/primary-key-search"
@@ -569,43 +575,43 @@ module.exports = [
           {
             "type": "category",
             "label": "Search with StructArray",
-            "key": "category:tutorials/development/search-and-query/search-with-structarray",
+            "key": "category:tutorials/development/search-and-query/struct-array-search",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/search-and-query/search-with-structarray/search-with-struct-array",
+                "id": "tutorials/development/search-and-query/struct-array-search/search-with-struct-array",
                 "label": "Basic Vector Search",
-                "key": "doc:tutorials/development/search-and-query/search-with-structarray/search-with-struct-array"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/search-with-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays",
+                "id": "tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays",
                 "label": "Filtered Search",
-                "key": "doc:tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays",
+                "id": "tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays",
                 "label": "Range Search",
-                "key": "doc:tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array",
+                "id": "tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array",
                 "label": "Grouping Search",
-                "key": "doc:tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array",
+                "id": "tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array",
                 "label": "Hybrid Search",
-                "key": "doc:tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali",
+                "id": "tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali",
                 "label": "ColBERT and ColPali",
-                "key": "doc:tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali"
               }
             ]
           },
@@ -762,20 +768,20 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Manage Collection on Console",
-            "key": "category:tutorials/development/collection/manage-collection-on-console",
+            "label": "Collection on Console",
+            "key": "category:tutorials/development/collection/collection-on-console",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/collection/manage-collection-on-console/manage-collections-console",
+                "id": "tutorials/development/collection/collection-on-console/manage-collections-console",
                 "label": "On Console",
-                "key": "doc:tutorials/development/collection/manage-collection-on-console/manage-collections-console"
+                "key": "doc:tutorials/development/collection/collection-on-console/manage-collections-console"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/collection/manage-collection-on-console/manage-external-collections-console",
+                "id": "tutorials/development/collection/collection-on-console/manage-external-collections-console",
                 "label": "On Console",
-                "key": "doc:tutorials/development/collection/manage-collection-on-console/manage-external-collections-console"
+                "key": "doc:tutorials/development/collection/collection-on-console/manage-external-collections-console"
               }
             ]
           },
@@ -887,25 +893,25 @@ module.exports = [
           {
             "type": "category",
             "label": "JSON Field",
-            "key": "category:tutorials/development/schema/json-field",
+            "key": "category:tutorials/development/schema/json-fields",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/json-field/json-field-overview",
+                "id": "tutorials/development/schema/json-fields/json-field-overview",
                 "label": "Overview",
-                "key": "doc:tutorials/development/schema/json-field/json-field-overview"
+                "key": "doc:tutorials/development/schema/json-fields/json-field-overview"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/json-field/json-indexing",
+                "id": "tutorials/development/schema/json-fields/json-indexing",
                 "label": "Indexing",
-                "key": "doc:tutorials/development/schema/json-field/json-indexing"
+                "key": "doc:tutorials/development/schema/json-fields/json-indexing"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/json-field/json-shredding",
+                "id": "tutorials/development/schema/json-fields/json-shredding",
                 "label": "Shredding",
-                "key": "doc:tutorials/development/schema/json-field/json-shredding"
+                "key": "doc:tutorials/development/schema/json-fields/json-shredding"
               }
             ]
           },
@@ -918,37 +924,37 @@ module.exports = [
           {
             "type": "category",
             "label": "StructArray",
-            "key": "category:tutorials/development/schema/structarray",
+            "key": "category:tutorials/development/schema/struct-array",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/structarray/use-array-of-structs",
+                "id": "tutorials/development/schema/struct-array/use-array-of-structs",
                 "label": "Overview",
-                "key": "doc:tutorials/development/schema/structarray/use-array-of-structs"
+                "key": "doc:tutorials/development/schema/struct-array/use-array-of-structs"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/structarray/create-struct-array",
+                "id": "tutorials/development/schema/struct-array/create-struct-array",
                 "label": "Create a StructArray Field",
-                "key": "doc:tutorials/development/schema/structarray/create-struct-array"
+                "key": "doc:tutorials/development/schema/struct-array/create-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/structarray/insert-struct-array",
+                "id": "tutorials/development/schema/struct-array/insert-struct-array",
                 "label": "Insert Data into StructArray Fields",
-                "key": "doc:tutorials/development/schema/structarray/insert-struct-array"
+                "key": "doc:tutorials/development/schema/struct-array/insert-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/structarray/index-struct-array",
+                "id": "tutorials/development/schema/struct-array/index-struct-array",
                 "label": "Index StructArray Fields",
-                "key": "doc:tutorials/development/schema/structarray/index-struct-array"
+                "key": "doc:tutorials/development/schema/struct-array/index-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/structarray/struct-array-limits",
+                "id": "tutorials/development/schema/struct-array/struct-array-limits",
                 "label": "StructArray Limits",
-                "key": "doc:tutorials/development/schema/structarray/struct-array-limits"
+                "key": "doc:tutorials/development/schema/struct-array/struct-array-limits"
               }
             ]
           },
@@ -1245,25 +1251,31 @@ module.exports = [
           {
             "type": "category",
             "label": "Text Embedding Functions",
-            "key": "category:tutorials/development/function/text-embedding-functions",
+            "key": "category:tutorials/development/function/text-embedding-funcs",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/function/text-embedding-functions/openai",
+                "id": "tutorials/development/function/text-embedding-funcs/openai",
                 "label": "OpenAI",
-                "key": "doc:tutorials/development/function/text-embedding-functions/openai"
+                "key": "doc:tutorials/development/function/text-embedding-funcs/openai"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/function/text-embedding-functions/voyage-ai",
+                "id": "tutorials/development/function/text-embedding-funcs/voyage-ai",
                 "label": "Voyage AI",
-                "key": "doc:tutorials/development/function/text-embedding-functions/voyage-ai"
+                "key": "doc:tutorials/development/function/text-embedding-funcs/voyage-ai"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/function/text-embedding-functions/cohere",
+                "id": "tutorials/development/function/text-embedding-funcs/cohere",
                 "label": "Cohere",
-                "key": "doc:tutorials/development/function/text-embedding-functions/cohere"
+                "key": "doc:tutorials/development/function/text-embedding-funcs/cohere"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/function/text-embedding-funcs/hugging-face",
+                "label": "Hugging Face",
+                "key": "doc:tutorials/development/function/text-embedding-funcs/hugging-face"
               }
             ]
           },
@@ -1363,6 +1375,12 @@ module.exports = [
                     "id": "tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker",
                     "label": "Voyage AI Ranker",
                     "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker",
+                    "label": "Hugging Face Ranker",
+                    "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker"
                   }
                 ]
               }
@@ -1383,7 +1401,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Built-in Analyzers",
+            "label": "Built-in Analyzer",
             "key": "category:tutorials/development/analyzer/built-in-analyzer",
             "items": [
               {
@@ -1408,44 +1426,44 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Tokenizers",
-            "key": "category:tutorials/development/analyzer/tokenizers",
+            "label": "Tokenizer",
+            "key": "category:tutorials/development/analyzer/analyzer-tokenizers",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/tokenizers/standard-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer",
                 "label": "Standard",
-                "key": "doc:tutorials/development/analyzer/tokenizers/standard-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/tokenizers/whitespace-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer",
                 "label": "Whitespace",
-                "key": "doc:tutorials/development/analyzer/tokenizers/whitespace-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/tokenizers/jieba-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer",
                 "label": "Jieba",
-                "key": "doc:tutorials/development/analyzer/tokenizers/jieba-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/tokenizers/lindera-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer",
                 "label": "Lindera",
-                "key": "doc:tutorials/development/analyzer/tokenizers/lindera-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/tokenizers/icu-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer",
                 "label": "ICU",
-                "key": "doc:tutorials/development/analyzer/tokenizers/icu-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/tokenizers/language-identifier-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer",
                 "label": "Language Identifier",
-                "key": "doc:tutorials/development/analyzer/tokenizers/language-identifier-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer"
               }
             ]
           },
@@ -1711,8 +1729,8 @@ module.exports = [
                 ]
               },
               {
-                "type": "doc",
-                "id": "tutorials/development/database/database",
+                "type": "link",
+                "href": "/docs/database",
                 "label": "Database in Serving Clusters",
                 "key": "ref:tutorials/management/clusters/dedicated-cluster/database"
               }
@@ -1721,31 +1739,31 @@ module.exports = [
           {
             "type": "category",
             "label": "On-Demand Cluster",
-            "key": "category:tutorials/management/clusters/on-demand-cluster",
+            "key": "category:tutorials/management/clusters/on-demand-compute",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/management/clusters/on-demand-cluster/on-demand-cluster",
+                "id": "tutorials/management/clusters/on-demand-compute/on-demand-cluster",
                 "label": "Create Cluster",
-                "key": "doc:tutorials/management/clusters/on-demand-cluster/on-demand-cluster"
+                "key": "doc:tutorials/management/clusters/on-demand-compute/on-demand-cluster"
               },
               {
-                "type": "doc",
-                "id": "tutorials/development/connect-for-on-demand-search",
+                "type": "link",
+                "href": "/docs/connect-for-on-demand-search",
                 "label": "Connect for On-Demand Search",
-                "key": "ref:tutorials/management/clusters/on-demand-cluster/connect-for-on-demand-search"
+                "key": "ref:tutorials/management/clusters/on-demand-compute/connect-for-on-demand-search"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters",
+                "id": "tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters",
                 "label": "Manage Cluster",
-                "key": "doc:tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters"
+                "key": "doc:tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters"
               },
               {
-                "type": "doc",
-                "id": "tutorials/development/database/on-demand-database",
+                "type": "link",
+                "href": "/docs/on-demand-database",
                 "label": "Database for On-Demand Search",
-                "key": "ref:tutorials/management/clusters/on-demand-cluster/on-demand-database"
+                "key": "ref:tutorials/management/clusters/on-demand-compute/on-demand-database"
               }
             ]
           },
@@ -1806,14 +1824,14 @@ module.exports = [
         "key": "category:tutorials/management/volume",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/development/volume/managed-volume",
+            "type": "link",
+            "href": "/docs/managed-volume",
             "label": "Managed Volumes",
             "key": "ref:tutorials/management/volume/managed-volume"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/volume/external-volume",
+            "type": "link",
+            "href": "/docs/external-volume",
             "label": "External Volumes",
             "key": "ref:tutorials/management/volume/external-volume"
           },
@@ -1823,20 +1841,20 @@ module.exports = [
             "key": "category:tutorials/management/volume/storage-integrations",
             "items": [
               {
-                "type": "doc",
-                "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
+                "type": "link",
+                "href": "/docs/integrate-with-aws-s3",
                 "label": "Integrate with AWS S3",
                 "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-aws-s3"
               },
               {
-                "type": "doc",
-                "id": "tutorials/development/volume/storage-integration/integrate-with-gcp",
+                "type": "link",
+                "href": "/docs/integrate-with-gcp",
                 "label": "Integrate with Google Cloud Storage",
                 "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-gcp"
               },
               {
-                "type": "doc",
-                "id": "tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage",
+                "type": "link",
+                "href": "/docs/integrate-with-azure-blob-storage",
                 "label": "Integrate with Azure Blob Storage",
                 "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-azure-blob-storage"
               }
@@ -1941,55 +1959,55 @@ module.exports = [
           {
             "type": "category",
             "label": "Migration from External Sources",
-            "key": "category:tutorials/management/migrations/migration-from-external-sources",
+            "key": "category:tutorials/management/migrations/migrate-from-external-sources",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/external-migration-basics",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/external-migration-basics",
                 "label": "External Migration Basics",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/external-migration-basics"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/external-migration-basics"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-pinecone",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone",
                 "label": "Pinecone",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-pinecone"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-qdrant",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant",
                 "label": "Qdrant",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-qdrant"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-elasticsearch",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch",
                 "label": "Elasticsearch",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-elasticsearch"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-pgvector",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector",
                 "label": "PostgreSQL",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-pgvector"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-tencent-cloud",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud",
                 "label": "Tencent Cloud VectorDB",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-tencent-cloud"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-opensearch",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch",
                 "label": "OpenSearch",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-opensearch"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips",
                 "label": "Zilliz Cloud IP Addresses",
-                "key": "doc:tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips"
               }
             ]
           }
@@ -1998,54 +2016,54 @@ module.exports = [
       {
         "type": "category",
         "label": "Metrics & Alerts",
-        "key": "category:tutorials/management/metrics-and-alerts",
+        "key": "category:tutorials/management/metrics-alerts",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/management/metrics-and-alerts/metrics-alerts-reference",
+            "id": "tutorials/management/metrics-alerts/metrics-alerts-reference",
             "label": "Metrics Reference",
-            "key": "doc:tutorials/management/metrics-and-alerts/metrics-alerts-reference"
+            "key": "doc:tutorials/management/metrics-alerts/metrics-alerts-reference"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/metrics-and-alerts/view-cluster-metric-charts",
+            "id": "tutorials/management/metrics-alerts/view-cluster-metric-charts",
             "label": "View Metric Charts",
-            "key": "doc:tutorials/management/metrics-and-alerts/view-cluster-metric-charts"
+            "key": "doc:tutorials/management/metrics-alerts/view-cluster-metric-charts"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/metrics-and-alerts/manage-organization-alerts",
+            "id": "tutorials/management/metrics-alerts/manage-organization-alerts",
             "label": "Manage Organization Alerts",
-            "key": "doc:tutorials/management/metrics-and-alerts/manage-organization-alerts"
+            "key": "doc:tutorials/management/metrics-alerts/manage-organization-alerts"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/metrics-and-alerts/manage-project-alerts",
+            "id": "tutorials/management/metrics-alerts/manage-project-alerts",
             "label": "Manage Project Alerts",
-            "key": "doc:tutorials/management/metrics-and-alerts/manage-project-alerts"
+            "key": "doc:tutorials/management/metrics-alerts/manage-project-alerts"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/metrics-and-alerts/manage-notification-channels",
+            "id": "tutorials/management/metrics-alerts/manage-notification-channels",
             "label": "Manage Notification Channels",
-            "key": "doc:tutorials/management/metrics-and-alerts/manage-notification-channels"
+            "key": "doc:tutorials/management/metrics-alerts/manage-notification-channels"
           },
           {
             "type": "category",
-            "label": "Monitor Integrations",
-            "key": "category:tutorials/management/metrics-and-alerts/observability-integrations",
+            "label": "Observability Integrations",
+            "key": "category:tutorials/management/metrics-alerts/observability-integrations",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring",
+                "id": "tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring",
                 "label": "Prometheus",
-                "key": "doc:tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring"
+                "key": "doc:tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/metrics-and-alerts/observability-integrations/integrate-with-datadog",
+                "id": "tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog",
                 "label": "Datadog",
-                "key": "doc:tutorials/management/metrics-and-alerts/observability-integrations/integrate-with-datadog"
+                "key": "doc:tutorials/management/metrics-alerts/observability-integrations/integrate-with-datadog"
               }
             ]
           }
@@ -2063,14 +2081,14 @@ module.exports = [
             "key": "doc:tutorials/management/access-control/access-control-overview"
           },
           {
-            "type": "doc",
-            "id": "tutorials/management/organizations/organization-users",
+            "type": "link",
+            "href": "/docs/organization-users",
             "label": "Manage Organization Users",
             "key": "ref:tutorials/management/access-control/organization-users"
           },
           {
-            "type": "doc",
-            "id": "tutorials/management/projects/project-users",
+            "type": "link",
+            "href": "/docs/project-users",
             "label": "Manage Project Users",
             "key": "ref:tutorials/management/access-control/project-users"
           },
@@ -2333,7 +2351,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Set up Payment Method",
+            "label": "Set Up Payment Method",
             "key": "category:tutorials/management/billing-management/set-up-payment-method",
             "items": [
               {
@@ -2436,19 +2454,19 @@ module.exports = [
           {
             "type": "category",
             "label": "Separate Billing by Marketplace Account",
-            "key": "category:tutorials/management/billing-management/separate-billing-by-marketplace-account",
+            "key": "category:tutorials/management/billing-management/separate-billing",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-aws-marketplace",
+                "id": "tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace",
                 "label": "AWS Marketplace",
-                "key": "doc:tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-aws-marketplace"
+                "key": "doc:tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-aws-marketplace"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-azure-marketplace",
+                "id": "tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-azure-marketplace",
                 "label": "Microsoft Marketplace",
-                "key": "doc:tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-azure-marketplace"
+                "key": "doc:tutorials/management/billing-management/separate-billing/separate-zilliz-cloud-billing-on-azure-marketplace"
               }
             ]
           },
@@ -2779,22 +2797,28 @@ module.exports = [
         "key": "category:tutorials/ai-models/text-embedding-models",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/development/function/text-embedding-functions/openai",
+            "type": "link",
+            "href": "/docs/openai",
             "label": "OpenAI",
             "key": "ref:tutorials/ai-models/text-embedding-models/openai"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/function/text-embedding-functions/voyage-ai",
+            "type": "link",
+            "href": "/docs/voyage-ai",
             "label": "Voyage AI",
             "key": "ref:tutorials/ai-models/text-embedding-models/voyage-ai"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/function/text-embedding-functions/cohere",
+            "type": "link",
+            "href": "/docs/cohere",
             "label": "Cohere",
             "key": "ref:tutorials/ai-models/text-embedding-models/cohere"
+          },
+          {
+            "type": "link",
+            "href": "/docs/hugging-face",
+            "label": "Hugging Face",
+            "key": "ref:tutorials/ai-models/text-embedding-models/hugging-face"
           }
         ]
       },
@@ -2804,16 +2828,22 @@ module.exports = [
         "key": "category:tutorials/ai-models/reranking-models",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker",
+            "type": "link",
+            "href": "/docs/cohere-model-ranker",
             "label": "Cohere Ranker",
             "key": "ref:tutorials/ai-models/reranking-models/cohere-model-ranker"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker",
+            "type": "link",
+            "href": "/docs/voyage-ai-model-ranker",
             "label": "Voyage AI Ranker",
             "key": "ref:tutorials/ai-models/reranking-models/voyage-ai-model-ranker"
+          },
+          {
+            "type": "link",
+            "href": "/docs/hugging-face-ranker",
+            "label": "Hugging Face Ranker",
+            "key": "ref:tutorials/ai-models/reranking-models/hugging-face-ranker"
           }
         ]
       },

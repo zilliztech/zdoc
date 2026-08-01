@@ -10,7 +10,7 @@ notebook: FALSE
 description: "In many applications, an object can be searched by a rich set of information such as title and description, or with multiple modalities such as text, images, and audio. For example, a tweet with a piece of text and an image shall be searched if either the text or the image matches the semantic of the search query. Hybrid search enhances search experience by combining searches across these diverse fields. Zilliz Cloud supports this by allowing search on multiple vector fields, conducting several Approximate Nearest Neighbor (ANN) searches simultaneously. Multi-vector hybrid search is particularly useful if you want to search both text and images, multiple text fields that describe the same object, or dense and sparse vectors to improve search quality. | BYOC"
 type: origin
 token: WTsmwWdgOiKnwpkdZdScp093njh
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---

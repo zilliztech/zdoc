@@ -135,7 +135,7 @@ If your project is on the **Business Critical** plan, you can add more regions t
 
 - **Via web console**
 
-    ![Cw14w6V8Ih4QqWbuYstcKqjVnUx](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Cw14w6V8Ih4QqWbuYstcKqjVnUx.png)
+    ![Cw14w6V8Ih4QqWbuYstcKqjVnUx](https://zdoc-images.s3.us-west-2.amazonaws.com/Cw14w6V8Ih4QqWbuYstcKqjVnUx.png)
 
 ## Upgrade a project\{#upgrade-a-project}
 
@@ -221,7 +221,7 @@ You can view the list of all projects in your permission scope in the organizati
 
 - **Via web console**
 
-    ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
+    ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
 
 ## View project details\{#view-project-details}
 
@@ -265,7 +265,7 @@ You can also check the details of a certain project.
 
     You can check the project name, plan, creation time, and the number of clusters within the project on the **Projects** page. You can further click on a certain project to view its clusters.
 
-    ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
+    ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.s3.us-west-2.amazonaws.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
 
 ## Edit project details\{#edit-project-details}
 

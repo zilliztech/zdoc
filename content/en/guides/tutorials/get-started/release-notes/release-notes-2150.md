@@ -32,7 +32,7 @@ This release is compatible with **Milvus v2.5.x**.
 
 Currently, all Milvus v2.5.x features are still in **PUBLIC PREVIEW**.
 
-![GeJSbANVto14OtxFg6zcPFAYnZz](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/gejsbanvto14otxfg6zcpfaynzz.png "GeJSbANVto14OtxFg6zcPFAYnZz")
+![GeJSbANVto14OtxFg6zcPFAYnZz](https://zdoc-images.s3.us-west-2.amazonaws.com/gejsbanvto14otxfg6zcpfaynzz.png "GeJSbANVto14OtxFg6zcPFAYnZz")
 
 ## BYOC Enhanced with Instance Settings and AWS PrivateLink Support\{#byoc-enhanced-with-instance-settings-and-aws-privatelink-support}
 

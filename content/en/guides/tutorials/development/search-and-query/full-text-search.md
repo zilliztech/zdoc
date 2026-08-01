@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | Cloud"
 type: origin
 token: RQTRwhOVPiwnwokqr4scAtyfnBf
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: default
 
 ---
@@ -49,7 +49,7 @@ Full text search in Zilliz Cloud follows the workflow below:
 
 1. **BM25 relevance scoring**: At search time, Zilliz Cloud applies the BM25 scoring function to compute document relevance and return ranked results that best match the query terms.
 
-![DfPMwP6ZahhHlLbIN0gcG9d7nQM](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/DfPMwP6ZahhHlLbIN0gcG9d7nQM.png)
+![DfPMwP6ZahhHlLbIN0gcG9d7nQM](https://zdoc-images.s3.us-west-2.amazonaws.com/DfPMwP6ZahhHlLbIN0gcG9d7nQM.png)
 
 To use full text search, follow these main steps:
 

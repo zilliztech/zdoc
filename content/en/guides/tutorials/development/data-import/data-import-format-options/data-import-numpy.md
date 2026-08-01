@@ -28,7 +28,7 @@ This feature has been deprecated. You are not recommended to use it in productio
 
 </Admonition>
 
-![numpy_file_structure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/numpy_file_structure.png "numpy_file_structure")
+![numpy_file_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/numpy_file_structure.png "numpy_file_structure")
 
 <Admonition type="info" icon="📘" title="Notes">
 

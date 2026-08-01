@@ -44,7 +44,7 @@ When creating a cluster user, you need to:
 
 - Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
 
-![X8A2bdNuTopfLWxt53Ich1FHntf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/x8a2bdnutopflwxt53ich1fhntf.png "X8A2bdNuTopfLWxt53Ich1FHntf")
+![X8A2bdNuTopfLWxt53Ich1FHntf](https://zdoc-images.s3.us-west-2.amazonaws.com/x8a2bdnutopflwxt53ich1fhntf.png "X8A2bdNuTopfLWxt53Ich1FHntf")
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -54,7 +54,7 @@ Each cluster can have up to 500 cluster users.
 
 ## Edit the role or desrciption of a cluster user\{#edit-the-role-or-desrciption-of-a-cluster-user}
 
-![V1PkbqpnZoGkmQxu2kbcNIH2neb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/v1pkbqpnzogkmqxu2kbcnih2neb.png "V1PkbqpnZoGkmQxu2kbcNIH2neb")
+![V1PkbqpnZoGkmQxu2kbcNIH2neb](https://zdoc-images.s3.us-west-2.amazonaws.com/v1pkbqpnzogkmqxu2kbcnih2neb.png "V1PkbqpnZoGkmQxu2kbcNIH2neb")
 
 ## Drop a cluster user\{#drop-a-cluster-user}
 
@@ -64,5 +64,5 @@ The default user **db_admin** cannot be dropped.
 
 </Admonition>
 
-![drop-cluster-user](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/drop-cluster-user.png "drop-cluster-user")
+![drop-cluster-user](https://zdoc-images.s3.us-west-2.amazonaws.com/drop-cluster-user.png "drop-cluster-user")
 

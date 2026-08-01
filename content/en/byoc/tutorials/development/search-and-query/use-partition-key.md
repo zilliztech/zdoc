@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Partition Key is a search optimization solution that enables logical data isolation by serving as a namespace for your collection. By designating a specific scalar field (such as a tenant ID or project name) as the Partition Key, you can effectively segment data into distinct namespaces within a single collection. This allows search requests to be scoped to a specific namespace via filtering conditions, significantly narrowing the search range and improving overall efficiency. This article introduces how to implement this namespace-based optimization and the considerations for using the Partition Key. | BYOC"
 type: origin
 token: QWqiwrgJViA5AJkv64VcgQX2nKd
-sidebar_position: 19
+sidebar_position: 20
 displayed_sidebar: default
 
 ---

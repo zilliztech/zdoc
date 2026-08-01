@@ -66,7 +66,7 @@ If you need to enable the global cluster feature for an existing cluster, see [M
 
     You can monitor the data synchronization status and lag on the **Global Topology** tab of the **Global Cluster** page.
 
-    ![CLpZwH1e3hd3F1bIXisc6u7GnDg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/CLpZwH1e3hd3F1bIXisc6u7GnDg.png)
+    ![CLpZwH1e3hd3F1bIXisc6u7GnDg](https://zdoc-images.s3.us-west-2.amazonaws.com/CLpZwH1e3hd3F1bIXisc6u7GnDg.png)
 
 - **Via RESTful API**
 

@@ -161,7 +161,7 @@ This depends on the creation method of the backup file. All [automatic backups](
 
 When you back up an encrypted cluster, all data within the encryption scope remains encrypted, and a key icon appears next to the name in the **Backup File** column.
 
-![TiPxbigzIo8wUQxsJ9wcOP3pnAb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/tipxbigzio8wuqxsj9wcop3pnab.png "TiPxbigzIo8wUQxsJ9wcOP3pnAb")
+![TiPxbigzIo8wUQxsJ9wcOP3pnAb](https://zdoc-images.s3.us-west-2.amazonaws.com/tipxbigzio8wuqxsj9wcop3pnab.png "TiPxbigzIo8wUQxsJ9wcOP3pnAb")
 
 When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the KMS key associated with the backup file to decrypt the data before restoration. Therefore, you can restore the backup to a new cluster with or without encryption. 
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Highlighter in Zilliz Cloud annotates matched terms in text fields by wrapping them with customizable tags. Highlighting helps explain why a document matches, improves result readability, and supports rich rendering in search and RAG applications. | BYOC"
 type: origin
 token: BJCjwpj8JizP0nkI11uci1pPndh
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: default
 
 ---

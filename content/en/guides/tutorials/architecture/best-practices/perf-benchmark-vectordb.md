@@ -111,7 +111,7 @@ On the homepage, you can see some pre-defined testing datasets provided by Vecto
 
 Scroll down the webpage to the bottom and click **Run Your Test >** to configure your own benchmarking test.
 
-![AATGbLxqwo32yexKYzPcdYVTnph](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/aatgblxqwo32yexkyzpcdyvtnph.png "AATGbLxqwo32yexKYzPcdYVTnph")
+![AATGbLxqwo32yexKYzPcdYVTnph](https://zdoc-images.s3.us-west-2.amazonaws.com/aatgblxqwo32yexkyzpcdyvtnph.png "AATGbLxqwo32yexKYzPcdYVTnph")
 
 ### Configure your benchmarking test\{#configure-your-benchmarking-test}
 
@@ -119,9 +119,9 @@ Scroll down the webpage to the bottom and click **Run Your Test >** to configure
 
 Click **Results** to view and analyze benchmarking results. Below are some example results.
 
-![LWa7bJGzOo9qKJx0ZNicjLXjnJh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/lwa7bjgzoo9qkjx0znicjlxjnjh.png "LWa7bJGzOo9qKJx0ZNicjLXjnJh")
+![LWa7bJGzOo9qKJx0ZNicjLXjnJh](https://zdoc-images.s3.us-west-2.amazonaws.com/lwa7bjgzoo9qkjx0znicjlxjnjh.png "LWa7bJGzOo9qKJx0ZNicjLXjnJh")
 
-![DJBibk5puoOLxYxxnH3chlxcnAd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/djbibk5puoolxyxxnh3chlxcnad.png "DJBibk5puoOLxYxxnH3chlxcnAd")
+![DJBibk5puoOLxYxxnH3chlxcnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/djbibk5puoolxyxxnh3chlxcnad.png "DJBibk5puoOLxYxxnH3chlxcnAd")
 
 Optionally, you can set up the **DB Filter** and **Case Filter** in the left navigation pane to compare the benchmarking results of pre-defined vector databases and cases.
 
@@ -135,13 +135,13 @@ The databases are named in the format of [database_name]-[db_label].
 
     <div>
 
-        ![ZBqQb11SEoYbYyxxtAYcKzv9nSc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zbqqb11seoybyyxxtayckzv9nsc.png "ZBqQb11SEoYbYyxxtAYcKzv9nSc")
+        ![ZBqQb11SEoYbYyxxtAYcKzv9nSc](https://zdoc-images.s3.us-west-2.amazonaws.com/zbqqb11seoybyyxxtayckzv9nsc.png "ZBqQb11SEoYbYyxxtAYcKzv9nSc")
 
     </div>
 
     <div>
 
-        ![Wg3eb5C1AoEcRUxqO0Vcc4hSntd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/wg3eb5c1aoecruxqo0vcc4hsntd.png "Wg3eb5C1AoEcRUxqO0Vcc4hSntd")
+        ![Wg3eb5C1AoEcRUxqO0Vcc4hSntd](https://zdoc-images.s3.us-west-2.amazonaws.com/wg3eb5c1aoecruxqo0vcc4hsntd.png "Wg3eb5C1AoEcRUxqO0Vcc4hSntd")
 
     </div>
 

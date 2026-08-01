@@ -49,7 +49,7 @@ This guide explains how to install and set up the Zilliz Plugin in Claude Code.
 
     Go to the **Discover** tab and search for zilliz. Select the zilliz plugin to install it.
 
-    ![TqS3b4z7Ho9xcXxHJaIc7HTZn1e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/tqs3b4z7ho9xcxxhjaic7htzn1e.png "TqS3b4z7Ho9xcXxHJaIc7HTZn1e")
+    ![TqS3b4z7Ho9xcXxHJaIc7HTZn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/tqs3b4z7ho9xcxxhjaic7htzn1e.png "TqS3b4z7Ho9xcXxHJaIc7HTZn1e")
 
 </Procedures>
 

@@ -29,11 +29,11 @@ In a typical AI data pipeline, users may already have stored their data in Parqu
 
 This bring-your-data-to-Zilliz Cloud workflow creates redundant data that is hard to synchronize and adds to the engineering maintenance burden to ensure data consistency.
 
-![YQXWwPQ3vheYa4b8398cWoPNnyN](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YQXWwPQ3vheYa4b8398cWoPNnyN.png)
+![YQXWwPQ3vheYa4b8398cWoPNnyN](https://zdoc-images.s3.us-west-2.amazonaws.com/YQXWwPQ3vheYa4b8398cWoPNnyN.png)
 
 To resolve these issues, Zilliz Cloud delivers external collections that let you access your externally stored data from Zilliz Cloud without worrying about data synchronization and ETL pipelines.
 
-![Q6F4wtcd2h3PnKbnMxncw3urn3f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Q6F4wtcd2h3PnKbnMxncw3urn3f.png)
+![Q6F4wtcd2h3PnKbnMxncw3urn3f](https://zdoc-images.s3.us-west-2.amazonaws.com/Q6F4wtcd2h3PnKbnMxncw3urn3f.png)
 
 Once created, an external collection can access your data directly and keep it in the same place where you store it. In the background, Zilliz Cloud creates manifest files to record the mappings between the Zilliz Cloud metadata and the rows in external data files. After the manifest files are ready, you can create indexes in the external collection as you would in any managed collection. 
 

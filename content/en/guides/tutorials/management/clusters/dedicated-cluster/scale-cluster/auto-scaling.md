@@ -28,6 +28,8 @@ Auto-scaling automatically adjusts a Dedicated serving cluster within the minimu
 
 Auto-scaling is most useful for workloads with unpredictable traffic, such as AI agents, interactive search applications, customer support bots, and multimodal search systems. These workloads may stay idle for long periods and then trigger bursts of retrieval requests.
 
+To keep serving utilization within a healthy range, Zilliz Cloud uses target tracking instead of reacting to every raw metric spike. The system evaluates smoothed monitoring signals and applies safety checks before creating a scaling job.
+
 <Admonition type="info" icon="📘" title="Note">
 
 Scaling Query CU manually is supported on all plans.
@@ -42,10 +44,16 @@ Auto-scaling and scheduled scaling are supported on the Enterprise plan and abov
 
 Zilliz Cloud does not trigger auto-scaling from a single instantaneous metric spike. The system evaluates whether the scaling metric stays above or below a threshold for a required duration, and applies a cooldown between scaling events to avoid frequent resource changes.
 
-| Scaling target | Metric | Scale-out condition | Scale-in condition |
-| --- | --- | --- | --- |
-| Query CU | Query CU Capacity | Greater than 80% for 10 minutes, or reaches 100% immediately | Less than 60% for 30 minutes |
-| Replica | Query CU Computation | Greater than 60% for 2 minutes | Less than 40% for 10 minutes |
+| Scaling target | Metric | Target value | Scale-out condition | Scale-in condition |
+| --- | --- | --- | --- | --- |
+| Query CU | Query CU Capacity, with CU Computation checked during scale-in | Query CU Capacity: 70% | Greater than 80% for 10 minutes, or reaches 100% immediately | Less than 60% for 30 minutes, and the target Query CU can safely handle current CU Computation |
+| Replica | Query CU Computation | CU Computation: 50% | Greater than 60% for 2 minutes | Less than 40% for 10 minutes |
+
+<Admonition type="info" icon="📘" title="Note">
+
+The values in this table are the default auto-scaling settings and may be adjusted by Zilliz Cloud as needed. If you have questions, [contact us](http://support.zilliz.com).
+
+</Admonition>
 
 Auto-scaling requires enough valid monitoring data within the evaluation window. If the window has no data, insufficient data, or was reset after a recent configuration change, Zilliz Cloud skips the scaling decision and continues monitoring.
 
@@ -57,9 +65,9 @@ When auto-scaling is triggered, Zilliz Cloud calculates a target configuration a
 
 - For Query CU scale-out, Zilliz Cloud tends to scale step by step to avoid jumping to an unnecessarily large configuration.
 
-- For Query CU scale-in, Zilliz Cloud is more conservative. The system verifies that the target specification can still hold the current data and loaded content before scaling down.
+- For Query CU scale-in, Zilliz Cloud applies more conservative checks before scaling down. The system verifies that the target specification can still hold the current data and loaded content, and that the target configuration will not cause CU Computation to become too high. If scaling down would create excessive computation pressure, the scale-in action is skipped and the cluster continues monitoring.
 
-- For replica scaling, Zilliz Cloud adjusts serving parallelism within the allowed minimum and maximum range.
+- For replica scale-in, Zilliz Cloud can scale directly to the calculated target replica count instead of removing only one replica per scaling action. This helps clusters recover to the expected size faster after temporary traffic spikes.
 
 - If the calculated target is not an available specification or does not result in an actual configuration change, the scaling action is skipped.
 
@@ -81,7 +89,7 @@ Short spikes do not trigger scale-out. Short low-traffic periods do not trigger 
 
 ## Handle query CU and replica Conflicts\{#handle-query-cu-and-replica-conflicts}
 
-Zilliz Cloud does not modify both query CU and replica configruations in the same scaling action. This reduces the risk of changing multiple resource dimensions at once.
+Zilliz Cloud does not modify both Query CU and replica configurations in the same scaling action. This reduces the risk of changing multiple resource dimensions at once.
 
 - A single modify request cannot change Query CU and replica at the same time.
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "When conducting similarity searches, you are always asked to provide one or more query vectors, even if the query vectors are already present in the target collection. To avoid retrieving vectors before the search, you can use primary keys instead. | Cloud"
 type: origin
 token: U7OvwHP3AiUWlckzIEKclLQQnPr
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---

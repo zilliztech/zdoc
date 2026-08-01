@@ -32,7 +32,7 @@ To manage notification channels, make sure you are an [organization owner](./org
 
 You can access the management page of notification channels in the **Edit Alert** or **Create Alert** dialog box in the Zilliz Cloud console.
 
-![manage-alert-channel](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/manage-alert-channel.png "manage-alert-channel")
+![manage-alert-channel](https://zdoc-images.s3.us-west-2.amazonaws.com/manage-alert-channel.png "manage-alert-channel")
 
 ### Email\{#email}
 
@@ -302,5 +302,5 @@ To set up DingTalk alert notifications, follow these steps:
 
 After setting up a notification channel, click the Send Test Message icon to verify that it is properly configured.
 
-![test-connectivity](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/test-connectivity.png "test-connectivity")
+![test-connectivity](https://zdoc-images.s3.us-west-2.amazonaws.com/test-connectivity.png "test-connectivity")
 

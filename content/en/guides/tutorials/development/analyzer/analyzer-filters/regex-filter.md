@@ -1,5 +1,5 @@
 ---
-title: "Regex | Cloud"
+title: "Regex Analyzer Filter | Cloud"
 slug: /regex-filter
 sidebar_label: "Regex"
 beta: FALSE
@@ -19,9 +19,15 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Regex
+# Regex Analyzer Filter
 
 The `regex` filter is a regular expression filter: any token produced by the tokenizer is kept only if it matches the expression you provide; everything else is discarded.
+
+<Admonition type="info" icon="📘" title="Note">
+
+This page describes the `regex` filter in the analyzer pipeline. It filters tokens produced by a tokenizer and affects the terms generated during text analysis. To filter entities with scalar expressions such as `field =~ "pattern"` or `field !~ "pattern"` in `query`, `search`, or hybrid search, refer to [Pattern Matching](./pattern-match).
+
+</Admonition>
 
 ## Configuration\{#configuration}
 

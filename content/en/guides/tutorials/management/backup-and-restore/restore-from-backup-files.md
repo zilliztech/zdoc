@@ -190,11 +190,11 @@ This feature is available only to **Dedicated** clusters in a **Business Critica
 
 </Admonition>
 
-![WaApbDlaYoywaMxxUMxcQLAOnDe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/waapbdlayoywamxxumxcqlaonde.png "WaApbDlaYoywaMxxUMxcQLAOnDe")
+![WaApbDlaYoywaMxxUMxcQLAOnDe](https://zdoc-images.s3.us-west-2.amazonaws.com/waapbdlayoywamxxumxcqlaonde.png "WaApbDlaYoywaMxxUMxcQLAOnDe")
 
 The restoration procedure from an encrypted backup is almost the same as a normal restoration, except for whether to enable **Encryption at Rest with CMEK**.
 
-![V1QJb3SK1oGa11xLljhcxKQEnkc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/v1qjb3sk1oga11xlljhcxkqenkc.png "V1QJb3SK1oGa11xLljhcxKQEnkc")
+![V1QJb3SK1oGa11xLljhcxKQEnkc](https://zdoc-images.s3.us-west-2.amazonaws.com/v1qjb3sk1oga11xlljhcxkqenkc.png "V1QJb3SK1oGa11xLljhcxKQEnkc")
 
 - When this option is enabled, the cluster created after the restoration is encrypted using the KMS key specified below.
 

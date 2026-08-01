@@ -37,11 +37,11 @@ You can perform the following operations on a Dedicated cluster.
 
 1. Click on **Actions** and then select **Rename**.
 
-    ![XR4QbJtm1o1My7xPp5ecuwnonAf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/xr4qbjtm1o1my7xpp5ecuwnonaf.png "XR4QbJtm1o1My7xPp5ecuwnonAf")
+    ![XR4QbJtm1o1My7xPp5ecuwnonAf](https://zdoc-images.s3.us-west-2.amazonaws.com/xr4qbjtm1o1my7xpp5ecuwnonaf.png "XR4QbJtm1o1My7xPp5ecuwnonAf")
 
 1. Enter the new name of the cluster and click on **Save**.
 
-    ![KmiAbYLuRonF7jxvYfsczx2cns8](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/kmiabyluronf7jxvyfsczx2cns8.png "KmiAbYLuRonF7jxvYfsczx2cns8")
+    ![KmiAbYLuRonF7jxvYfsczx2cns8](https://zdoc-images.s3.us-west-2.amazonaws.com/kmiabyluronf7jxvyfsczx2cns8.png "KmiAbYLuRonF7jxvYfsczx2cns8")
 
 </Procedures>
 
@@ -53,11 +53,11 @@ You can perform the following operations on a Dedicated cluster.
 
 1. Hover on the cluster description and click on the **Edit** **description** icon.
 
-    ![VVDNbEWIcoEiWrxUtYbcfy5snRg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/vvdnbewicoeiwrxutybcfy5snrg.png "VVDNbEWIcoEiWrxUtYbcfy5snRg")
+    ![VVDNbEWIcoEiWrxUtYbcfy5snRg](https://zdoc-images.s3.us-west-2.amazonaws.com/vvdnbewicoeiwrxutybcfy5snrg.png "VVDNbEWIcoEiWrxUtYbcfy5snRg")
 
 1. Enter the new description of the cluster and click on **Save**.
 
-    ![ZfXqb3NGOoEm1gxmJGkcAxU2nke](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zfxqb3ngooem1gxmjgkcaxu2nke.png "ZfXqb3NGOoEm1gxmJGkcAxU2nke")
+    ![ZfXqb3NGOoEm1gxmJGkcAxU2nke](https://zdoc-images.s3.us-west-2.amazonaws.com/zfxqb3ngooem1gxmjgkcaxu2nke.png "ZfXqb3NGOoEm1gxmJGkcAxU2nke")
 
 </Procedures>
 
@@ -173,7 +173,7 @@ Once the resume operation is successful, a job record will be generated. You can
 
 To try the latest preview features, you need to upgrade the compatible Milvus version of your dedicated cluster.
 
-![upgrade-to-preview-version](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/upgrade-to-preview-version.png "upgrade-to-preview-version")
+![upgrade-to-preview-version](https://zdoc-images.s3.us-west-2.amazonaws.com/upgrade-to-preview-version.png "upgrade-to-preview-version")
 
 ## Convert to a global cluster\{#convert-to-a-global-cluster}
 

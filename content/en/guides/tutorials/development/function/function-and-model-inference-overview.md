@@ -42,7 +42,7 @@ From a workflow perspective, Functions participate in search in two distinct sta
 
 The following diagram provides an abstraction of how Functions work in the search workflow.
 
-![TEJLwDIKnhCDydbS6hTcFJVGnZd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/TEJLwDIKnhCDydbS6hTcFJVGnZd.png)
+![TEJLwDIKnhCDydbS6hTcFJVGnZd](https://zdoc-images.s3.us-west-2.amazonaws.com/TEJLwDIKnhCDydbS6hTcFJVGnZd.png)
 
 Every search request follows the same high-level flow:
 

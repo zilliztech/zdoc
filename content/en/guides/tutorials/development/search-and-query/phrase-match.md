@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Phrase match lets you search for documents containing your query terms as an exact phrase. By default, the words must appear in the same order and directly adjacent to one another. For example, a query for \"robotics machine learning\" matches text like \"…typical robotics machine learning models…\", where the words \"robotics\", \"machine\", and \"learning\" appear in sequence with no other words between them. | Cloud"
 type: origin
 token: O2YiwLai5iSjT1k1WEsc06E8nEe
-sidebar_position: 15
+sidebar_position: 16
 displayed_sidebar: default
 
 ---
@@ -29,7 +29,7 @@ However, in real-world scenarios, strict phrase matching can be too rigid. You m
 
 Powered by the [Tantivy](https://github.com/quickwit-oss/tantivy) search engine library, phrase match works by analyzing the positional information of words within documents. The diagram below illustrates the process:
 
-![AFrdwVT8ChT11ibs9lpcuN7onZc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AFrdwVT8ChT11ibs9lpcuN7onZc.png)
+![AFrdwVT8ChT11ibs9lpcuN7onZc](https://zdoc-images.s3.us-west-2.amazonaws.com/AFrdwVT8ChT11ibs9lpcuN7onZc.png)
 
 1. **Document Tokenization**: When you insert documents into Zilliz Cloud, the text is split into tokens (individual words or terms) using an analyzer, with positional information recorded for each token. For example, **doc_1** is tokenized into **["machine" (pos=0), "learning" (pos=1), "boosts" (pos=2), "efficiency" (pos=3)]**. For more information on analyzers, refer to [Analyzer Overview](./analyzer-overview).
 

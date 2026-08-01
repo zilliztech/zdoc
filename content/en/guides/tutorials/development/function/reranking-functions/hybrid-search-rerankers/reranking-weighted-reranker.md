@@ -47,7 +47,7 @@ The main workflow of the WeightedRanker strategy is as follows:
 
 1. **Merge Scores**: The weighted scores (score_1_weighted, score_2_weighted) are ranked from highest to lowest to produce a final set of scores (score_final).
 
-![GdmNwbkN8haZO8bpQkOc2NIWnqF](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/GdmNwbkN8haZO8bpQkOc2NIWnqF.png)
+![GdmNwbkN8haZO8bpQkOc2NIWnqF](https://zdoc-images.s3.us-west-2.amazonaws.com/GdmNwbkN8haZO8bpQkOc2NIWnqF.png)
 
 ## Example of Weighted Ranker\{#example-of-weighted-ranker}
 

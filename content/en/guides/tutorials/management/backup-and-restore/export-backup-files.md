@@ -64,7 +64,7 @@ You can export backup files from Zilliz Cloud either via the Zilliz Cloud consol
 
 1. Then, click **Export**.
 
-![export-backup-file](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/export-backup-file.png "export-backup-file")
+![export-backup-file](https://zdoc-images.s3.us-west-2.amazonaws.com/export-backup-file.png "export-backup-file")
 
 ### Export through RESTful API\{#export-through-restful-api}
 
@@ -111,7 +111,7 @@ Once you click **Export**, an export job is generated automatically:
 
     - **ERROR**: The job failed. This can occur if a resource used by the export process, such as the Role ARN or the backup file, is deleted during the job execution.
 
-![monitor-export-job](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/monitor-export-job.png "monitor-export-job")
+![monitor-export-job](https://zdoc-images.s3.us-west-2.amazonaws.com/monitor-export-job.png "monitor-export-job")
 
 ## Cancel export job\{#cancel-export-job}
 

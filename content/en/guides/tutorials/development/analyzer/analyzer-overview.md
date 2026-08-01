@@ -53,7 +53,7 @@ Tokenizers support only UTF-8 format. Support for other formats will be added in
 
 The workflow below shows how an analyzer processes text.
 
-![Ke6jw8437hjR8hbZCvEcQtIIn1e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
+![Ke6jw8437hjR8hbZCvEcQtIIn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
 
 ## Analyzer types\{#analyzer-types}
 

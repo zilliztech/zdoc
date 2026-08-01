@@ -58,7 +58,7 @@ If you need additional credits or want to extend your trial period, please [cont
 
 To view your credit balance:
 
-![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
+![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.s3.us-west-2.amazonaws.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
 
 <Procedures>
 

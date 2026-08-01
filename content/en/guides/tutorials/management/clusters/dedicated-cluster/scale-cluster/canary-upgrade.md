@@ -43,7 +43,7 @@ Canary upgrade is designed for scaling changes where the platform needs to valid
 
 ## How it works\{#how-it-works}
 
-![ITCnb4yRSoNlvgxb5cGcLjNInig](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/itcnb4yrsonlvgxb5cgcljninig.png "ITCnb4yRSoNlvgxb5cGcLjNInig")
+![ITCnb4yRSoNlvgxb5cGcLjNInig](https://zdoc-images.s3.us-west-2.amazonaws.com/itcnb4yrsonlvgxb5cgcljninig.png "ITCnb4yRSoNlvgxb5cGcLjNInig")
 
 A scaling operation that uses canary upgrade generally follows this sequence.
 

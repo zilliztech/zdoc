@@ -57,7 +57,7 @@ Use the [Claude Code Plugin](/docs/agents/zilliz-plugin) if you want to operate 
 
     Go to the **Discover** tab and search for zilliz. Select the zilliz plugin to install it.
 
-    ![TqS3b4z7Ho9xcXxHJaIc7HTZn1e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/tqs3b4z7ho9xcxxhjaic7htzn1e.png "TqS3b4z7Ho9xcXxHJaIc7HTZn1e")
+    ![TqS3b4z7Ho9xcXxHJaIc7HTZn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/tqs3b4z7ho9xcxxhjaic7htzn1e.png "TqS3b4z7Ho9xcXxHJaIc7HTZn1e")
 
 1. Run the quickstart wizard. The wizard guides you through CLI installation, authentication, cluster connection, and first operations.
 

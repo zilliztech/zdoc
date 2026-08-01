@@ -28,14 +28,6 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace.
 
-<Admonition type="info" icon="📘" title="📘 Note">
-
-- Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.
-
-- If you need to separate Azure Marketplace billing across different teams or business units, see [Separate Zilliz Cloud Billing on Azure Marketplace](./separate-zilliz-cloud-billing-on-azure-marketplace)
-
-</Admonition>
-
 ## Before you start\{#before-you-start}
 
 Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account and an Azure [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.

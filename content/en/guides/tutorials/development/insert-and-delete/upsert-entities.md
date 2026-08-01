@@ -29,7 +29,7 @@ You can use `upsert` to either insert a new entity or update an existing one, de
 
 An upsert request  combines an insert and a delete. When an `upsert` request for an existing entity is received, Zilliz Cloud inserts the data carried in the request payload and deletes the existing entity with the original primary key specified in the data at the same time. 
 
-![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
+![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.s3.us-west-2.amazonaws.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
 
 If the target collection has `autoID` enabled on its primary field, the `upsert` request must still include the primary key of the target entity. Zilliz Cloud uses the provided primary key to locate the entity to replace, and generates a new primary key for the data carried in the request payload before inserting it.
 
@@ -39,7 +39,7 @@ For fields with `nullable` enabled, you can omit them in the `upsert` request if
 
 You can also use the `partial_update` flag to make an upsert request work in merge mode. This allows you to include only the fields that need updating in the request payload.
 
-![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
+![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
 
 To perform a merge, set `partial_update` to `True` in the `upsert` request along with the primary key and the fields to update with their new values. 
 

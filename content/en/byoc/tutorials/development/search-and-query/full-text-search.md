@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | BYOC"
 type: origin
 token: RQTRwhOVPiwnwokqr4scAtyfnBf
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: default
 
 ---

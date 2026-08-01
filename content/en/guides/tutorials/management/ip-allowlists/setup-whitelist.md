@@ -67,7 +67,7 @@ Ensure the following prerequisites are met before proceeding:
 
 </Admonition>
 
-![whitelist-ip-access](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/whitelist-ip-access.png "whitelist-ip-access")
+![whitelist-ip-access](https://zdoc-images.s3.us-west-2.amazonaws.com/whitelist-ip-access.png "whitelist-ip-access")
 
 ## Related topics\{#related-topics}
 

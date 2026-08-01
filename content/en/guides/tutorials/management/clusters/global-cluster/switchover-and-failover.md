@@ -97,7 +97,7 @@ The following table compares the two operations.
 
 The following diagram shows how cluster statuses change during switchover, failover, and auto-recovery operations.
 
-![JO4VwcCq5hlf7Qb6khwcmdDKnJf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/JO4VwcCq5hlf7Qb6khwcmdDKnJf.png)
+![JO4VwcCq5hlf7Qb6khwcmdDKnJf](https://zdoc-images.s3.us-west-2.amazonaws.com/JO4VwcCq5hlf7Qb6khwcmdDKnJf.png)
 
 - **Switchover:**
 

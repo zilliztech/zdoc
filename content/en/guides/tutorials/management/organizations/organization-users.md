@@ -72,13 +72,13 @@ The following table lists the corresponding UI and API privileges of this organi
 
 You can create an organization role for the invitation recipients. An organization role is a role with the privilege to view an organization and its resources. You can edit project- and cluster-level privileges for the role.
 
-![Cb5Yw6EWNhdqD5bjxTRcHHF1nAd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Cb5Yw6EWNhdqD5bjxTRcHHF1nAd.png)
+![Cb5Yw6EWNhdqD5bjxTRcHHF1nAd](https://zdoc-images.s3.us-west-2.amazonaws.com/Cb5Yw6EWNhdqD5bjxTRcHHF1nAd.png)
 
 #### Customize project privileges\{#customize-project-privileges}
 
 By default, **Project Admin** access to **Default Project** is granted to the invitation recipients. However, you can select **Customize** to grant fine-grained privileges.
 
-![PXLywcZSyh9Vaib1wUFc0NminUd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PXLywcZSyh9Vaib1wUFc0NminUd.png)
+![PXLywcZSyh9Vaib1wUFc0NminUd](https://zdoc-images.s3.us-west-2.amazonaws.com/PXLywcZSyh9Vaib1wUFc0NminUd.png)
 
 - **Cluster Access**
 
@@ -125,7 +125,7 @@ Each time, you can invite one or more users with the same role to the organizati
 
 After you invite a user to join your organization, Zilliz Cloud sends an invitation email to the user. You can revoke or resend the invitation before the user accepts it.
 
-![NDXHw6PVFhyxntbucxbc9SOFnLg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NDXHw6PVFhyxntbucxbc9SOFnLg.png)
+![NDXHw6PVFhyxntbucxbc9SOFnLg](https://zdoc-images.s3.us-west-2.amazonaws.com/NDXHw6PVFhyxntbucxbc9SOFnLg.png)
 
 ## Edit the role of an organization user\{#edit-the-role-of-an-organization-user}
 
@@ -133,7 +133,7 @@ Once a user accepts the invitation and joins your organization, you can adjust t
 
 To edit an organization user's role, you must be an **Organization Owner**.
 
-![VGxOwarfShUDk1bIoEpc5wf3nFf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VGxOwarfShUDk1bIoEpc5wf3nFf.png)
+![VGxOwarfShUDk1bIoEpc5wf3nFf](https://zdoc-images.s3.us-west-2.amazonaws.com/VGxOwarfShUDk1bIoEpc5wf3nFf.png)
 
 ## Remove an organization user\{#remove-an-organization-user}
 
@@ -147,7 +147,7 @@ Upon removing a member, the corresponding personal API key will be immediately r
 
 </Admonition>
 
-![C6O0wzlfRhmxQwbt7yccX3VHn3g](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/C6O0wzlfRhmxQwbt7yccX3VHn3g.png)
+![C6O0wzlfRhmxQwbt7yccX3VHn3g](https://zdoc-images.s3.us-west-2.amazonaws.com/C6O0wzlfRhmxQwbt7yccX3VHn3g.png)
 
 ## Leave an organization\{#leave-an-organization}
 
@@ -165,9 +165,9 @@ You can leave an organization in either of the following ways:
 
 - Leave an organization on the organization list page:
 
-    ![Jdu2wpIYBhNZ5mbdMKOcBB6rnBg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Jdu2wpIYBhNZ5mbdMKOcBB6rnBg.png)
+    ![Jdu2wpIYBhNZ5mbdMKOcBB6rnBg](https://zdoc-images.s3.us-west-2.amazonaws.com/Jdu2wpIYBhNZ5mbdMKOcBB6rnBg.png)
 
 - Enter an organization and leave it on the **Organization Members** page:
 
-    ![YQYsw1BYahoLHabbmXdc4V15nA8](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YQYsw1BYahoLHabbmXdc4V15nA8.png)
+    ![YQYsw1BYahoLHabbmXdc4V15nA8](https://zdoc-images.s3.us-west-2.amazonaws.com/YQYsw1BYahoLHabbmXdc4V15nA8.png)
 

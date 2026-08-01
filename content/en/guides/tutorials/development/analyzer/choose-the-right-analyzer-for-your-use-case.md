@@ -30,7 +30,7 @@ It focuses on **practical decision-making**: what analyzer to use, when to custo
 
 An analyzer processes textual data so that it becomes searchable for features like [full text search](./full-text-search) (BM25-based), [phrase match](./phrase-match), or [text match](./text-match). It transforms your raw text into discrete searchable tokens through a two-stage pipeline.
 
-![JwMZwIYUwhbSZ4bjhxcc1PfNnvx](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/JwMZwIYUwhbSZ4bjhxcc1PfNnvx.png)
+![JwMZwIYUwhbSZ4bjhxcc1PfNnvx](https://zdoc-images.s3.us-west-2.amazonaws.com/JwMZwIYUwhbSZ4bjhxcc1PfNnvx.png)
 
 1. **Tokenization (required):** This initial stage applies a **tokenizer** to break a continuous string of text into discrete, meaningful units called tokens. The tokenization method can vary significantly depending on the language and content type.
 

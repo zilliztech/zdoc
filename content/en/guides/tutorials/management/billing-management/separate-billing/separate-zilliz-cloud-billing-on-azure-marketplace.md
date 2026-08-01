@@ -30,7 +30,7 @@ Microsoft provides the billing view. Zilliz Cloud provides the [usage](./analyze
 
 To separate Zilliz Cloud billing on Microsoft Marketplace, you should map each billing unit to one Microsoft subscription, one Microsoft Marketplace subscription for Zilliz Cloud, and one Zilliz Cloud organization.
 
-![AaIlw5K0ThgXP7bBjGvczyIZnpg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AaIlw5K0ThgXP7bBjGvczyIZnpg.png)
+![AaIlw5K0ThgXP7bBjGvczyIZnpg](https://zdoc-images.s3.us-west-2.amazonaws.com/AaIlw5K0ThgXP7bBjGvczyIZnpg.png)
 
 With this setup:
 
@@ -114,7 +114,7 @@ For each business unit:
 
 1. On the Zilliz Cloud Billing page, click **+ Add Payment Method**, and then select **Marketplace**. Click **Subscribe Now**.
 
-    ![VI6ew0JUHh3u1Yb5lrRcLhrxn9b](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/VI6ew0JUHh3u1Yb5lrRcLhrxn9b.png)
+    ![VI6ew0JUHh3u1Yb5lrRcLhrxn9b](https://zdoc-images.s3.us-west-2.amazonaws.com/VI6ew0JUHh3u1Yb5lrRcLhrxn9b.png)
 
 1. You will be redirected to Microsoft Marketplace. Complete your purchase there.
 

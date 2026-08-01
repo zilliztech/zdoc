@@ -415,19 +415,19 @@ Instead of counting the entities programmatically, you can also access the Zilli
 
 You can find **Entity Count** and **Loaded Entities (Approx.)** of a cluster on its **Metrics** tab. Both values are estimates. Values in the curve are obtained [using ](./count-entities#use-getcollectionstats)[`get_collection_stats()`](./count-entities#use-getcollectionstats). If there are no further data insertions and deletions, the **Entity Count** curve will eventually reflect the actual number of entities in the current collection.
 
-![ZVYcwdlqAhOUqDb4vC3c2Hf8n5e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ZVYcwdlqAhOUqDb4vC3c2Hf8n5e.png)
+![ZVYcwdlqAhOUqDb4vC3c2Hf8n5e](https://zdoc-images.s3.us-west-2.amazonaws.com/ZVYcwdlqAhOUqDb4vC3c2Hf8n5e.png)
 
 ### Collection Details\{#collection-details}
 
 You can find the actual entity count of a collection on its details tab. This value is obtained by using [queries with ](./count-entities)[`count(*)`](./count-entities)[ as the output field](./count-entities).
 
-![PfXfwGQoLhW0OBbVMMfccM0Qnaf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PfXfwGQoLhW0OBbVMMfccM0Qnaf.png)
+![PfXfwGQoLhW0OBbVMMfccM0Qnaf](https://zdoc-images.s3.us-west-2.amazonaws.com/PfXfwGQoLhW0OBbVMMfccM0Qnaf.png)
 
 ### Partitions\{#partitions}
 
 You can also use the **Partitions** tab of a collection to find the estimated number of loaded entities in its child partitions. This value is obtained by using `get_partition_stats()`.
 
-![LKThwnS2fhTj8vbFJpEcjAMunwf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LKThwnS2fhTj8vbFJpEcjAMunwf.png)
+![LKThwnS2fhTj8vbFJpEcjAMunwf](https://zdoc-images.s3.us-west-2.amazonaws.com/LKThwnS2fhTj8vbFJpEcjAMunwf.png)
 
 ## FAQs\{#faqs}
 

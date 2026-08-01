@@ -48,7 +48,7 @@ All writes are directed to the primary cluster. Zilliz Cloud then automatically 
 
 The following diagram shows how a global cluster works in Zilliz Cloud.
 
-![UZjtwUeaxh2lDsb9eeOclNZ6nae](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/UZjtwUeaxh2lDsb9eeOclNZ6nae.png)
+![UZjtwUeaxh2lDsb9eeOclNZ6nae](https://zdoc-images.s3.us-west-2.amazonaws.com/UZjtwUeaxh2lDsb9eeOclNZ6nae.png)
 
 This multi-region setup provides the following benefits:
 

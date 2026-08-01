@@ -86,7 +86,7 @@ If you need more credits for PoC, please [contact sales](http://zilliz.com/conta
 
 To view your credit balance:
 
-![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
+![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.s3.us-west-2.amazonaws.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
 
 <Procedures>
 

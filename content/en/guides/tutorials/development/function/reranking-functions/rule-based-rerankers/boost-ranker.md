@@ -52,7 +52,7 @@ You can also combine multiple Boost Rankers to implement a more dynamic and robu
 
 The following diagram illustrates the main workflow of Boost Rankers.
 
-![Hq0awfjC7h0Ty3bvsUEcasOHncb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Hq0awfjC7h0Ty3bvsUEcasOHncb.png)
+![Hq0awfjC7h0Ty3bvsUEcasOHncb](https://zdoc-images.s3.us-west-2.amazonaws.com/Hq0awfjC7h0Ty3bvsUEcasOHncb.png)
 
 When you insert data, Zilliz Cloud distributes it across segments. During a search, each segment returns a set of candidates, and Zilliz Cloud ranks these candidates from all segments to produce the final results. When a search request includes a Boost Ranker, Zilliz Cloud applies it to the candidate results from each segment to prevent potential precision loss and improve recall. 
 

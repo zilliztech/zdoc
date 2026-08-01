@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. As shown in the figure below, compute resources automatically suspend when no requests arrive, and suspended compute resources do not incur charges.
 
-![ZhWHbgOD0o56IpxbQ32ctGaInBe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zhwhbgod0o56ipxbq32ctgainbe.png "ZhWHbgOD0o56IpxbQ32ctGaInBe")
+![ZhWHbgOD0o56IpxbQ32ctGaInBe](https://zdoc-images.s3.us-west-2.amazonaws.com/zhwhbgod0o56ipxbq32ctgainbe.png "ZhWHbgOD0o56IpxbQ32ctGaInBe")
 
 ## Step 1: Connect to a project endpoint.\{#step-1-connect-to-a-project-endpoint}
 

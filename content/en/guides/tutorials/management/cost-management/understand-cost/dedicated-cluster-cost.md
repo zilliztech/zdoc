@@ -86,7 +86,7 @@ Suppose your cluster configuration is as follows:
 
 With the plan, cloud provider and region, and the cluster type information, you can find on the [Pricing Page](https://zilliz.com/pricing) that the CU Unit Price is **&#36;0.248/hour**.
 
-![find-cu-unit-price](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/find-cu-unit-price.png "find-cu-unit-price")
+![find-cu-unit-price](https://zdoc-images.s3.us-west-2.amazonaws.com/find-cu-unit-price.png "find-cu-unit-price")
 
 According to the number of query CU and replica count, the total number of query CU is `8 CU x 2 Replica = 16 CU`.
 

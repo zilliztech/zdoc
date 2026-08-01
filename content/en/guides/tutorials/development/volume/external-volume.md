@@ -321,7 +321,7 @@ You can view all existing volumes in a project.
 
 - **Via web console**
 
-    ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
+    ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
 ## Describe  external volume\{#describe-external-volume}
 
@@ -435,7 +435,7 @@ You can check the details of a specific volume.
 
 - **Via web console**
 
-    ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
+    ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.s3.us-west-2.amazonaws.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
 
 ## Delete an external volume\{#delete-an-external-volume}
 

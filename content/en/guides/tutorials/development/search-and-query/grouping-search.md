@@ -29,11 +29,11 @@ When entities in the search results share the same value in a scalar field, this
 
 Assume a collection stores multiple documents (denoted by **docId**). To retain as much semantic information as possible when converting documents into vectors, each document is split into smaller, manageable paragraphs (or **chunks**) and stored as separate entities. Even though the document is divided into smaller sections, users are often still interested in identifying which documents are most relevant to their needs.
 
-![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
+![LhJEwzWiphLWxobMaiCcbVDPnNb](https://zdoc-images.s3.us-west-2.amazonaws.com/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
 
 When performing an Approximate Nearest Neighbor (ANN) search on such a collection, the search results may include several paragraphs from the same document, potentially causing other documents to be overlooked, which may not align with the intended use case.
 
-![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
+![Ktj8wigrHhvz4nbDES5coKZJnZe](https://zdoc-images.s3.us-west-2.amazonaws.com/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
 
 To improve the diversity of search results, you can add the `group_by_field` parameter in the search request to enable Grouping Search. As shown in the diagram, you can set `group_by_field` to `docId`. Upon receiving this request, Zilliz Cloud will:
 

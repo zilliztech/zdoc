@@ -32,7 +32,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 - Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.
 
-- If you need to separate Azure Marketplace billing across different teams or business units, see [Separate Zilliz Cloud Billing on Azure Marketplace](./separate-zilliz-cloud-billing-on-azure-marketplace)
+- If you need to separate Azure Marketplace billing across different teams or business units, see [Separate Zilliz Cloud Billing on Azure Marketplace](./separate-zilliz-cloud-billing-on-azure-marketplace).
 
 </Admonition>
 
@@ -42,7 +42,7 @@ Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketp
 
 Also ensure your billing country or region is on the list of supported markets. Zilliz Cloud does not support certain markets in the Azure Marketplace due to tax and compliance reasons. If you attempt to subscribe from an unsupported market, you may receive an error message stating, `"No plans are available for market '<market_code>'."` If this occurs, please [contact support](http://support.zilliz.com/) and provide a screenshot of the error message along with the market code. We will discuss possible solutions with you.
 
-![YaPcbHnQXovDLIxks0xcItOJnpf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/yapcbhnqxovdlixks0xcitojnpf.png "YaPcbHnQXovDLIxks0xcItOJnpf")
+![YaPcbHnQXovDLIxks0xcItOJnpf](https://zdoc-images.s3.us-west-2.amazonaws.com/yapcbhnqxovdlixks0xcitojnpf.png "YaPcbHnQXovDLIxks0xcItOJnpf")
 
 <details>
 
@@ -226,7 +226,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
 1. Search for **Zilliz Cloud** in the search box, or [go to the Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view the Zilliz Cloud portal page.
 
-    ![search_for_zilliz_on_azure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/search_for_zilliz_on_azure.png "search_for_zilliz_on_azure")
+    ![search_for_zilliz_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/search_for_zilliz_on_azure.png "search_for_zilliz_on_azure")
 
 1. Click **Zilliz Cloud**.
 
@@ -234,11 +234,11 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
 1. Switch to the **Plans + Pricing** tab. Click **Get it now**.
 
-    ![get_it_now_on_azure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/get_it_now_on_azure.png "get_it_now_on_azure")
+    ![get_it_now_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/get_it_now_on_azure.png "get_it_now_on_azure")
 
 1. In the pop-up window, enter your basic information required by Zilliz Cloud.
 
-    ![enter_basic_information_azure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/enter_basic_information_azure.png "enter_basic_information_azure")
+    ![enter_basic_information_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_basic_information_azure.png "enter_basic_information_azure")
 
 1. On the **Subscribe to Zilliz Cloud** page, complete the following steps:
 
@@ -260,11 +260,11 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     1. Review the subscription details and click **Review+Subscribe**.
 
-    ![configure_subscription_on_azure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/configure_subscription_on_azure.png "configure_subscription_on_azure")
+    ![configure_subscription_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configure_subscription_on_azure.png "configure_subscription_on_azure")
 
 1. On the next page, link your Azure Marketplace subscription to Zilliz Cloud by clicking **Configure account now**.
 
-    ![configure_account_azure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/configure_account_azure.png "configure_account_azure")
+    ![configure_account_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configure_account_azure.png "configure_account_azure")
 
 1. In the new tab, follow the steps below to complete subscription.
 
@@ -274,11 +274,11 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     1. Complete authorization.
 
-        ![aws-marketplace-dialog](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
+        ![aws-marketplace-dialog](https://zdoc-images.s3.us-west-2.amazonaws.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
 
 1. Go to **Billing** on Zilliz Cloud to ensure your Azure Marketplace subscription is set as your payment method.
 
-    ![azure-marketplace-success](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/azure-marketplace-success.png "azure-marketplace-success")
+    ![azure-marketplace-success](https://zdoc-images.s3.us-west-2.amazonaws.com/azure-marketplace-success.png "azure-marketplace-success")
 
 </Procedures>
 
@@ -302,11 +302,11 @@ For details, see [Update Payment Method](./update-payment-method).
 
 1. Click **All resources** or find your subscription in the **Resources/Recent** tab.
 
-    ![azure_all_resources](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/azure_all_resources.png "azure_all_resources")
+    ![azure_all_resources](https://zdoc-images.s3.us-west-2.amazonaws.com/azure_all_resources.png "azure_all_resources")
 
 1. Navigate to the subscription you want to cancel. Click **Cancel subscription**. Wait for a few minutes for Azure Marketplace to complete the process.
 
-    ![cancel_azure_subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/cancel_azure_subscription.png "cancel_azure_subscription")
+    ![cancel_azure_subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/cancel_azure_subscription.png "cancel_azure_subscription")
 
 </Procedures>
 
@@ -326,7 +326,7 @@ There could be several reasons.
 
     This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-    ![insufficient-permission-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
+    ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
     To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
 
@@ -334,7 +334,7 @@ There could be several reasons.
 
     This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
 
-    ![marketplace-already-linked-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
+    ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
     In this case,
 
@@ -346,7 +346,7 @@ There could be several reasons.
 
     - This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    ![no-organization-during-subcription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/no-organization-during-subcription.png "no-organization-during-subcription")
+    ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
     In this case, you can:
 

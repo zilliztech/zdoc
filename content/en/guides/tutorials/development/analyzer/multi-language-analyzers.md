@@ -37,7 +37,7 @@ Multi‑language analyzers resolve this issue by allowing you to configure multi
 
 The following diagram shows the workflow of configuring and using multi-language analyzers in Zilliz Cloud:
 
-![ZDYIwC1HwhTrdlbfOgNcOZ4OnWg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ZDYIwC1HwhTrdlbfOgNcOZ4OnWg.png)
+![ZDYIwC1HwhTrdlbfOgNcOZ4OnWg](https://zdoc-images.s3.us-west-2.amazonaws.com/ZDYIwC1HwhTrdlbfOgNcOZ4OnWg.png)
 
 1. **Configure Multi-language Analyzers**: 
 

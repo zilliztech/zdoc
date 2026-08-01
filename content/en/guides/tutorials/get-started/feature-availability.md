@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 The **availability phase** of a feature indicates its maturity, stability, and recommended usage in Zilliz Cloud. Below is an overview of the feature lifecycle stages and what they mean for you as a user.
 
-![YBh6wiorGhbetoba42DchATjnVm](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YBh6wiorGhbetoba42DchATjnVm.png)
+![YBh6wiorGhbetoba42DchATjnVm](https://zdoc-images.s3.us-west-2.amazonaws.com/YBh6wiorGhbetoba42DchATjnVm.png)
 
 - **Private Preview:** 
 

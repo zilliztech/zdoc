@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | Cloud"
 type: origin
 token: EOxmwUDxMiy2cpkOfIsc1dYzn4c
-sidebar_position: 22
+sidebar_position: 23
 displayed_sidebar: default
 
 ---
@@ -61,7 +61,7 @@ Essentially, Euclidean distance measures the length of a segment that connects 2
 
 The formula for Euclidean distance is as follows:
 
-![C8gHbw8dSozNslx9wXbcyt2hnLe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/c8ghbw8dsoznslx9wxbcyt2hnle.png "C8gHbw8dSozNslx9wXbcyt2hnLe")
+![C8gHbw8dSozNslx9wXbcyt2hnLe](https://zdoc-images.s3.us-west-2.amazonaws.com/c8ghbw8dsoznslx9wxbcyt2hnle.png "C8gHbw8dSozNslx9wXbcyt2hnLe")
 
 where **a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **b = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)** are two points in n-dimensional Euclidean space.
 
@@ -77,7 +77,7 @@ Zilliz Cloud only calculates the value before applying the square root when Eucl
 
 The IP distance between two embeddings is defined as follows:
 
-![Dqp4b8OP3oaQWgxZqoycL3ainwg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/dqp4b8op3oaqwgxzqoycl3ainwg.png "Dqp4b8OP3oaQWgxZqoycL3ainwg")
+![Dqp4b8OP3oaQWgxZqoycL3ainwg](https://zdoc-images.s3.us-west-2.amazonaws.com/dqp4b8op3oaqwgxzqoycl3ainwg.png "Dqp4b8OP3oaQWgxZqoycL3ainwg")
 
 IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.
 
@@ -89,11 +89,11 @@ If you use IP to calculate similarities between embeddings, you must normalize y
 
 Suppose X' is normalized from embedding X:
 
-![U23obWPTJoID9KxeGyjc1HAXn9d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/u23obwptjoid9kxegyjc1haxn9d.png "U23obWPTJoID9KxeGyjc1HAXn9d")
+![U23obWPTJoID9KxeGyjc1HAXn9d](https://zdoc-images.s3.us-west-2.amazonaws.com/u23obwptjoid9kxegyjc1haxn9d.png "U23obWPTJoID9KxeGyjc1HAXn9d")
 
 The correlation between the two embeddings is as follows:
 
-![SHDAb6UUgo7qR6xLXb5cv4bKnke](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/shdab6uugo7qr6xlxb5cv4bknke.png "SHDAb6UUgo7qR6xLXb5cv4bKnke")
+![SHDAb6UUgo7qR6xLXb5cv4bKnke](https://zdoc-images.s3.us-west-2.amazonaws.com/shdab6uugo7qr6xlxb5cv4bknke.png "SHDAb6UUgo7qR6xLXb5cv4bKnke")
 
 ## Cosine similarity\{#cosine-similarity}
 
@@ -101,7 +101,7 @@ Cosine similarity uses the cosine of the angle between two sets of vectors to me
 
 To calculate the cosine similarity between two sets of vectors **A = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **B = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)**, use the following formula:
 
-![R1iNbuEDDoz8RdxtA4RcM706nMc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/r1inbueddoz8rdxta4rcm706nmc.png "R1iNbuEDDoz8RdxtA4RcM706nMc")
+![R1iNbuEDDoz8RdxtA4RcM706nMc](https://zdoc-images.s3.us-west-2.amazonaws.com/r1inbueddoz8rdxta4rcm706nmc.png "R1iNbuEDDoz8RdxtA4RcM706nMc")
 
 The cosine similarity is always in the interval **[-1, 1]**. For example, two proportional vectors have a cosine similarity of **1**, two orthogonal vectors have a similarity of **0**, and two opposite vectors have a similarity of **-1**. The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.
 
@@ -111,11 +111,11 @@ By subtracting their cosine similarity from 1, you can get the cosine distance b
 
 JACCARD distance coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
 
-![Sl4dbmQRVoIf1yx55mRcibZ3nAg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/sl4dbmqrvoif1yx55mrcibz3nag.png "Sl4dbmQRVoIf1yx55mRcibZ3nAg")
+![Sl4dbmQRVoIf1yx55mRcibZ3nAg](https://zdoc-images.s3.us-west-2.amazonaws.com/sl4dbmqrvoif1yx55mrcibz3nag.png "Sl4dbmQRVoIf1yx55mRcibZ3nAg")
 
 JACCARD distance measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1. For binary variables, JACCARD distance is equivalent to the Tanimoto coefficient.
 
-![Kj2kbpNmHoTUUixjDC1ccTntnnV](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/kj2kbpnmhotuuixjdc1cctntnnv.png "Kj2kbpNmHoTUUixjDC1ccTntnnV")
+![Kj2kbpNmHoTUUixjDC1ccTntnnV](https://zdoc-images.s3.us-west-2.amazonaws.com/kj2kbpnmhotuuixjdc1cctntnnv.png "Kj2kbpNmHoTUUixjDC1ccTntnnV")
 
 ## MHJACCARD\{#mhjaccard}
 
@@ -211,7 +211,7 @@ The distance or similarity score between the query and the documents is calculat
 
 To determine the similarity score between the query and a document, the vector embeddings of each query token are compared with those in the document to get a list of similarity scores. Then the highest scores from all score lists are summed to produce the final score.
 
-![BqBlwM4OOh6hM9bmNwbc2xUUnxc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
+![BqBlwM4OOh6hM9bmNwbc2xUUnxc](https://zdoc-images.s3.us-west-2.amazonaws.com/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
 
 In Zilliz Cloud, you can use **MAX_SIM** to measure the similarity between the query and the documents stored in arrays of structs. 
 

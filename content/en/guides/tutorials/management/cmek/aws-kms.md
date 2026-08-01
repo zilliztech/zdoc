@@ -42,7 +42,7 @@ AWS Key Management Service (KMS) is an AWS-managed service that makes it easy fo
 
 In typical cases, you do not use your KMS key to encrypt your data in a Zilliz Cloud cluster. Instead, you use the KMS key to encrypt an encryption zone key (EZK), use the EZK to encrypt a data encryption key (DEK), and use the DEK to encrypt your data.
 
-![YJRcwu5BLhm8Hub1eiZcDiIdnDh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YJRcwu5BLhm8Hub1eiZcDiIdnDh.png)
+![YJRcwu5BLhm8Hub1eiZcDiIdnDh](https://zdoc-images.s3.us-west-2.amazonaws.com/YJRcwu5BLhm8Hub1eiZcDiIdnDh.png)
 
 For details on how encryption works and its scope, refer to [this section](./cmek#how-encryption-works). For more information on the CMEK feature's limitations, refer to [this section](./cmek#limitations). To use the CMEK feature, follow the procedure on this page.
 
@@ -76,11 +76,11 @@ If the drop-down list in **Select AWS IAM Role** on the **Existing IAM Role** ta
 
 1. Click the drop-down in the **Select AWS IAM Role** step, select an IAM role, and click **Next**.
 
-    ![O6IxwU89jhUTHDbShkfcHzZFn00](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/O6IxwU89jhUTHDbShkfcHzZFn00.png)
+    ![O6IxwU89jhUTHDbShkfcHzZFn00](https://zdoc-images.s3.us-west-2.amazonaws.com/O6IxwU89jhUTHDbShkfcHzZFn00.png)
 
 1. Add the KMS key.
 
-    ![ENW6wuQVlhaRntbKYDDcrdegnNL](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ENW6wuQVlhaRntbKYDDcrdegnNL.png)
+    ![ENW6wuQVlhaRntbKYDDcrdegnNL](https://zdoc-images.s3.us-west-2.amazonaws.com/ENW6wuQVlhaRntbKYDDcrdegnNL.png)
 
     1. Select the target region in step 1.
 
@@ -210,7 +210,7 @@ When you use a KMS key to encrypt a Zilliz Cloud cluster, the cluster checks the
 
 You can view the added AWS KMS keys on the Zilliz Cloud console.
 
-![S3NKwZYR7hj6ocbkpIQcB66Unyg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/S3NKwZYR7hj6ocbkpIQcB66Unyg.png)
+![S3NKwZYR7hj6ocbkpIQcB66Unyg](https://zdoc-images.s3.us-west-2.amazonaws.com/S3NKwZYR7hj6ocbkpIQcB66Unyg.png)
 
 Zilliz Cloud will scan the availability of the listed keys every 10 minutes. You can also create project alerts regarding the status of the listed KMS keys. For details, refer to [Manage Project Alerts](./manage-project-alerts#create-a-project-alert).
 
@@ -224,7 +224,7 @@ Once you have added a KMS key to Zilliz Cloud, you can use it to create encrypte
 
 You can select a KMS key available in the region where you want to create the cluster to encrypt it.
 
-![RGUrbElsSoc61JxikfWcoTCrnHe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/rgurbelssoc61jxikfwcotcrnhe.png "RGUrbElsSoc61JxikfWcoTCrnHe")
+![RGUrbElsSoc61JxikfWcoTCrnHe](https://zdoc-images.s3.us-west-2.amazonaws.com/rgurbelssoc61jxikfwcotcrnhe.png "RGUrbElsSoc61JxikfWcoTCrnHe")
 
 Once you have added a KMS key, you can create an encrypted cluster as follows:
 
@@ -238,7 +238,7 @@ Once you have added a KMS key, you can create an encrypted cluster as follows:
 
 1. Review the summary, then click **Create Cluster**.
 
-    ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
+    ![Iy8JbR19eoBQ4YxV1PjcLfUinl7](https://zdoc-images.s3.us-west-2.amazonaws.com/iy8jbr19eobq4yxv1pjclfuinl7.png "Iy8JbR19eoBQ4YxV1PjcLfUinl7")
 
     On the **Overview** page of an encrypted cluster, there is a key icon to the right of the cluster name, as shown in the above figure. All collections created in an encrypted cluster are encrypted by default.
 
@@ -248,11 +248,11 @@ Once you have added a KMS key, you can create an encrypted cluster as follows:
 
 When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the KMS key associated with the backup file to decrypt the data before restoration. Therefore, you can restore the backup to a new cluster with or without encryption. 
 
-![WaApbDlaYoywaMxxUMxcQLAOnDe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/waapbdlayoywamxxumxcqlaonde.png "WaApbDlaYoywaMxxUMxcQLAOnDe")
+![WaApbDlaYoywaMxxUMxcQLAOnDe](https://zdoc-images.s3.us-west-2.amazonaws.com/waapbdlayoywamxxumxcqlaonde.png "WaApbDlaYoywaMxxUMxcQLAOnDe")
 
 The restoration procedure from an encrypted backup is almost the same as a normal restoration, except for whether to enable **Encryption at Rest with CMEK**.
 
-![V1QJb3SK1oGa11xLljhcxKQEnkc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/v1qjb3sk1oga11xlljhcxkqenkc.png "V1QJb3SK1oGa11xLljhcxKQEnkc")
+![V1QJb3SK1oGa11xLljhcxKQEnkc](https://zdoc-images.s3.us-west-2.amazonaws.com/v1qjb3sk1oga11xlljhcxkqenkc.png "V1QJb3SK1oGa11xLljhcxKQEnkc")
 
 - When this option is enabled, the cluster created after the restoration is encrypted using the KMS key specified below.
 

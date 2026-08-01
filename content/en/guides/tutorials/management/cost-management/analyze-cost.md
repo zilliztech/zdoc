@@ -46,7 +46,7 @@ Usage data is updated on an hourly basis.
 
 </Admonition>
 
-![analyze_cost](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/analyze_cost.png "analyze_cost")
+![analyze_cost](https://zdoc-images.s3.us-west-2.amazonaws.com/analyze_cost.png "analyze_cost")
 
 - **By Project**
 
@@ -61,8 +61,6 @@ Usage data is updated on an hourly basis.
     If you have created multiple different clusters based on your business, you can filter and view the specific usage and cost of a particular cluster according to the clusters. 
 
     For example, if you have created two different clusters for user information and order information respectively, when you need to check the usage and cost of the cluster storing order information, you can select the corresponding cluster in the filter.
-
-&lt;include>
 
 - **By Time Period**
 
@@ -125,4 +123,5 @@ Zilliz Cloud calculates charges with a precision of **10 decimal places**, and a
 
 - **RESTful API**: All numeric values (e.g., Unit Price, Usage, Usage Amount) are always returned with exactly 10 decimal places. If the value has fewer than 10 decimal digits, trailing zeros are padded to reach 10 digits. For more information about how to use the RESTful API, see [Query Daily Usage](/reference/restful/query-daily-usage-v2).
 
-- **Web Console UI**: The displayed amounts are consistent with the API values, but trailing zeros are omitted for readability. For example, `0.1234000000` would be displayed as `0.1234` i
+- **Web Console UI**: The displayed amounts are consistent with the API values, but trailing zeros are omitted for readability. For example, `0.1234000000` would be displayed as `0.1234` in the UI.
+

@@ -52,19 +52,19 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     Or you can directly visit [this page](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz). 
 
-    ![UNGcb105Oo319KxghYwciqeCntf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ungcb105oo319kxghywciqecntf.png "UNGcb105Oo319KxghYwciqeCntf")
+    ![UNGcb105Oo319KxghYwciqeCntf](https://zdoc-images.s3.us-west-2.amazonaws.com/ungcb105oo319kxghywciqecntf.png "UNGcb105Oo319KxghYwciqeCntf")
 
 1. Click **View purchase options**.
 
-    ![UQ0Bbe7huojVMUxpjWccXT6enkb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/uq0bbe7huojvmuxpjwccxt6enkb.png "UQ0Bbe7huojVMUxpjWccXT6enkb")
+    ![UQ0Bbe7huojVMUxpjWccXT6enkb](https://zdoc-images.s3.us-west-2.amazonaws.com/uq0bbe7huojvmuxpjwccxt6enkb.png "UQ0Bbe7huojVMUxpjWccXT6enkb")
 
 1. Scroll down the page and click **Subscribe**. 
 
-    ![XAn8bszmeoIRJbxUml1cmXJQned](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/xan8bszmeoirjbxuml1cmxjqned.png "XAn8bszmeoIRJbxUml1cmXJQned")
+    ![XAn8bszmeoIRJbxUml1cmXJQned](https://zdoc-images.s3.us-west-2.amazonaws.com/xan8bszmeoirjbxuml1cmxjqned.png "XAn8bszmeoIRJbxUml1cmXJQned")
 
 1. Follow the prompt to **Set up your account** on Zilliz Cloud.
 
-    ![set-up-account](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/set-up-account.png "set-up-account")
+    ![set-up-account](https://zdoc-images.s3.us-west-2.amazonaws.com/set-up-account.png "set-up-account")
 
 1.  In the new tab, follow the steps below to complete subscription.
 
@@ -78,13 +78,13 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     1. Link your subscription to an existing Zilliz Cloud organization.
 
-        ![aws-marketplace-dialog](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
+        ![aws-marketplace-dialog](https://zdoc-images.s3.us-west-2.amazonaws.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
 
     1. Complete authorization.
 
 1. Go to **Billing** to ensure your AWS Marketplace subscription is set as your payment method.
 
-    ![aws-marketplace-success](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/aws-marketplace-success.png "aws-marketplace-success")
+    ![aws-marketplace-success](https://zdoc-images.s3.us-west-2.amazonaws.com/aws-marketplace-success.png "aws-marketplace-success")
 
 </Procedures>
 
@@ -138,7 +138,7 @@ There could be several reasons.
 
     This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-    ![insufficient-permission-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
+    ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
 
     To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
 
@@ -146,7 +146,7 @@ There could be several reasons.
 
     This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
 
-    ![marketplace-already-linked-subscription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
+    ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
     In this case,
 
@@ -158,7 +158,7 @@ There could be several reasons.
 
     - This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    ![no-organization-during-subcription](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/no-organization-during-subcription.png "no-organization-during-subcription")
+    ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
 
     In this case, you can:
 

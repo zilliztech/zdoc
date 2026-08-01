@@ -30,13 +30,13 @@ All Zilliz Cloud clusters created after this release are compatible with **Milvu
 
 - **New console user interface:** Quickly locate data sources and select the proper migration method with a clean, intuitive GUI.
 
-    ![M3K4bSnIeoqBKExPdaPcd6j7nVb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/m3k4bsnieoqbkexpdapcd6j7nvb.png "M3K4bSnIeoqBKExPdaPcd6j7nVb")
+    ![M3K4bSnIeoqBKExPdaPcd6j7nVb](https://zdoc-images.s3.us-west-2.amazonaws.com/m3k4bsnieoqbkexpdapcd6j7nvb.png "M3K4bSnIeoqBKExPdaPcd6j7nVb")
 
     Zilliz Cloud supports migrations between Zilliz Cloud clusters, from Milvus instances, and from several external sources. For details on the possible data sources, refer to [Zilliz to Zilliz Migrations](./migrate-between-clusters).
 
 - **Advanced collection & configuration tools:** Confidently handle complex collection and field mappings with improved data type support, dynamic-to-fixed field conversion, and intuitive controls for configuring field and shard settings — all within a responsive, user-friendly interface.
 
-    ![O3AebUiCjonYFSxLrbucDp5SnOb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/o3aebuicjonyfsxlrbucdp5snob.png "O3AebUiCjonYFSxLrbucDp5SnOb")
+    ![O3AebUiCjonYFSxLrbucDp5SnOb](https://zdoc-images.s3.us-west-2.amazonaws.com/o3aebuicjonyfsxlrbucdp5snob.png "O3AebUiCjonYFSxLrbucDp5SnOb")
 
     You can read [External Migration Basics](./external-migration-basics) for guidance on general procedures for migrations from external sources, and learn about the requirements and common issues handling rules for specific external sources, including [Pinecone](./migrate-from-pinecone), [Qdrant](./migrate-from-qdrant), [Elasticsearch](./migrate-from-elasticsearch), [PostgreSQL](./migrate-from-pgvector), [Tencent Cloud](./migrate-from-tencent-cloud), and [OpenSearch](./migrate-from-opensearch).
 
@@ -62,7 +62,7 @@ Zilliz Cloud follows [cluster-level defaults](./use-mmap#global-mmap-strategy) b
 
 - **Field-Level Control:** Enable, disable, or remove mmap settings for raw and index data of a specific field.
 
-![JspDbBt12o4ra2x353ycjG1Mn7b](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/jspdbbt12o4ra2x353ycjg1mn7b.png "JspDbBt12o4ra2x353ycjG1Mn7b")
+![JspDbBt12o4ra2x353ycjG1Mn7b](https://zdoc-images.s3.us-west-2.amazonaws.com/jspdbbt12o4ra2x353ycjg1mn7b.png "JspDbBt12o4ra2x353ycjG1Mn7b")
 
 ## BYOC now available on GCP\{#byoc-now-available-on-gcp}
 
@@ -82,7 +82,7 @@ This release has enhanced the visual design of Zilliz Cloud AI assistance for a 
 
 - **Detect Sales Signals:** Identifies buying intent and sales-related cues for timely follow-up.
 
-![OQTSbop2WoTH2px3o5tcbDmmnYf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/oqtsbop2woth2px3o5tcbdmmnyf.png "OQTSbop2WoTH2px3o5tcbDmmnYf")
+![OQTSbop2WoTH2px3o5tcbDmmnYf](https://zdoc-images.s3.us-west-2.amazonaws.com/oqtsbop2woth2px3o5tcbdmmnyf.png "OQTSbop2WoTH2px3o5tcbDmmnYf")
 
 ## Other Improvements\{#other-improvements}
 

@@ -25,7 +25,7 @@ Information Retrieval systems, also known as search engines, are essential for v
 
 Zilliz Cloud allows you to specify the search data model through a collection schema, organizing unstructured data, their dense or sparse vector representations, and structured metadata. Whether you're working with text, images, or other data types, this hands-on guide will help you understand and apply key schema concepts to design a search data model in practice.
 
-![Kc3Cweq1AhAmMGbrVgRcTlTKnUf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Kc3Cweq1AhAmMGbrVgRcTlTKnUf.png)
+![Kc3Cweq1AhAmMGbrVgRcTlTKnUf](https://zdoc-images.s3.us-west-2.amazonaws.com/Kc3Cweq1AhAmMGbrVgRcTlTKnUf.png)
 
 ## Data Model\{#data-model}
 

@@ -44,7 +44,7 @@ Make sure the following condition is met:
 
 Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
-![Yz5Cb5PMooxAIExRkEvcoBr9noc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/yz5cb5pmooxaiexrkevcobr9noc.png "Yz5Cb5PMooxAIExRkEvcoBr9noc")
+![Yz5Cb5PMooxAIExRkEvcoBr9noc](https://zdoc-images.s3.us-west-2.amazonaws.com/yz5cb5pmooxaiexrkevcobr9noc.png "Yz5Cb5PMooxAIExRkEvcoBr9noc")
 
 ### Select a cloud provider and region\{#select-a-cloud-provider-and-region}
 
@@ -52,7 +52,7 @@ To create a private endpoint for a cluster deployed in a GCP region, select **GC
 
 For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
-![F8jBbJcdnoqMBBxMQZZcJfvKnny](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/f8jbbjcdnoqmbbxmqzzcjfvknny.png "F8jBbJcdnoqMBBxMQZZcJfvKnny")
+![F8jBbJcdnoqMBBxMQZZcJfvKnny](https://zdoc-images.s3.us-west-2.amazonaws.com/f8jbbjcdnoqmbbxmqzzcjfvknny.png "F8jBbJcdnoqMBBxMQZZcJfvKnny")
 
 ### Create an endpoint\{#create-an-endpoint}
 
@@ -60,7 +60,7 @@ You can create an endpoint either via the Google Cloud Dashboard (**via UI Conso
 
 #### Via UI console\{#via-ui-console}
 
-![CicmbETm0oALKkxGh3Xc2wz0nVa](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/cicmbetm0oalkkxgh3xc2wz0nva.png "CicmbETm0oALKkxGh3Xc2wz0nVa")
+![CicmbETm0oALKkxGh3Xc2wz0nVa](https://zdoc-images.s3.us-west-2.amazonaws.com/cicmbetm0oalkkxgh3xc2wz0nva.png "CicmbETm0oALKkxGh3Xc2wz0nVa")
 
 Click **Copy and Go** on the Zilliz Cloud console to open the Private Service Connect list on GCP and follow the steps below to create an endpoint:
 
@@ -92,7 +92,7 @@ Click **Copy and Go** on the Zilliz Cloud console to open the Private Service Co
 
 #### Via CLI\{#via-cli}
 
-![OurbbN4HdodjSNx9ph2cWTwWnIc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ourbbn4hdodjsnx9ph2cwtwwnic.png "OurbbN4HdodjSNx9ph2cWTwWnIc")
+![OurbbN4HdodjSNx9ph2cWTwWnIc](https://zdoc-images.s3.us-west-2.amazonaws.com/ourbbn4hdodjsnx9ph2cwtwwnic.png "OurbbN4HdodjSNx9ph2cWTwWnIc")
 
 <Procedures>
 
@@ -144,7 +144,7 @@ Click **Copy and Go** on the Zilliz Cloud console to open the Private Service Co
 
     In the top navigation, launch Google Cloud Cloud Shell. Run the CLI command you just copied from Zilliz Cloud in the Cloud Shell.
 
-    ![vpc_networks_gcp](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/vpc_networks_gcp.png "vpc_networks_gcp")
+    ![vpc_networks_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/vpc_networks_gcp.png "vpc_networks_gcp")
 
     When the endpoint is created, navigate to the [Google Cloud Private Service Connect page](https://console.cloud.google.com/net-services/psc/list/consumers) and copy the name of the endpoint you just created. 
 
@@ -154,7 +154,7 @@ Click **Copy and Go** on the Zilliz Cloud console to open the Private Service Co
 
 Paste the endpoint ID and project ID you obtained from the Google Cloud console into the **Endpoint ID** and **Project ID** box respectively on Zilliz Cloud. Click **Create**.
 
-![VOy4blyfmoi7RLxO0GWcXmzDnFe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/voy4blyfmoi7rlxo0gwcxmzdnfe.png "VOy4blyfmoi7RLxO0GWcXmzDnFe")
+![VOy4blyfmoi7RLxO0GWcXmzDnFe](https://zdoc-images.s3.us-west-2.amazonaws.com/voy4blyfmoi7rlxo0gwcxmzdnfe.png "VOy4blyfmoi7RLxO0GWcXmzDnFe")
 
 ## Obtain a private link\{#obtain-a-private-link}
 
@@ -180,7 +180,7 @@ gcloud compute firewall-rules create psclab-iap-consumer --network $VPC_NAME --a
 
 Go to [Cloud DNS](https://console.cloud.google.com/net-services/dns/zones) in your GCP console and create a DNS zone.
 
-![V0XRbvlgLoHRPexZSzEcFB5rn17](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/v0xrbvlglohrpexzszecfb5rn17.png "V0XRbvlgLoHRPexZSzEcFB5rn17")
+![V0XRbvlgLoHRPexZSzEcFB5rn17](https://zdoc-images.s3.us-west-2.amazonaws.com/v0xrbvlglohrpexzszecfb5rn17.png "V0XRbvlgLoHRPexZSzEcFB5rn17")
 
 <Procedures>
 
@@ -206,11 +206,11 @@ Go to [Cloud DNS](https://console.cloud.google.com/net-services/dns/zones) in yo
 
 1. On the **Create record set** page, create an **A** record with the default settings.
 
-    ![Zys4bZxploNNTex5h2OcGGwnnYd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zys4bzxplonntex5h2ocggwnnyd.png "Zys4bZxploNNTex5h2OcGGwnnYd")
+    ![Zys4bZxploNNTex5h2OcGGwnnYd](https://zdoc-images.s3.us-west-2.amazonaws.com/zys4bzxplonntex5h2ocggwnnyd.png "Zys4bZxploNNTex5h2OcGGwnnYd")
 
 1. Click **SELECT IP ADDRESS** in **IPv4 Address**, and select the IP address of your endpoint.
 
-    ![Uh1sbVdLSok8N6xyRMhcildDn7f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/uh1sbvdlsok8n6xyrmhcilddn7f.png "Uh1sbVdLSok8N6xyRMhcildDn7f")
+    ![Uh1sbVdLSok8N6xyRMhcildDn7f](https://zdoc-images.s3.us-west-2.amazonaws.com/uh1sbvdlsok8n6xyrmhcilddn7f.png "Uh1sbVdLSok8N6xyRMhcildDn7f")
 
 1. Click **CREATE**.
 
@@ -242,7 +242,7 @@ To disable public endpoints:
 
 </Admonition>
 
-![disable_public_endpoint](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disable_public_endpoint.png "disable_public_endpoint")
+![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disable_public_endpoint.png "disable_public_endpoint")
 
 ## FAQ\{#faq}
 
@@ -252,11 +252,11 @@ Check your DNS settings by referring to [Set up firewall rules and a DNS record]
 
 - If the configuration is correct, when you ping your private link, you should see
 
-    ![private_link_gcp_ts_01](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/private_link_gcp_ts_01.png "private_link_gcp_ts_01")
+    ![private_link_gcp_ts_01](https://zdoc-images.s3.us-west-2.amazonaws.com/private_link_gcp_ts_01.png "private_link_gcp_ts_01")
 
 - If the configuration is incorrect, when you ping your private link, you may see
 
-    ![private_link_gcp_ts_02](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/private_link_gcp_ts_02.png "private_link_gcp_ts_02")
+    ![private_link_gcp_ts_02](https://zdoc-images.s3.us-west-2.amazonaws.com/private_link_gcp_ts_02.png "private_link_gcp_ts_02")
 
 ### Can I create a private endpoint for an existing cluster?\{#can-i-create-a-private-endpoint-for-an-existing-cluster}
 

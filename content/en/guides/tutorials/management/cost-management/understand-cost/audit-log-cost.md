@@ -70,7 +70,7 @@ Suppose your cluster configuration is as follows:
 
 - **Audit Logs Runtime:** 
 
-    ![JKGIwkjiyhRr2ebq4eKcUsZOn8d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/JKGIwkjiyhRr2ebq4eKcUsZOn8d.png)
+    ![JKGIwkjiyhRr2ebq4eKcUsZOn8d](https://zdoc-images.s3.us-west-2.amazonaws.com/JKGIwkjiyhRr2ebq4eKcUsZOn8d.png)
 
     As illustrated above, 
 

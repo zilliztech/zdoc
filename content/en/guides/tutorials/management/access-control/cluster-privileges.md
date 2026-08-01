@@ -27,7 +27,7 @@ A **privilege group** is a combination of individual privileges. You can create 
 
 The following figure illustrates the different granting process of privileges and a privilege group.
 
-![SsW6w8kaNhz4iQbEMYmcbUzsnOc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SsW6w8kaNhz4iQbEMYmcbUzsnOc.png)
+![SsW6w8kaNhz4iQbEMYmcbUzsnOc](https://zdoc-images.s3.us-west-2.amazonaws.com/SsW6w8kaNhz4iQbEMYmcbUzsnOc.png)
 
 This topic details the built-in privilege groups and privileges that are available in Zilliz Cloud. 
 

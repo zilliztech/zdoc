@@ -44,7 +44,7 @@ Make sure the following condition is met:
 
 Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
-![PYylbfopjoFkiZxFlbucIFHkn8g](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/pyylbfopjofkizxflbucifhkn8g.png "PYylbfopjoFkiZxFlbucIFHkn8g")
+![PYylbfopjoFkiZxFlbucIFHkn8g](https://zdoc-images.s3.us-west-2.amazonaws.com/pyylbfopjofkizxflbucifhkn8g.png "PYylbfopjoFkiZxFlbucIFHkn8g")
 
 ### Step 1: Select a cloud provider and region\{#step-1-select-a-cloud-provider-and-region}
 
@@ -52,15 +52,15 @@ To create a private endpoint for a cluster deployed in an Azure region, select *
 
 For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
-![CguAbg90loxAJ4x0cl6c58rqnvO](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/cguabg90loxaj4x0cl6c58rqnvo.png "CguAbg90loxAJ4x0cl6c58rqnvO")
+![CguAbg90loxAJ4x0cl6c58rqnvO](https://zdoc-images.s3.us-west-2.amazonaws.com/cguabg90loxaj4x0cl6c58rqnvo.png "CguAbg90loxAJ4x0cl6c58rqnvO")
 
 ### Step 2: Establish an endpoint service\{#step-2-establish-an-endpoint-service}
 
-![Z54SboHLyoKB1QxAG4Dcw7bEnOh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/z54sbohlyokb1qxag4dcw7benoh.png "Z54SboHLyoKB1QxAG4Dcw7bEnOh")
+![Z54SboHLyoKB1QxAG4Dcw7bEnOh](https://zdoc-images.s3.us-west-2.amazonaws.com/z54sbohlyokb1qxag4dcw7benoh.png "Z54SboHLyoKB1QxAG4Dcw7bEnOh")
 
 Enter the subscription ID copied from the [Microsoft Azure Subscription page](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1). Below is an example.
 
-![KmCYbkbpDoJHAkxDzN9cV1LOnng](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/kmcybkbpdojhakxdzn9cv1lonng.png "KmCYbkbpDoJHAkxDzN9cV1LOnng")
+![KmCYbkbpDoJHAkxDzN9cV1LOnng](https://zdoc-images.s3.us-west-2.amazonaws.com/kmcybkbpdojhakxdzn9cv1lonng.png "KmCYbkbpDoJHAkxDzN9cV1LOnng")
 
 ### Step 3: Create an endpoint\{#step-3-create-an-endpoint}
 
@@ -70,37 +70,37 @@ You need to complete this step on your cloud provider console.
 
 1. Go to [Private Link Center](https://portal.azure.com/#view/Microsoft_Azure_Network/PrivateLinkCenterBlade/~/privateendpoints), and click **+ Create**.
 
-    ![TQB9bT5KKojscoxcOZbcZ4Q6nNf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/tqb9bt5kkojscoxcozbcz4q6nnf.png "TQB9bT5KKojscoxcOZbcZ4Q6nNf")
+    ![TQB9bT5KKojscoxcOZbcZ4Q6nNf](https://zdoc-images.s3.us-west-2.amazonaws.com/tqb9bt5kkojscoxcozbcz4q6nnf.png "TQB9bT5KKojscoxcOZbcZ4Q6nNf")
 
 1. Fill in the basic information for the private endpoint to create.
 
-    ![ECcPbN4Kaog5bdxyed3cyP3HnHe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/eccpbn4kaog5bdxyed3cyp3hnhe.png "ECcPbN4Kaog5bdxyed3cyP3HnHe")
+    ![ECcPbN4Kaog5bdxyed3cyP3HnHe](https://zdoc-images.s3.us-west-2.amazonaws.com/eccpbn4kaog5bdxyed3cyp3hnhe.png "ECcPbN4Kaog5bdxyed3cyP3HnHe")
 
 1. Click **Next: Resource >** and choose **Connect to an Azure resource by resource ID or alias**. Then paste the one copied from the Zilliz Cloud console into **Resource ID or alias**.
 
-    ![TDJVb0pkWoxVPIxCThvct9Hpnae](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/tdjvb0pkwoxvpixcthvct9hpnae.png "TDJVb0pkWoxVPIxCThvct9Hpnae")
+    ![TDJVb0pkWoxVPIxCThvct9Hpnae](https://zdoc-images.s3.us-west-2.amazonaws.com/tdjvb0pkwoxvpixcthvct9hpnae.png "TDJVb0pkWoxVPIxCThvct9Hpnae")
 
 1. Select proper values in **Virtual network** and **Subnet**, and keep the default for other settings on this tab.
 
-    ![SNdZbzo0EoP7PYxg1z4clUijnQg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/sndzbzo0eop7pyxg1z4cluijnqg.png "SNdZbzo0EoP7PYxg1z4clUijnQg")
+    ![SNdZbzo0EoP7PYxg1z4clUijnQg](https://zdoc-images.s3.us-west-2.amazonaws.com/sndzbzo0eop7pyxg1z4cluijnqg.png "SNdZbzo0EoP7PYxg1z4clUijnQg")
 
 1. Click **Next** until you reach the **Review + create** tab. If the validation passes, click **Create** to create the private endpoint.
 
-    ![FJ95b4S4voMavqxFWEac3JdinAc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/fj95b4s4vomavqxfweac3jdinac.png "FJ95b4S4voMavqxFWEac3JdinAc")
+    ![FJ95b4S4voMavqxFWEac3JdinAc](https://zdoc-images.s3.us-west-2.amazonaws.com/fj95b4s4vomavqxfweac3jdinac.png "FJ95b4S4voMavqxFWEac3JdinAc")
 
 1. Once the deployment succeeds, you will see the following.
 
-    ![QNHubedZWoJFe7xkX5ac5TOInzg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/qnhubedzwojfe7xkx5ac5toinzg.png "QNHubedZWoJFe7xkX5ac5TOInzg")
+    ![QNHubedZWoJFe7xkX5ac5TOInzg](https://zdoc-images.s3.us-west-2.amazonaws.com/qnhubedzwojfe7xkx5ac5toinzg.png "QNHubedZWoJFe7xkX5ac5TOInzg")
 
 1. Click **Go to resource** and see the overview page of the created Private Endpoint.
 
 1. Click **JSON View** in the upper right corner on the **Overview** page. Note that the **Connection Status** is displayed as **Pending**. 
 
-    ![YYrobZKr4oFJJ8xNRYicL2PZnde](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/yyrobzkr4ofjj8xnryicl2pznde.png "YYrobZKr4oFJJ8xNRYicL2PZnde")
+    ![YYrobZKr4oFJJ8xNRYicL2PZnde](https://zdoc-images.s3.us-west-2.amazonaws.com/yyrobzkr4ofjj8xnryicl2pznde.png "YYrobZKr4oFJJ8xNRYicL2PZnde")
 
     In the **Resource JSON** panel, copy the values of `name` and `properties.resourceGuid`. Your endpoint ID should be these two values joined by a period (`.`). 
 
-    ![Vm7pbEGggo2tx6xirE3c9ZyRnSg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/vm7pbegggo2tx6xire3c9zyrnsg.png "Vm7pbEGggo2tx6xirE3c9ZyRnSg")
+    ![Vm7pbEGggo2tx6xirE3c9ZyRnSg](https://zdoc-images.s3.us-west-2.amazonaws.com/vm7pbegggo2tx6xire3c9zyrnsg.png "Vm7pbEGggo2tx6xirE3c9ZyRnSg")
 
     For example, the value of the key `name` is `zilliz`, and the value of the key `properties.resourceGuid` is `d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`. Your Private Endpoint ID should be `zilliz.d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`.
 
@@ -126,7 +126,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
 1. On the **Overview** page of the created Private Endpoint, choose **Settings** > **DNS configuration**, and copy the **IP address** of the network interface created along with the Private Endpoint.
 
-    ![GC9jbsUp2oXgCZxkojbcrmJanJb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/gc9jbsup2oxgczxkojbcrmjanjb.png "GC9jbsUp2oXgCZxkojbcrmJanJb")
+    ![GC9jbsUp2oXgCZxkojbcrmJanJb](https://zdoc-images.s3.us-west-2.amazonaws.com/gc9jbsup2oxgczxkojbcrmjanjb.png "GC9jbsUp2oXgCZxkojbcrmJanJb")
 
     The example value in the screen shot above is **10.0.0.4.**
 
@@ -134,19 +134,19 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
 1. In the **Basics** tab, select the subscription and resource group used above, and paste the Private Link URI copied from the Zilliz Cloud console in **Instance details** > **Name**. Then click **Review create**.
 
-    ![QweWbLRSioY9Cix8nMUc0Q75n1e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/qwewblrsioy9cix8nmuc0q75n1e.png "QweWbLRSioY9Cix8nMUc0Q75n1e")
+    ![QweWbLRSioY9Cix8nMUc0Q75n1e](https://zdoc-images.s3.us-west-2.amazonaws.com/qwewblrsioy9cix8nmuc0q75n1e.png "QweWbLRSioY9Cix8nMUc0Q75n1e")
 
 1. Once the validation passes, click Create to start the process.
 
-    ![LsmabNzrwoz9lvxJpKac2gEdnGG](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/lsmabnzrwoz9lvxjpkac2gedngg.png "LsmabNzrwoz9lvxJpKac2gEdnGG")
+    ![LsmabNzrwoz9lvxJpKac2gEdnGG](https://zdoc-images.s3.us-west-2.amazonaws.com/lsmabnzrwoz9lvxjpkac2gedngg.png "LsmabNzrwoz9lvxJpKac2gEdnGG")
 
 1. If the deployment succeeds, you will see the following.
 
-    ![LGB3bC80FoQnXIxx527cVkTMnAe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/lgb3bc80foqnxixx527cvktmnae.png "LGB3bC80FoQnXIxx527cVkTMnAe")
+    ![LGB3bC80FoQnXIxx527cVkTMnAe](https://zdoc-images.s3.us-west-2.amazonaws.com/lgb3bc80foqnxixx527cvktmnae.png "LGB3bC80FoQnXIxx527cVkTMnAe")
 
 1. Click **Go to resource** to see the **Overview** page of the created Private DNS zone.
 
-    ![M401b0RiNoauaHxbBH6crLXlnXc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/m401b0rinoauahxbbh6crlxlnxc.png "M401b0RiNoauaHxbBH6crLXlnXc")
+    ![M401b0RiNoauaHxbBH6crLXlnXc](https://zdoc-images.s3.us-west-2.amazonaws.com/m401b0rinoauahxbbh6crlxlnxc.png "M401b0RiNoauaHxbBH6crLXlnXc")
 
 </Procedures>
 
@@ -158,27 +158,27 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
 1. Click **+ Add**. In the **Add virtual network link** dialog box, enter a **Link name**, and select **Subscription** and **Virtual network** you have used above. In the **Configuration** section, select **Enable auto registration** also.
 
-    ![KQZ2bvbbUodBlAxV98ccbrwxnWg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/kqz2bvbbuodblaxv98ccbrwxnwg.png "KQZ2bvbbUodBlAxV98ccbrwxnWg")
+    ![KQZ2bvbbUodBlAxV98ccbrwxnWg](https://zdoc-images.s3.us-west-2.amazonaws.com/kqz2bvbbuodblaxv98ccbrwxnwg.png "KQZ2bvbbUodBlAxV98ccbrwxnWg")
 
     Once everything is set up as expected, click **OK** to continue. The link status of the created virtual network link will change to **Completed** after the deployment succeeds.
 
-    ![R84pbAxcKo24pDxQvlKcyxV7n4b](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/r84pbaxcko24pdxqvlkcyxv7n4b.png "R84pbAxcKo24pDxQvlKcyxV7n4b")
+    ![R84pbAxcKo24pDxQvlKcyxV7n4b](https://zdoc-images.s3.us-west-2.amazonaws.com/r84pbaxcko24pdxqvlkcyxv7n4b.png "R84pbAxcKo24pDxQvlKcyxV7n4b")
 
 1. Click **Overview** in the left navigation pane to go back to the **Overview** page of the Private DNS zone.
 
-    ![S4bTb3ICwoWnlgxqSFrcYwEInvh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/s4btb3icwownlgxqsfrcyweinvh.png "S4bTb3ICwoWnlgxqSFrcYwEInvh")
+    ![S4bTb3ICwoWnlgxqSFrcYwEInvh](https://zdoc-images.s3.us-west-2.amazonaws.com/s4btb3icwownlgxqsfrcyweinvh.png "S4bTb3ICwoWnlgxqSFrcYwEInvh")
 
 1. Click **+ Record set**. In the **Add record set** dialog box, enter your cluster ID suffixed with `-privatelink` in **Name**, select **A - Address record** in **Type**, and set **TTL** to **10 Minutes**. Check whether the listed IP address is the one you have noted down.
 
-    ![DtFQb18jloG9JDxYg0AcSlRsn75](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/dtfqb18jlog9jdxyg0acslrsn75.png "DtFQb18jloG9JDxYg0AcSlRsn75")
+    ![DtFQb18jloG9JDxYg0AcSlRsn75](https://zdoc-images.s3.us-west-2.amazonaws.com/dtfqb18jlog9jdxyg0acslrsn75.png "DtFQb18jloG9JDxYg0AcSlRsn75")
 
     Click **OK** to save the record set.
 
-    ![YWSZbd4qEoAW64xf9gHcamC8nyd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ywszbd4qeoaw64xf9ghcamc8nyd.png "YWSZbd4qEoAW64xf9gHcamC8nyd")
+    ![YWSZbd4qEoAW64xf9gHcamC8nyd](https://zdoc-images.s3.us-west-2.amazonaws.com/ywszbd4qeoaw64xf9ghcamc8nyd.png "YWSZbd4qEoAW64xf9gHcamC8nyd")
 
 1. Go back to the Overview page of the created Private Endpoint on the Azure portal, and you will see that the **Connection Status** of the Private Endpoint turns from **Pending** to **Approved**. 
 
-    ![CqAEbOjDUogQGdxl3gjclaPAn1e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/cqaebojduogqgdxl3gjclapan1e.png "CqAEbOjDUogQGdxl3gjclaPAn1e")
+    ![CqAEbOjDUogQGdxl3gjclaPAn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/cqaebojduogqgdxl3gjclapan1e.png "CqAEbOjDUogQGdxl3gjclaPAn1e")
 
     Now the resources in your Azure virtual network can access the Zilliz Cloud cluster privately.
 
@@ -210,7 +210,7 @@ To disable public endpoints:
 
 </Admonition>
 
-![disable_public_endpoint](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disable_public_endpoint.png "disable_public_endpoint")
+![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disable_public_endpoint.png "disable_public_endpoint")
 
 ## FAQ\{#faq}
 

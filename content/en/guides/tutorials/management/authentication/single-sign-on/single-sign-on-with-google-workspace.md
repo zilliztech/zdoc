@@ -34,7 +34,7 @@ This topic describes how to configure single sign-on (SSO) with Google Workspace
 
 In this guide, Zilliz Cloud acts as the Service Provider (SP) and Google Workspace acts as the Identity Provider (IdP). The following digram illustrates the necessary steps in Zilliz Cloud and Google Admin console.
 
-![LsmAwFbPthojH3bLRtEcogRinwc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LsmAwFbPthojH3bLRtEcogRinwc.png)
+![LsmAwFbPthojH3bLRtEcogRinwc](https://zdoc-images.s3.us-west-2.amazonaws.com/LsmAwFbPthojH3bLRtEcogRinwc.png)
 
 ## Before you start\{#before-you-start}
 

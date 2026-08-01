@@ -35,7 +35,7 @@ If you forget a user's password or suspect it has been leaked, you can reset the
 
 - **Reset user password on the console**
 
-    ![reset-cluster-user-password](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/reset-cluster-user-password.png "reset-cluster-user-password")
+    ![reset-cluster-user-password](https://zdoc-images.s3.us-west-2.amazonaws.com/reset-cluster-user-password.png "reset-cluster-user-password")
 
 - **Reset user password programmatically**
 

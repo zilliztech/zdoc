@@ -54,3 +54,58 @@ Usage data is updated on an hourly basis.
 
     The Usage Amount bar chart will visually represent daily usage changes, and the Usage Amount Details table provides data in tabular form.
 
+- **By Time Period**
+
+    To review usage and cost trends over a specific time range, you can select a time period in the filter.
+
+    The default time range is 1 month, with a maximum span of 2 months.
+
+    For instance, to analyze daily usage and expenses for August 2024, select August 1, 2024 to August 31, 2024 in the date filter. The Usage Amount bar chart will display daily cost trends for the selected time frame.
+
+- **By Cloud Region**
+
+    If you have deployed services across multiple cloud regions, you can filter by cloud region to view region-specific usage and costs.
+
+    For instance, if you deployed clusters in both AWS us-east-1 (Virginia) and GCP europe-west3 (Frankfurt), you can filter and view usage and costs for the AWS us-east-1 (Virginia) region.
+
+You can combine multiple filters based on your analysis needs to view visualized usage and cost data. 
+
+### Via RESTful API\{#via-restful-api}
+
+<Admonition type="info" icon="📘" title="📘 Notes">
+
+The Query Daily Usage RESTful API is currently in public preview. To use this API, please [contact us](http://support.zilliz.com).
+
+</Admonition>
+
+You can also use the [Query Daily Usage](/reference/restful/query-daily-usage-v2) API to query the daily usage of an organization. Usage details you get from this RESTful API are precise to 8 decimal places. If you need to understand how daily costs are accumulated and rounded to 2 decimal places, we recommend using the RESTful API. By adding up the daily usage, you will obtain a total usage amount that is precise to 8 decimal places. Then round this total usage amount to 2 decimal places (eg. &#36;60.56724390 is rounded to &#36;60.57). The final total usage amount should be consistent with the figured displayed on your invoice.
+
+The following example demonstrates how to query the daily usage of an organization.
+
+```bash
+curl --request POST \
+--url "https://api.cloud.zilliz.com/v2/usage/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "start": "2024-01-01",
+    "end": "2024-02-01"
+}'
+```
+
+In the command above,
+
+- `start`: The start time of the query period, in the format of `YYYY-MM-DD`.
+
+- `end`: The end time of the query period, in the format of `YYYY-MM-DD`.
+
+## FAQ\{#faq}
+
+**How precise are the amounts displayed in the usage details on Zilliz Cloud?**
+
+Zilliz Cloud calculates charges with a precision of **10 decimal places**, and all billing is computed to this level of accuracy. Daily charges are first calculated to 10 decimals, then summed and rounded to 10 decimals during the billing process.
+
+- **RESTful API**: All numeric values (e.g., Unit Price, Usage, Usage Amount) are always returned with exactly 10 decimal places. If the value has fewer than 10 decimal digits, trailing zeros are padded to reach 10 digits. For more information about how to use the RESTful API, see [Query Daily Usage](/reference/restful/query-daily-usage-v2).
+
+- **Web Console UI**: The displayed amounts are consistent with the API values, but trailing zeros are omitted for readability. For example, `0.1234000000` would be displayed as `0.1234` in the UI.
+

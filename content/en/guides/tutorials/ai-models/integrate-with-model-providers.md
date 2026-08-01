@@ -41,7 +41,7 @@ The following model providers can be integrated with Zilliz Cloud:
 | **OpenAI** | Text Embedding Function | API key. To obtain one, see the [OpenAI API quickstart](https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key). |
 | **Cohere** | Text Embedding Function and model-based Ranker | API key. To obtain one, see [API Keys and Rate Limits](https://docs.cohere.com/docs/rate-limits). |
 | **Voyage AI** | Text Embedding Function and model-based Ranker | API key. To obtain one, see [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation). |
-| **Hugging Face** | Text Embedding Function and Hugging Face Ranker | User Access Token with **Make calls to Inference Providers** permission. To obtain one, see [User Access Tokens](https://huggingface.co/docs/hub/en/security-tokens). |
+| **Hugging Face** | [Text Embedding Function](./hugging-face) and [Hugging Face Ranker](./hugging-face-ranker) | User Access Token with **Make calls to Inference Providers** permission. To obtain one, see [User Access Tokens](https://huggingface.co/docs/hub/en/security-tokens). |
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -133,9 +133,9 @@ For detailed instructions, refer to:
 
 - [Voyage AI](./voyage-ai)
 
-- Hugging Face
+- [Hugging Face](./hugging-face)
 
-- Hugging Face Ranker
+- [Hugging Face Ranker](./hugging-face-ranker)
 
 - [Cohere Ranker](./cohere-model-ranker)
 

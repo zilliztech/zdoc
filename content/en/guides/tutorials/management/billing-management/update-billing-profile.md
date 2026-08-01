@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. For details about a billing profile, refer to Understand Invoices. | Cloud"
+description: "The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. | Cloud"
 type: origin
 token: M6PLwhVqAipx7wkQNFscmuNPnWc
 sidebar_position: 5
@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Update Billing Profile
 
-The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. For details about a billing profile, refer to [Understand Invoices](./view-invoice#billing-profile).
+The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. 
 
 <Admonition type="info" icon="📘" title="**Note**">
 
@@ -32,7 +32,7 @@ To manage billing profile, you must be an **Organization Owner** or **Organizati
 
 ## Update billing profile\{#update-billing-profile}
 
-![OyU3wocxShpyvAb18M6c7ymHnkF](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/OyU3wocxShpyvAb18M6c7ymHnkF.png)
+![OyU3wocxShpyvAb18M6c7ymHnkF](https://zdoc-images.s3.us-west-2.amazonaws.com/OyU3wocxShpyvAb18M6c7ymHnkF.png)
 
 <Procedures>
 

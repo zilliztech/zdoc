@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "This guide explains how BYOC billing works in Zilliz Cloud, including committed vCPU capacity, usage beyond commitment, invoice display, and usage controls when your licensed capacity is reached. | BYOC"
+description: "BYOC billing is based on committed vCPU capacity. When you purchase BYOC, you sign a contract for a certain amount of committed vCPU capacity, which defines the licensed capacity available to your BYOC organization. | BYOC"
 type: origin
 token: VsLcwDK6SiGs0CkJ7i0cmRYWnof
 sidebar_position: 1
@@ -20,74 +20,57 @@ import Admonition from '@theme/Admonition';
 
 # Understand BYOC Billing
 
-This guide explains how BYOC billing works in Zilliz Cloud, including committed vCPU capacity, usage beyond commitment, invoice display, and usage controls when your licensed capacity is reached.
+BYOC billing is based on committed vCPU capacity. When you purchase BYOC, you sign a contract for a certain amount of committed vCPU capacity, which defines the licensed capacity available to your BYOC organization.
 
-For BYOC deployments, Zilliz Cloud uses a contract-based billing model. Your organization commits to a licensed vCPU capacity in the contract. If on-demand usage is enabled, usage beyond the committed capacity can be tracked and billed separately based on vCPU-hour usage.
+Zilliz Cloud supports two BYOC purchase options: **Commit only** and **Commit + on-demand**. 
 
-## Billing model\{#billing-model}
+This guide explains how BYOC purchase options and how billing works in Zilliz Cloud.
 
-BYOC billing consists of two parts:
+## BYOC purchase options\{#byoc-purchase-options}
 
-| Billing component | Description |
-| --- | --- |
-| Committed vCPU | The vCPU capacity purchased through your contract. This is the baseline licensed capacity available to your BYOC organization. |
-| On-demand vCPU | Usage beyond the committed vCPU capacity. If on-demand usage is enabled, Zilliz Cloud tracks the exceeded portion in vCPU-hours and displays the cost on a monthly basis. |
+Zilliz Cloud supports two BYOC purchase options: **Commit only** and **Commit + on-demand**. Choose the option that best matches how predictable your BYOC workload is.
 
-In general:
-
-```plaintext
-Total BYOC cost = Committed capacity cost + On-demand cost beyond commitment
-```
-
-<Admonition type="info" icon="📘" title="Note">
-
-Invoices are used to summarize usage beyong commitment and estimated charges. Actual payment and settlement terms may depend on your contract. If you have any questions, please contact your account executive team.
-
-</Admonition>
+| **Purchase option** | **Best for** | **How billing works** |
+| --- | --- | --- |
+| Commit only | Stable and predictable workloads | You purchase committed vCPU capacity through a contract. Usage does not generate monthly invoices in Zilliz Cloud. Payment is handled according to your contract, such as through Advance Pay or a cloud marketplace private offer. If you need more capacity, contact your account executive team to renew or expand your contract. You can view your licensed capacity on the **License** page. |
+| Commit + on-demand | Workloads with a predictable baseline and occasional usage spikes | Your committed vCPU capacity is the minimum committed usage and is handled through your contract. Usage that exceeds the committed capacity is charged as on-demand usage. Zilliz Cloud generates monthly invoices for the on-demand portion, and you must add a [supported payment method](./payment-billing#payment-methods) to pay these invoices. Supported payment methods include cloud marketplace subscription, credit card, and Advance Pay, depending on your contract and account setup. |
 
 ## Committed vCPU\{#committed-vcpu}
 
 Committed vCPU is the vCPU capacity included in your BYOC contract. Your committed capacity defines the licensed usage baseline for your BYOC organization.
 
-Committed vCPU pricing is contract-based and may use tiered pricing. Larger committed capacities may unlock lower unit prices. The following table demonstrates the tiered vCPU unit price.
-
-| **Tiered (vCPU)** | **Unit Price (vCPU/year)** |
-| --- | --- |
-| 40 | &#36;1000 |
-| 41-250 | &#36;900 |
-| 251-500 | &#36;800 |
-| 500-1000 | &#36;700 |
-| 1001-5000 | &#36;600 |
-| 5000+ | &#36;500 |
+Committed vCPU pricing is contract-based and may use tiered pricing. Larger committed capacities may unlock lower unit prices. 
 
 For exact pricing, refer to your contract or contact your executive account team.
 
 ## On-demand vCPU\{#on-demand-vcpu}
 
-You can contact your executive account team to enable on-demand usage for your BYOC deployments. If on-demand usage is enabled and your actual BYOC usage exceeds your committed vCPU capacity, Zilliz Cloud records the exceeded portion as on-demand vCPU usage.
+On-demand vCPU applies only to the **Commit + on-demand** purchase option. You can contact your account executive team to enable on-demand usage for your BYOC deployments.
 
-On-demand usage is measured in `vCPU-hour`. 
+If on-demand usage is enabled and your actual BYOC usage exceeds your committed vCPU capacity, Zilliz Cloud records the exceeded portion as on-demand vCPU usage.
 
-The following formula explains how the on-demand hourly unit price is calculated:
+On-demand usage is measured in `vCPU-minute`.
+
+The following formula explains how the on-demand unit price is calculated:
 
 ```plaintext
-On-demand hourly unit price = applicable committed vCPU unit price / (365 × 24)
+On-demand per-minute unit price = applicable committed vCPU unit price / (365 × 24 × 60)
 ```
 
 The applicable unit price is based on the pricing tier unlocked by your committed vCPU capacity or contract terms. The exceeded usage is accumulated and displayed by billing period.
 
 ### Example\{#example}
 
-Suppose your applicable committed vCPU unit price is `$900 / vCPU / year`. The hourly On-Demand unit price is calculated as follows:
+Suppose your applicable committed vCPU unit price is `$900 / vCPU / year`. The per-minute On-Demand unit price is calculated as follows:
 
 ```plaintext
-$900 / (365 × 24) ≈ $0.1027 / vCPU-hour
+$900 / (365 × 24 × 60) ≈ $0.0017 / vCPU / minute
 ```
 
-If your usage exceeds the committed capacity by `100 vCPU-hours` in a billing period, the estimated On-demand vCPU usage cost is:
+If your usage exceeds the committed capacity by `600 vCPU-minute` in a billing period, the estimated On-demand vCPU usage cost is:
 
 ```plaintext
-100 × $0.1027 = $10.27
+600 × $0.0017 = $1.02
 ```
 
 ## When licensed capacity is reached\{#when-licensed-capacity-is-reached}
@@ -106,9 +89,9 @@ To continue expanding resources, contact your executive account team to increase
 
 ## Invoices\{#invoices}
 
-If on-demand usage is enabled and your BYOC usage exceeds the committed capacity, Zilliz Cloud displays a monthly invoice record for the exceeded usage. You can pay the invoices via the [supported payment methods](./payment-billing#payment-methods).
+For Commit + on-demand, Zilliz Cloud generates monthly invoices for on-demand usage that exceeds your committed vCPU capacity. You must add a [supported payment method](./payment-billing#payment-methods) to pay these invoices.
 
-For BYOC on-demand usage, the invoice grace period may vary depending on your contract terms. Refer to your contract for the applicable grace period and payment schedule.
+For BYOC on-demand usage, the invoice period and payment schedule may vary depending on your contract terms. Refer to your contract for details.
 
 For details about managing your invoices, see [Manage Invoices](./manage-invoice).
 
@@ -122,7 +105,7 @@ If an invoice becomes overdue, operations that increase resource usage may be bl
 
 The **Usage** page helps you review BYOC usage against your committed capacity.
 
-When on-demand usage is enabled, the page can show daily overage usage in `vCPU-hour`. The committed portion is shown as the baseline capacity, and only usage beyond the commitment is counted as on-demand usage.
+When on-demand usage is enabled, the page can show daily overage usage in `vCPU-minute`. The committed portion is shown as the baseline capacity, and only usage beyond the commitment is counted as on-demand usage.
 
 Use this page to understand when overage occurred, which projects or regions contributed to the overage, and how much usage exceeded your committed capacity. 
 

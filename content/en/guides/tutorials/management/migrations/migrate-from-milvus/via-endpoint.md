@@ -64,7 +64,7 @@ The following demo walks you through how to start migrating from Milvus via endp
 
 Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
 
-![RGsvb7oFpo7uzbxjSSFc6owNn0c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/rgsvb7ofpo7uzbxjssfc6ownn0c.png "RGsvb7oFpo7uzbxjSSFc6owNn0c")
+![RGsvb7oFpo7uzbxjSSFc6owNn0c](https://zdoc-images.s3.us-west-2.amazonaws.com/rgsvb7ofpo7uzbxjssfc6ownn0c.png "RGsvb7oFpo7uzbxjSSFc6owNn0c")
 
 ## Post-migration\{#post-migration}
 

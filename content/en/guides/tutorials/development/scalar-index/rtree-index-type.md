@@ -34,7 +34,7 @@ Zilliz Cloud uses an `RTREE` index to efficiently organize and filter geometry d
 
 1. **Add the root node:** Add a root node whose MBR covers all internal groups, resulting in a height-balanced tree structure.
 
-![Asy8w0umqh9jJ1biNUHcialonfd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Asy8w0umqh9jJ1biNUHcialonfd.png)
+![Asy8w0umqh9jJ1biNUHcialonfd](https://zdoc-images.s3.us-west-2.amazonaws.com/Asy8w0umqh9jJ1biNUHcialonfd.png)
 
 ### Phase 2: Accelerate queries\{#phase-2-accelerate-queries}
 

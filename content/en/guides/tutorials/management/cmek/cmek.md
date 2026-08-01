@@ -38,7 +38,7 @@ Zilliz Cloud encrypts data at rest on disk/object storage using the 256-bit Adva
 
 On Zilliz Cloud, a customer-managed encryption key is a cryptographic key created by your cloud provider's KMS and used to secure data in your clusters. After adding your KMS key to a Zilliz Cloud Business Critical project, you can use it to encrypt data stored on disk, in object storage, and in message queues.
 
-![Ehcyw7EZphWQO0bTJMDchzTYnIf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Ehcyw7EZphWQO0bTJMDchzTYnIf.png)
+![Ehcyw7EZphWQO0bTJMDchzTYnIf](https://zdoc-images.s3.us-west-2.amazonaws.com/Ehcyw7EZphWQO0bTJMDchzTYnIf.png)
 
 As shown in the diagram above, Zilliz Cloud manages encryption keys hierarchically, using the user-supplied KMS key as the **root key**. 
 

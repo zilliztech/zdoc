@@ -22,11 +22,11 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud implements Role-Based Access Control (RBAC) to finely control access to resources in Zilliz Cloud. RBAC (Role-Based Access Control) is a security measure that grants privileges to roles rather than directly to users. These roles, which contains specific privileges to resources, are then granted to users, enabling efficient management of user access control.
 
-![L1WGwjF2NhxLRXbcyl6cSroNnoc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
+![L1WGwjF2NhxLRXbcyl6cSroNnoc](https://zdoc-images.s3.us-west-2.amazonaws.com/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
 
 ## Zilliz Cloud RBAC architecture\{#zilliz-cloud-rbac-architecture}
 
-![WVIgwWtMYhhTBIbgAdAcegDRnle](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
+![WVIgwWtMYhhTBIbgAdAcegDRnle](https://zdoc-images.s3.us-west-2.amazonaws.com/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
 
 Zilliz Cloud organizes its resources within two planes, implementing RBAC across both:
 
@@ -40,7 +40,7 @@ Normally, each account user corresponds to a cluster user. However, not all user
 
 Account users are granted organization roles and project roles while cluster users are granted cluster roles that control access to cluster, databases, and collections. The following diagram illustrates the hierarchy for roles in Zilliz Cloud. 
 
-![TnkCwHx6jhk7UmbvYT7cVGlIn7b](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
+![TnkCwHx6jhk7UmbvYT7cVGlIn7b](https://zdoc-images.s3.us-west-2.amazonaws.com/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
 
 - **On the organization level**
 
@@ -74,7 +74,7 @@ Account users are granted organization roles and project roles while cluster use
 
 The following diagram shows the complete workflow to implement RBAC in Zilliz Cloud.
 
-![B8sbwgywghYn1tbMTOwcjg65nne](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/B8sbwgywghYn1tbMTOwcjg65nne.png)
+![B8sbwgywghYn1tbMTOwcjg65nne](https://zdoc-images.s3.us-west-2.amazonaws.com/B8sbwgywghYn1tbMTOwcjg65nne.png)
 
 1. **Create a user:** In addition to the default user `db_admin` in Zilliz Cloud, you can create new users and set passwords to protect data security via the [web console](./cluster-users) or using [SDKs](./cluster-users-sdk).
 

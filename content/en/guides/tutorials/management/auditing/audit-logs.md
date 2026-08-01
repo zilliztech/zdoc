@@ -181,7 +181,7 @@ To understand parameters in log entries, refer to [Audit Logs](./audit-logs-ref)
 
 Once audit log is enabled, you can edit its configuration or disable it as needed.
 
-![WaxlwwFpVhjeVKbfgWScdKQKnqW](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/WaxlwwFpVhjeVKbfgWScdKQKnqW.png)
+![WaxlwwFpVhjeVKbfgWScdKQKnqW](https://zdoc-images.s3.us-west-2.amazonaws.com/WaxlwwFpVhjeVKbfgWScdKQKnqW.png)
 
 ## FAQ\{#faq}
 

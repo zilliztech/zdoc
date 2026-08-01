@@ -10,7 +10,7 @@ notebook: FALSE
 description: "In addition to ANN searches, MilvusZilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | BYOC"
 type: origin
 token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
-sidebar_position: 9
+sidebar_position: 10
 displayed_sidebar: default
 
 ---

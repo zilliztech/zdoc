@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | Cloud"
 type: origin
 token: RQQKwqhZUiubFzkHo4WcR62Gnvh
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: default
 
 ---
@@ -41,7 +41,7 @@ Zilliz Cloud integrates [Tantivy](https://github.com/quickwit-oss/tantivy) to po
 
 When a user performs a text match, the inverted index is used to quickly retrieve all documents containing the terms. This is much faster than scanning through each document individually.
 
-![N43zw7HuGhmCHRbYDDmctO1bnkd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
+![N43zw7HuGhmCHRbYDDmctO1bnkd](https://zdoc-images.s3.us-west-2.amazonaws.com/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
 
 ## Enable text match\{#enable-text-match}
 

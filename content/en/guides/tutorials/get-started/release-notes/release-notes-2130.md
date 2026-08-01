@@ -28,7 +28,7 @@ This release is compatible with **Milvus v2.4.x**.
 
 If you prefer to upgrade your clusters to **Public Preview**, **Milvus 2.5.x** features are available after the upgrade. You can click **Try Preview Features** on the **Cluster Details** page on the Zilliz Cloud console to learn more about the features in **Public Preview**.
 
-![KkqKbUfwwomTRBxKSwTcVjv0nLf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/kkqkbufwwomtrbxkswtcvjv0nlf.png "KkqKbUfwwomTRBxKSwTcVjv0nLf")
+![KkqKbUfwwomTRBxKSwTcVjv0nLf](https://zdoc-images.s3.us-west-2.amazonaws.com/kkqkbufwwomtrbxkswtcvjv0nlf.png "KkqKbUfwwomTRBxKSwTcVjv0nLf")
 
 ## Zilliz Cloud Now Supports Milvus 2.5 in Public Preview, Introducing Full-Text Search\{#zilliz-cloud-now-supports-milvus-25-in-public-preview-introducing-full-text-search}
 

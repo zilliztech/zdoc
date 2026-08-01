@@ -31,7 +31,7 @@ In Zilliz Cloud, filtered searches are categorized into two types — **standard
 
 If a collection contains both vector embeddings and their metadata, you can filter metadata before ANN search to improve the relevancy of the search result. Once Zilliz Cloud receives a search request carrying a filtering condition, it restricts the search scope within the entities matching the specified filtering condition.
 
-![QIeKwvDN1h7lTnb9iJ7cPubknrb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
+![QIeKwvDN1h7lTnb9iJ7cPubknrb](https://zdoc-images.s3.us-west-2.amazonaws.com/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
 
 As shown in the above diagram, the search request carries `chunk like "%red%"` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
 
@@ -45,7 +45,7 @@ As shown in the above diagram, the search request carries `chunk like "%red%"` a
 
 The standard filtering process effectively narrows the search scope to a small range. However, overly complex filtering expressions may result in very high search latency. In such cases, iterative filtering can serve as an alternative, helping to reduce the workload of scalar filtering.
 
-![AOJ0wZxInhw0z8bZJtWcHMpfnCh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
+![AOJ0wZxInhw0z8bZJtWcHMpfnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
 
 As illustrated in the diagram above, a search with iterative filtering performs the vector search in iterations. Each entity returned by the iterator undergoes scalar filtering, and this process continues until the specified topK results are achieved.
 

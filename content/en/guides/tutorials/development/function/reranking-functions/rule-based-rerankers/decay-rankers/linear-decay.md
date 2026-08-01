@@ -62,7 +62,7 @@ All time parameters (`origin`, `offset`, `scale`) must use the same unit as the 
 
 </Admonition>
 
-![LNwQbV5FYo7OYbxaA1VcetPgnUh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/lnwqbv5fyo7oybxaa1vcetpgnuh.png "LNwQbV5FYo7OYbxaA1VcetPgnUh")
+![LNwQbV5FYo7OYbxaA1VcetPgnUh](https://zdoc-images.s3.us-west-2.amazonaws.com/lnwqbv5fyo7oybxaa1vcetpgnuh.png "LNwQbV5FYo7OYbxaA1VcetPgnUh")
 
 The graph above shows how linear decay would affect event listings on a ticketing platform:
 

@@ -68,7 +68,7 @@ This feature is currently in **Private Preview**. Please [contact support](https
 
 Zilliz Cloud now supports **scheduled scaling** at the **cluster level**, giving you proactive control over resource allocation based on predictable workload patterns.
 
-![EKkTb21RooyES7x1alDcKL66nyh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ekktb21rooyes7x1aldckl66nyh.png "EKkTb21RooyES7x1alDcKL66nyh")
+![EKkTb21RooyES7x1alDcKL66nyh](https://zdoc-images.s3.us-west-2.amazonaws.com/ekktb21rooyes7x1aldckl66nyh.png "EKkTb21RooyES7x1alDcKL66nyh")
 
 - **Schedule-Based Autoscaling for CUs and Replicas:** You can now define specific schedules to automatically scale your CU and Replicas. Effortlessly scale up resources to handle peak traffic during business hours and scale down during quiet periods like nights and weekends to optimize costs without manual intervention.
 
@@ -82,7 +82,7 @@ For details, refer to [Cluster Auto-scaling](./auto-scaling).
 
 You can now selectively restore specific **databases** and **collections** from a **cluster-level backup**, including collections across multiple databases.This enhancement reduces recovery time and gives you fine-grained control over what data to restore, without needing to recover the entire cluster.
 
-![Sd5PbeR5poupNlx6nM6cCrdxnTd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/sd5pber5poupnlx6nm6ccrdxntd.png "Sd5PbeR5poupNlx6nM6cCrdxnTd")
+![Sd5PbeR5poupNlx6nM6cCrdxnTd](https://zdoc-images.s3.us-west-2.amazonaws.com/sd5pber5poupnlx6nm6ccrdxntd.png "Sd5PbeR5poupNlx6nM6cCrdxnTd")
 
 For details, refer to [Restore a Partial Cluster](./restore-from-backup-files#restore-a-partial-cluster).
 
@@ -90,7 +90,7 @@ For details, refer to [Restore a Partial Cluster](./restore-from-backup-files#re
 
 Zilliz Cloud now supports creating JSON Path indexes directly from the web console, making it easier to accelerate queries on semi-structured data. This feature supports both JSON fields and dynamic field for flexible, high-performance filtering.
 
-![PDbobfoUDolZd4xKR8kcDXqIn0f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/pdbobfoudolzd4xkr8kcdxqin0f.png "PDbobfoUDolZd4xKR8kcDXqIn0f")
+![PDbobfoUDolZd4xKR8kcDXqIn0f](https://zdoc-images.s3.us-west-2.amazonaws.com/pdbobfoudolzd4xkr8kcdxqin0f.png "PDbobfoUDolZd4xKR8kcDXqIn0f")
 
 For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./json-indexing) and [Index Keys in the Dynamic Field](./enable-dynamic-field#index-keys-in-the-dynamic-field).
 
@@ -98,7 +98,7 @@ For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./
 
 **Zilliz Cloud now supports custom instance quota settings** for your BYOC projects. This update provides greater flexibility, allowing you to optimize costs by defining clear resource boundaries for your services.
 
-![OHwLbK4X5odr2gxJ6LicTawHn3f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ohwlbk4x5odr2gxj6lictawhn3f.png "OHwLbK4X5odr2gxJ6LicTawHn3f")
+![OHwLbK4X5odr2gxJ6LicTawHn3f](https://zdoc-images.s3.us-west-2.amazonaws.com/ohwlbk4x5odr2gxj6lictawhn3f.png "OHwLbK4X5odr2gxJ6LicTawHn3f")
 
 - **Project Resource Autoscaling Control:** You can now easily switch between elastic and fixed resource modes. Enable elasticity by setting minimum and maximum instance counts, or lock your service groups resource to a fixed size.
 
@@ -112,7 +112,7 @@ For details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws), [Deploy 
 
 - You can select whether to restore RBAC configurations when performing cluster-level backup restores.
 
-    ![KNJ8bzQaroYqzWxsgUhcjduAn7c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/knj8bzqaroyqzwxsguhcjduan7c.png "KNJ8bzQaroYqzWxsgUhcjduAn7c")
+    ![KNJ8bzQaroYqzWxsgUhcjduAn7c](https://zdoc-images.s3.us-west-2.amazonaws.com/knj8bzqaroyqzwxsguhcjduan7c.png "KNJ8bzQaroYqzWxsgUhcjduAn7c")
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -122,7 +122,7 @@ For details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws), [Deploy 
 
 - You can learn about the features in **Private Preview** and **Public Preview** before you use them. To use these features, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 
-    ![JFjPbrK00oEVsvx4kntc101Snfb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/jfjpbrk00oevsvx4kntc101snfb.png "JFjPbrK00oEVsvx4kntc101Snfb")
+    ![JFjPbrK00oEVsvx4kntc101Snfb](https://zdoc-images.s3.us-west-2.amazonaws.com/jfjpbrk00oevsvx4kntc101snfb.png "JFjPbrK00oEVsvx4kntc101Snfb")
 
 - The total file size per import request has been increased from 100 GB to 1 TB.
 
