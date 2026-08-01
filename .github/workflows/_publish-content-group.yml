@@ -6,6 +6,10 @@ on:
       group:
         required: true
         type: string
+      site:
+        required: false
+        type: string
+        default: en
       artifact_name:
         required: true
         type: string
@@ -54,6 +58,7 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       commit_sha: ${{ steps.result.outputs.commit_sha }}
     env:
+      ZDOC_SITE: ${{ inputs.site }}
       GROUP: ${{ inputs.group }}
       MASTER_SHA: ${{ inputs.master_sha }}
       TRANSLATION_TARGET: ${{ inputs.target }}
@@ -88,6 +93,7 @@ jobs:
         run: |
           set -euo pipefail
           node - <<'NODE'
+          if (!['en', 'zh-CN'].includes(process.env.ZDOC_SITE)) throw new Error('site must be en or zh-CN')
           if (!/^[0-9a-f]{40}$/.test(process.env.MASTER_SHA)) throw new Error('master_sha must be a lowercase 40-character Git SHA')
           if (process.env.TRANSLATION_TARGET) {
             if (!['ja-JP', 'zh-CN-reference'].includes(process.env.TRANSLATION_TARGET)) throw new Error('invalid translation target')

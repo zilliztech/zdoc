@@ -393,6 +393,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: guides
+      site: en
       artifact_name: ${{ needs.produce_guides.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(guides): publish fetched content'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_guides.outputs.status == 'artifact_ready' }}
@@ -406,6 +407,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: guides
+      site: zh-CN
       artifact_name: ${{ needs.produce_zh_guides.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(guides): publish fetched content'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
@@ -452,6 +454,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: python
+      site: en
       artifact_name: ${{ needs.produce_python.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(python): publish SDK reference'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_python.outputs.status == 'artifact_ready' }}
@@ -464,6 +467,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: java
+      site: en
       artifact_name: ${{ needs.produce_java.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(java): publish SDK reference'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_java.outputs.status == 'artifact_ready' }}
@@ -476,6 +480,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: node
+      site: en
       artifact_name: ${{ needs.produce_node.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(node): publish SDK reference'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_node.outputs.status == 'artifact_ready' }}
@@ -488,6 +493,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: go
+      site: en
       artifact_name: ${{ needs.produce_go.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(go): publish SDK reference'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_go.outputs.status == 'artifact_ready' }}
@@ -500,6 +506,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: cli
+      site: en
       artifact_name: ${{ needs.produce_cli.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(cli): publish CLI reference'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_cli.outputs.status == 'artifact_ready' }}
@@ -512,6 +519,7 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: rest
+      site: en
       artifact_name: ${{ needs.produce_rest.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(rest): publish REST reference'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_rest.outputs.status == 'artifact_ready' }}

@@ -1298,10 +1298,12 @@ test('reusable content publisher safely downloads, validates, and publishes chec
 
   assert.match(workflow, /^name: publish docs content group$/m)
   assert.match(workflow, /^  workflow_call:$/m)
-  for (const input of ['group', 'artifact_name', 'commit_message', 'should_publish', 'master_sha', 'validate_command', 'baseline_artifact_name', 'target_branch']) {
+  for (const input of ['group', 'site', 'artifact_name', 'commit_message', 'should_publish', 'master_sha', 'validate_command', 'baseline_artifact_name', 'target_branch']) {
     assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   }
   assert.match(workflow, /validate_command:[\s\S]*default: node "\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js" --site en/)
+  assert.match(workflow, /site:[\s\S]*default: en/)
+  assert.match(workflow, /ZDOC_SITE: \$\{\{ inputs\.site \}\}/)
   assert.match(workflow, /baseline_artifact_name:[\s\S]*default: ''/)
   assert.match(workflow, /target_branch:[\s\S]*default: dev/)
   assert.match(workflow, /^  contents: write$/m)
@@ -1327,6 +1329,13 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force/)
   const publicationBody = workflow.slice(workflow.indexOf('name: Publish checkpoint'))
   assert.doesNotMatch(publicationBody, /secrets\./)
+})
+
+test('Chinese Guides publisher selects Chinese checkpoint ownership', () => {
+  const workflow = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  const job = workflow.slice(workflow.indexOf('  publish_zh_guides:'), workflow.indexOf('  source_publication_barrier:'))
+  assert.match(job, /site: zh-CN/)
+  assert.match(job, /validate_command:.*--site zh-CN/)
 })
 
 test('Guides source publishers use the registered content group commit message', () => {
