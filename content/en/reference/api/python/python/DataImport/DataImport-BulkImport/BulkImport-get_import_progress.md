@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This function returns the current status of a bulk import job, including project/region scoped jobs for cloud project databases. | Python"
+description: "Adds projectid, regionid, dbname, and DB-Name header behavior. | Python"
 type: docx
 token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_import_progress()
 
-This function returns the current status of a bulk import job, including project/region scoped jobs for cloud project databases.
+Adds project_id, region_id, db_name, and DB-Name header behavior.
 
 ## Request Syntax\{#request-syntax}
 
@@ -44,91 +44,81 @@ get_import_progress(
     region_id: str = "",
     api_key: str = "",
     db_name: str = "",
-    
-    project_id: str = "",
-    region_id: str = "",
-    
-    verify: bool | str = True,
-    cert: str | tuple | None = None,
+    verify: Optional[Union[bool, str]] = True,
+    cert: Optional[Union[str, tuple]] = None,
     **kwargs,
-)
+) -> requests.Response
 ```
 
 **PARAMETERS:**
 
-- **url** (*str*) -
+- **url** (*str*) -<br/>
+  **[REQUIRED]**
 
-    **[REQUIRED]**
+    The Zilliz Cloud API server endpoint, which is `https://api.cloud.zilliz.com`.
 
-    Server endpoint for bulk import APIs.
+- **job_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The ID of the import job to inspect.
 
-- **job_id** (*str*) -
+- **cluster_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the target Zilliz Cloud cluster.
 
-    **[REQUIRED]**
+- **project_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the Zilliz Cloud project containing the target project database.
 
-    Import job ID returned by `bulk_import()`.
+- **region_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the Zilliz Cloud region containing the target project database.
 
-- **cluster_id** (*str*) -
+- **api_key** (*str*) -<br/>
+  Default: `""`
 
-    Cloud cluster ID.
+    The Zilliz Cloud API key used to authenticate the request.
 
-- **api_key** (*str*) -
+- **db_name** (*str*) -<br/>
+  Default: `""`<br/>
+  The database name sent in the `DB-Name` header for role-based access control.
 
-    API key for cloud authentication.
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  Default: `True`<br/>
+  The TLS verification setting. Use `True` to verify with the default trust store or provide a CA certificate path.
 
-- **db_name** (*str*) -
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  Default: `None`<br/>
+  The client certificate path, or a certificate and private-key pair for mutual TLS.
 
-    Database name for request routing.
-
-- **project_id** (*str*) -
-
-    A valid Zilliz Cloud project ID. 
-
-    This applies when you bulk import into a database for on-demand compute.
-
-- **region_id** (*str*) -
-
-    A valid Zilliz Cloud region ID.
-
-    This applies when you bulk import into a database for on-demand compute.
-
-- **verify** (*bool | str*) -
-
-    TLS verification setting.
-
-- **cert** (*str | tuple*) -
-
-    Client certificate path or `(cert, key)` tuple.
-
-- **project_id** (*str*) -
-
-    Additional HTTP request options.
+- **kwargs** (*Any*) -<br/>
+  The additional options forwarded to the HTTP request.
 
 **RETURN TYPE:**
+
 *requests.Response*
 
-Returns the current import-job progress payload.
+**RETURNS:**
+
+HTTP response containing the current bulk-import job state and progress.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-
-    Raised when progress lookup fails.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
+
+The example retrieves import progress from Zilliz Cloud.
 
 ```python
 from pymilvus.bulk_writer import get_import_progress
 
-resp = get_import_progress(
+response = get_import_progress(
     url="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
-    project_id="proj-xxx",
+    project_id="proj-xxxx",
     region_id="aws-us-west-2",
-    job_id="448996221577371648",
-    db_name="book_db",
+    job_id="job-123",
 )
-
-print(resp.json())
+print(response.json())
 ```
-

@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This function lists volumes under a project with pagination and optional filtering by volume type. | Python"
+description: "Adds projectid and volumetype filtering. | Python"
 type: docx
 token: SyiHdehPHoO4l4x11tqcjzpOnLd
 sidebar_position: 4
@@ -31,68 +31,62 @@ import Admonition from '@theme/Admonition';
 
 # list_volumes()
 
-This function lists volumes under a project with pagination and optional filtering by volume type.
+Adds project_id and volume_type filtering.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-volume_manager.list_volumes(
+list_volumes(
     project_id: str,
     current_page: int = 1,
     page_size: int = 10,
-    volume_type: str | None = None,
-)
+    volume_type: Optional[str] = None,
+) -> requests.Response
 ```
 
 **PARAMETERS:**
 
-- **project_id** (*str*) -
+- **project_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The ID of the Zilliz Cloud project whose volumes are listed.
 
-    **[REQUIRED]**
+- **current_page** (*int*) -<br/>
+  Default: `1`<br/>
+  The one-based page number to return.
 
-    Project ID to query.
+- **page_size** (*int*) -<br/>
+  Default: `10`<br/>
+  The maximum number of volumes to return per page.
 
-- **current_page** (*int*) -
-
-    Page number to query.
-
-- **page_size** (*int*) -
-
-    Number of records returned per page.
-
-- **volume_type** (*str*) -
-
-    Optional filter for volume type. Supported values are `MANAGED` and `EXTERNAL`.
+- **volume_type** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  The volume type by which to filter results. Supported values are `MANAGED` and `EXTERNAL`.
 
 **RETURN TYPE:**
+
 *requests.Response*
 
-Returns a paginated volume list.
+**RETURNS:**
 
-HTTP response containing volume list results.
+HTTP response containing a page of volumes for the project.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-
-    Raised when the list request fails.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 
+The example demonstrates list volumes usage.
+
 ```python
-from pymilvus.bulk_writer import VolumeManager
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-)
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-resp = volume_manager.list_volumes(
-    project_id="proj-xxx",
-    current_page=1,
-    page_size=20,
-    volume_type="EXTERNAL",
-)
-
-print(resp.json())
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```

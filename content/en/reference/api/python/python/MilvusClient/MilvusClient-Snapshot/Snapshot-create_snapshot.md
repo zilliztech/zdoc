@@ -47,19 +47,19 @@ create_snapshot(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-The name of the collection to snapshot.
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the collection to snapshot.
 
-- **snapshot_name** (*str*) -
-**[REQUIRED]**
-A unique name for the snapshot. Must not conflict with existing snapshot names.
+- **snapshot_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  A unique name for the snapshot. Must not conflict with existing snapshot names.
 
-- **description** (*str*) -
-An optional human-readable description of the snapshot.
+- **description** (*str*) -<br/>
+  An optional human-readable description of the snapshot.
 
-- **timeout** (*Optional[float]*) -
-An optional duration of time in seconds to allow for the RPC. If not provided, the default client-side timeout is used.
+- **timeout** (*Optional[float]*) -<br/>
+  An optional duration of time in seconds to allow for the RPC. If not provided, the default client-side timeout is used.
 
 **RETURN TYPE:**
 

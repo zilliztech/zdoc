@@ -64,8 +64,8 @@ utility.mkts_from_unixtime(
 
     A UNIX epoch timestamp is an integer that represents the time elapsed since January 1, 1970 (midnight UTC/GMT) in seconds.
 
-- **milliseconds** (*float*) -
-An incremental time interval in milliseconds.
+- **milliseconds** (*float*) -<br/>
+  An incremental time interval in milliseconds.
 
 - **delta** (*Optional[timedelta]*) -
 

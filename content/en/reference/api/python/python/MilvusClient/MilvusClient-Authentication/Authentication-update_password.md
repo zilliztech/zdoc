@@ -7,9 +7,9 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation updates the password of a specific user. | Python | MilvusClient"
+description: "Updates user credential/description-related signature behavior. Async variant shares the sync method parameter and response contract. | Python | MilvusClient"
 type: docx
-token: B4MWdXervo5cC0xBUaVcSiTgnMg
+token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
 sidebar_position: 20
 keywords: 
   - Agentic RAG
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-This operation updates the password of a specific user.
+Updates user credential/description-related signature behavior. Async variant shares the sync method parameter and response contract.
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 update_password(
@@ -42,87 +42,65 @@ update_password(
     new_password: str,
     reset_connection: Optional[bool] = False,
     timeout: Optional[float] = None,
+    description: Optional[str] = None,
     **kwargs,
-)
+) -> None
 ```
 
 **PARAMETERS:**
 
-- **user_name** (*str*) -
+- **user_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the user whose password is changed.
 
-    **[REQUIRED]**
+- **old_password** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The current password of the user.
 
-    The name of an existing user.
+- **new_password** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The new password for the user.
 
-- **old_password** (*str*) -
+- **reset_connection** (*Optional[bool]*) -<br/>
+  Default: `False`<br/>
+  The flag that reconnects the client with the new password after the update.
 
-    **[REQUIRED]**
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC to complete.
 
-    The original password of the user.
+- **description** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  The optional updated description of the user account.
 
-- **new_password** (*str*) -
-
-    **[REQUIRED]**
-
-    The new password of the user.
-
-- **reset_connection** (*bool*) -
-
-    Whether to reset the connection using the new credentials.
-
-- **timeout** (*float* | *None*)  
-
-    The timeout duration for this operation. 
-
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+- **kwargs** (*Any*) -<br/>
+  The additional request context options.
 
 **RETURN TYPE:**
 
-*NoneType*
+*None*
 
 **RETURNS:**
 
-None
+Returns no value after the password is updated successfully.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
-    This exception will be raised when any error occurs during this operation.
+## Examples\{#examples}
 
-- **BaseException**
-
-    This exception will be raised when this operation fails.
-
-## Example\{#example}
+Demonstrates update password usage.
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Create a milvus client
-client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
-)
-
-# 2. Create a user
-client.create_user(user_name="user_1", password="P@ssw0rd")
-
-# 3. Change the password
-client.update_password(
-    user_name="user_1",
-    old_password="P@ssw0rd",
-    new_password="NewP@ssw0rd"
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client.create_user("analyst", "Milvus123", description="Analytics account")
+client.update_user("analyst", description="Updated analytics account")
+client.create_role("read_only", description="Read-only role")
+client.alter_role("read_only", description="Updated read-only role")
+print(client.describe_user("analyst"))
+print(client.describe_role("read_only"))
 ```
-
-## Related methods\{#related-methods}
-
-- [create_user()](./Authentication-create_user)
-
-- [describe_user()](./Authentication-describe_user)
-
-- [drop_user()](./Authentication-drop_user)
-
-- [list_users()](./Authentication-list_users)
-

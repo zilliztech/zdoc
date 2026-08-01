@@ -10,7 +10,7 @@ notebook: false
 description: "This operation returns the current state of a compaction job. Use this after calling `compact()` to verify that compaction has completed. | Python | MilvusClient"
 type: docx
 token: MSDVdu103obklexX8GvcW5cWnCf
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - hybrid vector search
   - Video deduplication

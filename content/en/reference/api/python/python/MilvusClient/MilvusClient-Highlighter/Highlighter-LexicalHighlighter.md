@@ -54,8 +54,8 @@ LexicalHighlighter(
 
 **PARAMETERS**:
 
-- **highlight_query** (*list[dict]*) -
-Defines which query terms from text-based filters are highlighted. Each entry must be a dict:
+- **highlight_query** (*list[dict]*) -<br/>
+  Defines which query terms from text-based filters are highlighted. Each entry must be a dict:
 
     ```python
     [
@@ -68,23 +68,23 @@ Defines which query terms from text-based filters are highlighted. Each entry mu
 
     For details, refer to [Text Highlighter](https://milvus.io/docs/text-highlighter.md).
 
-- **highlight_search_text** (*bool*) -
-Whether to highlight search terms used in BM25 full text search. If True, the BM25 query terms are used as the source of highlighted terms. If unset, BM25 search terms are not highlighted.
+- **highlight_search_text** (*bool*) -<br/>
+  Whether to highlight search terms used in BM25 full text search. If True, the BM25 query terms are used as the source of highlighted terms. If unset, BM25 search terms are not highlighted.
 
-- **pre_tags** (*list[str]*) -
-Tags inserted before each matched term in the returned highlight. Supports plain strings (e.g., `{`) or HTML-safe markers (e.g., `<em>`, `<mark>`). If multiple tags are provided, tags rotate by match sequence.
+- **pre_tags** (*list[str]*) -<br/>
+  Tags inserted before each matched term in the returned highlight. Supports plain strings (e.g., `{`) or HTML-safe markers (e.g., `<em>`, `<mark>`). If multiple tags are provided, tags rotate by match sequence.
 
-- **post_tags** (*list[str]*) -
-Tags inserted after each matched term, paired with `pre_tags`. Rotation follows the same order as pre_tags when multiple tags are provided.
+- **post_tags** (*list[str]*) -<br/>
+  Tags inserted after each matched term, paired with `pre_tags`. Rotation follows the same order as pre_tags when multiple tags are provided.
 
-- **fragment_offset** (*int*) -
-Number of characters of leading context to keep before the first highlighted match when returning fragment-based output. Default behavior keeps no extra leading context.
+- **fragment_offset** (*int*) -<br/>
+  Number of characters of leading context to keep before the first highlighted match when returning fragment-based output. Default behavior keeps no extra leading context.
 
-- **fragment_size** (*int*) -
-Maximum length of each returned fragment (in characters). The highlighter will cap fragment length approximately to this size.
+- **fragment_size** (*int*) -<br/>
+  Maximum length of each returned fragment (in characters). The highlighter will cap fragment length approximately to this size.
 
-- **num_of_fragments** (*int*) -
-Maximum number of fragments to return per text value. If unset, the default is multiple fragments (implementation default; see Examples for typical values).
+- **num_of_fragments** (*int*) -<br/>
+  Maximum number of fragments to return per text value. If unset, the default is multiple fragments (implementation default; see Examples for typical values).
 
 **RETURN TYPE**:
 

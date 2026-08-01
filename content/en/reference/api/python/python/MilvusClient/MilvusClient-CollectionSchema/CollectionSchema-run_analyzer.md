@@ -35,7 +35,7 @@ This operation processes the input data and generates tokenized output.
 
 ## Request Syntax\{#request-syntax}
 
-```plaintext
+```python
 run_analyzer(
     texts: Union[str, List[str]],
     analyzer_params: Union[str, Dict, None] = None,

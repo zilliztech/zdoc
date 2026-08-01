@@ -55,7 +55,7 @@ This method applies only to dedicated serving clusters and on-demand compute.
 
 ## Request syntax\{#request-syntax}
 
-```plaintext
+```python
 search(
     self,
     collection_name: str,
@@ -217,7 +217,7 @@ search(
 
     This Boolean parameter dictates whether `group_size` should be strictly enforced. When `strict_group_size=True`, the system will attempt to fill each group with exactly `group_size` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `group_size`.
 
-- **group_by** (*[GroupBy](./Vector-GroupBy) | None*) -
+- **group_by** (*GroupBy | None*) -
 
     A `GroupBy` object that defines a search aggregation.  When this parameter is specified, Zilliz Cloud groups ANN search results into buckets based on the fields in the root `GroupBy` object. Each bucket can include per-bucket metrics, representative hits, and nested sub-groups.  `group_by` is mutually exclusive with `group_by_field`. Use `group_by_field` for existing single-field Grouping Search workflows. Use `group_by` when you need per-bucket metrics, multi-field grouping, bucket ordering, hit sorting, or nested grouping.
 

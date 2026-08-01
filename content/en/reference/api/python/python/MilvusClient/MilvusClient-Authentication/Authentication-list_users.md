@@ -89,7 +89,7 @@ client.list_users()
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

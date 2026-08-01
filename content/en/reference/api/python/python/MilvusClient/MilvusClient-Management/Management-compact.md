@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation starts a compaction job that merges small segments in a collection to improve storage layout and query efficiency. | Python | MilvusClient"
+description: "Adds targetsize/targetsizeunit and positive-size validation. Async variant shares the sync method contract. | Python | MilvusClient"
 type: docx
 token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-This operation starts a compaction job that merges small segments in a collection to improve storage layout and query efficiency.
+Adds target_size/target_size_unit and positive-size validation. Async variant shares the sync method contract.
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,64 +49,54 @@ compact(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the collection to compact.
 
-    **[REQUIRED]**
+- **is_clustering** (*Optional[bool]*) -<br/>
+  Default: `False`<br/>
+  The flag that requests a clustering compaction.
 
-    Name of the collection to compact.
+- **is_l0** (*Optional[bool]*) -<br/>
+  Default: `False`<br/>
+  The flag that requests a level-zero compaction.
 
-- **is_clustering** (*bool*) -
+- **target_size** (*Optional[int]*) -<br/>
+  Default: `None`<br/>
+  The desired segment size after compaction. The value must be a positive integer; the server default is used when omitted.
 
-    Whether to trigger clustering compaction.
+- **target_size_unit** (*str*) -<br/>
+  Default: `"mb"`<br/>
+  The unit for `target_size`. Supported values are `b`, `kb`, `mb`, `gb`, `tb`, and `pb`; the default is `mb`.
 
-- **is_l0** (*bool*) -
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC. When omitted, the client waits until the server responds or an error occurs.
 
-    Whether to trigger L0 compaction.
-
-- **target_size** (*int*) -
-
-    Optional target segment size after compaction. Must be a positive integer.
-
-- **target_size_unit** (*str*) -
-
-    Unit for `target_size`. Supported values are `"b"`, `"kb"`, `"mb"`, `"gb"`, `"tb"`, and `"pb"`.
-
-- **timeout** (*float*) -
-
-    Optional RPC timeout in seconds.
-
-- **kwargs** (*dict*) -
-
-    Optional request context parameters.
+- **kwargs** (*Any*) -<br/>
+  The additional request context options.
 
 **RETURN TYPE:**
 
 *int*
 
-Compaction job ID for follow-up status queries.
+**RETURNS:**
+
+Compaction job identifier returned by Milvus.
 
 **EXCEPTIONS:**
 
-- **ParamError**
-
-    Raised when `target_size` is not an integer or when `target_size_unit` is invalid.
-
-- **MilvusException**
-
-    Raised when the server rejects the request or the compaction RPC fails.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
+
+Demonstrates compact usage.
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-job_id = client.compact(
-    collection_name="book_catalog",
-    is_clustering=True,
-    target_size=512,
-    target_size_unit="mb",
-)
-
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+job_id = client.compact(collection_name="book_chunks", target_size=512, target_size_unit="mb")
 print(job_id)
 ```

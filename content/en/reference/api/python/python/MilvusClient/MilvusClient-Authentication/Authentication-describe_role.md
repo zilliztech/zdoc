@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation returns the privileges granted to a role and the role description. | Python | MilvusClient"
+description: "Response now exposes the role description. Async variant shares the sync method parameter and response contract. Intermediate wrapper field converted into the public describerole() response dictionary. | Python | MilvusClient"
 type: docx
 token: TYczdPuSNoV9lExR8iCcNIg9nGe
 sidebar_position: 5
@@ -31,49 +31,56 @@ import Admonition from '@theme/Admonition';
 
 # describe_role()
 
-This operation returns the privileges granted to a role and the role description.
+Response now exposes the role description. Async variant shares the sync method parameter and response contract. Intermediate wrapper field converted into the public describe_role() response dictionary.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
 describe_role(
     role_name: str,
-    timeout: Optional[float] = None
+    timeout: Optional[float] = None,
+    **kwargs,
 ) -> dict
 ```
 
 **PARAMETERS:**
 
-- **role_name** (*str*) -
+- **role_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the role to describe.
 
-    **[REQUIRED]**
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC to complete.
 
-    The name of the role to describe.
-
-- **timeout** (*float*) -
-
-    The timeout duration for this operation.
+- **kwargs** (*Any*) -<br/>
+  The additional request context options.
 
 **RETURN TYPE:**
 
 *dict*
 
-A dictionary that contains `role`, `description`, and `privileges`.
+**RETURNS:**
+
+Dictionary with role, description, and privileges.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-
-    This exception will be raised when any error occurs during this operation.
-
-- **ParamError**
-
-    This exception will be raised when a parameter value is invalid.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 
+Demonstrates describe role usage.
+
 ```python
-role_info = client.describe_role(role_name="analytics_reader")
-print(role_info["description"])
-print(role_info["privileges"])
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client.create_user("analyst", "Milvus123", description="Analytics account")
+client.update_user("analyst", description="Updated analytics account")
+client.create_role("read_only", description="Read-only role")
+client.alter_role("read_only", description="Updated read-only role")
+print(client.describe_user("analyst"))
+print(client.describe_role("read_only"))
 ```

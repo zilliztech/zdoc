@@ -10,7 +10,7 @@ notebook: false
 description: "This operation returns the compaction plans for a specific compaction job, including the merge plans showing which segments will be combined. | Python | MilvusClient"
 type: docx
 token: Qa8ZdRkOKocH60xujcLcOxuBnkh
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - HNSW
   - What is unstructured data

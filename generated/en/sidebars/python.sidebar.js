@@ -1,10 +1,5 @@
 module.exports = [
   {
-    "type": "doc",
-    "id": "api/python/python/python",
-    "label": "Python SDK Reference"
-  },
-  {
     "type": "category",
     "label": "DataImport",
     "key": "category:api/python/python/dataimport",
@@ -172,9 +167,9 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user",
             "label": "create_user()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-createuser"
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/utility-createuser"
           },
           {
             "type": "doc",
@@ -742,9 +737,21 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy",
-            "label": "GroupBy",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-groupby"
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket",
+            "label": "AggregationBucket",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-aggregationbucket"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit",
+            "label": "AggregationHit",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-aggregationhit"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation",
+            "label": "SearchAggregation",
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-searchaggregation"
           },
           {
             "type": "doc",
@@ -1818,31 +1825,6 @@ module.exports = [
             "id": "api/python/python/ORM/ORM-db/db-using_database",
             "label": "using_database()",
             "key": "doc:api/python/python/ORM/ORM-db/db-usingdatabase"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "FieldSchema",
-        "key": "category:api/python/python/ORM/orm-fieldschema",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict",
-            "label": "construct_from_dict()",
-            "key": "doc:api/python/python/ORM/ORM-FieldSchema/fieldschema-constructfromdict"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema",
-            "label": "FieldSchema",
-            "key": "doc:api/python/python/ORM/ORM-FieldSchema/orm-fieldschema"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict",
-            "label": "to_dict()",
-            "key": "doc:api/python/python/ORM/ORM-FieldSchema/fieldschema-todict"
           }
         ]
       },

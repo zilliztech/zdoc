@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A StructFieldSchema instance represents the schema of a struct element in an array of structs field. A schema sketches the structure of a struct element. | Python | MilvusClient"
+description: "Constructor behavior changed. New nullable property documented on the existing class page. | Python | MilvusClient"
 type: docx
 token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
 sidebar_position: 3
@@ -31,50 +31,26 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-A StructFieldSchema instance represents the schema of a struct element in an array of structs field. A schema sketches the structure of a struct element.
+Constructor behavior changed. New nullable property documented on the existing class page.
+
+## Request Syntax\{#request-syntax}
 
 ```python
-class pymilvus.StructFieldSchema
-```
-
-## Constructor\{#constructor}
-
-Constructs the schema of a struct element in an array of structs field by defining fields, data types, and other parameters.
-
-```python
-CollectionSchema(
-    fields: list,
-    description: str
+StructFieldSchema(
+    nullable: bool = False,
+    description: str = "",
 )
 ```
 
 **PARAMETERS:**
 
-- **name** (*str*) -
+- **nullable** (*bool*) -<br/>
+  Default: `False`<br/>
+  The flag that allows the struct field to contain null values.
 
-    **[REQUIRED]**
-
-    The name of the schema. 
-
-- **fields** (*list*) -
-
-    **[REQUIRED]**
-
-    A list of **[FieldSchema](./ORM-FieldSchema)** objects that define the fields in the schema of a struct in an array of structs field.
-
-    <Admonition type="info" icon="📘" title="Note">
-
-    What is a field schema?
-    
-        A field schema represents and contains metadata for a single field, while **StructFieldSchema** ties together a list of **[FieldSchema](./ORM-FieldSchema)** objects to define the schema of a struct in an array of structs field.
-
-    </Admonition>
-
-- **description** (*string*) -
-
-    The description of the schema.
-
-    If a description is not provided, it will be set to an empty string.
+- **description** (*str*) -<br/>
+  Default: `""`<br/>
+  The description of the struct field.
 
 **RETURN TYPE:**
 
@@ -82,54 +58,26 @@ CollectionSchema(
 
 **RETURNS:**
 
-A **StructFieldSchema** object.
+Struct field schema instance containing nested fields and nullable/default metadata.
 
 **EXCEPTIONS:**
 
-- **FieldsTypeException**: 
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
-    This exception will be raised when the **fields** parameter is not a list.
+## Examples\{#examples}
 
-- **FieldTypeException**: 
-
-    This exception will be raised when a field in the **fields** list is not a **[FieldSchema](./ORM-FieldSchema)** object.
+Demonstrates StructFieldSchema usage.
 
 ```python
-from pymilvus import StructFieldSchema, FieldSchema, DataType
+from pymilvus import CollectionSchema, DataType, FieldSchema, StructFieldSchema
 
-vector = FieldSchema(
-    name="vector",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=768
-)
+chunk = StructFieldSchema(nullable=True, description="Optional chunk metadata")
+chunk.add_field("source", DataType.VARCHAR, max_length=128)
 
-varchar = FieldSchema(
-    name="varchar",
-    dtype=DataType.VARCHAR,
-    max_length=512
-)
-
-# Construct a schema with the predefined fields
-schema = StructFieldSchema(
-    name="struct_schema",
-    fields=[vector, varchar],
-    description="example_schema"
-)
+schema = CollectionSchema(fields=[
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
+    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=3),
+])
+print(schema)
 ```
-
-## Properties\{#properties}
-
-- **fields** (*list*) -
-
-    A list of **[FieldSchema](./ORM-FieldSchema)** objects that define the fields in the schema of a struct in an array of structs field.
-
-- **description** (*string*) -
-
-    The description of the schema.
-
-    If a description is not provided, it will be an empty string.
-
-## Methods\{#methods}
-
-The following are the methods of the `StructFieldSchema` class:
-

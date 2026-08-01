@@ -45,12 +45,12 @@ describe_snapshot(
 
 **PARAMETERS:**
 
-- **snapshot_name** (*str*) -
-**[REQUIRED]**
-The name of the snapshot to describe.
+- **snapshot_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the snapshot to describe.
 
-- **timeout** (*Optional[float]*) -
-An optional duration of time in seconds to allow for the RPC.
+- **timeout** (*Optional[float]*) -<br/>
+  An optional duration of time in seconds to allow for the RPC.
 
 **RETURN TYPE:**
 

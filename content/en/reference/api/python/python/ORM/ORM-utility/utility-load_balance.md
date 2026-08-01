@@ -48,13 +48,13 @@ load_balance(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**
 
     The name of an existing collection for which a load-balancing group is set up.
 
-- **src_node_id** (*int*) -
-**[REQUIRED]**
+- **src_node_id** (*int*) -<br/>
+  **[REQUIRED]**
 
     The ID of the query node the collection currently uses.
 
