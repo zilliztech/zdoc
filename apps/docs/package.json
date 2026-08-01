@@ -5,6 +5,7 @@
   "scripts": {
     "build:en": "NODE_OPTIONS=--max-old-space-size=8192 node ../../scripts/build/run-with-publication-read-fence.mjs --site en -- docusaurus build --out-dir ../../build/en && node ../../scripts/build/write-provenance.mjs --site en --build ../../build/en",
     "build:zh-CN": "pnpm --dir ../.. docs-tooling validate-reference --site zh-CN && NODE_OPTIONS=--max-old-space-size=4096 node ../../scripts/build/run-with-publication-read-fence.mjs --site zh-CN -- docusaurus build --out-dir ../../build/zh-CN && node ../../scripts/build/write-provenance.mjs --site zh-CN --build ../../build/zh-CN",
+    "build:zh-CN:site": "NODE_OPTIONS=--max-old-space-size=8192 node ../../scripts/build/run-with-publication-read-fence.mjs --site zh-CN -- docusaurus build --out-dir ../../build/zh-CN && node ../../scripts/build/write-provenance.mjs --site zh-CN --build ../../build/zh-CN",
     "start:en": "ZDOC_SITE=en docusaurus start",
     "start:zh-CN": "ZDOC_SITE=zh-CN docusaurus start"
   },

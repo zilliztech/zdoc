@@ -5,7 +5,7 @@ const path = require('node:path')
 const { test } = require('node:test')
 const yaml = require('js-yaml')
 
-const GUIDES_BUILD_MAPPING = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+const GUIDES_BUILD_MAPPING = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN:site' || '' }}"
 const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting'
 
 function assertGuidesAssemblySnapshotLifecycle(source) {

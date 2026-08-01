@@ -926,6 +926,10 @@ describe('createDocusaurusConfig', () => {
     expect(packageJson.scripts['build:zh-CN']).toMatch(
       /^pnpm --dir \.\.\/\.\. docs-tooling validate-reference --site zh-CN && NODE_OPTIONS=--max-old-space-size=4096 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
     );
+    expect(packageJson.scripts['build:zh-CN:site']).toMatch(
+      /^NODE_OPTIONS=--max-old-space-size=8192 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
+    );
+    expect(packageJson.scripts['build:zh-CN:site']).not.toContain('validate-reference');
     expect(packageJson.scripts['build:zh-CN']).not.toContain('DOCUSAURUS_SSG_WORKER_THREAD_COUNT');
     expect(packageJson.scripts['build:en']).not.toContain('--experimental-strip-types');
     expect(packageJson.scripts['build:zh-CN']).not.toContain('--experimental-strip-types');

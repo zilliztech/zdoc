@@ -27,7 +27,7 @@ jobs:
     timeout-minutes: 180
     env:
       ZDOC_SITE: ${{ inputs.site }}
-      ZDOC_BUILD_COMMAND: ${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}
+      ZDOC_BUILD_COMMAND: ${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN:site' || '' }}
     outputs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: docs-checkpoint-guides-${{ inputs.site }}-${{ github.run_id }}

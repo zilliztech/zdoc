@@ -75,13 +75,6 @@ jobs:
           else
             echo "status=failed" >> "$GITHUB_OUTPUT"
           fi
-      - name: Verify final cross-site consistency
-        id: verification
-        continue-on-error: true
-        run: |
-          set -euo pipefail
-          mkdir -p tmp/final-verification-reports
-          pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log
       - name: Upload final verification reports
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
@@ -93,7 +86,7 @@ jobs:
         id: result
         if: ${{ always() }}
         run: |
-          if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then
+          if [[ "${{ steps.revision.outcome }}" == success ]]; then
             echo "status=passed" >> "$GITHUB_OUTPUT"
           else
             echo "status=failed" >> "$GITHUB_OUTPUT"

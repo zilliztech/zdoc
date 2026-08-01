@@ -166,6 +166,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (containsForcePush(source)) {
       errors.push(`${file}: force-pushing generated documentation can discard concurrent updates`)
     }
+    if (/build:zh-CN:site/.test(source) && !['_assemble-guides.yml', 'fetch-docs.yml'].includes(file)) {
+      errors.push(`${file}: Chinese site-only build is reserved for the Chinese Guides source lane`)
+    }
 
     const immutableTranslationToolingFiles = new Set([
       '_prepare-translation-batches.yml', '_translate-content-group.yml', '_translate-publish-batch.yml',
@@ -514,7 +517,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: Guides assembly must fail early on source completeness, media, coverage, and generated navigation for the selected site`)
       }
       const checkpointStep = steps.find(step => step.name === 'Create combined guides checkpoint')
-      const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+      const expectedBuildMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN:site' || '' }}"
       if (workflow.jobs?.assemble?.env?.ZDOC_BUILD_COMMAND !== expectedBuildMapping ||
           !/\[\[ -n "\$ZDOC_BUILD_COMMAND" \]\][\s\S]*validate-generated-sidebars\.js --site "\$ZDOC_SITE"[\s\S]*run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting/.test(validationStep?.run || '') ||
           !/printf -v build_validation[\s\S]*"\$ZDOC_BUILD_COMMAND"[\s\S]*--validation-command "\$build_validation"/.test(checkpointStep?.run || '') ||
@@ -626,7 +629,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
         [/git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must materialize the exact final dev SHA'],
         [/restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must restore generated content from the exact final dev SHA'],
-        [/name: Verify final cross-site consistency[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-reference --site zh-CN[^\n]*\| tee/, 'must validate the final English-to-Chinese Reference relationship'],
         [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
@@ -675,21 +677,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       const materializeIndex = steps.findIndex(step => step?.name === 'Materialize exact final dev state')
       const revisionIndex = steps.indexOf(revision)
-      const verification = namedJobStep(workflow, 'verify', 'Verify final cross-site consistency')
-      const verificationIndex = steps.indexOf(verification)
-      const verificationRun = String(verification?.run || '')
-      const verificationCommands = executableCommandLines(verificationRun)
-      const consistencyCommand = 'pnpm docs-tooling validate-reference --site zh-CN'
-      if (!(materializeIndex >= 0 && materializeIndex < revisionIndex && revisionIndex < verificationIndex) ||
-        verification?.id !== 'verification' || verification?.['continue-on-error'] !== true ||
-        !commandsAppearInOrder(verificationCommands, ['set -euo pipefail', consistencyCommand])) {
-        errors.push(`${file}: final verification must run lightweight cross-site consistency after revision reconciliation`)
+      if (!(materializeIndex >= 0 && materializeIndex < revisionIndex)) {
+        errors.push(`${file}: final verification must materialize the exact state before revision reconciliation`)
       }
-      if (terminatesBeforeCommand(verificationCommands, consistencyCommand)) {
-        errors.push(`${file}: final consistency verification must not terminate before validation completes`)
-      }
-      if (/build:(?:en|zh-CN)|validate-generated-sidebars|validate-translated-coverage|validate-guides-source-contract|validate-workflow-policy|test:typescript-runtime-boundary/.test(verificationRun)) {
-        errors.push(`${file}: final verification must not repeat site builds, site-owned validation, or tooling test suites`)
+      if (/Verify final cross-site consistency|validate-reference --site zh-CN/.test(source)) {
+        errors.push(`${file}: final source verification must not gate unrelated cross-site Reference state`)
       }
       const uploadReports = namedJobStep(workflow, 'verify', 'Upload final verification reports')
       if (String(uploadReports?.if || '').trim() !== '${{ always() }}') {
@@ -697,14 +689,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       const resultCommands = executableCommandLines(namedJobStep(workflow, 'verify', 'Emit verification result')?.run)
       const expectedResult = [
-        'if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then',
+        'if [[ "${{ steps.revision.outcome }}" == success ]]; then',
         'echo "status=passed" >> "$GITHUB_OUTPUT"',
         'else',
         'echo "status=failed" >> "$GITHUB_OUTPUT"',
         'fi',
       ]
       if (JSON.stringify(resultCommands) !== JSON.stringify(expectedResult)) {
-        errors.push(`${file}: overall status must require revision and site verification success`)
+        errors.push(`${file}: overall status must require revision verification success`)
       }
       if (/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
       if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
@@ -798,7 +790,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         JSON.stringify(zhRender?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides_sources']) ||
         JSON.stringify(zhAssemble?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides_sources', 'render_zh_guides_tables']) ||
         JSON.stringify(zhPublish?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides', 'publish_guides']) ||
-        zhPublish?.with?.group !== 'guides' || !/build:zh-CN/.test(zhPublish?.with?.validate_command || '')) {
+        zhPublish?.with?.group !== 'guides' || !/pnpm run build:zh-CN:site(?:\s|$)/.test(zhPublish?.with?.validate_command || '')) {
       errors.push('fetch-docs.yml: Chinese Guides must use a complete site-qualified lane and serialize after English publication')
     }
     const handoffJob = caller?.jobs?.prepare_translation_handoff

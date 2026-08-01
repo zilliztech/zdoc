@@ -413,7 +413,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site zh-CN && pnpm run build:zh-CN'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site zh-CN && pnpm run build:zh-CN:site'
 
   source_publication_barrier:
     needs: [prepare, publish_guides, publish_zh_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]

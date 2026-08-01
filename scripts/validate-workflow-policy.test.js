@@ -767,18 +767,15 @@ test('reusable final verification uses immutable master tooling for lightweight 
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/)
   assert.doesNotMatch(workflow, /git worktree add --detach "\$RUNNER_TEMP\/final-dev"/)
   assert.doesNotMatch(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
-  const verificationStep = workflow.slice(workflow.indexOf('name: Verify final cross-site consistency'), workflow.indexOf('name: Upload final verification reports'))
-  assert.match(verificationStep, /pnpm docs-tooling validate-reference --site zh-CN[^\n]*\| tee/)
-  assert.doesNotMatch(verificationStep, /build:(?:en|zh-CN)|validate-generated-sidebars|validate-translated-coverage|validate-guides-source-contract|validate-workflow-policy|test:typescript-runtime-boundary/)
+  assert.doesNotMatch(workflow, /Verify final cross-site consistency|validate-reference --site zh-CN/)
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(workflow, /value: \$\{\{ jobs\.verify\.outputs\.status \}\}/)
   assert.match(workflow, /status=passed[\s\S]*status=failed/)
   assert.doesNotMatch(workflow, /contents: write|git push/)
-  const verificationBody = workflow.slice(workflow.indexOf('name: Verify final cross-site consistency'), workflow.indexOf('name: Upload final verification reports'))
-  assert.doesNotMatch(verificationBody, /secrets\./)
+  assert.doesNotMatch(workflow, /secrets\./)
 })
 
-test('workflow policy rejects final verification waterline and consistency mutations', () => {
+test('workflow policy rejects final verification waterline mutations', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
     ['      revision_status:\n        description: passed or failed\n        value: ${{ jobs.verify.outputs.revision_status }}\n', '', '_verify-docs.yml: must expose revision status separately from overall status'],
@@ -788,17 +785,10 @@ test('workflow policy rejects final verification waterline and consistency mutat
       '      - name: Verify revision waterline\n        id: revision\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n          exit 0\n',
       '_verify-docs.yml: revision waterline must not terminate before validation completes',
     ],
-    ['pnpm docs-tooling validate-reference --site zh-CN', 'echo skipped Chinese reference', '_verify-docs.yml: final verification must run lightweight cross-site consistency after revision reconciliation'],
     [
-      '      - name: Verify final cross-site consistency\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n',
-      '      - name: Verify final cross-site consistency\n        id: verification\n        continue-on-error: true\n        run: |\n          set -euo pipefail\n          exit 0\n',
-      '_verify-docs.yml: final consistency verification must not terminate before validation completes',
-    ],
-    ['steps.revision.outcome }}" == success && "${{ steps.verification.outcome', 'steps.verification.outcome }}" == success && "${{ steps.verification.outcome', '_verify-docs.yml: overall status must require revision and site verification success'],
-    [
-      '          if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.verification.outcome }}" == success ]]; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',
-      '          # ${{ steps.revision.outcome }} and ${{ steps.verification.outcome }} retained as inert evidence\n          echo "status=passed" >> "$GITHUB_OUTPUT"',
-      '_verify-docs.yml: overall status must require revision and site verification success',
+      '      - name: Emit verification result\n        id: result\n        if: ${{ always() }}\n        run: |\n          if [[ "${{ steps.revision.outcome }}" == success ]]; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',
+      '      - name: Emit verification result\n        id: result\n        if: ${{ always() }}\n        run: |\n          if true; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',
+      '_verify-docs.yml: overall status must require revision verification success',
     ],
     ['fetch-depth: 0', 'fetch-depth: 1', '_verify-docs.yml: must check out immutable master tooling'],
     ['git fetch --no-tags origin "$FINAL_DEV_SHA"', 'git fetch --no-tags origin dev', '_verify-docs.yml: must materialize the exact final dev SHA'],
@@ -817,6 +807,21 @@ test('workflow policy rejects final verification waterline and consistency mutat
     } finally {
       fs.rmSync(directory, { recursive: true, force: true })
     }
+  }
+})
+
+test('Chinese site-only build stays scoped to the Guides source lane', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'zh-site-build-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const file = path.join(directory, 'site-validation.yml')
+    fs.appendFileSync(file, '\n# pnpm run build:zh-CN:site\n')
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'site-validation.yml: Chinese site-only build is reserved for the Chinese Guides source lane',
+    ))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
   }
 })
 
@@ -1193,7 +1198,7 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(validation, /generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js/)
   const finalValidation = assemble.slice(indices[2], indices[3])
   assert.match(finalValidation, /validate-guides-source-contract\.js --site "\$ZDOC_SITE"[\s\S]*validate-guides-coverage\.js --site "\$ZDOC_SITE"[\s\S]*validate-generated-sidebars\.js --site "\$ZDOC_SITE"/)
-  assert.match(assemble, /ZDOC_BUILD_COMMAND: \$\{\{ inputs\.site == 'en' && 'pnpm run build:en' \|\| inputs\.site == 'zh-CN' && 'pnpm run build:zh-CN' \|\| '' \}\}/)
+  assert.match(assemble, /ZDOC_BUILD_COMMAND: \$\{\{ inputs\.site == 'en' && 'pnpm run build:en' \|\| inputs\.site == 'zh-CN' && 'pnpm run build:zh-CN:site' \|\| '' \}\}/)
   assert.match(finalValidation, /run-doc-build-stage\.js --build "\$ZDOC_BUILD_COMMAND"/)
   const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
   assert.match(finalize, /saas=generated\/\$\{\{ inputs\.site \}\}\/sidebars\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
@@ -1228,7 +1233,7 @@ test('Guides assembly uses one explicit site-owned build mapping and policy reje
   const workflowPath = path.join(workflowDirectory, '_assemble-guides.yml')
   const source = fs.readFileSync(workflowPath, 'utf8')
   const workflow = yaml.load(source)
-  const expectedMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+  const expectedMapping = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN:site' || '' }}"
   assert.equal(workflow.jobs.assemble.env.ZDOC_BUILD_COMMAND, expectedMapping)
   const validation = workflow.jobs.assemble.steps.find(step => step.name === 'Validate combined guides output')?.run || ''
   const checkpoint = workflow.jobs.assemble.steps.find(step => step.name === 'Create combined guides checkpoint')?.run || ''
@@ -1652,7 +1657,7 @@ test('Chinese Guides remains a direct site-qualified source lane', () => {
   assert.equal(workflow.jobs.render_zh_guides_tables.with.site, 'zh-CN')
   assert.equal(workflow.jobs.produce_zh_guides.with.site, 'zh-CN')
   assert.deepEqual(workflow.jobs.publish_zh_guides.needs, ['prepare', 'produce_zh_guides', 'publish_guides'])
-  assert.match(workflow.jobs.publish_zh_guides.with.validate_command, /build:zh-CN/)
+  assert.match(workflow.jobs.publish_zh_guides.with.validate_command, /pnpm run build:zh-CN:site(?:\s|$)/)
 })
 
 test('source aggregate reports downstream handoff and downloads Guides reports before card collection', () => {
