@@ -7,9 +7,9 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation creates volume. | Java | v2"
+description: "Creates a volume backed by the specified storage integration and path. | Java | v2"
 type: docx
-token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
+token: ZQwMd6bo5otETvxWWHDcUpTMn8g
 sidebar_position: 1
 keywords: 
   - Managed vector database
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createVolume()
 
-This operation creates volume.
+Creates a volume backed by the specified storage integration and path.
 
 ```java
 public void createVolume(CreateVolumeRequest request)
@@ -40,66 +40,59 @@ public void createVolume(CreateVolumeRequest request)
 ## Request Syntax\{#request-syntax}
 
 ```java
-createVolume(CreateVolumeRequest.builder()
-    .projectId(String projectId)
-    .regionId(String regionId)
-    .volumeName(String volumeName)
+CreateVolumeRequest.builder()
+    .projectId(projectId)
+    .regionId(regionId)
+    .volumeName(volumeName)
+    .type(type)
+    .storageIntegrationId(storageIntegrationId)
+    .path(path)
     .build();
-)
 ```
 
-**PARAMETERS**
+**BUILDER METHODS:**
 
-- **projectId** (*str*) -
+- `projectId(String projectId)`
 
-    **[REQUIRED]**
+    The ID of the Zilliz Cloud project.
 
-    The ID of the project to which the volume to be created belongs.
+- `regionId(String regionId)`
 
-- **regionId** (*str*) -
+    The ID of the cloud region.
 
-    **[REQUIRED]**
+- `volumeName(String volumeName)`
 
-    The ID of the cloud region in which the volume will be created. You can use [List Cloud Regions](/reference/restful/list-cloud-regions-v2) to view possible values.
+    The name of the volume.
 
-- **volumeName** (*str*) -
+- `type(String type)`
 
-    **[REQUIRED]**
+    The volume type: `MANAGED` or `EXTERNAL`. The default is `MANAGED`.
 
-    The name of the volume to create.
+- `storageIntegrationId(String storageIntegrationId)`
 
-**RETURN TYPE**
+    The ID of the storage integration used by an external volume.
 
-*void*
+- `path(String path)`
 
-**RETURNS**
+    The storage path for an external volume. If set, the path must end with `/`; otherwise the storage integration root is used.
 
-None
+**EXCEPTIONS:**
+
+- **MilvusClientExceptions**
+
+    Raised when any error occurs during this operation. Inspect the exception message for the exact failure reason.
 
 ## Example\{#example}
 
+Creates a volume backed by the specified storage integration and path.
+
 ```java
-import io.milvus.bulkwriter.VolumeManager;
-import io.milvus.bulkwriter.VolumeManagerParam;
-import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
-
-VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com")
-    .withApiKey("YOUR_API_KEY")
-    .build();
-        
-VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
-CreateVolumeRequest request = CreateVolumeRequest.builder()
-    .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-    .regionId("aws-us-west-1")
-    .volumeName("my_volume")
-    .build();
-
-volumeManager.createVolume(request);
-
-System.out.printf("\nVolume %s created%n", "my_volume");
-
-// Volume my_volume created
+volumeManager.createVolume(CreateVolumeRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .volumeName("bulk-data")
+    .type("S3")
+    .storageIntegrationId(STORAGE_INTEGRATION_ID)
+    .path("s3://bucket/prefix")
+    .build());
 ```
-

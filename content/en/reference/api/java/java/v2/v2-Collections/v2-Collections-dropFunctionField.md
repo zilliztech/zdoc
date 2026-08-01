@@ -1,25 +1,25 @@
 ---
-title: "dropCollectionFunction() | Java | v2"
-slug: /java/java/v2-Collections-dropCollectionFunction
-sidebar_label: "dropCollectionFunction()"
+title: "dropFunctionField() | Java | v2"
+slug: /java/java/v2-Collections-dropFunctionField
+sidebar_label: "dropFunctionField()"
 beta: false
-added_since: v2.6.x
-last_modified: v3.0.x
+added_since: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "Removes a function definition from an existing collection without removing its output field. Use `dropFunctionField()` to remove both. | Java | v2"
+description: "Drops a function and the output field owned by that function. | Java | v2"
 type: docx
-token: K0wedJ57uoHCyXxOFtNc673tnuA
-sidebar_position: 33
+token: LUUvdGTqrog0AIxfea7cc9a1nCd
+sidebar_position: 40
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
-  - dropCollectionFunction()
+  - dropFunctionField()
   - javaV230
 displayed_sidebar: javaSidebar
 
@@ -29,18 +29,18 @@ displayed_sidbar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# dropCollectionFunction()
+# dropFunctionField()
 
-Removes a function definition from an existing collection without removing its output field. Use [`dropFunctionField()`](./v2-Collections-dropFunctionField) to remove both.
+Drops a function and the output field owned by that function.
 
 ```java
-public void dropCollectionFunction(DropCollectionFunctionReq request)
+public void dropFunctionField(DropFunctionFieldReq request)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```java
-DropCollectionFunctionReq.builder()
+DropFunctionFieldReq.builder()
     .collectionName(collectionName)
     .databaseName(databaseName)
     .functionName(functionName)
@@ -59,7 +59,7 @@ DropCollectionFunctionReq.builder()
 
 - `functionName(String functionName)`
 
-    The name of the function definition to remove.
+    The name of the function whose definition and output field should be removed.
 
 **RETURNS:**
 
@@ -76,7 +76,7 @@ This operation does not return a value.
 ## Example\{#example}
 
 ```java
-client.dropCollectionFunction(DropCollectionFunctionReq.builder()
+client.dropFunctionField(DropFunctionFieldReq.builder()
     .collectionName("books")
     .functionName("bm25")
     .build());

@@ -7,9 +7,9 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation gets the progress of the specified bulk-import job. | Java | v2"
+description: "Retrieves the current state and progress of a bulk import job in Milvus or Zilliz Cloud. | Java | v2"
 type: docx
-token: EjnFdC5EfoIkoExSBOxcEC2hnbg
+token: OFZ3dUGwmoarOBx6FHScZwwtn8f
 sidebar_position: 3
 keywords: 
   - Deep Learning
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getImportProgress()
 
-This operation gets the progress of the specified bulk-import job.
+Retrieves the current state and progress of a bulk import job in Milvus or Zilliz Cloud.
 
 ```java
 public static String getImportProgress(String url, BaseDescribeImportRequest request)
@@ -39,61 +39,52 @@ public static String getImportProgress(String url, BaseDescribeImportRequest req
 
 ## Request Syntax\{#request-syntax}
 
+Use this request for an import job created in Zilliz Cloud.
+
 ```java
-bulkImport.getImportProgress(
-    url,
-    request
-)
+CloudDescribeImportRequest.builder()
+    .apiKey(apiKey)
+    .clusterId(clusterId)
+    .projectId(projectId)
+    .regionId(regionId)
+    .jobId(jobId)
+    .build();
 ```
 
 **PARAMETERS:**
 
-- **url** (*String*) -
+- **apiKey** (*String*) -<br/>
+  Authentication credential. Use the Zilliz Cloud API key for Cloud requests or `username:password` for Milvus requests.
 
-    Zilliz Cloud's Control Plane API endpoint. The endpoint URL should be in the following format:
+- **clusterId** (*String*) -<br/>
+  Cluster identifier for cluster-based deployments. For project database deployments, use `projectId` and `regionId` instead.
 
-    ```python
-    https://api.cloud.zilliz.com
-    ```
+- **projectId** (*String*) -<br/>
+  Project identifier for project database deployments. Use with `regionId` instead of `clusterId`.
 
-- **request** (*[BaseDescribeImportRequest](./v2-BulkImport-getImportProgress#basedescribeimportrequest)*) -  
+- **regionId** (*String*) -<br/>
+  Region identifier for project database deployments. Use with `projectId` instead of `clusterId`.
 
-    A **BaseImportRequest** instance.
-
-**RETURN TYPE:**
-
-*String*
+- **jobId** (*String*) -<br/>
+  Identifier of the import job to inspect.
 
 **RETURNS:**
 
-The import progress of the specified import job.
+*String*
 
-## BaseDescribeImportRequest\{#basedescribeimportrequest}
-
-A **BaseDescribeImportRequest** instance is implemented in **CloudDescribeImportRequest**.
-
-### CloudDescribeImportRequest\{#clouddescribeimportrequest}
-
-```java
-CloudDescribeImportRequest.builder()
-    .apiKey(String apiKey)
-    .jobId(String jobId)
-    .build()
-```
-
-**BUILDER METHODS:**
-
-- `apiKey(String apiKey)`
-
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
-
-- `jobId(String jobId)`
-
-    The ID of an existing import job.
+A JSON response containing the import job state, progress, and related details.
 
 ## Example\{#example}
 
-```java
+Gets import progress with project and region identifiers.
 
+```java
+CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .jobId(jobId)
+    .apiKey(API_KEY)
+    .build();
+String response = BulkImportUtils.getImportProgress("https://api.cloud.zilliz.com", request);
 ```
 

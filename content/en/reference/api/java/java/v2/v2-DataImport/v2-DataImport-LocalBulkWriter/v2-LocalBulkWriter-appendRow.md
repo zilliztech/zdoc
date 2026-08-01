@@ -4,12 +4,12 @@ slug: /java/java/v2-LocalBulkWriter-appendRow
 sidebar_label: "appendRow()"
 beta: false
 added_since: v2.5.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation appends a row of data to the LocalBulkWriter buffer. The data will be written to a file when the buffer is full or when `commit()` is called. | Java | v2"
+description: "Validates and appends one row to the writer. When buffered data exceeds the configured `chunkSize`, the writer commits the current file automatically. | Java | v2"
 type: docx
-token: OgXWdeRGhoxMYqxzNSrcSZAknIb
+token: LzctdSxZ9ogGTwxx1yXcTc7ynvf
 sidebar_position: 6
 keywords: 
   - milvus db
@@ -31,42 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # appendRow()
 
-This operation appends a row of data to the LocalBulkWriter buffer. The data will be written to a file when the buffer is full or when `commit()` is called.
+Validates and appends one row to the writer. When buffered data exceeds the configured `chunkSize`, the writer commits the current file automatically.
+
+[`StructFieldSchema`](./v2-Collections-StructFieldSchema) fields can contain binary, float16, bfloat16, and int8 vector values.
 
 ```java
-public void appendRow(JsonObject rowData) throws IOException, InterruptedException
+public void appendRow(JsonObject rowData)
 ```
-
-**PARAMETERS:**
-
-- **rowData** (*JsonObject*) -
-
-    A JSON object representing a single row of data.
 
 **RETURNS:**
 
 *void*
 
+This operation does not return a value.
+
 **EXCEPTIONS:**
 
-- **IOException**
+- **Exception**
 
-    This is a checked exception thrown when any data-read or data-write errors occur during this operation.
-
-- **InterruptedException**
-
-    This is a checked exception thrown when a thread that is currently "blocking" (waiting, sleeping, or otherwise occupied) is interrupted by another thread using the `Thread.interrupt()` method.
-
-- **MilvusClientException**
-
-    This exception will be raised when any error occurs during this operation.
+    Raised when request validation, transport, or server execution fails. Inspect the exception message for the exact failure reason.
 
 ## Example\{#example}
 
 ```java
-LocalBulkWriter writer = new LocalBulkWriter(config);
 JsonObject row = new JsonObject();
 row.addProperty("id", 1L);
-row.add("vector", gson.toJsonTree(new float[]{0.1f, 0.2f, 0.3f}));
+row.addProperty("title", "Dune");
 writer.appendRow(row);
 ```

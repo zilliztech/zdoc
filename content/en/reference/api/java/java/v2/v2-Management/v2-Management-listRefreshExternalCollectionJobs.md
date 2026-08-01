@@ -10,7 +10,7 @@ notebook: false
 description: "This operation lists all external-collection refresh jobs, optionally filtered by collection name. | Java | v2"
 type: docx
 token: P9MFdEHMKoAfshxQhamcWrGknWg
-sidebar_position: 28
+sidebar_position: 30
 keywords: 
   - Retrieval Augmented Generation
   - Large language model

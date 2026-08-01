@@ -10,7 +10,7 @@ notebook: false
 description: "This operation gets server version information. Use `detail(true)` when you need build time, Git commit, Go version, and deploy mode in addition to the version string. | Java | v2"
 type: docx
 token: KrSgdfCaJosFp5xwHIAcV0tAnec
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - Image Search
   - LLMs

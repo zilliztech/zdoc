@@ -10,7 +10,7 @@ notebook: false
 description: "This operation gets detailed load-state information for a collection or partition. Use it when you need both the current load state and loading progress. | Java | v2"
 type: docx
 token: JEgudTxxYocs2VxLjgccpB7SnOb
-sidebar_position: 38
+sidebar_position: 41
 keywords: 
   - open source vector db
   - vector database example

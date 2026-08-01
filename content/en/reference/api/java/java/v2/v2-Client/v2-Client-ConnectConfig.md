@@ -10,7 +10,7 @@ notebook: false
 description: "A ConnectConfig builder holds the connection configuration used when creating a `MilvusClientV2` instance. Use the builder pattern to configure all connection parameters, including authentication, TLS, timeouts, and keepalive settings. | Java | v2"
 type: docx
 token: ErNidktYPodbDxxow0xcV5qHnof
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - Pinecone vector database
   - Audio search

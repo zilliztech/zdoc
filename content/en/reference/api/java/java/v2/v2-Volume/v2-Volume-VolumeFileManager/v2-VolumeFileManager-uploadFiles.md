@@ -1,25 +1,25 @@
 ---
-title: "uploadFilesAsync() | Java | v2"
-slug: /java/java/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync
-sidebar_label: "uploadFilesAsync()"
+title: "uploadFiles() | Java | v2"
+slug: /java/java/v2-VolumeFileManager-uploadFiles
+sidebar_label: "uploadFiles()"
 beta: false
-added_since: false
-last_modified: v3.0.x
+added_since: v3.0.x
+last_modified: false
 deprecate_since: false
 notebook: false
-description: "Asynchronously uploads a file or directory to a Zilliz Cloud volume with configurable retry, concurrency, multipart, and progress reporting. | Java | v2"
+description: "Synchronously uploads a file or directory to a Zilliz Cloud volume with retry, concurrency, multipart, and progress controls. | Java | v2"
 type: docx
-token: Op8ydBXyZo2rlZxhgfNcaC3unRg
-sidebar_position: 5
+token: FiyGdmoSHoDbrPxhSdncsMWbnhc
+sidebar_position: 4
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
-  - uploadFilesAsync()
+  - uploadFiles()
   - javaV230
 displayed_sidebar: javaSidebar
 
@@ -29,12 +29,12 @@ displayed_sidbar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# uploadFilesAsync()
+# uploadFiles()
 
-Asynchronously uploads a file or directory to a Zilliz Cloud volume with configurable retry, concurrency, multipart, and progress reporting.
+Synchronously uploads a file or directory to a Zilliz Cloud volume with retry, concurrency, multipart, and progress controls.
 
 ```java
-public CompletableFuture<UploadFilesResult> uploadFilesAsync(UploadFilesRequest request)
+public UploadFilesResult uploadFiles(UploadFilesRequest request)
 ```
 
 ## Request Syntax\{#request-syntax}
@@ -83,7 +83,7 @@ UploadFilesRequest.builder()
 
 **RETURNS:**
 
-*CompletableFuture&lt;UploadFilesResult&gt;*
+*UploadFilesResult*
 
 Identifies the target volume and uploaded path.
 
@@ -96,7 +96,7 @@ Identifies the target volume and uploaded path.
 ## Example\{#example}
 
 ```java
-CompletableFuture<UploadFilesResult> future = manager.uploadFilesAsync(UploadFilesRequest.builder()
+UploadFilesResult result = manager.uploadFiles(UploadFilesRequest.builder()
     .sourceFilePath("./data")
     .targetVolumePath("imports/")
     .uploadConcurrency(5)

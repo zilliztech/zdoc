@@ -4,12 +4,12 @@ slug: /java/java/v2-Collections-addCollectionFunction
 sidebar_label: "addCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation adds a function to a collection. Functions allow you to define custom processing logic, such as BM25 scoring or embedding generation. | Java | v2"
+description: "Adds a function definition to an existing collection. In Milvus 3.0, use `addFunctionField()` when the function output field and its index must be added together. | Java | v2"
 type: docx
-token: AIRDdrhZloIQCrxCfc8cvxe4nmh
+token: Qbvcd9DG1ofMpuxVdEqcToU1nIb
 sidebar_position: 30
 keywords: 
   - sentence transformers
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionFunction()
 
-This operation adds a function to a collection. Functions allow you to define custom processing logic, such as BM25 scoring or embedding generation.
+Adds a function definition to an existing collection. In Milvus 3.0, use [`addFunctionField()`](./v2-Collections-addFunctionField) when the function output field and its index must be added together.
 
 ```java
 public void addCollectionFunction(AddCollectionFunctionReq request)
@@ -40,58 +40,51 @@ public void addCollectionFunction(AddCollectionFunctionReq request)
 ## Request Syntax\{#request-syntax}
 
 ```java
-addCollectionFunction(AddCollectionFunctionReq.builder()
-    .collectionName(String collectionName)
-    .databaseName(String databaseName)
-    .function(CreateCollectionReq.Function function)
-    .build()
-);
+AddCollectionFunctionReq.builder()
+    .collectionName(collectionName)
+    .databaseName(databaseName)
+    .function(function)
+    .build();
 ```
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
-    **[REQUIRED]**
+    The name of the target collection.
 
-    The name of the collection.
+- `databaseName(String databaseName)`
 
-- `databaseName(String databaseName)` -
+    The name of the database. Defaults to the current database when omitted.
 
-    The name of the database. Defaults to the current database if not specified.
+- `function(CreateCollectionReq.Function function)`
 
-- `function(CreateCollectionReq.Function function)` -
-
-    **[REQUIRED]**
-
-    The function to add. Use `CreateCollectionReq.Function.builder()` to construct it with name, description, functionType, inputFieldNames, outputFieldNames, and params.
+    The function definition to add to existing collection fields.
 
 **RETURNS:**
 
 *void*
 
+This operation does not return a value.
+
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    Raised when request validation, transport, or server execution fails. Inspect the exception message for the exact failure reason.
 
 ## Example\{#example}
 
 ```java
-import io.milvus.v2.service.collection.request.AddCollectionFunctionReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.common.clientenum.FunctionType;
-
-CreateCollectionReq.Function bm25Func = CreateCollectionReq.Function.builder()
+CreateCollectionReq.Function bm25Function = CreateCollectionReq.Function.builder()
     .name("bm25")
     .functionType(FunctionType.BM25)
-    .inputFieldNames(Arrays.asList("text"))
-    .outputFieldNames(Arrays.asList("sparse_vector"))
+    .inputFieldNames(Collections.singletonList("text"))
+    .outputFieldNames(Collections.singletonList("sparse"))
     .build();
 
 client.addCollectionFunction(AddCollectionFunctionReq.builder()
-    .collectionName("my_collection")
-    .function(bm25Func)
+    .collectionName("books")
+    .function(bm25Function)
     .build());
 ```

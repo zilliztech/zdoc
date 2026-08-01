@@ -4,12 +4,12 @@ slug: /java/java/v2-Vector-insert
 sidebar_label: "insert()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation inserts data into a specific collection. | Java | v2"
+description: "Aligns insert-row validation for auto-ID fields, function output fields, dynamic fields, and Struct values. | Java | v2"
 type: docx
-token: Y0N1dL4bVoyUnXxfSu7cjrgRnlc
+token: DKs7dzHI5oaJvlxezuAcuMVzn9c
 sidebar_position: 4
 keywords: 
   - Chroma vs Milvus
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-This operation inserts data into a specific collection.
+Aligns insert-row validation for auto-ID fields, function output fields, dynamic fields, and Struct values.
 
 ```java
 public InsertResp insert(InsertReq request)
@@ -40,30 +40,29 @@ public InsertResp insert(InsertReq request)
 ## Request Syntax\{#request-syntax}
 
 ```java
-insert(InsertReq.builder()
-    .data(List<JsonObject> data)
-    .databaseName(String databaseName)
-    .collectionName(String collectionName)
-    .partitionName(String partitionName)
-    .build()
-);
+InsertReq.builder()
+    .data(data)
+    .databaseName(databaseName)
+    .collectionName(collectionName)
+    .partitionName(partitionName)
+    .build();
 ```
 
 **BUILDER METHODS:**
 
-- `data(List<JsonObject> data)` -
+- `data(List<JsonObject> data)`
 
-    A list of data rows to insert/upsert as JSON objects.
+    The rows to insert. Field names and values must conform to the collection schema.
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
-    The name of the database. Defaults to the current database if not specified.
+    The name of the database. Defaults to the current database when omitted.
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
     The name of the target collection.
 
-- `partitionName(String partitionName)` -
+- `partitionName(String partitionName)`
 
     The name of the target partition.
 
@@ -71,42 +70,21 @@ insert(InsertReq.builder()
 
 *InsertResp*
 
-An **InsertResp** object containing information about the number of inserted entities.
+Contains the number of inserted entities and generated primary keys when applicable.
 
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    Raised when request validation, transport, or server execution fails. Inspect the exception message for the exact failure reason.
 
 ## Example\{#example}
 
+Demonstrates insert() with the reviewed v3.0.x API.
+
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.InsertReq;
-
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Add one row to the collection, the collection has an "id" field
-// and a "vector" field with dimension 2
-JsonObject row = new JsonObject();
-List<Float> vectorList = new ArrayList<>();
-vectorList.add(1.0f);
-vectorList.add(2.0f);
-row.add("vector", gson.toJsonTree(vectorList));
-row.addProperty("id", 0L);
-
-InsertReq insertReq = InsertReq.builder()
-        .collectionName("test")
-        .data(Collections.singletonList(row))
-        .build();
-client.insert(insertReq);
+InsertResp response = client.insert(InsertReq.builder()
+    .collectionName("books")
+    .data(rows)
+    .build());
 ```
