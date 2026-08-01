@@ -175,7 +175,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /aggregate:[\s\S]*aggregate-results\.js[\s\S]*docs-card-report\.js create[\s\S]*docs-card-report-\$\{\{ github\.run_id \}\}/)
   assert.match(source, /name: Collect card report summaries[\s\S]*CARD_REPORT_REF: \$\{\{ needs\.resolve_final\.outputs\.final_dev_sha \}\}[\s\S]*collect-build-card-notes\.js/)
   assert.match(source, /reports_file="\$\{\{ steps\.reports\.outputs\.card_notes_file \}\}"/)
-  assert.match(source, /name: Download current Guides reports[\s\S]*needs\.produce_guides\.result == 'success'[\s\S]*needs\.produce_guides\.outputs\.status == 'artifact_ready'/)
+  assert.match(source, /name: Download current English Guides reports[\s\S]*name: docs-checkpoint-guides-en-\$\{\{ github\.run_id \}\}-reports[\s\S]*name: Download current Chinese Guides reports[\s\S]*name: docs-checkpoint-guides-zh-CN-\$\{\{ github\.run_id \}\}-reports/)
   assert.match(source, /\[\[ "\$RUN_TRANSLATIONS" == true \]\] && card_parts\+=\("Dispatch downstream translation"\)/)
   for (const workflow of ['_fetch-content-group.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')

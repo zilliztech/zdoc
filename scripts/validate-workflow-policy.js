@@ -822,14 +822,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!/name: docs-card-report-\$\{\{ github\.run_id \}\}/.test(aggregateSource) || !/name: Upload final card report artifact[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*continue-on-error: true/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: aggregate must always attempt the final card report artifact')
     }
-    const downloadGuidesReports = aggregateSource.indexOf('name: Download current Guides reports')
+    const downloadEnglishGuidesReports = aggregateSource.indexOf('name: Download current English Guides reports')
+    const downloadChineseGuidesReports = aggregateSource.indexOf('name: Download current Chinese Guides reports')
     const collectReports = aggregateSource.indexOf('name: Collect card report summaries')
-    if (downloadGuidesReports < 0) errors.push('fetch-docs.yml: aggregate must download current Guides reports')
-    if (!(downloadGuidesReports >= 0 && collectReports > downloadGuidesReports)) {
-      errors.push('fetch-docs.yml: current Guides reports must be downloaded before card collection')
+    if (downloadEnglishGuidesReports < 0 || downloadChineseGuidesReports < 0) errors.push('fetch-docs.yml: aggregate must download current Guides locale reports')
+    if (!(downloadEnglishGuidesReports >= 0 && downloadChineseGuidesReports >= 0 && collectReports > downloadEnglishGuidesReports && collectReports > downloadChineseGuidesReports)) {
+      errors.push('fetch-docs.yml: current Guides locale reports must be downloaded before card collection')
     }
-    if (!/name: Download current Guides reports[\s\S]*path: packages\/docs-tooling\/src\/lark\/meta\/reports/.test(aggregateSource)) {
-      errors.push('fetch-docs.yml: Guides reports must restore into the collector report directory')
+    if (!/name: Download current English Guides reports[\s\S]*name: docs-checkpoint-guides-en-\$\{\{ github\.run_id \}\}-reports[\s\S]*path: tmp\/card-guides-reports\/en/.test(aggregateSource) ||
+        !/name: Download current Chinese Guides reports[\s\S]*name: docs-checkpoint-guides-zh-CN-\$\{\{ github\.run_id \}\}-reports[\s\S]*path: tmp\/card-guides-reports\/zh-CN/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: Guides locale reports must restore into isolated collector directories')
+    }
+    if (!/CARD_GUIDES_REPORTS_ROOT: tmp\/card-guides-reports/.test(aggregateSource) ||
+        !/CARD_EXPECT_EN_GUIDES_REPORTS:/.test(aggregateSource) ||
+        !/CARD_EXPECT_ZH_GUIDES_REPORTS:/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: card collection must declare both expected Guides locale report sets')
     }
     if (!/CARD_REPORT_ARTIFACT_URL:/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: artifact-only card reports require a workflow artifact URL')
@@ -838,7 +845,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push('fetch-docs.yml: must pass the canonical Guides assembly decision hash into assembly')
     }
     const createReport = aggregateSource.indexOf('name: Create final card report artifact')
-    const reportIngestion = aggregateSource.slice(Math.max(0, downloadGuidesReports), createReport >= 0 ? createReport : aggregateSource.length)
+    const firstReportDownload = Math.min(...[downloadEnglishGuidesReports, downloadChineseGuidesReports].filter(index => index >= 0))
+    const reportIngestion = aggregateSource.slice(Number.isFinite(firstReportDownload) ? firstReportDownload : 0, createReport >= 0 ? createReport : aggregateSource.length)
     if (/APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY/.test(reportIngestion)) {
       errors.push('fetch-docs.yml: aggregate report ingestion must not receive Feishu credentials')
     }

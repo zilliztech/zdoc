@@ -710,23 +710,24 @@ test('workflow validator rejects incomplete aggregate report ingestion', () => {
   const cases = [
     {
       mutate(source) {
-        return source.replace(/      - name: Download current Guides reports[\s\S]*?          path: packages\/docs-tooling\/src\/lark\/meta\/reports\n/, '')
+        return source.replace(/      - name: Download current English Guides reports[\s\S]*?          path: tmp\/card-guides-reports\/zh-CN\n/, '')
       },
-      expected: /aggregate must download current Guides reports/,
+      expected: /aggregate must download current Guides locale reports/,
     },
     {
       mutate(source) {
         return source
-          .replace('      - name: Download current Guides reports', '      - name: Download current Guides reports late')
-          .replace('      - id: reports\n        name: Collect card report summaries', '      - id: reports\n        name: Download current Guides reports')
+          .replace('      - name: Download current English Guides reports', '      - name: Download current English Guides reports late')
+          .replace('      - name: Download current Chinese Guides reports', '      - name: Download current Chinese Guides reports late')
+          .replace('      - id: reports\n        name: Collect card report summaries', '      - id: reports\n        name: Download current English Guides reports')
       },
       expected: /downloaded before card collection/,
     },
     {
       mutate(source) {
-        return source.replace('path: packages/docs-tooling/src/lark/meta/reports', 'path: tmp/guides-reports')
+        return source.replace('path: tmp/card-guides-reports/en', 'path: tmp/guides-reports')
       },
-      expected: /collector report directory/,
+      expected: /isolated collector directories/,
     },
     {
       mutate(source) {
@@ -1664,9 +1665,20 @@ test('source aggregate reports downstream handoff and downloads Guides reports b
   const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const steps = workflow.jobs.aggregate.steps
   const aggregate = steps.find(step => step.id === 'aggregate')
+  const englishReports = steps.find(step => step.name === 'Download current English Guides reports')
+  const chineseReports = steps.find(step => step.name === 'Download current Chinese Guides reports')
+  const collector = steps.find(step => step.name === 'Collect card report summaries')
   assert.equal(aggregate.env.TRANSLATION_HANDOFF_RESULT, '${{ needs.dispatch_translations.result }}')
   assert.equal(aggregate.env.TRANSLATION_HANDOFF_RUN_URL, '${{ needs.dispatch_translations.outputs.run_url }}')
-  assert.ok(steps.findIndex(step => step.name === 'Download current Guides reports') < steps.findIndex(step => step.name === 'Collect card report summaries'))
+  assert.equal(englishReports.with.name, 'docs-checkpoint-guides-en-${{ github.run_id }}-reports')
+  assert.equal(englishReports.with.path, 'tmp/card-guides-reports/en')
+  assert.equal(chineseReports.with.name, 'docs-checkpoint-guides-zh-CN-${{ github.run_id }}-reports')
+  assert.equal(chineseReports.with.path, 'tmp/card-guides-reports/zh-CN')
+  assert.ok(steps.indexOf(englishReports) < steps.indexOf(collector))
+  assert.ok(steps.indexOf(chineseReports) < steps.indexOf(collector))
+  assert.equal(collector.env.CARD_GUIDES_REPORTS_ROOT, 'tmp/card-guides-reports')
+  assert.equal(collector.env.CARD_EXPECT_EN_GUIDES_REPORTS, "${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}")
+  assert.equal(collector.env.CARD_EXPECT_ZH_GUIDES_REPORTS, "${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}")
   assert.equal(aggregate.env.REVISION_RECONCILIATION, "${{ needs.verify.outputs.revision_status || 'skipped' }}")
   assert.equal(aggregate.env.ZH_GUIDES_PRODUCER, '${{ needs.produce_zh_guides.outputs.status }}')
   assert.equal(aggregate.env.ZH_GUIDES_SOURCE, '${{ needs.publish_zh_guides.outputs.status }}')

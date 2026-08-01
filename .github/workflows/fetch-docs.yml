@@ -707,13 +707,20 @@ jobs:
           if [[ "$MODE" == publish ]]; then [[ "$VERIFY_JOB_RESULT" == success ]]; fi
           node scripts/docs-workflow/build-aggregate-input.js --output tmp/docs-workflow-results.json
           node scripts/docs-workflow/aggregate-results.js --input tmp/docs-workflow-results.json --output tmp/docs-workflow-summary.md
-      - name: Download current Guides reports
+      - name: Download current English Guides reports
         if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.result == 'success' && needs.produce_guides.outputs.status == 'artifact_ready' }}
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
-          name: docs-checkpoint-guides-${{ github.run_id }}-reports
-          path: packages/docs-tooling/src/lark/meta/reports
+          name: docs-checkpoint-guides-en-${{ github.run_id }}-reports
+          path: tmp/card-guides-reports/en
+      - name: Download current Chinese Guides reports
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.result == 'success' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-checkpoint-guides-zh-CN-${{ github.run_id }}-reports
+          path: tmp/card-guides-reports/zh-CN
       - id: reports
         name: Collect card report summaries
         if: ${{ always() }}
@@ -722,7 +729,9 @@ jobs:
           CARD_REPORT_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
           CARD_REPORT_REF: ${{ needs.resolve_final.outputs.final_dev_sha }}
           CARD_REPORT_ARTIFACT_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts
-          CARD_EXPECT_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
+          CARD_GUIDES_REPORTS_ROOT: tmp/card-guides-reports
+          CARD_EXPECT_EN_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
+          CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
           CARD_BASE_NOTES_JSON: ${{ steps.aggregate.outputs.notes_json }}
         run: node scripts/collect-build-card-notes.js
       - name: Create final card report artifact
