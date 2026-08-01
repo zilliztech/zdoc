@@ -76,6 +76,16 @@ test('unchanged valid-v5 bootstrap promotes the validated candidate when dev has
   }), { selection: 'candidate', snapshotPath: fs.realpathSync(candidate) })
 })
 
+test('unchanged valid-v5 bootstrap replaces a legacy dev snapshot with the validated schema-v3 candidate', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-legacy-baseline-'))
+  const candidate = json(root, 'candidate.json', snapshot())
+  const legacyBaseline = json(root, 'baseline.json', { schema_version: 2, manual: 'guides' })
+
+  assert.deepEqual(selectPromotedSnapshotIdentity({
+    cacheVersion: 'v5', saveRequired: false, candidateSnapshotPath: candidate, baselineSnapshotPath: legacyBaseline,
+  }), { selection: 'candidate', snapshotPath: fs.realpathSync(candidate) })
+})
+
 test('semantic changes, recovery, and legacy migration select the candidate and key the exact promoted snapshot', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-lifecycle-change-'))
   const baselineValue = snapshot()

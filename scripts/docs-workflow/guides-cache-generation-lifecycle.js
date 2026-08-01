@@ -34,7 +34,15 @@ function selectPromotedSnapshotIdentity({ cacheVersion, saveRequired, candidateS
     if (error?.code === 'ENOENT') return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
     throw error
   }
-  if (semanticGuidesSnapshotHash(candidate) !== semanticGuidesSnapshotHash(baseline)) {
+  const candidateHash = semanticGuidesSnapshotHash(candidate)
+  let baselineHash
+  try {
+    baselineHash = semanticGuidesSnapshotHash(baseline)
+  } catch (error) {
+    if (!error?.code) return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
+    throw error
+  }
+  if (candidateHash !== baselineHash) {
     throw new Error('A no-save Guides run must preserve an equal semantic identity')
   }
   return Object.freeze({ selection: 'baseline', snapshotPath: baseline })
