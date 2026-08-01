@@ -50,3 +50,16 @@ test('existing descriptor and English assembly are unchanged', () => {
     assert.equal(fs.existsSync(path.join(f.workspace, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/legacy.md')), true)
   }
 })
+
+test('Chinese bootstrap never clears seeded output when no table renders are planned', () => {
+  const f = fixture()
+  fs.writeFileSync(f.decision, JSON.stringify({ mode: 'regenerate', baselineDescriptorPresent: false, tableCount: 0 }))
+  fs.writeFileSync(f.matrix, JSON.stringify({ include: [] }))
+
+  const result = prepareGuidesBootstrapStage({ site: 'zh-CN', workspace: f.workspace, decisionFile: f.decision, matrixFile: f.matrix })
+
+  assert.equal(result.cleaned, false)
+  assert.equal(result.reason, 'no-table-renders')
+  assert.equal(fs.existsSync(path.join(f.workspace, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/legacy.md')), true)
+  assert.equal(fs.existsSync(path.join(f.workspace, 'tmp/docs-tooling/zh-CN/guides-byoc/content/zh-CN/byoc/tutorials/legacy.md')), true)
+})

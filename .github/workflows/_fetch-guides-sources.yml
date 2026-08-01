@@ -302,14 +302,45 @@ jobs:
             --workspace "$GITHUB_WORKSPACE" \
             --site "${{ inputs.site }}" \
             --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
+      - id: baseline_recovery
+        name: Evaluate Guides baseline recovery
+        run: |
+          baseline_source_sha=$(git -C "$RUNNER_TEMP/baseline" rev-parse HEAD)
+          node scripts/docs-workflow/guides-assembly-identity.js decide \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --baseline-root "$RUNNER_TEMP/baseline" \
+            --candidate-snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
+            --incremental-plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+            --baseline-descriptor packages/docs-tooling/src/lark/meta/assembly/guides.json \
+            --baseline-saas-sidebar generated/${{ inputs.site }}/sidebars/guides.sidebar.js \
+            --baseline-byoc-sidebar generated/${{ inputs.site }}/sidebars/guides-byoc.sidebar.js \
+            --master-sha "${{ inputs.master_sha }}" \
+            --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" \
+            --baseline-source-sha "$baseline_source_sha" \
+            --table-count 0 \
+            --output packages/docs-tooling/src/lark/meta/reports/guides-assembly-predecision.json
+          mode=$(node -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8")).mode)' packages/docs-tooling/src/lark/meta/reports/guides-assembly-predecision.json)
+          [[ "$mode" == regenerate ]] && required=true || required=false
+          echo "required=$required" >> "$GITHUB_OUTPUT"
       - id: table_matrix
         name: Build Guides table render matrix
         run: |
           matrix=$(node scripts/docs-workflow/guides-tables.js matrix \
             --site "${{ inputs.site }}" \
             --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
-            --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json)
+            --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
+            --force-full false)
           count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")
+          if [[ "$count" == 0 && "${{ steps.baseline_recovery.outputs.required }}" == true ]]; then
+            echo '[guides-recovery] Empty cache delta cannot be applied to the exact dev baseline; expanding to full table render'
+            matrix=$(node scripts/docs-workflow/guides-tables.js matrix \
+              --site "${{ inputs.site }}" \
+              --plan packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json \
+              --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json \
+              --force-full "${{ steps.baseline_recovery.outputs.required }}")
+            count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")
+            [[ "$count" != 0 ]] || { echo 'Guides baseline recovery produced an empty full render matrix' >&2; exit 1; }
+          fi
           echo "matrix={\"include\":$matrix}" >> "$GITHUB_OUTPUT"
           echo "count=$count" >> "$GITHUB_OUTPUT"
       - id: assembly_decision

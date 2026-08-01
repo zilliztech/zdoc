@@ -33,6 +33,7 @@ function prepareGuidesBootstrapStage({ site, workspace, decisionFile, matrixFile
   if (!Array.isArray(matrix.include) || matrix.include.length !== decision.tableCount) {
     throw new Error('Chinese Guides bootstrap cleanup requires the complete planned table matrix')
   }
+  if (decision.tableCount === 0) return { cleaned: false, reason: 'no-table-renders' }
   if (matrix.include.some(entry => entry?.site !== 'zh-CN' || entry.cleanup === true)) {
     throw new Error('Chinese Guides bootstrap cleanup requires active Chinese table renders')
   }

@@ -982,7 +982,6 @@ test('Guides table matrix generation is site-qualified and policy rejects site-b
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const sourcePath = path.join(sourceDirectory, '_fetch-guides-sources.yml')
   const source = fs.readFileSync(sourcePath, 'utf8')
-  const matrixCommand = '          matrix=$(node scripts/docs-workflow/guides-tables.js matrix \\\n            --site "${{ inputs.site }}" \\\n'
   assert.match(source, /guides-tables\.js matrix \\\n\s+--site "\$\{\{ inputs\.site \}\}"/)
 
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-matrix-site-policy-'))
@@ -990,8 +989,9 @@ test('Guides table matrix generation is site-qualified and policy rejects site-b
     fs.cpSync(sourceDirectory, directory, { recursive: true })
     const fixture = path.join(directory, '_fetch-guides-sources.yml')
     const fixtureSource = fs.readFileSync(fixture, 'utf8')
-    assert.ok(fixtureSource.includes(matrixCommand))
-    fs.writeFileSync(fixture, fixtureSource.replace(matrixCommand, '          matrix=$(node scripts/docs-workflow/guides-tables.js matrix \\\n'))
+    const siteQualifiedMatrix = /(matrix=\$\(node scripts\/docs-workflow\/guides-tables\.js matrix \\\n)\s+--site "\$\{\{ inputs\.site \}\}" \\\n/g
+    assert.equal([...fixtureSource.matchAll(siteQualifiedMatrix)].length >= 2, true)
+    fs.writeFileSync(fixture, fixtureSource.replace(siteQualifiedMatrix, '$1'))
     assert.ok(validateWorkflowPolicies(directory).includes('_fetch-guides-sources.yml: Guides table matrix generation must pass the required site'))
   } finally {
     fs.rmSync(directory, { recursive: true, force: true })
@@ -1223,6 +1223,18 @@ test('Guides assembly reuse remains observe-only with immutable decision and sep
   assert.match(assemble, /^      assembly_decision_sha256: \{ required: true, type: string \}$/m)
   const caller = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
   assert.match(caller, /produce_guides:[\s\S]*assembly_decision_sha256: \$\{\{ needs\.produce_guides_sources\.outputs\.assembly_decision_sha256 \}\}/)
+})
+
+test('Guides source recovery expands an empty cache delta before final assembly decision', () => {
+  const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
+  const recoveryIndex = source.indexOf('name: Evaluate Guides baseline recovery')
+  const matrixIndex = source.indexOf('name: Build Guides table render matrix')
+  const decisionIndex = source.indexOf('name: Evaluate Guides assembly reuse')
+  assert.ok(recoveryIndex >= 0 && recoveryIndex < matrixIndex && matrixIndex < decisionIndex)
+  const recovery = source.slice(recoveryIndex, matrixIndex)
+  assert.match(recovery, /guides-assembly-identity\.js decide[\s\S]*--table-count 0/)
+  const matrix = source.slice(matrixIndex, decisionIndex)
+  assert.match(matrix, /--force-full "\$\{\{ steps\.baseline_recovery\.outputs\.required \}\}"/)
 })
 
 test('Guides assembly uses one explicit site-owned build mapping and policy rejects an unconditional English build', () => {

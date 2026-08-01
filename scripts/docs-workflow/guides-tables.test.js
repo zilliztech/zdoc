@@ -49,6 +49,18 @@ test('full Guides matrix contains the current 14 publishable target/table combin
   assert.equal(matrix.every(item => item.site === 'en'), true)
 })
 
+test('forced full recovery renders all current tables when the incremental cache delta is empty', () => {
+  const matrix = buildGuidesTableMatrix({
+    site: 'en',
+    plan: { mode: 'incremental', affected_tables: [], previous_table_targets: {} },
+    snapshot: snapshot(),
+    forceFull: true,
+  })
+
+  assert.equal(matrix.length, 14)
+  assert.deepEqual(new Set(matrix.map(entry => entry.table_id)), new Set(TABLES.map(([tableId]) => tableId)))
+})
+
 test('incremental matrix adds newly targeted canonical and ignores empty Progress canonical', () => {
   const current = snapshot([
     { record_id: 'solution-page', table_id: 'solution', table_name: 'Solution', placement_type: 'canonical', progress: 'Draft', targets: ['zilliz.saas'] },

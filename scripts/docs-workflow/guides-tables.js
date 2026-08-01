@@ -33,12 +33,13 @@ function currentOwnership(snapshot) {
   return { targets, names }
 }
 
-function buildGuidesTableMatrix({ site, plan, snapshot }) {
+function buildGuidesTableMatrix({ site, plan, snapshot, forceFull = false }) {
   if (!SITES.has(site)) throw new Error('Guides table matrix site must be en or zh-CN')
   if (!plan || !['full', 'incremental'].includes(plan.mode)) throw new Error('Guides fetch plan mode must be full or incremental')
   if (!snapshot || snapshot.manual !== 'guides' || snapshot.schema_version !== 3 || !Array.isArray(snapshot.navigation_records)) throw new Error('Guides snapshot schema v3 navigation records are required')
   const current = currentOwnership(snapshot)
-  const affected = new Set(plan.mode === 'full'
+  if (typeof forceFull !== 'boolean') throw new Error('Guides table matrix forceFull must be boolean')
+  const affected = new Set(plan.mode === 'full' || forceFull
     ? [...current.targets.keys(), ...Object.keys(plan.previous_table_targets || {})]
     : (plan.affected_tables || []))
   const entries = []
@@ -76,15 +77,18 @@ function argValue(args, name) {
 
 function main(argv) {
   const [command, ...args] = argv
-  if (command !== 'matrix') throw new Error('Usage: guides-tables.js matrix --site <en|zh-CN> --plan <plan.json> --snapshot <snapshot.json>')
+  if (command !== 'matrix') throw new Error('Usage: guides-tables.js matrix --site <en|zh-CN> --plan <plan.json> --snapshot <snapshot.json> [--force-full <true|false>]')
   const site = argValue(args, '--site')
   const planFile = argValue(args, '--plan')
   const snapshotFile = argValue(args, '--snapshot')
+  const forceFullValue = argValue(args, '--force-full')
   if (!site || !planFile || !snapshotFile) throw new Error('--site, --plan, and --snapshot are required')
+  if (forceFullValue !== null && !['true', 'false'].includes(forceFullValue)) throw new Error('--force-full must be true or false')
   const matrix = buildGuidesTableMatrix({
     site,
     plan: JSON.parse(fs.readFileSync(planFile, 'utf8')),
     snapshot: JSON.parse(fs.readFileSync(snapshotFile, 'utf8')),
+    forceFull: forceFullValue === 'true',
   })
   process.stdout.write(JSON.stringify(matrix))
 }
