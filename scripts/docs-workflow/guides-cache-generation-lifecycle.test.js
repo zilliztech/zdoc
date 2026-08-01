@@ -66,6 +66,16 @@ test('unchanged valid-v5 selection preserves exact baseline bytes and the next-r
   assert.equal(existing.startsWith(nextRun.prefix), true, 'next run can restore the latest self-contained generation by the site prefix')
 })
 
+test('unchanged valid-v5 bootstrap promotes the validated candidate when dev has no snapshot yet', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-bootstrap-'))
+  const candidate = json(root, 'candidate.json', snapshot())
+  const missingBaseline = path.join(root, 'missing-baseline.json')
+
+  assert.deepEqual(selectPromotedSnapshotIdentity({
+    cacheVersion: 'v5', saveRequired: false, candidateSnapshotPath: candidate, baselineSnapshotPath: missingBaseline,
+  }), { selection: 'candidate', snapshotPath: fs.realpathSync(candidate) })
+})
+
 test('semantic changes, recovery, and legacy migration select the candidate and key the exact promoted snapshot', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-lifecycle-change-'))
   const baselineValue = snapshot()

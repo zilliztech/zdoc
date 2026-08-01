@@ -27,7 +27,13 @@ function selectPromotedSnapshotIdentity({ cacheVersion, saveRequired, candidateS
   const candidate = regularFile(candidateSnapshotPath, 'Guides candidate snapshot')
   if (required) return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
   if (cacheVersion !== 'v5') throw new Error('Only an unchanged valid v5 cache may skip generation persistence')
-  const baseline = regularFile(baselineSnapshotPath, 'Guides baseline snapshot')
+  let baseline
+  try {
+    baseline = regularFile(baselineSnapshotPath, 'Guides baseline snapshot')
+  } catch (error) {
+    if (error?.code === 'ENOENT') return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
+    throw error
+  }
   if (semanticGuidesSnapshotHash(candidate) !== semanticGuidesSnapshotHash(baseline)) {
     throw new Error('A no-save Guides run must preserve an equal semantic identity')
   }
