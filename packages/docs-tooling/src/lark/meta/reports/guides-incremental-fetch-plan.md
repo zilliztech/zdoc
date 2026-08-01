@@ -1,10 +1,10 @@
 # guides Incremental Fetch Plan
 
-Generated: 2026-08-01T16:11:28.385Z
+Generated: 2026-08-01T16:10:33.223Z
 Mode: incremental
 Build env: uat
-Source dir: `packages/docs-tooling/src/lark/meta/sources/guides`
-Previous snapshot: 2026-08-01T00:00:57.259Z
+Source dir: `packages/docs-tooling/src/lark/meta/sources/guides-zh-CN`
+Previous snapshot: 2026-08-01T00:02:48.537Z
 
 ## Summary
 
