@@ -394,7 +394,7 @@ jobs:
     with:
       group: guides
       artifact_name: ${{ needs.produce_guides.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(guides): publish fetched English content'
+      commit_message: 'docs(guides): publish fetched content'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_guides.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
@@ -407,7 +407,7 @@ jobs:
     with:
       group: guides
       artifact_name: ${{ needs.produce_zh_guides.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(guides): publish fetched Chinese content'
+      commit_message: 'docs(guides): publish fetched content'
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}

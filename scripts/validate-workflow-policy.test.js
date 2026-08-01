@@ -1302,6 +1302,14 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(publicationBody, /secrets\./)
 })
 
+test('Guides source publishers use the registered content group commit message', () => {
+  const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8')
+  const registeredMessage = "commit_message: 'docs(guides): publish fetched content'"
+
+  assert.equal(workflow.split(registeredMessage).length - 1, 2)
+  assert.doesNotMatch(workflow, /publish fetched (?:English|Chinese) content/)
+})
+
 test('workflow policy rejects content group contract validation before dependencies are installed', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-install-order-policy-'))
