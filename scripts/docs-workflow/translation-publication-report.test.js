@@ -23,7 +23,7 @@ const RECEIPTS = [
   ['english-byoc-mdx', 'pnpm docs-tooling validate-mdx --path docs-byoc'],
   ['ja-saas-mdx', 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs/current'],
   ['ja-byoc-mdx', 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current'],
-  ['sidebars', 'node scripts/validate-generated-sidebars.js'],
+  ['sidebars', 'node scripts/validate-generated-sidebars.js --site en'],
   ['coverage', 'node scripts/validate-translated-coverage.js --group guides'],
   ['build', "node scripts/run-doc-build-stage.js --build 'pnpm run build' --skipCardReporting"],
 ].map(([id, command]) => ({ id, command, result: 'success' }))

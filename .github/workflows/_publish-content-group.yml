@@ -24,7 +24,7 @@ on:
       validate_command:
         required: false
         type: string
-        default: node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"
+        default: node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en
       baseline_artifact_name:
         required: false
         type: string

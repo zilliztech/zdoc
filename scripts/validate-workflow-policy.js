@@ -119,6 +119,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
   for (const file of files) {
     const source = fs.readFileSync(path.join(directory, file), 'utf8')
+    const bareSidebarValidation = source.split('\n').some(line => {
+      const commandIndex = line.indexOf('validate-generated-sidebars.js')
+      return commandIndex >= 0 && !line.slice(commandIndex).includes('--site')
+    })
+    if (bareSidebarValidation) errors.push(`${file}: generated sidebar validation must declare an explicit site`)
     let workflow
     try {
       workflow = yaml.load(source)
@@ -195,7 +200,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === 'site-validation.yml') {
-      if (!/pnpm docs-tooling validate-group --site zh-CN --group guides[\s\S]*validate-generated-sidebars\.js[\s\S]*pnpm run build:zh-CN/.test(source)) {
+      if (!/pnpm docs-tooling validate-group --site zh-CN --group guides[\s\S]*validate-generated-sidebars\.js --site zh-CN[\s\S]*pnpm run build:zh-CN/.test(source)) {
         errors.push(`${file}: Chinese Guides validation must cover source ownership, sidebars, and the Chinese build`)
       }
       const siteBuilds = [
@@ -683,7 +688,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const orderedSiteCommands = [
         'pnpm docs-tooling validate-reference --site zh-CN',
         'pnpm docs-tooling validate-group --site zh-CN --group guides',
-        'node scripts/validate-generated-sidebars.js',
+        'node scripts/validate-generated-sidebars.js --site en',
+        'node scripts/validate-generated-sidebars.js --site zh-CN',
         'node scripts/validate-translated-coverage.js --group "$group"',
         'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',
         'node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting',

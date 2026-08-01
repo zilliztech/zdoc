@@ -84,7 +84,8 @@ jobs:
           mkdir -p tmp/final-verification-reports
           pnpm docs-tooling validate-reference --site zh-CN 2>&1 | tee tmp/final-verification-reports/zh-cn-reference.log
           pnpm docs-tooling validate-group --site zh-CN --group guides 2>&1 | tee tmp/final-verification-reports/zh-cn-guides.log
-          node scripts/validate-generated-sidebars.js 2>&1 | tee tmp/final-verification-reports/sidebars.log
+          node scripts/validate-generated-sidebars.js --site en 2>&1 | tee tmp/final-verification-reports/sidebars-en.log
+          node scripts/validate-generated-sidebars.js --site zh-CN 2>&1 | tee tmp/final-verification-reports/sidebars-zh-cn.log
           for group in guides python java node go cli rest; do
             node scripts/validate-translated-coverage.js --group "$group"
           done 2>&1 | tee tmp/final-verification-reports/translated-coverage.log

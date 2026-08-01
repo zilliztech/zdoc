@@ -398,7 +398,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_guides.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
 
   publish_zh_guides:
     needs: [prepare, produce_zh_guides, publish_guides]
@@ -411,7 +411,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && pnpm run build:zh-CN'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site zh-CN && pnpm run build:zh-CN'
 
   source_publication_barrier:
     needs: [prepare, publish_guides, publish_zh_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
@@ -457,7 +457,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_python.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
   publish_java:
     needs: [prepare, produce_java]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'java') && needs.produce_java.outputs.status == 'artifact_ready' }}
@@ -469,7 +469,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_java.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
   publish_node:
     needs: [prepare, produce_node, publish_java]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node') && needs.produce_node.outputs.status == 'artifact_ready' }}
@@ -481,7 +481,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_node.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
   publish_go:
     needs: [prepare, produce_go, publish_node]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go') && needs.produce_go.outputs.status == 'artifact_ready' }}
@@ -493,7 +493,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_go.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
   publish_cli:
     needs: [prepare, produce_cli, publish_go]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli') && needs.produce_cli.outputs.status == 'artifact_ready' }}
@@ -505,7 +505,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_cli.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
   publish_rest:
     needs: [prepare, produce_rest, publish_cli]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest') && needs.produce_rest.outputs.status == 'artifact_ready' }}
@@ -517,7 +517,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_rest.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
   prepare_translation_handoff:
     needs: [prepare, source_publication_barrier, publish_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.source_publication_barrier.result == 'success' }}

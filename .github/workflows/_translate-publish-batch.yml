@@ -195,7 +195,7 @@ jobs:
             --branch "$TARGET_BRANCH" \
             --message "$COMMIT_MESSAGE" \
             --max-attempts 10 \
-            --validate-command "node \"$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js\" && node \"$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js\" --group \"$GROUP\"" | tee "$PUBLISH_OUTPUT"
+            --validate-command "node \"$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js\" --site en && node \"$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js\" --group \"$GROUP\"" | tee "$PUBLISH_OUTPUT"
 
       - name: Emit publication result
         id: result

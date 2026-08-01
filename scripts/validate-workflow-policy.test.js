@@ -184,7 +184,7 @@ test('workflow policy rejects missing or miswired Chinese Guides validators', ()
       to: 'pnpm docs-tooling validate-reference --site zh-CN',
     },
     {
-      from: 'node scripts/validate-generated-sidebars.js',
+      from: 'node scripts/validate-generated-sidebars.js --site zh-CN',
       to: 'echo skipped sidebars',
     },
   ]
@@ -200,6 +200,21 @@ test('workflow policy rejects missing or miswired Chinese Guides validators', ()
     } finally {
       fs.rmSync(directory, {recursive: true, force: true})
     }
+  }
+})
+
+test('workflow policy rejects generated sidebar validation without an explicit site', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'sidebar-site-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, { recursive: true })
+    const file = path.join(directory, '_fetch-content-group.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    assert.ok(source.includes('node scripts/validate-generated-sidebars.js --site "$SITE"'))
+    fs.writeFileSync(file, source.replace('node scripts/validate-generated-sidebars.js --site "$SITE"', 'node scripts/validate-generated-sidebars.js'))
+    assert.ok(validateWorkflowPolicies(directory).includes('_fetch-content-group.yml: generated sidebar validation must declare an explicit site'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
   }
 })
 
@@ -751,7 +766,7 @@ test('reusable final verification uses immutable master tooling against exact fi
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/)
   assert.match(workflow, /name: Clean up final dev worktree[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*git worktree remove --force "\$RUNNER_TEMP\/final-dev"/)
   assert.doesNotMatch(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
-  assert.match(workflow, /validate-generated-sidebars\.js/)
+  assert.match(workflow, /validate-generated-sidebars\.js --site en[\s\S]*validate-generated-sidebars\.js --site zh-CN/)
   assert.match(workflow, /for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/)
   assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en"/)
   assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build:en" --skipCardReporting/)
@@ -1286,7 +1301,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   for (const input of ['group', 'artifact_name', 'commit_message', 'should_publish', 'master_sha', 'validate_command', 'baseline_artifact_name', 'target_branch']) {
     assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   }
-  assert.match(workflow, /validate_command:[\s\S]*default: node "\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js"/)
+  assert.match(workflow, /validate_command:[\s\S]*default: node "\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js" --site en/)
   assert.match(workflow, /baseline_artifact_name:[\s\S]*default: ''/)
   assert.match(workflow, /target_branch:[\s\S]*default: dev/)
   assert.match(workflow, /^  contents: write$/m)

@@ -170,7 +170,7 @@ jobs:
       - name: Validate Chinese Guides and Tools navigation
         run: |
           pnpm docs-tooling validate-group --site zh-CN --group guides
-          node scripts/validate-generated-sidebars.js
+          node scripts/validate-generated-sidebars.js --site zh-CN
           pnpm run build:zh-CN
 
   retirement:
