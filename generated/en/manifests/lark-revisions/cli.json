@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "group": "cli",
   "complete": true,
-  "generatedAt": "2026-07-29T00:00:00Z",
-  "sourceRunId": "clean-room-seed",
+  "generatedAt": "2026-08-01T11:18:42.500Z",
+  "sourceRunId": "30695964668",
   "records": [
     {
       "canonicalToken": "A2rOdHew3oMHWNx6ngFc4nAbnyg",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -17,7 +17,7 @@
     {
       "canonicalToken": "A8XSdcz0UoXHnyxHPcOcaLExn3o",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -26,7 +26,7 @@
     {
       "canonicalToken": "AB6Hd6NHUoNLXIxgXywc3hmtnjc",
       "title": "update-password",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-updatepassword.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -44,7 +44,7 @@
     {
       "canonicalToken": "AVX3dxX68oYAc1x06uVc7bgcnx1",
       "title": "disable",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-disable.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -53,16 +53,7 @@
     {
       "canonicalToken": "AYlXdnqMKoQOzRxSbWScn0A5nqf",
       "title": "modify",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Ag0Rf5tHcl6Wp7d37lBcUE8LnMg",
-      "title": "Data Operations",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-modify.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -71,7 +62,7 @@
     {
       "canonicalToken": "Aio6dbDToo45XdxkSX1cp9tKnkl",
       "title": "quickstart",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Quickstart/Quickstart-quickstart.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -80,7 +71,7 @@
     {
       "canonicalToken": "ApSLdblNKo7ru0xGTqbconxBnSh",
       "title": "trigger",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -98,7 +89,7 @@
     {
       "canonicalToken": "BNH0dujcioUq4Px0EmncEqlOnVe",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -107,7 +98,7 @@
     {
       "canonicalToken": "BUnSd1445oFLBxxHWfYc8UpmnXe",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -116,7 +107,7 @@
     {
       "canonicalToken": "BVHRdq4miotjdVxI72fcI7XznKc",
       "title": "metrics",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-metrics.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -125,16 +116,7 @@
     {
       "canonicalToken": "BZ6WdvA0eoRUJyxAqfMcJe6QnMd",
       "title": "list",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Bzxxffu0ClU5hkdrkmlchrXenrb",
-      "title": "Partition",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -143,34 +125,7 @@
     {
       "canonicalToken": "CGY6dYpcfoZr3cxbXT5cis6UnZf",
       "title": "status",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "CLbTfXENAlL9T5dPoG8cmgGPnxP",
-      "title": "Quickstart",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "CQeKfK0rYlSpjTd0uFlcAZrYnZb",
-      "title": "Role",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "CcKQfofa1lkWPhdqzZ3cg3FAnDb",
-      "title": "Database",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-status.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -179,7 +134,7 @@
     {
       "canonicalToken": "CgVKdrm2YoAiM8xBvFacmxpWnrb",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -188,7 +143,7 @@
     {
       "canonicalToken": "CidCduwW8oIywtxiHMQc8v2XnBe",
       "title": "has",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-has.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -197,25 +152,7 @@
     {
       "canonicalToken": "CucPdYRmsofWt8xkVj3cK7Vynjg",
       "title": "drop",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "DC00fqL8UlOSaJdNqeJcCEHYnFW",
-      "title": "Alert",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "DGm8fFP8plvHz5d6sErcKcoLnRh",
-      "title": "Configuration",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-drop.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -224,7 +161,7 @@
     {
       "canonicalToken": "DIVvdqJlOoneFwxqs0xcG313nmg",
       "title": "flush",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-flush.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -233,7 +170,7 @@
     {
       "canonicalToken": "DT7Jduvj2osqF0xVhwMcU2t7nmd",
       "title": "drop",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-drop.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -242,7 +179,7 @@
     {
       "canonicalToken": "DTiIdd5NBocV9JxsNHZcoUownwh",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -251,7 +188,7 @@
     {
       "canonicalToken": "DaK3dvUJpoKOLTxy1iRc4YZAnjf",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -260,16 +197,7 @@
     {
       "canonicalToken": "E1lydJB5BorHaExspUKcwQ2ande",
       "title": "current",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "ECvTfFzKElW00pdSugdcqakXnep",
-      "title": "Project",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-current.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -278,7 +206,7 @@
     {
       "canonicalToken": "EJO8dhKSYoWk3AxksTrcGCzdnxf",
       "title": "drop",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-drop.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -287,7 +215,7 @@
     {
       "canonicalToken": "ES6CdyFsgoXMEtxpLRAcrnZ3n9f",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -296,16 +224,7 @@
     {
       "canonicalToken": "EfaUd8o9LoguWnx6jndcyTJfnzd",
       "title": "resume",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "EflgfwlI7lX3Dgd6xrbcFXhunzh",
-      "title": "Index",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-resume.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -314,7 +233,7 @@
     {
       "canonicalToken": "EiCXdUuf2oTB3HxiL20clnSPn8g",
       "title": "hybrid-search",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-hybridsearch.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -323,7 +242,7 @@
     {
       "canonicalToken": "F01Gdx5b8onjxOxbhficUecWndf",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -332,7 +251,7 @@
     {
       "canonicalToken": "F2RtdzmQ0oQlWfxf7SYcT200nNf",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -341,7 +260,7 @@
     {
       "canonicalToken": "FVmwd1ishoRaqUxQQNNch019nOf",
       "title": "search",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-History/History-search.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -350,7 +269,7 @@
     {
       "canonicalToken": "Fj9Yd4SOPoppxTx7K8WcyMd7ncd",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -359,7 +278,7 @@
     {
       "canonicalToken": "FpDzdA1nSo6sOHxYxAhcTPCLn5d",
       "title": "usage",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -368,7 +287,7 @@
     {
       "canonicalToken": "FxUedhePWogwX4xRxFucLvaqnGg",
       "title": "update",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-update.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -377,7 +296,7 @@
     {
       "canonicalToken": "G0s2d1DVconhc5xeX02cJWbUnLf",
       "title": "release",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-release.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -386,7 +305,7 @@
     {
       "canonicalToken": "G453dm4ZWo1e0Ux55b3czXwnnId",
       "title": "bind-card",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -404,7 +323,7 @@
     {
       "canonicalToken": "G7Gqdc2JzosNPDx3r4ictkbgnyh",
       "title": "get",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-get.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -413,7 +332,7 @@
     {
       "canonicalToken": "GBdVd6bJ1o6VhRxgHxLcsFsVn2b",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -431,7 +350,7 @@
     {
       "canonicalToken": "GXhEdTZt9or6nix81GtcENu9n0f",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -440,7 +359,7 @@
     {
       "canonicalToken": "GYyKdrbkvozJxVx6uGhcpMfonoe",
       "title": "load",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-load.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -449,7 +368,7 @@
     {
       "canonicalToken": "GZ2jdLkKAojfofxm9BTcvwVCn4b",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -458,7 +377,7 @@
     {
       "canonicalToken": "GaWqdekPvokCUtxBjRTcpNxInXg",
       "title": "login",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-login.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -467,7 +386,7 @@
     {
       "canonicalToken": "H86odvFbDomzPjxjOtCc75jDnGf",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -476,7 +395,7 @@
     {
       "canonicalToken": "HPKQd2dsfoBpcBx84yXc5IhenrM",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -485,7 +404,7 @@
     {
       "canonicalToken": "HrwTdhnBeoZwoBxokBJcQZWznKh",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Job/Job-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -503,7 +422,7 @@
     {
       "canonicalToken": "I7fKd8mPNoKYEAxmKpxcgaH8nsb",
       "title": "clear",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-History/History-clear.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -512,7 +431,7 @@
     {
       "canonicalToken": "IM2CdOqn5oKCTUxFVImcbDCRnFc",
       "title": "drop",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-drop.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -521,16 +440,7 @@
     {
       "canonicalToken": "IQy0d491iojaTEx3teycfP3snCe",
       "title": "has",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "IU8kfKYCwlJHotdqhJ0cTaaknDJ",
-      "title": "Milvus Standalone",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-has.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -539,7 +449,7 @@
     {
       "canonicalToken": "Ia7VdhmCgoO6R3xcWtIck7Tfndf",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -548,7 +458,7 @@
     {
       "canonicalToken": "IqkTduvaBo7477xaW1Hc1wBTn9c",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -557,7 +467,7 @@
     {
       "canonicalToken": "Is4sdUuC2odTHKxq9NKcl8dynfh",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -566,7 +476,7 @@
     {
       "canonicalToken": "Isx7dzFS9obGxyxEwgncxs67nXe",
       "title": "drop",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-drop.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -575,7 +485,7 @@
     {
       "canonicalToken": "IyKzdBU2zoXcNUxvmhvcJCISnJe",
       "title": "insert",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-insert.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -584,7 +494,7 @@
     {
       "canonicalToken": "JBRhd3cb5owndqxODOxcd08InRe",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -602,7 +512,7 @@
     {
       "canonicalToken": "JP80dUdphoM5N9xsTFTccZeRnhp",
       "title": "add-regions",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-addregions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -611,7 +521,7 @@
     {
       "canonicalToken": "JQ1JdRsfBo1LdpxdTSpcgrx4n3b",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -620,7 +530,7 @@
     {
       "canonicalToken": "JYr4dveljoLs84xSAXJclFSkn8d",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -629,7 +539,7 @@
     {
       "canonicalToken": "Jp9VdKpVoooz9ix1vYMcAun4nwe",
       "title": "set",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-set.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -638,7 +548,7 @@
     {
       "canonicalToken": "JsXAdb04GodEnVxihb5csm28nze",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-History/History-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -647,7 +557,7 @@
     {
       "canonicalToken": "KXgLdSiiZoMou6xEvnQcdVe3n25",
       "title": "start",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-start.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -656,7 +566,7 @@
     {
       "canonicalToken": "KYQYdyaoToUGCjxVUVTc16fqn1e",
       "title": "clear",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-clear.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -665,7 +575,7 @@
     {
       "canonicalToken": "KZ5gdkIy0ojiWixSU0dc6C5KnEd",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -674,7 +584,7 @@
     {
       "canonicalToken": "KiwWdLJ8houEeRxGECEcc3glnoh",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -692,7 +602,7 @@
     {
       "canonicalToken": "Kw0KdCb7yom9alxtZRTcV3m7nCb",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -701,7 +611,7 @@
     {
       "canonicalToken": "L2WsdkbDVoD5sGxAkkkcK4UEnHb",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -710,7 +620,7 @@
     {
       "canonicalToken": "L6dIdJaeGoNfmcxAXC2cW82znke",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -719,25 +629,7 @@
     {
       "canonicalToken": "L8PEdl4Dio11q5x4rPBc4OFZn8b",
       "title": "list",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "LPAcfkgMhlSeEqdFJ7CcxeL3nCh",
-      "title": "Configure",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "LR32fkHcElbx5QdurL9cMlvunLh",
-      "title": "Stage",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -755,7 +647,7 @@
     {
       "canonicalToken": "LeH5d568MolZfhxAwoZcmjWTnGc",
       "title": "uninstall",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-uninstall.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -764,7 +656,7 @@
     {
       "canonicalToken": "LrKvdmIVCoeSGfxmyf6cdJ5TnFe",
       "title": "whoami",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-whoami.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -773,16 +665,7 @@
     {
       "canonicalToken": "Lu5EdzR9So5gUCxL71YcX30Enkh",
       "title": "status",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "LuO3fJ20yldkHcdLRzbc3ZYenEb",
-      "title": "OnDemandCluster",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-status.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -798,18 +681,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "MLhsf6VLElWmWudpYZXcamShn0e",
-      "title": "User",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "MLrJdT9TdojvcJxhauic8s9anBf",
       "title": "enable",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-enable.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -818,16 +692,7 @@
     {
       "canonicalToken": "MqCqdE8mqotzaXxk8nfcOvHinX0",
       "title": "export",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "MwIofv5z3ljhiBdoZA4cEPdZnGg",
-      "title": "Alias",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-export.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -836,7 +701,7 @@
     {
       "canonicalToken": "MzJHdc3iSoGlKsx4D6TcoY5anOf",
       "title": "version",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-version.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -845,7 +710,7 @@
     {
       "canonicalToken": "N10RdNXeNoseZNxkxBtcLGa1nKf",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -854,16 +719,7 @@
     {
       "canonicalToken": "N1uadJS98ojQhixbOQacLOwknke",
       "title": "rename",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "NORefWujnlbXKSdmo1tclDHdn6g",
-      "title": "Auth",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-rename.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -872,16 +728,7 @@
     {
       "canonicalToken": "NV6mdzUocoqBpjxpf6Lc649mnjh",
       "title": "describe",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "NYgzfcJMylBEqqd8UBMcuEWKnga",
-      "title": "Global",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -890,7 +737,7 @@
     {
       "canonicalToken": "Nez2dlNZloLWEPxBHOWcad2anLf",
       "title": "get",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-get.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -899,7 +746,7 @@
     {
       "canonicalToken": "NtaUdIxZBoupfkxG52lco4oZnzf",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -908,7 +755,7 @@
     {
       "canonicalToken": "OBDNd4bW2oCJqhxEPDSccggSnif",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -917,7 +764,7 @@
     {
       "canonicalToken": "OQIRdZ8iOoZxd1xNPHtcWPTBnye",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -926,7 +773,7 @@
     {
       "canonicalToken": "OShTd6lMhoaxK2xDlExcmzXTnLd",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -935,7 +782,7 @@
     {
       "canonicalToken": "ObdhdVWTpogXQhx3A0YcdU2yntd",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -944,16 +791,7 @@
     {
       "canonicalToken": "OgJTdgaTIoMPGGx0EmachVPKnHc",
       "title": "describe",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Oiv0fRpvQlQ07RdjQObcYtaunVh",
-      "title": "PrivateLink",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -962,7 +800,7 @@
     {
       "canonicalToken": "Oq1Pd3N3popZ2ExT184cksHfnxh",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -980,7 +818,7 @@
     {
       "canonicalToken": "PJsSdI8JBoUchVx1IkrcmakLnCc",
       "title": "update-policy",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -989,16 +827,7 @@
     {
       "canonicalToken": "PLvbdUqI6onWmWxFPYKcgcFpnwb",
       "title": "alter",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "PXOyfwEUtlY8xWdzQ62cXQeenOd",
-      "title": "Cluster",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-alter.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1007,7 +836,7 @@
     {
       "canonicalToken": "PdMmdJQS6o1rVbxtD49cO62Onad",
       "title": "upsert",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-upsert.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1016,7 +845,7 @@
     {
       "canonicalToken": "PgZ0dL39ho6wLbxJKANcm0jyn9b",
       "title": "compact",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-compact.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1025,7 +854,7 @@
     {
       "canonicalToken": "Pw8Xd2yoGolKYZxsg1ZcJ0Odnmb",
       "title": "invoices",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1034,34 +863,7 @@
     {
       "canonicalToken": "QIhWdtFpNotKksx7KmxcTdwXnEh",
       "title": "upgrade",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "QJJjfOjoGlLqVmdEtiJcriX2nWh",
-      "title": "Vector",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "QMg2fBP94l5N7VdSwbucwMffnje",
-      "title": "Cloud Management",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "QTM7fqREelEFXhdTaMqc18IxnVb",
-      "title": "Backup",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1070,7 +872,7 @@
     {
       "canonicalToken": "QVxadXWKIo8YcHxZgD1c0F0VnXf",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1079,7 +881,7 @@
     {
       "canonicalToken": "QcWcdXbgxooJO4xuwADc9YqAn8c",
       "title": "search",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-search.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1088,7 +890,7 @@
     {
       "canonicalToken": "QeHdd8MunoG5Krxwpr1cx0Ninwd",
       "title": "logout",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-logout.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1106,16 +908,7 @@
     {
       "canonicalToken": "QsPodYWJfoSCmAxbWatc6dw0nCp",
       "title": "describe",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "R8pjfCQvPlA4IEdzRUPcc8eAnxc",
-      "title": "History",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1124,7 +917,7 @@
     {
       "canonicalToken": "ROPbdTU6doxFGRxxcfYcgyBPnqg",
       "title": "get-load-state",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getloadstate.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1133,7 +926,7 @@
     {
       "canonicalToken": "RhYcd912ioVJNOxjy9kc3rnbnzK",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1142,7 +935,7 @@
     {
       "canonicalToken": "Rhked7rPvopHixxQZe6czSUwnvf",
       "title": "providers",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-providers.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1151,7 +944,7 @@
     {
       "canonicalToken": "RjlQdGJyzolWm0xZVyUc6yAdnyc",
       "title": "suspend",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-suspend.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1160,7 +953,7 @@
     {
       "canonicalToken": "RnGZdWUpmojfvHxReFicTHYEnwd",
       "title": "download-invoice",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-downloadinvoice.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1169,7 +962,7 @@
     {
       "canonicalToken": "RriNdfGjjofQL4x8XlhcHug6nvd",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1178,7 +971,7 @@
     {
       "canonicalToken": "S4Omd93kpoyuqtx4E7scLCoXnyB",
       "title": "delete",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1187,16 +980,7 @@
     {
       "canonicalToken": "S7Hkd5HAfob60uxILjIcdng7nXe",
       "title": "list",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "SDTtfq1P5lBVV7d45b0cYrljnup",
-      "title": "Import",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1214,7 +998,7 @@
     {
       "canonicalToken": "SOaOdH3o6o7dsyx1VjPc4LPynqc",
       "title": "load",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-load.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1223,7 +1007,7 @@
     {
       "canonicalToken": "SvpmdXjkYo3LYTxt2ipcKhLFnZg",
       "title": "grant-role",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-grantrole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1232,7 +1016,7 @@
     {
       "canonicalToken": "T0VYdnnlIo0VwAxLaBjcryM1n7b",
       "title": "describe",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1250,7 +1034,7 @@
     {
       "canonicalToken": "TjRGdbrZsol6MHxRLWLcy8Rinbi",
       "title": "clear",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-clear.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1259,7 +1043,7 @@
     {
       "canonicalToken": "Tz35d2fXsogFeWxJblIcS7n2nYc",
       "title": "add-whitelist",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-addwhitelist.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1268,7 +1052,7 @@
     {
       "canonicalToken": "U83ddOym4o7WgAx1ekac4nFHnzf",
       "title": "grant-privilege",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1277,7 +1061,7 @@
     {
       "canonicalToken": "UCq8dJomCoUqZixRiXsczdtqnfg",
       "title": "validate",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1286,25 +1070,7 @@
     {
       "canonicalToken": "UJuOdGGu3okE0Sx1jARc45lMnGb",
       "title": "create",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "UsGBf6CcilUmMFdhvqScr3Krnah",
-      "title": "ExternalCollectionRefresh",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "UwkgfNHjflzvCXdn9CkcXWrInHd",
-      "title": "Context",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1313,7 +1079,7 @@
     {
       "canonicalToken": "V9xIdjMEMowIh2xVJUUcvir6nUf",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1322,7 +1088,7 @@
     {
       "canonicalToken": "VEEzdJ5tyoaFVbxG6JvcDpULnMg",
       "title": "get-stats",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-getstats.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1331,7 +1097,7 @@
     {
       "canonicalToken": "VHhWdygYaoyAmQxRpP6cvmIYndc",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1340,16 +1106,7 @@
     {
       "canonicalToken": "VJ8cdV2uuoYAuMxrJAjcMmRknke",
       "title": "apply",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "VQMkfU9xUl3ywPdBTJRcoP5Vnkb",
-      "title": "Billing",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1358,7 +1115,7 @@
     {
       "canonicalToken": "VSRhdmsCvodJ7pxwGgqcuvZ3n7g",
       "title": "query",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-query.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1367,16 +1124,7 @@
     {
       "canonicalToken": "VSewdBpmioKEJ2xtGAHczoO5nWh",
       "title": "create",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "VqTofXsTzlF4nbdugKMcbg0onWd",
-      "title": "Job",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1385,7 +1133,7 @@
     {
       "canonicalToken": "W7NedO3aXoF3UdxWp51cPe0kn2b",
       "title": "revoke-role",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-revokerole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1394,7 +1142,7 @@
     {
       "canonicalToken": "WF1JdhGAgodzpExXO1hcPjADn8b",
       "title": "set",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-set.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1403,16 +1151,7 @@
     {
       "canonicalToken": "WIbvdNJNIoOG3Rx4gfncUuD4nBd",
       "title": "list-services",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "WNQjfHgZIliNYWdujcuc2iEPn5g",
-      "title": "StorageIntegration",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1421,7 +1160,7 @@
     {
       "canonicalToken": "WVn4dXc9FocqhRxmuwlcFcTynBg",
       "title": "switch",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-switch.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1430,7 +1169,7 @@
     {
       "canonicalToken": "Wa4Bd7HvNont3WxgFNxcteFqn6g",
       "title": "generate-auth-materials",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-generateauthmaterials.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1439,7 +1178,7 @@
     {
       "canonicalToken": "WcQadTMuCo9voCxPT86cxFzFnkf",
       "title": "describe-policy",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1448,7 +1187,7 @@
     {
       "canonicalToken": "WjbrdMFuXoR2etxfpMdcmIebnCh",
       "title": "drop",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-drop.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1457,7 +1196,7 @@
     {
       "canonicalToken": "WxTjdBaBqoNhRex5kR0cfekqnOc",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1466,7 +1205,7 @@
     {
       "canonicalToken": "X1rVdVsuHogCohx1CX3cZFaQn1e",
       "title": "metrics",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-metrics.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1475,7 +1214,7 @@
     {
       "canonicalToken": "XAhudiqXqoHS1zxSDqgcNY9anxb",
       "title": "restore-cluster",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1484,7 +1223,7 @@
     {
       "canonicalToken": "XScGdoVr8oYyWVxQzqKcy7eQnFG",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1493,7 +1232,7 @@
     {
       "canonicalToken": "XTHTd7x3soBmeTx9ftwc369PnCe",
       "title": "get-stats",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getstats.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1511,7 +1250,7 @@
     {
       "canonicalToken": "XpaudNsR2o3MRoxTbAMcj4tEn1w",
       "title": "release",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-release.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1520,7 +1259,7 @@
     {
       "canonicalToken": "XvDzdZsb3ojqgXxhEjfcZBxbnNb",
       "title": "restore-collection",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1529,7 +1268,7 @@
     {
       "canonicalToken": "YCXuddx10oBOujxOcLscTAg0nKc",
       "title": "create",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1538,25 +1277,7 @@
     {
       "canonicalToken": "YHtudYo81oBKruxujL5cw0yZnxd",
       "title": "regions",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "YJ0WfaSiClY9p5d6Jykcba2anbc",
-      "title": "Volume",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "YMWHfEBNDlJSrddYr90cDBwenTc",
-      "title": "Completion",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-regions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1565,7 +1286,7 @@
     {
       "canonicalToken": "YRQbd0bSOoMIDixpInlcg05jn4g",
       "title": "list",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1574,7 +1295,7 @@
     {
       "canonicalToken": "YXtHdG865oGg7IxwoZRcIJkQn8e",
       "title": "revoke-privilege",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1583,7 +1304,7 @@
     {
       "canonicalToken": "YzVadE24uorV0gx5Se3ceumqnDh",
       "title": "drop",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-drop.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1592,7 +1313,7 @@
     {
       "canonicalToken": "ZCnedaDvloSUhwxvycSc4gwhnbf",
       "title": "upgrade",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-upgrade.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1601,16 +1322,7 @@
     {
       "canonicalToken": "ZNogdKQgHotZObx7vXbc6FI8nZc",
       "title": "describe",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "ZiRWf2bJDlO6A3dWLW1cRKHLnAb",
-      "title": "Collection",
-      "contentPath": null,
+      "contentPath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-describe.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

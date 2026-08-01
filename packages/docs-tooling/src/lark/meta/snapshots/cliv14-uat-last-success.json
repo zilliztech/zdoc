@@ -5,53 +5,13 @@
     "zilliz"
   ],
   "build_env": "uat",
-  "source_branch": "codex/checkpointed-docs-publish-test-20260713",
+  "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-13T10:50:03.592Z",
+  "generated_at": "2026-08-01T11:18:42.261Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/cli/v1.4.x",
   "base_app_token": "Lx1bbCdpMaSmJXs8wz5cjsDengf",
   "records": [
-    {
-      "record_id": "recveEKo6iF81X",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Cloud Management",
-      "slug": "CloudManagement",
-      "doc_token": "QMg2fBP94l5N7VdSwbucwMffnje",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/QMg2fBP94l5N7VdSwbucwMffnje",
-      "source_file": "QMg2fBP94l5N7VdSwbucwMffnje.json",
-      "source_hash": "7c90810d8419e0d03cc32282caa3f494c7c560d5b1c126758757e470d01fca25",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKpci5UO5",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Cluster",
-      "slug": "CloudManagement-Cluster",
-      "doc_token": "PXOyfwEUtlY8xWdzQ62cXQeenOd",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/PXOyfwEUtlY8xWdzQ62cXQeenOd",
-      "source_file": "PXOyfwEUtlY8xWdzQ62cXQeenOd.json",
-      "source_hash": "78da9a9ce3f2698d4b39f9b83628445c0c9817ec459c4fb622fd580e1c6edad1",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
-    },
     {
       "record_id": "recveEKWvmFn5i",
       "table_id": "tblpP0OITBDkNAsN",
@@ -70,7 +30,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-list.md"
+      ]
     },
     {
       "record_id": "recveEKXZ2vlAn",
@@ -90,7 +53,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-describe.md"
+      ]
     },
     {
       "record_id": "recveEKZL2wWKy",
@@ -110,7 +76,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-modify.md"
+      ]
     },
     {
       "record_id": "recveEL19JXfWb",
@@ -130,7 +99,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-suspend.md"
+      ]
     },
     {
       "record_id": "recveEL2CkfhP6",
@@ -150,7 +122,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-resume.md"
+      ]
     },
     {
       "record_id": "recveEL43bV4yk",
@@ -170,7 +145,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-delete.md"
+      ]
     },
     {
       "record_id": "recveEL5hIorLV",
@@ -190,7 +168,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-providers.md"
+      ]
     },
     {
       "record_id": "recveEL6KBdxkJ",
@@ -210,7 +191,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-regions.md"
+      ]
     },
     {
       "record_id": "recveXBSInQ4GD",
@@ -230,7 +214,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create.md"
+      ]
     },
     {
       "record_id": "recveXBV0yJQ36",
@@ -250,27 +237,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKqd7G2GE",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Project",
-      "slug": "CloudManagement-Project",
-      "doc_token": "ECvTfFzKElW00pdSugdcqakXnep",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/ECvTfFzKElW00pdSugdcqakXnep",
-      "source_file": "ECvTfFzKElW00pdSugdcqakXnep.json",
-      "source_hash": "06f9c307154cc57c02e4b922ac168857f657f7e78513e81a376f0a2dc161b26e",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-metrics.md"
+      ]
     },
     {
       "record_id": "recveEL8k9IHy9",
@@ -282,7 +252,7 @@
       "doc_token": "GXhEdTZt9or6nix81GtcENu9n0f",
       "doc_link": "https://zilliverse.feishu.cn/docx/GXhEdTZt9or6nix81GtcENu9n0f",
       "source_file": "GXhEdTZt9or6nix81GtcENu9n0f.json",
-      "source_hash": "83a7dfef580f1c88719f3d3ab262407e9e0680b38bd085bd448e2a3b729b15e8",
+      "source_hash": "ff0f4f5c1b4c9adcf2e47fa5650bfe5342b8e525cce3bd935a16eed071293163",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -290,7 +260,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-create.md"
+      ]
     },
     {
       "record_id": "recveEL9xVW1ag",
@@ -310,7 +283,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-list.md"
+      ]
     },
     {
       "record_id": "recveELaV34w2s",
@@ -330,7 +306,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-describe.md"
+      ]
     },
     {
       "record_id": "recveELcwymF3s",
@@ -350,7 +329,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade.md"
+      ]
     },
     {
       "record_id": "recvjA2SccUG8h",
@@ -370,27 +352,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKrp5Ewii",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Backup",
-      "slug": "CloudManagement-Backup",
-      "doc_token": "QTM7fqREelEFXhdTaMqc18IxnVb",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/QTM7fqREelEFXhdTaMqc18IxnVb",
-      "source_file": "QTM7fqREelEFXhdTaMqc18IxnVb.json",
-      "source_hash": "34f1d3a77ce687a9f8f79b5709c8fccda438e784ecf319d8297109817d01456c",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-addregions.md"
+      ]
     },
     {
       "record_id": "recveELeeBPjeC",
@@ -410,7 +375,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create.md"
+      ]
     },
     {
       "record_id": "recveELgpWPGGl",
@@ -430,7 +398,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list.md"
+      ]
     },
     {
       "record_id": "recveELi1vjWxT",
@@ -450,7 +421,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe.md"
+      ]
     },
     {
       "record_id": "recveELjFLMew2",
@@ -470,7 +444,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete.md"
+      ]
     },
     {
       "record_id": "recveELlxa5WRJ",
@@ -492,6 +469,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "HrwTdhnBeoZwoBxokBJcQZWznKh"
+      ],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-export.md"
       ]
     },
     {
@@ -512,7 +492,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster.md"
+      ]
     },
     {
       "record_id": "recveELpl7JjAh",
@@ -532,7 +515,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection.md"
+      ]
     },
     {
       "record_id": "recveELqLUfg7H",
@@ -552,7 +538,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy.md"
+      ]
     },
     {
       "record_id": "recveELsO22jC1",
@@ -572,27 +561,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKskNiWLi",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Import",
-      "slug": "CloudManagement-Import",
-      "doc_token": "SDTtfq1P5lBVV7d45b0cYrljnup",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/SDTtfq1P5lBVV7d45b0cYrljnup",
-      "source_file": "SDTtfq1P5lBVV7d45b0cYrljnup.json",
-      "source_hash": "3e8880e8d0d93a8307c8ddd50bf9f9f97d00209511c5777e7196dd1cacc35ccb",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy.md"
+      ]
     },
     {
       "record_id": "recveELuhnPbcU",
@@ -612,7 +584,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-start.md"
+      ]
     },
     {
       "record_id": "recveELwjCvSix",
@@ -632,7 +607,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-list.md"
+      ]
     },
     {
       "record_id": "recveELxQPFCRX",
@@ -652,27 +630,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKtlf9PX6",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Volume",
-      "slug": "CloudManagement-Volume",
-      "doc_token": "YJ0WfaSiClY9p5d6Jykcba2anbc",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/YJ0WfaSiClY9p5d6Jykcba2anbc",
-      "source_file": null,
-      "source_hash": null,
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-status.md"
+      ]
     },
     {
       "record_id": "recveELzDFukMD",
@@ -692,7 +653,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-create.md"
+      ]
     },
     {
       "record_id": "recveELBiTDMgz",
@@ -712,7 +676,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-list.md"
+      ]
     },
     {
       "record_id": "recveELCLLBTG4",
@@ -732,7 +699,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-delete.md"
+      ]
     },
     {
       "record_id": "recvjA2OEHrKfL",
@@ -752,7 +722,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-describe.md"
+      ]
     },
     {
       "record_id": "recvjA2QreQYTu",
@@ -772,27 +745,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKuge14Bi",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Billing",
-      "slug": "CloudManagement-Billing",
-      "doc_token": "VQMkfU9xUl3ywPdBTJRcoP5Vnkb",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/VQMkfU9xUl3ywPdBTJRcoP5Vnkb",
-      "source_file": "VQMkfU9xUl3ywPdBTJRcoP5Vnkb.json",
-      "source_hash": "8f0507888c87e3bca322b75d1284518427b0047cb87ad34ddda40bddd08f509d",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply.md"
+      ]
     },
     {
       "record_id": "recveELEAWFkQX",
@@ -812,7 +768,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard.md"
+      ]
     },
     {
       "record_id": "recveXBO96SgOR",
@@ -832,7 +791,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage.md"
+      ]
     },
     {
       "record_id": "recveXBQh3DKPz",
@@ -852,7 +814,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices.md"
+      ]
     },
     {
       "record_id": "recvirvIkG5jGE",
@@ -872,27 +837,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveXBdxQKI33",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Job",
-      "slug": "CloudManagement-Job",
-      "doc_token": "VqTofXsTzlF4nbdugKMcbg0onWd",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/VqTofXsTzlF4nbdugKMcbg0onWd",
-      "source_file": "VqTofXsTzlF4nbdugKMcbg0onWd.json",
-      "source_hash": "51b63f8edc5cfe82280668819572a0208168a89218287644dd7e662182546346",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-downloadinvoice.md"
+      ]
     },
     {
       "record_id": "recveXByAImf7s",
@@ -912,27 +860,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvirvqtKL1G3",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Milvus Standalone",
-      "slug": "CloudManagement-MilvusStandalone",
-      "doc_token": "IU8kfKYCwlJHotdqhJ0cTaaknDJ",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/IU8kfKYCwlJHotdqhJ0cTaaknDJ",
-      "source_file": "IU8kfKYCwlJHotdqhJ0cTaaknDJ.json",
-      "source_hash": "e2b44efc1a70afc98c3b0d6d7cd4ce53b37139a466809c883d72e3f51eedf2d4",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-Job/Job-describe.md"
+      ]
     },
     {
       "record_id": "recvirvzQ7CVXD",
@@ -952,7 +883,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvirvBdEgt01",
@@ -972,7 +904,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvirvCAkCJhC",
@@ -992,7 +925,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvirvE2nbgAg",
@@ -1012,7 +946,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvirvFq9qQZo",
@@ -1032,7 +967,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvirvGPPMPG4",
@@ -1052,27 +988,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvjA0VoVQmjt",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "OnDemandCluster",
-      "slug": "CloudManagement-OnDemandCluster",
-      "doc_token": "LuO3fJ20yldkHcdLRzbc3ZYenEb",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/LuO3fJ20yldkHcdLRzbc3ZYenEb",
-      "source_file": "LuO3fJ20yldkHcdLRzbc3ZYenEb.json",
-      "source_hash": "d3a3b5adce07d0a635bed8dddf61c1a3eee5752219bc0fa39e90de4fb1cab5dd",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvjA2U1OAtea",
@@ -1092,7 +1009,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-list.md"
+      ]
     },
     {
       "record_id": "recvjA2VKWUrGN",
@@ -1112,7 +1032,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-describe.md"
+      ]
     },
     {
       "record_id": "recvjA2XlFjQDb",
@@ -1132,7 +1055,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-delete.md"
+      ]
     },
     {
       "record_id": "recvjA3gp7zIIV",
@@ -1152,27 +1078,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvjA0WiBL3nZ",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "PrivateLink",
-      "slug": "CloudManagement-PrivateLink",
-      "doc_token": "Oiv0fRpvQlQ07RdjQObcYtaunVh",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/Oiv0fRpvQlQ07RdjQObcYtaunVh",
-      "source_file": "Oiv0fRpvQlQ07RdjQObcYtaunVh.json",
-      "source_hash": "ac8e3dade8d963b3e3af7ac293b4ad591f8f511f2140ac474de4ac76130e709f",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create.md"
+      ]
     },
     {
       "record_id": "recvjA25VE86bT",
@@ -1192,7 +1101,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-create.md"
+      ]
     },
     {
       "record_id": "recvjA2zR6Rd9E",
@@ -1212,7 +1124,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices.md"
+      ]
     },
     {
       "record_id": "recvjA2BtYxCNm",
@@ -1232,7 +1147,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list.md"
+      ]
     },
     {
       "record_id": "recvjA2Dg9YIBS",
@@ -1252,7 +1170,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-delete.md"
+      ]
     },
     {
       "record_id": "recvjA2F0nQZv7",
@@ -1272,27 +1193,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvjA0WWFQRNi",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Stage",
-      "slug": "CloudManagement-Stage",
-      "doc_token": "LR32fkHcElbx5QdurL9cMlvunLh",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/LR32fkHcElbx5QdurL9cMlvunLh",
-      "source_file": "LR32fkHcElbx5QdurL9cMlvunLh.json",
-      "source_hash": "0a4b541a5d75a7545007e699424d783c9124c2fb80d1df7401903d74abee5bb3",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-addwhitelist.md"
+      ]
     },
     {
       "record_id": "recvjA2H3RPJx8",
@@ -1312,7 +1216,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvjA2Jax06WF",
@@ -1332,7 +1237,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvjA2KICjE5d",
@@ -1352,7 +1258,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvjA2MWxohXz",
@@ -1372,27 +1279,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvmLXVPcMOUS",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "StorageIntegration",
-      "slug": "CloudManagement-StorageIntegration",
-      "doc_token": "WNQjfHgZIliNYWdujcuc2iEPn5g",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/WNQjfHgZIliNYWdujcuc2iEPn5g",
-      "source_file": "WNQjfHgZIliNYWdujcuc2iEPn5g.json",
-      "source_hash": "4913973578537c294a29e8f0824901214ce4023f817c7295bae908f7bf3d485e",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvmLXXA2JGCK",
@@ -1412,7 +1300,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-list.md"
+      ]
     },
     {
       "record_id": "recvmLY0XWNxG2",
@@ -1432,7 +1323,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create.md"
+      ]
     },
     {
       "record_id": "recvmLY2hG9aKp",
@@ -1452,7 +1346,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-describe.md"
+      ]
     },
     {
       "record_id": "recvmLY3E2oX7o",
@@ -1472,7 +1369,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-delete.md"
+      ]
     },
     {
       "record_id": "recvmLY70IFspN",
@@ -1492,7 +1392,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate.md"
+      ]
     },
     {
       "record_id": "recvmLY93cHMrj",
@@ -1512,47 +1415,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKvkHGsGc",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Data Operations",
-      "slug": "DataOperations",
-      "doc_token": "Ag0Rf5tHcl6Wp7d37lBcUE8LnMg",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/Ag0Rf5tHcl6Wp7d37lBcUE8LnMg",
-      "source_file": "Ag0Rf5tHcl6Wp7d37lBcUE8LnMg.json",
-      "source_hash": "3f3fd24cc7c5e7950f30ab58813b1e9ad58e8c2d1493325d4c5368e5ff3250d2",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKwhIh8Xi",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Collection",
-      "slug": "DataOperations-Collection",
-      "doc_token": "ZiRWf2bJDlO6A3dWLW1cRKHLnAb",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/ZiRWf2bJDlO6A3dWLW1cRKHLnAb",
-      "source_file": "ZiRWf2bJDlO6A3dWLW1cRKHLnAb.json",
-      "source_hash": "1683ebf7cbb971da6e1e5a7bc776c3cc82110636b72098f1dbcda4a846daad67",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-generateauthmaterials.md"
+      ]
     },
     {
       "record_id": "recveELHbnR5m6",
@@ -1564,7 +1430,7 @@
       "doc_token": "Oq1Pd3N3popZ2ExT184cksHfnxh",
       "doc_link": "https://zilliverse.feishu.cn/docx/Oq1Pd3N3popZ2ExT184cksHfnxh",
       "source_file": "Oq1Pd3N3popZ2ExT184cksHfnxh.json",
-      "source_hash": "0438a93779315f7579420b908dd8b83c85dc55ed927505a81687ce3eabeb32a7",
+      "source_hash": "8ee9f5cc292e5e85db96db45425a774b825813808290c62bc6378ec0fd5ae64f",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -1572,7 +1438,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-create.md"
+      ]
     },
     {
       "record_id": "recveELIyvQLc0",
@@ -1592,7 +1461,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-list.md"
+      ]
     },
     {
       "record_id": "recveELKa9IXu7",
@@ -1612,7 +1484,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-describe.md"
+      ]
     },
     {
       "record_id": "recveELLTCfL02",
@@ -1632,7 +1507,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-drop.md"
+      ]
     },
     {
       "record_id": "recveELNIEJywz",
@@ -1652,7 +1530,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-rename.md"
+      ]
     },
     {
       "record_id": "recveELPgRWMCy",
@@ -1672,7 +1553,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-load.md"
+      ]
     },
     {
       "record_id": "recveELQNUR9m6",
@@ -1692,7 +1576,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-release.md"
+      ]
     },
     {
       "record_id": "recveELSqS27m4",
@@ -1712,7 +1599,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getloadstate.md"
+      ]
     },
     {
       "record_id": "recveELTWSDTkR",
@@ -1732,7 +1622,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getstats.md"
+      ]
     },
     {
       "record_id": "recveELVwQ3xHM",
@@ -1752,7 +1645,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-has.md"
+      ]
     },
     {
       "record_id": "recveELX9F3tWl",
@@ -1772,7 +1668,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-flush.md"
+      ]
     },
     {
       "record_id": "recveELYRut68X",
@@ -1792,7 +1691,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-compact.md"
+      ]
     },
     {
       "record_id": "recvirvKgz5r6B",
@@ -1812,27 +1714,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKxhBg0PB",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Vector",
-      "slug": "DataOperations-Vector",
-      "doc_token": "QJJjfOjoGlLqVmdEtiJcriX2nWh",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/QJJjfOjoGlLqVmdEtiJcriX2nWh",
-      "source_file": "QJJjfOjoGlLqVmdEtiJcriX2nWh.json",
-      "source_hash": "85907981b02f9807f5ffc5051a58ee21e8e688a683e7ba417ca8aa84f4493731",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-metrics.md"
+      ]
     },
     {
       "record_id": "recveEM0OmMmYj",
@@ -1852,7 +1737,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-insert.md"
+      ]
     },
     {
       "record_id": "recveEM2Mj0fIL",
@@ -1872,7 +1760,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-upsert.md"
+      ]
     },
     {
       "record_id": "recveEM5tYtBMu",
@@ -1892,7 +1783,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-search.md"
+      ]
     },
     {
       "record_id": "recveEM7OVflDQ",
@@ -1912,7 +1806,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-hybridsearch.md"
+      ]
     },
     {
       "record_id": "recveEMafyUwiM",
@@ -1932,7 +1829,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-query.md"
+      ]
     },
     {
       "record_id": "recveEMc5P4YfI",
@@ -1952,7 +1852,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-get.md"
+      ]
     },
     {
       "record_id": "recveEMdVEEWqi",
@@ -1972,27 +1875,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKyhKjodJ",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Database",
-      "slug": "DataOperations-Database",
-      "doc_token": "CcKQfofa1lkWPhdqzZ3cg3FAnDb",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/CcKQfofa1lkWPhdqzZ3cg3FAnDb",
-      "source_file": "CcKQfofa1lkWPhdqzZ3cg3FAnDb.json",
-      "source_hash": "55b4f13e1e2ec5eca6f9b0a74bc054275f463283e4f19b295b25c11d52e1d71f",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-delete.md"
+      ]
     },
     {
       "record_id": "recveEMfDAmm8p",
@@ -2012,7 +1898,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-create.md"
+      ]
     },
     {
       "record_id": "recveEMgOzrxHe",
@@ -2032,7 +1921,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-list.md"
+      ]
     },
     {
       "record_id": "recveEMilLQotg",
@@ -2052,7 +1944,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-describe.md"
+      ]
     },
     {
       "record_id": "recveEMjWsAriH",
@@ -2072,27 +1967,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKzmmk7C4",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Index",
-      "slug": "DataOperations-Index",
-      "doc_token": "EflgfwlI7lX3Dgd6xrbcFXhunzh",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/EflgfwlI7lX3Dgd6xrbcFXhunzh",
-      "source_file": "EflgfwlI7lX3Dgd6xrbcFXhunzh.json",
-      "source_hash": "56a66c610e1b5ea1c0bfc1592ef2f7e62404239f56ee9e96b728dd2610c4b541",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-drop.md"
+      ]
     },
     {
       "record_id": "recveEMluj8aqg",
@@ -2112,7 +1990,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md"
+      ]
     },
     {
       "record_id": "recveEMn45HsND",
@@ -2132,7 +2013,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-list.md"
+      ]
     },
     {
       "record_id": "recveEMoHUuWdF",
@@ -2152,7 +2036,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-describe.md"
+      ]
     },
     {
       "record_id": "recveEMqq4hq2T",
@@ -2172,27 +2059,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKAiKzzcE",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Partition",
-      "slug": "DataOperations-Partition",
-      "doc_token": "Bzxxffu0ClU5hkdrkmlchrXenrb",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/Bzxxffu0ClU5hkdrkmlchrXenrb",
-      "source_file": "Bzxxffu0ClU5hkdrkmlchrXenrb.json",
-      "source_hash": "4240700b2a79ca0021d467592d36ebd7bc43cf7a1b190ec7557ef2106af5c0e8",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-drop.md"
+      ]
     },
     {
       "record_id": "recveEMs9bDgKK",
@@ -2212,7 +2082,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-create.md"
+      ]
     },
     {
       "record_id": "recveEMtM6LqUs",
@@ -2232,7 +2105,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-list.md"
+      ]
     },
     {
       "record_id": "recveEMvtZMtJ2",
@@ -2252,7 +2128,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-drop.md"
+      ]
     },
     {
       "record_id": "recveEMxmvmRjo",
@@ -2272,7 +2151,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-has.md"
+      ]
     },
     {
       "record_id": "recveEMz1LmAbk",
@@ -2292,7 +2174,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-getstats.md"
+      ]
     },
     {
       "record_id": "recveEMARt23i8",
@@ -2312,7 +2197,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-load.md"
+      ]
     },
     {
       "record_id": "recveEMCvXfwrT",
@@ -2332,27 +2220,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKBe7UJi5",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "User",
-      "slug": "DataOperations-User",
-      "doc_token": "MLhsf6VLElWmWudpYZXcamShn0e",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/MLhsf6VLElWmWudpYZXcamShn0e",
-      "source_file": "MLhsf6VLElWmWudpYZXcamShn0e.json",
-      "source_hash": "873762145d8ad2163d166fcb937c651a518f30d113104d9afdd6e2a79ed67a25",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-release.md"
+      ]
     },
     {
       "record_id": "recveEMEcpih3G",
@@ -2372,7 +2243,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-create.md"
+      ]
     },
     {
       "record_id": "recveEMFzjOxil",
@@ -2392,7 +2266,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-list.md"
+      ]
     },
     {
       "record_id": "recveEMH9kYqdI",
@@ -2412,7 +2289,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-describe.md"
+      ]
     },
     {
       "record_id": "recveEMIGEpdXx",
@@ -2432,7 +2312,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-drop.md"
+      ]
     },
     {
       "record_id": "recveEMKva8Zn3",
@@ -2452,7 +2335,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-updatepassword.md"
+      ]
     },
     {
       "record_id": "recveEMMcXoF3z",
@@ -2472,7 +2358,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-grantrole.md"
+      ]
     },
     {
       "record_id": "recveEMNVrNqdR",
@@ -2492,27 +2381,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKClDs9do",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Role",
-      "slug": "DataOperations-Role",
-      "doc_token": "CQeKfK0rYlSpjTd0uFlcAZrYnZb",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/CQeKfK0rYlSpjTd0uFlcAZrYnZb",
-      "source_file": "CQeKfK0rYlSpjTd0uFlcAZrYnZb.json",
-      "source_hash": "c8d64380f389c48bbb49bf968735b5408f2e62a14040d078315207fe029bc06d",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-revokerole.md"
+      ]
     },
     {
       "record_id": "recveEMPFbvsQx",
@@ -2532,7 +2404,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-create.md"
+      ]
     },
     {
       "record_id": "recveEMRaAPJTt",
@@ -2552,7 +2427,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-list.md"
+      ]
     },
     {
       "record_id": "recveEMST7Qa0t",
@@ -2572,7 +2450,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-describe.md"
+      ]
     },
     {
       "record_id": "recveEMUxRi8d8",
@@ -2592,7 +2473,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-drop.md"
+      ]
     },
     {
       "record_id": "recveEMWF8gs0t",
@@ -2612,7 +2496,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege.md"
+      ]
     },
     {
       "record_id": "recveEMYKyFXSQ",
@@ -2632,27 +2519,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKDifLz50",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Alias",
-      "slug": "DataOperations-Alias",
-      "doc_token": "MwIofv5z3ljhiBdoZA4cEPdZnGg",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/MwIofv5z3ljhiBdoZA4cEPdZnGg",
-      "source_file": "MwIofv5z3ljhiBdoZA4cEPdZnGg.json",
-      "source_hash": "8a5fdf92f613bcd664a200f86d03e2e8a4cfbca6fd250d1630637de1061d2822",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md"
+      ]
     },
     {
       "record_id": "recveEN0qT5SA3",
@@ -2672,7 +2542,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-create.md"
+      ]
     },
     {
       "record_id": "recveEN24NzZYu",
@@ -2692,7 +2565,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-list.md"
+      ]
     },
     {
       "record_id": "recveEN3CPk7QQ",
@@ -2712,7 +2588,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-describe.md"
+      ]
     },
     {
       "record_id": "recveEN5hJ87Ip",
@@ -2732,7 +2611,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-alter.md"
+      ]
     },
     {
       "record_id": "recveEN6OoaJV3",
@@ -2752,27 +2634,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvjA0XIU3hgW",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "ExternalCollectionRefresh",
-      "slug": "DataOperations-ExternalCollectionRefresh",
-      "doc_token": "UsGBf6CcilUmMFdhvqScr3Krnah",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/UsGBf6CcilUmMFdhvqScr3Krnah",
-      "source_file": "UsGBf6CcilUmMFdhvqScr3Krnah.json",
-      "source_hash": "6766e61179f6775a97c149604ed3cf47493fe7daf2b40f9f04014729a2d363a8",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-drop.md"
+      ]
     },
     {
       "record_id": "recvjA3qePNvPM",
@@ -2792,7 +2657,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md"
+      ]
     },
     {
       "record_id": "recvjA3OAO9rSY",
@@ -2812,7 +2680,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md"
+      ]
     },
     {
       "record_id": "recvjA3PuUZvoX",
@@ -2832,47 +2703,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKEe2bhtB",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Configuration",
-      "slug": "Configuration",
-      "doc_token": "DGm8fFP8plvHz5d6sErcKcoLnRh",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/DGm8fFP8plvHz5d6sErcKcoLnRh",
-      "source_file": "DGm8fFP8plvHz5d6sErcKcoLnRh.json",
-      "source_hash": "7d678c606a6d97e7898281edd5332adf5c72c0e47dee8654a274d3f7015cedbe",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKFhSPQuz",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Auth",
-      "slug": "Configuration-Auth",
-      "doc_token": "NORefWujnlbXKSdmo1tclDHdn6g",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/NORefWujnlbXKSdmo1tclDHdn6g",
-      "source_file": "NORefWujnlbXKSdmo1tclDHdn6g.json",
-      "source_hash": "035f9785183f0e090295ad8a0bf9b2fa49d3318b7f8d390b904de09de64281ac",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list.md"
+      ]
     },
     {
       "record_id": "recveEN7V3h7Es",
@@ -2892,7 +2726,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-status.md"
+      ]
     },
     {
       "record_id": "recveEN8UhRXmq",
@@ -2904,7 +2741,7 @@
       "doc_token": "GaWqdekPvokCUtxBjRTcpNxInXg",
       "doc_link": "https://zilliverse.feishu.cn/docx/GaWqdekPvokCUtxBjRTcpNxInXg",
       "source_file": "GaWqdekPvokCUtxBjRTcpNxInXg.json",
-      "source_hash": "ba2c89f865e099e7fa77bea1258d2e0e3c3ebbcece4ab801509f041d432c7df3",
+      "source_hash": "e4989c90cc4be901043539b4d7081a8afd5d529332759d2450fec0c082833235",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2912,7 +2749,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-login.md"
+      ]
     },
     {
       "record_id": "recveEN9Yu5fxR",
@@ -2932,7 +2772,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-logout.md"
+      ]
     },
     {
       "record_id": "recveENb5PsUjU",
@@ -2952,7 +2795,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-switch.md"
+      ]
     },
     {
       "record_id": "recvirvspc2BBR",
@@ -2972,27 +2818,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKGeO4bRN",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Configure",
-      "slug": "Configuration-Configure",
-      "doc_token": "LPAcfkgMhlSeEqdFJ7CcxeL3nCh",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/LPAcfkgMhlSeEqdFJ7CcxeL3nCh",
-      "source_file": "LPAcfkgMhlSeEqdFJ7CcxeL3nCh.json",
-      "source_hash": "6c1480479587705432e54d25522ca0f6811a64f4c9c583ee38c4d092c1ae1770",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-whoami.md"
+      ]
     },
     {
       "record_id": "recveENgGgikGI",
@@ -3012,7 +2841,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-set.md"
+      ]
     },
     {
       "record_id": "recveENhIQrn87",
@@ -3032,7 +2864,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-clear.md"
+      ]
     },
     {
       "record_id": "recveENiN1H5YT",
@@ -3052,7 +2887,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-get.md"
+      ]
     },
     {
       "record_id": "recveENjU9n4l9",
@@ -3072,27 +2910,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKHeLaXht",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Context",
-      "slug": "Configuration-Context",
-      "doc_token": "UwkgfNHjflzvCXdn9CkcXWrInHd",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/UwkgfNHjflzvCXdn9CkcXWrInHd",
-      "source_file": "UwkgfNHjflzvCXdn9CkcXWrInHd.json",
-      "source_hash": "fdd3899c3d63b5ce89ab2ecb606e93cab219c4a9f3b127eb6b5ca561f3a2b35b",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-list.md"
+      ]
     },
     {
       "record_id": "recveENl0zCyiC",
@@ -3104,7 +2925,7 @@
       "doc_token": "WF1JdhGAgodzpExXO1hcPjADn8b",
       "doc_link": "https://zilliverse.feishu.cn/docx/WF1JdhGAgodzpExXO1hcPjADn8b",
       "source_file": "WF1JdhGAgodzpExXO1hcPjADn8b.json",
-      "source_hash": "fefd9df84c5876ecef44d047365ca38a85d86eba2919d7297a2023d974a14c3f",
+      "source_hash": "60c84286ca15974302bfa559572edde2c03a80cf050ea7792e9639faa0393524",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -3112,7 +2933,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-set.md"
+      ]
     },
     {
       "record_id": "recveENm9AHZDE",
@@ -3132,7 +2956,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-current.md"
+      ]
     },
     {
       "record_id": "recvirvya9H8hW",
@@ -3152,27 +2979,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKIb3JS1p",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Completion",
-      "slug": "Configuration-Completion",
-      "doc_token": "YMWHfEBNDlJSrddYr90cDBwenTc",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/YMWHfEBNDlJSrddYr90cDBwenTc",
-      "source_file": "YMWHfEBNDlJSrddYr90cDBwenTc.json",
-      "source_hash": "6aff135f7a26c093097eef2e29f11d510cf6b966506a9d49e7399fd21cb8a172",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-clear.md"
+      ]
     },
     {
       "record_id": "recveENcdaYCov",
@@ -3192,7 +3002,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recveENdqjgg5a",
@@ -3212,7 +3023,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recveENev5AgYX",
@@ -3232,7 +3044,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recveENfAiLPVL",
@@ -3252,27 +3065,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveEKJab6jCA",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Global",
-      "slug": "Configuration-Global",
-      "doc_token": "NYgzfcJMylBEqqd8UBMcuEWKnga",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/NYgzfcJMylBEqqd8UBMcuEWKnga",
-      "source_file": "NYgzfcJMylBEqqd8UBMcuEWKnga.json",
-      "source_hash": "c232dcc3b140c98b29d9bf1dcff27ed15572785446797bae02cb41df7f8dfc69",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recveENnbLxDna",
@@ -3292,7 +3086,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-version.md"
+      ]
     },
     {
       "record_id": "recvjA3QkX3eYF",
@@ -3312,7 +3109,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-upgrade.md"
+      ]
     },
     {
       "record_id": "recvjA3RgaenVl",
@@ -3332,27 +3132,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recveXBekVK6c8",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Alert",
-      "slug": "Configuration-Alert",
-      "doc_token": "DC00fqL8UlOSaJdNqeJcCEHYnFW",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/DC00fqL8UlOSaJdNqeJcCEHYnFW",
-      "source_file": "DC00fqL8UlOSaJdNqeJcCEHYnFW.json",
-      "source_hash": "baf84cc456c230565a001617646dba3fc3232c0b5dd2f238ec9bbe2ed8a1d307",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-uninstall.md"
+      ]
     },
     {
       "record_id": "recveXBAAqQqTS",
@@ -3372,7 +3155,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-list.md"
+      ]
     },
     {
       "record_id": "recveXBDWou4F0",
@@ -3392,7 +3178,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-create.md"
+      ]
     },
     {
       "record_id": "recveXBHAPGcok",
@@ -3412,7 +3201,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-update.md"
+      ]
     },
     {
       "record_id": "recveXBJ63fkNn",
@@ -3432,7 +3224,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-delete.md"
+      ]
     },
     {
       "record_id": "recveXBKHdpZol",
@@ -3452,7 +3247,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-enable.md"
+      ]
     },
     {
       "record_id": "recveXBMfFzzWL",
@@ -3472,27 +3270,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvirvpGpW2wz",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "History",
-      "slug": "Configuration-History",
-      "doc_token": "R8pjfCQvPlA4IEdzRUPcc8eAnxc",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/R8pjfCQvPlA4IEdzRUPcc8eAnxc",
-      "source_file": "R8pjfCQvPlA4IEdzRUPcc8eAnxc.json",
-      "source_hash": "bf3927572dcaed22c68c597cade1f1dbc54d4bb6b58c8e6af97f9bd21255df0d",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-disable.md"
+      ]
     },
     {
       "record_id": "recvirvuZsKBLQ",
@@ -3512,7 +3293,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-History/History-list.md"
+      ]
     },
     {
       "record_id": "recvirvw7iLU0R",
@@ -3532,7 +3316,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-History/History-search.md"
+      ]
     },
     {
       "record_id": "recvirvxbTHGyc",
@@ -3552,27 +3339,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvirvq4kWS5T",
-      "table_id": "tblpP0OITBDkNAsN",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Quickstart",
-      "slug": "Configuration-Quickstart",
-      "doc_token": "CLbTfXENAlL9T5dPoG8cmgGPnxP",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/CLbTfXENAlL9T5dPoG8cmgGPnxP",
-      "source_file": "CLbTfXENAlL9T5dPoG8cmgGPnxP.json",
-      "source_hash": "02f45b00a665f85368dcd6064e88e61abb166102be5d7f9d4ae3c8c9e9ff218d",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-History/History-clear.md"
+      ]
     },
     {
       "record_id": "recvirvtLnErAL",
@@ -3592,7 +3362,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/cli/cli/Configuration/Configuration-Quickstart/Quickstart-quickstart.md"
+      ]
     }
   ]
 }
