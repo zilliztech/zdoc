@@ -78,8 +78,8 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 **PARAMETERS:**
 
-- **results** (*RoleResult[]*) -
-A list of **RoleResult** objects. For `describeRole()`, this list contains a single entry describing the requested role.
+- **results** (*RoleResult[]*) -<br/>
+  A list of **RoleResult** objects. For `describeRole()`, this list contains a single entry describing the requested role.
 
     - **role** (*RoleEntity*) -
 
@@ -173,8 +173,8 @@ A list of **RoleResult** objects. For `describeRole()`, this list contains a sin
 
             The database the grant applies to. Use `*` for all databases.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

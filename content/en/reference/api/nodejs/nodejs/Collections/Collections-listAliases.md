@@ -82,17 +82,17 @@ This method returns a promise that resolves to a **ListAliasesResponse** object.
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -
-The database that owns the listed aliases.
+- **db_name** (*string*) -<br/>
+  The database that owns the listed aliases.
 
-- **aliases** (*string[]*) -
-A list of all aliases that point to the requested collection.
+- **aliases** (*string[]*) -<br/>
+  A list of all aliases that point to the requested collection.
 
-- **collection_name** (*string*) -
-The collection name to which the listed aliases point.
+- **collection_name** (*string*) -<br/>
+  The collection name to which the listed aliases point.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

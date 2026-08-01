@@ -51,20 +51,20 @@ await milvusClient.getFlushAllState({
 
 **PARAMETERS:**
 
-- **flush_all_ts** (*number*) -
-The flush-all timestamp. Optional and deprecated.
+- **flush_all_ts** (*number*) -<br/>
+  The flush-all timestamp. Optional and deprecated.
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -
-A map of database names to flush-all timestamps. Optional.
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
+  A map of database names to flush-all timestamps. Optional.
 
-- **db_name** (*string*) -
-The name of the database. Optional and deprecated.
+- **db_name** (*string*) -<br/>
+  The name of the database. Optional and deprecated.
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;GetFlushAllStateResponse&gt;*
 
@@ -79,11 +79,11 @@ This method returns a promise that resolves to a **GetFlushAllStateResponse** ob
 
 **PARAMETERS:**
 
-- **flushed** (*boolean*) -
-Whether the flush-all operation identified by the supplied timestamps has fully completed. It is **true** when every channel reaches the requested flush timestamp, otherwise **false**.
+- **flushed** (*boolean*) -<br/>
+  Whether the flush-all operation identified by the supplied timestamps has fully completed. It is **true** when every channel reaches the requested flush timestamp, otherwise **false**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

@@ -51,21 +51,21 @@ await milvusClient.batchDescribeCollections({
 
 **PARAMETERS:**
 
-- **collection_names** (*string[]*) -
-**[REQUIRED]**
-The names of the collections to describe.
+- **collection_names** (*string[]*) -<br/>
+  **[REQUIRED]**<br/>
+  The names of the collections to describe.
 
-- **db_name** (*string*) -
-The name of the database. Optional.
+- **db_name** (*string*) -<br/>
+  The name of the database. Optional.
 
-- **collectionIDs** (*number[]*) -
-The IDs of the collections to describe. Optional.
+- **collectionIDs** (*number[]*) -<br/>
+  The IDs of the collections to describe. Optional.
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;BatchDescribeCollectionResponse&gt;*
 
@@ -80,11 +80,11 @@ This method returns a promise that resolves to a **BatchDescribeCollectionRespon
 
 **PARAMETERS:**
 
-- **responses** (*DescribeCollectionResponse[]*) -
-An array containing the schema and metadata for every requested collection. Entries appear in the same order as the input collection names. For the full **DescribeCollectionResponse** field reference, refer to the `describeCollection()` doc.
+- **responses** (*DescribeCollectionResponse[]*) -<br/>
+  An array containing the schema and metadata for every requested collection. Entries appear in the same order as the input collection names. For the full **DescribeCollectionResponse** field reference, refer to the `describeCollection()` doc.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

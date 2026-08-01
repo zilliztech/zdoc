@@ -91,14 +91,14 @@ This method returns a promise that resolves to a **GetIndexBuildProgressResponse
 
 **PARAMETERS:**
 
-- **indexed_rows** (*number*) -
-The number of rows that have been indexed so far.
+- **indexed_rows** (*number*) -<br/>
+  The number of rows that have been indexed so far.
 
-- **total_rows** (*number*) -
-The total number of rows the index covers. The build is complete when **indexed_rows** equals **total_rows**.
+- **total_rows** (*number*) -<br/>
+  The total number of rows the index covers. The build is complete when **indexed_rows** equals **total_rows**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

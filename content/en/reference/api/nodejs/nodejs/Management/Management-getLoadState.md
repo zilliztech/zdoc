@@ -81,11 +81,11 @@ This method returns a promise that resolves to a **GetLoadStateResponse** object
 
 **PARAMETERS:**
 
-- **state** (*LoadState*) -
-The current load state. Possible values are **LoadStateNotExist**, **LoadStateNotLoad**, **LoadStateLoading**, and **LoadStateLoaded**.
+- **state** (*LoadState*) -<br/>
+  The current load state. Possible values are **LoadStateNotExist**, **LoadStateNotLoad**, **LoadStateLoading**, and **LoadStateLoaded**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

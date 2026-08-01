@@ -97,8 +97,8 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
 **PARAMETERS:**
 
-- **schema** (*CollectionSchema*) -
-The schema of the collection.
+- **schema** (*CollectionSchema*) -<br/>
+  The schema of the collection.
 
     - **name** (*string*) -
 
@@ -124,38 +124,38 @@ The schema of the collection.
 
         Doc-in / doc-out functions attached to the collection (for example, the BM25 sparse-vector function).
 
-- **collectionID** (*string*) -
-The internal collection ID assigned by Milvus.
+- **collectionID** (*string*) -<br/>
+  The internal collection ID assigned by Milvus.
 
-- **collection_name** (*string*) -
-The collection name.
+- **collection_name** (*string*) -<br/>
+  The collection name.
 
-- **consistency_level** (*string*) -
-The default consistency level for queries against this collection. Possible values are **Strong**, **Session**, **Bounded**, **Eventually**, and **Customized**.
+- **consistency_level** (*string*) -<br/>
+  The default consistency level for queries against this collection. Possible values are **Strong**, **Session**, **Bounded**, **Eventually**, and **Customized**.
 
-- **aliases** (*string[]*) -
-A list of aliases that point to this collection.
+- **aliases** (*string[]*) -<br/>
+  A list of aliases that point to this collection.
 
-- **properties** (*KeyValuePair[]*) -
-Collection-level properties (for example, **mmap.enabled**, **collection.ttl.seconds**) declared at creation or set via `alterCollectionProperties()`.
+- **properties** (*KeyValuePair[]*) -<br/>
+  Collection-level properties (for example, **mmap.enabled**, **collection.ttl.seconds**) declared at creation or set via `alterCollectionProperties()`.
 
-- **created_timestamp** (*string*) -
-The hybrid timestamp at which the collection was created.
+- **created_timestamp** (*string*) -<br/>
+  The hybrid timestamp at which the collection was created.
 
-- **created_utc_timestamp** (*string*) -
-The UTC timestamp, in milliseconds, at which the collection was created.
+- **created_utc_timestamp** (*string*) -<br/>
+  The UTC timestamp, in milliseconds, at which the collection was created.
 
-- **shards_num** (*number*) -
-The number of shards configured on the collection.
+- **shards_num** (*number*) -<br/>
+  The number of shards configured on the collection.
 
-- **num_partitions** (*string*) -
-The number of partitions configured on the collection. This value is meaningful only when a partition key field is declared.
+- **num_partitions** (*string*) -<br/>
+  The number of partitions configured on the collection. This value is meaningful only when a partition key field is declared.
 
-- **db_name** (*string*) -
-The database that owns this collection.
+- **db_name** (*string*) -<br/>
+  The database that owns this collection.
 
-- **functions** (*FunctionObject[]*) -
-A flattened list of doc-in / doc-out functions attached to the collection.
+- **functions** (*FunctionObject[]*) -<br/>
+  A flattened list of doc-in / doc-out functions attached to the collection.
 
 - **external_source** (*string*) -
 
@@ -173,23 +173,23 @@ A flattened list of doc-in / doc-out functions attached to the collection.
 
     The external file resource IDs. Optional.
 
-- **update_timestamp_str** (*string*) -
-The hybrid timestamp at which the collection was last updated, formatted as a string.
+- **update_timestamp_str** (*string*) -<br/>
+  The hybrid timestamp at which the collection was last updated, formatted as a string.
 
-- **update_timestamp** (*number*) -
-The numeric form of the last-update timestamp.
+- **update_timestamp** (*number*) -<br/>
+  The numeric form of the last-update timestamp.
 
-- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -
-A mapping from vector-field name to its **FieldSchema**, covering all vector fields declared on the collection.
+- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
+  A mapping from vector-field name to its **FieldSchema**, covering all vector fields declared on the collection.
 
-- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -
-A mapping from scalar-field name to its **FieldSchema**, covering all scalar fields declared on the collection.
+- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
+  A mapping from scalar-field name to its **FieldSchema**, covering all scalar fields declared on the collection.
 
-- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -
-A mapping from function-output-field name to its **FieldSchema**.
+- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
+  A mapping from function-output-field name to its **FieldSchema**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

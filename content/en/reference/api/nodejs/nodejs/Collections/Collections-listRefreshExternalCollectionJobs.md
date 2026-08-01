@@ -50,17 +50,17 @@ await milvusClient.listRefreshExternalCollectionJobs({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
-Optional filter by collection name.
+- **collection_name** (*string*) -<br/>
+  Optional filter by collection name.
 
-- **db_name** (*string*) -
-Optional filter by database name.
+- **db_name** (*string*) -<br/>
+  Optional filter by database name.
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
@@ -75,11 +75,11 @@ This method returns a promise that resolves to a **ListRefreshExternalCollection
 
 **PARAMETERS:**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
-A list of refresh jobs that match the requested database and collection filters. For the full **RefreshExternalCollectionJobInfo** field reference, refer to the `getRefreshExternalCollectionProgress()` doc.
+- **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
+  A list of refresh jobs that match the requested database and collection filters. For the full **RefreshExternalCollectionJobInfo** field reference, refer to the `getRefreshExternalCollectionProgress()` doc.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

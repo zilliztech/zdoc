@@ -85,11 +85,11 @@ This method returns a promise that resolves to a **BoolResponse** object.
 
 **PARAMETERS:**
 
-- **value** (*boolean*) -
-A boolean that indicates whether the requested partition exists in the collection. It is **true** when the partition exists and **false** when it does not.
+- **value** (*boolean*) -<br/>
+  A boolean that indicates whether the requested partition exists in the collection. It is **true** when the partition exists and **false** when it does not.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

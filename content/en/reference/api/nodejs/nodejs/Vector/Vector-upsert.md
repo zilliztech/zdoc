@@ -109,32 +109,32 @@ This method returns a promise that resolves to a **MutationResult** object.
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -
-The zero-based positions in the input data of rows that were successfully upserted.
+- **succ_index** (*number[]*) -<br/>
+  The zero-based positions in the input data of rows that were successfully upserted.
 
-- **err_index** (*number[]*) -
-The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
+- **err_index** (*number[]*) -<br/>
+  The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
 
-- **acknowledged** (*boolean*) -
-Whether the write was acknowledged by Milvus.
+- **acknowledged** (*boolean*) -<br/>
+  Whether the write was acknowledged by Milvus.
 
-- **insert_cnt** (*string*) -
-The number of rows newly inserted by this operation, formatted as a string.
+- **insert_cnt** (*string*) -<br/>
+  The number of rows newly inserted by this operation, formatted as a string.
 
-- **delete_cnt** (*string*) -
-The number of rows logically deleted to make room for replacements.
+- **delete_cnt** (*string*) -<br/>
+  The number of rows logically deleted to make room for replacements.
 
-- **upsert_cnt** (*string*) -
-The total number of rows upserted by this operation.
+- **upsert_cnt** (*string*) -<br/>
+  The total number of rows upserted by this operation.
 
-- **timestamp** (*string*) -
-The hybrid timestamp at which the write became visible.
+- **timestamp** (*string*) -<br/>
+  The hybrid timestamp at which the write became visible.
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-The primary keys carried in the upserted rows. For the full field reference, refer to the `insert()` doc.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  The primary keys carried in the upserted rows. For the full field reference, refer to the `insert()` doc.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

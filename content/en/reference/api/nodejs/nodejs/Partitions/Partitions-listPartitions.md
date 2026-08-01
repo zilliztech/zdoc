@@ -91,14 +91,14 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 
 **PARAMETERS:**
 
-- **partition_names** (*string[]*) -
-A list of partition names defined on the collection.
+- **partition_names** (*string[]*) -<br/>
+  A list of partition names defined on the collection.
 
-- **partitionIDs** (*number[]*) -
-The internal identifiers of the partitions, in the same order as **partition_names**.
+- **partitionIDs** (*number[]*) -<br/>
+  The internal identifiers of the partitions, in the same order as **partition_names**.
 
-- **data** (*PartitionData[]*) -
-A flattened, per-partition view that bundles the name, identifier, creation timestamp, and load percentage.
+- **data** (*PartitionData[]*) -<br/>
+  A flattened, per-partition view that bundles the name, identifier, creation timestamp, and load percentage.
 
     - **name** (*string*) -
 
@@ -116,8 +116,8 @@ A flattened, per-partition view that bundles the name, identifier, creation time
 
         The percentage of the partition that is currently loaded into memory.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

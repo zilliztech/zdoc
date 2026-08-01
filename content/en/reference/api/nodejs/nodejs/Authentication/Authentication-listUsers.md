@@ -64,11 +64,11 @@ This method returns a promise that resolves to a **ListCredUsersResponse** objec
 
 **PARAMETERS:**
 
-- **usernames** (*string[]*) -
-A list of usernames that exist in the current Milvus instance.
+- **usernames** (*string[]*) -<br/>
+  A list of usernames that exist in the current Milvus instance.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

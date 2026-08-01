@@ -76,8 +76,8 @@ This method returns a promise that resolves to a **ListImportTasksResponse** obj
 
 **PARAMETERS:**
 
-- **tasks** (*GetImportStateResponse[]*) -
-A list of import-task descriptors. Each entry carries the task's state, row count, segment IDs, and creation timestamp.
+- **tasks** (*GetImportStateResponse[]*) -<br/>
+  A list of import-task descriptors. Each entry carries the task's state, row count, segment IDs, and creation timestamp.
 
     - **state** (*ImportState*) -
 
@@ -111,8 +111,8 @@ A list of import-task descriptors. Each entry carries the task's state, row coun
 
         The creation timestamp of the task.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

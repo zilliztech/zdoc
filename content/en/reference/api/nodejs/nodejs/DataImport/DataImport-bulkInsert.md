@@ -97,11 +97,11 @@ This method returns a promise that resolves to a **ImportResponse** object.
 
 **PARAMETERS:**
 
-- **tasks** (*number[]*) -
-The identifiers of the asynchronous import tasks dispatched to the data nodes. Pass these values to `listImportTasks()` to poll for completion.
+- **tasks** (*number[]*) -<br/>
+  The identifiers of the asynchronous import tasks dispatched to the data nodes. Pass these values to `listImportTasks()` to poll for completion.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

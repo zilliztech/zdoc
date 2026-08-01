@@ -109,32 +109,32 @@ This method returns a promise that resolves to a **MutationResult** object.
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -
-The zero-based positions of input IDs that matched a row and were marked deleted.
+- **succ_index** (*number[]*) -<br/>
+  The zero-based positions of input IDs that matched a row and were marked deleted.
 
-- **err_index** (*number[]*) -
-The zero-based positions of input IDs that did not match any row.
+- **err_index** (*number[]*) -<br/>
+  The zero-based positions of input IDs that did not match any row.
 
-- **acknowledged** (*boolean*) -
-Whether the delete was acknowledged by Milvus.
+- **acknowledged** (*boolean*) -<br/>
+  Whether the delete was acknowledged by Milvus.
 
-- **insert_cnt** (*string*) -
-Always **"0"** for `delete()`.
+- **insert_cnt** (*string*) -<br/>
+  Always **"0"** for `delete()`.
 
-- **delete_cnt** (*string*) -
-The number of rows logically deleted by this operation.
+- **delete_cnt** (*string*) -<br/>
+  The number of rows logically deleted by this operation.
 
-- **upsert_cnt** (*string*) -
-Always **"0"** for `delete()`.
+- **upsert_cnt** (*string*) -<br/>
+  Always **"0"** for `delete()`.
 
-- **timestamp** (*string*) -
-The hybrid timestamp at which the delete became visible.
+- **timestamp** (*string*) -<br/>
+  The hybrid timestamp at which the delete became visible.
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-The primary keys that were targeted by this delete. For the full field reference, refer to the `insert()` doc.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  The primary keys that were targeted by this delete. For the full field reference, refer to the `insert()` doc.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

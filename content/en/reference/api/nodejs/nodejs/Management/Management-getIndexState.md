@@ -86,11 +86,11 @@ This method returns a promise that resolves to a **GetIndexStateResponse** objec
 
 **PARAMETERS:**
 
-- **state** (*IndexState*) -
-The current build state of the index. Possible values are **IndexStateNone**, **Unissued**, **InProgress**, **Finished**, and **Failed**.
+- **state** (*IndexState*) -<br/>
+  The current build state of the index. Possible values are **IndexStateNone**, **Unissued**, **InProgress**, **Finished**, and **Failed**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

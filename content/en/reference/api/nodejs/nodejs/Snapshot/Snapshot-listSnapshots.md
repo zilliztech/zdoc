@@ -50,18 +50,18 @@ await milvusClient.listSnapshots({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
-**[REQUIRED]**
-The name of the collection.
+- **collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the collection.
 
-- **db_name** (*string*) -
-The name of the database. Optional.
+- **db_name** (*string*) -<br/>
+  The name of the database. Optional.
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;ListSnapshotsResponse&gt;*
 
@@ -76,11 +76,11 @@ This method returns a promise that resolves to a **ListSnapshotsResponse** objec
 
 **PARAMETERS:**
 
-- **snapshots** (*string[]*) -
-A list of snapshot names that currently exist for the requested collection.
+- **snapshots** (*string[]*) -<br/>
+  A list of snapshot names that currently exist for the requested collection.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

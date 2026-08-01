@@ -79,8 +79,8 @@ This method returns a promise that resolves to a **RunAnalyzerResponse** object.
 
 **PARAMETERS:**
 
-- **results** (*AnalyzerResult[]*) -
-The tokenization output. When **text** is a single string, this list has one entry; when **text** is an array, the entries align with the input order.
+- **results** (*AnalyzerResult[]*) -<br/>
+  The tokenization output. When **text** is a single string, this list has one entry; when **text** is an array, the entries align with the input order.
 
     - **tokens** (*AnalyzerToken[]*) -
 
@@ -134,8 +134,8 @@ The tokenization output. When **text** is a single string, this list has one ent
 
             The token hash, populated when the request set **with_hash** to **true**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

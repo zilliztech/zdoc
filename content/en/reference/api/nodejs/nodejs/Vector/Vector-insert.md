@@ -139,29 +139,29 @@ This method returns a promise that resolves to a **MutationResult** object.
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -
-The zero-based positions in the input data of rows that were successfully inserted.
+- **succ_index** (*number[]*) -<br/>
+  The zero-based positions in the input data of rows that were successfully inserted.
 
-- **err_index** (*number[]*) -
-The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
+- **err_index** (*number[]*) -<br/>
+  The zero-based positions of rows that were rejected. When all rows succeed, this list is empty.
 
-- **acknowledged** (*boolean*) -
-Whether the write was acknowledged by Milvus.
+- **acknowledged** (*boolean*) -<br/>
+  Whether the write was acknowledged by Milvus.
 
-- **insert_cnt** (*string*) -
-The number of rows inserted, formatted as a string.
+- **insert_cnt** (*string*) -<br/>
+  The number of rows inserted, formatted as a string.
 
-- **delete_cnt** (*string*) -
-The number of rows deleted by this operation. For `insert()` this remains **"0"**.
+- **delete_cnt** (*string*) -<br/>
+  The number of rows deleted by this operation. For `insert()` this remains **"0"**.
 
-- **upsert_cnt** (*string*) -
-The number of rows upserted by this operation. For `insert()` this remains **"0"**.
+- **upsert_cnt** (*string*) -<br/>
+  The number of rows upserted by this operation. For `insert()` this remains **"0"**.
 
-- **timestamp** (*string*) -
-The hybrid timestamp at which the write became visible. Use this value for time-travel queries.
+- **timestamp** (*string*) -<br/>
+  The hybrid timestamp at which the write became visible. Use this value for time-travel queries.
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-The primary keys assigned to the inserted rows. For autoID collections, Milvus generates these values; otherwise, they echo the input keys.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  The primary keys assigned to the inserted rows. For autoID collections, Milvus generates these values; otherwise, they echo the input keys.
 
     - **int_id** (*\{ data: number[] }*) -
 
@@ -175,8 +175,8 @@ The primary keys assigned to the inserted rows. For autoID collections, Milvus g
 
         Indicates which of the two id arrays carries the values.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

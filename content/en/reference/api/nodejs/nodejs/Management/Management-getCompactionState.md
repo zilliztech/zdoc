@@ -77,23 +77,23 @@ This method returns a promise that resolves to a **GetCompactionStateResponse** 
 
 **PARAMETERS:**
 
-- **state** (*CompactionState*) -
-The aggregate state of the compaction. Possible values are **UndefiedState**, **Executing**, and **Completed**.
+- **state** (*CompactionState*) -<br/>
+  The aggregate state of the compaction. Possible values are **UndefiedState**, **Executing**, and **Completed**.
 
-- **executingPlanNo** (*string*) -
-The number of plans still executing.
+- **executingPlanNo** (*string*) -<br/>
+  The number of plans still executing.
 
-- **timeoutPlanNo** (*string*) -
-The number of plans that timed out.
+- **timeoutPlanNo** (*string*) -<br/>
+  The number of plans that timed out.
 
-- **completedPlanNo** (*string*) -
-The number of plans that completed successfully.
+- **completedPlanNo** (*string*) -<br/>
+  The number of plans that completed successfully.
 
-- **failedPlanNo** (*string*) -
-The number of plans that failed.
+- **failedPlanNo** (*string*) -<br/>
+  The number of plans that failed.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

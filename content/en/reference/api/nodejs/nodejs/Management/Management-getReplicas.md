@@ -76,8 +76,8 @@ This method returns a promise that resolves to a **ReplicasResponse** object.
 
 **PARAMETERS:**
 
-- **replicas** (*ReplicaInfo[]*) -
-A list of replicas currently serving the requested collection.
+- **replicas** (*ReplicaInfo[]*) -<br/>
+  A list of replicas currently serving the requested collection.
 
     - **replicaID** (*string*) -
 
@@ -139,8 +139,8 @@ A list of replicas currently serving the requested collection.
 
         The count of outbound nodes per resource group, used during rebalancing.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

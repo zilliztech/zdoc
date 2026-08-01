@@ -145,11 +145,11 @@ This method returns a promise that resolves to a **QueryResults** object.
 
 **PARAMETERS:**
 
-- **data** (*Record&lt;string, any&gt;[]*) -
-The matched rows. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key. When **enable_dynamic_field** is **true** on the collection, dynamic-field values appear inline alongside declared fields.
+- **data** (*Record&lt;string, any&gt;[]*) -<br/>
+  The matched rows. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key. When **enable_dynamic_field** is **true** on the collection, dynamic-field values appear inline alongside declared fields.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 
