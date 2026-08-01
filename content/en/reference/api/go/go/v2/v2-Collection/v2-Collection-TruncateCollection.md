@@ -10,7 +10,7 @@ notebook: false
 description: "This operation removes all data from a collection but retains the collection schema and structure | Go | v2"
 type: docx
 token: V7bwdcBPGosCFWxjYQfctDDInmb
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
   - vector database example
   - rag vector database

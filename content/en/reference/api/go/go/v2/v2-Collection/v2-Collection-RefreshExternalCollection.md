@@ -10,7 +10,7 @@ notebook: false
 description: "This operation scans the data files in the schema-defined external storage and generates metadata files that record their mapping relationship to those data files. | Go | v2"
 type: docx
 token: Mw42dp2VZoN4gFxdiSYcxDB8n0g
-sidebar_position: 27
+sidebar_position: 28
 keywords: 
   - vector similarity search
   - approximate nearest neighbor search

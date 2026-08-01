@@ -10,7 +10,7 @@ notebook: false
 description: "This operation performs a hybrid search that combines results from multiple ANN requests, each targeting a different vector field or index type. Use a reranker to merge and reorder the results. | Go | v2"
 type: docx
 token: VneHdph9ZoSf9wxQdKBc0046nBT
-sidebar_position: 5
+sidebar_position: 10
 keywords: 
   - Audio search
   - what is semantic search
@@ -59,59 +59,59 @@ resultSets, err := cli.HybridSearch(ctx, option)
 
 **BUILDER METHODS:**
 
-- `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`
-This creates a hybrid search option with one or more ANN requests.
+- `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`<br/>
+  This creates a hybrid search option with one or more ANN requests.
 
-- `NewAnnRequest(fieldName string, limit int, vector entity.Vector)`
-This creates an ANN request for a specific vector field.
+- `NewAnnRequest(fieldName string, limit int, vector entity.Vector)`<br/>
+  This creates an ANN request for a specific vector field.
 
-- `WithIDs(ids column.Column)`
-This filters the ANN request to search only the specified primary key IDs.
+- `WithIDs(ids column.Column)`<br/>
+  This filters the ANN request to search only the specified primary key IDs.
 
-- `WithFilter(expr string)`
-This applies a boolean expression filter to the ANN request.
+- `WithFilter(expr string)`<br/>
+  This applies a boolean expression filter to the ANN request.
 
-- `WithOffset(offset int)`
-This sets the number of results to skip for the ANN request.
+- `WithOffset(offset int)`<br/>
+  This sets the number of results to skip for the ANN request.
 
-- `WithGroupByField(groupByField string)`
-This groups the ANN request results by the specified field.
+- `WithGroupByField(groupByField string)`<br/>
+  This groups the ANN request results by the specified field.
 
-- `WithGroupSize(groupSize int)`
-This sets the number of results per group.
+- `WithGroupSize(groupSize int)`<br/>
+  This sets the number of results per group.
 
-- `WithStrictGroupSize(strictGroupSize bool)`
-This enforces strict group size limits.
+- `WithStrictGroupSize(strictGroupSize bool)`<br/>
+  This enforces strict group size limits.
 
-- `WithIgnoreGrowing(ignoreGrowing bool)`
-This ignores growing segments during the ANN request.
+- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
+  This ignores growing segments during the ANN request.
 
-- `WithAnnParam(ap index.AnnParam)`
-This sets the ANN parameters for the request.
+- `WithAnnParam(ap index.AnnParam)`<br/>
+  This sets the ANN parameters for the request.
 
-- `WithSearchParam(key, value string)`
-This sets a custom search parameter for the ANN request.
+- `WithSearchParam(key, value string)`<br/>
+  This sets a custom search parameter for the ANN request.
 
-- `WithFunctionReranker(fr *entity.Function)`
-This applies a function reranker to the ANN request.
+- `WithFunctionReranker(fr *entity.Function)`<br/>
+  This applies a function reranker to the ANN request.
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
-This sets the consistency level for the hybrid search.
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
+  This sets the consistency level for the hybrid search.
 
-- `WithPartitions(partitionNames ...string)`
-This restricts the hybrid search to the specified partitions.
+- `WithPartitions(partitionNames ...string)`<br/>
+  This restricts the hybrid search to the specified partitions.
 
-- `WithOutputFields(fieldNames ...string)`
-This specifies which fields to return in the result sets.
+- `WithOutputFields(fieldNames ...string)`<br/>
+  This specifies which fields to return in the result sets.
 
-- `WithReranker(reranker milvusclient.Reranker)`
-This sets a reranker to merge and reorder results from multiple ANN requests.
+- `WithReranker(reranker milvusclient.Reranker)`<br/>
+  This sets a reranker to merge and reorder results from multiple ANN requests.
 
-- `WithFunctionRerankers(functionReranker ...*entity.Function)`
-This sets function-based rerankers for the hybrid search.
+- `WithFunctionRerankers(functionReranker ...*entity.Function)`<br/>
+  This sets function-based rerankers for the hybrid search.
 
-- `WithOffset(offset int)`
-This sets the number of results to skip before returning matches.
+- `WithOffset(offset int)`<br/>
+  This sets the number of results to skip before returning matches.
 
 **RETURN TYPE:**
 

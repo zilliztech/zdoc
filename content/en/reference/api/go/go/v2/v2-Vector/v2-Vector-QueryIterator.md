@@ -10,7 +10,7 @@ notebook: false
 description: "This operation creates a query iterator that retrieves matching entities from a collection in batches. Use this for large result sets that should not be loaded into memory all at once. | Go | v2"
 type: docx
 token: GLdddi5uboT02bxj6cdc1FG2nvd
-sidebar_position: 9
+sidebar_position: 14
 keywords: 
   - Dense vector
   - Hierarchical Navigable Small Worlds

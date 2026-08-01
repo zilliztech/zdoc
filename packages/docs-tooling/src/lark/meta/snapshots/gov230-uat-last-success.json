@@ -5,33 +5,13 @@
     "zilliz"
   ],
   "build_env": "uat",
-  "source_branch": "codex/checkpointed-docs-publish-test-20260713",
+  "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-13T10:49:59.216Z",
+  "generated_at": "2026-08-01T11:18:38.003Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/go/v3.0.x",
   "base_app_token": "KQT5bV62QaioKisKZT0crwZDnke",
   "records": [
-    {
-      "record_id": "recvaZPETOJ7Ea",
-      "table_id": "tbltgcl1fpw5Mt8E",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Client",
-      "slug": "v2-Client",
-      "doc_token": "P8hMfnsOjlir3rdvsKDcEQG8nCc",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/P8hMfnsOjlir3rdvsKDcEQG8nCc",
-      "source_file": "P8hMfnsOjlir3rdvsKDcEQG8nCc.json",
-      "source_hash": "16196cde19bfb1af79629dbe7693d1a319001b543d615f48e7644f5727e60be9",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
-    },
     {
       "record_id": "recvb02Sr9Zhz1",
       "table_id": "tbltgcl1fpw5Mt8E",
@@ -50,7 +30,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md"
+      ]
     },
     {
       "record_id": "recvb02TxW77cj",
@@ -70,7 +53,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md"
+      ]
     },
     {
       "record_id": "recvb02US8b5Ip",
@@ -90,7 +76,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Client/v2-Client-Close.md"
+      ]
     },
     {
       "record_id": "recvcYYPLLBB5q",
@@ -102,7 +91,7 @@
       "doc_token": "NNQmdw1DloRDi6xeO0acaMfdnib",
       "doc_link": "https://zilliverse.feishu.cn/docx/NNQmdw1DloRDi6xeO0acaMfdnib",
       "source_file": "NNQmdw1DloRDi6xeO0acaMfdnib.json",
-      "source_hash": "4cfe83bc8c9cb185091b02f90a2c7113a422319cdaed077ba4db380dca89a0ff",
+      "source_hash": "30593bc332e0305b2627151148f6e2746b700bd3ac110854625e5426ea5f836a",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -110,7 +99,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md"
+      ]
     },
     {
       "record_id": "recviqDZZmUgso",
@@ -130,7 +122,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md"
+      ]
     },
     {
       "record_id": "recvaZPFKKLSfH",
@@ -142,7 +137,7 @@
       "doc_token": "PNwFdxMMdo6rtIxERDHcVFgdnxc",
       "doc_link": "https://zilliverse.feishu.cn/docx/PNwFdxMMdo6rtIxERDHcVFgdnxc",
       "source_file": "PNwFdxMMdo6rtIxERDHcVFgdnxc.json",
-      "source_hash": "34d9b1f8a956ca36c4748bfa55e1387c39186a6bf76a78a22710986248625653",
+      "source_hash": "c83e87facb948be7b16557b4ac02bdc73f7dbb3ab6ba5001e2e4a13624c107cb",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -153,6 +148,9 @@
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "Du2ZdjCWIorDg4xdwercNnYgnJb"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection.md"
       ]
     },
     {
@@ -162,10 +160,10 @@
       "placement_type": "canonical",
       "title": "CreateCollection()",
       "slug": "v2-Collection-CreateCollection",
-      "doc_token": "PP2kdYCHnoZQ96xJqWUcAW8enG9",
-      "doc_link": "https://zilliverse.feishu.cn/docx/PP2kdYCHnoZQ96xJqWUcAW8enG9",
-      "source_file": "PP2kdYCHnoZQ96xJqWUcAW8enG9.json",
-      "source_hash": "44c9f07c11fb577854a32953ac87f1c8efbd6a876003e8a1d1fffafa551aef2c",
+      "doc_token": "Jm5IdnexOoFaMpx0HqDcbXeDnGe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Jm5IdnexOoFaMpx0HqDcbXeDnGe",
+      "source_file": "Jm5IdnexOoFaMpx0HqDcbXeDnGe.json",
+      "source_hash": "8b3e6307590226b3120700e3ff680cf8bdd9a65c3de80999eea8e20e873d28d9",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -173,11 +171,9 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": [
-        "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
-        "Du2ZdjCWIorDg4xdwercNnYgnJb",
-        "Hl6adortyo5I2nxdGx8cEDJ8noe",
-        "KLrMdFtVko5QGwxyIs9ckmtUn0c"
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md"
       ]
     },
     {
@@ -200,6 +196,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md"
       ]
     },
     {
@@ -222,6 +221,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias.md"
       ]
     },
     {
@@ -244,6 +246,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropAlias.md"
       ]
     },
     {
@@ -266,6 +271,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md"
       ]
     },
     {
@@ -286,7 +294,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md"
+      ]
     },
     {
       "record_id": "recvb03A32Q5Ex",
@@ -306,7 +317,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md"
+      ]
     },
     {
       "record_id": "recvb03Bj4qmAa",
@@ -328,6 +342,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection.md"
       ]
     },
     {
@@ -348,7 +365,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md"
+      ]
     },
     {
       "record_id": "recvb03DLabKy7",
@@ -368,7 +388,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md"
+      ]
     },
     {
       "record_id": "recvb03FbWj7q7",
@@ -388,7 +411,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md"
+      ]
     },
     {
       "record_id": "recvb03GwpX3tz",
@@ -410,6 +436,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md"
       ]
     },
     {
@@ -432,6 +461,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties.md"
       ]
     },
     {
@@ -452,7 +484,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md"
+      ]
     },
     {
       "record_id": "recvb03KpLLy9i",
@@ -472,7 +507,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md"
+      ]
     },
     {
       "record_id": "recvb03LJZqHTZ",
@@ -481,10 +519,10 @@
       "placement_type": "canonical",
       "title": "AddCollectionField()",
       "slug": "v2-Collection-AddCollectionField",
-      "doc_token": "QupedlVukov8hsxbSyOcrcI9nAb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/QupedlVukov8hsxbSyOcrcI9nAb",
-      "source_file": "QupedlVukov8hsxbSyOcrcI9nAb.json",
-      "source_hash": "3641bc56a9f68267d4a808a9d7439f57db99c83beac61ada6d37ffe440b35634",
+      "doc_token": "NmAwdxspJop8U0xi2DPcNYpmnBe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/NmAwdxspJop8U0xi2DPcNYpmnBe",
+      "source_file": "NmAwdxspJop8U0xi2DPcNYpmnBe.json",
+      "source_hash": "e634a349bb8c673319c060c5db10ac40cb463a26f7e800525fd7a2e095baed26",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -492,8 +530,9 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": [
-        "DPcJdZceFoes0sxeRVKcKhaunq9"
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md"
       ]
     },
     {
@@ -514,7 +553,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md"
+      ]
     },
     {
       "record_id": "recvh8chfXOpJg",
@@ -534,7 +576,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md"
+      ]
     },
     {
       "record_id": "recvh8esTwfMYF",
@@ -554,7 +599,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md"
+      ]
     },
     {
       "record_id": "recvh8gd3zOaPu",
@@ -574,7 +622,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md"
+      ]
     },
     {
       "record_id": "recvb03NVhaHka",
@@ -586,7 +637,7 @@
       "doc_token": "Du2ZdjCWIorDg4xdwercNnYgnJb",
       "doc_link": "https://zilliverse.feishu.cn/docx/Du2ZdjCWIorDg4xdwercNnYgnJb",
       "source_file": "Du2ZdjCWIorDg4xdwercNnYgnJb.json",
-      "source_hash": "317eb959cc49f828f8785885a7273e267cccfa3f2ae638e9dfc8ac38a01ad47d",
+      "source_hash": "0d39088317496905e957dc5bd4fa530c65b61910c106dc84b0bbd3441f515438",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -594,9 +645,9 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": [
-        "DPcJdZceFoes0sxeRVKcKhaunq9",
-        "G4dTdejt8otbQWxUqvucwKnBnYg"
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md"
       ]
     },
     {
@@ -609,7 +660,7 @@
       "doc_token": "DPcJdZceFoes0sxeRVKcKhaunq9",
       "doc_link": "https://zilliverse.feishu.cn/docx/DPcJdZceFoes0sxeRVKcKhaunq9",
       "source_file": "DPcJdZceFoes0sxeRVKcKhaunq9.json",
-      "source_hash": "e9c18b65421530e0a4e55f871dbd3471f6f6480f86d798d5e840f5988e45f85f",
+      "source_hash": "22d6a48a95f52655a2b5dc755a7b116b1490d94e82c99655b6bf8e25637e5e2f",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -619,6 +670,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Xq9Ydn3OJoYrHmxMVOLcMn9onHc"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Field.md"
       ]
     },
     {
@@ -628,10 +682,10 @@
       "placement_type": "canonical",
       "title": "FieldType",
       "slug": "v2-Collection-FieldType",
-      "doc_token": "Xq9Ydn3OJoYrHmxMVOLcMn9onHc",
-      "doc_link": "https://zilliverse.feishu.cn/docx/Xq9Ydn3OJoYrHmxMVOLcMn9onHc",
-      "source_file": "Xq9Ydn3OJoYrHmxMVOLcMn9onHc.json",
-      "source_hash": "298f238caba506d1e8fa0c2832a64e2d164c551c3cf2f2b4aab2705baabdd034",
+      "doc_token": "V6aWdRUh3o1alDxmCo5c29hRnic",
+      "doc_link": "https://zilliverse.feishu.cn/docx/V6aWdRUh3o1alDxmCo5c29hRnic",
+      "source_file": "V6aWdRUh3o1alDxmCo5c29hRnic.json",
+      "source_hash": "0adfa4da2ee3b7ed1e6a8004665dc1057030b9dcb394d5929506e3a629195b5b",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -639,7 +693,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md"
+      ]
     },
     {
       "record_id": "recvb03ZUmL9xo",
@@ -659,7 +716,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Alias.md"
+      ]
     },
     {
       "record_id": "recvb041tEbV7t",
@@ -679,7 +739,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Function.md"
+      ]
     },
     {
       "record_id": "recvb0431oyuru",
@@ -699,7 +762,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel.md"
+      ]
     },
     {
       "record_id": "recviqE0k6fTCW",
@@ -721,6 +787,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Or8Gd2JEIo1swQxD3QTccFoBn9b"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md"
       ]
     },
     {
@@ -741,7 +810,33 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md"
+      ]
+    },
+    {
+      "record_id": "recvqAgVp4lyXH",
+      "table_id": "tbltgcl1fpw5Mt8E",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "StructSchema",
+      "slug": "v2-Collection-StructSchema",
+      "doc_token": "CB8KdOcuqopYf6x9PqYcJhXbntc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/CB8KdOcuqopYf6x9PqYcJhXbntc",
+      "source_file": "CB8KdOcuqopYf6x9PqYcJhXbntc.json",
+      "source_hash": "0d07a7ecea8ede66c20ef7e35434b9fa624fcb49bfd7b0966222285b93b4dca6",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md"
+      ]
     },
     {
       "record_id": "recvaZPGALY56Q",
@@ -761,7 +856,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md"
+      ]
     },
     {
       "record_id": "recvb045UKLAoh",
@@ -781,7 +879,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md"
+      ]
     },
     {
       "record_id": "recvb046Yz5zN8",
@@ -801,7 +902,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md"
+      ]
     },
     {
       "record_id": "recvb048jjS1Lo",
@@ -821,7 +925,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md"
+      ]
     },
     {
       "record_id": "recvb049vEopro",
@@ -841,7 +948,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md"
+      ]
     },
     {
       "record_id": "recvb04aHw5Afg",
@@ -861,7 +971,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md"
+      ]
     },
     {
       "record_id": "recvb04c2RvMgr",
@@ -881,7 +994,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md"
+      ]
     },
     {
       "record_id": "recvb04do8hosr",
@@ -901,7 +1017,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md"
+      ]
     },
     {
       "record_id": "recvb04hnjBg6I",
@@ -923,7 +1042,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "QWRidEpUAo3sk3xh1shchxbunWg"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04j1olzz9",
@@ -946,7 +1066,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Y0IAdifhVoYQVAxiZEdcjIS0nog"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04ktZAjpx",
@@ -966,7 +1087,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04lQgGl8X",
@@ -988,7 +1110,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Wyvhd3725onAmAxegk1caOHonQg"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04njhZ0b8",
@@ -1008,7 +1131,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04oLiqmq6",
@@ -1028,7 +1152,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04qf2vw4K",
@@ -1048,7 +1173,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04s6NZbn3",
@@ -1070,7 +1196,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04u5OBshm",
@@ -1092,7 +1219,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04vnTpCTY",
@@ -1114,7 +1242,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XWSAdFkdDoaDPnxOtkEcuFETngL"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04wAhIaiT",
@@ -1134,7 +1263,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04xZDd0NH",
@@ -1154,7 +1284,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04ze38Tx6",
@@ -1174,7 +1305,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04AAt4mck",
@@ -1196,7 +1328,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "BPXDdgDPzoaDTixPJLncvFZ0nig"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04BMB4RqU",
@@ -1216,7 +1349,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04D1xbNKd",
@@ -1236,7 +1370,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04EEF4EYC",
@@ -1256,7 +1391,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04FHdcUge",
@@ -1276,7 +1412,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04GK3qsBO",
@@ -1296,7 +1433,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04HVb0E8q",
@@ -1316,7 +1454,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04J7alAml",
@@ -1336,7 +1475,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04KkEvgoQ",
@@ -1356,7 +1496,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04M44fwqS",
@@ -1376,7 +1517,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04NmwLlXh",
@@ -1396,7 +1538,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb0b2OkRDTJ",
@@ -1419,7 +1562,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0b56sbnVK",
@@ -1442,7 +1586,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0b7rwVMoj",
@@ -1465,7 +1610,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0b8y3NXRH",
@@ -1488,7 +1634,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0b9IpROXL",
@@ -1511,7 +1658,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0baNGV4Zz",
@@ -1534,7 +1682,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bbTALwCb",
@@ -1557,7 +1706,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bditRXW2",
@@ -1580,7 +1730,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0beJyCIVy",
@@ -1603,7 +1754,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bh88JM7c",
@@ -1625,7 +1777,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0biohqbKo",
@@ -1648,7 +1801,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bjWSjYnP",
@@ -1671,7 +1825,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bljupQ18",
@@ -1694,7 +1849,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bmAGXb9L",
@@ -1717,7 +1873,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bnSGzwz8",
@@ -1740,7 +1897,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0brnK9f94",
@@ -1763,7 +1921,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "GppedViHro8TJMxQCZ3cJRKRnHg"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bsJ2q9Fr",
@@ -1786,7 +1945,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0buBiKVbm",
@@ -1808,7 +1968,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bvxKmNo3",
@@ -1830,7 +1991,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bwuqsoM0",
@@ -1852,7 +2014,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bxvjyKWR",
@@ -1874,7 +2037,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0byrKw47J",
@@ -1896,7 +2060,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bzPTJGox",
@@ -1919,7 +2084,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bCx5XcLc",
@@ -1942,7 +2108,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bDL4uiqN",
@@ -1965,7 +2132,8 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb04RzKcutM",
@@ -1985,7 +2153,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04UEb78VP",
@@ -2005,7 +2174,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04XcIB6k6",
@@ -2025,7 +2195,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04YhxLmSJ",
@@ -2045,7 +2216,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb04ZkC5LJT",
@@ -2065,7 +2237,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb050nkzoPc",
@@ -2085,7 +2258,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb051xUN9wp",
@@ -2105,27 +2279,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvaZPJ9vKXZa",
-      "table_id": "tbltgcl1fpw5Mt8E",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Vector",
-      "slug": "v2-Vector",
-      "doc_token": "RgOxfigOelTngLd8EV5cUCyVnUe",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/RgOxfigOelTngLd8EV5cUCyVnUe",
-      "source_file": "RgOxfigOelTngLd8EV5cUCyVnUe.json",
-      "source_hash": "affe8367336f58a651b978eaa701fb832b6fbca1284eab852ed4a2e151b2b91d",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb056zjZWKf",
@@ -2150,6 +2305,9 @@
         "CE0odAFVdoh2ehxNFRecD8WEn3f",
         "K6obdWvXyoNLbMxNkggc9JyMnPd",
         "XV3adWSVho0zgfx6CZDc30GAnMc"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchIterator.md"
       ]
     },
     {
@@ -2170,7 +2328,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md"
+      ]
     },
     {
       "record_id": "recvb05bRQ6dmM",
@@ -2182,7 +2343,7 @@
       "doc_token": "YKm9dpXcVoy277xHVT2cIymfnRj",
       "doc_link": "https://zilliverse.feishu.cn/docx/YKm9dpXcVoy277xHVT2cIymfnRj",
       "source_file": "YKm9dpXcVoy277xHVT2cIymfnRj.json",
-      "source_hash": "ef2aac668795ba0c1c0d0d3d37367a14e0ff6edc920f00415ba40bdf3e50a520",
+      "source_hash": "c50a97626ee159904ba71542ce431ce83dcb4edcb0dbf422382cc1b0a315ae0e",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2190,7 +2351,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md"
+      ]
     },
     {
       "record_id": "recvb05ebFlZtq",
@@ -2213,6 +2377,9 @@
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CCWrdPlSao0pOTx9oIgcA64Nnjd"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Query.md"
       ]
     },
     {
@@ -2236,6 +2403,9 @@
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CCWrdPlSao0pOTx9oIgcA64Nnjd"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Get.md"
       ]
     },
     {
@@ -2248,7 +2418,7 @@
       "doc_token": "VneHdph9ZoSf9wxQdKBc0046nBT",
       "doc_link": "https://zilliverse.feishu.cn/docx/VneHdph9ZoSf9wxQdKBc0046nBT",
       "source_file": "VneHdph9ZoSf9wxQdKBc0046nBT.json",
-      "source_hash": "1d480553c5b3ad394de9f9ea5064cbecb7f0f3e09e906bdf034202e6767a02d3",
+      "source_hash": "20dcea87b999f0144520733a658e991a01ca40dede3039b744e2f5fe237dd0e9",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2256,7 +2426,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md"
+      ]
     },
     {
       "record_id": "recvb05kSBtKAN",
@@ -2276,7 +2449,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md"
+      ]
     },
     {
       "record_id": "recvb05lXefiqf",
@@ -2285,10 +2461,10 @@
       "placement_type": "canonical",
       "title": "Insert()",
       "slug": "v2-Vector-Insert",
-      "doc_token": "T6S4dcpZ7oeKD6xeTofc2mn9nrb",
-      "doc_link": "https://zilliverse.feishu.cn/docx/T6S4dcpZ7oeKD6xeTofc2mn9nrb",
-      "source_file": "T6S4dcpZ7oeKD6xeTofc2mn9nrb.json",
-      "source_hash": "2070020b651e562e8f8cfc3cacbd9ad551f297a50ffda927913bc29b1c005425",
+      "doc_token": "NQsbdUsP8oIAbOxSnEEcKUBMnkg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/NQsbdUsP8oIAbOxSnEEcKUBMnkg",
+      "source_file": "NQsbdUsP8oIAbOxSnEEcKUBMnkg.json",
+      "source_hash": "798275ffffeb85c2baf5ebdae286fa7c654a684b55dd5e8dd28e77c39fe660b2",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2296,8 +2472,9 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": [
-        "EqKvdT96PoSVzzxyEF7civIgnDh"
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md"
       ]
     },
     {
@@ -2320,6 +2497,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Gh4ydrMIBopZekxncUFcrJctnBl"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Delete.md"
       ]
     },
     {
@@ -2329,10 +2509,10 @@
       "placement_type": "canonical",
       "title": "Upsert()",
       "slug": "v2-Vector-Upsert",
-      "doc_token": "O1oidP1nEoZmlrxzGRRc30mjn5d",
-      "doc_link": "https://zilliverse.feishu.cn/docx/O1oidP1nEoZmlrxzGRRc30mjn5d",
-      "source_file": "O1oidP1nEoZmlrxzGRRc30mjn5d.json",
-      "source_hash": "cdd3b176880cd98f5ecd7b34b06d878075830286c3149bd16541c2a80f8eab61",
+      "doc_token": "PB5kdtzs8ok748xwRWacJbEUnze",
+      "doc_link": "https://zilliverse.feishu.cn/docx/PB5kdtzs8ok748xwRWacJbEUnze",
+      "source_file": "PB5kdtzs8ok748xwRWacJbEUnze.json",
+      "source_hash": "1bb9946cb3c059de25626b9b0c6f76b7222afef80ed86dcda0cdd12562db583b",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2340,8 +2520,9 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": [
-        "KlfGdGLbxo7zfNxin91cgFxWnQO"
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md"
       ]
     },
     {
@@ -2362,7 +2543,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md"
+      ]
     },
     {
       "record_id": "recvb05soH5Ps2",
@@ -2382,7 +2566,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md"
+      ]
     },
     {
       "record_id": "recvb05tRB6D5Z",
@@ -2402,7 +2589,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md"
+      ]
     },
     {
       "record_id": "recvb05v0XxbKZ",
@@ -2422,7 +2612,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md"
+      ]
     },
     {
       "record_id": "recvb05zHpYvNr",
@@ -2442,7 +2635,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam.md"
+      ]
     },
     {
       "record_id": "recvb0b1FmAGwL",
@@ -2464,7 +2660,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0b3W1DCxQ",
@@ -2486,6 +2683,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md"
       ]
     },
     {
@@ -2508,7 +2708,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bfT5goFV",
@@ -2530,7 +2731,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0boWg5fJB",
@@ -2552,7 +2754,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bq2aF5ev",
@@ -2574,7 +2777,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0btF33WKk",
@@ -2596,7 +2800,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bBhF9D7W",
@@ -2618,7 +2823,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb0bEHomJux",
@@ -2640,19 +2846,20 @@
       "revision_id": null,
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
-      ]
+      ],
+      "output_paths": []
     },
     {
-      "record_id": "recvaZPK0ovCwE",
+      "record_id": "recvqAh1VsmrHo",
       "table_id": "tbltgcl1fpw5Mt8E",
       "table_name": "数据表",
       "placement_type": "canonical",
-      "title": "Authentication",
-      "slug": "v2-Authentication",
-      "doc_token": "MINQfdgeRlnbDzd1ofucUJDsnuW",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/MINQfdgeRlnbDzd1ofucUJDsnuW",
-      "source_file": "MINQfdgeRlnbDzd1ofucUJDsnuW.json",
-      "source_hash": "587600181964d5dea68c7457e8d0a956f693fecc9227623649360191ae96bd04",
+      "title": "ColumnFloatVectorArray",
+      "slug": "v2-Vector-ColumnFloatVectorArray",
+      "doc_token": "FEsedrkZpoiR3YxNgL4csDP4nEe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/FEsedrkZpoiR3YxNgL4csDP4nEe",
+      "source_file": "FEsedrkZpoiR3YxNgL4csDP4nEe.json",
+      "source_hash": "f94dd73752d7ba6795613c02f67d6163b5464c18d1a4218dfeda33e61506df78",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2660,7 +2867,102 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md"
+      ]
+    },
+    {
+      "record_id": "recvqAh3kXtgif",
+      "table_id": "tbltgcl1fpw5Mt8E",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ColumnFloat16VectorArray",
+      "slug": "v2-Vector-ColumnFloat16VectorArray",
+      "doc_token": "Ip2HdObkAodufpxSIoTcJ6rbnWf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Ip2HdObkAodufpxSIoTcJ6rbnWf",
+      "source_file": "Ip2HdObkAodufpxSIoTcJ6rbnWf.json",
+      "source_hash": "2e0f2e9c4f14e8c19ab15a952285b0dfd64412ec86986e756557a8d4ee9cafba",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md"
+      ]
+    },
+    {
+      "record_id": "recvqAh4GN0F1e",
+      "table_id": "tbltgcl1fpw5Mt8E",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ColumnBFloat16VectorArray",
+      "slug": "v2-Vector-ColumnBFloat16VectorArray",
+      "doc_token": "OG2HdyPMzoO7y7xob6HcX1V0n7b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/OG2HdyPMzoO7y7xob6HcX1V0n7b",
+      "source_file": "OG2HdyPMzoO7y7xob6HcX1V0n7b.json",
+      "source_hash": "c8053675bdafa376f5244e34a306c1026efdd7f11fee6ed0b9f94baccd252fdf",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md"
+      ]
+    },
+    {
+      "record_id": "recvqAh5ZAvZOf",
+      "table_id": "tbltgcl1fpw5Mt8E",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ColumnBinaryVectorArray",
+      "slug": "v2-Vector-ColumnBinaryVectorArray",
+      "doc_token": "VKeBdnkoXoI29txzTuncqsaDnte",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VKeBdnkoXoI29txzTuncqsaDnte",
+      "source_file": "VKeBdnkoXoI29txzTuncqsaDnte.json",
+      "source_hash": "045b52d966b2036cce4b619baa621274e691f819e6a9c2cf1523d45eaccb9e09",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md"
+      ]
+    },
+    {
+      "record_id": "recvqAh7ry1nLQ",
+      "table_id": "tbltgcl1fpw5Mt8E",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ColumnInt8VectorArray",
+      "slug": "v2-Vector-ColumnInt8VectorArray",
+      "doc_token": "Snk1duMEtoe1VexGeJYcXW7VnXe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Snk1duMEtoe1VexGeJYcXW7VnXe",
+      "source_file": "Snk1duMEtoe1VexGeJYcXW7VnXe.json",
+      "source_hash": "979161ac581c067e40d9f96a6a99ab7262164bde7a3f0ffe140856611331a31b",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md"
+      ]
     },
     {
       "record_id": "recvb05Cc1C66I",
@@ -2682,6 +2984,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "GyCrdXyvzobrrAxzFRbcRTlSnUb"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md"
       ]
     },
     {
@@ -2702,7 +3007,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md"
+      ]
     },
     {
       "record_id": "recvb05EwXMISF",
@@ -2722,7 +3030,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md"
+      ]
     },
     {
       "record_id": "recvb05FLekzQN",
@@ -2744,6 +3055,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "FCnndgcaworiHGxozvocjrZonIj"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md"
       ]
     },
     {
@@ -2764,7 +3078,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md"
+      ]
     },
     {
       "record_id": "recvb05ICwUgW3",
@@ -2784,7 +3101,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md"
+      ]
     },
     {
       "record_id": "recvb05JRRDaJ2",
@@ -2804,7 +3124,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md"
+      ]
     },
     {
       "record_id": "recvb05KWKN8XG",
@@ -2824,7 +3147,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md"
+      ]
     },
     {
       "record_id": "recvb05Ma7ORq9",
@@ -2844,7 +3170,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md"
+      ]
     },
     {
       "record_id": "recvb05Nx77xi2",
@@ -2864,7 +3193,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md"
+      ]
     },
     {
       "record_id": "recvb05ORsRI0Y",
@@ -2884,7 +3216,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md"
+      ]
     },
     {
       "record_id": "recvb05PVTdNQU",
@@ -2896,7 +3231,7 @@
       "doc_token": "QKItdAf6HoDzMVxzWEbcDVL9n5r",
       "doc_link": "https://zilliverse.feishu.cn/docx/QKItdAf6HoDzMVxzWEbcDVL9n5r",
       "source_file": "QKItdAf6HoDzMVxzWEbcDVL9n5r.json",
-      "source_hash": "1f715fd9885483d7731401576f54508d5caea7dfe00a1f4e8337e087677b0d96",
+      "source_hash": "618e4eff7dbb4ef27113b371f2e5063c6ebffcd67357cb521f6cdae718a674e3",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2904,7 +3239,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md"
+      ]
     },
     {
       "record_id": "recvb05ReCsDIg",
@@ -2926,6 +3264,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "MUdZdTFeDoEtcwxBCOycaHyanr7"
+      ],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md"
       ]
     },
     {
@@ -2946,7 +3287,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb05UNIXvXo",
@@ -2966,7 +3308,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb05VZDszKc",
@@ -2986,7 +3329,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb05XbAu631",
@@ -3006,7 +3350,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb05Ygs9WPa",
@@ -3026,7 +3371,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md"
+      ]
     },
     {
       "record_id": "recvb05ZCiABMk",
@@ -3046,7 +3394,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb060WsmuCo",
@@ -3066,7 +3415,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb062z4wsRP",
@@ -3086,7 +3436,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md"
+      ]
     },
     {
       "record_id": "recvb064bZces7",
@@ -3106,7 +3459,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md"
+      ]
     },
     {
       "record_id": "recvb065oAiWh3",
@@ -3126,7 +3482,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-User.md"
+      ]
     },
     {
       "record_id": "recvb066y7mz4K",
@@ -3146,7 +3505,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-Role.md"
+      ]
     },
     {
       "record_id": "recvb06822aZ5Z",
@@ -3166,7 +3528,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md"
+      ]
     },
     {
       "record_id": "recvb069inNNmL",
@@ -3186,7 +3551,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-PrivilegeGroup.md"
+      ]
     },
     {
       "record_id": "recvaZPKRLDphy",
@@ -3208,7 +3576,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "IM6xdWbdLo7l9dxR40kcfjfSnVb"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb06bRpCnKe",
@@ -3228,7 +3597,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb06dmXSmVq",
@@ -3248,7 +3618,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb06exTt3Eu",
@@ -3268,7 +3639,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb06fIQT0hd",
@@ -3288,7 +3660,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb06h4yQgrW",
@@ -3310,7 +3683,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "IM6xdWbdLo7l9dxR40kcfjfSnVb"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvb06iMhcOt7",
@@ -3330,7 +3704,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb06jZLlrPi",
@@ -3350,7 +3725,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvb06nDA3gW8",
@@ -3370,27 +3746,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvh9st1Nn8CS",
-      "table_id": "tbltgcl1fpw5Mt8E",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Snapshot",
-      "slug": "v2-Snapshot",
-      "doc_token": "G4vvf4YHtlwg02d1ZyXcsRCCnud",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/G4vvf4YHtlwg02d1ZyXcsRCCnud",
-      "source_file": "G4vvf4YHtlwg02d1ZyXcsRCCnud.json",
-      "source_hash": "5117922560c43dc1b4c57995c80f6412a5dc21be237fdd01761cdadc7feff511",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvh9s80KKIBt",
@@ -3410,7 +3767,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md"
+      ]
     },
     {
       "record_id": "recvh9s8unxXXl",
@@ -3430,7 +3790,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md"
+      ]
     },
     {
       "record_id": "recvh9s8VSKLny",
@@ -3450,7 +3813,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md"
+      ]
     },
     {
       "record_id": "recvh9s9nGcuXi",
@@ -3470,7 +3836,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md"
+      ]
     },
     {
       "record_id": "recvh9s9PMPwHB",
@@ -3490,7 +3859,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md"
+      ]
     },
     {
       "record_id": "recvh9sahvOQIf",
@@ -3510,7 +3882,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md"
+      ]
     },
     {
       "record_id": "recvh9saJ9CBnw",
@@ -3530,7 +3905,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md"
+      ]
     },
     {
       "record_id": "recviqDZjlQGzj",
@@ -3550,7 +3928,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md"
+      ]
     },
     {
       "record_id": "recviqDZGwavAL",
@@ -3570,27 +3951,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvixg9MBgbua",
-      "table_id": "tbltgcl1fpw5Mt8E",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "DataImport",
-      "slug": "v2-DataImport",
-      "doc_token": "Bzpgf2nwnlirRodpt9zcacAun7d",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/Bzpgf2nwnlirRodpt9zcacAun7d",
-      "source_file": "Bzpgf2nwnlirRodpt9zcacAun7d.json",
-      "source_hash": "535086c9306474a6c84bd8749938ea1e53209a117e5b45af19a31d34997eabd5",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md"
+      ]
     },
     {
       "record_id": "recvixgaxSDbIK",
@@ -3610,7 +3974,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md"
+      ]
     },
     {
       "record_id": "recvixgaxS1vDS",
@@ -3630,7 +3997,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md"
+      ]
     },
     {
       "record_id": "recvixgaxSkeLp",
@@ -3650,7 +4020,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md"
+      ]
     },
     {
       "record_id": "recvixgaxScpZn",
@@ -3670,7 +4043,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md"
+      ]
     },
     {
       "record_id": "recvixgaxSHyqH",
@@ -3690,7 +4066,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse.md"
+      ]
     },
     {
       "record_id": "recvixgaxScers",
@@ -3710,7 +4089,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md"
+      ]
     },
     {
       "record_id": "recvixgaxSSjti",
@@ -3730,7 +4112,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption.md"
+      ]
     },
     {
       "record_id": "recvixgaxSg06C",
@@ -3750,7 +4135,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption.md"
+      ]
     },
     {
       "record_id": "recvixgaxSRCru",
@@ -3770,7 +4158,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption.md"
+      ]
     }
   ]
 }

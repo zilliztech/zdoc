@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "group": "go",
   "complete": true,
-  "generatedAt": "2026-07-29T00:00:00Z",
-  "sourceRunId": "clean-room-seed",
+  "generatedAt": "2026-08-01T11:18:38.264Z",
+  "sourceRunId": "30695964668",
   "records": [
     {
       "canonicalToken": "A3WWdqm52oLqtuxaR9EcjmybnwT",
       "title": "BulkImportResponse",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -26,7 +26,7 @@
     {
       "canonicalToken": "AR0Bdq0okohr1Cxa1rOcDtvTnoc",
       "title": "DescribeDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -44,7 +44,7 @@
     {
       "canonicalToken": "AVEcd3SCwoRyiTxcNodcQAepnGf",
       "title": "ListCollections()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -89,7 +89,7 @@
     {
       "canonicalToken": "BMlVd8UFLor42pxDtr3cnobPnxe",
       "title": "CreateDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -116,7 +116,7 @@
     {
       "canonicalToken": "Bs3OdQ56zohZEbx9KaHcInM4nHh",
       "title": "ListSnapshots()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -132,18 +132,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Bzpgf2nwnlirRodpt9zcacAun7d",
-      "title": "DataImport",
-      "contentPath": null,
+      "canonicalToken": "C6WkdFvLuon9i8xlu3FcomiDn0b",
+      "title": "ListImportJobsResponse",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "C6WkdFvLuon9i8xlu3FcomiDn0b",
-      "title": "ListImportJobsResponse",
-      "contentPath": null,
+      "canonicalToken": "CB8KdOcuqopYf6x9PqYcJhXbntc",
+      "title": "StructSchema",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -152,7 +152,7 @@
     {
       "canonicalToken": "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
       "title": "ConsistencyLevel",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -161,7 +161,7 @@
     {
       "canonicalToken": "CCWrdPlSao0pOTx9oIgcA64Nnjd",
       "title": "ResultSet",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -188,7 +188,7 @@
     {
       "canonicalToken": "CnuHdninQoBoJXxWe2pczq7snGd",
       "title": "RunAnalyzer()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -206,7 +206,7 @@
     {
       "canonicalToken": "DPcJdZceFoes0sxeRVKcKhaunq9",
       "title": "Field",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Field.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -215,7 +215,7 @@
     {
       "canonicalToken": "DfoBdvU6SoC16Yx8zuEcwgw0nHh",
       "title": "GetTelemetry()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -224,7 +224,7 @@
     {
       "canonicalToken": "DrQidTj6koNKBkxHi4NcAxBfnDd",
       "title": "RestoreSnapshot()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -242,7 +242,7 @@
     {
       "canonicalToken": "Du2ZdjCWIorDg4xdwercNnYgnJb",
       "title": "Schema",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -251,7 +251,7 @@
     {
       "canonicalToken": "DumcdeKcuoSJybxv0V5ckFrFnyg",
       "title": "AlterCollectionProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -269,7 +269,7 @@
     {
       "canonicalToken": "EAs8dmRIuoMvW5xXLHdcDw2Gn0d",
       "title": "DescribeRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -278,7 +278,7 @@
     {
       "canonicalToken": "EFC0drdqGoG559x5Zqzcpj7innc",
       "title": "DescribeAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -296,7 +296,7 @@
     {
       "canonicalToken": "EbOodxkWBoRvwAxzJOkcsM6lnic",
       "title": "DescribeUser()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -314,7 +314,7 @@
     {
       "canonicalToken": "EqKvdT96PoSVzzxyEF7civIgnDh",
       "title": "InsertResult",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -323,7 +323,16 @@
     {
       "canonicalToken": "FCnndgcaworiHGxozvocjrZonIj",
       "title": "User",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-User.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FEsedrkZpoiR3YxNgL4csDP4nEe",
+      "title": "ColumnFloatVectorArray",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -341,7 +350,7 @@
     {
       "canonicalToken": "FLBRdxZqWojjpXxuwJZc5APKncC",
       "title": "Get()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Get.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -350,7 +359,7 @@
     {
       "canonicalToken": "FfZ6dqEk2o9Cn3xFAgTckLhsnS6",
       "title": "DropDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -359,16 +368,7 @@
     {
       "canonicalToken": "G4dTdejt8otbQWxUqvucwKnBnYg",
       "title": "Function",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "G4vvf4YHtlwg02d1ZyXcsRCCnud",
-      "title": "Snapshot",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Function.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -395,7 +395,7 @@
     {
       "canonicalToken": "GKDQd15KkoiLPSxs8UYcFUamnIg",
       "title": "UpdatePassword()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -404,7 +404,7 @@
     {
       "canonicalToken": "GLdddi5uboT02bxj6cdc1FG2nvd",
       "title": "QueryIterator()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -413,7 +413,7 @@
     {
       "canonicalToken": "GNQcdBgh2oMyS9xxJk0cvESGnfe",
       "title": "AlterAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -422,7 +422,7 @@
     {
       "canonicalToken": "GbIAdIuWsoumzoxHWpOcVjVbnle",
       "title": "UseDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -431,7 +431,7 @@
     {
       "canonicalToken": "Gh4ydrMIBopZekxncUFcrJctnBl",
       "title": "DeleteResult",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -458,7 +458,7 @@
     {
       "canonicalToken": "GwIxdz90jojeBNx965VcTJHnnFd",
       "title": "Alias",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Alias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -467,7 +467,7 @@
     {
       "canonicalToken": "GyCrdXyvzobrrAxzFRbcRTlSnUb",
       "title": "RBACMeta",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -476,7 +476,7 @@
     {
       "canonicalToken": "H34hdV2rxodn9Pxy2Jyc8sBun9t",
       "title": "ListPrivilegeGroups()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -503,7 +503,7 @@
     {
       "canonicalToken": "HbsGdw2PboyE0Yxcp8IcaG4Qnmg",
       "title": "CreateAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -521,7 +521,7 @@
     {
       "canonicalToken": "HmEkdVsmRoc2TbxEjtkcKChfnEf",
       "title": "PinSnapshotData()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -557,7 +557,16 @@
     {
       "canonicalToken": "IPv6dB9pdoGXeRxdoL4c70pWnmg",
       "title": "PrivilegeGroup",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-PrivilegeGroup.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ip2HdObkAodufpxSIoTcJ6rbnWf",
+      "title": "ColumnFloat16VectorArray",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -566,7 +575,7 @@
     {
       "canonicalToken": "Iz1ZdJDWVo0uoUxQjlPcIbS2nMo",
       "title": "BackupRBAC()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -602,7 +611,16 @@
     {
       "canonicalToken": "JfRidhpQRo2tZFxrL87cNODunWc",
       "title": "HasCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Jm5IdnexOoFaMpx0HqDcbXeDnGe",
+      "title": "CreateCollection()",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -611,7 +629,7 @@
     {
       "canonicalToken": "K6obdWvXyoNLbMxNkggc9JyMnPd",
       "title": "SearchIterator()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchIterator.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -638,7 +656,7 @@
     {
       "canonicalToken": "KTeqdqUI2o3YO1xg3EXcJqGcnbe",
       "title": "ListRefreshExternalCollectionJobs()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -647,7 +665,7 @@
     {
       "canonicalToken": "KUFtdKbFpoTdtkxw4y3cYWhHnUe",
       "title": "ListImportJobsOption",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -656,7 +674,7 @@
     {
       "canonicalToken": "KXgNdgTrWoglBsxXTjvcIwnpnqh",
       "title": "Database",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -665,7 +683,7 @@
     {
       "canonicalToken": "KlfGdGLbxo7zfNxin91cgFxWnQO",
       "title": "UpsertResult",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -674,7 +692,7 @@
     {
       "canonicalToken": "KrkGdWfDqoZjS1xmQM5cA3xGnbE",
       "title": "BulkImport()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -692,7 +710,7 @@
     {
       "canonicalToken": "L4CvdyBIVoFsMNx546qcBqrOnJd",
       "title": "GetCollectionStats()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -701,7 +719,7 @@
     {
       "canonicalToken": "LBTLd1W4UoAbUHxvv6xce1gHnqf",
       "title": "DropCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -728,7 +746,7 @@
     {
       "canonicalToken": "Le2bdLZXCoKVXXxF2kgcuDt2neh",
       "title": "DropDatabaseProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -737,7 +755,7 @@
     {
       "canonicalToken": "Liv8dqreJo6t26xf3UWcC8ePnpe",
       "title": "CreateUser()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -746,15 +764,6 @@
     {
       "canonicalToken": "LmAGdSkEloit68xPo6HctbWonIh",
       "title": "TransferReplica()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "MINQfdgeRlnbDzd1ofucUJDsnuW",
-      "title": "Authentication",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -773,7 +782,7 @@
     {
       "canonicalToken": "MIyedieIBo43Yrxee0lcY3cUn8b",
       "title": "AlterCollectionFieldProperty()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -791,7 +800,7 @@
     {
       "canonicalToken": "MUdZdTFeDoEtcwxBCOycaHyanr7",
       "title": "Role",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-Role.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -800,7 +809,7 @@
     {
       "canonicalToken": "Mw42dp2VZoN4gFxdiSYcxDB8n0g",
       "title": "RefreshExternalCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -809,7 +818,7 @@
     {
       "canonicalToken": "NM44dNuQtoKR9UxlEbqcZrVUnpb",
       "title": "DescribeSnapshot()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -818,7 +827,7 @@
     {
       "canonicalToken": "NMsddLaMUoGUxexlFIScnY0Knpg",
       "title": "CreateRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -827,7 +836,16 @@
     {
       "canonicalToken": "NNQmdw1DloRDi6xeO0acaMfdnib",
       "title": "ClientConfig",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NQsbdUsP8oIAbOxSnEEcKUBMnkg",
+      "title": "Insert()",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -836,7 +854,16 @@
     {
       "canonicalToken": "NgKmd79aSob0ruxRuUEcZba7nge",
       "title": "UnpinSnapshotData()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NmAwdxspJop8U0xi2DPcNYpmnBe",
+      "title": "AddCollectionField()",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -845,7 +872,7 @@
     {
       "canonicalToken": "NvlZd3VOpoMrsoxmavQckdAOnQg",
       "title": "New()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -854,15 +881,6 @@
     {
       "canonicalToken": "O0VydimCboyOrexgy1pc6qXznLe",
       "title": "NewHNSWIndex()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "O1oidP1nEoZmlrxzGRRc30mjn5d",
-      "title": "Upsert()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -888,6 +906,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "OG2HdyPMzoO7y7xob6HcX1V0n7b",
+      "title": "ColumnBFloat16VectorArray",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "OKVNdwi4KoVpGMxosZFcEfXEnxd",
       "title": "NewBinFlatIndex()",
       "contentPath": null,
@@ -899,7 +926,7 @@
     {
       "canonicalToken": "OPfXdP02ZoeDIUxhBUOcU3vBngb",
       "title": "GrantRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -908,7 +935,7 @@
     {
       "canonicalToken": "OTM3db7aroAXAYxrTy4cyVbwnGG",
       "title": "GetRefreshExternalCollectionProgress()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -917,7 +944,7 @@
     {
       "canonicalToken": "Or8Gd2JEIo1swQxD3QTccFoBn9b",
       "title": "RefreshExternalCollectionState",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -926,16 +953,16 @@
     {
       "canonicalToken": "P84bd17ncosvh4xuahpcFGzoneb",
       "title": "Query()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Query.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "P8hMfnsOjlir3rdvsKDcEQG8nCc",
-      "title": "Client",
-      "contentPath": null,
+      "canonicalToken": "PB5kdtzs8ok748xwRWacJbEUnze",
+      "title": "Upsert()",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -944,7 +971,7 @@
     {
       "canonicalToken": "PKWMdOpDkoIXhFxDsgrc8oQVnIf",
       "title": "RevokeRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -953,7 +980,7 @@
     {
       "canonicalToken": "PLPKdFJ0aoNUyTxMj7Mc3tPVn5d",
       "title": "DropAlias()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropAlias.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -962,16 +989,7 @@
     {
       "canonicalToken": "PNwFdxMMdo6rtIxERDHcVFgdnxc",
       "title": "Collection",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "PP2kdYCHnoZQ96xJqWUcAW8enG9",
-      "title": "CreateCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1007,7 +1025,7 @@
     {
       "canonicalToken": "QFxmdtUNVoy071xXO8Acvkdpnse",
       "title": "CreateSnapshot()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1016,7 +1034,7 @@
     {
       "canonicalToken": "QKItdAf6HoDzMVxzWEbcDVL9n5r",
       "title": "DropRole()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1025,7 +1043,7 @@
     {
       "canonicalToken": "QM8QdP63jofHxkxwxSEcXVXZnKX",
       "title": "DropUser()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1034,7 +1052,7 @@
     {
       "canonicalToken": "QSmmdf6jgoi8rFxzDnzcqr3cnMe",
       "title": "ListRoles()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1052,7 +1070,7 @@
     {
       "canonicalToken": "QrOmdt65AooKEkxVmNuc7qunnmf",
       "title": "ListRestoreSnapshotJobs()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1068,27 +1086,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "QupedlVukov8hsxbSyOcrcI9nAb",
-      "title": "AddCollectionField()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "RgOxfigOelTngLd8EV5cUCyVnUe",
-      "title": "Vector",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "S3Vndkuxco3965xyea6cN406nWc",
       "title": "ListUsers()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1106,7 +1106,7 @@
     {
       "canonicalToken": "SCP5dY88horVwExBCD2cuSChnZM",
       "title": "DescribeCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DescribeCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1133,7 +1133,7 @@
     {
       "canonicalToken": "SV1KdmQUCoLh3nxArLzc9v6In1e",
       "title": "ListDatabase()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1149,9 +1149,18 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Snk1duMEtoe1VexGeJYcXW7VnXe",
+      "title": "ColumnInt8VectorArray",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "StUJd0OCho7PKcxWOU7cPNzhn0d",
       "title": "RevokePrivilegeV2()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1169,16 +1178,7 @@
     {
       "canonicalToken": "SxMgdp3ThoMYHaxkKtKc9EWvnZd",
       "title": "GetRestoreSnapshotState()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "T6S4dcpZ7oeKD6xeTofc2mn9nrb",
-      "title": "Insert()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1196,7 +1196,7 @@
     {
       "canonicalToken": "TUYsd2ko4oAlB4xa9nxc6rhRnpc",
       "title": "GetServerVersion()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1232,7 +1232,7 @@
     {
       "canonicalToken": "TxGQdsN2noPbRixebWycWSe0nYt",
       "title": "AlterDatabaseProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1241,7 +1241,7 @@
     {
       "canonicalToken": "TxIQdcx34oB2CUxHIRMcRGPNnic",
       "title": "RefreshExternalCollectionJobInfo",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1268,7 +1268,7 @@
     {
       "canonicalToken": "UN5Yd5ojPoTYrJxAtYzcgFs9nYe",
       "title": "Close()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-Close.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1286,7 +1286,16 @@
     {
       "canonicalToken": "V05sd0bGjo33Cux0j9DcrNKTndh",
       "title": "GetImportProgress()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "V6aWdRUh3o1alDxmCo5c29hRnic",
+      "title": "FieldType",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1295,7 +1304,7 @@
     {
       "canonicalToken": "V7bwdcBPGosCFWxjYQfctDDInmb",
       "title": "TruncateCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1304,7 +1313,7 @@
     {
       "canonicalToken": "VFR6dvKoyo0Pl5x6a44cbIJ8n3f",
       "title": "NewAutoAnnParam()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-AnnParam-NewAutoAnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1314,6 +1323,15 @@
       "canonicalToken": "VJKcdlljXofguixcGe5c2CwwnEf",
       "title": "Compact()",
       "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VKeBdnkoXoI29txzTuncqsaDnte",
+      "title": "ColumnBinaryVectorArray",
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1349,7 +1367,7 @@
     {
       "canonicalToken": "VneHdph9ZoSf9wxQdKBc0046nBT",
       "title": "HybridSearch()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1403,7 +1421,7 @@
     {
       "canonicalToken": "Whyodunisox4GwxOciucHVT7nNh",
       "title": "GetImportProgressOption",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1421,7 +1439,7 @@
     {
       "canonicalToken": "XJN5dD1ifo5A9xxEfFKcf7Fxn1g",
       "title": "RenameCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1439,7 +1457,7 @@
     {
       "canonicalToken": "XV3adWSVho0zgfx6CZDc30GAnMc",
       "title": "AnnParam",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1475,16 +1493,7 @@
     {
       "canonicalToken": "Xq1Dd1B8goDbeRxHfMKc84VOnxg",
       "title": "ListAliases()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "Xq9Ydn3OJoYrHmxMVOLcMn9onHc",
-      "title": "FieldType",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1520,7 +1529,7 @@
     {
       "canonicalToken": "YKm9dpXcVoy277xHVT2cIymfnRj",
       "title": "Search()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1538,7 +1547,7 @@
     {
       "canonicalToken": "YP0vdMHw9oDlrcxjvg0cihgSnJb",
       "title": "DropSnapshot()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1547,7 +1556,7 @@
     {
       "canonicalToken": "YYvkdK6o5ovGGsxVyEtcEGXnn6b",
       "title": "RestoreRBAC()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1556,7 +1565,7 @@
     {
       "canonicalToken": "YmqKdQyDDo2Yyjx5rkMcQBGvnEg",
       "title": "ListImportJobs()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1574,7 +1583,7 @@
     {
       "canonicalToken": "ZG2ndWgIwogyOAxAzH5ciWY3nlb",
       "title": "BulkImportOption",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1583,7 +1592,7 @@
     {
       "canonicalToken": "ZIm2dVn5noFLpAxRkjbc6jiSnee",
       "title": "Delete()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Delete.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1601,7 +1610,7 @@
     {
       "canonicalToken": "ZO8adFZzAotVzfxEko2cKjHvnfb",
       "title": "GrantPrivilegeV2()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1610,7 +1619,7 @@
     {
       "canonicalToken": "ZasGdw9Szo9TQbxzHlYcLh1Rnyf",
       "title": "GetImportProgressResponse",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1619,7 +1628,7 @@
     {
       "canonicalToken": "Zyf1dXoBIo83V2xWHiKcXUEAnMc",
       "title": "DropCollectionProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollectionProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

@@ -10,7 +10,7 @@ notebook: false
 description: "This type represents the state of a refresh external collection job. | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
-sidebar_position: 29
+sidebar_position: 30
 keywords: 
   - vector search algorithms
   - Question answering system
@@ -39,12 +39,12 @@ type RefreshExternalCollectionState milvuspb.RefreshExternalCollectionState
 
 **CONSTANTS:**
 
-- **RefreshStatePending** -
-The job is pending and has not started yet.
+- **RefreshStatePending** -<br/>
+  The job is pending and has not started yet.
 
-- **RefreshStateInProgress** -
-The job is currently in progress.
+- **RefreshStateInProgress** -<br/>
+  The job is currently in progress.
 
-- **RefreshStateCompleted** -
-The job has completed successfully.
+- **RefreshStateCompleted** -<br/>
+  The job has completed successfully.
 

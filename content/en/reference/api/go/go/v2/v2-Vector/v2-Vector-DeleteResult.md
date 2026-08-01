@@ -10,7 +10,7 @@ notebook: false
 description: "Contains the result of a Delete operation including the count of deleted entities. | Go | v2"
 type: docx
 token: Gh4ydrMIBopZekxncUFcrJctnBl
-sidebar_position: 3
+sidebar_position: 8
 keywords: 
   - Pinecone vector database
   - Audio search

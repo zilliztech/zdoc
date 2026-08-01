@@ -10,7 +10,7 @@ notebook: false
 description: "This type contains information about a refresh external collection job. | Go | v2"
 type: docx
 token: TxIQdcx34oB2CUxHIRMcRGPNnic
-sidebar_position: 28
+sidebar_position: 29
 keywords: 
   - vector db comparison
   - openai vector db
@@ -48,27 +48,27 @@ type RefreshExternalCollectionJobInfo struct {
 
 **FIELDS:**
 
-- **JobID** (*int64*) -
-The unique identifier of the refresh job.
+- **JobID** (*int64*) -<br/>
+  The unique identifier of the refresh job.
 
-- **CollectionName** (*string*) -
-The name of the collection being refreshed.
+- **CollectionName** (*string*) -<br/>
+  The name of the collection being refreshed.
 
-- **State** (*[RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)*) -
-The current state of the refresh job.
+- **State** (*[RefreshExternalCollectionState](./v2-Collection-RefreshExternalCollectionState)*) -<br/>
+  The current state of the refresh job.
 
-- **Progress** (*int64*) -
-The progress percentage of the refresh job.
+- **Progress** (*int64*) -<br/>
+  The progress percentage of the refresh job.
 
-- **Reason** (*string*) -
-Additional information or reason for the current state.
+- **Reason** (*string*) -<br/>
+  Additional information or reason for the current state.
 
-- **ExternalSource** (*string*) -
-The external data source identifier.
+- **ExternalSource** (*string*) -<br/>
+  The external data source identifier.
 
-- **StartTime** (*int64*) -
-The Unix timestamp when the job started.
+- **StartTime** (*int64*) -<br/>
+  The Unix timestamp when the job started.
 
-- **EndTime** (*int64*) -
-The Unix timestamp when the job completed.
+- **EndTime** (*int64*) -<br/>
+  The Unix timestamp when the job completed.
 

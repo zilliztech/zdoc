@@ -54,29 +54,29 @@ type ImportJobRecord struct {
 
 **FIELDS:**
 
-- **Status** (*int*) -
-Inherited from `ResponseBase`. A value of `0` indicates success.
+- **Status** (*int*) -<br/>
+  Inherited from `ResponseBase`. A value of `0` indicates success.
 
-- **Message** (*string*) -
-Inherited from `ResponseBase`. Error description when `Status` is non-zero.
+- **Message** (*string*) -<br/>
+  Inherited from `ResponseBase`. Error description when `Status` is non-zero.
 
-- **Data.Records** (*[]\*ImportJobRecord*) -
-The slice of job records returned for the current page. May be empty when no jobs match the filter.
+- **Data.Records** (*[]\*ImportJobRecord*) -<br/>
+  The slice of job records returned for the current page. May be empty when no jobs match the filter.
 
 **ImportJobRecord fields:**
 
-- **JobID** (*string*) -
-The unique identifier of the import job.
+- **JobID** (*string*) -<br/>
+  The unique identifier of the import job.
 
-- **CollectionName** (*string*) -
-The collection the job targets.
+- **CollectionName** (*string*) -<br/>
+  The collection the job targets.
 
-- **State** (*string*) -
-The current job state. Common values include `Pending`, `Importing`, `Completed`, and `Failed`.
+- **State** (*string*) -<br/>
+  The current job state. Common values include `Pending`, `Importing`, `Completed`, and `Failed`.
 
-- **Progress** (*int64*) -
-The completion percentage in the range `[0, 100]`.
+- **Progress** (*int64*) -<br/>
+  The completion percentage in the range `[0, 100]`.
 
-- **Reason** (*string*) -
-Failure reason when `State == "Failed"`; empty otherwise.
+- **Reason** (*string*) -<br/>
+  Failure reason when `State == "Failed"`; empty otherwise.
 

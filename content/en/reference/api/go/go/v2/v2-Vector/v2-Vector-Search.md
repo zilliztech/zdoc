@@ -10,7 +10,7 @@ notebook: false
 description: "This operation performs an approximate nearest neighbor (ANN) search on a specified collection. You can use `NewSearchOption` for vector-based search or `NewSearchByIDsOption` to search by primary key IDs. | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
-sidebar_position: 12
+sidebar_position: 17
 keywords: 
   - Vector index
   - vector database open source
@@ -80,53 +80,53 @@ resultSets, err := cli.Search(ctx, option)
 
 **BUILDER METHODS:**
 
-- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`
-This creates a search option for vector-based ANN search.
+- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`<br/>
+  This creates a search option for vector-based ANN search.
 
-- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`
-This creates a search option to find entities by their primary key IDs.
+- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`<br/>
+  This creates a search option to find entities by their primary key IDs.
 
-- `WithPartitions(partitionNames ...string)`
-This restricts the search to the specified partition names.
+- `WithPartitions(partitionNames ...string)`<br/>
+  This restricts the search to the specified partition names.
 
-- `WithFilter(expr string)`
-This applies a boolean expression filter to the search results.
+- `WithFilter(expr string)`<br/>
+  This applies a boolean expression filter to the search results.
 
-- `WithTemplateParam(key string, val any)`
-This sets a template parameter for expression evaluation.
+- `WithTemplateParam(key string, val any)`<br/>
+  This sets a template parameter for expression evaluation.
 
-- `WithOffset(offset int)`
-This sets the number of results to skip before returning matches.
+- `WithOffset(offset int)`<br/>
+  This sets the number of results to skip before returning matches.
 
-- `WithOutputFields(fieldNames ...string)`
-This specifies which fields to return in the result sets.
+- `WithOutputFields(fieldNames ...string)`<br/>
+  This specifies which fields to return in the result sets.
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
-This sets the consistency level for the search.
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
+  This sets the consistency level for the search.
 
-- `WithANNSField(annsField string)`
-This specifies the vector field to search on when a collection has multiple vector fields.
+- `WithANNSField(annsField string)`<br/>
+  This specifies the vector field to search on when a collection has multiple vector fields.
 
-- `WithGroupByField(groupByField string)`
-This groups search results by the specified field.
+- `WithGroupByField(groupByField string)`<br/>
+  This groups search results by the specified field.
 
-- `WithGroupSize(groupSize int)`
-This sets the number of results to return per group when grouping is enabled.
+- `WithGroupSize(groupSize int)`<br/>
+  This sets the number of results to return per group when grouping is enabled.
 
-- `WithStrictGroupSize(strictGroupSize bool)`
-This enforces strict group size limits.
+- `WithStrictGroupSize(strictGroupSize bool)`<br/>
+  This enforces strict group size limits.
 
-- `WithIgnoreGrowing(ignoreGrowing bool)`
-This ignores growing segments during the search.
+- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
+  This ignores growing segments during the search.
 
-- `WithAnnParam(ap index.AnnParam)`
-This sets the approximate nearest neighbor search parameters (e.g., nprobe, ef).
+- `WithAnnParam(ap index.AnnParam)`<br/>
+  This sets the approximate nearest neighbor search parameters (e.g., nprobe, ef).
 
-- `WithSearchParam(key, value string)`
-This sets a custom search parameter key-value pair.
+- `WithSearchParam(key, value string)`<br/>
+  This sets a custom search parameter key-value pair.
 
-- `WithFunctionReranker(fr *entity.Function)`
-This applies a function-based reranker to the search results.
+- `WithFunctionReranker(fr *entity.Function)`<br/>
+  This applies a function-based reranker to the search results.
 
 **RETURN TYPE:**
 

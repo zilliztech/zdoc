@@ -10,7 +10,7 @@ notebook: false
 description: "Interface for vector data. Implementations include FloatVector, BinaryVector, Float16Vector, BFloat16Vector, Int8Vector, and Text. | Go | v2"
 type: docx
 token: CE0odAFVdoh2ehxNFRecD8WEn3f
-sidebar_position: 16
+sidebar_position: 21
 keywords: 
   - Video search
   - AI Hallucination

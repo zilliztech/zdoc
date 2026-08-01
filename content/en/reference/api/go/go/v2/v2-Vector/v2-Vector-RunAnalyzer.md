@@ -10,7 +10,7 @@ notebook: false
 description: "This operation runs a text analyzer on input text and returns the tokenized output. | Go | v2"
 type: docx
 token: CnuHdninQoBoJXxWe2pczq7snGd
-sidebar_position: 11
+sidebar_position: 16
 keywords: 
   - milvus vector db
   - Zilliz Cloud

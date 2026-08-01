@@ -65,44 +65,44 @@ type ImportProgressDetail struct {
 
 **FIELDS:**
 
-- **Status** (*int*) -
-Inherited from `ResponseBase`. A value of `0` indicates success.
+- **Status** (*int*) -<br/>
+  Inherited from `ResponseBase`. A value of `0` indicates success.
 
-- **Message** (*string*) -
-Inherited from `ResponseBase`. Error description when `Status` is non-zero.
+- **Message** (*string*) -<br/>
+  Inherited from `ResponseBase`. Error description when `Status` is non-zero.
 
-- **Data** (*\*ImportProgressData*) -
-The progress payload for the requested job.
+- **Data** (*\*ImportProgressData*) -<br/>
+  The progress payload for the requested job.
 
 **ImportProgressData fields:**
 
-- **CollectionName** (*string*) -
-The collection the job targets.
+- **CollectionName** (*string*) -<br/>
+  The collection the job targets.
 
-- **JobID** (*string*) -
-The unique identifier of the import job.
+- **JobID** (*string*) -<br/>
+  The unique identifier of the import job.
 
-- **State** (*string*) -
-The current job state. Common values include `Pending`, `Importing`, `Completed`, and `Failed`.
+- **State** (*string*) -<br/>
+  The current job state. Common values include `Pending`, `Importing`, `Completed`, and `Failed`.
 
-- **Progress** (*int64*) -
-The overall completion percentage in the range `[0, 100]`.
+- **Progress** (*int64*) -<br/>
+  The overall completion percentage in the range `[0, 100]`.
 
-- **ImportedRows** (*int64*) -
-The number of rows already imported into the collection.
+- **ImportedRows** (*int64*) -<br/>
+  The number of rows already imported into the collection.
 
-- **TotalRows** (*int64*) -
-The total number of rows expected from all source files.
+- **TotalRows** (*int64*) -<br/>
+  The total number of rows expected from all source files.
 
-- **FileSize** (*int64*) -
-The aggregate size in bytes of all source files.
+- **FileSize** (*int64*) -<br/>
+  The aggregate size in bytes of all source files.
 
-- **CompleteTime** (*string*) -
-The job completion timestamp; empty until the job reaches a terminal state.
+- **CompleteTime** (*string*) -<br/>
+  The job completion timestamp; empty until the job reaches a terminal state.
 
-- **Reason** (*string*) -
-Failure reason when `State == "Failed"`; empty otherwise.
+- **Reason** (*string*) -<br/>
+  Failure reason when `State == "Failed"`; empty otherwise.
 
-- **Details** (*[]\ImportProgressDetail*) -
-Per-file progress entries with the same shape as the parent fields, scoped to one source file each.
+- **Details** (*[]\ImportProgressDetail*) -<br/>
+  Per-file progress entries with the same shape as the parent fields, scoped to one source file each.
 

@@ -55,14 +55,14 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 **BUILDER METHODS:**
 
-- `NewPinSnapshotDataOption(name string, collectionName string)`
-This creates an option to pin snapshot data for the specified collection.
+- `NewPinSnapshotDataOption(name string, collectionName string)`<br/>
+  This creates an option to pin snapshot data for the specified collection.
 
-- `WithDbName(dbName string)`
-This sets the database name for the collection.
+- `WithDbName(dbName string)`<br/>
+  This sets the database name for the collection.
 
-- `WithTTL(ttlSeconds int64)`
-This sets the time-to-live for the pin in seconds.
+- `WithTTL(ttlSeconds int64)`<br/>
+  This sets the time-to-live for the pin in seconds.
 
 **RETURN TYPE:**
 

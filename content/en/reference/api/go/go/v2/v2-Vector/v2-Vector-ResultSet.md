@@ -10,7 +10,7 @@ notebook: false
 description: "Contains search or query results including matched entity IDs, scores, and field values. | Go | v2"
 type: docx
 token: CCWrdPlSao0pOTx9oIgcA64Nnjd
-sidebar_position: 10
+sidebar_position: 15
 keywords: 
   - hybrid vector search
   - Video deduplication
