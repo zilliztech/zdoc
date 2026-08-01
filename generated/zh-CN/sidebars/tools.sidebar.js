@@ -33,7 +33,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup",
-                "label": "设置",
+                "label": "安装与配置",
                 "key": "doc:tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup"
               },
               {

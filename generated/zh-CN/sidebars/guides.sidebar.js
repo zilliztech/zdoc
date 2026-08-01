@@ -1,160 +1,345 @@
-'use strict';
-
 module.exports = [
   {
     "type": "category",
     "label": "从这里开始",
-    "key": "category:tutorials/item",
+    "key": "category:tutorials/get-started",
     "items": [
       {
         "type": "doc",
-        "id": "tutorials/register-with-zilliz-cloud",
+        "id": "tutorials/get-started/register-with-zilliz-cloud",
         "label": "注册账号",
-        "key": "doc:tutorials/register-with-zilliz-cloud"
+        "key": "doc:tutorials/get-started/register-with-zilliz-cloud"
       },
       {
         "type": "doc",
-        "id": "tutorials/free-trials",
+        "id": "tutorials/get-started/free-trials",
         "label": "免费试用 Zilliz Cloud",
-        "key": "doc:tutorials/free-trials"
+        "key": "doc:tutorials/get-started/free-trials"
       },
       {
         "type": "category",
         "label": "快速开始",
-        "key": "category:tutorials/item",
+        "key": "category:tutorials/get-started/quickstarts",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/cli-and-agent-integration-guide",
+            "id": "tutorials/get-started/quickstarts/cli-and-agent-integration-guide",
             "label": "快速开始：安装 CLI 与 Agent 集成",
-            "key": "doc:tutorials/cli-and-agent-integration-guide"
+            "key": "doc:tutorials/get-started/quickstarts/cli-and-agent-integration-guide"
           },
           {
             "type": "doc",
-            "id": "tutorials/quick-start",
+            "id": "tutorials/get-started/quickstarts/quick-start",
             "label": "快速开始：使用 Serving 集群",
-            "key": "doc:tutorials/quick-start"
+            "key": "doc:tutorials/get-started/quickstarts/quick-start"
           },
           {
             "type": "doc",
-            "id": "tutorials/quick-start-to-on-demand-search",
+            "id": "tutorials/get-started/quickstarts/quick-start-to-on-demand-search",
             "label": "快速开始：按需搜索",
-            "key": "doc:tutorials/quick-start-to-on-demand-search"
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-on-demand-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/quick-start-to-external-data-lake-search",
+            "id": "tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search",
             "label": "快速开始：External Data Lake Search",
-            "key": "doc:tutorials/quick-start-to-external-data-lake-search"
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search"
           }
         ]
       },
       {
         "type": "doc",
-        "id": "tutorials/select-zilliz-cloud-service-plans",
+        "id": "tutorials/get-started/select-zilliz-cloud-service-plans",
         "label": "Zilliz Cloud 版本对比",
-        "key": "doc:tutorials/select-zilliz-cloud-service-plans"
+        "key": "doc:tutorials/get-started/select-zilliz-cloud-service-plans"
       },
       {
         "type": "doc",
-        "id": "tutorials/cu-types-explained",
+        "id": "tutorials/get-started/cu-types-explained",
         "label": "选择合适的集群类型",
-        "key": "doc:tutorials/cu-types-explained"
+        "key": "doc:tutorials/get-started/cu-types-explained"
       },
       {
         "type": "doc",
-        "id": "tutorials/cloud-providers-and-regions",
+        "id": "tutorials/get-started/cloud-providers-and-regions",
         "label": "云服务提供商和地域",
-        "key": "doc:tutorials/cloud-providers-and-regions"
+        "key": "doc:tutorials/get-started/cloud-providers-and-regions"
       },
       {
         "type": "category",
         "label": "常见问题",
-        "key": "category:tutorials/faqs",
+        "key": "category:tutorials/get-started/faqs",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-get-started",
+            "id": "tutorials/get-started/faqs/faq-get-started",
             "label": "FAQ：快速入门",
-            "key": "doc:tutorials/faqs/faq-get-started"
+            "key": "doc:tutorials/get-started/faqs/faq-get-started"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-cluster",
+            "id": "tutorials/get-started/faqs/faq-cluster",
             "label": "FAQ：集群",
-            "key": "doc:tutorials/faqs/faq-cluster"
+            "key": "doc:tutorials/get-started/faqs/faq-cluster"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-collection",
+            "id": "tutorials/get-started/faqs/faq-collection",
             "label": "FAQ：Collection",
-            "key": "doc:tutorials/faqs/faq-collection"
+            "key": "doc:tutorials/get-started/faqs/faq-collection"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-data-import",
+            "id": "tutorials/get-started/faqs/faq-data-import",
             "label": "FAQ：数据导入",
-            "key": "doc:tutorials/faqs/faq-data-import"
+            "key": "doc:tutorials/get-started/faqs/faq-data-import"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-migration",
+            "id": "tutorials/get-started/faqs/faq-migration",
             "label": "FAQ：数据迁移",
-            "key": "doc:tutorials/faqs/faq-migration"
+            "key": "doc:tutorials/get-started/faqs/faq-migration"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-resource-planning",
+            "id": "tutorials/get-started/faqs/faq-resource-planning",
             "label": "FAQ：资源规划",
-            "key": "doc:tutorials/faqs/faq-resource-planning"
+            "key": "doc:tutorials/get-started/faqs/faq-resource-planning"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-backup-and-restore",
+            "id": "tutorials/get-started/faqs/faq-backup-and-restore",
             "label": "FAQ：备份与恢复",
-            "key": "doc:tutorials/faqs/faq-backup-and-restore"
+            "key": "doc:tutorials/get-started/faqs/faq-backup-and-restore"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-users-and-roles",
+            "id": "tutorials/get-started/faqs/faq-users-and-roles",
             "label": "FAQ：用户和角色",
-            "key": "doc:tutorials/faqs/faq-users-and-roles"
+            "key": "doc:tutorials/get-started/faqs/faq-users-and-roles"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-monitors-and-metrics",
+            "id": "tutorials/get-started/faqs/faq-monitors-and-metrics",
             "label": "FAQ：监控与指标",
-            "key": "doc:tutorials/faqs/faq-monitors-and-metrics"
+            "key": "doc:tutorials/get-started/faqs/faq-monitors-and-metrics"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-account",
+            "id": "tutorials/get-started/faqs/faq-account",
             "label": "FAQ：账户",
-            "key": "doc:tutorials/faqs/faq-account"
+            "key": "doc:tutorials/get-started/faqs/faq-account"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-authentication",
+            "id": "tutorials/get-started/faqs/faq-authentication",
             "label": "FAQ：鉴权",
-            "key": "doc:tutorials/faqs/faq-authentication"
+            "key": "doc:tutorials/get-started/faqs/faq-authentication"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-payment-and-billing",
+            "id": "tutorials/get-started/faqs/faq-payment-and-billing",
             "label": "FAQ：支付方式与账单",
-            "key": "doc:tutorials/faqs/faq-payment-and-billing"
+            "key": "doc:tutorials/get-started/faqs/faq-payment-and-billing"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-integrations",
+            "id": "tutorials/get-started/faqs/faq-integrations",
             "label": "FAQ：AI 模型集成",
-            "key": "doc:tutorials/faqs/faq-integrations"
+            "key": "doc:tutorials/get-started/faqs/faq-integrations"
           },
           {
             "type": "doc",
-            "id": "tutorials/faqs/faq-security",
+            "id": "tutorials/get-started/faqs/faq-security",
             "label": "FAQ：安全",
-            "key": "doc:tutorials/faqs/faq-security"
+            "key": "doc:tutorials/get-started/faqs/faq-security"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "版本说明书",
+        "key": "category:tutorials/get-started/release-notes",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/changelogs",
+            "label": "变更日志",
+            "key": "doc:tutorials/get-started/release-notes/changelogs"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2607",
+            "label": "2026/07",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2607"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2606",
+            "label": "2026/06",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2606"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2605",
+            "label": "2026/05",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2605"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2604",
+            "label": "2026/04",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2604"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2602",
+            "label": "2026/02",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2602"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2601",
+            "label": "2026/01",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2601"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2512",
+            "label": "2025/12",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2512"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2511",
+            "label": "2025/11",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2511"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2510",
+            "label": "2025/10",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2510"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2508",
+            "label": "2025/08",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2508"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2180",
+            "label": "2025/07/15",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2180"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2170",
+            "label": "2025/06/09",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2170"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2150",
+            "label": "2025/04/24",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2150"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2140",
+            "label": "2025/03/27",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2140"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2130",
+            "label": "2025/02/07",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2130"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2120",
+            "label": "2025/01/09",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2120"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2110",
+            "label": "2024/11/20",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2110"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2100",
+            "label": "2024/09/12",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2100"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-291",
+            "label": "2024/07/30",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-291"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-290",
+            "label": "2024/07/05",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-290"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-280",
+            "label": "2024/05/30",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-280"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-270",
+            "label": "2024/04/18",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-270"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-260",
+            "label": "2025/02/27",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-260"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-240",
+            "label": "2023/12/20",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-240"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-230",
+            "label": "2023/11/23",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-230"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-221",
+            "label": "2023/10/17",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-221"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-220",
+            "label": "2023/09/19",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-220"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-210",
+            "label": "2023/08/21",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-210"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-200",
+            "label": "2023/06/14",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-200"
           }
         ]
       }
@@ -163,407 +348,407 @@ module.exports = [
   {
     "type": "category",
     "label": "开发指南",
-    "key": "category:tutorials/item",
+    "key": "category:tutorials/development",
     "items": [
       {
         "type": "doc",
-        "id": "tutorials/connect-to-serving-cluster",
+        "id": "tutorials/development/connect-to-serving-cluster",
         "label": "连接到 Serving 集群",
-        "key": "doc:tutorials/connect-to-serving-cluster"
+        "key": "doc:tutorials/development/connect-to-serving-cluster"
       },
       {
         "type": "doc",
-        "id": "tutorials/connect-for-on-demand-search",
+        "id": "tutorials/development/connect-for-on-demand-search",
         "label": "连接按需搜索",
-        "key": "doc:tutorials/connect-for-on-demand-search"
+        "key": "doc:tutorials/development/connect-for-on-demand-search"
       },
       {
         "type": "category",
         "label": "搜索与查询",
-        "key": "category:tutorials/search-and-query",
+        "key": "category:tutorials/development/search-and-query",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/single-vector-search",
+            "id": "tutorials/development/search-and-query/single-vector-search",
             "label": "基本 Vector Search",
-            "key": "doc:tutorials/search-and-query/single-vector-search"
+            "key": "doc:tutorials/development/search-and-query/single-vector-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/dql-sessions-external-collection",
+            "id": "tutorials/development/search-and-query/dql-sessions-external-collection",
             "label": "按需 DQL 操作",
-            "key": "doc:tutorials/search-and-query/dql-sessions-external-collection"
+            "key": "doc:tutorials/development/search-and-query/dql-sessions-external-collection"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/tune-recall-rate",
+            "id": "tutorials/development/search-and-query/tune-recall-rate",
             "label": "召回调优",
-            "key": "doc:tutorials/search-and-query/tune-recall-rate"
+            "key": "doc:tutorials/development/search-and-query/tune-recall-rate"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/filtered-search",
+            "id": "tutorials/development/search-and-query/filtered-search",
             "label": "Filtered Search",
-            "key": "doc:tutorials/search-and-query/filtered-search"
+            "key": "doc:tutorials/development/search-and-query/filtered-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/range-search",
+            "id": "tutorials/development/search-and-query/range-search",
             "label": "Range Search",
-            "key": "doc:tutorials/search-and-query/range-search"
+            "key": "doc:tutorials/development/search-and-query/range-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/grouping-search",
+            "id": "tutorials/development/search-and-query/grouping-search",
             "label": "Grouping Search",
-            "key": "doc:tutorials/search-and-query/grouping-search"
+            "key": "doc:tutorials/development/search-and-query/grouping-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/primary-key-search",
+            "id": "tutorials/development/search-and-query/primary-key-search",
             "label": "Primary Key Search",
-            "key": "doc:tutorials/search-and-query/primary-key-search"
+            "key": "doc:tutorials/development/search-and-query/primary-key-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/hybrid-search",
+            "id": "tutorials/development/search-and-query/hybrid-search",
             "label": "多向量混合搜索",
-            "key": "doc:tutorials/search-and-query/hybrid-search"
+            "key": "doc:tutorials/development/search-and-query/hybrid-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/get-and-scalar-query",
+            "id": "tutorials/development/search-and-query/get-and-scalar-query",
             "label": "Query",
-            "key": "doc:tutorials/search-and-query/get-and-scalar-query"
+            "key": "doc:tutorials/development/search-and-query/get-and-scalar-query"
           },
           {
             "type": "category",
             "label": "过滤表达式",
-            "key": "category:tutorials/search-and-query/filtering",
+            "key": "category:tutorials/development/search-and-query/filtering",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/filtering-overview",
+                "id": "tutorials/development/search-and-query/filtering/filtering-overview",
                 "label": "过滤表达式概览",
-                "key": "doc:tutorials/search-and-query/filtering/filtering-overview"
+                "key": "doc:tutorials/development/search-and-query/filtering/filtering-overview"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/basic-filtering-operators",
+                "id": "tutorials/development/search-and-query/filtering/basic-filtering-operators",
                 "label": "基本操作符",
-                "key": "doc:tutorials/search-and-query/filtering/basic-filtering-operators"
+                "key": "doc:tutorials/development/search-and-query/filtering/basic-filtering-operators"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/filtering-templating",
+                "id": "tutorials/development/search-and-query/filtering/filtering-templating",
                 "label": "过滤表达式模板",
-                "key": "doc:tutorials/search-and-query/filtering/filtering-templating"
+                "key": "doc:tutorials/development/search-and-query/filtering/filtering-templating"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/json-filtering-operators",
+                "id": "tutorials/development/search-and-query/filtering/json-filtering-operators",
                 "label": "JSON 操作符",
-                "key": "doc:tutorials/search-and-query/filtering/json-filtering-operators"
+                "key": "doc:tutorials/development/search-and-query/filtering/json-filtering-operators"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/array-filtering-operators",
+                "id": "tutorials/development/search-and-query/filtering/array-filtering-operators",
                 "label": "ARRAY 操作符",
-                "key": "doc:tutorials/search-and-query/filtering/array-filtering-operators"
+                "key": "doc:tutorials/development/search-and-query/filtering/array-filtering-operators"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/struct-array-filtering",
+                "id": "tutorials/development/search-and-query/filtering/struct-array-filtering",
                 "label": "StructArray 操作符",
-                "key": "doc:tutorials/search-and-query/filtering/struct-array-filtering"
+                "key": "doc:tutorials/development/search-and-query/filtering/struct-array-filtering"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/ramdom-sampling",
+                "id": "tutorials/development/search-and-query/filtering/ramdom-sampling",
                 "label": "随机采样",
-                "key": "doc:tutorials/search-and-query/filtering/ramdom-sampling"
+                "key": "doc:tutorials/development/search-and-query/filtering/ramdom-sampling"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/filtering/geometry-operators",
+                "id": "tutorials/development/search-and-query/filtering/geometry-operators",
                 "label": "Geometry 操作符",
-                "key": "doc:tutorials/search-and-query/filtering/geometry-operators"
+                "key": "doc:tutorials/development/search-and-query/filtering/geometry-operators"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/full-text-search",
+            "id": "tutorials/development/search-and-query/full-text-search",
             "label": "Full Text Search",
-            "key": "doc:tutorials/search-and-query/full-text-search"
+            "key": "doc:tutorials/development/search-and-query/full-text-search"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/text-match",
+            "id": "tutorials/development/search-and-query/text-match",
             "label": "Text Match",
-            "key": "doc:tutorials/search-and-query/text-match"
+            "key": "doc:tutorials/development/search-and-query/text-match"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/text-highlighter",
+            "id": "tutorials/development/search-and-query/text-highlighter",
             "label": "Lexical Highlighter",
-            "key": "doc:tutorials/search-and-query/text-highlighter"
+            "key": "doc:tutorials/development/search-and-query/text-highlighter"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/semantic-highlighter",
+            "id": "tutorials/development/search-and-query/semantic-highlighter",
             "label": "Semantic Highlighter",
-            "key": "doc:tutorials/search-and-query/semantic-highlighter"
+            "key": "doc:tutorials/development/search-and-query/semantic-highlighter"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/phrase-match",
+            "id": "tutorials/development/search-and-query/phrase-match",
             "label": "Phrase Match",
-            "key": "doc:tutorials/search-and-query/phrase-match"
+            "key": "doc:tutorials/development/search-and-query/phrase-match"
           },
           {
             "type": "category",
             "label": "使用 StructArray 搜索",
-            "key": "category:tutorials/search-and-query/search-with-structarray",
+            "key": "category:tutorials/development/search-and-query/struct-array-search",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/search-with-structarray/search-with-struct-array",
+                "id": "tutorials/development/search-and-query/struct-array-search/search-with-struct-array",
                 "label": "使用 StructArray 进行 Basic Vector Search",
-                "key": "doc:tutorials/search-and-query/search-with-structarray/search-with-struct-array"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/search-with-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/search-with-structarray/filtered-search-with-struct-arrays",
+                "id": "tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays",
                 "label": "使用 StructArray 进行 Filtered Search",
-                "key": "doc:tutorials/search-and-query/search-with-structarray/filtered-search-with-struct-arrays"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/filtered-search-with-struct-arrays"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/search-with-structarray/range-search-with-struct-arrays",
+                "id": "tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays",
                 "label": "使用 StructArray 进行 Range Search",
-                "key": "doc:tutorials/search-and-query/search-with-structarray/range-search-with-struct-arrays"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/range-search-with-struct-arrays"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/search-with-structarray/grouping-search-with-struct-array",
+                "id": "tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array",
                 "label": "使用 StructArray 进行 Grouping Search",
-                "key": "doc:tutorials/search-and-query/search-with-structarray/grouping-search-with-struct-array"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/grouping-search-with-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/search-with-structarray/hybrid-search-with-struct-array",
+                "id": "tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array",
                 "label": "使用 StructArray 进行 Hybrid Search",
-                "key": "doc:tutorials/search-and-query/search-with-structarray/hybrid-search-with-struct-array"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/hybrid-search-with-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/search-and-query/search-with-structarray/tutorial-colbert-colpali",
+                "id": "tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali",
                 "label": "使用 EmbeddingList 搜索：ColBERT 和 ColPali",
-                "key": "doc:tutorials/search-and-query/search-with-structarray/tutorial-colbert-colpali"
+                "key": "doc:tutorials/development/search-and-query/struct-array-search/tutorial-colbert-colpali"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/elasticsearch-queries-to-milvus",
+            "id": "tutorials/development/search-and-query/elasticsearch-queries-to-milvus",
             "label": "Elasticsearch 查询语句转换",
-            "key": "doc:tutorials/search-and-query/elasticsearch-queries-to-milvus"
+            "key": "doc:tutorials/development/search-and-query/elasticsearch-queries-to-milvus"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/with-iterators",
+            "id": "tutorials/development/search-and-query/with-iterators",
             "label": "Search Iterator",
-            "key": "doc:tutorials/search-and-query/with-iterators"
+            "key": "doc:tutorials/development/search-and-query/with-iterators"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/use-partition-key",
+            "id": "tutorials/development/search-and-query/use-partition-key",
             "label": "使用 Partition Key",
-            "key": "doc:tutorials/search-and-query/use-partition-key"
+            "key": "doc:tutorials/development/search-and-query/use-partition-key"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/use-mmap",
+            "id": "tutorials/development/search-and-query/use-mmap",
             "label": "使用 mmap",
-            "key": "doc:tutorials/search-and-query/use-mmap"
+            "key": "doc:tutorials/development/search-and-query/use-mmap"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/consistency-level",
+            "id": "tutorials/development/search-and-query/consistency-level",
             "label": "一致性水平",
-            "key": "doc:tutorials/search-and-query/consistency-level"
+            "key": "doc:tutorials/development/search-and-query/consistency-level"
           },
           {
             "type": "doc",
-            "id": "tutorials/search-and-query/search-metrics-explained",
+            "id": "tutorials/development/search-and-query/search-metrics-explained",
             "label": "相似度类型",
-            "key": "doc:tutorials/search-and-query/search-metrics-explained"
+            "key": "doc:tutorials/development/search-and-query/search-metrics-explained"
           }
         ]
       },
       {
         "type": "category",
         "label": "Database",
-        "key": "category:tutorials/database",
+        "key": "category:tutorials/development/database",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/database/database-concept",
+            "id": "tutorials/development/database/database-concept",
             "label": "Database",
-            "key": "doc:tutorials/database/database-concept"
+            "key": "doc:tutorials/development/database/database-concept"
           },
           {
             "type": "doc",
-            "id": "tutorials/database/database",
+            "id": "tutorials/development/database/database",
             "label": "Serving 集群中的 Database",
-            "key": "doc:tutorials/database/database"
+            "key": "doc:tutorials/development/database/database"
           },
           {
             "type": "doc",
-            "id": "tutorials/database/on-demand-database",
+            "id": "tutorials/development/database/on-demand-database",
             "label": "按需计算中的 Database",
-            "key": "doc:tutorials/database/on-demand-database"
+            "key": "doc:tutorials/development/database/on-demand-database"
           }
         ]
       },
       {
         "type": "category",
         "label": "Collection",
-        "key": "category:tutorials/collection",
+        "key": "category:tutorials/development/collection",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/collection/manage-collections",
+            "id": "tutorials/development/collection/manage-collections",
             "label": "了解 Collection",
-            "key": "doc:tutorials/collection/manage-collections"
+            "key": "doc:tutorials/development/collection/manage-collections"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/manage-collections-sdks",
+            "id": "tutorials/development/collection/manage-collections-sdks",
             "label": "创建 Collection",
-            "key": "doc:tutorials/collection/manage-collections-sdks"
+            "key": "doc:tutorials/development/collection/manage-collections-sdks"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/create-external-collection",
+            "id": "tutorials/development/collection/create-external-collection",
             "label": "创建 External Collection",
-            "key": "doc:tutorials/collection/create-external-collection"
+            "key": "doc:tutorials/development/collection/create-external-collection"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/view-collections",
+            "id": "tutorials/development/collection/view-collections",
             "label": "查看 Collection",
-            "key": "doc:tutorials/collection/view-collections"
+            "key": "doc:tutorials/development/collection/view-collections"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/modify-collections",
+            "id": "tutorials/development/collection/modify-collections",
             "label": "修改 Collection",
-            "key": "doc:tutorials/collection/modify-collections"
+            "key": "doc:tutorials/development/collection/modify-collections"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/set-collection-ttl",
+            "id": "tutorials/development/collection/set-collection-ttl",
             "label": "设置 Collection 生存时间",
-            "key": "doc:tutorials/collection/set-collection-ttl"
+            "key": "doc:tutorials/development/collection/set-collection-ttl"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/use-large-topk",
+            "id": "tutorials/development/collection/use-large-topk",
             "label": "使用大 TopK",
-            "key": "doc:tutorials/collection/use-large-topk"
+            "key": "doc:tutorials/development/collection/use-large-topk"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/load-release-collections",
+            "id": "tutorials/development/collection/load-release-collections",
             "label": "Load 和 Release",
-            "key": "doc:tutorials/collection/load-release-collections"
+            "key": "doc:tutorials/development/collection/load-release-collections"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/manage-partitions",
+            "id": "tutorials/development/collection/manage-partitions",
             "label": "管理 Partition",
-            "key": "doc:tutorials/collection/manage-partitions"
+            "key": "doc:tutorials/development/collection/manage-partitions"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/manage-aliases",
+            "id": "tutorials/development/collection/manage-aliases",
             "label": "管理 Alias",
-            "key": "doc:tutorials/collection/manage-aliases"
+            "key": "doc:tutorials/development/collection/manage-aliases"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/truncate-collection",
+            "id": "tutorials/development/collection/truncate-collection",
             "label": "Truncate Collection",
-            "key": "doc:tutorials/collection/truncate-collection"
+            "key": "doc:tutorials/development/collection/truncate-collection"
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/drop-collection",
+            "id": "tutorials/development/collection/drop-collection",
             "label": "删除 Collection",
-            "key": "doc:tutorials/collection/drop-collection"
+            "key": "doc:tutorials/development/collection/drop-collection"
           },
           {
             "type": "category",
             "label": "在控制台管理 Collection",
-            "key": "category:tutorials/collection/manage-collection-on-console",
+            "key": "category:tutorials/development/collection/collection-on-console",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/collection/manage-collection-on-console/manage-collections-console",
+                "id": "tutorials/development/collection/collection-on-console/manage-collections-console",
                 "label": "管理 Collection (控制台)",
-                "key": "doc:tutorials/collection/manage-collection-on-console/manage-collections-console"
+                "key": "doc:tutorials/development/collection/collection-on-console/manage-collections-console"
               },
               {
                 "type": "doc",
-                "id": "tutorials/collection/manage-collection-on-console/manage-external-collections-console",
+                "id": "tutorials/development/collection/collection-on-console/manage-external-collections-console",
                 "label": "管理 External Collection",
-                "key": "doc:tutorials/collection/manage-collection-on-console/manage-external-collections-console"
+                "key": "doc:tutorials/development/collection/collection-on-console/manage-external-collections-console"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/collection/external-collection-limits",
+            "id": "tutorials/development/collection/external-collection-limits",
             "label": "External Collection 限制",
-            "key": "doc:tutorials/collection/external-collection-limits"
+            "key": "doc:tutorials/development/collection/external-collection-limits"
           }
         ]
       },
       {
         "type": "category",
         "label": "Volume",
-        "key": "category:tutorials/volume",
+        "key": "category:tutorials/development/volume",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/volume/managed-volume",
+            "id": "tutorials/development/volume/managed-volume",
             "label": "Managed Volume",
-            "key": "doc:tutorials/volume/managed-volume"
+            "key": "doc:tutorials/development/volume/managed-volume"
           },
           {
             "type": "doc",
-            "id": "tutorials/volume/external-volume",
+            "id": "tutorials/development/volume/external-volume",
             "label": "External Volume",
-            "key": "doc:tutorials/volume/external-volume"
+            "key": "doc:tutorials/development/volume/external-volume"
           },
           {
             "type": "category",
             "label": "存储集成",
-            "key": "category:tutorials/volume/storage-integration",
+            "key": "category:tutorials/development/volume/storage-integration",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/volume/storage-integration/integrate-with-amazon-s3-cn",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-amazon-s3-cn",
                 "label": "Amazon S3",
-                "key": "doc:tutorials/volume/storage-integration/integrate-with-amazon-s3-cn"
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-amazon-s3-cn"
               },
               {
                 "type": "doc",
-                "id": "tutorials/volume/storage-integration/integrate-with-alibaba-cloud-oss",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-alibaba-cloud-oss",
                 "label": "阿里云对象存储",
-                "key": "doc:tutorials/volume/storage-integration/integrate-with-alibaba-cloud-oss"
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-alibaba-cloud-oss"
               }
             ]
           }
@@ -572,176 +757,170 @@ module.exports = [
       {
         "type": "category",
         "label": "Schema",
-        "key": "category:tutorials/schema",
+        "key": "category:tutorials/development/schema",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/schema/schema-explained",
+            "id": "tutorials/development/schema/schema-explained",
             "label": "了解 Schema",
-            "key": "doc:tutorials/schema/schema-explained"
+            "key": "doc:tutorials/development/schema/schema-explained"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/primary-field-auto-id",
+            "id": "tutorials/development/schema/primary-field-auto-id",
             "label": "主键与 AutoID",
-            "key": "doc:tutorials/schema/primary-field-auto-id"
+            "key": "doc:tutorials/development/schema/primary-field-auto-id"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/use-dense-vector",
+            "id": "tutorials/development/schema/use-dense-vector",
             "label": "稠密向量",
-            "key": "doc:tutorials/schema/use-dense-vector"
+            "key": "doc:tutorials/development/schema/use-dense-vector"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/use-binary-vector",
+            "id": "tutorials/development/schema/use-binary-vector",
             "label": "Binary 向量",
-            "key": "doc:tutorials/schema/use-binary-vector"
+            "key": "doc:tutorials/development/schema/use-binary-vector"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/use-sparse-vector",
+            "id": "tutorials/development/schema/use-sparse-vector",
             "label": "稀疏向量",
-            "key": "doc:tutorials/schema/use-sparse-vector"
+            "key": "doc:tutorials/development/schema/use-sparse-vector"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/use-string-field",
+            "id": "tutorials/development/schema/use-string-field",
             "label": "VarChar 类型",
-            "key": "doc:tutorials/schema/use-string-field"
+            "key": "doc:tutorials/development/schema/use-string-field"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/use-number-field",
+            "id": "tutorials/development/schema/use-number-field",
             "label": "布尔与数值类型",
-            "key": "doc:tutorials/schema/use-number-field"
+            "key": "doc:tutorials/development/schema/use-number-field"
           },
           {
             "type": "category",
             "label": "JSON 类型",
-            "key": "category:tutorials/schema/json-field",
+            "key": "category:tutorials/development/schema/json-fields",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/schema/json-field/json-field-overview",
+                "id": "tutorials/development/schema/json-fields/json-field-overview",
                 "label": "JSON 概述",
-                "key": "doc:tutorials/schema/json-field/json-field-overview"
+                "key": "doc:tutorials/development/schema/json-fields/json-field-overview"
               },
               {
                 "type": "doc",
-                "id": "tutorials/schema/json-field/json-indexing",
+                "id": "tutorials/development/schema/json-fields/json-indexing",
                 "label": "JSON 索引",
-                "key": "doc:tutorials/schema/json-field/json-indexing"
+                "key": "doc:tutorials/development/schema/json-fields/json-indexing"
               },
               {
                 "type": "doc",
-                "id": "tutorials/schema/json-field/json-shredding",
+                "id": "tutorials/development/schema/json-fields/json-shredding",
                 "label": "JSON Shredding",
-                "key": "doc:tutorials/schema/json-field/json-shredding"
+                "key": "doc:tutorials/development/schema/json-fields/json-shredding"
               }
             ]
-          },
-          {
-            "type": "category",
-            "label": "Array 类型",
-            "key": "category:tutorials/schema/use-array-fields",
-            "items": []
           },
           {
             "type": "category",
             "label": "StructArray",
-            "key": "category:tutorials/schema/structarray",
+            "key": "category:tutorials/development/schema/struct-array",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/schema/structarray/use-array-of-structs",
+                "id": "tutorials/development/schema/struct-array/use-array-of-structs",
                 "label": "StructArray 概述",
-                "key": "doc:tutorials/schema/structarray/use-array-of-structs"
+                "key": "doc:tutorials/development/schema/struct-array/use-array-of-structs"
               },
               {
                 "type": "doc",
-                "id": "tutorials/schema/structarray/create-struct-array",
+                "id": "tutorials/development/schema/struct-array/create-struct-array",
                 "label": "创建 StructArray Field",
-                "key": "doc:tutorials/schema/structarray/create-struct-array"
+                "key": "doc:tutorials/development/schema/struct-array/create-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/schema/structarray/struct-array-limits",
+                "id": "tutorials/development/schema/struct-array/struct-array-limits",
                 "label": "StructArray 限制",
-                "key": "doc:tutorials/schema/structarray/struct-array-limits"
+                "key": "doc:tutorials/development/schema/struct-array/struct-array-limits"
               },
               {
                 "type": "doc",
-                "id": "tutorials/schema/structarray/insert-struct-array",
+                "id": "tutorials/development/schema/struct-array/insert-struct-array",
                 "label": "向 StructArray Field 插入数据",
-                "key": "doc:tutorials/schema/structarray/insert-struct-array"
+                "key": "doc:tutorials/development/schema/struct-array/insert-struct-array"
               },
               {
                 "type": "doc",
-                "id": "tutorials/schema/structarray/index-struct-array",
+                "id": "tutorials/development/schema/struct-array/index-struct-array",
                 "label": "为 StructArray Field 创建 Index",
-                "key": "doc:tutorials/schema/structarray/index-struct-array"
+                "key": "doc:tutorials/development/schema/struct-array/index-struct-array"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/use-geometry-field",
+            "id": "tutorials/development/schema/use-geometry-field",
             "label": "Geometry 类型",
-            "key": "doc:tutorials/schema/use-geometry-field"
+            "key": "doc:tutorials/development/schema/use-geometry-field"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/use-timestamptz-field",
+            "id": "tutorials/development/schema/use-timestamptz-field",
             "label": "TIMESTAMPTZ 类型",
-            "key": "doc:tutorials/schema/use-timestamptz-field"
+            "key": "doc:tutorials/development/schema/use-timestamptz-field"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/enable-dynamic-field",
+            "id": "tutorials/development/schema/enable-dynamic-field",
             "label": "Dynamic Field",
-            "key": "doc:tutorials/schema/enable-dynamic-field"
+            "key": "doc:tutorials/development/schema/enable-dynamic-field"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/nullable-fields",
+            "id": "tutorials/development/schema/nullable-fields",
             "label": "Nullable 属性",
-            "key": "doc:tutorials/schema/nullable-fields"
+            "key": "doc:tutorials/development/schema/nullable-fields"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/default-fields",
+            "id": "tutorials/development/schema/default-fields",
             "label": "默认值",
-            "key": "doc:tutorials/schema/default-fields"
+            "key": "doc:tutorials/development/schema/default-fields"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/alter-collection-field",
+            "id": "tutorials/development/schema/alter-collection-field",
             "label": "修改字段设置",
-            "key": "doc:tutorials/schema/alter-collection-field"
+            "key": "doc:tutorials/development/schema/alter-collection-field"
           },
           {
             "type": "doc",
-            "id": "tutorials/schema/add-fields-to-an-existing-collection",
+            "id": "tutorials/development/schema/add-fields-to-an-existing-collection",
             "label": "修改 Collection Schema",
-            "key": "doc:tutorials/schema/add-fields-to-an-existing-collection"
+            "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
           },
           {
             "type": "category",
             "label": "最佳实践",
-            "key": "category:tutorials/schema/schema-best-practices",
+            "key": "category:tutorials/development/schema/schema-best-practices",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/schema/schema-best-practices/schema-design-hands-on",
+                "id": "tutorials/development/schema/schema-best-practices/schema-design-hands-on",
                 "label": "Schema 设计指南",
-                "key": "doc:tutorials/schema/schema-best-practices/schema-design-hands-on"
+                "key": "doc:tutorials/development/schema/schema-best-practices/schema-design-hands-on"
               },
               {
                 "type": "doc",
-                "id": "tutorials/schema/schema-best-practices/schema-design-with-structs",
+                "id": "tutorials/development/schema/schema-best-practices/schema-design-with-structs",
                 "label": "使用 Struct Array 进行 Schema 设计",
-                "key": "doc:tutorials/schema/schema-best-practices/schema-design-with-structs"
+                "key": "doc:tutorials/development/schema/schema-best-practices/schema-design-with-structs"
               }
             ]
           }
@@ -750,308 +929,314 @@ module.exports = [
       {
         "type": "category",
         "label": "向量索引",
-        "key": "category:tutorials/vector-index",
+        "key": "category:tutorials/development/vector-index",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/vector-index/autoindex-explained",
+            "id": "tutorials/development/vector-index/autoindex-explained",
             "label": "AUTOINDEX",
-            "key": "doc:tutorials/vector-index/autoindex-explained"
+            "key": "doc:tutorials/development/vector-index/autoindex-explained"
           },
           {
             "type": "doc",
-            "id": "tutorials/vector-index/minhash-lsh",
+            "id": "tutorials/development/vector-index/minhash-lsh",
             "label": "MINHASH_LSH",
-            "key": "doc:tutorials/vector-index/minhash-lsh"
+            "key": "doc:tutorials/development/vector-index/minhash-lsh"
           },
           {
             "type": "doc",
-            "id": "tutorials/vector-index/tune-index-build-level",
+            "id": "tutorials/development/vector-index/tune-index-build-level",
             "label": "调整索引构建级别",
-            "key": "doc:tutorials/vector-index/tune-index-build-level"
+            "key": "doc:tutorials/development/vector-index/tune-index-build-level"
           }
         ]
       },
       {
         "type": "category",
         "label": "标量索引",
-        "key": "category:tutorials/scalar-index",
+        "key": "category:tutorials/development/scalar-index",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/scalar-index/bitmap-index-type",
+            "id": "tutorials/development/scalar-index/bitmap-index-type",
             "label": "BITMAP",
-            "key": "doc:tutorials/scalar-index/bitmap-index-type"
+            "key": "doc:tutorials/development/scalar-index/bitmap-index-type"
           },
           {
             "type": "doc",
-            "id": "tutorials/scalar-index/inverted-index-type",
+            "id": "tutorials/development/scalar-index/inverted-index-type",
             "label": "INVERTED",
-            "key": "doc:tutorials/scalar-index/inverted-index-type"
+            "key": "doc:tutorials/development/scalar-index/inverted-index-type"
           },
           {
             "type": "doc",
-            "id": "tutorials/scalar-index/ngram-index-type",
+            "id": "tutorials/development/scalar-index/ngram-index-type",
             "label": "NGRAM",
-            "key": "doc:tutorials/scalar-index/ngram-index-type"
+            "key": "doc:tutorials/development/scalar-index/ngram-index-type"
           },
           {
             "type": "doc",
-            "id": "tutorials/scalar-index/rtree-index-type",
+            "id": "tutorials/development/scalar-index/rtree-index-type",
             "label": "RTREE",
-            "key": "doc:tutorials/scalar-index/rtree-index-type"
+            "key": "doc:tutorials/development/scalar-index/rtree-index-type"
           },
           {
             "type": "doc",
-            "id": "tutorials/scalar-index/slt-sort-index-type",
+            "id": "tutorials/development/scalar-index/slt-sort-index-type",
             "label": "STL_SORT",
-            "key": "doc:tutorials/scalar-index/slt-sort-index-type"
+            "key": "doc:tutorials/development/scalar-index/slt-sort-index-type"
           }
         ]
       },
       {
         "type": "category",
         "label": "插入与删除",
-        "key": "category:tutorials/insert-and-delete",
+        "key": "category:tutorials/development/insert-and-delete",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/insert-and-delete/insert-entities",
+            "id": "tutorials/development/insert-and-delete/insert-entities",
             "label": "插入 Entity",
-            "key": "doc:tutorials/insert-and-delete/insert-entities"
+            "key": "doc:tutorials/development/insert-and-delete/insert-entities"
           },
           {
             "type": "doc",
-            "id": "tutorials/insert-and-delete/upsert-entities",
+            "id": "tutorials/development/insert-and-delete/upsert-entities",
             "label": "Upsert Entity",
-            "key": "doc:tutorials/insert-and-delete/upsert-entities"
+            "key": "doc:tutorials/development/insert-and-delete/upsert-entities"
           },
           {
             "type": "doc",
-            "id": "tutorials/insert-and-delete/count-entities",
+            "id": "tutorials/development/insert-and-delete/count-entities",
             "label": "统计 Entity 数量",
-            "key": "doc:tutorials/insert-and-delete/count-entities"
+            "key": "doc:tutorials/development/insert-and-delete/count-entities"
           },
           {
             "type": "doc",
-            "id": "tutorials/insert-and-delete/delete-entities",
+            "id": "tutorials/development/insert-and-delete/delete-entities",
             "label": "删除 Entity",
-            "key": "doc:tutorials/insert-and-delete/delete-entities"
+            "key": "doc:tutorials/development/insert-and-delete/delete-entities"
           }
         ]
       },
       {
         "type": "category",
         "label": "数据导入",
-        "key": "category:tutorials/data-import",
+        "key": "category:tutorials/development/data-import",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/data-import/data-import-storage-options",
+            "id": "tutorials/development/data-import/data-import-storage-options",
             "label": "支持的对象存储",
-            "key": "doc:tutorials/data-import/data-import-storage-options"
+            "key": "doc:tutorials/development/data-import/data-import-storage-options"
           },
           {
             "type": "category",
             "label": "支持的数据格式",
-            "key": "category:tutorials/data-import/data-import-format-options",
+            "key": "category:tutorials/development/data-import/data-import-format-options",
             "link": {
               "type": "doc",
-              "id": "tutorials/data-import/data-import-format-options/data-import-format-options"
+              "id": "tutorials/development/data-import/data-import-format-options/data-import-format-options"
             },
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/data-import/data-import-format-options/data-import-parquet",
+                "id": "tutorials/development/data-import/data-import-format-options/data-import-parquet",
                 "label": "从 Parquet 文件中导入（推荐）",
-                "key": "doc:tutorials/data-import/data-import-format-options/data-import-parquet"
+                "key": "doc:tutorials/development/data-import/data-import-format-options/data-import-parquet"
               },
               {
                 "type": "doc",
-                "id": "tutorials/data-import/data-import-format-options/data-import-json",
+                "id": "tutorials/development/data-import/data-import-format-options/data-import-json",
                 "label": "从 JSON/JSON Lines 文件中导入",
-                "key": "doc:tutorials/data-import/data-import-format-options/data-import-json"
+                "key": "doc:tutorials/development/data-import/data-import-format-options/data-import-json"
               },
               {
                 "type": "doc",
-                "id": "tutorials/data-import/data-import-format-options/data-import-numpy",
+                "id": "tutorials/development/data-import/data-import-format-options/data-import-numpy",
                 "label": "从 NumPy 文件中导入",
-                "key": "doc:tutorials/data-import/data-import-format-options/data-import-numpy"
+                "key": "doc:tutorials/development/data-import/data-import-format-options/data-import-numpy"
               }
             ]
           },
           {
             "type": "category",
             "label": "转换数据",
-            "key": "category:tutorials/data-import/prepare-data-import",
+            "key": "category:tutorials/development/data-import/prepare-data-import",
             "link": {
               "type": "doc",
-              "id": "tutorials/data-import/prepare-data-import/prepare-data-import"
+              "id": "tutorials/development/data-import/prepare-data-import/prepare-data-import"
             },
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/data-import/prepare-data-import/use-bulkwriter",
+                "id": "tutorials/development/data-import/prepare-data-import/use-bulkwriter",
                 "label": "使用 BulkWriter",
-                "key": "doc:tutorials/data-import/prepare-data-import/use-bulkwriter"
+                "key": "doc:tutorials/development/data-import/prepare-data-import/use-bulkwriter"
               }
             ]
           },
           {
             "type": "category",
             "label": "导入数据",
-            "key": "category:tutorials/data-import/import-data",
+            "key": "category:tutorials/development/data-import/import-data",
             "link": {
               "type": "doc",
-              "id": "tutorials/data-import/import-data/import-data"
+              "id": "tutorials/development/data-import/import-data/import-data"
             },
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/data-import/import-data/import-data-on-web-ui",
+                "id": "tutorials/development/data-import/import-data/import-data-on-web-ui",
                 "label": "通过 Web 控制台导入",
-                "key": "doc:tutorials/data-import/import-data/import-data-on-web-ui"
+                "key": "doc:tutorials/development/data-import/import-data/import-data-on-web-ui"
               },
               {
                 "type": "doc",
-                "id": "tutorials/data-import/import-data/import-data-via-restful-api",
+                "id": "tutorials/development/data-import/import-data/import-data-via-restful-api",
                 "label": "通过 RESTful API 导入",
-                "key": "doc:tutorials/data-import/import-data/import-data-via-restful-api"
+                "key": "doc:tutorials/development/data-import/import-data/import-data-via-restful-api"
               },
               {
                 "type": "doc",
-                "id": "tutorials/data-import/import-data/import-data-via-sdks",
+                "id": "tutorials/development/data-import/import-data/import-data-via-sdks",
                 "label": "通过 SDK 导入",
-                "key": "doc:tutorials/data-import/import-data/import-data-via-sdks"
+                "key": "doc:tutorials/development/data-import/import-data/import-data-via-sdks"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/data-import/data-import-zero-to-hero",
+            "id": "tutorials/development/data-import/data-import-zero-to-hero",
             "label": "数据导入指南",
-            "key": "doc:tutorials/data-import/data-import-zero-to-hero"
+            "key": "doc:tutorials/development/data-import/data-import-zero-to-hero"
           }
         ]
       },
       {
         "type": "category",
         "label": "数据导出",
-        "key": "category:tutorials/data-export",
+        "key": "category:tutorials/development/data-export",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/data-export/export-data-iterators",
+            "id": "tutorials/development/data-export/export-data-iterators",
             "label": "使用 Iterator 导出数据",
-            "key": "doc:tutorials/data-export/export-data-iterators"
+            "key": "doc:tutorials/development/data-export/export-data-iterators"
           }
         ]
       },
       {
         "type": "category",
         "label": "Function",
-        "key": "category:tutorials/function",
+        "key": "category:tutorials/development/function",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/function/function-and-model-inference-overview",
+            "id": "tutorials/development/function/function-and-model-inference-overview",
             "label": "Function 概述",
-            "key": "doc:tutorials/function/function-and-model-inference-overview"
+            "key": "doc:tutorials/development/function/function-and-model-inference-overview"
           },
           {
             "type": "doc",
-            "id": "tutorials/function/bm25-function",
+            "id": "tutorials/development/function/bm25-function",
             "label": "BM25 Function",
-            "key": "doc:tutorials/function/bm25-function"
+            "key": "doc:tutorials/development/function/bm25-function"
           },
           {
             "type": "category",
             "label": "Text Embedding Function",
-            "key": "category:tutorials/function/text-embedding-functions",
+            "key": "category:tutorials/development/function/text-embedding-funcs",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/function/text-embedding-functions/siliconflow",
+                "id": "tutorials/development/function/text-embedding-funcs/siliconflow",
                 "label": "硅基流动",
-                "key": "doc:tutorials/function/text-embedding-functions/siliconflow"
+                "key": "doc:tutorials/development/function/text-embedding-funcs/siliconflow"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/function/text-embedding-funcs/hugging-face",
+                "label": "Hugging Face",
+                "key": "doc:tutorials/development/function/text-embedding-funcs/hugging-face"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/function/minhash-function",
+            "id": "tutorials/development/function/minhash-function",
             "label": "MinHash Function",
-            "key": "doc:tutorials/function/minhash-function"
+            "key": "doc:tutorials/development/function/minhash-function"
           },
           {
             "type": "category",
             "label": "Reranking Function",
-            "key": "category:tutorials/function/reranking-functions",
+            "key": "category:tutorials/development/function/reranking-functions",
             "items": [
               {
                 "type": "category",
                 "label": "Hybrid Search Reranker",
-                "key": "category:tutorials/function/reranking-functions/hybrid-search-rerankers",
+                "key": "category:tutorials/development/function/reranking-functions/hybrid-search-rerankers",
                 "items": [
                   {
                     "type": "doc",
-                    "id": "tutorials/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker",
+                    "id": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker",
                     "label": "Weighted Ranker",
-                    "key": "doc:tutorials/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker"
+                    "key": "doc:tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/function/reranking-functions/hybrid-search-rerankers/reranking-rrf",
+                    "id": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf",
                     "label": "RRF Ranker",
-                    "key": "doc:tutorials/function/reranking-functions/hybrid-search-rerankers/reranking-rrf"
+                    "key": "doc:tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf"
                   }
                 ]
               },
               {
                 "type": "category",
                 "label": "Rule-based Reranker",
-                "key": "category:tutorials/function/reranking-functions/rule-based-rerankers",
+                "key": "category:tutorials/development/function/reranking-functions/rule-based-rerankers",
                 "items": [
                   {
                     "type": "doc",
-                    "id": "tutorials/function/reranking-functions/rule-based-rerankers/boost-ranker",
+                    "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker",
                     "label": "Boost Ranker",
-                    "key": "doc:tutorials/function/reranking-functions/rule-based-rerankers/boost-ranker"
+                    "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker"
                   },
                   {
                     "type": "category",
                     "label": "Decay Reranker",
-                    "key": "category:tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers",
+                    "key": "category:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers",
                     "items": [
                       {
                         "type": "doc",
-                        "id": "tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview",
+                        "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview",
                         "label": "Decay Ranker 概述",
-                        "key": "doc:tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview"
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview"
                       },
                       {
                         "type": "doc",
-                        "id": "tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay",
+                        "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay",
                         "label": "高斯衰减",
-                        "key": "doc:tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay"
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay"
                       },
                       {
                         "type": "doc",
-                        "id": "tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay",
+                        "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay",
                         "label": "指数衰减",
-                        "key": "doc:tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay"
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay"
                       },
                       {
                         "type": "doc",
-                        "id": "tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay",
+                        "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay",
                         "label": "线性衰减",
-                        "key": "doc:tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay"
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay"
                       },
                       {
                         "type": "doc",
-                        "id": "tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking",
+                        "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking",
                         "label": "教程：实现基于时间的排序",
-                        "key": "doc:tutorials/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking"
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking"
                       }
                     ]
                   }
@@ -1060,13 +1245,19 @@ module.exports = [
               {
                 "type": "category",
                 "label": "Model Reranker",
-                "key": "category:tutorials/function/reranking-functions/model-based-rerankers",
+                "key": "category:tutorials/development/function/reranking-functions/model-based-rerankers",
                 "items": [
                   {
                     "type": "doc",
-                    "id": "tutorials/function/reranking-functions/model-based-rerankers/siliconflow-model-ranker",
+                    "id": "tutorials/development/function/reranking-functions/model-based-rerankers/siliconflow-model-ranker",
                     "label": "硅基流动 Ranker",
-                    "key": "doc:tutorials/function/reranking-functions/model-based-rerankers/siliconflow-model-ranker"
+                    "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/siliconflow-model-ranker"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker",
+                    "label": "Hugging Face Ranker",
+                    "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/hugging-face-ranker"
                   }
                 ]
               }
@@ -1077,189 +1268,189 @@ module.exports = [
       {
         "type": "category",
         "label": "Analyzer",
-        "key": "category:tutorials/analyzer",
+        "key": "category:tutorials/development/analyzer",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/analyzer/analyzer-overview",
+            "id": "tutorials/development/analyzer/analyzer-overview",
             "label": "Analyzer 概述",
-            "key": "doc:tutorials/analyzer/analyzer-overview"
+            "key": "doc:tutorials/development/analyzer/analyzer-overview"
           },
           {
             "type": "category",
             "label": "内置 Analyzer 参考",
-            "key": "category:tutorials/analyzer/built-in-analyzer",
+            "key": "category:tutorials/development/analyzer/built-in-analyzer",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/built-in-analyzer/standard-analyzer",
+                "id": "tutorials/development/analyzer/built-in-analyzer/standard-analyzer",
                 "label": "Standard Analyzer",
-                "key": "doc:tutorials/analyzer/built-in-analyzer/standard-analyzer"
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/standard-analyzer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/built-in-analyzer/english-analyzer",
+                "id": "tutorials/development/analyzer/built-in-analyzer/english-analyzer",
                 "label": "English",
-                "key": "doc:tutorials/analyzer/built-in-analyzer/english-analyzer"
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/english-analyzer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/built-in-analyzer/chinese-analyzer",
+                "id": "tutorials/development/analyzer/built-in-analyzer/chinese-analyzer",
                 "label": "Chinese",
-                "key": "doc:tutorials/analyzer/built-in-analyzer/chinese-analyzer"
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/chinese-analyzer"
               }
             ]
           },
           {
             "type": "category",
             "label": "分词器参考",
-            "key": "category:tutorials/analyzer/tokenizer",
+            "key": "category:tutorials/development/analyzer/analyzer-tokenizers",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/tokenizer/standard-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer",
                 "label": "Standard 分词器",
-                "key": "doc:tutorials/analyzer/tokenizer/standard-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/tokenizer/whitespace-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer",
                 "label": "Whitespace",
-                "key": "doc:tutorials/analyzer/tokenizer/whitespace-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/tokenizer/jieba-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer",
                 "label": "Jieba",
-                "key": "doc:tutorials/analyzer/tokenizer/jieba-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/tokenizer/lindera-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer",
                 "label": "Lindera",
-                "key": "doc:tutorials/analyzer/tokenizer/lindera-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/tokenizer/icu-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer",
                 "label": "ICU",
-                "key": "doc:tutorials/analyzer/tokenizer/icu-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/tokenizer/language-identifier-tokenizer",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer",
                 "label": "Language Identifier",
-                "key": "doc:tutorials/analyzer/tokenizer/language-identifier-tokenizer"
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer"
               }
             ]
           },
           {
             "type": "category",
             "label": "过滤器参考",
-            "key": "category:tutorials/analyzer/analyzer-filters",
+            "key": "category:tutorials/development/analyzer/analyzer-filters",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/lowercase-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/lowercase-filter",
                 "label": "Lowercase",
-                "key": "doc:tutorials/analyzer/analyzer-filters/lowercase-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/lowercase-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/ascii-folding-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/ascii-folding-filter",
                 "label": "ASCII folding",
-                "key": "doc:tutorials/analyzer/analyzer-filters/ascii-folding-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/ascii-folding-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/alphanumonly-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/alphanumonly-filter",
                 "label": "Alphanumonly",
-                "key": "doc:tutorials/analyzer/analyzer-filters/alphanumonly-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/alphanumonly-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/cnalphanumonly-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter",
                 "label": "Cnalphanumonly",
-                "key": "doc:tutorials/analyzer/analyzer-filters/cnalphanumonly-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/cncharonly-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/cncharonly-filter",
                 "label": "Cncharonly",
-                "key": "doc:tutorials/analyzer/analyzer-filters/cncharonly-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/cncharonly-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/length-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/length-filter",
                 "label": "Length",
-                "key": "doc:tutorials/analyzer/analyzer-filters/length-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/length-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/stop-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/stop-filter",
                 "label": "Stop",
-                "key": "doc:tutorials/analyzer/analyzer-filters/stop-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/stop-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/decompounder-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/decompounder-filter",
                 "label": "Decompounder",
-                "key": "doc:tutorials/analyzer/analyzer-filters/decompounder-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/decompounder-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/stemmer-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/stemmer-filter",
                 "label": "Stemmer",
-                "key": "doc:tutorials/analyzer/analyzer-filters/stemmer-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/stemmer-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/remove-punct-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/remove-punct-filter",
                 "label": "Remove Punct",
-                "key": "doc:tutorials/analyzer/analyzer-filters/remove-punct-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/remove-punct-filter"
               },
               {
                 "type": "doc",
-                "id": "tutorials/analyzer/analyzer-filters/regex-filter",
+                "id": "tutorials/development/analyzer/analyzer-filters/regex-filter",
                 "label": "Regex",
-                "key": "doc:tutorials/analyzer/analyzer-filters/regex-filter"
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/regex-filter"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/analyzer/multi-language-analyzers",
+            "id": "tutorials/development/analyzer/multi-language-analyzers",
             "label": "多语言 Analyzer",
-            "key": "doc:tutorials/analyzer/multi-language-analyzers"
+            "key": "doc:tutorials/development/analyzer/multi-language-analyzers"
           },
           {
             "type": "doc",
-            "id": "tutorials/analyzer/choose-the-right-analyzer-for-your-use-case",
+            "id": "tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case",
             "label": "最佳实践：如何选择合适的 Analyzer",
-            "key": "doc:tutorials/analyzer/choose-the-right-analyzer-for-your-use-case"
+            "key": "doc:tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case"
           },
           {
             "type": "doc",
-            "id": "tutorials/analyzer/manage-file-resources",
+            "id": "tutorials/development/analyzer/manage-file-resources",
             "label": "管理文件资源",
-            "key": "doc:tutorials/analyzer/manage-file-resources"
+            "key": "doc:tutorials/development/analyzer/manage-file-resources"
           }
         ]
       },
       {
         "type": "category",
         "label": "Snapshot",
-        "key": "category:tutorials/snapshots",
+        "key": "category:tutorials/development/snapshots",
         "link": {
           "type": "doc",
-          "id": "tutorials/snapshots/snapshots"
+          "id": "tutorials/development/snapshots/snapshots"
         },
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/snapshots/manage-snapshots",
+            "id": "tutorials/development/snapshots/manage-snapshots",
             "label": "管理 Snapshot",
-            "key": "doc:tutorials/snapshots/manage-snapshots"
+            "key": "doc:tutorials/development/snapshots/manage-snapshots"
           }
         ]
       }
@@ -1268,200 +1459,200 @@ module.exports = [
   {
     "type": "category",
     "label": "运维指南",
-    "key": "category:tutorials/item",
+    "key": "category:tutorials/management",
     "items": [
       {
         "type": "category",
         "label": "组织",
-        "key": "category:tutorials/organizations",
+        "key": "category:tutorials/management/organizations",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/organizations/organization-users",
+            "id": "tutorials/management/organizations/organization-users",
             "label": "组织用户",
-            "key": "doc:tutorials/organizations/organization-users"
+            "key": "doc:tutorials/management/organizations/organization-users"
           },
           {
             "type": "doc",
-            "id": "tutorials/organizations/organization-settings",
+            "id": "tutorials/management/organizations/organization-settings",
             "label": "组织设置",
-            "key": "doc:tutorials/organizations/organization-settings"
+            "key": "doc:tutorials/management/organizations/organization-settings"
           },
           {
             "type": "doc",
-            "id": "tutorials/organizations/use-recycle-bin",
+            "id": "tutorials/management/organizations/use-recycle-bin",
             "label": "回收站",
-            "key": "doc:tutorials/organizations/use-recycle-bin"
+            "key": "doc:tutorials/management/organizations/use-recycle-bin"
           }
         ]
       },
       {
         "type": "category",
         "label": "项目",
-        "key": "category:tutorials/projects",
+        "key": "category:tutorials/management/projects",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/projects/manage-projects",
+            "id": "tutorials/management/projects/manage-projects",
             "label": "项目管理",
-            "key": "doc:tutorials/projects/manage-projects"
+            "key": "doc:tutorials/management/projects/manage-projects"
           },
           {
             "type": "doc",
-            "id": "tutorials/projects/project-users",
+            "id": "tutorials/management/projects/project-users",
             "label": "项目用户",
-            "key": "doc:tutorials/projects/project-users"
+            "key": "doc:tutorials/management/projects/project-users"
           },
           {
             "type": "doc",
-            "id": "tutorials/projects/job-center",
+            "id": "tutorials/management/projects/job-center",
             "label": "项目任务",
-            "key": "doc:tutorials/projects/job-center"
+            "key": "doc:tutorials/management/projects/job-center"
           }
         ]
       },
       {
         "type": "category",
         "label": "集群",
-        "key": "category:tutorials/clusters",
+        "key": "category:tutorials/management/clusters",
         "items": [
           {
             "type": "category",
             "label": "Dedicated 集群",
-            "key": "category:tutorials/clusters/dedicated-cluster",
+            "key": "category:tutorials/management/clusters/dedicated-cluster",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/clusters/dedicated-cluster/create-cluster",
+                "id": "tutorials/management/clusters/dedicated-cluster/create-cluster",
                 "label": "创建集群",
-                "key": "doc:tutorials/clusters/dedicated-cluster/create-cluster"
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/create-cluster"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/dedicated-cluster/connect-to-clusters",
+                "id": "tutorials/management/clusters/dedicated-cluster/connect-to-clusters",
                 "label": "连接集群",
-                "key": "doc:tutorials/clusters/dedicated-cluster/connect-to-clusters"
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/connect-to-clusters"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/dedicated-cluster/manage-cluster",
+                "id": "tutorials/management/clusters/dedicated-cluster/manage-cluster",
                 "label": "管理集群",
-                "key": "doc:tutorials/clusters/dedicated-cluster/manage-cluster"
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/manage-cluster"
               },
               {
                 "type": "category",
                 "label": "集群扩缩容",
-                "key": "category:tutorials/clusters/dedicated-cluster/scale-cluster",
+                "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster",
                 "link": {
                   "type": "doc",
-                  "id": "tutorials/clusters/dedicated-cluster/scale-cluster/scale-cluster"
+                  "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-cluster"
                 },
                 "items": [
                   {
                     "type": "doc",
-                    "id": "tutorials/clusters/dedicated-cluster/scale-cluster/scale-query-cu",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu",
                     "label": "Query CU 扩缩容",
-                    "key": "doc:tutorials/clusters/dedicated-cluster/scale-cluster/scale-query-cu"
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/clusters/dedicated-cluster/scale-cluster/manage-replica",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica",
                     "label": "Replica 扩缩容",
-                    "key": "doc:tutorials/clusters/dedicated-cluster/scale-cluster/manage-replica"
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/clusters/dedicated-cluster/scale-cluster/cron-expression",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
                     "label": "Cron 表达式",
-                    "key": "doc:tutorials/clusters/dedicated-cluster/scale-cluster/cron-expression"
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
                   }
                 ]
               },
               {
-                "type": "doc",
-                "id": "tutorials/database/database",
+                "type": "link",
+                "href": "/docs/database",
                 "label": "Serving 集群中的 Database",
-                "key": "ref:tutorials/clusters/dedicated-cluster/database"
+                "key": "ref:tutorials/management/clusters/dedicated-cluster/database"
               }
             ]
           },
           {
             "type": "category",
             "label": "按需计算",
-            "key": "category:tutorials/clusters/item",
+            "key": "category:tutorials/management/clusters/on-demand-compute",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/clusters/on-demand-cluster",
+                "id": "tutorials/management/clusters/on-demand-compute/on-demand-cluster",
                 "label": "创建按需集群",
-                "key": "doc:tutorials/clusters/on-demand-cluster"
+                "key": "doc:tutorials/management/clusters/on-demand-compute/on-demand-cluster"
               },
               {
-                "type": "doc",
-                "id": "tutorials/connect-for-on-demand-search",
+                "type": "link",
+                "href": "/docs/connect-for-on-demand-search",
                 "label": "连接按需搜索",
-                "key": "ref:tutorials/clusters/connect-for-on-demand-search"
+                "key": "ref:tutorials/management/clusters/on-demand-compute/connect-for-on-demand-search"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/manage-on-demand-clusters",
+                "id": "tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters",
                 "label": "Manage On-Demand Cluster",
-                "key": "doc:tutorials/clusters/manage-on-demand-clusters"
+                "key": "doc:tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters"
               },
               {
-                "type": "doc",
-                "id": "tutorials/database/on-demand-database",
+                "type": "link",
+                "href": "/docs/on-demand-database",
                 "label": "按需计算中的 Database",
-                "key": "ref:tutorials/clusters/on-demand-database"
+                "key": "ref:tutorials/management/clusters/on-demand-compute/on-demand-database"
               }
             ]
           },
           {
             "type": "category",
             "label": "全球集群",
-            "key": "category:tutorials/clusters/global-cluster",
+            "key": "category:tutorials/management/clusters/global-cluster",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/clusters/global-cluster/global-cluster-explained",
+                "id": "tutorials/management/clusters/global-cluster/global-cluster-explained",
                 "label": "全球集群概览",
-                "key": "doc:tutorials/clusters/global-cluster/global-cluster-explained"
+                "key": "doc:tutorials/management/clusters/global-cluster/global-cluster-explained"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/global-cluster/create-global-cluster",
+                "id": "tutorials/management/clusters/global-cluster/create-global-cluster",
                 "label": "创建全球集群",
-                "key": "doc:tutorials/clusters/global-cluster/create-global-cluster"
+                "key": "doc:tutorials/management/clusters/global-cluster/create-global-cluster"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/global-cluster/connect-to-global-cluster",
+                "id": "tutorials/management/clusters/global-cluster/connect-to-global-cluster",
                 "label": "连接全球集群",
-                "key": "doc:tutorials/clusters/global-cluster/connect-to-global-cluster"
+                "key": "doc:tutorials/management/clusters/global-cluster/connect-to-global-cluster"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/global-cluster/switchover-and-failover",
+                "id": "tutorials/management/clusters/global-cluster/switchover-and-failover",
                 "label": "优雅切换和强切",
-                "key": "doc:tutorials/clusters/global-cluster/switchover-and-failover"
+                "key": "doc:tutorials/management/clusters/global-cluster/switchover-and-failover"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/global-cluster/scale-global-cluster",
+                "id": "tutorials/management/clusters/global-cluster/scale-global-cluster",
                 "label": "全球集群扩缩容",
-                "key": "doc:tutorials/clusters/global-cluster/scale-global-cluster"
+                "key": "doc:tutorials/management/clusters/global-cluster/scale-global-cluster"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/global-cluster/monitor-global-cluster",
+                "id": "tutorials/management/clusters/global-cluster/monitor-global-cluster",
                 "label": "监控全球集群",
-                "key": "doc:tutorials/clusters/global-cluster/monitor-global-cluster"
+                "key": "doc:tutorials/management/clusters/global-cluster/monitor-global-cluster"
               },
               {
                 "type": "doc",
-                "id": "tutorials/clusters/global-cluster/manage-global-cluster",
+                "id": "tutorials/management/clusters/global-cluster/manage-global-cluster",
                 "label": "管理全球集群",
-                "key": "doc:tutorials/clusters/global-cluster/manage-global-cluster"
+                "key": "doc:tutorials/management/clusters/global-cluster/manage-global-cluster"
               }
             ]
           }
@@ -1470,36 +1661,36 @@ module.exports = [
       {
         "type": "category",
         "label": "Volume",
-        "key": "category:tutorials/volume",
+        "key": "category:tutorials/management/volume",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/volume/managed-volume",
+            "type": "link",
+            "href": "/docs/managed-volume",
             "label": "Managed Volume",
-            "key": "ref:tutorials/volume/managed-volume"
+            "key": "ref:tutorials/management/volume/managed-volume"
           },
           {
-            "type": "doc",
-            "id": "tutorials/volume/external-volume",
+            "type": "link",
+            "href": "/docs/external-volume",
             "label": "External Volume",
-            "key": "ref:tutorials/volume/external-volume"
+            "key": "ref:tutorials/management/volume/external-volume"
           },
           {
             "type": "category",
             "label": "存储集成",
-            "key": "category:tutorials/volume/item",
+            "key": "category:tutorials/management/volume/storage-integrations",
             "items": [
               {
-                "type": "doc",
-                "id": "tutorials/volume/storage-integration/integrate-with-amazon-s3-cn",
+                "type": "link",
+                "href": "/docs/integrate-with-amazon-s3-cn",
                 "label": "Amazon S3",
-                "key": "ref:tutorials/volume/integrate-with-amazon-s3-cn"
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-amazon-s3-cn"
               },
               {
-                "type": "doc",
-                "id": "tutorials/volume/storage-integration/integrate-with-alibaba-cloud-oss",
+                "type": "link",
+                "href": "/docs/integrate-with-alibaba-cloud-oss",
                 "label": "阿里云对象存储",
-                "key": "ref:tutorials/volume/integrate-with-alibaba-cloud-oss"
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-alibaba-cloud-oss"
               }
             ]
           }
@@ -1508,149 +1699,149 @@ module.exports = [
       {
         "type": "category",
         "label": "备份与恢复",
-        "key": "category:tutorials/backup-and-restore",
+        "key": "category:tutorials/management/backup-and-restore",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/backup-and-restore/create-backup",
+            "id": "tutorials/management/backup-and-restore/create-backup",
             "label": "创建备份",
-            "key": "doc:tutorials/backup-and-restore/create-backup"
+            "key": "doc:tutorials/management/backup-and-restore/create-backup"
           },
           {
             "type": "doc",
-            "id": "tutorials/backup-and-restore/schedule-automatic-backups",
+            "id": "tutorials/management/backup-and-restore/schedule-automatic-backups",
             "label": "设置定时自动备份",
-            "key": "doc:tutorials/backup-and-restore/schedule-automatic-backups"
+            "key": "doc:tutorials/management/backup-and-restore/schedule-automatic-backups"
           },
           {
             "type": "doc",
-            "id": "tutorials/backup-and-restore/backup-to-other-regions",
+            "id": "tutorials/management/backup-and-restore/backup-to-other-regions",
             "label": "跨地域备份",
-            "key": "doc:tutorials/backup-and-restore/backup-to-other-regions"
+            "key": "doc:tutorials/management/backup-and-restore/backup-to-other-regions"
           },
           {
             "type": "doc",
-            "id": "tutorials/backup-and-restore/restore-from-backup-files",
+            "id": "tutorials/management/backup-and-restore/restore-from-backup-files",
             "label": "恢复备份",
-            "key": "doc:tutorials/backup-and-restore/restore-from-backup-files"
+            "key": "doc:tutorials/management/backup-and-restore/restore-from-backup-files"
           },
           {
             "type": "doc",
-            "id": "tutorials/backup-and-restore/export-backup-files",
+            "id": "tutorials/management/backup-and-restore/export-backup-files",
             "label": "导出备份文件",
-            "key": "doc:tutorials/backup-and-restore/export-backup-files"
+            "key": "doc:tutorials/management/backup-and-restore/export-backup-files"
           },
           {
             "type": "doc",
-            "id": "tutorials/backup-and-restore/manage-backup-files",
+            "id": "tutorials/management/backup-and-restore/manage-backup-files",
             "label": "管理备份文件",
-            "key": "doc:tutorials/backup-and-restore/manage-backup-files"
+            "key": "doc:tutorials/management/backup-and-restore/manage-backup-files"
           }
         ]
       },
       {
         "type": "category",
         "label": "数据迁移",
-        "key": "category:tutorials/item",
+        "key": "category:tutorials/management/migrations",
         "items": [
           {
             "type": "category",
             "label": "从 Milvus 迁移至 Zilliz Cloud",
-            "key": "category:tutorials/migrate-from-milvus",
+            "key": "category:tutorials/management/migrations/migrate-from-milvus",
             "link": {
               "type": "doc",
-              "id": "tutorials/migrate-from-milvus/migrate-from-milvus"
+              "id": "tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus"
             },
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-milvus/via-endpoint",
+                "id": "tutorials/management/migrations/migrate-from-milvus/via-endpoint",
                 "label": "通过 Endpoint 从 Milvus 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-milvus/via-endpoint"
+                "key": "doc:tutorials/management/migrations/migrate-from-milvus/via-endpoint"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-milvus/via-backup-files",
+                "id": "tutorials/management/migrations/migrate-from-milvus/via-backup-files",
                 "label": "通过备份文件从 Milvus 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-milvus/via-backup-files"
+                "key": "doc:tutorials/management/migrations/migrate-from-milvus/via-backup-files"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-milvus/via-stage",
+                "id": "tutorials/management/migrations/migrate-from-milvus/via-stage",
                 "label": "通过备份工具从 Milvus 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-milvus/via-stage"
+                "key": "doc:tutorials/management/migrations/migrate-from-milvus/via-stage"
               }
             ]
           },
           {
             "type": "category",
             "label": "从外部数据源迁移",
-            "key": "category:tutorials/item",
+            "key": "category:tutorials/management/migrations/migrate-from-external-sources",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/external-migration-basics",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/external-migration-basics",
                 "label": "外部迁移概述",
-                "key": "doc:tutorials/external-migration-basics"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/external-migration-basics"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-pinecone",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone",
                 "label": "从 Pinecone 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-pinecone"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-pinecone"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-qdrant",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant",
                 "label": "从 Qdrant 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-qdrant"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-qdrant"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-elasticsearch",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch",
                 "label": "从 Elasticsearch 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-elasticsearch"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-elasticsearch"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-pgvector",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector",
                 "label": "从 PostgreSQL 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-pgvector"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-pgvector"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-tencent-cloud",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud",
                 "label": "从腾讯云向量数据库迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-tencent-cloud"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-tencent-cloud"
               },
               {
                 "type": "doc",
-                "id": "tutorials/migrate-from-opensearch",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch",
                 "label": "从 OpenSearch 迁移至 Zilliz Cloud",
-                "key": "doc:tutorials/migrate-from-opensearch"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/migrate-from-opensearch"
               },
               {
                 "type": "doc",
-                "id": "tutorials/zilliz-cloud-ips",
+                "id": "tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips",
                 "label": "Zilliz Cloud IP",
-                "key": "doc:tutorials/zilliz-cloud-ips"
+                "key": "doc:tutorials/management/migrations/migrate-from-external-sources/zilliz-cloud-ips"
               }
             ]
           },
           {
             "type": "category",
             "label": "Zilliz Cloud 跨集群迁移",
-            "key": "category:tutorials/migrate-between-clusters",
+            "key": "category:tutorials/management/migrations/migrate-between-clusters",
             "link": {
               "type": "doc",
-              "id": "tutorials/migrate-between-clusters/migrate-between-clusters"
+              "id": "tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters"
             },
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/migrate-between-clusters/offline-migration",
+                "id": "tutorials/management/migrations/migrate-between-clusters/offline-migration",
                 "label": "离线迁移",
-                "key": "doc:tutorials/migrate-between-clusters/offline-migration"
+                "key": "doc:tutorials/management/migrations/migrate-between-clusters/offline-migration"
               }
             ]
           }
@@ -1659,48 +1850,48 @@ module.exports = [
       {
         "type": "category",
         "label": "指标与告警",
-        "key": "category:tutorials/item",
+        "key": "category:tutorials/management/metrics-alerts",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/metrics-alerts-reference",
+            "id": "tutorials/management/metrics-alerts/metrics-alerts-reference",
             "label": "指标快速参考",
-            "key": "doc:tutorials/metrics-alerts-reference"
+            "key": "doc:tutorials/management/metrics-alerts/metrics-alerts-reference"
           },
           {
             "type": "doc",
-            "id": "tutorials/view-cluster-metric-charts",
+            "id": "tutorials/management/metrics-alerts/view-cluster-metric-charts",
             "label": "查看集群性能指标",
-            "key": "doc:tutorials/view-cluster-metric-charts"
+            "key": "doc:tutorials/management/metrics-alerts/view-cluster-metric-charts"
           },
           {
             "type": "doc",
-            "id": "tutorials/manage-organization-alerts",
+            "id": "tutorials/management/metrics-alerts/manage-organization-alerts",
             "label": "管理组织告警",
-            "key": "doc:tutorials/manage-organization-alerts"
+            "key": "doc:tutorials/management/metrics-alerts/manage-organization-alerts"
           },
           {
             "type": "doc",
-            "id": "tutorials/manage-project-alerts",
+            "id": "tutorials/management/metrics-alerts/manage-project-alerts",
             "label": "管理项目告警",
-            "key": "doc:tutorials/manage-project-alerts"
+            "key": "doc:tutorials/management/metrics-alerts/manage-project-alerts"
           },
           {
             "type": "doc",
-            "id": "tutorials/manage-notification-channels",
+            "id": "tutorials/management/metrics-alerts/manage-notification-channels",
             "label": "管理告警渠道",
-            "key": "doc:tutorials/manage-notification-channels"
+            "key": "doc:tutorials/management/metrics-alerts/manage-notification-channels"
           },
           {
             "type": "category",
             "label": "可观测性集成",
-            "key": "category:tutorials/observability-integrations",
+            "key": "category:tutorials/management/metrics-alerts/observability-integrations",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/observability-integrations/prometheus-monitoring",
+                "id": "tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring",
                 "label": "Prometheus 监控",
-                "key": "doc:tutorials/observability-integrations/prometheus-monitoring"
+                "key": "doc:tutorials/management/metrics-alerts/observability-integrations/prometheus-monitoring"
               }
             ]
           }
@@ -1709,60 +1900,60 @@ module.exports = [
       {
         "type": "category",
         "label": "访问控制",
-        "key": "category:tutorials/access-control",
+        "key": "category:tutorials/management/access-control",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/access-control/access-control-overview",
+            "id": "tutorials/management/access-control/access-control-overview",
             "label": "访问控制概览",
-            "key": "doc:tutorials/access-control/access-control-overview"
+            "key": "doc:tutorials/management/access-control/access-control-overview"
           },
           {
-            "type": "doc",
-            "id": "tutorials/organizations/organization-users",
+            "type": "link",
+            "href": "/docs/organization-users",
             "label": "组织用户",
-            "key": "ref:tutorials/access-control/organization-users"
+            "key": "ref:tutorials/management/access-control/organization-users"
           },
           {
-            "type": "doc",
-            "id": "tutorials/projects/project-users",
+            "type": "link",
+            "href": "/docs/project-users",
             "label": "项目用户",
-            "key": "ref:tutorials/access-control/project-users"
+            "key": "ref:tutorials/management/access-control/project-users"
           },
           {
             "type": "doc",
-            "id": "tutorials/access-control/cluster-users",
+            "id": "tutorials/management/access-control/cluster-users",
             "label": "管理集群用户（控制台）",
-            "key": "doc:tutorials/access-control/cluster-users"
+            "key": "doc:tutorials/management/access-control/cluster-users"
           },
           {
             "type": "doc",
-            "id": "tutorials/access-control/cluster-users-sdk",
+            "id": "tutorials/management/access-control/cluster-users-sdk",
             "label": "管理集群用户（SDK）",
-            "key": "doc:tutorials/access-control/cluster-users-sdk"
+            "key": "doc:tutorials/management/access-control/cluster-users-sdk"
           },
           {
             "type": "doc",
-            "id": "tutorials/access-control/cluster-roles",
+            "id": "tutorials/management/access-control/cluster-roles",
             "label": "管理集群角色（控制台）",
-            "key": "doc:tutorials/access-control/cluster-roles"
+            "key": "doc:tutorials/management/access-control/cluster-roles"
           },
           {
             "type": "doc",
-            "id": "tutorials/access-control/cluster-roles-sdk",
+            "id": "tutorials/management/access-control/cluster-roles-sdk",
             "label": "管理集群角色（SDK）",
-            "key": "doc:tutorials/access-control/cluster-roles-sdk"
+            "key": "doc:tutorials/management/access-control/cluster-roles-sdk"
           },
           {
             "type": "doc",
-            "id": "tutorials/access-control/cluster-privileges",
+            "id": "tutorials/management/access-control/cluster-privileges",
             "label": "权限与权限组",
-            "key": "doc:tutorials/access-control/cluster-privileges"
+            "key": "doc:tutorials/management/access-control/cluster-privileges"
           },
           {
             "type": "category",
             "label": "SCIM Provisioning",
-            "key": "category:tutorials/access-control/scim-provisioning",
+            "key": "category:tutorials/management/access-control/scim-provisioning",
             "items": []
           }
         ]
@@ -1770,308 +1961,308 @@ module.exports = [
       {
         "type": "category",
         "label": "审计日志",
-        "key": "category:tutorials/auditing",
+        "key": "category:tutorials/management/auditing",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/auditing/audit-logs-ref",
+            "id": "tutorials/management/auditing/audit-logs-ref",
             "label": "VectorDB 审计日志参考",
-            "key": "doc:tutorials/auditing/audit-logs-ref"
+            "key": "doc:tutorials/management/auditing/audit-logs-ref"
           },
           {
             "type": "doc",
-            "id": "tutorials/auditing/view-activities",
+            "id": "tutorials/management/auditing/view-activities",
             "label": "查看平台审计日志",
-            "key": "doc:tutorials/auditing/view-activities"
+            "key": "doc:tutorials/management/auditing/view-activities"
           },
           {
             "type": "doc",
-            "id": "tutorials/auditing/audit-logs",
+            "id": "tutorials/management/auditing/audit-logs",
             "label": "VectorDB 审计日志",
-            "key": "doc:tutorials/auditing/audit-logs"
+            "key": "doc:tutorials/management/auditing/audit-logs"
           }
         ]
       },
       {
         "type": "category",
         "label": "访问日志",
-        "key": "category:tutorials/access-logs",
+        "key": "category:tutorials/management/access-logs",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/access-logs/access-log-overview",
+            "id": "tutorials/management/access-logs/access-log-overview",
             "label": "访问日志概述",
-            "key": "doc:tutorials/access-logs/access-log-overview"
+            "key": "doc:tutorials/management/access-logs/access-log-overview"
           },
           {
             "type": "doc",
-            "id": "tutorials/access-logs/configure-access-logs",
+            "id": "tutorials/management/access-logs/configure-access-logs",
             "label": "配置访问日志",
-            "key": "doc:tutorials/access-logs/configure-access-logs"
+            "key": "doc:tutorials/management/access-logs/configure-access-logs"
           },
           {
             "type": "doc",
-            "id": "tutorials/access-logs/access-log-reference",
+            "id": "tutorials/management/access-logs/access-log-reference",
             "label": "访问日志参考",
-            "key": "doc:tutorials/access-logs/access-log-reference"
+            "key": "doc:tutorials/management/access-logs/access-log-reference"
           }
         ]
       },
       {
         "type": "category",
         "label": "用户鉴权",
-        "key": "category:tutorials/authentication",
+        "key": "category:tutorials/management/authentication",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/authentication/email-accounts",
+            "id": "tutorials/management/authentication/email-accounts",
             "label": "邮箱账号",
-            "key": "doc:tutorials/authentication/email-accounts"
+            "key": "doc:tutorials/management/authentication/email-accounts"
           },
           {
             "type": "doc",
-            "id": "tutorials/authentication/manage-api-keys",
+            "id": "tutorials/management/authentication/manage-api-keys",
             "label": "API 密钥",
-            "key": "doc:tutorials/authentication/manage-api-keys"
+            "key": "doc:tutorials/management/authentication/manage-api-keys"
           },
           {
             "type": "doc",
-            "id": "tutorials/authentication/cluster-credentials",
+            "id": "tutorials/management/authentication/cluster-credentials",
             "label": "集群身份凭证",
-            "key": "doc:tutorials/authentication/cluster-credentials"
+            "key": "doc:tutorials/management/authentication/cluster-credentials"
           },
           {
             "type": "doc",
-            "id": "tutorials/authentication/multi-factor-auth",
+            "id": "tutorials/management/authentication/multi-factor-auth",
             "label": "管理 MFA",
-            "key": "doc:tutorials/authentication/multi-factor-auth"
+            "key": "doc:tutorials/management/authentication/multi-factor-auth"
           }
         ]
       },
       {
         "type": "category",
         "label": "IP 白名单",
-        "key": "category:tutorials/ip-allowlists",
+        "key": "category:tutorials/management/ip-allowlists",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/ip-allowlists/setup-console-ip-allowlist",
+            "id": "tutorials/management/ip-allowlists/setup-console-ip-allowlist",
             "label": "设置控制台 IP 白名单",
-            "key": "doc:tutorials/ip-allowlists/setup-console-ip-allowlist"
+            "key": "doc:tutorials/management/ip-allowlists/setup-console-ip-allowlist"
           },
           {
             "type": "doc",
-            "id": "tutorials/ip-allowlists/setup-whitelist",
+            "id": "tutorials/management/ip-allowlists/setup-whitelist",
             "label": "设置集群 IP 白名单",
-            "key": "doc:tutorials/ip-allowlists/setup-whitelist"
+            "key": "doc:tutorials/management/ip-allowlists/setup-whitelist"
           }
         ]
       },
       {
         "type": "category",
         "label": "私网连接",
-        "key": "category:tutorials/private-endpoint",
+        "key": "category:tutorials/management/private-endpoint",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/private-endpoint/setup-a-private-link-aws",
+            "id": "tutorials/management/private-endpoint/setup-a-private-link-aws",
             "label": "创建亚马逊云科技 PrivateLink",
-            "key": "doc:tutorials/private-endpoint/setup-a-private-link-aws"
+            "key": "doc:tutorials/management/private-endpoint/setup-a-private-link-aws"
           },
           {
             "type": "doc",
-            "id": "tutorials/private-endpoint/aliyun-private-link",
+            "id": "tutorials/management/private-endpoint/aliyun-private-link",
             "label": "创建阿里云私网连接（Private Link）",
-            "key": "doc:tutorials/private-endpoint/aliyun-private-link"
+            "key": "doc:tutorials/management/private-endpoint/aliyun-private-link"
           },
           {
             "type": "doc",
-            "id": "tutorials/private-endpoint/tencent-private-link",
+            "id": "tutorials/management/private-endpoint/tencent-private-link",
             "label": "创建腾讯云私有连接（Private Link）",
-            "key": "doc:tutorials/private-endpoint/tencent-private-link"
+            "key": "doc:tutorials/management/private-endpoint/tencent-private-link"
           }
         ]
       },
       {
         "type": "doc",
-        "id": "tutorials/single-sign-on-with-okta",
+        "id": "tutorials/management/single-sign-on-with-okta",
         "label": "使用 Okta 配置 SSO",
-        "key": "doc:tutorials/single-sign-on-with-okta"
+        "key": "doc:tutorials/management/single-sign-on-with-okta"
       },
       {
         "type": "category",
         "label": "账单管理",
-        "key": "category:tutorials/billing-management",
+        "key": "category:tutorials/management/billing-management",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/billing-management/payment-billing",
+            "id": "tutorials/management/billing-management/payment-billing",
             "label": "支付方式与账单",
-            "key": "doc:tutorials/billing-management/payment-billing"
+            "key": "doc:tutorials/management/billing-management/payment-billing"
           },
           {
             "type": "category",
             "label": "设置支付方式",
-            "key": "category:tutorials/billing-management/set-up-payment-method",
+            "key": "category:tutorials/management/billing-management/set-up-payment-method",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/billing-management/set-up-payment-method/enterprise-verification",
+                "id": "tutorials/management/billing-management/set-up-payment-method/enterprise-verification",
                 "label": "企业认证",
-                "key": "doc:tutorials/billing-management/set-up-payment-method/enterprise-verification"
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/enterprise-verification"
               },
               {
                 "type": "doc",
-                "id": "tutorials/billing-management/set-up-payment-method/cash-recharge",
+                "id": "tutorials/management/billing-management/set-up-payment-method/cash-recharge",
                 "label": "现金充值（对公转账）",
-                "key": "doc:tutorials/billing-management/set-up-payment-method/cash-recharge"
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/cash-recharge"
               },
               {
                 "type": "doc",
-                "id": "tutorials/billing-management/set-up-payment-method/aliyun-marketplace",
+                "id": "tutorials/management/billing-management/set-up-payment-method/aliyun-marketplace",
                 "label": "订阅阿里云云市场",
-                "key": "doc:tutorials/billing-management/set-up-payment-method/aliyun-marketplace"
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/aliyun-marketplace"
               },
               {
                 "type": "doc",
-                "id": "tutorials/billing-management/set-up-payment-method/amazon-marketplace-cn",
+                "id": "tutorials/management/billing-management/set-up-payment-method/amazon-marketplace-cn",
                 "label": "订阅亚马逊云科技 Marketplace",
-                "key": "doc:tutorials/billing-management/set-up-payment-method/amazon-marketplace-cn"
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/amazon-marketplace-cn"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/billing-management/update-billing-profile",
+            "id": "tutorials/management/billing-management/update-billing-profile",
             "label": "更新账单接收信息",
-            "key": "doc:tutorials/billing-management/update-billing-profile"
+            "key": "doc:tutorials/management/billing-management/update-billing-profile"
           },
           {
             "type": "doc",
-            "id": "tutorials/billing-management/view-invoice",
+            "id": "tutorials/management/billing-management/view-invoice",
             "label": "了解账单",
-            "key": "doc:tutorials/billing-management/view-invoice"
+            "key": "doc:tutorials/management/billing-management/view-invoice"
           },
           {
             "type": "doc",
-            "id": "tutorials/billing-management/manage-invoice",
+            "id": "tutorials/management/billing-management/manage-invoice",
             "label": "开具发票",
-            "key": "doc:tutorials/billing-management/manage-invoice"
+            "key": "doc:tutorials/management/billing-management/manage-invoice"
           },
           {
             "type": "doc",
-            "id": "tutorials/billing-management/failed-payments-organization-recovery",
+            "id": "tutorials/management/billing-management/notice-on-config-changes",
+            "label": "变更配置费用说明",
+            "key": "doc:tutorials/management/billing-management/notice-on-config-changes"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/billing-management/failed-payments-organization-recovery",
             "label": "处理支付失败与组织冻结",
-            "key": "doc:tutorials/billing-management/failed-payments-organization-recovery"
-          },
-          {
-            "type": "category",
-            "label": "按 Marketplace 账号拆分账单",
-            "key": "category:tutorials/billing-management/marketplace",
-            "items": []
+            "key": "doc:tutorials/management/billing-management/failed-payments-organization-recovery"
           },
           {
             "type": "doc",
-            "id": "tutorials/billing-management/monitor-billing-alerts",
+            "id": "tutorials/management/billing-management/monitor-billing-alerts",
             "label": "设置账单告警",
-            "key": "doc:tutorials/billing-management/monitor-billing-alerts"
+            "key": "doc:tutorials/management/billing-management/monitor-billing-alerts"
           },
           {
             "type": "doc",
-            "id": "tutorials/billing-management/manage-orders",
+            "id": "tutorials/management/billing-management/manage-orders",
             "label": "管理订单",
-            "key": "doc:tutorials/billing-management/manage-orders"
+            "key": "doc:tutorials/management/billing-management/manage-orders"
           },
           {
             "type": "doc",
-            "id": "tutorials/billing-management/renewal",
+            "id": "tutorials/management/billing-management/renewal",
             "label": "续订说明",
-            "key": "doc:tutorials/billing-management/renewal"
+            "key": "doc:tutorials/management/billing-management/renewal"
           }
         ]
       },
       {
         "type": "category",
         "label": "成本管理",
-        "key": "category:tutorials/cost-management",
+        "key": "category:tutorials/management/cost-management",
         "items": [
           {
             "type": "category",
             "label": "了解费用",
-            "key": "category:tutorials/cost-management/understand-cost",
+            "key": "category:tutorials/management/cost-management/understand-cost",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/cost-management/understand-cost/on-demand-compute-cost",
+                "id": "tutorials/management/cost-management/understand-cost/on-demand-compute-cost",
                 "label": "按需计算费用",
-                "key": "doc:tutorials/cost-management/understand-cost/on-demand-compute-cost"
+                "key": "doc:tutorials/management/cost-management/understand-cost/on-demand-compute-cost"
               },
               {
                 "type": "doc",
-                "id": "tutorials/cost-management/understand-cost/dedicated-cluster-cost",
+                "id": "tutorials/management/cost-management/understand-cost/dedicated-cluster-cost",
                 "label": "Dedicated 集群费用",
-                "key": "doc:tutorials/cost-management/understand-cost/dedicated-cluster-cost"
+                "key": "doc:tutorials/management/cost-management/understand-cost/dedicated-cluster-cost"
               },
               {
                 "type": "doc",
-                "id": "tutorials/cost-management/understand-cost/serverless-cluster-cost",
+                "id": "tutorials/management/cost-management/understand-cost/serverless-cluster-cost",
                 "label": "Serverless 集群费用",
-                "key": "doc:tutorials/cost-management/understand-cost/serverless-cluster-cost"
+                "key": "doc:tutorials/management/cost-management/understand-cost/serverless-cluster-cost"
               },
               {
                 "type": "doc",
-                "id": "tutorials/cost-management/understand-cost/storage-cost",
+                "id": "tutorials/management/cost-management/understand-cost/storage-cost",
                 "label": "存储费用",
-                "key": "doc:tutorials/cost-management/understand-cost/storage-cost"
+                "key": "doc:tutorials/management/cost-management/understand-cost/storage-cost"
               },
               {
                 "type": "doc",
-                "id": "tutorials/cost-management/understand-cost/storage-request-cost",
+                "id": "tutorials/management/cost-management/understand-cost/storage-request-cost",
                 "label": "存储请求费用",
-                "key": "doc:tutorials/cost-management/understand-cost/storage-request-cost"
+                "key": "doc:tutorials/management/cost-management/understand-cost/storage-request-cost"
               },
               {
                 "type": "doc",
-                "id": "tutorials/cost-management/understand-cost/data-transfer-cost",
+                "id": "tutorials/management/cost-management/understand-cost/data-transfer-cost",
                 "label": "数据传输费用",
-                "key": "doc:tutorials/cost-management/understand-cost/data-transfer-cost"
+                "key": "doc:tutorials/management/cost-management/understand-cost/data-transfer-cost"
               },
               {
                 "type": "doc",
-                "id": "tutorials/cost-management/understand-cost/audit-log-cost",
+                "id": "tutorials/management/cost-management/understand-cost/audit-log-cost",
                 "label": "审计日志费用",
-                "key": "doc:tutorials/cost-management/understand-cost/audit-log-cost"
+                "key": "doc:tutorials/management/cost-management/understand-cost/audit-log-cost"
               }
             ]
           },
           {
             "type": "doc",
-            "id": "tutorials/cost-management/analyze-cost",
+            "id": "tutorials/management/cost-management/analyze-cost",
             "label": "分析成本",
-            "key": "doc:tutorials/cost-management/analyze-cost"
+            "key": "doc:tutorials/management/cost-management/analyze-cost"
           },
           {
             "type": "doc",
-            "id": "tutorials/cost-management/cost-optimization",
+            "id": "tutorials/management/cost-management/cost-optimization",
             "label": "成本优化",
-            "key": "doc:tutorials/cost-management/cost-optimization"
+            "key": "doc:tutorials/management/cost-management/cost-optimization"
           }
         ]
       },
       {
         "type": "category",
         "label": "使用限制",
-        "key": "category:tutorials/limits",
+        "key": "category:tutorials/management/limits",
         "link": {
           "type": "doc",
-          "id": "tutorials/limits/limits"
+          "id": "tutorials/management/limits/limits"
         },
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/limits/api-comparison",
+            "id": "tutorials/management/limits/api-comparison",
             "label": "API 异同",
-            "key": "doc:tutorials/limits/api-comparison"
+            "key": "doc:tutorials/management/limits/api-comparison"
           }
         ]
       }
@@ -2080,102 +2271,267 @@ module.exports = [
   {
     "type": "category",
     "label": "客户端参考",
-    "key": "category:tutorials/item",
+    "key": "category:tutorials/client-libraries",
     "items": [
       {
         "type": "doc",
-        "id": "tutorials/install-sdks",
+        "id": "tutorials/client-libraries/install-sdks",
         "label": "安装 SDK",
-        "key": "doc:tutorials/install-sdks"
+        "key": "doc:tutorials/client-libraries/install-sdks"
       },
       {
         "type": "link",
         "href": "/reference/restful",
         "label": "RESTful API",
-        "key": "link:tutorials/restful-api"
+        "key": "link:tutorials/client-libraries/restful-api"
       },
       {
         "type": "link",
         "href": "/reference/python",
         "label": "Python",
-        "key": "link:tutorials/python"
+        "key": "link:tutorials/client-libraries/python"
       },
       {
         "type": "link",
         "href": "/reference/java",
         "label": "Java",
-        "key": "link:tutorials/java"
+        "key": "link:tutorials/client-libraries/java"
       },
       {
         "type": "link",
         "href": "/reference/go",
         "label": "Go",
-        "key": "link:tutorials/go"
+        "key": "link:tutorials/client-libraries/go"
       },
       {
         "type": "link",
         "href": "/reference/nodejs",
         "label": "Node.js",
-        "key": "link:tutorials/nodejs"
+        "key": "link:tutorials/client-libraries/nodejs"
       },
       {
         "type": "link",
         "href": "/reference/cpp",
         "label": "C++",
-        "key": "link:tutorials/cpp"
+        "key": "link:tutorials/client-libraries/cpp"
       }
     ]
   },
   {
     "type": "category",
     "label": "工具",
-    "key": "category:tutorials/item",
+    "key": "category:tutorials/tools",
     "items": [
+      {
+        "type": "category",
+        "label": "智能体与提示词",
+        "key": "category:tutorials/tools/agents-and-prompts",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/tools/agents-and-prompts/agents-and-prompts"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/tools/agents-and-prompts/zilliz-skill",
+            "label": "Zilliz Skill",
+            "key": "doc:tutorials/tools/agents-and-prompts/zilliz-skill"
+          },
+          {
+            "type": "category",
+            "label": "Claude Code 插件",
+            "key": "category:tutorials/tools/agents-and-prompts/zilliz-plugin",
+            "link": {
+              "type": "doc",
+              "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin"
+            },
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup",
+                "label": "安装与配置",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities",
+                "label": "核心能力",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples",
+                "label": "更多示例",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples"
+              }
+            ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/tools/agents-and-prompts/zilliz-gemini-extension",
+            "label": "Gemini CLI 扩展",
+            "key": "doc:tutorials/tools/agents-and-prompts/zilliz-gemini-extension"
+          },
+          {
+            "type": "category",
+            "label": "AI 提示词",
+            "key": "category:tutorials/tools/agents-and-prompts/zilliz-ai-prompts",
+            "link": {
+              "type": "doc",
+              "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts"
+            },
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts",
+                "label": "基础提示词",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts",
+                "label": "资源规划",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts",
+                "label": "定价",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts",
+                "label": "集群连接",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts",
+                "label": "Schema 设计",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts",
+                "label": "搜索",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts",
+                "label": "导入",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts",
+                "label": "迁移",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts",
+                "label": "访问控制",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts",
+                "label": "集成",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/on-demand-search",
+                "label": "按需搜索",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/on-demand-search"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration",
+                "label": "回填与 Schema 迭代",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/indexes",
+                "label": "索引",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/indexes"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions",
+                "label": "智能体插件与扩展",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/tools/terraform-provider",
+        "label": "Terraform Provider",
+        "key": "doc:tutorials/tools/terraform-provider"
+      },
       {
         "type": "link",
         "href": "/reference/cli/cli/overview",
         "label": "Zilliz CLI",
-        "key": "link:tutorials/zilliz-cli"
+        "key": "link:tutorials/tools/zilliz-cli"
       }
     ]
   },
   {
     "type": "category",
     "label": "AI 模型",
-    "key": "category:tutorials/ai",
+    "key": "category:tutorials/ai-models",
     "items": [
       {
         "type": "doc",
-        "id": "tutorials/ai/integrate-with-model-providers",
+        "id": "tutorials/ai-models/integrate-with-model-providers",
         "label": "模型供应商",
-        "key": "doc:tutorials/ai/integrate-with-model-providers"
+        "key": "doc:tutorials/ai-models/integrate-with-model-providers"
       },
       {
         "type": "category",
         "label": "文本嵌入模型",
-        "key": "category:tutorials/ai/item",
+        "key": "category:tutorials/ai-models/text-embedding-models",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/function/text-embedding-functions/siliconflow",
+            "type": "link",
+            "href": "/docs/siliconflow",
             "label": "硅基流动",
-            "key": "ref:tutorials/ai/siliconflow"
+            "key": "ref:tutorials/ai-models/text-embedding-models/siliconflow"
+          },
+          {
+            "type": "link",
+            "href": "/docs/hugging-face",
+            "label": "Hugging Face",
+            "key": "ref:tutorials/ai-models/text-embedding-models/hugging-face"
           }
         ]
       },
       {
         "type": "category",
         "label": "重排序模型",
-        "key": "category:tutorials/ai/item",
+        "key": "category:tutorials/ai-models/reranking-models",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/function/reranking-functions/model-based-rerankers/siliconflow-model-ranker",
+            "type": "link",
+            "href": "/docs/siliconflow-model-ranker",
             "label": "硅基流动 Ranker",
-            "key": "ref:tutorials/ai/siliconflow-model-ranker"
+            "key": "ref:tutorials/ai-models/reranking-models/siliconflow-model-ranker"
+          },
+          {
+            "type": "link",
+            "href": "/docs/hugging-face-ranker",
+            "label": "Hugging Face Ranker",
+            "key": "ref:tutorials/ai-models/reranking-models/hugging-face-ranker"
           }
         ]
       }
     ]
   }
-];
+]

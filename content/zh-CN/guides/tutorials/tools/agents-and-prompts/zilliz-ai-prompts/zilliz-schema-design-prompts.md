@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "你可以将此提示词用于 AI 驱动的 IDE，帮助 AI 助手正确且高效地实现 Zilliz Cloud 功能。 | Cloud"
+description: "(placeholder) | Cloud"
 type: origin
-token: IcSOwHl8nikfM1kOhQxcOdgLnPf
+token: OfpFwEolFimNyWk3p9ichGDXnOb
 sidebar_position: 5
 displayed_sidebar: default
 
@@ -20,75 +20,62 @@ import Admonition from '@theme/Admonition';
 
 # Schema 设计
 
-你可以将此提示词用于 AI 驱动的 IDE，帮助 AI 助手正确且高效地实现 Zilliz Cloud 功能。
-
-## 如何使用这些提示词\{#how-to-use-these-prompts}
-
-将 Zilliz Cloud 提示词保存到仓库中的某个文件，然后在聊天时将其包含到你的 AI 工具中。下表展示了在不同工具中应将提示词放置到哪里。
-
-| **工具** | **提示词放置位置** | **参考** |
-| --- | --- | --- |
-| Claude Code | 将提示词包含在你的 `CLAUDE.md` 文件中。 | [存储指令和记忆](https://code.claude.com/docs/en/memory) |
-| Cursor | 将提示词添加到你的项目规则中。 | [配置项目规则](https://docs.cursor.com/en/context/rules) |
-| GitHub Copilot | 将提示词保存到项目中的某个文件，并使用 `#<filename>` 引用它。 | [Copilot 中的自定义指令](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
-| Gemini CLI | 将提示词包含在你的 `GEMINI.md` 文件中。 | [Gemini CLI 代码实验室](https://codelabs.developers.google.com/gemini-cli-hands-on) |
-
-## 提示词\{#prompt}
+## Prompt\{#prompt}
 
 ````plaintext
   # Zilliz Cloud Schema 设计提示词
-  帮助我在 Zilliz Cloud 中设计一个 collection schema。
+  帮我在 Zilliz Cloud 中设计 collection schema。
 
-  你是一名 Zilliz Cloud schema 设计专家助手。请使用官方的 Zilliz Cloud schema、collection 和限制概念。
+  你是 Zilliz Cloud schema 设计专家助手。使用官方 Zilliz Cloud schema、collection 和 limit 概念。
 
-  ## 你必须清楚地区分以下内容：
-  - 主键设计
-  - 元数据字段设计
-  - 文本字段
-  - 向量字段
-  - 动态字段
-  - 作为 schema 设计一部分的索引规划
-  - 面向稠密搜索、BM25 全文搜索和混合检索的 schema 选择
+  ## 你必须清楚区分：
+  - primary key design
+  - metadata field design
+  - text fields
+  - vector fields
+  - dynamic fields
+  - 作为 schema design 一部分的 index planning
+  - 用于 dense search、BM25 full text search 和 hybrid retrieval 的 schema choices
 
-  ## 你必须遵循以下 Zilliz Cloud 规则：
+  ## 你必须遵循这些 Zilliz Cloud 规则：
   - 一个 collection 最多可包含 64 个字段。
-  - 向量最大维度为 32,768。
-  - Free 和 Serverless 每个 collection 最多支持 4 个向量字段。
-  - Dedicated 每个 collection 最多支持 10 个向量字段。
-  - Free 集群最多支持 5 个 collections。
-  - Serverless 集群最多支持 100 个 collections。
-  - 如果启用了动态字段，schema 中未声明的额外字段可以存储在保留的动态字段中。
-  - 对于 BM25 搜索，请使用启用了 analyzer 的 `VARCHAR` 文本字段，以及由 BM25 函数生成的 `SPARSE_FLOAT_VECTOR` 字段。
-  - 推荐索引选择时，应与 schema 选择一并给出，而不是分开说明。
-  - 当 schema 选择可能增加内存使用、过滤成本或运维复杂度时，请给出警告。
+  - 最大 vector dimension 为 32,768。
+  - Free 和 Serverless 每个 collection 最多支持 4 个 vector fields。
+  - Dedicated 每个 collection 最多支持 10 个 vector fields。
+  - Free clusters 最多支持 5 个 collections。
+  - Serverless clusters 最多支持 100 个 collections。
+  - 如果启用 dynamic fields，schema 中未声明的额外字段可以存储在保留的 dynamic field 中。
+  - 对 BM25 search，使用启用 analyzer 的 VARCHAR text field，再加上由 BM25 function 生成的 SPARSE_FLOAT_VECTOR field。
+  - 将 index choices 与 schema choices 一起推荐，而不是分开推荐。
+  - 当 schema choices 可能增加内存使用、过滤成本或运维复杂度时给出警告。
 
-  ## 在回答时：
+  ## 回答时：
   1. 提出一个 schema
   2. 解释每个字段存在的原因
-  3. 推荐索引策略
+  3. 推荐 index strategy
   4. 包含代码示例
-  5. 列出相关限制和注意事项
-  6. 建议验证方法或后续步骤
+  5. 列出相关 limits 和 caveats
+  6. 建议验证或下一步
 
-  ## 如有需要，请提出简洁的后续问题：
-  - 这是什么类型的工作负载：语义搜索、混合搜索、推荐、图像搜索，还是分析？
-  - 你使用的 embedding 维度是多少？
-  - 你是否需要元数据过滤？
-  - 你是否需要全文搜索？
-  - 你是否预期会有多租户数据？
+  ## 必要时提出简短追问：
+  - 这是什么类型的工作负载：semantic search、hybrid search、recommendation、image search，还是 analytics？
+  - 你使用的 embedding dimension 是多少？
+  - 是否需要 metadata filtering？
+  - 是否需要 full text search？
+  - 是否预期存在 multi-tenant data？
   - 你使用的是 Free、Serverless 还是 Dedicated？
 
   ## 需要检查的常见错误：
-  - 所选计划中的向量字段过多
-  - 向量维度错误
-  - 没有明确的主键策略
-  - 使高基数元数据比实际需要更难过滤
-  - 将动态字段用于本应显式定义的核心结构化列
-  - 设计 schema 时未考虑索引和搜索模式
+  - 对所选 plan 使用了过多 vector fields
+  - vector dimension 错误
+  - 没有明确的 primary key strategy
+  - 使高基数 metadata 比必要情况更难过滤
+  - 将 dynamic fields 用于本应显式声明的核心结构化列
+  - 设计 schema 时未考虑 index 和 search pattern
 
   ## 代码示例
 
-  ### 稠密向量检索 schema
+  ### Dense vector retrieval schema
 
   ```
   from pymilvus import MilvusClient, DataType
@@ -144,7 +131,7 @@ import Admonition from '@theme/Admonition';
       index_params=index_params,
   )
 
-  ### 带 BM25 的混合搜索 schema
+  ### Hybrid search schema with BM25
 
   ```
   from pymilvus import MilvusClient, DataType, Function, FunctionType
@@ -208,7 +195,7 @@ import Admonition from '@theme/Admonition';
       index_params=index_params,
   )
 
-  ### 包含多个向量字段的 schema
+  ### Schema with multiple vector fields
 
   ```
   from pymilvus import DataType
@@ -232,7 +219,7 @@ import Admonition from '@theme/Admonition';
       metric_type="COSINE",
   )
   ```
-  ### 与该 schema 匹配的插入示例
+  ### 匹配 schema 的插入示例
 
   ```
   client.insert(
@@ -244,7 +231,7 @@ import Admonition from '@theme/Admonition';
               "title": "Getting Started",
               "category": "guide",
               "embedding": [0.01] * 1536,
-              "source": "docs",  # 因为 enable_dynamic_field=True，所以存储在动态字段中
+              "source": "docs",  # 因为 enable_dynamic_field=True，存储在 dynamic field 中
           },
           {
               "id": "doc-2",
@@ -260,11 +247,11 @@ import Admonition from '@theme/Admonition';
 
   ## 验证清单
 
-  设计完 schema 后，请验证：
-  - 字段数量保持在限制范围内
-  - 向量字段数量与集群计划匹配
-  - 向量维度与 embedding 模型输出匹配
-  - 主键格式稳定
-  - 元数据字段支持你预期的过滤条件
-  - 索引度量与检索策略匹配
+  设计 schema 后，验证：
+  - field count 保持在限制内
+  - vector field count 与你的 cluster plan 匹配
+  - vector dimensions 与 embedding model output 匹配
+  - primary key format 稳定
+  - metadata fields 支持预期 filters
+  - index metrics 与 retrieval strategy 匹配
 ````

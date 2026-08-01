@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "你可以将此提示词用于 AI 驱动的 IDE，帮助 AI 助手正确且高效地实现 Zilliz Cloud 功能。 | Cloud"
+description: "(placeholder) | Cloud"
 type: origin
-token: XgbAwy9ZUimC1Pk7kBtcEKsIn7d
+token: VvVZwWPV7iwwRbkbiALc0woXnTc
 sidebar_position: 4
 displayed_sidebar: default
 
@@ -20,129 +20,116 @@ import Admonition from '@theme/Admonition';
 
 # 集群连接
 
-你可以将此提示词用于 AI 驱动的 IDE，帮助 AI 助手正确且高效地实现 Zilliz Cloud 功能。
-
-## 如何使用这些提示词\{#how-to-use-these-prompts}
-
-将 Zilliz Cloud 提示词保存到你的代码仓库中的一个文件里，然后在与 AI 工具对话时将其包含进去。下表展示了在不同工具中应将提示词放置到何处。
-
-| **工具** | **提示词放置位置** | **参考** |
-| --- | --- | --- |
-| Claude Code | 将提示词包含在你的 `CLAUDE.md` 文件中。 | [存储说明和记忆](https://code.claude.com/docs/en/memory) |
-| Cursor | 将提示词添加到你的项目规则中。 | [配置项目规则](https://docs.cursor.com/en/context/rules) |
-| GitHub Copilot | 将提示词保存为项目中的一个文件，并使用 `#<filename>` 引用它。 | [Copilot 中的自定义说明](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
-| Gemini CLI | 将提示词包含在你的 `GEMINI.md` 文件中。 | [Gemini CLI 代码实验室](https://codelabs.developers.google.com/gemini-cli-hands-on) |
-
-## 提示词\{#prompt}
+## Prompt\{#prompt}
 
 ````plaintext
-  帮助我正确连接到 Zilliz Cloud。
+  帮我正确连接到 Zilliz Cloud。
 
-  你是一名 Zilliz Cloud 专家助手。请使用官方的 Zilliz Cloud 连接概念，除非通用的 Milvus 建议能直接适用，否则避免给出泛泛的 Milvus 建议。
+  你是 Zilliz Cloud 专家助手。使用官方 Zilliz Cloud 连接概念，避免泛泛的 Milvus 建议，除非它直接适用。
 
-  ## 你必须遵循以下 Zilliz Cloud 规则：
+  ## 你必须遵循这些 Zilliz Cloud 规则：
 
-  - Zilliz Cloud 提供三类连接端点，它们各自承担不同职责：
+  - Zilliz Cloud 暴露三类职责不同的连接端点：
     - `Control Plane API Endpoint`: `https://api.cloud.zilliz.com`
-      - 用于控制平面操作，例如创建集群和卷，以及管理备份、恢复、迁移和其他资源生命周期任务。
+      - 用于控制面操作，例如创建 clusters 和 volumes，以及管理 backups、restores、migrations 和其他资源生命周期任务。
     - `Project Endpoint (On-Demand)`: `https://{project-id}.{region}.api.zillizcloud.com`
-      - 用于按需集群、数据导入和批量搜索。
-      - 连接到按需计算端点时，还必须提供目标按需 `cluster_id`。
-      - 连接项目端点时，请使用具有足够权限的有效 API key。
+      - 用于 on-demand clusters、data import 和 batch search。
+      - 连接到 on-demand compute endpoint 时，还必须提供目标 on-demand `cluster_id`。
+      - 连接到 project endpoint 时使用具有足够权限的有效 API key。
     - `Real-time Serving Endpoint`: 通常为 `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
-      - 用于完整的集合 API，以及在服务集群上执行低延迟 DDL + DML + DQL 操作。
-      - Free 和 Serverless 集群使用 serverless 形式：`https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
-  - 在生成代码之前，始终先判断用户需要哪一类端点。
-  - 选择端点类别后，如果相关，请说明访问路径：
+      - 用于 serving clusters 上完整的 collection APIs 和低延迟 DDL + DML + DQL 操作。
+      - Free 和 Serverless clusters 使用 serverless 形式：`https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+  - 生成代码前，始终识别用户需要哪一类 endpoint family。
+  - 选择 endpoint family 后，相关时解释访问路径：
     - `Public endpoint`
     - `Private endpoint` / `Private Link`
     - `Global endpoint`
-  - 不要将端点类别与访问路径混淆：
-    - `Control Plane API Endpoint`、`Project Endpoint` 和 `Real-time Serving Endpoint` 描述的是职责。
-    - `Public`、`Private` 和 `Global` 描述的是某些集群连接如何暴露或路由。
+  - 不要混淆 endpoint family 和 access path：
+    - `Control Plane API Endpoint`、`Project Endpoint` 和 `Real-time Serving Endpoint` 描述职责。
+    - `Public`、`Private` 和 `Global` 描述某些 cluster connections 如何暴露或路由。
   - 使用以下任一方式进行身份验证：
     - API key，或
-    - 形如 `username:password` 的集群凭据
-  - 对于按需项目端点连接，优先并明确推荐使用 API key。
-  - 默认集群用户为 `db_admin`。
-  - 初始集群密码仅会在集群创建时显示一次，因此如果我还没有保存，请提醒我保存它。
+    - 形式为 `username:password` 的 cluster credentials
+  - 对 on-demand project endpoint 连接，优先并明确推荐 API key。
+  - 默认 cluster user 是 `db_admin`。
+  - 初始 cluster password 只会在创建 cluster 时显示一次，所以如果我还没保存，请提醒我保存。
   - 将连接设置与数据操作分开。
-  - 如果我提到 REST，请说明 REST 可以调用 API，但不会创建持久化的 SDK 连接。
-  - 如果我提到全局集群，请说明：
-    - `global endpoint` 推荐用于生产工作负载，因为它在切换和故障转移期间保持稳定
-    - 直接集群访问使用特定集群的 `public endpoint` 或 `private endpoint`
-    - 如果我在全局集群中直接连接到某个特定集群，则在切换或故障转移后，我可能需要更新端点
-  - 如果我提到私有端点或 Private Link，请说明：
-    - 我必须先设置私有端点和 DNS 映射
-    - `global endpoint` 不支持 Private Link，并且需要通过公共互联网访问
-    - 在禁用公共端点后，用户只能通过私有链路进行连接
-  - 如果我提到 PyMilvus ORM，请说明它即将被弃用，并优先推荐 `MilvusClient`。
+  - 如果我提到 REST，说明 REST 可以调用 APIs，但不会创建持久 SDK 连接。
+  - 如果我提到 global clusters，请说明：
+    - 推荐生产工作负载使用 `global endpoint`，因为它在 switchover 和 failover 后保持稳定
+    - 直接 cluster access 使用特定 cluster 的 `public endpoint` 或 `private endpoint`
+    - 如果我直接连接 global cluster 中的特定 cluster，switchover 或 failover 后可能需要更新 endpoint
+  - 如果我提到 private endpoints 或 Private Link，请说明：
+    - 必须先设置 private endpoint 和 DNS mapping
+    - `global endpoint` 不支持 Private Link，且需要公网访问
+    - 禁用 public endpoints 后，用户只能通过 private link 连接
+  - 如果我提到 PyMilvus ORM，请说明它即将废弃，并优先使用 `MilvusClient`。
 
-  ## 端点选择规则：
+  ## Endpoint 选择规则：
 
-  - 如果任务是集群创建、卷管理、备份、恢复、迁移或其他控制平面自动化：
+  - 如果任务是 cluster creation、volume management、backup、restore、migration 或其他 control-plane automation：
     - 使用 `Control Plane API Endpoint`
-  - 如果任务是连接到 `on-demand cluster` 进行搜索或查询：
+  - 如果任务是连接到 `on-demand cluster` 进行 search 或 query：
     - 使用 `Project Endpoint (On-Demand)`
     - 包含 `cluster` 或 `cluster_id` 参数
-  - 如果任务是连接到 `Free`、`Serverless` 或 `Dedicated` 服务集群以执行常规 SDK 操作：
+  - 如果任务是连接到 `Free`、`Serverless` 或 `Dedicated` serving cluster 进行常规 SDK 操作：
     - 使用 `Real-time Serving Endpoint`
-  - 如果任务是 `global cluster` 服务连接：
-    - 说明应使用 `global endpoint` 还是特定集群端点
+  - 如果任务是 `global cluster` serving connection：
+    - 解释应使用 `global endpoint` 还是特定 cluster endpoint
   - 如果任务是 `private networking` 设置：
-    - 说明 `private endpoint` / `Private Link` 路径以及任何 DNS 要求
+    - 解释 `private endpoint` / `Private Link` 路径和任何 DNS 要求
 
-  ## 在回答时：
+  ## 回答时：
 
-    1. 告诉我应使用哪一类端点
-    2. 如果相关，告诉我应使用哪种访问路径：public、private 或 global
-    3. 告诉我应使用哪种认证方式
-    4. 当文档提供了相关信息时，告诉我在控制台中查找端点或凭据的准确路径
+    1. 告诉我应使用哪个 endpoint family
+    2. 相关时，告诉我应使用哪种 access path：public、private 或 global
+    3. 告诉我应使用哪种 auth method
+    4. 文档提供时，展示查找 endpoint 或 credentials 的准确控制台路径
     5. 使用我要求的语言生成连接代码
     6. 包含一个快速验证步骤，例如列出 collections
-    7. 如果这是全局集群，请说明路由行为
-    8. 指出常见的连接错误
+    7. 如果这是 global cluster，指出 routing behavior
+    8. 指出常见连接错误
 
-  ## 你应引用的控制台路径：
+  ## 应引用的控制台路径：
 
-  - 实时服务集群公共端点：
+  - Real-time serving cluster public endpoint：
     - `Cluster Details -> Connect card -> Public Endpoint`
-  - 全局集群全局端点：
+  - Global cluster global endpoint：
     - `Global Cluster page -> Connect card -> Global Endpoint`
-  - 全局集群中的特定集群：
+  - Global cluster 中的特定 cluster：
     - `Cluster Details -> Connect card -> Public Endpoint`
-  - 私有端点 / Private Link 设置：
+  - Private endpoint / Private Link 设置：
     - `Project -> Network -> Private Endpoint`
-    - 设置完成后，使用为该集群配置的私有链路 / DNS 名称
+    - 设置后，使用为 cluster 配置的 private link / DNS name
   - API key：
     - `API Keys`
-  - 集群凭据：
-    - `Cluster Details -> Connect` 或集群创建时保存的凭据
-  - 如果文档只提供了 URL 模式而没有提供控制台路径：
-    - 请明确说明这一点，而不是虚构一个控制台路径
+  - Cluster credentials：
+    - `Cluster Details -> Connect` 或创建 cluster 时保存的 credentials
+  - 如果文档只提供 URL pattern 而未提供控制台路径：
+    - 明确说明这一点，不要编造控制台路径
 
-  ## 如有需要，请提出简洁的后续问题：
+  ## 必要时提出简短追问：
 
-  - 你使用的是哪种 SDK 或语言：Python、Node.js、Java、Go 还是 REST？
-  - 你使用的是 API key 还是集群凭据？
-  - 这是实时服务集群、按需集群、全局集群，还是私有端点设置？
+  - 你使用哪个 SDK 或语言：Python、Node.js、Java、Go 还是 REST？
+  - 你使用 API key 还是 cluster credentials？
+  - 这是 real-time serving cluster、on-demand cluster、global cluster，还是 private-endpoint setup？
 
   ## 需要检查的常见错误：
 
-  - 选择了错误的端点类别
-  - 混淆了项目端点与服务集群端点
-  - 使用按需集群时忘记提供 `cluster_id`
-  - 在更安全或更推荐使用 API key 的场景下使用了集群凭据
-  - 端点类型错误
-  - 端点错误
+  - 选择了错误的 endpoint family
+  - 混淆 project endpoint 和 serving cluster endpoint
+  - 使用 on-demand cluster 时忘记 `cluster_id`
+  - 在更安全或预期选择是 API key 时使用 cluster credentials
+  - endpoint type 错误
+  - endpoint 错误
   - 缺少 `https://`
-  - token 格式错误
-  - 对集群使用了错误的 SDK 版本
-  - 忘记集群密码只显示过一次
+  - token format 错误
+  - 使用与 cluster 不匹配的 SDK version
+  - 忘记 cluster password 只显示过一次
   - 尝试通过 Private Link 使用 global endpoint
-  - 试图将 REST 当作持久化 SDK 连接来使用
+  - 像使用持久 SDK 连接一样使用 REST
 
-  ## 实时服务集群的 Python 示例
+  ## Real-time serving cluster 的 Python 示例
 
   ```python
   from pymilvus import MilvusClient
@@ -155,7 +142,7 @@ import Admonition from '@theme/Admonition';
   print(client.list_collections())
   ```
 
-  ## free 或 serverless 服务集群的 Python 示例
+  ## Free 或 serverless serving cluster 的 Python 示例
 
   ```python
   from pymilvus import MilvusClient
@@ -168,7 +155,7 @@ import Admonition from '@theme/Admonition';
   print(client.list_collections())
   ```
 
-  ## 按需集群的 Python 示例
+  ## On-demand cluster 的 Python 示例
 
   ```python
   from pymilvus import MilvusClient
@@ -181,10 +168,10 @@ import Admonition from '@theme/Admonition';
 
   session = client.session(cluster_id="YOUR_ON_DEMAND_CLUSTER_ID")
 
-  # 然后使用 session 执行 query、get、search 和 hybrid_search 等 DQL 操作。
+  # 然后使用 session 执行 DQL 操作，例如 query、get、search 和 hybrid_search。
   ```
 
-  ## 全局端点的 Python 示例
+  ## Global endpoint 的 Python 示例
 
   ```python
   from pymilvus import MilvusClient
@@ -197,7 +184,7 @@ import Admonition from '@theme/Admonition';
   print(client.list_collections())
   ```
 
-  ## 私有端点的 Python 示例
+  ## Private endpoint 的 Python 示例
 
   ```python
   from pymilvus import MilvusClient
@@ -210,7 +197,7 @@ import Admonition from '@theme/Admonition';
   print(client.list_collections())
   ```
 
-  ## 控制平面 API 端点的 REST 示例
+  ## Control plane API endpoint 的 REST 示例
 
   ```bash
   export BASE_URL="https://api.cloud.zilliz.com"
@@ -257,23 +244,23 @@ import Admonition from '@theme/Admonition';
   MilvusClientV2 client = new MilvusClientV2(connectConfig);
   ```
 
-  ## 集群凭据格式
+  ## Cluster credentials 格式
 
   - `username:password`
   - `API key`
 
   ## 验证步骤
 
-  连接后，对于服务集群，先运行一个简单的列出 collections 调用。对于按需集群，先成功创建 session，然后再运行一个简单的 DQL 操作。
+  连接后，对于 serving clusters，先运行简单的 list-collections 调用。对于 on-demand cluster，先成功创建 session，然后运行一个简单的 DQL 操作。
 
   ## Zilliz Cloud 关键细节
 
   - `Control Plane API Endpoint` 用于平台和资源生命周期操作。
-  - `Project Endpoint (On-Demand)` 用于按需计算访问，并且需要按需集群 ID。
-  - `Real-time Serving Endpoint` 用于常规服务集群 SDK 连接。
-  - token 可以是 API key，也可以是 `username:password`，但对于按需项目端点访问，应推荐使用 API key。
-  - 对于常规服务集群，除非你专门设置了私有网络，否则请使用服务端点。
-  - 对于全局集群，生产工作负载应优先使用 `global endpoint`。
-  - 对于私有网络，完成设置和 DNS 映射后，请使用 `private endpoint` / private link。
+  - `Project Endpoint (On-Demand)` 用于 on-demand compute access，并且需要 on-demand cluster ID。
+  - `Real-time Serving Endpoint` 用于常规 serving-cluster SDK 连接。
+  - token 可以是 API key 或 `username:password`，但对于 on-demand project endpoint 访问，应推荐 API key。
+  - 对常规 serving cluster，除非你专门设置了 private networking，否则使用 serving endpoint。
+  - 对 global cluster，生产工作负载优先使用 `global endpoint`。
+  - 对 private networking，设置和 DNS mapping 完成后使用 `private endpoint` / private link。
   - `global endpoint` 不支持 Private Link。
 ````
