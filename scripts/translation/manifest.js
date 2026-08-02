@@ -2,12 +2,18 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
+const { spawnSync } = require('node:child_process')
 const { getContentGroup } = require('../docs-workflow/content-groups')
 const { getGroupPaths } = require('../docs-workflow/group-paths')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { selectManifestBatch } = require('./batches')
 
-const { buildTranslationCandidates } = loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts')
+const {
+  buildTranslationCandidates,
+  TranslationRetirementRequiredError,
+} = loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts')
+const { resolveManualPublication } = loadTypeScript('../../packages/docs-tooling/src/manuals/registry.ts')
+const { resolvePublicationGroupWorkflow } = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts')
 
 const SHA = /^[0-9a-f]{40}$/
 
@@ -86,6 +92,218 @@ function readRetirementRegistry(siteDir, target) {
   return fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : undefined
 }
 
+function readJsonIfPresent(siteDir, relativePath) {
+  const absolutePath = path.join(siteDir, relativePath)
+  return fs.existsSync(absolutePath) ? JSON.parse(fs.readFileSync(absolutePath, 'utf8')) : null
+}
+
+function readJsonAtCommit(siteDir, commitSha, relativePath) {
+  if (!SHA.test(commitSha || '')) return null
+  const result = spawnSync('git', ['-C', siteDir, 'show', `${commitSha}:${relativePath}`], {
+    encoding: 'utf8',
+    maxBuffer: 16 * 1024 * 1024,
+  })
+  if (result.status !== 0) return null
+  try {
+    return JSON.parse(result.stdout)
+  } catch {
+    return null
+  }
+}
+
+function isWithinPath(filePath, root) {
+  return filePath === root || filePath.startsWith(`${root}/`)
+}
+
+function retiredSourceRoots(group) {
+  if (group === 'reference-landings') return []
+  return resolvePublicationGroupWorkflow('en', group).group.manuals.flatMap(manual => {
+    const publication = resolveManualPublication(manual, 'en').publication
+    return (publication.retiredPaths || []).map(retiredPath => `content/en/${retiredPath}`)
+  }).sort()
+}
+
+function collectProbableRenames({siteDir, sourceCommit, sourceCheckpointSha, ownedSourcePaths}) {
+  if (!SHA.test(sourceCommit || '') || !SHA.test(sourceCheckpointSha || '') || sourceCommit === sourceCheckpointSha) return new Map()
+  const result = spawnSync('git', [
+    '-C', siteDir,
+    'diff', '--find-renames=20%', '--name-status', '-z',
+    sourceCommit, sourceCheckpointSha,
+    '--', ...ownedSourcePaths,
+  ], {encoding: 'utf8', maxBuffer: 16 * 1024 * 1024})
+  if (result.status !== 0) return new Map()
+  const fields = result.stdout.split('\0')
+  if (fields.at(-1) === '') fields.pop()
+  const renames = new Map()
+  for (let index = 0; index < fields.length;) {
+    const status = fields[index++]
+    if (/^R\d{1,3}$/.test(status)) {
+      const oldPath = fields[index++]
+      const newPath = fields[index++]
+      if (oldPath && newPath) renames.set(oldPath, newPath)
+      continue
+    }
+    index += 1
+  }
+  return renames
+}
+
+function sourceSnapshotIndex(snapshots) {
+  const byToken = new Map()
+  const byRecordId = new Map()
+  const targetsBuilt = new Set()
+  for (const snapshot of snapshots.filter(Boolean)) {
+    for (const target of snapshot.targets_built || []) targetsBuilt.add(String(target).trim().toLowerCase())
+    for (const record of snapshot.records || []) {
+      const entry = {record, snapshot}
+      if (record.doc_token) byToken.set(record.doc_token, entry)
+      if (record.record_id) byRecordId.set(record.record_id, entry)
+    }
+  }
+  return {byToken, byRecordId, targetsBuilt: [...targetsBuilt].sort()}
+}
+
+function targetExclusionEvidence(entry, targetsBuilt) {
+  if (!entry || !Array.isArray(entry.record.publish_targets) || !Array.isArray(entry.record.output_paths)) return null
+  if (entry.record.output_paths.length > 0) return null
+  const publishTargets = entry.record.publish_targets.map(target => String(target).trim().toLowerCase()).filter(Boolean)
+  const targetMatches = publishTargets.some(target => targetsBuilt.includes(target))
+  if (targetMatches) return null
+  return {
+    publishTargets,
+    publishStatus: entry.record.publish_status || null,
+  }
+}
+
+function buildRetirementReview({siteDir, target, locale, group, sourceCheckpointSha, sourceDelta, candidates}) {
+  const ownership = candidateOwnership({group, target})
+  const state = readJsonIfPresent(siteDir, 'generated/zh-CN/manifests/reference-translations.json')
+  const stateBySource = new Map((state?.records || []).map(record => [record.sourcePath, record]))
+  const inventoryPath = `generated/en/manifests/lark-revisions/${group}.json`
+  const currentInventory = readJsonIfPresent(siteDir, inventoryPath)
+  const currentInventoryByTitle = new Map()
+  for (const record of currentInventory?.records || []) {
+    const matches = currentInventoryByTitle.get(record.title) || []
+    matches.push(record)
+    currentInventoryByTitle.set(record.title, matches)
+  }
+  const historicalInventories = new Map()
+  const workflow = resolvePublicationGroupWorkflow('en', group)
+  const snapshotPaths = workflow.sourceSnapshots || []
+  const currentSourceIndex = sourceSnapshotIndex(snapshotPaths.map(snapshotPath => readJsonIfPresent(siteDir, snapshotPath)))
+  const historicalSourceIndexes = new Map()
+  const renameMaps = new Map()
+  const declaredRoots = retiredSourceRoots(group)
+  const currentRunKeys = new Set((sourceDelta?.retirementCandidates || []).map(candidate => (
+    `${candidate.sourcePath}\0${candidate.targetPath}\0${candidate.changeKind}`
+  )))
+
+  const reviewedCandidates = [...candidates].sort((left, right) => (
+    left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath)
+  )).map(candidate => {
+    const stateRecord = stateBySource.get(candidate.sourcePath) || null
+    const sourceCommit = stateRecord?.sourceCommit || null
+    if (sourceCommit && !historicalInventories.has(sourceCommit)) {
+      historicalInventories.set(sourceCommit, readJsonAtCommit(siteDir, sourceCommit, inventoryPath))
+      historicalSourceIndexes.set(sourceCommit, sourceSnapshotIndex(snapshotPaths.map(snapshotPath => readJsonAtCommit(siteDir, sourceCommit, snapshotPath))))
+      renameMaps.set(sourceCommit, collectProbableRenames({
+        siteDir,
+        sourceCommit,
+        sourceCheckpointSha,
+        ownedSourcePaths: ownership.ownedSourcePaths,
+      }))
+    }
+    const historicalInventory = historicalInventories.get(sourceCommit) || null
+    const historicalRecord = (historicalInventory?.records || []).find(record => record.contentPath === candidate.sourcePath) || null
+    const historicalSourceIndex = historicalSourceIndexes.get(sourceCommit) || sourceSnapshotIndex([])
+    const historicalSourceEntry = historicalSourceIndex.byToken.get(historicalRecord?.canonicalToken)
+      || [...historicalSourceIndex.byRecordId.values()].find(entry => (entry.record.output_paths || []).includes(candidate.sourcePath))
+      || null
+    const baseRecordId = historicalSourceEntry?.record.record_id || null
+    const currentSourceEntry = baseRecordId ? currentSourceIndex.byRecordId.get(baseRecordId) || null : null
+    const sourceTargetExclusion = targetExclusionEvidence(currentSourceEntry, currentSourceIndex.targetsBuilt)
+    const baseReplacementPath = currentSourceEntry?.record.output_paths?.find(outputPath => outputPath !== candidate.sourcePath) || null
+    const titleMatches = historicalRecord ? (currentInventoryByTitle.get(historicalRecord.title) || []) : []
+    const currentRun = currentRunKeys.has(`${candidate.sourcePath}\0${candidate.targetPath}\0${candidate.changeKind}`)
+    const declaredRetiredRoot = declaredRoots.find(root => isWithinPath(candidate.sourcePath, root)) || null
+    const gitRenamePath = renameMaps.get(sourceCommit)?.get(candidate.sourcePath) || null
+    const generatedReplacement = titleMatches.find(record => typeof record.contentPath === 'string' && record.contentPath !== candidate.sourcePath)?.contentPath || null
+    const missingGeneratedOutput = titleMatches.some(record => record.contentPath === null)
+
+    let classification = 'historical_source_missing'
+    let recommendedDisposition = 'review_historical_state'
+    let probableReplacementPath = null
+    if (currentRun) {
+      classification = 'current_run_retirement'
+      recommendedDisposition = 'review_current_source_change'
+    } else if (declaredRetiredRoot) {
+      classification = 'declared_retired_path'
+      recommendedDisposition = 'approve_declared_retirement'
+    } else if (sourceTargetExclusion) {
+      classification = 'source_target_excluded'
+      recommendedDisposition = 'review_source_target_configuration'
+    } else if (baseReplacementPath) {
+      classification = 'source_replacement_with_path_move'
+      recommendedDisposition = 'retranslate_and_move'
+      probableReplacementPath = baseReplacementPath
+    } else if (gitRenamePath || generatedReplacement) {
+      classification = 'probable_source_rename'
+      recommendedDisposition = 'review_source_move'
+      probableReplacementPath = gitRenamePath || generatedReplacement
+    } else if (missingGeneratedOutput) {
+      classification = 'source_inventory_missing_output'
+      recommendedDisposition = 'repair_source_generation'
+    }
+
+    return {
+      ...candidate,
+      classification,
+      recommendedDisposition,
+      evidence: {
+        currentRun,
+        sourcePresentAtCheckpoint: fs.existsSync(path.join(siteDir, candidate.sourcePath)),
+        targetPresent: fs.existsSync(path.join(siteDir, candidate.targetPath)),
+        translationStateStatus: stateRecord?.status || null,
+        translationStateSourceCommit: sourceCommit,
+        declaredRetiredRoot,
+        probableReplacementPath,
+        baseRecordId,
+        previousCanonicalToken: historicalSourceEntry?.record.doc_token || historicalRecord?.canonicalToken || null,
+        replacementCanonicalToken: currentSourceEntry?.record.doc_token || null,
+        publishTargets: sourceTargetExclusion?.publishTargets || (currentSourceEntry && Array.isArray(currentSourceEntry.record.publish_targets) ? currentSourceEntry.record.publish_targets : null),
+        publishStatus: sourceTargetExclusion?.publishStatus || currentSourceEntry?.record.publish_status || null,
+        targetsBuilt: currentSourceIndex.targetsBuilt,
+        historicalInventoryTitle: historicalRecord?.title || null,
+        currentInventoryMatches: titleMatches.map(record => ({
+          canonicalToken: record.canonicalToken,
+          contentPath: record.contentPath,
+        })),
+      },
+    }
+  })
+
+  const classificationCounts = new Map()
+  for (const candidate of reviewedCandidates) {
+    classificationCounts.set(candidate.classification, (classificationCounts.get(candidate.classification) || 0) + 1)
+  }
+  return {
+    schemaVersion: 1,
+    status: 'retirement_review_required',
+    target,
+    locale,
+    group,
+    sourceCheckpointSha,
+    generatedAt: new Date().toISOString(),
+    summary: {
+      total: reviewedCandidates.length,
+      currentRunRetirements: reviewedCandidates.filter(candidate => candidate.evidence.currentRun).length,
+      historicalReconciliations: reviewedCandidates.filter(candidate => !candidate.evidence.currentRun).length,
+      classifications: Object.fromEntries([...classificationCounts.entries()].sort(([left], [right]) => left.localeCompare(right))),
+    },
+    candidates: reviewedCandidates,
+  }
+}
+
 function candidateOwnership({group, target}) {
   const paths = getGroupPaths(group)
   const definition = getContentGroup(group)
@@ -155,12 +373,35 @@ function main() {
   const group = args.get('--group')
   const sourceCheckpointSha = args.get('--source-checkpoint-sha')
   const sourceDeltaPath = args.get('--source-delta') || null
+  const retirementReportPath = args.get('--retirement-report') || null
   const mode = args.get('--mode') || process.env.TRANSLATION_MODE || 'incremental'
   const sourceDelta = sourceDeltaPath ? JSON.parse(fs.readFileSync(path.join(siteDir, sourceDeltaPath), 'utf8')) : null
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
   const presentBatchFlags = batchFlags.filter(flag => args.has(flag))
   if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
-  let manifest = buildManifest({siteDir, target, locale, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta, mode})
+  let manifest
+  try {
+    manifest = buildManifest({siteDir, target, locale, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta, mode})
+  } catch (error) {
+    if (retirementReportPath && error instanceof TranslationRetirementRequiredError) {
+      try {
+        const review = buildRetirementReview({
+          siteDir,
+          target,
+          locale,
+          group,
+          sourceCheckpointSha,
+          sourceDelta,
+          candidates: error.retirementCandidates,
+        })
+        writeJsonAtomic(path.join(siteDir, retirementReportPath), review)
+        console.error(`[translation-manifest] retirement review written -> ${retirementReportPath}`)
+      } catch (reportError) {
+        console.error(`[translation-manifest] could not write retirement review: ${reportError.message}`)
+      }
+    }
+    throw error
+  }
   if (presentBatchFlags.length) {
     manifest = selectManifestBatch(manifest, {
       batchIndex: Number(args.get('--batch-index')),
@@ -177,6 +418,7 @@ if (require.main === module) main()
 
 module.exports = {
   buildManifest,
+  buildRetirementReview,
   cachePathForLocale,
   localeForTarget,
   readCache,

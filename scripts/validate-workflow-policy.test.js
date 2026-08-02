@@ -1893,6 +1893,24 @@ test('translation workers restore and always upload per-file recovery artifacts'
   assert.match(steps[uploadIndex].with.name, /translation-recovery-/)
 })
 
+test('translation workers always upload retirement review evidence without masking manifest failure', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const steps = workflow.jobs.translate.steps
+  const manifestIndex = steps.findIndex(step => step.name === 'Build group translation manifest')
+  const uploadIndex = steps.findIndex(step => step.name === 'Upload translation retirement review')
+  const agentsIndex = steps.findIndex(step => step.name === 'Run translation agents')
+
+  assert.ok(manifestIndex >= 0 && manifestIndex < uploadIndex && uploadIndex < agentsIndex)
+  assert.match(steps[manifestIndex].run, /--retirement-report tmp\/translation-retirement-review\.json/)
+  assert.equal(steps[uploadIndex].if, '${{ always() && inputs.should_translate }}')
+  assert.equal(steps[uploadIndex].uses, 'actions/upload-artifact@v4')
+  assert.match(steps[uploadIndex].with.name, /translation-retirement-review-/)
+  assert.equal(steps[uploadIndex].with.path, 'tmp/translation-retirement-review.json')
+  assert.equal(steps[uploadIndex].with['if-no-files-found'], 'ignore')
+  assert.equal(steps[manifestIndex]['continue-on-error'], undefined)
+})
+
 test('translation workers resolve bootstrap mode and validate only their selected group', () => {
   const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
   const workflow = yaml.load(source)

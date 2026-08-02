@@ -70,6 +70,13 @@ function validateCandidateSnapshot(candidate, expected = {}) {
     for (const outputPath of record.output_paths || []) {
       if (!isSafeRelativePath(outputPath)) throw new Error(`Candidate snapshot output path is invalid for ${record.doc_token}: ${outputPath}`)
     }
+    if (record.publish_targets !== undefined && !Array.isArray(record.publish_targets)) throw new Error(`Candidate snapshot publish targets are invalid for ${record.doc_token}`)
+    for (const publishTarget of record.publish_targets || []) {
+      if (typeof publishTarget !== 'string' || !publishTarget.trim()) throw new Error(`Candidate snapshot publish target is invalid for ${record.doc_token}`)
+    }
+    if (record.publish_status !== undefined && record.publish_status !== null && typeof record.publish_status !== 'string') {
+      throw new Error(`Candidate snapshot publish status is invalid for ${record.doc_token}`)
+    }
   }
   if (candidate.manual === 'guides') {
     if (!Array.isArray(candidate.navigation_records)) throw new Error('Candidate snapshot navigation records are required for Guides')
@@ -256,6 +263,7 @@ function createSourceSnapshot({
   outputPathsByToken = new Map(),
 }) {
   const sourceByToken = sourceFilesByToken(docSourceDir)
+  const baseRecordById = new Map((records || []).map(record => [record.record_id, record]))
   const canonicalRecords = manualName === 'guides'
     ? sourceOwnedRecordsFrom(records, {guidesPublishableOnly: true})
     : canonicalRecordsFrom(records)
@@ -273,6 +281,11 @@ function createSourceSnapshot({
     base_app_token: baseAppToken,
     records: canonicalRecords.map(record => {
       const source = sourceByToken.get(record.doc_token)
+      const baseRecord = baseRecordById.get(record.record_id)
+      const targetField = baseRecord?.fields?.Targets ?? baseRecord?.fields?.['Publish Targets'] ?? []
+      const publishTargets = (Array.isArray(targetField) ? targetField : [targetField])
+        .map(value => plainValue(value)?.trim())
+        .filter(Boolean)
       const outgoingTokens = source ? extractContentLinks(source).map(link => link.token) : []
       const nodeMetadata = nodeMetadataByToken.get(record.doc_token) || null
       return {
@@ -293,6 +306,8 @@ function createSourceSnapshot({
         obj_type: nodeMetadata?.obj_type || source?.obj_type || null,
         obj_edit_time: nodeMetadata?.obj_edit_time || source?.obj_edit_time || null,
         revision_id: nodeMetadata?.revision_id || source?.revision_id || null,
+        publish_targets: [...new Set(publishTargets)].sort(),
+        publish_status: plainValue(baseRecord?.fields?.Status ?? baseRecord?.fields?.Progress) || null,
         outgoing_tokens: [...new Set(outgoingTokens)].sort(),
         output_paths: [...new Set(outputPathsByToken.get(record.doc_token) || [])].sort(),
       }

@@ -123,13 +123,21 @@ jobs:
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}"
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --retirement-report tmp/translation-retirement-review.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}"
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
             node scripts/docs-workflow/translation-batch-input.js create \
               --manifest tmp/translation-manifest.json \
               --output tmp/translation-batch-input.json
           fi
+      - name: Upload translation retirement review
+        if: ${{ always() && inputs.should_translate }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'translation-retirement-review-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-${{ inputs.batch_number }}'
+          path: tmp/translation-retirement-review.json
+          if-no-files-found: ignore
+          retention-days: 30
       - name: Download requested recovery artifacts
         if: ${{ inputs.should_translate && inputs.recovery_run_id != '' && steps.manifest.outputs.count != '0' }}
         continue-on-error: true
