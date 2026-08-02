@@ -174,20 +174,20 @@ test('workflow policy rejects Chinese source publication collisions with protect
   }
 })
 
-test('workflow policy rejects missing or miswired Chinese Guides validators', () => {
+test('workflow policy rejects Chinese Tools gates that bypass provenance or require unavailable source state', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
     {
-      from: 'node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
-      to: 'pnpm docs-tooling validate-reference --site zh-CN',
+      from: 'toolsSidebarReachable',
+      to: 'toolsSidebarUnchecked',
     },
     {
-      from: 'node scripts/validate-guides-coverage.js --site zh-CN',
-      to: 'echo skipped Guides coverage',
+      from: 'run: test "$ZH_CN_RESULT" = success',
+      to: 'run: true',
     },
     {
-      from: 'node scripts/validate-generated-sidebars.js --site zh-CN',
-      to: 'echo skipped sidebars',
+      from: 'run: test "$ZH_CN_RESULT" = success',
+      to: 'run: |\n          test "$ZH_CN_RESULT" = success\n          node scripts/validate-guides-source-contract.js --site zh-CN',
     },
   ]
   for (const fixture of cases) {
@@ -198,7 +198,7 @@ test('workflow policy rejects missing or miswired Chinese Guides validators', ()
       const source = fs.readFileSync(file, 'utf8')
       assert.ok(source.includes(fixture.from), `site-validation.yml must contain ${fixture.from}`)
       fs.writeFileSync(file, source.replace(fixture.from, fixture.to))
-      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: Chinese Guides validation must cover source ownership, sidebars, and the Chinese build'))
+      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: Chinese Tools validation must rely on the provenance-enforced Chinese build without unavailable source-state checks'))
     } finally {
       fs.rmSync(directory, {recursive: true, force: true})
     }

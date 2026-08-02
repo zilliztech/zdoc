@@ -211,8 +211,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === 'site-validation.yml') {
-      if (!/validate-guides-source-contract\.js --site zh-CN[\s\S]*validate-guides-coverage\.js --site zh-CN[\s\S]*validate-generated-sidebars\.js --site zh-CN[\s\S]*pnpm run build:zh-CN/.test(source)) {
-        errors.push(`${file}: Chinese Guides validation must cover source ownership, sidebars, and the Chinese build`)
+      const chineseBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '')).join('\n')
+      const toolsCoverageRuns = (workflow.jobs?.tools_coverage?.steps || []).map(step => String(step?.run || '')).join('\n')
+      if (!/build\/zh-CN\/build-provenance\.json[\s\S]*toolsSidebarReachable[\s\S]*docs-agents/.test(chineseBuildRuns) ||
+          !/test "\$ZH_CN_RESULT" = success/.test(toolsCoverageRuns) ||
+          /validate-guides-source-contract|validate-guides-coverage|validate-generated-sidebars|pnpm (?:run )?build:zh-CN/.test(toolsCoverageRuns)) {
+        errors.push(`${file}: Chinese Tools validation must rely on the provenance-enforced Chinese build without unavailable source-state checks`)
       }
       const siteBuilds = [
         ['build_en', 'pnpm build:en'],

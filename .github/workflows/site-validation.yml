@@ -156,22 +156,6 @@ jobs:
     steps:
       - name: Require the provenance-enforced Chinese Tools build
         run: test "$ZH_CN_RESULT" = success
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.classify.outputs.source_sha }}
-          fetch-depth: 0
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Validate Chinese Guides and Tools navigation
-        run: |
-          node scripts/validate-guides-source-contract.js --site zh-CN --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json
-          node scripts/validate-guides-coverage.js --site zh-CN
-          node scripts/validate-generated-sidebars.js --site zh-CN
-          pnpm run build:zh-CN
 
   retirement:
     name: Verify retired layout
