@@ -9,7 +9,6 @@ const test = require('node:test');
 
 const {
   markBootstrapComplete,
-  normalizeRetirements,
   resolveTranslationMode,
 } = require('./bootstrap-state');
 
@@ -29,25 +28,7 @@ test('marks a completed group once and preserves canonical order', () => {
   assert.deepEqual(markBootstrapComplete({manifest, group: 'python'}).bootstrapCompletedGroups, ['python']);
 });
 
-test('normalizes only the selected group retirement records', () => {
-  const records = [
-    {manual: 'python', sourcePath: 'en/source-only.md', targetPath: 'zh/source-only.md', reason: 'old'},
-    {manual: 'python', sourcePath: 'en/both.md', targetPath: 'zh/both.md', reason: 'old'},
-    {manual: 'python', sourcePath: 'en/target-only.md', targetPath: 'zh/target-only.md', reason: 'old'},
-    {manual: 'python', sourcePath: 'en/neither.md', targetPath: 'zh/neither.md', reason: 'old'},
-    {manual: 'java', sourcePath: 'en/java.md', targetPath: 'zh/java.md', reason: 'unrelated'},
-  ];
-  const existing = new Set(['en/source-only.md', 'en/both.md', 'zh/both.md', 'zh/target-only.md']);
-  const normalized = normalizeRetirements({
-    registry: {schemaVersion: 1, retirements: records},
-    group: 'python',
-    exists: file => existing.has(file),
-  });
-  assert.deepEqual(normalized.registry.retirements, [records[4], records[2]]);
-  assert.deepEqual(normalized.removed.map(record => record.sourcePath).sort(), ['en/both.md', 'en/neither.md', 'en/source-only.md']);
-});
-
-test('mark command removes revived Reference retirements from committed state', () => {
+test('mark command preserves the master-owned retirement registry byte-for-byte', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-'));
   try {
     const statePath = 'generated/zh-CN/manifests/reference-translations.json';
@@ -56,30 +37,78 @@ test('mark command removes revived Reference retirements from committed state', 
       manual: 'python',
       sourcePath: 'content/en/reference/api/python/revived.md',
       targetPath: 'content/zh-CN/reference/api/python/revived.md',
-      reason: 'old',
+      changeKind: null,
+      rationale: 'Imported baseline retirement from the clean-room Reference migration',
     };
     const retained = {
       manual: 'java',
       sourcePath: 'content/en/reference/api/java/retired.md',
       targetPath: 'content/zh-CN/reference/api/java/retired.md',
-      reason: 'old',
+      changeKind: null,
+      rationale: 'Imported baseline retirement from the clean-room Reference migration',
     };
+    const registryBytes = Buffer.from(`${JSON.stringify({schemaVersion: 2, retirements: [retained, revived]}, null, 4)}\n`);
     for (const [relativePath, value] of [
       [statePath, {schemaVersion: 1, records: []}],
-      [registryPath, {schemaVersion: 1, retirements: [retained, revived]}],
     ]) {
       fs.mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
       fs.writeFileSync(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
     }
+    fs.mkdirSync(path.dirname(path.join(root, registryPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, registryPath), registryBytes);
     for (const relativePath of [revived.sourcePath, revived.targetPath, retained.targetPath]) {
       fs.mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
       fs.writeFileSync(path.join(root, relativePath), 'content\n');
     }
     const result = spawnSync(process.execPath, [path.join(__dirname, 'bootstrap-state.js'), 'mark', '--target', 'zh-CN-reference', '--group', 'python'], {cwd: root, encoding: 'utf8'});
     assert.equal(result.status, 0, result.stderr);
-    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, registryPath), 'utf8')), {schemaVersion: 1, retirements: [retained]});
+    assert.deepEqual(fs.readFileSync(path.join(root, registryPath)), registryBytes);
     assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, statePath), 'utf8')).bootstrapCompletedGroups, ['python']);
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('mark fails closed on malicious temporary, final, and ancestor symlinks', () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const registryPath = 'config/reference-retirements.json';
+  for (const attack of ['temporary', 'final', 'ancestor']) {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), `bootstrap-state-${attack}-`));
+    try {
+      const outside = fs.mkdtempSync(path.join(os.tmpdir(), `bootstrap-state-${attack}-outside-`));
+      const policyBytes = Buffer.from('{"schemaVersion":2,"retirements":[]}\n');
+      const stateBytes = Buffer.from('{"schemaVersion":1,"records":[]}\n');
+      const sentinelPath = path.join(outside, 'sentinel.json');
+      const sentinelBytes = Buffer.from('{"sentinel":true}\n');
+      fs.mkdirSync(path.dirname(path.join(root, registryPath)), {recursive: true});
+      fs.mkdirSync(path.dirname(path.join(root, statePath)), {recursive: true});
+      fs.writeFileSync(path.join(root, registryPath), policyBytes);
+      fs.writeFileSync(sentinelPath, sentinelBytes);
+
+      if (attack === 'temporary') {
+        fs.writeFileSync(path.join(root, statePath), stateBytes);
+        fs.symlinkSync(path.join(root, registryPath), path.join(root, `${statePath}.tmp`));
+      } else if (attack === 'final') {
+        fs.writeFileSync(path.join(outside, 'state.json'), stateBytes);
+        fs.symlinkSync(path.join(outside, 'state.json'), path.join(root, statePath));
+      } else {
+        fs.rmSync(path.dirname(path.join(root, statePath)), {recursive: true});
+        fs.mkdirSync(path.join(outside, 'manifests'), {recursive: true});
+        fs.writeFileSync(path.join(outside, 'manifests/reference-translations.json'), stateBytes);
+        fs.symlinkSync(path.join(outside, 'manifests'), path.dirname(path.join(root, statePath)));
+      }
+
+      const beforeState = fs.lstatSync(path.join(root, statePath));
+      const result = spawnSync(process.execPath, [path.join(__dirname, 'bootstrap-state.js'), 'mark', '--target', 'zh-CN-reference', '--group', 'python'], {cwd: root, encoding: 'utf8'});
+
+      assert.notEqual(result.status, 0, `${attack} attack unexpectedly succeeded`);
+      assert.deepEqual(fs.readFileSync(path.join(root, registryPath)), policyBytes);
+      assert.deepEqual(fs.readFileSync(sentinelPath), sentinelBytes);
+      const afterState = fs.lstatSync(path.join(root, statePath));
+      assert.equal(afterState.isSymbolicLink(), beforeState.isSymbolicLink());
+      assert.deepEqual(fs.readFileSync(path.join(root, statePath)), stateBytes);
+    } finally {
+      fs.rmSync(root, {recursive: true, force: true});
+    }
   }
 });

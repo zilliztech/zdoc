@@ -234,6 +234,55 @@ describe('Reference translation provenance', () => {
     expect(result.translationManifest.records).toEqual([]);
   });
 
+  it.each(['source-only', 'target-only'] as const)('builds a retired record for a registered %s Reference path', (side) => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = 'content/zh-CN/reference/api/python/page.md';
+    const sourceHash = sha256('# source\n');
+    const targetHash = sha256('# target\n');
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'python',
+      sourceSnapshot: new Map(side === 'source-only' ? [[sourcePath, sourceHash]] : []),
+      targetSnapshot: new Map(side === 'target-only' ? [[targetPath, targetHash]] : []),
+      retirementRegistry: {schemaVersion: 2, retirements: [{
+        manual: 'python', sourcePath, targetPath, changeKind: null, rationale: 'Fixture retirement',
+      }]},
+    });
+
+    expect(result.translationManifest.records).toEqual([{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: side === 'source-only' ? sourceHash : EMPTY_FILE_SHA256,
+      targetHash: side === 'target-only' ? targetHash : EMPTY_FILE_SHA256,
+      status: 'retired',
+    }]);
+  });
+
+  it.each(['both-present', 'both-absent'] as const)('does not let a registered %s tuple create a retirement', (state) => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = 'content/zh-CN/reference/api/python/page.md';
+    const sourceHash = sha256('# source\n');
+    const targetHash = sha256('# target\n');
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'python',
+      sourceSnapshot: new Map(state === 'both-present' ? [[sourcePath, sourceHash]] : []),
+      targetSnapshot: new Map(state === 'both-present' ? [[targetPath, targetHash]] : []),
+      retirementRegistry: {schemaVersion: 2, retirements: [{
+        manual: 'python', sourcePath, targetPath, changeKind: null, rationale: 'Obsolete fixture retirement',
+      }]},
+    });
+
+    expect(result.translationManifest.records.filter(record => record.status === 'retired')).toEqual([]);
+    expect(result.translationManifest.records).toHaveLength(state === 'both-present' ? 1 : 0);
+  });
+
   it('normalizes retirements to target-only records and preserves unrelated manuals', () => {
     const record = {
       manual: 'python',

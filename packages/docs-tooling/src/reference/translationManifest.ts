@@ -277,7 +277,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   const sourceByRelative = new Map([...sourceFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.sourceRoot), {filePath, hash}]));
   const targetByRelative = new Map([...targetFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.targetRoot), {filePath, hash}]));
   const registeredRetirements = (options.retirementRegistry?.retirements ?? []).filter(record => (
-    !sourceFiles.has(record.sourcePath) && targetFiles.has(record.targetPath)
+    sourceFiles.has(record.sourcePath) !== targetFiles.has(record.targetPath)
   ));
   const retired = new Set(registeredRetirements.map(record => `${record.sourcePath}\0${record.targetPath}`));
   const relativePaths = new Set([...sourceByRelative.keys(), ...targetByRelative.keys()]);
