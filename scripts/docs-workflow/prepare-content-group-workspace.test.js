@@ -57,12 +57,17 @@ test('non-rest groups keep generated outputs and restore landing pages from mast
   const result = prepareContentGroupWorkspace({
     site: 'en', group: 'python', cwd: root,
     preservedContentByPath: new Map([
+      ['content/en/reference/api/python/python/python.md', '# Python SDK\n'],
       ['content/en/reference/content-manifest.json', '{"schemaVersion":1}\n'],
     ]),
   });
 
   assert.equal(fs.existsSync(path.join(root, 'content/en/reference/api/python/python/old.md')), true);
   assert.equal(fs.existsSync(path.join(root, 'generated/en/sidebars/python.sidebar.js')), true);
+  assert.equal(
+    fs.readFileSync(path.join(root, 'content/en/reference/api/python/python/python.md'), 'utf8'),
+    '# Python SDK\n',
+  );
   assert.equal(
     fs.readFileSync(path.join(root, 'content/en/reference/content-manifest.json'), 'utf8'),
     '{"schemaVersion":1}\n',
@@ -71,7 +76,10 @@ test('non-rest groups keep generated outputs and restore landing pages from mast
     site: 'en',
     group: 'python',
     removed: [],
-    restored: ['content/en/reference/content-manifest.json'],
+    restored: [
+      'content/en/reference/api/python/python/python.md',
+      'content/en/reference/content-manifest.json',
+    ],
   });
 });
 
