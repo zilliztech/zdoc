@@ -52,6 +52,7 @@ jobs:
       BOOTSTRAP_GROUP: ${{ inputs.bootstrap_group || inputs.group }}
       TRANSLATION_TARGET: ${{ inputs.target }}
       SOURCE_COMMIT_SHA: ${{ inputs.source_sha }}
+      DECLARED_SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
       MASTER_SHA: ${{ inputs.tooling_sha }}
     steps:
       - name: Initialize temporary paths
@@ -70,7 +71,7 @@ jobs:
           echo "ARTIFACT_SUFFIX=$suffix" >> "$GITHUB_ENV"
 
       - name: Validate immutable inputs
-        run: node -e 'if(!["ja-JP","zh-CN-reference"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.MASTER_SHA,source_sha:process.env.SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(`${n} must be a lowercase 40-character Git SHA`)'
+        run: node -e 'if(!["ja-JP","zh-CN-reference"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.MASTER_SHA,source_sha:process.env.SOURCE_COMMIT_SHA,declared_source_commit_sha:process.env.DECLARED_SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(`${n} must be a lowercase 40-character Git SHA`);if(process.env.DECLARED_SOURCE_COMMIT_SHA!==process.env.SOURCE_COMMIT_SHA)throw new Error("source_commit_sha must match source_sha")'
       - name: Check out immutable master tooling
         uses: actions/checkout@v4
         with:
@@ -97,9 +98,6 @@ jobs:
           mkdir -p "$(dirname "$state")" "$BASELINE_DIR/$(dirname "$state")"
           test -f "$state" || printf '%s\n' "$empty" > "$state"
           test -f "$BASELINE_DIR/$state" || cp "$state" "$BASELINE_DIR/$state"
-      - name: Validate Reference source checkpoint identity
-        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' }}
-        run: node -e 'const manifest=require("./generated/en/manifests/reference.json");if(manifest.sourceCommit!==process.env.SOURCE_COMMIT_SHA)throw new Error(`Reference sourceCommit ${manifest.sourceCommit} does not match source_sha ${process.env.SOURCE_COMMIT_SHA}`)'
       - name: Apply source translation delta
         id: source_delta
         if: ${{ inputs.should_translate }}

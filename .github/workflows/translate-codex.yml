@@ -125,12 +125,12 @@ jobs:
       max_files: '500'
       mode: ${{ inputs.mode }}
       recovery_run_id: ${{ needs.prepare.outputs.guides_recovery_run_id }}
-      batch_index: ${{ matrix.batch_index }}
-      batch_number: ${{ matrix.batch_number }}
-      batch_count: ${{ matrix.batch_count }}
-      batch_size: ${{ matrix.batch_size }}
-      pending_count: ${{ matrix.pending_count }}
-      pending_set_sha256: ${{ matrix.pending_set_sha256 }}
+      batch_index: ${{ matrix.batchIndex }}
+      batch_number: ${{ matrix.batchNumber }}
+      batch_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}
+      batch_size: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_size) }}
+      pending_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.pending_count) }}
+      pending_set_sha256: ${{ needs.prepare_guides_batches.outputs.pending_set_sha256 }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}

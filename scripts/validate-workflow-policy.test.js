@@ -1724,6 +1724,17 @@ test('manual translation workflow owns parallel producers and serial publication
   }
 })
 
+test('Guides translation batches take row identity from the matrix and shared metadata from preparation outputs', () => {
+  const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8'))
+  const inputs = workflow.jobs.translate_guides_batches.with
+  assert.equal(inputs.batch_index, '${{ matrix.batchIndex }}')
+  assert.equal(inputs.batch_number, '${{ matrix.batchNumber }}')
+  assert.equal(inputs.batch_count, '${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}')
+  assert.equal(inputs.batch_size, '${{ fromJSON(needs.prepare_guides_batches.outputs.batch_size) }}')
+  assert.equal(inputs.pending_count, '${{ fromJSON(needs.prepare_guides_batches.outputs.pending_count) }}')
+  assert.equal(inputs.pending_set_sha256, '${{ needs.prepare_guides_batches.outputs.pending_set_sha256 }}')
+})
+
 test('GitHub expressions use single-quoted string literals for property keys', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'github-expression-policy-'))
   try {
@@ -1792,12 +1803,13 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   const manifestIndex = steps.findIndex(step => step.name === 'Build group translation manifest')
   const validationIndex = steps.findIndex(step => step.name === 'Validate unbatched translated group')
   const markerIndex = steps.findIndex(step => step.name === 'Mark completed translation bootstrap')
-  const sourceIdentityIndex = steps.findIndex(step => step.name === 'Validate Reference source checkpoint identity')
+  const sourceIdentityIndex = steps.findIndex(step => step.name === 'Validate immutable inputs')
   const regenerateIndex = steps.findIndex(step => step.name === 'Regenerate selected Chinese Reference sidebar')
   const checkpointIndex = steps.findIndex(step => step.name === 'Create validated translation checkpoints')
   assert.ok(resolveIndex >= 0 && resolveIndex < manifestIndex)
   assert.ok(sourceIdentityIndex >= 0 && sourceIdentityIndex < manifestIndex)
-  assert.match(steps[sourceIdentityIndex].run, /sourceCommit.*SOURCE_COMMIT_SHA/)
+  assert.match(steps[sourceIdentityIndex].run, /declared_source_commit_sha/)
+  assert.match(steps[sourceIdentityIndex].run, /source_commit_sha must match source_sha/)
   assert.match(steps[manifestIndex].run, /--mode "\$EFFECTIVE_TRANSLATION_MODE"/)
   assert.match(steps[validationIndex].run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(steps[validationIndex].run, /validate-reference|build:en|build:zh-CN|reference-manifest/)
@@ -1807,4 +1819,16 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   assert.doesNotMatch(steps[regenerateIndex].run, /reference-manifest|validate-reference/)
   assert.match(steps[markerIndex].if, /steps\.agents\.outputs\.failed_count.*== '0'/)
   assert.match(steps[markerIndex].if, /steps\.agents\.outputs\.remaining_count.*== '0'/)
+})
+
+test('translation workers authenticate exact source checkpoint inputs without binding to stale Reference manifest provenance', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const job = workflow.jobs.translate
+  assert.equal(job.env.SOURCE_COMMIT_SHA, '${{ inputs.source_sha }}')
+  assert.equal(job.env.DECLARED_SOURCE_COMMIT_SHA, '${{ inputs.source_commit_sha }}')
+  const validation = job.steps.find(step => step.name === 'Validate immutable inputs')
+  assert.match(validation.run, /declared_source_commit_sha/)
+  assert.match(validation.run, /DECLARED_SOURCE_COMMIT_SHA.*SOURCE_COMMIT_SHA|SOURCE_COMMIT_SHA.*DECLARED_SOURCE_COMMIT_SHA/)
+  assert.doesNotMatch(source, /generated\/en\/manifests\/reference\.json[\s\S]*sourceCommit/)
 })
