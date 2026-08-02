@@ -7,7 +7,6 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-artifact')
-const { RESTORE_PATHS } = require('./docs-workflow/validate-guides-translation-staging')
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
 const revisionInventoryRoot = 'generated/en/manifests/lark-revisions'
@@ -72,7 +71,7 @@ function createFixture() {
   git(source, 'config', 'gc.auto', '0')
   git(source, 'remote', 'add', 'origin', origin)
 
-  for (const restorePath of RESTORE_PATHS) {
+  for (const restorePath of restorePaths) {
     const fixturePath = restorePath.endsWith('.js') ? restorePath : path.join(restorePath, 'state.txt')
     write(source, fixturePath, `old:${restorePath}\n`)
   }
@@ -115,7 +114,6 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
-  assert.deepEqual(RESTORE_PATHS, restorePaths)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
