@@ -109,6 +109,9 @@ describe('site-owned publication groups', () => {
     ]);
     expect(resolvePublicationGroupWorkflow('en', 'rest').preservedPaths).toEqual([
       'content/en/reference/api/restful/restful/restful.md',
+      'content/en/reference/api/restful/restful/versioning.md',
+      'content/en/reference/api/restful/restful/v1/error-codes.md',
+      'content/en/reference/api/restful/restful/v2/error-codes-v2.md',
     ]);
   });
 
