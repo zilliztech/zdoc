@@ -219,9 +219,8 @@ async function applyCheckpointArtifact(options = {}) {
 
   const mergedStates = new Map();
   const statePath = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget).state.path : null;
-  const statePaths = statePath
-    ? [statePath, ...(manifest.translationTarget === 'zh-CN-reference' ? ['config/reference-retirements.json'] : [])]
-      .filter((candidate) => manifest.files.some((entry) => entry.path === candidate))
+  const statePaths = statePath && manifest.files.some(entry => entry.path === statePath)
+    ? [statePath]
     : [];
   if (statePaths.length) {
     if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('baselineDir is required for translation cache merge');
@@ -236,9 +235,7 @@ async function applyCheckpointArtifact(options = {}) {
       const parsed = [parseObject(b, 'Baseline translation state'), parseObject(a, 'Artifact translation state'), parseObject(t, 'Target translation state')];
       const merged = manifest.translationTarget === 'ja-JP'
         ? mergeCache(...parsed)
-        : mergePath === 'config/reference-retirements.json'
-          ? mergeRecordCollection(...parsed, 'retirements')
-          : mergeManifest(...parsed);
+        : mergeManifest(...parsed);
       mergedStates.set(mergePath, merged);
     }
   }

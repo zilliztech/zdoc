@@ -130,9 +130,10 @@ test('creates durable batch input from a canonical unified Guides manifest', () 
 
 test('preserves Chinese retirement metadata without granting deletion authority', () => {
   const candidate = {
+    manual: 'tools',
     sourcePath: 'content/en/guides/tutorials/tools/old.md',
     targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
-    reason: 'source_deleted',
+    changeKind: 'source_deleted',
   }
   const manifest = selectedManifest({
     items: [],
@@ -142,6 +143,63 @@ test('preserves Chinese retirement metadata without granting deletion authority'
 
   const input = createBatchInput(manifest)
   assert.deepEqual(input.sourceDelta, {deletedI18n: [], renamed: [], retirementCandidates: [candidate]})
+})
+
+test('rejects malformed cross-target retirement metadata', () => {
+  const candidate = {
+    manual: 'tools',
+    sourcePath: 'content/en/guides/tutorials/tools/old.md',
+    targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
+    changeKind: 'source_deleted',
+  }
+  for (const mutate of [
+    value => { delete value.manual },
+    value => { value.reason = value.changeKind; delete value.changeKind },
+    value => { value.changeKind = 'unknown' },
+  ]) {
+    const malformed = structuredClone(candidate)
+    mutate(malformed)
+    const manifest = selectedManifest({
+      items: [],
+      source_delta: {deleted_i18n: [], renamed: [], retirement_candidates: [malformed]},
+      batch: {...selectedManifest().batch, pendingCount: 0},
+    })
+    assert.throws(() => createBatchInput(manifest), /key|manual|change.kind|authorized/i)
+    const input = batchInput({
+      candidates: [],
+      sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: [malformed]},
+      batch: {...selectedManifest().batch, pendingCount: 0},
+    })
+    assert.throws(() => validateBatchInput(input), /key|manual|change.kind|authorized/i)
+  }
+})
+
+test('sorts and deduplicates retirement candidates by the exact authorization tuple', () => {
+  const python = {
+    manual: 'python',
+    sourcePath: 'content/en/reference/api/python/python/old.md',
+    targetPath: 'content/zh-CN/reference/api/python/python/old.md',
+    changeKind: 'source_deleted',
+  }
+  const java = {
+    manual: 'java',
+    sourcePath: 'content/en/reference/api/java/java/old.md',
+    targetPath: 'content/zh-CN/reference/api/java/java/old.md',
+    changeKind: 'source_deleted',
+  }
+  const manifest = selectedManifest({
+    items: [],
+    source_delta: {deleted_i18n: [], renamed: [], retirement_candidates: [python, java]},
+    batch: {...selectedManifest().batch, pendingCount: 0},
+  })
+  assert.deepEqual(createBatchInput(manifest).sourceDelta.retirementCandidates, [java, python])
+
+  const duplicate = batchInput({
+    candidates: [],
+    sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: [java, {...java}]},
+    batch: {...selectedManifest().batch, pendingCount: 0},
+  })
+  assert.throws(() => validateBatchInput(duplicate), /duplicate.*retirement/i)
 })
 
 test('sorts candidates, deletions, and renames deterministically', () => {

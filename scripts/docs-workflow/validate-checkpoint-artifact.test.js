@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const { mkdtemp, mkdir, readFile, realpath, rename, symlink, writeFile } = require('node:fs/promises');
+const { mkdtemp, mkdir, readFile, realpath, rename, rm, symlink, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -118,13 +118,34 @@ test('maps the Reference landing group to five exact Chinese targets plus transl
     'content/zh-CN/reference/api/go/go/go.md',
     'content/zh-CN/reference/cli/cli/Overview.md',
     'generated/zh-CN/manifests/reference-translations.json',
-    'config/reference-retirements.json',
     'generated/zh-CN/sidebars/python.sidebar.js',
     'generated/zh-CN/sidebars/java.sidebar.js',
     'generated/zh-CN/sidebars/node.sidebar.js',
     'generated/zh-CN/sidebars/go.sidebar.js',
     'generated/zh-CN/sidebars/cli.sidebar.js',
   ]);
+});
+
+test('rejects a Chinese Reference translation artifact containing the master-owned retirement policy', async () => {
+  const f = await artifact({stage: 'translation', translationTarget: 'zh-CN-reference', targetSite: 'zh-CN'});
+  await rm(path.join(f.payload, 'content'), {recursive: true});
+  const payloads = {
+    'config/reference-retirements.json': Buffer.from('{"schemaVersion":2,"retirements":[]}\n'),
+    'generated/zh-CN/manifests/reference-translations.json': Buffer.from('{"schemaVersion":1,"records":[]}\n'),
+  };
+  f.manifest.files = [];
+  for (const [relativePath, bytes] of Object.entries(payloads).sort()) {
+    await mkdir(path.dirname(path.join(f.payload, relativePath)), {recursive: true});
+    await writeFile(path.join(f.payload, relativePath), bytes);
+    f.manifest.files.push({
+      path: relativePath,
+      sha256: crypto.createHash('sha256').update(bytes).digest('hex'),
+      size: bytes.length,
+    });
+  }
+  await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
+
+  await assert.rejects(validateCheckpointArtifact(f.dir), /reference-retirements\.json.*not owned|not owned.*reference-retirements\.json/i);
 });
 
 test('validates schema 2 numbered translation identity and returns immutable batch input facts', async () => {
@@ -153,7 +174,7 @@ test('translation checkpoints require immutable target and site identity before 
   await assert.rejects(validateCheckpointArtifact(missingIdentity.dir), /translationTarget|sourceSite|targetSite|sourceCheckpointSha|toolingSha/);
 
   const invalidIdentity = await schema2Artifact({ manifest: {
-    translationTarget: 'zh-CN-tools',
+    translationTarget: 'zh-CN-reference',
     sourceSite: 'en',
     targetSite: 'en',
     sourceCheckpointSha: 'not-a-sha',

@@ -7,7 +7,7 @@ const path = require('node:path')
 const test = require('node:test')
 const { execFileSync, spawnSync } = require('node:child_process')
 
-const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS } = require('./validate-guides-translation-staging')
+const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS } = require('./validate-guides-translation-staging')
 
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
 const REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json'
@@ -46,9 +46,10 @@ function fixture() {
   const repository = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-staging-')))
   git(repository, 'init')
   const seeds = [
-    'docs/index.md', 'docs-byoc/index.md', 'reference/index.md', 'reference/keep.md',
-    'content/en/guides/index.md', `${ROOT}/a.md`, 'i18n/ja-JP/other.md',
-    '.translation-cache/ja-JP.json', 'config/generated/guides.sidebar.js',
+    'content/en/guides/index.md', 'content/en/byoc/index.md', 'content/en/reference/index.md',
+    `${ROOT}/a.md`, 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/index.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/index.md',
+    '.translation-cache/ja-JP.json',
     'generated/en/sidebars/guides.sidebar.js', 'generated/en/sidebars/guides-byoc.sidebar.js',
     'generated/en/sidebars/python.sidebar.js', 'generated/en/sidebars/java.sidebar.js',
     'generated/en/sidebars/node.sidebar.js', 'generated/en/sidebars/go.sidebar.js',
@@ -79,6 +80,18 @@ test('accepts Guides translations with complete source state restored from the e
   git(state.repository, 'checkout', state.stagedSha, '--', REPORT)
   const result = runGuidesTranslationValidation({ ...state, executor() { return { status: 0, signal: null, stderr: '' } } })
   assert.equal(result.result, 'success')
+})
+
+test('requires canonical tracked roots and never requires retired compatibility roots', () => {
+  assert.deepEqual(REQUIRED_ROOTS, [
+    'content/en/guides',
+    'content/en/byoc',
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current',
+    '.translation-cache/ja-JP.json',
+    'generated/en/sidebars',
+  ])
+  for (const legacy of ['docs', 'docs-byoc', 'reference', 'config/generated']) assert.equal(RESTORE_PATHS.includes(legacy), false)
 })
 
 test('runs only the seven hard-coded commands in exact order and returns immutable proof and receipts', () => {
@@ -170,7 +183,7 @@ test('rejects untracked generated files, index contamination, and symlinked stag
 })
 
 test('rejects hybrid authoritative roots and executable-mode drift', t => {
-  for (const relative of ['docs/extra.md', 'docs-byoc/extra.md', 'reference/extra.md', 'i18n/ja-JP/extra.md', '.translation-cache/extra.json', 'config/generated/extra.js', 'packages/docs-tooling/src/lark/meta/snapshots/extra.json', 'packages/docs-tooling/src/lark/meta/assembly/extra.json']) {
+  for (const relative of ['content/en/guides/extra.md', 'content/en/byoc/extra.md', 'content/en/reference/extra.md', 'i18n/ja-JP/docusaurus-plugin-content-docs/current/extra.md', '.translation-cache/extra.json', 'generated/en/sidebars/extra.js', 'packages/docs-tooling/src/lark/meta/snapshots/extra.json', 'packages/docs-tooling/src/lark/meta/assembly/extra.json']) {
     const state = fixture()
     git(state.repository, 'switch', 'staged'); fs.writeFileSync(path.join(state.repository, relative), 'staged only\n'); git(state.repository, 'add', relative); git(state.repository, 'commit', '-m', `change ${relative}`); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD')
     git(state.repository, 'switch', '--detach', state.masterSha); git(state.repository, 'checkout', state.stagedSha, '--', ROOT)
@@ -179,7 +192,7 @@ test('rejects hybrid authoritative roots and executable-mode drift', t => {
   const mode = fixture(); git(mode.repository, 'config', 'core.fileMode', 'false'); fs.chmodSync(path.join(mode.repository, ROOT, 'a.md'), 0o755)
   assert.throws(() => runGuidesTranslationValidation({ ...mode, executor() {} }), /mode|executable/i)
 
-  const deletion = fixture(); git(deletion.repository, 'switch', 'staged'); fs.unlinkSync(path.join(deletion.repository, 'reference', 'index.md')); git(deletion.repository, 'add', '-A', 'reference'); git(deletion.repository, 'commit', '-m', 'delete staged reference file'); deletion.stagedSha = git(deletion.repository, 'rev-parse', 'HEAD')
+  const deletion = fixture(); git(deletion.repository, 'switch', 'staged'); fs.unlinkSync(path.join(deletion.repository, 'content/en/reference', 'index.md')); git(deletion.repository, 'add', '-A', 'content/en/reference'); git(deletion.repository, 'commit', '-m', 'delete staged reference file'); deletion.stagedSha = git(deletion.repository, 'rev-parse', 'HEAD')
   git(deletion.repository, 'switch', '--detach', deletion.masterSha)
   const tooling = cloneMaster(deletion.repository)
   t.after(() => fs.rmSync(tooling.root, { recursive: true, force: true }))
@@ -187,7 +200,7 @@ test('rejects hybrid authoritative roots and executable-mode drift', t => {
   const restored = restoreExact(tooling.repository, deletion.stagedSha)
   assert.equal(restored.status, 0, restored.stderr)
   assert.equal(commitStatus(tooling.repository, deletion.stagedSha), 0)
-  assert.equal(fs.existsSync(path.join(tooling.repository, 'reference', 'index.md')), false)
+  assert.equal(fs.existsSync(path.join(tooling.repository, 'content/en/reference', 'index.md')), false)
   assert.equal(
     runGuidesTranslationValidation({
       ...deletion,
@@ -255,7 +268,7 @@ test('rejects raw bytes hidden by autocrlf and ignores hostile global configs', 
 })
 
 test('CLI rejects a staged commit missing a required root', () => {
-  const state = fixture(); git(state.repository, 'switch', 'staged'); fs.rmSync(path.join(state.repository, 'packages/docs-tooling/src/lark/meta/snapshots'), { recursive: true }); git(state.repository, 'add', '-A'); git(state.repository, 'commit', '-m', 'remove root'); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD'); git(state.repository, 'switch', '--detach', state.masterSha)
+  const state = fixture(); git(state.repository, 'switch', 'staged'); fs.rmSync(path.join(state.repository, 'content/en/byoc'), { recursive: true }); git(state.repository, 'add', '-A'); git(state.repository, 'commit', '-m', 'remove root'); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD'); git(state.repository, 'switch', '--detach', state.masterSha)
   const trusted = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validation-cli-'))); fs.chmodSync(trusted, 0o700)
   const result = spawnSync(process.execPath, [path.join(__dirname, 'validate-guides-translation-staging.js'), '--repository', state.repository, '--master-sha', state.masterSha, '--staged-sha', state.stagedSha, '--output', path.join(trusted, 'result.json'), '--trusted-root', trusted], { encoding: 'utf8' })
   assert.notEqual(result.status, 0); assert.match(result.stderr, /required.*(?:root|path)/i); assert.equal(fs.existsSync(path.join(trusted, 'result.json')), false)

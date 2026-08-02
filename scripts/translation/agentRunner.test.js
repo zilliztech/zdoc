@@ -1010,9 +1010,18 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
     assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
     assert.equal(referenceState.records[2].status, 'unchanged')
     assert.ok(referenceState.records.every(record => record.sourcePath.startsWith('content/en/reference/')))
-    assert.deepEqual(buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-reference'}).candidates, [])
+    const candidateOptions = {
+      repositoryRoot: siteDir,
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: ['content/en/reference/api/python/python'],
+      preservedSourcePaths: ['content/en/reference/api/python/python/python.md'],
+      changedSourcePaths: [],
+      mode: 'incremental',
+    }
+    assert.deepEqual(buildTranslationCandidates(candidateOptions).candidates, [])
     assert.throws(
-      () => buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-tools'}),
+      () => buildTranslationCandidates({...candidateOptions, targetId: 'zh-CN-tools'}),
       /Unknown translation target: zh-CN-tools/,
     )
 

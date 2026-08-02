@@ -3,7 +3,7 @@ import {existsSync, lstatSync, readdirSync} from 'node:fs';
 import path from 'node:path';
 
 import {assertSafeRepositoryPathChain} from '../reference/translationManifest.ts';
-import {resolvePublicationGroup} from '../workflows/groups.ts';
+import {resolvePublicationGroup, resolvePublicationGroupWorkflow} from '../workflows/groups.ts';
 import {buildTranslationCandidates} from './candidates.ts';
 import {resolveTranslationTarget} from './targets.ts';
 import type {TranslationTargetId} from './schema.ts';
@@ -21,8 +21,9 @@ function ownedTranslationSourcePaths(targetId: TranslationTargetId, group: strin
   return resolvePublicationGroup('en', group).ownedPaths.filter(candidate => candidate.startsWith('content/en/'));
 }
 
-function ownedByAny(sourcePath: string, ownedPaths: readonly string[]): boolean {
-  return ownedPaths.some(ownedPath => sourcePath === ownedPath || sourcePath.startsWith(`${ownedPath}/`));
+function preservedTranslationSourcePaths(group: string): readonly string[] {
+  if (group === 'reference-landings') return REFERENCE_LANDING_SOURCE_PATHS;
+  return resolvePublicationGroupWorkflow('en', group).preservedPaths.filter(candidate => candidate.startsWith('content/en/'));
 }
 
 function loadSidebarModule(repositoryRoot: string, relativePath: string, label: string): unknown {
@@ -95,11 +96,15 @@ export function validateTranslationCoverage(options: Readonly<{
   if (!options.group) throw new Error('Translation coverage group is required');
   resolveTranslationTarget(options.targetId);
   const ownership = ownedTranslationSourcePaths(options.targetId, options.group);
-  const {candidates: allCandidates} = buildTranslationCandidates({
+  const {candidates} = buildTranslationCandidates({
     repositoryRoot: options.repositoryRoot,
     targetId: options.targetId,
+    group: options.group,
+    ownedSourcePaths: ownership,
+    preservedSourcePaths: preservedTranslationSourcePaths(options.group),
+    changedSourcePaths: [],
+    mode: 'incremental',
   });
-  const candidates = allCandidates.filter(candidate => ownedByAny(candidate.sourcePath, ownership));
   if (candidates.length > 0) {
     const reasonCounts = new Map<string, number>();
     for (const candidate of candidates) {

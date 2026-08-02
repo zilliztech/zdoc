@@ -80,13 +80,7 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /if: \$\{\{ always\(\) && needs\.classify\.outputs\.tools_coverage == 'true' \}\}/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /ZH_CN_RESULT: \$\{\{ needs\.build_zh_cn\.result \}\}/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /test "\$ZH_CN_RESULT" = success/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /uses: actions\/checkout@v4/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /uses: pnpm\/action-setup@v4/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /node-version: ['"]22['"]/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm install --frozen-lockfile/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm docs-tooling validate-group --site zh-CN --group guides/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /node scripts\/validate-generated-sidebars\.js/);
-  assert.match(jobBlock(workflow, 'tools_coverage'), /pnpm run build:zh-CN/);
+  assert.doesNotMatch(jobBlock(workflow, 'tools_coverage'), /actions\/checkout|pnpm install|validate-guides-|validate-generated-sidebars|pnpm (?:run )?build:zh-CN/);
   assert.match(workflow, /^  retirement:$/m);
   assert.match(workflow, /^  site_validation:$/m);
   assertRetirementContract(workflow);
@@ -112,47 +106,25 @@ test('manual site publication selects locale builds and deploys only validated a
   assert.match(validation, /source_ref:[\s\S]*default: dev/);
   assert.match(validation, /group: site-validation-\$\{\{ github\.event\.pull_request\.number \|\| format\('\{0\}-\{1\}', github\.ref, inputs\.site \|\| 'auto'\) \}\}/);
   assert.match(validation, /source_sha: \$\{\{ steps\.source\.outputs\.source_sha \}\}/);
-  for (const job of ['build_en', 'build_zh_cn', 'reference_coverage', 'tools_coverage', 'retirement']) {
+  for (const job of ['build_en', 'build_zh_cn', 'reference_coverage', 'retirement']) {
     assert.match(jobBlock(validation, job), /ref: \$\{\{ needs\.classify\.outputs\.source_sha \}\}/);
   }
+  assert.doesNotMatch(jobBlock(validation, 'tools_coverage'), /actions\/checkout|ref: \$\{\{ needs\.classify\.outputs\.source_sha \}\}/);
   assert.match(entry, /needs\.build_en\.result == 'success'[\s\S]*needs\.build_zh_cn\.result == 'success'/);
 });
 
-test('final verification separates the revision waterline from ordered two-site validation', async () => {
+test('final verification uses immutable master tooling for lightweight revision consistency', async () => {
   const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/_verify-docs.yml'), 'utf8');
   assert.match(workflow, /^      revision_status:\n        description: passed or failed\n        value: \$\{\{ jobs\.verify\.outputs\.revision_status \}\}$/m);
   assert.match(workflow, /^      revision_status: \$\{\{ steps\.revision_result\.outputs\.status \}\}$/m);
+  assert.match(workflow, /name: Check out immutable master tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/);
+  assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/);
   assert.match(workflow, /name: Verify revision waterline[\s\S]*id: revision[\s\S]*continue-on-error: true/);
   assert.match(workflow, /pnpm check:localization-input-inventory[\s\S]*pnpm docs-tooling validate-revision-inventory --site en/);
   assert.match(workflow, /name: Emit revision reconciliation result[\s\S]*id: revision_result[\s\S]*steps\.revision\.outcome[\s\S]*status=passed[\s\S]*status=failed/);
   assert.match(workflow, /name: Upload final verification reports\n\s+if: \$\{\{ always\(\) \}\}/);
-
-  const revisionIndex = workflow.indexOf('name: Verify revision waterline');
-  const siteIndex = workflow.indexOf('name: Verify final documentation state');
-  const reportIndex = workflow.indexOf('name: Upload final verification reports');
-  assert.ok(revisionIndex > workflow.indexOf('name: Materialize exact final dev state'));
-  assert.ok(siteIndex > revisionIndex);
-  assert.ok(reportIndex > siteIndex);
-
-  const siteVerification = workflow.slice(siteIndex, reportIndex);
-  const orderedCommands = [
-    'pnpm docs-tooling validate-reference --site zh-CN',
-    'pnpm docs-tooling validate-group --site zh-CN --group guides',
-    'node scripts/validate-generated-sidebars.js',
-    'node scripts/validate-translated-coverage.js --group "$group"',
-    'node scripts/run-doc-build-stage.js --build "pnpm run build:en" --skipCardReporting',
-    'node scripts/run-doc-build-stage.js --build "pnpm run build:zh-CN" --skipCardReporting',
-    'node scripts/validate-workflow-policy.js',
-    'pnpm test:typescript-runtime-boundary',
-  ];
-  let previous = -1;
-  for (const command of orderedCommands) {
-    const index = siteVerification.indexOf(command);
-    assert.ok(index > previous, `${command} must appear in site verification order`);
-    previous = index;
-  }
-  assert.match(workflow, /steps\.revision\.outcome.*steps\.verification\.outcome[\s\S]*status=passed/);
-  assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*git worktree add --detach "\$RUNNER_TEMP\/final-dev" "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/);
+  assert.doesNotMatch(workflow, /Verify final documentation state|Validate final cross-site consistency|validate-reference --site zh-CN|pnpm run build:/);
+  assert.doesNotMatch(workflow, /git worktree add --detach|ref: \$\{\{ inputs\.final_dev_sha \}\}/);
 });
 
 test('a retirement command in a later job cannot satisfy the aggregate contract', () => {
@@ -210,13 +182,18 @@ test('legacy content-production workflows name their English build explicitly', 
     const source = await readFile(path.join(workflowDirectory, file), 'utf8');
     assert.doesNotMatch(source, /pnpm run build(?!:)/, file);
   }
-  for (const file of ['_fetch-content-group.yml', '_assemble-guides.yml', '_verify-docs.yml']) {
+  for (const file of ['_fetch-content-group.yml', '_assemble-guides.yml']) {
     assert.match(
       await readFile(path.join(workflowDirectory, file), 'utf8'),
       /pnpm run build:(?:en|\$SITE|\$\{SITE\})/,
       `${file} must retain an explicit named site build`,
     );
   }
+  assert.doesNotMatch(
+    await readFile(path.join(workflowDirectory, '_verify-docs.yml'), 'utf8'),
+    /pnpm run build:/,
+    '_verify-docs.yml must remain a lightweight final consistency check',
+  );
 });
 
 test('external UAT handoff names the two available Jenkins validation pipelines', async () => {

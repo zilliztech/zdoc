@@ -532,7 +532,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      source_shas_json: ${{ steps.handoff.outputs.source_shas_json }}
+      handoff_json: ${{ steps.handoff.outputs.handoff_json }}
       workflow_ref: ${{ steps.handoff.outputs.workflow_ref }}
     steps:
       - uses: actions/checkout@v4
@@ -555,24 +555,34 @@ jobs:
         run: |
           set -euo pipefail
           node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.WORKFLOW_REF)'
-          SOURCE_SHAS_PATH="$RUNNER_TEMP/source-shas.json" node - <<'NODE'
+          SOURCE_PUBLICATIONS_PATH="$RUNNER_TEMP/source-publications.json" node - <<'NODE'
           const fs = require('node:fs')
           const baseline = process.env.DEV_BASELINE_SHA
-          const values = {
-            guides: process.env.GUIDES_SHA || baseline,
-            python: process.env.PYTHON_SHA || baseline,
-            java: process.env.JAVA_SHA || baseline,
-            node: process.env.NODE_SHA || baseline,
-            go: process.env.GO_SHA || baseline,
-            cli: process.env.CLI_SHA || baseline,
-            rest: process.env.REST_SHA || baseline,
+          const checkpoints = {
+            guides: process.env.GUIDES_SHA,
+            python: process.env.PYTHON_SHA,
+            java: process.env.JAVA_SHA,
+            node: process.env.NODE_SHA,
+            go: process.env.GO_SHA,
+            cli: process.env.CLI_SHA,
+            rest: process.env.REST_SHA,
           }
-          for (const [group, sha] of Object.entries(values)) if (!/^[0-9a-f]{40}$/.test(sha)) throw new Error(`Missing exact published source SHA for ${group}`)
-          fs.writeFileSync(process.env.SOURCE_SHAS_PATH, JSON.stringify(values))
+          if (!/^[0-9a-f]{40}$/.test(baseline)) throw new Error('Missing exact dev source baseline SHA')
+          const groups = process.env.SELECTED_GROUP === 'all' ? Object.keys(checkpoints) : [process.env.SELECTED_GROUP]
+          const publications = Object.fromEntries(groups.map(group => {
+            if (!Object.hasOwn(checkpoints, group)) throw new Error(`Unsupported source publication group: ${group}`)
+            const checkpoint = checkpoints[group] || baseline
+            if (!/^[0-9a-f]{40}$/.test(checkpoint)) throw new Error(`Missing exact published source checkpoint SHA for ${group}`)
+            return [group, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint}]
+          }))
+          fs.writeFileSync(process.env.SOURCE_PUBLICATIONS_PATH, JSON.stringify(publications))
           NODE
-          source_shas_json=$(cat "$RUNNER_TEMP/source-shas.json")
-          node scripts/docs-workflow/translation-handoff.js --locale all --group "$SELECTED_GROUP" --tooling-sha "$TOOLING_SHA" --target-branch "$TARGET_BRANCH" --source-shas-json "$source_shas_json" > "$RUNNER_TEMP/validated-translation-handoff.json"
-          printf 'source_shas_json=%s\nworkflow_ref=%s\n' "$source_shas_json" "$WORKFLOW_REF" >> "$GITHUB_OUTPUT"
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          target_baseline_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          source_publications_json=$(cat "$RUNNER_TEMP/source-publications.json")
+          node scripts/docs-workflow/translation-handoff.js --locale all --group "$SELECTED_GROUP" --tooling-sha "$TOOLING_SHA" --target-branch "$TARGET_BRANCH" --target-baseline-sha "$target_baseline_sha" --source-publications-json "$source_publications_json" > "$RUNNER_TEMP/validated-translation-handoff.json"
+          handoff_json=$(cat "$RUNNER_TEMP/validated-translation-handoff.json")
+          printf 'handoff_json=%s\nworkflow_ref=%s\n' "$handoff_json" "$WORKFLOW_REF" >> "$GITHUB_OUTPUT"
 
   dispatch_translations:
     needs: [prepare, prepare_translation_handoff]
@@ -588,16 +598,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           WORKFLOW_REF: ${{ needs.prepare_translation_handoff.outputs.workflow_ref }}
-          SOURCE_SHAS_JSON: ${{ needs.prepare_translation_handoff.outputs.source_shas_json }}
+          HANDOFF_JSON: ${{ needs.prepare_translation_handoff.outputs.handoff_json }}
           TOOLING_SHA: ${{ needs.prepare.outputs.master_sha }}
-          SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
           REQUEST_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           set -euo pipefail
           [[ "$REQUEST_ID" =~ ^[1-9][0-9]*-[1-9][0-9]*$ ]]
           expected_title="translate docs ($REQUEST_ID)"
-          gh workflow run translate-codex.yml --repo "$GITHUB_REPOSITORY" --ref "$WORKFLOW_REF" -f locale=all -f group="$SELECTED_GROUP" -f source_shas_json="$SOURCE_SHAS_JSON" -f tooling_sha="$TOOLING_SHA" -f target_branch="$TARGET_BRANCH" -f mode=auto -f publish=true -f request_id="$REQUEST_ID"
+          gh workflow run translate-codex.yml --repo "$GITHUB_REPOSITORY" --ref "$WORKFLOW_REF" -f handoff_json="$HANDOFF_JSON" -f mode=auto -f publish=true -f request_id="$REQUEST_ID"
           run_url=
           for _ in {1..12}; do
             run_url=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow translate-codex.yml --event workflow_dispatch --limit 50 --json displayTitle,url,headSha \

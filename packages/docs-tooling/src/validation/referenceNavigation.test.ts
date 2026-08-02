@@ -80,7 +80,7 @@ function writeSidebar(root: string, site: 'en' | 'zh-CN', target: Target, sideba
 function fixture(): string {
   const root = mkdtempSync(path.join(tmpdir(), 'reference-navigation-'));
   writeJson(root, 'config/reference-navigation.json', {schemaVersion: 1, targets});
-  writeJson(root, 'config/reference-retirements.json', {schemaVersion: 1, retirements: []});
+  writeJson(root, 'config/reference-retirements.json', {schemaVersion: 2, retirements: []});
   for (const target of targets) {
     const extraId = `${target.documentIdPrefix}/operation`;
     for (const site of ['en', 'zh-CN'] as const) {
@@ -218,12 +218,13 @@ describe('validateReferenceNavigation', () => {
       items: [{type: 'doc', id: documentId(target.landingPage), label: '首页'}],
     }]);
     writeJson(root, 'config/reference-retirements.json', {
-      schemaVersion: 1,
+      schemaVersion: 2,
       retirements: [{
         manual: target.manual,
         sourcePath: `content/en/reference/${retiredId}.md`,
         targetPath: `content/zh-CN/reference/${retiredId}.md`,
-        reason: 'Deliberate fixture retirement',
+        changeKind: null,
+        rationale: 'Deliberate fixture retirement',
       }],
     });
     expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
@@ -234,12 +235,13 @@ describe('validateReferenceNavigation', () => {
     const target = targets[0];
     const retiredId = `${target.documentIdPrefix}/operation`;
     writeJson(root, 'config/reference-retirements.json', {
-      schemaVersion: 1,
+      schemaVersion: 2,
       retirements: [{
         manual: target.manual,
         sourcePath: `content/en/reference/${retiredId}.md`,
         targetPath: `content/zh-CN/reference/${retiredId}.md`,
-        reason: 'Deliberate fixture retirement',
+        changeKind: null,
+        rationale: 'Deliberate fixture retirement',
       }],
     });
     unlinkSync(path.join(root, `content/zh-CN/reference/${retiredId}.md`));
@@ -258,12 +260,13 @@ describe('validateReferenceNavigation', () => {
       items: [{type: 'doc', id: documentId(target.landingPage), label: '首页'}],
     }]);
     writeJson(root, 'config/reference-retirements.json', {
-      schemaVersion: 1,
+      schemaVersion: 2,
       retirements: [{
         manual: target.manual,
         sourcePath: `content/en/reference/${retiredId}.md`,
         targetPath: `content/zh-CN/reference/${retiredId}.md`,
-        reason: 'Deliberate fixture retirement',
+        changeKind: null,
+        rationale: 'Deliberate fixture retirement',
       }],
     });
     unlinkSync(path.join(root, `content/en/reference/${retiredId}.md`));
