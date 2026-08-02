@@ -299,17 +299,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/^      candidate_counts: \{ value: '\$\{\{ jobs\.prepare\.outputs\.candidate_counts \}\}' \}$/m, 'must expose translation candidate counts'],
         [/^      candidate_counts: \$\{\{ steps\.summary\.outputs\.candidate_counts \}\}$/m, 'must map prepare candidate counts from the summary step'],
         [/^            candidate_counts: JSON\.stringify\(summary\.candidateCounts\),$/m, 'must emit classified translation candidate counts'],
-        [/git fetch --no-tags origin "\$SOURCE_COMMIT_SHA"[\s\S]*git diff --name-status "\$MASTER_SHA" "\$SOURCE_COMMIT_SHA"/, 'must derive durable batches from the locked target-to-source checkpoint diff'],
-        [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, and tooling identities'],
+        [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive durable batches from the group-scoped dev source checkpoint diff'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must build the durable pending set from the source delta'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      if (/git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/.test(source)) {
+        errors.push(`${file}: tooling identity must never be a source-delta endpoint`)
+      }
     }
 
     if (file === '_translate-content-group.yml') {
       const requiredPatterns = [
-        [/git fetch --no-tags origin "\$SOURCE_COMMIT_SHA"[\s\S]*git diff --name-status "\$MASTER_SHA" "\$SOURCE_COMMIT_SHA"/, 'must derive translation reconciliation from the locked target-to-source checkpoint diff'],
-        [/sourceDelta\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, and tooling identities'],
+        [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive translation reconciliation from the group-scoped dev source checkpoint diff'],
         [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/manifest\.js[\s\S]*--mode "\$EFFECTIVE_TRANSLATION_MODE"/, 'must build candidates with the resolved bootstrap mode'],
@@ -321,6 +324,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/translation-recovery-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'recovery artifacts must include target and group'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      if (/git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/.test(source)) {
+        errors.push(`${file}: tooling identity must never be a source-delta endpoint`)
+      }
 
       const steps = workflow.jobs?.translate?.steps || []
       const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
@@ -334,7 +340,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const candidateIdentity = {
         ZDOC_PROVENANCE_CANDIDATE_TARGET: '${{ inputs.target }}',
         ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: '${{ inputs.tooling_sha }}',
-        ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: '${{ inputs.source_sha }}',
+        ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: '${{ inputs.source_checkpoint_sha }}',
       }
       validateTargetBranches(steps.map(step => String(step?.run || '')).join('\n'), file, errors)
       const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
@@ -564,9 +570,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const handoff = workflow.jobs?.prepare_translation_handoff
       const handoffNeeds = Array.isArray(handoff?.needs) ? handoff.needs : []
       if (!handoffNeeds.includes('source_publication_barrier') ||
-          !/translation-handoff\.js[\s\S]*--locale all[\s\S]*--source-shas-json "\$source_shas_json"/.test(source) ||
+          !/translation-handoff\.js[\s\S]*--locale all[\s\S]*--target-baseline-sha "\$target_baseline_sha"[\s\S]*--source-publications-json "\$source_publications_json"/.test(source) ||
+          !/handoff_json=\$HANDOFF_JSON|handoff_json=%s/.test(source) ||
           !/WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/.test(source)) {
-        errors.push(`${file}: translation handoff must validate exact published source SHAs and trusted workflow ref`)
+        errors.push(`${file}: translation handoff must validate exact dev publication identities and trusted workflow ref`)
       }
       const dispatch = workflow.jobs?.dispatch_translations
       const dispatchNeeds = Array.isArray(dispatch?.needs) ? dispatch.needs : []
@@ -710,19 +717,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}[\s\S]*uses: \.\/\.github\/workflows\/_translate-content-group\.yml/, 'must run selected SDK translation producers through one matrix'],
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
-        [/translation-handoff\.js[\s\S]*--source-shas-json "\$SOURCE_SHAS_JSON"/, 'must validate the exact translation handoff before paid work'],
+        [/translation-handoff\.js --handoff-json "\$HANDOFF_JSON" --repository "\$GITHUB_WORKSPACE"/, 'must validate the exact translation handoff before paid work'],
+        [/target_branch_sha[\s\S]*EXPECTED_TARGET_SHA[\s\S]*Target branch moved after handoff/, 'must fail closed when the target baseline moves'],
         [/publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/, 'must declare the deterministic publication chain'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
       if (/^concurrency:/m.test(source)) errors.push(`${file}: translation producers must not share publication concurrency`)
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
-      if (JSON.stringify(inputs.locale?.options) !== JSON.stringify(['all', 'ja-JP', 'zh-CN']) ||
-        JSON.stringify(inputs.group?.options) !== JSON.stringify(['all', 'guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings'])) {
-        errors.push(`${file}: must expose the canonical locale and group selection contract`)
-      }
-      if (['locale', 'group', 'tooling_sha', 'source_shas_json'].some(input => inputs[input]?.required !== true)) {
-        errors.push(`${file}: must require exact selection and immutable source identities`)
+      if (inputs.handoff_json?.required !== true || ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch'].some(input => inputs[input] !== undefined)) {
+        errors.push(`${file}: must require one complete immutable handoff without duplicate identity inputs`)
       }
     }
 

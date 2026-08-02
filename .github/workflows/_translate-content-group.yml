@@ -102,8 +102,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p tmp
-          git diff --no-renames --name-status "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA" > tmp/source-name-status.txt
-          node scripts/translation/sourceDelta.js --target "$TRANSLATION_TARGET" --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
+          node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json
           node scripts/translation/applySourceDelta.js --target "$TRANSLATION_TARGET" --delta tmp/source-delta.json --report tmp/source-delta-report.json
           echo "has_mutation=$(node -p "require('./tmp/source-delta-report.json').hasTranslationMutation ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
       - name: Resolve effective translation mode

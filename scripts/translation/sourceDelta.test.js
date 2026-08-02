@@ -1,14 +1,25 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
+const {spawnSync} = require('node:child_process')
 const test = require('node:test')
 
 const {
   classifySourceDelta,
+  collectGitSourceChanges,
   mapEnglishToI18nPath,
   mapSourcePathForTarget,
   parseGitNameStatus,
 } = require('./sourceDelta')
+
+function git(repository, args) {
+  const result = spawnSync('git', ['-C', repository, ...args], {encoding: 'utf8'})
+  assert.equal(result.status, 0, result.stderr)
+  return result.stdout.trim()
+}
 
 test('maps docs and reference paths to ja-JP i18n paths', () => {
   assert.equal(
@@ -47,21 +58,93 @@ test('retired Chinese Guides translation target is rejected', () => {
 
 test('Chinese source renames emit retirement candidates without deletion authority', () => {
   const result = classifySourceDelta({
+    group: 'python',
     target: 'zh-CN-reference',
     changes: [{
       status: 'R100',
-      oldPath: 'content/en/reference/old.md',
-      newPath: 'content/en/reference/new.md',
+      oldPath: 'content/en/reference/api/python/python/old.md',
+      newPath: 'content/en/reference/api/python/python/new.md',
     }],
   })
   assert.deepEqual(result.deletedI18n, [])
   assert.deepEqual(result.renamed, [])
-  assert.deepEqual(result.changedEnglish, ['content/en/reference/new.md'])
+  assert.deepEqual(result.changedEnglish, ['content/en/reference/api/python/python/new.md'])
   assert.deepEqual(result.retirementCandidates, [{
-    sourcePath: 'content/en/reference/old.md',
-    targetPath: 'content/zh-CN/reference/old.md',
-    reason: 'source_renamed',
+    sourcePath: 'content/en/reference/api/python/python/old.md',
+    targetPath: 'content/zh-CN/reference/api/python/python/old.md',
+    changeKind: 'source_renamed',
   }])
+})
+
+test('Chinese Reference source delta is restricted to the selected SDK group', () => {
+  const result = classifySourceDelta({
+    group: 'python',
+    target: 'zh-CN-reference',
+    changes: [
+      { status: 'M', path: 'content/en/reference/api/python/python/changed.md' },
+      { status: 'D', path: 'content/en/reference/api/python/python/retired.md' },
+      { status: 'M', path: 'content/en/reference/api/java/java/v2/changed.md' },
+      { status: 'D', path: 'content/en/reference/api/java/java/v2/retired.md' },
+    ],
+  })
+
+  assert.deepEqual(result.changedEnglish, [
+    'content/en/reference/api/python/python/changed.md',
+  ])
+  assert.deepEqual(result.retirementCandidates, [{
+    sourcePath: 'content/en/reference/api/python/python/retired.md',
+    targetPath: 'content/zh-CN/reference/api/python/python/retired.md',
+    changeKind: 'source_deleted',
+  }])
+})
+
+test('preserved landing pages remain active candidates but never retirement effects', () => {
+  const result = classifySourceDelta({
+    group: 'python',
+    target: 'zh-CN-reference',
+    changes: [
+      {status: 'D', path: 'content/en/reference/api/python/python/python.md'},
+      {status: 'D', path: 'content/en/reference/api/python/python/removed.md'},
+    ],
+  })
+
+  assert.deepEqual(result.retirementCandidates, [{
+    sourcePath: 'content/en/reference/api/python/python/removed.md',
+    targetPath: 'content/zh-CN/reference/api/python/python/removed.md',
+    changeKind: 'source_deleted',
+  }])
+})
+
+test('Git-backed source collection disables rename detection for a moved batch', () => {
+  const repository = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-source-delta-'))
+  git(repository, ['init', '-b', 'main'])
+  git(repository, ['config', 'user.email', 'source-delta@example.com'])
+  git(repository, ['config', 'user.name', 'Source Delta Test'])
+  const root = path.join(repository, 'content/en/reference/api/python/python')
+  fs.mkdirSync(root, {recursive: true})
+  for (let index = 1; index <= 9; index += 1) {
+    fs.writeFileSync(path.join(root, `old-${index}.md`), `document ${index}\n`, 'utf8')
+  }
+  git(repository, ['add', '.'])
+  git(repository, ['commit', '-m', 'baseline'])
+  const baseline = git(repository, ['rev-parse', 'HEAD'])
+  for (let index = 1; index <= 9; index += 1) {
+    fs.renameSync(path.join(root, `old-${index}.md`), path.join(root, `new-${index}.md`))
+  }
+  git(repository, ['add', '-A'])
+  git(repository, ['commit', '-m', 'checkpoint'])
+  const checkpoint = git(repository, ['rev-parse', 'HEAD'])
+
+  const changes = collectGitSourceChanges({
+    repository,
+    sourceBaselineSha: baseline,
+    sourceCheckpointSha: checkpoint,
+    target: 'zh-CN-reference',
+    group: 'python',
+  })
+  assert.equal(changes.filter(change => change.status === 'D').length, 9)
+  assert.equal(changes.filter(change => change.status === 'A').length, 9)
+  assert.equal(changes.some(change => change.status.startsWith('R')), false)
 })
 
 test('parses added, modified, deleted, and renamed git name-status lines', () => {

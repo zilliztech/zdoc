@@ -86,18 +86,17 @@ test('workflow policy rejects writable or non-failing docs ingestion watchdog mu
 })
 
 test('translation workflows declare immutable target identity and exact target validation', () => {
-  const reusableFiles = [
-    '_prepare-translation-batches.yml',
-    '_translate-content-group.yml',
-    '_translate-publish-batch.yml',
-    '_publish-translation-batches.yml',
-  ]
-  for (const file of reusableFiles) {
+  for (const file of ['_prepare-translation-batches.yml', '_translate-content-group.yml']) {
     const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
     const inputs = workflow.on.workflow_call.inputs
-    for (const input of ['target', 'tooling_sha', 'source_sha']) {
+    for (const input of ['target', 'tooling_sha', 'source_baseline_sha', 'source_checkpoint_sha']) {
       assert.equal(inputs[input]?.required, true, `${file} must require ${input}`)
     }
+  }
+  for (const file of ['_translate-publish-batch.yml', '_publish-translation-batches.yml']) {
+    const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
+    const inputs = workflow.on.workflow_call.inputs
+    for (const input of ['target', 'tooling_sha', 'source_sha']) assert.equal(inputs[input]?.required, true, `${file} must require ${input}`)
   }
   const publisherInputs = yaml.load(fs.readFileSync('.github/workflows/_publish-content-group.yml', 'utf8')).on.workflow_call.inputs
   for (const input of ['target', 'tooling_sha', 'source_sha']) assert.ok(publisherInputs[input], `_publish-content-group.yml must declare ${input}`)
@@ -115,9 +114,8 @@ test('translation workflows declare immutable target identity and exact target v
   assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
 
   const compatibility = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
-  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.locale.options, ['all', 'ja-JP', 'zh-CN'])
-  assert.deepEqual(compatibility.on.workflow_dispatch.inputs.group.options, ['all', 'guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings'])
-  for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json']) assert.equal(compatibility.on.workflow_dispatch.inputs[input]?.required, true)
+  assert.equal(compatibility.on.workflow_dispatch.inputs.handoff_json?.required, true)
+  for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch']) assert.equal(compatibility.on.workflow_dispatch.inputs[input], undefined)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
   assert.equal(compatibility.concurrency, undefined)
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
@@ -135,7 +133,7 @@ test('translation workflows declare immutable target identity and exact target v
   ]) {
     assert.equal(
       yaml.load(source).jobs.translate.steps.find(step => step.name === 'Validate unbatched translated group').env[name],
-      name.endsWith('TARGET') ? '${{ inputs.target }}' : name.endsWith('TOOLING_SHA') ? '${{ inputs.tooling_sha }}' : '${{ inputs.source_sha }}',
+      name.endsWith('TARGET') ? '${{ inputs.target }}' : name.endsWith('TOOLING_SHA') ? '${{ inputs.tooling_sha }}' : '${{ inputs.source_checkpoint_sha }}',
     )
   }
 
@@ -287,7 +285,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: '_translate-content-group.yml',
-      mutate: source => source.replace('          ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_sha }}\n', ''),
+      mutate: source => source.replace('          ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_checkpoint_sha }}\n', ''),
       expected: '_translate-content-group.yml: candidate provenance must receive exact target, tooling, and source identities only in unbatched validation',
     },
     {
@@ -307,8 +305,16 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('--source-shas-json "$SOURCE_SHAS_JSON"', '--source-shas-json {}'),
+      mutate: source => source.replace('--handoff-json "$HANDOFF_JSON" --repository "$GITHUB_WORKSPACE"', '--handoff-json "$HANDOFF_JSON"'),
       expected: 'translate-codex.yml: must validate the exact translation handoff before paid work',
+    },
+    {
+      file: '_translate-content-group.yml',
+      mutate: source => source.replace(
+        'node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE"',
+        'git diff --name-status "$TOOLING_SHA" "$SOURCE_CHECKPOINT_SHA"\n          node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE"',
+      ),
+      expected: '_translate-content-group.yml: tooling identity must never be a source-delta endpoint',
     },
     {
       file: '_publish-content-group.yml',
@@ -1449,16 +1455,15 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   const result = steps.find(step => step.name === 'Emit translation result')
   const failureGate = steps.find(step => step.name === 'Fail unsuccessful translation')
 
-  for (const input of ['target', 'group', 'tooling_sha', 'source_sha', 'source_commit_sha', 'master_sha', 'should_translate']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
+  for (const input of ['target', 'group', 'tooling_sha', 'source_baseline_sha', 'source_checkpoint_sha', 'should_translate']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
   for (const output of ['status', 'artifact_name', 'baseline_artifact_name', 'translated_count']) assert.match(source, new RegExp(`^      ${output}:`, 'm'))
   assert.match(source, /^  contents: read$/m)
   assert.match(source, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}/)
-  assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_COMMIT_SHA"/)
-  assert.match(source, /git diff --name-status "\$MASTER_SHA" "\$SOURCE_COMMIT_SHA"/)
-  assert.doesNotMatch(source, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(source, /sourceDelta\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_CHECKPOINT_SHA"/)
+  assert.match(source, /sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/)
+  assert.doesNotMatch(source, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
   assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
-  assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
+  assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
   assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
   assert.match(source, /\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/)
   assert.match(source, /agentRunner\.js[\s\S]*TRANSLATION_ALLOW_PARTIAL: "true"/)
@@ -1492,7 +1497,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(checkpoint.run, /--include-translation-cache/)
   assert.match(checkpoint.if, /inputs\.batch_number == 0/)
   assert.match(checkpoint.if, /steps\.agents\.outcome == 'skipped'/)
-  assert.match(checkpoint.run, /--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--tooling-sha "\$MASTER_SHA"/)
+  assert.match(checkpoint.run, /--translation-target "\$TRANSLATION_TARGET"[\s\S]*--source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA"[\s\S]*--tooling-sha "\$TOOLING_SHA"/)
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/)
   assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/)
   assert.match(checkpoint.run, /if \(\( \$\{\{ inputs\.batch_number \}\} > 0 \)\) && \[\[ "\$GROUP" == guides \]\]; then[\s\S]*validate-translation-batch\.js[\s\S]*--artifact "\$CHECKPOINT_DIR"[\s\S]*--baseline "\$BASELINE_CHECKPOINT_DIR"[\s\S]*--batch-number "\$\{\{ inputs\.batch_number \}\}"[\s\S]*--batch-count "\$\{\{ inputs\.batch_count \}\}"[\s\S]*\n\s*fi/)
@@ -1595,9 +1600,8 @@ test('durable translation batch preparation uses the same source delta as batch 
   const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
   const materializeIndex = steps.findIndex(step => step.name === 'Materialize immutable translation source')
   assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < materializeIndex)
-  assert.match(workflow, /git diff --name-status "\$MASTER_SHA" "\$SOURCE_COMMIT_SHA"/)
-  assert.doesNotMatch(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /sourceDelta\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(workflow, /sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/)
+  assert.doesNotMatch(workflow, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
   assert.match(workflow, /manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/)
 })
 
@@ -1624,7 +1628,8 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.ok(workflow.jobs.prepare_translation_handoff.needs.includes('source_publication_barrier'))
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
   assert.match(workflow.jobs.dispatch_translations.if, /needs\.prepare_translation_handoff\.result == 'success'/)
-  assert.match(source, /translation-handoff\.js[\s\S]*--locale all[\s\S]*--source-shas-json "\$source_shas_json"/)
+  assert.match(source, /translation-handoff\.js[\s\S]*--locale all[\s\S]*--target-baseline-sha "\$target_baseline_sha"[\s\S]*--source-publications-json "\$source_publications_json"/)
+  assert.match(source, /-f handoff_json="\$HANDOFF_JSON"/)
   assert.match(source, /WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/)
   assert.match(source, /run_url[\s\S]*github\\\.com[\s\S]*actions\/runs\//)
   assert.match(source, /\[1-9\]\[0-9\]\*/)
@@ -1739,7 +1744,10 @@ test('GitHub expressions use single-quoted string literals for property keys', (
     fs.cpSync('.github/workflows', directory, {recursive: true})
     const file = path.join(directory, 'translate-codex.yml')
     const source = fs.readFileSync(file, 'utf8')
-    const mutated = source.replace('fromJSON(inputs.source_shas_json).python', 'fromJSON(inputs.source_shas_json)["python"]')
+    const mutated = source.replace(
+      'fromJSON(needs.prepare.outputs.source_checkpoints_json).python',
+      'fromJSON(needs.prepare.outputs.source_checkpoints_json)["python"]',
+    )
     assert.notEqual(mutated, source)
     fs.writeFileSync(file, mutated)
     assert.ok(validateWorkflowPolicies(directory).includes(
@@ -1806,8 +1814,8 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   const checkpointIndex = steps.findIndex(step => step.name === 'Create validated translation checkpoints')
   assert.ok(resolveIndex >= 0 && resolveIndex < manifestIndex)
   assert.ok(sourceIdentityIndex >= 0 && sourceIdentityIndex < manifestIndex)
-  assert.match(steps[sourceIdentityIndex].run, /declared_source_commit_sha/)
-  assert.match(steps[sourceIdentityIndex].run, /source_commit_sha must match source_sha/)
+  assert.match(steps[sourceIdentityIndex].run, /source_baseline_sha/)
+  assert.match(steps[sourceIdentityIndex].run, /source_checkpoint_sha/)
   assert.match(steps[manifestIndex].run, /--mode "\$EFFECTIVE_TRANSLATION_MODE"/)
   assert.match(steps[validationIndex].run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(steps[validationIndex].run, /validate-reference|build:en|build:zh-CN|reference-manifest/)
@@ -1823,10 +1831,12 @@ test('translation workers authenticate exact source checkpoint inputs without bi
   const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
   const workflow = yaml.load(source)
   const job = workflow.jobs.translate
-  assert.equal(job.env.SOURCE_COMMIT_SHA, '${{ inputs.source_sha }}')
-  assert.equal(job.env.DECLARED_SOURCE_COMMIT_SHA, '${{ inputs.source_commit_sha }}')
+  assert.equal(job.env.SOURCE_BASELINE_SHA, '${{ inputs.source_baseline_sha }}')
+  assert.equal(job.env.SOURCE_CHECKPOINT_SHA, '${{ inputs.source_checkpoint_sha }}')
+  assert.equal(job.env.TOOLING_SHA, '${{ inputs.tooling_sha }}')
   const validation = job.steps.find(step => step.name === 'Validate immutable inputs')
-  assert.match(validation.run, /declared_source_commit_sha/)
-  assert.match(validation.run, /DECLARED_SOURCE_COMMIT_SHA.*SOURCE_COMMIT_SHA|SOURCE_COMMIT_SHA.*DECLARED_SOURCE_COMMIT_SHA/)
+  assert.match(validation.run, /source_baseline_sha/)
+  assert.match(validation.run, /source_checkpoint_sha/)
+  assert.doesNotMatch(source, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
   assert.doesNotMatch(source, /generated\/en\/manifests\/reference\.json[\s\S]*sourceCommit/)
 })
