@@ -414,6 +414,19 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const installIndex = steps.findIndex(step => step.name === 'Install immutable master tooling')
       const downloadIndex = steps.findIndex(step => step.name === 'Download Guides translation checkpoints')
       if (!capture || captureIndex < 0 || installIndex < 0 || downloadIndex < 0 || installIndex >= captureIndex || captureIndex >= downloadIndex || !/createInitialPublisherState/.test(capture.run || '') || !/SOURCE_COMMIT_SHA/.test(capture.run || '') || !/EXPECTED_TARGET_SHA/.test(capture.run || '') || !/refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}/.test(capture.run || '')) errors.push(`${file}: publisher must install tooling, then authenticate and persist source and target identities before artifact download`)
+      const resolveArtifacts = byName.get('Resolve Guides translation artifact pairs')
+      const resolveIndex = steps.indexOf(resolveArtifacts)
+      const baselineDownloadIndex = steps.findIndex(step => step.name === 'Download Guides translation baselines')
+      const identitiesIndex = steps.indexOf(byName.get(requiredNames[0]))
+      const resolution = String(resolveArtifacts?.run || '')
+      if (!(downloadIndex < resolveIndex && baselineDownloadIndex < resolveIndex && resolveIndex < identitiesIndex) ||
+          !/translation-artifact-pairs\.js/.test(resolution) ||
+          !/--target "\$TRANSLATION_TARGET"/.test(resolution) ||
+          !/--group "\$GROUP"/.test(resolution) ||
+          !/--run-id "\$GITHUB_RUN_ID"/.test(resolution) ||
+          !/--output "\$ARTIFACT_PAIRS_MANIFEST"/.test(resolution)) {
+        errors.push(`${file}: publisher must resolve locale-qualified artifact pairs before extraction`)
+      }
       for (const name of requiredNames.slice(5)) if (String(byName.get(name)?.if || '') !== '${{ always() }}') errors.push(`${file}: cleanup, report, upload, and result steps must always run`)
 
       const identities = String(byName.get(requiredNames[0])?.run || '')
@@ -426,7 +439,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const result = String(byName.get(requiredNames[8])?.run || '')
       const publisherHelperPath = path.join(process.cwd(), 'scripts', 'docs-workflow', 'translation-staging-publisher.js')
       const publisherHelper = fs.existsSync(publisherHelperPath) ? fs.readFileSync(publisherHelperPath, 'utf8') : ''
-      if (!/translation-batch-set\.js plan/.test(identities) || !/PAIRS_MANIFEST/.test(identities) || !/--expected-target-sha/.test(identities) || !/--source-checkpoint-sha/.test(identities) || !/tar -tf/.test(identities) || !/tar -tvf/.test(identities) || !/bindPublisherBatchIdentity/.test(identities) || !/find "\$result_root" -mindepth 1 -maxdepth 1/.test(identities) || !/! -L "\$result_root\/checkpoint-group\.tar"/.test(identities) || /git fetch/.test(identities)) errors.push(`${file}: publisher must safely extract every exact pair and plan the complete batch set before staging`)
+      if (!/translation-batch-set\.js plan/.test(identities) || !/PAIRS_MANIFEST/.test(identities) || !/ARTIFACT_PAIRS_MANIFEST/.test(identities) || !/--expected-target-sha/.test(identities) || !/--source-checkpoint-sha/.test(identities) || !/preflight-checkpoint-archive\.js/.test(identities) || !/bindPublisherBatchIdentity/.test(identities) || /translation-(?:checkpoint|baseline)-\$GROUP-\$\{GITHUB_RUN_ID\}/.test(identities) || /git fetch/.test(identities)) errors.push(`${file}: publisher must preflight and extract every resolved locale-qualified pair before staging`)
       if (!/translation-staging-publisher/.test(apply) || !/applyPhase/.test(apply) || !/prepareStagingWorktree/.test(publisherHelper) || !/applyTranslationBatch/.test(publisherHelper) || !/commitAppliedBatch/.test(publisherHelper)) errors.push(`${file}: publisher must use one detached worktree and apply and commit batches in order`)
       if (!/translation-staging-publisher/.test(push) || !/pushPhase/.test(push) || !/deterministicStagingRef/.test(publisherHelper) || !/pushStagingRef/.test(publisherHelper) || !/probeRemoteStaging/.test(publisherHelper)) errors.push(`${file}: publisher must push and reconcile the exact deterministic Guides staging ref`)
       if (!/restore-generated-state\.sh --exact --ref "\$staged_sha"/.test(validation) || !/validate-guides-translation-staging\.js/.test(validation) || !/--trusted-root/.test(validation) || !/recordValidationInfrastructureFailure/.test(validation)) errors.push(`${file}: publisher must restore and validate the exact combined staged SHA through the fixed wrapper with retained failure evidence`)

@@ -34,6 +34,23 @@ describe('site-owned publication groups', () => {
     );
   });
 
+  it('keeps shared Guides diagnostics English-owned', () => {
+    const english = resolvePublicationGroupWorkflow('en', 'guides').checkpointPaths;
+    const chinese = resolvePublicationGroupWorkflow('zh-CN', 'guides').checkpointPaths;
+    const sharedPaths = [
+      'packages/docs-tooling/src/lark/meta/assembly/guides.json',
+      'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
+    ];
+
+    for (const sharedPath of sharedPaths) {
+      expect(english).toContain(sharedPath);
+      expect(chinese).not.toContain(sharedPath);
+    }
+    expect(chinese).not.toContainEqual(
+      expect.stringMatching(/^packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-/),
+    );
+  });
+
   it('exposes Chinese On-premise and English Reference producers only', () => {
     expect(resolvePublicationGroup('zh-CN', 'onpremise')).toEqual({
       site: 'zh-CN',

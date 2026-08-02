@@ -1385,6 +1385,27 @@ test('workflow policy rejects direct TypeScript requires in the content publishe
   }
 })
 
+test('Guides publisher resolves and preflights locale-qualified artifact pairs before extraction', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_publish-translation-batches.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const steps = workflow.jobs.publish.steps
+  const checkpointsIndex = steps.findIndex(step => step.name === 'Download Guides translation checkpoints')
+  const baselinesIndex = steps.findIndex(step => step.name === 'Download Guides translation baselines')
+  const resolveIndex = steps.findIndex(step => step.name === 'Resolve Guides translation artifact pairs')
+  const validateIndex = steps.findIndex(step => step.name === 'Validate Guides translation batch identities')
+  const resolution = steps[resolveIndex]
+  const validation = steps[validateIndex]
+
+  assert.ok(checkpointsIndex < resolveIndex && baselinesIndex < resolveIndex && resolveIndex < validateIndex)
+  assert.match(resolution.run, /translation-artifact-pairs\.js/)
+  assert.match(resolution.run, /--target "\$TRANSLATION_TARGET"/)
+  assert.match(resolution.run, /--group "\$GROUP"/)
+  assert.match(resolution.run, /--run-id "\$GITHUB_RUN_ID"/)
+  assert.match(validation.run, /preflight-checkpoint-archive\.js/)
+  assert.match(validation.run, /ARTIFACT_PAIRS_MANIFEST/)
+  assert.doesNotMatch(validation.run, /translation-(?:checkpoint|baseline)-\$GROUP-\$\{GITHUB_RUN_ID\}/)
+})
+
 test('workflow policy rejects unsafe Guides staging publisher mutations', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const workflowName = '_publish-translation-batches.yml'
