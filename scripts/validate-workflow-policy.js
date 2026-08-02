@@ -59,6 +59,11 @@ function containsForcePush(source) {
   })
 }
 
+function hasDoubleQuotedGithubExpressionString(source) {
+  return [...String(source || '').matchAll(/\$\{\{([\s\S]*?)\}\}/g)]
+    .some(([, expression]) => /\[\s*"[^"\r\n]+"\s*\]/.test(expression))
+}
+
 function translationCaseBranches(run) {
   const results = { 'ja-JP': [], 'zh-CN-reference': [] }
   const lines = String(run || '').split('\n')
@@ -119,6 +124,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
   for (const file of files) {
     const source = fs.readFileSync(path.join(directory, file), 'utf8')
+    if (hasDoubleQuotedGithubExpressionString(source)) {
+      errors.push(`${file}: GitHub expressions must use single-quoted string literals`)
+    }
     const bareSidebarValidation = source.split('\n').some(line => {
       const commandIndex = line.indexOf('validate-generated-sidebars.js')
       return commandIndex >= 0 && !line.slice(commandIndex).includes('--site')

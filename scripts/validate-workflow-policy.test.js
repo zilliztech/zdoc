@@ -1724,6 +1724,23 @@ test('manual translation workflow owns parallel producers and serial publication
   }
 })
 
+test('GitHub expressions use single-quoted string literals for property keys', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'github-expression-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'translate-codex.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const mutated = source.replace('fromJSON(inputs.source_shas_json).python', 'fromJSON(inputs.source_shas_json)["python"]')
+    assert.notEqual(mutated, source)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: GitHub expressions must use single-quoted string literals',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('top-level production workflows resolve separate tooling and source refs once', () => {
   const fetchWorkflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
   assert.equal(fetchWorkflow.on.workflow_dispatch.inputs.tooling_ref.default, 'master')
