@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "java",
   "complete": true,
-  "generatedAt": "2026-08-01T11:21:29.494Z",
-  "sourceRunId": "30695964668",
+  "generatedAt": "2026-08-02T18:42:55.150Z",
+  "sourceRunId": "30761042703",
   "records": [
     {
       "canonicalToken": "A6Vld2dJToRXs8xhq0wcGdiRnDc",
@@ -1493,7 +1493,7 @@
     {
       "canonicalToken": "TOfvdLLzaoWJydxBTPQcKevfndd",
       "title": "getPartitionStats()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

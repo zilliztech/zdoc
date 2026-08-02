@@ -914,6 +914,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats",
+        "label": "getPartitionStats()",
+        "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-getpartitionstats"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
         "label": "hasPartition()",
         "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-haspartition"

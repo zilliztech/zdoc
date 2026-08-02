@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-02T10:54:13.106Z",
+  "generated_at": "2026-08-02T18:42:54.902Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
@@ -3416,7 +3416,9 @@
       "obj_edit_time": null,
       "revision_id": null,
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md"
+      ]
     },
     {
       "record_id": "recu4ON3Rx24go",
