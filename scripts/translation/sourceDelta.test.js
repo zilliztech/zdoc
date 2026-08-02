@@ -120,6 +120,17 @@ test('classifies a rename as an old i18n deletion and a new translation', () => 
   }])
 })
 
+test('declares detected orphan translations as source reconciliation deletions', () => {
+  const orphan = 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/orphan.md'
+  const result = classifySourceDelta({
+    group: 'guides',
+    changes: [],
+    orphanTranslations: [orphan],
+  })
+
+  assert.deepEqual(result.deletedI18n, [orphan])
+})
+
 test('rejects malformed name-status input', () => {
   assert.throws(() => parseGitNameStatus('X\tcontent/en/guides/tutorials/a.md\n'), /Unsupported git status/)
   assert.throws(() => parseGitNameStatus('R100\tcontent/en/guides/tutorials/a.md\n'), /Malformed rename/)

@@ -232,7 +232,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['chinese-v0.1', 'english-v1.3', 'chinese-v1.3', 'english-v1.4', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
+      en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3'], ['Overview.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
     },
   },
@@ -306,7 +306,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node'),
+      en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node', 'zilliz', undefined, ['nodejs.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/nodejs/nodejs', 'reference', 'node'),
     },
   },
@@ -333,7 +333,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/python/python', 'reference', 'python'),
+      en: publication('en', 'english-v3.0', 'reference/api/python/python', 'reference', 'python', 'zilliz', undefined, ['python.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/python/python', 'reference', 'python'),
     },
   },

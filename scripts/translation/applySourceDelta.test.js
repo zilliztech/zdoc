@@ -66,7 +66,7 @@ test('removes the old source cache key for renamed docs and leaves the new path 
   assert.equal(cache.files[newPath], undefined)
 })
 
-test('reconciles orphan translations left by an earlier failed publication', () => {
+test('applies declared orphan translation cleanup from source classification', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-i18n-orphan-reconcile-'))
   const currentSource = 'content/en/reference/api/restful/restful/current.mdx'
   const currentTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/current.mdx'
@@ -84,7 +84,7 @@ test('reconciles orphan translations left by an earlier failed publication', () 
 
   const result = applySourceDelta({
     cwd: root,
-    delta: { group: 'rest', deletedI18n: [], renamed: [], changedEnglish: [] },
+    delta: { group: 'rest', deletedI18n: [orphanTarget], renamed: [], changedEnglish: [] },
   })
 
   assert.equal(fs.existsSync(path.join(root, currentTarget)), true)
@@ -92,6 +92,24 @@ test('reconciles orphan translations left by an earlier failed publication', () 
   assert.deepEqual(result.deletedI18n, [orphanTarget])
   assert.deepEqual(result.removedCacheKeys, [orphanSource])
   assert.equal(result.hasTranslationMutation, true)
+})
+
+test('does not expand an already classified source delta with undeclared orphan cleanup', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-i18n-declared-only-'))
+  const orphanTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/orphan.mdx'
+  write(path.join(root, orphanTarget), '# orphan\n')
+  write(path.join(root, '.translation-cache/ja-JP.json'), JSON.stringify({files: {
+    'reference/api/restful/restful/orphan.mdx': {sourceHash: 'old', targetPath: orphanTarget},
+  }}))
+
+  const result = applySourceDelta({
+    cwd: root,
+    delta: {group: 'rest', deletedI18n: [], renamed: [], changedEnglish: []},
+  })
+
+  assert.equal(fs.existsSync(path.join(root, orphanTarget)), true)
+  assert.deepEqual(result.deletedI18n, [])
+  assert.deepEqual(result.removedCacheKeys, [])
 })
 
 test('does not delete a Japanese target owned by a canonical unified source', () => {

@@ -138,13 +138,13 @@ jobs:
               const seen = new Set()
               for (const raw of paths) {
                 const value = raw.endsWith("/") ? raw.slice(0, -1) : raw
-                if (!value || value.startsWith("/") || value.includes("\\") || value.split("/").some(part => !part || part === "." || part === "..") || (value !== "checkpoint-group" && !value.startsWith("checkpoint-group/")) || seen.has(value)) throw new Error(`unsafe or ambiguous checkpoint archive path: ${raw}`)
+                if (!value || value.startsWith("/") || value.includes("\\") || value.split("/").some(part => !part || part === "." || part === "..") || (value !== "checkpoint-group" && !value.startsWith("checkpoint-group/")) || seen.has(value)) throw new Error("unsafe or ambiguous checkpoint archive path: " + raw)
                 seen.add(value)
               }
             '
             tar -tvf "$archive" | node -e '
               const fs = require("node:fs")
-              for (const line of fs.readFileSync(0, "utf8").split("\n").filter(Boolean)) if (!["-", "d"].includes(line[0])) throw new Error(`unsafe checkpoint archive entry: ${line}`)
+              for (const line of fs.readFileSync(0, "utf8").split("\n").filter(Boolean)) if (!["-", "d"].includes(line[0])) throw new Error("unsafe checkpoint archive entry: " + line)
             '
             mkdir -p "$destination"
             chmod 700 "$destination"

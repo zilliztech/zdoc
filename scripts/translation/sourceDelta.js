@@ -62,8 +62,9 @@ function isOwnedPath(filePath, ownedPrefixes) {
   return ownedPrefixes.some(prefix => filePath === prefix || filePath.startsWith(`${prefix}/`))
 }
 
-function classifySourceDelta({ group, target = 'ja-JP', changes }) {
+function classifySourceDelta({ group, target = 'ja-JP', changes, orphanTranslations = [] }) {
   if (!Array.isArray(changes)) throw new Error('Source changes must be an array')
+  if (!Array.isArray(orphanTranslations)) throw new Error('Orphan translations must be an array')
   const ownedPrefixes = target === 'ja-JP'
     ? getGroupPaths(group).englishOutputs.filter(prefix => prefix.startsWith('content/en/'))
     : TARGET_MAPPINGS[target]?.map(([sourceRoot]) => sourceRoot)
@@ -72,6 +73,19 @@ function classifySourceDelta({ group, target = 'ja-JP', changes }) {
   const deletedI18n = new Set()
   const renamed = []
   const retirementCandidates = []
+
+  if (target === 'ja-JP') {
+    const translationOutputs = getGroupPaths(group).translationOutputs
+    for (const orphanPath of orphanTranslations) {
+      const normalized = normalizeRelativePath(orphanPath)
+      if (!isOwnedPath(normalized, translationOutputs) || !/\.mdx?$/.test(normalized)) {
+        throw new Error(`Orphan translation is outside the selected group: ${orphanPath}`)
+      }
+      deletedI18n.add(normalized)
+    }
+  } else if (orphanTranslations.length > 0) {
+    throw new Error(`${target} source delta must not contain Japanese orphan translations`)
+  }
 
   for (const change of changes) {
     if (/^R\d{1,3}$/.test(change.status || '')) {
@@ -130,12 +144,20 @@ function parseArgs(argv) {
 function main() {
   const args = parseArgs(process.argv.slice(2))
   const changes = parseGitNameStatus(fs.readFileSync(args.get('--name-status'), 'utf8'))
-  const delta = classifySourceDelta({ group: args.get('--group'), target: args.get('--target') || 'ja-JP', changes })
+  const group = args.get('--group')
+  const target = args.get('--target') || 'ja-JP'
+  const { analyzeTranslatedCoverage } = require('../validate-translated-coverage')
+  const orphanTranslations = target === 'ja-JP'
+    ? analyzeTranslatedCoverage({group, cwd: process.cwd()}).orphanTranslations
+    : []
+  const delta = classifySourceDelta({group, target, changes, orphanTranslations})
   const output = path.resolve(args.get('--output'))
   fs.mkdirSync(path.dirname(output), { recursive: true })
   fs.writeFileSync(output, `${JSON.stringify(delta, null, 2)}\n`, 'utf8')
   console.log(`[translation-source-delta] ${delta.changedEnglish.length} changed, ${delta.deletedI18n.length} deleted, ${delta.renamed.length} renamed`)
 }
+
+module.exports = { classifySourceDelta, mapEnglishToI18nPath, mapSourcePathForTarget, parseGitNameStatus }
 
 if (require.main === module) {
   try {
@@ -145,5 +167,3 @@ if (require.main === module) {
     process.exitCode = 1
   }
 }
-
-module.exports = { classifySourceDelta, mapEnglishToI18nPath, mapSourcePathForTarget, parseGitNameStatus }

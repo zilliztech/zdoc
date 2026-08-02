@@ -20,7 +20,7 @@ on:
         options: [auto, full, incremental]
         default: auto
       publish: { description: Publish validated translations, required: false, type: boolean, default: false }
-      source_ref: { description: English source branch, tag, or exact SHA, required: false, type: string, default: dev }
+      source_ref: { description: 'English source branch, tag, or exact SHA', required: false, type: string, default: dev }
       target_branch: { description: Existing publication branch, required: false, type: string, default: dev }
       tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
       recovery_run_id: { description: Previous workflow run containing recovery artifacts, required: false, type: string }

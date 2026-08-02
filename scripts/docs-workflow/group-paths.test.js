@@ -56,11 +56,17 @@ test('reference groups map reference outputs into docs-reference i18n', () => {
 });
 
 test('SDK and CLI groups declare master-owned landing pages to preserve', () => {
-  assert.deepEqual(getGroupPaths('python').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('python').preservedEnglish, [
+    'content/en/reference/api/python/python/python.md',
+  ]);
   assert.deepEqual(getGroupPaths('java').preservedEnglish, []);
-  assert.deepEqual(getGroupPaths('node').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('node').preservedEnglish, [
+    'content/en/reference/api/nodejs/nodejs/nodejs.md',
+  ]);
   assert.deepEqual(getGroupPaths('go').preservedEnglish, []);
-  assert.deepEqual(getGroupPaths('cli').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('cli').preservedEnglish, [
+    'content/en/reference/cli/cli/Overview.md',
+  ]);
   assert.deepEqual(getGroupPaths('guides').preservedEnglish, ['content/en/guides/tutorials/home.md']);
   assert.deepEqual(getGroupPaths('rest').preservedEnglish, ['content/en/reference/api/restful/restful/restful.md']);
 });

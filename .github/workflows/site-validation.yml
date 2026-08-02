@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       site: { description: Site selection, required: true, type: choice, options: [auto, en, zh-CN, all], default: auto }
-      source_ref: { description: Content branch, tag, or exact SHA, required: false, type: string, default: dev }
+      source_ref: { description: 'Content branch, tag, or exact SHA', required: false, type: string, default: dev }
       publish: { description: Reserved for the publication entry, required: false, type: boolean, default: false }
 
 permissions:

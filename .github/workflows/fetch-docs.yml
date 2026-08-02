@@ -599,7 +599,7 @@ jobs:
           expected_title="translate docs ($REQUEST_ID)"
           gh workflow run translate-codex.yml --repo "$GITHUB_REPOSITORY" --ref "$WORKFLOW_REF" -f locale=all -f group="$SELECTED_GROUP" -f source_shas_json="$SOURCE_SHAS_JSON" -f tooling_sha="$TOOLING_SHA" -f target_branch="$TARGET_BRANCH" -f mode=auto -f publish=true -f request_id="$REQUEST_ID"
           run_url=
-          for attempt in {1..12}; do
+          for _ in {1..12}; do
             run_url=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow translate-codex.yml --event workflow_dispatch --limit 50 --json displayTitle,url,headSha \
               | jq -r --arg title "$expected_title" --arg sha "$TOOLING_SHA" '.[] | select(.displayTitle == $title and .headSha == $sha) | .url' \
               | head -1)

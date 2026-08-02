@@ -71,7 +71,7 @@ jobs:
           echo "ARTIFACT_SUFFIX=$suffix" >> "$GITHUB_ENV"
 
       - name: Validate immutable inputs
-        run: node -e 'if(!["ja-JP","zh-CN-reference"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.MASTER_SHA,source_sha:process.env.SOURCE_COMMIT_SHA,declared_source_commit_sha:process.env.DECLARED_SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(`${n} must be a lowercase 40-character Git SHA`);if(process.env.DECLARED_SOURCE_COMMIT_SHA!==process.env.SOURCE_COMMIT_SHA)throw new Error("source_commit_sha must match source_sha")'
+        run: node -e 'if(!["ja-JP","zh-CN-reference"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.MASTER_SHA,source_sha:process.env.SOURCE_COMMIT_SHA,declared_source_commit_sha:process.env.DECLARED_SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(n+" must be a lowercase 40-character Git SHA");if(process.env.DECLARED_SOURCE_COMMIT_SHA!==process.env.SOURCE_COMMIT_SHA)throw new Error("source_commit_sha must match source_sha")'
       - name: Check out immutable master tooling
         uses: actions/checkout@v4
         with:
@@ -88,8 +88,6 @@ jobs:
           git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
           git worktree add --detach "$BASELINE_DIR" "$SOURCE_COMMIT_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_COMMIT_SHA"
-          git cat-file -e "$SOURCE_COMMIT_SHA^" 2>/dev/null || git fetch --no-tags --depth=2 origin "$SOURCE_COMMIT_SHA"
-          git cat-file -e "$SOURCE_COMMIT_SHA^"
           case "$TRANSLATION_TARGET" in
             ja-JP) state=.translation-cache/ja-JP.json; empty='{"files":{}}' ;;
             zh-CN-reference) state=generated/zh-CN/manifests/reference-translations.json; empty='{"schemaVersion":1,"records":[]}' ;;
@@ -104,7 +102,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p tmp
-          git diff --name-status "$SOURCE_COMMIT_SHA^" "$SOURCE_COMMIT_SHA" > tmp/source-name-status.txt
+          git diff --name-status "$MASTER_SHA" "$SOURCE_COMMIT_SHA" > tmp/source-name-status.txt
           node scripts/translation/sourceDelta.js --target "$TRANSLATION_TARGET" --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
           node scripts/translation/applySourceDelta.js --target "$TRANSLATION_TARGET" --delta tmp/source-delta.json --report tmp/source-delta-report.json
           echo "has_mutation=$(node -p "require('./tmp/source-delta-report.json').hasTranslationMutation ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"

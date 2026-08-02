@@ -3,7 +3,6 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
-const { analyzeTranslatedCoverage } = require('../validate-translated-coverage')
 
 const CACHE_PATH = '.translation-cache/ja-JP.json'
 const I18N_PREFIX = 'i18n/ja-JP/'
@@ -84,12 +83,6 @@ function applySourceDelta({ cwd = process.cwd(), target = 'ja-JP', delta }) {
   }
   const deletedPaths = new Set(declaredDeletions.map(filePath => normalizeSafeRelative(filePath, I18N_PREFIX)))
   const renamedI18n = []
-
-  if (typeof delta.group === 'string' && delta.group) {
-    for (const orphanPath of analyzeTranslatedCoverage({ group: delta.group, cwd }).orphanTranslations) {
-      deletedPaths.add(normalizeSafeRelative(orphanPath, I18N_PREFIX))
-    }
-  }
 
   for (const rename of renames) {
     const oldI18nPath = normalizeSafeRelative(rename.oldI18nPath, I18N_PREFIX)

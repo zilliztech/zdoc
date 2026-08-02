@@ -80,6 +80,21 @@ describe('site-owned publication groups', () => {
     }
   });
 
+  it('preserves hand-authored Reference landing pages inside generated output directories', () => {
+    expect(resolvePublicationGroupWorkflow('en', 'python').preservedPaths).toEqual([
+      'content/en/reference/api/python/python/python.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'node').preservedPaths).toEqual([
+      'content/en/reference/api/nodejs/nodejs/nodejs.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'cli').preservedPaths).toEqual([
+      'content/en/reference/cli/cli/Overview.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'rest').preservedPaths).toEqual([
+      'content/en/reference/api/restful/restful/restful.md',
+    ]);
+  });
+
   it('does not checkpoint English revision inventories for Chinese publication groups', () => {
     for (const group of ['guides', 'onpremise']) {
       expect(resolvePublicationGroupWorkflow('zh-CN', group).checkpointPaths).not.toContainEqual(
