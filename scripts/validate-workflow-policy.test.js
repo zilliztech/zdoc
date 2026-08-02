@@ -1406,6 +1406,78 @@ test('Guides publisher resolves and preflights locale-qualified artifact pairs b
   assert.doesNotMatch(validation.run, /translation-(?:checkpoint|baseline)-\$GROUP-\$\{GITHUB_RUN_ID\}/)
 })
 
+test('workflow policy rejects repaired Guides helper boundary mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      option: 'translationStagingPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/translation-staging.js'), 'utf8').replaceAll("'--no-renames', ", ''),
+      expected: 'translation-staging.js: staged batch comparisons must disable rename detection',
+    },
+    {
+      option: 'groupsPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'packages/docs-tooling/src/workflows/groups.ts'), 'utf8').replace("site === 'en' && groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []", "groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []"),
+      expected: 'groups.ts: shared Guides diagnostics must remain English-owned',
+    },
+    {
+      option: 'guidesValidationPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8').replaceAll('content/en/guides', 'docs'),
+      expected: 'validate-guides-translation-staging.js: combined validation must require canonical tracked roots only',
+    },
+    {
+      option: 'publicationReportPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/translation-publication-report.js'), 'utf8').replace('content/en/byoc', 'docs-byoc'),
+      expected: 'translation-publication-report.js: validation receipts must use canonical tracked commands',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-helper-policy-'))
+    try {
+      const file = path.join(directory, 'mutated.js')
+      fs.writeFileSync(file, fixture.source)
+      assert.ok(validateWorkflowPolicies(sourceDirectory, { [fixture.option]: file }).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow policy rejects paid translation or matrices before immutable validation', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: '_translate-content-group.yml',
+      mutate(workflow) {
+        const steps = workflow.jobs.translate.steps
+        const agentsIndex = steps.findIndex(step => step.name === 'Run translation agents')
+        const [agents] = steps.splice(agentsIndex, 1)
+        steps.splice(steps.findIndex(step => step.name === 'Build group translation manifest'), 0, agents)
+      },
+      expected: '_translate-content-group.yml: paid translation must follow immutable identity, source delta, mode, and manifest validation',
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate(workflow) { workflow.jobs.translate_sdk.needs = [] },
+      expected: 'translate-codex.yml: translation matrices must wait for complete handoff repository validation',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-order-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, fixture.file)
+      const workflow = yaml.load(fs.readFileSync(file, 'utf8'))
+      fixture.mutate(workflow)
+      fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('workflow policy rejects unsafe Guides staging publisher mutations', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const workflowName = '_publish-translation-batches.yml'

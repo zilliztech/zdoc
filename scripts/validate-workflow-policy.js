@@ -329,6 +329,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
 
       const steps = workflow.jobs?.translate?.steps || []
+      const paidWorkOrder = [
+        'Validate immutable inputs',
+        'Materialize source checkpoint and baseline',
+        'Apply source translation delta',
+        'Resolve effective translation mode',
+        'Build group translation manifest',
+        'Run translation agents',
+      ].map(name => steps.findIndex(step => step.name === name))
+      if (paidWorkOrder.some(index => index < 0) || paidWorkOrder.some((index, position) => position > 0 && index <= paidWorkOrder[position - 1])) {
+        errors.push(`${file}: paid translation must follow immutable identity, source delta, mode, and manifest validation`)
+      }
       const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
       const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
       const checkpoint = steps.find(step => step.name === 'Create validated translation checkpoints')
@@ -741,6 +752,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (inputs.handoff_json?.required !== true || ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch'].some(input => inputs[input] !== undefined)) {
         errors.push(`${file}: must require one complete immutable handoff without duplicate identity inputs`)
       }
+      const needsPrepare = job => {
+        const needs = workflow.jobs?.[job]?.needs
+        return (Array.isArray(needs) ? needs : [needs]).includes('prepare')
+      }
+      if (!needsPrepare('prepare_guides_batches') || !needsPrepare('translate_sdk') || !needsPrepare('translate_guides_batches')) {
+        errors.push(`${file}: translation matrices must wait for complete handoff repository validation`)
+      }
     }
 
     if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
@@ -1053,6 +1071,40 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!Array.isArray(branches) || branches.some(branch => typeof branch !== 'string' || branch.includes('*') || branch.startsWith('docs-translation-staging/'))) {
       errors.push(`${file}: push deployment triggers must exclude docs-translation-staging/**`)
     }
+  }
+
+  const translationStagingSource = fs.readFileSync(options.translationStagingPath || path.join(process.cwd(), 'scripts/docs-workflow/translation-staging.js'), 'utf8')
+  if (!/\['diff', '--no-renames', '--name-only', '-z', 'HEAD', '--'\]/.test(translationStagingSource) ||
+      !/\['diff', '--cached', '--no-renames', '--name-only', '-z'\]/.test(translationStagingSource)) {
+    errors.push('translation-staging.js: staged batch comparisons must disable rename detection')
+  }
+
+  const groupsSource = fs.readFileSync(options.groupsPath || path.join(process.cwd(), 'packages/docs-tooling/src/workflows/groups.ts'), 'utf8')
+  if (!/site === 'en' && groupName === 'guides' \? GUIDES_CHECKPOINT_PATHS : \[\]/.test(groupsSource)) {
+    errors.push('groups.ts: shared Guides diagnostics must remain English-owned')
+  }
+
+  const guidesValidationSource = fs.readFileSync(options.guidesValidationPath || path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8')
+  const canonicalRequiredRoots = [
+    'content/en/guides',
+    'content/en/byoc',
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current',
+    '.translation-cache/ja-JP.json',
+    'generated/en/sidebars',
+  ]
+  if (canonicalRequiredRoots.some(root => !guidesValidationSource.includes(`'${root}'`)) ||
+      !/for \(const root of REQUIRED_ROOTS\)/.test(guidesValidationSource) ||
+      /\n\s*'(?:docs|docs-byoc|reference|config\/generated)',/.test(guidesValidationSource)) {
+    errors.push('validate-guides-translation-staging.js: combined validation must require canonical tracked roots only')
+  }
+
+  const publicationReportSource = fs.readFileSync(options.publicationReportPath || path.join(process.cwd(), 'scripts/docs-workflow/translation-publication-report.js'), 'utf8')
+  if (!/validationSpec\('english-saas-mdx',[\s\S]*'content\/en\/guides'/.test(publicationReportSource) ||
+      !/validationSpec\('english-byoc-mdx',[\s\S]*'content\/en\/byoc'/.test(publicationReportSource) ||
+      !/validationSpec\('build-and-links',[\s\S]*'pnpm run build'/.test(publicationReportSource) ||
+      /validate-mdx', '--path', 'docs(?:-byoc)?'/.test(publicationReportSource)) {
+    errors.push('translation-publication-report.js: validation receipts must use canonical tracked commands')
   }
 
   const publisherPath = options.publisherPath || path.join(process.cwd(), 'scripts/docs-workflow/publish-checkpoint.sh')
