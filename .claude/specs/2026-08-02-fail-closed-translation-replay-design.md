@@ -1,7 +1,7 @@
 # Fail-Closed Translation Ownership and Replay
 
-**Date:** 2026-08-02  
-**Status:** Approved design, pending written-spec review  
+**Date:** 2026-08-02
+**Status:** Approved design, pending written-spec review
 **Repository:** `zilliztech/zdoc`
 
 ## Summary
