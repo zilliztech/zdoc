@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-02T18:34:54.813Z",
+  "generated_at": "2026-08-02T18:34:15.753Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
-  "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
+  "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "changed_records": [],
   "changed_tokens": [],
   "expanded_tokens": [],
@@ -13,92 +13,74 @@
   "warnings": [],
   "affected_tables": [],
   "current_table_targets": {
-    "tbl9BeCMjBmalJVb": [
+    "tblMuHkoG4qMugeX": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblb929onfgAPW90": [
-      "zilliz.saas"
-    ],
-    "tblgHPdSvZP8gUz6": [
+    "tbloC4PVprwYo0P0": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblh7utKxg0dgdTo": [
+    "tblr7Zec2ReTfRmw": [
+      "zilliz.saas"
+    ],
+    "tblRaa3JnIhllHb9": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblLMqwkNDtAEK5p": [
-      "zilliz.paas"
-    ],
-    "tblm1SbEPZaZrGZQ": [
+    "tblsw6S3J0ekcgNB": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblWv7PjNDsexddH": [
-      "zilliz.paas",
-      "zilliz.saas"
-    ],
-    "tblZMzoITXNsyKmQ": [
+    "tblYpqCgevikMomb": [
       "zilliz.paas",
       "zilliz.saas"
     ]
   },
   "current_table_names": {
-    "tbl9BeCMjBmalJVb": "Get Started",
-    "tblb929onfgAPW90": "AI Models",
-    "tblgHPdSvZP8gUz6": "Client Libraries",
-    "tblh7utKxg0dgdTo": "Architecture",
-    "tblLMqwkNDtAEK5p": "Deployment",
-    "tblm1SbEPZaZrGZQ": "Tools",
-    "tblWv7PjNDsexddH": "Development",
-    "tblZMzoITXNsyKmQ": "Management"
+    "tblMuHkoG4qMugeX": "运维指南",
+    "tbloC4PVprwYo0P0": "客户端参考",
+    "tblr7Zec2ReTfRmw": "AI 模型",
+    "tblRaa3JnIhllHb9": "工具",
+    "tblsw6S3J0ekcgNB": "从这里开始",
+    "tblYpqCgevikMomb": "开发指南"
   },
   "previous_table_targets": {
-    "tbl9BeCMjBmalJVb": [
+    "tblMuHkoG4qMugeX": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblb929onfgAPW90": [
-      "zilliz.saas"
-    ],
-    "tblgHPdSvZP8gUz6": [
+    "tbloC4PVprwYo0P0": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblh7utKxg0dgdTo": [
+    "tblr7Zec2ReTfRmw": [
+      "zilliz.saas"
+    ],
+    "tblRaa3JnIhllHb9": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblLMqwkNDtAEK5p": [
-      "zilliz.paas"
-    ],
-    "tblm1SbEPZaZrGZQ": [
+    "tblsw6S3J0ekcgNB": [
       "zilliz.paas",
       "zilliz.saas"
     ],
-    "tblWv7PjNDsexddH": [
-      "zilliz.paas",
-      "zilliz.saas"
-    ],
-    "tblZMzoITXNsyKmQ": [
+    "tblYpqCgevikMomb": [
       "zilliz.paas",
       "zilliz.saas"
     ]
   },
   "previous_table_names": {
-    "tbl9BeCMjBmalJVb": "Get Started",
-    "tblb929onfgAPW90": "AI Models",
-    "tblgHPdSvZP8gUz6": "Client Libraries",
-    "tblh7utKxg0dgdTo": "Architecture",
-    "tblLMqwkNDtAEK5p": "Deployment",
-    "tblm1SbEPZaZrGZQ": "Tools",
-    "tblWv7PjNDsexddH": "Development",
-    "tblZMzoITXNsyKmQ": "Management"
+    "tblMuHkoG4qMugeX": "运维指南",
+    "tbloC4PVprwYo0P0": "客户端参考",
+    "tblr7Zec2ReTfRmw": "AI 模型",
+    "tblRaa3JnIhllHb9": "工具",
+    "tblsw6S3J0ekcgNB": "从这里开始",
+    "tblYpqCgevikMomb": "开发指南"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-01T00:00:57.259Z",
-    "records": 376
+    "generated_at": "2026-08-01T00:02:48.537Z",
+    "records": 309
   },
   "source_scope": "partial"
 }
