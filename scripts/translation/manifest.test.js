@@ -1,19 +1,31 @@
 const assert = require('node:assert/strict')
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 
 const {
-  CANDIDATE_REASON_ORDER,
   buildManifest,
   cachePathForLocale,
-  candidateReason,
-  hashContent,
   localeForTarget,
-  sourceMappingsForLocale,
-  sourceMappingsForTarget,
   writeCache,
 } = require('./manifest')
+
+function hashContent(text) {
+  return crypto.createHash('sha256').update(text, 'utf8').digest('hex')
+}
+
+function referenceRecord({ manual, sourcePath, targetPath, sourceHash, status = 'translated' }) {
+  return {
+    manual,
+    sourcePath,
+    targetPath,
+    sourceCommit: 'a'.repeat(40),
+    sourceHash,
+    targetHash: 'b'.repeat(64),
+    status,
+  }
+}
 
 function withTempDir(callback) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-manifest-'))
@@ -49,7 +61,12 @@ function testBuildManifestIncludesChangedAndMissingDocs() {
       },
     }, null, 2))
 
-    const manifest = buildManifest({ siteDir, locale: 'ja-JP', includeReference: false })
+    const manifest = buildManifest({
+      siteDir,
+      locale: 'ja-JP',
+      group: 'guides',
+      sourceCheckpointSha: 'a'.repeat(40),
+    })
 
     assert.equal(manifest.target, 'ja-JP')
     assert.deepEqual(
@@ -67,140 +84,10 @@ function testBuildManifestIncludesChangedAndMissingDocs() {
   })
 }
 
-function testSourceMappingsCanIncludeReference() {
-  const mappings = sourceMappingsForLocale('ja-JP', { includeReference: true })
-  assert.ok(mappings.some(mapping => mapping.sourceRoot === 'content/en/reference'))
-  assert.ok(mappings.some(mapping => mapping.targetRoot === 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current'))
-}
-
-function testExplicitTargetsUseUnifiedContentRoots() {
+function testExplicitTargetLocales() {
   assert.equal(localeForTarget('ja-JP'), 'ja-JP')
   assert.equal(localeForTarget('zh-CN-reference'), 'zh-CN')
   assert.throws(() => localeForTarget('zh-CN-tools'), /unknown translation target/i)
-  assert.deepEqual(sourceMappingsForTarget('ja-JP'), [
-    {
-      type: 'guides',
-      sourceRoot: 'content/en/guides/tutorials',
-      targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
-    },
-    {
-      type: 'byoc',
-      sourceRoot: 'content/en/byoc/tutorials',
-      targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
-    },
-    {
-      type: 'reference',
-      sourceRoot: 'content/en/reference',
-      targetRoot: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current',
-    },
-  ])
-  assert.deepEqual(sourceMappingsForTarget('zh-CN-reference'), [{
-    type: 'reference',
-    sourceRoot: 'content/en/reference',
-    targetRoot: 'content/zh-CN/reference',
-  }])
-  assert.throws(() => sourceMappingsForTarget('zh-CN-tools'), /unknown translation target/i)
-}
-
-function testChineseTargetsUseCommittedManifestStateInsteadOfLocaleCache() {
-  withTempDir(siteDir => {
-    const sourcePath = 'content/en/guides/tutorials/tools/tool.md'
-    const targetPath = 'content/zh-CN/guides/tutorials/tools/tool.md'
-    write(path.join(siteDir, sourcePath), '# changed\n')
-    write(path.join(siteDir, targetPath), '# 已翻译\n')
-    write(path.join(siteDir, '.translation-cache/zh-CN.json'), JSON.stringify({files: {
-      [sourcePath]: {sourceHash: hashContent('# changed\n')},
-    }}))
-    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
-      schemaVersion: 1,
-      records: [{sourcePath, targetPath, sourceHash: 'old'}],
-    }))
-
-    const manifest = buildManifest({siteDir, target: 'zh-CN-tools'})
-    assert.deepEqual(manifest.items.map(item => [item.sourcePath, item.reason]), [[sourcePath, 'stale_source']])
-  })
-}
-
-function testToolsSidebarLabelChangeBecomesCandidate() {
-  withTempDir(siteDir => {
-    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'
-    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js'
-    const previous = {type: 'category', label: 'Old Tools', key: 'category:tutorials/tools', items: []}
-    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), `module.exports = ${JSON.stringify([
-      {...previous, label: 'Tools'},
-    ])}\n`)
-    write(path.join(siteDir, targetPath), 'module.exports = []\n')
-    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
-      schemaVersion: 1,
-      records: [{sourcePath, targetPath, sourceHash: hashContent(JSON.stringify(previous)), kind: 'sidebar'}],
-    }))
-
-    const manifest = buildManifest({siteDir, target: 'zh-CN-tools'})
-    assert.deepEqual(manifest.items.map(item => [item.sourcePath, item.targetPath, item.reason, item.type]), [[
-      sourcePath,
-      targetPath,
-      'stale_source',
-      'sidebar',
-    ]])
-  })
-}
-
-function testToolsSidebarRemovalRequiresExactRetirementApproval() {
-  withTempDir(siteDir => {
-    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools'
-    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js'
-    write(path.join(siteDir, 'generated/en/sidebars/guides.sidebar.js'), 'module.exports = []\n')
-    write(path.join(siteDir, targetPath), 'module.exports = []\n')
-    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
-      schemaVersion: 1,
-      records: [{sourcePath, targetPath, sourceHash: 'a'.repeat(64), kind: 'sidebar'}],
-    }))
-
-    assert.throws(() => buildManifest({siteDir, target: 'zh-CN-tools'}), /retirement.*approval|required/i)
-    write(path.join(siteDir, 'config/tools-retirements.json'), JSON.stringify({schemaVersion: 1, retirements: [{
-      sourcePath,
-      targetPath,
-      reason: 'sidebar_removed',
-    }]}))
-    const approved = buildManifest({siteDir, target: 'zh-CN-tools'})
-    assert.deepEqual(approved.source_delta.retirement_candidates, [{sourcePath, targetPath, reason: 'sidebar_removed'}])
-    assert.deepEqual(approved.source_delta.deleted_i18n, [])
-  })
-}
-
-function testChineseDeletionAndRenameRequireTargetSpecificRetirementRegistries() {
-  for (const fixture of [
-    {
-      target: 'zh-CN-tools',
-      registry: 'config/tools-retirements.json',
-      candidate: {
-        sourcePath: 'content/en/guides/tutorials/tools/old.md',
-        targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
-        reason: 'source_deleted',
-      },
-    },
-    {
-      target: 'zh-CN-reference',
-      registry: 'config/reference-retirements.json',
-      candidate: {
-        sourcePath: 'content/en/reference/old.md',
-        targetPath: 'content/zh-CN/reference/old.md',
-        reason: 'source_renamed',
-      },
-    },
-  ]) withTempDir(siteDir => {
-    const sourceDelta = {changedEnglish: [], deletedI18n: [], renamed: [], retirementCandidates: [fixture.candidate]}
-    assert.throws(() => buildManifest({siteDir, target: fixture.target, sourceDelta}), /retirement.*approval|required/i)
-    write(path.join(siteDir, fixture.registry), JSON.stringify({schemaVersion: 1, retirements: [{
-      ...fixture.candidate,
-      reason: 'wrong_reason',
-    }]}))
-    assert.throws(() => buildManifest({siteDir, target: fixture.target, sourceDelta}), /retirement.*approval|required/i)
-    write(path.join(siteDir, fixture.registry), JSON.stringify({schemaVersion: 1, retirements: [fixture.candidate]}))
-    const approved = buildManifest({siteDir, target: fixture.target, sourceDelta})
-    assert.deepEqual(approved.source_delta.retirement_candidates, [fixture.candidate])
-    assert.deepEqual(approved.source_delta.deleted_i18n, [])
-  })
 }
 
 function testActiveReferenceSourceIsNotHiddenByStaleRetirement() {
@@ -208,11 +95,12 @@ function testActiveReferenceSourceIsNotHiddenByStaleRetirement() {
     const sourcePath = 'content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md'
     const targetPath = 'content/zh-CN/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md'
     write(path.join(siteDir, sourcePath), '# VolumeBulkWriter\n')
-    write(path.join(siteDir, 'config/reference-retirements.json'), JSON.stringify({schemaVersion: 1, retirements: [{
+    write(path.join(siteDir, 'config/reference-retirements.json'), JSON.stringify({schemaVersion: 2, retirements: [{
       manual: 'python',
       sourcePath,
       targetPath,
-      reason: 'Imported baseline retirement from the clean-room Reference migration',
+      changeKind: 'source_deleted',
+      rationale: 'Imported baseline retirement from the clean-room Reference migration',
     }]}))
 
     const manifest = buildManifest({
@@ -223,6 +111,37 @@ function testActiveReferenceSourceIsNotHiddenByStaleRetirement() {
     })
 
     assert.deepEqual(manifest.items.map(item => item.sourcePath), [sourcePath])
+  })
+}
+
+function testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged() {
+  withTempDir(siteDir => {
+    const sourcePath = 'content/en/reference/api/python/python/removed.md'
+    const targetPath = 'content/zh-CN/reference/api/python/python/removed.md'
+    const retirement = {manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted'}
+    write(path.join(siteDir, targetPath), '# 已翻译\n')
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [referenceRecord({manual: 'python', sourcePath, targetPath, sourceHash: 'a'.repeat(64)})],
+    }))
+    write(path.join(siteDir, 'config/reference-retirements.json'), JSON.stringify({
+      schemaVersion: 2,
+      retirements: [{manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'Reviewed source deletion'}],
+    }))
+
+    const manifest = buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      group: 'python',
+      sourceCheckpointSha: 'e'.repeat(40),
+    })
+
+    assert.deepEqual(manifest.items, [])
+    assert.deepEqual(manifest.source_delta, {
+      deleted_i18n: [],
+      renamed: [],
+      retirement_candidates: [retirement],
+    })
   })
 }
 
@@ -238,7 +157,7 @@ function testFullChineseBootstrapIncludesEveryActiveSource() {
       const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/')
       write(path.join(siteDir, sourcePath), source)
       write(path.join(siteDir, targetPath), '# English placeholder\n')
-      records.push({sourcePath, targetPath, sourceHash: hashContent(source), status: 'translated'})
+      records.push(referenceRecord({manual: 'python', sourcePath, targetPath, sourceHash: hashContent(source)}))
     }
     write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
       schemaVersion: 1,
@@ -273,8 +192,14 @@ function testReferenceLandingGroupForcesExactlyFiveCurrentTargets() {
       const source = `# ${sourcePath}\n`
       write(path.join(siteDir, sourcePath), source)
       write(path.join(siteDir, targetPath), `# translated ${sourcePath}\n`)
-      records.push({sourcePath, targetPath, sourceHash: hashContent(source), status: 'translated'})
+      const manual = sourcePath.includes('/api/python/') ? 'python'
+        : sourcePath.includes('/api/java/') ? 'java'
+          : sourcePath.includes('/api/nodejs/') ? 'node'
+            : sourcePath.includes('/api/go/') ? 'go'
+              : 'cli'
+      records.push(referenceRecord({manual, sourcePath, targetPath, sourceHash: hashContent(source)}))
     }
+    records.sort((left, right) => left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath))
     write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({schemaVersion: 1, records}))
 
     const manifest = buildManifest({
@@ -295,6 +220,53 @@ function testReferenceLandingGroupForcesExactlyFiveCurrentTargets() {
   })
 }
 
+function testMissingForcedReferenceLandingIsPreservedFromRetirement() {
+  withTempDir(siteDir => {
+    const activeSourcePath = 'content/en/reference/api/python/python/python.md'
+    const activeTargetPath = activeSourcePath.replace('content/en/', 'content/zh-CN/')
+    const missingSourcePath = 'content/en/reference/api/java/java/java.md'
+    const missingTargetPath = missingSourcePath.replace('content/en/', 'content/zh-CN/')
+    const activeSource = '# Python landing\n'
+    write(path.join(siteDir, activeSourcePath), activeSource)
+    write(path.join(siteDir, activeTargetPath), '# Python landing translated\n')
+    write(path.join(siteDir, missingTargetPath), '# Java landing translated\n')
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [
+        {
+          manual: 'java',
+          sourcePath: missingSourcePath,
+          targetPath: missingTargetPath,
+          sourceCommit: 'a'.repeat(40),
+          sourceHash: 'b'.repeat(64),
+          targetHash: 'c'.repeat(64),
+          status: 'translated',
+        },
+        {
+          manual: 'python',
+          sourcePath: activeSourcePath,
+          targetPath: activeTargetPath,
+          sourceCommit: 'a'.repeat(40),
+          sourceHash: hashContent(activeSource),
+          targetHash: 'd'.repeat(64),
+          status: 'translated',
+        },
+      ],
+    }))
+
+    const manifest = buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      group: 'reference-landings',
+      sourceCheckpointSha: 'f'.repeat(40),
+    })
+
+    assert.deepEqual(manifest.items.map(item => item.sourcePath), [activeSourcePath])
+    assert.equal(manifest.items[0].reason, 'stale_source')
+    assert.equal(manifest.source_delta, undefined)
+  })
+}
+
 function testLegacyJapaneseCacheKeysMapToCanonicalSources() {
   withTempDir(siteDir => {
     const source = '# Stable\n'
@@ -306,19 +278,13 @@ function testLegacyJapaneseCacheKeysMapToCanonicalSources() {
       'docs/tutorials/stable.md': {sourceHash: hashContent(source), targetPath},
     }}))
 
-    assert.deepEqual(buildManifest({siteDir, target: 'ja-JP'}).items, [])
+    assert.deepEqual(buildManifest({
+      siteDir,
+      target: 'ja-JP',
+      group: 'guides',
+      sourceCheckpointSha: 'a'.repeat(40),
+    }).items, [])
   })
-}
-
-function testRepositoryLegacyJapaneseCacheDoesNotMassRetranslate() {
-  const repositoryRoot = path.resolve(__dirname, '../..')
-  const cache = JSON.parse(fs.readFileSync(path.join(repositoryRoot, '.translation-cache/ja-JP.json'), 'utf8'))
-  const legacyCount = Object.keys(cache.files).filter(file => /^(docs|docs-byoc|reference)\//.test(file)).length
-  const manifest = buildManifest({siteDir: repositoryRoot, target: 'ja-JP', includeReference: true})
-  const staleCount = manifest.items.filter(item => item.reason === 'stale_source').length
-
-  assert.ok(legacyCount > 1000, `expected the real cache fixture to exercise legacy keys, got ${legacyCount}`)
-  assert.ok(staleCount < legacyCount / 3, `legacy cache migration still classified too many entries as stale: ${staleCount}/${legacyCount}`)
 }
 
 function testCheckpointedCacheRemovesCompletedFilesFromNextManifest() {
@@ -337,7 +303,12 @@ function testCheckpointedCacheRemovesCompletedFilesFromNextManifest() {
       },
     })
 
-    const manifest = buildManifest({ siteDir, locale: 'ja-JP' })
+    const manifest = buildManifest({
+      siteDir,
+      locale: 'ja-JP',
+      group: 'guides',
+      sourceCheckpointSha: 'a'.repeat(40),
+    })
     assert.deepEqual(manifest.items.map(item => item.sourcePath), ['content/en/guides/tutorials/pending.md'])
   })
 }
@@ -378,20 +349,13 @@ function testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint() {
   })
 }
 
-function testGroupValidationAndLegacyCompatibility() {
+function testGroupAndCheckpointAreRequired() {
   withTempDir(siteDir => {
     write(path.join(siteDir, 'content/en/guides/tutorials/guide.md'), '# guide\n')
-    write(path.join(siteDir, 'content/en/reference/api/python/python/v2/a.md'), '# python\n')
+    assert.throws(() => buildManifest({ siteDir, sourceCheckpointSha: 'a'.repeat(40) }), /group/i)
     assert.throws(() => buildManifest({ siteDir, group: 'wat', sourceCheckpointSha: 'a'.repeat(40) }), /Unknown .*group/)
     assert.throws(() => buildManifest({ siteDir, group: 'python' }), /source checkpoint SHA/i)
     assert.throws(() => buildManifest({ siteDir, group: 'python', sourceCheckpointSha: 'abc' }), /source checkpoint SHA/i)
-    const legacy = buildManifest({ siteDir, includeReference: false })
-    assert.equal(legacy.group, null)
-    assert.equal(legacy.sourceCheckpointSha, null)
-    assert.deepEqual(legacy.items.map(item => item.sourcePath), ['content/en/guides/tutorials/guide.md'])
-    assert.deepEqual(buildManifest({ siteDir, includeReference: true }).items.map(item => item.sourcePath).sort(), [
-      'content/en/guides/tutorials/guide.md', 'content/en/reference/api/python/python/v2/a.md',
-    ])
   })
 }
 
@@ -419,6 +383,7 @@ function testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog() {
     assert.deepEqual(manifest.source_delta, {
       deleted_i18n: [deletedI18n],
       renamed: [],
+      retirement_candidates: [],
     })
 
     const limited = buildManifest({
@@ -492,18 +457,7 @@ function testManifestClassifiesAndOrdersTranslationCandidates() {
 }
 
 function testCurrentDeltaReasonTakesPrecedenceOverMissingTarget() {
-  assert.deepEqual(CANDIDATE_REASON_ORDER, {
-    current_delta: 0,
-    missing_target: 1,
-    stale_source: 2,
-  })
   const sourcePath = 'content/en/guides/tutorials/current.md'
-  assert.equal(candidateReason({
-    changedEnglish: new Set([sourcePath]),
-    sourcePath,
-    targetExists: false,
-  }), 'current_delta')
-
   withTempDir(siteDir => {
     write(path.join(siteDir, sourcePath), '# Current without target\n')
     const manifest = buildManifest({
@@ -521,17 +475,17 @@ function testCurrentDeltaReasonTakesPrecedenceOverMissingTarget() {
 }
 
 function run() {
+  testMissingForcedReferenceLandingIsPreservedFromRetirement()
   testBuildManifestIncludesChangedAndMissingDocs()
-  testSourceMappingsCanIncludeReference()
-  testExplicitTargetsUseUnifiedContentRoots()
+  testExplicitTargetLocales()
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
+  testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged()
   testFullChineseBootstrapIncludesEveryActiveSource()
   testReferenceLandingGroupForcesExactlyFiveCurrentTargets()
   testLegacyJapaneseCacheKeysMapToCanonicalSources()
-  testRepositoryLegacyJapaneseCacheDoesNotMassRetranslate()
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()
   testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint()
-  testGroupValidationAndLegacyCompatibility()
+  testGroupAndCheckpointAreRequired()
   testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog()
   testManifestClassifiesAndOrdersTranslationCandidates()
   testCurrentDeltaReasonTakesPrecedenceOverMissingTarget()

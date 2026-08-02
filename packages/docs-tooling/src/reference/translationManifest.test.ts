@@ -221,14 +221,15 @@ describe('Reference translation provenance', () => {
       manual: 'python',
       sourcePath: 'content/en/reference/api/python/page.md',
       targetPath: 'content/zh-CN/reference/api/python/page.md',
-      reason: 'Fixture retirement',
+      changeKind: null,
+      rationale: 'Fixture retirement',
     };
 
     const result = buildReferenceManifests({
       ...roots,
       sourceCommit: 'a'.repeat(40),
       manualForPath: () => 'python',
-      retirementRegistry: {schemaVersion: 1, retirements: [retiredRecord]},
+      retirementRegistry: {schemaVersion: 2, retirements: [retiredRecord]},
     });
     expect(result.translationManifest.records).toEqual([]);
   });
@@ -238,15 +239,17 @@ describe('Reference translation provenance', () => {
       manual: 'python',
       sourcePath: 'content/en/reference/api/python/page.md',
       targetPath: 'content/zh-CN/reference/api/python/page.md',
-      reason: 'Fixture retirement',
+      changeKind: null,
+      rationale: 'Fixture retirement',
     };
     const unrelated = {
       manual: 'java',
       sourcePath: 'content/en/reference/api/java/page.md',
       targetPath: 'content/zh-CN/reference/api/java/page.md',
-      reason: 'Unrelated retirement',
+      changeKind: null,
+      rationale: 'Unrelated retirement',
     };
-    const registry = {schemaVersion: 1 as const, retirements: [unrelated, record].sort((left, right) => left.manual.localeCompare(right.manual))};
+    const registry = {schemaVersion: 2 as const, retirements: [unrelated, record].sort((left, right) => left.manual.localeCompare(right.manual))};
 
     expect(normalizeReferenceRetirementRegistry({
       registry,
@@ -357,15 +360,23 @@ describe('Reference translation provenance', () => {
       manual: 'python',
       sourcePath: 'content/en/reference/api/python/page.md',
       targetPath: 'content/zh-CN/reference/api/python/page.md',
-      reason: 'Legacy translation retained after canonical source removal',
+      changeKind: 'source_deleted' as const,
+      rationale: 'Legacy translation retained after canonical source removal',
     };
-    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [{...record, extra: true}]})).toThrow(/unrecognized|schema/i);
-    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [
+    expect(parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [record]})).toEqual({schemaVersion: 2, retirements: [record]});
+    expect(parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [{...record, changeKind: null}]}).retirements[0].changeKind).toBeNull();
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [record]})).toThrow(/literal|schema/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [{...record, reason: 'source_deleted'}]})).toThrow(/unrecognized|schema/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [{...record, rationale: undefined}]})).toThrow(/rationale|required|schema/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [{...record, changeKind: 'unknown'}]})).toThrow(/changeKind|enum|schema/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [{...record, manual: 'java'}]})).toThrow(/manual|ownership/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [{...record, extra: true}]})).toThrow(/unrecognized|schema/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [
       {...record, sourcePath: 'content/en/reference/api/python/z.md', targetPath: 'content/zh-CN/reference/api/python/z.md'},
       record,
     ]})).toThrow(/sorted|order/i);
-    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [{...record, targetPath: 'content/zh-CN/reference/api/python/other.md'}]})).toThrow(/canonical|relative/i);
-    expect(() => parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [record, record]})).toThrow(/duplicate|unique/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [{...record, targetPath: 'content/zh-CN/reference/api/python/other.md'}]})).toThrow(/canonical|relative/i);
+    expect(() => parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [record, record]})).toThrow(/duplicate|unique/i);
   });
 
   it('builds deterministically sorted manifests without volatile timestamps', () => {
@@ -409,7 +420,7 @@ describe('Reference translation provenance', () => {
       resolveSourceCommit: () => 'a'.repeat(40),
       verifySourceRevision: (commit: string) => { verifiedRevisions.push(commit); },
       manualForPath: () => 'python',
-      retirementRegistry: {schemaVersion: 1 as const, retirements: []},
+      retirementRegistry: {schemaVersion: 2 as const, retirements: []},
       validateReferenceNavigation: validateReferenceNavigationSpy,
     };
 
@@ -441,7 +452,7 @@ describe('Reference translation provenance', () => {
       resolveSourceCommit: () => sourceCommit,
       verifySourceRevision: () => undefined,
       manualForPath: () => 'python',
-      retirementRegistry: {schemaVersion: 1, retirements: []},
+      retirementRegistry: {schemaVersion: 2, retirements: []},
     });
 
     const dependencies = {
@@ -451,7 +462,7 @@ describe('Reference translation provenance', () => {
         ZDOC_REFERENCE_SOURCE_SHA: sourceCommit,
       },
       manualForPath: () => 'python',
-      retirementRegistry: {schemaVersion: 1 as const, retirements: []},
+      retirementRegistry: {schemaVersion: 2 as const, retirements: []},
       validateReferenceNavigation: vi.fn(),
     };
     await expect(executeReferenceDocsToolingCommand(
@@ -480,7 +491,7 @@ describe('Reference translation provenance', () => {
       resolveSourceCommit: () => 'a'.repeat(40),
       verifySourceRevision: () => undefined,
       manualForPath: () => 'python',
-      retirementRegistry: {schemaVersion: 1, retirements: []},
+      retirementRegistry: {schemaVersion: 2, retirements: []},
     })).rejects.toThrow(/cannot load English Reference sidebar template.*python\.sidebar\.js/i);
   });
 
@@ -516,7 +527,7 @@ describe('Reference translation provenance', () => {
       resolveSourceCommit: () => 'a'.repeat(40),
       verifySourceRevision: () => undefined,
       manualForPath: filePath => manuals.find(([, prefix]) => filePath.includes(`/${prefix}/`))?.[0] ?? 'python',
-      retirementRegistry: {schemaVersion: 1, retirements: []},
+      retirementRegistry: {schemaVersion: 2, retirements: []},
     });
 
     for (const [manual] of manuals) {
