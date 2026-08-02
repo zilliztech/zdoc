@@ -44,7 +44,7 @@ On-demand 集群会自动扩缩容：有请求到达时自动拉起，空闲时�
 
         - **Query CU 数量 × Replica 数量**的乘积不得超过 204,800。
 
-        如需更大 Query CU 数量，请[联系销售](http://zilliz.com.cn/contact-sales)。
+        如需更大 Query CU 数量，请[联系销售](https://zilliz.com.cn/contact-sales)。
 
     - **缩容**
 
