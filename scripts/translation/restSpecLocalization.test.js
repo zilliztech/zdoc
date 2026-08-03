@@ -96,6 +96,40 @@ test('selects the Chinese Reference REST prompt from target', async () => {
   assert.equal(localized['x-i18n']['zh-CN'].description, '搜索 Collection。')
 })
 
+test('replaces an existing translation for the requested locale without changing source data', async () => {
+  const existing = {
+    description: 'Search a collection.',
+    'x-i18n': {'zh-CN': {description: '搜索集合。'}},
+  }
+  const {localized} = await translateRestSpecs({
+    sourceSpecs: existing,
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: async ({messages}) => JSON.stringify(
+      JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '搜索 Collection。'})),
+    ),
+  })
+  assert.equal(localized['x-i18n']['zh-CN'].description, '搜索 Collection。')
+  assert.deepEqual(removeLocale(localized, 'zh-CN'), removeLocale(existing, 'zh-CN'))
+})
+
+test('normalizes a legacy string locale description before replacing it', async () => {
+  const existing = {
+    description: 'Project ID.',
+    'x-i18n': {'zh-CN': '项目 ID。'},
+  }
+  const {localized} = await translateRestSpecs({
+    sourceSpecs: existing,
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: async ({messages}) => JSON.stringify(
+      JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '项目 ID。'})),
+    ),
+  })
+  assert.deepEqual(localized['x-i18n']['zh-CN'], {description: '项目 ID。'})
+  assert.deepEqual(removeLocale(localized, 'zh-CN'), removeLocale(existing, 'zh-CN'))
+})
+
 test('rejects REST translation for a target without a REST prompt product', async () => {
   await assert.rejects(translateRestSpecs({
     sourceSpecs: {description: 'Search a collection.'},
