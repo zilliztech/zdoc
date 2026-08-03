@@ -212,6 +212,19 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === 'site-validation.yml') {
+      const classifierCheckout = namedJobStep(workflow, 'classify', 'Check out candidate')
+      const comparisonFetch = namedJobStep(workflow, 'classify', 'Fetch comparison base')
+      const comparisonRun = String(comparisonFetch?.run || '')
+      if (classifierCheckout?.uses !== 'actions/checkout@v4' ||
+          classifierCheckout?.with?.['fetch-depth'] !== 2 ||
+          classifierCheckout?.with?.['sparse-checkout'] !== 'deploy/contracts' ||
+          String(comparisonFetch?.if || '').trim() !== "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}" ||
+          comparisonFetch?.env?.BASE_SHA !== '${{ github.event.pull_request.base.sha || github.event.before || github.sha }}' ||
+          !/\[\[ "\$BASE_SHA" =~ \^\[0-9a-f\]\{40\}\$ \]\]/.test(comparisonRun) ||
+          !/\[\[ ! "\$BASE_SHA" =~ \^0\{40\}\$ \]\][\s\S]*git cat-file -e "\$BASE_SHA\^\{commit\}"/.test(comparisonRun) ||
+          !/git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/.test(comparisonRun)) {
+        errors.push(`${file}: classifier must use a shallow sparse checkout and exact comparison-base fetch`)
+      }
       const chineseBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '')).join('\n')
       const toolsCoverageRuns = (workflow.jobs?.tools_coverage?.steps || []).map(step => String(step?.run || '')).join('\n')
       if (!/build\/zh-CN\/build-provenance\.json[\s\S]*toolsSidebarReachable[\s\S]*docs-agents/.test(chineseBuildRuns) ||
