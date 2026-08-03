@@ -38,10 +38,22 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source_ref || github.sha }}
-          fetch-depth: 0
+          fetch-depth: 2
+          sparse-checkout: deploy/contracts
       - name: Resolve exact candidate SHA
         id: source
         run: echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Fetch comparison base
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+        run: |
+          set -euo pipefail
+          [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "Comparison base must be an exact lowercase Git SHA" >&2; exit 1; }
+          if [[ ! "$BASE_SHA" =~ ^0{40}$ ]] && ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git fetch --no-tags --filter=blob:none --depth=1 origin -- "$BASE_SHA"
+            git cat-file -e "$BASE_SHA^{commit}"
+          fi
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
