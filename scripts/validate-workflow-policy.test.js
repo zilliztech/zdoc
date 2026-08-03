@@ -581,7 +581,7 @@ test('workflow validator enforces the separate Build and Translation card contra
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('publish_zh_reference_landings]\n    if: ${{ always() }}', 'publish_zh_reference_landings, monitor_translation_progress]\n    if: ${{ always() }}'),
+      mutate: source => source.replace('publish_zh_reference_landings, reconcile_published_state]\n    if: ${{ always() }}', 'publish_zh_reference_landings, reconcile_published_state, monitor_translation_progress]\n    if: ${{ always() }}'),
       expected: /Translation monitor must be independent/,
     },
   ]
@@ -1903,6 +1903,33 @@ test('manual translation workflow owns parallel producers and serial publication
     assert.ok(parsed.jobs[publishers[index]].needs.includes(publishers[index - 1]), `${publishers[index]} must wait for ${publishers[index - 1]}`)
     assert.match(parsed.jobs[publishers[index]].if, new RegExp(`needs\\.${publishers[index - 1]}\\.result`))
   }
+})
+
+test('full translation publication reconciles derived state before aggregate success', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/translate-codex.yml')
+  const source = fs.readFileSync(workflowPath, 'utf8')
+  const workflow = yaml.load(source)
+  const reconcile = workflow.jobs.reconcile_published_state
+
+  assert.ok(reconcile, 'full translation workflow must reconcile derived state')
+  assert.ok(reconcile.needs.includes('prepare'))
+  assert.ok(reconcile.needs.includes('publish_zh_reference_landings'))
+  assert.match(reconcile.if, /inputs\.publish/)
+  assert.match(reconcile.if, /needs\.prepare\.outputs\.group == 'all'/)
+  assert.equal(reconcile.steps.find(step => step.uses === 'actions/checkout@v4')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
+
+  const run = reconcile.steps.find(step => step.name === 'Reconcile and publish derived translation state')?.run || ''
+  assert.match(run, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
+  assert.match(run, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_SHA" --write/)
+  assert.match(run, /pnpm generate:localization-input-inventory/)
+  assert.match(run, /pnpm check:localization-input-inventory/)
+  assert.match(run, /pnpm docs-tooling validate-reference --site zh-CN/)
+  assert.match(run, /deploy\/contracts\/localization-inputs\.inventory\.json/)
+  assert.match(run, /generated\/en\/manifests\/reference\.json/)
+  assert.match(run, /generated\/zh-CN\/manifests\/reference-translations\.json/)
+  assert.match(run, /git worktree add --detach "\$publish_worktree" "\$target_sha"/)
+  assert.match(run, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
+  assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_published_state'))
 })
 
 test('Guides translation batches take row identity from the matrix and shared metadata from preparation outputs', () => {
