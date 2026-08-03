@@ -19,12 +19,57 @@ on:
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
+      APP_ID: { required: false }
+      APP_SECRET: { required: false }
 
 permissions:
   actions: read
   contents: write
 
 jobs:
+  initialize_translation_card:
+    if: ${{ inputs.request_id != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      card_id: ${{ steps.card.outputs.card_id }}
+      card_started_at: ${{ steps.card.outputs.card_started_at }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ github.sha }}', fetch-depth: 1 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - id: target
+        name: Validate card handoff target
+        env: { HANDOFF_JSON: '${{ inputs.handoff_json }}' }
+        run: node -e 'const fs=require("node:fs");const {validateTranslationHandoff}=require("./scripts/docs-workflow/translation-handoff");const value=validateTranslationHandoff(JSON.parse(process.env.HANDOFF_JSON));fs.appendFileSync(process.env.GITHUB_OUTPUT,"target_branch="+value.targetBranch+"\n")'
+      - id: card
+        name: Create Translation progress card
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "Zilliz Cloud Docs Translation" --stages "Prepare,Translate,Publish,Aggregate" --target-branch "$TARGET_BRANCH"
+        env:
+          TARGET_BRANCH: ${{ steps.target.outputs.target_branch }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+  monitor_translation_progress:
+    needs: [initialize_translation_card]
+    if: ${{ needs.initialize_translation_card.outputs.card_id != '' }}
+    uses: ./.github/workflows/_monitor-translation-progress.yml
+    with:
+      tooling_sha: ${{ github.sha }}
+      card_id: ${{ needs.initialize_translation_card.outputs.card_id }}
+      card_started_at: ${{ needs.initialize_translation_card.outputs.card_started_at }}
+      handoff_json: ${{ inputs.handoff_json }}
+      request_id: ${{ inputs.request_id }}
+      publish_enabled: ${{ inputs.publish }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+
   prepare:
     runs-on: ubuntu-latest
     timeout-minutes: 10
