@@ -151,6 +151,43 @@ test('candidate provenance authorization is absent from Docker and general site 
   }
 })
 
+test('site classifier checks out only the shallow contract tree and fetches a missing comparison base by exact SHA', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/site-validation.yml', 'utf8'))
+  const steps = workflow.jobs.classify.steps
+  const checkout = steps.find(step => step.name === 'Check out candidate')
+  const comparison = steps.find(step => step.name === 'Fetch comparison base')
+
+  assert.equal(checkout.uses, 'actions/checkout@v4')
+  assert.equal(checkout.with['fetch-depth'], 2)
+  assert.equal(checkout.with['sparse-checkout'], 'deploy/contracts')
+  assert.equal(comparison.if, "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}")
+  assert.equal(comparison.env.BASE_SHA, '${{ github.event.pull_request.base.sha || github.event.before || github.sha }}')
+  assert.match(comparison.run, /git cat-file -e "\$BASE_SHA\^\{commit\}"/)
+  assert.match(comparison.run, /git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/)
+})
+
+test('workflow policy rejects classifier checkout regressions that restore whole-repository fetches', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    ['fetch-depth: 2', 'fetch-depth: 0'],
+    ['sparse-checkout: deploy/contracts', 'sparse-checkout: .'],
+    ['git fetch --no-tags --filter=blob:none --depth=1 origin -- "$BASE_SHA"', 'git fetch origin "$BASE_SHA"'],
+  ]
+  for (const [from, to] of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'site-classifier-fetch-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, 'site-validation.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(from), `site-validation.yml must contain ${from}`)
+      fs.writeFileSync(file, source.replace(from, to))
+      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: classifier must use a shallow sparse checkout and exact comparison-base fetch'))
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
 test('source publication workflows require site-owned publish-group contracts', () => {
   for (const file of ['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml']) {
     const source = fs.readFileSync(path.join('.github/workflows', file), 'utf8')
