@@ -1499,6 +1499,11 @@ test('workflow policy rejects repaired Guides helper boundary mutations', () => 
       expected: 'validate-guides-translation-staging.js: outside restored paths must exactly match the trusted expected target baseline',
     },
     {
+      option: 'guidesValidationPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8').replace("  try { git(repository, ['merge-base', '--is-ancestor', expectedTargetSha, stagedSha], environment) } catch { throw new Error('expected target SHA must be an ancestor of staged SHA') }\n", ''),
+      expected: 'validate-guides-translation-staging.js: expected target must be an ancestor of staged translation',
+    },
+    {
       option: 'publicationReportPath',
       source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/translation-publication-report.js'), 'utf8').replace('content/en/byoc', 'docs-byoc'),
       expected: 'translation-publication-report.js: validation receipts must use canonical tracked commands',

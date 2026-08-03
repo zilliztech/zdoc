@@ -102,6 +102,16 @@ test('accepts restored source paths that exactly match the trusted expected targ
   assert.equal(result.result, 'success')
 })
 
+test('rejects a staged commit unrelated to the expected target baseline', () => {
+  const state = fixture()
+  const targetTree = git(state.repository, 'rev-parse', `${state.expectedTargetSha}^{tree}`)
+  const unrelatedTargetSha = git(state.repository, 'commit-tree', targetTree, '-m', 'unrelated expected target')
+  assert.throws(
+    () => runGuidesTranslationValidation({ ...state, expectedTargetSha: unrelatedTargetSha, executor() { return { status: 0, signal: null, stderr: '' } } }),
+    /expected.*target.*(?:ancestor|ancestry).*staged/i,
+  )
+})
+
 test('accepts Guides translations with complete source state restored from the exact staged commit', () => {
   const state = fixture()
   git(state.repository, 'checkout', state.stagedSha, '--', REPORT)
@@ -231,6 +241,7 @@ test('rejects hybrid authoritative roots and executable-mode drift', t => {
   const restored = restoreExact(tooling.repository, deletion.stagedSha)
   assert.equal(restored.status, 0, restored.stderr)
   assert.equal(commitStatus(tooling.repository, deletion.stagedSha), 0)
+  git(tooling.repository, 'fetch', '--unshallow', 'origin', 'staged')
   assert.equal(fs.existsSync(path.join(tooling.repository, 'content/en/reference', 'index.md')), false)
   assert.equal(
     runGuidesTranslationValidation({

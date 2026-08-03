@@ -99,6 +99,7 @@ function stagedStateProof(repository, masterSha, expectedTargetSha, stagedSha, e
   if (git(repository, ['rev-parse', 'HEAD'], environment).trim() !== masterSha) throw new Error('repository HEAD does not match masterSha')
   exactCommit(repository, expectedTargetSha, 'expectedTargetSha', environment)
   exactCommit(repository, stagedSha, 'stagedSha', environment)
+  try { git(repository, ['merge-base', '--is-ancestor', expectedTargetSha, stagedSha], environment) } catch { throw new Error('expected target SHA must be an ancestor of staged SHA') }
   for (const root of REQUIRED_ROOTS) if (!git(repository, ['ls-tree', '--name-only', stagedSha, '--', root], environment).trim()) throw new Error(`required staged generated path is missing: ${root}`)
   const generatedUntracked = nul(git(repository, ['ls-files', '--others', '-z', '--', ...RESTORE_PATHS], environment, true))
   if (generatedUntracked.length) throw new Error(`untracked generated file is not allowed in restored state: ${generatedUntracked[0]}`)

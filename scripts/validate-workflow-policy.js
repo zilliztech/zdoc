@@ -1171,6 +1171,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       !/verifyRestoredPaths\(repository, expectedTargetSha, outside/.test(guidesValidationSource)) {
     errors.push('validate-guides-translation-staging.js: outside restored paths must exactly match the trusted expected target baseline')
   }
+  if (!/git\(repository, \['merge-base', '--is-ancestor', expectedTargetSha, stagedSha\], environment\)/.test(guidesValidationSource)) {
+    errors.push('validate-guides-translation-staging.js: expected target must be an ancestor of staged translation')
+  }
 
   const publicationReportSource = fs.readFileSync(options.publicationReportPath || path.join(process.cwd(), 'scripts/docs-workflow/translation-publication-report.js'), 'utf8')
   if (!/validationSpec\('english-saas-mdx',[\s\S]*'content\/en\/guides'/.test(publicationReportSource) ||
