@@ -4,6 +4,34 @@ const assert = require('node:assert/strict')
 const test = require('node:test')
 const { deriveDocsProgressState, logicalJobIdentity, normalizeCurrentTask, selectEffectiveJobs } = require('./docs-progress-state')
 
+test('derives independent English and Chinese Guides lanes plus real source phases', () => {
+  const state = deriveDocsProgressState({
+    requestedGroups: ['guides', 'python'],
+    publishEnabled: true,
+    runTranslations: true,
+    guideTableTotals: { en: 14, 'zh-CN': 11 },
+    handoff: { status: 'completed', childRunId: 99, childRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99' },
+    jobs: [
+      { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+      { id: 2, name: 'render_guides_tables / saas / Tools / render', status: 'in_progress', conclusion: null },
+      { id: 3, name: 'produce_zh_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+      { id: 4, name: 'render_zh_guides_tables / saas / Tools / render', status: 'completed', conclusion: 'success' },
+      { id: 5, name: 'produce_python / produce', status: 'completed', conclusion: 'success' },
+    ],
+  })
+
+  assert.equal(state.kind, 'source')
+  assert.equal(state.title, 'Zilliz Cloud Docs Build')
+  assert.deepEqual(state.phases.map(phase => phase.key), ['produce', 'publish', 'verify', 'handoff'])
+  assert.deepEqual(state.guides.map(guide => [guide.locale, guide.detail]), [
+    ['en', '0/14 complete · 1 active · 13 pending · 0 failed'],
+    ['zh-CN', '1/11 complete · 0 active · 10 pending · 0 failed'],
+  ])
+  assert.equal(state.items[0].id, 'python')
+  assert.equal(state.handoff.url, 'https://github.com/zilliztech/zdoc/actions/runs/99')
+  assert.doesNotMatch(JSON.stringify(state), /Publish translations|Translate manuals/)
+})
+
 test('omits publish phases in artifact-only mode and expands the running manual', () => {
   const state = deriveDocsProgressState({
     requestedGroups: ['python'],
@@ -18,8 +46,8 @@ test('omits publish phases in artifact-only mode and expands the running manual'
   })
 
   assert.deepEqual(state.phases.map(phase => phase.key), ['produce'])
-  assert.deepEqual(state.manuals, [{
-    group: 'python',
+  assert.deepEqual(state.items, [{
+    id: 'python',
     label: 'Python SDK',
     phase: 'produce',
     status: 'running',
@@ -59,16 +87,17 @@ test('derives Guides table progress from the latest effective matrix attempts', 
   const jobs = require('./fixtures/docs-progress/guides-rendering.json')
   const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: false, jobs })
 
-  assert.deepEqual(state.manuals[0], {
-    group: 'guides',
-    label: 'Guides',
+  assert.deepEqual(state.guides[0], {
+    id: 'guides-en',
+    locale: 'en',
+    label: 'English Guides',
     phase: 'produce',
     status: 'running',
-    currentTask: 'Render Guides tables',
+    currentTask: 'Render English Guides tables',
     detail: '8/14 complete · 4 active · 2 pending · 0 failed',
   })
   assert.deepEqual(state.phases[0], {
-    key: 'produce', label: 'Produce', done: 0, total: 1, status: 'running',
+    key: 'produce', label: 'Produce', done: 0, total: 2, status: 'running',
   })
 })
 
@@ -93,19 +122,19 @@ test('keeps the Guides denominator stable when GitHub has not exposed every matr
     requestedGroups: ['guides'],
     publishEnabled: false,
     jobs,
-    guidesTableTotal: 14,
+    guideTableTotals: { en: 14 },
   })
 
-  assert.equal(state.manuals[0].detail, '7/14 complete · 4 active · 3 pending · 0 failed')
+  assert.equal(state.guides[0].detail, '7/14 complete · 4 active · 3 pending · 0 failed')
 })
 
 test('counts a retried Guides table once and pins a final failed identity', () => {
   const jobs = require('./fixtures/docs-progress/retry-and-failure.json')
   const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: false, jobs })
 
-  assert.equal(state.manuals[0].status, 'failed')
-  assert.equal(state.manuals[0].currentTask, 'Render Guides tables')
-  assert.equal(state.manuals[0].detail, '2/4 complete · 0 active · 1 pending · 1 failed · failed: byoc / Tools')
+  assert.equal(state.guides[0].status, 'failed')
+  assert.equal(state.guides[0].currentTask, 'Render English Guides tables')
+  assert.equal(state.guides[0].detail, '2/4 complete · 0 active · 1 pending · 1 failed · failed: byoc / Tools')
 })
 
 test('shows actual SDK source-publisher dependencies', () => {
@@ -139,67 +168,26 @@ test('keeps dependency text when GitHub exposes a queued publisher job', () => {
   assert.equal(node.currentTask, 'Waiting for Java publisher')
 })
 
-for (const step of [
-  'Validate Guides translation batch identities',
-  'Apply Guides translation batches to staging',
-  'Push Guides translation staging ref',
-  'Validate combined Guides translation',
-  'Promote validated Guides translation',
-  'Clean up Guides translation staging ref',
-]) test(`shows ${step} as in progress without claiming Published`, () => {
-  const jobs = [
-    { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
-    { id: 2, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
-    { id: 3, name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
-    { id: 4, name: 'guides_translation_batch_1_of_1_pending_20 / translate', status: 'completed', conclusion: 'success' },
-    { id: 5, name: 'publish_guides_translation_batches / publish', status: 'in_progress', conclusion: null, steps: [{ name: step, status: 'in_progress', conclusion: null }] },
-  ]
-  const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: true, jobs })
-  assert.equal(state.manuals[0].status, 'running')
-  assert.equal(state.manuals[0].currentTask, step)
-  assert.doesNotMatch(JSON.stringify(state), /Published/)
-})
-
-test('publisher failure is not hidden by later always-run successful or skipped steps', () => {
-  const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: true, jobs: [
-    { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
-    { id: 2, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
-    { id: 3, name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
-    { id: 4, name: 'guides_translation_batch_1_of_1_pending_20 / translate', status: 'completed', conclusion: 'success' },
-    { id: 5, name: 'publish_guides_translation_batches / publish', status: 'completed', conclusion: 'failure', steps: [
-      { name: 'Validate combined Guides translation', status: 'completed', conclusion: 'failure' },
-      { name: 'Clean up Guides translation staging ref', status: 'completed', conclusion: 'success' },
-      { name: 'Write Guides translation publication report', status: 'completed', conclusion: 'success' },
-      { name: 'Emit Guides translation publication result', status: 'completed', conclusion: 'success' },
-    ] },
-  ] })
-  assert.equal(state.manuals[0].status, 'failed')
-  assert.equal(state.manuals[0].currentTask, 'Validate combined Guides translation')
-})
-
-test('recognizes the compact Guides batch names exposed by reusable workflows', () => {
+test('ignores retired inline translation jobs in the source card', () => {
   const state = deriveDocsProgressState({
-    requestedGroups: ['guides'],
+    requestedGroups: ['python'],
     publishEnabled: true,
     jobs: [
-      { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
-      { id: 2, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
-      { id: 3, name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
-      { id: 4, name: 'guides_translation_batch_1_of_2_pending_40 / translate', status: 'completed', conclusion: 'success' },
-      { id: 5, name: 'guides_translation_batch_2_of_2_pending_40 / translate', status: 'completed', conclusion: 'success' },
-      { id: 6, name: 'publish_guides_translation_batches / publish', status: 'completed', conclusion: 'success' },
-      { id: 7, name: 'verify / verify', status: 'completed', conclusion: 'success' },
+      { id: 1, name: 'produce_python / produce', status: 'completed', conclusion: 'success' },
+      { id: 2, name: 'publish_python / publish', status: 'completed', conclusion: 'success' },
+      { id: 3, name: 'translate_python / translate', status: 'completed', conclusion: 'failure' },
+      { id: 4, name: 'publish_python_translation / publish', status: 'completed', conclusion: 'failure' },
+      { id: 5, name: 'verify / verify', status: 'completed', conclusion: 'success' },
     ],
   })
 
   assert.deepEqual(state.phases.map(phase => [phase.key, phase.done, phase.total, phase.status]), [
     ['produce', 1, 1, 'completed'],
     ['publish', 1, 1, 'completed'],
-    ['translate', 1, 1, 'completed'],
-    ['translation', 1, 1, 'completed'],
     ['verify', 1, 1, 'completed'],
   ])
-  assert.equal(state.manuals[0].status, 'completed')
+  assert.equal(state.items[0].status, 'completed')
+  assert.equal(state.overallStatus, 'running')
 })
 
 test('normalizes every child status when the final report says the workflow succeeded', () => {
@@ -211,8 +199,9 @@ test('normalizes every child status when the final report says the workflow succ
   })
 
   assert.ok(state.phases.every(phase => phase.status === 'completed' && phase.done === phase.total))
-  assert.deepEqual(state.manuals.map(manual => [manual.phase, manual.status, manual.currentTask]), [
-    ['translation', 'completed', 'Workflow completed'],
+  assert.deepEqual(state.guides.map(guide => [guide.phase, guide.status, guide.currentTask]), [
+    ['publish', 'completed', 'Workflow completed'],
+    ['publish', 'completed', 'Workflow completed'],
   ])
 })
 
@@ -277,6 +266,6 @@ test('accepts terminal reports and status without mutating them', () => {
   })
 
   assert.equal(state.overallStatus, 'success')
-  assert.equal(state.manuals[0].status, 'completed')
+  assert.equal(state.items[0].status, 'completed')
   assert.deepEqual(state.reports, reports)
 })

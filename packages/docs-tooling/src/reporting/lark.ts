@@ -790,14 +790,13 @@ function parseExactManual(value: unknown): CardManual {
 function buildExactState({messageId, title, startedAt, targetBranch, input}: BuildExactStateOptions): ExactCardState {
   if (!isRecord(input) || !isOverallStatus(input.overallStatus)) throw new Error('overallStatus is invalid')
   if (!Array.isArray(input.phases)) throw new Error('phases must be an array')
-  if (!Array.isArray(input.manuals)) throw new Error('manuals must be an array')
   if (!Array.isArray(input.reports)) throw new Error('reports must be an array')
   const phases = input.phases.map(parseCardPhase);
-  const manuals = input.manuals.map(parseExactManual);
+  const manuals = Array.isArray(input.manuals) ? input.manuals.map(parseExactManual) : [];
   const reports = input.reports.map(parseCardReport);
   const effectiveStartedAt = optionalString(startedAt) || optionalString(input.startedAt);
   if (!effectiveStartedAt) throw new Error('startedAt is required for exact card state');
-  return {
+  const base: ExactCardState = {
     messageId: optionalString(messageId),
     title: optionalString(title) || optionalString(input.title) || 'Global Docs Build',
     startedAt: effectiveStartedAt,
@@ -807,6 +806,29 @@ function buildExactState({messageId, title, startedAt, targetBranch, input}: Bui
     manuals,
     reports,
   }
+  if (input.kind === 'source') {
+    if (!Array.isArray(input.guides) || !Array.isArray(input.items) || !Array.isArray(input.links)) throw new Error('source card collections are invalid');
+    return {
+      ...base,
+      kind: 'source',
+      guides: input.guides.map(parseGuide),
+      items: input.items.map(parseWorkItem),
+      handoff: parseHandoff(input.handoff),
+      links: input.links.map(parseCardLink),
+    };
+  }
+  if (input.kind === 'translation') {
+    if (!Array.isArray(input.targets) || !Array.isArray(input.units) || !Array.isArray(input.links)) throw new Error('translation card collections are invalid');
+    return {
+      ...base,
+      kind: 'translation',
+      targets: input.targets.map(parseTargetSummary),
+      units: input.units.map(parseWorkItem),
+      links: input.links.map(parseCardLink),
+    };
+  }
+  if (!Array.isArray(input.manuals)) throw new Error('manuals must be an array')
+  return base;
 }
 
 export type BuildFinishStateOptions = Readonly<{

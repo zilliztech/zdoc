@@ -228,6 +228,16 @@ test('renders the approved bilingual Build card and completed SDK panel', () => 
   assert.match(serialized, /Open source workflow/)
 })
 
+test('buildExactState preserves validated tagged source collections', () => {
+  const input = sourceCardState() as unknown as Record<string, unknown>
+  const state = buildExactState({input: {...input, manuals: []}})
+  assert.equal(state.kind, 'source')
+  assert.equal(state.guides?.length, 2)
+  assert.equal(state.items?.length, 2)
+  assert.equal(state.handoff?.url, 'https://github.com/zilliztech/zdoc/actions/runs/2')
+  assert.equal(state.links?.[0].label, 'Open source workflow')
+})
+
 test('renders translation targets, active units, and collapsed completed units', () => {
   const card = buildCardV2(translationCardState())
   const serialized = JSON.stringify(card)
