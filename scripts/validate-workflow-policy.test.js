@@ -514,11 +514,23 @@ test('central monitor owns live and terminal card presentation', () => {
   const workflow = yaml.load(callerSource)
   assert.deepEqual(workflow.jobs.monitor_docs_progress.needs, ['prepare'])
   assert.equal(workflow.jobs.monitor_docs_progress.uses, './.github/workflows/_monitor-docs-progress.yml')
+  assert.equal(workflow.jobs.monitor_docs_progress.with.run_translations, "${{ needs.prepare.outputs.run_translations == 'true' }}")
   assert.equal(workflow.jobs.aggregate.needs.includes('monitor_docs_progress'), false)
   assert.deepEqual(workflow.jobs.finalize_card_fallback.needs, ['prepare', 'aggregate', 'monitor_docs_progress'])
   assert.match(workflow.jobs.finalize_card_fallback.if, /monitor_docs_progress\.result != 'success'/)
   assert.match(callerSource, /name: docs-card-report-\$\{\{ github\.run_id \}\}/)
   assert.doesNotMatch(callerSource, /name: Finish progress card/)
+  const sourceCard = workflow.jobs.prepare.steps.find(step => step.id === 'card')
+  assert.equal(sourceCard['continue-on-error'], true)
+  assert.equal(sourceCard.env.CARD_TITLE, 'Zilliz Cloud Docs Build')
+
+  const translationSource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
+  const translation = yaml.load(translationSource)
+  const translationCard = translation.jobs.initialize_translation_card.steps.find(step => step.id === 'card')
+  assert.equal(translationCard['continue-on-error'], true)
+  assert.match(translationCard.run, /Zilliz Cloud Docs Translation/)
+  assert.equal(translation.jobs.monitor_translation_progress.uses, './.github/workflows/_monitor-translation-progress.yml')
+  assert.equal(translation.jobs.aggregate.needs.includes('monitor_translation_progress'), false)
 
   const monitor = fs.readFileSync('.github/workflows/_monitor-docs-progress.yml', 'utf8')
   assert.match(monitor, /^\s+actions: read$/m)
@@ -536,6 +548,57 @@ test('central monitor owns live and terminal card presentation', () => {
   }
   for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
     assert.doesNotMatch(fs.readFileSync(path.join('.github/workflows', file), 'utf8'), /APP_ID|APP_SECRET/, file)
+  }
+})
+
+test('workflow validator enforces the separate Build and Translation card contract', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('CARD_TITLE: Zilliz Cloud Docs Build', 'CARD_TITLE: Legacy Docs Build'),
+      expected: /Build card must use the approved title/,
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace("      run_translations: ${{ needs.prepare.outputs.run_translations == 'true' }}\n", ''),
+      expected: /Build monitor must receive translation handoff intent/,
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('name: docs-translation-handoff-${{ github.run_id }}', 'name: docs-translation-handoff'),
+      expected: /fixed-schema handoff monitor metadata/,
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('resolve-card-artifact-links.js', 'missing-artifact-resolver.js'),
+      expected: /resolve exact Guides report artifact links/,
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('Zilliz Cloud Docs Translation', 'Legacy Translation'),
+      expected: /Translation card must use the approved title/,
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('publish_zh_reference_landings]\n    if: ${{ always() }}', 'publish_zh_reference_landings, monitor_translation_progress]\n    if: ${{ always() }}'),
+      expected: /Translation monitor must be independent/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'report-card-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = fixture.mutate(source)
+      assert.notEqual(mutated, source, `${fixture.file} mutation must change source`)
+      fs.writeFileSync(file, mutated)
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
   }
 })
 
@@ -737,9 +800,9 @@ test('workflow validator rejects incomplete aggregate report ingestion', () => {
     },
     {
       mutate(source) {
-        return source.replace(/^\s+CARD_REPORT_ARTIFACT_URL:.*\n/m, '')
+        return source.replace(/      - id: report_artifact_links[\s\S]*?      - id: reports\n/, '      - id: reports\n')
       },
-      expected: /artifact-only card reports require a workflow artifact URL/,
+      expected: /exact Guides report artifact links/,
     },
     {
       mutate(source) {
@@ -971,7 +1034,7 @@ test('guides source and table render expose jobs for the central monitor without
   assert.equal(caller.jobs.render_guides_tables.with.site, 'en')
   assert.equal(caller.jobs.produce_guides.with.site, 'en')
   assert.match(source, /name: Create Guides progress metadata[\s\S]*continue-on-error: true/)
-  assert.match(source, /name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
   const metadataSteps = source.slice(source.indexOf('name: Create Guides progress metadata'), source.indexOf('name: Create shared source artifact'))
   assert.doesNotMatch(metadataSteps, /APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
 })
@@ -1730,7 +1793,9 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.doesNotMatch(source, /gh run list[^\n]*--branch/)
   assert.match(source, /gh run list[^\n]*--json displayTitle,url,headSha[\s\S]*\.headSha == \$sha/)
   assert.doesNotMatch(source, /Translate manuals|Publish translations|Publish [a-z]+ translation/)
-  assert.match(source, /Dispatch downstream translation/)
+  assert.match(source, /card_parts\+=\("Handoff"\)/)
+  assert.match(source, /Zilliz Cloud Docs Build/)
+  assert.doesNotMatch(source, /Translate manuals|Publish translations|Dispatch downstream translation/)
 })
 
 test('workflow policy rejects embedded translation and an unvalidated downstream dispatch', () => {
