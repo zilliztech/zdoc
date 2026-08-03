@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-02T18:42:54.902Z",
+  "generated_at": "2026-08-03T03:29:34.023Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
@@ -30,6 +30,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-DataImport-BulkImport.md"
@@ -53,6 +58,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -74,6 +84,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -95,6 +110,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -116,6 +136,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-commitImport.md"
@@ -139,6 +164,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-abortImport.md"
@@ -162,6 +192,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FGZadH85KoLEhRxkbLxcc1zbn4c",
         "G7F9dQ8DwoZsaVxExdnc7K6an3g"
@@ -188,6 +223,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DCszdG9rCoZxhfxfAuOcNsXRnOc"
       ],
@@ -213,6 +253,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close.md"
@@ -236,6 +281,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit.md"
@@ -259,6 +309,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md"
@@ -282,6 +337,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md"
@@ -305,6 +365,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FGZadH85KoLEhRxkbLxcc1zbn4c",
         "XAIndF6XWoQzvRxDvpLcgEE1nEb"
@@ -331,6 +396,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DCszdG9rCoZxhfxfAuOcNsXRnOc"
       ],
@@ -356,6 +426,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close.md"
@@ -379,6 +454,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit.md"
@@ -402,6 +482,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles.md"
@@ -425,6 +510,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md"
@@ -448,6 +538,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkFileType.md"
@@ -471,6 +566,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FGZadH85KoLEhRxkbLxcc1zbn4c",
         "IXVHdXVncoEp64xD6vdcvUJwnlH"
@@ -497,6 +596,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DCszdG9rCoZxhfxfAuOcNsXRnOc"
       ],
@@ -522,6 +625,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close.md"
@@ -545,6 +652,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md"
@@ -568,6 +679,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles.md"
@@ -591,6 +706,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount.md"
@@ -614,6 +733,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult.md"
@@ -637,6 +760,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -658,6 +785,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -679,6 +810,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createRole.md"
@@ -702,6 +838,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-createUser.md"
@@ -725,6 +866,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md"
@@ -748,6 +894,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeUser.md"
@@ -771,6 +922,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -792,6 +947,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md"
@@ -815,6 +975,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md"
@@ -838,6 +1003,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -859,6 +1028,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md"
@@ -882,6 +1056,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md"
@@ -905,6 +1084,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md"
@@ -928,6 +1112,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md"
@@ -951,6 +1140,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md"
@@ -974,6 +1168,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -995,6 +1193,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1016,6 +1218,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md"
@@ -1039,6 +1246,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md"
@@ -1062,6 +1274,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updatePassword.md"
@@ -1085,6 +1302,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md"
@@ -1108,6 +1330,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md"
@@ -1131,6 +1358,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ErNidktYPodbDxxow0xcV5qHnof"
       ],
@@ -1156,6 +1388,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ErNidktYPodbDxxow0xcV5qHnof",
         "IeOWd0yR2onm5Ex6XyqcrGjKnpS"
@@ -1182,6 +1419,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md"
@@ -1205,6 +1447,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md"
@@ -1228,6 +1475,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md"
@@ -1251,6 +1503,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterAlias.md"
@@ -1274,6 +1531,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionField.md"
@@ -1297,6 +1559,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md"
@@ -1320,6 +1587,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md"
@@ -1343,6 +1615,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties.md"
@@ -1366,6 +1643,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createAlias.md"
@@ -1389,6 +1671,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-createCollection.md"
@@ -1412,6 +1699,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1433,6 +1725,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md"
@@ -1456,6 +1753,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeAlias.md"
@@ -1479,6 +1781,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeCollection.md"
@@ -1502,6 +1809,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-describeReplicas.md"
@@ -1525,6 +1837,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropAlias.md"
@@ -1548,6 +1865,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollection.md"
@@ -1571,6 +1893,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties.md"
@@ -1594,6 +1921,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties.md"
@@ -1617,6 +1949,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats.md"
@@ -1640,6 +1977,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-hasCollection.md"
@@ -1663,6 +2005,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listAliases.md"
@@ -1686,6 +2033,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-listCollections.md"
@@ -1709,6 +2061,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2.md"
@@ -1732,6 +2089,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-renameCollection.md"
@@ -1755,6 +2117,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-DataType.md"
@@ -1778,6 +2145,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-ConsistencyLevel.md"
@@ -1801,6 +2173,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ZwKPdk2rzoQUU7xm4CHcPiZqnjh"
       ],
@@ -1826,6 +2203,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
       ],
@@ -1851,6 +2233,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField.md"
@@ -1874,6 +2261,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields.md"
@@ -1897,6 +2289,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList.md"
@@ -1920,6 +2317,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList.md"
@@ -1943,6 +2345,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ZwKPdk2rzoQUU7xm4CHcPiZqnjh"
       ],
@@ -1968,6 +2375,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md"
@@ -1991,6 +2403,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addFunction.md"
@@ -2014,6 +2431,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
       ],
@@ -2039,6 +2461,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md"
@@ -2062,6 +2489,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md"
@@ -2085,6 +2517,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md"
@@ -2108,6 +2545,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EXcNdtZrro7Ufkxp3G6cUArOn7b"
       ],
@@ -2133,6 +2575,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function.md"
@@ -2156,6 +2603,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md"
@@ -2179,6 +2631,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker.md"
@@ -2202,6 +2659,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker.md"
@@ -2225,6 +2687,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker.md"
@@ -2248,6 +2715,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker.md"
@@ -2271,6 +2743,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker.md"
@@ -2294,6 +2771,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md"
@@ -2317,6 +2799,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DCszdG9rCoZxhfxfAuOcNsXRnOc"
       ],
@@ -2342,6 +2829,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
       ],
@@ -2367,6 +2859,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
       ],
@@ -2392,6 +2889,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md"
@@ -2415,6 +2917,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md"
@@ -2438,6 +2945,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md"
@@ -2461,6 +2973,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md"
@@ -2484,6 +3001,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2505,6 +3027,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GTZHdG3fMoBZi0x23BNctsO7nEE"
       ],
@@ -2530,6 +3057,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md"
@@ -2553,6 +3085,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LUUvdGTqrog0AIxfea7cc9a1nCd"
       ],
@@ -2578,6 +3115,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-truncateCollection.md"
@@ -2601,6 +3143,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md"
@@ -2624,6 +3171,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md"
@@ -2647,6 +3199,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionField.md"
@@ -2670,6 +3227,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md"
@@ -2693,6 +3255,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropFunctionField.md"
@@ -2716,6 +3283,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-alterIndexProperties.md"
@@ -2739,6 +3311,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-createIndex.md"
@@ -2762,6 +3339,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-compact.md"
@@ -2785,6 +3367,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-describeIndex.md"
@@ -2808,6 +3395,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md"
@@ -2831,6 +3423,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md"
@@ -2854,6 +3451,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flush.md"
@@ -2877,6 +3479,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2898,6 +3504,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md"
@@ -2921,6 +3532,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2942,6 +3557,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2963,6 +3582,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md"
@@ -2986,6 +3610,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md"
@@ -3009,6 +3638,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md"
@@ -3032,6 +3666,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexParam.md"
@@ -3055,6 +3694,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-IndexType.md"
@@ -3078,6 +3722,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md"
@@ -3101,6 +3750,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-MetricType.md"
@@ -3124,6 +3778,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3145,6 +3804,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3166,6 +3830,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3187,6 +3855,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md"
@@ -3210,6 +3883,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md"
@@ -3233,6 +3911,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3254,6 +3936,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md"
@@ -3277,6 +3964,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md"
@@ -3300,6 +3992,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md"
@@ -3323,6 +4020,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md"
@@ -3346,6 +4048,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md"
@@ -3369,6 +4076,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md"
@@ -3392,6 +4104,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md"
@@ -3415,6 +4132,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md"
@@ -3438,6 +4160,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md"
@@ -3461,6 +4188,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md"
@@ -3484,6 +4216,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md"
@@ -3507,6 +4244,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md"
@@ -3530,6 +4272,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md"
@@ -3553,6 +4300,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-get.md"
@@ -3576,6 +4328,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-insert.md"
@@ -3599,6 +4356,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-query.md"
@@ -3622,6 +4384,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-search.md"
@@ -3645,6 +4412,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-upsert.md"
@@ -3668,6 +4440,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearch.md"
@@ -3691,6 +4468,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-queryIterator.md"
@@ -3714,6 +4496,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-searchIterator.md"
@@ -3737,6 +4524,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2.md"
@@ -3760,6 +4552,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-runAnalyzer.md"
@@ -3783,6 +4580,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md"
@@ -3806,6 +4608,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Au6Wda1HUonyXOx5Pfzc0Cpjnab"
       ],
@@ -3831,6 +4638,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md"
@@ -3854,6 +4666,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md"
@@ -3877,6 +4694,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md"
@@ -3900,6 +4722,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md"
@@ -3923,6 +4750,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md"
@@ -3946,6 +4777,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties.md"
@@ -3969,6 +4805,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-createDatabase.md"
@@ -3992,6 +4833,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-describeDatabase.md"
@@ -4015,6 +4861,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabase.md"
@@ -4038,6 +4889,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties.md"
@@ -4061,6 +4917,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-listDatabases.md"
@@ -4084,6 +4945,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-useDatabase.md"
@@ -4107,6 +4973,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md"
@@ -4130,6 +5001,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4151,6 +5026,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4172,6 +5051,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4193,6 +5076,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4214,6 +5101,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4235,6 +5126,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4256,6 +5151,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4277,6 +5176,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md"
@@ -4300,6 +5203,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4321,6 +5228,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume.md"
@@ -4344,6 +5255,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4365,6 +5280,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager.md"
@@ -4388,6 +5307,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md"
@@ -4411,6 +5334,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md"
@@ -4434,6 +5361,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFiles.md"
@@ -4457,6 +5388,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource.md"
@@ -4480,6 +5416,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource.md"
@@ -4503,6 +5444,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources.md"
@@ -4526,6 +5472,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot.md"
@@ -4549,6 +5500,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md"
@@ -4572,6 +5528,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md"
@@ -4595,6 +5556,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot.md"
@@ -4618,6 +5584,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot.md"
@@ -4641,6 +5612,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState.md"
@@ -4664,6 +5640,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md"
@@ -4687,6 +5668,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData.md"
@@ -4710,6 +5696,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData.md"
@@ -4733,6 +5724,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4754,6 +5749,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4775,6 +5774,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     }
