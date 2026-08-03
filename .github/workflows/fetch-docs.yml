@@ -20,7 +20,7 @@ on:
         type: boolean
         default: true
       run_translations:
-        description: Run the temporary translation compatibility path
+        description: Dispatch the downstream translation workflow
         type: boolean
         default: false
       tooling_ref:
@@ -106,20 +106,9 @@ jobs:
           case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest) ;; *) exit 2 ;; esac
           [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]]
           git checkout --detach "$master_sha"
-          groups=(guides python java node go cli rest)
-          [[ "$SELECTED_GROUP" != all ]] && groups=("$SELECTED_GROUP")
-          card_parts=()
-          if [[ "$SELECTED_GROUP" == all ]]; then
-            card_parts=("Produce manuals (0/${#groups[@]})")
-            [[ "$PUBLISH" == true ]] && card_parts+=("Publish sources (0/${#groups[@]})")
-            [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Dispatch downstream translation")
-          else
-            for group in "${groups[@]}"; do
-              card_parts+=("Produce $group")
-              [[ "$PUBLISH" == true ]] && card_parts+=("Publish $group")
-              [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Dispatch downstream translation")
-            done
-          fi
+          card_parts=("Produce")
+          if [[ "$PUBLISH" == true ]]; then card_parts+=("Publish" "Verify"); fi
+          [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Handoff")
           card_stages=$(IFS=,; echo "${card_parts[*]}")
           printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v4
@@ -130,10 +119,11 @@ jobs:
         run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
       - id: card
         name: Create progress card
+        continue-on-error: true
         run: pnpm docs-tooling report-card create --title "$CARD_TITLE" --stages "$CARD_STAGES" --target-branch "$TARGET_BRANCH"
         env:
           CARD_STAGES: ${{ steps.refs.outputs.card_stages }}
-          CARD_TITLE: ${{ steps.refs.outputs.publish == 'true' && 'Global Docs Build' || 'Global Docs Artifact-Only Build' }}
+          CARD_TITLE: Zilliz Cloud Docs Build
           TARGET_BRANCH: ${{ steps.refs.outputs.target_branch }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -141,6 +131,7 @@ jobs:
 
   monitor_docs_progress:
     needs: [prepare]
+    if: ${{ needs.prepare.outputs.card_id != '' }}
     uses: ./.github/workflows/_monitor-docs-progress.yml
     with:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
@@ -149,6 +140,7 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       selected_group: ${{ needs.prepare.outputs.selected_group }}
       publish_enabled: ${{ needs.prepare.outputs.publish == 'true' }}
+      run_translations: ${{ needs.prepare.outputs.run_translations == 'true' }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -618,6 +610,21 @@ jobs:
           run_id=${run_url##*/}
           printf 'run_url=%s\nrun_id=%s\n' "$run_url" "$run_id" >> "$GITHUB_OUTPUT"
           printf 'Downstream translation run: %s\n' "$run_url" >> "$GITHUB_STEP_SUMMARY"
+      - name: Create translation handoff monitor metadata
+        env:
+          PARENT_RUN_ID: ${{ github.run_id }}
+          CHILD_RUN_ID: ${{ steps.dispatch.outputs.run_id }}
+          CHILD_RUN_URL: ${{ steps.dispatch.outputs.run_url }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/docs-translation-handoff"
+          node -e 'const fs=require("node:fs");const value={schemaVersion:1,parentRunId:Number(process.env.PARENT_RUN_ID),childRunId:Number(process.env.CHILD_RUN_ID),childRunUrl:process.env.CHILD_RUN_URL};if(!Number.isSafeInteger(value.parentRunId)||!Number.isSafeInteger(value.childRunId))throw new Error("invalid handoff run id");fs.writeFileSync(process.argv[1],JSON.stringify(value)+"\n")' "$RUNNER_TEMP/docs-translation-handoff/handoff-metadata.json"
+      - name: Upload translation handoff monitor metadata
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-translation-handoff-${{ github.run_id }}
+          path: ${{ runner.temp }}/docs-translation-handoff/handoff-metadata.json
+          retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
 
   resolve_final:
     needs: [prepare, publish_guides, publish_zh_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
@@ -799,6 +806,7 @@ jobs:
           CARD_TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
           PUBLISH_ENABLED: ${{ needs.prepare.outputs.publish }}
+          RUN_TRANSLATIONS: ${{ needs.prepare.outputs.run_translations }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
