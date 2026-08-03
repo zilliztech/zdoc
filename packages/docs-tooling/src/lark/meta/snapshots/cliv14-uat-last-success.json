@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-02T18:41:10.667Z",
+  "generated_at": "2026-08-03T03:26:30.941Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/cli/v1.4.x",
   "base_app_token": "Lx1bbCdpMaSmJXs8wz5cjsDengf",
   "records": [
@@ -30,6 +30,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-list.md"
@@ -53,6 +57,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-describe.md"
@@ -76,6 +84,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-modify.md"
@@ -99,6 +111,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-suspend.md"
@@ -122,6 +138,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-resume.md"
@@ -145,6 +165,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-delete.md"
@@ -168,6 +192,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-providers.md"
@@ -191,6 +219,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-regions.md"
@@ -214,6 +246,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create.md"
@@ -237,6 +273,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-metrics.md"
@@ -260,6 +300,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-create.md"
@@ -283,6 +327,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-list.md"
@@ -306,6 +354,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-describe.md"
@@ -329,6 +381,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade.md"
@@ -352,6 +408,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-addregions.md"
@@ -375,6 +435,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create.md"
@@ -398,6 +462,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list.md"
@@ -421,6 +489,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe.md"
@@ -444,6 +516,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete.md"
@@ -467,6 +543,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "HrwTdhnBeoZwoBxokBJcQZWznKh"
       ],
@@ -492,6 +572,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster.md"
@@ -515,6 +599,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection.md"
@@ -538,6 +626,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy.md"
@@ -561,6 +653,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy.md"
@@ -584,6 +680,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-start.md"
@@ -607,6 +707,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-list.md"
@@ -630,6 +734,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-status.md"
@@ -653,6 +761,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-create.md"
@@ -676,6 +788,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-list.md"
@@ -699,6 +815,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-delete.md"
@@ -722,6 +842,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-describe.md"
@@ -745,6 +869,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply.md"
@@ -768,6 +896,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard.md"
@@ -791,6 +923,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage.md"
@@ -814,6 +950,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices.md"
@@ -837,6 +977,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-downloadinvoice.md"
@@ -860,6 +1004,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-Job/Job-describe.md"
@@ -883,6 +1031,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -904,6 +1056,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -925,6 +1081,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -946,6 +1106,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -967,6 +1131,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -988,6 +1156,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1009,6 +1181,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-list.md"
@@ -1032,6 +1208,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-describe.md"
@@ -1055,6 +1235,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-delete.md"
@@ -1078,6 +1262,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create.md"
@@ -1101,6 +1289,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-create.md"
@@ -1124,6 +1316,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices.md"
@@ -1147,6 +1343,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list.md"
@@ -1170,6 +1370,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-delete.md"
@@ -1193,6 +1397,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-addwhitelist.md"
@@ -1216,6 +1424,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1237,6 +1449,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1258,6 +1474,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1279,6 +1499,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1300,6 +1524,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-list.md"
@@ -1323,6 +1551,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create.md"
@@ -1346,6 +1578,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-describe.md"
@@ -1369,6 +1605,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-delete.md"
@@ -1392,6 +1632,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate.md"
@@ -1415,6 +1659,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-generateauthmaterials.md"
@@ -1438,6 +1686,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-create.md"
@@ -1461,6 +1713,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-list.md"
@@ -1484,6 +1740,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-describe.md"
@@ -1507,6 +1767,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-drop.md"
@@ -1530,6 +1794,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-rename.md"
@@ -1553,6 +1821,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-load.md"
@@ -1576,6 +1848,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-release.md"
@@ -1599,6 +1875,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getloadstate.md"
@@ -1622,6 +1902,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getstats.md"
@@ -1645,6 +1929,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-has.md"
@@ -1668,6 +1956,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-flush.md"
@@ -1691,6 +1983,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-compact.md"
@@ -1714,6 +2010,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-metrics.md"
@@ -1737,6 +2037,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-insert.md"
@@ -1760,6 +2064,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-upsert.md"
@@ -1783,6 +2091,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-search.md"
@@ -1806,6 +2118,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-hybridsearch.md"
@@ -1829,6 +2145,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-query.md"
@@ -1852,6 +2172,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-get.md"
@@ -1875,6 +2199,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-delete.md"
@@ -1898,6 +2226,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-create.md"
@@ -1921,6 +2253,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-list.md"
@@ -1944,6 +2280,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-describe.md"
@@ -1967,6 +2307,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-drop.md"
@@ -1990,6 +2334,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md"
@@ -2013,6 +2361,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-list.md"
@@ -2036,6 +2388,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-describe.md"
@@ -2059,6 +2415,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-drop.md"
@@ -2082,6 +2442,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-create.md"
@@ -2105,6 +2469,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-list.md"
@@ -2128,6 +2496,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-drop.md"
@@ -2151,6 +2523,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-has.md"
@@ -2174,6 +2550,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-getstats.md"
@@ -2197,6 +2577,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-load.md"
@@ -2220,6 +2604,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-release.md"
@@ -2243,6 +2631,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-create.md"
@@ -2266,6 +2658,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-list.md"
@@ -2289,6 +2685,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-describe.md"
@@ -2312,6 +2712,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-drop.md"
@@ -2335,6 +2739,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-updatepassword.md"
@@ -2358,6 +2766,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-grantrole.md"
@@ -2381,6 +2793,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-revokerole.md"
@@ -2404,6 +2820,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-create.md"
@@ -2427,6 +2847,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-list.md"
@@ -2450,6 +2874,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-describe.md"
@@ -2473,6 +2901,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-drop.md"
@@ -2496,6 +2928,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege.md"
@@ -2519,6 +2955,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md"
@@ -2542,6 +2982,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-create.md"
@@ -2565,6 +3009,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-list.md"
@@ -2588,6 +3036,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-describe.md"
@@ -2611,6 +3063,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-alter.md"
@@ -2634,6 +3090,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-drop.md"
@@ -2657,6 +3117,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md"
@@ -2680,6 +3144,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md"
@@ -2703,6 +3171,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list.md"
@@ -2726,6 +3198,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-status.md"
@@ -2749,6 +3225,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-login.md"
@@ -2772,6 +3252,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-logout.md"
@@ -2795,6 +3279,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-switch.md"
@@ -2818,6 +3306,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-whoami.md"
@@ -2841,6 +3333,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-set.md"
@@ -2864,6 +3360,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-clear.md"
@@ -2887,6 +3387,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-get.md"
@@ -2910,6 +3414,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-list.md"
@@ -2933,6 +3441,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-set.md"
@@ -2956,6 +3468,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-current.md"
@@ -2979,6 +3495,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-clear.md"
@@ -3002,6 +3522,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3023,6 +3547,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3044,6 +3572,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3065,6 +3597,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3086,6 +3622,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-version.md"
@@ -3109,6 +3649,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-upgrade.md"
@@ -3132,6 +3676,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-uninstall.md"
@@ -3155,6 +3703,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-list.md"
@@ -3178,6 +3730,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-create.md"
@@ -3201,6 +3757,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-update.md"
@@ -3224,6 +3784,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-delete.md"
@@ -3247,6 +3811,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-enable.md"
@@ -3270,6 +3838,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-disable.md"
@@ -3293,6 +3865,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-History/History-list.md"
@@ -3316,6 +3892,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-History/History-search.md"
@@ -3339,6 +3919,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-History/History-clear.md"
@@ -3362,6 +3946,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/cli/cli/Configuration/Configuration-Quickstart/Quickstart-quickstart.md"
