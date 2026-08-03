@@ -1,0 +1,211 @@
+name: sync master tooling to dev
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      tooling_sha:
+        description: Exact master tooling SHA to synchronize
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: docs-production-dev
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Merge exact master tooling into dev through a validated PR
+    if: github.repository == 'zilliztech/zdoc'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Check out workflow tooling
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Resolve immutable master and dev identities
+        id: refs
+        env:
+          REQUESTED_TOOLING_SHA: ${{ inputs.tooling_sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin master dev
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            tooling_sha="$GITHUB_SHA"
+          else
+            tooling_sha="$REQUESTED_TOOLING_SHA"
+          fi
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ ]]
+          git fetch --no-tags origin "$tooling_sha"
+          git cat-file -e "$tooling_sha^{commit}"
+          git merge-base --is-ancestor "$tooling_sha" origin/master
+          dev_sha=$(git rev-parse origin/dev)
+          printf 'tooling_sha=%s\ndev_sha=%s\n' "$tooling_sha" "$dev_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Require the manual bootstrap on dev
+        id: bootstrap
+        env:
+          DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+        run: >-
+          node scripts/docs-workflow/master-tooling-sync.js bootstrap
+          --dev-sha "$DEV_SHA"
+          --github-output "$GITHUB_OUTPUT"
+
+      - name: Report pending manual bootstrap
+        if: steps.bootstrap.outputs.bootstrapped != 'true'
+        run: echo 'Master tooling auto-sync remains disabled until the initial reviewed merge installs the contract on dev.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Inspect master ownership and synchronization need
+        id: inspect
+        if: steps.bootstrap.outputs.bootstrapped == 'true'
+        env:
+          DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+          SYNC_BRANCH_PREFIX: ${{ steps.bootstrap.outputs.sync_branch_prefix }}
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+        run: >-
+          node scripts/docs-workflow/master-tooling-sync.js inspect
+          --dev-sha "$DEV_SHA"
+          --tooling-sha "$TOOLING_SHA"
+          --github-output "$GITHUB_OUTPUT"
+
+      - name: Compose exact merge candidate
+        id: candidate
+        if: steps.inspect.outputs.needs_sync == 'true'
+        env:
+          DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          short_sha=${TOOLING_SHA:0:12}
+          sync_branch="${SYNC_BRANCH_PREFIX}/${short_sha}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch --detach "$DEV_SHA"
+          git switch -c "$sync_branch"
+          git merge --no-ff --no-commit "$TOOLING_SHA"
+          git commit -m "chore(dev): sync master tooling ${short_sha}" \
+            -m "Tooling-SHA: ${TOOLING_SHA}" \
+            -m "Dev-Baseline-SHA: ${DEV_SHA}" \
+            -m "Workflow-Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          candidate_sha=$(git rev-parse HEAD)
+          node scripts/docs-workflow/master-tooling-sync.js verify \
+            --dev-sha "$DEV_SHA" \
+            --tooling-sha "$TOOLING_SHA" \
+            --candidate-sha "$candidate_sha"
+          printf 'sync_branch=%s\ncandidate_sha=%s\n' "$sync_branch" "$candidate_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Install candidate tooling
+        if: steps.inspect.outputs.needs_sync == 'true'
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        if: steps.inspect.outputs.needs_sync == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Run focused candidate validation
+        if: steps.inspect.outputs.needs_sync == 'true'
+        run: |
+          pnpm install --frozen-lockfile
+          node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs
+          pnpm check:localization-input-inventory
+          pnpm docs-tooling validate-revision-inventory --site en
+
+      - name: Push immutable candidate and create PR
+        id: pr
+        if: steps.inspect.outputs.needs_sync == 'true'
+        env:
+          CANDIDATE_SHA: ${{ steps.candidate.outputs.candidate_sha }}
+          DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+          SYNC_BRANCH: ${{ steps.candidate.outputs.sync_branch }}
+          TARGET_BRANCH: ${{ steps.bootstrap.outputs.target_branch }}
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin dev
+          test "$(git rev-parse origin/dev)" = "$DEV_SHA"
+          git push origin "HEAD:refs/heads/$SYNC_BRANCH"
+          body_file="$RUNNER_TEMP/master-tooling-sync-pr.md"
+          printf '%s\n' \
+            'Automated fail-closed synchronization of reviewed master tooling into dev.' \
+            '' \
+            "- Tooling SHA: \`$TOOLING_SHA\`" \
+            "- Dev baseline SHA: \`$DEV_SHA\`" \
+            "- Candidate SHA: \`$CANDIDATE_SHA\`" \
+            "- Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            '' \
+            'The workflow verified ownership before push. It will dispatch exact-candidate site validation and merge only if dev remains at the recorded baseline.' > "$body_file"
+          pr_url=$(gh pr create \
+            --base "$TARGET_BRANCH" \
+            --head "$SYNC_BRANCH" \
+            --title "chore(dev): sync master tooling ${TOOLING_SHA:0:12}" \
+            --body-file "$body_file")
+          printf 'pr_url=%s\n' "$pr_url" >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch exact-candidate site validation
+        id: validation
+        if: steps.inspect.outputs.needs_sync == 'true'
+        env:
+          CANDIDATE_SHA: ${{ steps.candidate.outputs.candidate_sha }}
+          SYNC_BRANCH: ${{ steps.candidate.outputs.sync_branch }}
+          VALIDATION_WORKFLOW: ${{ steps.bootstrap.outputs.validation_workflow }}
+        run: |
+          set -euo pipefail
+          gh workflow run "$VALIDATION_WORKFLOW" \
+            --ref "$SYNC_BRANCH" \
+            -f site=all \
+            -f source_ref="$CANDIDATE_SHA" \
+            -f publish=false
+          validation_run_id=''
+          for _attempt in $(seq 1 30); do
+            validation_run_id=$(gh run list \
+              --workflow "$VALIDATION_WORKFLOW" \
+              --branch "$SYNC_BRANCH" \
+              --event workflow_dispatch \
+              --limit 20 \
+              --json databaseId,headSha \
+              --jq 'map(select(.headSha == env.CANDIDATE_SHA)) | first | .databaseId // empty')
+            [[ -n "$validation_run_id" ]] && break
+            sleep 2
+          done
+          [[ "$validation_run_id" =~ ^[0-9]+$ ]]
+          printf 'run_id=%s\n' "$validation_run_id" >> "$GITHUB_OUTPUT"
+          gh run watch "$validation_run_id" --exit-status
+
+      - name: Recheck dev identity and merge the validated PR
+        if: steps.inspect.outputs.needs_sync == 'true'
+        env:
+          CANDIDATE_SHA: ${{ steps.candidate.outputs.candidate_sha }}
+          DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+          PR_URL: ${{ steps.pr.outputs.pr_url }}
+          VALIDATION_RUN_ID: ${{ steps.validation.outputs.run_id }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin dev
+          test "$(git rev-parse origin/dev)" = "$DEV_SHA"
+          test "$(gh pr view "$PR_URL" --json headRefOid --jq .headRefOid)" = "$CANDIDATE_SHA"
+          gh pr merge "$PR_URL" --merge --delete-branch --match-head-commit "$CANDIDATE_SHA"
+          printf '%s\n' \
+            "Merged $PR_URL" \
+            "Tooling SHA: ${{ steps.refs.outputs.tooling_sha }}" \
+            "Dev baseline SHA: $DEV_SHA" \
+            "Candidate SHA: $CANDIDATE_SHA" \
+            "Site validation: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$VALIDATION_RUN_ID" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Report already synchronized tooling
+        if: steps.bootstrap.outputs.bootstrapped == 'true' && steps.inspect.outputs.needs_sync != 'true'
+        run: echo 'The exact master tooling SHA is already contained in dev; no PR was created.' >> "$GITHUB_STEP_SUMMARY"

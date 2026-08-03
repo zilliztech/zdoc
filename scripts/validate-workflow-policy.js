@@ -13,6 +13,7 @@ const publishingWorkflows = new Set([
   '_publish-content-group.yml',
   '_publish-translation-batches.yml',
   '_translate-publish-batch.yml',
+  'sync-master-tooling-to-dev.yml',
 ])
 
 function executableShellLineEntries(source) {
