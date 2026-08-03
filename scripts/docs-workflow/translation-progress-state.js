@@ -47,7 +47,7 @@ const PUBLISHER_LABELS = Object.freeze({
 })
 
 function parseSdkTranslationJob(job) {
-  const match = String(job?.name || '').match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|rest|reference-landings), [^,()]+, [^,()]+, [^)]+\) \/ translate$/)
+  const match = String(job?.name || '').match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|rest|reference-landings), [^,()]+, [^,()]+, (?:[^,()]+\)|[^,()]+\.\.\.) \/ translate$/)
   return match ? {target: match[1], group: match[2]} : null
 }
 

@@ -22,12 +22,32 @@ const selectedUnits = [
   {target: 'zh-CN-reference', group: 'python'},
 ]
 
+const sdkGroups = ['python', 'java', 'node', 'go', 'cli', 'rest']
+
 test('parses bounded job names observed in child workflow runs', () => {
   assert.deepEqual(parseSdkTranslationJob({name: 'translate_sdk (ja-JP, python, python, e1d9a70506356cd8d985d557734ee0ae4bd1c269, 1) / translate'}), {target: 'ja-JP', group: 'python'})
   assert.deepEqual(parseGuidesBatchJob({name: 'translate_guides_batches (10, 11) / translate'}), {batchIndex: 10, batchNumber: 11})
   assert.equal(parseSdkTranslationJob({name: 'translate_sdk (ja-JP, python) / translate'}), null)
   assert.equal(parseSdkTranslationJob({name: 'prefix translate_sdk (ja-JP, python, python, sha, 1) / translate'}), null)
   assert.equal(parseGuidesBatchJob({name: 'translate_guides_batches (x, 1) / translate'}), null)
+})
+
+test('parses live truncated SDK matrix names and counts completed SDK translations', () => {
+  const jobs = fixture('sdk-truncated-real-run.json').jobs
+  const exactLiveName = 'translate_sdk (ja-JP, python, python, a9a7dc1a4e51a77fcfdc2e30a57198963ea003c1, 0270f6c6387123545... / translate'
+  assert.deepEqual(parseSdkTranslationJob({name: exactLiveName}), {target: 'ja-JP', group: 'python'})
+  assert.equal(parseSdkTranslationJob({name: `prefix ${exactLiveName}`}), null)
+  assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('ja-JP', 'en')}), null)
+  assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('python, python', 'guides, guides')}), null)
+  assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('/ translate', '/ publish')}), null)
+
+  const units = ['ja-JP', 'zh-CN-reference'].flatMap(target => sdkGroups.map(group => ({target, group})))
+  const state = deriveTranslationProgressState({selectedUnits: units, publishEnabled: false, jobs: [{name: 'prepare', status: 'completed', conclusion: 'success'}, ...jobs]})
+  assert.deepEqual(state.targets.map(target => target.translate), [
+    {done: 6, total: 6, status: 'completed', detail: null},
+    {done: 6, total: 6, status: 'completed', detail: null},
+  ])
+  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 12, total: 12, status: 'completed', detail: null})
 })
 
 test('derives the approved Translation card categories from selected handoff units', () => {
