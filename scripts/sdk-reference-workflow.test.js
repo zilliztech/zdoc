@@ -67,6 +67,8 @@ test('every workflow that invokes docs-tooling uses its supported Node runtime',
     'docs-ingestion-watchdog.yml',
     'fetch-docs.yml',
     'site-validation.yml',
+    'sync-master-tooling-to-dev.yml',
+    'translate-codex.yml',
     'translate-content.yml',
   ])
   for (const file of invoking) {
@@ -176,7 +178,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /name: Collect card report summaries[\s\S]*CARD_REPORT_REF: \$\{\{ needs\.resolve_final\.outputs\.final_dev_sha \}\}[\s\S]*collect-build-card-notes\.js/)
   assert.match(source, /reports_file="\$\{\{ steps\.reports\.outputs\.card_notes_file \}\}"/)
   assert.match(source, /name: Download current English Guides reports[\s\S]*name: docs-checkpoint-guides-en-\$\{\{ github\.run_id \}\}-reports[\s\S]*name: Download current Chinese Guides reports[\s\S]*name: docs-checkpoint-guides-zh-CN-\$\{\{ github\.run_id \}\}-reports/)
-  assert.match(source, /\[\[ "\$RUN_TRANSLATIONS" == true \]\] && card_parts\+=\("Dispatch downstream translation"\)/)
+  assert.match(source, /\[\[ "\$RUN_TRANSLATIONS" == true \]\] && card_parts\+=\("Handoff"\)/)
   for (const workflow of ['_fetch-content-group.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')
     assert.doesNotMatch(reusable, /card_started_at:|card_stages:|report-live-card\.sh/, `${workflow} must leave card ownership to the monitor`)
