@@ -101,7 +101,9 @@ function applyLocaleEntries(sourceSpecs, entries, locale) {
     let target = localized
     for (const segment of entry.objectPath) target = target[segment]
     target['x-i18n'] ||= {}
-    target['x-i18n'][locale] ||= {}
+    const existingLocale = target['x-i18n'][locale]
+    if (typeof existingLocale === 'string') target['x-i18n'][locale] = {description: existingLocale}
+    else if (!existingLocale || typeof existingLocale !== 'object' || Array.isArray(existingLocale)) target['x-i18n'][locale] = {}
     target['x-i18n'][locale][entry.key] = entry.translation
   }
   return localized
@@ -151,7 +153,7 @@ async function translateRestSpecs({ sourceSpecs, target, locale, callModel }) {
     translated.push(...parseTranslationEntries(response, batch))
   }
   const localized = applyLocaleEntries(sourceSpecs, translated, locale)
-  assert.deepEqual(removeLocale(localized, locale), sourceSpecs, 'Localized REST specs changed non-locale data')
+  assert.deepEqual(removeLocale(localized, locale), removeLocale(sourceSpecs, locale), 'Localized REST specs changed non-locale data')
   return { localized, translatedCount: translated.length }
 }
 
