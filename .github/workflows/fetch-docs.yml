@@ -736,6 +736,17 @@ jobs:
         with:
           name: docs-checkpoint-guides-zh-CN-${{ github.run_id }}-reports
           path: tmp/card-guides-reports/zh-CN
+      - id: report_artifact_links
+        name: Resolve exact Guides report artifact links
+        if: ${{ always() }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          artifacts_json="$RUNNER_TEMP/docs-report-artifacts.json"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq '[.[].artifacts[]]' > "$artifacts_json"
+          node scripts/docs-workflow/resolve-card-artifact-links.js --repository "$GITHUB_REPOSITORY" --run-id "$GITHUB_RUN_ID" --artifacts-json "$artifacts_json"
       - id: reports
         name: Collect card report summaries
         if: ${{ always() }}
@@ -743,7 +754,8 @@ jobs:
         env:
           CARD_REPORT_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
           CARD_REPORT_REF: ${{ needs.resolve_final.outputs.final_dev_sha }}
-          CARD_REPORT_ARTIFACT_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts
+          CARD_REPORT_ARTIFACT_URL_EN: ${{ steps.report_artifact_links.outputs.en_url }}
+          CARD_REPORT_ARTIFACT_URL_ZH_CN: ${{ steps.report_artifact_links.outputs.zh_cn_url }}
           CARD_GUIDES_REPORTS_ROOT: tmp/card-guides-reports
           CARD_EXPECT_EN_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
           CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
