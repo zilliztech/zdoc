@@ -8,6 +8,7 @@ const {
   buildCorrectionMessages,
   buildReviewMessages,
   buildTranslationMessages,
+  buildRecoveryIdentity,
   createProviderCall,
   createProgressCoordinator,
   isRetryableProviderError,
@@ -73,6 +74,22 @@ function testPartitionsRecoveredFilesWithoutChangingOriginalIndexes() {
   const partitioned = partitionRecoveryWork({items}, recovered)
   assert.deepEqual(partitioned.recovered, [{index: 1, result: recovered[0]}])
   assert.deepEqual(partitioned.pending, [{index: 0, item: items[0]}, {index: 2, item: items[2]}])
+}
+
+function testRecoveryIdentityUsesAuthoritativeToolingSha() {
+  const toolingSha = 'a'.repeat(40)
+  const identity = buildRecoveryIdentity({
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    group: 'python',
+    sourceCheckpointSha: 'b'.repeat(40),
+  }, process.cwd(), {
+    TRANSLATION_AGENT_MODEL: 'translation-model',
+    TOOLING_SHA: toolingSha,
+    MASTER_SHA: 'c'.repeat(40),
+  })
+
+  assert.equal(identity.toolingSha, toolingSha)
 }
 
 function testMessageBuildersSelectPromptsFromTarget() {
@@ -1167,6 +1184,7 @@ async function testReferenceProgressStateUsesCanonicalRawLexicalOrder() {
 async function run() {
   testSelectsPromptsByTranslationTarget()
   testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
+  testRecoveryIdentityUsesAuthoritativeToolingSha()
   testMessageBuildersSelectPromptsFromTarget()
   testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()

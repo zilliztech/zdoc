@@ -810,6 +810,17 @@ function partitionRecoveryWork(manifest, restoredResults = []) {
   return {recovered, pending}
 }
 
+function buildRecoveryIdentity(manifest, siteDir, env = process.env) {
+  return {
+    locale: manifest.locale,
+    group: manifest.group,
+    promptContractSha256: promptContractSha256(manifest.target, siteDir),
+    model: env.TRANSLATION_AGENT_MODEL,
+    sourceSha: manifest.sourceCheckpointSha,
+    toolingSha: env.TOOLING_SHA,
+  }
+}
+
 async function main() {
   require('dotenv/config')
   const args = new Map()
@@ -837,14 +848,7 @@ async function main() {
         siteDir,
         candidates: manifest.items,
         artifacts: discoverRecoveryArtifacts(path.resolve(siteDir, recoveryDir)),
-        identity: {
-          locale: manifest.locale,
-          group: manifest.group,
-          promptContractSha256: promptContractSha256(manifest.target, siteDir),
-          model: process.env.TRANSLATION_AGENT_MODEL,
-          sourceSha: manifest.sourceCheckpointSha,
-          toolingSha: process.env.MASTER_SHA,
-        },
+        identity: buildRecoveryIdentity(manifest, siteDir),
       })
     : {restored: [], pending: manifest.items, rejected: []}
   const work = partitionRecoveryWork(manifest, recovery.restored)
@@ -932,6 +936,7 @@ if (require.main === module) {
 
 module.exports = {
   buildCorrectionMessages,
+  buildRecoveryIdentity,
   buildReviewMessages,
   buildTranslationMessages,
   createProviderCall,
