@@ -76,7 +76,7 @@ async function schema2Artifact(options = {}) {
 async function artifact(overrides = {}) {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'checkpoint-validate-'));
   const payload = path.join(dir, 'payload');
-  const rel = 'content/en/reference/api/python/python/index.md';
+  const rel = 'content/en/reference/api/python/python/python.md';
   const bytes = Buffer.from('hello');
   await mkdir(path.dirname(path.join(payload, rel)), { recursive: true });
   await writeFile(path.join(payload, rel), bytes);
@@ -108,6 +108,21 @@ test('validates and deeply freezes a valid artifact', async () => {
   assert.equal(result.resolvedDir, await realpath(f.dir));
   assert.equal(Object.keys(result).includes('resolvedDir'), false);
   assert.equal(Object.hasOwn(result, 'translationCacheBytes'), false);
+});
+
+test('rejects a source artifact missing its declared preserved landing', async () => {
+  const f = await artifact();
+  await rm(path.join(f.payload, f.rel));
+  const rel = 'content/en/reference/api/python/python/index.md';
+  const bytes = Buffer.from('generated');
+  await writeFile(path.join(f.payload, rel), bytes);
+  f.manifest.files = [{ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length }];
+  await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
+
+  await assert.rejects(
+    validateCheckpointArtifact(f.dir),
+    /preserved.*content\/en\/reference\/api\/python\/python\/python\.md/i,
+  );
 });
 
 test('maps the Reference landing group to five exact Chinese targets plus translation state', () => {
@@ -377,10 +392,14 @@ test('rejects unsafe and unauthorized paths', async () => {
 
 test('allows byoc but does not confuse byoc slash boundaries', async () => {
   const f = await artifact({ group: 'guides', snapshotManual: 'guides' });
-  f.manifest.files[0].path = 'content/en/byoc/index.md';
+  const byocPath = 'content/en/byoc/index.md';
+  const homePath = 'content/en/guides/tutorials/home.md';
+  f.manifest.files = [byocPath, homePath].map((filePath) => ({ ...f.manifest.files[0], path: filePath }));
   await mkdir(path.join(f.payload, 'content/en/byoc'), { recursive: true });
   await writeFile(path.join(f.payload, 'content/en/byoc/index.md'), 'hello');
-  await require('node:fs/promises').rm(path.join(f.payload, 'content/en/reference'), { recursive: true });
+  await mkdir(path.dirname(path.join(f.payload, homePath)), { recursive: true });
+  await writeFile(path.join(f.payload, homePath), 'hello');
+  await rm(path.join(f.payload, 'content/en/reference'), { recursive: true });
   await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
   await assert.doesNotReject(validateCheckpointArtifact(f.dir));
 });
@@ -419,10 +438,9 @@ test('allows file/deletion ancestry in either direction but rejects exact overla
 
   f = await artifact();
   const parent = 'content/en/reference/api/python/python/topic';
-  await require('node:fs/promises').rm(path.join(f.payload, 'content/en/reference'), { recursive: true });
   await mkdir(path.dirname(path.join(f.payload, parent)), { recursive: true });
   await writeFile(path.join(f.payload, parent), 'hello');
-  f.manifest.files[0].path = parent;
+  f.manifest.files.push({ ...f.manifest.files[0], path: parent });
   f.manifest.deletions = [`${parent}/old.md`];
   await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
   await assert.doesNotReject(validateCheckpointArtifact(f.dir));

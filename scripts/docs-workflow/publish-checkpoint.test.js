@@ -15,6 +15,7 @@ function setup() {
   git(root, 'init', '--bare', remote); git(root, 'init', seed);
   git(seed, 'config', 'user.name', 'Test'); git(seed, 'config', 'user.email', 'test@example.com');
   mkdirSync(path.join(seed, 'content/en/guides/tutorials'), { recursive: true });
+  writeFileSync(path.join(seed, 'content/en/guides/tutorials/home.md'), '# Guides home\n');
   writeFileSync(path.join(seed, 'content/en/guides/tutorials/a.md'), 'old\n');
   git(seed, 'add', '.'); git(seed, 'commit', '-m', 'seed'); git(seed, 'branch', '-M', 'dev'); git(seed, 'remote', 'add', 'origin', remote); git(seed, 'push', '-u', 'origin', 'dev');
   return { root, remote, seed };

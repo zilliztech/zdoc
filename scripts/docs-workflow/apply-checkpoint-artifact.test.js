@@ -16,6 +16,9 @@ async function fixture({ files = {}, deletions = [], cache, baselineCache, targe
   const root = await mkdtemp(path.join(os.tmpdir(), 'checkpoint-apply-'));
   const artifactDir = path.join(root, 'artifact'), targetDir = path.join(root, 'target'), baselineDir = path.join(root, 'baseline');
   await Promise.all([mkdir(path.join(artifactDir, 'payload'), { recursive: true }), mkdir(targetDir), mkdir(baselineDir)]);
+  const referenceTranslationState = 'generated/zh-CN/manifests/reference-translations.json';
+  if (cache === undefined && group === 'python' && !Object.hasOwn(files, referenceTranslationState) && !Object.hasOwn(files, `${ROOT}/python.md`)) files[`${ROOT}/python.md`] = '# Python landing\n';
+  if (cache === undefined && group === 'guides' && !Object.hasOwn(files, 'content/en/guides/tutorials/home.md')) files['content/en/guides/tutorials/home.md'] = '# Guides home\n';
   if (cache !== undefined) files[CACHE] = `${JSON.stringify(cache)}\n`;
   const entries = [];
   for (const [rel, value] of Object.entries(files).sort()) {
@@ -40,7 +43,7 @@ test('copies binary files, applies deletions, preserves unrelated files, and fre
   assert.deepEqual(await readFile(path.join(f.targetDir, ROOT, 'new.bin')), Buffer.from([0, 255, 1]));
   await assert.rejects(readFile(path.join(f.targetDir, ROOT, 'old.md')), /ENOENT/);
   assert.equal(await readFile(path.join(f.targetDir, 'unrelated.txt'), 'utf8'), 'keep');
-  assert.deepEqual(result, { group: 'python', copied: 1, deletions: 1, translationCacheMerged: false }); assert.equal(Object.isFrozen(result), true);
+  assert.deepEqual(result, { group: 'python', copied: 2, deletions: 1, translationCacheMerged: false }); assert.equal(Object.isFrozen(result), true);
 });
 
 test('supports authorized file-directory transitions and refuses unauthorized conflicts', async () => {

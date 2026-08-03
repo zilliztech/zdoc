@@ -28,3 +28,19 @@ The automated workflow remains inert until `deploy/contracts/master-tooling-sync
 9. Recheck the dev baseline and PR head, then merge the PR.
 
 Conflicts, validation failures, moved refs, or ownership drift leave an unmerged evidence-bearing PR and fail the workflow.
+
+## Deferred follow-up: deduplicate site validation
+
+Do not change validation triggers until the current translation workflow and its real-artifact verification are complete.
+
+Current `site-validation.yml` runs for both pull requests and pushes to `master` and `dev`. For a normal PR into `master`, this performs the expensive site validation before merge and starts it again after merge. Recent evidence includes PR #137 (`pull_request` run `30781527865`, successful) followed by master `push` run `30782402026`; the post-merge run for PR #136 (`30781937769`) was cancelled when the next master update superseded it.
+
+After translation completion, review and implement the following boundary:
+
+- Keep full validation for pull requests into `master` and `dev`.
+- Keep `workflow_dispatch` as the authoritative exact-candidate gate used by master-tooling synchronization.
+- Keep validation for pushes to `dev`, because source and translation publication can update `dev` without a PR.
+- Remove or reduce validation for pushes to `master` to lightweight tooling and contract checks, assuming protected `master` continues to require the pre-merge PR gate.
+- Confirm that direct or emergency pushes to `master` have an explicit fallback before removing the full push trigger.
+
+Acceptance evidence should show that a normal master PR receives one full pre-merge site gate, a direct publication to dev remains validated, and an exact tooling-sync candidate cannot merge without its immutable dispatched validation.
