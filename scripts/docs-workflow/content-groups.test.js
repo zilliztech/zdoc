@@ -24,6 +24,7 @@ test('defines the Python content group ownership contract', () => {
   assert.deepEqual(python.ownedPaths, [
     'content/en/reference/api/python/python',
     'generated/en/sidebars/python.sidebar.js',
+    'content/en/reference/api/python/python/python.md',
     'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
     'content/en/reference/content-manifest.json',
     'generated/en/manifests/lark-revisions/python.json',

@@ -115,6 +115,15 @@ describe('site-owned publication groups', () => {
     ]);
   });
 
+  it('includes every preserved English path in its source checkpoint', () => {
+    for (const group of listPublicationGroups('en')) {
+      const workflow = resolvePublicationGroupWorkflow('en', group);
+      for (const preservedPath of workflow.preservedPaths) {
+        expect(workflow.checkpointPaths).toContain(preservedPath);
+      }
+    }
+  });
+
   it('does not checkpoint English revision inventories for Chinese publication groups', () => {
     for (const group of ['guides', 'onpremise']) {
       expect(resolvePublicationGroupWorkflow('zh-CN', group).checkpointPaths).not.toContainEqual(
