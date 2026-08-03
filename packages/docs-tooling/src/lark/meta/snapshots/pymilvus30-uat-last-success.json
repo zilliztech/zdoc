@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-02T18:46:13.567Z",
+  "generated_at": "2026-08-03T03:35:04.550Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -30,6 +30,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkFileType.md"
@@ -53,6 +58,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "NV3Ud1M9iojhaSxZY4ec8RjgnlP",
         "WToudUwm4oVXeKxLg3jcj3IAnjh"
@@ -79,6 +89,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EtBDdoGaFo3bOExKxCHcKgpenib",
         "RcvXdmCVBog9M8xNyUFcwefnneh"
@@ -105,6 +120,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "WCxIdVwCpoIaMUxbabWcSRCkn2g"
       ],
@@ -130,6 +150,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
         "NV3Ud1M9iojhaSxZY4ec8RjgnlP",
@@ -157,6 +182,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C2YSddNqZoDNmNxWqqEcuzhKn4f",
         "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
@@ -185,6 +215,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C2YSddNqZoDNmNxWqqEcuzhKn4f",
         "CSpOd0XgWoVAhzx5xbVcpCVfnPg",
@@ -212,6 +247,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BDP4dew9to9tQoxNEMPcBR5xnZb"
       ],
@@ -237,6 +277,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BDP4dew9to9tQoxNEMPcBR5xnZb"
       ],
@@ -262,6 +307,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md"
@@ -285,6 +335,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md"
@@ -308,6 +363,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md"
@@ -331,6 +391,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "NV3Ud1M9iojhaSxZY4ec8RjgnlP"
       ],
@@ -356,6 +420,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-commit.md"
@@ -379,6 +447,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md"
@@ -402,6 +474,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "WIP",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb"
       ],
@@ -425,6 +499,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EVKhdy0vwoSLSux2RW2c660unjh"
       ],
@@ -448,6 +527,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -469,6 +553,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_role.md"
@@ -492,6 +581,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -513,6 +607,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -534,6 +633,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -555,6 +659,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_role.md"
@@ -578,6 +687,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EZ2YdBHoDoRTlxx91tscffm1nSb",
         "EglSdm1jkozDSlxq6SEc4CRonVe",
@@ -606,6 +720,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "OSehdj15Ao3AUvxOIJucXzU8nWW"
       ],
@@ -629,6 +747,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-grant_role.md"
@@ -652,6 +775,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_roles.md"
@@ -675,6 +803,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EglSdm1jkozDSlxq6SEc4CRonVe",
         "Q8QIdA1DioRRL9xUtlgcCPLHnPc",
@@ -703,6 +836,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LB90d4VGZogYIZxwCgpcSkgKnng",
         "OSehdj15Ao3AUvxOIJucXzU8nWW"
@@ -727,6 +864,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_role.md"
@@ -750,6 +892,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -771,6 +918,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -792,6 +943,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -813,6 +968,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -834,6 +993,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-grant_privilege_v2.md"
@@ -857,6 +1021,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_privilege_groups.md"
@@ -880,6 +1049,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -901,6 +1074,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege_v2.md"
@@ -924,6 +1102,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -945,6 +1127,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-close.md"
@@ -968,6 +1155,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-MilvusClient.md"
@@ -991,6 +1183,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1016,6 +1213,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/Client-session.md"
@@ -1039,6 +1240,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-DataType.md"
@@ -1062,6 +1268,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-IndexType.md"
@@ -1085,6 +1296,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-FunctionType.md"
@@ -1108,6 +1324,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
         "SSiodq10FoH26hx2HlccfcAgnje",
@@ -1135,6 +1356,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SSiodq10FoH26hx2HlccfcAgnje"
       ],
@@ -1160,6 +1386,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e",
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
@@ -1187,6 +1418,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1212,6 +1448,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1237,6 +1478,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1262,6 +1508,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1287,6 +1538,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1312,6 +1568,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
         "FpWXdmIuforYz9xUCsqclyCXnLe",
@@ -1341,6 +1602,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
@@ -1370,6 +1636,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
@@ -1399,6 +1670,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "Cpynd2OFJoIXhLx3dQNct7Wgn6f",
@@ -1428,6 +1704,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBc3d1mrdoYqmDxe4Kcc9zxAnzh",
         "FpWXdmIuforYz9xUCsqclyCXnLe",
@@ -1457,6 +1738,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-alter_collection_properties.md"
@@ -1480,6 +1766,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1501,6 +1792,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_properties.md"
@@ -1524,6 +1820,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-add_collection_field.md"
@@ -1547,6 +1848,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1568,6 +1873,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_function.md"
@@ -1591,6 +1901,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -1616,6 +1931,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -1641,6 +1961,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-refresh_external_collection.md"
@@ -1664,6 +1989,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress.md"
@@ -1687,6 +2017,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-list_refresh_external_collection_jobs.md"
@@ -1710,6 +2045,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field.md"
@@ -1733,6 +2073,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EVKhdy0vwoSLSux2RW2c660unjh"
       ],
@@ -1758,6 +2103,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
         "SSiodq10FoH26hx2HlccfcAgnje"
@@ -1784,6 +2134,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SSiodq10FoH26hx2HlccfcAgnje"
       ],
@@ -1809,6 +2164,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict.md"
@@ -1832,6 +2192,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify.md"
@@ -1855,6 +2220,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-run_analyzer.md"
@@ -1878,6 +2248,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-alter_database_properties.md"
@@ -1901,6 +2276,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1926,6 +2306,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1951,6 +2336,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/Database-drop_database_properties.md"
@@ -1974,6 +2364,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -1999,6 +2394,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2024,6 +2424,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2049,6 +2454,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "OCfid8DdPo1ga1x24JZcV92xnwd",
         "SojTdgw1joOuA8xMzb5cMUFYnce"
@@ -2075,6 +2485,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb"
       ],
@@ -2100,6 +2515,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2125,6 +2545,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2150,6 +2575,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2175,6 +2605,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2200,6 +2635,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ve2WdUAfwoz456xwBIJcGvltn6b"
       ],
@@ -2225,6 +2665,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "IU0idURLBoJNlZxgkiUcQaOYnIf"
       ],
@@ -2250,6 +2695,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e",
         "SSiodq10FoH26hx2HlccfcAgnje"
@@ -2276,6 +2726,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -2301,6 +2756,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-to_dict.md"
@@ -2324,6 +2784,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Function/Function-verify.md"
@@ -2347,6 +2812,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GaCYdVohYoHFhrx897zcmcNfn6e"
       ],
@@ -2372,6 +2842,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KEPYdKup1o3nHdxKbjvcQUzwnnd",
         "PRR7dRfi8o1s61xFRovccAdRnHe",
@@ -2399,6 +2874,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KEPYdKup1o3nHdxKbjvcQUzwnnd",
         "X3NXdtC2koiAxyxhcUBcv38Wnsh",
@@ -2426,6 +2906,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -2456,6 +2941,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
         "NPnQdZCJ7oF002xTntecdI2ini8",
@@ -2486,6 +2976,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -2516,6 +3011,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -2545,6 +3045,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PRR7dRfi8o1s61xFRovccAdRnHe",
         "X3NXdtC2koiAxyxhcUBcv38Wnsh",
@@ -2572,6 +3077,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "CAzpdAw3wo4ZqrxhjTLcEGBBn1S",
@@ -2602,6 +3112,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B3n3db0idoia02xXxJfcONK8nRh",
         "NPnQdZCJ7oF002xTntecdI2ini8",
@@ -2632,6 +3147,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KEPYdKup1o3nHdxKbjvcQUzwnnd",
         "PRR7dRfi8o1s61xFRovccAdRnHe",
@@ -2659,6 +3179,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush.md"
@@ -2682,6 +3207,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2703,6 +3233,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MSDVdu103obklexX8GvcW5cWnCf"
       ],
@@ -2728,6 +3263,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2749,6 +3289,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2774,6 +3319,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state.md"
@@ -2797,6 +3347,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2818,6 +3372,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md"
@@ -2841,6 +3400,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md"
@@ -2864,6 +3428,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_loaded_segments.md"
@@ -2887,6 +3456,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md"
@@ -2910,6 +3484,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md"
@@ -2933,6 +3512,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -2958,6 +3542,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -2989,6 +3578,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Partitions/Partitions-drop_partition.md"
@@ -3012,6 +3606,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3042,6 +3641,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3072,6 +3676,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
         "I6hvdlYUuoUaw3xWqSnce4Fin9g",
@@ -3102,6 +3711,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3132,6 +3746,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dxgqdvlk5o2VScxqmL1ctc1Inqb",
         "HkOFdhgbOoz1wlxJIgWcU7EonWc",
@@ -3162,6 +3781,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LrfjdgJXkoe90gxNR1YcrsJMnYg"
       ],
@@ -3185,6 +3808,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LrfjdgJXkoe90gxNR1YcrsJMnYg"
       ],
@@ -3208,6 +3835,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "TJmCdUvGRoOLFAx55qVcqbWGnRs"
       ],
@@ -3231,6 +3862,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3252,6 +3887,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3273,6 +3912,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3294,6 +3937,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LrfjdgJXkoe90gxNR1YcrsJMnYg"
       ],
@@ -3317,6 +3964,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3338,6 +3989,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3359,6 +4014,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3380,6 +4039,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md"
@@ -3403,6 +4067,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MKrAdumLvohQfDxgpMwcEB8dnqb",
         "ZnKKd2PsyoRc1MxtC1BcJQjgnBh"
@@ -3429,6 +4098,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ZnKKd2PsyoRc1MxtC1BcJQjgnBh"
       ],
@@ -3454,6 +4128,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ZnKKd2PsyoRc1MxtC1BcJQjgnBh"
       ],
@@ -3479,6 +4158,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-delete.md"
@@ -3502,6 +4186,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -3527,6 +4216,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-insert.md"
@@ -3550,6 +4244,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-upsert.md"
@@ -3573,6 +4272,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -3598,6 +4302,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SojTdgw1joOuA8xMzb5cMUFYnce"
       ],
@@ -3623,6 +4332,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-query_iterator.md"
@@ -3646,6 +4360,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CFS4dOq2LowXPSxB124cBwQsn0c",
         "GaCYdVohYoHFhrx897zcmcNfn6e",
@@ -3674,6 +4393,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md"
@@ -3697,6 +4421,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search_iterator.md"
@@ -3720,6 +4449,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "WIP",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3741,6 +4472,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "WIP",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3762,6 +4495,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "WIP",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3783,6 +4518,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "WIP",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3804,6 +4541,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "WIP",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3825,6 +4564,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md"
@@ -3848,6 +4592,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket.md"
@@ -3871,6 +4620,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit.md"
@@ -3894,6 +4648,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md"
@@ -3917,6 +4676,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-SemanticHighlighter.md"
@@ -3940,6 +4703,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-with_query.md"
@@ -3963,6 +4731,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-create_snapshot.md"
@@ -3986,6 +4759,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-drop_snapshot.md"
@@ -4009,6 +4787,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_snapshots.md"
@@ -4032,6 +4815,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-describe_snapshot.md"
@@ -4055,6 +4843,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-restore_snapshot.md"
@@ -4078,6 +4871,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-get_restore_snapshot_state.md"
@@ -4101,6 +4899,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_restore_snapshot_jobs.md"
@@ -4124,6 +4927,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data.md"
@@ -4147,6 +4955,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-unpin_snapshot_data.md"
@@ -4170,6 +4983,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/FileResource/FileResource-add_file_resource.md"
@@ -4193,6 +5011,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/FileResource/FileResource-list_file_resources.md"
@@ -4216,6 +5039,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/FileResource/FileResource-remove_file_resource.md"
@@ -4239,6 +5067,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CmFKd9eG2oE6xmx9dIGcVPycnth"
       ],
@@ -4264,6 +5097,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AXcMd0xiOovIX6xR4ZrcKA15nwh",
         "D6Q7dq4USotLS3xxMP0cFiGLnsf",
@@ -4291,6 +5129,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CmFKd9eG2oE6xmx9dIGcVPycnth",
         "EVKhdy0vwoSLSux2RW2c660unjh",
@@ -4318,6 +5161,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "MfR8dw5TioPvw3xvrstcgYixnUb",
@@ -4348,6 +5196,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Aym2dpBuIo81mExCqyLcSWhunBe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -4377,6 +5230,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -4407,6 +5265,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
@@ -4435,6 +5298,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
         "MfR8dw5TioPvw3xvrstcgYixnUb",
@@ -4465,6 +5333,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
         "QsOsda2lRoJP32xNSLWcbgMOnKI",
@@ -4494,6 +5367,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
@@ -4522,6 +5400,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
@@ -4550,6 +5433,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AXcMd0xiOovIX6xR4ZrcKA15nwh",
         "BHx6dnSmPoaqHAxKCvncbuk9nWb",
@@ -4577,6 +5465,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BHx6dnSmPoaqHAxKCvncbuk9nWb",
         "D6Q7dq4USotLS3xxMP0cFiGLnsf",
@@ -4604,6 +5497,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ECmAdaYKboPTNlxqkLxcUEZ4nrh",
         "EZwsd887JojFjLxbMByckhW0nxg",
@@ -4632,6 +5530,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -4662,6 +5565,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Aym2dpBuIo81mExCqyLcSWhunBe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -4691,6 +5599,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -4721,6 +5634,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "HrnndnWtKoPuenxvsXBchF1wnnh",
@@ -4751,6 +5669,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
@@ -4780,6 +5703,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Aym2dpBuIo81mExCqyLcSWhunBe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -4809,6 +5737,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -4839,6 +5772,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -4869,6 +5807,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "HQDndiGwloWKIexgPCUcEZGenOh",
@@ -4898,6 +5841,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -4928,6 +5876,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AQ1ydMXbOog5VJxITgUc4GFvnVe",
         "CbCodEGY9o6pKuxowNdctUppn7d",
@@ -4958,6 +5911,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BQKPdDd5xo8OPgxoXorcMxk0nVb",
         "EZwsd887JojFjLxbMByckhW0nxg",
@@ -4986,6 +5944,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CbCodEGY9o6pKuxowNdctUppn7d",
         "HrnndnWtKoPuenxvsXBchF1wnnh",
@@ -5016,6 +5979,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AXcMd0xiOovIX6xR4ZrcKA15nwh",
         "BHx6dnSmPoaqHAxKCvncbuk9nWb",
@@ -5043,6 +6011,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5064,6 +6037,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5085,6 +6063,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5106,6 +6089,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "SSiodq10FoH26hx2HlccfcAgnje"
       ],
@@ -5131,6 +6119,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1.md"
@@ -5154,6 +6147,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1.md"
@@ -5177,6 +6175,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-Connections/ORM-Connections.md"
@@ -5200,6 +6203,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A96udk9seoF5x5xywQZcLasanIe",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -5231,6 +6239,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -5261,6 +6274,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -5291,6 +6309,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -5321,6 +6344,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -5351,6 +6379,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "H2zBdRHVtovNQGxvb0xcwpSKnBd",
@@ -5381,6 +6414,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "C37ldNLbFog6ThxA23ScMldnnmb",
         "DyPldeRNXo4nMqxQeE0cMnd2nEf",
@@ -5411,6 +6449,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GXXTd7JIgoUKhzxiI6ncWtwjnVc",
         "PV1PdliWZooAB8xAE5scZO2Nn6K",
@@ -5438,6 +6481,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "G4Ftde3kxoHAJbxVNXncI7mpngb",
         "GXXTd7JIgoUKhzxiI6ncWtwjnVc",
@@ -5465,6 +6513,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "G4Ftde3kxoHAJbxVNXncI7mpngb",
         "GXXTd7JIgoUKhzxiI6ncWtwjnVc",
@@ -5492,6 +6545,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "G4Ftde3kxoHAJbxVNXncI7mpngb",
         "PV1PdliWZooAB8xAE5scZO2Nn6K",
@@ -5519,6 +6577,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "OSehdj15Ao3AUvxOIJucXzU8nWW"
       ],
@@ -5544,6 +6607,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -5575,6 +6643,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "TWxddf6iboyM15xK4Kzc8ASknRb",
         "X9scdVMmxoBTuUxlKhecJXEunHd",
@@ -5603,6 +6676,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -5632,6 +6710,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "D3sndK8DgoqDkUxaNGcctwcSnuE",
         "TWxddf6iboyM15xK4Kzc8ASknRb",
@@ -5659,6 +6742,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -5690,6 +6778,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "D3sndK8DgoqDkUxaNGcctwcSnuE",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -5719,6 +6812,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "QXDxdv36FoVgjcxDV1gcDwWXnsd",
@@ -5748,6 +6846,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "D3sndK8DgoqDkUxaNGcctwcSnuE",
         "TWxddf6iboyM15xK4Kzc8ASknRb",
@@ -5775,6 +6878,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MQMzddDnao5Zz0xmSRncZM2nn5b",
         "N97pdfkjlo9j61xrtL2cbB79nKe",
@@ -5804,6 +6912,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "N97pdfkjlo9j61xrtL2cbB79nKe",
         "QXDxdv36FoVgjcxDV1gcDwWXnsd",
@@ -5833,6 +6946,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-Role/ORM-Role.md"
@@ -5856,6 +6974,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -5889,6 +7012,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -5922,6 +7050,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -5955,6 +7088,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "F8WOdIoz4okn5OxMEymcXNuRnkb",
@@ -5988,6 +7126,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CCOhd671iog6rRxu8aOcaPncnLK",
         "F8WOdIoz4okn5OxMEymcXNuRnkb",
@@ -6022,6 +7165,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -6055,6 +7203,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -6089,6 +7242,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -6122,6 +7280,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -6155,6 +7318,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BapSdVXjQoQXnbxnRYScCagAn1f",
         "CCOhd671iog6rRxu8aOcaPncnLK",
@@ -6189,6 +7357,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DthMdlg8Lozw89xNz4TcBv1LnOe",
         "OSehdj15Ao3AUvxOIJucXzU8nWW",
@@ -6217,6 +7390,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MfTsdrbGcoO9JqxjgPtcMZTvncc",
         "V7BWdrC39oPAauxoWBzcaldwnVc",
@@ -6244,6 +7422,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -6273,6 +7456,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md"
@@ -6296,6 +7484,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "JeG6d5Sg2oPmXPxEhnyciq4snNd",
@@ -6328,6 +7521,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -6357,6 +7555,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Arn1dIKgwoISFoxT7xVc3UrBnAf",
         "T1CGdXeVkoG2yAxkualc1jVonRb",
@@ -6384,6 +7587,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DthMdlg8Lozw89xNz4TcBv1LnOe",
         "MfTsdrbGcoO9JqxjgPtcMZTvncc",
@@ -6412,6 +7620,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "KsmadNcXRoElO2xJi5HcJO57nwb",
@@ -6442,6 +7655,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
         "HScCdxLNJotPCcxb4AZcxsNJn9c",
@@ -6471,6 +7689,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -6501,6 +7724,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Arn1dIKgwoISFoxT7xVc3UrBnAf",
         "BpqpdBWdyoxbmzx0GGCcQxksnBc",
@@ -6530,6 +7758,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FHcYdN4apoI5TIx0LxScISvtn0f",
         "KsmadNcXRoElO2xJi5HcJO57nwb",
@@ -6560,6 +7793,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PoPkdkzSnofUihxzKLqcw7hYnrf"
       ],
@@ -6585,6 +7823,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "UOIddRBUXotHvyx4Yyocer0mnId"
       ],
@@ -6610,6 +7853,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -6640,6 +7888,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -6670,6 +7923,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
         "HbMMdqtQGoQqwixsyrjcTTh0nu5",
@@ -6698,6 +7956,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
@@ -6726,6 +7989,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -6756,6 +8024,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DthMdlg8Lozw89xNz4TcBv1LnOe",
         "MfTsdrbGcoO9JqxjgPtcMZTvncc",
@@ -6783,6 +8056,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Arn1dIKgwoISFoxT7xVc3UrBnAf",
         "BpqpdBWdyoxbmzx0GGCcQxksnBc",
@@ -6812,6 +8090,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -6842,6 +8125,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -6872,6 +8160,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "HScCdxLNJotPCcxb4AZcxsNJn9c",
@@ -6901,6 +8194,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
         "JeG6d5Sg2oPmXPxEhnyciq4snNd",
@@ -6933,6 +8231,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -6965,6 +8268,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -6997,6 +8305,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -7029,6 +8342,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-utility/utility-load_balance.md"
@@ -7052,6 +8370,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
         "HQDndiGwloWKIexgPCUcEZGenOh",
@@ -7081,6 +8404,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
@@ -7110,6 +8438,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
@@ -7138,6 +8471,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "HbMMdqtQGoQqwixsyrjcTTh0nu5",
@@ -7166,6 +8504,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EBAFdcmoKoNJISxM8i1cqXzRn9H",
         "GRarduHPSoFY3Yx9EWRcdcTfn1g",
@@ -7194,6 +8537,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CB9edh2ySoJyWhxBoLcchPj9nxg",
         "FHcYdN4apoI5TIx0LxScISvtn0f",
@@ -7224,6 +8572,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -7256,6 +8609,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -7285,6 +8643,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EofGdftYjoQ9E6x8mxLcpbG1nhc",
         "FXTZd5FgNo9ta0xvjaIclEM1nPf",
@@ -7314,6 +8677,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ClLXdDs64oixJBxlIrCcEB2dngb",
         "E7zOdU2JpoqaU5xNYXvcAjgPnNh",
@@ -7346,6 +8714,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AtkDdtMAWodFzExARxnco5xLnsg",
         "J76vdPHNgoyp2wxAiTcceIVJnOe",
@@ -7376,6 +8749,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/ORM/ORM-utility/utility-BulkInsertState.md"
@@ -7399,6 +8777,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BJysdlj1MoksHZxNRxicHn9fnSh",
         "CBwkdDs7MoKkVKx0kJgcPUNxn6s",
@@ -7428,6 +8811,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-BGERerankFunction/Rerankers-BGERerankFunction.md"
@@ -7451,6 +8839,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GxAZd9O9gozzhExhMHWcMnXPngh"
       ],
@@ -7476,6 +8869,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-CohereRerankFunction/Rerankers-CohereRerankFunction.md"
@@ -7499,6 +8897,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GAWOdft83oZPvHxtxzZcjrQunGg"
       ],
@@ -7524,6 +8927,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-CrossEncoderRerankFunction/Rerankers-CrossEncoderRerankFunction.md"
@@ -7547,6 +8955,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "HVGNdMYOvojQoXxvDmEcnHYanMh"
       ],
@@ -7572,6 +8985,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-VoyageRerankFunction/Rerankers-VoyageRerankFunction.md"
@@ -7595,6 +9013,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Smobd2lIho2yQPxtRhLcLcKznCf"
       ],
@@ -7620,6 +9043,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Rerankers/Rerankers-JinaRerankFunction/Rerankers-JinaRerankFunction.md"
@@ -7643,6 +9071,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "E3opdXwZCoY8igxMjQ1cwsTbnzh"
       ],
@@ -7668,6 +9101,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/Volume-VolumeManager.md"
@@ -7691,6 +9128,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume.md"
@@ -7714,6 +9155,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume.md"
@@ -7737,6 +9182,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes.md"
@@ -7760,6 +9209,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume.md"
@@ -7783,6 +9236,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/Volume-VolumeFileManager.md"
@@ -7806,6 +9263,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -7827,6 +9288,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/EmbeddingModels-SpladeEmbeddingFunction.md"
@@ -7850,6 +9316,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_documents.md"
@@ -7873,6 +9344,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_queries.md"
@@ -7896,6 +9372,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PwL1dndmVoxP98xp0pXcOci4nSe",
         "S9zPdiLkpokjfkxfZ68cWIFynnd",
@@ -7923,6 +9404,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/EmbeddingModels-VoyageEmbeddingFunction.md"
@@ -7946,6 +9432,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_documents.md"
@@ -7969,6 +9460,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_queries.md"
@@ -7992,6 +9488,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CHnGdE7XlosONPxsVDDc6Fv5n8c",
         "HEyLd2lxzo3bl4xqVBOco8vWn1c",
@@ -8019,6 +9520,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/EmbeddingModels-BGEM3EmbeddingFunction.md"
@@ -8042,6 +9548,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XYSVdCqCDoJ9Y5xqKEAceYkpnnh"
       ],
@@ -8067,6 +9578,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XYSVdCqCDoJ9Y5xqKEAceYkpnnh"
       ],
@@ -8092,6 +9608,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Q0rYdTPkEoRZgUx99LCcfMDUnvh",
         "UehMdosTGoZVzaxdTcUcpy1ynef",
@@ -8119,6 +9640,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -8140,6 +9666,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [
         "SOSedRXpcoGr0sx8RF1caGdjnyb"
       ],
@@ -8163,6 +9694,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [
         "SOSedRXpcoGr0sx8RF1caGdjnyb"
       ],
@@ -8186,6 +9722,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -8207,6 +9748,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -8228,6 +9774,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Deprecated",
       "outgoing_tokens": [
         "SOSedRXpcoGr0sx8RF1caGdjnyb"
       ],
@@ -8251,6 +9802,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/EmbeddingModels-OpenAIEmbeddingFunction.md"
@@ -8274,6 +9830,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_documents.md"
@@ -8297,6 +9858,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_queries.md"
@@ -8320,6 +9886,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "QPcodlsnAoSMvIxEFmlcMNPbntd",
         "Sf9UdzL3rolQNAxDm8Ecga3snhg",
@@ -8347,6 +9918,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/EmbeddingModels-SentenceTransformerEmbeddingFunction.md"
@@ -8370,6 +9946,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_documents.md"
@@ -8393,6 +9974,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_queries.md"
@@ -8416,6 +10002,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "JOFedA4h8otTjHxsYQ7cnjsunHd"
       ],
@@ -8441,6 +10032,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/EmbeddingModels-CohereEmbeddingFunction.md"
@@ -8464,6 +10060,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_documents.md"
@@ -8487,6 +10088,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_queries.md"
@@ -8510,6 +10116,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BqtYdPHHPoNhyKxhSnEcVOKenFb",
         "FIyedc51So0onWxtPAjcHFkmnHe",
@@ -8537,6 +10148,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/EmbeddingModels-JinaEmbeddingFunction.md"
@@ -8560,6 +10176,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_documents.md"
@@ -8583,6 +10204,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_queries.md"
@@ -8606,6 +10232,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FgbjdQHBEoITxgxk7NMc1NzpnAc",
         "U7NJd5eKAo0c1TxYZndcgPj2nlc",
@@ -8633,6 +10264,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/EmbeddingModels-MGTEEmbeddingFunction.md"
@@ -8656,6 +10292,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_documents.md"
@@ -8679,6 +10320,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_queries.md"
@@ -8702,6 +10348,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GyrmdRjGZoOFKdxsYyCcvNG7npg",
         "HEWIdid9BoFMyNxN8Bbc0P3nn6g",
@@ -8729,6 +10380,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/EmbeddingModels-MistralAIEmbeddingFunction.md"
@@ -8752,6 +10408,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_documents.md"
@@ -8775,6 +10436,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_queries.md"
@@ -8798,6 +10464,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CvxodXz8OoWXrlxD7OVcqqJLn8e",
         "SeFLdfKVjoGX8Xx11e3cmkY4n7g",
@@ -8825,6 +10496,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/EmbeddingModels-NomicEmbeddingFunction.md"
@@ -8848,6 +10524,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_documents.md"
@@ -8871,6 +10552,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_queries.md"
@@ -8894,6 +10580,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8ncdzr6roh9G6xQm8BcJFamnhf",
         "KBujdxXhko2zJjx4hFmcsHGhn4g",
@@ -8921,6 +10612,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/EmbeddingModels-OnnxEmbeddingFunction.md"
@@ -8944,6 +10640,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_documents.md"
@@ -8967,6 +10668,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_queries.md"
@@ -8990,6 +10696,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MVLRdU9nPonUeExs7ogctwZ1n4c",
         "XfxvdiIdOokuN1xiVBWct34Wnre",
@@ -9017,6 +10728,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/EmbeddingModels-InstructorEmbeddingFunction.md"
@@ -9040,6 +10756,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LrvhdFR5Vo1ZnExohgicdi58njc",
         "Mp7CdNfJnoBF2DxscRNc6RO0n7d",
@@ -9067,6 +10788,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_documents.md"
@@ -9090,6 +10816,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_queries.md"
@@ -9113,6 +10844,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "WiT4dJ1SJod0fdx4z23cwFbAn7c"
       ],
@@ -9138,6 +10874,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DhZRdYbfMoYIBtxrudGcwWjrngd",
         "Px9Ydg6KSoNFV2xBumpcGBNqn8d",
@@ -9166,6 +10907,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_documents.md"
@@ -9189,6 +10935,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_queries.md"
@@ -9212,6 +10963,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/EmbeddingModels-Model2VecEmbeddingFunction.md"
@@ -9235,6 +10991,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Px9Ydg6KSoNFV2xBumpcGBNqn8d",
         "WJY1dMUO5owB1gxkOlLcaB2Rn7g",
@@ -9262,6 +11023,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_documents.md"
@@ -9285,6 +11051,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_queries.md"
