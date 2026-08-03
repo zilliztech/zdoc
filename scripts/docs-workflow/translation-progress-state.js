@@ -48,7 +48,7 @@ const PUBLISHER_LABELS = Object.freeze({
 
 function parseSdkTranslationJob(job) {
   const match = String(job?.name || '').match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|rest|reference-landings), \2, (?:(?:[^\s,()]+, )?[^\s,()]+\.\.\.|[^\s,()]+, [^\s,()]+\)) \/ translate$/)
-  return match ? {target: match[1], group: match[2]} : null
+  return match && PUBLISHERS[`${match[1]}/${match[2]}`] ? {target: match[1], group: match[2]} : null
 }
 
 function parseGuidesBatchJob(job) {

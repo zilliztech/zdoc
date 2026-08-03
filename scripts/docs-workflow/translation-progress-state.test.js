@@ -32,6 +32,14 @@ test('parses bounded job names observed in child workflow runs', () => {
   assert.equal(parseGuidesBatchJob({name: 'translate_guides_batches (x, 1) / translate'}), null)
 })
 
+test('rejects unsupported full and truncated Japanese Reference landing jobs', () => {
+  const names = [
+    'translate_sdk (ja-JP, reference-landings, reference-landings, a9a7dc1a4e51a77fcfdc2e30a57198963ea003c1, 1) / translate',
+    'translate_sdk (ja-JP, reference-landings, reference-landings, a9a7dc1a4e51a77fcfdc2e30a57198963ea... / translate',
+  ]
+  assert.deepEqual(names.map(name => parseSdkTranslationJob({name})), [null, null])
+})
+
 test('parses live truncated SDK matrix names and counts completed SDK translations', () => {
   const exactReferenceLandingsName = 'translate_sdk (zh-CN-reference, reference-landings, reference-landings, a9a7dc1a4e51a77fcfdc2e30a... / translate'
   const jobs = [...fixture('sdk-truncated-real-run.json').jobs, {name: exactReferenceLandingsName, status: 'completed', conclusion: 'success'}]
