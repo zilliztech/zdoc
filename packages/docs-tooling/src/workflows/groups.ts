@@ -153,6 +153,7 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 30 : 0,
     checkpointPaths: distinct([
       ...group.ownedPaths,
+      ...preservedPaths,
       ...sourceSnapshots,
       ...(site === 'en' && groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
       ...(site === 'en' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
