@@ -70,13 +70,17 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>Canada (Central)</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>Europe</p></td>
+     <td rowspan="3"><p>Europe</p></td>
      <td><p>eu-central-1</p></td>
      <td><p>Frankfurt, Germany</p></td>
    </tr>
    <tr>
      <td><p>eu-west-1</p></td>
      <td><p>Ireland</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-west-2</p></td>
+     <td><p>London, United Kingdom</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>Asia</p></td>
@@ -190,7 +194,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>✅ All regions</p></td>
    </tr>
    <tr>
-     <td><p><a href="./on-demand-cluster">On-demand compute</a></p></td>
+     <td><p><a href="./undefined">On-demand compute</a></p></td>
      <td><p>✅ All regions</p></td>
      <td><p>❌</p></td>
      <td><p>ℹ️  Part of the regions:</p><ul><li>East US</li></ul></td>

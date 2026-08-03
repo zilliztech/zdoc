@@ -97,6 +97,11 @@ Safelist the IP addresses corresponding to the cloud service provider and region
      <td><p><code>54.76.194.38</code>, <code>99.81.179.135</code>, <code>3.248.62.149</code>, <code>52.16.225.156</code></p></td>
    </tr>
    <tr>
+     <td><p>eu-west-2</p></td>
+     <td><p>London, United Kingdom</p></td>
+     <td><p><code>35.179.44.17</code>, <code>3.134.92.161</code>, <code>16.61.161.137</code>, <code>13.135.182.79</code></p></td>
+   </tr>
+   <tr>
      <td><p>ca-central-1</p></td>
      <td><p>Canada (Central)</p></td>
      <td><p><code>15.157.245.36</code>, <code>52.60.120.239</code>, <code>15.157.14.152</code></p></td>

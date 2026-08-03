@@ -67,13 +67,17 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure の複数のクラウド
      <td><p>カナダ (中部)</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>ヨーロッパ</p></td>
+     <td rowspan="3"><p>ヨーロッパ</p></td>
      <td><p>eu-central-1</p></td>
      <td><p>フランクフルト、ドイツ</p></td>
    </tr>
    <tr>
      <td><p>eu-west-1</p></td>
      <td><p>アイルランド</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-west-2</p></td>
+     <td><p>ロンドン、英国</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>アジア</p></td>
