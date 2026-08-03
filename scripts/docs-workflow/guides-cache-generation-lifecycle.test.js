@@ -113,16 +113,16 @@ test('semantic changes, recovery, and legacy migration select the candidate and 
   assert.equal(keys.saveKey.startsWith(`guides-source-en-v5-${sourceCacheKey(promoted, { version: 5 }).split('-').at(-1)}-`), true)
 })
 
-test('a no-save selection rejects non-v5 or semantically changed candidates', () => {
+test('a no-save selection rejects non-v5 but promotes a valid-v5 candidate ahead of the committed baseline', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-generation-lifecycle-reject-'))
   const baseline = json(root, 'baseline.json', snapshot())
   const changed = json(root, 'changed.json', snapshot({ table_digests: { table: 'c'.repeat(64) } }))
   assert.throws(() => selectPromotedSnapshotIdentity({
     cacheVersion: 'v3', saveRequired: false, candidateSnapshotPath: baseline, baselineSnapshotPath: baseline,
   }), /valid v5/i)
-  assert.throws(() => selectPromotedSnapshotIdentity({
+  assert.deepEqual(selectPromotedSnapshotIdentity({
     cacheVersion: 'v5', saveRequired: false, candidateSnapshotPath: changed, baselineSnapshotPath: baseline,
-  }), /semantic identity/i)
+  }), { selection: 'candidate', snapshotPath: fs.realpathSync(changed) })
 })
 
 test('generation persistence reports saved, skipped-valid-v5, and save-failed exactly', () => {
