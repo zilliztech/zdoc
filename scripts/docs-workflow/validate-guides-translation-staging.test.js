@@ -10,6 +10,7 @@ const { execFileSync, spawnSync } = require('node:child_process')
 const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS } = require('./validate-guides-translation-staging')
 
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
+const TARGET_BASELINE_SOURCE = 'content/zh-CN/byoc/tutorials/client-libraries/install-sdks.md'
 const REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json'
 const CLI_REVISION = 'generated/en/manifests/lark-revisions/cli.json'
 const ENV = { ...process.env, GIT_AUTHOR_NAME: 'Test', GIT_AUTHOR_EMAIL: 'test@example.com', GIT_COMMITTER_NAME: 'Test', GIT_COMMITTER_EMAIL: 'test@example.com' }
@@ -72,8 +73,34 @@ function fixture() {
   const stagedSha = git(repository, 'rev-parse', 'HEAD')
   git(repository, 'switch', '--detach', masterSha)
   git(repository, 'checkout', stagedSha, '--', ...RESTORE_PATHS)
-  return { repository, masterSha, stagedSha }
+  return { repository, masterSha, expectedTargetSha: masterSha, stagedSha }
 }
+
+function targetBaselineFixture() {
+  const state = fixture()
+  git(state.repository, 'switch', '-c', 'target-baseline', state.masterSha)
+  fs.mkdirSync(path.dirname(path.join(state.repository, TARGET_BASELINE_SOURCE)), { recursive: true })
+  fs.writeFileSync(path.join(state.repository, TARGET_BASELINE_SOURCE), '# Target baseline source\n')
+  git(state.repository, 'add', TARGET_BASELINE_SOURCE)
+  git(state.repository, 'commit', '-m', 'target baseline source')
+  const expectedTargetSha = git(state.repository, 'rev-parse', 'HEAD')
+  git(state.repository, 'switch', '-c', 'target-staged')
+  fs.writeFileSync(path.join(state.repository, ROOT, 'a.md'), '# translated from target baseline\n')
+  git(state.repository, 'add', ROOT)
+  git(state.repository, 'commit', '-m', 'staged translation from target baseline')
+  const stagedSha = git(state.repository, 'rev-parse', 'HEAD')
+  git(state.repository, 'switch', '--detach', state.masterSha)
+  const restored = restoreExact(state.repository, stagedSha)
+  assert.equal(restored.status, 0, restored.stderr)
+  return { repository: state.repository, masterSha: state.masterSha, expectedTargetSha, stagedSha }
+}
+
+test('accepts restored source paths that exactly match the trusted expected target baseline', () => {
+  const state = targetBaselineFixture()
+  assert.equal(git(state.repository, 'diff', '--name-only', 'HEAD', '--', TARGET_BASELINE_SOURCE), TARGET_BASELINE_SOURCE)
+  const result = runGuidesTranslationValidation({ ...state, executor() { return { status: 0, signal: null, stderr: '' } } })
+  assert.equal(result.result, 'success')
+})
 
 test('accepts Guides translations with complete source state restored from the exact staged commit', () => {
   const state = fixture()
@@ -111,6 +138,7 @@ test('runs only the seven hard-coded commands in exact order and returns immutab
   assert.equal(result.receipts.length, 7)
   assert.deepEqual(result.receipts.map(item => item.result), Array(7).fill('success'))
   assert.equal(result.proof.repositoryHeadSha, state.masterSha)
+  assert.equal(result.proof.expectedTargetSha, state.expectedTargetSha)
   assert.equal(result.proof.stagedSha, state.stagedSha)
   assert.match(result.proof.generatedStateSha256, /^[0-9a-f]{64}$/)
   assert.equal(Object.isFrozen(result.receipts), true)
@@ -147,6 +175,9 @@ test('rejects wrong HEAD, arbitrary dirty paths, mismatched restored state, and 
   const wrongHead = fixture()
   git(wrongHead.repository, 'switch', 'staged')
   assert.throws(() => runGuidesTranslationValidation({ ...wrongHead, executor() { return { status: 0, signal: null, stderr: '' } } }), /HEAD|master/i)
+
+  const wrongBaseline = fixture()
+  assert.throws(() => runGuidesTranslationValidation({ ...wrongBaseline, expectedTargetSha: 'f'.repeat(40), executor() { return { status: 0, signal: null, stderr: '' } } }), /expected.*target|commit/i)
 
   const dirty = fixture()
   fs.writeFileSync(path.join(dirty.repository, 'tooling.js'), 'dirty outside\n')
@@ -270,6 +301,6 @@ test('rejects raw bytes hidden by autocrlf and ignores hostile global configs', 
 test('CLI rejects a staged commit missing a required root', () => {
   const state = fixture(); git(state.repository, 'switch', 'staged'); fs.rmSync(path.join(state.repository, 'content/en/byoc'), { recursive: true }); git(state.repository, 'add', '-A'); git(state.repository, 'commit', '-m', 'remove root'); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD'); git(state.repository, 'switch', '--detach', state.masterSha)
   const trusted = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validation-cli-'))); fs.chmodSync(trusted, 0o700)
-  const result = spawnSync(process.execPath, [path.join(__dirname, 'validate-guides-translation-staging.js'), '--repository', state.repository, '--master-sha', state.masterSha, '--staged-sha', state.stagedSha, '--output', path.join(trusted, 'result.json'), '--trusted-root', trusted], { encoding: 'utf8' })
+  const result = spawnSync(process.execPath, [path.join(__dirname, 'validate-guides-translation-staging.js'), '--repository', state.repository, '--master-sha', state.masterSha, '--expected-target-sha', state.expectedTargetSha, '--staged-sha', state.stagedSha, '--output', path.join(trusted, 'result.json'), '--trusted-root', trusted], { encoding: 'utf8' })
   assert.notEqual(result.status, 0); assert.match(result.stderr, /required.*(?:root|path)/i); assert.equal(fs.existsSync(path.join(trusted, 'result.json')), false)
 })

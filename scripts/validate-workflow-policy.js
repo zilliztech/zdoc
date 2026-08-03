@@ -458,7 +458,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!/translation-batch-set\.js plan/.test(identities) || !/PAIRS_MANIFEST/.test(identities) || !/ARTIFACT_PAIRS_MANIFEST/.test(identities) || !/--expected-target-sha/.test(identities) || !/--source-checkpoint-sha/.test(identities) || !/preflight-checkpoint-archive\.js/.test(identities) || !/bindPublisherBatchIdentity/.test(identities) || /translation-(?:checkpoint|baseline)-\$GROUP-\$\{GITHUB_RUN_ID\}/.test(identities) || /git fetch/.test(identities)) errors.push(`${file}: publisher must preflight and extract every resolved locale-qualified pair before staging`)
       if (!/translation-staging-publisher/.test(apply) || !/applyPhase/.test(apply) || !/prepareStagingWorktree/.test(publisherHelper) || !/applyTranslationBatch/.test(publisherHelper) || !/commitAppliedBatch/.test(publisherHelper)) errors.push(`${file}: publisher must use one detached worktree and apply and commit batches in order`)
       if (!/translation-staging-publisher/.test(push) || !/pushPhase/.test(push) || !/deterministicStagingRef/.test(publisherHelper) || !/pushStagingRef/.test(publisherHelper) || !/probeRemoteStaging/.test(publisherHelper)) errors.push(`${file}: publisher must push and reconcile the exact deterministic Guides staging ref`)
-      if (!/restore-generated-state\.sh --exact --ref "\$staged_sha"/.test(validation) || !/validate-guides-translation-staging\.js/.test(validation) || !/--trusted-root/.test(validation) || !/recordValidationInfrastructureFailure/.test(validation)) errors.push(`${file}: publisher must restore and validate the exact combined staged SHA through the fixed wrapper with retained failure evidence`)
+      if (!/restore-generated-state\.sh --exact --ref "\$staged_sha"/.test(validation) || !/validate-guides-translation-staging\.js/.test(validation) || !/--expected-target-sha "\$EXPECTED_TARGET_SHA"/.test(validation) || !/--trusted-root/.test(validation) || !/recordValidationInfrastructureFailure/.test(validation)) errors.push(`${file}: publisher must restore and validate the exact combined staged SHA through the fixed wrapper with retained failure evidence`)
       if (containsFullValidationCommand(validation)) errors.push(`${file}: combined staging validation must run only through the fixed validation wrapper`)
       if (!/status === 'no_changes'[\s\S]*promotePhase/.test(promotion) || !/promoteStaging/.test(publisherHelper) || !/probeRemoteTarget/.test(publisherHelper)) errors.push(`${file}: publisher must skip no-change promotion and otherwise use the normal fast-forward staging helper`)
       if (!/cleanupPhase/.test(cleanup) || !/deleteStagingWithLease/.test(publisherHelper)) errors.push(`${file}: staging cleanup must use the exact SHA lease helper`)
@@ -1167,6 +1167,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       /\n\s*'(?:docs|docs-byoc|reference|config\/generated)',/.test(guidesValidationSource)) {
     errors.push('validate-guides-translation-staging.js: combined validation must require canonical tracked roots only')
   }
+  if (!/exactCommit\(repository, expectedTargetSha, 'expectedTargetSha'/.test(guidesValidationSource) ||
+      !/verifyRestoredPaths\(repository, expectedTargetSha, outside/.test(guidesValidationSource)) {
+    errors.push('validate-guides-translation-staging.js: outside restored paths must exactly match the trusted expected target baseline')
+  }
 
   const publicationReportSource = fs.readFileSync(options.publicationReportPath || path.join(process.cwd(), 'scripts/docs-workflow/translation-publication-report.js'), 'utf8')
   if (!/validationSpec\('english-saas-mdx',[\s\S]*'content\/en\/guides'/.test(publicationReportSource) ||
@@ -1203,6 +1207,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     [/planTranslationBatchSet/, 'must replan complete validated pairs when the target moved'],
     [/applyPhase/, 'must recompose through the delta-safe staging worktree path'],
     [/validate-guides-translation-staging\.js/, 'must rerun the fixed seven-command validation gate'],
+    [/--expected-target-sha['"], values\.expectedTargetSha/, 'must bind validation to the candidate expected target baseline'],
     [/promoteStaging/, 'must use normal fast-forward staging promotion'],
     [/deleteStagingWithLease/, 'must use exact leased staging cleanup'],
     [/complete validated recovery pairs are unavailable/, 'must fail closed when target movement lacks complete recovery pairs'],

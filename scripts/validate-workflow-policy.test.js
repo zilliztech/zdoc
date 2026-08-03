@@ -1469,6 +1469,12 @@ test('Guides publisher resolves and preflights locale-qualified artifact pairs b
   assert.doesNotMatch(validation.run, /translation-(?:checkpoint|baseline)-\$GROUP-\$\{GITHUB_RUN_ID\}/)
 })
 
+test('Guides publisher passes the trusted expected target baseline to combined validation', () => {
+  const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/_publish-translation-batches.yml'), 'utf8'))
+  const validation = workflow.jobs.publish.steps.find(step => step.name === 'Validate combined Guides translation')
+  assert.match(validation.run, /--expected-target-sha "\$EXPECTED_TARGET_SHA"/)
+})
+
 test('workflow policy rejects repaired Guides helper boundary mutations', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
@@ -1486,6 +1492,11 @@ test('workflow policy rejects repaired Guides helper boundary mutations', () => 
       option: 'guidesValidationPath',
       source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8').replaceAll('content/en/guides', 'docs'),
       expected: 'validate-guides-translation-staging.js: combined validation must require canonical tracked roots only',
+    },
+    {
+      option: 'guidesValidationPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8').replace('verifyRestoredPaths(repository, expectedTargetSha, outside', 'verifyRestoredPaths(repository, stagedSha, outside'),
+      expected: 'validate-guides-translation-staging.js: outside restored paths must exactly match the trusted expected target baseline',
     },
     {
       option: 'publicationReportPath',

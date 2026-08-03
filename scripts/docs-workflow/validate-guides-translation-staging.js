@@ -50,6 +50,41 @@ function allowed(relative) { return RESTORE_PATHS.some(root => relative === root
 function bounded(value) { return String(value || 'unknown failure').replace(/[\0-\x1f\x7f]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 500) }
 function deepFreeze(value) { for (const child of Object.values(value)) if (child && typeof child === 'object' && !Object.isFrozen(child)) deepFreeze(child); return Object.freeze(value) }
 
+function exactCommit(repository, value, label, environment) {
+  sha(value, label)
+  let resolved
+  try { resolved = git(repository, ['rev-parse', '--verify', `${value}^{commit}`], environment).trim() } catch { throw new Error(`${label} is not an exact commit`) }
+  if (resolved !== value) throw new Error(`${label} is not an exact commit`)
+}
+
+function verifyRestoredPaths(repository, commitSha, paths, environment, label) {
+  if (paths.length === 0) return Buffer.alloc(0)
+  const inventory = git(repository, ['ls-tree', '-r', '-z', commitSha, '--', ...paths], environment, true)
+  const expectedIndex = nul(inventory).map(entry => {
+    const match = /^(100644|100755) blob ([0-9a-f]{40})\t(.+)$/.exec(entry)
+    if (!match) throw new Error(`${label} contains a symlink or special file`)
+    return { mode: match[1], oid: match[2], path: match[3] }
+  })
+  const actualIndex = nul(git(repository, ['ls-files', '-s', '-z', '--', ...paths], environment, true)).map(entry => entry.replace(/ 0\t/, '\t'))
+  if (JSON.stringify(actualIndex) !== JSON.stringify(expectedIndex.map(entry => `${entry.mode} ${entry.oid}\t${entry.path}`))) throw new Error(`restored ${label} index does not exactly match ${commitSha}`)
+  if (expectedIndex.length === 0) return inventory
+  const blobOutput = execFileSync('git', ['-C', repository, 'cat-file', '--batch'], { input: expectedIndex.map(entry => entry.oid).join('\n') + '\n', env: environment, maxBuffer: 256 * 1024 * 1024 })
+  let offset = 0
+  for (const expected of expectedIndex) {
+    const newline = blobOutput.indexOf(10, offset), header = blobOutput.subarray(offset, newline).toString('utf8'), size = Number(header.split(' ')[2]); offset = newline + 1
+    const blob = blobOutput.subarray(offset, offset + size); offset += size + 1
+    if (!Number.isSafeInteger(size)) throw new Error('invalid restored blob batch response')
+    const target = path.join(repository, ...expected.path.split('/')), stat = fs.lstatSync(target)
+    if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`restored ${label} path is not a regular file: ${expected.path}`)
+    const descriptor = fs.openSync(target, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0)); let bytes
+    try { const pinned = fs.fstatSync(descriptor); if (pinned.dev !== stat.dev || pinned.ino !== stat.ino) throw new Error('restored file identity changed'); bytes = fs.readFileSync(descriptor) } finally { fs.closeSync(descriptor) }
+    if (!bytes.equals(blob)) throw new Error(`restored raw bytes differ from ${label}: ${expected.path}`)
+    const executable = Boolean(stat.mode & 0o111)
+    if (executable !== (expected.mode === '100755')) throw new Error(`restored ${label} executable mode differs: ${expected.path}`)
+  }
+  return inventory
+}
+
 function repositoryRoot(repository, environment) {
   if (typeof repository !== 'string' || !path.isAbsolute(repository) || /[\0\r\n]/.test(repository)) throw new Error('repository must be an absolute path')
   const resolved = path.resolve(repository), stat = fs.lstatSync(resolved)
@@ -59,37 +94,21 @@ function repositoryRoot(repository, environment) {
   return resolved
 }
 
-function stagedStateProof(repository, masterSha, stagedSha, environment) {
-  sha(masterSha, 'masterSha'); sha(stagedSha, 'stagedSha')
+function stagedStateProof(repository, masterSha, expectedTargetSha, stagedSha, environment) {
+  sha(masterSha, 'masterSha')
   if (git(repository, ['rev-parse', 'HEAD'], environment).trim() !== masterSha) throw new Error('repository HEAD does not match masterSha')
-  if (git(repository, ['rev-parse', '--verify', `${stagedSha}^{commit}`], environment).trim() !== stagedSha) throw new Error('stagedSha is not an exact commit')
+  exactCommit(repository, expectedTargetSha, 'expectedTargetSha', environment)
+  exactCommit(repository, stagedSha, 'stagedSha', environment)
   for (const root of REQUIRED_ROOTS) if (!git(repository, ['ls-tree', '--name-only', stagedSha, '--', root], environment).trim()) throw new Error(`required staged generated path is missing: ${root}`)
   const generatedUntracked = nul(git(repository, ['ls-files', '--others', '-z', '--', ...RESTORE_PATHS], environment, true))
   if (generatedUntracked.length) throw new Error(`untracked generated file is not allowed in restored state: ${generatedUntracked[0]}`)
   const untracked = nul(git(repository, ['ls-files', '--others', '--exclude-standard', '-z'], environment, true))
   if (untracked.length) throw new Error(`untracked file is not allowed in restored state: ${untracked[0]}`)
   const changed = nul(git(repository, ['diff', '--name-only', '-z', 'HEAD', '--'], environment, true))
-  const outside = changed.find(relative => !allowed(relative))
-  if (outside) throw new Error(`restored state changes a path outside the allowed generated roots: ${outside}`)
-  const inventory = git(repository, ['ls-tree', '-r', '-z', stagedSha, '--', ...RESTORE_PATHS], environment, true)
-  const entries = nul(inventory), expectedIndex = entries.map(entry => { const match = /^(100644|100755) blob ([0-9a-f]{40})\t(.+)$/.exec(entry); if (!match) throw new Error('staged generated state contains a symlink or special file'); return { mode: match[1], oid: match[2], path: match[3] } })
-  const actualIndex = nul(git(repository, ['ls-files', '-s', '-z', '--', ...RESTORE_PATHS], environment, true)).map(entry => entry.replace(/ 0\t/, '\t'))
-  if (JSON.stringify(actualIndex) !== JSON.stringify(expectedIndex.map(entry => `${entry.mode} ${entry.oid}\t${entry.path}`))) throw new Error('restored generated index does not exactly match stagedSha')
-  const blobOutput = execFileSync('git', ['-C', repository, 'cat-file', '--batch'], { input: expectedIndex.map(entry => entry.oid).join('\n') + '\n', env: environment, maxBuffer: 256 * 1024 * 1024 })
-  let offset = 0
-  for (const expected of expectedIndex) {
-    const newline = blobOutput.indexOf(10, offset), header = blobOutput.subarray(offset, newline).toString('utf8'), size = Number(header.split(' ')[2]); offset = newline + 1
-    const blob = blobOutput.subarray(offset, offset + size); offset += size + 1
-    if (!Number.isSafeInteger(size)) throw new Error('invalid staged blob batch response')
-    const target = path.join(repository, ...expected.path.split('/')), stat = fs.lstatSync(target)
-    if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`restored generated path is not a regular file: ${expected.path}`)
-    const descriptor = fs.openSync(target, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0)); let bytes
-    try { const pinned = fs.fstatSync(descriptor); if (pinned.dev !== stat.dev || pinned.ino !== stat.ino) throw new Error('restored file identity changed'); bytes = fs.readFileSync(descriptor) } finally { fs.closeSync(descriptor) }
-    if (!bytes.equals(blob)) throw new Error(`restored raw bytes differ from stagedSha: ${expected.path}`)
-    const executable = Boolean(stat.mode & 0o111)
-    if (executable !== (expected.mode === '100755')) throw new Error(`restored generated executable mode differs from stagedSha: ${expected.path}`)
-  }
-  return deepFreeze({ repositoryHeadSha: masterSha, stagedSha, generatedStateSha256: crypto.createHash('sha256').update(inventory).digest('hex') })
+  const outside = changed.filter(relative => !allowed(relative))
+  verifyRestoredPaths(repository, expectedTargetSha, outside, environment, 'expected target baseline')
+  const inventory = verifyRestoredPaths(repository, stagedSha, RESTORE_PATHS, environment, 'staged generated state')
+  return deepFreeze({ repositoryHeadSha: masterSha, expectedTargetSha, stagedSha, generatedStateSha256: crypto.createHash('sha256').update(inventory).digest('hex') })
 }
 
 function defaultExecutor(command, args, options) {
@@ -100,12 +119,12 @@ function defaultExecutor(command, args, options) {
 
 function runGuidesTranslationValidation(options) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('validation options must be an object')
-  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'stagedSha', 'executor']
-  if (keys.some(key => !allowedKeys.includes(key)) || !['repository', 'masterSha', 'stagedSha'].every(key => Object.hasOwn(options, key))) throw new Error('validation options have invalid keys')
+  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'expectedTargetSha', 'stagedSha', 'executor']
+  if (keys.some(key => !allowedKeys.includes(key)) || !['repository', 'masterSha', 'expectedTargetSha', 'stagedSha'].every(key => Object.hasOwn(options, key))) throw new Error('validation options have invalid keys')
   if (options.executor !== undefined && typeof options.executor !== 'function') throw new Error('executor must be a function')
   const isolation = isolatedEnvironment(), environment = isolation.environment
   let repository, proof
-  try { repository = repositoryRoot(options.repository, environment); proof = stagedStateProof(repository, options.masterSha, options.stagedSha, environment) } catch (error) { fs.rmSync(isolation.root, { recursive: true, force: true }); throw error }
+  try { repository = repositoryRoot(options.repository, environment); proof = stagedStateProof(repository, options.masterSha, options.expectedTargetSha, options.stagedSha, environment) } catch (error) { fs.rmSync(isolation.root, { recursive: true, force: true }); throw error }
   const executor = options.executor || defaultExecutor, receipts = []
   let failureDetail = null
   try {
@@ -124,7 +143,7 @@ function runGuidesTranslationValidation(options) {
       break
     }
   }
-  return deepFreeze({ schemaVersion: 1, masterSha: options.masterSha, stagedSha: options.stagedSha, proof, receipts, result: failureDetail === null ? 'success' : 'failure', failureDetail })
+  return deepFreeze({ schemaVersion: 1, masterSha: options.masterSha, expectedTargetSha: options.expectedTargetSha, stagedSha: options.stagedSha, proof, receipts, result: failureDetail === null ? 'success' : 'failure', failureDetail })
   } finally { fs.rmSync(isolation.root, { recursive: true, force: true }) }
 }
 
@@ -132,10 +151,10 @@ function parseArgs(argv) {
   const values = {}
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index], value = argv[index + 1]
-    if (!['--repository', '--master-sha', '--staged-sha', '--output', '--trusted-root'].includes(flag) || !value || Object.hasOwn(values, flag)) throw new Error('CLI requires each strict flag exactly once')
+    if (!['--repository', '--master-sha', '--expected-target-sha', '--staged-sha', '--output', '--trusted-root'].includes(flag) || !value || Object.hasOwn(values, flag)) throw new Error('CLI requires each strict flag exactly once')
     values[flag] = value
   }
-  if (Object.keys(values).length !== 5) throw new Error('CLI requires repository, master SHA, staged SHA, output, and trusted root')
+  if (Object.keys(values).length !== 6) throw new Error('CLI requires repository, master SHA, expected target SHA, staged SHA, output, and trusted root')
   return values
 }
 function pinOutputParent(target) {
@@ -180,7 +199,7 @@ function writeValidationResult(file, result, options = {}) {
 }
 function main() {
   const args = parseArgs(process.argv.slice(2))
-  const result = runGuidesTranslationValidation({ repository: args['--repository'], masterSha: args['--master-sha'], stagedSha: args['--staged-sha'] })
+  const result = runGuidesTranslationValidation({ repository: args['--repository'], masterSha: args['--master-sha'], expectedTargetSha: args['--expected-target-sha'], stagedSha: args['--staged-sha'] })
   writeValidationResult(args['--output'], result, { trustedRoot: args['--trusted-root'] })
   if (result.result !== 'success') process.exitCode = 1
 }

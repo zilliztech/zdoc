@@ -276,6 +276,7 @@ jobs:
             node scripts/docs-workflow/validate-guides-translation-staging.js \
               --repository "$GITHUB_WORKSPACE" \
               --master-sha "$MASTER_SHA" \
+              --expected-target-sha "$EXPECTED_TARGET_SHA" \
               --staged-sha "$staged_sha" \
               --output "$VALIDATION_FILE" \
               --trusted-root "$TRUSTED_ROOT"

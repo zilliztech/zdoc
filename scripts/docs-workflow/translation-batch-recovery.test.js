@@ -335,7 +335,12 @@ test('repository, trusted root, and pairs manifest reject symlinks or non-privat
 })
 
 test('exact retained candidate is validated before normal promotion and leased cleanup', async () => {
-  const options = fixture(), deps = dependencies(options)
+  const options = fixture(), deps = dependencies(options, {
+    validate(_repository, values) {
+      assert.equal(values.expectedTargetSha, options.expectedTargetSha)
+      deps.calls.push('validate')
+    },
+  })
   const result = await recoverGuidesTranslation(options, deps.values)
   assert.equal(result.status, 'published')
   assert.deepEqual(deps.calls.slice(-7), ['authority', 'prepare-validation', 'restore', 'validate', 'remove-validation', 'promote', 'cleanup'])
@@ -373,6 +378,7 @@ test('target movement can recompose complete pairs onto a distinct recovery ref 
   const deps = dependencies(options, {
     remoteRefSha(_repository, ref) { return ref === REF ? options.stagedSha : SHA('9') },
     async recreateCandidate() { deps.calls.push('recreate'); return { noChanges: false, stagingRef: recoveryRef, stagedSha: SHA('f') } },
+    validate(_repository, values) { assert.equal(values.expectedTargetSha, SHA('9')); deps.calls.push('validate') },
     promoteStaging(values) { promoted = values; deps.calls.push('promote'); return { publishedSha: values.stagedSha } },
   })
   const result = await recoverGuidesTranslation(options, deps.values)
