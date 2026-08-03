@@ -8,8 +8,14 @@ import {describe, expect, it} from 'vitest';
 import {
   TranslationRetirementRequiredError,
   buildTranslationCandidates,
-  validateTranslatedSidebarFragment,
+  type CandidateBuildOptions,
+  type RetirementCandidate,
 } from './candidates.ts';
+
+const PYTHON_ROOT = 'content/en/reference/api/python/python';
+const JAVA_ROOT = 'content/en/reference/api/java/java';
+const GUIDES_ROOT = 'content/en/guides/tutorials';
+const BYOC_ROOT = 'content/en/byoc/tutorials';
 
 function sha256(contents: string): string {
   return createHash('sha256').update(contents).digest('hex');
@@ -29,19 +35,53 @@ function writeJson(repositoryRoot: string, relativePath: string, value: unknown)
   write(repositoryRoot, relativePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function options(repositoryRoot: string, overrides: Partial<CandidateBuildOptions> = {}): CandidateBuildOptions {
+  return {
+    repositoryRoot,
+    targetId: 'ja-JP',
+    group: 'guides',
+    ownedSourcePaths: [GUIDES_ROOT, BYOC_ROOT],
+    preservedSourcePaths: ['content/en/guides/tutorials/home.md'],
+    changedSourcePaths: [],
+    mode: 'incremental',
+    ...overrides,
+  };
+}
+
+function referenceRecord(options: Readonly<{
+  manual?: string;
+  sourcePath: string;
+  targetPath?: string;
+  sourceHash?: string;
+  status?: 'translated' | 'unchanged' | 'retired';
+}>): Record<string, string> {
+  return {
+    manual: options.manual ?? 'python',
+    sourcePath: options.sourcePath,
+    targetPath: options.targetPath ?? options.sourcePath.replace('content/en/', 'content/zh-CN/'),
+    sourceCommit: 'd'.repeat(40),
+    sourceHash: options.sourceHash ?? 'a'.repeat(64),
+    targetHash: 'e'.repeat(64),
+    status: options.status ?? 'translated',
+  };
+}
+
 describe('translation candidates', () => {
-  it('uses the Japanese cache and preserves candidate reason priority', () => {
+  it('uses the Japanese cache and preserves incremental candidate reason priority', () => {
     const repositoryRoot = fixture();
-    const current = 'content/en/guides/tutorials/z-current.md';
-    const missing = 'content/en/guides/tutorials/a-missing.md';
-    const stale = 'content/en/guides/tutorials/b-stale.md';
-    const complete = 'content/en/guides/tutorials/complete.md';
+    const current = `${GUIDES_ROOT}/z-current.md`;
+    const missing = `${GUIDES_ROOT}/a-missing.md`;
+    const stale = `${GUIDES_ROOT}/b-stale.md`;
+    const complete = `${GUIDES_ROOT}/complete.md`;
     for (const [sourcePath, contents] of [
       [current, '# current\n'], [missing, '# missing\n'], [stale, '# stale\n'], [complete, '# complete\n'],
     ]) write(repositoryRoot, sourcePath, contents);
+    mkdirSync(path.join(repositoryRoot, 'outside-reference'), {recursive: true});
+    write(repositoryRoot, 'outside-reference/page.md', '# unowned\n');
+    symlinkSync(path.join(repositoryRoot, 'outside-reference'), path.join(repositoryRoot, 'content/en/reference'));
     for (const sourcePath of [current, stale, complete]) {
       write(repositoryRoot, sourcePath.replace(
-        'content/en/guides/tutorials',
+        GUIDES_ROOT,
         'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
       ), '# translated\n');
     }
@@ -51,7 +91,7 @@ describe('translation candidates', () => {
       [complete]: {sourceHash: sha256('# complete\n')},
     }});
 
-    const result = buildTranslationCandidates({repositoryRoot, targetId: 'ja-JP', changedSourcePaths: [current]});
+    const result = buildTranslationCandidates(options(repositoryRoot, {changedSourcePaths: [current]}));
 
     expect(result.candidates.map(candidate => [candidate.sourcePath, candidate.reason])).toEqual([
       [current, 'current_delta'],
@@ -60,9 +100,185 @@ describe('translation candidates', () => {
     ]);
   });
 
+  it('emits every active group source in full mode and only actionable sources in incremental mode', () => {
+    const repositoryRoot = fixture();
+    const complete = `${GUIDES_ROOT}/complete.md`;
+    const missing = `${GUIDES_ROOT}/missing.md`;
+    write(repositoryRoot, complete, '# complete\n');
+    write(repositoryRoot, missing, '# missing\n');
+    write(repositoryRoot, complete.replace(GUIDES_ROOT, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'), '# 完了\n');
+    writeJson(repositoryRoot, '.translation-cache/ja-JP.json', {files: {
+      [complete]: {sourceHash: sha256('# complete\n')},
+    }});
+
+    expect(buildTranslationCandidates(options(repositoryRoot)).candidates.map(item => item.sourcePath)).toEqual([missing]);
+    expect(buildTranslationCandidates(options(repositoryRoot, {mode: 'full'})).candidates.map(item => item.sourcePath).sort()).toEqual([complete, missing]);
+  });
+
+  it('keeps active preserved landings eligible when they are forced', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${PYTHON_ROOT}/python.md`;
+    const targetPath = 'content/zh-CN/reference/api/python/python/python.md';
+    write(repositoryRoot, sourcePath, '# Python\n');
+    write(repositoryRoot, targetPath, '# Python 中文\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [{
+      ...referenceRecord({sourcePath, targetPath, sourceHash: sha256('# Python\n')}),
+    }]});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: [PYTHON_ROOT],
+      preservedSourcePaths: [sourcePath],
+      forceTranslationPaths: [sourcePath],
+    }));
+    expect(result.candidates).toMatchObject([{sourcePath, targetPath, reason: 'stale_source'}]);
+    expect(result.retirementCandidates).toEqual([]);
+  });
+
+  it('restores an active preserved landing whose prior state is retired', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${PYTHON_ROOT}/python.md`;
+    const targetPath = 'content/zh-CN/reference/api/python/python/python.md';
+    const source = '# Python restored\n';
+    write(repositoryRoot, sourcePath, source);
+    write(repositoryRoot, targetPath, '# Python 中文\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
+      referenceRecord({sourcePath, targetPath, sourceHash: sha256(source), status: 'retired'}),
+    ]});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: [PYTHON_ROOT],
+      preservedSourcePaths: [sourcePath],
+    }));
+
+    expect(result.candidates).toMatchObject([{sourcePath, targetPath, reason: 'stale_source'}]);
+    expect(result.retirementCandidates).toEqual([]);
+  });
+
+  it('scopes active and historical records to one group and returns authorized orphan effects', () => {
+    const repositoryRoot = fixture();
+    const pythonActive = `${PYTHON_ROOT}/active.md`;
+    const javaActive = `${JAVA_ROOT}/cafe\u0301.md`;
+    const orphanSource = `${PYTHON_ROOT}/removed.md`;
+    const orphanTarget = 'content/zh-CN/reference/api/python/python/removed.md';
+    const javaOrphanSource = `${JAVA_ROOT}/remove\u0301d.md`;
+    const javaOrphanTarget = 'content/zh-CN/reference/api/java/java/removed.md';
+    const preservedSource = `${PYTHON_ROOT}/python.md`;
+    const preservedTarget = 'content/zh-CN/reference/api/python/python/python.md';
+    write(repositoryRoot, pythonActive, '# Python active\n');
+    write(repositoryRoot, javaActive, '# Java active\n');
+    write(repositoryRoot, orphanTarget, '# Python old\n');
+    write(repositoryRoot, javaOrphanTarget, '# Java old\n');
+    write(repositoryRoot, preservedTarget, '# Python landing\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
+      referenceRecord({sourcePath: preservedSource, targetPath: preservedTarget, sourceHash: 'c'.repeat(64)}),
+      referenceRecord({sourcePath: orphanSource, targetPath: orphanTarget}),
+      referenceRecord({manual: 'java', sourcePath: javaOrphanSource, targetPath: javaOrphanTarget, sourceHash: 'b'.repeat(64)}),
+    ]});
+    const retirementRegistry = {schemaVersion: 2 as const, retirements: [{
+      manual: 'python', sourcePath: orphanSource, targetPath: orphanTarget, changeKind: 'source_deleted' as const, rationale: 'Reviewed removal',
+    }]};
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: [PYTHON_ROOT],
+      preservedSourcePaths: [preservedSource],
+      retirementRegistry,
+    }));
+
+    expect(result.candidates.map(item => item.sourcePath)).toEqual([pythonActive]);
+    expect(result.retirementCandidates).toEqual([{
+      manual: 'python', sourcePath: orphanSource, targetPath: orphanTarget, changeKind: 'source_deleted',
+    }]);
+  });
+
+  it('throws with the exact unreviewed retirement tuple', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${PYTHON_ROOT}/removed.md`;
+    const targetPath = 'content/zh-CN/reference/api/python/python/removed.md';
+    write(repositoryRoot, targetPath, '# 保留\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
+      referenceRecord({sourcePath, targetPath}),
+    ]});
+
+    expect(() => buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: [PYTHON_ROOT],
+      preservedSourcePaths: [],
+    }))).toThrowError(TranslationRetirementRequiredError);
+    try {
+      buildTranslationCandidates(options(repositoryRoot, {
+        targetId: 'zh-CN-reference', group: 'python', ownedSourcePaths: [PYTHON_ROOT], preservedSourcePaths: [],
+      }));
+    } catch (error) {
+      const retirementCandidates = (error as TranslationRetirementRequiredError).retirementCandidates;
+      expect(retirementCandidates).toEqual([{
+        manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted',
+      }]);
+      expect(Object.isFrozen(retirementCandidates)).toBe(true);
+      expect(Object.isFrozen(retirementCandidates[0])).toBe(true);
+      expect(() => (retirementCandidates as RetirementCandidate[]).push(retirementCandidates[0])).toThrow();
+      expect(() => ((retirementCandidates[0] as {manual: string}).manual = 'java')).toThrow();
+    }
+  });
+
+  it.each([
+    ['wrong manual', referenceRecord({manual: 'java', sourcePath: `${PYTHON_ROOT}/removed.md`}), /manual|group|ownership/i],
+    ['cross-target path', referenceRecord({sourcePath: `${PYTHON_ROOT}/removed.md`, targetPath: 'i18n/ja-JP/removed.md'}), /target|canonical|mapping/i],
+    ['noncanonical target path', referenceRecord({sourcePath: `${PYTHON_ROOT}/removed.md`, targetPath: 'content/zh-CN/reference/api/python/python/other.md'}), /target|canonical|mapping/i],
+  ])('rejects an owned historical record with a %s', (_label, record, expected) => {
+    const repositoryRoot = fixture();
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [record]});
+    try {
+      buildTranslationCandidates(options(repositoryRoot, {
+        targetId: 'zh-CN-reference', group: 'python', ownedSourcePaths: [PYTHON_ROOT], preservedSourcePaths: [],
+      }));
+      throw new Error('Expected invalid historical state to fail');
+    } catch (error) {
+      expect(error).not.toBeInstanceOf(TranslationRetirementRequiredError);
+      expect((error as Error).message).toMatch(expected);
+    }
+  });
+
+  it('requires a strict schema-v2 exact retirement authorization', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${PYTHON_ROOT}/removed.md`;
+    const targetPath = 'content/zh-CN/reference/api/python/python/removed.md';
+    write(repositoryRoot, targetPath, '# 保留\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
+      referenceRecord({sourcePath, targetPath}),
+    ]});
+    const build = (retirementRegistry?: CandidateBuildOptions['retirementRegistry']) => buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference', group: 'python', ownedSourcePaths: [PYTHON_ROOT], preservedSourcePaths: [], retirementRegistry,
+    }));
+
+    expect(() => build({schemaVersion: 2, retirements: [{
+      manual: 'python', sourcePath, targetPath, changeKind: null, rationale: 'source_deleted',
+    }]})).toThrow(TranslationRetirementRequiredError);
+
+    for (const malformed of [
+      {schemaVersion: 1, retirements: [{manual: 'python', sourcePath, targetPath, reason: 'source_deleted'}]},
+      {schemaVersion: 2, retirements: [{manual: 'python', sourcePath, targetPath, reason: 'source_deleted', rationale: 'legacy'}]},
+      {schemaVersion: 2, retirements: [{manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'reviewed', extra: true}]},
+      {schemaVersion: 2, retirements: [{manual: 'java', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'wrong owner'}]},
+      {schemaVersion: 2, retirements: [
+        {manual: 'python', sourcePath: `${PYTHON_ROOT}/z.md`, targetPath: 'content/zh-CN/reference/api/python/python/z.md', changeKind: 'source_deleted', rationale: 'z'},
+        {manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'a'},
+      ]},
+    ]) {
+      writeJson(repositoryRoot, 'config/reference-retirements.json', malformed);
+      expect(() => build()).toThrow(/schema|literal|unrecognized|manual|ownership|sorted|order/i);
+    }
+  });
+
   it('adapts legacy Japanese cache keys to canonical content sources', () => {
     const repositoryRoot = fixture();
-    const sourcePath = 'content/en/guides/tutorials/stable.md';
+    const sourcePath = `${GUIDES_ROOT}/stable.md`;
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/stable.md';
     write(repositoryRoot, sourcePath, '# stable\n');
     write(repositoryRoot, targetPath, '# 安定\n');
@@ -70,197 +286,19 @@ describe('translation candidates', () => {
       'docs/tutorials/stable.md': {sourceHash: sha256('# stable\n'), targetPath},
     }});
 
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'ja-JP'}).candidates).toEqual([]);
-  });
-
-  it('uses the committed Chinese manifest instead of a second locale cache', () => {
-    const repositoryRoot = fixture();
-    const current = 'content/en/reference/current.md';
-    const stable = 'content/en/reference/stable.md';
-    write(repositoryRoot, current, '# changed\n');
-    write(repositoryRoot, stable, '# stable\n');
-    write(repositoryRoot, 'content/zh-CN/reference/current.md', '# 当前\n');
-    write(repositoryRoot, 'content/zh-CN/reference/stable.md', '# 稳定\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
-      {sourcePath: current, targetPath: 'content/zh-CN/reference/current.md', sourceHash: 'old'},
-      {sourcePath: stable, targetPath: 'content/zh-CN/reference/stable.md', sourceHash: sha256('# stable\n')},
-    ]});
-    writeJson(repositoryRoot, '.translation-cache/zh-CN.json', {files: {[current]: {sourceHash: sha256('# changed\n')}}});
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-reference'}).candidates).toMatchObject([
-      {sourcePath: current, targetPath: 'content/zh-CN/reference/current.md', reason: 'stale_source'},
-    ]);
-  });
-
-  it('excludes explicitly retired Reference targets from translation candidates', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'content/en/reference/api/python/retired.md';
-    const targetPath = 'content/zh-CN/reference/api/python/retired.md';
-    const sourceContents = '# Retired source\n';
-    write(repositoryRoot, sourcePath, sourceContents);
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [{
-      manual: 'python',
-      sourcePath,
-      targetPath,
-      sourceCommit: 'a'.repeat(40),
-      sourceHash: sha256(sourceContents),
-      targetHash: sha256(''),
-      status: 'retired',
-    }]});
-    writeJson(repositoryRoot, 'config/reference-retirements.json', {schemaVersion: 1, retirements: [{
-      manual: 'python',
-      sourcePath,
-      targetPath,
-      reason: 'Imported baseline retirement from the clean-room Reference migration',
-    }]});
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-reference'})).toEqual({
-      candidates: [],
-      retirementCandidates: [],
-    });
-  });
-
-  it('blocks a Chinese deletion until the exact retirement pair and reason are registered', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'content/en/reference/removed.md';
-    const targetPath = 'content/zh-CN/reference/removed.md';
-    write(repositoryRoot, targetPath, '# 保留\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
-      {sourcePath, targetPath, sourceHash: 'a'.repeat(64)},
-    ]});
-
-    try {
-      buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-reference'});
-      throw new Error('Expected a retirement decision');
-    } catch (error) {
-      expect(error).toBeInstanceOf(TranslationRetirementRequiredError);
-      expect((error as TranslationRetirementRequiredError).retirementCandidates).toEqual([{
-        sourcePath,
-        targetPath,
-        reason: 'source_deleted',
-      }]);
-    }
-
-    writeJson(repositoryRoot, 'config/reference-retirements.json', {schemaVersion: 1, retirements: [{
-      sourcePath,
-      targetPath,
-      reason: 'source_deleted',
-    }]});
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-reference'})).toEqual({candidates: [], retirementCandidates: []});
-  });
-
-  it('maps Tools pages and validates translated sidebar structure without changing stable identities', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'content/en/guides/tutorials/tools/tool.md';
-    write(repositoryRoot, sourcePath, '# tool\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: []});
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'}).candidates).toContainEqual(expect.objectContaining({
-      sourcePath,
-      targetPath: 'content/zh-CN/guides/tutorials/tools/tool.md',
-      reason: 'missing_target',
-    }));
-
-    const source = [{type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: [
-      {type: 'doc', id: 'tutorials/tools/tool', label: 'Tool', key: 'doc:tutorials/tools/tool'},
-      {type: 'link', href: 'https://example.com', label: 'External', key: 'link:tutorials/tools/external'},
-    ]}];
-    const translated = [{type: 'category', label: '工具', key: 'category:tutorials/tools', items: [
-      {type: 'doc', id: 'tutorials/tools/tool', label: '工具页面', key: 'doc:tutorials/tools/tool'},
-      {type: 'link', href: 'https://example.com', label: '外部链接', key: 'link:tutorials/tools/external'},
-    ]}];
-    expect(() => validateTranslatedSidebarFragment(source, translated)).not.toThrow();
-    expect(() => validateTranslatedSidebarFragment(source, [{...translated[0], key: 'category:changed'}])).toThrow(/key|structure/i);
-  });
-
-  it('treats the English Tools sidebar fragment as an independently translated candidate', () => {
-    const repositoryRoot = fixture();
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: []});
-    write(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js', `module.exports = [{
-      type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: [
-        {type: 'doc', id: 'tutorials/tools/tool', label: 'Tool', key: 'doc:tutorials/tools/tool'},
-      ],
-    }]\n`);
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'}).candidates).toContainEqual(expect.objectContaining({
-      sourcePath: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
-      targetPath: 'generated/zh-CN/sidebars/tools.sidebar.js',
-      reason: 'missing_target',
-    }));
-  });
-
-  it('requeues the Tools sidebar when a visible English label changes', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools';
-    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js';
-    write(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js', `module.exports = [{
-      type: 'category', label: 'Updated Tools', key: 'category:tutorials/tools', items: [],
-    }]\n`);
-    write(repositoryRoot, targetPath, 'module.exports = []\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: [{
-      sourcePath,
-      targetPath,
-      sourceHash: sha256(JSON.stringify({type: 'category', label: 'Tools', key: 'category:tutorials/tools', items: []})),
-      kind: 'sidebar',
-    }]});
-
-    expect(buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'}).candidates).toContainEqual(expect.objectContaining({
-      sourcePath,
-      targetPath,
-      reason: 'stale_source',
-    }));
-  });
-
-  it('blocks removal of the English Tools sidebar fragment until explicitly retired', () => {
-    const repositoryRoot = fixture();
-    const sourcePath = 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools';
-    const targetPath = 'generated/zh-CN/sidebars/tools.sidebar.js';
-    write(repositoryRoot, 'generated/en/sidebars/guides.sidebar.js', 'module.exports = []\n');
-    write(repositoryRoot, targetPath, 'module.exports = []\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: [{
-      sourcePath,
-      targetPath,
-      sourceHash: 'a'.repeat(64),
-      kind: 'sidebar',
-    }]});
-
-    expect(() => buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'})).toThrowError(expect.objectContaining({
-      retirementCandidates: [{sourcePath, targetPath, reason: 'sidebar_removed'}],
-    }));
+    expect(buildTranslationCandidates(options(repositoryRoot)).candidates).toEqual([]);
   });
 
   it('rejects non-NFC names and symlink ancestors while scanning source files', () => {
     const nfcRoot = fixture();
-    write(nfcRoot, 'content/en/guides/tutorials/cafe\u0301.md', '# decomposed\n');
-    expect(() => buildTranslationCandidates({repositoryRoot: nfcRoot, targetId: 'ja-JP'})).toThrow(/NFC/i);
+    write(nfcRoot, `${GUIDES_ROOT}/cafe\u0301.md`, '# decomposed\n');
+    expect(() => buildTranslationCandidates(options(nfcRoot))).toThrow(/NFC/i);
 
     const symlinkRoot = fixture();
     mkdirSync(path.join(symlinkRoot, 'outside'), {recursive: true});
     write(symlinkRoot, 'outside/page.md', '# outside\n');
     mkdirSync(path.join(symlinkRoot, 'content/en/guides'), {recursive: true});
-    symlinkSync(path.join(symlinkRoot, 'outside'), path.join(symlinkRoot, 'content/en/guides/tutorials'));
-    expect(() => buildTranslationCandidates({repositoryRoot: symlinkRoot, targetId: 'ja-JP'})).toThrow(/symlink/i);
-  });
-
-  it('rejects unsafe paths declared by committed translation state', () => {
-    const repositoryRoot = fixture();
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: [{
-      sourcePath: 'content/en/guides/tutorials/tools/../outside.md',
-      targetPath: 'content/zh-CN/guides/tutorials/tools/outside.md',
-      sourceHash: 'a'.repeat(64),
-    }]});
-
-    expect(() => buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'})).toThrow(/normalized|unsafe|repository-relative/i);
-  });
-
-  it('rejects a missing target below a symlink ancestor', () => {
-    const repositoryRoot = fixture();
-    write(repositoryRoot, 'content/en/guides/tutorials/tools/tool.md', '# tool\n');
-    writeJson(repositoryRoot, 'generated/zh-CN/manifests/tools-translations.json', {schemaVersion: 1, records: []});
-    mkdirSync(path.join(repositoryRoot, 'outside'), {recursive: true});
-    mkdirSync(path.join(repositoryRoot, 'content/zh-CN/guides/tutorials'), {recursive: true});
-    symlinkSync(path.join(repositoryRoot, 'outside'), path.join(repositoryRoot, 'content/zh-CN/guides/tutorials/tools'));
-
-    expect(() => buildTranslationCandidates({repositoryRoot, targetId: 'zh-CN-tools'})).toThrow(/symlink/i);
+    symlinkSync(path.join(symlinkRoot, 'outside'), path.join(symlinkRoot, GUIDES_ROOT));
+    expect(() => buildTranslationCandidates(options(symlinkRoot))).toThrow(/symlink/i);
   });
 });

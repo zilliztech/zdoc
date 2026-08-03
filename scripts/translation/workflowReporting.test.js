@@ -10,7 +10,7 @@ test('reusable translation workflow produces and uploads a group-scoped report',
   assert.match(workflow, /reportSummary\.js/)
   assert.match(workflow, /name: Upload translation report/)
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/)
-  assert.match(workflow, /translation-report-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(workflow, /translation-report-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(workflow, /TRANSLATION_ALLOW_PARTIAL: "true"/)
   assert.match(workflow, /timeout-minutes: 360/)
   assert.match(workflow, /id: agents/)
@@ -30,7 +30,7 @@ test('batch publisher validates and publishes a reconstructable durable checkpoi
   assert.match(publishJob, /runs-on: ubuntu-latest/)
   assert.match(publishJob, /permissions:[\s\S]*contents: write/)
   assert.doesNotMatch(publishJob, /uses: \.\/\.github\/workflows\/_publish-content-group\.yml/)
-  assert.match(publishJob, /actions\/download-artifact@v4[\s\S]*translation-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}-batch-\$\{\{ inputs\.batch_number \}\}/)
+  assert.match(publishJob, /actions\/download-artifact@v4[\s\S]*translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}-batch-\$\{\{ inputs\.batch_number \}\}/)
   assert.match(publishJob, /validate-checkpoint-artifact\.js[\s\S]*checkpoint translation batch identity mismatch/)
   assert.match(publishJob, /publish-checkpoint\.sh[\s\S]*--max-attempts 10[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
   assert.match(publishJob, /status=\$\(sed[\s\S]*published \|\| "\$status" == no_changes/)
@@ -44,7 +44,9 @@ test('batch preparation reports translation candidate reason counts', () => {
   assert.match(prepare, /^          console\.log\(`translation candidates: total=\$\{summary\.candidateCounts\.total\} current_delta=\$\{summary\.candidateCounts\.current_delta\} missing_target=\$\{summary\.candidateCounts\.missing_target\} stale_source=\$\{summary\.candidateCounts\.stale_source\}`\)$/m)
 })
 
-test('aggregate receives Guides translation candidate counts', () => {
+test('source aggregate records the authenticated downstream translation handoff', () => {
   const workflow = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
-  assert.match(workflow, /^          GUIDES_TRANSLATION_CANDIDATES: \$\{\{ needs\.prepare_guides_translation_batches\.outputs\.candidate_counts \}\}$/m)
+  assert.match(workflow, /^          TRANSLATION_HANDOFF_REQUESTED: \$\{\{ needs\.prepare\.outputs\.run_translations \}\}$/m)
+  assert.match(workflow, /^          TRANSLATION_HANDOFF_RUN_URL: \$\{\{ needs\.dispatch_translations\.outputs\.run_url \}\}$/m)
+  assert.doesNotMatch(workflow, /prepare_guides_translation_batches|GUIDES_TRANSLATION_CANDIDATES/)
 })

@@ -114,9 +114,13 @@ test('creates, validates, and restores a source artifact', async () => {
   })
   json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json', validMediaPrefetchReport())
   json(workspace, ASSEMBLY_DECISION, validAssemblyDecision())
+  json(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-en-canonical-link-audit.json', { summary: {} })
+  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-en-canonical-link-audit.md', '# audit\n')
+  write(workspace, 'packages/docs-tooling/src/lark/meta/reports/guides-en-canonical-link-audit.csv', 'source\n')
   const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   assert.equal(manifest.stage, 'source')
-  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 7)
+  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 10)
+  assert.equal(manifest.files.filter(file => file.path.includes('guides-en-canonical-link-audit')).length, 3)
   assert.deepEqual(manifest.files.filter(file => file.path.includes('/reports/guides-assembly')).map(file => file.path), [ASSEMBLY_DECISION])
   assert.equal(manifest.files.some(file => file.path === 'packages/docs-tooling/src/lark/meta/assembly/guides.json'), false)
   await restoreGuidesStageArtifact({ artifact, target })
@@ -135,6 +139,16 @@ test('restore creates a missing target root one segment at a time', async () => 
   const target = path.join(root, 'missing', 'nested', 'target')
   await restoreGuidesStageArtifact({ artifact: fixture.artifact, target })
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'packages/docs-tooling/src/lark/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
+})
+
+test('rejects cross-site source artifact restoration', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-site-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ site: 'en', stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  await assert.rejects(
+    restoreGuidesStageArtifact({ artifact: fixture.artifact, target: path.join(root, 'target'), expected: { site: 'zh-CN' } }),
+    /site identity mismatch/i,
+  )
 })
 
 test('source artifact requires a semantic media prefetch report', async () => {

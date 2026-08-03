@@ -102,5 +102,5 @@ test('rejects REST translation for a target without a REST prompt product', asyn
     target: 'zh-CN-tools',
     locale: 'zh-CN',
     callModel: async () => '[]',
-  }), /REST translation is unsupported/i)
+  }), /unsupported translation target/i)
 })

@@ -60,6 +60,7 @@ jobs:
           printf '%s\n' \
             "TRUSTED_ROOT=$trusted_root" \
             "STATE_FILE=$trusted_root/publisher-state.json" \
+            "ARTIFACT_PAIRS_MANIFEST=$trusted_root/artifact-pairs.json" \
             "PAIRS_MANIFEST=$trusted_root/pairs-manifest.json" \
             "PLAN_FILE=$trusted_root/translation-plan.json" \
             "STAGING_WORKTREE=$trusted_root/staging-worktree" \
@@ -110,13 +111,26 @@ jobs:
       - name: Download Guides translation checkpoints
         uses: actions/download-artifact@v4
         with:
-          pattern: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-*
+          pattern: translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-checkpoints
       - name: Download Guides translation baselines
         uses: actions/download-artifact@v4
         with:
-          pattern: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-*
+          pattern: translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-baselines
+
+      - name: Resolve Guides translation artifact pairs
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/translation-artifact-pairs.js \
+            --checkpoints-root "$RUNNER_TEMP/translation-checkpoints" \
+            --baselines-root "$RUNNER_TEMP/translation-baselines" \
+            --target "$TRANSLATION_TARGET" \
+            --group "$GROUP" \
+            --run-id "$GITHUB_RUN_ID" \
+            --batch-count "$BATCH_COUNT" \
+            --output "$ARTIFACT_PAIRS_MANIFEST"
 
       - name: Validate Guides translation batch identities
         shell: bash
@@ -131,38 +145,39 @@ jobs:
 
           extract_archive() {
             local archive=$1 destination=$2
-            [[ -f "$archive" && ! -L "$archive" ]]
-            tar -tf "$archive" | node -e '
-              const fs = require("node:fs")
-              const paths = fs.readFileSync(0, "utf8").split("\n").filter(Boolean)
-              const seen = new Set()
-              for (const raw of paths) {
-                const value = raw.endsWith("/") ? raw.slice(0, -1) : raw
-                if (!value || value.startsWith("/") || value.includes("\\") || value.split("/").some(part => !part || part === "." || part === "..") || (value !== "checkpoint-group" && !value.startsWith("checkpoint-group/")) || seen.has(value)) throw new Error(`unsafe or ambiguous checkpoint archive path: ${raw}`)
-                seen.add(value)
-              }
-            '
-            tar -tvf "$archive" | node -e '
-              const fs = require("node:fs")
-              for (const line of fs.readFileSync(0, "utf8").split("\n").filter(Boolean)) if (!["-", "d"].includes(line[0])) throw new Error(`unsafe checkpoint archive entry: ${line}`)
-            '
             mkdir -p "$destination"
             chmod 700 "$destination"
             tar -xf "$archive" -C "$destination" --no-same-owner --no-same-permissions
           }
 
-          [[ $(find "$RUNNER_TEMP/translation-checkpoints" -mindepth 1 -maxdepth 1 | wc -l) -eq "$BATCH_COUNT" ]]
-          [[ $(find "$RUNNER_TEMP/translation-baselines" -mindepth 1 -maxdepth 1 | wc -l) -eq "$BATCH_COUNT" ]]
-          for ((number=1; number<=BATCH_COUNT; number++)); do
-            result_root="$RUNNER_TEMP/translation-checkpoints/translation-checkpoint-$GROUP-${GITHUB_RUN_ID}-batch-$number"
-            baseline_root="$RUNNER_TEMP/translation-baselines/translation-baseline-$GROUP-${GITHUB_RUN_ID}-batch-$number"
-            [[ -d "$result_root" && ! -L "$result_root" && $(find "$result_root" -mindepth 1 -maxdepth 1 | wc -l) -eq 1 ]]
-            [[ -d "$baseline_root" && ! -L "$baseline_root" && $(find "$baseline_root" -mindepth 1 -maxdepth 1 | wc -l) -eq 1 ]]
-            [[ -f "$result_root/checkpoint-group.tar" && ! -L "$result_root/checkpoint-group.tar" ]]
-            [[ -f "$baseline_root/checkpoint-group.tar" && ! -L "$baseline_root/checkpoint-group.tar" ]]
-            extract_archive "$result_root/checkpoint-group.tar" "$TRUSTED_ROOT/result-$number"
-            extract_archive "$baseline_root/checkpoint-group.tar" "$TRUSTED_ROOT/baseline-$number"
-          done
+          while IFS=$'\t' read -r number result_archive baseline_archive; do
+            node scripts/docs-workflow/preflight-checkpoint-archive.js \
+              --archive "$result_archive" \
+              --manifest-output "$TRUSTED_ROOT/preflight-result-$number.json" \
+              --group "$GROUP" \
+              --master-sha "$MASTER_SHA" \
+              --translation-target "$TRANSLATION_TARGET" \
+              --source-checkpoint-sha "$SOURCE_COMMIT_SHA" \
+              --tooling-sha "$MASTER_SHA" \
+              --source-site en \
+              --target-site en
+            node scripts/docs-workflow/preflight-checkpoint-archive.js \
+              --archive "$baseline_archive" \
+              --manifest-output "$TRUSTED_ROOT/preflight-baseline-$number.json" \
+              --group "$GROUP" \
+              --master-sha "$MASTER_SHA" \
+              --translation-target "$TRANSLATION_TARGET" \
+              --source-checkpoint-sha "$SOURCE_COMMIT_SHA" \
+              --tooling-sha "$MASTER_SHA" \
+              --source-site en \
+              --target-site en
+            extract_archive "$result_archive" "$TRUSTED_ROOT/result-$number"
+            extract_archive "$baseline_archive" "$TRUSTED_ROOT/baseline-$number"
+          done < <(node - <<'NODE'
+          const manifest = require(process.env.ARTIFACT_PAIRS_MANIFEST)
+          for (const pair of manifest.pairs) process.stdout.write(`${pair.batchNumber}\t${pair.resultArchive}\t${pair.baselineArchive}\n`)
+          NODE
+          )
 
           node - <<'NODE'
           const fs = require('node:fs')

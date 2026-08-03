@@ -588,30 +588,31 @@ describe('Chinese Guides source publication', () => {
     expect(existsSync(path.join(root, 'tmp/docs-tooling/zh-CN/groups/guides/baseline-restore'))).toBe(false);
   });
 
-  it('prepares a drifted live baseline from manifest-owned files without touching protected Tools content', async () => {
+  it('prepares a drifted live baseline including source-owned Tools content', async () => {
     const root = temporaryRoot();
     const baselineRoot = temporaryRoot();
     const currentFiles = [
       'content/zh-CN/guides/tutorials/home.md',
       'content/zh-CN/guides/tutorials/current.md',
       'content/zh-CN/byoc/current.md',
+      'content/zh-CN/guides/tutorials/tools/current.md',
       'generated/zh-CN/sidebars/guides.sidebar.js',
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
     ];
     const baselineFiles = [
       'content/zh-CN/guides/tutorials/home.md',
       'content/zh-CN/guides/tutorials/baseline.md',
       'content/zh-CN/byoc/baseline.md',
+      'content/zh-CN/guides/tutorials/tools/baseline.md',
       'generated/zh-CN/sidebars/guides.sidebar.js',
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
     ];
     for (const file of currentFiles) write(root, file, `current ${file}\n`);
     for (const file of baselineFiles) write(baselineRoot, file, `baseline ${file}\n`);
     write(root, 'generated/zh-CN/sidebars/guides.sidebar.js', 'module.exports = []\n');
     write(baselineRoot, 'generated/zh-CN/sidebars/guides.sidebar.js', 'module.exports = []\n');
-    write(root, 'content/en/guides/tutorials/tools/keep.md', 'canonical English Tools content\n');
-    write(root, 'content/zh-CN/guides/tutorials/tools/keep.md', 'agent-owned live content\n');
-    write(baselineRoot, 'content/zh-CN/guides/tutorials/tools/keep.md', 'stale protected baseline content\n');
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(currentFiles));
     write(baselineRoot, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest(baselineFiles));
 
@@ -628,38 +629,45 @@ describe('Chinese Guides source publication', () => {
 
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/baseline.md'), 'utf8')).toContain('baseline');
     expect(() => readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/current.md'), 'utf8')).toThrow();
-    expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/keep.md'), 'utf8')).toBe('agent-owned live content\n');
+    expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/baseline.md'), 'utf8')).toContain('baseline');
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/tools.sidebar.js'), 'utf8')).toContain('baseline');
     expect(readFileSync(path.join(root, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/baseline.md'), 'utf8')).toContain('baseline');
   });
 
-  it('publishes only manifest-owned files and preserves the Agent-owned Tools subtree', async () => {
+  it('publishes manifest-owned Cloud, BYOC, and Tools without touching Chinese Reference', async () => {
     const root = temporaryRoot();
     const groupStage = 'tmp/docs-tooling/zh-CN/groups/guides';
     write(root, 'content/zh-CN/guides/tutorials/old.md', 'old\n');
-    write(root, 'content/zh-CN/guides/tutorials/tools/keep.md', 'agent\n');
+    write(root, 'content/zh-CN/guides/tutorials/tools/old.md', 'old tools\n');
     write(root, 'content/zh-CN/byoc/old.md', 'old\n');
+    write(root, 'content/zh-CN/reference/api/python/keep.md', 'reference stays\n');
     write(root, 'generated/zh-CN/sidebars/guides.sidebar.js', 'old sidebar\n');
     write(root, 'generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'old byoc sidebar\n');
-    write(root, 'generated/zh-CN/manifests/tools-translations.json', '{}\n');
+    write(root, 'generated/zh-CN/sidebars/tools.sidebar.js', 'old tools sidebar\n');
     write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([
       'content/zh-CN/guides/tutorials/old.md',
+      'content/zh-CN/guides/tutorials/tools/old.md',
       'content/zh-CN/byoc/old.md',
       'generated/zh-CN/sidebars/guides.sidebar.js',
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
     ]));
     write(root, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/new.md', 'new\n');
+    write(root, 'tmp/docs-tooling/zh-CN/guides/content/zh-CN/guides/tutorials/tools/new.md', 'new tools\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides/generated/zh-CN/sidebars/guides.sidebar.js', 'new sidebar\n');
+    write(root, 'tmp/docs-tooling/zh-CN/guides/generated/zh-CN/sidebars/tools.sidebar.js', 'new tools sidebar\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides-byoc/content/zh-CN/byoc/tutorials/new.md', 'new\n');
     write(root, 'tmp/docs-tooling/zh-CN/guides-byoc/generated/zh-CN/sidebars/guides-byoc.sidebar.js', 'new byoc sidebar\n');
     const nextFiles = [
       'content/zh-CN/guides/tutorials/new.md',
+      'content/zh-CN/guides/tutorials/tools/new.md',
       'content/zh-CN/byoc/tutorials/new.md',
       'generated/zh-CN/sidebars/guides.sidebar.js',
       'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
+      'generated/zh-CN/sidebars/tools.sidebar.js',
     ];
     write(root, `${groupStage}/generated/zh-CN/manifests/guides-source-publication.json`, serializeSourcePublicationManifest(nextFiles));
     writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
-    write(root, 'content/zh-CN/guides/tutorials/tools/keep.md', 'agent updated after fetch\n');
     await validatePreparedGuides(root);
 
     await executePublicationGroup(
@@ -669,8 +677,9 @@ describe('Chinese Guides source publication', () => {
 
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/new.md'), 'utf8')).toBe('new\n');
     expect(readFileSync(path.join(root, 'content/zh-CN/byoc/tutorials/new.md'), 'utf8')).toBe('new\n');
-    expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/keep.md'), 'utf8')).toBe('agent updated after fetch\n');
-    expect(readFileSync(path.join(root, 'generated/zh-CN/manifests/tools-translations.json'), 'utf8')).toBe('{}\n');
+    expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/new.md'), 'utf8')).toBe('new tools\n');
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/tools.sidebar.js'), 'utf8')).toBe('new tools sidebar\n');
+    expect(readFileSync(path.join(root, 'content/zh-CN/reference/api/python/keep.md'), 'utf8')).toBe('reference stays\n');
     expect(() => readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/old.md'), 'utf8')).toThrow();
     expect(ownedTreeCommit(root, nextFiles)).toMatch(/^sha256:/);
   });
@@ -784,50 +793,10 @@ describe('Chinese Guides source publication', () => {
     expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/a.md'), 'utf8')).toBe(liveBefore);
   });
 
-  it.each([
-    'content/zh-CN/guides/tutorials/tools/new.md',
-    'generated/zh-CN/sidebars/tools.sidebar.js',
-    'generated/zh-CN/manifests/tools-translations.json',
-  ])('rejects a staged write under protected Tools ownership: %s', async protectedPath => {
+  it('rejects the retired Tools translation manifest outside source ownership', async () => {
     const root = temporaryRoot();
-    prepareManualStage(root, 'zh-CN', 'guides', 'guides');
-    prepareManualStage(root, 'zh-CN', 'guides', 'guides-byoc');
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', serializeSourcePublicationManifest([]));
-    write(root, `tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json`, unsafeManifest([protectedPath]));
-    writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
-    await expect(executePublicationGroup(
-      {site: 'zh-CN', group: 'guides', stage: 'validate'},
-      {repositoryRoot: root, aliyunOssValidator: {validatePublication: vi.fn().mockResolvedValue(undefined)}},
-    )).rejects.toThrow(/protected.*Tools|Tools.*protected/i);
-  });
-
-  it('rejects an omit-delete claim inherited from a poisoned source manifest', async () => {
-    const root = temporaryRoot();
-    const stagedFiles = [
-      'content/zh-CN/guides/tutorials/a.md',
-      'content/zh-CN/byoc/tutorials/b.md',
-      'generated/zh-CN/sidebars/guides.sidebar.js',
-      'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
-    ];
-    write(root, 'content/zh-CN/guides/tutorials/tools/keep.md', 'agent\n');
-    write(root, 'generated/zh-CN/manifests/guides-source-publication.json', unsafeManifest([
-      'content/zh-CN/guides/tutorials/tools/keep.md',
-    ]));
-    for (const file of stagedFiles) {
-      const manual = file.startsWith('content/zh-CN/byoc/') || file.includes('guides-byoc') ? 'guides-byoc' : 'guides';
-      write(root, `tmp/docs-tooling/zh-CN/${manual}/${file}`, `staged ${file}\n`);
-    }
-    write(
-      root,
-      'tmp/docs-tooling/zh-CN/groups/guides/generated/zh-CN/manifests/guides-source-publication.json',
-      serializeSourcePublicationManifest(stagedFiles),
-    );
-    writePublicationGroupDiagnostics(root, 'zh-CN', 'guides');
-    await validatePreparedGuides(root);
-    await expect(executePublicationGroup(
-      {site: 'zh-CN', group: 'guides', stage: 'publish'},
-      {repositoryRoot: root},
-    )).rejects.toThrow(/protected.*Tools|Tools.*protected/i);
-    expect(readFileSync(path.join(root, 'content/zh-CN/guides/tutorials/tools/keep.md'), 'utf8')).toBe('agent\n');
+    expect(() => serializeSourcePublicationManifest([
+      'generated/zh-CN/manifests/tools-translations.json',
+    ])).toThrow(/outside Chinese Guides ownership/i);
   });
 });

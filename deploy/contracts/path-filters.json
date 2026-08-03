@@ -3,7 +3,7 @@
   "precedence": [
     "japaneseLocalization",
     "canonicalEnglishTools",
-    "zhToolsTranslation",
+    "zhGuides",
     "sharedAgentEngine",
     "canonicalEnglishReference",
     "zhReferenceTranslation",
@@ -26,12 +26,10 @@
       ],
       "checks": ["build:en", "build:zh-CN"]
     },
-    "zhToolsTranslation": {
+    "zhGuides": {
       "include": [
         "content/zh-CN/guides/tutorials/tools/**",
-        "generated/zh-CN/manifests/tools-translations.json",
-        "generated/zh-CN/sidebars/tools.sidebar.js",
-        "config/tools-retirements.json"
+        "generated/zh-CN/sidebars/tools.sidebar.js"
       ],
       "checks": ["build:zh-CN"]
     },

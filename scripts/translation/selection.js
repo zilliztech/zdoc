@@ -3,32 +3,49 @@
 
 const fs = require('node:fs');
 
-const GROUPS = Object.freeze({
-  'ja-JP': Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']),
-  'zh-CN': Object.freeze(['python', 'java', 'node', 'go', 'cli', 'rest', 'tools']),
-});
+const GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
 
 function selectionItem(locale, group, order) {
   return {
     locale,
-    target: locale === 'ja-JP' ? 'ja-JP' : group === 'tools' ? 'zh-CN-tools' : 'zh-CN-reference',
+    target: locale === 'ja-JP' ? 'ja-JP' : 'zh-CN-reference',
     group,
-    sourceGroup: group === 'tools' ? 'guides' : group,
+    sourceGroup: group,
     order,
+    publicationOrder: order,
   };
 }
 
+function targetsFor(group, locale) {
+  if (locale === 'ja-JP') return group === 'reference-landings' ? [] : ['ja-JP'];
+  if (locale === 'zh-CN') {
+    if (group === 'reference-landings') return ['zh-CN'];
+    return group === 'guides' ? [] : ['zh-CN'];
+  }
+  if (locale === 'all') {
+    if (group === 'reference-landings') return [];
+    return group === 'guides' ? ['ja-JP'] : ['ja-JP', 'zh-CN'];
+  }
+  throw new Error(`Unsupported translation locale: ${locale}`);
+}
+
 function buildTranslationSelection({locale, group}) {
-  const locales = locale === 'all' ? ['ja-JP', 'zh-CN'] : [locale];
-  if (locales.some(value => !Object.hasOwn(GROUPS, value))) throw new Error(`Unsupported translation locale: ${locale}`);
+  if (!['all', 'ja-JP', 'zh-CN'].includes(locale)) throw new Error(`Unsupported translation locale: ${locale}`);
+  if (group === 'reference-landings' && locale !== 'zh-CN') {
+    throw new Error(`Unsupported translation selection: ${locale}/${group}`);
+  }
+  if (group !== 'all' && group !== 'reference-landings' && !GROUPS.includes(group)) {
+    throw new Error(`Unsupported translation selection: ${locale}/${group}`);
+  }
+
   const selected = [];
-  for (const selectedLocale of locales) {
-    const groups = group === 'all' ? GROUPS[selectedLocale] : [group];
-    for (const selectedGroup of groups) {
-      if (!GROUPS[selectedLocale].includes(selectedGroup)) throw new Error(`Unsupported translation selection: ${selectedLocale}/${selectedGroup}`);
+  const groups = group === 'all' ? GROUPS : [group];
+  for (const selectedGroup of groups) {
+    for (const selectedLocale of targetsFor(selectedGroup, locale)) {
       selected.push(selectionItem(selectedLocale, selectedGroup, selected.length));
     }
   }
+  if (selected.length === 0) throw new Error(`Unsupported translation selection: ${locale}/${group}`);
   return selected;
 }
 

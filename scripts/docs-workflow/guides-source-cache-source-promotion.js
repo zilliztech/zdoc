@@ -118,12 +118,19 @@ function validateSourceGenerationPayload({ payloadDir, snapshotPath, rootToken }
   return Object.freeze({ paths: Object.freeze(paths), source })
 }
 
+function guidesIdentity() {
+  const site = process.env.ZDOC_SITE || 'en'
+  if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
+  return site === 'en' ? 'guides' : 'guides-zh-CN'
+}
+
 function liveSourceCachePaths(workspace, label) {
   const root = requireDirectory(workspace, label)
+  const identity = guidesIdentity()
   return {
     root,
-    sourceDir: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides live source path', 'directory'),
-    sourceManifestPath: fixedWorkspacePath(root, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
+    sourceDir: fixedWorkspacePath(root, `packages/docs-tooling/src/lark/meta/sources/${identity}`, 'Guides live source path', 'directory'),
+    sourceManifestPath: fixedWorkspacePath(root, `packages/docs-tooling/src/lark/meta/source-cache/${identity}-manifest.json`, 'Guides live source manifest path', 'file'),
   }
 }
 
@@ -140,7 +147,7 @@ function validateLiveSourceCache({ workspace, snapshotPath, rootToken, acceptedS
 
 function validateLiveMediaCache({ workspace, snapshotPath }) {
   const paths = liveSourceCachePaths(workspace, 'Guides live media validation workspace')
-  const mediaManifestPath = fixedWorkspacePath(paths.root, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides live media manifest path', 'file')
+  const mediaManifestPath = fixedWorkspacePath(paths.root, `packages/docs-tooling/src/lark/meta/media-cache/${guidesIdentity()}.json`, 'Guides live media manifest path', 'file')
   return validateMediaCache({
     sourceDir: paths.sourceDir,
     snapshotPath,
@@ -193,10 +200,11 @@ function removeEmptyDirectory(directory) {
 function cleanupGuidesLiveCache({ workspace, scope = 'all' }) {
   if (!['all', 'media'].includes(scope)) throw new Error('Guides cleanup scope must be all or media')
   const workspaceRoot = requireDirectory(workspace, 'Guides cleanup workspace')
+  const identity = guidesIdentity()
   const destinations = {
-    sourceDir: cleanupWorkspaceLeaf(workspaceRoot, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides live source path'),
-    sourceManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides live source manifest path'),
-    mediaManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides live media manifest path'),
+    sourceDir: cleanupWorkspaceLeaf(workspaceRoot, `packages/docs-tooling/src/lark/meta/sources/${identity}`, 'Guides live source path'),
+    sourceManifestPath: cleanupWorkspaceLeaf(workspaceRoot, `packages/docs-tooling/src/lark/meta/source-cache/${identity}-manifest.json`, 'Guides live source manifest path'),
+    mediaManifestPath: cleanupWorkspaceLeaf(workspaceRoot, `packages/docs-tooling/src/lark/meta/media-cache/${identity}.json`, 'Guides live media manifest path'),
   }
   const removals = scope === 'media'
     ? [destinations.mediaManifestPath]
@@ -213,10 +221,11 @@ function promoteSourceGenerationPayload({ payloadDir, workspace, snapshotPath, r
   const validation = validateSourceGenerationPayload({ payloadDir, snapshotPath, rootToken })
   const workspaceRoot = requireDirectory(workspace, 'Guides source promotion workspace')
   if (pathsOverlap(validation.paths.root, workspaceRoot)) throw new Error('Guides source promotion workspace must not overlap the payload')
+  const sources = liveSourceCachePaths(workspaceRoot, 'Guides source promotion workspace')
   const destinations = {
-    sourceDir: fixedWorkspacePath(workspaceRoot, 'packages/docs-tooling/src/lark/meta/sources/guides', 'Guides live source path', 'directory'),
-    sourceManifestPath: fixedWorkspacePath(workspaceRoot, 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
-    mediaManifestPath: fixedWorkspacePath(workspaceRoot, 'packages/docs-tooling/src/lark/meta/media-cache/guides.json', 'Guides live media manifest path', 'file'),
+    sourceDir: sources.sourceDir,
+    sourceManifestPath: sources.sourceManifestPath,
+    mediaManifestPath: fixedWorkspacePath(workspaceRoot, `packages/docs-tooling/src/lark/meta/media-cache/${guidesIdentity()}.json`, 'Guides live media manifest path', 'file'),
   }
   const operations = [
     { source: validation.paths.sourceDir, destination: destinations.sourceDir },

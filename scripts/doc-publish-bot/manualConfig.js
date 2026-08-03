@@ -1,6 +1,7 @@
 const fs = require('node:fs')
 const vm = require('node:vm')
-const { resolveBootstrapSite } = require('../../packages/site-config/src/resolve.ts')
+const { loadTypeScript } = require('../lib/load-typescript')
+const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts')
 
 function loadLarkDocsConfig(configPath = 'config/lark-docs.config.ts', explicitSite) {
   let source = fs.readFileSync(configPath, 'utf8')

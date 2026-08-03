@@ -16,7 +16,9 @@ function referenceTranslationPath(ownedPath) {
 
 function getGroupPaths(groupName, site = resolveBootstrapSite(undefined)) {
   const group = getContentGroup(groupName, site);
-  const publication = resolvePublicationGroupWorkflow(site, groupName).group;
+  const publication = site === 'en' && groupName === 'reference-landings'
+    ? group
+    : resolvePublicationGroupWorkflow(site, groupName).group;
   const englishOutputs = Object.freeze([...publication.ownedPaths]);
   const translationOutputs = Object.freeze(site !== 'en' ? [] : groupName === 'guides'
     ? [

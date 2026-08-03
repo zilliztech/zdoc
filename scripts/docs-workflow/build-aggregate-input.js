@@ -21,6 +21,26 @@ function parseCandidateCounts(value) {
   return counts
 }
 
+function guidesLaneState(env, mode) {
+  const englishProducer = env.GUIDES_PRODUCER || ''
+  const englishPublisher = env.GUIDES_SOURCE || ''
+  if (env.ZH_GUIDES_PRODUCER === undefined) {
+    return {producer: englishProducer, publisher: englishPublisher, sha: env.GUIDES_SOURCE_SHA}
+  }
+  const chineseProducer = env.ZH_GUIDES_PRODUCER || ''
+  const chinesePublisher = env.ZH_GUIDES_SOURCE || ''
+  const producer = englishProducer === 'artifact_ready' && chineseProducer === 'artifact_ready'
+    ? 'artifact_ready'
+    : 'failed'
+  if (mode === 'artifact_only') return {producer, publisher: '', sha: undefined}
+  const publishedStates = [englishPublisher, chinesePublisher]
+  const publisher = publishedStates.every(value => value === 'published' || value === 'no_changes')
+    ? publishedStates.includes('published') ? 'published' : 'no_changes'
+    : 'failed'
+  const sha = chinesePublisher === 'published' ? env.ZH_GUIDES_SOURCE_SHA : env.GUIDES_SOURCE_SHA
+  return {producer, publisher, sha}
+}
+
 function buildAggregateInput(env) {
   const mode = env.MODE === 'artifact_only' ? 'artifact_only' : 'publish'
   const translationsRequested = mode === 'publish' && env.RUN_TRANSLATIONS !== 'false'
@@ -28,8 +48,9 @@ function buildAggregateInput(env) {
   const groups = {}
   for (const group of requestedGroups) {
     const prefix = group.toUpperCase()
-    const producer = env[`${prefix}_PRODUCER`] || ''
-    const publisher = env[`${prefix}_SOURCE`] || ''
+    const guidesState = group === 'guides' ? guidesLaneState(env, mode) : null
+    const producer = guidesState?.producer ?? env[`${prefix}_PRODUCER`] ?? ''
+    const publisher = guidesState?.publisher ?? env[`${prefix}_SOURCE`] ?? ''
     const translator = env[`${prefix}_TRANSLATOR`] || ''
     const translationPublisher = env[`${prefix}_TRANSLATION`] || ''
     let source = mode === 'artifact_only' ? (producer === 'artifact_ready' ? 'artifact_ready' : 'fetch_failed')
@@ -43,7 +64,7 @@ function buildAggregateInput(env) {
           : translationPublisher === 'published' ? 'translation_published'
             : translationPublisher === 'no_changes' ? 'no_changes' : 'translation_failed'
     const entry = { source, translation, translationRequested: translationsRequested }
-    if (source === 'source_published') entry.sourceCommitSha = env[`${prefix}_SOURCE_SHA`]
+    if (source === 'source_published') entry.sourceCommitSha = guidesState?.sha ?? env[`${prefix}_SOURCE_SHA`]
     if (translation === 'translation_published') entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
     if (translation === 'no_changes' && env[`${prefix}_TRANSLATION_SHA`]) entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
     if (group === 'guides') {
@@ -52,13 +73,23 @@ function buildAggregateInput(env) {
     }
     groups[group] = entry
   }
-  return {
+  const result = {
     mode,
     requestedGroups,
     groups,
-    revisionReconciliation: mode === 'artifact_only' || !translationsRequested ? 'skipped' : (env.REVISION_RECONCILIATION === 'passed' ? 'passed' : 'failed'),
-    finalVerification: mode === 'artifact_only' || !translationsRequested ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed'),
+    revisionReconciliation: mode === 'artifact_only' ? 'skipped' : (env.REVISION_RECONCILIATION === 'passed' ? 'passed' : 'failed'),
+    finalVerification: mode === 'artifact_only' ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed'),
   }
+  if (env.TRANSLATION_HANDOFF_REQUESTED !== undefined) {
+    const requested = env.TRANSLATION_HANDOFF_REQUESTED === 'true'
+    const dispatched = requested && env.TRANSLATION_HANDOFF_RESULT === 'success'
+    result.translationHandoff = { requested, dispatched }
+    if (dispatched) {
+      result.translationHandoff.runId = env.TRANSLATION_HANDOFF_RUN_ID
+      result.translationHandoff.runUrl = env.TRANSLATION_HANDOFF_RUN_URL
+    }
+  }
+  return result
 }
 
 function main() {

@@ -20,6 +20,7 @@ import {
   readSecureFile,
   removeSecureStageTree,
   resolveSecureRepositoryPath,
+  securePathExists,
   writeSecureAtomicFile,
   type SecureInventoryEntry,
 } from '../publication/stageControl.ts';
@@ -105,26 +106,12 @@ function frozenHookCopy<T>(value: T): T {
   return value;
 }
 
-function pathOverlaps(left: string, right: string): boolean {
-  return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
-}
-
-function protectedPath(group: PublicationGroup, candidate: string): string | undefined {
-  return group.protectedPaths?.find(protectedTarget => pathOverlaps(candidate, protectedTarget));
-}
-
-function protectedInventoryPath(group: PublicationGroup, candidate: string): string | undefined {
-  return group.protectedPaths?.find(protectedTarget => (
-    candidate === protectedTarget || candidate.startsWith(`${protectedTarget}/`)
-  ));
-}
-
 function assertManifestFilePath(group: PublicationGroup, value: string): string {
   assertSafeRepositoryRelativePath(value, 'Source publication manifest file');
-  const collision = protectedPath(group, value);
-  if (collision) throw new Error(`Chinese Guides source publication cannot claim protected Tools path ${collision}: ${value}`);
   if (value === group.publicationManifest) throw new Error('Source publication manifest must not claim itself as a content file');
-  const allowed = group.manuals.some(manual => {
+  const allowed = group.ownedPaths.some(ownedPath => (
+    value === ownedPath || value.startsWith(`${ownedPath}/`)
+  )) || group.manuals.some(manual => {
     const publication = resolveManualPublication(manual, group.site).publication;
     return value === publication.sidebarPath || value.startsWith(`${publication.contentRoot}/`);
   });
@@ -324,7 +311,6 @@ function assertValidatedStageAttestation(repositoryRoot: string, group: Publicat
 }
 
 function inventoryFiles(repositoryRoot: string, relativePath: string, group: PublicationGroup): InventoryEntry[] {
-  if (protectedInventoryPath(group, relativePath)) return [];
   const target = resolveOwnedRepositoryPath(repositoryRoot, relativePath, 'Publication group inventory path');
   if (!existsSync(target)) return [];
   const stats = lstatSync(target);
@@ -401,13 +387,23 @@ function stagedManifestFiles(repositoryRoot: string, group: PublicationGroup): r
   const files = group.manuals.flatMap(manual => {
     const publication = resolveManualPublication(manual, group.site).publication;
     const stageRoot = manualStagePath(group.site, manual);
+    const additionalOwnedPaths = group.site === 'zh-CN' && manual === 'guides'
+      ? ['generated/zh-CN/sidebars/tools.sidebar.js']
+      : [];
+    const additionalStageRoots = additionalOwnedPaths
+      .map(ownedPath => `${stageRoot}/${ownedPath}`)
+      .filter(ownedPath => securePathExists(repositoryRoot, ownedPath, 'Additional staged publication path'));
     return captureSecureInventory(
       repositoryRoot,
-      [`${stageRoot}/${publication.outputDir}`, `${stageRoot}/${publication.sidebarPath}`],
+      [
+        `${stageRoot}/${publication.outputDir}`,
+        `${stageRoot}/${publication.sidebarPath}`,
+        ...additionalStageRoots,
+      ],
       'Staged publication manifest inventory',
     ).flatMap(entry => {
       const relative = entry.path.slice(`${stageRoot}/`.length);
-      return protectedInventoryPath(group, relative) ? [] : [assertManifestFilePath(group, relative)];
+      return [assertManifestFilePath(group, relative)];
     });
   });
   return Object.freeze([...files].sort((left, right) => left.localeCompare(right, 'en')));
@@ -453,6 +449,14 @@ function sourceForManifestFile(repositoryRoot: string, group: PublicationGroup, 
         {finalKind: 'file'},
       );
     }
+  }
+  if (group.site === 'zh-CN' && group.manuals.includes('guides') && target === 'generated/zh-CN/sidebars/tools.sidebar.js') {
+    return resolveSecureRepositoryPath(
+      repositoryRoot,
+      `${manualStagePath(group.site, 'guides')}/${target}`,
+      'Staged manifest-owned Tools sidebar',
+      {finalKind: 'file'},
+    );
   }
   throw new Error(`No staged manual owns manifest file: ${target}`);
 }
@@ -551,10 +555,6 @@ async function prepareManifestOwnedBaseline(
       replacements,
       removals,
       validatePublication(snapshot) {
-        for (const target of snapshot.ownedPaths) {
-          const collision = protectedPath(group, target);
-          if (collision) throw new Error(`Immutable Chinese Guides baseline includes protected Tools path ${collision}`);
-        }
         const restored = readManifestAt(snapshot.publicationRoot, group.publicationManifest!, group);
         if (JSON.stringify(restored.files) !== JSON.stringify(baseline.files)) {
           throw new Error('Immutable Chinese Guides baseline manifest changed during preparation');
@@ -662,10 +662,6 @@ async function publishManifestOwnedGroup(
     replacements,
     removals,
     validatePublication(snapshot) {
-      for (const target of snapshot.ownedPaths) {
-        const collision = protectedPath(group, target);
-        if (collision) throw new Error(`Atomic Chinese Guides source publication includes protected Tools path ${collision}`);
-      }
       const snapshotManifest = readManifestAt(snapshot.publicationRoot, group.publicationManifest!, group);
       if (JSON.stringify(snapshotManifest.files) !== JSON.stringify(staged.files)) {
         throw new Error('Atomic Chinese Guides source publication manifest changed during validation');

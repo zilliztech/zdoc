@@ -712,6 +712,38 @@ async function testBaseNavigationCreatesRootWhenSourceCacheIsEmpty() {
   assert.equal(root.children[0].node_token, 'base:tbl');
 }
 
+async function testChineseBaseNavigationUsesEnglishTableSlug() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
+  scraper.use_all_base_tables = true;
+  scraper.records = [{
+    record_id: 'rec-source',
+    base_table_id: 'tbl-management',
+    base_table_name: '运维指南',
+    base_record_index: 0,
+    fields: {
+      Docs: { text: '文档', link: 'https://zilliverse.feishu.cn/wiki/source-token' },
+      Slug: 'document',
+      Status: 'Published',
+      'Publish Targets': ['zilliz.saas'],
+    },
+  }];
+  scraper.base_tables = [{ table_id: 'tbl-management', name: '运维指南', index: 0 }];
+  const originalSite = process.env.ZDOC_SITE;
+  process.env.ZDOC_SITE = 'zh-CN';
+
+  try {
+    await scraper.__apply_base_navigation({ partialTables: true });
+    const root = JSON.parse(fs.readFileSync(path.join(tempDir, 'root-token.json'), 'utf8'));
+    assert.equal(root.children[0].slug, 'management');
+  } finally {
+    if (originalSite === undefined) delete process.env.ZDOC_SITE;
+    else process.env.ZDOC_SITE = originalSite;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc() {
   const larkDocScraper = require('./larkDocScraper');
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
@@ -1522,6 +1554,7 @@ async function run() {
   await testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources();
   await testFullWikiFetchHydratesBaseCanonicalSources();
   await testBaseNavigationCreatesRootWhenSourceCacheIsEmpty();
+  await testChineseBaseNavigationUsesEnglishTableSlug();
   await testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc();
   await testBaseDocHydrationRefetchesVirtualCanonicalSources();
   await testBaseDocHydrationSkipsCanonicalWithEmptyProgress();

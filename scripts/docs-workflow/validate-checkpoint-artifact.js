@@ -58,7 +58,7 @@ function translationOwnedPaths(targetId, group) {
           return match ? [match[1]] : [];
         });
     const sidebars = sidebarNames.map(name => `generated/zh-CN/sidebars/${name}.sidebar.js`);
-    return [...new Set([...roots, target.state.path, 'config/reference-retirements.json', ...sidebars])];
+    return [...new Set([...roots, target.state.path, ...sidebars])];
   }
   if (group.snapshotManual !== 'guides') throw new Error(`Translation target ${target.id} requires Guides ownership`);
   return [target.targetRoot, target.sidebarTarget, target.state.path];

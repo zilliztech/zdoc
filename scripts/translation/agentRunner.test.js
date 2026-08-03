@@ -58,8 +58,7 @@ function testSelectsPromptsByTranslationTarget() {
     rest: 'codex-rest-spec-translation-agent.ja-JP.md',
   })
   assert.equal(promptNamesFor('zh-CN-reference').review, 'codex-review-agent.zh-CN-reference.md')
-  assert.equal(promptNamesFor('zh-CN-tools').translation, 'codex-translation-agent.zh-CN-tools.md')
-  assert.equal(promptNamesFor('zh-CN-tools').rest, undefined)
+  assert.throws(() => promptNamesFor('zh-CN-tools'), /Unsupported translation target/)
   assert.throws(() => promptNamesFor('zh-CN'), /Unsupported translation target/)
   assert.throws(() => promptNamesFor('unknown'), /Unsupported translation target/)
 }
@@ -78,18 +77,18 @@ function testPartitionsRecoveredFilesWithoutChangingOriginalIndexes() {
 
 function testMessageBuildersSelectPromptsFromTarget() {
   const common = {
-    target: 'zh-CN-tools',
-    sourcePath: 'content/en/guides/tutorials/tools/test.md',
-    sourceContent: '# Tool\n',
+    target: 'zh-CN-reference',
+    sourcePath: 'content/en/reference/api/java/test.md',
+    sourceContent: '# Reference\n',
     locale: 'zh-CN',
   }
-  assert.match(buildTranslationMessages(common)[0].content, /complete .*Tools chapter/i)
-  assert.match(buildReviewMessages({...common, translatedContent: '# 工具\n'})[0].content, /materially English/i)
+  assert.match(buildTranslationMessages(common)[0].content, /Chinese/i)
+  assert.match(buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content, /Simplified Chinese/i)
   assert.match(buildCorrectionMessages({
     ...common,
     translatedContent: '# Tool\n',
     review: {pass: false, issues: [{severity: 'high', type: 'style', comment: 'Translate the heading.'}]},
-  })[0].content, /complete .*Tools chapter/i)
+  })[0].content, /API Reference/i)
   assert.match(buildCorrectionMessages({
     target: 'ja-JP',
     sourcePath: 'content/en/guides/tutorials/test.md',
@@ -918,7 +917,7 @@ async function testJapaneseProgressStatePreservesExistingLocaleCache() {
   })
 }
 
-async function testChineseProgressStateUsesIndependentTargetManifests() {
+async function testChineseReferenceProgressStateUsesItsTargetManifest() {
   await withTempDir(async siteDir => {
     const sourceCommit = 'c'.repeat(40)
     const workflowSha = 'a'.repeat(40)
@@ -993,47 +992,8 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
     await referenceCoordinator.record({...referenceManifest.items[1], status: 'translated'}, 1)
     await referenceCoordinator.checkpoint(true)
 
-    const toolsSourcePath = 'content/en/guides/tutorials/tools/tool.md'
-    const toolsTargetPath = 'content/zh-CN/guides/tutorials/tools/tool.md'
-    const toolsSource = '# Tool\n'
-    write(path.join(siteDir, toolsSourcePath), toolsSource)
-    write(path.join(siteDir, toolsTargetPath), '# 工具\n')
-    const retiredTool = {
-      sourcePath: 'content/en/guides/tutorials/tools/retired.md',
-      targetPath: 'content/zh-CN/guides/tutorials/tools/retired.md',
-      sourceHash: 'f'.repeat(64),
-      status: 'retired',
-    }
-    write(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), JSON.stringify({
-      schemaVersion: 1,
-      records: [retiredTool],
-    }))
-    const toolsManifest = {
-      target: 'zh-CN-tools',
-      locale: 'zh-CN',
-      sourceCheckpointSha: sourceCommit,
-      items: [{
-        sourcePath: toolsSourcePath,
-        targetPath: toolsTargetPath,
-        sourceHash: sha256(toolsSource),
-        locale: 'zh-CN',
-        type: 'tools',
-        reason: 'missing_target',
-      }],
-    }
-    const toolsCoordinator = createProgressCoordinator({
-      siteDir,
-      manifest: toolsManifest,
-      cache: {files: {}},
-      reportPath: 'tmp/tools-report.json',
-      checkpointFiles: 1,
-    })
-    await toolsCoordinator.record({...toolsManifest.items[0], status: 'translated'}, 0)
-    await toolsCoordinator.checkpoint(true)
-
     assert.equal(fs.existsSync(path.join(siteDir, '.translation-cache/zh-CN.json')), false)
     const referenceState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'))
-    const toolsState = JSON.parse(fs.readFileSync(path.join(siteDir, 'generated/zh-CN/manifests/tools-translations.json'), 'utf8'))
     assert.deepEqual(referenceState.records.map(record => record.sourcePath), [
       changedSourcePath,
       retiredReference.sourcePath,
@@ -1049,22 +1009,26 @@ async function testChineseProgressStateUsesIndependentTargetManifests() {
     assert.equal(referenceState.records[2].sourceHash, sha256(unchanged))
     assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
     assert.equal(referenceState.records[2].status, 'unchanged')
-    assert.deepEqual(toolsState.records.map(record => record.sourcePath), [retiredTool.sourcePath, toolsSourcePath])
-    assert.equal(toolsState.records[0].status, 'retired')
-    assert.equal(toolsState.records[1].sourceHash, sha256(toolsSource))
     assert.ok(referenceState.records.every(record => record.sourcePath.startsWith('content/en/reference/')))
-    assert.ok(toolsState.records.every(record => record.sourcePath.startsWith('content/en/guides/tutorials/tools/')))
-    assert.deepEqual(buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-reference'}).candidates, [])
-    assert.deepEqual(buildTranslationCandidates({repositoryRoot: siteDir, targetId: 'zh-CN-tools'}).candidates, [])
+    const candidateOptions = {
+      repositoryRoot: siteDir,
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: ['content/en/reference/api/python/python'],
+      preservedSourcePaths: ['content/en/reference/api/python/python/python.md'],
+      changedSourcePaths: [],
+      mode: 'incremental',
+    }
+    assert.deepEqual(buildTranslationCandidates(candidateOptions).candidates, [])
+    assert.throws(
+      () => buildTranslationCandidates({...candidateOptions, targetId: 'zh-CN-tools'}),
+      /Unknown translation target: zh-CN-tools/,
+    )
 
     const referenceReport = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/reference-report.json'), 'utf8'))
-    const toolsReport = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/tools-report.json'), 'utf8'))
     assert.equal(referenceReport.target, 'zh-CN-reference')
-    assert.equal(toolsReport.target, 'zh-CN-tools')
     assert.equal(referenceReport.checkpoint.target, 'zh-CN-reference')
-    assert.equal(toolsReport.checkpoint.target, 'zh-CN-tools')
     assert.ok(referenceReport.results.every(result => result.target === 'zh-CN-reference'))
-    assert.ok(toolsReport.results.every(result => result.target === 'zh-CN-tools'))
     assert.doesNotThrow(() => validateReferenceTranslation({
       repositoryRoot: siteDir,
       sourceRoot: 'content/en/reference',
@@ -1208,11 +1172,6 @@ async function run() {
   testValidatesExactManifestTargetContract()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
-  await testTranslatesToolsSidebarFragmentWithoutReadingPseudoPath()
-  await testToolsSidebarReviewFailureDoesNotWriteTarget()
-  await testToolsSidebarRejectsChangedStructure()
-  await testToolsSidebarFragmentIdentityFailsClosed()
-  await testRejectsSidebarPseudoPathForNonToolsTarget()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
@@ -1235,7 +1194,7 @@ async function run() {
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
-  await testChineseProgressStateUsesIndependentTargetManifests()
+  await testChineseReferenceProgressStateUsesItsTargetManifest()
   await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()
   await testReferenceProgressStateUsesCanonicalRawLexicalOrder()
   await testProgressCoordinatorCheckpointsCacheAndReport()

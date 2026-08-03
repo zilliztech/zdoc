@@ -135,31 +135,51 @@ test('three-way merges Chinese translation manifests by immutable source-relativ
   });
 });
 
-test('three-way merges revived Reference retirements across stale group artifacts', async () => {
+test('unions completed bootstrap groups while three-way merging Chinese translation manifests', async () => {
   const statePath = 'generated/zh-CN/manifests/reference-translations.json';
-  const registryPath = 'config/reference-retirements.json';
-  const state = {schemaVersion: 1, records: []};
-  const python = {manual: 'python', sourcePath: 'content/en/reference/api/python/a.md', targetPath: 'content/zh-CN/reference/api/python/a.md', reason: 'old'};
-  const java = {manual: 'java', sourcePath: 'content/en/reference/api/java/a.md', targetPath: 'content/zh-CN/reference/api/java/a.md', reason: 'old'};
-  const baselineRegistry = {schemaVersion: 1, retirements: [java, python]};
-  const artifactRegistry = {schemaVersion: 1, retirements: [java]};
-  const targetRegistry = {schemaVersion: 1, retirements: [python]};
-  const f = await fixture({files: {
-    [statePath]: `${JSON.stringify(state)}\n`,
-    [registryPath]: `${JSON.stringify(artifactRegistry)}\n`,
-  }});
+  const record = (manual, sourcePath, value) => ({manual, sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});
+  const python = record('python', 'content/en/reference/python.md', 1);
+  const java = record('java', 'content/en/reference/java.md', 2);
+  const node = record('node', 'content/en/reference/node.md', 3);
+  const baseline = {schemaVersion: 1, bootstrapCompletedGroups: ['python'], records: [python]};
+  const artifact = {schemaVersion: 1, bootstrapCompletedGroups: ['java', 'python'], records: [python, java]};
+  const target = {schemaVersion: 1, bootstrapCompletedGroups: ['node', 'python'], records: [python, node]};
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(artifact)}\n`}});
   const manifestPath = path.join(f.artifactDir, 'manifest.json');
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
   await writeFile(manifestPath, JSON.stringify(manifest));
-  for (const [root, registry] of [[f.baselineDir, baselineRegistry], [f.targetDir, targetRegistry]]) {
-    for (const [relativePath, value] of [[statePath, state], [registryPath, registry]]) {
-      await mkdir(path.dirname(path.join(root, relativePath)), {recursive: true});
-      await writeFile(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
-    }
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
   }
   await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
-  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, registryPath), 'utf8')), {schemaVersion: 1, retirements: []});
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    bootstrapCompletedGroups: ['java', 'node', 'python'],
+    records: [java, node, python],
+    schemaVersion: 1,
+  });
+});
+
+test('applying a valid Chinese Reference translation checkpoint preserves master-owned policy bytes', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const registryPath = 'config/reference-retirements.json';
+  const state = {schemaVersion: 1, records: []};
+  const policyBytes = Buffer.from('{\n    "schemaVersion": 2,\n    "retirements": []\n}\n');
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(state)}\n`}});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const root of [f.baselineDir, f.targetDir]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(state)}\n`);
+  }
+  await mkdir(path.dirname(path.join(f.targetDir, registryPath)), {recursive: true});
+  await writeFile(path.join(f.targetDir, registryPath), policyBytes);
+
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+  assert.deepEqual(await readFile(path.join(f.targetDir, registryPath)), policyBytes);
 });
 
 test('translation merge conflicts and invalid inputs leave target unchanged', async () => {

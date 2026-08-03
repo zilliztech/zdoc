@@ -66,6 +66,9 @@ function withTempCwd(callback) {
     CARD_REPORT_REF: process.env.CARD_REPORT_REF,
     CARD_REPORT_ARTIFACT_URL: process.env.CARD_REPORT_ARTIFACT_URL,
     CARD_EXPECT_GUIDES_REPORTS: process.env.CARD_EXPECT_GUIDES_REPORTS,
+    CARD_GUIDES_REPORTS_ROOT: process.env.CARD_GUIDES_REPORTS_ROOT,
+    CARD_EXPECT_EN_GUIDES_REPORTS: process.env.CARD_EXPECT_EN_GUIDES_REPORTS,
+    CARD_EXPECT_ZH_GUIDES_REPORTS: process.env.CARD_EXPECT_ZH_GUIDES_REPORTS,
     CARD_BASE_NOTES_JSON: process.env.CARD_BASE_NOTES_JSON,
     CARD_EXPECT_GUIDES_PUBLICATION_REPORT: process.env.CARD_EXPECT_GUIDES_PUBLICATION_REPORT,
     CARD_GUIDES_PUBLICATION_REPORT: process.env.CARD_GUIDES_PUBLICATION_REPORT,
@@ -306,6 +309,106 @@ function writeMediaReports({ generatedAt = '2026-07-17T01:05:00.000Z', persisten
     ...generation,
   })
 }
+
+function writeCurrentLocaleReports(site, { generatedAt = '2026-07-17T01:05:00.000Z' } = {}) {
+  const root = path.join('tmp/card-guides-reports', site)
+  const report = file => path.join(root, file)
+  writeJson(report('guides-media-prefetch.json'), {
+    schemaVersion: 1,
+    generated_at: generatedAt,
+    mode: 'incremental',
+    cacheState: 'valid',
+    metrics: {
+      canonicalReferencesRequired: site === 'en' ? 477 : 334,
+      selectedReferences: 0,
+      validatedManifestReuse: site === 'en' ? 477 : 334,
+      committedDocsReconstruction: 0,
+      resolvedByNetwork: 0,
+      staleEntriesDropped: 0,
+      finalManifestEntries: site === 'en' ? 477 : 334,
+    },
+  })
+  writeJson(report('guides-cache-generation.json'), {
+    schemaVersion: 1,
+    generated_at: generatedAt,
+    sourceCacheVersion: 'v5',
+    saveRequired: false,
+    persistence: 'skipped-valid-v5',
+    saveKey: null,
+  })
+  writeJson(report(`guides-${site}-canonical-link-audit.json`), {
+    generated_at: generatedAt,
+    manual: 'guides',
+    target: null,
+    source_dir: `./packages/docs-tooling/src/lark/meta/sources/guides${site === 'en' ? '' : '-zh-CN'}`,
+    summary: {
+      canonical_records: site === 'en' ? 376 : 313,
+      scanned_sources: site === 'en' ? 376 : 313,
+      skipped_noncanonical_sources: site === 'en' ? 93 : 125,
+      internal_references: site === 'en' ? 2163 : 1581,
+      valid_references: site === 'en' ? 2152 : 1409,
+      broken_references: site === 'en' ? 11 : 172,
+    },
+    files: [],
+  })
+  writeJson(report('guides-incremental-fetch-plan.json'), {
+    generated_at: generatedAt,
+    mode: 'incremental',
+    build_env: 'uat',
+    changed_tokens: [],
+    expanded_tokens: [],
+    removed_tokens: [],
+    warnings: [],
+  })
+  const decision = assemblyDecision({ generated_at: generatedAt })
+  writeJson(report('guides-assembly-decision.json'), decision)
+  writeJson(report('guides-assembly-result.json'), {
+    schemaVersion: 1,
+    generated_at: generatedAt,
+    mode: 'reuse_observed',
+    decisionSha256: require('./docs-workflow/guides-assembly-identity').assemblyDecisionSha256(decision),
+    reasons: [],
+    elapsedMilliseconds: 12,
+    byteComparison: { required: true, saasEqual: true, byocEqual: true, descriptorVerified: true },
+  })
+}
+
+test('current v5 Guides cache persistence report is accepted', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    writeMediaReports({
+      persistence: 'skipped-valid-v5',
+      generation: { sourceCacheVersion: 'v5', saveRequired: false, saveKey: null },
+    })
+
+    assert.equal(cacheGenerationNote(), '- Cache persistence: skipped-valid-v5')
+  })
+})
+
+test('collects complete site-qualified English and Chinese Guides report sets', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    process.env.CARD_REPORT_ARTIFACT_URL = 'https://github.com/zilliztech/zdoc/actions/runs/123#artifacts'
+    process.env.CARD_GUIDES_REPORTS_ROOT = 'tmp/card-guides-reports'
+    process.env.CARD_EXPECT_EN_GUIDES_REPORTS = 'true'
+    process.env.CARD_EXPECT_ZH_GUIDES_REPORTS = 'true'
+    writeCurrentLocaleReports('en')
+    writeCurrentLocaleReports('zh-CN')
+
+    const notes = collectNotes()
+    const markdown = notes.join('\n')
+
+    assert.equal(notes.length, 8)
+    assert.match(markdown, /# English Guides media/)
+    assert.match(markdown, /# Chinese Guides media/)
+    assert.match(markdown, /# English Guides canonical link audit/)
+    assert.match(markdown, /# Chinese Guides canonical link audit/)
+    assert.match(markdown, /Broken references: 11/)
+    assert.match(markdown, /Broken references: 172/)
+    assert.doesNotMatch(markdown, /Guides reports unavailable/)
+    assert.doesNotMatch(markdown, /Canonical content links audit/)
+  })
+})
 
 test('combines strict media provenance and cache persistence into one Guides media note', () => {
   withTempCwd(() => {

@@ -1,7 +1,8 @@
 const tokenFetcher = require('./larkTokenFetcher.js')
 const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
-const { auditCanonicalLinks, canonicalRecordsFrom, contentLinkTarget } = require('./canonicalLinkAuditor')
+const { auditCanonicalLinks, canonicalRecordsFrom, contentLinkTarget, sourceOwnedRecordsFrom } = require('./canonicalLinkAuditor')
 const { guidesPlacementType, guidesCanonicalIsPublishable } = require('./guidesBaseRecordSemantics')
+const { guidesTableSlug } = require('./guidesTableSlugs')
 const { isRenderableCanonicalSource } = require('./sourceCompleteness')
 const fs = require('fs')
 const node_path = require('path')
@@ -94,7 +95,7 @@ class larkDocScraper {
 
     async fetch_wiki_node_metadata(records, { progressLabel=null, progressEvery=25 } = {}) {
         const metadataByToken = new Map()
-        const canonicalRecords = canonicalRecordsFrom(records || this.records || [], {
+        const canonicalRecords = sourceOwnedRecordsFrom(records || this.records || [], {
             guidesPublishableOnly: this.use_all_base_tables,
         })
         if (progressLabel) {
@@ -381,7 +382,6 @@ class larkDocScraper {
     __doc_token(docField) {
         const link = this.__doc_link(docField)
         if (!link) return null
-        if (link.includes('#')) return link.split('#').pop()
         try {
             const url = new URL(link)
             return url.pathname.split('/').filter(Boolean).pop()
@@ -419,6 +419,18 @@ class larkDocScraper {
         if (!raw) return null
         const linkMatch = raw.match(/https?:\/\/\S+/)
         return (linkMatch ? linkMatch[0] : raw).trim()
+    }
+
+    __field_anchor(value) {
+        const raw = this.__field_href(value)
+        if (!raw) return null
+        try {
+            const url = new URL(raw)
+            return url.hash ? decodeURIComponent(url.hash.slice(1)) : null
+        } catch (_) {
+            const index = raw.indexOf('#')
+            return index >= 0 && raw.slice(index + 1) ? raw.slice(index + 1) : null
+        }
     }
 
     __table_filter_values(tableFilter) {
@@ -798,9 +810,11 @@ class larkDocScraper {
     async __fetch_base_doc_sources() {
         const sources = this.__source_files()
         for (const record of this.records || []) {
-            if (this.__placement_type(record) !== 'canonical') continue
-            if (this.use_all_base_tables && !guidesCanonicalIsPublishable(record)) continue
+            const placementType = this.__placement_type(record)
+            if (placementType !== 'canonical' && placementType !== 'section') continue
+            if (placementType === 'canonical' && this.use_all_base_tables && !guidesCanonicalIsPublishable(record)) continue
             const docField = this.__doc_field(record.fields)
+            if (placementType === 'section' && !this.__doc_token(docField)) continue
             const docToken = this.__doc_token(docField)
             if (!docToken || isRenderableCanonicalSource(sources.get(docToken))) continue
 
@@ -865,7 +879,9 @@ class larkDocScraper {
 
     __is_structural_record(record) {
         const placementType = this.__placement_type(record)
-        return placementType !== 'canonical'
+        if (placementType === 'canonical') return false
+        if (placementType === 'section') return !this.__doc_token(this.__doc_field(record.fields))
+        return true
     }
 
     __source_base_meta(source, record) {
@@ -875,7 +891,6 @@ class larkDocScraper {
         source.base_table_name = record.base_table_name
         source.base_record_index = record.base_record_index
         source.base_placement_type = placementType
-        if (placementType === 'section') return source
         source.base_targets = (record.fields.Targets || record.fields['Publish Targets'] || [])
         source.base_status = record.fields.Status || record.fields.Progress || null
         source.base_labels = record.fields.Labels || null
@@ -1178,6 +1193,7 @@ class larkDocScraper {
                 })
                 source.base_nav_ref = true
                 source.base_nav_ref_target_token = targetToken
+                source.base_nav_ref_target_anchor = this.__field_anchor(record.fields['Ref Target Doc'])
                 const targetRecord = targetToken ? recordsByDocToken.get(targetToken) : null
                 source.base_nav_ref_target_title = targetSource?.title || targetSource?.name || (targetRecord ? this.__record_title(targetRecord) : null)
             } else if (placementType === 'link') {
@@ -1229,7 +1245,7 @@ class larkDocScraper {
                 nodeToken: tableToken,
                 parentToken: this.root,
                 title: table.name || table.table_id,
-                slug: slugify(table.name || table.table_id, { lower: true, strict: true }),
+                slug: guidesTableSlug(process.env.ZDOC_SITE || 'en', table.name || table.table_id),
                 children,
             })
             tableSource.base_table_id = table.table_id

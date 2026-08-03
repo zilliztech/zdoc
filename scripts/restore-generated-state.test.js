@@ -7,7 +7,6 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-artifact')
-const { RESTORE_PATHS } = require('./docs-workflow/validate-guides-translation-staging')
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
 const revisionInventoryRoot = 'generated/en/manifests/lark-revisions'
@@ -17,6 +16,7 @@ const restorePaths = [
   'reference',
   'i18n',
   'content/en',
+  'content/zh-CN',
   '.translation-cache',
   'config/generated',
   'generated/en/sidebars/guides.sidebar.js',
@@ -28,6 +28,7 @@ const restorePaths = [
   'generated/en/sidebars/cli.sidebar.js',
   'generated/en/sidebars/restful.sidebar.js',
   revisionInventoryRoot,
+  'generated/zh-CN',
   'packages/docs-tooling/src/lark/meta/snapshots',
   'packages/docs-tooling/src/lark/meta/assembly',
   'packages/docs-tooling/src/lark/meta/reports',
@@ -67,9 +68,10 @@ function createFixture() {
   git(root, 'init', '-b', 'dev', source)
   git(source, 'config', 'user.name', 'Test User')
   git(source, 'config', 'user.email', 'test@example.com')
+  git(source, 'config', 'gc.auto', '0')
   git(source, 'remote', 'add', 'origin', origin)
 
-  for (const restorePath of RESTORE_PATHS) {
+  for (const restorePath of restorePaths) {
     const fixturePath = restorePath.endsWith('.js') ? restorePath : path.join(restorePath, 'state.txt')
     write(source, fixturePath, `old:${restorePath}\n`)
   }
@@ -81,6 +83,7 @@ function createFixture() {
   git(root, 'clone', '--branch', 'dev', origin, work)
   git(work, 'config', 'user.name', 'Test User')
   git(work, 'config', 'user.email', 'test@example.com')
+  git(work, 'config', 'gc.auto', '0')
 
   return { root, origin, source, work, oldSha }
 }
@@ -111,7 +114,6 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
-  assert.deepEqual(RESTORE_PATHS, restorePaths)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
@@ -246,6 +248,30 @@ test('exact immutable ref restores unified Guides source authority from the targ
     assert.equal(fs.readFileSync(path.join(fixture.work, guides), 'utf8'), 'published guides\n')
     assert.equal(fs.readFileSync(path.join(fixture.work, byoc), 'utf8'), 'published byoc\n')
     assert.equal(fs.readFileSync(path.join(fixture.work, sidebar), 'utf8'), 'module.exports = ["published"]\n')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref restores the complete Chinese publication state', () => {
+  const fixture = createFixture()
+  const guide = 'content/zh-CN/guides/tutorials/source.md'
+  const sidebar = 'generated/zh-CN/sidebars/guides.sidebar.js'
+  try {
+    write(fixture.source, guide, 'published Chinese guide\n')
+    write(fixture.source, sidebar, 'module.exports = ["published-zh"]\n')
+    git(fixture.source, 'add', 'content/zh-CN', 'generated/zh-CN')
+    git(fixture.source, 'commit', '-m', 'publish Chinese state')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, guide, 'stale Chinese guide\n')
+    write(fixture.work, sidebar, 'module.exports = ["stale-zh"]\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, guide), 'utf8'), 'published Chinese guide\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, sidebar), 'utf8'), 'module.exports = ["published-zh"]\n')
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }

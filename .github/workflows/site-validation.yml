@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       site: { description: Site selection, required: true, type: choice, options: [auto, en, zh-CN, all], default: auto }
-      source_ref: { description: Content branch, tag, or exact SHA, required: false, type: string, default: dev }
+      source_ref: { description: 'Content branch, tag, or exact SHA', required: false, type: string, default: dev }
       publish: { description: Reserved for the publication entry, required: false, type: boolean, default: false }
 
 permissions:
@@ -99,7 +99,6 @@ jobs:
     timeout-minutes: 90
     env:
       NODE_OPTIONS: --max-old-space-size=4096
-      DOCUSAURUS_SSG_WORKER_THREAD_COUNT: '2'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -157,20 +156,6 @@ jobs:
     steps:
       - name: Require the provenance-enforced Chinese Tools build
         run: test "$ZH_CN_RESULT" = success
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.classify.outputs.source_sha }}
-          fetch-depth: 0
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Validate Chinese Tools translation coverage
-        run: pnpm docs-tooling validate-translation --target zh-CN-tools --group tools
-      - name: Validate Chinese Tools sidebar ownership
-        run: pnpm docs-tooling validate-tools-sidebar
 
   retirement:
     name: Verify retired layout

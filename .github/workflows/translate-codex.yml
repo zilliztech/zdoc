@@ -1,70 +1,264 @@
 name: translate docs with Codex agents
+run-name: ${{ inputs.request_id != '' && format('translate docs ({0})', inputs.request_id) || 'translate docs' }}
 
 on:
   workflow_dispatch:
     inputs:
-      target:
-        description: Translation product
-        required: true
-        type: choice
-        default: ja-JP
-        options: [ja-JP, zh-CN-reference, zh-CN-tools]
-      group:
-        description: Content group to translate
-        required: true
-        type: choice
-        default: guides
-        options: [guides, python, java, node, go, cli, rest, tools, reference-landings]
-      max_files: { description: Maximum files, required: false, default: '500' }
+      handoff_json: { description: Complete schema-v2 translation handoff, required: true, type: string }
       mode: { description: Translation mode, required: false, type: choice, options: [auto, full, incremental], default: auto }
       publish: { description: Publish validated translations, required: false, type: boolean, default: false }
-      recovery_run_id: { description: Previous recovery workflow run, required: false, type: string }
-      target_branch: { description: Publication branch, required: false, default: dev }
-      tooling_sha: { description: Exact tooling commit SHA, required: true, type: string }
-      source_sha: { description: Exact source checkpoint SHA, required: true, type: string }
+      recovery_run_ids_json: { description: Recovery run IDs by target/group, required: false, type: string, default: '{}' }
+      request_id: { description: Parent workflow correlation ID, required: false, type: string, default: '' }
+  workflow_call:
+    inputs:
+      handoff_json: { description: Complete schema-v2 translation handoff, required: true, type: string }
+      mode: { required: false, type: string, default: auto }
+      publish: { required: false, type: boolean, default: false }
+      recovery_run_ids_json: { required: false, type: string, default: '{}' }
+      request_id: { required: false, type: string, default: '' }
+    secrets:
+      TRANSLATION_AGENT_API_KEY: { required: true }
+      REVIEW_AGENT_API_KEY: { required: true }
 
 permissions:
   actions: read
   contents: write
 
-concurrency:
-  group: docs-production-dev
-  cancel-in-progress: false
-
 jobs:
-  validate:
+  prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
+    outputs:
+      locale: ${{ steps.handoff.outputs.locale }}
+      group: ${{ steps.handoff.outputs.group }}
+      tooling_sha: ${{ steps.handoff.outputs.tooling_sha }}
+      target_branch: ${{ steps.handoff.outputs.target_branch }}
+      target_branch_sha: ${{ steps.handoff.outputs.target_branch_sha }}
+      source_checkpoints_json: ${{ steps.handoff.outputs.source_checkpoints_json }}
+      sdk_producer_matrix: ${{ steps.handoff.outputs.sdk_producer_matrix }}
+      sdk_count: ${{ steps.handoff.outputs.sdk_count }}
+      guides_selected: ${{ steps.handoff.outputs.guides_selected }}
+      guides_unit_json: ${{ steps.handoff.outputs.guides_unit_json }}
+      guides_recovery_run_id: ${{ steps.handoff.outputs.guides_recovery_run_id }}
     steps:
-      - name: Validate immutable translation identities
+      - name: Validate exact tooling identity before checkout
+        id: identity
+        env: { HANDOFF_JSON: '${{ inputs.handoff_json }}' }
+        run: node -e 'const fs=require("node:fs");const value=JSON.parse(process.env.HANDOFF_JSON);if(!/^[0-9a-f]{40}$/.test(value?.toolingSha))throw new Error("handoff toolingSha must be an exact lowercase 40-character SHA");fs.appendFileSync(process.env.GITHUB_OUTPUT,"tooling_sha="+value.toolingSha+"\n")'
+      - uses: actions/checkout@v4
+        with: { ref: '${{ steps.identity.outputs.tooling_sha }}', fetch-depth: 0 }
+      - name: Resolve and validate the complete translation handoff
+        id: handoff
         env:
-          TRANSLATION_TARGET: ${{ inputs.target }}
-          INPUT_GROUP: ${{ inputs.group }}
-          TOOLING_SHA: ${{ inputs.tooling_sha }}
-          SOURCE_SHA: ${{ inputs.source_sha }}
+          HANDOFF_JSON: ${{ inputs.handoff_json }}
+          RECOVERY_RUN_IDS_JSON: ${{ inputs.recovery_run_ids_json }}
+          REQUEST_ID: ${{ inputs.request_id }}
         run: |
           set -euo pipefail
-          node -e 'for(const [name,value] of Object.entries(process.env))if(["TOOLING_SHA","SOURCE_SHA"].includes(name)&&!/^[0-9a-f]{40}$/.test(value))throw new Error(`${name} must be an exact lowercase 40-character SHA`)'
-          case "$TRANSLATION_TARGET" in
-            ja-JP) [[ "$INPUT_GROUP" =~ ^(guides|python|java|node|go|cli|rest)$ ]] ;;
-            zh-CN-reference) [[ "$INPUT_GROUP" =~ ^(python|java|node|go|cli|rest|reference-landings)$ ]] ;;
-            zh-CN-tools) [[ "$INPUT_GROUP" == tools ]] ;;
-            *) exit 2 ;;
-          esac
+          [[ -z "$REQUEST_ID" || "$REQUEST_ID" =~ ^[1-9][0-9]*-[1-9][0-9]*$ ]]
+          HANDOFF_PATH="$RUNNER_TEMP/translation-handoff-input.json" FETCH_LIST_PATH="$RUNNER_TEMP/translation-handoff-fetches.txt" node - <<'NODE'
+          const fs = require('node:fs')
+          const handoff = JSON.parse(process.env.HANDOFF_JSON)
+          fs.writeFileSync(process.env.HANDOFF_PATH, `${JSON.stringify(handoff)}\n`)
+          const shas = [...new Set((handoff.units || []).flatMap(unit => [unit.sourceBaselineSha, unit.sourceCheckpointSha]))]
+          fs.writeFileSync(process.env.FETCH_LIST_PATH, `${shas.join('\n')}\n`)
+          NODE
+          while IFS= read -r sha; do
+            [[ -z "$sha" ]] || git fetch --no-tags origin "$sha"
+          done < "$RUNNER_TEMP/translation-handoff-fetches.txt"
+          TARGET_BRANCH=$(node -p 'JSON.parse(process.env.HANDOFF_JSON).targetBranch')
+          EXPECTED_TARGET_SHA=$(node -p 'JSON.parse(process.env.HANDOFF_JSON).targetBaselineSha')
+          git check-ref-format --branch "$TARGET_BRANCH"
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          target_branch_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          [[ "$target_branch_sha" == "$EXPECTED_TARGET_SHA" ]] || { echo "Target branch moved after handoff: expected $EXPECTED_TARGET_SHA, got $target_branch_sha" >&2; exit 1; }
+          node scripts/docs-workflow/translation-handoff.js --handoff-json "$HANDOFF_JSON" --repository "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/translation-handoff.json"
+          HANDOFF_PATH="$RUNNER_TEMP/translation-handoff.json" TARGET_BRANCH_SHA="$target_branch_sha" node - <<'NODE'
+          const fs = require('node:fs')
+          const handoff = JSON.parse(fs.readFileSync(process.env.HANDOFF_PATH, 'utf8'))
+          const recovery = JSON.parse(process.env.RECOVERY_RUN_IDS_JSON)
+          if (!recovery || typeof recovery !== 'object' || Array.isArray(recovery)) throw new Error('recovery_run_ids_json must be an object')
+          for (const [key, value] of Object.entries(recovery)) {
+            if (!handoff.units.some(unit => `${unit.target}/${unit.group}` === key)) throw new Error(`Recovery run ID is not selected: ${key}`)
+            if (value !== '' && !/^[1-9][0-9]*$/.test(String(value))) throw new Error(`Recovery run ID is invalid: ${key}`)
+          }
+          const sdk = handoff.units.filter(unit => unit.group !== 'guides').map(unit => ({...unit, recoveryRunId: String(recovery[`${unit.target}/${unit.group}`] || '')}))
+          const guides = handoff.units.find(unit => unit.target === 'ja-JP' && unit.group === 'guides')
+          const sourceCheckpoints = Object.fromEntries(handoff.units.map(unit => [unit.sourceGroup, unit.sourceCheckpointSha]))
+          const lines = {
+            locale: handoff.locale,
+            group: handoff.group,
+            tooling_sha: handoff.toolingSha,
+            target_branch: handoff.targetBranch,
+            target_branch_sha: process.env.TARGET_BRANCH_SHA,
+            source_checkpoints_json: JSON.stringify(sourceCheckpoints),
+            sdk_producer_matrix: JSON.stringify({include: sdk}),
+            sdk_count: String(sdk.length),
+            guides_selected: String(Boolean(guides)),
+            guides_unit_json: JSON.stringify(guides || {}),
+            guides_recovery_run_id: String(recovery['ja-JP/guides'] || ''),
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, Object.entries(lines).map(([key, value]) => `${key}=${value}\n`).join(''))
+          NODE
 
-  translate:
-    needs: validate
-    uses: ./.github/workflows/translate-content.yml
+  prepare_guides_batches:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.guides_selected == 'true' }}
+    uses: ./.github/workflows/_prepare-translation-batches.yml
     with:
-      target: ${{ inputs.target }}
-      group: ${{ inputs.group }}
-      tooling_sha: ${{ inputs.tooling_sha }}
-      source_sha: ${{ inputs.source_sha }}
-      max_files: ${{ inputs.max_files }}
+      group: guides
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_baseline_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceBaselineSha }}
+      source_checkpoint_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
+
+  translate_guides_batches:
+    needs: [prepare, prepare_guides_batches]
+    if: ${{ needs.prepare_guides_batches.outputs.pending_count != '0' }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare_guides_batches.outputs.matrix) }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      target: ja-JP
+      group: guides
+      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_baseline_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceBaselineSha }}
+      source_checkpoint_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
+      should_translate: true
+      max_files: '500'
       mode: ${{ inputs.mode }}
-      publish: ${{ inputs.publish }}
-      recovery_run_id: ${{ inputs.recovery_run_id }}
-      target_branch: ${{ inputs.target_branch }}
+      recovery_run_id: ${{ needs.prepare.outputs.guides_recovery_run_id }}
+      batch_index: ${{ matrix.batchIndex }}
+      batch_number: ${{ matrix.batchNumber }}
+      batch_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}
+      batch_size: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_size) }}
+      pending_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.pending_count) }}
+      pending_set_sha256: ${{ needs.prepare_guides_batches.outputs.pending_set_sha256 }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+
+  translate_sdk:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.sdk_count != '0' }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.sdk_producer_matrix) }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      target: ${{ matrix.target }}
+      group: ${{ matrix.group }}
+      bootstrap_group: ${{ matrix.group }}
+      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_baseline_sha: ${{ matrix.sourceBaselineSha }}
+      source_checkpoint_sha: ${{ matrix.sourceCheckpointSha }}
+      should_translate: true
+      max_files: '500'
+      mode: ${{ inputs.mode }}
+      recovery_run_id: ${{ matrix.recoveryRunId }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+
+  publish_ja_guides:
+    needs: [prepare, prepare_guides_batches, translate_guides_batches]
+    if: ${{ always() && inputs.publish && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && (needs.translate_guides_batches.result == 'success' || needs.translate_guides_batches.result == 'skipped') && needs.prepare_guides_batches.outputs.batch_count != '0' }}
+    uses: ./.github/workflows/_publish-translation-batches.yml
+    with:
+      group: guides
+      target: ja-JP
+      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
+      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
+      source_commit_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
+      expected_target_sha: ${{ needs.prepare.outputs.target_branch_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      batch_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}
+
+  publish_ja_python:
+    needs: [prepare, translate_sdk, publish_ja_guides]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_guides.result == 'success' || needs.publish_ja_guides.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: python, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-python-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-python-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish python translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).python }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group python' }
+  publish_zh_python:
+    needs: [prepare, translate_sdk, publish_ja_python]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_python.result == 'success' || needs.publish_ja_python.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: python, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-python-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-python-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish python translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).python }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group python' }
+  publish_ja_java:
+    needs: [prepare, translate_sdk, publish_zh_python]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_zh_python.result == 'success' || needs.publish_zh_python.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: java, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-java-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-java-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish java translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).java }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group java' }
+  publish_zh_java:
+    needs: [prepare, translate_sdk, publish_ja_java]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_ja_java.result == 'success' || needs.publish_ja_java.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: java, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-java-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-java-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish java translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).java }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group java' }
+  publish_ja_node:
+    needs: [prepare, translate_sdk, publish_zh_java]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_zh_java.result == 'success' || needs.publish_zh_java.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: node, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-node-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-node-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish node translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).node }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group node' }
+  publish_zh_node:
+    needs: [prepare, translate_sdk, publish_ja_node]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_ja_node.result == 'success' || needs.publish_ja_node.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: node, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-node-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-node-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish node translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).node }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group node' }
+  publish_ja_go:
+    needs: [prepare, translate_sdk, publish_zh_node]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_zh_node.result == 'success' || needs.publish_zh_node.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: go, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-go-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-go-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish go translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).go }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group go' }
+  publish_zh_go:
+    needs: [prepare, translate_sdk, publish_ja_go]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_ja_go.result == 'success' || needs.publish_ja_go.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: go, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-go-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-go-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish go translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).go }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group go' }
+  publish_ja_cli:
+    needs: [prepare, translate_sdk, publish_zh_go]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_zh_go.result == 'success' || needs.publish_zh_go.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: cli, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-cli-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-cli-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish cli translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).cli }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group cli' }
+  publish_zh_cli:
+    needs: [prepare, translate_sdk, publish_ja_cli]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_ja_cli.result == 'success' || needs.publish_ja_cli.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: cli, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-cli-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-cli-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish cli translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).cli }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group cli' }
+  publish_ja_rest:
+    needs: [prepare, translate_sdk, publish_zh_cli]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_zh_cli.result == 'success' || needs.publish_zh_cli.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: rest, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-rest-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-rest-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish rest translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).rest }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group rest' }
+  publish_zh_rest:
+    needs: [prepare, translate_sdk, publish_ja_rest]
+    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_ja_rest.result == 'success' || needs.publish_ja_rest.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: rest, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-rest-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-rest-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish rest translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).rest }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group rest' }
+  publish_zh_reference_landings:
+    needs: [prepare, translate_sdk, publish_zh_rest]
+    if: ${{ always() && inputs.publish && needs.prepare.outputs.locale == 'zh-CN' && needs.prepare.outputs.group == 'reference-landings' && needs.translate_sdk.result == 'success' && (needs.publish_zh_rest.result == 'success' || needs.publish_zh_rest.result == 'skipped') }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with: { group: reference-landings, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-reference-landings-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-reference-landings-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish reference-landings translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: "${{ fromJSON(needs.prepare.outputs.source_checkpoints_json)['reference-landings'] }}", target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group reference-landings' }
+
+  aggregate:
+    needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Report translation orchestration result
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const needs = JSON.parse(process.env.NEEDS_JSON)
+          const lines = Object.entries(needs).map(([name, value]) => `${name}=${value.result}`)
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`)
+          const failed = Object.entries(needs).filter(([, value]) => value.result === 'failure' || value.result === 'cancelled')
+          if (failed.length) throw new Error(`Translation orchestration failed: ${failed.map(([name, value]) => `${name}=${value.result}`).join(', ')}`)
+          if (needs.prepare?.result !== 'success') throw new Error('Translation handoff preparation did not succeed')
+          NODE

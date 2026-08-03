@@ -24,8 +24,9 @@ function standaloneSidebar(contents) {
   return sidebar === 'releasesSidebar'
 }
 
-function collectGeneratedDocIds(outputDir, idPrefix) {
+function collectGeneratedDocInventory(outputDir, idPrefix) {
   const ids = new Set()
+  const standaloneIds = new Set()
   function visit(relative = '') {
     const directory = path.join(outputDir, relative)
     if (!fs.existsSync(directory)) return
@@ -34,20 +35,25 @@ function collectGeneratedDocIds(outputDir, idPrefix) {
       if (entry.isDirectory()) visit(child)
       else if (entry.isFile() && /\.mdx?$/.test(entry.name)) {
         const contents = fs.readFileSync(path.join(outputDir, child), 'utf8')
-        if (standaloneSidebar(contents)) continue
-        ids.add(path.posix.join(idPrefix, child.replace(/\.mdx?$/, '')))
+        const id = path.posix.join(idPrefix, child.replace(/\.mdx?$/, ''))
+        ids.add(id)
+        if (standaloneSidebar(contents)) standaloneIds.add(id)
       }
     }
   }
   visit()
-  return ids
+  return { ids, standaloneIds }
+}
+
+function collectGeneratedDocIds(outputDir, idPrefix) {
+  return collectGeneratedDocInventory(outputDir, idPrefix).ids
 }
 
 function validateGuidesCoverage({ outputDir, idPrefix = 'tutorials', sidebar, ignoredGeneratedIds = [] }) {
-  const generated = collectGeneratedDocIds(outputDir, idPrefix)
+  const { ids: generated, standaloneIds } = collectGeneratedDocInventory(outputDir, idPrefix)
   const sidebarIds = collectSidebarIds(sidebar)
   const ignored = new Set(ignoredGeneratedIds)
-  const missingFromSidebar = [...generated].filter(id => !ignored.has(id) && !sidebarIds.has(id)).sort()
+  const missingFromSidebar = [...generated].filter(id => !ignored.has(id) && !standaloneIds.has(id) && !sidebarIds.has(id)).sort()
   const missingGeneratedFiles = [...sidebarIds].filter(id => id.startsWith(`${idPrefix}/`) && !generated.has(id)).sort()
   if (missingFromSidebar.length || missingGeneratedFiles.length) {
     throw new Error([
@@ -61,17 +67,49 @@ function validateGuidesCoverage({ outputDir, idPrefix = 'tutorials', sidebar, ig
   return { generatedDocs: generated.size, sidebarDocs: sidebarIds.size, missingFromSidebar, missingGeneratedFiles }
 }
 
+function coverageConfigs(site) {
+  if (!['en', 'zh-CN'].includes(site)) throw new Error(`Unsupported Guides site: ${site}`)
+  return [
+    { outputDir: `content/${site}/guides/tutorials`, idPrefix: 'tutorials', sidebarPath: `generated/${site}/sidebars/guides.sidebar.js`, kind: 'cloud' },
+    { outputDir: `content/${site}/byoc/tutorials`, idPrefix: 'tutorials', sidebarPath: `generated/${site}/sidebars/guides-byoc.sidebar.js`, kind: 'byoc' },
+  ]
+}
+
+function validateGuidesSite({ site, configs = coverageConfigs(site), loadSidebar = sidebarPath => require(path.resolve(sidebarPath)) }) {
+  const results = []
+  for (const config of configs) {
+    const sidebar = loadSidebar(config.sidebarPath)
+    const ignoredGeneratedIds = config.kind === 'cloud' ? ['tutorials/home'] : []
+    const result = validateGuidesCoverage({ ...config, sidebar, ignoredGeneratedIds })
+    if (site === 'zh-CN' && config.kind === 'cloud') {
+      const generated = collectGeneratedDocIds(config.outputDir, config.idPrefix)
+      const sidebarIds = collectSidebarIds(sidebar)
+      if (![...generated].some(id => id.startsWith('tutorials/tools/'))) {
+        throw new Error('Chinese Cloud Guides must include Tools content under tutorials/tools')
+      }
+      if (![...sidebarIds].some(id => id.startsWith('tutorials/tools/'))) {
+        throw new Error('Chinese Tools content is unreachable from the Cloud Guides sidebar')
+      }
+    }
+    results.push({ ...config, ...result })
+  }
+  return results
+}
+
 if (require.main === module) {
   try {
-    for (const config of [
-      { outputDir: 'content/en/guides/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides.sidebar.js' },
-      { outputDir: 'content/en/byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js' },
-    ]) {
-      delete require.cache[require.resolve(path.resolve(config.sidebarPath))]
-      const result = validateGuidesCoverage({ ...config, sidebar: require(path.resolve(config.sidebarPath)) })
-      console.log(`[guides-coverage] ${config.sidebarPath}: ${result.generatedDocs} generated docs covered`)
+    const argv = process.argv.slice(2)
+    if (argv.length !== 2 || argv[0] !== '--site') throw new Error('Usage: validate-guides-coverage.js --site <en|zh-CN>')
+    for (const result of validateGuidesSite({
+      site: argv[1],
+      loadSidebar(sidebarPath) {
+        delete require.cache[require.resolve(path.resolve(sidebarPath))]
+        return require(path.resolve(sidebarPath))
+      },
+    })) {
+      console.log(`[guides-coverage] ${result.sidebarPath}: ${result.generatedDocs} generated docs covered`)
     }
   } catch (error) { console.error(error.message); process.exitCode = 1 }
 }
 
-module.exports = { collectSidebarIds, collectGeneratedDocIds, validateGuidesCoverage }
+module.exports = { collectSidebarIds, collectGeneratedDocIds, coverageConfigs, validateGuidesCoverage, validateGuidesSite }

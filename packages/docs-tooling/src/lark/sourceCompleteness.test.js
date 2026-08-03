@@ -109,18 +109,32 @@ test('rejects canonical sources that cannot render a page body', () => {
   }
 })
 
-test('allows virtual section, link, and ref navigation sources', () => {
+test('ignores virtual-only navigation records that do not own source files', () => {
   const f = fixture()
   f.snapshot.records.push(
-    { placement_type: 'section', source_file: 'section.json' },
-    { placement_type: 'link', source_file: 'link.json' },
-    { placement_type: 'ref', source_file: 'ref.json' },
+    { placement_type: 'section' },
+    { placement_type: 'link' },
+    { placement_type: 'ref' },
   )
-  write(f.sourceDir, 'section.json', { node_token: 'base:tbl:section', base_nav_virtual: true })
-  write(f.sourceDir, 'link.json', { node_token: 'base:tbl:link', base_nav_virtual: true })
-  write(f.sourceDir, 'ref.json', { node_token: 'base:tbl:ref', base_nav_virtual: true })
 
   const result = validateSourceCompleteness({ manual: 'guides', buildEnv: 'uat', rootToken: 'root-token', sourceDir: f.sourceDir, snapshot: f.snapshot })
   assert.equal(result.complete, true)
   assert.deepEqual(result.nonRenderableCanonicalFiles, [])
+})
+
+test('validates a section-owned Docs source like a canonical page source', () => {
+  const f = fixture()
+  const source = {
+    node_token: 'section-doc',
+    base_placement_type: 'section',
+    blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] },
+  }
+  write(f.sourceDir, 'section-doc.json', source)
+  const sourceHash = crypto.createHash('sha256').update(fs.readFileSync(path.join(f.sourceDir, 'section-doc.json'))).digest('hex')
+  f.snapshot.records.push({ placement_type: 'section', doc_token: 'section-doc', source_file: 'section-doc.json', source_hash: sourceHash })
+
+  const result = validateSourceCompleteness({ manual: 'guides', buildEnv: 'uat', rootToken: 'root-token', sourceDir: f.sourceDir, snapshot: f.snapshot })
+  assert.equal(result.complete, true)
+  assert.equal(result.expectedCanonicalSources, 3)
+  assert.equal(result.validCanonicalSources, 3)
 })

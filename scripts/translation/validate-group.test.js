@@ -13,12 +13,8 @@ test('Chinese SDK validation is scoped to the selected group', () => {
   assert.equal(JSON.stringify(commands).includes('validate-reference'), false);
 });
 
-test('Tools and Japanese validation use their existing group checks', () => {
-  assert.deepEqual(commandsForTranslationGroup({target: 'zh-CN-tools', group: 'guides'}), [
-    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/guides/tutorials/tools']],
-    ['pnpm', ['docs-tooling', 'validate-translation', '--target', 'zh-CN-tools', '--group', 'tools']],
-    ['pnpm', ['docs-tooling', 'validate-tools-sidebar']],
-  ]);
+test('Japanese validation uses its existing group checks and retired Tools is rejected', () => {
+  assert.throws(() => commandsForTranslationGroup({target: 'zh-CN-tools', group: 'guides'}), /unsupported/i);
   assert.deepEqual(commandsForTranslationGroup({target: 'ja-JP', group: 'java'}), [
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP']],
     ['pnpm', ['docs-tooling', 'validate-translation', '--target', 'ja-JP', '--group', 'java']],

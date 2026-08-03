@@ -33,11 +33,13 @@ const guidesStage = `tmp/docs-tooling/${site}/guides`;
 const guidesByocStage = `tmp/docs-tooling/${site}/guides-byoc`;
 
 const guides: Manual = {
-    root: 'Tg6mwbRGDitPQ3kLUQzc44I7nth',
-    base: 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*',
+    root: site === 'zh-CN' ? 'XyeFwdx6kiK9A6kq3yIcLNdEnDd' : 'Tg6mwbRGDitPQ3kLUQzc44I7nth',
+    base: site === 'zh-CN' ? 'I6YUb1M0JajHrqsJGcLcZNh7neP:*' : 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*',
     sourceType: 'wiki',
     displayedSidebar: 'default',
-    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/guides',
+    docSourceDir: site === 'zh-CN'
+        ? './packages/docs-tooling/src/lark/meta/sources/guides-zh-CN'
+        : './packages/docs-tooling/src/lark/meta/sources/guides',
     sidebarPath: `./${guidesStage}/generated/${site}/sidebars/guides.sidebar.js`,
     overridePath: `./sidebar-overrides/${site}/guides.json`,
     contentRoot: `${guidesStage}/content/${site}/guides`,

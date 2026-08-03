@@ -73,17 +73,22 @@ const RetirementRecordSchema = z.object({
   manual: z.string().regex(/^[a-z][a-z0-9-]*$/u),
   sourcePath: RepositoryPathSchema,
   targetPath: RepositoryPathSchema,
-  reason: z.string().min(1),
+  changeKind: z.enum(['source_deleted', 'source_renamed', 'sidebar_removed']).nullable(),
+  rationale: z.string().min(1),
 }).strict().superRefine((record, context) => {
   const sourceRelative = relativeToRoot(record.sourcePath, 'content/en/reference');
   const targetRelative = relativeToRoot(record.targetPath, 'content/zh-CN/reference');
   if (sourceRelative !== targetRelative) {
     context.addIssue({code: z.ZodIssueCode.custom, message: 'Retirement source and target must use the same canonical relative path'});
   }
+  const manual = referenceManualForRelativePath(sourceRelative);
+  if (!manual || manual !== record.manual) {
+    context.addIssue({code: z.ZodIssueCode.custom, message: 'Retirement manual does not match Reference path ownership'});
+  }
 });
 
 const ReferenceRetirementRegistrySchema = z.object({
-  schemaVersion: z.literal(1),
+  schemaVersion: z.literal(2),
   retirements: z.array(RetirementRecordSchema),
 }).strict().superRefine((registry, context) => {
   const sourcePaths = new Set<string>();
@@ -151,6 +156,18 @@ function compareRecords(
   return compareText(left.manual ?? '', right.manual ?? '')
     || compareText(left.sourcePath ?? '', right.sourcePath ?? '')
     || compareText(left.targetPath ?? '', right.targetPath ?? '');
+}
+
+function referenceManualForRelativePath(relativePath: string): string | undefined {
+  const ownership = [
+    ['api/python', 'python'],
+    ['api/java', 'java'],
+    ['api/nodejs', 'node'],
+    ['api/go', 'go'],
+    ['api/restful', 'rest'],
+    ['cli', 'cli'],
+  ] as const;
+  return ownership.find(([prefix]) => relativePath === prefix || relativePath.startsWith(`${prefix}/`))?.[1];
 }
 
 export function assertSafeRepositoryPathChain(repositoryRoot: string, relativePath: string, label: string): string {
@@ -234,7 +251,7 @@ export function normalizeReferenceRetirementRegistry(options: Readonly<{
     record.manual !== options.manual
     || (!options.sourcePaths.has(record.sourcePath) && options.targetPaths.has(record.targetPath))
   ));
-  return parseReferenceRetirementRegistry({schemaVersion: 1, retirements: [...retirements].sort(compareRecords)});
+  return parseReferenceRetirementRegistry({schemaVersion: 2, retirements: [...retirements].sort(compareRecords)});
 }
 
 export function serializeReferenceManifest(value: ReferenceSourceManifest | ReferenceTranslationManifest): string {
@@ -260,7 +277,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   const sourceByRelative = new Map([...sourceFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.sourceRoot), {filePath, hash}]));
   const targetByRelative = new Map([...targetFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.targetRoot), {filePath, hash}]));
   const registeredRetirements = (options.retirementRegistry?.retirements ?? []).filter(record => (
-    !sourceFiles.has(record.sourcePath) && targetFiles.has(record.targetPath)
+    sourceFiles.has(record.sourcePath) !== targetFiles.has(record.targetPath)
   ));
   const retired = new Set(registeredRetirements.map(record => `${record.sourcePath}\0${record.targetPath}`));
   const relativePaths = new Set([...sourceByRelative.keys(), ...targetByRelative.keys()]);

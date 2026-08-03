@@ -9,25 +9,26 @@ const { execFileSync, spawnSync } = require('node:child_process')
 const { VALIDATION_SPECS } = require('./translation-publication-report')
 
 const RESTORE_PATHS = Object.freeze([
-  'docs',
-  'docs-byoc',
-  'reference',
-  'i18n',
-  'content/en',
-  '.translation-cache',
-  'config/generated',
-  'generated/en/sidebars/guides.sidebar.js',
-  'generated/en/sidebars/guides-byoc.sidebar.js',
-  'generated/en/sidebars/python.sidebar.js',
-  'generated/en/sidebars/java.sidebar.js',
-  'generated/en/sidebars/node.sidebar.js',
-  'generated/en/sidebars/go.sidebar.js',
-  'generated/en/sidebars/cli.sidebar.js',
-  'generated/en/sidebars/restful.sidebar.js',
+  'content/en/guides',
+  'content/en/byoc',
+  'content/en/reference',
+  'i18n/ja-JP/docusaurus-plugin-content-docs/current',
+  'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current',
+  'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current',
+  '.translation-cache/ja-JP.json',
+  'generated/en/sidebars',
   'generated/en/manifests/lark-revisions',
   'packages/docs-tooling/src/lark/meta/snapshots',
   'packages/docs-tooling/src/lark/meta/assembly',
   'packages/docs-tooling/src/lark/meta/reports',
+])
+const REQUIRED_ROOTS = Object.freeze([
+  'content/en/guides',
+  'content/en/byoc',
+  'i18n/ja-JP/docusaurus-plugin-content-docs/current',
+  'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current',
+  '.translation-cache/ja-JP.json',
+  'generated/en/sidebars',
 ])
 const VALIDATION_COMMANDS = Object.freeze(VALIDATION_SPECS.map(spec => Object.freeze({ id: spec.id, command: spec.executable, args: spec.args, rendered: spec.command })))
 
@@ -62,7 +63,7 @@ function stagedStateProof(repository, masterSha, stagedSha, environment) {
   sha(masterSha, 'masterSha'); sha(stagedSha, 'stagedSha')
   if (git(repository, ['rev-parse', 'HEAD'], environment).trim() !== masterSha) throw new Error('repository HEAD does not match masterSha')
   if (git(repository, ['rev-parse', '--verify', `${stagedSha}^{commit}`], environment).trim() !== stagedSha) throw new Error('stagedSha is not an exact commit')
-  for (const root of RESTORE_PATHS) if (!git(repository, ['ls-tree', '--name-only', stagedSha, '--', root], environment).trim()) throw new Error(`required staged generated path is missing: ${root}`)
+  for (const root of REQUIRED_ROOTS) if (!git(repository, ['ls-tree', '--name-only', stagedSha, '--', root], environment).trim()) throw new Error(`required staged generated path is missing: ${root}`)
   const generatedUntracked = nul(git(repository, ['ls-files', '--others', '-z', '--', ...RESTORE_PATHS], environment, true))
   if (generatedUntracked.length) throw new Error(`untracked generated file is not allowed in restored state: ${generatedUntracked[0]}`)
   const untracked = nul(git(repository, ['ls-files', '--others', '--exclude-standard', '-z'], environment, true))
@@ -185,4 +186,4 @@ function main() {
 }
 if (require.main === module) { try { main() } catch (error) { process.stderr.write(`${error.message}\n`); process.exitCode = 1 } }
 
-module.exports = { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS }
+module.exports = { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS }
