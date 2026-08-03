@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-02T18:40:41.914Z",
+  "generated_at": "2026-08-03T03:29:00.418Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/go/v3.0.x",
   "base_app_token": "KQT5bV62QaioKisKZT0crwZDnke",
   "records": [
@@ -30,6 +30,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetServerVersion.md"
@@ -53,6 +58,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-New.md"
@@ -76,6 +86,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-Close.md"
@@ -99,6 +114,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md"
@@ -122,6 +142,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Client/v2-Client-GetTelemetry.md"
@@ -145,6 +170,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "Du2ZdjCWIorDg4xdwercNnYgnJb"
@@ -171,6 +201,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md"
@@ -194,6 +229,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -219,6 +259,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -244,6 +289,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -269,6 +319,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GwIxdz90jojeBNx965VcTJHnnFd"
       ],
@@ -294,6 +349,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListAliases.md"
@@ -317,6 +377,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListCollections.md"
@@ -340,6 +405,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
       ],
@@ -365,6 +435,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-HasCollection.md"
@@ -388,6 +463,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-DropCollection.md"
@@ -411,6 +491,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RenameCollection.md"
@@ -434,6 +519,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
       ],
@@ -459,6 +549,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PNwFdxMMdo6rtIxERDHcVFgdnxc"
       ],
@@ -484,6 +579,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AlterCollectionFieldProperty.md"
@@ -507,6 +607,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetCollectionStats.md"
@@ -530,6 +635,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md"
@@ -553,6 +663,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md"
@@ -576,6 +691,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md"
@@ -599,6 +719,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md"
@@ -622,6 +747,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md"
@@ -645,6 +775,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md"
@@ -668,6 +803,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Xq9Ydn3OJoYrHmxMVOLcMn9onHc"
       ],
@@ -693,6 +833,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md"
@@ -716,6 +861,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Alias.md"
@@ -739,6 +889,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Function.md"
@@ -762,6 +917,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ConsistencyLevel.md"
@@ -785,6 +945,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Or8Gd2JEIo1swQxD3QTccFoBn9b"
       ],
@@ -810,6 +975,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md"
@@ -833,6 +1003,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md"
@@ -856,6 +1031,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md"
@@ -879,6 +1059,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-UseDatabase.md"
@@ -902,6 +1087,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-ListDatabase.md"
@@ -925,6 +1115,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-CreateDatabase.md"
@@ -948,6 +1143,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabase.md"
@@ -971,6 +1171,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DescribeDatabase.md"
@@ -994,6 +1199,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-AlterDatabaseProperties.md"
@@ -1017,6 +1227,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Database/v2-Database-DropDatabaseProperties.md"
@@ -1040,6 +1255,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "QWRidEpUAo3sk3xh1shchxbunWg"
       ],
@@ -1063,6 +1282,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Y0IAdifhVoYQVAxiZEdcjIS0nog"
@@ -1087,6 +1311,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1108,6 +1337,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Wyvhd3725onAmAxegk1caOHonQg"
       ],
@@ -1131,6 +1365,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1152,6 +1391,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1173,6 +1417,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1194,6 +1443,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
       ],
@@ -1217,6 +1471,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
       ],
@@ -1240,6 +1499,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XWSAdFkdDoaDPnxOtkEcuFETngL"
       ],
@@ -1263,6 +1527,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1284,6 +1553,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1305,6 +1579,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1326,6 +1605,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BPXDdgDPzoaDTixPJLncvFZ0nig"
       ],
@@ -1349,6 +1633,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1370,6 +1659,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1391,6 +1685,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1412,6 +1711,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1433,6 +1737,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1454,6 +1763,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1475,6 +1789,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1496,6 +1815,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1517,6 +1841,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1538,6 +1866,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -1559,6 +1892,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1583,6 +1921,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1607,6 +1950,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1631,6 +1978,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1655,6 +2006,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1679,6 +2034,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1703,6 +2062,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1727,6 +2090,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1751,6 +2118,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1775,6 +2146,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -1798,6 +2173,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1822,6 +2201,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1846,6 +2229,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1870,6 +2257,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1894,6 +2285,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1918,6 +2313,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "GppedViHro8TJMxQCZ3cJRKRnHg"
@@ -1942,6 +2341,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -1966,6 +2369,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -1989,6 +2397,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2012,6 +2425,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2035,6 +2453,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2058,6 +2481,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
@@ -2081,6 +2509,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2105,6 +2537,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2129,6 +2565,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
@@ -2153,6 +2593,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2174,6 +2619,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2195,6 +2645,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2216,6 +2671,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2237,6 +2697,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2258,6 +2723,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2279,6 +2749,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2300,6 +2775,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CE0odAFVdoh2ehxNFRecD8WEn3f",
@@ -2328,6 +2808,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md"
@@ -2351,6 +2836,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md"
@@ -2374,6 +2864,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CCWrdPlSao0pOTx9oIgcA64Nnjd"
@@ -2400,6 +2895,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CBg7dbZZ7oxxvJx1eV4cJXWGnbe",
         "CCWrdPlSao0pOTx9oIgcA64Nnjd"
@@ -2426,6 +2926,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md"
@@ -2449,6 +2954,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md"
@@ -2472,6 +2982,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md"
@@ -2495,6 +3010,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Gh4ydrMIBopZekxncUFcrJctnBl"
       ],
@@ -2520,6 +3040,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md"
@@ -2543,6 +3068,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md"
@@ -2566,6 +3096,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md"
@@ -2589,6 +3124,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md"
@@ -2612,6 +3152,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md"
@@ -2635,6 +3180,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-Vector-AnnParam.md"
@@ -2658,6 +3208,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2681,6 +3235,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2706,6 +3265,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2729,6 +3292,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2752,6 +3319,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2775,6 +3346,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2798,6 +3373,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2821,6 +3400,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2844,6 +3427,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "XV3adWSVho0zgfx6CZDc30GAnMc"
       ],
@@ -2867,6 +3454,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md"
@@ -2890,6 +3482,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md"
@@ -2913,6 +3510,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md"
@@ -2936,6 +3538,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md"
@@ -2959,6 +3566,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md"
@@ -2982,6 +3594,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GyCrdXyvzobrrAxzFRbcRTlSnUb"
       ],
@@ -3007,6 +3624,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC.md"
@@ -3030,6 +3652,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers.md"
@@ -3053,6 +3680,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FCnndgcaworiHGxozvocjrZonIj"
       ],
@@ -3078,6 +3710,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser.md"
@@ -3101,6 +3738,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword.md"
@@ -3124,6 +3766,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropUser.md"
@@ -3147,6 +3794,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles.md"
@@ -3170,6 +3822,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole.md"
@@ -3193,6 +3850,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole.md"
@@ -3216,6 +3878,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole.md"
@@ -3239,6 +3906,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-DropRole.md"
@@ -3262,6 +3934,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MUdZdTFeDoEtcwxBCOycaHyanr7"
       ],
@@ -3287,6 +3964,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3308,6 +3989,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3329,6 +4014,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3350,6 +4039,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3371,6 +4064,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups.md"
@@ -3394,6 +4092,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3415,6 +4117,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3436,6 +4142,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2.md"
@@ -3459,6 +4170,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2.md"
@@ -3482,6 +4198,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-User.md"
@@ -3505,6 +4226,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-Role.md"
@@ -3528,6 +4254,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta.md"
@@ -3551,6 +4282,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-PrivilegeGroup.md"
@@ -3574,6 +4310,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "IM6xdWbdLo7l9dxR40kcfjfSnVb"
       ],
@@ -3597,6 +4337,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3618,6 +4362,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3639,6 +4387,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3660,6 +4412,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3681,6 +4437,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "IM6xdWbdLo7l9dxR40kcfjfSnVb"
       ],
@@ -3704,6 +4464,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3725,6 +4489,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3746,6 +4514,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3767,6 +4539,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-CreateSnapshot.md"
@@ -3790,6 +4567,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DropSnapshot.md"
@@ -3813,6 +4595,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListSnapshots.md"
@@ -3836,6 +4623,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-DescribeSnapshot.md"
@@ -3859,6 +4651,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-RestoreSnapshot.md"
@@ -3882,6 +4679,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-GetRestoreSnapshotState.md"
@@ -3905,6 +4707,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-ListRestoreSnapshotJobs.md"
@@ -3928,6 +4735,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md"
@@ -3951,6 +4763,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-UnpinSnapshotData.md"
@@ -3974,6 +4791,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md"
@@ -3997,6 +4819,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md"
@@ -4020,6 +4847,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md"
@@ -4043,6 +4875,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md"
@@ -4066,6 +4903,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse.md"
@@ -4089,6 +4931,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md"
@@ -4112,6 +4959,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption.md"
@@ -4135,6 +4987,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption.md"
@@ -4158,6 +5015,11 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": [
         "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption.md"
