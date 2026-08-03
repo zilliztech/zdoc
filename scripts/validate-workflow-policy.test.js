@@ -1764,6 +1764,10 @@ test('durable translation batch preparation uses the same source delta as batch 
 test('fetch preparation blocks paid translation until publication readiness regressions pass', () => {
   const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
   const steps = workflow.jobs.prepare.steps
+  const checkout = steps[0]
+  assert.equal(checkout.uses, 'actions/checkout@v4')
+  assert.equal(checkout.with.ref, '${{ github.sha }}')
+  assert.equal(checkout.with['fetch-depth'], 1)
   const installIndex = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
   const readinessIndex = steps.findIndex(step => step.name === 'Verify translation publication readiness')
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
