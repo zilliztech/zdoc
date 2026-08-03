@@ -22,7 +22,7 @@ const selectedUnits = [
   {target: 'zh-CN-reference', group: 'python'},
 ]
 
-const sdkGroups = ['python', 'java', 'node', 'go', 'cli', 'rest']
+const sdkGroups = ['python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings']
 
 test('parses bounded job names observed in child workflow runs', () => {
   assert.deepEqual(parseSdkTranslationJob({name: 'translate_sdk (ja-JP, python, python, e1d9a70506356cd8d985d557734ee0ae4bd1c269, 1) / translate'}), {target: 'ja-JP', group: 'python'})
@@ -33,21 +33,30 @@ test('parses bounded job names observed in child workflow runs', () => {
 })
 
 test('parses live truncated SDK matrix names and counts completed SDK translations', () => {
-  const jobs = fixture('sdk-truncated-real-run.json').jobs
+  const exactReferenceLandingsName = 'translate_sdk (zh-CN-reference, reference-landings, reference-landings, a9a7dc1a4e51a77fcfdc2e30a... / translate'
+  const jobs = [...fixture('sdk-truncated-real-run.json').jobs, {name: exactReferenceLandingsName, status: 'completed', conclusion: 'success'}]
   const exactLiveName = 'translate_sdk (ja-JP, python, python, a9a7dc1a4e51a77fcfdc2e30a57198963ea003c1, 0270f6c6387123545... / translate'
   assert.deepEqual(parseSdkTranslationJob({name: exactLiveName}), {target: 'ja-JP', group: 'python'})
+  assert.deepEqual(parseSdkTranslationJob({name: exactReferenceLandingsName}), {target: 'zh-CN-reference', group: 'reference-landings'})
   assert.equal(parseSdkTranslationJob({name: `prefix ${exactLiveName}`}), null)
   assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('ja-JP', 'en')}), null)
   assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('python, python', 'guides, guides')}), null)
   assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('/ translate', '/ publish')}), null)
+  assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('python, python', 'python, java')}), null)
+  assert.equal(parseSdkTranslationJob({name: 'translate_sdk (ja-JP, python, python, sha) / translate'}), null)
+  assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('a9a7dc1', 'a9a7dc1\n')}), null)
+  assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('a9a7dc1', 'a9a7dc1(')}), null)
 
-  const units = ['ja-JP', 'zh-CN-reference'].flatMap(target => sdkGroups.map(group => ({target, group})))
+  const units = [
+    ...sdkGroups.filter(group => group !== 'reference-landings').map(group => ({target: 'ja-JP', group})),
+    ...sdkGroups.map(group => ({target: 'zh-CN-reference', group})),
+  ]
   const state = deriveTranslationProgressState({selectedUnits: units, publishEnabled: false, jobs: [{name: 'prepare', status: 'completed', conclusion: 'success'}, ...jobs]})
   assert.deepEqual(state.targets.map(target => target.translate), [
     {done: 6, total: 6, status: 'completed', detail: null},
-    {done: 6, total: 6, status: 'completed', detail: null},
+    {done: 7, total: 7, status: 'completed', detail: null},
   ])
-  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 12, total: 12, status: 'completed', detail: null})
+  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 13, total: 13, status: 'completed', detail: null})
 })
 
 test('derives the approved Translation card categories from selected handoff units', () => {
