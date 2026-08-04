@@ -20,5 +20,8 @@
   ],
   "masterAuthoritativePaths": [
     "config/reference-retirements.json"
+  ],
+  "candidateDerivedPaths": [
+    "deploy/contracts/localization-inputs.inventory.json"
   ]
 }

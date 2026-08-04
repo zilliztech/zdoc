@@ -7,6 +7,9 @@ const {spawnSync} = require('node:child_process');
 
 const COMMIT_SHA = /^[0-9a-f]{40}$/;
 const DEFAULT_CONTRACT = 'deploy/contracts/master-tooling-sync.json';
+const SUPPORTED_CANDIDATE_DERIVED_PATHS = Object.freeze([
+  'deploy/contracts/localization-inputs.inventory.json',
+]);
 const CONTRACT_KEYS = Object.freeze([
   'schemaVersion',
   'enabled',
@@ -15,7 +18,9 @@ const CONTRACT_KEYS = Object.freeze([
   'validationWorkflow',
   'devOwnedPaths',
   'masterAuthoritativePaths',
+  'candidateDerivedPaths',
 ]);
+const LEGACY_CONTRACT_KEYS = Object.freeze(CONTRACT_KEYS.filter(key => key !== 'candidateDerivedPaths'));
 
 function normalizedPath(value) {
   return String(value).replace(/^\.\//, '').replace(/\/+$/, '');
@@ -25,6 +30,10 @@ function pathMatches(relativePath, root) {
   const relative = normalizedPath(relativePath);
   const normalizedRoot = normalizedPath(root);
   return relative === normalizedRoot || relative.startsWith(`${normalizedRoot}/`);
+}
+
+function pathsOverlap(left, right) {
+  return pathMatches(left, right) || pathMatches(right, left);
 }
 
 function exactKeys(value, expected, label) {
@@ -44,33 +53,51 @@ function validatePathList(value, label) {
   return Object.freeze(normalized);
 }
 
-function validateContract(input) {
-  exactKeys(input, CONTRACT_KEYS, 'Master tooling sync contract');
-  if (input.schemaVersion !== 1) throw new Error('Master tooling sync contract schemaVersion must be 1');
-  if (typeof input.enabled !== 'boolean') throw new Error('Master tooling sync contract enabled must be boolean');
+function validateContract(input, {allowLegacyCandidateDerivedPaths = false} = {}) {
+  const actualKeys = input && typeof input === 'object' && !Array.isArray(input) ? Object.keys(input).sort() : [];
+  const legacyKeys = [...LEGACY_CONTRACT_KEYS].sort();
+  const normalizedInput = allowLegacyCandidateDerivedPaths && JSON.stringify(actualKeys) === JSON.stringify(legacyKeys)
+    ? {...input, candidateDerivedPaths: [...SUPPORTED_CANDIDATE_DERIVED_PATHS]}
+    : input;
+  exactKeys(normalizedInput, CONTRACT_KEYS, 'Master tooling sync contract');
+  if (normalizedInput.schemaVersion !== 1) throw new Error('Master tooling sync contract schemaVersion must be 1');
+  if (typeof normalizedInput.enabled !== 'boolean') throw new Error('Master tooling sync contract enabled must be boolean');
   for (const key of ['targetBranch', 'syncBranchPrefix', 'validationWorkflow']) {
-    if (typeof input[key] !== 'string' || input[key] === '' || input[key] !== input[key].trim()) {
+    if (typeof normalizedInput[key] !== 'string' || normalizedInput[key] === '' || normalizedInput[key] !== normalizedInput[key].trim()) {
       throw new Error(`Master tooling sync contract ${key} must be a non-empty string`);
     }
   }
   for (const key of ['targetBranch', 'syncBranchPrefix']) {
-    const value = input[key];
+    const value = normalizedInput[key];
     if (!/^[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(value) || value.includes('..') || value.includes('//') || value.includes('@{') || value.endsWith('.lock')) {
       throw new Error(`Master tooling sync contract ${key} must be a safe Git ref component`);
     }
   }
-  if (!/^[A-Za-z0-9][A-Za-z0-9._-]*\.ya?ml$/.test(input.validationWorkflow)) {
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]*\.ya?ml$/.test(normalizedInput.validationWorkflow)) {
     throw new Error('Master tooling sync contract validationWorkflow must name one YAML workflow file');
   }
   const contract = Object.freeze({
-    ...input,
-    devOwnedPaths: validatePathList(input.devOwnedPaths, 'devOwnedPaths'),
-    masterAuthoritativePaths: validatePathList(input.masterAuthoritativePaths, 'masterAuthoritativePaths'),
+    ...normalizedInput,
+    devOwnedPaths: validatePathList(normalizedInput.devOwnedPaths, 'devOwnedPaths'),
+    masterAuthoritativePaths: validatePathList(normalizedInput.masterAuthoritativePaths, 'masterAuthoritativePaths'),
+    candidateDerivedPaths: validatePathList(normalizedInput.candidateDerivedPaths, 'candidateDerivedPaths'),
   });
   for (const authoritative of contract.masterAuthoritativePaths) {
     if (contract.devOwnedPaths.some(root => pathMatches(authoritative, root))) {
       throw new Error(`Master-authoritative path overlaps dev ownership: ${authoritative}`);
     }
+  }
+  for (const derived of contract.candidateDerivedPaths) {
+    if (contract.devOwnedPaths.some(root => pathsOverlap(derived, root))) {
+      throw new Error(`Candidate-derived path overlaps dev ownership: ${derived}`);
+    }
+    if (contract.masterAuthoritativePaths.some(root => pathsOverlap(derived, root))) {
+      throw new Error(`Candidate-derived path overlaps master-authoritative ownership: ${derived}`);
+    }
+  }
+  if (contract.candidateDerivedPaths.length !== SUPPORTED_CANDIDATE_DERIVED_PATHS.length ||
+      contract.candidateDerivedPaths.some(relative => !SUPPORTED_CANDIDATE_DERIVED_PATHS.includes(relative))) {
+    throw new Error(`candidateDerivedPaths must contain only explicitly supported candidate-derived files: ${SUPPORTED_CANDIDATE_DERIVED_PATHS.join(', ')}`);
   }
   return contract;
 }
@@ -117,6 +144,10 @@ function isMasterAuthoritative(relativePath, contract) {
   return contract.masterAuthoritativePaths.some(root => pathMatches(relativePath, root));
 }
 
+function isCandidateDerived(relativePath, contract) {
+  return contract.candidateDerivedPaths.includes(normalizedPath(relativePath));
+}
+
 function inspectSync({cwd = process.cwd(), devSha, toolingSha, contract = loadContract({cwd})}) {
   requireCommit(cwd, devSha, 'devSha');
   requireCommit(cwd, toolingSha, 'toolingSha');
@@ -147,7 +178,8 @@ function verifySyncCandidate({cwd = process.cwd(), devSha, toolingSha, candidate
 
   const candidateVsTooling = changedPaths(cwd, toolingSha, candidateSha);
   const changedToolingOwned = candidateVsTooling.filter(relative => (
-    !isDevOwned(relative, contract) || isMasterAuthoritative(relative, contract)
+    !isCandidateDerived(relative, contract) &&
+    (!isDevOwned(relative, contract) || isMasterAuthoritative(relative, contract))
   ));
   if (changedToolingOwned.length) {
     throw new Error(`Candidate does not match master outside dev-owned paths: ${changedToolingOwned.join(', ')}`);
@@ -166,7 +198,7 @@ function contractAtCommit({cwd = process.cwd(), sha, contractPath = DEFAULT_CONT
   requireCommit(cwd, sha, 'devSha');
   const result = runGit(cwd, ['show', `${sha}:${contractPath}`], {allowFailure: true});
   if (result.status !== 0) return null;
-  return validateContract(JSON.parse(result.stdout));
+  return validateContract(JSON.parse(result.stdout), {allowLegacyCandidateDerivedPaths: true});
 }
 
 function bootstrapStatus({cwd = process.cwd(), devSha, contract = loadContract({cwd}), contractPath = DEFAULT_CONTRACT}) {
@@ -259,6 +291,7 @@ module.exports = {
   bootstrapStatus,
   changedPaths,
   inspectSync,
+  isCandidateDerived,
   isDevOwned,
   isMasterAuthoritative,
   loadContract,
