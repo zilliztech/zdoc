@@ -448,10 +448,10 @@ test('jobs that execute docs-tooling use its supported Node runtime', () => {
 
 test('workflow policy rejects checkpoint publishers without idempotent scoped staging', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-policy-'))
-  const publisherPath = path.join(directory, 'publish-checkpoint.sh')
+  const checkpointPublicationPath = path.join(directory, 'checkpoint-publication.js')
   try {
-    fs.writeFileSync(publisherPath, '(cd "$active_worktree" && git add --all -- "${paths[@]}")\n')
-    const errors = validateWorkflowPolicies(undefined, { publisherPath })
+    fs.writeFileSync(checkpointPublicationPath, 'git add --all -- "${paths[@]}"\n')
+    const errors = validateWorkflowPolicies(undefined, { checkpointPublicationPath })
     assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must select stageable manifest paths'))
     assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must use NUL-delimited literal pathspec staging'))
     assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope'))
@@ -462,37 +462,42 @@ test('workflow policy rejects checkpoint publishers without idempotent scoped st
 })
 
 test('workflow policy independently requires checkpoint stage selection and verification', () => {
-  const publisherSource = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
+  const publisherSource = fs.readFileSync('scripts/docs-workflow/checkpoint-publication.js', 'utf8')
   const cases = [
     {
-      token: 'checkpoint-stage-paths.js" select',
+      token: 'writeStagePathFile({artifactDir, worktree: publicationWorktree, output: stagePathFile})',
       expected: 'publish-checkpoint.sh: checkpoint publisher must select stageable manifest paths',
     },
     {
-      token: 'checkpoint-stage-paths.js" verify',
+      token: 'verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree})',
       expected: 'publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope',
     },
     {
-      token: 'docs-validation.XXXXXX',
+      token: "'docs-validation.'",
       expected: 'publish-checkpoint.sh: checkpoint publisher must validate with pinned tooling',
     },
     {
-      token: 'restore-generated-state.sh" --exact --ref "$target_sha"',
+      token: "path.join(__dirname, '../restore-generated-state.sh'), '--exact', '--ref', baseSha",
       expected: 'publish-checkpoint.sh: checkpoint publisher must materialize the exact target state for validation',
     },
     {
-      token: 'cd "$validation_worktree" && bash -o errexit',
+      token: "command(validationWorktree, 'bash', ['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand]",
       expected: 'publish-checkpoint.sh: checkpoint publisher must run validation in the pinned tooling worktree',
     },
   ]
 
+  const baselineErrors = validateWorkflowPolicies(undefined, {
+    checkpointPublicationPath: path.join(process.cwd(), 'scripts/docs-workflow/checkpoint-publication.js'),
+  })
+  for (const fixture of cases) assert.equal(baselineErrors.includes(fixture.expected), false)
+
   for (const fixture of cases) {
     const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-policy-'))
-    const publisherPath = path.join(directory, 'publish-checkpoint.sh')
+    const checkpointPublicationPath = path.join(directory, 'checkpoint-publication.js')
     try {
       assert.ok(publisherSource.includes(fixture.token))
-      fs.writeFileSync(publisherPath, publisherSource.replace(fixture.token, 'REMOVED_POLICY_TOKEN'))
-      assert.ok(validateWorkflowPolicies(undefined, { publisherPath }).includes(fixture.expected))
+      fs.writeFileSync(checkpointPublicationPath, publisherSource.replace(fixture.token, 'REMOVED_POLICY_TOKEN'))
+      assert.ok(validateWorkflowPolicies(undefined, { checkpointPublicationPath }).includes(fixture.expected))
     } finally {
       fs.rmSync(directory, { recursive: true, force: true })
     }
@@ -1072,6 +1077,100 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.doesNotMatch(sourceUpload, /^        env:/m, 'artifact upload must not receive credentials')
   assert.match(workflow, /name: Install dependencies\n        id: install\n        run: pnpm install --frozen-lockfile/)
   assert.doesNotMatch(workflow, /report-live-card|card_id|card_started_at|card_stages|card_mode/)
+})
+
+test('Fetch producers upload bound publication ready descriptors after their checkpoints', () => {
+  const cases = [
+    {
+      file: '_fetch-content-group.yml',
+      job: 'produce',
+      checkpointStepId: 'checkpoint_upload',
+      readyCondition: "${{ steps.checkpoint_upload.outcome == 'success' }}",
+      resultPattern: /steps\.checkpoint_upload\.outcome[\s\S]*steps\.ready_upload\.outcome[\s\S]*artifact_ready/,
+    },
+    {
+      file: '_assemble-guides.yml',
+      job: 'assemble',
+      checkpointStepId: 'upload',
+      readyCondition: "${{ steps.upload.outcome == 'success' && steps.reports.outcome == 'success' }}",
+      resultPattern: /steps\.upload\.outcome[\s\S]*steps\.ready_upload\.outcome[\s\S]*artifact_ready/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows', fixture.file), 'utf8')
+    const workflow = yaml.load(source)
+    for (const input of ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']) {
+      assert.equal(workflow.on.workflow_call.inputs[input]?.required, true, `${fixture.file} must require ${input}`)
+    }
+    assert.equal(workflow.permissions.contents, 'read')
+    const steps = workflow.jobs[fixture.job].steps
+    const checkpointIndex = steps.findIndex(step => step.id === fixture.checkpointStepId)
+    const downloadIndex = steps.findIndex(step => step.name === 'Download publication selection')
+    const validateIndex = steps.findIndex(step => step.name === 'Validate publication selection identity')
+    const readyIndex = steps.findIndex(step => step.name === 'Create publication ready descriptor')
+    const uploadIndex = steps.findIndex(step => step.id === 'ready_upload')
+    assert.ok(downloadIndex >= 0 && validateIndex > downloadIndex)
+    assert.ok(readyIndex > checkpointIndex && uploadIndex > readyIndex)
+    assert.equal(steps[downloadIndex].uses, 'actions/download-artifact@v7')
+    assert.equal(steps[downloadIndex].with.name, '${{ inputs.publication_selection_artifact_name }}')
+    assert.match(steps[validateIndex].run, /publication-contracts\.js validate-selection/)
+    assert.match(steps[validateIndex].run, /inputs\.publication_selection_sha256/)
+    assert.match(steps[validateIndex].run, /inputs\.publication_unit_key/)
+    assert.equal(steps[readyIndex].if, fixture.readyCondition)
+    assert.match(steps[readyIndex].run, /fetch-publication-selection\.js ready/)
+    assert.match(steps[readyIndex].run, /--selection "\$PUBLICATION_SELECTION"/)
+    assert.match(steps[readyIndex].run, /--unit-key "\$PUBLICATION_UNIT_KEY"/)
+    assert.match(steps[readyIndex].run, /--archive "\$CHECKPOINT_TAR"/)
+    assert.match(steps[readyIndex].run, /--manifest "\$CHECKPOINT_MANIFEST"/)
+    assert.match(steps[readyIndex].run, /publication-ready-fetch-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT/)
+    assert.equal(steps[uploadIndex].uses, 'actions/upload-artifact@v6')
+    assert.equal(steps[uploadIndex].with.name, '${{ steps.publication_ready.outputs.artifact_name }}')
+    assert.equal(steps[uploadIndex].with['if-no-files-found'], 'error')
+    assert.match(source, fixture.resultPattern)
+    assert.doesNotMatch(source, /git push|contents: write|report-live-card|card_id|ACTION_TOKEN|GH_TOKEN|PUBLICATION_GITHUB_TOKEN/)
+  }
+})
+
+test('workflow policy rejects unbound or writable Fetch publication producers', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: '_fetch-content-group.yml',
+      mutate: source => source.replace(/      publication_selection_sha256:\n        required: true\n        type: string\n/, ''),
+      expected: '_fetch-content-group.yml: producer must require and authenticate the publication selection identity',
+    },
+    {
+      file: '_fetch-content-group.yml',
+      mutate: source => source.replace('name: ${{ inputs.publication_selection_artifact_name }}', 'name: publication-selection-unbound'),
+      expected: '_fetch-content-group.yml: producer must create and upload the exact bound publication ready descriptor',
+    },
+    {
+      file: '_assemble-guides.yml',
+      mutate: source => source.replace("if: ${{ steps.upload.outcome == 'success' && steps.reports.outcome == 'success' }}", "if: ${{ steps.upload.outcome == 'success' }}"),
+      expected: '_assemble-guides.yml: producer must create and upload the exact bound publication ready descriptor',
+    },
+    {
+      file: '_assemble-guides.yml',
+      mutate: source => source.replace('  contents: read', '  contents: write'),
+      expected: '_assemble-guides.yml: producer must remain read-only and coordinator-free',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publication-ready-producer-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = fixture.mutate(source)
+      assert.notEqual(mutated, source, 'mutation must change workflow source')
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
 })
 
 test('workflow policy rejects revision inventory producer mutations', () => {

@@ -129,6 +129,52 @@ function terminatesBeforeCommand(actual, finalCommand) {
   return actual.slice(0, finalIndex).some(command => /^(?:exit|return|exec)(?:\s|$)/.test(command))
 }
 
+function validateFetchPublicationProducer({workflow, source, file, jobName, checkpointStepId, readyCondition, errors}) {
+  const inputs = workflow.on?.workflow_call?.inputs || {}
+  const requiredInputs = ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']
+  const steps = workflow.jobs?.[jobName]?.steps || []
+  const download = steps.find(step => step?.name === 'Download publication selection')
+  const validate = steps.find(step => step?.name === 'Validate publication selection identity')
+  const validationRun = String(validate?.run || '')
+  if (requiredInputs.some(input => inputs[input]?.required !== true) ||
+      !/publication-contracts\.js validate-selection/.test(validationRun) ||
+      !/inputs\.publication_selection_sha256/.test(validationRun) ||
+      !/inputs\.publication_unit_key/.test(validationRun)) {
+    errors.push(`${file}: producer must require and authenticate the publication selection identity`)
+  }
+
+  const checkpointIndex = steps.findIndex(step => step?.id === checkpointStepId)
+  const downloadIndex = steps.indexOf(download)
+  const validateIndex = steps.indexOf(validate)
+  const readyIndex = steps.findIndex(step => step?.name === 'Create publication ready descriptor')
+  const ready = steps[readyIndex]
+  const readyRun = String(ready?.run || '')
+  const uploadIndex = steps.findIndex(step => step?.id === 'ready_upload')
+  const upload = steps[uploadIndex]
+  const resultRun = String(steps.find(step => step?.id === 'result')?.run || '')
+  const descriptorIsBound = download?.uses === 'actions/download-artifact@v7' &&
+    download?.with?.name === '${{ inputs.publication_selection_artifact_name }}' &&
+    downloadIndex >= 0 && validateIndex > downloadIndex && checkpointIndex > validateIndex &&
+    readyIndex > checkpointIndex && uploadIndex > readyIndex && ready?.if === readyCondition &&
+    /fetch-publication-selection\.js ready/.test(readyRun) &&
+    /--selection "\$PUBLICATION_SELECTION"/.test(readyRun) &&
+    /--unit-key "\$PUBLICATION_UNIT_KEY"/.test(readyRun) &&
+    /--archive "\$CHECKPOINT_TAR"/.test(readyRun) &&
+    /--manifest "\$CHECKPOINT_MANIFEST"/.test(readyRun) &&
+    /publication-ready-fetch-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT/.test(readyRun) &&
+    upload?.uses === 'actions/upload-artifact@v6' &&
+    upload?.with?.name === '${{ steps.publication_ready.outputs.artifact_name }}' &&
+    upload?.with?.['if-no-files-found'] === 'error' &&
+    new RegExp(`steps\\.${checkpointStepId}\\.outcome`).test(resultRun) &&
+    /steps\.ready_upload\.outcome/.test(resultRun) && /artifact_ready/.test(resultRun)
+  if (!descriptorIsBound) errors.push(`${file}: producer must create and upload the exact bound publication ready descriptor`)
+
+  if (workflow.permissions?.contents !== 'read' ||
+      /git push|contents: write|report-live-card|card_id|ACTION_TOKEN|GH_TOKEN|PUBLICATION_GITHUB_TOKEN/.test(source)) {
+    errors.push(`${file}: producer must remain read-only and coordinator-free`)
+  }
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
@@ -202,6 +248,18 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     if (containsForcePush(source)) {
       errors.push(`${file}: force-pushing generated documentation can discard concurrent updates`)
+    }
+    if (file === '_fetch-content-group.yml') {
+      validateFetchPublicationProducer({
+        workflow, source, file, jobName: 'produce', checkpointStepId: 'checkpoint_upload',
+        readyCondition: "${{ steps.checkpoint_upload.outcome == 'success' }}", errors,
+      })
+    }
+    if (file === '_assemble-guides.yml') {
+      validateFetchPublicationProducer({
+        workflow, source, file, jobName: 'assemble', checkpointStepId: 'upload',
+        readyCondition: "${{ steps.upload.outcome == 'success' && steps.reports.outcome == 'success' }}", errors,
+      })
     }
     if (/build:zh-CN:site/.test(source) && !['_assemble-guides.yml', 'fetch-docs.yml'].includes(file)) {
       errors.push(`${file}: Chinese site-only build is reserved for the Chinese Guides source lane`)
@@ -1224,19 +1282,19 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     errors.push('translation-publication-report.js: validation receipts must use canonical tracked commands')
   }
 
-  const publisherPath = options.publisherPath || path.join(process.cwd(), 'scripts/docs-workflow/publish-checkpoint.sh')
-  const publisherSource = fs.readFileSync(publisherPath, 'utf8')
+  const checkpointPublicationPath = options.checkpointPublicationPath || path.join(process.cwd(), 'scripts/docs-workflow/checkpoint-publication.js')
+  const checkpointPublicationSource = fs.readFileSync(checkpointPublicationPath, 'utf8')
   for (const [pattern, message] of [
-    [/checkpoint-stage-paths\.js" select/, 'checkpoint publisher must select stageable manifest paths'],
-    [/--pathspec-from-file="\$stage_paths_file"[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
-    [/checkpoint-stage-paths\.js" verify/, 'checkpoint publisher must verify staged manifest scope'],
-    [/docs-validation\.XXXXXX/, 'checkpoint publisher must validate with pinned tooling'],
-    [/restore-generated-state\.sh" --exact --ref "\$target_sha"/, 'checkpoint publisher must materialize the exact target state for validation'],
-    [/cd "\$validation_worktree" && bash -o errexit/, 'checkpoint publisher must run validation in the pinned tooling worktree'],
+    [/writeStagePathFile\(\{artifactDir, worktree: publicationWorktree, output: stagePathFile\}\)/, 'checkpoint publisher must select stageable manifest paths'],
+    [/--pathspec-from-file=\$\{stagePathFile\}[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
+    [/verifyStagedCheckpointPaths\(\{artifactDir, worktree: publicationWorktree\}\)/, 'checkpoint publisher must verify staged manifest scope'],
+    [/createTemporaryWorktree\(repositoryRoot, runnerTemp, 'docs-validation\.', validationToolingSha\)/, 'checkpoint publisher must validate with pinned tooling'],
+    [/path\.join\(__dirname, '\.\.\/restore-generated-state\.sh'\), '--exact', '--ref', baseSha/, 'checkpoint publisher must materialize the exact target state for validation'],
+    [/command\(validationWorktree, 'bash', \['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand\]/, 'checkpoint publisher must run validation in the pinned tooling worktree'],
   ]) {
-    if (!pattern.test(publisherSource)) errors.push(`publish-checkpoint.sh: ${message}`)
+    if (!pattern.test(checkpointPublicationSource)) errors.push(`publish-checkpoint.sh: ${message}`)
   }
-  if (/git add --all -- "\$\{paths\[@\]\}"/.test(publisherSource)) {
+  if (/git add --all -- "\$\{paths\[@\]\}"/.test(checkpointPublicationSource)) {
     errors.push('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent')
   }
 
