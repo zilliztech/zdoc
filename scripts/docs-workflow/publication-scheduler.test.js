@@ -62,6 +62,15 @@ test('trusted producer completion time orders ready units and descriptor timesta
   assert.equal(scheduler.nextDecision().unitKey, 'source/rest')
 })
 
+test('normalizes GitHub Jobs API second-precision completion times before ordering', () => {
+  const scheduler = createPublicationScheduler({selection: selection()})
+  scheduler.observeJobs([job('source/java', {completed_at: '2026-08-04T08:00:02Z'})])
+  assert.equal(
+    scheduler.snapshot().units.find(unit => unit.unitKey === 'source/java').producerCompletedAt,
+    '2026-08-04T08:00:02.000Z',
+  )
+})
+
 test('an earlier completed producer with a settling descriptor blocks later completed ready work', () => {
   const scheduler = createPublicationScheduler({selection: selection(), maxCandidatePolls: 3})
   scheduler.observeJobs([

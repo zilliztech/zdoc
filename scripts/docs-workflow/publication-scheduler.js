@@ -111,11 +111,12 @@ function createPublicationScheduler(options) {
       }
       if (job.status !== 'completed') continue
       const completion = completedAt(job)
-      if (typeof completion !== 'string' || Number.isNaN(Date.parse(completion)) || new Date(completion).toISOString() !== completion) {
+      if (typeof completion !== 'string' || Number.isNaN(Date.parse(completion))) {
         throw new Error(`Producer completion time is invalid for ${state.unitKey}`)
       }
-      if (state.producerCompletedAt !== completion) {
-        state.producerCompletedAt = completion
+      const canonicalCompletion = new Date(completion).toISOString()
+      if (state.producerCompletedAt !== canonicalCompletion) {
+        state.producerCompletedAt = canonicalCompletion
         changed = true
       }
       if (job.conclusion === 'success') {

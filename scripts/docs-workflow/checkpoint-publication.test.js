@@ -35,6 +35,8 @@ function setup() {
   git(repository, 'config', 'user.email', 'test@example.com')
   put(repository, 'content/en/guides/tutorials/home.md', '# Guides home\n')
   put(repository, 'content/en/guides/tutorials/a.md', 'old\n')
+  put(repository, 'content/zh-CN/guides/tutorials/home.md', '# Chinese Guides home\n')
+  put(repository, 'content/zh-CN/guides/tutorials/a.md', 'old\n')
   git(repository, 'add', '.')
   git(repository, 'commit', '-m', 'seed')
   git(repository, 'branch', '-M', 'dev')
@@ -43,7 +45,7 @@ function setup() {
   return {root, remote, repository, runnerTemp}
 }
 
-function checkpoint(fixture, mutate = () => {}) {
+function checkpoint(fixture, mutate = () => {}, options = {}) {
   const baseline = path.join(fixture.root, `baseline-${Math.random()}`)
   const workspace = path.join(fixture.root, `workspace-${Math.random()}`)
   const artifactDir = path.join(fixture.root, `artifact-${Math.random()}`)
@@ -59,7 +61,7 @@ function checkpoint(fixture, mutate = () => {}) {
     '--baseline-dir', baseline,
     '--workspace', workspace,
     '--output', artifactDir,
-  ])
+  ], {env: {...process.env, ...(options.environment || {})}})
   return {artifactDir, baselineDir: baseline, baselineSha}
 }
 
@@ -142,19 +144,77 @@ test('returns no_changes without creating or reporting a commit', async t => {
 test('runs every trusted validation command with the Chinese Guides environment', async t => {
   const fixture = setup()
   t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
-  const facts = checkpoint(fixture, workspace => put(workspace, 'content/en/guides/tutorials/a.md', 'new\n'))
+  const facts = checkpoint(
+    fixture,
+    workspace => put(workspace, 'content/zh-CN/guides/tutorials/a.md', 'new\n'),
+    {environment: {ZDOC_SITE: 'zh-CN'}},
+  )
   const chinese = unit(facts, {
     unitKey: 'source/guides-zh-CN',
     environment: {ZDOC_SITE: 'zh-CN'},
     validationCommands: [
       'test "$ZDOC_SITE" = zh-CN',
-      'test "$(cat content/en/guides/tutorials/a.md)" = new',
+      'test "$(cat content/zh-CN/guides/tutorials/a.md)" = new',
     ],
   })
 
   const result = await publish(fixture, facts, {unit: chinese})
 
   assert.equal(result.status, 'published')
+})
+
+test('uses the Chinese Guides site for every checkpoint operation', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = checkpoint(fixture)
+  const observed = []
+  const chinese = unit(facts, {
+    unitKey: 'source/guides-zh-CN',
+    environment: {ZDOC_SITE: 'zh-CN'},
+    validationCommands: ['true'],
+  })
+
+  const result = await publish(fixture, facts, {
+    unit: chinese,
+    dependencies: {
+      validateCheckpointArtifact(artifactDir, expected) {
+        observed.push(['validate', expected.site])
+        return {group: 'guides', stage: 'source', masterSha: facts.baselineSha, devBaselineSha: facts.baselineSha}
+      },
+      applyCheckpointArtifact(options) { observed.push(['apply', options.site]) },
+      writeStagePathFile(options) {
+        observed.push(['stage', options.site])
+        fs.writeFileSync(options.output, '')
+      },
+      verifyStagedCheckpointPaths(options) { observed.push(['verify', options.site]) },
+    },
+  })
+
+  assert.equal(result.status, 'no_changes', JSON.stringify(result.failure))
+  assert.deepEqual(observed, [
+    ['validate', 'zh-CN'],
+    ['apply', 'zh-CN'],
+    ['apply', 'zh-CN'],
+    ['stage', 'zh-CN'],
+    ['verify', 'zh-CN'],
+  ])
+})
+
+test('links validation dependencies from an explicit installed dependency root', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = checkpoint(fixture, workspace => put(workspace, 'content/en/guides/tutorials/a.md', 'new\n'))
+  const dependencyRoot = path.join(fixture.root, 'installed-dependencies')
+  put(dependencyRoot, 'node_modules/replay-only-package/index.js', 'module.exports = 42\n')
+
+  const result = await publish(fixture, facts, {
+    dependencyRoot,
+    unit: unit(facts, {validationCommands: [
+      'node -e "if (require(\'replay-only-package\') !== 42) process.exit(1)"',
+    ]}),
+  })
+
+  assert.equal(result.status, 'published', JSON.stringify(result.failure))
 })
 
 test('a validation failure is a known publish_failed result and does not push', async t => {

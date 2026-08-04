@@ -138,6 +138,7 @@ async function validateSchema2Root(artifactDir) {
 }
 
 async function validateCheckpointArtifact(artifactDir, expected = {}) {
+  if (expected.site !== undefined && expected.site !== 'en' && expected.site !== 'zh-CN') throw new Error('Expected site must be en or zh-CN');
   const pinnedArtifactDir = await pinArtifactDirectory(artifactDir);
   const manifestPath = path.join(pinnedArtifactDir, 'manifest.json');
   const manifestStat = await lstat(manifestPath);
@@ -153,7 +154,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   if (manifest.stage !== 'source' && manifest.stage !== 'translation') throw new Error(`Invalid artifact stage: ${manifest.stage}`);
   if (manifest.ownershipVersion !== 1) throw new Error(`Unsupported ownershipVersion: ${manifest.ownershipVersion}`);
   if (typeof manifest.group !== 'string') throw new Error('group must be a string');
-  const group = getContentGroup(manifest.group);
+  const group = getContentGroup(manifest.group, expected.site);
   if (manifest.stage === 'translation' && !group.translate) throw new Error('Translation stage is not enabled for this group');
   const translationArtifact = manifest.stage === 'translation' && group.translate;
   let ownedPaths = group.ownedPaths;

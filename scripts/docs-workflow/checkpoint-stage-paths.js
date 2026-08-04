@@ -52,8 +52,8 @@ function gitMatchesHead(worktree, relativePath) {
   throw new Error(`Unable to inspect tracked checkpoint path: ${relativePath}: ${result.stderr.trim()}`);
 }
 
-async function selectCheckpointStagePaths({ artifactDir, worktree }) {
-  const manifest = await validateCheckpointArtifact(artifactDir);
+async function selectCheckpointStagePaths({ artifactDir, worktree, site }) {
+  const manifest = await validateCheckpointArtifact(artifactDir, { site });
   const canonicalWorktree = await requireRealDirectory(worktree);
   const declared = [...new Set([
     ...manifest.files.map((entry) => entry.path),
@@ -72,8 +72,8 @@ async function selectCheckpointStagePaths({ artifactDir, worktree }) {
   return freezeSummary({ declared, stageable, alreadyApplied });
 }
 
-async function writeStagePathFile({ artifactDir, worktree, output }) {
-  const summary = await selectCheckpointStagePaths({ artifactDir, worktree });
+async function writeStagePathFile({ artifactDir, worktree, output, site }) {
+  const summary = await selectCheckpointStagePaths({ artifactDir, worktree, site });
   const pathspecs = summary.stageable.map(literalPathspec);
   const bytes = pathspecs.length ? Buffer.from(`${pathspecs.join('\0')}\0`) : Buffer.alloc(0);
   await writeFile(output, bytes, { flag: 'wx' });
@@ -84,8 +84,8 @@ function coveredByManifest(changedPath, declaredPath) {
   return changedPath === declaredPath || changedPath.startsWith(`${declaredPath}/`);
 }
 
-async function verifyStagedCheckpointPaths({ artifactDir, worktree }) {
-  const manifest = await validateCheckpointArtifact(artifactDir);
+async function verifyStagedCheckpointPaths({ artifactDir, worktree, site }) {
+  const manifest = await validateCheckpointArtifact(artifactDir, { site });
   const canonicalWorktree = await requireRealDirectory(worktree);
   const declared = [...new Set([
     ...manifest.files.map((entry) => entry.path),

@@ -1298,9 +1298,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const checkpointPublicationPath = options.checkpointPublicationPath || path.join(process.cwd(), 'scripts/docs-workflow/checkpoint-publication.js')
   const checkpointPublicationSource = fs.readFileSync(checkpointPublicationPath, 'utf8')
   for (const [pattern, message] of [
-    [/writeStagePathFile\(\{artifactDir, worktree: publicationWorktree, output: stagePathFile\}\)/, 'checkpoint publisher must select stageable manifest paths'],
+    [/writeStagePathFile\(\{artifactDir, worktree: publicationWorktree, output: stagePathFile, site\}\)/, 'checkpoint publisher must select stageable manifest paths'],
     [/--pathspec-from-file=\$\{stagePathFile\}[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
-    [/verifyStagedCheckpointPaths\(\{artifactDir, worktree: publicationWorktree\}\)/, 'checkpoint publisher must verify staged manifest scope'],
+    [/verifyStagedCheckpointPaths\(\{artifactDir, worktree: publicationWorktree, site\}\)/, 'checkpoint publisher must verify staged manifest scope'],
     [/createTemporaryWorktree\(repositoryRoot, runnerTemp, 'docs-validation\.', validationToolingSha\)/, 'checkpoint publisher must validate with pinned tooling'],
     [/path\.join\(__dirname, '\.\.\/restore-generated-state\.sh'\), '--exact', '--ref', baseSha/, 'checkpoint publisher must materialize the exact target state for validation'],
     [/command\(validationWorktree, 'bash', \['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand\]/, 'checkpoint publisher must run validation in the pinned tooling worktree'],

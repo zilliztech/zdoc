@@ -17,6 +17,10 @@ const {
 
 const SHA = character => character.repeat(40)
 
+function git(cwd, ...args) {
+  return require('node:child_process').execFileSync('git', args, {cwd, encoding: 'utf8'}).trim()
+}
+
 function fixture(t) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fetch-publication-replay-'))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
@@ -67,6 +71,51 @@ function fixture(t) {
   return {root, runRoot, evidenceRoot, bareRemote, selection, jobs}
 }
 
+function faultFixture(t) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'fetch-publication-fault-replay-'))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const repository = path.join(root, 'repository')
+  const runRoot = path.join(root, 'run')
+  fs.mkdirSync(repository)
+  fs.mkdirSync(runRoot)
+  git(repository, 'init')
+  git(repository, 'config', 'user.name', 'Fault Replay')
+  git(repository, 'config', 'user.email', 'fault-replay@example.com')
+  fs.writeFileSync(path.join(repository, 'baseline.txt'), 'baseline\n')
+  git(repository, 'add', 'baseline.txt')
+  git(repository, 'commit', '-m', 'baseline')
+  const baselineSha = git(repository, 'rev-parse', 'HEAD')
+  const selection = buildFetchPublicationSelection({
+    repository: 'zilliztech/zdoc', runId: 456, runAttempt: 1, toolingSha: baselineSha,
+    targetBranch: 'dev', initialTargetSha: baselineSha, sourceBaselineSha: baselineSha,
+    selectedGroup: 'all', publish: true, runTranslations: true,
+  })
+  const completionOrder = [
+    'source/rest', 'source/go', 'source/cli', 'source/node',
+    'source/java', 'source/guides-zh-CN', 'source/python', 'source/guides-en',
+  ]
+  const jobs = selection.units.map((unit, index) => ({
+    id: index + 10, name: unit.producerJob, run_attempt: 1, status: 'completed', conclusion: 'success',
+    completed_at: `2026-08-04T00:00:${String(completionOrder.indexOf(unit.unitKey) + 1).padStart(2, '0')}.000Z`,
+  }))
+  const artifacts = selection.units.map(unit => {
+    const directory = path.join(runRoot, 'artifacts', unit.unitKey.replaceAll('/', '__'))
+    fs.mkdirSync(directory, {recursive: true})
+    const archive = path.join(directory, 'checkpoint-group.tar')
+    fs.writeFileSync(archive, unit.unitKey)
+    return {unitKey: unit.unitKey, name: unit.artifacts.checkpoint, archive: path.relative(runRoot, archive)}
+  })
+  const fifoUnitKeys = deriveFifoUnitKeys(selection, jobs)
+  fs.writeFileSync(path.join(runRoot, 'publication-selection.json'), `${JSON.stringify(selection)}\n`)
+  fs.writeFileSync(path.join(runRoot, 'jobs.json'), `${JSON.stringify({jobs})}\n`)
+  fs.writeFileSync(path.join(runRoot, 'run-metadata.json'), `${JSON.stringify({
+    schemaVersion: 1, runId: 456, runAttempt: 1, repository: 'zilliztech/zdoc',
+    toolingSha: baselineSha, devBaselineSha: baselineSha,
+    canonicalUnitKeys: selection.units.map(unit => unit.unitKey), fifoUnitKeys, artifacts,
+  })}\n`)
+  return {root, repository, runRoot, baselineSha}
+}
+
 test('trusted Jobs facts derive FIFO while the canonical order remains fixed', t => {
   const value = fixture(t)
   assert.deepEqual(value.selection.units.map(unit => unit.unitKey), [
@@ -111,6 +160,42 @@ test('replay preflights all eight archives before extraction and publishes both 
   assert.equal(result.canonicalTree, result.fifoTree)
   assert.equal(result.unitCount, 8)
   assert.deepEqual(verifyEvidence({evidenceRoot: value.evidenceRoot}).fifoUnitKeys, published.fifo)
+})
+
+test('evidence verification recognizes a complete final business validation receipt', async t => {
+  const value = fixture(t)
+  await replayRun({
+    runRoot: value.runRoot,
+    bareRemote: value.bareRemote,
+    evidenceRoot: value.evidenceRoot,
+    dependencies: {
+      assertBareRemote() {},
+      preflight() { return {manifest: {devBaselineSha: SHA('2'), masterSha: SHA('1')}} },
+      extract({unit}) { return {artifactDir: `/extract/${unit.unitKey}`} },
+      async publish({unit}) {
+        return {status: 'published', baseSha: SHA('2'), resultSha: SHA(unit.unitKey === 'source/guides-en' ? '8' : '7'), commitShas: [], attempts: 1, failure: null, remoteState: 'known'}
+      },
+      tree() { return SHA('a') },
+    },
+  })
+  const replay = JSON.parse(fs.readFileSync(path.join(value.evidenceRoot, 'replay-results.json'), 'utf8'))
+  const logs = [
+    'restore-generated-state.log', 'localization-input-inventory.log', 'revision-inventory-en.log',
+    'sidebars-en.log', 'sidebars-zh-CN.log', 'build-en.log', 'build-zh-CN.log',
+  ]
+  for (const log of logs) fs.writeFileSync(path.join(value.evidenceRoot, log), 'passed\n')
+  fs.writeFileSync(path.join(value.evidenceRoot, 'translation-handoff-v2.json'), '{"schemaVersion":2}\n')
+  fs.writeFileSync(path.join(value.evidenceRoot, 'card-report.json'), `${JSON.stringify({reports: Array.from({length: 9}, (_, index) => ({markdown: `note ${index + 1}`}))})}\n`)
+  fs.writeFileSync(path.join(value.evidenceRoot, 'business-validation.json'), `${JSON.stringify({
+    schemaVersion: 1,
+    status: 'complete',
+    finalTargetSha: replay.fifo.at(-1).resultSha,
+    logs,
+    handoff: 'translation-handoff-v2.json',
+    cardReport: 'card-report.json',
+  })}\n`)
+
+  assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).businessValidated, true)
 })
 
 test('replay rejects missing units, mixed baselines, tree differences, and implicit remotes', async t => {
@@ -197,4 +282,36 @@ test('fault injection validates the retained run and routes an approved scenario
     JSON.parse(fs.readFileSync(path.join(value.evidenceRoot, 'fault-injection.json'), 'utf8')),
     result,
   )
+})
+
+test('default fault replay proves all eight approved continuation and safe-stop scenarios', async t => {
+  const value = faultFixture(t)
+  const expectedStatuses = {
+    'earliest-descriptor-rejected': 'failure',
+    'middle-validation-failure': 'failure',
+    'target-advance-once': 'success',
+    'target-advance-exhausted': 'failure',
+    'push-error-after-remote-update': 'success',
+    'progress-upload-failure': 'success',
+    'unknown-remote-state': 'orchestrator_failed',
+    'handoff-blocked-after-unit-failure': 'failure',
+  }
+
+  for (const [scenario, overallStatus] of Object.entries(expectedStatuses)) {
+    const evidenceRoot = path.join(value.root, 'faults', scenario)
+    const result = await faultInjectRun({
+      runRoot: value.runRoot,
+      scenario,
+      evidenceRoot,
+      dependencies: {
+        sourceRepository: value.repository,
+        preflight({unit}) {
+          return {manifest: {devBaselineSha: value.baselineSha, masterSha: value.baselineSha, group: unit.group}}
+        },
+      },
+    })
+    assert.equal(result.status, 'complete', scenario)
+    assert.equal(result.overallStatus, overallStatus, scenario)
+    assert.equal(verifyEvidence({evidenceRoot}).scenario, scenario)
+  }
 })

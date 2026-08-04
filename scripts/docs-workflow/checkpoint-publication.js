@@ -187,9 +187,11 @@ function installSignalCleanup() {
 
 async function publishCheckpointTransaction(options = {}) {
   const repositoryRoot = realDirectory(options.repositoryRoot || process.cwd(), 'repositoryRoot')
+  const dependencyRoot = options.dependencyRoot ? realDirectory(options.dependencyRoot, 'dependencyRoot') : repositoryRoot
   const artifactDir = realDirectory(options.artifactDir, 'artifactDir')
   const baselineDir = options.baselineDir ? realDirectory(options.baselineDir, 'baselineDir') : null
   const unit = validateUnit(options.unit)
+  const site = unit.environment.ZDOC_SITE
   const remote = singleLine(options.remote || 'origin', 'remote')
   if (!/^[A-Za-z0-9][A-Za-z0-9._-]*$/u.test(remote)) throw new Error('remote must be a simple configured name')
   const maxAttempts = positiveInteger(options.maxAttempts ?? 3, 'maxAttempts', 10)
@@ -221,6 +223,7 @@ async function publishCheckpointTransaction(options = {}) {
       group: unit.group,
       masterSha: unit.toolingSha,
       devBaselineSha: unit.sourceBaselineSha,
+      site,
     })
   } catch (error) {
     return terminal({
@@ -250,12 +253,12 @@ async function publishCheckpointTransaction(options = {}) {
       phase = 'composition'
       publicationWorktree = createTemporaryWorktree(repositoryRoot, runnerTemp, 'docs-publish.', baseSha)
       validationWorktree = createTemporaryWorktree(repositoryRoot, runnerTemp, 'docs-validation.', validationToolingSha)
-      linkDependencies(repositoryRoot, validationWorktree)
+      linkDependencies(dependencyRoot, validationWorktree)
 
-      await deps.applyCheckpointArtifact({artifactDir, targetDir: publicationWorktree, ...(baselineDir ? {baselineDir} : {})})
+      await deps.applyCheckpointArtifact({artifactDir, targetDir: publicationWorktree, site, ...(baselineDir ? {baselineDir} : {})})
       phase = 'validation'
       command(validationWorktree, 'bash', [path.join(__dirname, '../restore-generated-state.sh'), '--exact', '--ref', baseSha], {environment})
-      await deps.applyCheckpointArtifact({artifactDir, targetDir: validationWorktree, ...(baselineDir ? {baselineDir} : {})})
+      await deps.applyCheckpointArtifact({artifactDir, targetDir: validationWorktree, site, ...(baselineDir ? {baselineDir} : {})})
       for (const validationCommand of unit.validationCommands) {
         command(validationWorktree, 'bash', ['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand], {
           environment: {...environment, ...unit.environment},
@@ -265,11 +268,11 @@ async function publishCheckpointTransaction(options = {}) {
       phase = 'composition'
       scratchDirectory = fs.mkdtempSync(path.join(runnerTemp, 'docs-stage-paths.'))
       const stagePathFile = path.join(scratchDirectory, 'paths.bin')
-      await deps.writeStagePathFile({artifactDir, worktree: publicationWorktree, output: stagePathFile})
+      await deps.writeStagePathFile({artifactDir, worktree: publicationWorktree, output: stagePathFile, site})
       if (fs.statSync(stagePathFile).size) {
         git(publicationWorktree, ['add', '--all', `--pathspec-from-file=${stagePathFile}`, '--pathspec-file-nul'])
       }
-      await deps.verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree})
+      await deps.verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree, site})
       if (git(publicationWorktree, ['diff', '--cached', '--quiet'], {allowFailure: true}).status === 0) {
         return terminal({status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt}, now)
       }

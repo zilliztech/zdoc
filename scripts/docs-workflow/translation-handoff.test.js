@@ -99,7 +99,7 @@ test('builds the unchanged schema-v2 handoff from successful Fetch results', () 
   assert.doesNotMatch(JSON.stringify(handoff), /source\/guides-zh-CN|c{40}/);
 });
 
-test('CLI accepts Fetch selection/results inputs without creating schema v3', () => {
+test('CLI accepts Fetch selection/results inputs while retaining schema v2', () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-handoff-fetch-'));
   const {selection, results} = guidesFetchPublication();
   const selectionFile = path.join(directory, 'selection.json');

@@ -8,9 +8,12 @@ const path = require('node:path')
 
 const {publishCheckpointTransaction} = require('./checkpoint-publication')
 const {buildFetchPublicationSelection} = require('./fetch-publication-selection')
+const {verifyFetchPublicationRepository} = require('./fetch-publication-results')
 const {preflightCheckpointArchive} = require('./preflight-checkpoint-archive')
 const {readPublicationDocument, unitToken, writePublicationDocument} = require('./publication-contracts')
+const {runPublicationCoordinator} = require('./publication-coordinator')
 const {createPublicationScheduler} = require('./publication-scheduler')
+const {buildTranslationHandoffFromFetchResults} = require('./translation-handoff')
 
 const SHA = /^[0-9a-f]{40}$/u
 const FAULT_SCENARIOS = new Set([
@@ -173,6 +176,7 @@ async function replayRun(options = {}) {
   })
   const publish = injected.publish || (async ({lane, unit, prepared: candidate}) => publishCheckpointTransaction({
     repositoryRoot: repository,
+    dependencyRoot: process.cwd(),
     artifactDir: candidate.artifactDir,
     unit: {...unit, targetBranch: `${lane}/dev`},
     remote: 'origin',
@@ -209,6 +213,7 @@ async function replayRun(options = {}) {
 function verifyEvidence({evidenceRoot: evidenceRootInput}) {
   if (!evidenceRootInput) throw new Error('evidenceRoot is required')
   const evidenceRoot = fs.realpathSync(path.resolve(evidenceRootInput))
+  if (fs.existsSync(path.join(evidenceRoot, 'fault-injection.json'))) return verifyFaultEvidence(evidenceRoot)
   const manifest = json(path.join(evidenceRoot, 'evidence-manifest.json'))
   const orders = json(path.join(evidenceRoot, 'orders.json'))
   const results = json(path.join(evidenceRoot, 'replay-results.json'))
@@ -222,7 +227,247 @@ function verifyEvidence({evidenceRoot: evidenceRootInput}) {
   }
   if (results.canonical?.length !== 8 || results.fifo?.length !== 8) throw new Error('Replay results must contain eight units per lane')
   if (trees.canonicalTree !== trees.fifoTree || trees.canonicalTree !== manifest.canonicalTree) throw new Error('Replay evidence trees differ')
-  return Object.freeze({...orders, canonicalTree: trees.canonicalTree, fifoTree: trees.fifoTree})
+  let businessValidated = false
+  const businessFile = path.join(evidenceRoot, 'business-validation.json')
+  if (fs.existsSync(businessFile)) {
+    const business = json(businessFile)
+    const keys = Object.keys(business).sort()
+    const expectedKeys = ['cardReport', 'finalTargetSha', 'handoff', 'logs', 'schemaVersion', 'status'].sort()
+    if (keys.length !== expectedKeys.length || keys.some((key, index) => key !== expectedKeys[index])) throw new Error('Business validation receipt keys are invalid')
+    if (business.schemaVersion !== 1 || business.status !== 'complete' || business.finalTargetSha !== results.fifo.at(-1).resultSha) {
+      throw new Error('Business validation receipt identity is invalid')
+    }
+    if (!Array.isArray(business.logs) || business.logs.length !== 7 || new Set(business.logs).size !== 7) throw new Error('Business validation receipt logs are incomplete')
+    for (const log of business.logs) {
+      const file = resolveInside(evidenceRoot, log, 'Business validation log')
+      if (!fs.statSync(file).isFile()) throw new Error(`Business validation log is missing: ${log}`)
+    }
+    const handoff = json(resolveInside(evidenceRoot, business.handoff, 'Business validation handoff'))
+    if (handoff.schemaVersion !== 2) throw new Error('Business validation handoff must remain schema v2')
+    const card = json(resolveInside(evidenceRoot, business.cardReport, 'Business validation card report'))
+    if (!Array.isArray(card.reports) || card.reports.length !== 9 || /Unavailable/iu.test(JSON.stringify(card.reports))) {
+      throw new Error('Business validation card report must contain exactly nine available notes')
+    }
+    businessValidated = true
+  }
+  return Object.freeze({...orders, canonicalTree: trees.canonicalTree, fifoTree: trees.fifoTree, businessValidated})
+}
+
+function faultFailure(code, phase, message) {
+  return {code, phase, message, retryable: false}
+}
+
+function prepareFaultRepository({evidenceRoot, sourceRepository, baselineSha}) {
+  const remote = path.join(evidenceRoot, 'remote.git')
+  const repository = path.join(evidenceRoot, 'repository')
+  git(evidenceRoot, ['init', '--bare', remote])
+  git(sourceRepository, ['push', remote, `${baselineSha}:refs/heads/fault/dev`])
+  git(evidenceRoot, ['clone', remote, repository])
+  git(repository, ['checkout', '-b', 'fault/dev', 'origin/fault/dev'])
+  git(repository, ['config', 'user.name', 'fault-replay'])
+  git(repository, ['config', 'user.email', 'fault-replay@users.noreply.github.com'])
+  return {remote, repository, branch: 'fault/dev'}
+}
+
+function remoteTip(repository, branch) {
+  return git(repository, ['rev-parse', branch]).stdout.trim()
+}
+
+function publishedFaultCommit({repository, branch, unitKey, sequence}) {
+  const baseSha = remoteTip(repository, branch)
+  git(repository, ['commit', '--allow-empty', '-m', `fault replay ${sequence}: ${unitKey}`])
+  const resultSha = remoteTip(repository, branch)
+  git(repository, ['push', 'origin', `HEAD:refs/heads/${branch}`])
+  return {baseSha, resultSha}
+}
+
+async function executeDefaultFaultScenario({scenario, run, evidenceRoot, dependencies = {}}) {
+  const preflight = dependencies.preflight || defaultPreflight
+  const preflightedUnitKeys = []
+  for (const unit of run.selection.units) {
+    const artifact = run.artifacts.get(unit.unitKey)
+    const directory = path.join(evidenceRoot, 'preflight', unitToken(unit.unitKey))
+    fs.mkdirSync(directory, {recursive: true})
+    const manifestOutput = path.join(directory, 'manifest.json')
+    const checked = await preflight({unit, archive: artifact.archive, manifestOutput, run})
+    if (checked.manifest.devBaselineSha !== run.metadata.devBaselineSha || checked.manifest.masterSha !== run.metadata.toolingSha) {
+      throw new Error(`Fault replay checkpoint identity mismatch for ${unit.unitKey}`)
+    }
+    preflightedUnitKeys.push(unit.unitKey)
+  }
+
+  const sourceRepository = fs.realpathSync(path.resolve(dependencies.sourceRepository || process.cwd()))
+  const faultRepository = prepareFaultRepository({
+    evidenceRoot, sourceRepository, baselineSha: run.metadata.devBaselineSha,
+  })
+  writePublicationDocument(path.join(evidenceRoot, 'publication-selection.json'), run.selection)
+
+  const progressUploadLog = []
+  const handlerCallLog = []
+  let progressFailureInjected = false
+  let clockTick = 0
+  const now = () => new Date(Date.UTC(2026, 7, 5, 0, 0, clockTick++))
+  const client = {
+    async listJobs() { return run.jobs },
+    async uploadProgress({snapshot}) {
+      const injectedFailure = scenario === 'progress-upload-failure' && !progressFailureInjected && snapshot.revision > 0
+      if (injectedFailure) progressFailureInjected = true
+      progressUploadLog.push({revision: snapshot.revision, ok: !injectedFailure})
+      return injectedFailure ? {ok: false, error: 'injected progress upload failure'} : {ok: true, artifactName: `fault-progress-${snapshot.revision}`}
+    },
+    async uploadResults() { return {artifactName: `fault-results-${run.selection.runId}`, artifactId: 1} },
+  }
+  const earliestUnitKey = run.fifoUnitKeys[0]
+  const targetUnitKey = run.fifoUnitKeys[2]
+  const middleUnitKey = run.fifoUnitKeys[3]
+  const unknownUnitKey = run.fifoUnitKeys[2]
+  const resolveCandidate = async ({unit}) => {
+    if (scenario === 'earliest-descriptor-rejected' && unit.unitKey === earliestUnitKey) {
+      return {status: 'rejected', failure: faultFailure('CANDIDATE_REJECTED', 'candidate', 'injected descriptor checksum rejection')}
+    }
+    return {status: 'ready', prepared: {unitKey: unit.unitKey}}
+  }
+  const publishUnit = async ({unit, sequence}) => {
+    handlerCallLog.push({event: 'invoke', unitKey: unit.unitKey, sequence})
+    const completedAt = () => now().toISOString()
+    if ((scenario === 'middle-validation-failure' || scenario === 'handoff-blocked-after-unit-failure') && unit.unitKey === middleUnitKey) {
+      handlerCallLog.push({event: 'validation_failure', unitKey: unit.unitKey, sequence})
+      return {
+        status: 'publish_failed', baseSha: remoteTip(faultRepository.repository, faultRepository.branch), resultSha: null,
+        commitShas: [], attempts: 1, failure: faultFailure('VALIDATION_FAILED', 'validation', 'injected validation failure'),
+        remoteState: 'known', completedAt: completedAt(),
+      }
+    }
+    if (scenario === 'target-advance-exhausted' && unit.unitKey === targetUnitKey) {
+      handlerCallLog.push({event: 'target_advance', unitKey: unit.unitKey, attempt: 1})
+      handlerCallLog.push({event: 'target_advance', unitKey: unit.unitKey, attempt: 2})
+      handlerCallLog.push({event: 'target_advance', unitKey: unit.unitKey, attempt: 3})
+      return {
+        status: 'publish_failed', baseSha: remoteTip(faultRepository.repository, faultRepository.branch), resultSha: null,
+        commitShas: [], attempts: 3, failure: faultFailure('TARGET_DRIFT_EXHAUSTED', 'push', 'injected repeated target advance'),
+        remoteState: 'known', completedAt: completedAt(),
+      }
+    }
+    if (scenario === 'unknown-remote-state' && unit.unitKey === unknownUnitKey) {
+      handlerCallLog.push({event: 'remote_state_unknown', unitKey: unit.unitKey, sequence})
+      return {
+        status: 'publish_failed', baseSha: remoteTip(faultRepository.repository, faultRepository.branch), resultSha: null,
+        commitShas: [], attempts: 1, failure: faultFailure('REMOTE_STATE_UNKNOWN', 'push_probe', 'injected ambiguous remote state'),
+        remoteState: 'unknown', completedAt: completedAt(),
+      }
+    }
+    if (scenario === 'target-advance-once' && unit.unitKey === targetUnitKey) {
+      handlerCallLog.push({event: 'target_advance', unitKey: unit.unitKey, attempt: 1})
+      handlerCallLog.push({event: 'recompose', unitKey: unit.unitKey, attempt: 2})
+    }
+    const commit = publishedFaultCommit({
+      repository: faultRepository.repository, branch: faultRepository.branch, unitKey: unit.unitKey, sequence,
+    })
+    if (scenario === 'push-error-after-remote-update' && unit.unitKey === targetUnitKey) {
+      handlerCallLog.push({event: 'push_error_after_update', unitKey: unit.unitKey, candidateSha: commit.resultSha})
+      handlerCallLog.push({event: 'probe_contains_candidate', unitKey: unit.unitKey, candidateSha: commit.resultSha})
+    }
+    return {
+      status: 'published', baseSha: commit.baseSha, resultSha: commit.resultSha, commitShas: [commit.resultSha],
+      attempts: scenario === 'target-advance-once' && unit.unitKey === targetUnitKey ? 2 : 1,
+      failure: null, remoteState: 'known', completedAt: completedAt(),
+    }
+  }
+
+  const outcome = await runPublicationCoordinator({
+    selection: run.selection,
+    mode: 'publish',
+    client,
+    outputDirectory: evidenceRoot,
+    runnerTemp: evidenceRoot,
+    pollMilliseconds: 1,
+    sleep: async () => {},
+    now,
+    resolveCandidate,
+    publishUnit,
+  })
+  const results = outcome.results
+  let handoffDecision
+  try {
+    const handoff = buildTranslationHandoffFromFetchResults({
+      selection: run.selection, results, locale: 'all', group: run.selection.inputs.selectedGroup,
+    })
+    writeJson(path.join(evidenceRoot, 'translation-handoff-v2.json'), handoff)
+    handoffDecision = {allowed: true, schemaVersion: handoff.schemaVersion, unitCount: handoff.units.length, reason: null}
+  } catch (error) {
+    handoffDecision = {allowed: false, schemaVersion: 2, unitCount: 0, reason: String(error.message || error)}
+  }
+  const shouldAllowHandoff = results.overallStatus === 'success'
+  if (handoffDecision.allowed !== shouldAllowHandoff) throw new Error('Fault replay handoff decision disagrees with publication results')
+
+  const reportedCommits = [...results.units]
+    .filter(unit => unit.commitShas.length)
+    .sort((left, right) => left.sequence - right.sequence)
+    .flatMap(unit => unit.commitShas)
+  const remoteCommitsOutput = git(faultRepository.repository, ['rev-list', '--reverse', `${run.metadata.devBaselineSha}..${faultRepository.branch}`]).stdout.trim()
+  const remoteCommits = remoteCommitsOutput ? remoteCommitsOutput.split('\n') : []
+  if (JSON.stringify(remoteCommits) !== JSON.stringify(reportedCommits)) throw new Error('Fault replay remote contains unreported publication commits')
+  const remoteState = {
+    branch: faultRepository.branch,
+    baselineSha: run.metadata.devBaselineSha,
+    finalSha: remoteTip(faultRepository.repository, faultRepository.branch),
+    remoteCommits,
+    reportedCommits,
+  }
+  writeJson(path.join(evidenceRoot, 'handler-call-log.json'), handlerCallLog)
+  writeJson(path.join(evidenceRoot, 'progress-upload-log.json'), progressUploadLog)
+  writeJson(path.join(evidenceRoot, 'handoff-decision.json'), handoffDecision)
+  writeJson(path.join(evidenceRoot, 'remote-state.json'), remoteState)
+  return {
+    status: 'complete',
+    overallStatus: results.overallStatus,
+    finalTargetSha: results.finalTargetSha,
+    failedUnitKey: results.units.find(unit => ['candidate_rejected', 'publish_failed'].includes(unit.status))?.unitKey || null,
+    progressUploadFailures: outcome.progressUploadFailures,
+    handlerInvocationCount: handlerCallLog.filter(entry => entry.event === 'invoke').length,
+    handoffAllowed: handoffDecision.allowed,
+    preflightedUnitKeys,
+    repository: faultRepository.repository,
+  }
+}
+
+function verifyFaultEvidence(evidenceRoot) {
+  const manifest = json(path.join(evidenceRoot, 'evidence-manifest.json'))
+  const fault = json(path.join(evidenceRoot, 'fault-injection.json'))
+  if (manifest.schemaVersion !== 1 || manifest.kind !== 'fault-injection' || manifest.status !== 'complete') throw new Error('Fault evidence manifest is incomplete')
+  if (fault.status !== 'complete' || fault.scenario !== manifest.scenario) throw new Error('Fault evidence scenario identity mismatch')
+  const selection = readPublicationDocument(path.join(evidenceRoot, 'publication-selection.json'), 'publication-selection')
+  const results = readPublicationDocument(path.join(evidenceRoot, 'publication-results.json'), 'publication-results', {selection})
+  const handlers = json(path.join(evidenceRoot, 'handler-call-log.json'))
+  const progress = json(path.join(evidenceRoot, 'progress-upload-log.json'))
+  const handoff = json(path.join(evidenceRoot, 'handoff-decision.json'))
+  const remote = json(path.join(evidenceRoot, 'remote-state.json'))
+  if (!Array.isArray(handlers) || !Array.isArray(progress)) throw new Error('Fault evidence logs are invalid')
+  const repository = path.join(evidenceRoot, 'repository')
+  verifyFetchPublicationRepository({selection, results, repository})
+  const reportedCommits = [...results.units]
+    .filter(unit => unit.commitShas.length)
+    .sort((left, right) => left.sequence - right.sequence)
+    .flatMap(unit => unit.commitShas)
+  if (JSON.stringify(remote.remoteCommits) !== JSON.stringify(reportedCommits) || JSON.stringify(remote.reportedCommits) !== JSON.stringify(reportedCommits)) {
+    throw new Error('Fault evidence remote commit inventory disagrees with results')
+  }
+  const failed = results.units.find(unit => ['candidate_rejected', 'publish_failed'].includes(unit.status))
+  const laterPublished = unit => results.units.some(candidate => candidate.sequence > unit.sequence && candidate.status === 'published')
+  if (fault.scenario === 'earliest-descriptor-rejected' && (!failed || failed.status !== 'candidate_rejected' || !laterPublished(failed))) throw new Error('Descriptor rejection continuation evidence is invalid')
+  if ((fault.scenario === 'middle-validation-failure' || fault.scenario === 'handoff-blocked-after-unit-failure') && (!failed || failed.failure?.code !== 'VALIDATION_FAILED' || !laterPublished(failed))) throw new Error('Validation failure continuation evidence is invalid')
+  if (fault.scenario === 'target-advance-once' && !results.units.some(unit => unit.status === 'published' && unit.attempts === 2)) throw new Error('Target advance retry evidence is invalid')
+  if (fault.scenario === 'target-advance-exhausted' && (!failed || failed.failure?.code !== 'TARGET_DRIFT_EXHAUSTED' || failed.commitShas.length || !laterPublished(failed))) throw new Error('Target drift exhaustion evidence is invalid')
+  if (fault.scenario === 'push-error-after-remote-update' && !handlers.some(entry => entry.event === 'probe_contains_candidate')) throw new Error('Ambiguous push probe evidence is invalid')
+  if (fault.scenario === 'progress-upload-failure' && (fault.progressUploadFailures !== 1 || results.overallStatus !== 'success')) throw new Error('Progress upload failure evidence is invalid')
+  if (fault.scenario === 'unknown-remote-state') {
+    const unknown = results.units.find(unit => unit.failure?.code === 'REMOTE_STATE_UNKNOWN')
+    const invocations = handlers.filter(entry => entry.event === 'invoke')
+    if (results.overallStatus !== 'orchestrator_failed' || !unknown || invocations.at(-1)?.unitKey !== unknown.unitKey) throw new Error('Unknown remote safe-stop evidence is invalid')
+  }
+  if ((results.overallStatus === 'success') !== handoff.allowed) throw new Error('Fault evidence handoff decision is invalid')
+  if (fault.scenario === 'handoff-blocked-after-unit-failure' && handoff.allowed) throw new Error('Failed unit did not block handoff')
+  return Object.freeze({scenario: fault.scenario, overallStatus: results.overallStatus, finalTargetSha: results.finalTargetSha})
 }
 
 async function faultInjectRun(options = {}) {
@@ -232,8 +477,11 @@ async function faultInjectRun(options = {}) {
   const evidenceRoot = path.resolve(options.evidenceRoot)
   if (fs.existsSync(evidenceRoot) && fs.readdirSync(evidenceRoot).length) throw new Error('evidenceRoot must be empty')
   fs.mkdirSync(evidenceRoot, {recursive: true})
-  const executeScenario = options.dependencies?.executeScenario || (async () => ({status: 'prepared'}))
-  const details = await executeScenario({scenario: options.scenario, run: loaded, evidenceRoot})
+  const executeScenario = options.dependencies?.executeScenario
+  const usesDefaultScenario = !executeScenario
+  const details = usesDefaultScenario
+    ? await executeDefaultFaultScenario({scenario: options.scenario, run: loaded, evidenceRoot, dependencies: options.dependencies})
+    : await executeScenario({scenario: options.scenario, run: loaded, evidenceRoot})
   const result = {
     schemaVersion: 1,
     scenario: options.scenario,
@@ -243,6 +491,18 @@ async function faultInjectRun(options = {}) {
     unitCount: loaded.selection.units.length,
   }
   writeJson(path.join(evidenceRoot, 'fault-injection.json'), result)
+  if (usesDefaultScenario) {
+    writeJson(path.join(evidenceRoot, 'evidence-manifest.json'), {
+      schemaVersion: 1,
+      kind: 'fault-injection',
+      status: 'complete',
+      scenario: options.scenario,
+      runId: loaded.selection.runId,
+      runAttempt: loaded.selection.runAttempt,
+      unitCount: loaded.selection.units.length,
+      preflightedUnitKeys: details.preflightedUnitKeys,
+    })
+  }
   return Object.freeze(result)
 }
 

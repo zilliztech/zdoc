@@ -465,11 +465,11 @@ test('workflow policy independently requires checkpoint stage selection and veri
   const publisherSource = fs.readFileSync('scripts/docs-workflow/checkpoint-publication.js', 'utf8')
   const cases = [
     {
-      token: 'writeStagePathFile({artifactDir, worktree: publicationWorktree, output: stagePathFile})',
+      token: 'writeStagePathFile({artifactDir, worktree: publicationWorktree, output: stagePathFile, site})',
       expected: 'publish-checkpoint.sh: checkpoint publisher must select stageable manifest paths',
     },
     {
-      token: 'verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree})',
+      token: 'verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree, site})',
       expected: 'publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope',
     },
     {
