@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "一个 CollectionSchema 实例表示集合的 schema。schema 勾勒出集合的结构。 | Java | v2"
+description: "一个 **CollectionSchema** 实例表示集合的 schema。schema 勾勒出集合的结构。 | Java | v2"
 type: docx
 token: IXVHdXVncoEp64xD6vdcvUJwnlH
 sidebar_position: 2
@@ -52,11 +52,11 @@ CreateCollectionReq.CollectionSchema.builder()
     .build();
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `fieldSchemaList(List<CreateCollectionReq.FieldSchema> fieldSchemaList)` -
 
-    定义集合 schema 中字段的 **[FieldSchema](./v2-Collections-FieldSchema)** 对象列表。字段 schema 表示并包含单个字段的元数据，而 **CollectionSchema** 将多个 FieldSchema 对象组合在一起以定义完整的 schema。
+    一个 **[FieldSchema](./v2-Collections-FieldSchema)** 对象列表，用于定义集合 schema 中的字段。字段 schema 表示并包含单个字段的元数据，而 **CollectionSchema** 将一组 FieldSchema 对象组合起来，以定义完整的 schema。
 
 - `structFields(List<CreateCollectionReq.StructFieldSchema> structFields)` -
 
@@ -64,29 +64,29 @@ CreateCollectionReq.CollectionSchema.builder()
 
 - `enableDynamicField(boolean enableDynamicField)` -
 
-    设置为 `true` 时，会启用一个隐藏的动态字段（`$meta`），这样插入操作就可以携带声明 schema 之外的任意键值属性。默认值：`false`。
+    设置为 `true` 时，会启用一个隐藏的动态字段（`$meta`），以便插入操作可携带声明的 schema 之外的任意键值属性。默认值：`false`。
 
 - `functionList(List<CreateCollectionReq.Function> functionList)` -
 
-    附加在插入时从现有字段派生值的函数（例如 BM25、JSON-path 提取）。每个 `Function` 都会声明其输入、输出和参数。
+    附加函数（例如 BM25、JSON-path 提取），在插入时基于现有字段派生值。每个 `Function` 都会声明其输入、输出和参数。
 
 - `externalSource(String externalSource)` -
 
-    标识绑定到此集合的外部来源（例如 S3 bucket、Lakehouse 表）。与 `externalSpec` 配合使用，用于定义一个从 Milvus 外部刷新的外部集合。
+    标识绑定到此集合的外部数据源（例如 S3 bucket、Lakehouse table）。与 `externalSpec` 搭配使用，用于定义一个从 Milvus 外部刷新数据的外部集合。
 
 - `externalSpec(JsonObject externalSpec)` -
 
-    外部来源的规格说明——通常是描述连接详细信息和刷新策略的 JSON。与 `externalSource` 一起使用。
+    外部数据源的规格说明——通常是描述连接详细信息和刷新策略的 JSON。与 `externalSource` 一起使用。
 
-**RETURN TYPE：**
+**返回类型：**
 
 *CollectionSchema*
 
-**RETURNS：**
+**返回：**
 
 一个 **CollectionSchema** 对象。
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientExceptions**
 

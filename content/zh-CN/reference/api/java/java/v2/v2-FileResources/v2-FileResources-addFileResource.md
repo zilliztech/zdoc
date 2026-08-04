@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "将本地文件上传为具名资源，以便其他 Milvus 操作（例如函数、分析器）引用。名称在每个数据库内必须唯一——重复使用同一名称会覆盖现有资源。 | Java | v2"
+description: "将本地文件上传为具名资源，以便其他 Milvus 操作（例如函数、分析器）可以引用它。名称在每个数据库内必须唯一——重复使用同一名称会覆盖现有资源。 | Java | v2"
 type: docx
 token: H0kadFay8oD1d0xserJcuL8wnhf
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFileResource()
 
-将本地文件上传为具名资源，以便其他 Milvus 操作（例如函数、分析器）引用。名称在每个数据库内必须唯一——重复使用同一名称会覆盖现有资源。
+将本地文件上传为具名资源，以便其他 Milvus 操作（例如函数、分析器）可以引用它。名称在每个数据库内必须唯一——重复使用同一名称会覆盖现有资源。
 
 ```java
 public void addFileResource(AddFileResourceReq request)

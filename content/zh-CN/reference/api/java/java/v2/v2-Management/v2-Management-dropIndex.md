@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作从特定集合中删除索引。 | Java | v2"
+description: "此操作会从指定集合中删除索引。 | Java | v2"
 type: docx
 token: XHyydLsEAoPwB2xNhcwc9KBwn7g
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropIndex()
 
-此操作从特定集合中删除索引。
+此操作会从指定集合中删除索引。
 
 ```java
 public void dropIndex(DropIndexReq request)
@@ -67,7 +67,7 @@ dropIndex(DropIndexReq.builder()
 
     要删除的索引名称。
 
-**返回值：**
+**返回：**
 
 *void*
 
@@ -75,7 +75,7 @@ dropIndex(DropIndexReq.builder()
 
 - **MilvusClientExceptions**
 
-    在此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

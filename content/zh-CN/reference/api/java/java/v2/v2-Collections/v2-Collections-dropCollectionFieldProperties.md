@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除字段的指定属性。 | Java | v2"
+description: "此操作将删除字段的指定属性。 | Java | v2"
 type: docx
 token: O3E9duLvfoMC26x8AmDcomlWneh
 sidebar_position: 26
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFieldProperties()
 
-此操作会删除字段的指定属性。
+此操作将删除字段的指定属性。
 
 ```java
 public void dropCollectionFieldProperties(DropCollectionFieldPropertiesReq request)
@@ -53,15 +53,15 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 
 - `collectionName(String collectionName)`
 
-    现有集合的名称。
+    现有 collection 的名称。
 
 - `databaseName(String databaseName)`
 
-    包含上述集合的数据库名称。
+    包含上述 collection 的数据库名称。
 
 - `fieldName(String fieldName)`
 
-    指定集合中目标字段的名称。
+    指定 collection 中目标字段的名称。
 
 - `propertyKeys(List<String> propertyKeys)`
 

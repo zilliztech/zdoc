@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于创建 volume。 | Java | v2"
+description: "创建由指定存储集成和路径支持的 volume。 | Java | v2"
 type: docx
-token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
+token: ZQwMd6bo5otETvxWWHDcUpTMn8g
 sidebar_position: 1
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - 托管向量数据库
+  - Pinecone 向量数据库
+  - 音频搜索
+  - 什么是语义搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createVolume()
 
-此操作用于创建 volume。
+创建由指定存储集成和路径支持的 volume。
 
 ```java
 public void createVolume(CreateVolumeRequest request)
@@ -40,66 +40,59 @@ public void createVolume(CreateVolumeRequest request)
 ## 请求语法\{#request-syntax}
 
 ```java
-createVolume(CreateVolumeRequest.builder()
-    .projectId(String projectId)
-    .regionId(String regionId)
-    .volumeName(String volumeName)
+CreateVolumeRequest.builder()
+    .projectId(projectId)
+    .regionId(regionId)
+    .volumeName(volumeName)
+    .type(type)
+    .storageIntegrationId(storageIntegrationId)
+    .path(path)
     .build();
-)
 ```
 
-**参数**
+**构建器方法：**
 
-- **projectId** (*str*) -
+- `projectId(String projectId)`
 
-    **[必填]**
+    Zilliz Cloud 项目的 ID。
 
-    要创建的 volume 所属项目的 ID。
+- `regionId(String regionId)`
 
-- **regionId** (*str*) -
+    云区域的 ID。
 
-    **[必填]**
+- `volumeName(String volumeName)`
 
-    将创建 volume 的云区域 ID。你可以使用 [列出云区域](/reference/restful/list-cloud-regions-v2) 查看可选值。
+    volume 的名称。
 
-- **volumeName** (*str*) -
+- `type(String type)`
 
-    **[必填]**
+    volume 类型：`MANAGED` 或 `EXTERNAL`。默认值为 `MANAGED`。
 
-    要创建的 volume 名称。
+- `storageIntegrationId(String storageIntegrationId)`
 
-**返回类型**
+    外部 volume 使用的存储集成 ID。
 
-*void*
+- `path(String path)`
 
-**返回值**
+    外部 volume 的存储路径。如果设置了该值，路径必须以 `/` 结尾；否则将使用存储集成根路径。
 
-无
+**异常：**
+
+- **MilvusClientExceptions**
+
+    当此操作期间发生任何错误时抛出。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
+创建由指定存储集成和路径支持的 volume。
+
 ```java
-import io.milvus.bulkwriter.VolumeManager;
-import io.milvus.bulkwriter.VolumeManagerParam;
-import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
-
-VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com")
-    .withApiKey("YOUR_API_KEY")
-    .build();
-        
-VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
-CreateVolumeRequest request = CreateVolumeRequest.builder()
-    .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-    .regionId("aws-us-west-1")
-    .volumeName("my_volume")
-    .build();
-
-volumeManager.createVolume(request);
-
-System.out.printf("\nVolume %s created%n", "my_volume");
-
-// Volume my_volume created
+volumeManager.createVolume(CreateVolumeRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .volumeName("bulk-data")
+    .type("S3")
+    .storageIntegrationId(STORAGE_INTEGRATION_ID)
+    .path("s3://bucket/prefix")
+    .build());
 ```
-

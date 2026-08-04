@@ -70,7 +70,7 @@ flush(FlushReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

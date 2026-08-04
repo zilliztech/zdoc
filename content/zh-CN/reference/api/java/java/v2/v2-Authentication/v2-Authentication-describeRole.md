@@ -58,7 +58,7 @@ DescribeRoleResp resp = client.describeRole(DescribeRoleReq.builder()
 
 *DescribeRoleResp*
 
-响应包含 `roleName`、`grantInfos` 和 `description`。
+响应中包含 `roleName`、`grantInfos` 和 `description`。
 
 **异常：**
 

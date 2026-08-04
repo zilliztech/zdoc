@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "向现有的 Milvus 3.0 collection 添加一个由函数支持的字段，以及其显式配置的绑定索引。 | Java | v2"
+description: "向现有的 Milvus 3.0 collection 添加一个由函数支持的字段及其显式配置的绑定索引。 | Java | v2"
 type: docx
 token: GTZHdG3fMoBZi0x23BNctsO7nEE
 sidebar_position: 38
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFunctionField()
 
-向现有的 Milvus 3.0 collection 添加一个由函数支持的字段，以及其显式配置的绑定索引。
+向现有的 Milvus 3.0 collection 添加一个由函数支持的字段及其显式配置的绑定索引。
 
 ```java
 public void addFunctionField(AddFunctionFieldReq request)
@@ -101,7 +101,7 @@ AddFunctionFieldReq.builder()
 
 - `isNullable(Boolean isNullable)`
 
-    该字段是否接受 null 值。
+    字段是否接受 null 值。
 
 - `defaultValue(Object defaultValue)`
 
@@ -121,21 +121,21 @@ AddFunctionFieldReq.builder()
 
 - `typeParams(Map<String, String> typeParams)`
 
-    其他字段类型参数。
+    附加的字段类型参数。
 
 - `function(CreateCollectionReq.Function function)`
 
-    函数定义。它必须且只能有一个与 fieldName 匹配的输出。
+    函数定义。它必须恰好有一个与 fieldName 匹配的输出。
 
 - `indexParam(IndexParam indexParam)`
 
-    绑定索引配置。它必须使用相同字段，并显式指定除 None 或 AUTOINDEX 之外的索引类型。
+    绑定索引配置。它必须使用相同的字段，并显式指定非 None 或 AUTOINDEX 的索引类型。
 
 **返回：**
 
 *void*
 
-此操作不返回值。
+此操作不返回任何值。
 
 **异常：**
 

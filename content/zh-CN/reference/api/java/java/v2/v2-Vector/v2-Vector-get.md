@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过实体 ID 获取特定实体。 | Java | v2"
+description: "此操作通过 ID 获取特定实体。 | Java | v2"
 type: docx
 token: Xl3QdxmFxo3MNCxWlrxc9jFbnFc
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-此操作通过实体 ID 获取特定实体。
+此操作通过其 ID 获取特定实体。
 
 ```java
 public GetResp get(GetReq request)
@@ -71,7 +71,7 @@ get(GetReq.builder()
 
 - `ids(List<Object> ids)`
 
-    单个特定实体 ID 或实体 ID 列表。
+    特定实体 ID 或实体 ID 列表。
 
 - `outputFields(List<String> outputFields)`
 
@@ -93,7 +93,7 @@ get(GetReq.builder()
 
 - **fields** (*Map\\\&lt;String,Object\\\&gt;*)
 
-    包含字段名称及其值键值对的映射。
+    包含字段名称及其值的键值对映射。
 
 **异常：**
 

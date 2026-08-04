@@ -51,13 +51,13 @@ CloudDescribeImportRequest.builder()
 
 ### CloudDescribeImportRequest\{#clouddescribeimportrequest}
 
-对于 Zilliz Cloud，请使用 `CloudDescribeImportRequest`。设置 `clusterId`，或者对于项目数据库部署，同时设置 `projectId` 和 `regionId`。
+对于 Zilliz Cloud，请使用 `CloudDescribeImportRequest`。设置 `clusterId`，或对于项目数据库部署，同时设置 `projectId` 和 `regionId`。
 
 **构建器方法：**
 
 - `apiKey(String apiKey)`
 
-    身份验证凭证。对于 Milvus，请使用 `userName:password`；对于 Zilliz Cloud，请使用 API key。
+    身份验证凭证。对于 Milvus，请使用 `userName:password`；对于 Zilliz Cloud，请使用 API 密钥。
 
 - `clusterId(String clusterId)`
 
@@ -79,7 +79,7 @@ CloudDescribeImportRequest.builder()
 
 *String*
 
-由导入端点返回的 JSON 响应体。
+导入端点返回的 JSON 响应体。
 
 **异常：**
 
@@ -89,7 +89,7 @@ CloudDescribeImportRequest.builder()
 
 ## 示例\{#example}
 
-演示如何在 Zilliz Cloud 中调用 abortImport()。
+演示如何在 Zilliz Cloud 上使用 abortImport()。
 
 ```java
 String response = BulkImportUtils.abortImport(CLOUD_URL,

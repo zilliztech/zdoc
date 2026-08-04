@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会向 struct 字段 schema 添加一个子字段。使用此操作可定义 struct 类型列的内部字段。 | Java | v2"
+description: "此操作会向结构体字段 schema 添加一个子字段。使用此操作可定义结构体类型列的内部字段。 | Java | v2"
 type: docx
 token: FGO8dhjlTovfOdxpOw0c3wyNntc
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addField()
 
-此操作会向 struct 字段 schema 添加一个子字段。使用此操作可定义 struct 类型列的内部字段。
+此操作会向结构体字段 schema 添加一个子字段。使用此操作可定义结构体类型列的内部字段。
 
 ```java
 public StructFieldSchema addField(AddFieldReq addFieldReq)

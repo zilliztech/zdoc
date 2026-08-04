@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 public Long getTotalRowCount()
 ```
 
-**返回值：**
+**返回：**
 
 *Long*
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回集合 schema 中的所有 struct 字段 schema。 | Java | v2"
+description: "此 getter 返回 collection schema 中的所有 struct 字段 schema。 | Java | v2"
 type: docx
 token: S0Iudxn6NoqusZx4xjRcLWLpnGc
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getStructFields()
 
-此 getter 返回集合 schema 中的所有 struct 字段 schema。
+此 getter 返回 collection schema 中的所有 struct 字段 schema。
 
 ```java
 public List<CreateCollectionReq.StructFieldSchema> getStructFields()

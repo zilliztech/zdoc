@@ -50,7 +50,7 @@ dropUser(DropUserReq.builder()
 
 - `userName(String userName)`
 
-    要删除的用户名称。
+    要删除的用户名。
 
 **返回：**
 

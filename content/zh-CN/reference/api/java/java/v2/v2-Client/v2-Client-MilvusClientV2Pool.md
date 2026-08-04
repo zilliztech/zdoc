@@ -12,9 +12,9 @@ type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量数据库
+  - 什么是向量数据库
+  - 向量数据库对比
   - Faiss
   - zilliz
   - zilliz cloud
@@ -39,7 +39,7 @@ io.milvus.pool.MilvusClientV2Pool
 
 ## Constructor\{#constructor}
 
-构造一个适用于常见场景的客户端连接池。
+为常见使用场景构造一个客户端连接池。
 
 ```java
 MilvusClientV2Pool(PoolConfig poolConfig, ConnectConfig connectConfig);
@@ -49,53 +49,53 @@ MilvusClientV2Pool(PoolConfig poolConfig, ConnectConfig connectConfig);
 
 - `getClient(String key)`
 
-    从连接池中获取一个空闲的客户端对象。
+    从连接池中获取一个处于空闲状态的客户端对象。
 
-    调用方持有该客户端后，它会被标记为活跃状态，其他调用方无法获取该客户端。
+    调用方一旦持有该客户端，它将被标记为活跃状态，其他调用方将无法获取该客户端。
 
-    - 如果客户端数量达到 **MaxTotalPerKey** 值，此方法会阻塞 **MaxBlockWaitDuration**。
+    - 如果客户端数量达到 **MaxTotalPerKey** 值，此方法将阻塞 **MaxBlockWaitDuration**。
 
     - 如果在 **MaxBlockWaitDuration** 后仍没有可用的空闲客户端，此方法将向调用方返回一个 null 对象。
 
 - `returnClient(String key, MilvusClient grpcClient)`
 
-    归还一个客户端对象。客户端归还后，会变为空闲状态并等待下一个调用方使用。
+    归还一个客户端对象。客户端归还后会变为空闲状态，并等待下一个调用方获取。
 
-    调用方应确保客户端被归还。否则，该客户端会一直保持活跃状态，无法被下一个调用方使用。
+    调用方应确保客户端被归还。否则，该客户端将持续处于活跃状态，无法被下一个调用方使用。
 
-    如果 key 不存在，或者该客户端不属于此 key 分组，则会抛出异常。
+    如果 key 不存在，或者客户端不属于该 key 组，则会抛出异常。
 
 - `getIdleClientNumber(String key)`
 
-    返回某个 key 分组中的空闲客户端数量。
+    返回某个 key 组中的空闲客户端数量。
 
 - `getActiveClientNumber(String key)`
 
-    返回某个 key 分组中的活跃客户端数量。
+    返回某个 key 组中的活跃客户端数量。
 
 - `getTotalIdleClientNumber()`
 
-    返回所有 key 分组中的空闲客户端总数。
+    返回所有 key 组中的空闲客户端总数。
 
 - `getTotalActiveClientNumber()`
 
-    返回所有 key 分组中的活跃客户端总数
+    返回所有 key 组中的活跃客户端总数
 
 - `clear(String key)`
 
-    释放/断开某个 key 分组中的空闲客户端。
+    释放/断开某个 key 组中的空闲客户端。
 
 - `clear()`
 
-    释放/断开所有 key 分组中的空闲客户端。
+    释放/断开所有 key 组中的空闲客户端。
 
 - `close()`
 
-    释放/断开所有 key 分组中的所有客户端，并关闭连接池。
+    释放/断开所有 key 组中的全部客户端，并关闭连接池。
 
 ## PoolConfig\{#poolconfig}
 
-**PoolConfig** 允许你对连接池进行特定配置。
+**PoolConfig** 允许你为连接池进行特定配置。
 
 ```java
 PoolConfig poolConfig = PoolConfig.builder()
@@ -111,11 +111,11 @@ PoolConfig poolConfig = PoolConfig.builder()
 
 - `maxIdlePerKey(int maxIdlePerKey)`
 
-    每个 key 的最大空闲客户端数。如果空闲客户端数量超过该值，部分客户端将被自动关闭。默认值为 5。
+    每个 key 的最大空闲客户端数量。如果空闲客户端数量超过该值，部分客户端将被自动关闭。默认值为 5。
 
 - `minIdlePerKey(int minIdlePerKey)`
 
-    每个 key 的最小空闲客户端数。默认值为 0。
+    每个 key 的最小空闲客户端数量。默认值为 0。
 
 - `maxTotalPerKey(int maxTotalPerKey)`
 
@@ -127,7 +127,7 @@ PoolConfig poolConfig = PoolConfig.builder()
 
 - `blockWhenExhausted(boolean blockWhenExhausted)`
 
-    当客户端数量达到上限且所有客户端都处于活跃状态时，将 `getClient()` 方法阻塞一段时间。如果此标志为 false，那么当客户端数量达到上限且所有客户端都处于活跃状态时，`getClient()` 会立即抛出异常。默认值为 true。
+    当客户端数量达到上限且所有客户端都处于活跃状态时，使 `getClient()` 方法阻塞一段时间。如果此标志为 false，则当客户端数量达到上限且所有客户端都处于活跃状态时，`getClient()` 会立即抛出异常。默认值为 true。
 
 - `maxBlockWaitDuration(Duration maxBlockWaitDuration)`
 
@@ -135,11 +135,11 @@ PoolConfig poolConfig = PoolConfig.builder()
 
 - `evictionPollingInterval(Duration evictionPollingInterval)`
 
-    每隔一段时间触发一次清除操作，以清除过期的空闲客户端。默认值为 60 秒。
+    每隔指定时长触发一次清除操作，以清除过期的空闲客户端。默认值为 60 秒。
 
 - `minEvictableIdleDuration(Duration minEvictableIdleDuration)`
 
-    空闲客户端在超过此时长后会过期，并可能被清除。
+    空闲客户端在经过该时长后会过期，并可被清除。
 
 - `testOnBorrow(boolean testOnBorrow)`
 

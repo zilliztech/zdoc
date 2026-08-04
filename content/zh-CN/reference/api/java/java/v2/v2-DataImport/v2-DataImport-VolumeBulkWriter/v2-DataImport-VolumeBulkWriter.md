@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VolumeBulkWriter 实例会将原始数据重写到 Zilliz Cloud Volume，并采用 Milvus 可理解的格式。 | Java | v2"
+description: "配置 VolumeBulkWriter，包括其集合模式、输出路径和 Volume 连接。 | Java | v2"
 type: docx
 token: NtxedWgOpof2Qtx8BU2ckktunWc
 sidebar_position: 7
@@ -31,140 +31,71 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-**VolumeBulkWriter** 实例会将原始数据重写到 Zilliz Cloud Volume，并采用 Milvus 可理解的格式。
+配置 VolumeBulkWriter，包括其集合模式、输出路径和 Volume 连接。
 
 ```java
-io.milvus.bulkwriter.VolumeBulkWriter
+public class VolumeBulkWriter
 ```
 
-## Constructor\{#constructor}
+<Admonition type="info" icon="📘" title="说明">
 
-通过 schema、输出路径、分段大小和文件类型构造一个 **VolumeBulkWriter** 实例。
-
-<Admonition type="info" icon="📘" title="Notes">
-
-**VolumeBulkWriter** 对象旨在将原始数据重写到 Zilliz Cloud Volume，并采用 Milvus 可理解的格式。
+**VolumeBulkWriter** 对象用于将原始数据重写到 Zilliz Cloud Volume 中，并转换为 Milvus 可识别的格式。
 
 </Admonition>
 
-```java
-VolumeBulkWriter(VolumeBulkWriterParam bulkWriterParam)
-```
-
-**参数：**
-
-- **bulkWriterParam** (*VolumeBulkWriterParam*) -
-
-    一个 [VolumeBulkWriterParam](./v2-DataImport-VolumeBulkWriter#volumebulkwriterparam) 实例。
-
-## VolumeBulkWriterParam\{#volumebulkwriterparam}
-
-**VolumeBulkWriterParam** 允许你在一个地方为 **VolumeBulkWriter** 实例配置属性，以便实例化 **VolumeBulkWriter** 类。
-
-```java
-VolumeBulkWriterParam.newBuilder()
-    .withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)
-    .withLocalPath(String localPath)
-    .withChunkSize(long chunkSize)
-    .withFileType(BulkFileType fileType)
-    .withConfig(String key, Object val)
-    .withCloudEndpoint(string cloudEndpoint)
-    .withApiKey(string apiKey)
-    .withVolumeName(string volumeName)
-    .build()
-```
-
 **构建器方法：**
+
+- `withCollectionSchema(CollectionSchemaParam collectionSchema)`
+
+    目标集合的模式，使用 `CollectionSchemaParam` 定义。构建器会在内部将其转换为 v2 集合模式。
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    目标集合的 schema，通过实例化 **CreateCollectionReq.CollectionSchema** 定义。
+    目标集合的模式，使用 [`CreateCollectionReq.CollectionSchema`](./v2-Collections-CollectionSchema) 定义。
 
-- `withLocalPath(String localPath)`
+- `withRemotePath(String remotePath)`
 
-    用于存放重写后数据的目录路径。
+    在目标 Volume 中用于存储重写后数据文件的路径。
 
 - `withChunkSize(long chunkSize)`
 
-    文件分段的最大大小。重写原始数据时，Milvus 会将其拆分为多个分段。
-
-    默认值为 **536,870,912** 字节，即 **512 MB**。
-
-    <Admonition type="info" icon="📘" title="**BulkWriter 如何对数据分段？**">
-
-    BulkWriter 对数据进行分段的方式会因目标文件类型而异。
-    
-    如果生成的文件超过指定的分段大小，BulkWriter 会创建多个文件，并按顺序编号命名，每个文件都不会大于分段大小。
-
-    </Admonition>
+    每个生成文件分片的最大大小，单位为字节。默认值为 **134,217,728** 字节（**128 MB**）。
 
 - `withFileType(BulkFileType fileType)`
 
-    输出文件的类型。可选项列在 [BulkFileType](./v2-DataImport-BulkFileType) 中。
+    输出文件格式。可用值请参见 [`BulkFileType`](./v2-DataImport-BulkFileType)。
 
-- `withConfig(String key, Object val)`
+- `withConfig(String key, Object value)`
 
-    一个字典，用于指定处理 CSV 文件的可选配置。仅当你在 `withFileType()` 中将 `fileType` 设置为 `CSV` 时，此参数才适用。该字典包含以下字段：
+    用于输出文件处理的可选键值配置。对于 `CSV` 输出，可使用 `sep` 设置分隔符，使用 `nullkey` 设置表示 null 值的字符串。
 
-    - **sep** (*string*) -
+- `withCloudEndpoint(String cloudEndpoint)`
 
-        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`, `"\n"`, `"\r"`, `"""`。
+    Zilliz Cloud 公共 API 端点。请将此值设置为 `https://api.cloud.zilliz.com`。
 
-    - **nullkey** (*string*) -
+- `withApiKey(String apiKey)`
 
-        表示 null 值的特殊字符串。默认值为空字符串：`""`。
+    用于对请求进行身份验证的 Zilliz Cloud API key。
 
-- `withCloudEndpoint(string cloudEndpoint)`
+- `withVolumeName(String volumeName)`
 
-    Zilliz Cloud 公共端点始终为 `https:*//*api.cloud.zilliz.com`。
+    目标 Zilliz Cloud Volume 的名称。
 
-- `withApiKey(string apiKey)`
+- `withConnectType(ConnectType connectType)`
 
-    有效的 Zilliz Cloud API key，并且具有执行此操作相关资源所需的足够权限。
-
-- `withVolumeName(string volumeName)`
-
-    有效的 volume 名称。请确保指定名称的 volume 已存在。
+    用于访问 Volume 的连接策略。默认值为 `ConnectType.AUTO`。
 
 ## 示例\{#example}
 
+配置 VolumeBulkWriter，包括其集合模式、输出路径和 Volume 连接。
+
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.bulkwriter.VolumeBulkWriter;
-import io.milvus.bulkwriter.VolumeBulkWriterParam;
-import io.milvus.bulkwriter.common.clientenum.BulkFileType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
-private static void volumeWriter(CreateCollectionReq.CollectionSchema collectionSchema) throws Exception {
-    VolumeBulkWriterParam bulkWriterParam = VolumeBulkWriterParam.newBuilder()
-            .withCollectionSchema(collectionSchema)
-            .withRemotePath("/tmp/bulk_writer")
-            .withFileType(BulkFileType.PARQUET)
-            .withChunkSize(128 * 1024 * 1024)
-            .withCloudEndpoint("https://api.cloud.zilliz.com")
-            .withApiKey("YOUR_API_KEY")
-            .withVolumeName("my_volume")
-            .build();
-
-    try (VolumeBulkWriter volumeBulkWriter = new VolumeBulkWriter(bulkWriterParam)) {
-        // append rows
-        Gson GSON_INSTANCE = new Gson();
-        for (int i = 0; i < 10000; i++) {
-            JsonObject row = new JsonObject();
-            row.addProperty("path", "path_" + i);
-            row.add("vector", GSON_INSTANCE.toJsonTree(GeneratorUtils.genFloatVector(DIM)));
-            row.addProperty("label", "label_" + i);
-
-            volumeBulkWriter.appendRow(row);
-        }
-
-        volumeBulkWriter.commit(false);
-        UploadFilesResult uploadResult = volumeBulkWriter.getVolumeUploadResult();
-        System.out.printf("Data files have been uploaded: %s%n", uploadResult);
-    } catch (Exception e) {
-        System.out.println("Local writer catch exception: " + e);
-        throw e;
-    }
-}
+VolumeBulkWriterParam params = VolumeBulkWriterParam.newBuilder()
+    .withCollectionSchema(collectionSchema)
+    .withRemotePath("imports/books")
+    .withCloudEndpoint(CLOUD_ENDPOINT)
+    .withApiKey(API_KEY)
+    .withVolumeName("bulk-data")
+    .build();
+VolumeBulkWriter writer = new VolumeBulkWriter(params);
 ```
-

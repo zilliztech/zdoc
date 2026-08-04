@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回有关特定 collection 的副本信息。 | Java | v2"
+description: "此操作返回特定 collection 的副本信息。 | Java | v2"
 type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 25
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeReplicas()
 
-此操作返回有关特定 collection 的副本信息。
+此操作返回特定 collection 的副本信息。
 
 ```java
 public DescribeReplicasResp describeReplicas(DescribeReplicasReq request)
@@ -47,29 +47,29 @@ describeReplicas(DescribeReplicasReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS:**
 
 - `databaseName(String alias)`
 
-    包含目标 collection 的数据库名称。
+    持有目标 collection 的数据库名称。
 
 - `collectionName(String collectionName)`
 
     目标 collection 的名称。
 
-**返回类型：**
+**RETURN TYPE:**
 
 *DescribeReplicasResp*
 
-**返回：**
+**RETURNS:**
 
-一个 DescribeReplicasResp，其中包含指定 collection 中副本的详细信息。
+一个 DescribeReplicasResp，包含指定 collection 中副本的详细信息。
 
-**参数：**
+**PARAMETERS:**
 
 - **replicas** (*List&lt;ReplicaInfo&gt;*) -
 
-    副本列表，其中每个副本都包含以下字段：
+    副本列表，其中每个副本包含以下字段：
 
     - **replicaID** (*Long*) -
 
@@ -81,11 +81,11 @@ describeReplicas(DescribeReplicasReq.builder()
 
     - **partitionIDs** (*List&lt;Long&gt;*) -
 
-        与当前副本关联的 partition 的 ID。
+        与当前副本关联的 partitions 的 ID。
 
     - **shardReplicas** (*List&lt;ShardReplicas&gt;*) -
 
-        与当前副本关联的 shard。每个 shard 包含以下信息：
+        与当前副本关联的 shards。每个 shard 包含以下信息：
 
         - **leaderID** (*Long*) -
 
@@ -115,7 +115,7 @@ describeReplicas(DescribeReplicasReq.builder()
 
         出站 query node 的数量。
 
-**异常：**
+**EXCEPTIONS:**
 
 - **MilvusClientExceptions**
 
@@ -130,7 +130,7 @@ import io.milvus.v2.service.collection.ReplicaInfo;
 import io.milvus.v2.service.collection.request.DescribeReplicasReq;
 import io.milvus.v2.service.collection.response.DescribeReplicasResp;
 
-// 1. Set up a client
+// 1. 设置客户端
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -138,7 +138,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// describe the replicas of a collection named `test`
+// 描述名为 `test` 的 collection 的副本
 DescribeReplicasReq describeReplicasReq = DescribeReplicasReq.builder()
         .collectionName("test")
         .build();

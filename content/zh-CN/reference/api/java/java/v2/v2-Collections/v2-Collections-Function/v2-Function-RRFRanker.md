@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "RRFRanker 类继承自 Function 类，并提供额外参数。 | Java | v2"
+description: "RRFRanker 类扩展自 Function 类，并提供额外参数。 | Java | v2"
 type: docx
 token: FuSTdeSCdojDu0xSBEmcYgv9n4g
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RRFRanker
 
-**RRFRanker** 类继承自 **Function** 类，并提供额外参数。
+**RRFRanker** 类扩展自 **Function** 类，并提供额外参数。
 
 ```java
 public class RRFRanker extends CreateCollectionReq.Function
@@ -52,11 +52,11 @@ RRFRanker.builder()
 
 - `name(String name)`
 
-    函数的名称。此标识符用于在查询和集合中引用该函数。
+    函数的名称。该标识符用于在查询和集合中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要说明。这在较大的项目中可用于文档说明或提高清晰度，默认为空字符串。
+    对函数用途的简要说明。这在较大的项目中可用于文档说明或提升可读性，默认为空字符串。
 
 - `params(Map<String, String> params)`
 
@@ -72,7 +72,7 @@ RRFRanker.builder()
 
 **返回：**
 
-一个 RRF ranker 实例。
+一个 RRF 排序器实例。
 
 ## 示例：\{#examples}
 

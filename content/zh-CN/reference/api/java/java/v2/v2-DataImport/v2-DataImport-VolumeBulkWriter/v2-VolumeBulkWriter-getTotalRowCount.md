@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回此 VolumeBulkWriter 实例写入的总行数。 | Java | v2"
+description: "此操作返回此 VolumeBulkWriter 实例已写入的总行数。 | Java | v2"
 type: docx
 token: JgY9doHQjoNBfMxVnpfcZeHongb
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getTotalRowCount()
 
-此操作返回此 VolumeBulkWriter 实例写入的总行数。
+此操作返回此 VolumeBulkWriter 实例已写入的总行数。
 
 ```java
 public Long getTotalRowCount()

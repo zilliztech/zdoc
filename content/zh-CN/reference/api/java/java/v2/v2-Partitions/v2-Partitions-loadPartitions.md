@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会将指定集合中的分区从内存中释放。 | Java | v2"
+description: "此操作将指定集合中的分区从内存中释放。 | Java | v2"
 type: docx
 token: MH8cdNxkgoliJ5xU0f9cBKqunYe
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-此操作会将指定集合中的分区从内存中释放。
+此操作将指定集合中的分区从内存中释放。
 
 ```java
 public void loadPartitions(LoadPartitionsReq request)
@@ -59,7 +59,7 @@ loadPartitions(LoadPartitionsReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认为当前数据库。
+    数据库名称。如未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -67,7 +67,7 @@ loadPartitions(LoadPartitionsReq.builder()
 
 - `partitionNames(List<String> partitionNames)` -
 
-    目标分区名称列表。
+    要操作的分区名称列表。
 
 - `numReplicas(Integer numReplicas)` -
 
@@ -97,17 +97,17 @@ loadPartitions(LoadPartitionsReq.builder()
 
     用于负载均衡的资源组名称列表。
 
-**返回：**
+**RETURNS：**
 
 *void*
 
 *void*
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将抛出此异常。
 
 ## 示例\{#example}
 

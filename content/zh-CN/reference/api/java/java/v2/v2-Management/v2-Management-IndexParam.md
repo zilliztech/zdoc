@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "IndexParam 用于定义在集合字段上配置索引的参数。 | Java | v2"
+description: "IndexParam 定义了为集合字段配置索引的参数。 | Java | v2"
 type: docx
 token: SXgodgq99ozZoHxfnakc0fpCnJh
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexParam
 
-IndexParam 用于定义在集合字段上配置索引的参数。
+IndexParam 定义了为集合字段配置索引的参数。
 
 ```java
 IndexParam.builder()
@@ -42,7 +42,7 @@ IndexParam.builder()
     .build()
 ```
 
-**构建器方法：**
+**BUILDER METHODS:**
 
 - `fieldName(String fieldName)` -
 
@@ -58,13 +58,13 @@ IndexParam.builder()
 
 - `extraParams(Map<String, Object> extraParams)` -
 
-    额外的索引特定参数，以键值对形式提供。例如，对于 HNSW 索引，可设置为 `{"M": 16, "efConstruction": 256}`。
+    以键值对形式提供的其他索引特定参数。例如，HNSW 索引可使用 `{"M": 16, "efConstruction": 256}`。
 
-**返回：**
+**RETURNS:**
 
 *IndexParam*
 
-**异常：**
+**EXCEPTIONS:**
 
 *MilvusClientException*
 

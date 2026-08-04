@@ -10,7 +10,7 @@ notebook: false
 description: "此操作返回已连接服务器的版本字符串。 | Java | v2"
 type: docx
 token: FuDHdadxHoX9qSxe4aac4wzNnRh
-sidebar_position: 23
+sidebar_position: 26
 keywords: 
   - hnsw algorithm
   - vector similarity search
@@ -41,7 +41,7 @@ public String getServerVersion()
 
 *String*
 
-服务器的版本字符串（例如 `"2.6.13"`）。
+服务器的版本字符串（例如：`"2.6.13"`）。
 
 **异常：**
 

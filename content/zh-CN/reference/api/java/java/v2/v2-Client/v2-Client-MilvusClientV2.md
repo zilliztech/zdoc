@@ -12,10 +12,10 @@ type: docx
 token: IeOWd0yR2onm5Ex6XyqcrGjKnpS
 sidebar_position: 1
 keywords: 
-  - vector database
+  - 向量数据库
   - IVF
   - knn
-  - Image Search
+  - 图片搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -37,13 +37,13 @@ import Admonition from '@theme/Admonition';
 io.milvus.v2.client.MilvusClientV2
 ```
 
-## 构造函数\{#constructor}
+## Constructor\{#constructor}
 
 为常见用例构造一个客户端。
 
 <Admonition type="info" icon="📘" title="说明">
 
-该客户端可作为当前这组 API 的一个易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
+该客户端作为当前这组 API 的一个易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
 
 </Admonition>
 
@@ -53,7 +53,7 @@ MilvusClientV2(ConnectConfig connectConfig);
 
 ## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
 
-**[ConnectConfig](./v2-Client-ConnectConfig)** 允许您在一个地方配置连接属性，以便 **MilvusClientV2** 可以引用它来创建和管理连接池。
+**[ConnectConfig](./v2-Client-ConnectConfig)** 允许你在一个位置配置连接属性，以便 **MilvusClientV2** 可引用这些属性来创建和管理连接池。
 
 ```java
 // use either token or username/password
@@ -81,7 +81,7 @@ ConnectConfig.builder()
     .build();
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `uri(String uri)`
 
@@ -95,7 +95,7 @@ ConnectConfig.builder()
 
     用于访问指定 Zilliz Cloud 集群的有效访问令牌。
 
-    这可以作为分别设置 **user** 和 **password** 的推荐替代方式。
+    这可以作为分别设置 **user** 和 **password** 的推荐替代方案。
 
     设置此字段时，请注意：
 
@@ -103,7 +103,7 @@ ConnectConfig.builder()
 
     - 具有足够权限的 [API key](/docs/manage-api-keys)，或
 
-    - 用于访问目标集群的一组[用户名和密码](/docs/cluster-credentials)，并用冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。
+    - 用于访问目标集群的一组 [username and password ](/docs/cluster-credentials)，以冒号（`:`）连接。例如，你可以将其设置为 `username:p@ssw0rd`。
 
 - `username(String userName)`
 
@@ -125,19 +125,19 @@ ConnectConfig.builder()
 
 - `keepAliveTimeMs(long keepAliveTime)`
 
-    客户端向服务器发送 keep-alive 探测之间的时间间隔（毫秒）。
+    客户端向服务器发送 keep-alive 探测包的时间间隔（毫秒）。
 
     默认值为 **55000**。
 
 - `keepAliveTimeoutMs(long keepAliveTimeout)`
 
-    服务器响应客户端发送的 keep-alive 探测的超时时长，单位为毫秒。
+    服务器响应客户端发送的 keep-alive 探测包的超时时长，单位为毫秒。
 
     默认值为 **20000**。
 
 - `keepAliveWithoutCalls(boolean enable)`
 
-    是否在不发起请求的情况下发送 keep-alive 探测。
+    是否在没有发起请求的情况下发送 keep-alive 探测包。
 
     默认值为 **false**。
 
@@ -145,7 +145,7 @@ ConnectConfig.builder()
 
     RPC 调用的截止时间（已禁用）。
 
-    默认值为 **0**，表示截止时间已禁用。
+    默认值为 **0**，表示禁用截止时间。
 
 - `clientKeyPath(String clientKeyPath)`
 
@@ -169,7 +169,7 @@ ConnectConfig.builder()
 
 - `proxyAddress(String proxyAddress)`
 
-    建立连接时要经过的代理服务器地址。
+    用于建立连接的代理服务器地址。
 
 - `secure(boolean enable)`
 
@@ -183,19 +183,19 @@ ConnectConfig.builder()
 
 - `.clientRequestId(ThreadLocal<String> clientRequestId)`
 
-    客户端请求的 ID。您可以使用此参数维护一个线程映射，其中每个线程映射到一个特定的请求 ID。
+    客户端请求的 ID。你可以使用此参数维护一个线程映射，使每个线程映射到一个特定的请求 ID。
 
-    请求 ID 会传递到服务器，以便您可以从访问日志中了解是哪个客户端调用了此接口。
+    该请求 ID 会传递到服务器，这样你就可以从访问日志中了解是哪个客户端调用了此接口。
 
-**公共方法：**
+**PUBLIC METHODS：**
 
 - `getHost()`
 
-    返回当前已连接的 Milvus 实例的主机名。
+    返回当前所连接 Milvus 实例的主机名。
 
 - `getPort()`
 
-    返回当前已连接的 Milvus 实例的端口号。
+    返回当前所连接 Milvus 实例的端口号。
 
 - `getAuthorization()`
 
@@ -211,9 +211,9 @@ ConnectConfig.builder()
 
 - `getProxyAddress()`
 
-    返回 **[ConnectConfig](./v2-Client-ConnectConfig)** 中指定的代理服务器地址。
+    返回在 **[ConnectConfig](./v2-Client-ConnectConfig)** 中指定的代理服务器地址。
 
-## 示例\{#examples}
+## Examples\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -229,7 +229,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 <Admonition type="info" icon="📘" title="说明">
 
-将 **uri** 设置为您的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
+将 **uri** 设置为你的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭证。
 
 </Admonition>
 

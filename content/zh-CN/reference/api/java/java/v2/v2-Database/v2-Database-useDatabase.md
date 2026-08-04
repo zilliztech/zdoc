@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将更改当前使用的数据库。 | Java | v2"
+description: "此操作会切换当前使用的数据库。 | Java | v2"
 type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # useDatabase()
 
-此操作将更改当前使用的数据库。
+此操作会切换当前使用的数据库。
 
 ```java
 public void useDatabase(String dbName)

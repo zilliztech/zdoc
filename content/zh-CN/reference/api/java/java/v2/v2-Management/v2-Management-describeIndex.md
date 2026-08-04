@@ -50,11 +50,11 @@ describeIndex(DescribeIndexReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。未指定时，默认使用当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -72,13 +72,13 @@ describeIndex(DescribeIndexReq.builder()
 
     用于时间旅行查询的时间戳。默认为 `0L`。
 
-**RETURNS：**
+**返回：**
 
 *DescribeIndexResp*
 
 包含指定索引详细信息的 **DescribeIndexResp** 对象。
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientException**
 

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作在集合上执行多向量搜索，并在重排后返回搜索结果。 | Java | v2"
+description: "此操作对集合执行多向量搜索，并在重排序后返回搜索结果。 | Java | v2"
 type: docx
 token: R1NDdFPnVo4wTuxvHjFcozc8nMa
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridSearch()
 
-此操作在集合上执行多向量搜索，并在重排后返回搜索结果。
+此操作对集合执行多向量搜索，并在重排序后返回搜索结果。
 
 ```java
 public SearchResp hybridSearch(HybridSearchReq request)
@@ -60,11 +60,11 @@ hybridSearch(HybridSearchReq.builder()
 );
 ```
 
-**BUILDER 方法：**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    数据库名称。如未指定，则默认为当前数据库。
+    数据库名称。若未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
@@ -72,11 +72,11 @@ hybridSearch(HybridSearchReq.builder()
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求应共享同一个集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要定位的分区名称列表。
+    要搜索的分区名称列表。
 
 - `searchRequests(List<AnnSearchReq> searchRequests)`
 
@@ -92,7 +92,7 @@ hybridSearch(HybridSearchReq.builder()
 
 - `outFields(List<String> outFields)`
 
-    要包含在输出中的字段名称列表。
+    输出中要包含的字段名称列表。
 
 - `offset(long offset)`
 
@@ -100,7 +100,7 @@ hybridSearch(HybridSearchReq.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    距离/分数四舍五入后保留的小数位数。
+    对 distance/score 进行舍入时保留的小数位数。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -112,7 +112,7 @@ hybridSearch(HybridSearchReq.builder()
 
 - `groupSize(Integer groupSize)`
 
-    每组返回的结果数量。
+    每组要返回的结果数量。
 
 - `strictGroupSize(Boolean strictGroupSize)`
 
@@ -122,7 +122,7 @@ hybridSearch(HybridSearchReq.builder()
 
     用于自定义评分的 FunctionScore 对象。
 
-**返回：**
+**返回值：**
 
 *SearchResp*
 

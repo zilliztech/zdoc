@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作将特定 collection 的数据从内存中释放。 | Java | v2"
+description: "此操作会将指定集合的数据从内存中释放。 | Java | v2"
 type: docx
 token: K5t2dl0XloN4VHx1lcpc6Uq3nye
 sidebar_position: 16
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # releaseCollection()
 
-此操作将特定 collection 的数据从内存中释放。
+此操作会将指定集合的数据从内存中释放。
 
 ```java
 public void releaseCollection(ReleaseCollectionReq request)
@@ -53,11 +53,11 @@ releaseCollection(ReleaseCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如未指定，则默认为当前数据库。
+    数据库名称。若未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)` -
 
-    目标 collection 的名称。
+    目标集合的名称。
 
 - `async(Boolean async)` -
 
@@ -75,7 +75,7 @@ releaseCollection(ReleaseCollectionReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将抛出此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

@@ -81,11 +81,11 @@ import Admonition from '@theme/Admonition';
 
 ### IVF_RABITQ\{#ivfrabitq}
 
-将索引类型设置为 IVF_RABITQ。适用于稠密 float 向量。
+将索引类型设置为 IVF_RABITQ。适用于稠密浮点向量。
 
 ### AISAQ\{#aisaq}
 
-将索引类型设置为 AISAQ。适用于 GPU 上的稠密 float 向量。
+将索引类型设置为 AISAQ。适用于 GPU 上的稠密浮点向量。
 
 ### GPU_IVF_FLAT\{#gpuivfflat}
 

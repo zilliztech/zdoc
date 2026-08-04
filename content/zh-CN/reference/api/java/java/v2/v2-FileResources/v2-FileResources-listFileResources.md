@@ -12,10 +12,10 @@ type: docx
 token: JbG0d6GAdoOpkixsVUpcE0YMnPd
 sidebar_position: 2
 keywords: 
-  - 什么是向量数据库
-  - 向量数据库对比
+  - what are vector databases
+  - vector databases comparison
   - Faiss
-  - 视频搜索
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
@@ -49,11 +49,11 @@ listFileResources(ListFileResourcesReq.builder().build());
 
 *ListFileResourcesResp*
 
-响应封装了可通过 `getResources()` 访问的 `List<FileResourceInfo>`。每个 `FileResourceInfo` 条目包含：
+该响应封装了可通过 `getResources()` 访问的 `List<FileResourceInfo>`。每个 `FileResourceInfo` 条目包含：
 
 - `name` (*String*) - 资源的唯一名称。
 
-- `path` (*String*) - 上传时的原始本地路径。
+- `path` (*String*) - 已上传的原始本地路径。
 
 **异常：**
 

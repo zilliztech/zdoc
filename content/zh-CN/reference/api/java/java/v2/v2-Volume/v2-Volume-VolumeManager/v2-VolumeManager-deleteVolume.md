@@ -50,7 +50,7 @@ deleteVolume(DeleteVolumeRequest.builder()
 
 - **volumeName** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     要删除的卷名称。
 
@@ -58,7 +58,7 @@ deleteVolume(DeleteVolumeRequest.builder()
 
 *void*
 
-**返回值**
+**返回**
 
 无
 

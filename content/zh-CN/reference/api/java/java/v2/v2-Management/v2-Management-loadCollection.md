@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作将特定 collection 的数据加载到内存中。 | Java | v2"
+description: "此操作会将指定 collection 的数据加载到内存中。 | Java | v2"
 type: docx
 token: Y3q1d5FzmoSiNkxsWDLcHnAlnQf
 sidebar_position: 13
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollection()
 
-此操作将特定 collection 的数据加载到内存中。
+此操作会将指定 collection 的数据加载到内存中。
 
 ```java
 public void loadCollection(LoadCollectionReq request)
@@ -55,11 +55,11 @@ loadCollection(LoadCollectionReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认为当前数据库。
+    数据库名称。若未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -105,7 +105,7 @@ loadCollection(LoadCollectionReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

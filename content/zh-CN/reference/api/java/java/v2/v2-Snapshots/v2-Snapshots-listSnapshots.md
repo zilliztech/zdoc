@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出快照，并且可以选择限定到某个数据库和集合。 | Java | v2"
+description: "此操作列出快照，可选择限定到某个数据库和集合。 | Java | v2"
 type: docx
 token: ZhiOdVH0uoMI0axpcYMcfhQXnkf
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listSnapshots()
 
-此操作列出快照，并且可以选择限定到某个数据库和集合。
+此操作列出快照，可选择限定到某个数据库和集合。
 
 ```java
 public ListSnapshotsResp listSnapshots(ListSnapshotsReq request)
@@ -47,7 +47,7 @@ listSnapshots(ListSnapshotsReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
@@ -57,17 +57,17 @@ listSnapshots(ListSnapshotsReq.builder()
 
     与快照操作关联的集合名称。
 
-**RETURNS:**
+**返回：**
 
 *ListSnapshotsResp*
 
-返回一个响应，其中包含与请求过滤条件匹配的快照名称。
+包含与请求筛选条件匹配的快照名称的响应。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或者服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

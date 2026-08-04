@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回集合 Schema 中的所有字段 Schema 列表。 | Java | v2"
+description: "此 getter 返回集合 schema 中所有字段 schema 的列表。 | Java | v2"
 type: docx
 token: XssmdFjdZoXgyXxMDxWceywrnud
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getFieldSchemaList()
 
-此 getter 返回集合 Schema 中的所有字段 Schema 列表。
+此 getter 返回集合 schema 中所有字段 schema 的列表。
 
 ```java
 public List<CreateCollectionReq.FieldSchema> getFieldSchemaList()
@@ -45,7 +45,7 @@ public List<CreateCollectionReq.FieldSchema> getFieldSchemaList()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

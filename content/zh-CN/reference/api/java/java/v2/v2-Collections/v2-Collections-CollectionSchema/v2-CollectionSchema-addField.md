@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作向集合的 schema 添加一个字段。 | Java | v2"
+description: "此操作会向集合的 schema 中添加一个字段。 | Java | v2"
 type: docx
 token: XB9idvIRPo2fEix50dvcAsQHnCg
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addField()
 
-此操作向集合的 schema 添加一个字段。
+此操作会向集合的 schema 中添加一个字段。
 
 ```java
 public void addField(AddFieldReq addFieldReq)
@@ -78,13 +78,13 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     字段的数据类型。
 
-    为不同字段选择数据类型时，可从以下选项中进行选择。
+    为不同字段选择数据类型时，可从以下选项中选择。
 
 - `maxLength(Integer maxLength)` -
 
     值可包含的最大字符数。
 
-    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.VarChar**，则此参数为必需。
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.VarChar**，则此参数为必填。
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
@@ -102,27 +102,27 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     是否允许主字段自动递增。
 
-    将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免错误，不应在待插入的数据中包含主字段。
+    将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免错误，插入数据时不应包含主字段。
 
     请在 **isPrimaryKey** 设置为 **True** 的字段中设置此参数。
 
 - `dimension(int dimension)` -
 
-    向量字段的维度。该值应大于 1，通常由所使用的 embedding 模型决定。
+    向量字段的维度。该值应大于 1，通常由所使用的嵌入模型决定。
 
-    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.FloatVector**，则此参数为必需。
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.FloatVector**，则此参数为必填。
 
 - `elementType(DataType elementType)` -
 
     数组字段中元素的数据类型。
 
-    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必需。
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必填。
 
 - `maxCapacity(Integer maxCapacity)` -
 
     数组字段可包含的最大元素数量。
 
-    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必需。
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此参数为必填。
 
 - `isNullable(Boolean isNullable)` -
 
@@ -136,11 +136,11 @@ CollectionSchema.addField(AddFieldReq.builder()
 
 - `enableAnalyzer(Boolean enableAnalyzer)` -
 
-    是否为指定的 `VARCHAR` 字段启用文本分析。设置为 `true` 时，将指示 Milvus 使用文本分析器，对字段中的文本内容进行分词和过滤。
+    是否为指定的 `VARCHAR` 字段启用文本分析。设置为 `true` 时，它会指示 Milvus 使用文本分析器，对字段中的文本内容进行分词和过滤。
 
 - `enableMatch(Boolean enableMatch)` -
 
-    是否为指定的 `VARCHAR` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，从而支持快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供基于结构化词项的文本搜索。
+    是否为指定的 `VARCHAR` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，从而支持快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供结构化的基于术语的文本搜索。
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
@@ -148,7 +148,7 @@ CollectionSchema.addField(AddFieldReq.builder()
 
 - `typeParams(Map<String, String> typeParams)` -
 
-    待添加当前字段的数据类型专属参数。例如，你可以为 `VarChar` 字段设置 `maxLength`。指定后，它会覆盖上方对应参数中设置的值。
+    要添加的当前字段的数据类型特定参数。例如，你可以为 `VarChar` 字段设置 `maxLength`。一旦指定，它会覆盖上面对应参数的值。
 
 - `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
@@ -158,11 +158,11 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     Array of Structs 字段中的字段列表。
 
-    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，且此字段的 **elementType** 设置为 **DataType.Struct**，则此参数为必需。
+    如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，并且此字段的 **elementType** 设置为 **DataType.Struct**，则此参数为必填。
 
 - `externalField(String externalField)` -
 
-    此 Milvus 字段映射到的外部字段名称。与 `CollectionSchema` 上的 `externalSource` 和 `externalSpec` 一起使用，用于声明由外部数据源支持的集合。刷新时，外部字段的值会被拉取到此 Milvus 字段中。
+    此 Milvus 字段映射到的外部字段名称。与 `CollectionSchema` 上的 `externalSource` 和 `externalSpec` 一起使用，用于声明一个由外部数据源支持的集合。刷新时，外部字段的值会被拉取到此 Milvus 字段中。
 
 **RETURNS：**
 

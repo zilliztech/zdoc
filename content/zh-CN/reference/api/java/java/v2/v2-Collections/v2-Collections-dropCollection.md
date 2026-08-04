@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个集合。 | Java | v2"
+description: "此操作用于删除集合。 | Java | v2"
 type: docx
 token: SW6Cdt9QeoY1J1x9SYQcZrc6nbg
 sidebar_position: 14
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollection()
 
-此操作会删除一个集合。
+此操作用于删除集合。
 
 ```java
 public void dropCollection(DropCollectionReq request)
@@ -53,7 +53,7 @@ dropCollection(DropCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。如果未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -65,7 +65,7 @@ dropCollection(DropCollectionReq.builder()
 
 - `timeout(Long timeout)` -
 
-    超时时长，以毫秒为单位。
+    超时时长，单位为毫秒。
 
 **返回：**
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`LexicalHighlighter` 实例用于为搜索结果中文本字段的后处理词项高亮配置参数。高亮会使用可自定义的标签标注匹配到的片段，并且可以返回基于片段的摘要，以提升可读性和 UI 渲染效果。它不会影响检索、过滤、排序或评分。 | Java | v2"
+description: "一个 `LexicalHighlighter` 实例用于为搜索结果中文本字段的后处理词项高亮配置参数。高亮会使用可自定义标签标注匹配片段，并可返回基于片段的摘要，以提升可读性和 UI 渲染效果。它不会影响检索、过滤、排序或评分。 | Java | v2"
 type: docx
 token: Krd6dVuQbohTF5xFHGYcomHsnEg
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # LexicalHighlighter
 
-`LexicalHighlighter` 实例用于为搜索结果中文本字段的后处理词项高亮配置参数。高亮会使用可自定义的标签标注匹配到的片段，并且可以返回基于片段的摘要，以提升可读性和 UI 渲染效果。它不会影响检索、过滤、排序或评分。
+一个 `LexicalHighlighter` 实例用于为搜索结果中文本字段的后处理词项高亮配置参数。高亮会使用可自定义标签标注匹配片段，并可返回基于片段的摘要，以提升可读性和 UI 渲染效果。它不会影响检索、过滤、排序或评分。
 
 ```java
 io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter
@@ -53,11 +53,11 @@ LexicalHighlighter.builder()
     .build(); 
 ```
 
-**BUILDER METHODS：**
+**BUILDER METHODS:**
 
 - `highlightQueries(List<HighlightQuery>)`
 
-    定义要高亮显示的、来自基于文本过滤条件的查询词项。每个条目都必须是一个 `HighlightQuery` 实例。
+    定义文本过滤器中哪些查询词项会被高亮。每个条目都必须是一个 `HighlightQuery` 实例。
 
     ```java
     import io.milvus.v2.service.vector.request.highlighter.LexicalHighlighter;
@@ -76,23 +76,23 @@ LexicalHighlighter.builder()
 
     如果未设置，则不会高亮任何过滤词项。
 
-    更多详情，请参见 [Text Highlighter](https://milvus.io/docs/text-highlighter.md)。
+    详情请参见 [Text Highlighter](https://milvus.io/docs/text-highlighter.md)。
 
 - `highlightSearchText(Boolean)`
 
-    是否高亮 BM25 全文搜索中使用的搜索词项。如果为 True，则使用 BM25 查询词项作为高亮词项的来源。如果未设置，则不会高亮 BM25 搜索词项。
+    是否高亮 BM25 全文搜索中使用的搜索词项。如果为 True，则会使用 BM25 查询词项作为高亮词项的来源。如果未设置，则不会高亮 BM25 搜索词项。
 
 - `preTags(List<String>)`
 
-    在返回的高亮结果中，插入到每个匹配词项之前的标签。支持纯字符串（例如 `{`）或 HTML 安全标记（例如 `<em>`、`<mark>`）。如果提供了多个标签，则标签会按匹配顺序轮换使用。
+    在返回的高亮结果中插入到每个匹配词项之前的标签。支持普通字符串（例如 `{`）或 HTML 安全标记（例如 `<em>`、`<mark>`）。如果提供了多个标签，则会按照匹配顺序轮换使用这些标签。
 
 - `postTags(List<String>)`
 
-    插入到每个匹配词项之后的标签，与 `pre_tags` 配对使用。如果提供了多个标签，则其轮换顺序与 pre_tags 相同。
+    在每个匹配词项之后插入的标签，与 `pre_tags` 配对使用。当提供多个标签时，轮换顺序与 pre_tags 相同。
 
 - `fragmentOffset(Integer)`
 
-    在返回基于片段的输出时，在第一个高亮匹配项之前保留的前导上下文字符数。默认行为是不保留额外的前导上下文。
+    返回基于片段的输出时，在第一个高亮匹配之前保留的前导上下文字符数。默认行为是不保留额外的前导上下文。
 
 - `fragmentSize(Integer)`
 
@@ -100,13 +100,13 @@ LexicalHighlighter.builder()
 
 - `numOfFragments(Integer)`
 
-    每个文本值返回的最大片段数。如果未设置，则默认为返回多个片段（实现默认值；典型取值请参见示例）。
+    每个文本值可返回的最大片段数量。如果未设置，则默认返回多个片段（实现默认值；典型取值请参见示例）。
 
-**RETURN TYPE：**
+**RETURN TYPE:**
 
 *LexicalHighlighter*
 
-**RETURNS：**
+**RETURNS:**
 
 一个 **LexicalHighlighter** 实例。
 

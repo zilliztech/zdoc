@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会处理输入数据并生成分词后的输出。 | Java | v2"
+description: "此操作会处理输入数据并生成分词输出。 | Java | v2"
 type: docx
 token: AXt2dvFmQoP04wx9zlVciuitnQf
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # runAnalyzer()
 
-此操作会处理输入数据并生成分词后的输出。
+此操作会处理输入数据并生成分词输出。
 
 ```java
 public RunAnalyzerResp runAnalyzer(RunAnalyzerReq request)
@@ -53,7 +53,7 @@ runAnalyzer(RunAnalyzerReq.builder()
 );
 ```
 
-**构建器方法：**
+**BUILDER METHODS:**
 
 - `texts(List<String> texts)` -
 
@@ -61,7 +61,7 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    analyzer 参数映射。
+    分析器参数映射。
 
 - `withDetail(Boolean withDetail)` -
 
@@ -73,11 +73,11 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。若未指定，则默认为当前数据库。
 
 - `collectionName(String collectionName)` -
 
-    目标 collection 的名称。
+    目标集合的名称。
 
 - `fieldName(String fieldName)` -
 
@@ -85,19 +85,19 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `analyzerNames(List<String> analyzerNames)` -
 
-    要使用的 analyzer 名称列表。
+    要使用的分析器名称列表。
 
-**返回：**
+**RETURNS:**
 
 *RunAnalyzerResp*
 
 **RunAnalyzerResp** 包含一个 **AnalyzerResult** 对象列表，其中每个对象都是一个 **AnalyzerToken** 对象列表。
 
-**异常：**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

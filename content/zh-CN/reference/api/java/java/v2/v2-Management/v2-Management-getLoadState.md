@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作用于显示指定集合或分区是否已加载。 | Java | v2"
+description: "此操作显示指定集合或分区是否已加载。 | Java | v2"
 type: docx
 token: PAs7dwIIrop4OixCUr8ctHVLnXc
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-此操作用于显示指定集合或分区是否已加载。
+此操作显示指定集合或分区是否已加载。
 
 ```java
 public Boolean getLoadState(GetLoadStateReq request)
@@ -48,7 +48,7 @@ getLoadState(GetLoadStateReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
@@ -62,21 +62,21 @@ getLoadState(GetLoadStateReq.builder()
 
     分区的名称。
 
-**返回类型：**
+**RETURN TYPE：**
 
 *Boolean*
 
-**返回值：**
+**RETURNS：**
 
 一个 Boolean 值，用于指示指定集合或分区的状态。 
 
 <Admonition type="info" icon="📘" title="说明">
 
-如果集合中的任意一个或全部分区已加载，则该集合处于已加载状态。
+如果集合的任意一个或全部分区已加载，则该集合处于已加载状态。
 
 </Admonition>
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusException**
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于批量获取多个集合的描述。 | Java | v2"
+description: "此操作可批量获取多个集合的描述信息。 | Java | v2"
 type: docx
 token: B4CpdqvN7oZy3zxB9fscTAG8n7E
 sidebar_position: 32
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # batchDescribeCollection()
 
-此操作用于批量获取多个集合的描述。
+此操作可批量获取多个集合的描述信息。
 
 ```java
 public List<DescribeCollectionResp> batchDescribeCollection(BatchDescribeCollectionReq request)
@@ -50,19 +50,19 @@ batchDescribeCollection(BatchDescribeCollectionReq.builder()
 
 **构建器方法：**
 
-- `databaseName(String databaseName)` -
-数据库名称。如果未指定，则默认使用当前数据库。
+- `databaseName(String databaseName)` -<br/>
+  数据库名称。若未指定，则默认使用当前数据库。
 
 - `collectionNames(List<String> collectionNames)` -
 
-- `collectionIds(List<Long> collectionIds)` -
-要批量描述的集合 ID 列表。
+- `collectionIds(List<Long> collectionIds)` -<br/>
+  要批量描述的集合 ID 列表。
 
 **返回：**
 
 *List&lt;DescribeCollectionResp&gt;*
 
-**DescribeCollectionResp** 对象列表。
+由 **DescribeCollectionResp** 对象组成的列表。
 
 **异常：**
 

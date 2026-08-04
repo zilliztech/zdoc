@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出恢复快照作业，并可选择将范围限定到某个数据库和集合。 | Java | v2"
+description: "此操作列出恢复快照作业，并可选择限定到特定数据库和集合。 | Java | v2"
 type: docx
 token: I98vddTeco48kYxHEkOccG9ynYe
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRestoreSnapshotJobs()
 
-此操作会列出恢复快照作业，并可选择将范围限定到某个数据库和集合。
+此操作列出恢复快照作业，并可选择限定到特定数据库和集合。
 
 ```java
 public ListRestoreSnapshotJobsResp listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq request)
@@ -47,7 +47,7 @@ listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
@@ -57,17 +57,17 @@ listRestoreSnapshotJobs(ListRestoreSnapshotJobsReq.builder()
 
     与快照操作关联的集合名称。
 
-**返回：**
+**RETURNS：**
 
 *ListRestoreSnapshotJobsResp*
 
 包含与请求筛选条件匹配的恢复快照作业的响应。
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，将引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器在此操作中返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

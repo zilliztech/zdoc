@@ -47,23 +47,23 @@ dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。如果未指定，则默认为当前数据库。
 
 - `propertyKeys(List<String> propertyKeys)` -
 
     要删除的属性键名称列表。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 
@@ -76,7 +76,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
 
-// 1. Set up a client
+// 1. 设置客户端
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -84,7 +84,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Drop database properties
+// 2. 删除数据库属性
 List<String> propertyKeys = new ArrayList<>();
 propertyKeys.add("database.replica.number");
 

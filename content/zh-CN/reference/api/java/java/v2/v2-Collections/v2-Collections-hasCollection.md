@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作检查特定 collection 是否存在。 | Java | v2"
+description: "此操作用于检查特定 collection 是否存在。 | Java | v2"
 type: docx
 token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
 sidebar_position: 18
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasCollection()
 
-此操作检查特定 collection 是否存在。
+此操作用于检查特定 collection 是否存在。
 
 ```java
 public Boolean hasCollection(HasCollectionReq request)
@@ -78,7 +78,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
 
-// 1. Set up a client
+// 1. 设置客户端
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -86,7 +86,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Check whether the collection exists
+// 2. 检查 collection 是否存在
 HasCollectionReq hasCollectionReq = HasCollectionReq.builder()
         .collectionName("test")
         .build();

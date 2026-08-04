@@ -61,7 +61,7 @@ listPartitions(ListPartitionsReq.builder()
 
 *List\<String\>*
 
-**返回：**
+**返回值：**
 
 分区名称列表。
 

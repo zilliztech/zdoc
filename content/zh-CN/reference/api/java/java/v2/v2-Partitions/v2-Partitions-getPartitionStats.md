@@ -4,12 +4,12 @@ slug: /java/java/v2-Partitions-getPartitionStats
 sidebar_label: "getPartitionStats()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出在特定分区上收集的统计信息。 | Java | v2"
+description: "除实体数量外，还返回完整的分区统计信息映射。 | Java | v2"
 type: docx
-token: ZCESd1IrfoFHByx125kcd38Zndg
+token: TOfvdLLzaoWJydxBTPQcKevfndd
 sidebar_position: 3
 keywords: 
   - Retrieval Augmented Generation
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getPartitionStats()
 
-此操作列出在特定分区上收集的统计信息。
+除实体数量外，还返回完整的分区统计信息映射。
 
 ```java
 public GetPartitionStatsResp getPartitionStats(GetPartitionStatsReq request)
@@ -40,69 +40,47 @@ public GetPartitionStatsResp getPartitionStats(GetPartitionStatsReq request)
 ## 请求语法\{#request-syntax}
 
 ```java
-getPartitionStats(GetPartitionStatsReq.builder()
-    .databaseName(String databaseName)
-    .collectionName(String collectionName)
-    .partitionName(String partitionName)
-    .build()
-)
+GetPartitionStatsReq.builder()
+    .databaseName(databaseName)
+    .collectionName(collectionName)
+    .partitionName(partitionName)
+    .build();
 ```
 
-**BUILDER 方法：**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    数据库名称。省略时默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
-    集合的名称。
+    目标集合的名称。
 
 - `partitionName(String partitionName)`
 
-    指定集合中某个分区的名称。
+    目标分区的名称。
 
-**返回类型：**
+**RETURNS:**
 
 *GetPartitionStatsResp*
 
-**返回：**
+包含 numOfEntities 以及 Milvus 返回的完整统计信息映射。
 
-一个 **GetPartitionStatsResp** 对象，包含在指定集合上收集的统计信息。
+**EXCEPTIONS:**
 
-**参数：**
+- **MilvusClientException**
 
-- **numOfEntities** (*long*)
-
-    分区中的实体数量。
-
-**异常：**
-
-- **MilvusClientExceptions**
-
-    当此操作期间发生任何错误时，将引发此异常。
+    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
+演示使用已审阅的 v3.0.x API 调用 getPartitionStats()。
+
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.partition.request.GetPartitionStatsReq;
-import io.milvus.v2.service.partition.response.GetPartitionStatsResp;
-
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Get partition stats
-GetPartitionStatsReq getPartitionStatsReq = GetPartitionStatsReq.builder()
-        .collectionName("test")
-        .partitionName("default")
-        .build();
-GetPartitionStatsResp getPartitionStatsResp = client.getPartitionStats(getPartitionStatsReq);
+GetPartitionStatsResp response = client.getPartitionStats(GetPartitionStatsReq.builder()
+    .collectionName("books")
+    .partitionName("history")
+    .build());
+Map<String, String> stats = response.getStats();
 ```
-

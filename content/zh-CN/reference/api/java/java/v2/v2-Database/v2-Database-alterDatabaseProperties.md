@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v2.4.x
 deprecate_since: false
 notebook: false
-description: "此操作用于更改数据库的属性。 | Java | v2"
+description: "此操作会更改数据库的属性。 | Java | v2"
 type: docx
 token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterDatabaseProperties()
 
-此操作用于更改数据库的属性。 
+此操作会更改数据库的属性。 
 
 ```java
 public Void alterDatabaseProperties(AlterDatabasePropertiesReq request)
@@ -51,7 +51,7 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。
+    数据库的名称。
 
 - `properties(Map<String, String> properties)`
 
@@ -63,15 +63,15 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
     - **database.resource_groups**  -
 
-        专用于该数据库的资源组。
+        分配给数据库的专用资源组。
 
     - **database.diskQuota.mb** -
 
-        分配给数据库的磁盘配额，以兆字节（**MB**）为单位。
+        分配给数据库的磁盘配额，单位为兆字节（**MB**）。
 
     - **database.max.collections** -
 
-        数据库中允许的 collection 最大数量。
+        数据库中允许的最大集合数量。
 
     - **database.force.deny.writing** -
 

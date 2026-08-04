@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回此嵌入列表中包含的原始嵌入数据。 | Java | v2"
+description: "此 getter 返回此 embedding 列表中包含的原始 embedding 数据。 | Java | v2"
 type: docx
 token: KaW0dGLZ9os1SExEsbqcHM4yn8c
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getData()
 
-此 getter 返回此嵌入列表中包含的原始嵌入数据。
+此 getter 返回此 embedding 列表中包含的原始 embedding 数据。
 
 ```java
 public Object getData()

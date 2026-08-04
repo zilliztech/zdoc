@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会修改指定索引的属性。 | Java | v2"
+description: "此操作用于修改指定索引的属性。 | Java | v2"
 type: docx
 token: ITkydrfmroQyLLxusZtc6t1nnjf
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterIndexProperties()
 
-此操作会修改指定索引的属性。
+此操作用于修改指定索引的属性。
 
 ```java
 public Void alterIndexProperties(AlterIndexPropertiesReq request)
@@ -49,11 +49,11 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
-    持有目标集合的数据库名称。
+    保存目标集合的数据库名称。
 
 - `collectionName(String collectionName)`
 

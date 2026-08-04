@@ -49,7 +49,7 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `roleName(String roleName)`
 
@@ -57,15 +57,15 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    要授予指定角色的权限或权限组。有关可用权限的详细信息，请参见 [Privileges](/docs/cluster-privileges)。
+    要授予指定角色的权限或权限组。有关可用权限的详细信息，请参阅 [Privileges](/docs/cluster-privileges)。
 
 - `dbName(String dbName)`
 
-    目标资源数据库。指定角色将在指定数据库内拥有指定权限的访问权。
+    目标资源数据库。指定角色将在指定数据库中拥有指定权限的访问权。
 
 - `collectionName(String collectionName)`
 
-    指定数据库中的目标资源集合。指定角色将在指定集合内拥有指定权限的访问权。
+    指定数据库中的目标资源集合。指定角色将在指定集合中拥有指定权限的访问权。
 
 **返回：**
 

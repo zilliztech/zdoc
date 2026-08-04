@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作将创建一个用户，并可选择为该用户存储描述。 | Java | v2"
+description: "此操作会创建一个用户，并可选择为该用户存储描述。 | Java | v2"
 type: docx
 token: DMr4dKSItoNvtYx2XFscQA8RnWf
 sidebar_position: 4
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - 无服务器向量数据库
+  - milvus 开源
+  - milvus 如何工作
+  - Zilliz 向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - createUser()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createUser()
 
-此操作将创建一个用户，并可选择为该用户存储描述。
+此操作会创建一个用户，并可选择为该用户存储描述。
 
 ```java
 public void createUser(CreateUserReq request)

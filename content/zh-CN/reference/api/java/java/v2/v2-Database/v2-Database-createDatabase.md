@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createDatabase()
 
-此操作使用指定名称创建数据库。 
+此操作使用指定名称创建数据库。
 
 ```java
 public void createDatabase(CreateDatabaseReq request)

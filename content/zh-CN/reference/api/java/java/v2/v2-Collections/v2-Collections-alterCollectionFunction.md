@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作通过使用新的函数定义替换现有函数，来修改集合中的现有函数。 | Java | v2"
+description: "此操作通过使用新的函数定义替换现有函数定义，来修改集合中的现有函数。 | Java | v2"
 type: docx
 token: A6Vld2dJToRXs8xhq0wcGdiRnDc
 sidebar_position: 31
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFunction()
 
-此操作通过使用新的函数定义替换现有函数，来修改集合中的现有函数。
+此操作通过使用新的函数定义替换现有函数定义，来修改集合中的现有函数。
 
 ```java
 public void alterCollectionFunction(AlterCollectionFunctionReq request)
@@ -48,21 +48,21 @@ alterCollectionFunction(AlterCollectionFunctionReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `collectionName(String collectionName)` -
 
-    **[REQUIRED]**
+    **[必需]**
 
     集合的名称。
 
 - `databaseName(String databaseName)` -
 
-    数据库的名称。如未指定，则默认为当前数据库。
+    数据库名称。如果未指定，则默认为当前数据库。
 
 - `function(CreateCollectionReq.Function function)` -
 
-    **[REQUIRED]**
+    **[必需]**
 
     用于替换现有函数的新函数定义。
 

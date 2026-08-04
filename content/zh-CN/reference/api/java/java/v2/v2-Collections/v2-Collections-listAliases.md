@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出特定集合的所有现有别名。 | Java | v2"
+description: "此操作列出特定集合的所有现有别名。 | Java | v2"
 type: docx
 token: X6JXdPN7IoRffJxnaZccBvRanIM
 sidebar_position: 19
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listAliases()
 
-此操作会列出特定集合的所有现有别名。
+此操作列出特定集合的所有现有别名。
 
 ```java
 public ListAliasResp listAliases()
@@ -55,7 +55,7 @@ MilvusClientV2.listAliases(ListAliasesReq.builder()
 
 - `collectionName(String collectionName)`
 
-    此操作的目标集合的名称。
+    此操作的目标集合名称。
 
 **返回类型：**
 
@@ -63,7 +63,7 @@ MilvusClientV2.listAliases(ListAliasesReq.builder()
 
 **返回：**
 
-返回一个 **ListAliasResp** 对象，其中包含指定集合的别名列表。如果该集合没有别名，则返回空列表。
+一个 **ListAliasResp** 对象，其中包含指定集合的别名列表。如果该集合没有别名，则返回空列表。
 
 **参数：**
 

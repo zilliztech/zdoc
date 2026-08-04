@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作返回分配给某个用户的角色以及该用户的描述。 | Java | v2"
+description: "此操作返回分配给用户的角色以及用户描述。 | Java | v2"
 type: docx
 token: TR9OdLX5PoMZbMx4l2tcWKVmn3b
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeUser()
 
-此操作返回分配给某个用户的角色以及该用户的描述。
+此操作返回分配给用户的角色以及用户描述。
 
 ```java
 public DescribeUserResp describeUser(DescribeUserReq request)
@@ -50,7 +50,7 @@ DescribeUserResp resp = client.describeUser(DescribeUserReq.builder()
 
 - `userName(String userName)`
 
-    **[必需]**
+    **[必填]**
 
     要描述的用户名称。
 
@@ -58,7 +58,7 @@ DescribeUserResp resp = client.describeUser(DescribeUserReq.builder()
 
 *DescribeUserResp*
 
-响应中包含 `userName`、`roles` 和 `description`。
+响应包含 `userName`、`roles` 和 `description`。
 
 **异常：**
 

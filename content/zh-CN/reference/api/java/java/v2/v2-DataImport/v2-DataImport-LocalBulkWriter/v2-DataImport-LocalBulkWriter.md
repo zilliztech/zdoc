@@ -43,7 +43,7 @@ io.milvus.bulkwriter.LocalBulkWriter
 
 <Admonition type="info" icon="📘" title="Notes">
 
-**LocalBulkWriter** 对象旨在本地将原始数据重写为 Milvus 可理解的格式。
+**LocalBulkWriter** 对象旨在于本地将原始数据重写为 Milvus 可理解的格式。
 
 </Admonition>
 
@@ -51,7 +51,7 @@ io.milvus.bulkwriter.LocalBulkWriter
 LocalBulkWriter(LocalBulkWriterParam bulkWriterParam)
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **bulkWriterParam** (*LocalBulkWriterParam*) -
 
@@ -59,7 +59,7 @@ LocalBulkWriter(LocalBulkWriterParam bulkWriterParam)
 
 ## LocalBulkWriterParam\{#localbulkwriterparam}
 
-**LocalBulkWriterParam** 允许你在一个位置集中配置 **LocalBulkWriter** 实例的属性，从而实例化 **LocalBulkWriter** 类。
+**LocalBulkWriterParam** 允许你在一个位置为 **LocalBulkWriter** 实例配置属性，以便实例化 **LocalBulkWriter** 类。
 
 ```java
 LocalBulkWriterParam.newBuilder()
@@ -71,7 +71,7 @@ LocalBulkWriterParam.newBuilder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
@@ -83,9 +83,9 @@ LocalBulkWriterParam.newBuilder()
 
 - `withChunkSize(long chunkSize)`
 
-    单个文件分段的最大大小。在重写原始数据时，Milvus 会将其拆分为多个分段。
+    文件分段的最大大小。在重写原始数据时，Milvus 会将其拆分为多个分段。
 
-    默认值为 **536,870,912** 字节，即 **512 MB**。
+    该值默认为 **536,870,912** 字节，即 **512 MB**。
 
     <Admonition type="info" icon="📘" title="**BulkWriter 如何对我的数据进行分段？**">
 
@@ -101,11 +101,11 @@ LocalBulkWriterParam.newBuilder()
 
 - `withConfig(String key, Object val)`
 
-    一个字典，用于指定处理 CSV 文件时的可选配置。仅当你在 `withFileType()` 中将 `fileType` 设置为 `CSV` 时，此参数才生效。该字典包含以下字段：
+    一个字典，用于指定处理 CSV 文件时的可选配置。仅当你在 `withFileType()` 中将 `fileType` 设置为 `CSV` 时，此参数才适用。该字典包含以下字段：
 
     - **sep** (*string*) -
 
-        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*) -
 

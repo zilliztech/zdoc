@@ -51,45 +51,45 @@ ModelRanker.builder()
     .build()
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `name(String name)`
 
-    函数的名称。该标识符用于在查询和集合中引用此函数。
+    函数名称。此标识符用于在查询和集合中引用该函数。
 
 - `description(String description)`
 
-    函数用途的简要说明。这对于文档编写或在较大的项目中提高清晰度非常有用，默认值为空字符串。
+    对函数用途的简要描述。它可用于文档说明，或在较大的项目中提升可读性，默认为空字符串。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    包含原始数据字段的名称，这些原始数据需要转换为向量表示。对于使用 `FunctionType.RERANK` 的函数，此参数仅接受一个字段名。
+    包含原始数据的字段名称，这些原始数据需要转换为向量表示。对于使用 `FunctionType.RERANK` 的函数，此参数只接受一个字段名。
 
 - `params(Map<String, String> params)`
 
-    用于配置函数属性的一组键值对。
+    一组用于配置函数属性的键值对。
 
     - `max_client_batch_size`(int) -
 
-        单批次中可处理的最大文档数。较大的值会提高吞吐量，但需要更多内存。默认值为 `32`。
+        单个批次中可处理的最大文档数。较大的值会提高吞吐量，但需要更多内存。默认值为 `32`。
 
 - `provider(String provider)`
 
-    reranking 模型提供方的名称。有关可能的值，请参见 。
+    重排模型提供方的名称。有关可能的取值，请参见 。
 
 - `queries(List<String> queries)`
 
-    reranking 模型用于计算相关性分数的查询字符串列表。查询字符串的数量必须与搜索操作中的查询数量完全一致（即使使用的是查询向量而不是文本）。否则将报错。
+    由重排模型用于计算相关性分数的查询字符串列表。查询字符串的数量必须与搜索操作中的查询数量完全一致（即使使用的是查询向量而不是文本也是如此）。否则将报错。
 
 - `endpoint(String endpoint)`
 
     模型服务的 URL。
 
-**返回类型：**
+**RETURN TYPE：**
 
 *ModelRanker*
 
-**返回：**
+**RETURNS：**
 
 一个模型排序器实例。
 

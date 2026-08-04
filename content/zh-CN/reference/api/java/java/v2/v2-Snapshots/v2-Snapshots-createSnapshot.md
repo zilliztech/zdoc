@@ -66,11 +66,11 @@ createSnapshot(CreateSnapshotReq.builder()
 
 - `description(String description)`
 
-    快照的可读描述。
+    快照的人类可读描述。
 
 - `compactionProtectionSeconds(Long compactionProtectionSeconds)`
 
-    保护快照不被压缩/合并的秒数。当不需要保护窗口时，使用 `0L`。
+    保护快照免受 compact 操作影响的秒数。当不需要保护窗口时，使用 `0L`。
 
 **返回：**
 
@@ -80,7 +80,7 @@ createSnapshot(CreateSnapshotReq.builder()
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

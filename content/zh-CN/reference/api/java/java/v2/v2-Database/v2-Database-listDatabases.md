@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listDatabases()
 
-此操作列出所有数据库名称。 
+此操作列出所有数据库名称。
 
 ```java
 public ListDatabasesResp listDatabases()
@@ -43,13 +43,13 @@ public ListDatabasesResp listDatabases()
 
 **返回：**
 
-ListDatabasesResp 对象包含所有数据库名称的列表。
+一个 ListDatabasesResp 对象，包含所有数据库名称的列表。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

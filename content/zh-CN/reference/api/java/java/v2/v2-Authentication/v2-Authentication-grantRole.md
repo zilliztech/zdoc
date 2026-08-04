@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为用户授予角色。 | Java | v2"
+description: "此操作将角色授予用户。 | Java | v2"
 type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
 sidebar_position: 12
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grantRole()
 
-此操作为用户授予角色。
+此操作将角色授予用户。
 
 ```java
 public void grantRole(GrantRoleReq request)

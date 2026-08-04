@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会提交已追加的数据。 | Java | v2"
+description: "此操作提交已追加的数据。 | Java | v2"
 type: docx
 token: V39Ady6thoD9cCxBcopcquFKnzc
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # commit()
 
-此操作会提交已追加的数据。
+此操作提交已追加的数据。
 
 ```java
  public void commit(boolean async)

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检查指定 collection 中是否存在指定 partition。 | Java | v2"
+description: "此操作检查指定集合中是否存在指定分区。 | Java | v2"
 type: docx
 token: KVSUdHV0ho7nnwxeQKMcEL47nKe
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasPartition()
 
-此操作用于检查指定 collection 中是否存在指定 partition。
+此操作检查指定集合中是否存在指定分区。
 
 ```java
 public Boolean hasPartition(HasPartitionReq request)
@@ -48,19 +48,19 @@ hasPartition(HasPartitionReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
-    目标 collection 所属数据库的名称。
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    已存在的 collection 名称。
+    现有集合的名称。
 
 - `partitionName(String partitionName)`
 
-    要检查的 partition 名称。
+    要检查的分区名称。
 
 **返回类型：**
 
@@ -68,7 +68,7 @@ hasPartition(HasPartitionReq.builder()
 
 **返回：**
 
-一个布尔值，用于指示指定的 partition 是否存在。
+一个布尔值，表示指定分区是否存在。
 
 **异常：**
 

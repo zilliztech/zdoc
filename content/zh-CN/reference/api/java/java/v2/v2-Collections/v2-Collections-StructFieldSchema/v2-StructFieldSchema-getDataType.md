@@ -47,7 +47,7 @@ getDataType()
 
 *[DataType](./v2-Collections-DataType)*
 
-**返回值：**
+**返回：**
 
 返回值始终为 `DataType.Array`。
 

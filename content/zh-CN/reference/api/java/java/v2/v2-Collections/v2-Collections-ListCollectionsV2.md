@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出指定数据库中的所有现有集合。 | Java | v2"
+description: "此操作会列出指定数据库中所有现有的集合。 | Java | v2"
 type: docx
 token: WY4idJdzCozGGnxmLoFcIjC2ndw
 sidebar_position: 29
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListCollectionsV2()
 
-此操作列出指定数据库中的所有现有集合。
+此操作会列出指定数据库中所有现有的集合。
 
 ```java
 public ListCollectionsResp listCollectionsV2(ListCollectionsReq request)
@@ -46,7 +46,7 @@ listCollectionsV2(ListCollectionsReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
@@ -56,9 +56,9 @@ listCollectionsV2(ListCollectionsReq.builder()
 
 *ListCollectionsResp*
 
-**返回：**
+**返回值：**
 
-一个包含集合名称列表的 **ListCollectionsResp** 对象。如果当前没有任何集合，则返回空列表。
+一个包含集合名称列表的 **ListCollectionsResp** 对象。如果不存在任何集合，则返回空列表。
 
 **参数：**
 
@@ -68,11 +68,11 @@ listCollectionsV2(ListCollectionsReq.builder()
 
 - **collectionInfos** (*List&lt;CollectionInfo&gt;*)
 
-    一个 **CollectionInfo** 对象列表。**CollectionInfo** 对象包含以下字段：
+    一个由 **CollectionInfo** 对象组成的列表。**CollectionInfo** 对象包含以下字段：
 
     - **collectionName** (*String*)
 
-        集合的名称。
+        集合名称。
 
     - **shardNum** (*Integer*)
 

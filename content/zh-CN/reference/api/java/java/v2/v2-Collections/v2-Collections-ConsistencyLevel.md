@@ -15,7 +15,7 @@ keywords:
   - 开源向量数据库
   - 向量索引
   - 开源向量数据库
-  - 开源 vector db
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
   - 云

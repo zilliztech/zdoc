@@ -10,7 +10,7 @@ notebook: false
 description: "此操作列出所有外部集合刷新作业，并可选择按集合名称进行筛选。 | Java | v2"
 type: docx
 token: P9MFdEHMKoAfshxQhamcWrGknWg
-sidebar_position: 28
+sidebar_position: 30
 keywords: 
   - Retrieval Augmented Generation
   - Large language model
@@ -47,11 +47,11 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 );
 ```
 
-**构建器方法：**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如果未指定，则默认使用当前数据库。
+    数据库名称。若未指定，则默认为当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -61,7 +61,7 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 
 *ListRefreshExternalCollectionJobsResp*
 
-该响应封装了可通过 `getJobs()` 访问的 `List<RefreshExternalCollectionJobInfo>`。每个作业信息条目都包含 `jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime` 和 `endTime`——其结构与 `getRefreshExternalCollectionProgress()` 返回的条目相同。
+响应封装了可通过 `getJobs()` 访问的 `List<RefreshExternalCollectionJobInfo>`。每个作业信息条目都包含 `jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime` 和 `endTime`，其结构与 `getRefreshExternalCollectionProgress()` 返回的条目相同。
 
 **异常：**
 

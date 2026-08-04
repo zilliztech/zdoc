@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "（占位符）| Java | v2"
+description: "(占位符) | Java | v2"
 type: docx
 token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
@@ -67,7 +67,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。如果未指定，则默认使用当前数据库。
+    数据库名称。如未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
@@ -75,7 +75,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求应共享同一个集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
@@ -83,7 +83,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `vectorFieldName(String vectorFieldName)`
 
-    向量字段名称。
+    向量字段的名称。
 
 - `topK(int topK)`
 
@@ -95,7 +95,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `expr(String expr)`
 
-    用于过滤结果的布尔表达式。
+    用于筛选结果的布尔表达式。
 
 - `outputFields(List<String> outputFields)`
 
@@ -107,11 +107,11 @@ searchIterator(SearchIteratorReq.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    distance/score 的四舍五入小数位数。
+    distance/score 的小数位舍入精度。
 
 - `params(String params)`
 
-    以 JSON 字符串形式提供的其他搜索参数。
+    以 JSON 字符串表示的附加搜索参数。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -119,7 +119,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    操作期间是否忽略 growing segments。
+    执行操作时是否忽略 growing segment。
 
 - `groupByFieldName(String groupByFieldName)`
 
@@ -127,7 +127,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `batchSize(long batchSize)`
 
-    迭代器操作的批大小。
+    迭代器操作的批处理大小。
 
 **返回值：**
 

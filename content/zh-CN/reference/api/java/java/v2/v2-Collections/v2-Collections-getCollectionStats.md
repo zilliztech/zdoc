@@ -4,12 +4,12 @@ slug: /java/java/v2-Collections-getCollectionStats
 sidebar_label: "getCollectionStats()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出在特定 collection 上收集的统计信息。 | Java | v2"
+description: "除实体数量外，还返回完整的 collection 统计信息映射。 | Java | v2"
 type: docx
-token: E27SdesNPoKA8zx6jHkcejt0nWg
+token: RSNDdgCQ2oRIMWxeVafcNf8LnAc
 sidebar_position: 17
 keywords: 
   - Dense embedding
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCollectionStats()
 
-此操作列出在特定 collection 上收集的统计信息。
+除实体数量外，还返回完整的 collection 统计信息映射。
 
 ```java
 public GetCollectionStatsResp getCollectionStats(GetCollectionStatsReq request)
@@ -40,63 +40,39 @@ public GetCollectionStatsResp getCollectionStats(GetCollectionStatsReq request)
 ## 请求语法\{#request-syntax}
 
 ```java
-getCollectionStats(GetCollectionStatsReq.builder()
-    .databaseName(String databaseName)
-    .collectionName(String collectionName)
-    .build()
-)
+GetCollectionStatsReq.builder()
+    .databaseName(databaseName)
+    .collectionName(collectionName)
+    .build();
 ```
 
 **构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    目标 collection 所属数据库的名称。
+    数据库的名称。省略时默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
-    collection 的名称。
-
-**返回类型：**
-
-*GetCollectionStatsResp*
+    目标 collection 的名称。
 
 **返回：**
 
-一个 **GetCollectionStatsResp** 对象，包含指定 collection 的已收集统计信息。
+*GetCollectionStatsResp*
 
-**参数：**
-
-- **numOfEntities** (*long*)
-
-    collection 中实体的数量。
+包含 numOfEntities 以及 Milvus 返回的完整统计信息映射。
 
 **异常：**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.collection.request.GetCollectionStatsReq;
-import io.milvus.v2.service.collection.response.GetCollectionStatsResp;
-
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Get collection stats
-GetCollectionStatsReq getCollectionStatsReq = GetCollectionStatsReq.builder()
-        .collectionName("test")
-        .build();
-GetCollectionStatsResp getCollectionStatsResp = client.getCollectionStats(getCollectionStatsReq);
+GetCollectionStatsResp response = client.getCollectionStats(GetCollectionStatsReq.builder()
+    .collectionName("books")
+    .build());
+Map<String, String> stats = response.getStats();
 ```
-

@@ -12,10 +12,10 @@ type: docx
 token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
 sidebar_position: 24
 keywords: 
-  - 语义搜索
-  - 异常检测
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
-  - 推荐系统
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,7 +51,7 @@ MilvusClientV2.createSchema()
 
 *CreateCollectionReq.CollectionSchema*
 
-**返回：**
+**返回值：**
 
 一个 **CreateCollectionReq.CollectionSchema** 对象。
 
@@ -64,7 +64,7 @@ import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
-// 1. 设置客户端
+// 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -72,7 +72,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2 快速创建一个 collectionSchema
+// 2 Quickly create a collectionSchema
 CreateCollectionReq.CollectionSchema collectionSchema = client.CreateSchema();
 collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
 collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());

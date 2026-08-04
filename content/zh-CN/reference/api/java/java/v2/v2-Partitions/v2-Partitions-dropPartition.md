@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作从当前 collection 中删除指定的 partition。 | Java | v2"
+description: "此操作会从当前集合中删除指定分区。 | Java | v2"
 type: docx
 token: CSaVdr3zao9zFpxaJBgcCTCYnPd
 sidebar_position: 2
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # dropPartition()
 
-此操作从当前 collection 中删除指定的 partition。
+此操作会从当前集合中删除指定分区。
 
-在删除 partition 之前，您必须先将其释放。
+在删除分区之前，您必须先将其释放。
 
 ```java
 public void dropPartition(DropPartitionReq request)
@@ -50,29 +50,29 @@ dropPartition(DropPartitionReq.builder()
 )
 ```
 
-**BUILDER 方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)`
 
-    目标 collection 所属数据库的名称。
+    目标集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    （必需）现有 collection 的名称。
+    （必需）现有集合的名称。
 
 - `partitionName(String partitionName)`
 
-    （必需）要删除的 partition 名称。
+    （必需）要删除的分区名称。
 
-**返回：**
+**RETURNS：**
 
 *void*
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusClientExceptions**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
@@ -81,7 +81,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.DropPartitionReq;
 
-// 1. Set up a client
+// 1. 设置客户端
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -89,7 +89,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Drop partition "test_partition"
+// 2. 删除分区 "test_partition"
 DropPartitionReq dropPartitionReq = DropPartitionReq.builder()
         .collectionName("test")
         .partitionName("test_partition")

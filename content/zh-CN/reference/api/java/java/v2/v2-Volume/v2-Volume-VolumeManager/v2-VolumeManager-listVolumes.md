@@ -7,9 +7,9 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作以分页方式列出特定项目中的所有卷。 | Java | v2"
+description: "列出卷，可选择使用项目、类型和分页过滤器。 | Java | v2"
 type: docx
-token: Cde1dlUbDosa86xjuShcoKgQnvg
+token: CWVPd10ixoosYHxkJSScNe8mnoh
 sidebar_position: 3
 keywords: 
   - llm hallucinations
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listVolumes()
 
-此操作以分页方式列出特定项目中的所有卷。
+列出卷，可选择使用项目、类型和分页过滤器。
 
 ```java
 public ListVolumesResponse listVolumes(ListVolumesRequest request)
@@ -40,99 +40,52 @@ public ListVolumesResponse listVolumes(ListVolumesRequest request)
 ## 请求语法\{#request-syntax}
 
 ```java
-listVolumes(ListVolumesRequest.builder()
-    .projectId(String projectId)
-    .currentPage(Integer currentPage)
-    .pageSize(Integer pageSize)
+ListVolumesRequest.builder()
+    .projectId(projectId)
+    .pageSize(pageSize)
+    .currentPage(currentPage)
+    .type(type)
     .build();
-)
 ```
 
-**参数**
+**构建器方法：**
 
-- **projectId** (*str*) -
+- `projectId(String projectId)`
 
-    **[必需]**
+    Zilliz Cloud 项目的 ID。
 
-    要创建的卷所属项目的 ID。
+- `pageSize(Integer pageSize)`
 
-- **currentPage** (*int*) -
+    每页返回的卷数量。
 
-    卷列表的当前页码。指定后，将仅返回指定页上的卷。
+- `currentPage(Integer currentPage)`
 
-    此参数为可选参数，默认值为 `1`，表示返回第一页。
+    要返回的页码。
 
-- **pageSize** (*int*) -
+- `type(String type)`
 
-    卷列表的当前分页大小。指定后，将仅返回指定数量的卷。
+    可选的卷类型过滤器：`MANAGED` 或 `EXTERNAL`。
 
-    此参数为可选参数，默认值为 `10`，表示最多返回 10 个卷的列表。
-
-**返回类型**
+**返回：**
 
 *ListVolumesResponse*
 
-**返回**
+**异常：**
 
-一个 **ListVolumesResponse** 对象，包含以分页方式返回的卷列表。
+- **MilvusClientExceptions**
 
-- **count** (*Integer*) -
-
-    找到的卷总数。
-
-- **currentPage** (*Integer*) -
-
-    当前页码。
-
-- **pageSize** (*Integer*) -
-
-    每页的最大卷数量。
-
-- **volumes** (*List&lt;VolumeInfo&gt;*) -
-
-    `VolumeInfo` 实例列表。
-
-    - **volumeName** (*String*) -
-
-        卷名称。
+    当此操作期间发生任何错误时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
+列出卷，可选择使用项目、类型和分页过滤器。
+
 ```java
-import com.google.gson.Gson;
-import io.milvus.bulkwriter.VolumeManager;
-import io.milvus.bulkwriter.VolumeManagerParam;
-import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
-import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-
-VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com")
-    .withApiKey("YOUR_API_KEY")
-    .build();
-        
-VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
-ListVolumesRequest request = ListVolumesRequest.builder()
-    .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-    .currentPage(1)
-    .pageSize(10)
-    .build();
-    
-ListVolumesResponse listVolumesResponse = volumeManager.listVolumes(request);
-
-System.out.println("\nlistVolumes results: " + new Gson().toJson(listVolumesResponse));
-
-// listVolumes results: 
-// 
-// {
-//     "count": 1,
-//     "currentPage": 1,
-//     "pageSize": 10,
-//     "volumes": [
-//         {
-//             "volumeName": "my_volume"
-//         }        
-//     ]
-// }
+ListVolumesResponse response = volumeManager.listVolumes(
+    ListVolumesRequest.builder()
+        .projectId(PROJECT_ID)
+        .type("S3")
+        .currentPage(1)
+        .pageSize(20)
+        .build());
 ```
-

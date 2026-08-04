@@ -63,7 +63,7 @@ UploadFilesRequest.builder()
 
 - `uploadConcurrency(int uploadConcurrency)`
 
-    并发上传的最大文件数。
+    并发上传的最大文件数量。
 
 - `maxRetries(int maxRetries)`
 
@@ -71,7 +71,7 @@ UploadFilesRequest.builder()
 
 - `retryIntervalMillis(long retryIntervalMillis)`
 
-    重试尝试之间的延迟时间，单位为毫秒。
+    重试尝试之间的延迟时间，以毫秒为单位。
 
 - `progressListener(ProgressListener progressListener)`
 
@@ -79,7 +79,7 @@ UploadFilesRequest.builder()
 
 - `partSizeBytes(long partSizeBytes)`
 
-    分片上传中每个分片的大小，单位为字节。非正值将启用自动大小设置。
+    分片上传的分片大小（字节）。非正值将启用自动大小设置。
 
 **返回：**
 

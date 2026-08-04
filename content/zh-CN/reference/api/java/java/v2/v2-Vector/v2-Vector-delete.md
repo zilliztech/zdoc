@@ -51,7 +51,7 @@ delete(DeleteReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
@@ -75,15 +75,15 @@ delete(DeleteReq.builder()
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
 
-    用于参数化过滤器的模板变量值映射。
+    参数化筛选器的模板变量值映射。
 
-**RETURNS:**
+**返回：**
 
 *DeleteResp*
 
 **DeleteResp** 对象包含已删除实体的数量。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 

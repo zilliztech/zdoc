@@ -12,10 +12,10 @@ type: docx
 token: GoMYdKZRforUT0x23CDcyDKgnFf
 sidebar_position: 6
 keywords: 
-  - 视频去重
-  - 视频相似性搜索
-  - 向量检索
-  - 音频相似性搜索
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud

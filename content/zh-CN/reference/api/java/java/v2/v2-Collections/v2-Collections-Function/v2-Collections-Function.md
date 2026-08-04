@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "用于从用户提供的原始数据生成向量嵌入或为搜索配置 reranker 的 `Function` 实例。 | Java | v2"
+description: "一个 `Function` 实例，用于从用户提供的原始数据生成向量嵌入，或为搜索配置重排器。 | Java | v2"
 type: docx
 token: CW06d3MZQo2AzuxIv2ycCFpsn4b
 sidebar_position: 3
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-用于从用户提供的原始数据生成向量嵌入或为搜索配置 reranker 的 `Function` 实例。
+`Function` 实例用于从用户提供的原始数据生成向量嵌入，或为搜索配置重排器。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.Function
 ```
 
-## 构造函数\{#constructor}
+## Constructor\{#constructor}
 
-该构造函数会初始化一个新的 `Function` 实例，用于将用户的原始数据转换为向量嵌入，或为搜索配置 reranker。这通过自动化流程实现，可简化相似性搜索操作。
+此构造器会初始化一个新的 `Function` 实例，用于将用户的原始数据转换为向量嵌入，或为搜索配置重排器。这通过自动化流程实现，从而简化相似性搜索操作。
 
 ```java
 CreateCollectionReq.Function.builder()
@@ -52,19 +52,19 @@ CreateCollectionReq.Function.builder()
     .build()
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `name(String name)`
 
-    函数的名称。该标识符用于在查询和集合中引用此函数。
+    函数的名称。此标识符用于在查询和集合中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要描述。这在文档编写或大型项目中提升可读性时会很有帮助，默认值为空字符串。
+    对函数用途的简要描述。这有助于在较大的项目中进行文档说明或提升可读性，默认值为空字符串。
 
 - `functionType(FunctionType functionType)`
 
-    用于处理原始数据的函数类型。可能的值：
+    用于处理原始数据的函数类型。可能的值包括：
 
     - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
 
@@ -78,23 +78,23 @@ CreateCollectionReq.Function.builder()
 
 - `params(Map<String, String> params)`
 
-    用于配置函数属性的一组键值对。
+    一组用于配置函数属性的键值对。
 
-**返回类型：**
+**RETURN TYPE：**
 
 *Function*
 
-**返回值：**
+**RETURNS：**
 
-可注册到 Milvus collection 的 `Function` 对象，用于在数据插入期间自动生成嵌入。
+一个可注册到 Milvus 集合中的 `Function` 对象，用于在插入数据时自动生成嵌入。
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusClientExceptions**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
-## 示例\{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.common.clientenum.FunctionType;

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作根据名称删除数据库。 | Java | v2"
+description: "此操作按名称删除数据库。 | Java | v2"
 type: docx
 token: LwqSdN6s5oZBhAxzQsxcnXswnah
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-此操作根据名称删除数据库。 
+此操作按名称删除数据库。 
 
 ```java
 public void dropDatabase(DropDatabaseReq request)

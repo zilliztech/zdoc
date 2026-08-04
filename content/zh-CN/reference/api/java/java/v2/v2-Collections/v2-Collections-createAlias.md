@@ -48,11 +48,11 @@ createAlias(CreateAliasReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。如果未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -70,7 +70,7 @@ createAlias(CreateAliasReq.builder()
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

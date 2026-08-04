@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 `FunctionScore` 实例是由用作重排序器的 `Function` 实例组成的列表。 | Java | v2"
+description: "一个 `FunctionScore` 实例是一个 `Function` 实例列表，用作重排器。 | Java | v2"
 type: docx
 token: Au6Wda1HUonyXOx5Pfzc0Cpjnab
 sidebar_position: 2
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # FunctionScore
 
-`FunctionScore` 实例是由用作重排序器的 `Function` 实例组成的列表。
+`FunctionScore` 实例是一个 `Function` 实例列表，用作重排器。
 
 ```java
 io.milvus.v2.service.vector.request.FunctionScore
 ```
 
-## 构造函数\{#constructor}
+## Constructor\{#constructor}
 
-该构造函数初始化一个新的 `FunctionScore` 实例，其中包含一个或多个 ranker。
+此构造函数用于初始化一个新的 `FunctionScore` 实例，该实例包含一个或多个重排器。
 
 ```java
 FunctionScore.builder()
@@ -56,11 +56,11 @@ FunctionScore.builder()
 
 - `params(Map<String, String> params)`
 
-    用于指定这些函数如何协同工作的额外参数。对于 Boost ranker，可以设置以下参数：
+    用于指定这些函数如何协同工作的额外参数。对于 Boost ranker，您可以设置以下参数：
 
     - `boost_mode` (String)
 
-        指定权重如何影响任意匹配实体的分数。可选值包括：
+        指定所设置的权重如何影响任何匹配实体的分数。可选值包括：
 
         - `Multiple`
 
@@ -78,13 +78,13 @@ FunctionScore.builder()
 
         - `Multiplify`
 
-            表示匹配实体的最终分数等于所有 Boost Ranker 加权值的乘积。
+            表示匹配实体的最终分数等于所有 Boost Ranker 的加权值之积。
 
             这是默认值。
 
         - `Sum`
 
-            表示匹配实体的最终分数等于所有 Boost Ranker 加权值之和。
+            表示匹配实体的最终分数等于所有 Boost Ranker 的加权值之和。
 
 **RETURN TYPE:**
 
@@ -94,7 +94,7 @@ FunctionScore.builder()
 
 一个 **FunctionScore** 实例。
 
-## 示例\{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.common.clientenum.FunctionType;

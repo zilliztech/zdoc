@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回 embedding 列表的占位符类型，用于指示向量数据格式。 | Java | v2"
+description: "此 getter 方法返回嵌入列表的占位符类型，用于指示向量数据格式。 | Java | v2"
 type: docx
 token: D0UGdkudVo5vtLxlZw3c6cdqnmc
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getPlaceholderType()
 
-此 getter 返回 embedding 列表的占位符类型，用于指示向量数据格式。
+此 getter 方法返回嵌入列表的占位符类型，用于指示向量数据格式。
 
 ```java
 public PlaceholderType getPlaceholderType()

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 按名称从集合模式中返回一个 struct 字段模式。 | Java | v2"
+description: "此 getter 按名称从集合 schema 中返回一个 struct 字段 schema。 | Java | v2"
 type: docx
 token: KJSvdrks9o6WOsxr0rZcPXe5ngn
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getStructField()
 
-此 getter 按名称从集合模式中返回一个 struct 字段模式。
+此 getter 按名称从集合 schema 中返回一个 struct 字段 schema。
 
 ```java
 public CreateCollectionReq.StructFieldSchema getStructField(String fieldName)

@@ -49,7 +49,7 @@ remoteBulkWriter.commit(
 
 - **async** (*boolean*) -
 
-    提交操作在被调用后是否立即返回。
+    commit 操作在被调用后是否立即返回。
 
 **返回类型：**
 

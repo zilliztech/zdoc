@@ -47,9 +47,9 @@ getMaxCapacity()
 
 *Integer*
 
-**返回值：**
+**返回：**
 
-返回值为指定 Struct 数组字段的最大容量。
+返回值将是指定 Struct 数组字段的最大容量。
 
 ## 示例\{#examples}
 

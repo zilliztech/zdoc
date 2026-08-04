@@ -1152,7 +1152,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync",
-            "label": "uploadFilesAsync",
+            "label": "uploadFilesAsync()",
             "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volumefilemanager-uploadfilesasync"
           },
           {

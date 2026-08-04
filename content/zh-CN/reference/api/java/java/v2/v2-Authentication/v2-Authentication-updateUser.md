@@ -51,13 +51,13 @@ client.updateUser(UpdateUserReq.builder()
 
 - `userName(String userName)`
 
-    **[必填]**
+    **[必需]**
 
-    要更新的用户名。
+    要更新的用户名称。
 
 - `description(String description)`
 
-    用户的新描述。使用空字符串可清除描述。
+    用户的新描述。使用空字符串可清除此描述。
 
 **返回：**
 

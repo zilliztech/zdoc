@@ -70,7 +70,7 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
 - `targetDbName(String targetDbName)`
 
-    用于创建恢复后集合的数据库。如果省略，则使用当前数据库。
+    创建恢复后集合所在的数据库。如果省略，则使用当前数据库。
 
 **返回：**
 
@@ -82,7 +82,7 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或者服务器在此操作中返回错误时，会引发此异常。
+    当缺少必填参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

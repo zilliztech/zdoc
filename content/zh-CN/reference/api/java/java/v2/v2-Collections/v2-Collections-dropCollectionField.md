@@ -12,10 +12,10 @@ type: docx
 token: PcFWdgr7VoPK74xt1mmcmH8gndf
 sidebar_position: 39
 keywords: 
-  - 视频去重
-  - 视频相似性搜索
-  - 向量检索
-  - 音频相似性搜索
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -64,19 +64,19 @@ DropCollectionFieldReq.builder()
 
 - `fieldId(Long fieldId)`
 
-    通过 ID 标识字段时，要删除字段的数字 ID。
+    通过 ID 指定字段时，要删除的字段的数字 ID。
 
 **返回：**
 
 *void*
 
-此操作不返回任何值。
+此操作不返回值。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求校验、传输或服务器执行失败时抛出。请检查异常消息以获取确切的失败原因。
+    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 

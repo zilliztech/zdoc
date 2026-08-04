@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会释放由 `pinSnapshotData()` 创建的快照数据固定项。 | Java | v2"
+description: "此操作会释放由 `pinSnapshotData()` 创建的快照数据固定。 | Java | v2"
 type: docx
 token: SachdJS5AopAZyxEfloceBnnnqg
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # unpinSnapshotData()
 
-此操作会释放由 `pinSnapshotData()` 创建的快照数据固定项。
+此操作会释放由 `pinSnapshotData()` 创建的快照数据固定。
 
 ```java
 public void unpinSnapshotData(UnpinSnapshotDataReq request)
@@ -50,7 +50,7 @@ unpinSnapshotData(UnpinSnapshotDataReq.builder()
 
 - `pinId(Long pinId)`
 
-    由 `pinSnapshotData()` 返回的固定项 ID。
+    `pinSnapshotData()` 返回的固定 ID。
 
 **返回：**
 
@@ -60,7 +60,7 @@ unpinSnapshotData(UnpinSnapshotDataReq.builder()
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

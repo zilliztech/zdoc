@@ -41,7 +41,7 @@ public void shutdownGracefully()
 
 *void*
 
-此操作不返回值。
+此操作不返回任何值。
 
 **异常：**
 

@@ -62,11 +62,11 @@ createCollection(CreateCollectionReq.builder()
 );
 ```
 
-**BUILDER 方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如未指定，则默认为当前数据库。
+    数据库名称。若未指定，则默认为当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -130,7 +130,7 @@ createCollection(CreateCollectionReq.builder()
 
 - `properties(final Map<String, String> properties)` -
 
-    集合属性映射。默认为 `new HashMap<>()`。
+    集合属性的映射。默认为 `new HashMap<>()`。
 
 **返回：**
 
@@ -140,7 +140,7 @@ createCollection(CreateCollectionReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将抛出此异常。
 
 ## 示例\{#example}
 

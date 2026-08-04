@@ -52,7 +52,7 @@ describeCollection(DescribeCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。如未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -60,7 +60,7 @@ describeCollection(DescribeCollectionReq.builder()
 
 - `collectionId(Long collectionId)` -
 
-    collection 的数字 ID。当你需要通过 ID 而不是名称来标识 collection 时，请使用此项。
+    collection 的数字 ID。当你需要通过 ID 而不是名称来标识 collection 时，请使用此参数。
 
 **RETURNS：**
 
@@ -72,7 +72,7 @@ describeCollection(DescribeCollectionReq.builder()
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

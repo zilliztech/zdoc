@@ -7,7 +7,7 @@ added_since: v2.6.16
 last_modified: v2.6.16
 deprecate_since: false
 notebook: false
-description: "此操作会移除集合中的所有数据，同时保留集合 schema、索引和别名。 | Java | v2"
+description: "此操作会移除集合中的所有数据，同时保留集合的 schema、索引和别名。 | Java | v2"
 type: docx
 token: JiLLdfLlPoKWL6xEgOAcdCU3nol
 sidebar_position: 36
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # truncateCollection()
 
-此操作会移除集合中的所有数据，同时保留集合 schema、索引和别名。
+此操作会移除集合中的所有数据，同时保留集合的 schema、索引和别名。
 
 ```java
 client.truncateCollection(TruncateCollectionReq request)
@@ -64,7 +64,7 @@ TruncateCollectionReq.builder()
 
 **异常：**
 
-- **MilvusClientException** - 指定的集合不存在，或服务器不可达。
+- **MilvusClientException** - 指定的集合不存在，或者服务器不可达。
 
 ## 示例\{#example}
 

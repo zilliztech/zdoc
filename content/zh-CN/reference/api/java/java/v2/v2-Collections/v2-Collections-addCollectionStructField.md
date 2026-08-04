@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向现有 collection 添加一个 struct 字段。使用它可以在 collection 已创建后，通过结构化数组字段扩展 collection schema。 | Java | v2"
+description: "此操作会向现有 collection 添加一个 struct 字段。可在 collection 已创建后，使用它通过一个结构化数组字段来扩展 collection schema。 | Java | v2"
 type: docx
 token: RQT1dGVPloPOLAx8G2mcifFEnCc
 sidebar_position: 37
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionStructField()
 
-此操作会向现有 collection 添加一个 struct 字段。使用它可以在 collection 已创建后，通过结构化数组字段扩展 collection schema。
+此操作会向现有 collection 添加一个 struct 字段。可在 collection 已创建后，使用它通过一个结构化数组字段来扩展 collection schema。
 
 ```java
 public void addCollectionStructField(AddCollectionStructFieldReq request)
@@ -72,11 +72,11 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 - `maxCapacity(Integer maxCapacity)`
 
-    每一行允许的 struct 元素最大数量。
+    每一行中允许的 struct 元素最大数量。
 
 - `nullable(Boolean nullable)`
 
-    struct 字段是否可以为 null。
+    该 struct 字段是否可以为 null。
 
 - `structFields(List<CreateCollectionReq.FieldSchema> structFields)`
 
@@ -84,7 +84,7 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 - `typeParams(Map<String, String> typeParams)`
 
-    传递给服务器的 struct 字段附加类型参数。
+    传递给服务器的、用于该 struct 字段的附加类型参数。
 
 **返回：**
 
@@ -94,7 +94,7 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 - **MilvusClientException**
 
-    当校验失败或服务器针对此操作返回错误时，将引发此异常。
+    当验证失败或服务器为此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

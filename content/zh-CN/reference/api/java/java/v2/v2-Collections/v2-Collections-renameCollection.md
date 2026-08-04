@@ -49,7 +49,7 @@ renameCollection(RenameCollectionReq.builder()
 );
 ```
 
-**构建器方法：**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)` -
 
@@ -65,17 +65,17 @@ renameCollection(RenameCollectionReq.builder()
 
 - `targetDbName(String targetDbName)` -
 
-    目标数据库的名称。当重命名后的集合应移动到另一个数据库时设置此参数。
+    目标数据库的名称。当重命名后的集合应移动到另一个数据库中时，请设置此参数。
 
-**返回：**
+**RETURNS:**
 
 *void*
 
-**异常：**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

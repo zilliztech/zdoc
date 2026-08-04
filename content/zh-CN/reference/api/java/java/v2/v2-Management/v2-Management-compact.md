@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过将小段合并为较大的段来压缩集合。建议在向集合中插入大量数据后调用此操作。 | Java | v2"
+description: "此操作通过将小分段合并为较大的分段来压缩集合。建议在向集合中插入大量数据后调用此操作。 | Java | v2"
 type: docx
 token: LDQsdzUJQotV2GxWGaqcFkDenuq
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-此操作通过将小段合并为较大的段来压缩集合。建议在向集合中插入大量数据后调用此操作。
+此操作通过将小分段合并为较大的分段来压缩集合。建议在向集合中插入大量数据后调用此操作。
 
 ```java
 public CompactResp compact(CompactReq request)
@@ -53,7 +53,7 @@ compact(CompactReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。如果未指定，则默认为当前数据库。
+    数据库名称。若未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
@@ -61,11 +61,11 @@ compact(CompactReq.builder()
 
 - `isClustering(Boolean isClustering)`
 
-    是否执行聚类压缩。默认为 `Boolean.FALSE`。
+    是否执行聚类压缩。默认值为 `Boolean.FALSE`。
 
 - `isL0(Boolean isL0)`
 
-    是否请求 L0 压缩。默认为 `Boolean.FALSE`，并且与聚类压缩相互独立。
+    是否请求 L0 压缩。默认值为 `Boolean.FALSE`，并且独立于聚类压缩。
 
 **返回：**
 
@@ -77,7 +77,7 @@ compact(CompactReq.builder()
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

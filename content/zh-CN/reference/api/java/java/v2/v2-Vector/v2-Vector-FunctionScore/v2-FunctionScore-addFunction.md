@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作向 `FunctionScore` 实例添加一个函数。 | Java | v2"
+description: "此操作会向 `FunctionScore` 实例添加一个函数。 | Java | v2"
 type: docx
 token: HPs6dFV29ovzyBxpgUacXnnjngd
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFunction()
 
-此操作向 `FunctionScore` 实例添加一个函数。
+此操作会向 `FunctionScore` 实例添加一个函数。
 
 ```java
 public B addFunction(CreateCollectionReq.Function func)
@@ -57,7 +57,7 @@ addFunction(
 
 **返回值**
 
-一个 **[FunctionScore](./v2-Vector-FunctionScore)** 构建器，用于链式调用多个 `addFunction()` 方法。
+一个 **[FunctionScore](./v2-Vector-FunctionScore)** 构建器，可用于链式调用多个 `addFunction()` 方法。
 
 ## 示例\{#example}
 

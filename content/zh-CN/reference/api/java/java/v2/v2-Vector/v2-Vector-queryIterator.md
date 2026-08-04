@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "(placeholder) | Java | v2"
+description: "(占位符) | Java | v2"
 type: docx
 token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()\{#queryiterator}
 
-此方法返回一个查询迭代器，用于遍历数据。
+此方法返回一个查询迭代器，用于迭代数据。
 
 ```java
 public QueryIterator queryIterator(QueryIteratorReq request)
@@ -65,7 +65,7 @@ queryIterator(QueryIteratorReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。若未指定，则默认为当前数据库。
+    数据库名称。如未指定，则默认使用当前数据库。
 
 - `collectionName(String collectionName)`
 
@@ -73,11 +73,11 @@ queryIterator(QueryIteratorReq.builder()
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要定位的分区名称列表。
+    要查询的分区名称列表。
 
 - `outputFields(List<String> outputFields)`
 
@@ -97,7 +97,7 @@ queryIterator(QueryIteratorReq.builder()
 
 - `limit(long limit)`
 
-    要返回的最大结果数。
+    要返回的最大结果数量。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
@@ -105,11 +105,11 @@ queryIterator(QueryIteratorReq.builder()
 
 - `timezone(String timezone)`
 
-    用于时间相关过滤条件的时区字符串。
+    用于时间相关筛选的时区字符串。
 
 - `batchSize(long batchSize)`
 
-    迭代器操作的批大小。
+    迭代器操作的批量大小。
 
 - `reduceStopForBest(boolean reduceStopForBest)`
 
@@ -117,7 +117,7 @@ queryIterator(QueryIteratorReq.builder()
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    参数化过滤器的模板变量值映射。
+    参数化筛选器的模板变量值映射。
 
 **返回：**
 

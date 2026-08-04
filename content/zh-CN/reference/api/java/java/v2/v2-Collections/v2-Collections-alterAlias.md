@@ -48,29 +48,29 @@ alterAlias(AlterAliasReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `alias(String alias)`
 
-    集合的别名。请注意，该别名应事先已存在。
+    集合的别名。请注意，该别名应预先存在。
 
     <Admonition type="info" icon="📘" title="说明">
 
     什么是集合别名？
     
-        集合别名是集合的一个附加名称。当你希望将应用切换到新集合而无需修改代码时，集合别名会非常有用。 
+        集合别名是集合的附加名称。当你希望将应用程序切换到一个新集合且无需对代码进行任何修改时，集合别名会非常有用。 
     
-        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能分配给一个集合。反过来，一个集合可以拥有多个别名。
+        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能分配给一个集合。相反，一个集合可以拥有多个别名。
     
-        下面是一个将一个集合的别名重新分配给另一个集合的示例：
+        以下是将一个集合的别名重新分配给另一个集合的示例：
     
-        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初被分配给 `collection_1`：
+        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初它被分配给了 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
         - `collection_2` 的别名 = []
     
-        使用参数 `collection_2` 和 `bob` 调用 `alterAlias` 函数后：
+        调用 `alterAlias` 函数并传入参数 `collection_2` 和 `bob` 后：
     
         - `collection_1` 的别名 = []
     

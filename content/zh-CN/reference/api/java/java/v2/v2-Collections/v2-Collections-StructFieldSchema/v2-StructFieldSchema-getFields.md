@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回 Struct 数组中 Struct 元素的字段。 | Java | v2"
+description: "此操作返回 Struct 数组中的 Struct 元素的字段。 | Java | v2"
 type: docx
 token: FIzIdKrRNooFttxaf3Pc1vOlnnc
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getFields()
 
-此操作返回 Struct 数组中 Struct 元素的字段。
+此操作返回 Struct 数组中的 Struct 元素的字段。
 
 ```java
 public List<CreateCollectionReq.FieldSchema> getFields()
@@ -49,7 +49,7 @@ getFields()
 
 **返回：**
 
-返回值为 Struct 数组中 Struct 元素的字段。
+返回值为 Struct 数组中的 Struct 元素的字段。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 collection 中的 partitions 从内存中释放。 | Java | v2"
+description: "此操作会将指定集合中的分区从内存中释放。 | Java | v2"
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # releasePartitions()
 
-此操作会将指定 collection 中的 partitions 从内存中释放。
+此操作会将指定集合中的分区从内存中释放。
 
 ```java
 public void releasePartitions(ReleasePartitionsReq request)
@@ -52,15 +52,15 @@ releasePartitions(ReleasePartitionsReq.builder()
 
 - `databaseName(String databaseName)`
 
-    collection 所属数据库的名称。
+    集合所属数据库的名称。
 
 - `collectionName(String collectionName)`
 
-    现有 collection 的名称。
+    现有集合的名称。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要释放的 partitions 名称列表。
+    要释放的分区名称列表。
 
 **返回：**
 
@@ -70,7 +70,7 @@ releasePartitions(ReleasePartitionsReq.builder()
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回 Array of Structs 字段的描述。 | Java | v2"
+description: "此操作返回 Struct 数组字段的描述。 | Java | v2"
 type: docx
 token: QbfPdyw7EoXpGwxSkGgcytBBnAb
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getDescription()
 
-此操作返回 Array of Structs 字段的描述。
+此操作返回 Struct 数组字段的描述。
 
 ```java
 public String getDescription()
@@ -49,7 +49,7 @@ getDescription()
 
 **返回：**
 
-返回值将是指定 Array of Struct 字段的描述。
+返回值将是指定 Struct 数组字段的描述。
 
 ## 示例\{#examples}
 

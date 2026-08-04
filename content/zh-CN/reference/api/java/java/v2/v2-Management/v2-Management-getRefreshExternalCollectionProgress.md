@@ -10,7 +10,7 @@ notebook: false
 description: "此操作返回先前已启动的外部集合刷新任务的进度和当前状态。 | Java | v2"
 type: docx
 token: FzEydqTwRoajhnxZOftcKxKpndg
-sidebar_position: 27
+sidebar_position: 29
 keywords: 
   - lexical search
   - nearest neighbor search
@@ -46,11 +46,11 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 );
 ```
 
-**BUILDER 方法：**
+**BUILDER METHODS：**
 
 - `jobId(long jobId)` -
 
-    **[必需]**
+    **[REQUIRED]**
 
     由 `refreshExternalCollection()` 返回的任务 ID。
 
@@ -58,7 +58,7 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
 *GetRefreshExternalCollectionProgressResp*
 
-该响应封装了一个可通过 `getJobInfo()` 访问的 `RefreshExternalCollectionJobInfo`。任务信息中的字段如下：
+该响应封装了一个可通过 `getJobInfo()` 访问的 `RefreshExternalCollectionJobInfo`。任务信息中的字段包括：
 
 - `jobId` (*long*) - 任务标识符。
 
@@ -68,13 +68,13 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
 - `progress` (*int*) - 完成百分比（0–100）。
 
-- `reason` (*String*) - 当 `state` 为 `"FAILED"` 时的失败原因；否则为空。
+- `reason` (*String*) - 如果 `state` 为 `"FAILED"`，则表示失败原因；否则为空。
 
 - `externalSource` (*String*) - 任务使用的外部数据源。
 
 - `startTime` (*long*) - 任务开始时间戳（epoch 毫秒）。
 
-- `endTime` (*long*) - 任务结束时间戳（epoch 毫秒）；如果仍在运行则为 0。
+- `endTime` (*long*) - 任务结束时间戳（epoch 毫秒）；如果仍在运行，则为 0。
 
 **异常：**
 

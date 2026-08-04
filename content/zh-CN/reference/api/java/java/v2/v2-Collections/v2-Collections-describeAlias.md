@@ -51,7 +51,7 @@ describeAlias(DescribeAliasReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。如未指定，则默认使用当前数据库。
 
 - `alias(String alias)` -
 

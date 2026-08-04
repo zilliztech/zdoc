@@ -72,7 +72,7 @@ describeSnapshot(DescribeSnapshotReq.builder()
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "按名称删除先前上传的文件资源。删除仍被活动函数或分析器引用的资源时会因错误而失败。 | Java | v2"
+description: "按名称移除先前上传的文件资源。移除仍被活动函数或分析器引用的资源将因错误而失败。 | Java | v2"
 type: docx
 token: I5yTdfJXNoHDICxSwWXcNjwxnoc
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # removeFileResource()
 
-按名称删除先前上传的文件资源。删除仍被活动函数或分析器引用的资源时会因错误而失败。
+按名称移除先前上传的文件资源。移除仍被活动函数或分析器引用的资源将因错误而失败。
 
 ```java
 public void removeFileResource(RemoveFileResourceReq request)
@@ -46,13 +46,13 @@ removeFileResource(RemoveFileResourceReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `name(String name)` -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要删除的文件资源名称。
+    要移除的文件资源名称。
 
 **返回：**
 

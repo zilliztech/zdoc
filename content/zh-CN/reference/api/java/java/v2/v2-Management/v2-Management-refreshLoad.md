@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "当通过 bulkImport 请求生成了新 segment 时，此操作主要用于强制将这些新 segment 加载到内存中。 | Java | v2"
+description: "此操作主要用于在 bulkImport 请求生成新分段时，强制将这些新分段加载到内存中。 | Java | v2"
 type: docx
 token: TCw7d7brCovAUpxA5D8cjOIGn1b
 sidebar_position: 15
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshLoad()
 
-当通过 `bulkImport` 请求生成了新 segment 时，此操作主要用于强制将这些新 segment 加载到内存中。 
+此操作主要用于在 bulkImport 请求生成新分段时，强制将这些新分段加载到内存中。 
 
 ```java
 public void refreshLoad(RefreshLoadReq request)
@@ -50,11 +50,11 @@ refreshLoad(RefreshLoadReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    数据库名称。若未指定，则默认为当前数据库。
 
 - `collectionName(String collectionName)` -
 
@@ -70,17 +70,17 @@ refreshLoad(RefreshLoadReq.builder()
 
 - `timeout(Long timeout)` -
 
-    超时时长，单位为毫秒。默认为 `60000L`。
+    超时时长（毫秒）。默认为 `60000L`。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

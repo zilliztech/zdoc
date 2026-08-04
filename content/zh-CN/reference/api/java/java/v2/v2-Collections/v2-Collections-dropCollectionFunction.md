@@ -4,12 +4,12 @@ slug: /java/java/v2-Collections-dropCollectionFunction
 sidebar_label: "dropCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会从集合中删除一个现有函数。 | Java | v2"
+description: "从现有集合中移除函数定义，而不移除其输出字段。使用 `dropFunctionField()` 可同时移除两者。 | Java | v2"
 type: docx
-token: A6dgdXJdRoxwKAxGB1hctKXvnZg
+token: K0wedJ57uoHCyXxOFtNc673tnuA
 sidebar_position: 33
 keywords: 
   - milvus vector database
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFunction()
 
-此操作会从集合中删除一个现有函数。
+从现有集合中移除函数定义，而不移除其输出字段。使用 [`dropFunctionField()`](./v2-Collections-dropFunctionField) 可同时移除两者。
 
 ```java
 public void dropCollectionFunction(DropCollectionFunctionReq request)
@@ -40,49 +40,44 @@ public void dropCollectionFunction(DropCollectionFunctionReq request)
 ## 请求语法\{#request-syntax}
 
 ```java
-dropCollectionFunction(DropCollectionFunctionReq.builder()
-    .collectionName(String collectionName)
-    .databaseName(String databaseName)
-    .functionName(String functionName)
-    .build()
-);
+DropCollectionFunctionReq.builder()
+    .collectionName(collectionName)
+    .databaseName(databaseName)
+    .functionName(functionName)
+    .build();
 ```
 
 **构建器方法：**
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
-    **[REQUIRED]**
+    目标集合的名称。
 
-    集合的名称。
+- `databaseName(String databaseName)`
 
-- `databaseName(String databaseName)` -
+    数据库名称。省略时默认使用当前数据库。
 
-    数据库名称。若未指定，则默认使用当前数据库。
+- `functionName(String functionName)`
 
-- `functionName(String functionName)` -
-
-    **[REQUIRED]**
-
-    要删除的函数名称。
+    要移除的函数定义名称。
 
 **返回：**
 
 *void*
 
+此操作不返回值。
+
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
 ```java
-import io.milvus.v2.service.collection.request.DropCollectionFunctionReq;
-
 client.dropCollectionFunction(DropCollectionFunctionReq.builder()
-    .collectionName("my_collection")
+    .collectionName("books")
     .functionName("bm25")
     .build());
 ```

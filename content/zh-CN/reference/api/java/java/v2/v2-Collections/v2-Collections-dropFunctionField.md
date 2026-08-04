@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "删除函数以及该函数拥有的输出字段。 | Java | v2"
+description: "删除函数及其拥有的输出字段。| Java | v2"
 type: docx
 token: LUUvdGTqrog0AIxfea7cc9a1nCd
 sidebar_position: 40
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropFunctionField()
 
-删除函数以及该函数拥有的输出字段。
+删除函数及其拥有的输出字段。
 
 ```java
 public void dropFunctionField(DropFunctionFieldReq request)
@@ -47,7 +47,7 @@ DropFunctionFieldReq.builder()
     .build();
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `collectionName(String collectionName)`
 
@@ -59,19 +59,19 @@ DropFunctionFieldReq.builder()
 
 - `functionName(String functionName)`
 
-    要删除其定义和输出字段的函数名称。
+    要删除其定义及输出字段的函数名称。
 
-**返回：**
+**RETURNS：**
 
 *void*
 
-此操作不返回任何值。
+此操作不返回值。
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusClientException**
 
-    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取具体失败原因。
+    当请求验证、传输或服务端执行失败时引发。请检查异常消息以获取具体失败原因。
 
 ## 示例\{#example}
 

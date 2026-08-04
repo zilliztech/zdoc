@@ -47,9 +47,9 @@ listCollections()
 
 *ListCollectionsResp*
 
-**返回值：**
+**返回：**
 
-一个包含集合名称列表的 **ListCollectionsResp** 对象。如果当前不存在任何集合，则返回空列表。
+一个包含集合名称列表的 **ListCollectionsResp** 对象。如果当前没有任何集合，则返回空列表。
 
 **参数：**
 

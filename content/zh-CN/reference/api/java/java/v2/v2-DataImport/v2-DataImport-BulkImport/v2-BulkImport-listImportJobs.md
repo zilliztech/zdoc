@@ -7,9 +7,9 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出指定 collection 的所有现有导入作业。 | Java | v2"
+description: "列出 Milvus 或 Zilliz Cloud 中的批量导入作业。 | Java | v2"
 type: docx
-token: CN9sdiCicoERZpx9GhmcLa4Wn7g
+token: KZc2dLt74oh6VzxS4EYc7cEsn3d
 sidebar_position: 4
 keywords: 
   - milvus vector db
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listImportJobs()
 
-此操作列出指定 collection 的所有现有导入作业。
+列出 Milvus 或 Zilliz Cloud 中的批量导入作业。
 
 ```java
 public static String listImportJobs(String url, BaseListImportJobsRequest request)
@@ -39,61 +39,57 @@ public static String listImportJobs(String url, BaseListImportJobsRequest reques
 
 ## 请求语法\{#request-syntax}
 
+使用此请求列出 Zilliz Cloud 中的导入作业。
+
 ```java
-bulkImport.listImportJobs(
-    url,
-    request
-)
+CloudListImportJobsRequest.builder()
+    .apiKey(apiKey)
+    .clusterId(clusterId)
+    .projectId(projectId)
+    .regionId(regionId)
+    .pageSize(pageSize)
+    .currentPage(currentPage)
+    .build();
 ```
 
 **参数：**
 
-- **url** (*String*) -
+- **apiKey** (*String*) -<br/>
+  身份验证凭证。对于 Cloud 请求，使用 Zilliz Cloud API key；对于 Milvus 请求，使用 `username:password`。
 
-    Zilliz Cloud 的 Control Plane API 端点。端点 URL 应采用以下格式：
+- **clusterId** (*String*) -<br/>
+  基于集群的部署的集群标识符。对于项目数据库部署，请改用 `projectId` 和 `regionId`。
 
-    ```python
-    https://api.cloud.zilliz.com
-    ```
+- **projectId** (*String*) -<br/>
+  项目数据库部署的项目标识符。请与 `regionId` 一起使用，而不是 `clusterId`。
 
-- **request** (*[BaseListImportRequest](./v2-BulkImport-listImportJobs#baselistimportrequest)*) -  
+- **regionId** (*String*) -<br/>
+  项目数据库部署的区域标识符。请与 `projectId` 一起使用，而不是 `clusterId`。
 
-    一个 **BaseImportRequest** 实例。
+- **pageSize** (*Integer*) -<br/>
+  每页返回的导入作业数量。
 
-**返回类型：**
-
-*String*
+- **currentPage** (*Integer*) -<br/>
+  要返回的页码，从 1 开始。
 
 **返回：**
 
-指定 collection 的导入作业 ID 列表。
+*String*
 
-## BaseListImportRequest\{#baselistimportrequest}
-
-**BaseListImportRequest** 实例在 **CloudListImportRequest** 中实现。
-
-### CloudListImportRequest\{#cloudlistimportrequest}
-
-```java
-CloudListImportRequest.builder()
-    .apiKey(String apiKey)
-    .collectionName(String collectionName)
-    .build()
-```
-
-**构建器方法：**
-
-- `apiKey(String apiKey)`
-
-    具有足够权限来操作集群的有效 Zilliz Cloud API 密钥。
-
-- `collectionName(String collectionName)`
-
-    此操作目标 collection 的名称。
+包含匹配的导入作业和分页详情的 JSON 响应。
 
 ## 示例\{#example}
 
-```java
+列出某个 Zilliz Cloud 项目数据库的导入作业。
 
+```java
+CloudListImportJobsRequest request = CloudListImportJobsRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .currentPage(1)
+    .pageSize(10)
+    .apiKey(API_KEY)
+    .build();
+String response = BulkImportUtils.listImportJobs("https://api.cloud.zilliz.com", request);
 ```
 

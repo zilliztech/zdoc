@@ -12,13 +12,13 @@ type: docx
 token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
 sidebar_position: 3
 keywords: 
-  - 向量索引
-  - 开源向量数据库
-  - 开源向量数据库
-  - 向量数据库示例
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - alterCollectionProperties()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -60,7 +60,7 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
 - `properties(Map<String, String> properties)`
 
-    要修改的属性及其期望值。请注意，属性值应为字符串。可用的数据库属性如下：
+    要修改的属性及其预期值。请注意，属性值应为字符串。可用的数据库属性如下：
 
     - **collection.ttl.seconds** -
 
@@ -70,11 +70,11 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
         是否为 collection 中所有字段的原始数据和索引启用 mmap。
 
-**返回：**
+**RETURNS：**
 
 *void*
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusClientExceptions**
 

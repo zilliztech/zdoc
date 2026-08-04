@@ -49,11 +49,11 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    保存目标集合的数据库名称。
+    持有目标集合的数据库名称。
 
 - `collectionName(String collectionName)`
 
@@ -71,11 +71,11 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
         是否为当前索引启用 mmap。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientExceptions**
 

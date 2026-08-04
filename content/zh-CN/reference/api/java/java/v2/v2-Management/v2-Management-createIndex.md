@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作为特定集合创建索引。 | Java | v2"
+description: "此操作为指定集合创建索引。 | Java | v2"
 type: docx
 token: JLCudD7MYoQdxQxLwlpcbBnpn8c
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createIndex()
 
-此操作为特定集合创建索引。
+此操作为指定集合创建索引。
 
 ```java
 public void createIndex(CreateIndexReq request)
@@ -50,7 +50,7 @@ createIndex(CreateIndexReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)` -
 
@@ -62,25 +62,25 @@ createIndex(CreateIndexReq.builder()
 
 - `indexParams(List<IndexParam> indexParams)` -
 
-    定义索引配置的 `IndexParam` 对象列表。
+    `IndexParam` 对象列表，用于定义索引配置。
 
 - `sync(Boolean sync)` -
 
-    是否同步等待操作完成。默认为 `Boolean.TRUE`。
+    是否同步等待操作完成。默认值为 `Boolean.TRUE`。
 
 - `timeout(Long timeout)` -
 
-    超时时长（毫秒）。默认为 `60000L`。
+    超时时长，单位为毫秒。默认值为 `60000L`。
 
-**返回：**
+**RETURNS:**
 
 *void*
 
-**异常：**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "EmbeddingList 实例表示一个向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以便在 Array of Structs 字段中的某个向量字段上执行搜索。 | Java | v2"
+description: "一个 EmbeddingList 实例表示向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。 | Java | v2"
 type: docx
 token: EXcNdtZrro7Ufkxp3G6cUArOn7b
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingList
 
-**EmbeddingList** 实例表示一个向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以便在 Array of Structs 字段中的某个向量字段上执行搜索。
+**EmbeddingList** 实例表示向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。
 
 ```java
 io.milvus.v2.service.vector.request.data.EmbeddingList
@@ -51,7 +51,7 @@ EmbeddingList
 
 **RETURNS:**
 
-一个 EmbeddingList 实例包含一个或多个向量嵌入。您可以使用它对 Array of Structs 字段中 Struct 元素里的向量字段执行搜索。
+一个 EmbeddingList 实例由一个或多个向量嵌入组成。您可以使用它在 Array of Structs 字段中 Struct 元素的向量字段上执行搜索。
 
 ## Examples:\{#examples}
 

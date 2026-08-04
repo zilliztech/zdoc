@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回特定 compaction 作业的 compaction 计划，包括显示哪些 segment 将被合并的 merge 计划。 | Java | v2"
+description: "此操作返回特定 compaction 作业的 compaction 计划，包括显示哪些 segment 将被合并的合并计划。 | Java | v2"
 type: docx
 token: BDNBdbEOioqnlKxRd3DcY7wRncg
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - 什么是向量数据库
   - 向量数据库对比
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCompactionPlans()
 
-此操作返回特定 compaction 作业的 compaction 计划，包括显示哪些 segment 将被合并的 merge 计划。
+此操作返回特定 compaction 作业的 compaction 计划，包括显示哪些 segment 将被合并的合并计划。
 
 ```java
 public GetCompactionPlansResp getCompactionPlans(GetCompactionPlansReq request)
@@ -46,7 +46,7 @@ getCompactionPlans(GetCompactionPlansReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `compactionID(Long compactionID)` -
 
@@ -54,11 +54,11 @@ getCompactionPlans(GetCompactionPlansReq.builder()
 
     由 `compact()` 返回的 compaction 作业 ID。
 
-**返回：**
+**返回值：**
 
 *GetCompactionPlansResp*
 
-响应中包含 compaction 状态和 merge 计划。
+响应中包含 compaction 状态和合并计划。
 
 **异常：**
 

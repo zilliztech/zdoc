@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "StructFieldSchema 实例表示 Array of Structs 字段中 Struct 元素的模式。模式勾勒出其 Struct 元素的结构。 | Java | v2"
+description: "StructFieldSchema 实例表示 Array of Structs 字段中 Struct 元素的 schema。schema 勾勒出其 Struct 元素的结构。 | Java | v2"
 type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-**StructFieldSchema** 实例表示 Array of Structs 字段中 Struct 元素的模式。模式勾勒出其 Struct 元素的结构。
+**StructFieldSchema** 实例表示 Array of Structs 字段中 Struct 元素的 schema。schema 勾勒出其 Struct 元素的结构。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.StructFieldSchema
@@ -39,13 +39,13 @@ io.milvus.v2.service.collection.request.CreateCollectionReq.StructFieldSchema
 
 <Admonition type="info" icon="📘" title="说明">
 
-无法显式实例化此类。你需要描述一个包含 Array of Structs 字段的集合，才能查看其实例。
+无法显式实例化此类。你需要描述一个包含 Array of Structs 字段的 collection，才能查看其实例。
 
 </Admonition>
 
 ## 示例\{#example}
 
-以下示例说明了如何创建一个 Array of Structs 字段，并为其 Struct 元素添加字段。
+以下示例说明了如何创建一个 Array of Structs 字段，并向其 Struct 元素中添加字段。
 
 ```java
 import io.milvus.v2.common.DataType;

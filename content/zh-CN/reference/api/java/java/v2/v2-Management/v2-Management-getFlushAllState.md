@@ -7,10 +7,10 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于检查先前的全量 flush 操作是否已完成。当您异步调用 `flushAll` 并需要轮询其完成状态时，可使用此操作。 | Java | v2"
+description: "此操作用于检查先前的全量 flush 操作是否已完成。当你以异步方式调用 `flushAll` 并需要轮询完成状态时，可使用此操作。 | Java | v2"
 type: docx
 token: U55Vd0IR9oz8m9xS76scr4KDnNh
-sidebar_position: 26
+sidebar_position: 24
 keywords: 
   - knn algorithm
   - HNSW
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getFlushAllState()
 
-此操作用于检查先前的全量 flush 操作是否已完成。当您异步调用 `flushAll` 并需要轮询其完成状态时，可使用此操作。
+此操作用于检查先前的全量 flush 操作是否已完成。当你以异步方式调用 `flushAll` 并需要轮询完成状态时，可使用此操作。
 
 ```java
 public GetFlushAllStateResp getFlushAllState(GetFlushAllStateReq request)
@@ -50,7 +50,7 @@ getFlushAllState(GetFlushAllStateReq.builder()
 
 - `databaseName(String databaseName)`
 
-    调用 `flushAll` 时使用的数据库。
+    调用 `flushAll` 时所使用的数据库。
 
 - `flushAllTs(Long flushAllTs)`
 
@@ -64,7 +64,7 @@ getFlushAllState(GetFlushAllStateReq.builder()
 
 - **MilvusClientException**
 
-    当校验失败或服务器为此操作返回错误时，将引发此异常。
+    当校验失败或服务器针对该操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

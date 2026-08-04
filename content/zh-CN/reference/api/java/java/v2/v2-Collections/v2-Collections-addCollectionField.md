@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.1
 deprecate_since: false
 notebook: false
-description: "此操作可向现有集合添加新的标量或向量字段，而无需重新创建集合。现有行不会为新字段提供值，因此新增的向量字段必须可为空。 | Java | v2"
+description: "此操作可在不重新创建集合的情况下，向现有集合添加新的标量或向量字段。现有行不会为新字段提供值，因此新增的向量字段必须可为空。 | Java | v2"
 type: docx
 token: LaHmdGNGZog0JbxA8amcblpsnDR
 sidebar_position: 23
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionField()
 
-此操作可向现有集合添加新的标量或向量字段，而无需重新创建集合。现有行不会为新字段提供值，因此新增的向量字段必须可为空。
+此操作可在不重新创建集合的情况下，向现有集合添加新的标量或向量字段。现有行不会为新字段提供值，因此新增的向量字段必须可为空。
 
 ```java
 public void addCollectionField(AddCollectionFieldReq request)
@@ -63,7 +63,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 );
 ```
 
-**构建器方法：**
+**BUILDER METHODS:**
 
 - `collectionName(String collectionName)` -
 
@@ -71,7 +71,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如未指定，则默认为当前数据库。
+    数据库名称。如未指定，则默认使用当前数据库。
 
 - `fieldName(String fieldName)` -
 
@@ -83,15 +83,15 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `dataType(DataType dataType)` -
 
-    字段的数据类型。标量、向量、数组、JSON 以及与 struct 相关的字段类型，使用与创建集合时相同的 `DataType` 值。
+    字段的数据类型。标量、向量、数组、JSON 以及 struct 相关字段类型，均使用与创建集合时相同的 `DataType` 值。
 
 - `maxLength(Integer maxLength)` -
 
-    `DataType.VarChar` 字段允许的最大字符数。对于 VarChar 字段，除非该值通过 `typeParams` 提供，否则此项为必填。
+    `DataType.VarChar` 字段的最大字符数。对于 VarChar 字段，这是必需项，除非该值通过 `typeParams` 提供。
 
 - `dimension(Integer dimension)` -
 
-    向量维度。对于固定维度的向量字段（例如 `DataType.FloatVector`），此项为必填。
+    向量维度。对于固定维度的向量字段（如 `DataType.FloatVector`），这是必需项。
 
 - `elementType(DataType elementType)` -
 
@@ -99,7 +99,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `maxCapacity(Integer maxCapacity)` -
 
-    数组字段中允许的最大元素数量。
+    数组字段允许包含的最大元素数量。
 
 - `isNullable(Boolean isNullable)` -
 
@@ -107,7 +107,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `defaultValue(Object defaultValue)` -
 
-    新增字段的默认值。其运行时类型必须与 `dataType` 匹配。
+    新增字段的默认值。运行时类型必须与 `dataType` 匹配。
 
 - `enableAnalyzer(Boolean enableAnalyzer)` -
 
@@ -115,7 +115,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    VarChar 字段的分析器配置，例如分词器和过滤器设置。
+    VarChar 字段的分析器配置，例如 tokenizer 和 filter 设置。
 
 - `enableMatch(Boolean enableMatch)` -
 
@@ -123,7 +123,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `typeParams(Map<String, String> typeParams)` -
 
-    其他字段类型参数。像 `dimension` 或 `maxLength` 这样的专用构建器方法会覆盖此映射中的对应条目。
+    额外的字段类型参数。诸如 `dimension` 或 `maxLength` 之类的专用 builder 方法会覆盖此映射中的对应条目。
 
 - `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
@@ -137,15 +137,15 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
     当集合由外部数据源支持时，映射到此 Milvus 字段的外部源字段。
 
-**返回：**
+**RETURNS:**
 
 *void*
 
-**异常：**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将抛出此异常，包括以 `isNullable(false)` 添加向量字段，或未将 `isNullable(true)` 设置到向量字段时。
+    当此操作期间发生任何错误时，将抛出此异常，包括使用 `isNullable(false)` 添加向量字段，或未设置 `isNullable(true)` 时。
 
 ## 示例\{#example}
 
@@ -153,7 +153,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
 
-// 向现有集合添加一个可为空的标量字段。
+// Add a nullable scalar field to an existing collection.
 client.addCollectionField(AddCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("text")
@@ -162,7 +162,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
         .isNullable(true)
         .build());
 
-// 向现有集合添加一个可为空的向量字段。
+// Add a nullable vector field to an existing collection.
 client.addCollectionField(AddCollectionFieldReq.builder()
         .collectionName("my_collection")
         .fieldName("embedding_v2")

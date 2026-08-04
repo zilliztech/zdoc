@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "BoostRanker 继承自 Function 类并提供额外参数。 | Java | v2"
+description: "BoostRanker 继承自 Function 类，并提供额外参数。 | Java | v2"
 type: docx
 token: QO5ldltYOoo5uFxS4ZJc24JWnUh
 sidebar_position: 1
@@ -52,15 +52,15 @@ BoostRanker.builder()
     .build()
 ```
 
-**构建器方法：**
+**BUILDER 方法：**
 
 - `name(String name)`
 
-    函数名称。此标识符用于在查询和集合中引用该函数。
+    函数的名称。该标识符用于在查询和集合中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要描述。这对于文档说明或提升大型项目中的可读性很有帮助，默认为空字符串。
+    对函数用途的简要描述。这在文档编写或大型项目中有助于提升清晰度，默认值为空字符串。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
@@ -76,31 +76,31 @@ BoostRanker.builder()
 
     <Admonition type="info" icon="📘" title="说明">
 
-    仅使用基础运算符，例如 `==`、`>` 或 `<`。使用高级运算符（如 `text_match` 或 `phrase_match`）会降低搜索性能。
+    仅使用基础运算符，例如 `==`、`>` 或 `<`。使用高级运算符（例如 `text_match` 或 `phrase_match`）会降低搜索性能。
 
     </Admonition>
 
 - `weight(Float weight)`
 
-    该权重会与原始搜索结果中任何匹配实体的分数相乘。
+    将乘以原始搜索结果中任何匹配实体分数的权重。
 
     该值应为浮点数。
 
-    - 若要突出匹配实体的重要性，请将其设置为能够提升分数的值。
+    - 若要强调匹配实体的重要性，请将其设置为能够提高分数的值。
 
-    - 若要降低匹配实体的排序，请为此参数指定一个会降低其分数的值。
+    - 若要降低匹配实体的排名，请为此参数指定一个会降低其分数的值。
 
 - `randomScoreSeed(Long randomScoreSeed)`
 
-    该随机函数与 `randomScoreField(String randomScoreField)` 配合使用，以随机生成一个介于 `0` 到 `1` 之间的值。 
+    该随机函数与 `randomScoreField(String randomScoreField)` 配合使用，以随机生成一个介于 `0` 和 `1` 之间的值。 
 
     你应指定一个初始值来启动伪随机数生成器（PRNG）。
 
 - `randomScoreField(String randomScoreField)`
 
-    该随机函数与 `randomScoreSeed(Long randomScoreSeed)` 配合使用，以随机生成一个介于 `0` 到 `1` 之间的值。 
+    该随机函数与 `randomScoreSeed(Long randomScoreSeed)` 配合使用，以随机生成一个介于 `0` 和 `1` 之间的值。 
 
-    你应指定一个字段名称，该字段的值将作为生成随机数时的随机因子。具有唯一值的字段即可满足需求。
+    你应指定一个字段名称，其字段值将作为生成随机数时的随机因子。具有唯一值的字段即可满足要求。
 
 **返回类型：**
 

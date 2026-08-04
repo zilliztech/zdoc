@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会触发一个刷新任务，将外部数据源中的数据拉取到 Milvus collection 中。返回一个作业 ID，可传递给 `getRefreshExternalCollectionProgress()` 以跟踪进度。 | Java | v2"
+description: "此操作会触发一个刷新作业，将数据从外部数据源拉取到 Milvus collection 中。返回一个作业 ID，可传递给 `getRefreshExternalCollectionProgress()` 以跟踪进度。 | Java | v2"
 type: docx
 token: G8JydoIzPoKb2MxASemcW2spnbe
-sidebar_position: 29
+sidebar_position: 31
 keywords: 
-  - 视频去重
-  - 视频相似度搜索
-  - 向量检索
-  - 音频相似度搜索
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshExternalCollection()
 
-此操作会触发一个刷新任务，将外部数据源中的数据拉取到 Milvus collection 中。返回一个作业 ID，可传递给 `getRefreshExternalCollectionProgress()` 以跟踪进度。
+此操作会触发一个刷新作业，将数据从外部数据源拉取到 Milvus collection 中。返回一个作业 ID，可传递给 `getRefreshExternalCollectionProgress()` 以跟踪进度。
 
 ```java
 public RefreshExternalCollectionResp refreshExternalCollection(RefreshExternalCollectionReq request)
@@ -49,7 +49,7 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 );
 ```
 
-**构建器方法：**
+**BUILDER METHODS：**
 
 - `databaseName(String databaseName)` -
 
@@ -57,7 +57,7 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
 - `collectionName(String collectionName)` -
 
-    **[必需]**
+    **[REQUIRED]**
 
     要刷新的 collection 名称。
 
@@ -67,7 +67,7 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
 - `externalSpec(JsonObject externalSpec)` -
 
-    一个用于描述外部存储配置的 JSON 对象。字段取决于 `externalSource`（通常包括 `endpoint`、`bucket`、`path`、凭证信息）。
+    一个描述外部存储配置的 JSON 对象。字段取决于 `externalSource`（通常包括 `endpoint`、`bucket`、`path`、凭证信息）。
 
 **返回：**
 
@@ -75,13 +75,13 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
 响应包含一个字段：
 
-- `jobId` (*long*) - 新启动的刷新任务的数值 ID。请持久化此值，以便通过 `getRefreshExternalCollectionProgress()` 查询进度。
+- `jobId` (*long*) - 新启动的刷新作业的数字 ID。请持久化保存该值，以便使用 `getRefreshExternalCollectionProgress()` 查询进度。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

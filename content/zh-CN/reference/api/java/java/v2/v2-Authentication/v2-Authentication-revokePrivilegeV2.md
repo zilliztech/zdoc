@@ -57,21 +57,21 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    要从指定角色中撤销的权限或权限组。有关可能的权限详情，请参见 [Privileges](/docs/cluster-privileges)。
+    要从指定角色中撤销的权限或权限组。有关可用权限的详细信息，请参见 [Privileges](/docs/cluster-privileges)。
 
 - `dbName(String dbName)`
 
-    目标资源数据库。执行此操作后，指定角色将失去在指定数据库中对指定权限的访问。
+    目标资源所在的数据库。执行此操作后，指定角色将失去在指定数据库中访问指定权限的能力。
 
 - `collectionName(String collectionName)`
 
-    指定数据库中的目标资源集合。执行此操作后，指定角色将失去在指定集合中对指定权限的访问。
+    指定数据库中的目标资源集合。执行此操作后，指定角色将失去在指定集合中访问指定权限的能力。
 
-**返回：**
+**RETURNS：**
 
 *void*
 
-**异常：**
+**EXCEPTIONS：**
 
 - **MilvusClientExceptions**
 

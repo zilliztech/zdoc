@@ -12,10 +12,10 @@ type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
 keywords: 
-  - Milvus 基准测试
-  - 托管式 Milvus
-  - Serverless 向量数据库
-  - Milvus 开源
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud

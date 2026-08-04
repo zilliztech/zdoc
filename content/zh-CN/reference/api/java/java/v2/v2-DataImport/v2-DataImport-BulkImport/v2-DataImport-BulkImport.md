@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "BulkImport 实例为您提供了用于操作数据导入任务的方法。 | Java | v2"
+description: "BulkImport 实例提供了用于操作数据导入任务的方法。 | Java | v2"
 type: docx
 token: NIm8dRx2Aozt4Qxv1Q6cAm3Fn97
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BulkImport
 
-**BulkImport** 实例为您提供了用于操作数据导入任务的方法。
+**BulkImport** 实例提供了用于操作数据导入任务的方法。
 
 ```java
 io.milvus.bulkwriter.BulkImport

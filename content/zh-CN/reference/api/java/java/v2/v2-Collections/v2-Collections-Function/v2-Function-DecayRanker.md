@@ -39,7 +39,7 @@ public class DecayRanker extends CreateCollectionReq.Function
 
 ## Constructor\{#constructor}
 
-该构造器初始化一个新的 `DecayRanker` 实例，用于创建一个衰减排序器实例。
+此构造器会初始化一个新的 `DecayRanker` 实例，用于创建一个 decay ranker 实例。
 
 ```java
 DecayRanker.builder()
@@ -56,15 +56,15 @@ DecayRanker.builder()
     .build();
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `name(String name)`
 
-    函数的名称。该标识符用于在查询和集合中引用该函数。
+    函数的名称。该标识符用于在查询和集合中引用此函数。
 
 - `description(String description)`
 
-    函数用途的简要描述。这对于文档编写或在较大的项目中提高清晰度很有帮助，默认值为空字符串。
+    对函数用途的简要说明。这在较大的项目中可用于文档说明或提升可读性，默认为空字符串。
 
 - `functionType(FunctionType functionType)`
 
@@ -72,7 +72,7 @@ DecayRanker.builder()
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.RERANK` 的函数，该参数只接受一个字段名。
+    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.RERANK` 的函数，此参数仅接受一个字段名。
 
 - `params(Map<String, String> params)`
 
@@ -80,7 +80,7 @@ DecayRanker.builder()
 
 - `function(String function)`
 
-    要创建的衰减排序器类型。可选值包括：`gauss`、`exp` 和 `linear`。
+    要创建的 decay ranker 类型。可选值为：`gauss`、`exp` 和 `linear`。
 
 - `origin(Number origin)`
 
@@ -88,31 +88,31 @@ DecayRanker.builder()
 
 - `scale(Number scale)`
 
-    相关性下降到 `decay` 值时对应的距离或时间。用于控制相关性下降的速度。对于基于时间的衰减，时间单位必须与集合数据保持一致。较大的值会使相关性下降更平缓；较小的值会使下降更陡峭。
+    相关性下降到 `decay` 值时的距离或时间。它控制相关性下降的速度。对于基于时间的衰减，时间单位必须与集合数据保持一致。较大的值会使相关性下降更平缓；较小的值会使相关性下降更陡峭。
 
 - `offset(Number offset)`
 
-    在 `origin` 周围的“无衰减区”，该范围内的项保持满分（衰减分数 = 1.0）。
+    `origin` 周围的“无衰减区”，该区域内的项保持满分（decay score = 1.0）。
 
     对于基于时间的衰减，时间单位必须与集合数据保持一致。
 
-    位于距 `origin` 该范围内的项会保持最高相关性。
+    与 `origin` 距离处于该范围内的项将保持最高相关性。
 
 - `decay(Number decay)`
 
-    在 `scale` 距离处对应的分数值，用于控制曲线的陡峭程度。较低的值会产生更陡的下降曲线；较高的值会产生更平缓的下降曲线。
+    在 `scale` 距离处的分数值，用于控制曲线陡峭程度。较低的值会形成更陡峭的下降曲线；较高的值会形成更平缓的下降曲线。
 
     该值必须介于 0 和 1 之间。
 
-**RETURN TYPE：**
+**返回类型：**
 
 *DecayRanker*
 
-**RETURNS：**
+**返回：**
 
-一个衰减排序器实例。
+一个 decay ranker 实例。
 
-## Examples:\{#examples}
+## 示例：\{#examples}
 
 ```java
 import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;

@@ -12,8 +12,8 @@ type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - 什么是 milvus
-  - milvus 数据库
+  - what is milvus
+  - milvus database
   - milvus lite
   - milvus benchmark
   - zilliz
@@ -49,11 +49,11 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    持有目标集合的数据库名称。
+    保存目标集合的数据库名称。
 
 - `collectionName(String collectionName)`
 
@@ -87,7 +87,7 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 
     - **mmap_enabled** -
 
-        是否让 Milvus 将字段数据映射到内存中，而不是将其完全加载到内存。更多信息请参见 MMap-enabled Data Storage。
+        是否让 Milvus 将字段数据映射到内存中，而不是将其完全加载到内存中。详情请参见 MMap-enabled Data Storage。
 
 **返回：**
 

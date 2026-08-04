@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 collection 的属性重置为其默认值。 | Java | v2"
+description: "此操作会将指定集合的属性重置为默认值。 | Java | v2"
 type: docx
 token: OPPHd2AabonMIzxzfupcyNS9n1a
 sidebar_position: 15
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionProperties()
 
-此操作会将指定 collection 的属性重置为其默认值。
+此操作会将指定集合的属性重置为默认值。
 
 ```java
 public Void dropCollectionProperties(DropCollectionPropertiesReq request)
@@ -48,15 +48,15 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER 方法：**
 
 - `databaseName(String databaseName)`
 
-    持有目标 collection 的数据库名称。
+    保存目标集合的数据库名称。
 
 - `collectionName(String collectionName)`
 
-    目标 collection 的名称。
+    目标集合的名称。
 
 - `propertyKeys(List<String> propertyKeys)`
 
@@ -64,11 +64,11 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
     - **collection.ttl.seconds** -
 
-        collection 的生存时间（TTL），单位为秒。
+        集合的存活时间（TTL），单位为秒。
 
     - **mmap.enabled** -
 
-        是否为 collection 中所有字段的原始数据和索引启用 mmap。
+        是否为集合中所有字段的原始数据和索引启用 mmap。
 
 **返回：**
 

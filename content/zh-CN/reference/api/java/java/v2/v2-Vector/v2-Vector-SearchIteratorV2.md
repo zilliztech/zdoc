@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个迭代器，供您遍历搜索结果。尤其当搜索结果包含大量数据时，它会非常有用。 | Java | v2"
+description: "此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果中包含大量数据的场景。 | Java | v2"
 type: docx
 token: ZouQdklUsoSZEDxWkJvc90pvnmg
 sidebar_position: 11
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SearchIteratorV2()
 
-此操作会创建一个迭代器，供您遍历搜索结果。尤其当搜索结果包含大量数据时，它会非常有用。
+此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果中包含大量数据的场景。
 
 ```java
 public SearchIteratorV2 searchIteratorV2(SearchIteratorReqV2 request)
@@ -75,11 +75,11 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要查询的分区名称列表。
+    要指定的分区名称列表。
 
 - `vectorFieldName(String vectorFieldName)`
 
@@ -87,11 +87,11 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `topK(int topK)`
 
-    返回的前 K 个结果数量。
+    要返回的前 K 个结果数量。
 
 - `limit(long limit)`
 
-    返回结果的最大数量。
+    要返回的最大结果数量。
 
 - `filter(String filter)`
 
@@ -99,7 +99,7 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `outputFields(List<String> outputFields)`
 
-    要包含在输出中的字段名称列表。
+    输出中要包含的字段名称列表。
 
 - `vectors(List<BaseVector> vectors)`
 
@@ -107,11 +107,11 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    distance/score 的四舍五入小数位数。
+    对距离/分数进行舍入时保留的小数位数。
 
 - `searchParams(Map<String, Object> searchParams)`
 
-    以键值对形式提供的附加搜索参数。
+    以键值对形式提供的其他搜索参数。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -123,7 +123,7 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `timezone(String timezone)`
 
-    用于时间相关筛选的时区字符串。
+    用于时间相关筛选条件的时区字符串。
 
 - `groupByFieldName(String groupByFieldName)`
 
@@ -131,11 +131,11 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `batchSize(long batchSize)`
 
-    迭代器操作的批大小。
+    迭代器操作的批处理大小。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    参数化筛选器的模板变量值映射。
+    参数化筛选条件的模板变量值映射。
 
 **返回：**
 
@@ -164,8 +164,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-// 创建一个 SearchIteratorV2，用于分页向量搜索。
-// 相比 V1，推荐使用 V2：速度提升 20-30%，且召回率更高。
+// Create a SearchIteratorV2 for paginated vector search.
+// V2 is recommended over V1: 20-30% faster with better recall.
 SearchIteratorV2 searchIterator = client.searchIteratorV2(SearchIteratorReqV2.builder()
         .collectionName("my_collection")
         .outputFields(Arrays.asList("userAge"))
@@ -179,7 +179,7 @@ SearchIteratorV2 searchIterator = client.searchIteratorV2(SearchIteratorReqV2.bu
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build());
 
-// 遍历搜索结果
+// Iterate through search results
 int counter = 0;
 while (true) {
     List<SearchResp.SearchResult> res = searchIterator.next();

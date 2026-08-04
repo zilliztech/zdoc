@@ -37,11 +37,11 @@ import Admonition from '@theme/Admonition';
 public boolean clientIsReady()
 ```
 
-**返回：**
+**返回值：**
 
 *boolean*
 
-如果客户端已连接并且已就绪，则返回 **true**；否则返回 **false**。
+如果客户端已连接并就绪，则返回 **true**；否则返回 **false**。
 
 ## 示例\{#example}
 

@@ -12,9 +12,9 @@ type: docx
 token: EeWldhw4AoT5WqxO8GgcSfjEnpb
 sidebar_position: 3
 keywords: 
-  - 向量检索
-  - 音频相似性搜索
-  - 弹性向量数据库
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
@@ -48,7 +48,7 @@ dropSnapshot(DropSnapshotReq.builder()
 )
 ```
 
-**构建器方法：**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)`
 
@@ -60,17 +60,17 @@ dropSnapshot(DropSnapshotReq.builder()
 
 - `snapshotName(String snapshotName)`
 
-    快照名称。
+    快照的名称。
 
-**返回：**
+**RETURNS:**
 
 *void*
 
-**异常：**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或者服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或者服务器为此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

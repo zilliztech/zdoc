@@ -18,7 +18,7 @@ keywords:
   - 向量数据库教程
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getFunctions()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -45,7 +45,7 @@ public List<CreateCollectionReq.Function> getFunctions()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 
