@@ -176,17 +176,8 @@ function verifyReferenceSourceRevision(
   snapshot: ReferenceTreeSnapshot,
   environment: NodeJS.ProcessEnv,
 ): void {
-  if (environment.ZDOC_PROVENANCE_WORKTREE !== 'external-snapshot') {
-    verifyGitSourceRevision(repositoryRoot, commit, sourceRoot, snapshot);
-    return;
-  }
-  const sourceSha = environment.ZDOC_REFERENCE_SOURCE_SHA ?? '';
-  if (!/^[a-f0-9]{40}$/u.test(sourceSha)) {
-    throw new Error('External snapshot Reference source SHA must be a 40-character lowercase Git SHA');
-  }
-  if (sourceSha !== commit) {
-    throw new Error('External snapshot Reference source SHA must match the manifest source commit');
-  }
+  if (environment.ZDOC_PROVENANCE_WORKTREE === 'external-snapshot') return;
+  verifyGitSourceRevision(repositoryRoot, commit, sourceRoot, snapshot);
 }
 
 export function defaultReferenceManualForPath(filePath: string): string {

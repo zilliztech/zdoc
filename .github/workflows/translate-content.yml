@@ -60,7 +60,7 @@ jobs:
         env:
           TOOLING_SHA: ${{ inputs.tooling_sha }}
         run: node -e 'if(!/^[0-9a-f]{40}$/.test(process.env.TOOLING_SHA))throw new Error("TOOLING_SHA must be an exact lowercase 40-character SHA")'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
       - id: refs
         env:
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.target_branch }}', fetch-depth: 0 }
       - name: Restore exact validation tooling
         env:
@@ -127,8 +127,8 @@ jobs:
           const {execFileSync} = require('node:child_process')
           execFileSync('git', ['restore', '--source', process.env.TOOLING_SHA, '--', ...DOCS_REF_PATHS.tooling], {stdio: 'inherit'})
           NODE
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Validate complete selected locales

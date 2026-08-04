@@ -12,11 +12,32 @@ const {
   inspectSync,
   loadContract,
   pathMatches,
+  validateContract,
   verifySyncCandidate,
 } = require('./master-tooling-sync');
 
 const repositoryRoot = path.resolve(__dirname, '../..');
 const contract = loadContract({cwd: repositoryRoot});
+const inventoryPath = 'deploy/contracts/localization-inputs.inventory.json';
+
+function contractInput(overrides = {}) {
+  return {
+    schemaVersion: contract.schemaVersion,
+    enabled: contract.enabled,
+    targetBranch: contract.targetBranch,
+    syncBranchPrefix: contract.syncBranchPrefix,
+    validationWorkflow: contract.validationWorkflow,
+    devOwnedPaths: [...contract.devOwnedPaths],
+    masterAuthoritativePaths: [...contract.masterAuthoritativePaths],
+    candidateDerivedPaths: [inventoryPath],
+    ...overrides,
+  };
+}
+
+const derivedContract = Object.freeze({
+  ...contract,
+  candidateDerivedPaths: Object.freeze([inventoryPath]),
+});
 
 function git(cwd, ...args) {
   return execFileSync('git', args, {cwd, encoding: 'utf8'}).trim();
@@ -36,12 +57,30 @@ function fixture() {
   write(root, 'scripts/tool.js', 'base\n');
   write(root, 'content/en/page.md', 'base\n');
   write(root, 'config/reference-retirements.json', '{"schemaVersion":1}\n');
+  write(root, inventoryPath, `${JSON.stringify({schemaVersion: 1, paths: ['content/en/page.md']}, null, 2)}\n`);
   write(root, 'deploy/contracts/master-tooling-sync.json', JSON.stringify(contract));
   git(root, 'add', '.');
   git(root, 'commit', '-qm', 'base');
   const base = git(root, 'rev-parse', 'HEAD');
   git(root, 'branch', 'dev');
   return {root, base};
+}
+
+function fixtureInventoryBytes(root) {
+  const paths = git(root, 'ls-files', '-z', '--', 'content/en')
+    .split('\0')
+    .filter(Boolean)
+    .sort();
+  return `${JSON.stringify({schemaVersion: 1, paths}, null, 2)}\n`;
+}
+
+function checkFixtureInventory(root) {
+  const current = fs.existsSync(path.join(root, inventoryPath))
+    ? fs.readFileSync(path.join(root, inventoryPath), 'utf8')
+    : '';
+  if (current !== fixtureInventoryBytes(root)) {
+    throw new Error('Localization input inventory is stale; run fixture inventory generation');
+  }
 }
 
 function commit(root, branch, relative, contents, message) {
@@ -58,6 +97,21 @@ test('matches repository roots without matching sibling prefixes', () => {
   assert.equal(pathMatches('config/reference-retirements.json', 'config/reference-retirements.json'), true);
 });
 
+test('validates the exact candidate-derived ownership contract', () => {
+  const validated = validateContract(contractInput());
+  assert.deepEqual(validated.candidateDerivedPaths, [inventoryPath]);
+
+  const missing = contractInput();
+  delete missing.candidateDerivedPaths;
+  assert.throws(() => validateContract(missing), /keys must be exactly.*candidateDerivedPaths/);
+  assert.throws(() => validateContract({...contractInput(), unexpected: true}), /keys must be exactly/);
+  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: [inventoryPath, inventoryPath]})), /must not contain duplicates/);
+  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['../inventory.json']})), /unsafe repository path/);
+  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['deploy/contracts']})), /explicitly supported candidate-derived files/);
+  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['content/generated.json']})), /overlaps dev ownership/);
+  assert.throws(() => validateContract(contractInput({candidateDerivedPaths: ['config/reference-retirements.json']})), /overlaps master-authoritative ownership/);
+});
+
 test('accepts a normal tooling merge while preserving dev content byte-for-byte', () => {
   const {root} = fixture();
   const dev = commit(root, 'dev', 'content/en/page.md', 'dev content\n', 'publish content');
@@ -72,6 +126,55 @@ test('accepts a normal tooling merge while preserving dev content byte-for-byte'
   assert.deepEqual(verified.changedDevOwned, []);
   assert.deepEqual(verified.changedToolingOwned, []);
   assert.equal(fs.readFileSync(path.join(root, 'content/en/page.md'), 'utf8'), 'dev content\n');
+});
+
+test('accepts only declared candidate-derived inventory while retaining both ownership boundaries', () => {
+  const {root} = fixture();
+  const dev = commit(root, 'dev', 'content/en/dev-only.md', 'dev content\n', 'publish content');
+  const tooling = commit(root, 'master', 'scripts/tool.js', 'new tooling\n', 'update tooling');
+  git(root, 'switch', '-q', 'dev');
+  git(root, 'merge', '-q', '--no-ff', '--no-commit', tooling);
+
+  assert.throws(() => checkFixtureInventory(root), /inventory is stale/);
+  write(root, inventoryPath, fixtureInventoryBytes(root));
+  checkFixtureInventory(root);
+  git(root, 'add', inventoryPath);
+  git(root, 'commit', '-qm', 'merge tooling with derived inventory');
+  const candidate = git(root, 'rev-parse', 'HEAD');
+  const verified = verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: candidate, contract: derivedContract});
+  assert.deepEqual(verified.changedDevOwned, []);
+  assert.deepEqual(verified.changedToolingOwned, []);
+
+  git(root, 'switch', '-q', '-c', 'bad-tooling', candidate);
+  write(root, 'scripts/tool.js', 'candidate tooling\n');
+  git(root, 'add', 'scripts/tool.js');
+  git(root, 'commit', '-qm', 'mutate tooling');
+  assert.throws(
+    () => verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: git(root, 'rev-parse', 'HEAD'), contract: derivedContract}),
+    /does not match master outside dev-owned paths: scripts\/tool\.js/,
+  );
+
+  git(root, 'switch', '-q', '-c', 'bad-content', candidate);
+  write(root, 'content/en/dev-only.md', 'candidate content\n');
+  git(root, 'add', 'content/en/dev-only.md');
+  git(root, 'commit', '-qm', 'mutate content');
+  assert.throws(
+    () => verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: git(root, 'rev-parse', 'HEAD'), contract: derivedContract}),
+    /changes dev-owned paths: content\/en\/dev-only\.md/,
+  );
+
+  git(root, 'switch', '-q', '-c', 'forged-derived', candidate);
+  write(root, inventoryPath, '{"schemaVersion":1,"paths":[]}\n');
+  git(root, 'add', inventoryPath);
+  git(root, 'commit', '-qm', 'forge derived inventory');
+  verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: git(root, 'rev-parse', 'HEAD'), contract: derivedContract});
+  assert.throws(() => checkFixtureInventory(root), /inventory is stale/);
+
+  git(root, 'switch', '-q', '-c', 'deleted-derived', candidate);
+  git(root, 'rm', '-q', inventoryPath);
+  git(root, 'commit', '-qm', 'delete derived inventory');
+  verifySyncCandidate({cwd: root, devSha: dev, toolingSha: tooling, candidateSha: git(root, 'rev-parse', 'HEAD'), contract: derivedContract});
+  assert.throws(() => checkFixtureInventory(root), /inventory is stale/);
 });
 
 test('rejects master history that modifies dev-owned content', () => {
@@ -112,6 +215,12 @@ test('treats the retirement registry as master-authoritative and requires bootst
   const {root, base} = fixture();
   assert.equal(bootstrapStatus({cwd: root, devSha: base, contract}).bootstrapped, true);
   git(root, 'switch', '-q', 'dev');
+  const legacyContract = JSON.parse(JSON.stringify(contract));
+  delete legacyContract.candidateDerivedPaths;
+  write(root, 'deploy/contracts/master-tooling-sync.json', JSON.stringify(legacyContract));
+  git(root, 'add', 'deploy/contracts/master-tooling-sync.json');
+  git(root, 'commit', '-qm', 'retain the enabled pre-derived bootstrap contract');
+  assert.equal(bootstrapStatus({cwd: root, devSha: git(root, 'rev-parse', 'HEAD'), contract}).bootstrapped, true);
   git(root, 'rm', '-q', 'deploy/contracts/master-tooling-sync.json');
   git(root, 'commit', '-qm', 'pre-bootstrap dev');
   assert.equal(bootstrapStatus({cwd: root, devSha: git(root, 'rev-parse', 'HEAD'), contract}).bootstrapped, false);

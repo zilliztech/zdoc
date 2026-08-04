@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '17 */6 * * *'
   workflow_dispatch:
     inputs:
       tooling_sha:
@@ -30,7 +32,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Check out workflow tooling
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
@@ -42,10 +44,12 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags origin master dev
-          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            tooling_sha="$REQUESTED_TOOLING_SHA"
+          elif [[ "$GITHUB_EVENT_NAME" == push ]]; then
             tooling_sha="$GITHUB_SHA"
           else
-            tooling_sha="$REQUESTED_TOOLING_SHA"
+            tooling_sha=$(git rev-parse origin/master)
           fi
           [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ ]]
           git fetch --no-tags origin "$tooling_sha"
@@ -81,10 +85,11 @@ jobs:
           --github-output "$GITHUB_OUTPUT"
 
       - name: Compose exact merge candidate
-        id: candidate
+        id: compose
         if: steps.inspect.outputs.needs_sync == 'true'
         env:
           DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+          SYNC_BRANCH_PREFIX: ${{ steps.bootstrap.outputs.sync_branch_prefix }}
           TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
         run: |
           set -euo pipefail
@@ -99,28 +104,52 @@ jobs:
             -m "Tooling-SHA: ${TOOLING_SHA}" \
             -m "Dev-Baseline-SHA: ${DEV_SHA}" \
             -m "Workflow-Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          printf 'sync_branch=%s\n' "$sync_branch" >> "$GITHUB_OUTPUT"
+
+      - name: Install candidate tooling
+        if: steps.inspect.outputs.needs_sync == 'true'
+        uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        if: steps.inspect.outputs.needs_sync == 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Generate and verify candidate-derived files
+        id: candidate
+        if: steps.inspect.outputs.needs_sync == 'true'
+        env:
+          DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+          SYNC_BRANCH: ${{ steps.compose.outputs.sync_branch }}
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+        run: |
+          set -euo pipefail
+          derived_path=deploy/contracts/localization-inputs.inventory.json
+          pnpm install --frozen-lockfile
+          pnpm generate:localization-input-inventory
+          pnpm check:localization-input-inventory
+          unexpected_paths=$(git diff --name-only -- . ":(exclude)$derived_path")
+          test -z "$unexpected_paths"
+          git add -- deploy/contracts/localization-inputs.inventory.json
+          staged_paths=$(git diff --cached --name-only)
+          if [[ -n "$staged_paths" ]]; then
+            test "$staged_paths" = "$derived_path"
+          fi
+          git commit --amend --no-edit
           candidate_sha=$(git rev-parse HEAD)
           node scripts/docs-workflow/master-tooling-sync.js verify \
             --dev-sha "$DEV_SHA" \
             --tooling-sha "$TOOLING_SHA" \
             --candidate-sha "$candidate_sha"
-          printf 'sync_branch=%s\ncandidate_sha=%s\n' "$sync_branch" "$candidate_sha" >> "$GITHUB_OUTPUT"
-
-      - name: Install candidate tooling
-        if: steps.inspect.outputs.needs_sync == 'true'
-        uses: pnpm/action-setup@v4
-
-      - name: Set up Node.js
-        if: steps.inspect.outputs.needs_sync == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: pnpm
+          test "$(git rev-parse HEAD)" = "$candidate_sha"
+          test -z "$(git status --porcelain=v1 --untracked-files=no)"
+          printf 'sync_branch=%s\ncandidate_sha=%s\n' "$SYNC_BRANCH" "$candidate_sha" >> "$GITHUB_OUTPUT"
 
       - name: Run focused candidate validation
         if: steps.inspect.outputs.needs_sync == 'true'
         run: |
-          pnpm install --frozen-lockfile
           node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs
           pnpm check:localization-input-inventory
           pnpm docs-tooling validate-revision-inventory --site en
@@ -138,6 +167,7 @@ jobs:
           set -euo pipefail
           git fetch --no-tags origin dev
           test "$(git rev-parse origin/dev)" = "$DEV_SHA"
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
           git push origin "HEAD:refs/heads/$SYNC_BRANCH"
           body_file="$RUNNER_TEMP/master-tooling-sync-pr.md"
           printf '%s\n' \
