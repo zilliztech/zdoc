@@ -28,6 +28,13 @@ test('scheduled tooling sync resolves the current master SHA without dispatch in
   assert.match(source, /tooling_sha=\$\(git rev-parse origin\/master\)/);
 });
 
+test('merge candidate receives the reviewed sync branch prefix', async () => {
+  const source = await readFile(path.join(repositoryRoot, '.github/workflows/sync-master-tooling-to-dev.yml'), 'utf8');
+  const workflow = yaml.load(source);
+  const candidate = workflow.jobs.sync.steps.find(step => step.id === 'candidate');
+  assert.equal(candidate.env.SYNC_BRANCH_PREFIX, '${{ steps.bootstrap.outputs.sync_branch_prefix }}');
+});
+
 test('master tooling sync validates exact ownership, both sites, and dev identity before merge', async () => {
   const source = await readFile(path.join(repositoryRoot, '.github/workflows/sync-master-tooling-to-dev.yml'), 'utf8');
   assert.match(source, /git merge --no-ff --no-commit "\$TOOLING_SHA"/);

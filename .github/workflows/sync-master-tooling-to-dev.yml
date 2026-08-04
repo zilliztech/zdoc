@@ -89,6 +89,7 @@ jobs:
         if: steps.inspect.outputs.needs_sync == 'true'
         env:
           DEV_SHA: ${{ steps.refs.outputs.dev_sha }}
+          SYNC_BRANCH_PREFIX: ${{ steps.bootstrap.outputs.sync_branch_prefix }}
           TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
         run: |
           set -euo pipefail
