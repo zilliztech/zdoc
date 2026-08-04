@@ -200,6 +200,14 @@ test('site classifier checks out only the shallow contract tree and fetches a mi
   assert.match(comparison.run, /git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/)
 })
 
+test('site classifier disables package-manager caching when pnpm is not installed', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/site-validation.yml', 'utf8'))
+  const setupNode = workflow.jobs.classify.steps.find(step => step.name === 'Set up Node.js')
+
+  assert.equal(setupNode.uses, 'actions/setup-node@v5')
+  assert.equal(setupNode.with['package-manager-cache'], false)
+})
+
 test('workflow policy rejects classifier checkout regressions that restore whole-repository fetches', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
