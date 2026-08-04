@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractId": "ja-JP-2026-08-04-p0",
+  "contractId": "ja-JP-2026-08-04-p0.1",
   "target": "ja-JP",
   "locale": "ja-JP",
   "styleRules": [
@@ -30,6 +30,7 @@
     "Dedicated",
     "AUTOINDEX"
   ],
+  "contextualTerms": [],
   "examples": [
     {
       "id": "ja-core-terms",

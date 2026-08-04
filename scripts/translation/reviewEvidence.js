@@ -20,6 +20,36 @@ const ISSUE_TYPES = new Set([
 ])
 const IDENTICAL_QUOTES_INVALID_FOR = new Set(['protected_content', 'link_or_path', 'mdx_structure'])
 
+const REVIEW_RESPONSE_JSON_SCHEMA = deepFreeze({
+  name: 'translation_review_evidence',
+  strict: true,
+  schema: {
+    type: 'object',
+    additionalProperties: false,
+    required: ['pass', 'issues'],
+    properties: {
+      pass: {type: 'boolean'},
+      issues: {
+        type: 'array',
+        maxItems: 100,
+        items: {
+          type: 'object',
+          additionalProperties: false,
+          required: ['severity', 'type', 'location', 'source_quote', 'draft_quote', 'comment'],
+          properties: {
+            severity: {type: 'string', enum: ['high', 'medium', 'low']},
+            type: {type: 'string', enum: [...ISSUE_TYPES]},
+            location: {type: 'string', minLength: 1, maxLength: 2000},
+            source_quote: {type: 'string', minLength: 1, maxLength: 2000},
+            draft_quote: {type: 'string', minLength: 1, maxLength: 2000},
+            comment: {type: 'string', minLength: 1, maxLength: 2000},
+          },
+        },
+      },
+    },
+  },
+})
+
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value
   for (const child of Object.values(value)) deepFreeze(child)
@@ -128,6 +158,7 @@ function parseAndValidateReviewEvidence(text, options) {
 }
 
 module.exports = {
+  REVIEW_RESPONSE_JSON_SCHEMA,
   parseAndValidateReviewEvidence,
   parseReviewEvidence,
   validateReviewEvidence,

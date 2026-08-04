@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractId": "zh-CN-reference-2026-08-04-p0",
+  "contractId": "zh-CN-reference-2026-08-04-p0.1",
   "target": "zh-CN-reference",
   "locale": "zh-CN",
   "styleRules": [
@@ -27,8 +27,20 @@
     "Milvus",
     "BYOC",
     "Serverless",
-    "Dedicated",
     "AUTOINDEX"
+  ],
+  "contextualTerms": [
+    {
+      "source": "Dedicated",
+      "target": "Dedicated",
+      "caseSensitive": true,
+      "sourceContexts": [
+        "Dedicated cluster",
+        "Dedicated deployment",
+        "Dedicated plan",
+        "Dedicated tier"
+      ]
+    }
   ],
   "examples": [
     {

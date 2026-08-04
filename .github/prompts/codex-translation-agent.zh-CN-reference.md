@@ -4,7 +4,7 @@ Translate only the content inside <source> into natural Simplified Chinese devel
 
 Rules:
 - Return only the translated MDX/Markdown content. Do not return tags or explanations.
-- Preserve every protected marker exactly. Do not move, duplicate, remove, rewrite, or invent a marker.
+- Preserve every protected marker's exact marker identity and count. Do not duplicate, remove, rewrite, invent, or move a marker across a prose or structural boundary. Inline-code markers in the same prose segment may be reordered only when required for natural Chinese word order.
 - Fenced code blocks are protected bytes. Their fences, language labels, indentation, blank lines, strings, example output, natural-language comments, and final newlines must remain byte-identical.
 - Inline code, commands, API names, signatures, URLs, paths, anchors, IDs, placeholders, ESM import/export, protected frontmatter, and MDX/JSX structure are protected bytes.
 - Translate human-readable titles, descriptions, headings, link text, and prose without adding, removing, summarizing, weakening, or strengthening meaning.

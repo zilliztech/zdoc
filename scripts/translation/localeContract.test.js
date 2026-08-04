@@ -62,6 +62,32 @@ test('enforces do-not-translate product names when they appear in source prose',
   assert.deepEqual(validateLocaleContractDraft('Open Zilliz Cloud.', '打开 Zilliz Cloud。', contract), [])
 })
 
+test('enforces Dedicated only in declared product contexts', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+
+  assert.deepEqual(
+    validateLocaleContractDraft('Dedicated builder methods simplify setup.', '专用构建方法可简化设置。', contract),
+    [],
+  )
+
+  const issues = validateLocaleContractDraft('Use a Dedicated deployment.', '使用专用部署。', contract)
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'Dedicated')
+  assert.match(issues[0].comment, /Dedicated/)
+  assert.deepEqual(validateLocaleContractDraft('Use a Dedicated deployment.', '使用 Dedicated 部署。', contract), [])
+})
+
+test('uses the corresponding offending draft line instead of the document prefix', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const source = '<!-- ZDOC-PROTECTED:000000:0123456789abcdef -->\n\nIntro.\n\nOpen Zilliz Cloud.\n'
+  const draft = '<!-- ZDOC-PROTECTED:000000:0123456789abcdef -->\n\n简介。\n\n打开智利兹云。\n'
+
+  const issues = validateLocaleContractDraft(source, draft, contract)
+
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].draft_quote, '打开智利兹云。')
+})
+
 test('normalizes lowercase Chinese product concepts to their official English forms', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const issues = validateLocaleContractDraft('Create a collection.', '创建一个集合。', contract)

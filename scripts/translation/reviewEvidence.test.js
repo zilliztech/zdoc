@@ -5,6 +5,7 @@ const test = require('node:test')
 
 const {loadLocaleContract} = require('./localeContract')
 const {
+  REVIEW_RESPONSE_JSON_SCHEMA,
   parseAndValidateReviewEvidence,
   parseReviewEvidence,
   validateReviewEvidence,
@@ -21,6 +22,18 @@ function issue(overrides = {}) {
     ...overrides,
   }
 }
+
+test('exports the exact strict reviewer JSON Schema used by providers', () => {
+  assert.equal(REVIEW_RESPONSE_JSON_SCHEMA.strict, true)
+  assert.equal(REVIEW_RESPONSE_JSON_SCHEMA.schema.additionalProperties, false)
+  assert.deepEqual(REVIEW_RESPONSE_JSON_SCHEMA.schema.required, ['pass', 'issues'])
+  const issueSchema = REVIEW_RESPONSE_JSON_SCHEMA.schema.properties.issues.items
+  assert.equal(issueSchema.additionalProperties, false)
+  assert.deepEqual(issueSchema.required, ['severity', 'type', 'location', 'source_quote', 'draft_quote', 'comment'])
+  assert.deepEqual(issueSchema.properties.severity.enum, ['high', 'medium', 'low'])
+  assert.equal(Object.isFrozen(REVIEW_RESPONSE_JSON_SCHEMA), true)
+  assert.equal(Object.isFrozen(issueSchema.properties), true)
+})
 
 test('parses only the exact reviewer schema', () => {
   assert.deepEqual(parseReviewEvidence('{"pass":true,"issues":[]}'), {pass: true, issues: []})

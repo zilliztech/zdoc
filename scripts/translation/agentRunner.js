@@ -9,7 +9,7 @@ const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-t
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
-const {parseAndValidateReviewEvidence} = require('./reviewEvidence')
+const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence} = require('./reviewEvidence')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
@@ -129,17 +129,24 @@ async function createProviderCall(agentConfigs, options = {}) {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), timeoutMs)
       try {
+        const requestBody = {
+          model: config.model,
+          messages,
+          temperature: agent === 'review' ? 0 : 0.1,
+        }
+        if (agent === 'review' && config.structuredOutput === true) {
+          requestBody.response_format = {
+            type: 'json_schema',
+            json_schema: REVIEW_RESPONSE_JSON_SCHEMA,
+          }
+        }
         const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${config.apiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            model: config.model,
-            messages,
-            temperature: agent === 'review' ? 0 : 0.1,
-          }),
+          body: JSON.stringify(requestBody),
           signal: controller.signal,
         })
         const data = await res.json().catch(() => ({}))
@@ -188,11 +195,12 @@ function summarizeFailedResult(result) {
 async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
+  let retryFeedback = null
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     let result
     try {
-      result = await options.processItem(item, attempt)
+      result = await options.processItem(item, attempt, retryFeedback)
     } catch (error) {
       result = { ...item, status: 'failed', error: String(error?.message || error) }
     }
@@ -201,7 +209,9 @@ async function processItemWithRetry(item, options) {
       return failures.length ? { ...result, attempts: attempt + 1, retryFailures: failures } : result
     }
 
-    failures.push({ attempt: attempt + 1, error: summarizeFailedResult(result) })
+    const failure = summarizeFailedResult(result)
+    failures.push({ attempt: attempt + 1, error: failure })
+    retryFeedback = /Protected (?:marker|content)/i.test(failure) ? failure.slice(0, 1000) : null
     if (attempt < maxRetries) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
@@ -245,16 +255,19 @@ function loadSystemPrompt(target, promptName) {
   return `${loadPrompt(promptName)}\n\n${formatLocaleContract(loadLocaleContract(target))}`
 }
 
-function buildTranslationMessages({ target, sourcePath, sourceContent, locale, chunkContext }) {
+function buildTranslationMessages({ target, sourcePath, sourceContent, locale, chunkContext, retryFeedback }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const instruction = chunkContext
     ? 'Translate this consecutive MDX/Markdown section:'
     : 'Translate this complete MDX/Markdown file:'
+  const retry = retryFeedback
+    ? `\n<retry_feedback>\n${String(retryFeedback).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}\n</retry_feedback>`
+    : ''
   return [
     { role: 'system', content: loadSystemPrompt(target, promptNamesFor(target).translation) },
     {
       role: 'user',
-      content: `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}${instruction}\n</translation_context>\n\n<source>\n${sourceContent}</source>`,
+      content: `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}${instruction}\n</translation_context>${retry}\n\n<source>\n${sourceContent}</source>`,
     },
   ]
 }
@@ -324,13 +337,14 @@ async function translateAndReviewUnit({
   callModel,
   maxReviewRounds,
   chunkContext,
+  retryFeedback,
 }) {
   const localeContract = loadLocaleContract(target)
   const protectedSource = protectTranslationInput(sourceContent)
   const modelSourceContent = protectedSource.content
   const initialModelContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
     agent: 'translation',
-    messages: buildTranslationMessages({ target, sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
+    messages: buildTranslationMessages({ target, sourcePath, sourceContent: modelSourceContent, locale, chunkContext, retryFeedback }),
   })))
   let translatedContent = restoreProtectedContent(initialModelContent, protectedSource.manifest)
   let protectedErrors = validateProtectedContent(sourceContent, translatedContent)
@@ -384,6 +398,7 @@ async function processManifestItem({
   chunkTargetChars = DEFAULT_TARGET_CHARS,
   chunkMaxChars = DEFAULT_MAX_CHARS,
   validate = validateTranslatedContent,
+  retryFeedback = null,
 }) {
   if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
   const absSourcePath = path.join(siteDir, item.sourcePath)
@@ -402,6 +417,7 @@ async function processManifestItem({
       callModel,
       maxReviewRounds,
       chunkContext: null,
+      retryFeedback,
     })
     if (!shell.review.pass) return { ...item, status: 'failed', review: shell.review, validationErrors: [] }
     const specResult = await translateRestSpecs({
@@ -445,6 +461,7 @@ async function processManifestItem({
       callModel,
       maxReviewRounds,
       chunkContext,
+      retryFeedback,
     })
     lastReview = unit.review
     if (!unit.review.pass) {
@@ -563,6 +580,7 @@ function loadAgentConfigsFromEnv() {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
       apiKey: process.env.REVIEW_AGENT_API_KEY,
       model: process.env.REVIEW_AGENT_MODEL,
+      structuredOutput: String(process.env.REVIEW_AGENT_STRUCTURED_OUTPUT || '').toLowerCase() === 'true',
     },
     correction: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
@@ -865,7 +883,7 @@ async function main() {
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           log: console,
-          processItem: () => withTimeout(
+          processItem: (_item, _attempt, retryFeedback) => withTimeout(
             processManifestItem({
               siteDir,
               item: targetItem,
@@ -873,6 +891,7 @@ async function main() {
               maxReviewRounds,
               chunkTargetChars: chunkLimits.targetChars,
               chunkMaxChars: chunkLimits.maxChars,
+              retryFeedback,
             }),
             fileTimeoutMs,
             `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,

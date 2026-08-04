@@ -267,12 +267,38 @@ function markerFor(index, category, original) {
 }
 
 function manifestEntries(source) {
-  return protectedSpans(source).map((span, index) => {
+  const entries = protectedSpans(source).map((span, index) => {
     const original = source.slice(span.start, span.end)
     const newline = original.endsWith('\r\n') ? '\r\n' : original.endsWith('\n') ? '\n' : ''
     const marker = markerFor(index, span.category, original)
-    return {...span, marker, transport: `${marker}${newline}`, original}
+    const lineIndex = source.slice(0, span.start).split('\n').length - 1
+    return {...span, marker, transport: `${marker}${newline}`, original, lineIndex}
   })
+  const grouped = entries.map((entry, index) => ({
+    ...entry,
+    orderGroup: `fixed:${index}`,
+    reorderPolicy: 'fixed',
+  }))
+  for (let start = 0; start < grouped.length;) {
+    if (grouped[start].category !== 'inline_code') {
+      start += 1
+      continue
+    }
+    let end = start + 1
+    while (
+      end < grouped.length &&
+      grouped[end].category === 'inline_code' &&
+      grouped[end].lineIndex === grouped[start].lineIndex
+    ) end += 1
+    if (end - start > 1) {
+      for (let index = start; index < end; index++) {
+        grouped[index].orderGroup = `inline-line:${grouped[start].lineIndex}:${start}`
+        grouped[index].reorderPolicy = 'within_group'
+      }
+    }
+    start = end
+  }
+  return grouped
 }
 
 function protectTranslationInput(sourceContent) {
@@ -287,7 +313,11 @@ function protectTranslationInput(sourceContent) {
     offset = entry.end
   }
   content += source.slice(offset)
-  return deepFreeze({content, manifest: {schemaVersion: 1, entries}})
+  return deepFreeze({content, manifest: {schemaVersion: 2, entries}})
+}
+
+function compressed(values) {
+  return values.filter((value, index) => index === 0 || value !== values[index - 1])
 }
 
 function restoreProtectedContent(modelContent, manifest) {
@@ -297,8 +327,19 @@ function restoreProtectedContent(modelContent, manifest) {
   const expectedMarkers = manifest.entries.map(entry => entry.marker)
   const withoutExactMarkers = restored.replace(new RegExp(MARKER_SOURCE, 'g'), '')
   if (withoutExactMarkers.includes(MARKER_NAMESPACE)) throw new Error('Protected marker was altered or forged during translation')
-  if (actualMarkers.length !== expectedMarkers.length) throw new Error('Protected marker was missing, duplicated, or invented during translation')
-  if (actualMarkers.some((marker, index) => marker !== expectedMarkers[index])) throw new Error('Protected markers were altered or reordered during translation')
+  const entryByMarker = new Map(manifest.entries.map(entry => [entry.marker, entry]))
+  const markerId = marker => marker.match(/ZDOC-PROTECTED:(\d{6})/)?.[1] || marker.slice(0, 80)
+  const unknown = [...new Set(actualMarkers.filter(marker => !entryByMarker.has(marker)).map(markerId))]
+  if (unknown.length) throw new Error(`Unknown protected marker(s): ${unknown.join(', ')}`)
+  const actualCounts = new Map()
+  for (const marker of actualMarkers) actualCounts.set(marker, (actualCounts.get(marker) || 0) + 1)
+  const duplicate = expectedMarkers.filter(marker => (actualCounts.get(marker) || 0) > 1).map(markerId)
+  if (duplicate.length) throw new Error(`Duplicate protected marker(s): ${duplicate.join(', ')}`)
+  const missing = expectedMarkers.filter(marker => !actualCounts.has(marker)).map(markerId)
+  if (missing.length) throw new Error(`Missing protected marker(s): ${missing.join(', ')}`)
+  const expectedGroups = compressed(manifest.entries.map(entry => entry.orderGroup || entry.marker))
+  const actualGroups = compressed(actualMarkers.map(marker => entryByMarker.get(marker).orderGroup || marker))
+  if (JSON.stringify(actualGroups) !== JSON.stringify(expectedGroups)) throw new Error('Protected markers crossed an allowed order group during translation')
   for (const entry of manifest.entries) {
     if (restored.split(entry.transport).length !== 2) throw new Error(`Protected ${entry.category} marker transport was changed during translation`)
     restored = restored.replace(entry.transport, () => entry.original)
@@ -311,19 +352,44 @@ function digest(value) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 12)
 }
 
+function protectedEntryKey(entry) {
+  return `${entry.category}\0${entry.original}`
+}
+
+function unmatchedEntries(entries, oppositeEntries) {
+  const available = new Map()
+  for (const entry of oppositeEntries) {
+    const key = protectedEntryKey(entry)
+    available.set(key, (available.get(key) || 0) + 1)
+  }
+  return entries.filter(entry => {
+    const key = protectedEntryKey(entry)
+    const count = available.get(key) || 0
+    if (!count) return true
+    available.set(key, count - 1)
+    return false
+  })
+}
+
 function validateProtectedContent(sourceContent, targetContent) {
   const sourceEntries = manifestEntries(String(sourceContent))
   const targetEntries = manifestEntries(String(targetContent))
+  const unmatchedSource = unmatchedEntries(sourceEntries, targetEntries)
+  const unmatchedTarget = unmatchedEntries(targetEntries, sourceEntries)
   const errors = []
-  const length = Math.max(sourceEntries.length, targetEntries.length)
-  for (let index = 0; index < length; index++) {
-    const source = sourceEntries[index]
-    const target = targetEntries[index]
-    if (source && target && source.category === target.category && source.original === target.original) continue
-    const category = source?.category || target?.category || 'unknown'
-    const sourceDigest = source ? digest(source.original) : 'missing'
-    const targetDigest = target ? digest(target.original) : 'missing'
-    errors.push(`Protected content mismatch for ${category} ${index + 1}: source sha256 ${sourceDigest}, target sha256 ${targetDigest}`)
+  const categories = [...new Set([
+    ...unmatchedSource.map(entry => entry.category),
+    ...unmatchedTarget.map(entry => entry.category),
+  ])]
+  for (const category of categories) {
+    const source = unmatchedSource.filter(entry => entry.category === category)
+    const target = unmatchedTarget.filter(entry => entry.category === category)
+    const paired = Math.min(source.length, target.length)
+    for (let index = 0; index < paired; index++) {
+      errors.push(`Protected content mismatch for ${category}: source sha256 ${digest(source[index].original)}, target sha256 ${digest(target[index].original)}`)
+    }
+    for (const entry of source.slice(paired)) errors.push(`Missing protected ${category}: source sha256 ${digest(entry.original)}`)
+    for (const entry of target.slice(paired)) errors.push(`Unexpected protected ${category}: target sha256 ${digest(entry.original)}`)
   }
   return Object.freeze(errors)
 }

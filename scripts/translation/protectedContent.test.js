@@ -55,6 +55,25 @@ test('fails closed when protected markers are missing, altered, duplicated, reor
   }
 })
 
+test('identifies missing, duplicate, and unknown marker identities', () => {
+  const source = 'Use `alpha` and `beta`.\n'
+  const protectedInput = protectTranslationInput(source)
+  const [alpha, beta] = protectedInput.manifest.entries
+
+  assert.throws(
+    () => restoreProtectedContent(protectedInput.content.replace(alpha.transport, ''), protectedInput.manifest),
+    /missing.*000000/i,
+  )
+  assert.throws(
+    () => restoreProtectedContent(protectedInput.content.replace(beta.transport, alpha.transport), protectedInput.manifest),
+    /duplicate.*000000/i,
+  )
+  assert.throws(
+    () => restoreProtectedContent(protectedInput.content.replace(beta.marker, '<!-- ZDOC-PROTECTED:999999:0123456789abcdef -->'), protectedInput.manifest),
+    /unknown.*999999/i,
+  )
+})
+
 test('protects inline code, ESM, URLs, paths, anchors, placeholders, JSX, comments, and frontmatter metadata', () => {
   const source = [
     '---',
@@ -125,6 +144,26 @@ test('reports a real protected mismatch but not an identical Go frontmatter toke
   assert.doesNotMatch(errors[0], /changed from same-token to same-token/i)
 })
 
+test('reports one unexpected protected entry without cascading positional mismatches', () => {
+  const source = [
+    '## Request\\{#request}',
+    '',
+    'Use `client.search()`.',
+    '',
+    '```java',
+    '// Keep this block',
+    '```',
+    '',
+  ].join('\n')
+  const target = source.replace('Use `client.search()`.', '### 参数\\{#invented-anchor}\n\n使用 `client.search()`。')
+
+  const errors = validateProtectedContent(source, target)
+
+  assert.equal(errors.length, 1)
+  assert.match(errors[0], /Unexpected protected heading_anchor/i)
+  assert.doesNotMatch(errors[0], /fenced_code_block|inline_code/i)
+})
+
 test('protects a multiline ESM import as one byte-identical statement', () => {
   const source = [
     'import {',
@@ -148,6 +187,51 @@ test('restores inline code containing a dollar sign without replacement expansio
   const protectedInput = protectTranslationInput(source)
 
   assert.equal(restoreProtectedContent(protectedInput.content, protectedInput.manifest), source)
+})
+
+test('allows same-line inline code markers to follow natural target-language order', () => {
+  const source = 'Set `maxLength` only when the field type is `VarChar`.\n'
+  const protectedInput = protectTranslationInput(source)
+  const [maxLength, varChar] = protectedInput.manifest.entries.filter(entry => entry.category === 'inline_code')
+  const reordered = protectedInput.content
+    .replace(maxLength.transport, '__MAX_LENGTH__')
+    .replace(varChar.transport, maxLength.transport)
+    .replace('__MAX_LENGTH__', varChar.transport)
+    .replace('Set ', '字段类型为 ')
+    .replace(' only when the field type is ', ' 时才设置 ')
+    .replace('.\n', '。\n')
+
+  assert.equal(restoreProtectedContent(reordered, protectedInput.manifest), '字段类型为 `VarChar` 时才设置 `maxLength`。\n')
+})
+
+test('rejects inline code marker reordering across source lines', () => {
+  const source = 'First use `alpha`.\nThen use `beta`.\n'
+  const protectedInput = protectTranslationInput(source)
+  const [alpha, beta] = protectedInput.manifest.entries.filter(entry => entry.category === 'inline_code')
+  const reordered = protectedInput.content
+    .replace(alpha.transport, '__ALPHA__')
+    .replace(beta.transport, alpha.transport)
+    .replace('__ALPHA__', beta.transport)
+
+  assert.throws(
+    () => restoreProtectedContent(reordered, protectedInput.manifest),
+    /order group/i,
+  )
+})
+
+test('rejects same-line inline code reordering across a fixed marker boundary', () => {
+  const source = 'Compare `alpha` before {#stable-anchor} and `beta` after it.\n'
+  const protectedInput = protectTranslationInput(source)
+  const [alpha, beta] = protectedInput.manifest.entries.filter(entry => entry.category === 'inline_code')
+  const reordered = protectedInput.content
+    .replace(alpha.transport, '__ALPHA__')
+    .replace(beta.transport, alpha.transport)
+    .replace('__ALPHA__', beta.transport)
+
+  assert.throws(
+    () => restoreProtectedContent(reordered, protectedInput.manifest),
+    /order group/i,
+  )
 })
 
 test('keeps human-readable frontmatter keyword list values translatable', () => {

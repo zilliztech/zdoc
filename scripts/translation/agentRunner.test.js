@@ -25,6 +25,7 @@ const {
   withTimeout,
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
+const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
@@ -108,6 +109,8 @@ function testMessageBuildersSelectPromptsFromTarget() {
   }
   assert.match(buildTranslationMessages(common)[0].content, /Chinese/i)
   assert.match(buildTranslationMessages(common)[0].content, /zh-CN-reference-2026-08-04-p0/)
+  assert.match(buildTranslationMessages(common)[0].content, /same prose segment/i)
+  assert.match(buildTranslationMessages(common)[0].content, /exact marker identity and count/i)
   assert.match(buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content, /Simplified Chinese/i)
   assert.match(buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content, /zh-CN-reference-2026-08-04-p0/)
   assert.match(buildCorrectionMessages({
@@ -116,6 +119,11 @@ function testMessageBuildersSelectPromptsFromTarget() {
     review: {pass: false, issues: [{severity: 'high', type: 'style', comment: 'Translate the heading.'}]},
   })[0].content, /Correction Agent for the Simplified Chinese/)
   assert.match(buildCorrectionMessages({
+    ...common,
+    translatedContent: '# Tool\n',
+    review: {pass: false, issues: []},
+  })[0].content, /same prose segment/i)
+  assert.match(buildCorrectionMessages({
     target: 'ja-JP',
     sourcePath: 'content/en/guides/tutorials/test.md',
     sourceContent: '# Test\n',
@@ -123,6 +131,20 @@ function testMessageBuildersSelectPromptsFromTarget() {
     review: {pass: false, issues: []},
     locale: 'ja-JP',
   })[0].content, /Correction Agent for Japanese/)
+}
+
+function testTranslationMessagesIncludeOnlyExplicitRetryFeedback() {
+  const common = {
+    target: 'zh-CN-reference',
+    sourcePath: 'content/en/reference/api/java/test.md',
+    sourceContent: '# Reference\n',
+    locale: 'zh-CN',
+  }
+  assert.doesNotMatch(buildTranslationMessages(common).at(-1).content, /<retry_feedback>/)
+  assert.match(
+    buildTranslationMessages({...common, retryFeedback: 'Protected marker 000042 was missing during translation'}).at(-1).content,
+    /<retry_feedback>\nProtected marker 000042 was missing during translation\n<\/retry_feedback>/,
+  )
 }
 
 function testReferenceLandingMessagesContainNavigationContract() {
@@ -481,6 +503,46 @@ async function testProviderCallRetriesTransientFailures() {
   }
 }
 
+async function testProviderStructuredOutputIsCapabilityGated() {
+  const originalFetch = global.fetch
+  const bodies = []
+  global.fetch = async (_url, options = {}) => {
+    bodies.push(JSON.parse(options.body))
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({ choices: [{ message: { content: '{"pass":true,"issues":[]}' } }] }),
+    }
+  }
+
+  try {
+    const callModel = await createProviderCall({
+      review: {
+        baseUrl: 'https://example.com',
+        apiKey: 'test-key',
+        model: 'review-model',
+        structuredOutput: true,
+      },
+      translation: {
+        baseUrl: 'https://example.com',
+        apiKey: 'test-key',
+        model: 'translation-model',
+      },
+    })
+
+    await callModel({agent: 'review', messages: [{role: 'user', content: 'review'}]})
+    await callModel({agent: 'translation', messages: [{role: 'user', content: 'translate'}]})
+
+    assert.deepEqual(bodies[0].response_format, {
+      type: 'json_schema',
+      json_schema: REVIEW_RESPONSE_JSON_SCHEMA,
+    })
+    assert.equal(Object.hasOwn(bodies[1], 'response_format'), false)
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
 async function testProviderCallTimesOutHungRequests() {
   const originalFetch = global.fetch
   let calls = 0
@@ -820,6 +882,35 @@ async function testFileRetryRecoversFailedTranslation() {
   assert.equal(result.attempts, 2)
   assert.deepEqual(result.retryFailures, [{ attempt: 1, error: 'review failed' }])
   assert.equal(warnings.length, 1)
+}
+
+async function testFileRetryFeedsOnlyProtectedValidationFailuresBackToTranslation() {
+  const feedback = []
+  const result = await processItemWithRetry({sourcePath: 'docs/protected-retry.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async (item, _attempt, retryFeedback) => {
+      feedback.push(retryFeedback || null)
+      if (feedback.length === 1) return {...item, status: 'failed', error: 'Protected marker 000042 was missing during translation'}
+      return {...item, status: 'translated'}
+    },
+  })
+
+  assert.equal(result.status, 'translated')
+  assert.deepEqual(feedback, [null, 'Protected marker 000042 was missing during translation'])
+
+  const semanticFeedback = []
+  await processItemWithRetry({sourcePath: 'docs/semantic-retry.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async (item, attempt, retryFeedback) => {
+      semanticFeedback.push(retryFeedback || null)
+      return attempt === 0
+        ? {...item, status: 'failed', error: 'review failed'}
+        : {...item, status: 'translated'}
+    },
+  })
+  assert.deepEqual(semanticFeedback, [null, null])
 }
 
 async function testFileRetryRecordsPersistentFailure() {
@@ -1440,11 +1531,13 @@ async function run() {
   testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
   testRecoveryIdentityUsesAuthoritativeToolingSha()
   testMessageBuildersSelectPromptsFromTarget()
+  testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
   await testProviderCallRetriesTransientFailures()
+  await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
   testRetryableProviderErrors()
@@ -1463,6 +1556,7 @@ async function run() {
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
   await testWorkerPoolIsolatesItemFailures()
   await testFileRetryRecoversFailedTranslation()
+  await testFileRetryFeedsOnlyProtectedValidationFailuresBackToTranslation()
   await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseReferenceProgressStateUsesItsTargetManifest()

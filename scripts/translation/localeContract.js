@@ -3,8 +3,9 @@
 const fs = require('node:fs')
 const path = require('node:path')
 
-const ROOT_KEYS = ['schemaVersion', 'contractId', 'target', 'locale', 'styleRules', 'mandatoryTerms', 'forbiddenTranslations', 'doNotTranslate', 'examples']
+const ROOT_KEYS = ['schemaVersion', 'contractId', 'target', 'locale', 'styleRules', 'mandatoryTerms', 'forbiddenTranslations', 'doNotTranslate', 'contextualTerms', 'examples']
 const TERM_KEYS = ['source', 'target', 'caseSensitive']
+const CONTEXTUAL_TERM_KEYS = ['source', 'target', 'caseSensitive', 'sourceContexts']
 const FORBIDDEN_KEYS = ['source', 'targets']
 const EXAMPLE_KEYS = ['id', 'source', 'bad', 'good', 'explanation']
 const CONTRACT_PATHS = Object.freeze({
@@ -43,6 +44,23 @@ function validateLocaleContract(value, expectedTarget = value?.target) {
   if (value.target !== expectedTarget) throw new Error(`Locale contract target must be ${expectedTarget}`)
   stringArray(value.styleRules, 'Locale contract styleRules')
   stringArray(value.doNotTranslate, 'Locale contract doNotTranslate')
+  if (!Array.isArray(value.contextualTerms)) throw new Error('Locale contract contextualTerms must be an array')
+  const contextualSources = new Set()
+  for (const [index, term] of value.contextualTerms.entries()) {
+    exactKeys(term, CONTEXTUAL_TERM_KEYS, `Locale contract contextualTerms[${index}]`)
+    nonEmptyString(term.source, `Locale contract contextualTerms[${index}].source`)
+    nonEmptyString(term.target, `Locale contract contextualTerms[${index}].target`)
+    if (typeof term.caseSensitive !== 'boolean') throw new Error(`Locale contract contextualTerms[${index}].caseSensitive must be boolean`)
+    stringArray(term.sourceContexts, `Locale contract contextualTerms[${index}].sourceContexts`)
+    for (const context of term.sourceContexts) {
+      const haystack = term.caseSensitive ? context : context.toLocaleLowerCase('en-US')
+      const needle = term.caseSensitive ? term.source : term.source.toLocaleLowerCase('en-US')
+      if (!haystack.includes(needle)) throw new Error(`Locale contract contextualTerms[${index}] sourceContexts must contain ${term.source}`)
+    }
+    const key = `${term.caseSensitive}:${term.source}`
+    if (contextualSources.has(key)) throw new Error(`Locale contract contains duplicate contextual term ${term.source}`)
+    contextualSources.add(key)
+  }
   if (!Array.isArray(value.mandatoryTerms) || !value.mandatoryTerms.length) throw new Error('Locale contract mandatoryTerms must be a non-empty array')
   const mandatorySources = new Set()
   for (const [index, term] of value.mandatoryTerms.entries()) {
@@ -98,10 +116,16 @@ function countOccurrences(content, value, caseSensitive) {
   return count
 }
 
-function boundedDraftQuote(draft, forbiddenTargets) {
+function correspondingDraftLine(source, draft, sourceIndex) {
+  if (sourceIndex < 0) return ''
+  const lineIndex = String(source).slice(0, sourceIndex).split(/\r?\n/).length - 1
+  const line = String(draft).split(/\r?\n/)[lineIndex]?.trim() || ''
+  return line.slice(0, 160)
+}
+
+function boundedDraftQuote(source, draft, sourceQuote, forbiddenTargets) {
   for (const target of forbiddenTargets) if (draft.includes(target)) return target
-  const trimmed = String(draft).trim()
-  return trimmed.slice(0, 160)
+  return correspondingDraftLine(source, draft, String(source).indexOf(sourceQuote))
 }
 
 function validateLocaleContractDraft(sourceContent, draftContent, contract) {
@@ -114,7 +138,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
     const targetCount = countOccurrences(draft, term.target, term.caseSensitive)
     if (targetCount >= sourceCount) continue
     const forbidden = contract.forbiddenTranslations.find(item => item.source === term.source)?.targets || []
-    const draftQuote = boundedDraftQuote(draft, forbidden)
+    const draftQuote = boundedDraftQuote(source, draft, term.source, forbidden)
     if (!draftQuote) continue
     issues.push(Object.freeze({
       severity: 'medium',
@@ -128,7 +152,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
   for (const token of contract.doNotTranslate) {
     const sourceCount = countOccurrences(source, token, true)
     if (!sourceCount || countOccurrences(draft, token, true) >= sourceCount) continue
-    const draftQuote = String(draft).trim().slice(0, 160)
+    const draftQuote = boundedDraftQuote(source, draft, token, [])
     if (!draftQuote) continue
     issues.push(Object.freeze({
       severity: 'medium',
@@ -138,6 +162,28 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
       draft_quote: draftQuote,
       comment: `Locale contract ${contract.contractId} lists ${token} as a do-not-translate token and requires it to remain byte-identical.`,
     }))
+  }
+  const seenContextual = new Set()
+  for (const term of contract.contextualTerms) {
+    for (const context of term.sourceContexts) {
+      const haystack = term.caseSensitive ? source : source.toLocaleLowerCase('en-US')
+      const needle = term.caseSensitive ? context : context.toLocaleLowerCase('en-US')
+      for (let sourceIndex = haystack.indexOf(needle); sourceIndex !== -1; sourceIndex = haystack.indexOf(needle, sourceIndex + needle.length)) {
+        const draftQuote = correspondingDraftLine(source, draft, sourceIndex)
+        if (!draftQuote || countOccurrences(draftQuote, term.target, term.caseSensitive) > 0) continue
+        const issueKey = `${term.source}\0${sourceIndex}\0${draftQuote}`
+        if (seenContextual.has(issueKey)) continue
+        seenContextual.add(issueKey)
+        issues.push(Object.freeze({
+          severity: 'medium',
+          type: 'terminology',
+          location: `product context containing ${context}`,
+          source_quote: term.source,
+          draft_quote: draftQuote,
+          comment: `Locale contract ${contract.contractId} requires ${term.source} to remain ${term.target} in the declared product context ${context}.`,
+        }))
+      }
+    }
   }
   return Object.freeze(issues)
 }
