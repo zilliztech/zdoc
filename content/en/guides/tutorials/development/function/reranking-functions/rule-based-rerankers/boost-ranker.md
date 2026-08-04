@@ -250,7 +250,7 @@ rerank->SetRandomScoreSeed(126);
      <td><p><code>name</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Unique identifier for this Function</p></td>
-     <td><p><code>"boost"</code></p></td>
+     <td><p><code>&quot;boost&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
@@ -268,25 +268,25 @@ rerank->SetRandomScoreSeed(126);
      <td><p><code>params.reranker</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Specifies the type of the reranker.</p><p>Must be set to <code>boost</code> to use Boost Ranker.</p></td>
-     <td><p><code>"boost"</code></p></td>
+     <td><p><code>&quot;boost&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.weight</code></p></td>
      <td><p>Yes</p></td>
-     <td><p>Specifies the weight that will be multiplied by the scores of any matching entities in the raw search results.</p><p>The value should be a floating-point number. </p><ul><li><p>To emphasize the importance of matching entities, set it to a value that boosts the scores.</p></li><li><p>To demote matching entities, assign this parameter a value that lowers their scores.</p></li></ul></td>
+     <td><p>Specifies the weight that will be multiplied by the scores of any matching entities in the raw search results.</p><p>The value should be a floating-point number.</p><ul><li><p>To emphasize the importance of matching entities, set it to a value that boosts the scores.</p></li><li><p>To demote matching entities, assign this parameter a value that lowers their scores.</p></li></ul></td>
      <td><p><code>1</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.filter</code></p></td>
      <td><p>No</p></td>
      <td><p>Specifies the filter expression that will be used to match entities among search result entities. It can be any valid basic filter expression mentioned in <a href="./filtering-overview">Filtering Explained</a>.</p><p><strong>Note</strong>: Only use basic operators, such as <code>==</code>, <code>&gt;</code>, or <code>&lt;</code>. Using advanced operators, such as <code>text_match</code> or <code>phrase_match</code>, will degrade search performance.</p></td>
-     <td><p><code>"doctype == 'abstract'"</code></p></td>
+     <td><p><code>&quot;doctype == 'abstract'&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.random_score</code></p></td>
      <td><p>No</p></td>
-     <td><p>Specifies the random function that generates a value between <code>0</code> and <code>1</code> randomly. It has the following two optional arguments:</p><ul><li><p><code>seed</code> (number) Specifies an initial value used to start a pseudorandom number generator (PRNG).</p></li><li><p><code>field</code> (string) Specifies the name of a field whose value will be used as a random factor in generating the random number. A field with unique values will suffice.</p><p>You are advised to set both <code>seed</code> and <code>field</code> to ensure consistency across generations by using the same seed and field values.</p></li></ul></td>
-     <td><p><code>\{"seed": 126, "field": "id"\}</code></p></td>
+     <td><p>Specifies the random function that generates a value between <code>0</code> and <code>1</code> randomly. It has the following two optional arguments:</p><ul><li><p><code>seed</code> (number) Specifies an initial value used to start a pseudorandom number generator (PRNG).</p></li><li><p><code>field</code> (string) Specifies the name of a field whose value will be used as a random factor in generating the random number. A field with unique values will suffice.</p></li></ul><p>You are advised to set both <code>seed</code> and <code>field</code> to ensure consistency across generations by using the same seed and field values.</p></td>
+     <td><p><code>\{&quot;seed&quot;: 126, &quot;field&quot;: &quot;id&quot;\}</code></p></td>
    </tr>
 </table>
 
@@ -642,19 +642,19 @@ The following table lists the parameters required to create a **FunctionScore** 
      <td><p><code>functions</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Specifies the names of the target rankers in a list.</p></td>
-     <td><p><code>["fix_weight_ranker", "random_weight_ranker"]</code></p></td>
+     <td><p><code>[&quot;fix_weight_ranker&quot;, &quot;random_weight_ranker&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.boost_mode</code></p></td>
      <td><p>No</p></td>
-     <td><p>Specifies how the specified weights influence the scores of any matching entities.</p><p>Possible values are:</p><ul><li><p><code>Multiply</code></p><p>Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight. </p><p>This is the default value.</p></li><li><p><code>Sum</code></p><p>Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight</p></li></ul></td>
-     <td><p><code>"Sum"</code></p></td>
+     <td><p>Specifies how the specified weights influence the scores of any matching entities.</p><p>Possible values are:</p><ul><li><p><code>Multiply</code></p><p>Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight.</p><p>This is the default value.</p></li><li><p><code>Sum</code></p><p>Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight</p></li></ul></td>
+     <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function_mode</code></p></td>
      <td><p>No</p></td>
      <td><p>Specifies how the weighted values from various Boost Rankers are processed.</p><p>Possible values are:</p><ul><li><p><code>Multiply</code></p><p>Indicates that the final score of a matching entity is equal to the product of the weighted values from all Boost Rankers.</p><p>This is the default value.</p></li><li><p><code>Sum</code></p><p>Indicates that the final score of a matching entity is equal to the sum of the weighted values from all Boost Rankers.</p></li></ul></td>
-     <td><p><code>"Sum"</code></p></td>
+     <td><p><code>&quot;Sum&quot;</code></p></td>
    </tr>
 </table>
 

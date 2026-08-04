@@ -250,14 +250,14 @@ The `params` dictionary of the MinHash function accepts the following parameters
    <tr>
      <td><p><code>hash_function</code></p></td>
      <td><p>str</p></td>
-     <td><p><code>"xxhash"</code></p></td>
-     <td><p>Hash function to use. Options: </p><ul><li><p><code>"xxhash"</code> (fast)</p></li><li><p><code>"sha1"</code> (slower, higher collision resistance).</p></li></ul></td>
+     <td><p><code>&quot;xxhash&quot;</code></p></td>
+     <td><p>Hash function to use. Options:</p><ul><li><p><code>&quot;xxhash&quot;</code> (fast)</p></li><li><p><code>&quot;sha1&quot;</code> (slower, higher collision resistance).</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>token_level</code></p></td>
      <td><p>str</p></td>
-     <td><p><code>"word"</code></p></td>
-     <td><p>Tokenization level. Options:</p><ul><li><p><code>"word"</code>: uses the field's analyzer for tokenization, then applies n-gram shingling.</p></li><li><p><code>"char"</code> / <code>"character"</code>: applies n-gram shingling directly on raw characters (no analyzer).</p><p>Word-level provides stronger semantics and higher efficiency but depends on language-specific tokenization. Character-level is language-agnostic but produces higher-dimensional shingles with weaker semantics.</p></li></ul></td>
+     <td><p><code>&quot;word&quot;</code></p></td>
+     <td><p>Tokenization level. Options:</p><ul><li><p><code>&quot;word&quot;</code>: uses the field's analyzer for tokenization, then applies n-gram shingling.</p></li><li><p><code>&quot;char&quot;</code> / <code>&quot;character&quot;</code>: applies n-gram shingling directly on raw characters (no analyzer).</p></li></ul><p>Word-level provides stronger semantics and higher efficiency but depends on language-specific tokenization. Character-level is language-agnostic but produces higher-dimensional shingles with weaker semantics.</p></td>
    </tr>
    <tr>
      <td><p><code>seed</code></p></td>

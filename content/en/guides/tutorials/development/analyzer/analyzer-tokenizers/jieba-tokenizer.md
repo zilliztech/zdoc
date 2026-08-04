@@ -257,18 +257,18 @@ nlohmann::json analyzerParams = {
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>The type of tokenizer. This is fixed to <code>"jieba"</code>.</p></td>
-     <td><p><code>"jieba"</code></p></td>
+     <td><p>The type of tokenizer. This is fixed to <code>&quot;jieba&quot;</code>.</p></td>
+     <td><p><code>&quot;jieba&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>A list of dictionaries that the analyzer will load as its vocabulary source. Built-in options:</p><ul><li><p><code>"_default_"</code>: Loads the engine's built‑in Simplified‑Chinese dictionary. For details, refer to <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a>.</p></li><li><p><code>"_extend_default_"</code>: Loads everything in <code>"_default_"</code> plus an additional Traditional‑Chinese supplement. For details, refer to <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a>.</p><p>You can also mix the built‑in dictionary with any number of custom dictionaries. Example: <code>["_default_", "结巴分词器"]</code>.</p></li></ul></td>
-     <td><p><code>["_default_"]</code></p></td>
+     <td><p>A list of dictionaries that the analyzer will load as its vocabulary source. Built-in options:</p><ul><li><p><code>&quot;_default_&quot;</code>: Loads the engine's built‑in Simplified‑Chinese dictionary. For details, refer to <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a>.</p></li><li><p><code>&quot;_extend_default_&quot;</code>: Loads everything in <code>&quot;_default_&quot;</code> plus an additional Traditional‑Chinese supplement. For details, refer to <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a>.</p></li></ul><p>You can also mix the built‑in dictionary with any number of custom dictionaries. Example: <code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>.</p></td>
+     <td><p><code>[&quot;_default_&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>The segmentation mode. Possible values:</p><ul><li><p><code>"exact"</code>: Tries to segment the sentence in the most precise manner, making it ideal for text analysis.</p></li><li><p><code>"search"</code>: Builds on exact mode by further breaking down long words to improve recall, making it suitable for search engine tokenization.</p><p>For more information, refer to <a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a>.</p></li></ul></td>
-     <td><p><code>"search"</code></p></td>
+     <td><p>The segmentation mode. Possible values:</p><ul><li><p><code>&quot;exact&quot;</code>: Tries to segment the sentence in the most precise manner, making it ideal for text analysis.</p></li><li><p><code>&quot;search&quot;</code>: Builds on exact mode by further breaking down long words to improve recall, making it suitable for search engine tokenization.</p></li></ul><p>For more information, refer to <a href="https://github.com/fxsjy/jieba">Jieba GitHub Project</a>.</p></td>
+     <td><p><code>&quot;search&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>

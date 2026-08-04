@@ -228,7 +228,7 @@ The maximum number of shards allowed depends on the cluster plan and cluster CU 
      <td><p>8</p></td>
    </tr>
    <tr>
-     <td><p>> 64 CU</p></td>
+     <td><p>&gt; 64 CU</p></td>
      <td><p>16</p></td>
    </tr>
 </table>

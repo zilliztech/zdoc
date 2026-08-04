@@ -43,8 +43,8 @@ The following table compares the different data transfer types.
    </tr>
    <tr>
      <td><p><strong>Cross-region</strong></p></td>
-     <td><p>Cross-region data transfer refers to data moved between different regions of the same cloud provider. This includes:</p><ul><li><p>Cross-region cluster migration</p></li><li><p>Cross-region backup</p><p>Traffic to clusters in other regions of the same cloud provider when accessed via the public endpoint.</p></li></ul></td>
-     <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents.</p><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></li></ul></td>
+     <td><p>Cross-region data transfer refers to data moved between different regions of the same cloud provider. This includes:</p><ul><li><p>Cross-region cluster migration</p></li><li><p>Cross-region backup</p></li></ul><p>Traffic to clusters in other regions of the same cloud provider when accessed via the public endpoint.</p></td>
+     <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents.</p></li></ul><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
    </tr>
    <tr>
      <td><p><strong>Intra-region</strong></p></td>

@@ -320,29 +320,29 @@ The following are the parameters and corresponding explanations.
        <tr>
          <td rowspan="2"><p><strong>Collection</strong></p></td>
          <td><p>A specific collection</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="col1",      db_name="db1" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;CollectionAdmin&quot;,     collection_name=&quot;col1&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
          <td><p>Input the name of your target collection and the name of the database to which the target collection belongs.</p></td>
        </tr>
        <tr>
          <td><p>All collections under a specific database</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="&ast;",      db_name="db1" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;CollectionAdmin&quot;,     collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
          <td><p>Input the name of your target database and a wildcard <code>&ast;</code> as the collection name.</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>Database</strong></p></td>
          <td><p>A specific database</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="db1" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
          <td><p>Input the name of your target database and a wildcard <code>&ast;</code> as the collection name.</p></td>
        </tr>
        <tr>
          <td><p>All databases under the current instance</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
          <td><p>Input <code>&ast;</code> as the database name and <code>&ast;</code> as the collection name.</p></td>
        </tr>
        <tr>
          <td><p><strong>Instance</strong></p></td>
          <td><p>The current instance</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="ClusterAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;ClusterAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
          <td><p>Input <code>&ast;</code> as the database name and <code>&ast;</code> as the collection name.</p></td>
        </tr>
     </table>

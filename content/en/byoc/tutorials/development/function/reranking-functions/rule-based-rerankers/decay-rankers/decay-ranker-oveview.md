@@ -285,13 +285,13 @@ rerank->SetDecay(0.5);
      <td><p><code>name</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Identifier for your function used when executing searches. Choose a descriptive name relevant to your use case.</p></td>
-     <td><p><code>"time_decay"</code></p></td>
+     <td><p><code>&quot;time_decay&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
      <td><p>Yes</p></td>
-     <td><p>Numeric field for decay score calculation. Determines which data attribute will be used for calculating decay (e.g., timestamps for time-based decay, coordinates for location-based decay). </p><p>Must be a field in your collection that contains relevant numeric values. Supports INT8/16/32/64, FLOAT, DOUBLE.</p></td>
-     <td><p><code>["timestamp"]</code></p></td>
+     <td><p>Numeric field for decay score calculation. Determines which data attribute will be used for calculating decay (e.g., timestamps for time-based decay, coordinates for location-based decay).</p><p>Must be a field in your collection that contains relevant numeric values. Supports INT8/16/32/64, FLOAT, DOUBLE.</p></td>
+     <td><p><code>[&quot;timestamp&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>function_type</code></p></td>
@@ -302,14 +302,14 @@ rerank->SetDecay(0.5);
    <tr>
      <td><p><code>params.reranker</code></p></td>
      <td><p>Yes</p></td>
-     <td><p>Specifies the reranking method to use.</p><p>Must be set to <code>"decay"</code> to enable decay ranking functionality.</p></td>
-     <td><p><code>"decay"</code></p></td>
+     <td><p>Specifies the reranking method to use.</p><p>Must be set to <code>&quot;decay&quot;</code> to enable decay ranking functionality.</p></td>
+     <td><p><code>&quot;decay&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function</code></p></td>
      <td><p>Yes</p></td>
      <td><p>Specifies which mathematical decay ranker to apply. Determines the curve shape of relevance decline.</p><p>See <a href="./decay-ranker-oveview#choose-the-right-decay-ranker">Choose the right decay ranker</a> section for guidance on selecting the appropriate function.</p></td>
-     <td><p><code>"gauss"</code>, <code>"exp"</code>, or <code>"linear"</code></p></td>
+     <td><p><code>&quot;gauss&quot;</code>, <code>&quot;exp&quot;</code>, or <code>&quot;linear&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.origin</code></p></td>
@@ -326,7 +326,7 @@ rerank->SetDecay(0.5);
    <tr>
      <td><p><code>params.offset</code></p></td>
      <td><p>No</p></td>
-     <td><p>Creates a "no-decay zone" around the <code>origin</code> where items maintain full scores (decay score = 1.0).</p><p>For time-based decay, the time unit must match your collection data.</p><p>Items within this range of the <code>origin</code> maintain maximum relevance.</p></td>
+     <td><p>Creates a &quot;no-decay zone&quot; around the <code>origin</code> where items maintain full scores (decay score = 1.0).</p><p>For time-based decay, the time unit must match your collection data.</p><p>Items within this range of the <code>origin</code> maintain maximum relevance.</p></td>
      <td><ul><li><p>For time: period in seconds (e.g., <code>24 &ast; 60 &ast; 60</code> for 1 day)</p></li><li><p>For distance: meters (e.g., <code>500</code> for 500m)</p></li></ul></td>
    </tr>
    <tr>

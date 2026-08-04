@@ -33,11 +33,11 @@ The following table provides an example of data in a JSON or JSON Line file.
    </tr>
    <tr>
      <td><p>JSON (.json)</p></td>
-     <td><pre><code class="json language-json"> [     \{"primary_key":89,"vector":[0.7857309327639853,0.6185684289533679]\},     \{"primary_key":-22,"vector":[0.7227987733802379,0.6910585598920134]\},     \{"primary_key":85,"vector":[0.7948503430666686,0.6068055142521362]\} ]</code></pre></td>
+     <td><pre><code class="language-json"> [     \{&quot;primary_key&quot;:89,&quot;vector&quot;:[0.7857309327639853,0.6185684289533679]\},     \{&quot;primary_key&quot;:-22,&quot;vector&quot;:[0.7227987733802379,0.6910585598920134]\},     \{&quot;primary_key&quot;:85,&quot;vector&quot;:[0.7948503430666686,0.6068055142521362]\} ]</code></pre></td>
    </tr>
    <tr>
      <td><p>JSON Lines (.ndjson, .jsonl)</p></td>
-     <td><pre><code class="json language-json"> \{"primary_key":89,"vector":[0.7857309327639853,0.6185684289533679]\} \{"primary_key":-22,"vector":[0.7227987733802379,0.6910585598920134]\} \{"primary_key":85,"vector":[0.7948503430666686,0.6068055142521362]\}</code></pre></td>
+     <td><pre><code class="language-json"> \{&quot;primary_key&quot;:89,&quot;vector&quot;:[0.7857309327639853,0.6185684289533679]\} \{&quot;primary_key&quot;:-22,&quot;vector&quot;:[0.7227987733802379,0.6910585598920134]\} \{&quot;primary_key&quot;:85,&quot;vector&quot;:[0.7948503430666686,0.6068055142521362]\}</code></pre></td>
    </tr>
 </table>
 

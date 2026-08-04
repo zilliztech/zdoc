@@ -209,7 +209,7 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
 - **Via RESTful API**
 
-    The following example modifies the cluster description. For details, see [Update On-Demand Cluster Info](/reference/restful/update-on-demand-cluster-info-v2).
+    The following example modifies the cluster description. For details, see [Update On-Demand Cluster](/reference/restful/update-on-demand-cluster-v2).
 
     ```bash
     curl --request PATCH \
@@ -256,22 +256,23 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
 - **Via RESTful API**
 
-    You can modify the auto-suspend time of an existing on-demand cluster.
+    You can modify the name, description, auto-suspend time, and the number of query CUs of an existing on-demand cluster. For details, see [Update On-Demand Cluster](/reference/restful/update-on-demand-cluster-v2).
 
     ```bash
     export TOKEN="YOUR_API_KEY"
     export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
     
     curl --request PATCH \
-    --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "clusterName": "New Cluster Name",
-        "description": "This is the new description of the cluster.",
-        "autoSuspend": "5m"
-    }'
+         --url "https://${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
+         --header "Authorization: Bearer ${API_KEY}" \
+         --header "Accept: application/json" \
+         --header "Content-Type: application/json" \
+         --data-raw '{
+            "autoSuspend": "5m",
+            "clusterName": "my-on-demand-updated",
+            "description": "Updated on-demand cluster description",
+            "cuSize": 32
+          }'
     ```
 
     The following is an example output.
@@ -288,7 +289,7 @@ You can modify the settings, such as the name, description, and auto-suspend set
 
 - **Via web console**
 
-    You can modify the cluster name, description, and auto-suspend time of an existing on-demand cluster via the web console.
+    You can modify the cluster name, description, auto-suspend time, and number of query CUs of an existing on-demand cluster via the web console.
 
     ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 

@@ -58,32 +58,32 @@ On Zilliz Cloud, audit logs have the following syntax:
    <tr>
      <td><p><code>date</code></p></td>
      <td><p>String (ISO 8601 format)</p></td>
-     <td><p>The timestamp when the action occurred, in UTC (e.g., <code>"2025-01-21T08:38:39.494527Z"</code>).</p></td>
+     <td><p>The timestamp when the action occurred, in UTC (e.g., <code>&quot;2025-01-21T08:38:39.494527Z&quot;</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>action</code></p></td>
      <td><p>String</p></td>
-     <td><p>The action performed (e.g., <code>"DescribeCollection"</code>). For a list of actions available, refer to <a href="./audit-logs-ref">List of actions</a>.</p></td>
+     <td><p>The action performed (e.g., <code>&quot;DescribeCollection&quot;</code>). For a list of actions available, refer to <a href="./audit-logs-ref">List of actions</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>cluster_id</code></p></td>
      <td><p>String</p></td>
-     <td><p>Unique identifier for the cluster where the action occurred (e.g. <code>"in01-b5a7e190615xxxf"</code>).</p></td>
+     <td><p>Unique identifier for the cluster where the action occurred (e.g. <code>&quot;in01-b5a7e190615xxxf&quot;</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>database</code></p></td>
      <td><p>String</p></td>
-     <td><p>The name of the database involved in the action (e.g., <code>"default"</code>).</p></td>
+     <td><p>The name of the database involved in the action (e.g., <code>&quot;default&quot;</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>interface</code></p></td>
      <td><p>string</p></td>
-     <td><p>The interface through which the action is performed (e.g., <code>"Grpc"</code>, <code>"Restful"</code>).</p></td>
+     <td><p>The interface through which the action is performed (e.g., <code>&quot;Grpc&quot;</code>, <code>&quot;Restful&quot;</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>log_type</code></p></td>
      <td><p>String</p></td>
-     <td><p>The type of log entry (e.g., <code>"AUDIT"</code>).</p></td>
+     <td><p>The type of log entry (e.g., <code>&quot;AUDIT&quot;</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>params</code></p></td>

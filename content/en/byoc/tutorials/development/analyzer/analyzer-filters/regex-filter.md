@@ -1,7 +1,7 @@
 ---
-title: "Regex Analyzer Filter | BYOC"
+title: "Regex | BYOC"
 slug: /regex-filter
-sidebar_label: "Regex"
+sidebar_label: "Regex Analyzer Filter"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Regex Analyzer Filter
+# Regex
 
 The `regex` filter is a regular expression filter: any token produced by the tokenizer is kept only if it matches the expression you provide; everything else is discarded.
 

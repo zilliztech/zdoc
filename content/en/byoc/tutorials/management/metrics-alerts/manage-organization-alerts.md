@@ -53,7 +53,7 @@ When viewing alerts, you'll encounter the following configuration items:
    </tr>
    <tr>
      <td><p>Name</p></td>
-     <td><p>Alert identifier describing the billing event (e.g., "Credit Balance Low", "Payment Method Expiring")</p></td>
+     <td><p>Alert identifier describing the billing event (e.g., &quot;Credit Balance Low&quot;, &quot;Payment Method Expiring&quot;)</p></td>
    </tr>
    <tr>
      <td><p>Status</p></td>

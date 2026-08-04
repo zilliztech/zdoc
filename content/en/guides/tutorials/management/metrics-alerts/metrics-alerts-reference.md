@@ -109,13 +109,13 @@ The **Availability** column lists the compute resources that support each metric
      <td><p>Latency (Read) (ms) ✦</p></td>
      <td><p>The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
      <td><ul><li><p><strong>Serving Clusters</strong>: All</p></li><li><p><strong>On-Demand Compute databases</strong>: Managed collections, external collections</p></li></ul></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>Latency (Write) (ms) ✦</p></td>
      <td><p>The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
      <td><p><strong>Serving Clusters only</strong>: All</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>Request Failure Rate (Read) (%) ✦</p></td>

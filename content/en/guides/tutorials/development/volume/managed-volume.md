@@ -222,7 +222,7 @@ You can create a volume on the web console or via SDK.
            </tr>
            <tr>
              <td><p>Volume Type</p></td>
-             <td><p>Select "Managed" as the volume type.</p></td>
+             <td><p>Select &quot;Managed&quot; as the volume type.</p></td>
            </tr>
            <tr>
              <td><p>Billing Type</p></td>

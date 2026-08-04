@@ -1541,7 +1541,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/regex-filter",
-                "label": "Regex",
+                "label": "Regex Analyzer Filter",
                 "key": "doc:tutorials/development/analyzer/analyzer-filters/regex-filter"
               },
               {

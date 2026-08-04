@@ -41,7 +41,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
    </tr>
    <tr>
      <td colspan="2"><p>Credits</p></td>
-     <td><p>Credits are granted when you register for Zilliz Cloud or participate in eligible Zilliz Cloud programs or events. </p><p>Credits can be used to cover Zilliz Cloud usage charges.</p></td>
+     <td><p>Credits are granted when you register for Zilliz Cloud or participate in eligible Zilliz Cloud programs or events.</p><p>Credits can be used to cover Zilliz Cloud usage charges.</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>

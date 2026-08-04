@@ -57,7 +57,7 @@ Understanding how PostgreSQL data types map to Zilliz Cloud is crucial for plann
    <tr>
      <td><p>Primary key</p></td>
      <td><p>Primary key / Auto ID</p></td>
-     <td><ul><li><p><strong>Single-field primary key</strong>: Mapped directly as the target collection's primary key.</p></li><li><p><strong>Absence of primary key</strong>: Auto ID is enabled for the target collection to support tables without a primary key.</p></li><li><p><strong>Composite primary key:</strong> Auto ID is enabled; composite keys are treated as regular scalar fields.</p><p>When migrating data, you can enable Auto ID. However, if you do so, the original primary key values from your source collection will be discarded.</p></li></ul></td>
+     <td><ul><li><p><strong>Single-field primary key</strong>: Mapped directly as the target collection's primary key.</p></li><li><p><strong>Absence of primary key</strong>: Auto ID is enabled for the target collection to support tables without a primary key.</p></li><li><p><strong>Composite primary key:</strong> Auto ID is enabled; composite keys are treated as regular scalar fields.</p></li></ul><p>When migrating data, you can enable Auto ID. However, if you do so, the original primary key values from your source collection will be discarded.</p></td>
    </tr>
    <tr>
      <td><p>vector</p></td>
@@ -72,42 +72,42 @@ Understanding how PostgreSQL data types map to Zilliz Cloud is crucial for plann
    <tr>
      <td><p>bigint</p></td>
      <td><p>INT64</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>integer</p></td>
      <td><p>INT32</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>smallint</p></td>
      <td><p>INT16</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>double precision</p></td>
      <td><p>DOUBLE</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>real</p></td>
      <td><p>FLOAT</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>boolean</p></td>
      <td><p>BOOL</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>array</p></td>
      <td><p>ARRAY</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>json</p></td>
      <td><p>JSON</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
 </table>
 

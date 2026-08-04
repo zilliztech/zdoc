@@ -47,12 +47,12 @@ Organization-level metrics help you track license-related issues across all proj
    <tr>
      <td><p>License Validity (day)</p></td>
      <td><p>Remaining days before the organization license expires.</p></td>
-     <td><ul><li><p><strong>< 60 days</strong>: start renewal process.</p></li><li><p><strong>Expired</strong>: renew/upgrade immediately to restore full functionality (e.g., cluster creation/scale-up).</p></li></ul></td>
+     <td><ul><li><p><strong>&lt; 60 days</strong>: start renewal process.</p></li><li><p><strong>Expired</strong>: renew/upgrade immediately to restore full functionality (e.g., cluster creation/scale-up).</p></li></ul></td>
    </tr>
    <tr>
      <td><p>License Core Usage (%)</p></td>
      <td><p>Percentage of used CPU cores vs. total licensed cores.</p></td>
-     <td><ul><li><p><strong>></strong> <strong>70%</strong>: assess future needs and plan renewal/upgrade.</p></li><li><p><strong>100%</strong>: renew/upgrade immediately to avoid disruption.</p></li></ul></td>
+     <td><ul><li><p><strong>&gt;</strong> <strong>70%</strong>: assess future needs and plan renewal/upgrade.</p></li><li><p><strong>100%</strong>: renew/upgrade immediately to avoid disruption.</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Usage Amount in the Past Day ($)</p></td>
@@ -153,13 +153,13 @@ The **Availability** column lists the compute resources that support each metric
      <td><p>Latency (Read) (ms) ✦</p></td>
      <td><p>The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
      <td><ul><li><p><strong>Serving Clusters</strong>: All</p></li><li><p><strong>On-Demand Compute databases</strong>: Managed collections, external collections</p></li></ul></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>Latency (Write) (ms) ✦</p></td>
      <td><p>The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
      <td><p><strong>Serving Clusters only</strong>: All</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>Request Failure Rate (Read) (%) ✦</p></td>

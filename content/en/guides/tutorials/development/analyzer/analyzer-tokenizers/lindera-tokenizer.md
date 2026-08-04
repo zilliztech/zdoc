@@ -171,7 +171,7 @@ const analyzer_params = {
    </tr>
    <tr>
      <td><p><code>type</code></p></td>
-     <td><p>The type of tokenizer. This is fixed to <code>"lindera"</code>.</p></td>
+     <td><p>The type of tokenizer. This is fixed to <code>&quot;lindera&quot;</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>dict_kind</code></p></td>

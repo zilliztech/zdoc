@@ -61,28 +61,28 @@ An inappropriate analyzer can cause either under- or over-tokenization, missing 
    <tr>
      <td><p>Over-tokenization</p></td>
      <td><p>Technical terms, identifiers, or URLs split incorrectly</p></td>
-     <td><ul><li><p><code>"user_id"</code> → <code>['user', 'id']</code></p></li><li><p><code>"C++"</code> → <code>['c']</code></p></li></ul></td>
+     <td><ul><li><p><code>&quot;user_id&quot;</code> → <code>['user', 'id']</code></p></li><li><p><code>&quot;C++&quot;</code> → <code>['c']</code></p></li></ul></td>
      <td><p><a href="./standard-analyzer"><code>standard</code></a> analyzer</p></td>
      <td><p>Use a <a href="./whitespace-tokenizer"><code>whitespace</code></a> tokenizer; combine with an <a href="./alphanumonly-filter"><code>alphanumonly</code></a> filter.</p></td>
    </tr>
    <tr>
      <td><p>Under-tokenization</p></td>
      <td><p>Multi-word phrases treated as single token</p></td>
-     <td><p><code>"state-of-the-art"</code> → <code>['state-of-the-art']</code></p></td>
+     <td><p><code>&quot;state-of-the-art&quot;</code> → <code>['state-of-the-art']</code></p></td>
      <td><p>Analyzer with a <a href="./whitespace-tokenizer"><code>whitespace</code></a> tokenizer</p></td>
      <td><p>Use a <a href="./standard-tokenizer"><code>standard</code></a> tokenizer to split on punctuation and spaces; use a custom <a href="./regex-filter">regex</a> filter.</p></td>
    </tr>
    <tr>
      <td><p>Language Mismatches</p></td>
      <td><p>Foreign-language results meaningless</p></td>
-     <td><p>Chinese text: <code>"机器学习"</code> → <code>['机器学习']</code> (one token)</p></td>
+     <td><p>Chinese text: <code>&quot;机器学习&quot;</code> → <code>['机器学习']</code> (one token)</p></td>
      <td><p><a href="./english-analyzer"><code>english</code></a> analyzer</p></td>
      <td><p>Use a language-specific analyzer, such as <a href="./chinese-analyzer"><code>chinese</code></a>.</p></td>
    </tr>
    <tr>
      <td><p>Input method mismatch</p></td>
      <td><p>Users type Pinyin, but the indexed text uses Chinese characters.</p></td>
-     <td><p>Chinese text: <code>"足球"</code>; query text: <code>"zuqiu"</code></p></td>
+     <td><p>Chinese text: <code>&quot;足球&quot;</code>; query text: <code>&quot;zuqiu&quot;</code></p></td>
      <td><p>Analyzer that emits only Chinese-character tokens</p></td>
      <td><p>Use a custom analyzer with the <a href="./jieba-tokenizer"><code>jieba</code></a> tokenizer and <a href="./pinyin-filter"><code>pinyin</code></a> filter.</p></td>
    </tr>
@@ -210,13 +210,13 @@ For space-separated languages, you have these options:
      <td><p><a href="./standard-tokenizer"><code>standard</code></a></p></td>
      <td><p>Splits text based on spaces and punctuation marks</p></td>
      <td><p>General text, mixed punctuation</p></td>
-     <td><ul><li><p>Input: <code>"Hello, world! Visit example.com"</code></p></li><li><p>Output: <code>['Hello', 'world', 'Visit', 'example', 'com']</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>&quot;Hello, world! Visit example.com&quot;</code></p></li><li><p>Output: <code>['Hello', 'world', 'Visit', 'example', 'com']</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./whitespace-tokenizer"><code>whitespace</code></a></p></td>
      <td><p>Splits only on whitespace characters</p></td>
      <td><p>Pre-processed content, user-formatted text</p></td>
-     <td><ul><li><p>Input: <code>"user_id = get_user_data()"</code></p></li><li><p>Output: <code>['user_id', '=', 'get_user_data()']</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>&quot;user_id = get_user_data()&quot;</code></p></li><li><p>Output: <code>['user_id', '=', 'get_user_data()']</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -237,13 +237,13 @@ Dictionary-based languages require specialized tokenizers for proper word segmen
      <td><p><a href="./jieba-tokenizer"><code>jieba</code></a></p></td>
      <td><p>Chinese dictionary-based segmentation with intelligent algorithm</p></td>
      <td><p><strong>Recommended for Chinese content</strong> - combines dictionary with intelligent algorithms, specifically designed for Chinese</p></td>
-     <td><ul><li><p>Input: <code>"机器学习是人工智能的一个分支"</code></p></li><li><p>Output: <code>['机器', '学习', '是', '人工', '智能', '人工智能', '的', '一个', '分支']</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>&quot;机器学习是人工智能的一个分支&quot;</code></p></li><li><p>Output: <code>['机器', '学习', '是', '人工', '智能', '人工智能', '的', '一个', '分支']</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./lindera-tokenizer"><code>lindera</code></a></p></td>
      <td><p>Pure dictionary-based morphological analysis with Chinese dictionary (<a href="https://cc-cedict.org/wiki/">cc-cedict</a>)</p></td>
      <td><p>Compared to <code>jieba</code>, processes Chinese text in a more generic manner</p></td>
-     <td><ul><li><p>Input: <code>"机器学习算法"</code></p></li><li><p>Output: <code>["机器", "学习", "算法"]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>&quot;机器学习算法&quot;</code></p></li><li><p>Output: <code>[&quot;机器&quot;, &quot;学习&quot;, &quot;算法&quot;]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -262,14 +262,14 @@ Dictionary-based languages require specialized tokenizers for proper word segmen
      <td><p><a href="./lindera-tokenizer"><code>lindera</code></a></p></td>
      <td><p><a href="https://taku910.github.io/mecab/">ipadic</a> (general-purpose), <a href="https://github.com/neologd/mecab-ipadic-neologd">ipadic-neologd</a> (modern terms), <a href="https://clrd.ninjal.ac.jp/unidic/">unidic</a> (academic)</p></td>
      <td><p>Morphological analysis with proper noun handling</p></td>
-     <td><ul><li><p>Input: <code>"東京都渋谷区"</code></p></li><li><p>Output: <code>["東京", "都", "渋谷", "区"]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>&quot;東京都渋谷区&quot;</code></p></li><li><p>Output: <code>[&quot;東京&quot;, &quot;都&quot;, &quot;渋谷&quot;, &quot;区&quot;]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p>Korean</p></td>
      <td><p><a href="./lindera-tokenizer"><code>lindera</code></a></p></td>
      <td><p><a href="https://bitbucket.org/eunjeon/mecab-ko-dic/src/master/">ko-dic</a></p></td>
      <td><p>Korean morphological analysis</p></td>
-     <td><ul><li><p>Input: <code>"안녕하세요"</code></p></li><li><p>Output: <code>["안녕", "하", "세요"]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>&quot;안녕하세요&quot;</code></p></li><li><p>Output: <code>[&quot;안녕&quot;, &quot;하&quot;, &quot;세요&quot;]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -288,7 +288,7 @@ For content where languages are unpredictable or mixed within documents:
      <td><p><a href="./icu-tokenizer"><code>icu</code></a></p></td>
      <td><p>Unicode-aware tokenization (International Components for Unicode)</p></td>
      <td><p>Mixed scripts, unknown languages, or when simple tokenization is sufficient</p></td>
-     <td><ul><li><p>Input: <code>"Hello 世界 مرحبا"</code></p></li><li><p>Output: <code>['Hello', ' ', '世界', ' ', 'مرحبا']</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>&quot;Hello 世界 مرحبا&quot;</code></p></li><li><p>Output: <code>['Hello', ' ', '世界', ' ', 'مرحبا']</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -321,19 +321,19 @@ These filters are essential for most space-separated language configurations (En
      <td><p><a href="./lowercase-filter"><code>lowercase</code></a></p></td>
      <td><p>Convert all tokens to lowercase</p></td>
      <td><p>Universal - applies to all languages with case distinctions</p></td>
-     <td><ul><li><p>Input: <code>["Apple", "iPhone"]</code></p></li><li><p>Output: <code>[['apple'], ['iphone']]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;Apple&quot;, &quot;iPhone&quot;]</code></p></li><li><p>Output: <code>[['apple'], ['iphone']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./stemmer-filter"><code>stemmer</code></a></p></td>
      <td><p>Reduce words to their root form</p></td>
      <td><p>Languages with word inflections (English, French, German, etc.)</p></td>
-     <td><p>For English:</p><ul><li><p>Input: <code>["running", "runs", "ran"]</code></p></li><li><p>Output: <code>[['run'], ['run'], ['ran']]</code></p></li></ul></td>
+     <td><p>For English:</p><ul><li><p>Input: <code>[&quot;running&quot;, &quot;runs&quot;, &quot;ran&quot;]</code></p></li><li><p>Output: <code>[['run'], ['run'], ['ran']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./stop-filter"><code>stop</code></a></p></td>
      <td><p>Remove common meaningless words</p></td>
      <td><p>Most languages - particularly effective for space-separated languages</p></td>
-     <td><ul><li><p>Input: <code>["the", "quick", "brown", "fox"]</code></p></li><li><p>Output: <code>[[], ['quick'], ['brown'], ['fox']]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;]</code></p></li><li><p>Output: <code>[[], ['quick'], ['brown'], ['fox']]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -358,7 +358,7 @@ These filters standardize text variations to improve matching consistency:
      <td><p><a href="./ascii-folding-filter"><code>asciifolding</code></a></p></td>
      <td><p>Convert accented characters to ASCII equivalents</p></td>
      <td><p>International content, user-generated content</p></td>
-     <td><ul><li><p>Input: <code>["café", "naïve", "résumé"]</code></p></li><li><p>Output: <code>[['cafe'], ['naive'], ['resume']]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;café&quot;, &quot;naïve&quot;, &quot;résumé&quot;]</code></p></li><li><p>Output: <code>[['cafe'], ['naive'], ['resume']]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -377,25 +377,25 @@ Control which tokens are preserved based on character content or length:
      <td><p><a href="./remove-punct-filter"><code>removepunct</code></a></p></td>
      <td><p>Remove standalone punctuation tokens</p></td>
      <td><p>Clean output from <code>jieba</code>, <code>lindera</code>, <code>icu</code> tokenizers, which will return punctuations as single tokens</p></td>
-     <td><ul><li><p>Input: <code>["Hello", "!", "world"]</code></p></li><li><p>Output: <code>[['Hello'], ['world']]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;Hello&quot;, &quot;!&quot;, &quot;world&quot;]</code></p></li><li><p>Output: <code>[['Hello'], ['world']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./alphanumonly-filter"><code>alphanumonly</code></a></p></td>
      <td><p>Keep only letters and numbers</p></td>
      <td><p>Technical content, clean text processing</p></td>
-     <td><ul><li><p>Input: <code>["user123", "test@email.com"]</code></p></li><li><p>Output: <code>[['user123'], ['test', 'email', 'com']]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;user123&quot;, &quot;test@email.com&quot;]</code></p></li><li><p>Output: <code>[['user123'], ['test', 'email', 'com']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./length-filter"><code>length</code></a></p></td>
      <td><p>Remove tokens outside specified length range</p></td>
      <td><p>Filter noise (exccessively long tokens)</p></td>
-     <td><ul><li><p>Input: <code>["a", "very", "extraordinarily"]</code></p></li><li><p>Output: <code>[['a'], ['very'], []]</code> (if <strong>max=10</strong>)</p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;a&quot;, &quot;very&quot;, &quot;extraordinarily&quot;]</code></p></li><li><p>Output: <code>[['a'], ['very'], []]</code> (if <strong>max=10</strong>)</p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./regex-filter"><code>regex</code></a></p></td>
      <td><p>Custom pattern-based filtering</p></td>
      <td><p>Domain-specific token requirements</p></td>
-     <td><ul><li><p>Input: <code>["test123", "prod456"]</code></p></li><li><p>Output: <code>[[], ['prod456']]</code> (if <strong>expr="^prod"</strong>)</p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;test123&quot;, &quot;prod456&quot;]</code></p></li><li><p>Output: <code>[[], ['prod456']]</code> (if <strong>expr=&quot;^prod&quot;</strong>)</p></li></ul></td>
    </tr>
 </table>
 
@@ -414,25 +414,25 @@ These filters handle specific language characteristics:
      <td><p><a href="./decompounder-filter"><code>decompounder</code></a></p></td>
      <td><p>German</p></td>
      <td><p>Splits compound words into searchable components</p></td>
-     <td><ul><li><p>Input: <code>["dampfschifffahrt"]</code></p></li><li><p>Output: <code>[['dampf', 'schiff', 'fahrt']]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;dampfschifffahrt&quot;]</code></p></li><li><p>Output: <code>[['dampf', 'schiff', 'fahrt']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./cnalphanumonly-filter">cnalphanumonly</a></p></td>
      <td><p>Chinese</p></td>
      <td><p>Keeps Chinese characters + alphanumeric</p></td>
-     <td><ul><li><p>Input: <code>["Hello", "世界", "123", "!@#"]</code></p></li><li><p>Output: <code>[['Hello'], ['世界'], ['123'], []]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;Hello&quot;, &quot;世界&quot;, &quot;123&quot;, &quot;!@#&quot;]</code></p></li><li><p>Output: <code>[['Hello'], ['世界'], ['123'], []]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./cncharonly-filter"><code>cncharonly</code></a></p></td>
      <td><p>Chinese</p></td>
      <td><p>Keeps only Chinese characters</p></td>
-     <td><ul><li><p>Input: <code>["Hello", "世界", "123"]</code></p></li><li><p>Output: <code>[[], ['世界'], []]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;Hello&quot;, &quot;世界&quot;, &quot;123&quot;]</code></p></li><li><p>Output: <code>[[], ['世界'], []]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./pinyin-filter"><code>pinyin</code></a></p></td>
      <td><p>Chinese</p></td>
      <td><p>Emits Pinyin token forms for Chinese tokens</p></td>
-     <td><ul><li><p>Input: <code>["中文"]</code></p></li><li><p>Output: <code>[['中文', 'zhong', 'wen']]</code></p></li></ul></td>
+     <td><ul><li><p>Input: <code>[&quot;中文&quot;]</code></p></li><li><p>Output: <code>[['中文', 'zhong', 'wen']]</code></p></li></ul></td>
    </tr>
 </table>
 
