@@ -32,10 +32,10 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: guides-table-${{ inputs.site }}-${{ inputs.target_name }}-${{ inputs.table_slug }}-${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Prepare immutable baseline
@@ -43,7 +43,7 @@ jobs:
           git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
           git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
           bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with: { name: '${{ inputs.source_artifact_name }}', path: '${{ runner.temp }}/download' }
       - name: Restore validated shared sources
         run: |
@@ -64,7 +64,7 @@ jobs:
         env:
           ENTRY_JSON: ${{ toJSON(inputs) }}
       - id: upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: guides-table-${{ inputs.site }}-${{ inputs.target_name }}-${{ inputs.table_slug }}-${{ github.run_id }}
           path: ${{ runner.temp }}/guides-table-${{ inputs.site }}-${{ inputs.target_name }}-${{ inputs.table_slug }}.tar

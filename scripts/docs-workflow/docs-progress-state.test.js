@@ -220,9 +220,9 @@ test('keeps an empty Guides matrix in assembly without synthetic table counts', 
 })
 
 test('suppresses infrastructure steps and normalizes domain step names', () => {
-  assert.equal(normalizeCurrentTask('actions/checkout@v4'), null)
+  assert.equal(normalizeCurrentTask('actions/checkout@v5'), null)
   assert.equal(normalizeCurrentTask('Set up Node.js'), null)
-  assert.equal(normalizeCurrentTask('Post Run actions/cache@v4'), null)
+  assert.equal(normalizeCurrentTask('Post Run actions/cache@v5'), null)
   assert.equal(normalizeCurrentTask('Prefetch shared Guides media'), 'Prefetch shared Guides media')
   assert.equal(normalizeCurrentTask('Validate combined guides output'), 'Validate combined Guides output')
   assert.equal(normalizeCurrentTask('restore guides v4 cache candidate'), 'Restore Guides v4 cache candidate')

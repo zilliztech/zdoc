@@ -15,26 +15,26 @@
     "clsx": "^2.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.577.0",
+    "markdown-it": "^15.0.0",
     "prismjs": "^1.30.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
-    "showdown": "^2.1.0",
     "zod": "^3.25.13",
     "zod-to-json-schema": "^3.25.1"
   },
   "peerDependencies": {
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/plugin-content-docs": "3.10.1",
-    "@docusaurus/theme-classic": "3.10.1",
-    "@docusaurus/theme-common": "3.10.1",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/plugin-content-docs": "3.10.2",
+    "@docusaurus/theme-classic": "3.10.2",
+    "@docusaurus/theme-common": "3.10.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@docusaurus/types": "3.10.1",
-    "@docusaurus/theme-classic": "3.10.1",
-    "@swc/core": "1.15.32",
+    "@docusaurus/theme-classic": "3.10.2",
+    "@docusaurus/types": "3.10.2",
+    "@swc/core": "1.15.47",
     "@testing-library/react": "^16.3.2",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.7"
   }
 }

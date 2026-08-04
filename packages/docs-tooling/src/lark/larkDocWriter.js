@@ -19,7 +19,7 @@ const fs = require('node:fs')
 const { URL } = require('node:url')
 const node_path = require('node:path')
 const cheerio = require('cheerio')
-const showdown = require('showdown')
+const { renderMarkdownHtml } = require('../markdown/renderMarkdownHtml')
 const _ = require('lodash')
 const yaml = require('js-yaml')
 const { fetchFeishuJsonWithRetry, fetchTextWithRetry } = require('./feishuFetch.js')
@@ -2697,10 +2697,10 @@ class larkDocWriter {
             .replace(/(?<!~)~(?!~)/g, '&#126;')
     }
 
-    __htmlTableCellContent(cell, converter) {
+    __htmlTableCellContent(cell) {
         let cellText = this.__htmlTableCellMarkdown(cell)
 
-        // Protect Admonition JSX from showdown's <p> wrapping
+        // Protect Admonition JSX from Markdown paragraph wrapping
         var admonitions = [];
         cellText = cellText.replace(
             /<Admonition[^>]*>[\s\S]*?<\/Admonition>/g,
@@ -2712,12 +2712,12 @@ class larkDocWriter {
 
         admonitions = admonitions.map(admonition => admonition.replace(/\n/g, ''));
 
-        cellText = converter.makeHtml(cellText)
+        cellText = renderMarkdownHtml(cellText)
             .replace(/\n/g, '')
             .replace(/&amp;/g, '&')
             .replace(/\*/g, '&ast;');
 
-        // Restore Admonition components (strip <p> wrapper showdown added)
+        // Restore Admonition components (strip the renderer's <p> wrapper)
         cellText = cellText.replace(
             /<p>%%ADMONITION_(\d+)%%<\/p>/g,
             (_, idx) => admonitions[parseInt(idx)]
@@ -2728,7 +2728,6 @@ class larkDocWriter {
     }
 
     async __table(table, indent) {
-        const converter = new showdown.Converter({ underline: true })
         const cells = table['cells'];
         const cell_blocks = cells.map(cell => {
             return this.__retrieve_block_by_id(cell).children
@@ -2806,7 +2805,7 @@ class larkDocWriter {
                 if (merge) {
                     const colspan = merge.col_span > 1 ? ` colspan="${merge.col_span}"` : "";
                     const rowspan = merge.row_span > 1 ? ` rowspan="${merge.row_span}"` : "";
-                    let cell_text = this.__htmlTableCellContent(cell_texts[cell_idx], converter);
+                    let cell_text = this.__htmlTableCellContent(cell_texts[cell_idx]);
 
                     if (i === 0) {
                         html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${cell_text}</th>\n`;
@@ -2823,7 +2822,6 @@ class larkDocWriter {
     }
 
     async __sheet(sheet, indent) {
-        const converter = new showdown.Converter({ underline: true })
         const merges = sheet.meta?.data.sheet.merges;
         const values = sheet.values.data.valueRange.values;
         const markdownRows = await Promise.all(values.map(async row => {
@@ -2871,9 +2869,9 @@ class larkDocWriter {
                 cell = cell.trim().replace(/<br>/g, '\n\n');
 
                 if (ridx === 0) {
-                    result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${converter.makeHtml(cell).replace(/\n/g, '')}</th>\n`
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${renderMarkdownHtml(cell).replace(/\n/g, '')}</th>\n`
                 } else {
-                    result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${converter.makeHtml(cell).replace(/\n/g, '')}</td>\n`
+                    result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${renderMarkdownHtml(cell).replace(/\n/g, '')}</td>\n`
                 }
             }
             result += ' '.repeat(indent) + '    ' + "</tr>" + "\n"

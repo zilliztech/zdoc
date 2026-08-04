@@ -32,10 +32,10 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: docs-checkpoint-guides-${{ inputs.site }}-${{ github.run_id }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Resolve site-owned Guides source
@@ -47,9 +47,9 @@ jobs:
           bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
       - name: Prepare selected Guides workspace
         run: node scripts/docs-workflow/prepare-content-group-workspace.js "${{ inputs.site }}" guides
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with: { name: '${{ inputs.source_artifact_name }}', path: '${{ runner.temp }}/source-download' }
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         if: ${{ inputs.table_count != '0' }}
         with:
           pattern: guides-table-${{ inputs.site }}-*-${{ github.run_id }}
@@ -236,7 +236,7 @@ jobs:
         name: Save Guides v5 generation
         if: ${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}
         continue-on-error: true
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: tmp/guides-source-cache-v5
           key: ${{ steps.guides_v5_generation.outputs.key }}
@@ -259,7 +259,7 @@ jobs:
           node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js --site $ZDOC_SITE" --validation-command "$build_validation"
           tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
       - id: upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-checkpoint-guides-${{ inputs.site }}-${{ github.run_id }}
           path: ${{ runner.temp }}/checkpoint-group.tar
@@ -267,7 +267,7 @@ jobs:
           if-no-files-found: error
       - name: Upload guides reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-checkpoint-guides-${{ inputs.site }}-${{ github.run_id }}-reports
           path: packages/docs-tooling/src/lark/meta/reports/

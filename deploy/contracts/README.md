@@ -1,15 +1,19 @@
 # Jenkins release contracts
 
-This directory defines the auditable data boundary between this repository and the externally managed `vdc-jenkins` release system. It does not contain or replace Jenkins Groovy, credentials, registry access, approval policy, or environment configuration; those remain owned by `vdc-jenkins`.
+This directory contains repository-owned build and release data contracts consumed by the externally managed `vdc-jenkins` release system. It does not contain or replace Jenkins Groovy, credentials, registry access, approval policy, environment configuration, target orchestration, or deployment behavior.
 
-## Four pipelines
+## Repository build interface
 
-| External pipeline | Site | Build command | Responsibility |
+UAT and Prod use the same repository build interface after Jenkins checks out the selected branch.
+
+| Target | Build command | Dockerfile | Content |
 | --- | --- | --- | --- |
-| `zilliz-docs-dev` | `en` | `pnpm build:en` | Build and publish immutable English UAT evidence |
-| `zilliz-docs-prod` | `en` | `pnpm build:en` when rebuilding | Rebuild a requested SHA or promote a verified English UAT image |
-| `zilliz-docs-cn-dev` | `zh-CN` | `pnpm build:zh-CN` | Build and publish immutable Chinese UAT evidence |
-| `zilliz-docs-cn-prod` | `zh-CN` | `pnpm build:zh-CN` when rebuilding | Rebuild a requested SHA or promote a verified Chinese UAT image |
+| `en` | `pnpm build:en` | `deploy/en/Dockerfile` | English and Japanese |
+| `zh-CN` | `pnpm build:zh-CN` | `deploy/zh-CN/Dockerfile` | Chinese |
+
+Jenkins may select either target or both. The targets are independently invocable and independently failing. Repository container builds accept only `ZDOC_SHA`, `ZDOC_SITE`, and `JENKINS_BUILD_ID`; branch selection, environment selection, image naming, execution order, retry, deployment, and approval remain Jenkins-owned.
+
+## Release records
 
 Every record fixes `sourceRepository` to `zdoc`, uses a lowercase 40-character Git SHA, records an immutable registry digest, and identifies the producing `vdc-jenkins` build. The Chinese release contract has no build-time or runtime dependency on `zdoc_cn`.
 
@@ -62,7 +66,7 @@ node deploy/contracts/verify-image.mjs verify-specified-image \
 - Canonical English Reference content, manifests, tooling, translation validation, and Reference scripts require both site builds plus Chinese Reference translation-coverage validation.
 - The Chinese Reference translation manifest and retirement registry require the Chinese build plus translation-coverage validation.
 
-The `site validation` GitHub Actions workflow is a read-only build gate: it does not deploy, use deployment secrets, publish documentation, or replace Jenkins approvals. After it passes, external UAT validation runs through `zilliz-docs-dev` for English and `zilliz-docs-cn-dev` for Chinese. Jenkins remains responsible for registry access, deployment credentials, immutable UAT evidence, environment checks, and approvals.
+The `site validation` GitHub Actions workflow is a read-only build gate: it does not deploy, use deployment secrets, publish documentation, or replace Jenkins approvals. After it passes, external Jenkins UAT may invoke either selected target through the repository build interface above. Jenkins remains responsible for registry access, deployment credentials, immutable UAT evidence, environment checks, and approvals.
 
 ## Daily revision waterline
 

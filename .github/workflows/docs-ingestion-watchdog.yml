@@ -15,12 +15,12 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22.6'
           cache: pnpm
@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload watchdog result
         if: ${{ always() && !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-ingestion-watchdog-${{ github.run_id }}
           path: tmp/docs-ingestion-watchdog.json

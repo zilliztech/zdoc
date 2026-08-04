@@ -508,7 +508,6 @@ describe('Reference translation provenance', () => {
       repositoryRoot: roots.repositoryRoot,
       environment: {
         ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
-        ZDOC_REFERENCE_SOURCE_SHA: sourceCommit,
       },
       manualForPath: () => 'python',
       retirementRegistry: {schemaVersion: 2 as const, retirements: []},
@@ -518,13 +517,15 @@ describe('Reference translation provenance', () => {
       ['validate-reference', '--site', 'zh-CN'],
       dependencies,
     )).resolves.toBeUndefined();
+
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'),
+      '# changed source\n',
+    );
     await expect(executeReferenceDocsToolingCommand(
       ['validate-reference', '--site', 'zh-CN'],
-      {
-        ...dependencies,
-        environment: {...dependencies.environment, ZDOC_REFERENCE_SOURCE_SHA: 'b'.repeat(40)},
-      },
-    )).rejects.toThrow(/external snapshot.*source sha.*manifest source commit/i);
+      dependencies,
+    )).rejects.toThrow(/source hash/i);
   });
 
   it('fails when an English Reference sidebar template is missing', async () => {
