@@ -49,7 +49,12 @@ function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, do
 
   if (!snapshotPath) throw new Error('Incremental or single-doc media prefetch requires a source snapshot')
   const snapshot = readJson(snapshotPath)
-  const sourceByToken = new Map((snapshot.records || []).map(record => [record.doc_token, record.source_file]))
+  const sourceByToken = new Map()
+  for (const record of snapshot.records || []) {
+    for (const token of [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].filter(Boolean)) {
+      sourceByToken.set(token, record.source_file)
+    }
+  }
   return selectedTokens.map(token => {
     const sourceFile = sourceByToken.get(token)
     if (typeof sourceFile !== 'string' || !/^[^/\\]+\.json$/.test(sourceFile) || !available.has(sourceFile)) {
