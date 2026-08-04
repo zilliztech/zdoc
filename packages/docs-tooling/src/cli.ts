@@ -286,14 +286,21 @@ function validateRetirementRegistry(
     if (manualForPath(record.sourcePath) !== record.manual || manualForPath(record.targetPath) !== record.manual) {
       throw new Error(`Reference retirement manual does not match path ownership: ${record.sourcePath}`);
     }
-    if (sourceSnapshot.has(record.sourcePath) === targetSnapshot.has(record.targetPath)) {
-      throw new Error(`Reference retirement must have exactly one missing side: ${record.sourcePath} -> ${record.targetPath}`);
-    }
+    // A registry entry is active only while exactly one side exists. Once both
+    // sides are restored (or both disappear), the approval is obsolete and
+    // must not invalidate an otherwise current generated manifest.
   }
 }
 
-function assertRetirementsMatchManifest(registry: ReferenceRetirementRegistry, translationManifest: ReturnType<typeof parseReferenceTranslationManifest>): void {
-  const expected = registry.retirements.map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
+function assertRetirementsMatchManifest(
+  registry: ReferenceRetirementRegistry,
+  translationManifest: ReturnType<typeof parseReferenceTranslationManifest>,
+  sourceSnapshot: ReferenceTreeSnapshot,
+  targetSnapshot: ReferenceTreeSnapshot,
+): void {
+  const expected = registry.retirements
+    .filter(record => sourceSnapshot.has(record.sourcePath) !== targetSnapshot.has(record.targetPath))
+    .map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
   const actual = translationManifest.records
     .filter(record => record.status === 'retired')
     .map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
@@ -406,7 +413,7 @@ export async function executeReferenceDocsToolingCommand(
       const retirementRegistry = dependencies.retirementRegistry
         ?? parseReferenceRetirementRegistry(readJson(repositoryRoot, REFERENCE_RETIREMENT_REGISTRY));
       validateRetirementRegistry(retirementRegistry, sourceSnapshot, targetSnapshot, manualForPath);
-      assertRetirementsMatchManifest(retirementRegistry, translationManifest);
+      assertRetirementsMatchManifest(retirementRegistry, translationManifest, sourceSnapshot, targetSnapshot);
       validateReferenceTranslation({
         repositoryRoot,
         sourceRoot: REFERENCE_SOURCE_ROOT,

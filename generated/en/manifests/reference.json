@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
+  "sourceCommit": "26053f636725242bb8df79429f0aa46d38d06f77",
   "records": [
     {
       "manual": "cli",
@@ -679,196 +679,6 @@
     },
     {
       "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Columns.md",
-      "sourceHash": "cfba199bf48379b38a60d299a5cbbdf1eac46621f5b94bf74ee808839528ead6"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-CreateCollection.md",
-      "sourceHash": "71d81862e2c22a6c3310b88d0e4d02a0486ba2cc2dad52085c71782e4dda2180"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Delete.md",
-      "sourceHash": "505ee98b58cd53c0c6fc19afddde6e1cb945c46feaa9846255f46d3e4060e7a8"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DeleteByPks.md",
-      "sourceHash": "8d39ddcc50fb17a3fff59f004a9619ebdfde64d2e89e69fc7747938c59e76631"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DescribeCollection.md",
-      "sourceHash": "708a47af16af5f2352db8a9982fa924cace888ad15893ae4347c22ba5cc82df0"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DropCollection.md",
-      "sourceHash": "a3301823386b0e713b002f182edb1c4da19338a82bf59c2d028137c0d9fb9058"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Flush.md",
-      "sourceHash": "a072cddd1e8ce264a4837f9d83d132bad2b095f8047c48912099f6cbfc783ba8"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Get.md",
-      "sourceHash": "33c9e68ec93d0c80e7d4b601fa88960edd4fa25013545541ad69962fa6b8ba41"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-GetLoadState.md",
-      "sourceHash": "6b9541ac573625e66691eade4edc0ad92e9b99cfce143a2aef446699deed624d"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Insert.md",
-      "sourceHash": "d42548b0bf0f68aa24c67f0424306162b08cff2f29a91a354678ef843b1df9cc"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-InsertRows.md",
-      "sourceHash": "a206a571bafb2bf02936867d231dba6392d87065fa5f046bc40a12241b979786"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-ListCollections.md",
-      "sourceHash": "187218f7079e349a654dbf26d3e6af1ae355178cff9d4ce89938bb91a4df3dd8"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-LoadCollection.md",
-      "sourceHash": "545bfe417bbc864abdc1aa444acba85a429423620947762de191562919885f3f"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-NewCollection.md",
-      "sourceHash": "e1260ab050c9295236688458a46ab8cd1768ffbaa6612f5bb427addfd8686fe8"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Query.md",
-      "sourceHash": "2df30220ebd0c099fc29cbbe671caaf43c14f7ee854c8bdde37d70a48883592a"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-ReleaseCollection.md",
-      "sourceHash": "554b90230d7622c3444e72bf284cad36aab371baf86c4c325903a9c229adde48"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Search.md",
-      "sourceHash": "13498a9e8ab1ac3dc439141c8f2b163fc021d54d556b37ab27079b813fd9c6f9"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-SearchParams.md",
-      "sourceHash": "05cbbf851544a82c93549ed017f90293a032dbc114ed7d74a4cdfd5b662c35c5"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Upsert.md",
-      "sourceHash": "21a46ae08df6fa83249889c0efde3a4a9e8021e0c3c16ab8d70d28e2df73fb85"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Vectors.md",
-      "sourceHash": "34999f9a29172b31a33f19f256b10231a28ff0ed4d4c263a63eb95065380976d"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection.md",
-      "sourceHash": "fa0ab049ec43c613607063705826ad2f4c999a6c100aa1236f9ee1b8cd225297"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections-Close.md",
-      "sourceHash": "579c5ce52639a6b8f9efd5f97ce57b9ff12cef90dee133b9bb095581a8316a42"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections-NewClient.md",
-      "sourceHash": "2c50aa1ca73e2c99d2e9548a25b11fcacd43399f5df0ceec04dd263d30ed6dcc"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections.md",
-      "sourceHash": "c3d203135768d041f36a060968759e294bcb71557aae55f4fe68c1f832b62666"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-CreateIndex.md",
-      "sourceHash": "b351c3ecb508bd9122ad49b71577de6f339088bdaf6b0dc51078bd18b564f50b"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-DescribeIndex.md",
-      "sourceHash": "f8ac0b0e0abc3d2ad52ee6f2d49aaed0b90fcce5276cf77390f19f913df22aea"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-DropIndex.md",
-      "sourceHash": "45446c051c6c43994446790fa11abe48b3a1a6745e38f7b3ba5f780b20221ac8"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-GetIndexBuildProgress.md",
-      "sourceHash": "07cca2bae100cf344baafe4de15d8901259590452a120c20ad90795cfa2995bf"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-Indexes.md",
-      "sourceHash": "3add76b4a96637e0c74d78eebf5828261728714502b8a22de4c1ba050ee58742"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index.md",
-      "sourceHash": "3c6134e3b7c2521ceddf3d9c632a611c5774685f38bf52e74d49f2f4c5baa020"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-CreatePartition.md",
-      "sourceHash": "8b86d09cb2e479aeb71e30b0a4b29ecfbf28c0f4f899f191f2be7d1826ff6ae2"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-DropPartition.md",
-      "sourceHash": "f9b12c876c93e1dec4ec9d384f28cda3463ecb4f579b21d6ca55f2ded5796a26"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-HasPartition.md",
-      "sourceHash": "8012e1edb6413f011f4ed1195594acdb4bcea393ebf9672d5686f424efcb3691"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-LoadPartitions.md",
-      "sourceHash": "821ca9a28a86d444f6eace762b581071f652f6c17797530d0c9639c82a49c30b"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-ReleasePartitions.md",
-      "sourceHash": "67a676dae1618202ce3c7494c594c4ff9ca7575a9ad3a4560d44de38e0ff21a4"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-ShowPartitions.md",
-      "sourceHash": "49bbdbb0eadf66acd7dc72f26a0c7881f1bf12e0ea0e543193da970adc9f4a04"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition.md",
-      "sourceHash": "e05f3c3af24c041b1deff9efacc0eace84d5d30737ede6a66b662f519a579ac0"
-    },
-    {
-      "manual": "go",
-      "sourcePath": "content/en/reference/api/go/go/v1/v1.md",
-      "sourceHash": "de5d5f598bd04a9134d18ee4822a9213cba96c6912e3bf74f79598eaa497112f"
-    },
-    {
-      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
       "sourceHash": "5961e9c470a6ee667c3a60c1f77f198ca7cd6d8bf093065405993abeb452fb54"
     },
@@ -970,7 +780,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md",
-      "sourceHash": "5c2f37b067003dc0264bc92eea6dda599e49815a8b6e787a5eb591063b426cf8"
+      "sourceHash": "11d0dc2d9de2422b3cc6211db507c2c6f1a5a2717a4d4cf5033bbb9798d474c2"
     },
     {
       "manual": "go",
@@ -995,7 +805,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-AddCollectionField.md",
-      "sourceHash": "e4c1006bd70ef92192d1d478a4f557f6f98ff2a64b9585d41c92c07a830c1b7e"
+      "sourceHash": "bc1a43cb91902c6af97c2e75f5ef383e3a0a448db717de8443a304f615d05909"
     },
     {
       "manual": "go",
@@ -1030,7 +840,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-CreateCollection.md",
-      "sourceHash": "31fc5c91b4e46cf47d00e3afed5420a98d50e9a9b9d28ce92b4b4a58b7fc0f2a"
+      "sourceHash": "46c07c629d558c111f2e95d1e60d5da4790fce1ae594cdece24628cb2a529211"
     },
     {
       "manual": "go",
@@ -1060,12 +870,12 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Field.md",
-      "sourceHash": "6f1fee2d8e3722ccd123747025fbfbe91124e804c2e0fac52c69febb9ab99f5f"
+      "sourceHash": "f4f918deb7cc7857551094d6874367dee4f2c0c30dbaf6f936f169c845fe51e2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-FieldType.md",
-      "sourceHash": "6cc21152ff1755da7f7497fce74a100369c74cb39938d8666d16c831dcd9f043"
+      "sourceHash": "154958ca3aa33dcd3829354f875e0152285a3376b4490236f1e377de5a5665be"
     },
     {
       "manual": "go",
@@ -1080,7 +890,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-GetRefreshExternalCollectionProgress.md",
-      "sourceHash": "c686387e80aaa94f9454210498548194449e8130a78151e5970b5aaf6af01398"
+      "sourceHash": "6d9c67f1db2e9ce411ec24dfeca98309bf2404abbbb99f0d496d57b71cbf2d81"
     },
     {
       "manual": "go",
@@ -1100,22 +910,22 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-ListRefreshExternalCollectionJobs.md",
-      "sourceHash": "2bce455974d9b506ff8512475c204ff951d2aaf9f6a2ba08b2401032596d7abe"
+      "sourceHash": "a3d7eb2d86fef32b0aaee26c636744eed520e39e1d724454970329a0a7f44629"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollection.md",
-      "sourceHash": "d93bd02136173c5dc54b3e207678c2348c5aa2150d21a3bfdd1efd108e7b8f02"
+      "sourceHash": "fa8026ae6659c1aead11abffa58e06518c91288960eaa71cde8519e5b8eb610c"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionJobInfo.md",
-      "sourceHash": "da8ce9c5d26bd9eb15358811aa8dfd2fa952e5be614772c545b85d6b2b17b836"
+      "sourceHash": "e746521cd071b5b071e6cc8a40045156331b41155e1938d1db657e21a5532a40"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RefreshExternalCollectionState.md",
-      "sourceHash": "ba671389ed118a1cc65cec3024b8ad002f1344416463984136df277bcc04dd99"
+      "sourceHash": "a0c11312b9fbceb04c877e988283d9f4cbd1a8c44293460ddc502a3b3f058d3f"
     },
     {
       "manual": "go",
@@ -1125,12 +935,17 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-Schema.md",
-      "sourceHash": "60b7bf78e0ef068a803202b6c6b3e9c1e638178c44c9e5da168c148de1f90334"
+      "sourceHash": "800a28dbb72c322e2fc36c84c5d93e4cb5ba353977da3936ab5fd7b43f560cdc"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-StructSchema.md",
+      "sourceHash": "f1628928e692cf4bdc9bcf6531e7aecec3757576e441c02327b0cbfc0bf90b37"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-TruncateCollection.md",
-      "sourceHash": "224d193a542eab174c30cf153a7c749068f477215014a0500caa1707afc0af7e"
+      "sourceHash": "d4352190ab629ec7da576d40e59a21f877f12ddf6c392b58d93112389ecffb35"
     },
     {
       "manual": "go",
@@ -1140,47 +955,47 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImport.md",
-      "sourceHash": "976f6cc9f67bfbe3b359f1c4a2dde4581bcb181699674bb9f7ebb9a1b2542bd7"
+      "sourceHash": "2a96f1e9bcf4a187a459fd2af9d050c08fd359ea2a84d9fb77ed0727929472bf"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportOption.md",
-      "sourceHash": "ba0a5d0e28970ad7c53260266586944dd6b2f9d12c114b092f1916af51981366"
+      "sourceHash": "cf052e1b9c4bbbad5086bc5fe67ccb2e57a9fbea6e11b2799c1b150b11d97079"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-BulkImportResponse.md",
-      "sourceHash": "7ad48762720a8972313878be6405a9fdcc0ffa0d66a92b2ce58f18071aae2933"
+      "sourceHash": "120344e580d42dae753e7f24292875a1984fa41c5396e8bf884225d01323897e"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgress.md",
-      "sourceHash": "e86573b15c27a9f8d623fb651e8db7e87f57f9569b974d96da2525b9b057d743"
+      "sourceHash": "34d856292b0d29ce72f21a0667bca83b886c144018e6e5c9a99f52c0dad1ece4"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressOption.md",
-      "sourceHash": "aeb66a05c3287f2a5f164f928fbd2a06ab8d3e039116f0cbbfe530a9a4095e5b"
+      "sourceHash": "c8ccf49f434ee77ab5d6cf1851acfaa4bfee35c45b4eb631f2a0f0fb70411bfd"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-GetImportProgressResponse.md",
-      "sourceHash": "2f3c6f09591efa1802f9bcf2e968d89a3cbc7daac8e3162dd2fd3128af3f7fdc"
+      "sourceHash": "d59fabc5f18a077175afce4e5f4f5555106e95acd41ad98fd8ad47ce4e2b0178"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobs.md",
-      "sourceHash": "eea9675b1f7bb1abcbbeb359fecd40bda3177fadfbead00677c1dd53fd5fc158"
+      "sourceHash": "512fff0ae18828965e4a1b15239b191bd44ea7bb8bcf3486dca6d65e337394f2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsOption.md",
-      "sourceHash": "7e94759dcc964ad44423ade4a39be48edaf3811ffc5c7813de9aa1ac6c139a4a"
+      "sourceHash": "61d55a4e49fa07e5c993dc2804968ddf605d67e622a0b26dea3c8255adde210d"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse.md",
-      "sourceHash": "fa3b45f336e378ed246e45b674652b03d6f0fc3484dc20dde620b812abffce29"
+      "sourceHash": "e52c4288bfe8d06f76c1ba146543cea1412056de5b484a0bcb76658f7ffca029"
     },
     {
       "manual": "go",
@@ -1255,7 +1070,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Snapshot/v2-Snapshot-PinSnapshotData.md",
-      "sourceHash": "1b4f264cbcaed151da6193015a2d29f8f82a26814fd97bef7b1bf2c9a3868996"
+      "sourceHash": "8d80b8fcfef3aefc842f947336c9270bee28132fa632ab062e510f1b145a6ea4"
     },
     {
       "manual": "go",
@@ -1279,508 +1094,108 @@
     },
     {
       "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBFloat16VectorArray.md",
+      "sourceHash": "180efd52c4cac02cfbcf528576a682dc7fb2120a7fc318f351d43d124873eea1"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnBinaryVectorArray.md",
+      "sourceHash": "1ad5346811e68fcea15b5b7da681371f4fdf3087d4b7d686952ccedff924e566"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloat16VectorArray.md",
+      "sourceHash": "892b9417693ba6a2b539115c7a65113be3faaed9d9355d057f9265c40ebc070e"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnFloatVectorArray.md",
+      "sourceHash": "c74e08f3e93882b49c525c62b1b81e98c91376323be287089148b91f65404485"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ColumnInt8VectorArray.md",
+      "sourceHash": "bfde155f338cf7577c5e3b99cbf703786172019c3506b48eadfe19f7d2d27aae"
+    },
+    {
+      "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Delete.md",
-      "sourceHash": "6bd29e7df5be3d51f2bc7a7cbdb378f4fed83878b2b4e53b7183b8f454cafe60"
+      "sourceHash": "177205c81e51910ae3aed895ddaf75ad64fdac4b6a00b1f903601ddf2f89bf28"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-DeleteResult.md",
-      "sourceHash": "04edcf01fcb49dd7dc839402177b163b4cbbc71a3fe691056ccb5d895ee5a909"
+      "sourceHash": "994a7822b851cd441f1da11874bda0cc2351f9274a5051f2551912028ca8bdc7"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Get.md",
-      "sourceHash": "d59da8cc9eb5174b86a31515136953214425860b629b3d27e39c4893f7ec26e3"
+      "sourceHash": "446233e4e5c28de22db54dbfe449e3c3bc5b918f1ddd30f823f12ef070771cb2"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-HybridSearch.md",
-      "sourceHash": "dea8258d7019dcf4b605d42024e2556dbfd34661ac2de432d942d307450d8cac"
+      "sourceHash": "97cc93151c0195ce5c4f3b9a42e1b4a3e57583473b784d10004cb8317a5f4b09"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Insert.md",
-      "sourceHash": "7e932f74dd9fc28992ed3730bf5a14f396356705e76b6cee7e51d08306ffd51c"
+      "sourceHash": "712b7054f47b58b05ec92b4397d63f0968844db0fa42af739c2b6b5c496b9bd0"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-InsertResult.md",
-      "sourceHash": "374be3b8a07dd8d8ff852d917546f5b28723445eec7e8430cc0bcc971db9b04d"
+      "sourceHash": "add404c91d4aa7482a5a4c09847e001898c7413be0d86a39442a4e352831d320"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Query.md",
-      "sourceHash": "dafeb84e55edad6171934601e19f0ddab5412b643a04e12be5fc93eb551e8b24"
+      "sourceHash": "37fccac77e0d70e614d7aed3370c620191899fc294e4102ee04cf0c16ef4dd11"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-QueryIterator.md",
-      "sourceHash": "aa7868d961307caaaba16ca4774f89fa66569228e411de58bdb7318fd4cd8dbf"
+      "sourceHash": "92cc23a5813cbe123ddd090102db652aaae6dec28a5add65aa05d368cb34f8a5"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-ResultSet.md",
-      "sourceHash": "e9c6b9be735e749d98c49882caa59f0da4ad56e938447785c55f45a3cd769dde"
+      "sourceHash": "6810a8e7b234b87fd113d39336f14ab9bf0130ede613889e2fefbe74aa0e867c"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-RunAnalyzer.md",
-      "sourceHash": "39bb94629219d3d52cbbb21e1e9b91b298e0738557f27ebb3d31678fc1b402e6"
+      "sourceHash": "ef220f6e1748f42b3ae30afec19443f1c103d0ea7c6b65851ae7f5b1c537879e"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Search.md",
-      "sourceHash": "cb2b989e31640bbb2d78bac2f3cb787d11e6bf85c0b2ebfa2420532b7434de45"
+      "sourceHash": "69c765a663b74442495842b9f9489bd6033b92858673e0941265f936fd1e89ca"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-SearchIterator.md",
-      "sourceHash": "937ff66d47c08766b03046ef4c3790848346e4d860d5aa6ab435172a1ba19662"
+      "sourceHash": "6e872a3a8d4ccc39d16cc8531fb841c00151eb53bcd4209cc7a51a93b93894a3"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Upsert.md",
-      "sourceHash": "7e311eaa8837cb19fd8d2e7651355f8a497394efdaa91f028f99e9467455574b"
+      "sourceHash": "009cb856d60c8c0694819e71fc0f87354f78734ebd9545e70778c18406e466d7"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-UpsertResult.md",
-      "sourceHash": "e34e9fffefcf8e234e8a770c43b97a6d1d16fa29c2c08fea49b849085bcbd27a"
+      "sourceHash": "baacb8101aa27a6598d60f3d878e002262eed9116d59ed1584639dd40b2479bb"
     },
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector.md",
-      "sourceHash": "4d715832213c4debcd1e132f656bfce68e95ffcc1065c2c681995b812166bc91"
+      "sourceHash": "a141ebedea8299314772435b5a76dddcc4277f0ee03d48d74d6295ece14315e7"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/java.md",
       "sourceHash": "048ea1cc6142e8b454028f5378a0aac6e03d99b9c5b6f745b4359f143c266408"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-About.md",
-      "sourceHash": "2fc51d5a1139c13a5e062379279613118d6505cb03c2ac9624c48f9642027c0e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-alterAlias.md",
-      "sourceHash": "2e652e3fea5a481700aeacf13522623d01f0fa425d63450c965c1bd14965dc3d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-createAlias.md",
-      "sourceHash": "66e9de904d38a6a6502d879283599f277a8f1ac6e9a652ee37c268ae8d56aab7"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-dropAlias.md",
-      "sourceHash": "9af5c4a5e72b059a23bf797b8399bc170b4af82f94b0f07743dea95bca76553a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-listAliases.md",
-      "sourceHash": "b47d8ba8745824ed69a423d29ebc11f7c7a99734293cb6b6f90123a9e09c0db3"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias.md",
-      "sourceHash": "e251ae19682561e31fa78f0386c0917cec6fe71fa1f7def77f440e56e8320197"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-createCredential.md",
-      "sourceHash": "ee5d17c38403b0008087da99d214af366446c0e40cd633cfc1580491b513c54e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-deleteCredential.md",
-      "sourceHash": "34e41ff28b2cfc8316479f8510efa1a6d824d5a1b9678299096b9f8ab6948e55"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-listCredUsers.md",
-      "sourceHash": "661ab865ccf6c8f5d0b3d8dc4aeffd1d8ddb958fcbf6eb2c64287461d698b815"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-updateCredential.md",
-      "sourceHash": "229e7784b52d82e41c47bae76926ae9702da4b81e4c60d4b8347726f5005704d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication.md",
-      "sourceHash": "ea0a22c140ac29f59a75ba32d3a3e6901fa6ca16ec90bf51a85f8ae218e4cb73"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-LocalBulkWriter.md",
-      "sourceHash": "affcf74c99175b5b62ab641341a75db598665b0262401fe683e8543cc8d3b17b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-RemoteBulkWriter.md",
-      "sourceHash": "066286a1ea6356b37640822165ad52c176c0078d0d20bfd9ad28fbe63eee769f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter.md",
-      "sourceHash": "d62dfee7ddfe7941eea34a8bdabd7f02c3dc898016f379abc8b10058c4769bb2"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-alterCollection.md",
-      "sourceHash": "42aafd11ac08000faacb41b97e836a3384a738e3f1b22fbb9b99ba26aaff1ffa"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-createCollection.md",
-      "sourceHash": "096582e20d624e606cb8761709643cd2ed15a9533e94e53b6db75ed540a2f40c"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-delete.md",
-      "sourceHash": "15a4ba74596b47f219c6da065e400db3888ee73cb828f1464a811bb1d833f763"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-describeCollection.md",
-      "sourceHash": "b4c4f3a16b315dc960c38a0490fb2e9dbb080afc98b441b203fdf2c98db7045f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-dropCollection.md",
-      "sourceHash": "b42bb1ac768f0ba3142bda88a9a4c0da5c2d776cc2fa174f2e834567a53805fa"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-flush.md",
-      "sourceHash": "fc689bf118b4b0ff219cffa38e0374dba77d48b9422f3891efa872f493441e52"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getCollectionStatistics.md",
-      "sourceHash": "38f4284d277711906cf0c2d5cacb0c861231edc4d418983ade1d138ed5e03d10"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
-      "sourceHash": "0c0cbac08f39a5b85c8500ea44ade7895196aface4f132df429395061eaac9ab"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
-      "sourceHash": "5baf3a14f2ce5cb3647e5dcbdc251f96e5ba56615f482e842a82cf1958486c5e"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-insert.md",
-      "sourceHash": "f5bcddb7c5a68cee91c00622ba3f398b5ccf574a6170a09b37035d8ec6c0f34c"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-insertAsync.md",
-      "sourceHash": "5987eb515bfd5e40ec86da2ac39094c82d2cb64d63171b5fcf6c38326d5f2973"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-loadCollection.md",
-      "sourceHash": "9cbb5a02b7a91dda1a08c882dd56c3907e0f49037d041e82db73b2de2d9f8f19"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-releaseCollection.md",
-      "sourceHash": "cd019f784402190b52766f0fc289abc52fa620ec66dec45721355b146c4d06f9"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-renameCollection.md",
-      "sourceHash": "4a3ab959b3df6a60f1b62699357b74c206bd70577fde3c05a2fe075090c0420b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-showCollections.md",
-      "sourceHash": "464a62ab7af7a10ee7633ee3c5110a9f4e3338e538d09d2abdb16a477dbf348a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-upsert.md",
-      "sourceHash": "e68a20a62d79ee43e3b05ad65d0799633424e74741963ea0e45e8fb2ccccb227"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-upsertAsync.md",
-      "sourceHash": "c1f054c1827713d4a9eef0fcb88a3c16c4de963e8d262078161e188bff14b7fa"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection.md",
-      "sourceHash": "d76b7248f5c5a3665cdf53c2f35530fda324023ad208035979d62067afd612b8"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClient.md",
-      "sourceHash": "431ce36b2d36812281bec5a68c3960455e7a5fc8f59079bca7e157b4c32b3fc2"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClientV1Pool.md",
-      "sourceHash": "deb632c1ceea6f0e28bcc7ee175bc309827f8e98d3b0c38b848d70b842bf7023"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections.md",
-      "sourceHash": "b9b414a31413a4d0417e0ad8a77c939cb210cf16a1bb73ecf4023abc778baa28"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-createCollection.md",
-      "sourceHash": "86506bffa43a662e8610a5de8edf224d54787d5710e19e8009f03111af2dafff"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-delete.md",
-      "sourceHash": "ca998855491880517a3c65f90131aa3cdf6f3f0e68be47f9958093d574704a9a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-get.md",
-      "sourceHash": "ef373f81d79a880cc004042f705c37a62bb19afb2f3cd7a35f2ba5caf44e81da"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-insert.md",
-      "sourceHash": "7ce073bdaf66380710c0aa728eff87722e2127e05e5074f3d1a14c85b55bb556"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-listCollections.md",
-      "sourceHash": "72216f144d8bd65fcbe12d0090341314183aa52fdf908ad40bb5260f90173a45"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-query.md",
-      "sourceHash": "2cc790c8b7ee83f09e634e2265df3a2db6ed0f1b57b54a7b9a56a98722d3cfad"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-search.md",
-      "sourceHash": "f721db95b7a99dd2ab7c0142b78e651bb34b22a2de1e015276a8775900ffa6eb"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI.md",
-      "sourceHash": "f9fd668d0dae2f0cb46a97fd2b424023f0679c17cc0f6d5fb03a8b1d2d234bc4"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-alterIndex.md",
-      "sourceHash": "ebd95e0a8f025753018d4c888a361ae56e65774a87501e3106836877a4a609ac"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-createIndex.md",
-      "sourceHash": "4dbc457ef0ea6f1c14305e4689e62c5816c5a198bbe73ad440aa24ba4cc9935f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-describeIndex.md",
-      "sourceHash": "bbfff5dc0cfdaa77d40728e4e7844f9b0b7cd078a656cd2d01a4300eeb6243c9"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-dropIndex.md",
-      "sourceHash": "e417588e4c824e5d2a3aa8b42b9c9dbf060b8e57ab060846b018ddfd12926f7d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-getIndexBuildingProgress.md",
-      "sourceHash": "c52cb840f3e933d01768457bbfdaea149b8e420ecacdfc70986ced7fc6aa8d75"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-getIndexState.md",
-      "sourceHash": "06424f036113e123ceac1256ce1a3fcd53c40fefbf8daa83f5a3e57f32467852"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index.md",
-      "sourceHash": "a578f4d264e59193942598237082eda3170ff8652c76d90757c37541078d5f29"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-ConsistencyLevelEnum.md",
-      "sourceHash": "92edc5c4a1af10dc79d07fd6c91eb29171cfe60426f4259cec9feb59c9801c1d"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-Constant.md",
-      "sourceHash": "e51e29d5ee7f0ad114f4181fa10803f3a067a558c0bb8c7128538488fc988301"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-DataType.md",
-      "sourceHash": "bdecb052f3f8dfe551648f19bc2b2fd615f024a6e0341d383ee1c7e119ee0c44"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-IndexType.md",
-      "sourceHash": "6ded00554a84630d78b94d4f000cec6afad00d78691a7173fd6b7b95441772c9"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-LogLevel.md",
-      "sourceHash": "96114861346a60ca8bb1e2532d168973816f3506065b1d9c866467f698a15712"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-MetricType.md",
-      "sourceHash": "4ffc669b4d1647b7d474fb1d954a24650079e4fb759c4d86f1699e6c644a8ce2"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-RT.md",
-      "sourceHash": "33c60b8f041040e19f6195744dc58425ca9883d3aefd88029acb9593147e0501"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc.md",
-      "sourceHash": "badac14a30e77ae9cb024ef316efe08d6e5111822e0e6f09f4728c3afaa74064"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-createPartition.md",
-      "sourceHash": "52dc3fffdc1f9db4bdc6749a4edf2961aa1f90c01bbe3d91e7b768bcec0428c6"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-dropPartition.md",
-      "sourceHash": "ed778b2c4d314b836ac8433cc7299fae43ca1d46f552c22907db5301bc1643d3"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-getPartitionStatistics.md",
-      "sourceHash": "ef037bdc1769aeaf25f483252d7083cb5cff0795e06999ddbfce840417c3a331"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-hasPartition.md",
-      "sourceHash": "60c42d090f83a92f2da49f30949bf3c6707951168efa063dc988dd7765310ea6"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-loadPartitions.md",
-      "sourceHash": "2eba00763b902887e066901266043b027cacb7ec7d3d7347ef39932e81951032"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-releasePartitions.md",
-      "sourceHash": "5cc55882fd2a26fd121fabffa1eee8b2d44579dfd1e94b3550016d4171284df4"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-showPartitions.md",
-      "sourceHash": "5f446ff897d7f3a948fc8b1c0f8d375bb9a5d67882bb809a1cd2a537401e92fc"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition.md",
-      "sourceHash": "dde05b245851d0cd735d7c57fb6bf34d5dab52a596447741058519bde5b40cb7"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-hybridSearch.md",
-      "sourceHash": "1bc3859a1ed636693ed14460d8a0f752c66e3e64fa0d54aae7b5438c373dd30b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-query.md",
-      "sourceHash": "83ec20e0c7f6310a8c375bea3d4a6bcda146c995b4fe8799c048d8ff47d6cde7"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryAsync.md",
-      "sourceHash": "78cdecc71596a98dbe87074929b71213ae8b7b3a8e262bd922d5e6bfde411ea9"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryIterator.md",
-      "sourceHash": "0d7e9eb0f173b4793a506a0362f852248ff87db6adcb941ee0686de7d53a6e22"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-search.md",
-      "sourceHash": "5da509925fbd6a814ecd5c0ea9701d40afde62fc22615250d3e1583f4b641c0b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchAsync.md",
-      "sourceHash": "b1e72f50d026a6eb1cd7da4db1523c476248f8fc4ba0d751854185b6fb43f91b"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchIterator.md",
-      "sourceHash": "189d8a1b6d090ac99152d5f8c8e35a6cd0ebe36073b68f154fdd13139fe66940"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch.md",
-      "sourceHash": "bdceb59000f383eb719d3791c943fbdb9e64136fb7d35367bd3fa83d309cd4cc"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-addUserToRole.md",
-      "sourceHash": "2bd6fb15ba90fea6a83d229abc3f30fae0adb5758d67e4bba7f2ffe061ba1508"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-removeUserFromRole.md",
-      "sourceHash": "17d3ffc75600247f48cfea7f17e11aacc542a9ca900d9f0593c45ee74e32fe28"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRole.md",
-      "sourceHash": "0d1640ec94880abe0f3f2e96afd37bea99458e79786bd30f03f9d6427481d26f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRoleAndObject.md",
-      "sourceHash": "22778f035a6cdaf511be092acbd347930261a9b197f34f0b8766f4ecae15a89f"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectRole.md",
-      "sourceHash": "4a443ea5bebc37587b27e34e6fe1716af113d772d8ec1a9004ac7b3eefa52c85"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectUser.md",
-      "sourceHash": "224d0c05f0332afb6f76464a2d63cdfac77b2842077c3b2c6b8be566845b16f2"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC.md",
-      "sourceHash": "9a4cfe56f12d1cbfe5eaac8accd0b55f8dea06a835c12e96cc4a8895838efc6a"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System-checkHealth.md",
-      "sourceHash": "3688f5627cd5eb3f6e8f65f4cbef10dbd72ffd9e40afe3fdeab10e98f44c18d3"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System-getVersion.md",
-      "sourceHash": "d1036fcb60058c58727026435b12be169b8ed6d9f757460603acbf3cebafa800"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System.md",
-      "sourceHash": "8b014d427d4ab4519eb38456186250d197dd379141245a850a020d82845876b5"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v1/v1.md",
-      "sourceHash": "55f08e92e8f7bbff4d1c6147b29380799c797c90d546a548a018415fa643aa75"
     },
     {
       "manual": "java",
@@ -1865,7 +1280,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
-      "sourceHash": "140cd31461983e776658dafd716bd45d34715bdfbfafca288acfec9454a3aee8"
+      "sourceHash": "098664ad42e01d65c90a1f47009f56a5d1fb345f0356a87e4ed52ddba1fc686f"
     },
     {
       "manual": "java",
@@ -1885,7 +1300,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md",
-      "sourceHash": "8d99189e8a75a09d33cf52e90a16f39165758f60f7830b865b6b0d5e39890dd9"
+      "sourceHash": "2f9722693af1cdc78dae0b01b3d63d9359c17fc02ca8bf5a458912f1ef0d0614"
     },
     {
       "manual": "java",
@@ -1970,7 +1385,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-FieldSchema.md",
-      "sourceHash": "b90cbfad187ef6851346a249105573e5d5b394464de945e7df81a51faefd2c9f"
+      "sourceHash": "4125938e959f0cc7218d63c43eecdb542fce7847e1afd00ee5126ec13ab6a1cb"
     },
     {
       "manual": "java",
@@ -1990,7 +1405,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md",
-      "sourceHash": "54f53ea32f1a868505dfa111df4abafaca161b2903160e1703d6d5e051d027b4"
+      "sourceHash": "aa0894692ba8e665a022224612e7046f26b8d6c2c125e560d4bf90b294e3d229"
     },
     {
       "manual": "java",
@@ -2060,12 +1475,17 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
-      "sourceHash": "08f5b370f27cd9bca9e7abe046354385561e7cd0468362eeeaf605b156f44a4b"
+      "sourceHash": "84ea2b7fc2268b20ecd6ff3a1ae3649a200f4fe40236465a24aa1b83268805c4"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md",
       "sourceHash": "408d29e9161503d5464caafdd3c517a478ee6418cc19aaaf2a4a49960281fa45"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md",
+      "sourceHash": "6a9db4fd09ef5a6230ecff9deb2a28b49db7fd127161027ed1cab6b95e25af17"
     },
     {
       "manual": "java",
@@ -2090,7 +1510,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md",
-      "sourceHash": "63d55f5b886257a9c83b41438c779feb55294adb9feca708b0b96fdf8e8c53f0"
+      "sourceHash": "440db868461a092fb2a64bffab25193a097b92ef64c8386baad6b27f04cfe78d"
     },
     {
       "manual": "java",
@@ -2129,13 +1549,18 @@
     },
     {
       "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionField.md",
+      "sourceHash": "7a0a117cd76506b0c77c8b5b72eef98e17b3126903d74287239b4192f7488d75"
+    },
+    {
+      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties.md",
       "sourceHash": "d56036f1d01664e0dabdd3dba4e77272758137742a673f9823ef2861518d2161"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
-      "sourceHash": "86e90811ca05a061617d9e1ef21da15c6469bfa1e38c7eecdae56262ee830b99"
+      "sourceHash": "9e9d57270c7ab13ab9abaa06b80bb6bb46ab5fe9b6ab2ced96aeb977d187be6e"
     },
     {
       "manual": "java",
@@ -2144,13 +1569,18 @@
     },
     {
       "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropFunctionField.md",
+      "sourceHash": "fde46e980574fbe013948dcf573466638e55271b0d1e865e2b3e75ba1cf2fa65"
+    },
+    {
+      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats.md",
-      "sourceHash": "ec13204b3bca384b6ca6c0c3711f7fa121fae669877d6a43c92a362d6730a851"
+      "sourceHash": "29199aff1309d96d15ca10526717c59e4b3b140acfe6723a7b0ecdb3a8e9c4e2"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
-      "sourceHash": "a34cf75751c2f20e18cf55a45381a6c6375571dd358ca398257625ef01d7c152"
+      "sourceHash": "ee089df51f32e01f67ef32d7ee793db4b48f18b8dc8ce4df27a66b32c73f37a8"
     },
     {
       "manual": "java",
@@ -2184,18 +1614,28 @@
     },
     {
       "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-abortImport.md",
+      "sourceHash": "2006caf4ef7d22f45276ab6ebb3017783cfa5f32ed5984595a58c64055615191"
+    },
+    {
+      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport.md",
-      "sourceHash": "8d52d953c9753888e7d04f01301c36c5bd1570ae32b92e3101ee6b1c430baa00"
+      "sourceHash": "9189387cca5278ab2c914567eb1e34cad66383bd78f993975be0989394b62e4c"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-commitImport.md",
+      "sourceHash": "f63a98d24a89402ae69796f1a123c0d6c377fd6d4cdc9298c9344ed1fd5e92fe"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress.md",
-      "sourceHash": "052e6d411c94be60d03255fccf6215f6c840657d7abacb2e07cb041767d9e130"
+      "sourceHash": "e5b6015e1c170426a45bdb70338eb4352c6cad2f6d4dceb066a31e07dfb4d6b2"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs.md",
-      "sourceHash": "fc2c7bf7ca91cc2cc20c185fddc455d3df81468ad44da57caefebaa070001f04"
+      "sourceHash": "d34580275d74cf5bcfff786cac6bd94b601b2eee7f486a472efaae9032e1e1bf"
     },
     {
       "manual": "java",
@@ -2210,7 +1650,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
-      "sourceHash": "c7f6f5ce7ff6d0a83abb65b98be3a402ee9b239abd9593d884db182cb973e5f9"
+      "sourceHash": "8d5757857eae7fedba00261b2fb51eb252f521684aaa68489c5e3bde718eae0b"
     },
     {
       "manual": "java",
@@ -2240,7 +1680,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
-      "sourceHash": "89730743bede46527276d2100e96054383f4212c558bd359953c7f490a06e9d9"
+      "sourceHash": "c23368e7e107f6198e19236a1590b742b02b7680e396b6fb311f413350ed9d05"
     },
     {
       "manual": "java",
@@ -2265,12 +1705,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md",
-      "sourceHash": "bad434dde4a71671c9207dc3c5d4c4810808d33270506ce8b6959e0734850e7b"
+      "sourceHash": "22096bdcbfeeb02e2f2c3605cd566700593638023ca6ee535158ef7ac2778fbf"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md",
-      "sourceHash": "b97fd0a4eb44988b4f507295f7f569750a8af549ee681b69020f8d59c28d88d6"
+      "sourceHash": "983e53371a18c2ba1704ae9ada8691f968fe2ca72cc683f4e0b37e33d62ddc83"
     },
     {
       "manual": "java",
@@ -2405,17 +1845,17 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
-      "sourceHash": "472ab2579c3ccf80f8c6c911462877c13179a5589849f0e6b53ada9f8bfdd31f"
+      "sourceHash": "342873cd1a32c01db8a1fc323d41fe8f021286509e75a3524ffad7881eb11e67"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md",
-      "sourceHash": "117f3830812bb30343a36fb99048476bdfa720ed5ec5ec06cbbb47754eafe93f"
+      "sourceHash": "bd09d3455fdcbbfedecc63799a19d0cb631cb816506ca0040b083e8196927fa7"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md",
-      "sourceHash": "3317c67296cdf0a3b3c602e117f57bc9974caa8689a2bcd34f4c29d59a80dc45"
+      "sourceHash": "c1f1dba9d2792ed9bfdb5b8976780e673adcd702422172816fb4e030fb00cdc2"
     },
     {
       "manual": "java",
@@ -2425,12 +1865,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "9cc3ce1895ca3f74e0948da0112813a9b2a2eef9abf3619b7e8ca069f63ce1f7"
+      "sourceHash": "dffc8d4471d8f93644db2497647f654d7435ac90af015ad6e26f51a9d6086883"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md",
-      "sourceHash": "ab4dda98a2a8c21f20e407bd4182a73837b8b6abecf328883329c89432cf2caa"
+      "sourceHash": "c357714fa96df9c6948122721fb99f463218e12c6a4ad10d4afa13a5bea69a05"
     },
     {
       "manual": "java",
@@ -2440,7 +1880,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
-      "sourceHash": "284d49bbd2fef847b3f3638ecfc87d4ae7b11e97eaf97993b1889e4981bc1119"
+      "sourceHash": "b431446c3263ca67b76f965c7beca98c77b626abdf7dbc2b55207f0c3b6b720f"
     },
     {
       "manual": "java",
@@ -2450,7 +1890,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
-      "sourceHash": "58a7552ebb79fcd4306842ab4351376465e830aa082b3748ca47ceaa6a1ed27e"
+      "sourceHash": "ca6845e566ab7fe40519d2d478c98812c2c01c8e06cbadf10f5937dd80c16875"
     },
     {
       "manual": "java",
@@ -2475,7 +1915,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
-      "sourceHash": "4a022bf3bd3ea7c1fafff5d6ffc7ba30825885b81c6279f2b3eb7c71b573726b"
+      "sourceHash": "860004d9b89cdb0914323abc06f78a72ff112e4e435eb75724c6b98e2353e36e"
     },
     {
       "manual": "java",
@@ -2600,12 +2040,12 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-insert.md",
-      "sourceHash": "7390e091e3566e2eb9427873047b3952e1e340546c954f104af353431bb785d9"
+      "sourceHash": "5cb661d3f4a176788838189554cde52776033369a9b432fac5a763b6cb5a8f6b"
     },
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-query.md",
-      "sourceHash": "9f5cc0786f7180e7b1243b7e18084eaba7caeb44d2ad71665c07a86ec55f5a28"
+      "sourceHash": "ec74db4d5bdf8330a386dcc7324926a29da896c2ad56efa40b5d51bc1dc38bbe"
     },
     {
       "manual": "java",
@@ -2620,7 +2060,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-search.md",
-      "sourceHash": "488ff95287d0d930f4fc592e29e2acdf04d1d99bc8137f956c9e7df066ece5f6"
+      "sourceHash": "3d55d31c9fa72b5efff23b60c73b6e1635b5a5303d49bb4751f08cde94abc052"
     },
     {
       "manual": "java",
@@ -2630,7 +2070,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-upsert.md",
-      "sourceHash": "023c9662e95bc11ab34556e17dd084c57ee415965e888468a0cc54cc5d5d00e3"
+      "sourceHash": "6929e5a487fb60ee4446485970941b5eb5ad4d10aae061b90358276fbc10bda6"
     },
     {
       "manual": "java",
@@ -2639,8 +2079,18 @@
     },
     {
       "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md",
+      "sourceHash": "2dc8c2c3fed1966e8a62bdfac1f2b70673e6121aeaa42960e8ead370fd8ca34b"
+    },
+    {
+      "manual": "java",
+      "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFiles.md",
+      "sourceHash": "56c27003ff4a612b0c32a7cd74d3bdf35663423ae80f2baa4aa24f5ae1b49d56"
+    },
+    {
+      "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md",
-      "sourceHash": "3d811ea33604603c5677fad8baa8850a9960264163a421f148db2b93704e178a"
+      "sourceHash": "85655e2359dbc923c75515f8cb5da816931ef4c64bea25700be8c87e7b9abaed"
     },
     {
       "manual": "java",
@@ -2650,7 +2100,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md",
-      "sourceHash": "4833cb292b411995d57debe95c6a949a143d21aeae33caff6e2221ecad76811b"
+      "sourceHash": "39726fdab5ab580616509bab37e33269c1cf42264e57abbb1814027a30d82b65"
     },
     {
       "manual": "java",
@@ -2660,12 +2110,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md",
-      "sourceHash": "3f11d9e34d9f931c04a17790fb5010060372c8d9a6ab5fe2086a1b1196eb2104"
-    },
-    {
-      "manual": "java",
-      "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md",
-      "sourceHash": "42c8a564954d84ddbaca49f6d478322ed11a74ee90ae71f8aa47a2d7ce5ce30f"
+      "sourceHash": "6cb992de448347f8b552f1ef4b131f4883637969e560cbfe66085bb2d750f871"
     },
     {
       "manual": "node",
@@ -2690,12 +2135,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
-      "sourceHash": "d798dc9eac737b20e306c62804a043ec0c9569bea2f7b015ec76007376bcff91"
+      "sourceHash": "eefbb5f534f9f3f30165a29e3621dbf615160359c35d3ff3ea34769af1f292da"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
-      "sourceHash": "e935f697c63cb0095d5b8316961ddc424e7dce83c2e10ffbb725b232e374c513"
+      "sourceHash": "76acff493c4bebab3fb89a6fe3e6398dbf8f47d373f1e4b9d25215030ac28dde"
     },
     {
       "manual": "node",
@@ -2725,7 +2170,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-hasRole.md",
-      "sourceHash": "a134204cfb3b52280540c00714411e6c2b6a26a526f500b5b6b37ca8da93ee2f"
+      "sourceHash": "2f5b45cd8999db81bfb51b1845f8ad8d0d367f7fbd9075f0f05a95dc483520ed"
     },
     {
       "manual": "node",
@@ -2735,22 +2180,22 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listGrants.md",
-      "sourceHash": "5e2118e19973827409accfe408570d68ec31b1e7e44c18ceeff9ab69be6c23ed"
+      "sourceHash": "4d4145117821fa9a9aeb5536841278ebac7c3868beb0c019859bbdec0439f9ff"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md",
-      "sourceHash": "18742c6d887f311d3587016153a88b7824f87fc3c2a2339c370bb2edfcc0b19c"
+      "sourceHash": "314193245ec4b4e9b5341656f200484d240dbb074491de7762a191e42920b1ae"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
-      "sourceHash": "115898bc7b9a662d9d157df6cc30ccf1b5197243a61d81a2968a747b8117d6e0"
+      "sourceHash": "3a302c29fd2777442221103f7b377b93f5cb7fd31745e8fe02b7e384b7a379ea"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listUsers.md",
-      "sourceHash": "c3cc8a0a8a8fc9f77c8770e04f0403961569bacbaae30c2862ed0723d3fb3442"
+      "sourceHash": "df8e0d73d47a2185e892b3e13fdc6f110610cf6e77092dd0e4bf53da5de51ff2"
     },
     {
       "manual": "node",
@@ -2870,7 +2315,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-batchDescribeCollections.md",
-      "sourceHash": "6ddd3d88e366a93ebe22a12ea61594eff37dbb5c6f69bb052da88a3441cde618"
+      "sourceHash": "3f7244d9bf6b797637cf1dd9302d16bd994a366f86839220b67ff36ecf15e1f2"
     },
     {
       "manual": "node",
@@ -2885,12 +2330,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md",
-      "sourceHash": "0bc51e697ef78087ba7bd7e21da184581255ffe55a2668415b2eb074e9d6ec60"
+      "sourceHash": "aa1536a8f59347b387a58539ebc8b45aef21a4276121f2d8c26a9b57c4e55d40"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
-      "sourceHash": "5ef5eef146cdc83103d2fb856804734e7be3cd5a9c753062f1c8e4e20ee9f3b8"
+      "sourceHash": "85e1da6a0312898aa582789b7eb1f7cea11b73edf69b9443fd9b453103ff16c1"
     },
     {
       "manual": "node",
@@ -2915,7 +2360,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
-      "sourceHash": "341aa4a5bc678454dda92b05b6bf7c7b805904c30cb7433921d67dc9d3ff2fdf"
+      "sourceHash": "00b59f749adc747aa037e719821bfde9b7a0da4f6581a3a44e3db935c5bb3e2d"
     },
     {
       "manual": "node",
@@ -2935,32 +2380,32 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "3b2c84592870032cf2e5c0c9979d2816175f07e1c7d4a5b7ec05b999f6948418"
+      "sourceHash": "99dda266d5e49288ad67c435d74544a9daefb8e7167d84ee2dd68f5c0844b568"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-hasCollection.md",
-      "sourceHash": "890c670f12c21eca5911620e46885b3372372f9de4a574b37b2a34a78378026e"
+      "sourceHash": "0399a0cda19eba00ac5223598ce4e4821c040896a80b036e644983a1d1f3b13c"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-listAliases.md",
-      "sourceHash": "db27f794f012737722235dbd40d645e563398d1d3a7cb0599812d5db72627823"
+      "sourceHash": "d5b7aa8a55a7a63cb3c0bd7bcfd2d116c5e29ab8669ea1bc5def49db7f74fedd"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-listCollections.md",
-      "sourceHash": "d7169731535bd9dc969d3765dded17d1773ee811829019685e4bd17b34c1bc3d"
+      "sourceHash": "e9db57cd140ed318888ff447fba0b1469758a77e37c7441def30514e706a9bd4"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md",
-      "sourceHash": "20e5a7d03acba01bcafc95ff64b2121c466a120cdff3d5e016fe4c7f426b8da8"
+      "sourceHash": "d4ceb0bf980d5bc288d439f24c9984b567c39a33ca6eb2430816e94ae77e2446"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "sourceHash": "1fbe412b41afb694b968885d3046c82b483ae31cd4a82c0fc1fbbcf64e5e5ab0"
+      "sourceHash": "56411cbadbca4e5a1b1440a52eca8a10fc0f781a84753ab62c34bc899eb28bf3"
     },
     {
       "manual": "node",
@@ -2970,7 +2415,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-runAnalyzer.md",
-      "sourceHash": "bec7ce0072dee6a3ac3c36bc71b43443e67299027ec64f46b481b13d7f7dce3b"
+      "sourceHash": "032d12f068286c703fd3b55b3da0fc39348d287373b262c79158b5f99a323954"
     },
     {
       "manual": "node",
@@ -3000,7 +2445,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
-      "sourceHash": "6d08debce44d25b4da54883d88977518340488d52885c2d5d5aa1bedcd0b0fac"
+      "sourceHash": "01c847c74b971b0a13c51f8dc29881276207f492516abd549050019a10ee9345"
     },
     {
       "manual": "node",
@@ -3035,7 +2480,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-bulkInsert.md",
-      "sourceHash": "32d27c56154f1466b50f3b7a904ee68e0bd638d4591326ca43ce95759bcdbdfc"
+      "sourceHash": "6c1af9b195b64595a8883ee959334fa4e807b025942f8c9dce170e55da9bf384"
     },
     {
       "manual": "node",
@@ -3055,7 +2500,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-listImportTasks.md",
-      "sourceHash": "2cff1b526517f370e856f1ea3f994e791c00bfe3d6779106ea71c539eeedfa8e"
+      "sourceHash": "8fe13e2f24532cb321a5cc58e0b1fa14d3f05596dbeb6b5b28a64dade6b76856"
     },
     {
       "manual": "node",
@@ -3075,7 +2520,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-describeDatabase.md",
-      "sourceHash": "fec3a7971da1e6230d00dc4bfe4450767af3df3654aaf1546801c38f3cd632af"
+      "sourceHash": "0ca46fb9e7d0876e6687a092b0976293cbca7ad8ed6b42cd77c00b1293baed3c"
     },
     {
       "manual": "node",
@@ -3090,7 +2535,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database-listDatabases.md",
-      "sourceHash": "5df6eba3df3e4fa3c469846aa475a129523d9c999d23cc05622555b346ec7eb7"
+      "sourceHash": "360a705be85359da18083b49eb8426339bba6a54889027031ff09b882454df77"
     },
     {
       "manual": "node",
@@ -3100,7 +2545,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-IndexType.md",
-      "sourceHash": "af51c6ecbaa72db0c5d4c1e68eb5af0574d8cc56373508ada41e0a1b24790c39"
+      "sourceHash": "555ee285881a90aef6f31ed2fa5a5acb18b08a49c73f012e714aa8b1842bcd84"
     },
     {
       "manual": "node",
@@ -3115,7 +2560,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-compact.md",
-      "sourceHash": "3fcd8bc6cede247060abf481f879dccd675a6267ca60e8d1fbf137e3a68d6764"
+      "sourceHash": "4b6ff7686bbeace29580f7331fe5fc197d96e3136c5feb1896b4d67ec136ff39"
     },
     {
       "manual": "node",
@@ -3125,7 +2570,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-describeIndex.md",
-      "sourceHash": "a51b3f5e2f0cd40d5e3f9e8849f7e1b5023b2a84c69eb6973b7642daad339136"
+      "sourceHash": "982ed04d966af609c357ba9877d660beebec29e9ae9a9ac69cd73e2bcd162c37"
     },
     {
       "manual": "node",
@@ -3140,67 +2585,67 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flush.md",
-      "sourceHash": "09da2bfa3cde29b79cd46d04533b10aaad81c551e067af14cd1eed103706ded9"
+      "sourceHash": "2efe48c6233e8bba6c4a3391dca9a27923d63e29e90c95446fd374d1dd756604"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flushAll.md",
-      "sourceHash": "eab2b7078dbc0cef998821fe974d94f69eb20de9709d8b658918035f75908e7e"
+      "sourceHash": "f85539cda527ff0a112bde98a490f3a3a12e41655937f5e4ae41571e73ce2549"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flushAllSync.md",
-      "sourceHash": "8c3083528a54510a30446f85472cc97de40fba3b990f9cc7862c0223784cc753"
+      "sourceHash": "961945ecee2288c9f304bfdec8a0c598c1e2c87b56ac53e45c78a1ba68cc4ec9"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-flushSync.md",
-      "sourceHash": "6e6ed176a6c3b818daa20289c0f562c618c90c30b5c370f62db4228a7e2abebb"
+      "sourceHash": "2c1b7f9ba4f407b499a9ed799c01d76f872d48cdbe87bc774f4341920c5c2549"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getCompactionState.md",
-      "sourceHash": "b5ff5fe1a2970aec3ad193374ee0d5fce123b2e545a21e2f0b8b9fe1d204cf72"
+      "sourceHash": "18f70183c2853d34b240789226337a93f8a901e6ba754323d644b28264004a24"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushAllState.md",
-      "sourceHash": "567d165fe0736c1cc8302dcc7166b556d7de64514d315522d376bcae55e7c2c3"
+      "sourceHash": "01bddfc74df394b9fb2e03b7a90239ebb99e8667a9c825e59ff592340a5a3521"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getFlushState.md",
-      "sourceHash": "14d226afa551eec1e26be7bc0be45b98d9b5cd2fcd4d04e63cc060919fddbcc4"
+      "sourceHash": "f27db358d805e432d04e48020895a30ebe8fbe1e313814b7188be095d18aea3c"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexBuildProgress.md",
-      "sourceHash": "d05c58384f0531969d3170b77757b355553ff3ae5f90ffee4c186e7039c21133"
+      "sourceHash": "ea79cfb33239cbaee286bec346b11147e63b5e76bf68204b6c0bd828614aea39"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexState.md",
-      "sourceHash": "b56ae675023046e434f17693d9506633d3afc458cdd5959dc0cbf32e46b83b69"
+      "sourceHash": "2c688675747e617a788b78efaa9b1d7767b2f244ef33f1b7c7dad357a919311e"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getLoadState.md",
-      "sourceHash": "6a400efa8c7b29c049fa9b3c110339e5bb561f4e4a6c2db18f09553b5618cb5b"
+      "sourceHash": "0dc091c8886d7efff10313fd6427d3a3f584b0361b1d0899ecdf0a11fd8df5b9"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getLoadingProgress.md",
-      "sourceHash": "60b34cd126f0b0e0fb5d758a902d485a77059345e681d5d529fed8d3d40b0d92"
+      "sourceHash": "1f91d11a664a1b6414c808d04a9360589ec2999cf9956a243c0663938dafb83e"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-getReplicas.md",
-      "sourceHash": "1f6852495c0413f2dd54aed258c05faf341f6c96a1b11cfe5c66a523979a7dd8"
+      "sourceHash": "37ce96554b2c54252fa6411ac3057d6cb0b31a06e7091fd7f2729c95681f148c"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management-listIndexes.md",
-      "sourceHash": "3adfec6346cb4da40c064f65f2d90fb39c14a5c1f90875e5f8fec6ff15be7177"
+      "sourceHash": "63e50ebbf5c94017d5f53c618f5153463bc7e8916924d19ff1e7baf82888bb64"
     },
     {
       "manual": "node",
@@ -3240,17 +2685,17 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-getPartitionStatistics.md",
-      "sourceHash": "cefafc4f3648037c071d9d0e8d62927b39e3f9060dacf8931420a62b1ce76270"
+      "sourceHash": "56a3f8f08eb5d041c3e868953d3f12053d98f2b18990937783fe50ca7b046aae"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-hasPartition.md",
-      "sourceHash": "dbd43fa5c98f2ba0733dd28efa749de81ee55b0f1ec6c8123d2d0306af723d83"
+      "sourceHash": "6aa3d0652c3352abae3e9404a83dbf6aad545468bc2ccc338e094acd0e9aa7ee"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-listPartitions.md",
-      "sourceHash": "1a11ebde441e8968aab3c617a2ebb8a1b8b053bcab7a899e00219a35c5726e41"
+      "sourceHash": "fffc528a6bc70899d2348f2e91f8353c183d33a44d37c812480a25f15192df08"
     },
     {
       "manual": "node",
@@ -3270,62 +2715,62 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md",
-      "sourceHash": "bedecb77cf981b5a404a70490ee6527c763d194669a8f5c714eac9f51d08f80c"
+      "sourceHash": "eca9eaaf2dca004aabde59f34c644564768eb880cb8f6dc04a8e735b3a8696a4"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md",
-      "sourceHash": "ec4c487541f2cdf3360bf74b22d345c5a9d26d92ce1872e5b028ba8caa8fe7b0"
+      "sourceHash": "2db314da4ef1887a3a9578f474b3c38dd50cd90c0da84f951f98d3f0065f67ea"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md",
-      "sourceHash": "7a4c76836da97685d1e949dd672a00c470c6ace5becd3cb918b1d40561e1bbe6"
+      "sourceHash": "0d40690b4d662ff158457f743c519985988f24f626cacb04fb575bcff5e07e78"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md",
-      "sourceHash": "cb7230defcfefcba5bad1075071bc56cfd6d64f1db31ba005e11c641ed42edf4"
+      "sourceHash": "9736e1472d7d526985bdf03b42d570dcf7fe924db960140dfab2d71e3f674b86"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
-      "sourceHash": "e3d513f764816fbd28b11a2115d62039959927254dfe246e8f806578a824f831"
+      "sourceHash": "cc1aa1caaf972fc24338ec1e6541a04c4d6ef8fd465482e01eb6cdfa054abad6"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md",
-      "sourceHash": "d3acbef761440fb452caebc89592ff003b16a62538d3b65773015dcff2e4d3f4"
+      "sourceHash": "d99b9113a80d645c5ea287b81a67c2aa836ed451049e2e5d3fa73306cf7aa8ff"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md",
-      "sourceHash": "aece4d9ec3124fb9333e69588a14c3d83143af7b6426fa9d51196f6fa3acdd30"
+      "sourceHash": "693fb34e256d66d8c6a2a378e2ab7d045585e6f8901f22b775f7ba6f6cf6e7eb"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md",
-      "sourceHash": "33f35eedb620785ac352e64a517f3322c98f208350f1a04ba37c50c40c5fc847"
+      "sourceHash": "ea42d4901d90e9a89b2c70edf8cbe667223f24f95f1cf4335ca1f073bfe9cca9"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md",
-      "sourceHash": "51a690e0337342632bd3750324b1f041a6fdd0ad939e953e4f9b1093f7b2e082"
+      "sourceHash": "78a8f83580b6312eab7be381c7b04a44f1ba8557333b40807bfa1cfaf500456b"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-count.md",
-      "sourceHash": "46156cd4998ea104495600d39f315e73aebb1aec216f2e4b1825f97bf6a5c7fc"
+      "sourceHash": "148cecd7f1a7fde743edfc2776548f428d4357477c94db84b69a3c5b7ec1d98a"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-delete.md",
-      "sourceHash": "b9253048e1c63c9f5f95d25b9559200198639c7e32d325fa585ef08949509013"
+      "sourceHash": "1c1511e0e1531d241df8e449a02be795af42450e45cf3bf2171a6357f114c327"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-get.md",
-      "sourceHash": "eda45059c8d39e48f1fbf4ac4f115f316eb23b8447aaa31ecd7c608917fe0cf7"
+      "sourceHash": "2b9789a6830487cf02fe48991650fce24e97dce30bca6274aa183d48b84feac8"
     },
     {
       "manual": "node",
@@ -3335,12 +2780,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
-      "sourceHash": "00ada1037971378ffb6a494601f4e6af8d05e745e0a084e8cb580fd539eeff2e"
+      "sourceHash": "cc2341c810fea68711679d3f167141023ce24af51f07b63b81eec7b6efaaf9c1"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
-      "sourceHash": "51706c0209badfe9bfe8451a01a3f24035d7e619847e795963b13f08bae3dfc2"
+      "sourceHash": "e2f843138f5316917875b4a6fb9cd75d38ed8e883cde2d85cd11a248854725a0"
     },
     {
       "manual": "node",
@@ -3350,7 +2795,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md",
-      "sourceHash": "a21ce257b339cb2226b4daf2d64e1fa098e77398b8abad511930539530b10e92"
+      "sourceHash": "ded3b9dae344032c6685e65cbdc1ec6fe0929b8e5884a234872b7127f9e1ad30"
     },
     {
       "manual": "node",
@@ -3360,7 +2805,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md",
-      "sourceHash": "b0e252e7c7898eee373c1ea6085f6436fb49e6d9ef07630adc32639bd7b748a1"
+      "sourceHash": "5423ad3af9d8188b064851d3b4e5fe9d5973bca2a54efb8653ae4d9b5c0a1442"
     },
     {
       "manual": "node",
@@ -3375,22 +2820,22 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md",
-      "sourceHash": "96974614d1bb254846f851c4609fcdb6ceffb7f5c9575e561847884f7d705b59"
+      "sourceHash": "97bf3f1868e323c718c3434305ed704a9151a99557c3679a025f78402ac39216"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md",
-      "sourceHash": "42bdd1171f1fec64dadbd8caa7b90cd4c3a4657f6fb3d15e9cc985131979c113"
+      "sourceHash": "baabc45043e03eddcd8fa40cdba794b9e4a0a1936717ece51c1ba700317a3c8a"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md",
-      "sourceHash": "0dc526bb500f49c4fc1043d024b67cf472b111a162d516e5646fd9888de0d6ee"
+      "sourceHash": "53754572ee8699dc6edf5ce56344b940b6ca46582a693cacaf777ca7a02e4d51"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-LocalBulkWriter/DataImport-LocalBulkWriter.md",
-      "sourceHash": "47126b313156e9e1cc3eaba18fab96bf74a3d79eccc152342ff16c34af7b4459"
+      "sourceHash": "39a8d1fffa033a15dd059402b25743fae77b8235f75e956eb874d1bf964aae07"
     },
     {
       "manual": "python",
@@ -3405,7 +2850,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-RemoteBulkWriter/DataImport-RemoteBulkWriter.md",
-      "sourceHash": "be0f18d86ac4f7f10233fbf2fe7d25789d6c9acff757ab2a40bb8342f9b44155"
+      "sourceHash": "259babd0e2a8d3e134c75aec485efad06bc9fc0136cf2ef7ba3113f8265d2a56"
     },
     {
       "manual": "python",
@@ -3430,7 +2875,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md",
-      "sourceHash": "a6e178ad065992fef9976160774d229a24627cb1a77ca3f10eeeda1a7f95f0d9"
+      "sourceHash": "07b1d647cc6d37c10c080b1dd85de36368eda4539a7c0c06b4d8bde9743c003f"
     },
     {
       "manual": "python",
@@ -3725,17 +3170,17 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/FileResource/FileResource-add_file_resource.md",
-      "sourceHash": "85cc8d8a6120cb0e3546f1d75b1a53a6368eaddcbf631c9b8664c7cfaa4f9504"
+      "sourceHash": "6a509956659a28377fc012425aba614deab20b569ae313a1ad39547d67618921"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/FileResource/FileResource-list_file_resources.md",
-      "sourceHash": "d35c1a2e26df0e192fe040a35830cf55f3645b8f78287f1a6d5f2e64e92d8c7a"
+      "sourceHash": "63b46d15e19e33d4129c9144583fb77e612964a926aea45eb47fed3ca43ffede"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/FileResource/FileResource-remove_file_resource.md",
-      "sourceHash": "7a29725101d62dec4fd9ac1130b8fb97d3a564185f60b308c736d6d71f80409d"
+      "sourceHash": "778ee92c9e632881cf9176fc65c85ff6729599b3329885a6353eef8a2fb9896e"
     },
     {
       "manual": "python",
@@ -3744,18 +3189,13 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
-      "sourceHash": "26fc36a9d8f40ed60b459ef0dfe868d2d6e19ae4d040ef9fe72fa3ab5f02ae2d"
-    },
-    {
-      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role.md",
-      "sourceHash": "cff4c8faae83bc8a9d705464b888d17d837433f645d65f1f9cc7198c08ab2eb4"
+      "sourceHash": "16f6d9d4d09e706d326bccf12c219eaa449688d7ab7a0f2819eeae275adf40d8"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user.md",
-      "sourceHash": "eb19254549e2a4054fe08f0d455a31b0b06817714e80da361cb6986053b5955a"
+      "sourceHash": "91ecfd1b41c830e2965b8ce57b9e690c656ad44be296c1fa55180f645ce76465"
     },
     {
       "manual": "python",
@@ -3765,7 +3205,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_user.md",
-      "sourceHash": "b260b5ee3b82eef83d8e8284f7eb8b7a82b78b197d9cb4fb3dc49894158242e4"
+      "sourceHash": "cafdb56f00cf7ec6eb3f4364a7134afb523904a6b0756c061a0f02a4e3a029f7"
     },
     {
       "manual": "python",
@@ -3790,7 +3230,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_users.md",
-      "sourceHash": "adf8a510ce1e891c29aff42ab129997aa5a4f0c1299b7e36ab5c0006681d0535"
+      "sourceHash": "11cb2e88051a74d8d9c494e32cf58fbee165227696569ab3f48fe92ea3be47e8"
     },
     {
       "manual": "python",
@@ -3805,7 +3245,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md",
-      "sourceHash": "0e9a7cc317be42f0e05594a4619bf4a1128d9064125762bfaff3fefdb66fdfe1"
+      "sourceHash": "4f40cc6b9d8b22c88d00d31e73bc798aae19113605a5bf9b3216c40c9ae04112"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
+      "sourceHash": "1ddd157edd3fa817070724443d267e8c51d26eda20fcf5db5aa8555c972d608c"
     },
     {
       "manual": "python",
@@ -3840,7 +3285,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-run_analyzer.md",
-      "sourceHash": "bbe949e14d17956db79aea5e6fd9aa0e0ce1495f3239fdb662109921d435c495"
+      "sourceHash": "ae337357b4a2451f0c17369d915b44ec1b4a799363925ffa683ab7985ef65085"
     },
     {
       "manual": "python",
@@ -4090,12 +3535,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-FunctionScore.md",
-      "sourceHash": "7e29adf92c86a616bbfe757217d9ccf9e76b3908389071605273fecd35199dd3"
+      "sourceHash": "71bd6e68d5ddd5567296c4260c0c1527c308ece348fd8b5466a88378d1d2b631"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-LexicalHighlighter.md",
-      "sourceHash": "6520b6fea233dbbb27432efff75e91b5ddb1e88586f604739db13177901cd41f"
+      "sourceHash": "f1dee1b31139d4a60baec62b471c076274b3629ecb692dcc2705db601e51240a"
     },
     {
       "manual": "python",
@@ -4105,7 +3550,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Highlighter/Highlighter-with_query.md",
-      "sourceHash": "1591ca2f2903c50a04f7bc7bd42c3e5271a41cbffedcc64fad3b4e427102ecc1"
+      "sourceHash": "7b3965610e7c1696023003c131517ae86d1b1fbbe8e85d7c28c905e09383a7e0"
     },
     {
       "manual": "python",
@@ -4120,7 +3565,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-compact.md",
-      "sourceHash": "d582e81fe0eb5e6c6262a18c4c4043c595de6d37f8fb04105a3808184384871b"
+      "sourceHash": "2c00e4719240ccf29f1e390d0a33d1286dbf0157c0c4c95a2f187e6e24533ac6"
     },
     {
       "manual": "python",
@@ -4150,7 +3595,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md",
-      "sourceHash": "a7a9869d03306ca3f3160aeef107a836cde406f7d6febc5a46b412b0a0721390"
+      "sourceHash": "54c747568c72233a191209b4a63f85afb4e182cde485e0bfd3968e596bf9a3a9"
     },
     {
       "manual": "python",
@@ -4160,17 +3605,17 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md",
-      "sourceHash": "6d545e8eafd2bdc0e719ac15228f426633d8378e287b6e03b9e6082618023b0d"
+      "sourceHash": "e828a815ca4e867c9ab6cec1d2dc043acdca3a5b424afaf239f5c5a173cdc545"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state.md",
-      "sourceHash": "3a5178f5636ac75966d96910c5d12fa00bb685ba5da9c70cad0f1b20c4818dbe"
+      "sourceHash": "a69a6daa028234f8d98087d44d893f43141969ffb80f1870d029def765c91bb5"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md",
-      "sourceHash": "1e67dc5992cd549ddc2ca1c14a2744b49a126c625247523c032d0f2a09698424"
+      "sourceHash": "d805489f83ba360b9bfbace834d894dad4bf2ad67113036c8f0e430b2e2d40cd"
     },
     {
       "manual": "python",
@@ -4185,12 +3630,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_loaded_segments.md",
-      "sourceHash": "1d35389cd587c0b0c5f901fed440c20513a4a2105eb9ea117f296c55992fcaac"
+      "sourceHash": "341bcffece45c1e85e3f6744696acfb6d4e163c64e7754b4da930248d9362718"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md",
-      "sourceHash": "2d31b0fa8d760057824f7684cf5c2b4f650344d86631181a674a9253c0dc3e46"
+      "sourceHash": "cfb582fd5cda52badc266349de6f9b023c409d69def29dabbc4da5174dc9e794"
     },
     {
       "manual": "python",
@@ -4200,7 +3645,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-optimize.md",
-      "sourceHash": "f1bd811bd292b41a2af283adfa50a0d99d44ba0040efb0ab6af012896d91b59e"
+      "sourceHash": "2bc15774fa48a74edd46d41b6ed0fbd32c12e599524ddfdb1d06b7e357eaf06a"
     },
     {
       "manual": "python",
@@ -4255,32 +3700,32 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-create_snapshot.md",
-      "sourceHash": "84c1aab1666a00c3501d0bd4ff24610241e4942137addf7f0997337a482c97ec"
+      "sourceHash": "964b085df544ac4ea23ccdddda979ae7c3e5a62ae2db6d82f2bbb63a0aad526d"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-describe_snapshot.md",
-      "sourceHash": "0ab7a7597a6d521a097957622b09cf6f46135d3e5bc7aadf710f957d87f7acde"
+      "sourceHash": "389078f4bfdbfed8a336d47819cc00ade361b152762312d0a2c65b5356aa89ff"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-drop_snapshot.md",
-      "sourceHash": "6e689dd541189427df1b8646e58bc2144ae7735abdd0dc5ab52fc4d214548d4d"
+      "sourceHash": "bd4dcbc9893230a784ba2ddc808f33edcf46c0f7625a34ca0cd0b3d284bd50e8"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-get_restore_snapshot_state.md",
-      "sourceHash": "725cdc94cdb340df1f47797bdc3f206111f3cf68793f3bcdfc5595b1ffebb2d1"
+      "sourceHash": "3b2cc655824abc8ec56e509b2df86e1d82cde492928d8deb2c8c873d07fc7b0c"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_restore_snapshot_jobs.md",
-      "sourceHash": "40737b9fc0d520d734ee5cc55066848b53ab8fa31078f2a26226c000d88c6fa2"
+      "sourceHash": "69915f2b1a67dda6739c717a1aadb9e68afe68072af8c9d99fa2ed3368cf8ecc"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-list_snapshots.md",
-      "sourceHash": "173df62dc613a1b93365d39a8a39cffc618b45e971bacf21813c7e438007cdda"
+      "sourceHash": "6eb81be10aaa633d19cc9b67cee1343e95bc638db1430024be1d9622a259d3b3"
     },
     {
       "manual": "python",
@@ -4290,7 +3735,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-restore_snapshot.md",
-      "sourceHash": "4ff5818d8e6988e11534ab5f07a13a81694064f0e55ffc1f28a1cea1495baf32"
+      "sourceHash": "620ad37cdf862046cad448246117f91feb3b9bfdb2c478211e8bf386ccbf9a45"
     },
     {
       "manual": "python",
@@ -4300,7 +3745,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md",
-      "sourceHash": "383d054b3d191d3f64c4930a2da336fbb4d55cf05f2f73ac7b065499a6dfba62"
+      "sourceHash": "4cf6d8a82d2db5e5563a6deef1ddb8477dc034d761945928198a4c56be98ca35"
     },
     {
       "manual": "python",
@@ -4319,13 +3764,23 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
-      "sourceHash": "fac34b31094b1b9f15f665bbd96b4a5afb57aa4bf42770f94983bef84c5813c3"
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationBucket.md",
+      "sourceHash": "8217bb3d1d16fb145dce15b359be2bacfbeb0bc68523839a33f8d51fd6d7aff1"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-AggregationHit.md",
+      "sourceHash": "2872d766f44185ae80567afe40f70fd062502db150cf8c3d2c8f408a957f0c89"
+    },
+    {
+      "manual": "python",
+      "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-SearchAggregation.md",
+      "sourceHash": "9daf2fab883fb4e34fc03043ba9f7e8b694f8dee60b33e8577b951fb485c7242"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-TopHits.md",
-      "sourceHash": "d823611cfd279ba11164759c6259a9e8386c3dbf037b210f745d7ca4073909b0"
+      "sourceHash": "05a5108285e5c6a14359ae85a0652aed6a26f593bad292d5593e8711fe1fa0f7"
     },
     {
       "manual": "python",
@@ -4340,7 +3795,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md",
-      "sourceHash": "7e98219e2d37634fbc6d50ce83778bfe1fecb644c1e72240621fcf0c5a195ef6"
+      "sourceHash": "16036139ac54f6fa6a3c843064500e27aac8052b7698193cfa4bf0ab9543fa1f"
     },
     {
       "manual": "python",
@@ -4360,7 +3815,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-search.md",
-      "sourceHash": "20e8f4c3a9ecb538f1b64f4e703f308bb44fc4d729749328229c79b443316f87"
+      "sourceHash": "b6e4662d7ff0574f63557737680d489511475020446f7d527ecae40de3c98677"
     },
     {
       "manual": "python",
@@ -4370,7 +3825,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-upsert.md",
-      "sourceHash": "6bd4331343fb36fc339a5ea65687beabf151fff9a352aee270b5eb68a2c48f83"
+      "sourceHash": "66f879c9eee6dc0487dc5fae0f3900ed9795c6e68e2b0c59c33632e9d81b2c20"
     },
     {
       "manual": "python",
@@ -4579,21 +4034,6 @@
     },
     {
       "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
-      "sourceHash": "a76b5d0fe51cc43d8560bd5a2837a3023d88ebfd6f698c3b79cf38952a58af19"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
-      "sourceHash": "78ecffeffcae339ad3fdcdb9359940f973da8715af058997ba47480e489b7180"
-    },
-    {
-      "manual": "python",
-      "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
-      "sourceHash": "4467104764268e190ebafc9a91e5ff7c6ab0b93f6160742e3bdc90654afab5f3"
-    },
-    {
-      "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-Partition/ORM-Partition.md",
       "sourceHash": "4c711054cef779f424ae354527e6655000221c73d401855cd9d133649943939d"
     },
@@ -4745,7 +4185,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-create_user.md",
-      "sourceHash": "1b7571d58dbf703e34206ec776177d05d1794aae32cb472206db7412988a71fd"
+      "sourceHash": "9375e72b73f2e570f25ec75352a00cd2c76d91128c5b71fa02eb793d8a639c60"
     },
     {
       "manual": "python",
@@ -4785,7 +4225,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-get_bulk_insert_state.md",
-      "sourceHash": "a40ecbfe58bd65de4f3b1db9e504f822ec923620b91be3b3c29e10ebdfaa541a"
+      "sourceHash": "6fc19c524518f4303d0d9523030a97cf0d0c260e13f21946cfdf0615cf63983d"
     },
     {
       "manual": "python",
@@ -4875,7 +4315,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-load_balance.md",
-      "sourceHash": "9be25bdae2603872380d5c849c2ee7698bc8b709e8f8fc6c3e5c9faebf15ad1a"
+      "sourceHash": "5a4531c97fdb33de8035e1ee601cd9a541a8389467d5615a0e392a16fe3573c1"
     },
     {
       "manual": "python",
@@ -4890,17 +4330,17 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-mkts_from_datetime.md",
-      "sourceHash": "e9d5e554ba72f4af71e6ec8abf5ec9bd73e72ff83b828ec11d345b378d7603a0"
+      "sourceHash": "9e8586df74544c8aa57acffe09a752135365d4da7b38184c68e84e0f6bec8e02"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-mkts_from_hybridts.md",
-      "sourceHash": "772474ada679e058bd87ff13baf1131d6888d5fe15be7569ae21444c4b385b44"
+      "sourceHash": "8b2bbf66e9e23a126b9bb918079f74fb04fcb5189cedfe065a57b0635f6efeb9"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/utility-mkts_from_unixtime.md",
-      "sourceHash": "e9233347797ebc60fd177e4ce82db49a5562cc59f07cac2e40428dd5c33af326"
+      "sourceHash": "7ed66fe1cdc8cef7469ddf0818c4ead9e9730b501c516a3ba3346aa674e17fac"
     },
     {
       "manual": "python",
@@ -4995,7 +4435,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md",
-      "sourceHash": "1ee709c94567237eb251b428f3ac94e26784dc43a8ba7eda9f589d28e32d2bcf"
+      "sourceHash": "c28568dc13f81698137b5171c5bf0755da13bc0da5bd06a9adf8a216fbfa5e75"
     },
     {
       "manual": "python",
@@ -5005,7 +4445,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume.md",
-      "sourceHash": "5e0f1ca7ad800c25bf40c4cd537a288525f161f701a4f08187077b1015314283"
+      "sourceHash": "dc3cfae3b3abbcc419e5311918051792e1d9eeca70908643356eece510a73934"
     },
     {
       "manual": "python",
@@ -5015,12 +4455,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume.md",
-      "sourceHash": "1c846927bbc1aebda29634dde036c457db7a5534eca83232ba34406f9abfd665"
+      "sourceHash": "81e54d706876cef41a4d2d1dd8f33b4e706160ef46e1cafeb069fc980ec5b086"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes.md",
-      "sourceHash": "6b7f1a82dcb166f82b92071025268a16ba83dac1c45327c565966ff2b4d40eff"
+      "sourceHash": "5a8312f8c98a7e68dd3c2881ed9ff5d6730743deddeaacdda61335a8773a65ef"
     },
     {
       "manual": "python",
@@ -5035,7 +4475,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/cloud-meta/cloud-meta.mdx",
-      "sourceHash": "3df7b00cbbceff310c754814ff01b01b0b8333bae4b83f9947ac41420a0d1717"
+      "sourceHash": "b4dad33d655240191fb0c044dc6023aee05ebf56919270546461f89e05b384a2"
     },
     {
       "manual": "rest",
@@ -5050,7 +4490,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/cluster-operations/cluster-operations.mdx",
-      "sourceHash": "2c9189ba10c72163a1b4151aeb67ec4bdf5cc1182e72dc9ff6722e5497c10b5e"
+      "sourceHash": "fb1bd3d800e5b17f1038f4591d1f1c0a7d1a12b51b6c04db8b3e6a7da124dfbc"
     },
     {
       "manual": "rest",
@@ -5105,7 +4545,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/control-plane.mdx",
-      "sourceHash": "37af231abbcef38ebaa9d92c713a3570a8f9bc89d830b4924bbb6b02dcceb6d1"
+      "sourceHash": "fa3ae5ef557b9a0b1fe1a258c91c6108c7f6b76871d03c9555e5728f6db0cd1a"
     },
     {
       "manual": "rest",
@@ -5115,7 +4555,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/import-operations/import-operations.mdx",
-      "sourceHash": "0a0e6000730f873253595c3c77f495ae00306aeccaa113240badbcc95de4f154"
+      "sourceHash": "fc364a3845e53330f9858ace75bf88c2427491dca63f60c546cde572904d07a7"
     },
     {
       "manual": "rest",
@@ -5150,7 +4590,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/control-plane/pipeline-operations/pipeline-operations.mdx",
-      "sourceHash": "3a6b9c3fff9e6e183a0b47733e82d240be65e6252739330a00b0043111ac1ee8"
+      "sourceHash": "9eb8652a4f7a124069be1bf618afeade8ddefb0949841873c5753d7e510619bc"
     },
     {
       "manual": "rest",
@@ -5160,7 +4600,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/data-plane/collection-operations/collection-operations.mdx",
-      "sourceHash": "0ccbda04f3303f91cbe0853840bda5c2c90fc22f18570a9206988d6b6b5ebdcd"
+      "sourceHash": "3811354b9608402fb1d0fb8925d59fd763f940630f398313e1f8f0e9df3cec9d"
     },
     {
       "manual": "rest",
@@ -5185,7 +4625,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/data-plane/data-plane.mdx",
-      "sourceHash": "5a3b3a2d83dce10362fddd8e58b64a017971a8873cf732e1a9aabb8b8782c112"
+      "sourceHash": "145b967bef7baa16a7b8e15392b8843b2351daed5df52e8645266f3edae17779"
     },
     {
       "manual": "rest",
@@ -5220,7 +4660,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/data-plane/vector-operations/vector-operations.mdx",
-      "sourceHash": "a80ef4638686b8a5fe95c3e9b63aeecc30c54bec3d3e0183a19991d981de8b89"
+      "sourceHash": "a7dab593dabf278f29ff5d38249619b4e8ba97d67a4920902f702fb8fa6cc441"
     },
     {
       "manual": "rest",
@@ -5230,12 +4670,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v1/v1.mdx",
-      "sourceHash": "654b8a70a323a19245dfe15ff8ead4b83e2beb791ddd9154b460658554630769"
+      "sourceHash": "7c4e2874873e7c468a44aa3d9d6ac388a5baab58bf92246db2d23d96cfb863fc"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/backup-and-restore-v2/backup-and-restore-v2.mdx",
-      "sourceHash": "b1d185b9b539595f1b9558018b128064b9b04dc5d50cd3b98bdd4ab75d196164"
+      "sourceHash": "842efe9c6e669391a39f3cc1fee7c15fa8fd04e0999d58760fc0da5f8da1aa6f"
     },
     {
       "manual": "rest",
@@ -5285,7 +4725,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-job-v2/cloud-job-v2.mdx",
-      "sourceHash": "f6ca335cadb100cf61237c57e8a57b54ea81c7142422efd38a6c9e8064e53be4"
+      "sourceHash": "319f5a378524319d5fa404be8d1d211457aa2a8814ca91df92423705925df101"
     },
     {
       "manual": "rest",
@@ -5295,7 +4735,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-meta-v2/cloud-meta-v2.mdx",
-      "sourceHash": "2861d7693d2901d554bb8f7945572caa91c4a5a3bf39125cd8b7902e8ca7b6a5"
+      "sourceHash": "6d9ee7c46ffe20133f368ce20082e966a1d748c06d93acd29d31f6ae009ee427"
     },
     {
       "manual": "rest",
@@ -5310,7 +4750,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-migration-v2/cloud-migration-v2.mdx",
-      "sourceHash": "03cf69687f90dffd6a312dc426b57664e02d1f2001aab03f60efbf015f771664"
+      "sourceHash": "baf6a5b3a39ac2550bc7c4fe6768e5d0fe7a89f1cdc4c7cacbc3658d9102275c"
     },
     {
       "manual": "rest",
@@ -5330,7 +4770,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cluster-operations-v2/cluster-operations-v2.mdx",
-      "sourceHash": "bcc34b3d02d8915207d967bb8ecb3b8b285bed9db6fc9ff7a6134b3780cad692"
+      "sourceHash": "44f6a96822765efc1fb3f81f57c48dcbd99b68799341a031a182be40c06423c4"
     },
     {
       "manual": "rest",
@@ -5390,12 +4830,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx",
-      "sourceHash": "c309b75752eac86d37e2deb9251fdd88f26368baf90e3dc95f701cd82f3dab6a"
+      "sourceHash": "ba6b4fa889a1b53bfd3249c34f5ce872ccbb318cf0db3215e74c9f66d7a234d0"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/extract-load-and-transform-v2/extract-load-and-transform-v2.mdx",
-      "sourceHash": "a0e38bff9300211e8008ca9702c9a9baa049e25d15d2ad25d5a915b5bb7dba00"
+      "sourceHash": "3771657c6ba1b2c0c95c54de1ffd13b32e7f792ab266c6771fa04092cd62ac64"
     },
     {
       "manual": "rest",
@@ -5440,7 +4880,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/global-clusters-v2/global-clusters-v2.mdx",
-      "sourceHash": "2fa0c4d52c0049196c831c7c95bf0804b22912cc25b2d58e08f6b07d8fa40fb4"
+      "sourceHash": "23ff0d00345f008bb2b5a6d7e115bd27c2c8146c42424fc05aa428ffd06355bc"
     },
     {
       "manual": "rest",
@@ -5480,7 +4920,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/import-operations-v2/import-operations-v2.mdx",
-      "sourceHash": "6311571626c8c0dbfd95e78e3722e54eeab1b4d61fc38dc45d801869202594d7"
+      "sourceHash": "17f771bf086f925772ee7ccdb841fba31373adc1c523718c76d0b1b7803449c1"
     },
     {
       "manual": "rest",
@@ -5495,7 +4935,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/invoices-v2/invoices-v2.mdx",
-      "sourceHash": "419163523d1a94be77702ef6e02dc6cb1fcfc7ceefc319d35f4f4d8d546a96b7"
+      "sourceHash": "2953b052e8c17b2e17e15810f04c5d6da010626c307362480adc677396d2261f"
     },
     {
       "manual": "rest",
@@ -5520,7 +4960,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/metrics-and-alerts-v2/metrics-and-alerts-v2.mdx",
-      "sourceHash": "bbab0e1549b952b7c442f8b267fcd66027b1a71b30b0b221ef1a72fc8a85800a"
+      "sourceHash": "c9b426593d6ce92a8112b657cb8f2d16ba596fac94316da64fe2e404694dafdb"
     },
     {
       "manual": "rest",
@@ -5555,7 +4995,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/on-demand-cluster-operations-v2.mdx",
-      "sourceHash": "2e0320028e81b435d23e12b2e9e36d436dba9f8e99dcadde997221e276674b1f"
+      "sourceHash": "597025f3724a2f01eff6668660fb3946013f5630c35ff5e346a68bc140d76153"
     },
     {
       "manual": "rest",
@@ -5575,7 +5015,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/on-demand-compute-v2/on-demand-compute-v2.mdx",
-      "sourceHash": "b53a1894d55d8e741b01fca8ba8fc5c2d65ca4d335d4743c990baf5cf003563c"
+      "sourceHash": "1e45452a54d7d9cda99f3b336963beb760d851276799657eefbd653bde9d9394"
     },
     {
       "manual": "rest",
@@ -5605,7 +5045,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/project-operations-v2.mdx",
-      "sourceHash": "33cf7bf6929372b9c06644bfe1ec6d5b79c66e64d0c32820cee8a0cffe69545e"
+      "sourceHash": "5c36f923d33e22be819e36ef0f86dc7b711fd63fc3fec864ae9b03fc8b3d241c"
     },
     {
       "manual": "rest",
@@ -5640,7 +5080,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/spark-job-v2.mdx",
-      "sourceHash": "148f1dc0312c52ca9cb20b3384c6fefc77931f825be24de0977c30df3f225adc"
+      "sourceHash": "962137381ab5dee3df0c71c5adb6de0366f1dcb298c3aeb54ef23b4faba64610"
     },
     {
       "manual": "rest",
@@ -5675,7 +5115,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/storage-integration-operations-v2/storage-integration-operations-v2.mdx",
-      "sourceHash": "620b4cece0bb843e2be9ed078049001885d2e09595548746d2ae24ecaf61ef07"
+      "sourceHash": "7b0f61e6f8cb88891abe6f49e248c78ef1a1eebab7afee769ebea8845afbc79b"
     },
     {
       "manual": "rest",
@@ -5690,7 +5130,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/usage-v2/usage-v2.mdx",
-      "sourceHash": "d7a760240be98431b72d3168810218606c949d0f5834bdb742a6b3e23955d4a4"
+      "sourceHash": "e57d7ca17dfd79e5b6ebcbbda09fa4573a30603e701489c504bc01950342ed23"
     },
     {
       "manual": "rest",
@@ -5720,12 +5160,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/volume-operations-v2/volume-operations-v2.mdx",
-      "sourceHash": "1d849f4e3ac26189c65416acebd463765084d460c5c010aed0fe732ea2cb7aba"
+      "sourceHash": "f63e39b9224efa7db96d1ee001dd1dd452e533d7febc72ac2658ec2256a80979"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/alias-operations-v2/alias-operations-v2.mdx",
-      "sourceHash": "744ed883ac6b75e90f4d5a01db7c231aac2ec7e368c62231aa1859d07dc036cf"
+      "sourceHash": "c60561eb3658f8641f5cd268aac5821dda9b8d01d6392d38c464bc57159df5f3"
     },
     {
       "manual": "rest",
@@ -5780,7 +5220,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/collection-operations-v2.mdx",
-      "sourceHash": "7139a49c13a9b8130330539fa84120ca6fe8d0b7c76271d9c9df22c51228ab5f"
+      "sourceHash": "936a3cc7f4f09e2a492d793a48568c07f69c3ade7ff3b7363bf9120c27450e8b"
     },
     {
       "manual": "rest",
@@ -5890,7 +5330,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/data-plane.mdx",
-      "sourceHash": "69222ee651eb9bf573b178e6e9dc7a6f608c2b5e23e8a25fba19af72339f9745"
+      "sourceHash": "43d57bf94e6de84dc634d96d5bdca87921836b02ea9926c898c7f035165ca69e"
     },
     {
       "manual": "rest",
@@ -5905,7 +5345,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/database-operations-v2/database-operations-v2.mdx",
-      "sourceHash": "de96431962578716a7282d2e5dff346b18cd4e8615dd9a9bf4ca0f6b74b0346c"
+      "sourceHash": "87acbf1d3295e07e8d3bf1f81821bc381c033d13d8d1442b3ffefc436e8253ec"
     },
     {
       "manual": "rest",
@@ -5955,7 +5395,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/index-operations-v2/index-operations-v2.mdx",
-      "sourceHash": "b390491a6378886ba2c956ac225e7673773488ed8f1bff8f876b301312407a92"
+      "sourceHash": "412baba4298d2d248c0d21ccecb3816032a3cb21c3a4ae4a7ef183ac22f86c37"
     },
     {
       "manual": "rest",
@@ -5995,7 +5435,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/partition-operations-v2/partition-operations-v2.mdx",
-      "sourceHash": "b3090dc74fbdf0159c3772d313d79dcc32512029d5c55191cae9b99899eaf7d4"
+      "sourceHash": "5111d229b442c757c33c30d077bd79061d6031af7233ff3510464328080c856b"
     },
     {
       "manual": "rest",
@@ -6025,7 +5465,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/privilege-group-operations-v2/privilege-group-operations-v2.mdx",
-      "sourceHash": "c3545ad94bf862cfed9ec3a6afdce4557f962dbdb0378ec3ae132e3f7be5a065"
+      "sourceHash": "99e4b8a7af951c1ec7544a45c21f47f12721e6df9ce2d1fbf12bd5f17289e537"
     },
     {
       "manual": "rest",
@@ -6080,7 +5520,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/role-operations-v2.mdx",
-      "sourceHash": "06ab519239cc0b0e9e2fd9c6d722e29b049f399936eade83110f0a9877110ce7"
+      "sourceHash": "76ba45702e850dda7ce9157d8a96866c1faf91795f64d7bd7cbfbe6afcf88b76"
     },
     {
       "manual": "rest",
@@ -6120,7 +5560,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/user-operations-v2.mdx",
-      "sourceHash": "9f00b5eca947f14eaff3a445888c92a20a3e73c30626204afaed2d5e6657d25c"
+      "sourceHash": "e6db26a17b2de905ba11c8107d4baa6cae1acd698707a90089303d3713bed2da"
     },
     {
       "manual": "rest",
@@ -6160,7 +5600,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/vector-operations-v2.mdx",
-      "sourceHash": "9f5fe2d5de1c22e000c1b504323303d26dfff71bfa522623102dd959db231370"
+      "sourceHash": "85937779112ea47fa8e84cac0394ad54d36e997d30c3433573b46af9fa51c5a9"
     },
     {
       "manual": "rest",
@@ -6170,7 +5610,7 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/v2.mdx",
-      "sourceHash": "39342ffc4ef2b1c12b95eaf08c0368780ccb0e2236dc9a29fb740752e5c37fc8"
+      "sourceHash": "0ea1034da18f1404711e4aecf6ccfc3c272432254d833f368ba29dd5953292c8"
     },
     {
       "manual": "rest",
