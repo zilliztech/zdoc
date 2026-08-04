@@ -393,106 +393,11 @@ node -e "const r=require('./tmp/external-link-watchdog-validation/latest.json');
 
 Expected: build/check exit zero, the real scan checks at least one URL, and 404/410 appear only in the expiry bucket.
 
-### Task 8: Replay the affected publication contract with real artifacts
+## Validation boundary
 
-- [ ] **Step 1: Dispatch a coherent artifact-only run**
+This standalone watchdog does not change checkpoint production, publication ordering, localization, source barriers, or card collection in `fetch-docs.yml`. Task 7's exact `dev` materialization, English build, real-network scan, workflow contract tests, and workflow-policy tests are the complete pre-submission gate. Do not dispatch `fetch-docs.yml`, download checkpoint artifacts, create a local publication remote, or exercise publication lanes for this change.
 
-```bash
-IMPLEMENTATION_SHA="$(git rev-parse HEAD)"
-gh workflow run fetch-docs.yml --ref master \
-  -f group=all -f artifact_retention_days=7 -f target_branch=dev \
-  -f publish=false -f run_translations=false \
-  -f tooling_ref="$IMPLEMENTATION_SHA" -f source_ref=dev
-SOURCE_RUN_ID="$(gh run list --workflow fetch-docs.yml --event workflow_dispatch --limit 20 --json databaseId,headSha --jq ".[]|select(.headSha==\"$IMPLEMENTATION_SHA\")|.databaseId" | head -1)"
-gh run watch "$SOURCE_RUN_ID" --exit-status
-```
-
-- [ ] **Step 2: Download and preflight all eight artifacts**
-
-```bash
-REPLAY_ROOT="$(mktemp -d /private/tmp/zdoc-external-link-watchdog-replay.XXXXXX)"
-for suffix in java node go cli rest python guides-en guides-zh-CN; do
-  artifact_name="docs-checkpoint-$suffix-$SOURCE_RUN_ID"
-  artifact_dir="$REPLAY_ROOT/downloads/$artifact_name"
-  mkdir -p "$artifact_dir"
-  gh run download "$SOURCE_RUN_ID" --name "$artifact_name" --dir "$artifact_dir"
-  node scripts/docs-workflow/preflight-checkpoint-archive.js \
-    --archive "$artifact_dir/checkpoint-group.tar" \
-    --manifest-output "$artifact_dir/manifest.json"
-done
-node - "$REPLAY_ROOT/downloads" <<'NODE' > "$REPLAY_ROOT/dev-baseline-sha"
-const fs = require('node:fs')
-const path = require('node:path')
-const root = process.argv[2]
-const manifests = fs.readdirSync(root).map(name => JSON.parse(fs.readFileSync(path.join(root, name, 'manifest.json'))))
-const baselines = new Set(manifests.map(value => value.devBaselineSha))
-if (baselines.size !== 1) throw new Error('checkpoint artifacts have mixed dev baselines')
-process.stdout.write([...baselines][0])
-NODE
-```
-
-Expected: all eight archives pass before extraction and one common `devBaselineSha` is written.
-
-- [ ] **Step 3: Replay publication locally**
-
-```bash
-BASELINE_SHA="$(cat "$REPLAY_ROOT/dev-baseline-sha")"
-git init --bare "$REPLAY_ROOT/remote.git"
-git push "$REPLAY_ROOT/remote.git" "$BASELINE_SHA:refs/heads/dev"
-git remote add watchdog-replay "$REPLAY_ROOT/remote.git"
-
-for spec in \
-  'java|en|docs(java): publish SDK reference' \
-  'node|en|docs(node): publish SDK reference' \
-  'go|en|docs(go): publish SDK reference' \
-  'cli|en|docs(cli): publish CLI reference' \
-  'rest|en|docs(rest): publish REST reference' \
-  'python|en|docs(python): publish SDK reference' \
-  'guides-en|en|docs(guides): publish fetched content' \
-  'guides-zh-CN|zh-CN|docs(guides): publish fetched content'; do
-  IFS='|' read -r suffix site message <<< "$spec"
-  artifact_dir="$REPLAY_ROOT/downloads/docs-checkpoint-$suffix-$SOURCE_RUN_ID"
-  extracted_dir="$REPLAY_ROOT/extracted/$suffix"
-  mkdir -p "$extracted_dir"
-  tar -xf "$artifact_dir/checkpoint-group.tar" -C "$extracted_dir"
-  ZDOC_SITE="$site" bash scripts/docs-workflow/publish-checkpoint.sh \
-    --artifact "$extracted_dir/checkpoint-group" \
-    --branch dev \
-    --message "$message" \
-    --max-attempts 1 \
-    --remote watchdog-replay \
-    --validate-command "node scripts/validate-generated-sidebars.js --site $site" \
-    | tee "$REPLAY_ROOT/$suffix-publication.txt"
-  grep -Eq '^status=(published|no_changes)$' "$REPLAY_ROOT/$suffix-publication.txt"
-done
-
-SELECTED_GROUP=all \
-GUIDES_RESULT=success GUIDES_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/guides-en-publication.txt" | tail -1)" \
-PYTHON_RESULT=success PYTHON_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/python-publication.txt" | tail -1)" \
-JAVA_RESULT=success JAVA_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/java-publication.txt" | tail -1)" \
-NODE_RESULT=success NODE_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/node-publication.txt" | tail -1)" \
-GO_RESULT=success GO_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/go-publication.txt" | tail -1)" \
-CLI_RESULT=success CLI_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/cli-publication.txt" | tail -1)" \
-REST_RESULT=success REST_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/rest-publication.txt" | tail -1)" \
-node scripts/docs-workflow/source-publication-barrier.js
-grep -Eq '^status=(published|no_changes)$' "$REPLAY_ROOT/guides-zh-CN-publication.txt"
-LOCAL_FINAL_SHA="$(git --git-dir="$REPLAY_ROOT/remote.git" rev-parse refs/heads/dev)"
-git remote remove watchdog-replay
-```
-
-Expected: every lane is `published` or `no_changes`, the source publication barrier passes, and `LOCAL_FINAL_SHA` is a 40-character commit.
-
-- [ ] **Step 4: Restore and validate final state**
-
-```bash
-bash scripts/restore-generated-state.sh --exact --ref "$LOCAL_FINAL_SHA"
-pnpm check:localization-input-inventory
-pnpm docs-tooling validate-revision-inventory --site en
-```
-
-Replay card collection with isolated locale report directories; require exactly nine notes and no `Unavailable` section. Preserve replay root, manifests, logs, final SHA, and card JSON.
-
-### Task 9: Submit and verify online
+### Task 8: Submit and verify online
 
 - [ ] **Step 1: Check repository hygiene**
 

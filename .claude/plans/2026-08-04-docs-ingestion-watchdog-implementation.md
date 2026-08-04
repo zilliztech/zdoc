@@ -20,7 +20,9 @@
 
 ## Rollout boundary
 
-Tasks 1-4 are the producer stage. Submit them, complete one full production dev run, validate the artifact, and record the run ID in repository variable DOCS_PRODUCTION_RESULT_ACTIVATION_RUN_ID. Only then execute and submit Tasks 5-10. This prevents the repaired consumer from requiring evidence before the producer has emitted its first qualifying artifact.
+Tasks 1-3 are the producer stage. Submit them, complete one full production dev run, validate the artifact, and record the run ID in repository variable DOCS_PRODUCTION_RESULT_ACTIVATION_RUN_ID. Only then execute and submit Tasks 4-9. This prevents the repaired consumer from requiring evidence before the producer has emitted its first qualifying artifact.
+
+The ingestion watchdog observes terminal production evidence; it does not change checkpoint generation, publication ordering, localization, source barriers, or Build card collection. Validate the producer with schema and workflow-contract tests plus the one post-merge qualifying production run in Task 3. Validate the consumer with adapter, evaluator, workflow, and online decision-artifact checks. Do not dispatch artifact-only production runs, download checkpoint lanes, create local publication remotes, or exercise publication lanes for this watchdog.
 
 ### Task 1: Implement the exact production-result schema
 
@@ -182,115 +184,9 @@ git add .github/workflows/fetch-docs.yml scripts/validate-workflow-policy.js scr
 git commit -m "feat: publish docs production result evidence"
 ~~~
 
-### Task 3: Replay the producer locally with real artifacts
+### Task 3: Deploy producer stage and establish activation
 
-- [ ] **Step 1: Run focused gates**
-
-~~~bash
-node --test scripts/docs-workflow/docs-production-result.test.js scripts/validate-workflow-policy.test.js
-node scripts/validate-workflow-policy.js
-pnpm check:localization-input-inventory
-pnpm docs-tooling validate-revision-inventory --site en
-~~~
-
-- [ ] **Step 2: Dispatch one coherent artifact-only run**
-
-~~~bash
-IMPLEMENTATION_SHA="$(git rev-parse HEAD)"
-gh workflow run fetch-docs.yml --ref master \
-  -f group=all -f artifact_retention_days=7 -f target_branch=dev \
-  -f publish=false -f run_translations=false \
-  -f tooling_ref="$IMPLEMENTATION_SHA" -f source_ref=dev
-SOURCE_RUN_ID="$(gh run list --workflow fetch-docs.yml --event workflow_dispatch --limit 20 --json databaseId,headSha --jq ".[]|select(.headSha==\"$IMPLEMENTATION_SHA\")|.databaseId" | head -1)"
-gh run watch "$SOURCE_RUN_ID" --exit-status
-~~~
-
-- [ ] **Step 3: Download and preflight eight lanes**
-
-~~~bash
-REPLAY_ROOT="$(mktemp -d /private/tmp/zdoc-ingestion-watchdog-replay.XXXXXX)"
-for suffix in java node go cli rest python guides-en guides-zh-CN; do
-  artifact_name="docs-checkpoint-$suffix-$SOURCE_RUN_ID"
-  artifact_dir="$REPLAY_ROOT/downloads/$artifact_name"
-  mkdir -p "$artifact_dir"
-  gh run download "$SOURCE_RUN_ID" --name "$artifact_name" --dir "$artifact_dir"
-  node scripts/docs-workflow/preflight-checkpoint-archive.js \
-    --archive "$artifact_dir/checkpoint-group.tar" \
-    --manifest-output "$artifact_dir/manifest.json"
-done
-node - "$REPLAY_ROOT/downloads" <<'NODE' > "$REPLAY_ROOT/dev-baseline-sha"
-const fs = require('node:fs')
-const path = require('node:path')
-const root = process.argv[2]
-const manifests = fs.readdirSync(root).map(name => JSON.parse(fs.readFileSync(path.join(root, name, 'manifest.json'))))
-const baselines = new Set(manifests.map(value => value.devBaselineSha))
-if (baselines.size !== 1) throw new Error('checkpoint artifacts have mixed dev baselines')
-process.stdout.write([...baselines][0])
-NODE
-~~~
-
-Expected: every archive passes preflight before extraction and one common baseline is recorded.
-
-- [ ] **Step 4: Replay publication in production order**
-
-~~~bash
-BASELINE_SHA="$(cat "$REPLAY_ROOT/dev-baseline-sha")"
-git init --bare "$REPLAY_ROOT/remote.git"
-git push "$REPLAY_ROOT/remote.git" "$BASELINE_SHA:refs/heads/dev"
-git remote add ingestion-replay "$REPLAY_ROOT/remote.git"
-
-for spec in \
-  'java|en|docs(java): publish SDK reference' \
-  'node|en|docs(node): publish SDK reference' \
-  'go|en|docs(go): publish SDK reference' \
-  'cli|en|docs(cli): publish CLI reference' \
-  'rest|en|docs(rest): publish REST reference' \
-  'python|en|docs(python): publish SDK reference' \
-  'guides-en|en|docs(guides): publish fetched content' \
-  'guides-zh-CN|zh-CN|docs(guides): publish fetched content'; do
-  IFS='|' read -r suffix site message <<< "$spec"
-  artifact_dir="$REPLAY_ROOT/downloads/docs-checkpoint-$suffix-$SOURCE_RUN_ID"
-  extracted_dir="$REPLAY_ROOT/extracted/$suffix"
-  mkdir -p "$extracted_dir"
-  tar -xf "$artifact_dir/checkpoint-group.tar" -C "$extracted_dir"
-  ZDOC_SITE="$site" bash scripts/docs-workflow/publish-checkpoint.sh \
-    --artifact "$extracted_dir/checkpoint-group" \
-    --branch dev \
-    --message "$message" \
-    --max-attempts 1 \
-    --remote ingestion-replay \
-    --validate-command "node scripts/validate-generated-sidebars.js --site $site" \
-    | tee "$REPLAY_ROOT/$suffix-publication.txt"
-  grep -Eq '^status=(published|no_changes)$' "$REPLAY_ROOT/$suffix-publication.txt"
-done
-
-SELECTED_GROUP=all \
-GUIDES_RESULT=success GUIDES_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/guides-en-publication.txt" | tail -1)" \
-PYTHON_RESULT=success PYTHON_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/python-publication.txt" | tail -1)" \
-JAVA_RESULT=success JAVA_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/java-publication.txt" | tail -1)" \
-NODE_RESULT=success NODE_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/node-publication.txt" | tail -1)" \
-GO_RESULT=success GO_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/go-publication.txt" | tail -1)" \
-CLI_RESULT=success CLI_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/cli-publication.txt" | tail -1)" \
-REST_RESULT=success REST_STATUS="$(sed -n 's/^status=//p' "$REPLAY_ROOT/rest-publication.txt" | tail -1)" \
-node scripts/docs-workflow/source-publication-barrier.js
-grep -Eq '^status=(published|no_changes)$' "$REPLAY_ROOT/guides-zh-CN-publication.txt"
-LOCAL_FINAL_SHA="$(git --git-dir="$REPLAY_ROOT/remote.git" rev-parse refs/heads/dev)"
-git remote remove ingestion-replay
-~~~
-
-- [ ] **Step 5: Run final replay validation**
-
-~~~bash
-bash scripts/restore-generated-state.sh --exact --ref "$LOCAL_FINAL_SHA"
-pnpm check:localization-input-inventory
-pnpm docs-tooling validate-revision-inventory --site en
-~~~
-
-Replay card collection with isolated en and zh-CN directories; require exactly nine notes and no Unavailable section. Preserve run/artifact IDs, common baseline, replay root, lane logs, final SHA, validation logs, and card JSON.
-
-### Task 4: Deploy producer stage and establish activation
-
-- [ ] **Step 1: Submit only Tasks 1-3**
+- [ ] **Step 1: Submit only Tasks 1-2**
 
 The producer-stage change must not yet replace .github/workflows/docs-ingestion-watchdog.yml.
 
@@ -327,7 +223,7 @@ test "$(gh variable get DOCS_PRODUCTION_RESULT_ACTIVATION_RUN_ID --repo zillizte
 
 Stop before consumer enablement if any producer, artifact, final SHA, or card-finalization check fails.
 
-### Task 5: Extract a hardened JSON artifact adapter
+### Task 4: Extract a hardened JSON artifact adapter
 
 **Files:**
 - Create: scripts/docs-workflow/github-artifact-json.js
@@ -372,7 +268,7 @@ git add scripts/docs-workflow/github-artifact-json.js scripts/docs-workflow/gith
 git commit -m "refactor: share hardened GitHub artifact downloads"
 ~~~
 
-### Task 6: Rewrite production qualification and freshness
+### Task 5: Rewrite production qualification and freshness
 
 **Files:**
 - Modify: scripts/docs-workflow/docs-ingestion-watchdog.js:1-184
@@ -438,7 +334,7 @@ git add scripts/docs-workflow/docs-ingestion-watchdog.js scripts/docs-workflow/d
 git commit -m "feat: qualify ingestion from production artifacts"
 ~~~
 
-### Task 7: Download bounded recent evidence
+### Task 6: Download bounded recent evidence
 
 **Files:**
 - Modify: scripts/docs-workflow/docs-ingestion-watchdog.js
@@ -478,7 +374,7 @@ git add scripts/docs-workflow/docs-ingestion-watchdog.js scripts/docs-workflow/d
 git commit -m "feat: inspect bounded ingestion evidence"
 ~~~
 
-### Task 8: Repair workflow alerting and card finalization
+### Task 7: Repair workflow alerting and card finalization
 
 **Files:**
 - Modify: .github/workflows/docs-ingestion-watchdog.yml:1-99
@@ -537,7 +433,7 @@ git add .github/workflows/docs-ingestion-watchdog.yml scripts/validate-workflow-
 git commit -m "fix: finalize repeated ingestion watchdog alerts"
 ~~~
 
-### Task 9: Run full pre-submission validation
+### Task 8: Run targeted pre-submission validation
 
 - [ ] **Step 1: Run targeted suites**
 
@@ -557,11 +453,7 @@ git diff --check
 
 Run the watchdog tests with --test-name-pattern="scheduled and manual|manual full dev recovery". Both event types must use identical artifact qualification and no run-detail inputs.
 
-- [ ] **Step 3: Repeat the complete real-artifact replay**
-
-Repeat Task 3 after the shared adapter and consumer changes. Require all eight lanes, Chinese ZDOC_SITE=zh-CN, source barrier, exact final restore, localization/revision validation, and exactly nine card notes with no Unavailable section.
-
-- [ ] **Step 4: Verify repository hygiene**
+- [ ] **Step 3: Verify repository hygiene**
 
 ~~~bash
 git status --short
@@ -570,7 +462,7 @@ git diff --name-only origin/master...HEAD
 
 Expected: only planned files; unrelated user-owned .claude files remain unstaged and unmodified.
 
-### Task 10: Enable and verify the consumer online
+### Task 9: Enable and verify the consumer online
 
 - [ ] **Step 1: Confirm activation**
 
