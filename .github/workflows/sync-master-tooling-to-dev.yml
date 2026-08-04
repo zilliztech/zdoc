@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '17 */6 * * *'
   workflow_dispatch:
     inputs:
       tooling_sha:
@@ -42,10 +44,12 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags origin master dev
-          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            tooling_sha="$REQUESTED_TOOLING_SHA"
+          elif [[ "$GITHUB_EVENT_NAME" == push ]]; then
             tooling_sha="$GITHUB_SHA"
           else
-            tooling_sha="$REQUESTED_TOOLING_SHA"
+            tooling_sha=$(git rev-parse origin/master)
           fi
           [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ ]]
           git fetch --no-tags origin "$tooling_sha"
