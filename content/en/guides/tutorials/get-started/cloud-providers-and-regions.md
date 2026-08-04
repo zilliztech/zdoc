@@ -260,7 +260,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    <tr>
      <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p><Admonition type="info" icon="📘" title="Note"> [Contact us](http://support.zilliz.com) if you need to use this feature in Google Cloud regions. </Admonition></li></ul></td>
+     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul><Admonition type="info" icon="📘" title="Note"> [Contact us](http://support.zilliz.com) if you need to use this feature in Google Cloud regions. </Admonition></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
