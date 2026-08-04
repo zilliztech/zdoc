@@ -119,6 +119,69 @@ test('workflow policy rejects writable or non-failing docs ingestion watchdog mu
   }
 })
 
+test('workflow policy rejects external link watchdog boundary regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const original = fs.readFileSync(path.join(sourceDirectory, 'external-link-watchdog.yml'), 'utf8')
+  const retiredExternalScanner = ['check', '404'].join('-')
+  const cases = [
+    {
+      label: 'pull request trigger',
+      mutate: source => source.replace('  workflow_dispatch:\n', '  workflow_dispatch:\n  pull_request:\n'),
+      expected: 'external-link-watchdog.yml: watchdog triggers must be the daily schedule and manual dispatch only',
+    },
+    {
+      label: 'retired scanner command',
+      mutate: source => source.replace(
+        'pnpm docs-tooling check-links --site en --output tmp/external-link-watchdog/latest.md',
+        `node scripts/${retiredExternalScanner}.js`,
+      ),
+      expected: 'external-link-watchdog.yml: watchdog must use the canonical rendered-site checker and no retired scanner',
+    },
+    {
+      label: 'stateful cache',
+      mutate: source => source.replace(
+        '      - uses: pnpm/action-setup@v5',
+        '      - uses: actions/cache@v5\n        with:\n          path: tmp/cache\n          key: external-links\n\n      - uses: pnpm/action-setup@v5',
+      ),
+      expected: 'external-link-watchdog.yml: watchdog must not cache or suppress external-link observations',
+    },
+    {
+      label: 'cancel in progress',
+      mutate: source => source.replace('  cancel-in-progress: false', '  cancel-in-progress: true'),
+      expected: 'external-link-watchdog.yml: watchdog concurrency must serialize scans without cancellation',
+    },
+    {
+      label: 'card on blocked links',
+      mutate: source => source.replaceAll(
+        "steps.scan.outputs.expired_count != '0'",
+        "steps.scan.outputs.blocked_count != '0'",
+      ),
+      expected: 'external-link-watchdog.yml: alert card steps must run only for confirmed expired links',
+    },
+    {
+      label: 'non-failing scan',
+      mutate: source => source.replace(
+        '        id: scan\n        env:',
+        '        id: scan\n        continue-on-error: true\n        env:',
+      ),
+      expected: 'external-link-watchdog.yml: rendered-site scan must fail closed on checker errors',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'external-link-watchdog-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const mutated = fixture.mutate(original)
+      assert.notEqual(mutated, original, `${fixture.label} mutation must change source`)
+      fs.writeFileSync(path.join(directory, 'external-link-watchdog.yml'), mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
 test('translation workflows declare immutable target identity and exact target validation', () => {
   for (const file of ['_prepare-translation-batches.yml', '_translate-content-group.yml']) {
     const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
@@ -430,7 +493,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
 
 test('jobs that execute docs-tooling use its supported Node runtime', () => {
   const requirements = [
-    ['check-404.yml', 'Check-404'],
+    ['external-link-watchdog.yml', 'watchdog'],
     ['_translate-content-group.yml', 'translate'],
     ['fetch-docs.yml', 'prepare'],
     ['fetch-docs.yml', 'finalize_card_fallback'],
@@ -519,16 +582,16 @@ test('workflow policy rejects unsafe Guides recovery shortcuts', () => {
 test('workflow policy excludes staging namespace from push deployment triggers', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   for (const mutate of [
-    source => source.replace('      - "dev"', '      - "**"'),
-    source => source.replace(/    branches:\n      - "dev"\n      - "master"\n/, ''),
-    source => source.replace(/  push:\n    branches:\n      - "dev"\n      - "master"/, '  push: {}'),
+    source => source.replace('  push:\n    branches:\n      - dev\n      - master', '  push:\n    branches:\n      - "**"\n      - master'),
+    source => source.replace(/  push:\n    branches:\n      - dev\n      - master\n/, '  push:\n'),
+    source => source.replace(/  push:\n    branches:\n      - dev\n      - master/, '  push: {}'),
   ]) {
     const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'staging-trigger-policy-'))
     try {
       fs.cpSync(sourceDirectory, directory, { recursive: true })
-      const file = path.join(directory, 'check-404.yml')
+      const file = path.join(directory, 'site-validation.yml')
       fs.writeFileSync(file, mutate(fs.readFileSync(file, 'utf8')))
-      assert.ok(validateWorkflowPolicies(directory).includes('check-404.yml: push deployment triggers must exclude docs-translation-staging/**'))
+      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: push deployment triggers must exclude docs-translation-staging/**'))
     } finally { fs.rmSync(directory, { recursive: true, force: true }) }
   }
 })

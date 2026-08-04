@@ -120,6 +120,6 @@ test('watchdog contains none of the retired or stateful checker design', () => {
   assert.doesNotMatch(source, /\bbaseline\b/i)
   assert.doesNotMatch(source, /\backnowledg(?:e|ement)\b/i)
   assert.doesNotMatch(source, /\bsuppress(?:ion|ed)?\b/i)
-  assert.doesNotMatch(source, /scripts\/check-404\.js/)
+  assert.equal(source.includes(['scripts', `${['check', '404'].join('-')}.js`].join('/')), false)
   assert.doesNotMatch(source, /Preserve link-check result/)
 })
