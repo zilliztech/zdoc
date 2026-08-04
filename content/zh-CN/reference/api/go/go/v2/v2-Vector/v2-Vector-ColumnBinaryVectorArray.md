@@ -50,7 +50,7 @@ column.NewColumnBinaryVectorArray(fieldName string, dim int, data [][][]byte) *C
 
 - `AppendValue(value any) error`
 
-    追加一行数据，输入可以是 []entity.BinaryVector 或 [][]byte。
+    追加一行数据，支持以 `[]entity.BinaryVector` 或 `[][]byte` 形式提供。
 
 **返回类型：**
 
@@ -58,7 +58,7 @@ column.NewColumnBinaryVectorArray(fieldName string, dim int, data [][][]byte) *C
 
 **返回：**
 
-用于结构体数组字段中 ArrayOfVector binary-vector 数据的列类型。
+用于结构体数组字段中 ArrayOfVector 二进制向量数据的列类型。
 
 ## 示例\{#example}
 

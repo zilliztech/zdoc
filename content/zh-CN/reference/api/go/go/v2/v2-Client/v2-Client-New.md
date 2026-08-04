@@ -1,18 +1,29 @@
 ---
 title: "New() | Go | v2"
-slug: /go/v2-Client-New
+slug: /go/go/v2-Client-New
 sidebar_label: "New()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method creates a Milvus client that connects to a specific Milvus deployment. | Go | v2"
-type: origin
-token: EWYCwnWupirM3LkjYZDc0db1nmb
-sidebar_position: 1
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作使用指定的配置创建与指定 Zilliz Cloud 集群的连接。 | Go | v2"
+type: docx
+token: NvlZd3VOpoMrsoxmavQckdAOnQg
+sidebar_position: 4
+keywords: 
+  - 向量存储
+  - 开源向量数据库
+  - 向量索引
+  - 开源向量数据库
+  - zilliz
+  - zilliz cloud
+  - 云
+  - New()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,145 +31,52 @@ import Admonition from '@theme/Admonition';
 
 # New()
 
-This method creates a Milvus client that connects to a specific Milvus deployment.
+此操作使用指定的配置创建与指定 Zilliz Cloud 集群的连接。
 
 ```go
 func New(ctx context.Context, config *ClientConfig) (*Client, error)
 ```
 
-## Request Parameters
+**返回类型：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>config</code></p></td>
-     <td><p>Client configurations. </p><p>For details, refer to the <a href="./v2-Client-New#clientconfig">ClientConfig</a> section.</p></td>
-     <td><p><a href="./v2-Client-New#clientconfig"><code>ClientConfig</code></a></p></td>
-   </tr>
-</table>
+**Client, error*
 
-### ClientConfig
+**返回：**
 
-This struct type defines all possible client configuration items as follows:
+一个已连接且可直接使用的 Client 实例。如果连接失败，则返回错误。
 
-```go
-type ClientConfig struct {
-    Address  string // Remote address, "localhost:19530".
-    Username string // Username for auth.
-    Password string // Password for auth.
-    DBName   string // DBName for this client.
-    EnableTLSAuth bool   // Enable TLS Auth for transport security.
-    APIKey        string // API key
-    RetryRateLimit *RetryRateLimitOption // option for retry on rate limit inteceptor
-}
-```
+**异常：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>Address</code></p></td>
-     <td><p>Specifies the address of your Zilliz Cloud cluster.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>Username</code></p></td>
-     <td><p>Specifies a valid username for authentication.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>Password</code></p></td>
-     <td><p>Specifies the password of the above user.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>DBName</code></p></td>
-     <td><p>Specifies the database to access.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>EnableTLSAuth</code></p></td>
-     <td><p>Specifies whether to connect with TLS authentication enabled.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>APIKey</code></p></td>
-     <td><p>Specifies the API key with sufficient permissions to access the above Zilliz Cloud cluster.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>RetryRateLimit</code></p></td>
-     <td><p>Specifies the retry rate limit in case the connection fails.</p><p>For details, refer to the <a href="./v2-Client-New#retryratelimitoption">RetryRateLimitOption</a> section.</p></td>
-     <td><p><a href="./v2-Client-New#retryratelimitoption"><code>&ast;RetryRateLimitOption</code></a></p></td>
-   </tr>
-</table>
+- **error**
 
-### RetryRateLimitOption
+    请检查 `err != nil` 以获取失败详情。
 
-This struct type defines the retry options for the connection.
-
-```go
-type RetryRateLimitOption struct {
-    MaxRetry   uint
-    MaxBackoff time.Duration
-}
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>MaxRetry</code></p></td>
-     <td><p>Specifies the maximum number of times the client should retry the connection.</p></td>
-     <td><p><code>uint</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>MaxBackoff</code></p></td>
-     <td><p>Specifies the maximum back-off duration for the connection.</p></td>
-     <td><p><code>time.Duration</code></p></td>
-   </tr>
-</table>
-
-## Return
-
-A `Client` object.
-
-## Example
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-// user cluster username and password
-mclient, err := client.New(context.Background(), client.Config{
-   Address: "YOUR_CLUSTER_ENDPOINT",
-   Username: "YOUR_USERNAME",
-   Password: "YOUR_PASSWORD"
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+// Connect to a local Milvus server
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
 })
+if err != nil {
+	log.Fatal("failed to create client:", err)
+}
+defer cli.Close(ctx)
 
-// or use an API key with appropriate permissions
-// client, err := client.New(context.Background(), client.Config{
-//    Address: "YOUR_CLUSTER_ENDPOINT",
-//    APIKey: "YOUR_API_KEY",
-//    EnableTLSAuth: true,
-// })
-
+collections, err := cli.ListCollections(ctx, milvusclient.NewListCollectionOption())
+if err != nil {
+	log.Fatal("failed to list collections:", err)
+}
+fmt.Println(collections)
 ```
-

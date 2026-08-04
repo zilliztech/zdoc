@@ -50,15 +50,15 @@ column.NewColumnFloat16VectorArray(fieldName string, dim int, data [][][]byte) *
 
 - `AppendValue(value any) error`
 
-    追加一行数据，输入可为 []entity.Float16Vector 或 [][]byte。
+    追加一行数据，输入可以是 []entity.Float16Vector 或 [][]byte。
 
 **返回类型：**
 
 *ColumnFloat16VectorArray*
 
-**返回：**
+**返回值：**
 
-用于结构体数组字段中 ArrayOfVector float16 向量数据的列类型。
+结构体数组字段中用于 ArrayOfVector float16-vector 数据的列类型。
 
 ## 示例\{#example}
 

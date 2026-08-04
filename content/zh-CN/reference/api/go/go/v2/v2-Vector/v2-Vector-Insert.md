@@ -1,18 +1,29 @@
 ---
 title: "Insert() | Go | v2"
-slug: /go/v2-Vector-Insert
+slug: /go/go/v2-Vector-Insert
 sidebar_label: "Insert()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: v2.6.x
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method inserts data into a specific collection. | Go | v2"
-type: origin
-token: DSUtwOAjSijOjkkyjVzcnSX4nNh
-sidebar_position: 1
+beta: false
+added_since: v2.6.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "插入行或列，支持 struct-array 输入，并记录该操作的客户端遥测数据。 | Go | v2"
+type: docx
+token: NQsbdUsP8oIAbOxSnEEcKUBMnkg
+sidebar_position: 11
+keywords: 
+  - 向量数据库教程
+  - 向量数据库如何工作
+  - 向量数据库对比
+  - openai 向量数据库
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Insert()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,1452 +31,152 @@ import Admonition from '@theme/Admonition';
 
 # Insert()
 
-This method inserts data into a specific collection.
+插入行或列，支持 struct-array 输入，并记录该操作的客户端遥测数据。
 
 ```go
 func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ...grpc.CallOption) (InsertResult, error)
 ```
 
-## Request Parameters
+**参数：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Vector-Insert#insertoption"><code>InsertOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOptions</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
+- **collName** (*string*) -
 
-## InsertOption
+    **[必需]**
 
-This is an interface type. The `columnBasedDataOption` and `rowBasedDataOption` struct types implement this interface type. 
+    目标集合的名称。
 
-You can use the [`NewColumnBasedInsertOption()`](./v2-Vector-Insert#newcolumnbasedinsertoption) or [`NewRowBasedInsertOption()`](./v2-Vector-Insert#newrowbasedinsertoption) function to get the concrete implementation.
+- **rows** (*...any*) -
 
-### NewRowBasedInsertOption
+    **[必需]**
 
-This function requires you to organize your data in rows. The signature of this method is as follows:
+    要插入的一个或多个行值。
 
-```go
-func NewRowBasedInsertOption(collName string, rows ...any) *rowBasedDataOption
-```
+**构建器方法：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>rows</code></p></td>
-     <td><p>Data organized in rows.</p></td>
-     <td><p><code>...any</code></p></td>
-   </tr>
-</table>
+- `WithColumns(columns ...column.Column)`
 
-### NewColumnBasedInsertOption
+    将提供的列追加到写入请求中。
 
-This function requires you to organize your data in columns. The signature of this method is as follows:
+- `WithBoolColumn(colName string, data []bool)`
 
-```go
-func NewColumnBasedInsertOption(collName string, columns ...column.Column) *columnBasedDataOption
-```
+    追加一个具有指定名称和值的 Boolean 标量列。
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>columns</code></p></td>
-     <td><p>Data organized in columns.</p></td>
-     <td><p><a href="./v2-Vector-Insert#columncolumn"><code>...column.Column</code></a></p></td>
-   </tr>
-</table>
+- `WithInt8Column(colName string, data []int8)`
 
-You can chain the following method to get an implementation of the `columnBasedDataOption` struct.
+    追加一个具有指定名称和值的 Int8 标量列。
 
-- [WithColumns](./v2-Vector-Insert#withcolumns)
+- `WithInt16Column(colName string, data []int16)`
 
-- [WithBoolColumn](./v2-Vector-Insert#withboolcolumn)
+    追加一个具有指定名称和值的 Int16 标量列。
 
-- [WithInt8Column](./v2-Vector-Insert#withint8column)
+- `WithInt32Column(colName string, data []int32)`
 
-- [WithInt16Column](./v2-Vector-Insert#withint16column)
+    追加一个具有指定名称和值的 Int32 标量列。
 
-- [WithInt32Column](./v2-Vector-Insert#withint32column)
+- `WithInt64Column(colName string, data []int64)`
 
-- [WithInt64Column](./v2-Vector-Insert#withint64column)
+    追加一个具有指定名称和值的 Int64 标量列。
 
-- [WithVarcharColumn](./v2-Vector-Insert#withvarcharcolumn)
+- `WithVarcharColumn(colName string, data []string)`
 
-- [WithFloatVectorColumn](./v2-Vector-Insert#withfloatvectorcolumn)
+    追加一个具有指定名称和值的 VarChar 标量列。
 
-- [WithFloat16VectorColumn](./v2-Vector-Insert#withfloat16vectorcolumn)
+- `WithFloatVectorColumn(colName string, dim int, data [][]float32)`
 
-- [WithBFloat16VectorColumn](./v2-Vector-Insert#withbfloat16vectorcolumn)
+    追加一个具有指定名称、维度和值的 float-vector 列。
 
-- [WithBinaryVectorColumn](./v2-Vector-Insert#withbinaryvectorcolumn)
+- `WithFloat16VectorColumn(colName string, dim int, data [][]float32)`
 
-- [WithPartition](./v2-Vector-Insert#withpartition)
+    将提供的 float32 向量转换为 Float16 值，并追加生成的向量列。
 
-- [WithPartialUpdate](./v2-Vector-Insert#withpartialupdate)
+- `WithBFloat16VectorColumn(colName string, dim int, data [][]float32)`
 
-### WithColumns
+    将提供的 float32 向量转换为 BFloat16 值，并追加生成的向量列。
 
-This method appends a generic column to the `columnBasedDataOption` struct.
+- `WithBinaryVectorColumn(colName string, dim int, data [][]byte)`
 
-```go
-func (opt *columnBasedDataOption) WithColumns(columns ...column.Column) *columnBasedDataOption
-```
+    追加一个具有指定名称、维度和值的 binary-vector 列。
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>columns</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><a href="./v2-Vector-Insert#columncolumn"><code>column.Column</code></a></p></td>
-   </tr>
-</table>
+- `WithInt8VectorColumn(colName string, dim int, data [][]int8)`
 
-### WithBoolColumn
+    追加一个具有指定名称、维度和值的 Int8-vector 列。
 
-This method appends a **Boolean** column to the `columnBasedDataOption` struct.
+- `WithStructArrayColumn(colName string, structSchema *entity.StructSchema, rows []map[string]any)`
+
+    追加一个根据基于行的子字段值构建的 struct-array 列。每一行都是一个以子字段名称为键的映射，并且每个值都必须与 `structSchema` 中声明的标量或向量类型匹配。
+
+- `WithPartition(partitionName string)`
+
+    为写入请求设置目标分区。
+
+- `WithNamespace(namespace string)`
+
+    WithNamespace 将写入范围限定在集合命名空间内。对于 delete/upsert tombstones，主键仍然是集合级别作用域，因此调用方必须在同一集合的各命名空间之间保持主键唯一。
+
+- `WithPartialUpdate(partialUpdate bool)`
+
+    为写入请求启用或禁用部分更新行为。
+
+- `WithArrayAppend(fieldName string)`
+
+    WithArrayAppend 声明在 Upsert 期间，Array 字段 `fieldName` 应使用 ARRAY_APPEND 语义进行合并。当存在任何非 REPLACE 操作时，服务器会隐式启用 `partial_update`，因此调用方无需再额外调用 `WithPartialUpdate(true)`。
+
+- `WithArrayRemove(fieldName string)`
+
+    WithArrayRemove 声明在 Upsert 期间，Array 字段 `fieldName` 应使用 ARRAY_REMOVE 语义进行合并。有关隐式提升为 `partial_update` 的行为，请参见 WithArrayAppend。
+
+- `WithFieldPartialOp(fieldName string, op schemapb.FieldPartialUpdateOp_OpType)`
+
+    WithFieldPartialOp 为名称为 `fieldName` 的字段附加显式的 FieldPartialUpdateOp。此方法面向高级调用方；普通用户应优先使用特定操作的辅助方法（WithArrayAppend、WithArrayRemove）。
+
+- `WithKeepAutoIDPk(keepPk bool)`
+
+    控制在启用自动 ID 生成时，基于行的写入是否保留提供的主键值。
+
+**返回类型：**
+
+*InsertResult, error*
+
+**返回值：**
+
+返回插入的行数以及生成或提供的主键；如果请求构建或 RPC 失败，则同时返回错误。
+
+**错误处理：**
+
+- **error**
+
+    验证、请求构建或 RPC 失败。请检查返回的错误以获取失败详情。
+
+## Example\{#example}
+
+演示 Insert() 的用法。
 
 ```go
-func (opt *columnBasedDataOption) WithBoolColumn(colName string, data []bool) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[]bool</code></p></td>
-   </tr>
-</table>
-
-### WithInt8Column
-
-This method appends an **Int8** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithInt8Column(colName string, data []int8) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[]int8</code></p></td>
-   </tr>
-</table>
-
-### WithInt16Column
-
-This method appends an **Int16** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithInt16Column(colName string, data []int16) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[]int16</code></p></td>
-   </tr>
-</table>
-
-### WithInt32Column
-
-This method appends an **Int32** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithInt32Column(colName string, data []int32) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[]int32</code></p></td>
-   </tr>
-</table>
-
-### WithInt64Column
-
-This method appends an **Int64** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithInt64Column(colName string, data []int64) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[]int64</code></p></td>
-   </tr>
-</table>
-
-### WithVarcharColumn
-
-This method appends a **VarChar** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithVarcharColumn(colName string, data []string) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[]string</code></p></td>
-   </tr>
-</table>
-
-### WithFloatVectorColumn
-
-This method appends a **FloatVector** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithFloatVectorColumn(colName string, dim int, data [][]float32) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the column.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[][]float32</code></p></td>
-   </tr>
-</table>
-
-### WithFloat16VectorColumn
-
-This method appends a **Float16Vector** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithFloat16VectorColumn(colName string, dim int, data [][]float32) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the column.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[][]float32</code></p></td>
-   </tr>
-</table>
-
-### WithBFloat16VectorColumn
-
-This method appends a **BFloat16Vector** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithBFloat16VectorColumn(colName string, dim int, data [][]float32) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the column.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[][]float32</code></p></td>
-   </tr>
-</table>
-
-### WithBinaryVectorColumn
-
-This method appends a **BinaryVector** column to the `columnBasedDataOption` struct.
-
-```go
-func (opt *columnBasedDataOption) WithBinaryVectorColumn(colName string, dim int, data [][]byte) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>colName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the column.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data in the column.</p></td>
-     <td><p><code>[][]byte</code></p></td>
-   </tr>
-</table>
-
-### WithPartition
-
-This method sets the target partition of this operation.
-
-```go
-func (opt *columnBasedDataOption) WithPartition(partitionName string) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>partitionName</code></p></td>
-     <td><p>Name of the target partition.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithPartialUpdate
-
-This method sets whether to include only the fields that need updating in the `upsert` request.
-
-```go
-func (opt *columnBasedDataOption) WithPartialUpdate(partialUpdate bool) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>partialUpdate</code></p></td>
-     <td><p>Decide whether to include only the fields that need updating.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-## column.Column
-
-This is an interface type. The following struct types implement this interface type. 
-
-- [column.ColumnBFloat16Vector](./v2-Vector-Insert#columncolumnbfloat16vector)
-
-- [column.ColumnBinaryVector](./v2-Vector-Insert#columncolumnbinaryvector)
-
-- [column.ColumnBool](./v2-Vector-Insert#columncolumnbool)
-
-- [column.ColumnBoolArray](./v2-Vector-Insert#columncolumnboolarray)
-
-- [column.ColumnDouble](./v2-Vector-Insert#columncolumndouble)
-
-- [column.ColumnDoubleArray](./v2-Vector-Insert#columncolumndoublearray)
-
-- [column.ColumnDynamic](./v2-Vector-Insert#columncolumndynamic)
-
-- [column.ColumnFloat](./v2-Vector-Insert#columncolumnfloat)
-
-- [column.ColumnFloat16Vector](./v2-Vector-Insert#columncolumnfloat16vector)
-
-- [column.ColumnFloatArray](./v2-Vector-Insert#columncolumnfloatarray)
-
-- [column.ColumnFloatVector](./v2-Vector-Insert#columncolumnfloatvector)
-
-- [column.ColumnInt16](./v2-Vector-Insert#columncolumnint16)
-
-- [column.ColumnInt16Array](./v2-Vector-Insert#columncolumnint16array)
-
-- [column.ColumnInt32](./v2-Vector-Insert#columncolumnint32)
-
-- [column.ColumnInt32Array](./v2-Vector-Insert#columncolumnint32array)
-
-- [column.ColumnInt64](./v2-Vector-Insert#columncolumnint64)
-
-- [column.ColumnInt64Array](./v2-Vector-Insert#columncolumnint64array)
-
-- [column.ColumnInt8](./v2-Vector-Insert#columncolumnint8)
-
-- [column.ColumnInt8Array](./v2-Vector-Insert#columncolumnint8array)
-
-- [column.ColumnJSONBytes](./v2-Vector-Insert#columncolumnjsonbytes)
-
-- [column.ColumnSparseFloatVector](./v2-Vector-Insert#columncolumnsparsefloatvector)
-
-- [column.ColumnVarChar](./v2-Vector-Insert#columncolumnvarchar)
-
-- [column.ColumnVarCharArray](./v2-Vector-Insert#columncolumnvarchararray)
-
-## column.ColumnBFloat16Vector
-
-This is a struct type. You can use the `NewColumnBFloat16Vector` or `NewColumnBFloat16VectorFromFp32Vector` method to implement a **BFloat16Vector** field.
-
-### NewColumnBfloat16Vector
-
-This method creates a **BFloat16Vector** field with a list of byte sublists as data. The signature of this method is as follows:
-
-```go
-func NewColumnBFloat16Vector(fieldName string, dim int, data [][]byte) *ColumnBFloat16Vector
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the field.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
-   </tr>
-</table>
-
-### NewColumnBFloat16VectorFromFp32Vector
-
-This method creates a **BFloat16Vector** field with a list of float32 sublists as data. The signature of this method is as follows:
-
-```go
-func NewColumnBFloat16VectorFromFp32Vector(fieldName string, dim int, data [][]float32) *ColumnBFloat16Vector
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the field.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnBinaryVector
-
-This is a struct type. You can use the `NewColumnBinaryVector` method to implement a **BinaryVector** field.
-
-### NewColumnBinaryVector
-
-This method creates a **BinaryVector** field with a list of byte sublists as data. The signature of this method is as follows:
-
-```go
-func NewColumnBinaryVector(fieldName string, dim int, data [][]byte) *ColumnBinaryVector
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the field.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnBool
-
-This is a struct type. You can use the `NewColumnBool` method to implement a **Boolean** field.
-
-### NewColumnBool
-
-This method creates a **Boolean** field with a list of Boolean values as data. The signature of this method is as follows:
-
-```go
-func NewColumnBool(name string, values []bool) *ColumnBool
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]bool</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnBoolArray
-
-This is a struct type. You can use the `NewColumnBoolArray` method to implement an **Array** field with elements of the **Boolean** type.
-
-### NewColumnBoolArray
-
-This method creates an **Array** field with elements of the **Boolean** type. The signature of this method is as follows:
-
-```go
-func NewColumnBoolArray(fieldName string, data [][]bool) *ColumnBoolArray
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]bool</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnDouble
-
-This is a struct type. You can use the `NewColumnDouble` method to implement a **Double** field.
-
-### NewColumnDouble
-
-This method creates a **Double** field. The signature of this method is as follows:
-
-```go
-func NewColumnDouble(name string, values []float64) *ColumnDouble
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]float64</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnDoubleArray
-
-This is a struct type. You can use the `NewColumnDoubleArray` method to implement an **Array** field with elements of the **Double** type.
-
-### NewColumnDoubleArray
-
-This method creates an **Array** field with elements of the **Double** type. The signature of this method is as follows:
-
-```go
-func NewColumnDoubleArray(fieldName string, data [][]float64) *ColumnDoubleArray
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float64</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnDynamic
-
-This is a struct type. You can use the `NewColumnDynamic` method to implement a **dynamic** field.
-
-### NewColumnDynamic
-
-This method creates a **dynamic** field. The signature of this method is as follows:
-
-```go
-func NewColumnDynamic(column *ColumnJSONBytes, outputField string) *ColumnDynamic
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>column</code></p></td>
-     <td><p>A column of the JSON type.</p></td>
-     <td><p><a href="./v2-Vector-Insert#columncolumnjsonbytes"><code>&ast;column.ColumnJSONBytes</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>outputField</code></p></td>
-     <td><p>Name of the dynamic field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnFloat
-
-This is a struct type. You can use the `NewColumnFloat` method to implement a **Float** field.
-
-### NewColumnFloat
-
-This method creates a **Float** field. The signature of this method is as follows:
-
-```go
-func NewColumnFloat(name string, values []float32) *ColumnFloat
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]float32</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnFloat16Vector
-
-This is a struct type. You can use the `NewColumnFloat16Vector` or `NewColumnFloat16VectorFromFp32Vector` method to implement a **Float16Vector** field.
-
-### NewColumnBfloat16Vector
-
-This method creates a **Float16Vector** field with a list of byte sublists as data. The signature of this method is as follows:
-
-```go
-func NewColumnFloat16Vector(fieldName string, dim int, data [][]byte) *ColumnFloat16Vector
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the field.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
-   </tr>
-</table>
-
-### NewColumnFloat16VectorFromFp32Vector
-
-This method creates a **Float16Vector** field with a list of float32 sublists as data. The signature of this method is as follows:
-
-```go
-func NewColumnFloat16VectorFromFp32Vector(fieldName string, dim int, data [][]float32) *ColumnFloat16Vector
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the field.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnFloatArray
-
-This is a struct type. You can use the `NewColumnFloatArray` method to implement an **Array** field with elements of the **Float** type.
-
-### NewColumnFloatArray
-
-This method creates an **Array** field with elements of the **Float** type. The signature of this method is as follows:
-
-```go
-func NewColumnFloatArray(fieldName string, data [][]float32) *ColumnFloatArray
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnFloatVector
-
-This is a struct type. You can use the `NewColumnFloatVector` method to implement a **FloatVector** field.
-
-### NewColumnFloatVector
-
-This method creates a **FloatVector** field with a list of byte sublists as data. The signature of this method is as follows:
-
-```go
-func NewColumnFloatVector(fieldName string, dim int, data [][]float32) *ColumnFloatVector
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Number of dimensions in the field.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnGeometryWKT
-
-This is a struct type. You can use the `NewColumnGeometryWKT` method to implement a **GeometryWKT** field.
-
-### NewColumnGeometryWKT
-
-This method creates a GeometryWKT field with a list of strings. The signature of this method is as follows:
-
-```go
-func NewColumnGeometryWKT(name string, values []string) *ColumnGeometryWKT
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Geometry information in WKT format in a list of strings.</p></td>
-     <td><p><code>[]string</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt16
-
-This is a struct type. You can use the `NewColumnInt16` method to implement an **Int16** field.
-
-### NewColumnInt16
-
-This method creates an **Int16** field. The signature of this method is as follows:
-
-```go
-func NewColumnInt16(name string, values []int16) *ColumnInt16
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int16</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt16Array
-
-This is a struct type. You can use the `NewColumnInt16Array` method to implement an **Array** field with elements of the **Int16** type.
-
-### NewColumnInt16Array
-
-This method creates an **Array** field with elements of the **Int16** type. The signature of this method is as follows:
-
-```go
-func NewColumnInt16Array(fieldName string, data [][]int16) *ColumnInt16Array
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int16</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt32
-
-This is a struct type. You can use the `NewColumnInt32` method to implement an **Int32** field.
-
-### NewColumnInt32
-
-This method creates an **Int32** field. The signature of this method is as follows:
-
-```go
-func NewColumnInt32(name string, values []int32) *ColumnInt32
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int32</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt32Array
-
-This is a struct type. You can use the `NewColumnInt32Array` method to implement an **Array** field with elements of the **Int32** type.
-
-### NewColumnInt32Array
-
-This method creates an **Array** field with elements of the **Int32** type. The signature of this method is as follows:
-
-```go
-func NewColumnInt32Array(fieldName string, data [][]int32) *ColumnInt32Array
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int32</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt64
-
-This is a struct type. You can use the `NewColumnInt64` method to implement an **Int64** field.
-
-### NewColumnInt64
-
-This method creates an **Int64** field. The signature of this method is as follows:
-
-```go
-func NewColumnInt64(name string, values []int16) *ColumnInt64
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int64</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt64Array
-
-This is a struct type. You can use the `NewColumnInt64Array` method to implement an **Array** field with elements of the **Int64** type.
-
-### NewColumnInt64Array
-
-This method creates an **Array** field with elements of the **Int64** type. The signature of this method is as follows:
-
-```go
-func NewColumnInt64Array(fieldName string, data [][]int64) *ColumnInt64Array
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int64</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt8
-
-This is a struct type. You can use the `NewColumnInt8` method to implement an **Int8** field.
-
-### NewColumnInt8
-
-This method creates an **Int8** field. The signature of this method is as follows:
-
-```go
-func NewColumnInt8(name string, values []int8) *ColumnInt8
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int8</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnInt8Array
-
-This is a struct type. You can use the `NewColumnInt8Array` method to implement an **Array** field with elements of the **Int8** type.
-
-### NewColumnInt8Array
-
-This method creates an **Array** field with elements of the **Int8** type. The signature of this method is as follows:
-
-```go
-func NewColumnInt8Array(fieldName string, data [][]int8) *ColumnInt8Array
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int8</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnJSONBytes
-
-This is a struct type. You can use the `NewColumnJSONBytes` method to implement a **JSON** field.
-
-### NewColumnJSONBytes
-
-This method creates a **JSON** field. The signature of this method is as follows:
-
-```go
-func NewColumnJSONBytes(name string, values [][]byte) *ColumnJSONBytes
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnSparseFloatVector
-
-This is a struct type. You can use the `NewColumnSparseVectors` method to implement a **SparseFloatVector** field.
-
-### NewColumnSparseVectors
-
-This method creates a **SparseFloatVector** field with a list of byte sublists as data. The signature of this method is as follows:
-
-```go
-func NewColumnSparseVectors(name string, values []entity.SparseEmbedding) *ColumnSparseFloatVector
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><a href="./v2-Vector-Insert"><code>[]entity.SparseEmbedding</code></a></p></td>
-   </tr>
-</table>
-
-## column.ColumnVarChar
-
-This is a struct type. You can use the `NewColumnVarChar` method to implement a **VarChar** field.
-
-### NewColumnVarChar
-
-This method creates a **VarChar** field. The signature of this method is as follows:
-
-```go
-func NewColumnVarChar(name string, values []string) *ColumnVarChar
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]string</code></p></td>
-   </tr>
-</table>
-
-## column.ColumnVarCharArray
-
-This is a struct type. You can use the `NewColumnVarCharArray` method to implement an **Array** field with elements of the **VarChar** type.
-
-### NewColumnVarCharArray
-
-This method creates an **Array** field with elements of the **VarChar** type. The signature of this method is as follows:
-
-```go
-func NewColumnVarCharArray(fieldName string, data [][]string) *ColumnVarCharArray
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the field to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>data</code></p></td>
-     <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]string</code></p></td>
-   </tr>
-</table>
-
-## column.NullableColumnCreateFunc
-
-This is an interface type. The `NullableColumnCreator` struct type implements this interface type. You can use `NewNullableColumnCreator()` method to get the concrete implementation.
-
-### NewNullableColumnCreator
-
-The signature of this method is as follows:
-
-```go
-func NewNullableColumnCreator[col interface {
-    Column
-    withValidData([]bool)
-}, T any](base func(name string, values []T) col) NullableColumnCreator[col, T]
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>col</code></p></td>
-     <td><p>A column interface.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>T</code></p></td>
-     <td><p>Data type.</p></td>
-     <td><p><code>any</code></p></td>
-   </tr>
-</table>
-
-You can chain the following methods to get a nullable column.
-
-- [New()](./v2-Vector-Insert#new)
-
-### New
-
-The signature of this method is as follows:
-
-```go
-func (c NullableColumnCreator[col, T]) New(name string, values []T, validData []bool) (col, error)
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the nullable field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Data in this nullable field</p></td>
-     <td><p><code>[]T</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>validData</code></p></td>
-     <td><p>Valid data</p></td>
-     <td><p><code>[]bool</code></p></td>
-   </tr>
-</table>
-
-## entity.SparseEmbedding
-
-This is an interface type. You can use the `NewSliceSparseEmbedding` function to get the concrete implementation.
-
-### NewSliceSparseEmbedding
-
-The signature is as follows:
-
-```go
-func NewSliceSparseEmbedding(positions []uint32, values []float32) (SparseEmbedding, error)
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>positions</code></p></td>
-     <td><p>Position indexes of the elements in the <code>values</code>.</p></td>
-     <td><p><code>[]uint32</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>values</code></p></td>
-     <td><p>Vector embeddings in a list of float32 numbers.</p></td>
-     <td><p><code>[]float32</code></p></td>
-   </tr>
-</table>
-
-## InsertResult
-
-The `InsertResult` struct type is as follows:
-
-```go
-type InsertResult struct {
-    InsertCount int64
-    IDs         column.Column
-}
-```
-
-## Return
-
-`InsertResult`
-
-## Example
-
-```plaintext
-resp, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("quick_setup").
-    WithInt64Column("id", []int64{1, 2, 3, 4, 5, 6, 7, 8, 9}).
-    WithVarcharColumn("color", []string{"pink_8682", "red_7025", "orange_6781", "pink_9298", "red_4794", "yellow_4222", "red_9392", "grey_8510", "white_9381", "purple_4976"}).
-    WithFloatVectorColumn("vector", 5, [][]float32{
-        {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
-        {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
-        {0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
-        {0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345},
-        {0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106},
-        {0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955},
-        {0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987},
-        {-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052},
-        {0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336},
-        {0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608},
-    }),
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-    // handle err
+	// handle error
 }
-fmt.Println(resp)
+defer cli.Close(ctx)
+
+structSchema := entity.NewStructSchema().
+	WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(256))
+rows := []map[string]any{{"text": []string{"first", "second"}}}
+
+result, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("books").
+	WithInt64Column("id", []int64{1}).
+	WithStructArrayColumn("chunks", structSchema, rows))
+if err != nil {
+	// handle error
+}
+_ = result
 ```

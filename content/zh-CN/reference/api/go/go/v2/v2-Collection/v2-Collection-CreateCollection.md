@@ -1,18 +1,29 @@
 ---
 title: "CreateCollection() | Go | v2"
-slug: /go/v2-Collection-CreateCollection
+slug: /go/go/v2-Collection-CreateCollection
 sidebar_label: "CreateCollection()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: v2.6.x
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method creates a collection. | Go | v2"
-type: origin
-token: CBu8wNbDci2KCLk06wScldmhnAf
-sidebar_position: 11
+beta: false
+added_since: v2.6.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "在自动验证公开 `Validate()` 方法的选项（包括结构体数组 schema）后创建集合。 | Go | v2"
+type: docx
+token: Jm5IdnexOoFaMpx0HqDcbXeDnGe
+sidebar_position: 9
+keywords: 
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CreateCollection()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,1325 +31,116 @@ import Admonition from '@theme/Admonition';
 
 # CreateCollection()
 
-This method creates a collection. 
+在自动验证公开 `Validate()` 方法的选项（包括结构体数组 schema）后创建集合。
 
 ```go
 func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters
+**PARAMETERS:**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-CreateCollection#createcollectionoption"><code>CreateCollectionOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
+- **name** (*string*) -
 
-## CreateCollectionOption
+    **[REQUIRED]**
 
-This is an interface type. The `createCollectionOption` struct type implements this interface type. 
+    要创建的集合名称。
 
-You can use the `NewCreateCollectionOption()` or `SimpleCreateCollectionOptions()` function to get the concrete implementation.
+- **collectionSchema** (**entity.Schema*) -
 
-### NewCreateCollectionOption
+    **[REQUIRED]**
 
-The signature of this method is as follows:
+    定义集合字段和配置的 schema。
 
-```go
-func NewCreateCollectionOption(name string, collectionSchema *entity.Schema) *createCollectionOption
-```
+**BUILDER METHODS:**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the collection to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>collectionSchema</code></p></td>
-     <td><p>Schema of the collection.</p><p>This parameter applies when creating a collection with a custom schema.</p></td>
-     <td><p><code>&ast;entity.Schema</code></p></td>
-   </tr>
-</table>
+- `WithAutoID(autoID bool)`
 
-You can chain the following methods to append more parameters to the `createCollectionOption` struct.
+    设置是否由 Milvus 自动生成主键。
 
-- [WithShardNum](./v2-Collection-CreateCollection#withshardnum)
+- `WithShardNum(shardNum int32)`
 
-- [WithIndexOptions](./v2-Collection-CreateCollection#withindexoptions)
+    设置集合的分片数量。
 
-- [WithProperty](./v2-Collection-CreateCollection#withproperty)
+- `WithDynamicSchema(dynamicSchema bool)`
 
-- [WithConsistencyLevel](./v2-Collection-CreateCollection#withconsistencylevel)
+    启用或禁用动态字段。
 
-- [WithNumPartitions](./v2-Collection-CreateCollection#withnumpartitions)
+- `WithVarcharPK(varcharPK bool, maxLen int)`
 
-### SimpleCreateCollectionOptions
+    使用具有指定最大长度的 VarChar 主键。
 
-This method outputs the options for creating a collection in a quick-setup manner. The signature of this method is as follows:
+- `WithIndexOptions(indexOpts ...CreateIndexOption)`
 
-```go
-func SimpleCreateCollectionOptions(name string, dim int64) *createCollectionOption
-```
+    设置在创建集合期间使用的索引创建选项。
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the collection to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Dimensionality of the vector field.</p></td>
-     <td><p><code>int64</code></p></td>
-   </tr>
-</table>
+- `WithProperty(key string, value any)`
 
-You can chain the following methods to append more parameters to the `createCollectionOption` struct.
+    在将值转换为其字符串表示后设置集合属性。
 
-- [WithAutoID](./v2-Collection-CreateCollection#withautoid)
+- `WithConsistencyLevel(cl entity.ConsistencyLevel)`
 
-- [WithDynamicSchema](./v2-Collection-CreateCollection#withdynamicschema)
+    设置集合的一致性级别。
 
-- [WithVarcharPK](./v2-Collection-CreateCollection#withvarcharpk)
+- `WithMetricType(metricType entity.MetricType)`
 
-- [WithIndexOptions](./v2-Collection-CreateCollection#withindexoptions)
+    为默认向量索引设置度量类型。
 
-- [WithMetricType](./v2-Collection-CreateCollection#withmetrictype)
+- `WithPKFieldName(name string)`
 
-- [WithPKFieldName](./v2-Collection-CreateCollection#withpkfieldname)
+    设置主键字段名称。
 
-- [WithVectorFieldName](./v2-Collection-CreateCollection#withvectorfieldname)
+- `WithVectorFieldName(name string)`
 
-### WithAutoID
+    设置向量字段名称。
 
-This method appends the settings regarding the `autoID` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
+- `WithNumPartitions(numPartitions int64)`
+
+    设置与分区键一起使用的分区数量。
+
+**RETURN TYPE:**
+
+*error*
+
+**RETURNS:**
+
+集合创建成功后返回 nil。schema 验证失败或 RPC 失败时返回错误。
+
+**ERROR HANDLING:**
+
+- **error**
+
+    验证、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
+
+## Example\{#example}
+
+演示 `CreateCollection()` 的用法。
 
 ```go
-func (opt *createCollectionOption) WithAutoID(autoID bool) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>autoID</code></p></td>
-     <td><p>Whether to allow Milvus to automatically allocate the primary keys for incoming entities.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### WithShardNum
-
-This method appends the settings regarding the `shardNum` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *createCollectionOption) WithShardNum(shardNum int32) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>shardNum</code></p></td>
-     <td><p>Number of shards to create along with the collection. A shard corresponds to a data input channel.</p></td>
-     <td><p><code>int32</code></p></td>
-   </tr>
-</table>
-
-### WithDynamicSchema
-
-This method appends the settings regarding the `enableDynamicField` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *createCollectionOption) WithDynamicSchema(dynamicSchema bool) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>enableDynamicSchema</code></p></td>
-     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### WithVarcharPK
-
-This method appends the settings regarding the `varcharPK`  and `varcharPKMaxLength`parameters to the `createCollectionOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *createCollectionOption) WithVarcharPK(varcharPK bool, maxLen int) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>varcharPK</code></p></td>
-     <td><p>Whether to use a primary key of the VarChar type.</p><p>This parameter applies when creating a collection in a quick-setup manner.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>maxLen</code></p></td>
-     <td><p>Maximum length for the primary key of the VarChar type. </p><p>This parameter applies only when <code>varcharPK</code> is set to <code>true</code>.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### WithIndexOptions
-
-This method appends the settings regarding the `indexOptions` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *createCollectionOption) WithIndexOptions(indexOpts ...CreateIndexOption) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>indexOptions</code></p></td>
-     <td><p>Index options.</p><p>This parameter applies when creating a collection with a custom schema. Once set, Milvus automatically loads the collection after it is created.</p></td>
-     <td><p><a href="./v2-Management-CreateIndex#createindexoption"><code>...CreateIndexOption</code></a></p></td>
-   </tr>
-</table>
-
-### WithProperty
-
-This method appends the settings regarding the `properties` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *createCollectionOption) WithProperty(key string, value any) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>properties</code></p></td>
-     <td><p>Other collection properties.</p></td>
-     <td><p><code>map[string]string</code></p></td>
-   </tr>
-</table>
-
-### WithConsistencyLevel
-
-This method appends the settings regarding the `consistencyLevel` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *createCollectionOption) WithConsistencyLevel(cl entity.ConsistencyLevel) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>consistencyLevel</code></p></td>
-     <td><p>Consistency level of the collection.</p><p>For details, refer to <a href="/docs/consistency-level">Consistency Level</a>.</p></td>
-     <td><p><code>entity.ConsistencyLevel</code></p></td>
-   </tr>
-</table>
-
-### WithMetricType
-
-This method appends the settings regarding the metric type parameter to the `createCollectionOption` struct. The signature is as follows:
-
-```go
-func (opt *createCollectionOption) WithMetricType(metricType entity.MetricType) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>metricType</code></p></td>
-     <td><p>The metric type used to measure similarities between vector embeddings.</p></td>
-     <td><p><a href="./v2-Collection-CreateCollection#entitymetrictype"><code>entity.MetricType</code></a></p></td>
-   </tr>
-</table>
-
-### WithPKFieldName
-
-This method appends the settings regarding the name of the primary key field to the `createCollectionOption` struct. The signature is as follows:
-
-```go
-func (opt *createCollectionOption) WithPKFieldName(name string) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>The name of the primary key field</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithVectorFieldName
-
-This method appends the settings regarding the name of a vector field to the `createCollectionOption` struct. The signature is as follows:
-
-```go
-func (opt *createCollectionOption) WithVectorFieldName(name string) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>The name of the vector field</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithNumPartitions
-
-This method appends the settings regarding the `numPartitions` to the `createCollectionOption` struct. The signature is as follows:
-
-```go
-func (opt *createCollectionOption) WithNumPartitions(numPartitions int64) *createCollectionOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>numPartitions</code></p></td>
-     <td><p>The number of partitions to create in the collection.</p><p>This parameter is applicable when you enable the partition key.</p></td>
-     <td><p><code>int64</code></p></td>
-   </tr>
-</table>
-
-## entity.Schema
-
-You can use the `entity.NewSchema` method to get the concrete implementation of the `entity.Schema` struct type.
-
-### entity.NewSchema
-
-This method creates an empty schema. You can chain the following methods to append corresponding parameters to the created schema.
-
-- [WithAutoID](./v2-Collection-CreateCollection#entitywithautoid)
-
-- [WithDescription](./v2-Collection-CreateCollection#entitywithdescription)
-
-- [WithDynamicFieldEnabled](./v2-Collection-CreateCollection#entitywithdynamicfieldenabled)
-
-- [WithField](./v2-Collection-CreateCollection#entitywithfield)
-
-- [WithFunction](./v2-Collection-CreateCollection#entitywithfunction)
-
-- [WithName](./v2-Collection-CreateCollection#entitywithname)
-
-### entity.WithAutoID
-
-This method appends the settings regarding the `autoID` parameter to the `entity.Schema` struct. The signature of the method is as follows:
-
-```go
-func (s *entity.Schema) WithAutoID(autoID bool) *entity.Schema
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>autoID</code></p></td>
-     <td><p>Whether the primary keys of the incoming entities automatically increments.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDescription
-
-This method appends the schema description to the `entity.Schema` struct. The signature of the method is as follows:
-
-```go
-func (s *entity.Schema) WithDescription(desc string) *entity.Schema
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>desc</code></p></td>
-     <td><p>Description of the schema.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDynamicFieldEnabled
-
-The method appends the settings regarding the `EnableDynamicField` to the `entity.Schema` struct. The signature of the method is as follows:
-
-```go
-func (s *entity.Schema) WithDynamicFieldEnabled(dynamicEnabled bool) *entity.Schema
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dynamicEnabled</code></p></td>
-     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithField
-
-The method appends a field object to the `entity.Schema` struct. The signature of the method is as follows:
-
-```go
-func (s *entity.Schema) WithField(f *entity.Field) *entity.Schema
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>f</code></p></td>
-     <td><p>An <code>entity.Field</code> object.</p></td>
-     <td><p><a href="./v2-Collection-CreateCollection#entityfield"><code>&ast;entity.Field</code></a></p></td>
-   </tr>
-</table>
-
-### entity.WithFunction
-
-The method appends a function object to the `entity.Schema` struct. The signature of the method is as follows:
-
-```go
-func (s *entity.Schema) WithFunction(f *entity.Function) *entity.Schema
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>f</code></p></td>
-     <td><p>An <code>entity.Function</code> object.</p></td>
-     <td><p><a href="./v2-Collection-CreateCollection#entityfunction"><code>&ast;entity.Function</code></a></p></td>
-   </tr>
-</table>
-
-### entity.WithName
-
-The method appends the schema name to the `entity.Schema` struct. The signature of the method is as follows:
-
-```go
-func (s *Schema) WithName(name string) *Schema
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the schema.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-## entity.Field
-
-You can use the `entity.NewField` method to get the concrete implementation of the `entity.Field` struct type.
-
-### entity.NewField
-
-This method creates an empty field schema. You can chain the following methods to append corresponding parameters to the created field schema.
-
-- [WithAnalyzerParams](./v2-Collection-CreateCollection#entitywithanalyzerparams)
-
-- [WithDataType](./v2-Collection-CreateCollection#entitywithdatatype)
-
-- [WithDefaultValueBool](./v2-Collection-CreateCollection#entitywithdefaultvaluebool)
-
-- [WithDefaultValueDouble](./v2-Collection-CreateCollection#entitywithdefaultvaluedouble)
-
-- [WithDefaultValueFloat](./v2-Collection-CreateCollection#entitywithdefaultvaluefloat)
-
-- [WithDefaultValueInt](./v2-Collection-CreateCollection#entitywithdefaultvalueint)
-
-- [WithDefaultValueLong](./v2-Collection-CreateCollection#entitywithdefaultvaluelong)
-
-- [WithDefaultValueString](./v2-Collection-CreateCollection#entitywithdefaultvaluestring)
-
-- [WithDescription](./v2-Collection-CreateCollection#entitywithdescription)
-
-- [WithDim](./v2-Collection-CreateCollection#entitydim)
-
-- [WithElementType](./v2-Collection-CreateCollection#entitywithelementtype)
-
-- [WithEnableAnalyzer](./v2-Collection-CreateCollection#entitywithenableanalyzer)
-
-- [WithEnableMatch](./v2-Collection-CreateCollection#entitywithenablematch)
-
-- [WithIsAutoID](./v2-Collection-CreateCollection#entitywithisautoid)
-
-- [WithIsClusteringKey](./v2-Collection-CreateCollection#entitywithisclusteringkey)
-
-- [WithIsDynamic](./v2-Collection-CreateCollection#entitywithisdynamic)
-
-- [WithIsPartitionKey](./v2-Collection-CreateCollection#entitywithispartitionkey)
-
-- [WithIsPrimaryKey](./v2-Collection-CreateCollection#entitywithisprimarykey)
-
-- [WithMaxCapacity](./v2-Collection-CreateCollection#entitywithmaxcapacity)
-
-- [WithMaxLength](./v2-Collection-CreateCollection#entitywithmaxlength)
-
-- [WithMultiAnalyzerParams](./v2-Collection-CreateCollection#withmultianalyzerparams)
-
-- [WithName](./v2-Collection-CreateCollection#entitywithname)
-
-- [WithNullable](./v2-Collection-CreateCollection#entitywithnullable)
-
-- [WithTypeParams](./v2-Collection-CreateCollection#entitywithtypeparams)
-
-### entity.WithAnalyzerParams
-
-This method appends analyzer parameters in key-value pairs to the `entity.Field` struct. The signature of the method is as follows:
-
-```go
-func (f *Field) WithAnalyzerParams(params map[string]any) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>params</code></p></td>
-     <td><p>Analyzer parameters of the current field in key-value pairs.</p><p>An <strong>analyzer</strong> is a crucial component that converts raw text into a structured, searchable format. For details, refer to <a href="/docs/analyzer-overview">Analyzer Overview</a>.</p></td>
-     <td><p><code>map[string]any</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDataType
-
-This method appends the data type property to the `entity.Field` struct. The signature of the method is as follows:
-
-```javascript
-func (f *Field) WithDataType(dataType FieldType) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dataType</code></p></td>
-     <td><p>Data type of the current field. Possible values are as follows:</p><ul><li><p><code>entity.FieldTypeBool</code></p></li><li><p><code>entity.FieldTypeInt8</code></p></li><li><p><code>entity.FieldTypeInt16</code></p></li><li><p><code>entity.FieldTypeInt32</code></p></li><li><p><code>entity.FieldTypeInt64</code></p></li><li><p><code>entity.FieldTypeFloat</code></p></li><li><p><code>entity.FieldTypeDouble</code></p></li><li><p><code>entity.FieldTypeVarChar</code></p></li><li><p><code>entity.FieldTypeArray</code></p></li><li><p><code>entity.FieldTypeJSON</code></p></li><li><p><code>entity.FieldTypeGeometry</code></p></li><li><p><code>entity.FieldTypeBinaryVector</code></p></li><li><p><code>entity.FieldTypeFloatVector</code></p></li><li><p><code>entity.FieldTypeFloat16Vector</code></p></li><li><p><code>entity.FieldTypeBFloat16Vector</code></p></li><li><p><code>entity.FieldTypeSparseVector</code></p></li><li><p><code>entity.FieldTypeInt8Vector</code></p></li></ul></td>
-     <td><p><code>entity.FieldType</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDefaultValueBool
-
-This method sets the default value for the field of the `entity.FieldTypeBool` type. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDefaultValueBool(defaultValue bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>defaultValue</code></p></td>
-     <td><p>Default value when the argument of the <code>entity.WithDataType</code> method is set to <code>entity.FieldTypeBool</code>.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDefaultValueDouble
-
-This method sets the default value for the field of the `entity.FieldTypeDouble` type. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDefaultValueDouble(defaultValue float64) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>defaultValue</code></p></td>
-     <td><p>Default value when the argument of the <code>entity.WithDataType</code> method is set to <code>entity.FieldTypeDouble</code>.</p></td>
-     <td><p><code>float64</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDefaultValueFloat
-
-This method sets the default value for the field of the `entity.FieldTypeFloat` type. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDefaultValueFloat(defaultValue float32) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>defaultValue</code></p></td>
-     <td><p>Default value when the argument of the <code>entity.WithDataType</code> method is set to <code>entity.FieldTypeFloat</code>.</p></td>
-     <td><p><code>float32</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDefaultValueInt
-
-This method sets the default value for the field of the `entity.FieldTypeLong` type. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDefaultValueInt(defaultValue int64) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>defaultValue</code></p></td>
-     <td><p>Default value when the argument of the <code>entity.WithDataType</code> method is set to <code>entity.FieldTypeLong</code>.</p></td>
-     <td><p><code>int32</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDefaultValueLong
-
-This method sets the default value for the field of the `entity.FieldTypeInt` type. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDefaultValueLong(defaultValue int64) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>defaultValue</code></p></td>
-     <td><p>Default value when the argument of the <code>entity.WithDataType</code> method is set to <code>entity.FieldTypeInt</code>.</p></td>
-     <td><p><code>int64</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDefaultValueString
-
-This method sets the default value for the field of the `entity.FieldTypeVarChar` type. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDefaultValueString(defaultValue string) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>defaultValue</code></p></td>
-     <td><p>Default value when the argument of the <code>entity.WithDataType</code> method is set to <code>entity.FieldTypeVarChar</code>.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### entity.WithDescription
-
-This method sets the field description. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDescription(desc string) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>desc</code></p></td>
-     <td><p>Description of the field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### entity.Dim
-
-This method sets the dimensionality for a vector field. The signature of the method is as follows:
-
-```go
-func (f *Field) WithDim(dim int64) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dim</code></p></td>
-     <td><p>Dimensionality of a vector field</p></td>
-     <td><p><code>int64</code></p></td>
-   </tr>
-</table>
-
-### entity.WithElementType
-
-This methods set the data type for the elements in an array field. The signature of the method is as follows:
-
-```go
-func (f *Field) WithElementType(eleType FieldType) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>eleType</code></p></td>
-     <td><p>Data type for the elements in an array field. Possible values are as follows:</p><ul><li><p><code>entity.FieldTypeBool</code></p></li><li><p><code>entity.FieldTypeInt8</code></p></li><li><p><code>entity.FieldTypeInt16</code></p></li><li><p><code>entity.FieldTypeInt32</code></p></li><li><p><code>entity.FieldTypeInt64</code></p></li><li><p><code>entity.FieldTypeFloat</code></p></li><li><p><code>entity.FieldTypeDouble</code></p></li><li><p><code>entity.FieldTypeVarChar</code></p></li></ul></td>
-     <td><p><code>entity.FieldType</code></p></td>
-   </tr>
-</table>
-
-### entity.WithEnableAnalyzer
-
-This method determines whether to enable the analyzer for the current field. The signature of the method is as follows:
-
-```go
-func (f *Field) WithEnableAnalyzer(enable bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>enable</code></p></td>
-     <td><p>Whether to enable the analyzer for the current field.</p><p>An <strong>analyzer</strong> is a crucial component that converts raw text into a structured, searchable format. For details, refer to <a href="/docs/analyzer-overview">Analyzer Overview</a>.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithEnableMatch
-
-This method determines whether to enable text match for the current field. The signature of the method is as follows:
-
-```go
-func (f *Field) WithEnableMatch(enable bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>enable</code></p></td>
-     <td><p>Whether to enable the text match for the current field.</p><p>For details, refer to <a href="/docs/text-match">Text Match</a>.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithIsAutoID
-
-This method determines whether the primary key automatically increments. The signature of the method is as follows：
-
-```go
-func (f *Field) WithIsAutoID(isAutoID bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>autoID</code></p></td>
-     <td><p>Whether the primary key automatically increments.</p><p>This method applies only when you also append the <code>entity.WithIsPrimaryKey</code> to the field creation request.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithIsClusteringKey
-
-This method determines whether the current field serves as the clustering key, which guides Milvus to implement clustering compaction. For details, refer to [Clustering Compaction](https://milvus.io/docs/clustering-compaction.md). The signature of the method is as follows:
-
-```go
-func (f *Field) WithIsClusteringKey(isClusteringKey bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>isClusteringKey</code></p></td>
-     <td><p>Whether the current field serves as the cluster key.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithIsDynamic
-
-This method determines whether the current field serves as the dynamic field. 
-
-A dynamic field should be a field of the JSON type and you can store non-schema-defined fields and their values in key-value pairs in it. For details, refer to [Dynamic Field](/docs/enable-dynamic-field).
-
-The signature of this method is as follows:
-
-```go
-func (f *Field) WithIsDynamic(isDynamic bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>isDynamic</code></p></td>
-     <td><p>Whether the current field serves as the dynamic field.</p><p>This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeJSON</code>.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithIsPartitionKey
-
-This method determines whether the current field serves as the partition key.
-
-A partition key serves as a guidance for Zilliz Cloud to determine how to allocate the incoming entities. For details, refer to [Use Partition Key](/docs/use-partition-key).
-
-The signature of this method is as follows:
-
-```go
-func (f *Field) WithIsPartitionKey(isPartitionKey bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>isPartitionKey</code></p></td>
-     <td><p>Whether the current field serves as the partition key.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithIsPrimaryKey
-
-This method determines whether the current field serves as the primary key. The signature of this method is as follows:
-
-```go
-func (f *Field) WithIsPrimaryKey(isPrimaryKey bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>isPrimaryKey</code></p></td>
-     <td><p>Whether the current field serves as the primary key.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithMaxCapacity
-
-This method sets the maximum number of elements in an array field. The signature of this method is as follows:
-
-```go
-func (f *Field) WithMaxCapacity(maxCap int64) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>maxCap</code></p></td>
-     <td><p>Maximum number of elements in an array field.</p><p>This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeArray</code>.</p></td>
-     <td><p><code>int64</code></p></td>
-   </tr>
-</table>
-
-### entity.WithMaxLength
-
-This method sets the maximum length of a VarChar field. The signature of this method is as follows:
-
-```go
-func (f *Field) WithMaxLength(maxLen int64) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>maxCap</code></p></td>
-     <td><p>Maximum length of a VarChar field.</p><p>This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeVarChar</code>.</p></td>
-     <td><p><code>int64</code></p></td>
-   </tr>
-</table>
-
-### WithMultiAnalyzerParams
-
-This method sets the parameters for a multi-language analyzer. The signature is as follows:
-
-```go
-func (f *Field) WithMultiAnalyzerParams(params map[string]any) *Field
-```
-
-For details, you can read [Multi-language Analyzer](/docs/multi-language-analyzers).
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>params</code></p></td>
-     <td><p>The configuration of a multi-language analyzer that automatically matches the language of your text.</p></td>
-     <td><p><code>map[string]any</code></p></td>
-   </tr>
-</table>
-
-### entity.WithName
-
-This method sets the name of the current field. The signature of this method is as follows:
-
-```go
-func (f *Field) WithName(name string) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the current field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### entity.WithNullable
-
-This method determines whether the current field allows null values. The signature of this method is as follows:
-
-```go
-func (f *Field) WithNullable(nullable bool) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>nullable</code></p></td>
-     <td><p>Whether the current field allows null values.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### entity.WithTypeParams
-
-This method sets additional parameters for specific data types in a key-value pair. The signature of this method is as follows:
-
-```go
-func (f *Field) WithTypeParams(key string, value string) *Field
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>Name of the parameter to set</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>value</code></p></td>
-     <td><p>Value of the specified parameter</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-## entity.Function
-
-You can use the `entity.NewFunction` method to get the concrete implementation of the `entity.Funtion` struct type.
-
-### entity.NewFunction
-
-This method creates an empty function. You can chain the following methods to append corresponding parameters to the created field schema.
-
-- [WithInputFields](./v2-Collection-CreateCollection#entitywithinputfields)
-
-- [WithName](./v2-Collection-CreateCollection#entityname)
-
-- [WithOutputFields](./v2-Collection-CreateCollection#entitywithoutputfields)
-
-- [WithParam](./v2-Collection-CreateCollection#entitywithparam)
-
-- [WithType](./v2-Collection-CreateCollection#entitytype)
-
-### entity.WithInputFields
-
-This method specifies the input field names. The data contained in the specified input field requires conversion to vector representation.
-
-```go
-func (f *Function) WithInputFields(inputFields ...string) *Function
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>inputFields</code></p></td>
-     <td><p>Names of the fields that contain the data to be converted to its vector representation.</p></td>
-     <td><p><code>...string</code></p></td>
-   </tr>
-</table>
-
-### entity.Name
-
-This method specifies the name of the function.
-
-```go
-func (f *Function) WithName(name string) *Function
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the current function.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### entity.WithOutputFields
-
-This method specifies the output field name. Milvus calls the function to create the output field and insert the vector representation of the data in the specified input field.
-
-```go
-func (f *Function) WithOutputFields(outputFields ...string) *Function
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>outputFields</code></p></td>
-     <td><p>Names of the fields to create after you call the function.</p></td>
-     <td><p><code>...string</code></p></td>
-   </tr>
-</table>
-
-### entity.WithParam
-
-This method adds an additional parameter to the current function.
-
-```go
-func (f *Function) WithParam(key string, value any) *Function
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>Name of the additional parameter.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>value</code></p></td>
-     <td><p>Value of the additional parameter.</p></td>
-     <td><p><code>any</code></p></td>
-   </tr>
-</table>
-
-### entity.Type
-
-This method specifies the type of the current function.
-
-```go
-func (f *Function) WithType(funcType FunctionType) *Function
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>funcType</code></p></td>
-     <td><p>Type of the current function.</p></td>
-     <td><p><a href="./v2-Collection-CreateCollection#entityfunctiontype"><code>FunctionType</code></a></p></td>
-   </tr>
-</table>
-
-## entity.ConsistencyLevel
-
-This is a private type that has the following possible values.
-
-```go
-const (
-        ClStrong ConsistencyLevel = ConsistencyLevel(commonpb.ConsistencyLevel_Strong)
-        ClBounded ConsistencyLevel = ConsistencyLevel(commonpb.ConsistencyLevel_Bounded)
-        ClSession ConsistencyLevel = ConsistencyLevel(commonpb.ConsistencyLevel_Session)
-        ClEventually ConsistencyLevel = ConsistencyLevel(commonpb.ConsistencyLevel_Eventually)
-        ClCustomized ConsistencyLevel = ConsistencyLevel(commonpb.ConsistencyLevel_Customized)
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v3/entity"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
+if err != nil {
+	// handle error
+}
+defer cli.Close(ctx)
+
+structSchema := entity.NewStructSchema().
+	WithField(entity.NewField().WithName("text").WithDataType(entity.FieldTypeVarChar).WithMaxLength(256))
+
+schema := entity.NewSchema().
+	WithField(entity.NewField().WithName("id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+	WithField(entity.NewField().WithName("chunks").WithDataType(entity.FieldTypeArray).WithElementType(entity.FieldTypeStruct).WithStructSchema(structSchema))
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("books", schema))
+if err != nil {
+	// handle error
+}
 ```
-
-## entity.MetricType
-
-This is a string type that has the following possible values:
-
-```go
-const (
-        L2             MetricType = "L2"
-        IP             MetricType = "IP"
-        COSINE         MetricType = "COSINE"
-        HAMMING        MetricType = "HAMMING"
-        JACCARD        MetricType = "JACCARD"
-        TANIMOTO       MetricType = "TANIMOTO"
-        SUBSTRUCTURE   MetricType = "SUBSTRUCTURE"
-        SUPERSTRUCTURE MetricType = "SUPERSTRUCTURE"
-        BM25           MetricType = "BM25"
-        MHJACCARD      MetricType = "MHJACCARD"
-)
-```
-
-## entity.FunctionType
-
-This is a private type that has the following possible values.
-
-```go
-const (
-        FunctionTypeUnknown       = schemapb.FunctionType_Unknown
-        FunctionTypeBM25          = schemapb.FunctionType_BM25
-        FunctionTypeTextEmbedding = schemapb.FunctionType_TextEmbedding
-        FunctionTypeRerank        = schemapb.FunctionType_Rerank
-)
-```
-
-## Return
-
-Null
-
-## Example
-
-- Quick setup
-
-    ```go
-    ctx, cancel := context.WithCancel(context.Background())
-    defer cancel()
-    
-    collectionName := `quick_setup_1`
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: milvusAddr,
-    })
-    if err != nil {
-        // handle err
-    }
-    
-    err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions(collectionName, 512))
-    if err != nil {
-        // handle error
-    }
-    ```
-
-- Custom setup with index parameters
-
-    ```go
-    ctx, cancel := context.WithCancel(context.Background())
-    defer cancel()
-    
-    collectionName := `quick_setup_2`
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: milvusAddr,
-    })
-    if err != nil {
-        // handle err
-    }
-    
-    err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions(collectionName, 512).WithIndexOptions(
-        milvusclient.NewCreateIndexOption(collectionName, "vector", index.NewHNSWIndex(entity.L2, 64, 128)),
-    ))
-    if err != nil {
-        log.Println(err.Error())
-        // handle error
-    }
-    ```
-
-- Custom setup without index parameters
-
-    ```go
-    ctx, cancel := context.WithCancel(context.Background())
-    defer cancel()
-    
-    collectionName := `quick_setup_3`
-    cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-        Address: milvusAddr,
-    })
-    if err != nil {
-        // handle err
-    }
-    
-    err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions(collectionName, 512).
-        WithVarcharPK(true, 64).
-        WithShardNum(1),
-    )
-    if err != nil {
-        log.Println(err.Error())
-        // handle error
-    }
-    ```
-
-    

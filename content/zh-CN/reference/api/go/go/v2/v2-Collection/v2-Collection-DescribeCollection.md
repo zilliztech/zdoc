@@ -1,18 +1,29 @@
 ---
 title: "DescribeCollection() | Go | v2"
-slug: /go/v2-Collection-DescribeCollection
+slug: /go/go/v2-Collection-DescribeCollection
 sidebar_label: "DescribeCollection()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method describes a collection by providing its detailed information. | Go | v2"
-type: origin
-token: NmRwwnWK6in8rNkk5iucAWBznOf
-sidebar_position: 9
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作返回集合的详细信息，包括其 schema 和属性。 | Go | v2"
+type: docx
+token: SCP5dY88horVwExBCD2cuSChnZM
+sidebar_position: 11
+keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DescribeCollection()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,105 +31,68 @@ import Admonition from '@theme/Admonition';
 
 # DescribeCollection()
 
-This method describes a collection by providing its detailed information.
+此操作返回集合的详细信息，包括其 schema 和属性。
 
 ```go
 func (c *Client) DescribeCollection(ctx context.Context, option DescribeCollectionOption, callOptions ...grpc.CallOption) (collection *entity.Collection, err error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-DescribeCollection#describecollectionoption"><code>DescribeCollectionOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DescribeCollectionOption
-
-This is an interface type. The `describeCollectionOption` struct type implements this interface type. 
-
-You can use the `NewDescribeCollectionOption()` function to get the concrete implementation.
-
-### NewDescribeCollectionOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDescribeCollectionOption(name string) *describeCollectionOption
+option := milvusclient.NewDescribeCollectionOption(name)
+
+result, err := client.DescribeCollection(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## entity.Collection
+- **name** (*string*)
 
-The `entity.Alias` struct type is as follows:
+    目标集合的名称。
 
-```go
-type Collection struct {
-    ID               int64           // collection id
-    Name             string          // collection name
-    Schema           *entity.Schema  // collection schema, with fields schema and primary key definition
-    PhysicalChannels []string
-    VirtualChannels  []string
-    Loaded           bool
-    ConsistencyLevel entity.ConsistencyLevel
-    ShardNum         int32
-    Properties       map[string]string
-}
-```
+**返回类型：**
 
-## entity.Schema
+*[collection* ](./v2-Collection)entity.Collection, err error*
 
-For details about this struct type, refer to [entity.Schema](./v2-Collection-CreateCollection).
+**返回：**
 
-## entity.ConsistencyLevel
+集合描述，包括 schema、字段和属性。如果操作失败，则返回错误。
 
-For details about this enumeration, refer to [entity.ConsistencyLevel](./v2-Collection-CreateCollection).
+**异常：**
 
-## Return
+- **error**
 
-`*entity.Collection`
+    检查 `err != nil` 以获取失败详情。
 
-## Example
+## 示例\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+
+defer cli.Close(ctx)
 
 collection, err := cli.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("quick_setup"))
 if err != nil {
-        // handle error
+	// handle error
 }
 
 fmt.Println(collection)

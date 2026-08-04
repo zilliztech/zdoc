@@ -1,18 +1,29 @@
 ---
 title: "DescribeDatabase() | Go | v2"
-slug: /go/v2-Database-DescribeDatabase
+slug: /go/go/v2-Database-DescribeDatabase
 sidebar_label: "DescribeDatabase()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method returns information about a specific database in detail. | Go | v2"
-type: origin
-token: T1gfw8Pa8imnd5kgedwcRKbvn5c
-sidebar_position: 5
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作返回数据库的详细信息，包括其属性。 | Go | v2"
+type: docx
+token: AR0Bdq0okohr1Cxa1rOcDtvTnoc
+sidebar_position: 4
+keywords: 
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DescribeDatabase()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,85 +31,64 @@ import Admonition from '@theme/Admonition';
 
 # DescribeDatabase()
 
-This method returns information about a specific database in detail.
+此操作返回数据库的详细信息，包括其属性。
 
 ```go
 func (c *Client) DescribeDatabase(ctx context.Context, option DescribeDatabaseOption, callOptions ...grpc.CallOption) (*entity.Database, error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Database-DescribeDatabase#describedatabaseoption"><code>DescribeDatabaseOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DescribeDatabaseOption
-
-This is an interface type. The `describeDatabaseOption` struct type implements this interface type. 
-
-You can use the `NewDescribeDatabaseOption()` function to get the concrete implementation.
-
-### NewDescribeDatabaseOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDescribeDatabaseOption(dbName string) *describeDatabaseOption
+option := milvusclient.NewDescribeDatabaseOption(dbName)
+
+result, err := client.DescribeDatabase(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dbName</code></p></td>
-     <td><p>Name of the database to describe.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## entity.Database
+- **dbName** (*string*)
 
-The `entity.Database` struct type is as follows:
+    数据库的名称。
+
+**返回类型：**
+
+**entity.Database, error*
+
+**返回：**
+
+返回包含属性在内的数据库描述。如果操作失败，则返回错误。
+
+**异常：**
+
+- **error**
+
+    检查 `err != nil` 以获取失败详情。
+
+## 示例\{#example}
 
 ```go
-type Database struct {
-    Name       string
-    Properties map[string]string
+import (
+	"context"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+dbName := `test_db`
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	// handle err
 }
-```
 
-## Return
-
-`*entity.Database`
-
-## Example
-
-```plaintext
 db, err := cli.DescribeDatabase(ctx, milvusclient.NewDescribeDatabaseOption(dbName))
 if err != nil {
-    // handle err
+	// handle err
 }
 log.Println(db)
 ```

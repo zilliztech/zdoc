@@ -1,18 +1,29 @@
 ---
 title: "ListImportJobs() | Go | v2"
-slug: /go/v2-DataImport-ListImportJobs
+slug: /go/go/v2-DataImport-ListImportJobs
 sidebar_label: "ListImportJobs()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This operation lists all bulk-import jobs of a specific cluster. | Go | v2"
-type: origin
-token: Pxa8wup8UiMm01kIDT1cwu5cnAb
-sidebar_position: 3
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此函数通过 RESTful API 列出指定集合的批量导入作业。可使用它监控进行中和已完成的导入作业、分页浏览作业历史记录，或按集合名称进行筛选。响应中的每条记录都包含作业 ID、当前状态、进度百分比以及失败原因（如有）。 | Go | v2"
+type: docx
+token: YmqKdQyDDo2Yyjx5rkMcQBGvnEg
+sidebar_position: 7
+keywords: 
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ListImportJobs()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,178 +31,79 @@ import Admonition from '@theme/Admonition';
 
 # ListImportJobs()
 
-This operation lists all bulk-import jobs of a specific cluster.
+此函数通过 RESTful API 列出指定集合的批量导入作业。可使用它监控进行中和已完成的导入作业、分页浏览作业历史记录，或按集合名称进行筛选。响应中的每条记录都包含作业 ID、当前状态、进度百分比以及失败原因（如有）。
+
+<Admonition type="info" icon="📘" title="说明">
+
+`ListImportJobs()` 是 `github.com/milvus-io/milvus/client/v2/bulkwriter` 中的包级函数。它调用 REST `/v2/vectordb/jobs/import/list` 端点，并同时适用于 Milvus 开源集群和 Zilliz Cloud。
+
+</Admonition>
 
 ```go
 func ListImportJobs(ctx context.Context, option *ListImportJobsOption) (*ListImportJobsResponse, error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-DataImport-ListImportJobs#listimportjobsoption"><code>ListImportJobsOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## ListImportJobsOption
-
-This is a struct type. You can use `NewListImportJobsOption` to get its concrete implementation.
-
-### NewListImportJobsOption
-
-The signature of `NewListImportJobsOption()` is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewListImportJobsOption(uri string, collectionName string) *ListImportJobsOption
+option := bulkwriter.NewListImportJobsOption(uri, collectionName).
+    WithAPIKey(apiKey).
+    WithPageSize(pageSize).
+    WithCurrentPage(currentPage)
+
+resp, err := bulkwriter.ListImportJobs(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>uri</code></p></td>
-     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code><i>http</i>s://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>The name of a collection in the target cluster of this operation.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-You can chain the following methods to append more parameters to the `ListImportJobsOption` struct.
+- **ctx** (*context.Context*) -<br/>
+  用于取消和截止时间控制的上下文。HTTP 请求会继承此上下文，因此取消该上下文会中止正在进行中的调用。
 
-- [WithAPIKey](./v2-DataImport-ListImportJobs#withapikey)
+- **option** (*ListImportJobsOption*) -<br/>
+  使用 `NewListImportJobsOption()` 创建的列表选项。如果未通过 `WithCurrentPage()` 或 `WithPageSize()` 修改，则默认值为 `CurrentPage: 1, PageSize: 10`。必填。
 
-- [WithCurrentPage](./v2-DataImport-ListImportJobs#withcurrentpage)
+**返回类型：**
 
-- [WithPageSize](./v2-DataImport-ListImportJobs#withpagesize)
+*\*ListImportJobsResponse, error*
 
-### WithAPIKey
+**返回值：**
 
-This method appends your Zilliz Cloud API key to the `BulkImportOption` struct. The signature of the method is as follows:
+返回一个 `ListImportJobsResponse`，其 `Data.Records` 切片中每个作业对应一个 `ImportJobRecord`，包含作业 ID、状态和进度。如果请求无法完成序列化、HTTP 调用失败，或者服务器返回非零状态，则会返回错误。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。失败情况包括选项格式错误、网络问题、身份验证错误，以及通过响应状态报告的服务端错误。
+
+## 示例\{#example}
 
 ```go
-func (opt *BulkImportOption) WithAPIKey(key string) *BulkImportOption
-```
+import (
+	"context"
+	"fmt"
+	"log"
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+	"github.com/milvus-io/milvus/client/v2/bulkwriter"
+)
 
-### WithCurrentPage
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-This method sets the current page number of the import job list. The signature of the method is as follows:
+milvusAddr := "http://YOUR_CLUSTER_ENDPOINT"
+collectionName := "quick_setup"
 
-```go
-func (opt *ListImportJobsOption) WithCurrentPage(currentPage int) *ListImportJobsOption
-```
+option := bulkwriter.NewListImportJobsOption(milvusAddr, collectionName).
+	WithAPIKey("YOUR_CLUSTER_TOKEN").
+	WithPageSize(20).
+	WithCurrentPage(1)
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>currentPage</code></p></td>
-     <td><p>The current page of the import job list. You can combine this parameter and <code>pageSize</code> to offset certain import jobs.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
+resp, err := bulkwriter.ListImportJobs(ctx, option)
+if err != nil {
+	log.Fatal(err)
+}
 
-### WithPageSize
-
-This method sets the number of import jobs to return each time. The signature of the method is as follows:
-
-```go
-func (opt *ListImportJobsOption) WithPageSize(pageSize int) *ListImportJobsOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>pageSize</code></p></td>
-     <td><p>The number of import jobs to return each time.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-## grpc.CallOption
-
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
-
-## ListImportJobsResponse
-
-The `ListImportJobsResponse` struct type is as follows:
-
-```go
-type ListImportJobsResponse struct {
-    Status  int    `json:"status"`
-    Message string `json:"message"`     
-    Data *ListImportJobData `json:"data"`
+for _, job := range resp.Data.Records {
+	fmt.Printf("%s\t%s\t%d%%\n", job.JobID, job.State, job.Progress)
 }
 ```
-
-## ListImportJobData
-
-The `ListImportJobData` struct type is as follows:
-
-```go
-type ListImportJobsOption struct {
-    URL            string `json:"-"`
-    CollectionName string `json:"collectionName"`
-    ClusterID      string `json:"clusterId,omitempty"`
-    APIKey         string `json:"-"`
-    PageSize       int    `json:"pageSize,omitempty"`
-    CurrentPage    int    `json:"currentPage,omitempty"`
-}
-```
-
-## Return
-
-`*[ListImportJobsResponse`](./v2-DataImport-ListImportJobs#listimportjobsresponse)
-
-## Example
-
-## Example
-
-```go
-
-```
-

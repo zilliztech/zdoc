@@ -1,18 +1,29 @@
 ---
 title: "HasCollection() | Go | v2"
-slug: /go/v2-Collection-HasCollection
+slug: /go/go/v2-Collection-HasCollection
 sidebar_label: "HasCollection()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method checks whether the specified collection exists. | Go | v2"
-type: origin
-token: QwFkw7ytxinUZlk8ZbKc6bXVn0f
-sidebar_position: 15
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作检查当前数据库中是否存在某个集合。 | Go | v2"
+type: docx
+token: JfRidhpQRo2tZFxrL87cNODunWc
+sidebar_position: 19
+keywords: 
+  - 推荐系统
+  - 信息检索
+  - 降维
+  - hnsw algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - HasCollection()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,81 +31,67 @@ import Admonition from '@theme/Admonition';
 
 # HasCollection()
 
-This method checks whether the specified collection exists.
+此操作检查当前数据库中是否存在某个集合。
 
 ```go
 func (c *Client) HasCollection(ctx context.Context, option HasCollectionOption, callOptions ...grpc.CallOption) (has bool, err error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-HasCollection#hascollectionoption"><code>HasCollectionOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## HasCollectionOption
-
-This is an interface type. The `hasCollectionOption` struct type implements this interface type. 
-
-You can use the `NewHasCollectionOption()` function to get the concrete implementation.
-
-### NewHasCollectionOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewHasCollectionOption(name string) HasCollectionOption
+option := milvusclient.NewHasCollectionOption(name)
+
+result, err := client.HasCollection(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the collection to check.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## Return
+- **name** (*string*)
 
-`bool`
+    目标集合的名称。
 
-## Example
+**返回类型：**
+
+*has bool, err error*
+
+**返回值：**
+
+一个布尔值，用于指示该资源是否存在。如果操作失败，则返回错误。
+
+**异常：**
+
+- **error**
+
+    检查 `err != nil` 以获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-has, err = cli.HasCollection(ctx, milvusclient.NewHasCollectionOption("customized_setup_2"))
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
 if err != nil {
-       // handle err
+	log.Fatal("failed to connect to milvus server: ", err.Error())
 }
+defer cli.Close(ctx)
 
-fmt.println(has)
+has, err := cli.HasCollection(ctx, milvusclient.NewHasCollectionOption("quick_setup"))
+if err != nil {
+	// handle error
+}
+fmt.Println(has)
 ```
-

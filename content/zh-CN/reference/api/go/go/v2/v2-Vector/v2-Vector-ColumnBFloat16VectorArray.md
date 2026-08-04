@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "表示一个 ArrayOfVector 列，其中各行包含共享维度的 BFloat16 值。| Go | v2"
+description: "表示一个 ArrayOfVector 列，其中每一行都包含共享维度的 BFloat16 值。 | Go | v2"
 type: docx
 token: OG2HdyPMzoO7y7xob6HcX1V0n7b
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ColumnBFloat16VectorArray
 
-表示一个 ArrayOfVector 列，其中各行包含共享维度的 BFloat16 值。
+表示一个 ArrayOfVector 列，其中每一行都包含共享维度的 BFloat16 值。
 
 ```go
 type ColumnBFloat16VectorArray struct {
@@ -40,7 +40,7 @@ type ColumnBFloat16VectorArray struct {
 
 ## 请求语法\{#request-syntax}
 
-根据面向行的向量数组数据创建一个 ColumnBFloat16VectorArray。
+从按行组织的向量数组数据创建一个 ColumnBFloat16VectorArray。
 
 ```go
 column.NewColumnBFloat16VectorArray(fieldName string, dim int, data [][][]byte) *ColumnBFloat16VectorArray
@@ -50,15 +50,15 @@ column.NewColumnBFloat16VectorArray(fieldName string, dim int, data [][][]byte) 
 
 - `AppendValue(value any) error`
 
-    追加一行数据，输入可以是 []entity.BFloat16Vector 或 [][]byte。
+    追加一行数据，该行可作为 []entity.BFloat16Vector 或 [][]byte 提供。
 
 **返回类型：**
 
 *ColumnBFloat16VectorArray*
 
-**返回值：**
+**返回：**
 
-用于结构体数组字段中 ArrayOfVector bfloat16 向量数据的列类型。
+用于结构体数组字段中的 ArrayOfVector bfloat16 向量数据的列类型。
 
 ## 示例\{#example}
 

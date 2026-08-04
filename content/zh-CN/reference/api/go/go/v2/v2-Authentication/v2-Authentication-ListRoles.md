@@ -1,18 +1,29 @@
 ---
 title: "ListRoles() | Go | v2"
-slug: /go/v2-Authentication-ListRoles
+slug: /go/go/v2-Authentication-ListRoles
 sidebar_label: "ListRoles()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method returns a list of existing roles. | Go | v2"
-type: origin
-token: R0QcwSVIsiPi07kILCXcXtd1nSd
-sidebar_position: 14
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会列出 Milvus 实例中的所有角色。 | Go | v2"
+type: docx
+token: QSmmdf6jgoi8rFxzDnzcqr3cnMe
+sidebar_position: 15
+keywords: 
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ListRoles()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,80 +31,50 @@ import Admonition from '@theme/Admonition';
 
 # ListRoles()
 
-This method returns a list of existing roles.
+此操作会列出 Milvus 实例中的所有角色。
 
 ```go
 func (c *Client) ListRoles(ctx context.Context, opt ListRoleOption, callOpts ...grpc.CallOption) ([]string, error)
 ```
 
-## Request Parameters
+**返回类型：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>opt</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Authentication-ListRoles#listroleoption"><code>ListRoleOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
+*[]string, error*
 
-## ListRoleOption
+**返回：**
 
-This is an interface type. The `listRoleOption` struct type implements this interface type. 
+名称列表。如果操作失败，则返回错误。
 
-You can use the `NewListRoleOption()` function to get the concrete implementation.
+**异常：**
 
-### NewListRoleOption
+- **error**
 
-The signature of `NewListRoleOption()` is as follows:
+    检查 `err != nil` 以获取失败详情。
 
-```go
-func NewListRoleOption() *listRoleOption
-```
-
-## grpc.CallOption
-
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
-
-## Return
-
-`[]string`
-
-## Example
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-opts := client.NewListRoleOption()
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-onFinish := func(ctx context.Context, err error) {
-    if err != nil {
-        fmt.Printf("gRPC call finished with error: %v\n", err)
-    } else {
-        fmt.Printf("gRPC call finished successfully")
-    }
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
 }
+defer cli.Close(ctx)
 
-callOption := grpc.OnFinish(onFinish)
-
-err := mclient.ListRoles(context.Background(), opts, callOption)
+roles, err := cli.ListRoles(ctx, milvusclient.NewListRoleOption())
+if err != nil {
+	// handle error
+}
+fmt.Println(roles)
 ```
-

@@ -1,18 +1,29 @@
 ---
 title: "GetImportProgress() | Go | v2"
-slug: /go/v2-DataImport-GetImportProgress
+slug: /go/go/v2-DataImport-GetImportProgress
 sidebar_label: "GetImportProgress()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This operation gets the progress of the specified bulk-import job. | Go | v2"
-type: origin
-token: Dz6xwT8r7iKbHokJOhqc6uHpnwf
-sidebar_position: 2
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此函数通过 RESTful API 检索单个批量导入任务的详细进度。使用它轮询由 `BulkImport()` 提交的任务，直到其 `State` 达到 `Completed` 或 `Failed`。响应包含总体进度、已导入/预期总行数、文件大小以及每个文件的进度详情。 | Go | v2"
+type: docx
+token: V05sd0bGjo33Cux0j9DcrNKTndh
+sidebar_position: 4
+keywords: 
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - GetImportProgress()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,168 +31,81 @@ import Admonition from '@theme/Admonition';
 
 # GetImportProgress()
 
-This operation gets the progress of the specified bulk-import job.
+此函数通过 RESTful API 检索单个批量导入任务的详细进度。使用它轮询由 `BulkImport()` 提交的任务，直到其 `State` 达到 `Completed` 或 `Failed`。响应包含总体进度、已导入/预期总行数、文件大小以及每个文件的进度详情。
+
+<Admonition type="info" icon="📘" title="说明">
+
+`GetImportProgress()` 是 `github.com/milvus-io/milvus/client/v2/bulkwriter` 中的包级函数。它调用 REST `/v2/vectordb/jobs/import/describe` 端点，并同时适用于 Milvus 开源集群（使用 `NewGetImportProgressOption`）和 Zilliz Cloud（使用 `NewCloudGetImportProgressOption`）。
+
+</Admonition>
 
 ```go
 func GetImportProgress(ctx context.Context, option *GetImportProgressOption) (*GetImportProgressResponse, error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-DataImport-GetImportProgress#getimportprogressoption"><code>GetImportProgressOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## GetImportProgressOption
-
-This is a struct type. You can use `NewCloudGetImportProgressOption()` to get its concrete implementation.
-
-## NewCloudGetImportProgressOption
-
-The signature of `NewCloudGetImportProgressOption()` is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewCloudGetImportProgressOption(uri string, jobID string, apiKey string, clusterID string) *GetImportProgressOption
+option := bulkwriter.NewGetImportProgressOption(uri, jobID).
+    WithAPIKey(apiKey)
+
+resp, err := bulkwriter.GetImportProgress(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>uri</code></p></td>
-     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code><i>http</i>s://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>jobID</code></p></td>
-     <td><p>The ID of the target data import job.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>apiKey</code></p></td>
-     <td><p>A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>clusterID</code></p></td>
-     <td><p>The instance ID of the target cluster of this operation.</p><p>You can obtain the instance ID of a cluster from its details page in the Zilliz Cloud console.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-You can chain the following methods to append more parameters to the `BulkImportOption` struct.
+- **ctx** (*context.Context*) -<br/>
+  用于取消和截止时间的上下文。HTTP 请求会继承此上下文，因此取消它会中止正在进行中的调用。
 
-- [WithAPIKey](./v2-DataImport-GetImportProgress#withapikey)
+- **option** (*GetImportProgressOption*) -<br/>
+  通过 `NewGetImportProgressOption()` 为自托管 Milvus 创建的进度选项，或通过 `NewCloudGetImportProgressOption()` 为 Zilliz Cloud 创建的进度选项。必须提供由 `BulkImport()` 返回的作业 ID。必填。
 
-### WithAPIKey
+**返回类型：**
 
-This method appends your Zilliz Cloud API key to the `BulkImportOption` struct. The signature of the method is as follows:
+*\*GetImportProgressResponse, error*
+
+**返回：**
+
+一个 `GetImportProgressResponse`，其 `Data` 字段包含一个 `ImportProgressData`，其中包括总体进度、行数、完成时间以及每个文件的 `Details`。如果请求无法编组、HTTP 调用失败，或者服务器返回非零状态，则返回错误。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。失败情况包括选项格式错误、网络问题、未知或已过期的作业 ID，以及通过响应状态报告的服务端错误。
+
+## 示例\{#example}
 
 ```go
-func (opt *BulkImportOption) WithAPIKey(key string) *BulkImportOption
-```
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+	"github.com/milvus-io/milvus/client/v2/bulkwriter"
+)
 
-## grpc.CallOption
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
+milvusAddr := "http://YOUR_CLUSTER_ENDPOINT"
+jobID := "453291002847301"
 
-## GetImportProgressResponse
+option := bulkwriter.NewGetImportProgressOption(milvusAddr, jobID).
+	WithAPIKey("YOUR_CLUSTER_TOKEN")
 
-The `GetImportProgressResponse` struct type is as follows:
+for {
+	resp, err := bulkwriter.GetImportProgress(ctx, option)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("State=%s Progress=%d%% Rows=%d/%d\n",
+		resp.Data.State, resp.Data.Progress, resp.Data.ImportedRows, resp.Data.TotalRows)
 
-```go
-type GetImportProgressResponse struct {
-    Status  int    `json:"status"`
-    Message string `json:"message"`     
-    Data *ImportProgressData `json:"data"`
+	if resp.Data.State == "Completed" || resp.Data.State == "Failed" {
+		break
+	}
+	time.Sleep(2 * time.Second)
 }
 ```
-
-The struct type that appears in the `GetImportProgressResponse` struct type is as follows:
-
-- [ImportProgressData](./v2-DataImport-GetImportProgress#importprogressdata)
-
-## ImportProgressData
-
-The `ImportProgressData` struct type is as follows:
-
-```go
-type ImportProgressData struct {
-    CollectionName string                  `json:"collectionName"`
-    JobID          string                  `json:"jobId"`
-    CompleteTime   string                  `json:"completeTime"`
-    State          string                  `json:"state"`
-    Progress       int64                   `json:"progress"`
-    ImportedRows   int64                   `json:"importedRows"`
-    TotalRows      int64                   `json:"totalRows"`
-    Reason         string                  `json:"reason"`
-    FileSize       int64                   `json:"fileSize"`
-    Details        []*ImportProgressDetail `json:"details"`
-}
-```
-
-The struct type that appears in the `ImportProgressData` struct type is as follows:
-
-- [ImportProgressDetail](./v2-DataImport-GetImportProgress#importprogressdetail)
-
-## ImportProgressDetail
-
-The `ImportProgressDetail` struct type is as follows:
-
-```go
-type ImportProgressDetail struct {
-    FileName     string `json:"fileName"`
-    FileSize     int64  `json:"fileSize"`
-    Progress     int64  `json:"progress"`
-    CompleteTime string `json:"completeTime"`
-    State        string `json:"state"`
-    ImportedRows int64  `json:"importedRows"`
-    TotalRows    int64  `json:"totalRows"`
-}
-```
-
-## Return
-
-`*[GetImportProgressResponse`](./v2-DataImport-GetImportProgress#getimportprogressresponse)
-
-## Example
-
-```go
-
-```
-

@@ -1,18 +1,29 @@
 ---
 title: "HybridSearch() | Go | v2"
-slug: /go/v2-Vector-HybridSearch
+slug: /go/go/v2-Vector-HybridSearch
 sidebar_label: "HybridSearch()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: v2.6.x
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method performs a vector search. | Go | v2"
-type: origin
-token: GEZLwYkdGigwnEkCmudc1K1Ln2e
-sidebar_position: 8
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作执行混合搜索，将多个 ANN 请求的结果组合在一起，每个请求都针对不同的向量字段或索引类型。使用 reranker 合并并重新排序结果。 | Go | v2"
+type: docx
+token: VneHdph9ZoSf9wxQdKBc0046nBT
+sidebar_position: 10
+keywords: 
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - HybridSearch()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,775 +31,144 @@ import Admonition from '@theme/Admonition';
 
 # HybridSearch()
 
-This method performs a vector search.
+此操作执行混合搜索，将多个 ANN 请求的结果组合在一起，每个请求都针对不同的向量字段或索引类型。使用 reranker 合并并重新排序结果。
 
 ```go
 func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Vector-HybridSearch#hybridsearchoption"><code>HybridSearchOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOptions</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## HybridSearchOption
-
-This is an interface type. The `hybridSearchOption` struct types implement this interface type. 
-
-You can use the `NewHybridSearchOption` function to get the concrete implementation.
-
-### NewHybridSearchOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest) *hybridSearchOption
+option := milvusclient.NewHybridSearchOption(collectionName, limit, annRequests).
+    WithConsistencyLevel(cl).
+    WithPartitions(partitions).
+    WithOutputFields(outputFields).
+    WithReranker(reranker).
+    WithFunctionRerankers(functionReranker).
+    WithOffset(offset)
+
+resultSets, err := cli.HybridSearch(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>limit</code></p></td>
-     <td><p>Number of entities included in the result set.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>annRequests</code></p></td>
-     <td><p>One or multiple search requests.</p></td>
-     <td><p><a href="./v2-Vector-HybridSearch#annrequest"><code>...&ast;AnnRequest</code></a></p></td>
-   </tr>
-</table>
+**参数：**
 
-This method provides the following chainable methods:
+- **option** (*HybridSearchOption*) -
 
-- [WithConsistencyLevel](./v2-Vector-HybridSearch#withconsistencylevel)
+    混合搜索选项。
 
-- [WithPartitions](./v2-Vector-HybridSearch#withpartitions)
+**构建器方法：**
 
-- [WithOutputFields](./v2-Vector-HybridSearch#withoutputfields)
+- `NewHybridSearchOption(collectionName string, limit int, annRequests ...*AnnRequest)`<br/>
+  这将创建一个包含一个或多个 ANN 请求的混合搜索选项。
 
-- [WithReranker](./v2-Vector-HybridSearch#withreranker)
+- `NewAnnRequest(fieldName string, limit int, vector entity.Vector)`<br/>
+  这将为特定向量字段创建一个 ANN 请求。
 
-- [WithOffset](./v2-Vector-HybridSearch#withoffset)
+- `WithIDs(ids column.Column)`<br/>
+  这将过滤 ANN 请求，使其仅搜索指定的主键 ID。
 
-- [WithFunctionReranker](./v2-Vector-HybridSearch#withfunctionreranker)
+- `WithFilter(expr string)`<br/>
+  这将为 ANN 请求应用布尔表达式过滤器。
 
-### WithConsistencyLevel
+- `WithOffset(offset int)`<br/>
+  这将设置 ANN 请求要跳过的结果数量。
 
-This method appends the settings regarding the `consistencyLevel` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
+- `WithGroupByField(groupByField string)`<br/>
+  这将按指定字段对 ANN 请求结果进行分组。
+
+- `WithGroupSize(groupSize int)`<br/>
+  这将设置每组的结果数量。
+
+- `WithStrictGroupSize(strictGroupSize bool)`<br/>
+  这将强制执行严格的分组大小限制。
+
+- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
+  这将在 ANN 请求期间忽略 growing segments。
+
+- `WithAnnParam(ap index.AnnParam)`<br/>
+  这将设置该请求的 ANN 参数。
+
+- `WithSearchParam(key, value string)`<br/>
+  这将为 ANN 请求设置自定义搜索参数。
+
+- `WithFunctionReranker(fr *entity.Function)`<br/>
+  这将为 ANN 请求应用函数 reranker。
+
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
+  这将设置混合搜索的一致性级别。
+
+- `WithPartitions(partitionNames ...string)`<br/>
+  这将把混合搜索限制在指定的分区中。
+
+- `WithOutputFields(fieldNames ...string)`<br/>
+  这将指定在结果集中返回哪些字段。
+
+- `WithReranker(reranker milvusclient.Reranker)`<br/>
+  这将设置一个 reranker，用于合并并重新排序来自多个 ANN 请求的结果。
+
+- `WithFunctionRerankers(functionReranker ...*entity.Function)`<br/>
+  这将为混合搜索设置基于函数的 reranker。
+
+- `WithOffset(offset int)`<br/>
+  这将设置在返回匹配项之前要跳过的结果数量。
+
+**返回类型：**
+
+*[]ResultSet, error*
+
+**返回值：**
+
+混合搜索结果，包含来自所有 ANN 请求的匹配实体及其分数和字段。如果操作失败，则返回错误。
+
+**异常：**
+
+- **error**
+
+    检查 err != nil 以了解失败详情。
+
+## 示例\{#example}
 
 ```go
-func (opt *hybridSearchOption) WithConsistencyLevel(cl entity.ConsistencyLevel) *hybridSearchOption
-```
+import (
+	"context"
+	"log"
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>consistencyLevel</code></p></td>
-     <td><p>Consistency level for the search.</p><p>For details, refer to <a href="/docs/consistency-level">Consistency Level</a>.</p></td>
-     <td><p><code>entity.ConsistencyLevel</code></p></td>
-   </tr>
-</table>
+	"github.com/milvus-io/milvus/client/v2/entity"
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
 
-### WithPartitions
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-This method appends the settings regarding the `partitionNames` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
 
-```go
-func (opt *hybridSearchOption) WithPartitions(partitions ...string) *hybridSearchOption
-```
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+	APIKey:  token,
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>partitionNames</code></p></td>
-     <td><p>The names of the target partitions</p></td>
-     <td><p><code>...string</code></p></td>
-   </tr>
-</table>
+defer cli.Close(ctx)
 
-### WithOutputFields
-
-This method appends the settings regarding the `outputFields` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *hybridSearchOption) WithOutputFields(outputFields ...string) *hybridSearchOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>outputFields</code></p></td>
-     <td><p>The names of fields to include in the search results</p></td>
-     <td><p><code>...string</code></p></td>
-   </tr>
-</table>
-
-### WithReranker
-
-This method appends the settings regarding the `reranker` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *hybridSearchOption) WithReranker(reranker Reranker) *hybridSearchOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>reranker</code></p></td>
-     <td><p>The reranker that used to reorder the entities in the search results.</p></td>
-     <td><p><code>Reranker</code></p></td>
-   </tr>
-</table>
-
-### WithOffset
-
-This method appends the settings regarding the `offset` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *hybridSearchOption) WithOffset(offset int) *hybridSearchOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>offset</code></p></td>
-     <td><p>The number of entities to skip before the search results are returned.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### WithFunctionReranker
-
-This method sets a reranker in the function style to the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (opt *hybridSearchOption) WithFunctionRerankers(functionReranker *entity.Function) *hybridSearchOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fr</code></p></td>
-     <td><p>A function that serves as the reranker that reorders the entities in the search results.</p></td>
-     <td><p><code>entity.Function</code></p></td>
-   </tr>
-</table>
-
-## AnnRequest
-
-This is a struct type. The [`index.CustomAnnParam`](./v2-Vector-HybridSearch#indexcustomannparam) struct type implements this interface. You can use the `NewAnnRequest` method to create a search request.
-
-### NewAnnRequest
-
-This method prepares a search request. The signature is as follows:
-
-```go
-func NewAnnRequest(annField string, limit int, vectors ...entity.Vector) *annRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>annField</code></p></td>
-     <td><p>Name of the target vector field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>limit</code></p></td>
-     <td><p>Number of entities to be included in the result set.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>vectors</code></p></td>
-     <td><p>Query vectors</p></td>
-     <td><p><a href="./v2-Vector-Search"><code>...entity.Vector</code></a></p></td>
-   </tr>
-</table>
-
-You can chain the following methods to append extra parameter settings to the `annRequest` struct.
-
-- [WithANNSField](./v2-Vector-HybridSearch#withannsfield)
-
-- [WithAnnParam](./v2-Vector-HybridSearch#withannparam)
-
-- [WithFilter](./v2-Vector-HybridSearch#withfilter)
-
-- [WithGroupByField](./v2-Vector-HybridSearch#withgroupbyfield)
-
-- [WithGroupSize](./v2-Vector-HybridSearch#withgroupsize)
-
-- [WithIgnoreGrowing](./v2-Vector-HybridSearch#withignoregrowing)
-
-- [WIthOffset](./v2-Vector-HybridSearch#withoffset)
-
-- [WithSearchParam](./v2-Vector-HybridSearch#withsearchparam)
-
-- [WithStrictGroupSize](./v2-Vector-HybridSearch#withstrictgroupsize)
-
-- [WithTemplateParam](./v2-Vector-HybridSearch#withtemplateparam)
-
-- WithFunctionReranker
-
-### WithANNSField
-
-This method appends the settings regarding the vector field to use in the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithANNSField(annsField string) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>annsField</code></p></td>
-     <td><p>The name of the vector field to use in the current field.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### WithAnnParam
-
-This method appends the settings regarding the search parameters to the current `AnnRequest` struct. The signature of this method is as follows:
-
-```go
-func (r *AnnRequest) WithAnnParam(ap index.AnnParam) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ap</code></p></td>
-     <td><p>The index-specific search parameter settings.</p></td>
-     <td><p><a href="./v2-Vector-HybridSearch#indexannparam"><code>index.AnnParam</code></a></p></td>
-   </tr>
-</table>
-
-### WithFilter
-
-This method appends the settings regarding the filter to use in the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithFilter(expr string) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>expr</code></p></td>
-     <td><p>The metadata-filtering expression. For details, refer to .</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithGroupByField
-
-This method appends the settings regarding the group-by field to use in the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithGroupByField(groupByField string) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>groupByField</code></p></td>
-     <td><p>The name of the scalar field that serves as the group-by field. Once set, the search results will be grouped by the specified field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithGroupSize
-
-This method appends the settings regarding the group size to use in the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithGroupSize(groupSize int) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>groupSize</code></p></td>
-     <td><p>The desired number of entities to return per group.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithIgnoreGrowing
-
-This method appends the settings regarding whether to ignore growing segments to the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithIgnoreGrowing(ignoreGrowing bool) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ignoreGrowing</code></p></td>
-     <td><p>Whether to ignore growing segments from the search results.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### WIthOffset
-
-This method appends the settings regarding the offset to the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithOffset(offset int) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>offset</code></p></td>
-     <td><p>The number of results to skip from the search results.</p><p>The value of this parameter and that of <code>limit</code> should be less than 16,384.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### WithSearchParam
-
-This method appends the settings regarding the search parameters to the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithSearchParam(key, value string) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>The name of a search parameter.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>value</code></p></td>
-     <td><p>The value of the above search parameter.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithStrictGroupSize
-
-This method appends the settings regarding whether to strictly abide by the specified group size to the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithStrictGroupSize(strictGroupSize bool) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>strictGroupSize</code></p></td>
-     <td><p>controls whether the system should strictly enforce the count set by <code>group_size</code></p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### WithTemplateParam
-
-This method appends the settings regarding the template parameters to the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithTemplateParam(key string, val any) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>The name of a template parameter.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>value</code></p></td>
-     <td><p>The value of the above template parameter.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithFunctionReranker
-
-This method sets a reranker in the function style to the current `AnnRequest` struct. The signature of the method is as follows:
-
-```go
-func (r *AnnRequest) WithFunctionReranker(fr *entity.Function) *AnnRequest
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fr</code></p></td>
-     <td><p>A function that serves as the reranker that reorders the entities in the search results.</p></td>
-     <td><p><code>entity.Function</code></p></td>
-   </tr>
-</table>
-
-## index.AnnParam
-
-This is an interface type. The following struct types implement this interface.
-
-### autoAnnParam
-
-This is a struct type that implements the `index.AnnParam` interface. You can use `NewAutoAnnParam()` to get its concrete implementation.
-
-### NewAutoAnnParam
-
-This method prepares the search parameters specific to AUTOINDEX. The signature is as follows:
-
-```go
-func NewAutoAnnParam(level int) autoAnnParam
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>level</code></p></td>
-     <td><p>An integer that allows users to balance between search recall and performance. For details, refer to <a href="/docs/tune-recall-rate">Tune Recall Rate</a>.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### diskANNParam
-
-This method prepares the search parameters specific to DiskANN. The signature is as follows:
-
-```go
-func NewDiskAnnParam(searchList int) diskANNParam
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>searchList</code></p></td>
-     <td><p>Determines the number of candidate neighbors considered for each data point during graph construction.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### hsnwAnnParam
-
-This method prepares the search parameters specific to HNSW. The signature is as follows:
-
-```go
-func NewHNSWAnnParam(ef int) hsnwAnnParam
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ef</code></p></td>
-     <td><p>Controls the breadth of search during nearest neighbor retrieval. It determines how many nodes are visited and evaluated as potential nearest neighbors. This parameter affects only the search process and applies exclusively to the bottom layer of the graph.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### ivfAnnParam
-
-This method prepares the search parameters specific to IVF. The signature is as follows:
-
-```go
-func NewIvfAnnParam(nprobe int) ivfAnnParam
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>nprobe</code></p></td>
-     <td><p>The number of clusters to search for candidates. Higher values allow more clusters to be searched, improving recall by expanding the search scope but at the cost of increased query latency.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### scannAnnParam
-
-This method prepares the search parameters specific to SCANN. The signature is as follows:
-
-```go
-func NewSCANNAnnParam(nprobe int, reorderK int) scannAnnParam
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>nprobe</code></p></td>
-     <td><p>The number of clusters to search for candidates. Higher values allow more clusters to be searched, improving recall by expanding the search scope but at the cost of increased query latency.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### sparseAnnParam
-
-This method prepares the search parameters specific to SPARSE_INVERTED. The signature is as follows:
-
-```go
-func NewSparseAnnParam() sparseAnnParam
-```
-
-This method has no mandatory parameters.
-
-## index.CustomAnnParam
-
-This is a struct type that implements the [`AnnRequest`](./v2-Vector-HybridSearch#annrequest) interface. You can use `NewCustomAnnParam()` to get its concrete implementation.
-
-### NewCustomAnnParam
-
-This method prepares the custom ANN search parameters for the hybrid search request. The signature of this method is as follows:
-
-```go
-func NewCustomAnnParam() CustomAnnParam
-```
-
-This method has no parameters.
-
-You can chain the following methods to append extra settings to the `CustomAnnParam` struct.
-
-- [WithExtraParam](./v2-Vector-HybridSearch#withextraparam)
-
-- [WithRadius](./v2-Vector-HybridSearch#withradius)
-
-- [WithRangeFilter](./v2-Vector-HybridSearch#withrangefilter)
-
-### WithExtraParam
-
-This method appends extra search parameters to the current `AnnRequest` struct. The signature is as follows:
-
-```go
-func (b CustomAnnParam) WithExtraParam(key string, value any)
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>The name of an extra search parameter.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>value</code></p></td>
-     <td><p>The value of the above extra search parameter.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithRadius
-
-This method appends the radius parameters to the current `AnnRequest` struct. The signature is as follows:
-
-```go
-func (b CustomAnnParam) WithRadius(radius float64)
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>radius</code></p></td>
-     <td><p>The radius for a range search.</p></td>
-     <td><p><code>float64</code></p></td>
-   </tr>
-</table>
-
-### WithRangeFilter
-
-This method appends the range filter parameters to the current `AnnRequest` struct. The signature is as follows:
-
-```go
-func (b CustomAnnParam) WithRangeFilter(rangeFilter float64)
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>radiusFilter</code></p></td>
-     <td><p>The range filter for a range search.</p></td>
-     <td><p><code>float64</code></p></td>
-   </tr>
-</table>
-
-## ResultSet
-
-This is a struct type. You can use the `GetColumn` method to get the result values in a specific field.
-
-### GetColumn
-
-This method returns the query result in a specific column. The signature is as follows:
-
-```go
-func (rs *ResultSet) GetColumn(fieldName string) column.Column
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the target field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-## Return
-
-`[]ResultSet`
-
-## Example
-
-```plaintext
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
-    sparseVector, _ := entity.NewSliceSparseEmbedding([]uint32{1, 21, 100}, []float32{0.1, 0.2, 0.3})
+sparseVector, _ := entity.NewSliceSparseEmbedding([]uint32{1, 21, 100}, []float32{0.1, 0.2, 0.3})
 
 resultSets, err := cli.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
-    "quick_setup",
-    3,
-    milvusclient.NewAnnRequest("dense_vector", 10, entity.FloatVector(queryVector)),
-    milvusclient.NewAnnRequest("sparse_vector", 10, sparseVector),
+	"quick_setup",
+	3,
+	milvusclient.NewAnnRequest("dense_vector", 10, entity.FloatVector(queryVector)),
+	milvusclient.NewAnnRequest("sparse_vector", 10, sparseVector),
 ).WithReranker(milvusclient.NewRRFReranker()))
 if err != nil {
-    log.Fatal("failed to perform basic ANN search collection: ", err.Error())
+	log.Fatal("failed to perform hybrid search: ", err.Error())
 }
 
 for _, resultSet := range resultSets {
-    log.Println("IDs: ", resultSet.IDs)
-    log.Println("Scores: ", resultSet.Scores)
+	log.Println("IDs: ", resultSet.IDs)
+	log.Println("Scores: ", resultSet.Scores)
 }
 ```
-

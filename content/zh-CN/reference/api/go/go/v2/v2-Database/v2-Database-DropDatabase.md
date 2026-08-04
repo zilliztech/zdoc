@@ -1,18 +1,29 @@
 ---
 title: "DropDatabase() | Go | v2"
-slug: /go/v2-Database-DropDatabase
+slug: /go/go/v2-Database-DropDatabase
 sidebar_label: "DropDatabase()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method drops a database. | Go | v2"
-type: origin
-token: CcXew94G7iYhY8kFG5HczNhNnlc
-sidebar_position: 4
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会永久删除一个数据库及其所有集合。 | Go | v2"
+type: docx
+token: FfZ6dqEk2o9Cn3xFAgTckLhsnS6
+sidebar_position: 5
+keywords: 
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DropDatabase()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,73 +31,62 @@ import Admonition from '@theme/Admonition';
 
 # DropDatabase()
 
-This method drops a database.
+此操作会永久删除一个数据库及其所有集合。
 
 ```go
 func (c *Client) DropDatabase(ctx context.Context, option DropDatabaseOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Database-DropDatabase#dropdatabaseoption"><code>DropDatabaseOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DropDatabaseOption
-
-This is an interface type. The `dropDatabaseOption` struct type implements this interface type. 
-
-You can use the `NewDropDatabaseOption()` function to get the concrete implementation.
-
-### NewDropDatabaseOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDropDatabaseOption(dbName string) *dropDatabaseOption
+option := milvusclient.NewDropDatabaseOption(dbName)
+
+err := client.DropDatabase(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dbName</code></p></td>
-     <td><p>Name of the database to drop.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## Return
+- **dbName** (*string*)
 
-Null
+    数据库名称。
 
-## Example
+**返回类型：**
+
+*error*
+
+**返回值：**
+
+成功时返回 nil，否则返回描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。
+
+## 示例\{#example}
 
 ```go
-err = cli.DropDatabase(ctx, milvusclient.NewDropDatabaseOption(dbName))
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
 if err != nil {
-    // handle err
+	// handle err
+}
+defer cli.Close(ctx)
+
+err = cli.DropDatabase(ctx, milvusclient.NewDropDatabaseOption("test_db"))
+if err != nil {
+	// handle err
 }
 ```

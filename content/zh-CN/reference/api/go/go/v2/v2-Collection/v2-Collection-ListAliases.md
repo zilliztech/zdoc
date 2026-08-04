@@ -1,18 +1,29 @@
 ---
 title: "ListAliases() | Go | v2"
-slug: /go/v2-Collection-ListAliases
+slug: /go/go/v2-Collection-ListAliases
 sidebar_label: "ListAliases()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method lists all existing aliases associated with the specified collection. | Go | v2"
-type: origin
-token: TDRiwn2VdiQXAUkNjVUclZ6yneb
-sidebar_position: 5
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作列出与某个集合关联的所有别名。 | Go | v2"
+type: docx
+token: Xq1Dd1B8goDbeRxHfMKc84VOnxg
+sidebar_position: 20
+keywords: 
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ListAliases()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,75 +31,65 @@ import Admonition from '@theme/Admonition';
 
 # ListAliases()
 
-This method lists all existing aliases associated with the specified collection.
+此操作列出与某个集合关联的所有别名。
 
 ```go
 func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, callOptions ...grpc.CallOption) ([]string, error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-ListAliases#listaliasesoption"><code>ListAliasesOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## ListAliasesOption
-
-This is an interface type. The `listAliasesOption` struct type implements this interface type. 
-
-You can use the `NewListAliasesOption()` function to get the concrete implementation.
-
-### NewListAliasesOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewListAliasesOption(collectionName string) *listAliasesOption
+option := milvusclient.NewListAliasesOption(collectionName)
+
+result, err := client.ListAliases(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## Return
+- **collectionName** (*string*)
 
-`[]string`
+    目标集合的名称。
 
-## Example
+**返回类型：**
+
+*[]string, error*
+
+**返回值：**
+
+名称列表。如果操作失败，则返回错误。
+
+**异常：**
+
+- **error**
+
+    检查 `err != nil` 以获取失败详情。
+
+## 示例\{#example}
 
 ```go
+import (
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	// handle error
+}
+
 aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))
 if err != nil {
-    // handle error
+	// handle error
 }
 fmt.Println(aliases)
 ```
-

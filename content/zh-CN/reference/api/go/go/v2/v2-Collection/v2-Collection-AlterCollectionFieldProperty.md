@@ -1,18 +1,29 @@
 ---
 title: "AlterCollectionFieldProperty() | Go | v2"
-slug: /go/v2-Collection-AlterCollectionFieldProperty
+slug: /go/go/v2-Collection-AlterCollectionFieldProperty
 sidebar_label: "AlterCollectionFieldProperty()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method changes the specified property of a collection field. | Go | v2"
-type: origin
-token: LtptwJPdRi9AGgkJteGctpecnsb
-sidebar_position: 3
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会修改集合中特定字段的某个属性。 | Go | v2"
+type: docx
+token: MIyedieIBo43Yrxee0lcY3cUn8b
+sidebar_position: 4
+keywords: 
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - AlterCollectionFieldProperty()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,78 +31,77 @@ import Admonition from '@theme/Admonition';
 
 # AlterCollectionFieldProperty()
 
-This method changes the specified property of a collection field.
+此操作会修改集合中特定字段的某个属性。
 
 ```go
 func (c *Client) AlterCollectionFieldProperty(ctx context.Context, option AlterCollectionFieldPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-AlterCollectionFieldProperty#altercollectionfieldpropertiesoption"><code>AlterCollectionFieldPropertiesOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## AlterCollectionFieldPropertiesOption
-
-This is an interface type. The `alterCollectionFieldPropertiesOption` struct type implements this interface type. 
-
-You can use the `NewAlterCollectionFieldPropertiesOption()` function to get the concrete implementation.
-
-### NewAlterCollectionFieldPropertiesOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewAlterCollectionFieldPropertiesOption(collectionName string, fieldName string) *alterCollectionFieldPropertiesOption
+option := milvusclient.NewAlterCollectionFieldPropertiesOption(collectionName, fieldName).
+    WithProperty(key, value)
+
+err := client.AlterCollectionFieldProperty(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the target field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## Return
+- **collectionName** (*string*)
 
-Null
+    目标集合的名称。
 
-## Example
+- **fieldName** (*string*)
 
-```plaintext
-err = cli.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption("customized_setup_2", "id").WithProperty(common.MmapEnabledKey, "true"))
+    字段名称。
+
+**可选方法：**
+
+- `WithProperty(key string, value any)`
+
+    在资源上设置自定义属性的键值对。
+
+**返回类型：**
+
+*error*
+
+**返回：**
+
+成功时返回 nil；否则返回描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。
+
+## 示例\{#example}
+
+```go
+import (
+	"context"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
 if err != nil {
-    // handle err
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+defer cli.Close(ctx)
+
+err = cli.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption("my_collection", "my_vector").
+	WithProperty("mmap.enabled", true))
+if err != nil {
+	// handle error
 }
 ```

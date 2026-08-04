@@ -1,18 +1,29 @@
 ---
 title: "Close() | Go | v2"
-slug: /go/v2-Client-Close
+slug: /go/go/v2-Client-Close
 sidebar_label: "Close()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method closes the currently connected Milvus deployment. | Go | v2"
-type: origin
-token: UNv5w9Mf5iTsbBkBIaTcimNCnuu
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会关闭客户端连接并释放相关资源。 | Go | v2"
+type: docx
+token: UN5Yd5ojPoTYrJxAtYzcgFs9nYe
 sidebar_position: 2
+keywords: 
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Close()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,53 +31,48 @@ import Admonition from '@theme/Admonition';
 
 # Close()
 
-This method closes the currently connected Milvus deployment.
+此操作会关闭客户端连接并释放相关资源。
 
 ```go
 func (c *Client) Close(ctx context.Context) error
 ```
 
-## Request Parameters
+**返回类型：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-</table>
+*error*
 
-## Return
+**返回：**
 
-Null
+成功时返回 nil；否则返回描述错误原因的 error。
 
-## Example
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 查看失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+	"context"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-// user cluster username and password
-mclient, err := client.New(context.Background(), client.Config{
-   Address: "YOUR_CLUSTER_ENDPOINT",
-   Username: "YOUR_USERNAME",
-   Password: "YOUR_PASSWORD"
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
 })
+if err != nil {
+	log.Fatal("failed to create client:", err)
+}
 
-// or use an API key with appropriate permissions
-// client, err := client.New(context.Background(), client.Config{
-//    Address: "YOUR_CLUSTER_ENDPOINT",
-//    APIKey: "YOUR_API_KEY",
-//    EnableTLSAuth: true,
-// })
-
-mclient.close()
+err = cli.Close(ctx)
+if err != nil {
+	log.Fatal("failed to close client:", err)
+}
 ```
-

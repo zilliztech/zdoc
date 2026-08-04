@@ -1,18 +1,29 @@
 ---
 title: "ListPrivilegeGroups() | Go | v2"
-slug: /go/v2-Authentication-ListPrivilegeGroups
+slug: /go/go/v2-Authentication-ListPrivilegeGroups
 sidebar_label: "ListPrivilegeGroups()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method returns a list of existing privilege groups. | Go | v2"
-type: origin
-token: C7W4w3vl8iUVhFk2i9Oc3IPVnsb
-sidebar_position: 25
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作列出所有权限组及其包含的权限。 | Go | v2"
+type: docx
+token: H34hdV2rxodn9Pxy2Jyc8sBun9t
+sidebar_position: 14
+keywords: 
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ListPrivilegeGroups()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,80 +31,50 @@ import Admonition from '@theme/Admonition';
 
 # ListPrivilegeGroups()
 
-This method returns a list of existing privilege groups.
+此操作列出所有权限组及其包含的权限。
 
 ```go
 func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGroupsOption, callOptions ...grpc.CallOption) ([]*entity.PrivilegeGroup, error)
 ```
 
-## Request Parameters
+**返回类型：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Authentication-ListPrivilegeGroups#listprivilegegroupsoption"><code>ListPrivilegeGroupsOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOptions</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
+*[]*entity.PrivilegeGroup, error*
 
-## ListPrivilegeGroupsOption
+**返回：**
 
-This is an interface type. The `listPrivilegeGroupsOption` struct type implements this interface type. 
+包含其所含权限的权限组列表。如果操作失败，则返回错误。
 
-You can use the `NewListPrivilegeGroupsOption()` function to get the concrete implementation.
+**异常：**
 
-### NewListUserOption
+- **error**
 
-The signature of `NewListPrivilegeGroupsOption()` is as follows:
+    检查 `err != nil` 以查看失败详情。
 
-```go
-func NewListPrivilegeGroupsOption() *listPrivilegeGroupsOption
-```
-
-## grpc.CallOption
-
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
-
-## Return
-
-`[]string`
-
-## Example
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-opts := client.NewListPrivilegeGroupsOption()
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-onFinish := func(ctx context.Context, err error) {
-    if err != nil {
-        fmt.Printf("gRPC call finished with error: %v\n", err)
-    } else {
-        fmt.Printf("gRPC call finished successfully")
-    }
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
 }
+defer cli.Close(ctx)
 
-callOption := grpc.OnFinish(onFinish)
-
-err := mclient.ListPrvilegeGroups(context.Background(), opts, callOption)
+groups, err := cli.ListPrivilegeGroups(ctx, milvusclient.NewListPrivilegeGroupsOption())
+if err != nil {
+	// handle error
+}
+fmt.Println(groups)
 ```
-

@@ -1,18 +1,29 @@
 ---
 title: "DescribeAlias() | Go | v2"
-slug: /go/v2-Collection-DescribeAlias
+slug: /go/go/v2-Collection-DescribeAlias
 sidebar_label: "DescribeAlias()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method describes an alias by providing detailed information about its associated collection. | Go | v2"
-type: origin
-token: PuCzwybCuiPwPwkhbkRc1j5Yncq
-sidebar_position: 8
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作返回集合别名的详细信息，包括它所引用的集合。 | Go | v2"
+type: docx
+token: EFC0drdqGoG559x5Zqzcpj7innc
+sidebar_position: 10
+keywords: 
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DescribeAlias()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,91 +31,65 @@ import Admonition from '@theme/Admonition';
 
 # DescribeAlias()
 
-This method describes an alias by providing detailed information about its associated collection.
+此操作返回集合别名的详细信息，包括它所引用的集合。
 
 ```go
 func (c *Client) DescribeAlias(ctx context.Context, option DescribeAliasOption, callOptions ...grpc.CallOption) (*entity.Alias, error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-DescribeAlias#describealiasoption"><code>DescribeAliasOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DescribeAliasOption
-
-This is an interface type. The `describeAliasOption` struct type implements this interface type. 
-
-You can use the `NewDescribeAliasOption()` function to get the concrete implementation.
-
-### NewDescribeAliasOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDescribeAliasOption(alias string) *describeAliasOption
+option := client.NewDescribeAliasOption(alias)
+
+result, err := client.DescribeAlias(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>alias</code></p></td>
-     <td><p>Alias to be described.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## entity.Alias
+- **[alias](./v2-Collection-Alias)** (*string*)
 
-The `entity.Alias` struct type is as follows:
+    要分配的别名名称。
 
-```go
-type Alias struct {
-    DbName         string
-    Alias          string
-    CollectionName string
-}
-```
+**返回类型：**
 
-## Return
+**[entity.Alias](./v2-Collection-Alias), error*
 
-`*entity.Alias`
+**返回：**
 
-## Example
+别名详细信息，包括关联的集合名称。如果操作失败，则返回错误。
+
+**异常：**
+
+- **error**
+
+    检查 `err != nil` 以获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	// handle error
+}
 
 alias, err := cli.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
 if err != nil {
-        // handle error
+	// handle error
 }
 fmt.Println(alias)
 ```

@@ -1,18 +1,29 @@
 ---
 title: "ListCollections() | Go | v2"
-slug: /go/v2-Collection-ListCollections
+slug: /go/go/v2-Collection-ListCollections
 sidebar_label: "ListCollections()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method lists all existing collections. | Go | v2"
-type: origin
-token: TMbPw3Rt3iukcPkkqufc8VMRnhg
-sidebar_position: 6
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作列出当前数据库中的所有 collection。 | Go | v2"
+type: docx
+token: AVEcd3SCwoRyiTxcNodcQAepnGf
+sidebar_position: 21
+keywords: 
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ListCollections()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,66 +31,62 @@ import Admonition from '@theme/Admonition';
 
 # ListCollections()
 
-This method lists all existing collections.
+此操作列出当前数据库中的所有 collection。
 
 ```go
 func (c *Client) ListCollections(ctx context.Context, option ListCollectionOption, callOptions ...grpc.CallOption) (collectionNames []string, err error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-ListCollections#listcollectionoption"><code>ListAliasesOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## ListCollectionOption
-
-This is an interface type. The `listCollectionOption` struct type implements this interface type. 
-
-You can use the `NewListCollectionOption()` function to get the concrete implementation.
-
-### NewListCollectionOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewListCollectionOption() *listCollectionOption
+option := milvusclient.NewListCollectionOption()
+
+result, err := client.ListCollections(ctx, option)
 ```
 
-## Return
+**返回类型：**
 
-`[]string`
+*collectionNames []string, err error*
 
-## Example
+**返回：**
+
+名称列表。如果操作失败，则返回错误。
+
+**异常：**
+
+- **error**
+
+    检查 `err != nil` 以获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+
+defer cli.Close(ctx)
 
 collectionNames, err := cli.ListCollections(ctx, milvusclient.NewListCollectionOption())
 if err != nil {
-       // handle error
+	// handle error
 }
 
 fmt.Println(collectionNames)

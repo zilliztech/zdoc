@@ -1,18 +1,29 @@
 ---
 title: "RenameCollection() | Go | v2"
-slug: /go/v2-Collection-RenameCollection
+slug: /go/go/v2-Collection-RenameCollection
 sidebar_label: "RenameCollection()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method renames the specified collection. | Go | v2"
-type: origin
-token: GLEBw9UQHi3Qzqk50NUckratnbe
-sidebar_position: 14
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会重命名现有集合。 | Go | v2"
+type: docx
+token: XJN5dD1ifo5A9xxEfFKcf7Fxn1g
+sidebar_position: 22
+keywords: 
+  - 视频搜索
+  - AI 幻觉
+  - AI Agent
+  - 语义搜索
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - RenameCollection()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,84 +31,70 @@ import Admonition from '@theme/Admonition';
 
 # RenameCollection()
 
-This method renames the specified collection.
+此操作会重命名现有集合。
 
 ```go
 func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-RenameCollection#renamecollectionoption"><code>RenameCollectionOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## RenameCollectionOption
-
-This is an interface type. The `renameCollectionOption` struct type implements this interface type. 
-
-You can use the `NewRenameCollectionOption()` function to get the concrete implementation.
-
-### NewRenameCollectionOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewRenameCollectionOption(oldName, newName string) *renameCollectionOption
+option := milvusclient.NewRenameCollectionOption(oldName, newName)
+
+err := client.RenameCollection(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>oldName</code></p></td>
-     <td><p>Original name of the collection to rename.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>newName</code></p></td>
-     <td><p>New name of the collection after this operation.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## Return
+- **oldName** (*string*)
 
-Null
+    旧名称。
 
-## Example
+- **newName** (*string*)
+
+    集合的新名称。
+
+**返回类型：**
+
+*error*
+
+**返回：**
+
+成功时返回 nil，否则返回描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+
+defer cli.Close(ctx)
 
 err = cli.RenameCollection(ctx, milvusclient.NewRenameCollectionOption("my_collection", "my_new_collection"))
 if err != nil {
-        // handle error
+	// handle error
 }
 ```
-

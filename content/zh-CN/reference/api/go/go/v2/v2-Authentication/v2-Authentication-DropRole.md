@@ -1,18 +1,29 @@
 ---
 title: "DropRole() | Go | v2"
-slug: /go/v2-Authentication-DropRole
+slug: /go/go/v2-Authentication-DropRole
 sidebar_label: "DropRole()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method drops a role. | Go | v2"
-type: origin
-token: K81WwNJxai0qZukzVMKc8QANnOh
-sidebar_position: 8
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会从系统中删除一个角色。 | Go | v2"
+type: docx
+token: QKItdAf6HoDzMVxzWEbcDVL9n5r
+sidebar_position: 9
+keywords: 
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DropRole()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,94 +31,77 @@ import Admonition from '@theme/Admonition';
 
 # DropRole()
 
-This method drops a role. 
+此操作会从系统中删除一个角色。
 
 ```go
 func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>opt</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Authentication-DropRole#droproleoption"><code>DropRoleOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DropRoleOption
-
-This is an interface type. The `dropRoleOption` struct type implements this interface type. 
-
-You can use the `NewDropRoleOption()` function to get the concrete implementation.
-
-### NewDropRoleOption
-
-The signature of the `NewDropRoleOption()` is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDropRoleOption(roleName string) *dropRoleOption
+option := milvusclient.NewDropRoleOption("my_role").
+    WithForce(true)
+
+err := cli.DropRole(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>roleName</code></p></td>
-     <td><p>Name of the role to drop.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## grpc.CallOption
+- **opt** (*DropRoleOption*) -
 
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
+    用于删除角色的选项。
 
-## Return
+**构建器方法：**
 
-Null
+- `WithForce(force bool)`
 
-## Example
+    此方法会强制执行删除操作，即使该角色已分配给用户或已被授予权限，也会将其删除。
+
+**返回类型：**
+
+*error*
+
+**返回：**
+
+成功时返回 nil；如果失败，则返回描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-roleName := "my_role"
-opts := client.NewDropRoleOption(roleName)
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-onFinish := func(ctx context.Context, err error) {
-    if err != nil {
-        fmt.Printf("gRPC call finished with error: %v\n", err)
-    } else {
-        fmt.Printf("gRPC call finished successfully")
-    }
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+defer cli.Close(ctx)
+
+// Drop a role normally
+err = cli.DropRole(ctx, milvusclient.NewDropRoleOption("my_role"))
+if err != nil {
+	log.Fatal("failed to drop role: ", err.Error())
 }
 
-callOpts := grpc.OnFinish(onFinish)
-
-err := mclient.DropRole(context.Background(), opts, callOpts)
+// Force drop a role that is still assigned
+err = cli.DropRole(ctx, milvusclient.NewDropRoleOption("my_role").WithForce(true))
+if err != nil {
+	log.Fatal("failed to force drop role: ", err.Error())
+}
 ```
-

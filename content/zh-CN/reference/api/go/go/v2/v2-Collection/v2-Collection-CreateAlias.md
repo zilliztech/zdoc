@@ -1,18 +1,29 @@
 ---
 title: "CreateAlias() | Go | v2"
-slug: /go/v2-Collection-CreateAlias
+slug: /go/go/v2-Collection-CreateAlias
 sidebar_label: "CreateAlias()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method creates an alias and associates it with the specified collection. | Go | v2"
-type: origin
-token: TfTEwVVWOiG9eqkKNEtcm8OKnVc
-sidebar_position: 7
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作为集合创建别名，使您可以通过另一个名称来引用它。 | Go | v2"
+type: docx
+token: HbsGdw2PboyE0Yxcp8IcaG4Qnmg
+sidebar_position: 8
+keywords: 
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CreateAlias()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,88 +31,72 @@ import Admonition from '@theme/Admonition';
 
 # CreateAlias()
 
-This method creates an alias and associates it with the specified collection.
+此操作为集合创建别名，使您可以通过另一个名称来引用它。
 
 ```go
 func (c *Client) CreateAlias(ctx context.Context, option CreateAliasOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-CreateAlias#createaliasoption"><code>CreateAliasOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## CreateAliasOption
-
-This is an interface type. The `createAliasOption` struct type implements this interface type. 
-
-You can use the `NewCreateAliasOption()` function to get the concrete implementation.
-
-### NewCreateAliasOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewCreateAliasOption(collectionName, alias string) *createAliasOption
+option := milvusclient.NewCreateAliasOption(collectionName, alias)
+
+err := client.CreateAlias(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>alias</code></p></td>
-     <td><p>Alias to be created and assigned to the collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## Return
+- **collectionName** (*string*)
 
-Null
+    目标集合的名称。
 
-## Example
+- **[alias](./v2-Collection-Alias)** (*string*)
+
+    要分配的别名名称。
+
+**返回类型：**
+
+*error*
+
+**返回值：**
+
+成功时返回 nil，否则返回描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("customized_setup_2", "bob"))
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
 if err != nil {
-    // handle error
+	// handle error
 }
 
-err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("customized_setup_2", "alice"))
+err = cli.CreateAlias(ctx, milvusclient.NewCreateAliasOption("customized_setup_2", "bob"))
 if err != nil {
-    // handle error
+	// handle error
+}
+
+err = cli.CreateAlias(ctx, milvusclient.NewCreateAliasOption("customized_setup_2", "alice"))
+if err != nil {
+	// handle error
 }
 ```

@@ -1,18 +1,29 @@
 ---
 title: "DropCollectionProperties() | Go | v2"
-slug: /go/v2-Collection-DropCollectionProperties
+slug: /go/go/v2-Collection-DropCollectionProperties
 sidebar_label: "DropCollectionProperties()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method resets the specified properties of a collection to their default values. | Go | v2"
-type: origin
-token: HGMpwzYmBiiApWkJRQjcj5Fknmh
-sidebar_position: 16
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作从集合中移除指定属性。 | Go | v2"
+type: docx
+token: Zyf1dXoBIo83V2xWHiKcXUEAnMc
+sidebar_position: 14
+keywords: 
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DropCollectionProperties()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,79 +31,70 @@ import Admonition from '@theme/Admonition';
 
 # DropCollectionProperties()
 
-This method resets the specified properties of a collection to their default values.
+此操作从集合中移除指定属性。
 
 ```go
 func (c *Client) DropCollectionProperties(ctx context.Context, option DropCollectionPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-DropCollectionProperties#dropcollectionpropertiesoption"><code>DropCollectionPropertiesOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DropCollectionPropertiesOption
-
-This is an interface type. The `dropCollectionPropertiesOption` struct type implements this interface type. 
-
-You can use the `NewDropCollectionPropertiesOption()` function to get the concrete implementation.
-
-### NewDropCollectionPropertiesOption
-
-The signature of this method is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDropCollectionPropertiesOption(collection string, propertyKeys ...string) *dropCollectionPropertiesOption
+option := milvusclient.NewDropCollectionPropertiesOption(collection, propertyKeys)
+
+err := client.DropCollectionProperties(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collection</code></p></td>
-     <td><p>Name of the collection to drop.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>propertyKeys</code></p></td>
-     <td><p>Names of the properties to reset.</p></td>
-     <td><p><code>...string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## Return
+- **[collection](./v2-Collection)** (*string*)
 
-Null
+    集合。
 
-## Example
+- **propertyKeys** (*...string*)
+
+    属性键。
+
+**返回类型：**
+
+*error*
+
+**返回值：**
+
+成功时返回 nil，否则返回描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    检查 `err != nil` 以获取失败详情。
+
+## 示例\{#example}
 
 ```go
+import (
+	"context"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/pkg/v2/common"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+defer cli.Close(ctx)
+
 err = cli.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
 if err != nil {
-    // handle error
+	// handle error
 }
 ```
-

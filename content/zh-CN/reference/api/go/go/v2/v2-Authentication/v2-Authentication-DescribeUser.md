@@ -1,18 +1,29 @@
 ---
 title: "DescribeUser() | Go | v2"
-slug: /go/v2-Authentication-DescribeUser
+slug: /go/go/v2-Authentication-DescribeUser
 sidebar_label: "DescribeUser()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method returns the detailed information about the specified user. | Go | v2"
-type: origin
-token: YEaPwIU9TiN44iktkLrcboGzndc
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作返回用户的详细信息，包括其分配的角色。 | Go | v2"
+type: docx
+token: EbOodxkWBoRvwAxzJOkcsM6lnic
 sidebar_position: 7
+keywords: 
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DescribeUser()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,104 +31,64 @@ import Admonition from '@theme/Admonition';
 
 # DescribeUser()
 
-This method returns the detailed information about the specified user.
+此操作返回用户的详细信息，包括其分配的角色。
 
 ```go
 func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callOpts ...grpc.CallOption) (*entity.User, error)
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>opt</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Authentication-DescribeUser#describeuseroption"><code>DescribeUserOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DescribeUserOption
-
-This is an interface type. The `describeUserOption` struct type implements this interface type. 
-
-You can use the `NewDescribeUserOption()` function to get the concrete implementation.
-
-### NewDescribeUserOption
-
-The signature of `NewDescribeUserOption()` is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDescribeUserOption(userName string) *describeUserOption
+option := milvusclient.NewDescribeUserOption(userName)
+
+result, err := client.DescribeUser(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>userName</code></p></td>
-     <td><p>Name of the user to describe.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## grpc.CallOption
+- **userName** (*string*)
 
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
+    用户名称。
 
-## entity.User
+**返回类型：**
 
-The `entity.User` struct type is as follows:
+**[entity.User](./v2-Authentication-User), error*
 
-```go
-type User struct {
-    UserName   string
-    Roles      []string
-}
-```
+**返回：**
 
-## Return
+包含已分配角色的用户描述。如果操作失败，则返回错误。
 
-`*[entity.User`](./v2-Authentication-DescribeUser#entityuser)
+**异常：**
 
-## Example
+- **error**
+
+    检查 `err != nil` 以获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-userName := "my_user"
-opts := client.NewDescribeUserOption(userName)
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-onFinish := func(ctx context.Context, err error) {
-    if err != nil {
-        fmt.Printf("gRPC call finished with error: %v\n", err)
-    } else {
-        fmt.Printf("gRPC call finished successfully")
-    }
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
 }
+defer cli.Close(ctx)
 
-callOption := grpc.OnFinish(onFinish)
-
-err := mclient.DescribeUser(context.Background(), opts, callOption)
+user, err := cli.DescribeUser(ctx, milvusclient.NewDescribeUserOption("my_user"))
+if err != nil {
+	// handle error
+}
+fmt.Println(user)
 ```

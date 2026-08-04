@@ -1,18 +1,29 @@
 ---
 title: "Upsert() | Go | v2"
-slug: /go/v2-Vector-Upsert
+slug: /go/go/v2-Vector-Upsert
 sidebar_label: "Upsert()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: v2.6.x
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method updates or inserts data in a specific collection. | Go | v2"
-type: origin
-token: Rcuewz3xfiASysknLf6cwTOUnGc
-sidebar_position: 2
+beta: false
+added_since: v2.6.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "使用 struct-array 和字段级数组操作对行或列执行 Upsert，并记录该操作的客户端遥测数据。 | Go | v2"
+type: docx
+token: PB5kdtzs8ok748xwRWacJbEUnze
+sidebar_position: 19
+keywords: 
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Upsert()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,163 +31,148 @@ import Admonition from '@theme/Admonition';
 
 # Upsert()
 
-This method updates or inserts data in a specific collection.
+使用 struct-array 和字段级数组操作对行或列执行 Upsert，并记录该操作的客户端遥测数据。
 
 ```go
 func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ...grpc.CallOption) (UpsertResult, error)
 ```
 
-## Request Parameters
+**参数：**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Vector-Upsert#upsertoption"><code>UpsertOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOptions</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
+- **collName** (*string*) -
 
-## UpsertOption
+    **[必需]**
 
-This is an interface type. The `columnBasedDataOption` and `rowBasedDataOption` struct types implement this interface type. 
+    目标集合的名称。
 
-You can use the [`NewColumnBasedInsertOption()`](./v2-Vector-Upsert#newcolumnbasedinsertoption) or [`NewRowBasedInsertOption()`](./v2-Vector-Upsert#newrowbasedinsertoption) function to get the concrete implementation.
+- **rows** (*...any*) -
 
-### NewRowBasedInsertOption
+    **[必需]**
 
-This function requires you to organize your data in rows. The signature of this method is as follows:
+    一个或多个要插入或更新的行值。
+
+**构建器方法：**
+
+- `WithColumns(columns ...column.Column)`
+
+    将提供的列追加到写入请求中。
+
+- `WithBoolColumn(colName string, data []bool)`
+
+    追加一个具有指定名称和值的 Boolean 标量列。
+
+- `WithInt8Column(colName string, data []int8)`
+
+    追加一个具有指定名称和值的 Int8 标量列。
+
+- `WithInt16Column(colName string, data []int16)`
+
+    追加一个具有指定名称和值的 Int16 标量列。
+
+- `WithInt32Column(colName string, data []int32)`
+
+    追加一个具有指定名称和值的 Int32 标量列。
+
+- `WithInt64Column(colName string, data []int64)`
+
+    追加一个具有指定名称和值的 Int64 标量列。
+
+- `WithVarcharColumn(colName string, data []string)`
+
+    追加一个具有指定名称和值的 VarChar 标量列。
+
+- `WithFloatVectorColumn(colName string, dim int, data [][]float32)`
+
+    追加一个具有指定名称、维度和值的 float-vector 列。
+
+- `WithFloat16VectorColumn(colName string, dim int, data [][]float32)`
+
+    将提供的 float32 向量转换为 Float16 值，并追加生成的向量列。
+
+- `WithBFloat16VectorColumn(colName string, dim int, data [][]float32)`
+
+    将提供的 float32 向量转换为 BFloat16 值，并追加生成的向量列。
+
+- `WithBinaryVectorColumn(colName string, dim int, data [][]byte)`
+
+    追加一个具有指定名称、维度和值的 binary-vector 列。
+
+- `WithInt8VectorColumn(colName string, dim int, data [][]int8)`
+
+    追加一个具有指定名称、维度和值的 Int8-vector 列。
+
+- `WithStructArrayColumn(colName string, structSchema *entity.StructSchema, rows []map[string]any)`
+
+    根据按行组织的子字段值构建并追加一个 struct-array 列。每一行都是一个以子字段名称为键的映射，每个值都必须与 `structSchema` 中声明的标量或向量类型匹配。
+
+- `WithPartition(partitionName string)`
+
+    为写入请求设置目标分区。
+
+- `WithNamespace(namespace string)`
+
+    WithNamespace 将写入限定在集合命名空间内。对于 delete/upsert tombstone，主键仍然是集合级作用域，因此调用方必须确保同一集合中跨命名空间的主键唯一。
+
+- `WithPartialUpdate(partialUpdate bool)`
+
+    为写入请求启用或禁用 partial-update 行为。
+
+- `WithArrayAppend(fieldName string)`
+
+    WithArrayAppend 声明在执行 Upsert 时，Array 字段 `fieldName` 应按 ARRAY_APPEND 语义进行合并。服务器在存在任何非 REPLACE 操作时会隐式启用 `partial_update`，因此调用方无需再额外调用 `WithPartialUpdate(true)`。
+
+- `WithArrayRemove(fieldName string)`
+
+    WithArrayRemove 声明在执行 Upsert 时，Array 字段 `fieldName` 应按 ARRAY_REMOVE 语义进行合并。有关隐式提升为 `partial_update` 的说明，请参见 WithArrayAppend。
+
+- `WithFieldPartialOp(fieldName string, op schemapb.FieldPartialUpdateOp_OpType)`
+
+    WithFieldPartialOp 为名称为 `fieldName` 的字段附加一个显式的 FieldPartialUpdateOp。适用于高级调用方；普通用户应优先使用特定操作的辅助方法（WithArrayAppend、WithArrayRemove）。
+
+- `WithKeepAutoIDPk(keepPk bool)`
+
+    控制在启用自动 ID 生成时，基于行的写入是否保留提供的主键值。
+
+**返回类型：**
+
+*UpsertResult, error*
+
+**返回值：**
+
+返回受影响的行数和主键；如果请求构建失败或 RPC 失败，则同时返回错误。
+
+**错误处理：**
+
+- **error**
+
+    验证、请求构建或 RPC 失败。请检查返回的错误以获取失败详情。
+
+## 示例\{#example}
+
+演示 Upsert() 的用法。
 
 ```go
-func NewRowBasedInsertOption(collName string, rows ...any) *rowBasedDataOption
-```
+import (
+	"context"
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>rows</code></p></td>
-     <td><p>Data organized in rows.</p></td>
-     <td><p><code>...any</code></p></td>
-   </tr>
-</table>
-
-### NewColumnBasedInsertOption
-
-This function requires you to organize your data in columns. The signature of this method is as follows:
-
-```go
-func NewColumnBasedInsertOption(collName string, columns ...column.Column) *columnBasedDataOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>columns</code></p></td>
-     <td><p>Data organized in columns.</p></td>
-     <td><p><a href="./v2-Vector-Insert"><code>...column.Column</code></a></p></td>
-   </tr>
-</table>
-
-You can chain the following method to get an implementation of the `columnBasedDataOption` struct.
-
-- [WithColumns](./v2-Vector-Insert)
-
-- [WithBoolColumn](./v2-Vector-Insert)
-
-- [WithInt8Column](./v2-Vector-Insert)
-
-- [WithInt16Column](./v2-Vector-Insert)
-
-- [WithInt32Column](./v2-Vector-Insert)
-
-- [WithInt64Column](./v2-Vector-Insert)
-
-- [WithVarcharColumn](./v2-Vector-Insert)
-
-- [WithFloatVectorColumn](./v2-Vector-Insert)
-
-- [WithFloat16VectorColumn](./v2-Vector-Insert)
-
-- [WithBFloat16VectorColumn](./v2-Vector-Insert)
-
-- [WithBinaryVectorColumn](./v2-Vector-Insert)
-
-- [WithPartition](./v2-Vector-Insert)
-
-- [WithPartialUpdate](./v2-Vector-Insert)
-
-## UpsertResult
-
-The `UpsertResult` struct type is as follows:
-
-```go
-type UpsertResult struct {
-    UpsertCount int64
-    IDs         column.Column
-}
-```
-
-## Return
-
-`UpsertResult`
-
-## Example
-
-```plaintext
-// Upsert with full data
-resp, err := cli.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("quick_setup").
-    WithInt64Column("id", []int64{1, 2, 3, 4, 5, 6, 7, 8, 9}).
-    WithVarcharColumn("color", []string{"pink_8682", "red_7025", "orange_6781", "pink_9298", "red_4794", "yellow_4222", "red_9392", "grey_8510", "white_9381", "purple_4976"}).
-    WithFloatVectorColumn("vector", 5, [][]float32{
-        {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
-        {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
-        {0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
-        {0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345},
-        {0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106},
-        {0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955},
-        {0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987},
-        {-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052},
-        {0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336},
-        {0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608},
-    }),
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
-    // handle err
+	// handle error
 }
+defer cli.Close(ctx)
 
-fmt.Println(resp)
-
+result, err := cli.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("books").
+	WithInt64Column("id", []int64{1}).
+	WithVarcharColumn("tags", []string{"featured"}).
+	WithArrayAppend("tags"))
+if err != nil {
+	// handle error
+}
+_ = result
 ```

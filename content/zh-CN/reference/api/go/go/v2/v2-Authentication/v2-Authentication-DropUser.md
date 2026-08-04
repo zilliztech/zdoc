@@ -1,18 +1,29 @@
 ---
 title: "DropUser() | Go | v2"
-slug: /go/v2-Authentication-DropUser
+slug: /go/go/v2-Authentication-DropUser
 sidebar_label: "DropUser()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method drops a user. | Go | v2"
-type: origin
-token: MfZEwTsPAiTWrTkRXZBc9jyznLh
-sidebar_position: 9
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会从系统中删除一个用户。 | Go | v2"
+type: docx
+token: QM8QdP63jofHxkxwxSEcXVXZnKX
+sidebar_position: 10
+keywords: 
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DropUser()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,94 +31,62 @@ import Admonition from '@theme/Admonition';
 
 # DropUser()
 
-This method drops a user. 
+此操作会从系统中删除一个用户。
 
 ```go
 func (c *Client) DropUser(ctx context.Context, opt DropUserOption, callOpts ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>opt</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Authentication-DropUser#dropuseroption"><code>DropUserOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DropUserOption
-
-This is an interface type. The `dropUserOption` struct type implements this interface type. 
-
-You can use the `NewDropUserOption()` function to get the concrete implementation.
-
-### NewDropUserOption
-
-The signature of the `NewDropUserOption()` is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewDropUserOption(userName string) *dropRoleOption
+option := milvusclient.NewDropUserOption(userName)
+
+err := client.DropUser(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>userName</code></p></td>
-     <td><p>Name of the user to drop.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## grpc.CallOption
+- **userName** (*string*)
 
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
+    用户名称。
 
-## Return
+**返回类型：**
 
-Null
+*error*
 
-## Example
+**返回：**
+
+成功时返回 nil；否则返回一个描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-userName := "my_user"
-opts := client.NewDropUserOption(userName)
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-onFinish := func(ctx context.Context, err error) {
-    if err != nil {
-        fmt.Printf("gRPC call finished with error: %v\n", err)
-    } else {
-        fmt.Printf("gRPC call finished successfully")
-    }
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
 }
+defer cli.Close(ctx)
 
-callOpts := grpc.OnFinish(onFinish)
-
-err := mclient.DropUser(context.Background(), opts, callOpts)
+err = cli.DropUser(ctx, milvusclient.NewDropUserOption("my_user"))
+if err != nil {
+	// handle error
+}
 ```
-

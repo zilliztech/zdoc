@@ -1,18 +1,29 @@
 ---
 title: "UpdatePassword() | Go | v2"
-slug: /go/v2-Authentication-UpdatePassword
+slug: /go/go/v2-Authentication-UpdatePassword
 sidebar_label: "UpdatePassword()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method updates the password for an existing user. | Go | v2"
-type: origin
-token: JROjw7wQFi2uS8k1DZCcDkYEnFd
-sidebar_position: 5
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "此操作会更新现有用户的密码。 | Go | v2"
+type: docx
+token: GKDQd15KkoiLPSxs8UYcFUamnIg
+sidebar_position: 25
+keywords: 
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - UpdatePassword()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,105 +31,70 @@ import Admonition from '@theme/Admonition';
 
 # UpdatePassword()
 
-This method updates the password for an existing user.
+此操作会更新现有用户的密码。
 
 ```go
 func (c *Client) UpdatePassword(ctx context.Context, opt UpdatePasswordOption, callOpts ...grpc.CallOption) error
 ```
 
-## Request Parameters
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>opt</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Authentication-UpdatePassword#updatepasswordoption"><code>UpdatePasswordOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## UpdatePasswordOption
-
-This is an interface type. The `updatePasswordOption` struct type implements this interface type. 
-
-You can use the `NewUpdatePasswordOption()` function to get the concrete implementation.
-
-### NewUpdatePasswordOption
-
-The signature of the `NewUpdatePasswordOption()` is as follows:
+## 请求语法\{#request-syntax}
 
 ```go
-func NewUpdatePasswordOption(userName, oldPassword, newPassword string) *updatePasswordOption
+option := milvusclient.NewUpdatePasswordOption(userName, oldPassword, newPassword)
+
+err := client.UpdatePassword(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>userName</code></p></td>
-     <td><p>Name of the user whose password is to be updated.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>oldPassword</code></p></td>
-     <td><p>The old password of the user.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>newPassword</code></p></td>
-     <td><p>The new Password of the user to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**参数：**
 
-## grpc.CallOption
+- **userName** (*string*)
 
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
+    用户名称。
 
-## Return
+- **oldPassword** (*string*)
 
-Null
+    用于验证的当前密码。
 
-## Example
+- **newPassword** (*string*)
+
+    要设置的新密码。
+
+**返回类型：**
+
+*error*
+
+**返回：**
+
+成功时返回 nil，失败时返回描述错误原因的 error。
+
+**异常：**
+
+- **error**
+
+    通过检查 `err != nil` 获取失败详情。
+
+## 示例\{#example}
 
 ```go
 import (
-   "context"
-   "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-userName := "my_user"
-oldpass := "p@ssw0rd"
-newpass := "p@ssw1rd"
-opts := client.NewUpdatePasswordOption(userName, oldpass, newpass)
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-onFinish := func(ctx context.Context, err error) {
-    if err != nil {
-        fmt.Printf("gRPC call finished with error: %v\n", err)
-    } else {
-        fmt.Printf("gRPC call finished successfully")
-    }
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+	// handle error
 }
+defer cli.Close(ctx)
 
-callOption := grpc.OnFinish(onFinish)
-
-err := mclient.UpdatePassword(context.Background(), opts, callOpts)
+err = cli.UpdatePassword(ctx, milvusclient.NewUpdatePasswordOption("my_user", "P@ssw0rd", "NewP@ssw0rd"))
+if err != nil {
+	// handle error
+}
 ```
