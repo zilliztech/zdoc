@@ -16,7 +16,6 @@ import {resolveManualPublication, type SourceEntry} from './manuals/registry.ts'
 import {manualRegistry, publicationEntries} from './manuals/registry.ts';
 import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './manuals/schema.ts';
 import {atomicReplace, withAtomicPublicationGroupFence, type AtomicReplaceOptions, type AtomicValidationSnapshot} from './publication/atomicReplace.ts';
-import {isolateZhCnGuidesSourceTools} from './publication/zhCnGuidesToolsIsolation.ts';
 import {
   capturePublicationDiagnostics,
   publicationOwnedTargets,
@@ -512,7 +511,7 @@ function stageExistingSidebar(context: CommandContext): void {
   writeSecureAtomicFile(context.repositoryRoot, staged, readSecureFile(context.repositoryRoot, sourcePath, 'Publication sidebar source'), 'Staged publication sidebar');
 }
 
-function stagePreservedPublicationFiles(context: CommandContext): void {
+function stagePreservedPublicationFiles(context: CommandContext, replace = false): void {
   const outputPath = publicationStagePaths(context).outputPath;
   for (const relativePath of context.publication.preservedFiles ?? []) {
     const sourcePath = resolveOwnedRepositoryPath(
@@ -524,23 +523,14 @@ function stagePreservedPublicationFiles(context: CommandContext): void {
       throw new Error(`Preserved publication file is missing or is not a regular file: ${context.publication.outputDir}/${relativePath}`);
     }
     const targetPath = resolveOwnedRepositoryPath(outputPath, relativePath, 'Preserved staged publication file');
-    writeSecureAtomicFile(context.repositoryRoot, targetPath, readSecureFile(context.repositoryRoot, sourcePath, 'Preserved publication source'), 'Preserved staged publication file');
+    writeSecureAtomicFile(
+      context.repositoryRoot,
+      targetPath,
+      readSecureFile(context.repositoryRoot, sourcePath, 'Preserved publication source'),
+      'Preserved staged publication file',
+      {replace},
+    );
   }
-}
-
-function stageZhCnGuidesToolsTranslations(context: CommandContext, replace = false): void {
-  if (context.request.site !== 'zh-CN' || context.request.manual !== 'guides') return;
-  const target = path.join(publicationStagePaths(context).outputPath, 'tools');
-  if (replace) removeSecureStageTree(context.repositoryRoot, target, 'Staged Chinese Guides Tools translations');
-  const source = `${context.publication.outputDir}/tools`;
-  if (!securePathExists(context.repositoryRoot, source, 'Chinese Guides Tools translations')) return;
-  copySecureTree(
-    context.repositoryRoot,
-    source,
-    context.repositoryRoot,
-    target,
-    'Chinese Guides Tools translations',
-  );
 }
 
 function diagnosticsIdentity(context: CommandContext): PublicationDiagnosticsIdentity {
@@ -866,20 +856,11 @@ async function executeParsedDocsToolingCommand(
       writePublicationDiagnostics(repositoryRoot, stagePath, publicationDiagnostics);
       writePublicationAnchor(repositoryRoot, diagnosticsIdentity(fetchContext), publicationDiagnostics);
       stagePreservedPublicationFiles(fetchContext);
-      stageZhCnGuidesToolsTranslations(fetchContext);
     }
     if (dependencies.fetch) await dependencies.fetch(fetchContext);
     else await defaultFetch(fetchContext, dependencies.spawnSync ?? nodeSpawnSync, environment);
     if (publicationDiagnostics) {
-      if (request.site === 'zh-CN' && request.manual === 'guides') {
-        stageZhCnGuidesToolsTranslations(fetchContext, true);
-        const staged = publicationStagePaths(fetchContext);
-        isolateZhCnGuidesSourceTools({
-          canonicalToolsRoot: path.join(repositoryRoot, 'content/en/guides/tutorials/tools'),
-          stagedOutputRoot: staged.outputPath,
-          stagedSidebarPath: staged.sidebarPath,
-        });
-      }
+      stagePreservedPublicationFiles(fetchContext, true);
       transformStagedMarkdown(fetchContext, selectedAdapters);
       await validatePublicationStage(fetchContext);
     }

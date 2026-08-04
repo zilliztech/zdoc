@@ -34,7 +34,7 @@ test('artifact-only mode succeeds only when every requested producer uploaded an
   assert.equal(failure.overallStatus, 'failure');
 });
 
-test('English-only publication succeeds without translation or whole-site verification', () => {
+test('publication without translations still requires lightweight final verification', () => {
   const result = aggregateResults({
     mode: 'publish',
     requestedGroups: ['guides', 'python'],
@@ -42,8 +42,8 @@ test('English-only publication succeeds without translation or whole-site verifi
       guides: { source: 'source_published', translation: 'skipped', translationRequested: false, sourceCommitSha: SHA_A },
       python: { source: 'no_changes', translation: 'skipped', translationRequested: false },
     },
-    revisionReconciliation: 'skipped',
-    finalVerification: 'skipped',
+    revisionReconciliation: 'passed',
+    finalVerification: 'passed',
   });
   assert.equal(result.overallStatus, 'success');
 });
@@ -125,7 +125,7 @@ test('validates revision reconciliation state and mode consistency strictly', ()
     assert.throws(() => aggregateResults(payload({ revisionReconciliation })), /revisionReconciliation/i);
   }
   assert.throws(() => aggregateResults(payload({ mode: 'artifact_only', revisionReconciliation: 'passed', finalVerification: 'skipped', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } } })), /revisionReconciliation/i);
-  assert.throws(() => aggregateResults(payload({ revisionReconciliation: 'skipped' })), /revisionReconciliation/i);
+  assert.equal(aggregateResults(payload({ revisionReconciliation: 'skipped' })).overallStatus, 'failure');
 });
 
 test('rejects invalid schema, states, groups, extras, duplicates, and SHAs', () => {
@@ -242,4 +242,22 @@ test('CLI rejects CR, LF, and NUL path injection before writing files or GitHub 
   assert.notEqual(badGithubOutput.status, 0);
   assert.equal(fs.existsSync(githubOutput), false);
   assert.throws(() => writeSummaryAtomic(`${path.join(dir, 'summary.md')}\0forged`, 'content'), /single-line path/);
+});
+
+test('requires a requested downstream translation handoff to have an authenticated run URL', () => {
+  const base = payload({
+    groups: { guides: { source: 'no_changes', translation: 'skipped', translationRequested: false }, python: { source: 'no_changes', translation: 'skipped', translationRequested: false } },
+    revisionReconciliation: 'passed', finalVerification: 'passed',
+  });
+  const success = aggregateResults({...base, translationHandoff: {
+    requested: true, dispatched: true, runId: '30599999999',
+    runUrl: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
+  }});
+  assert.equal(success.overallStatus, 'success');
+  assert.match(success.markdown, /Downstream translation: dispatched/);
+  assert.match(success.markdown, /30599999999/);
+  assert.equal(aggregateResults({...base, translationHandoff: {requested: true, dispatched: false}}).overallStatus, 'failure');
+  assert.throws(() => aggregateResults({...base, translationHandoff: {
+    requested: true, dispatched: true, runId: '30599999999', runUrl: 'https://example.com/actions/runs/30599999999',
+  }}), /handoff|run URL/i);
 });

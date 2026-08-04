@@ -128,7 +128,7 @@ function testScraperCopiesBetaToBaseSourceMeta() {
     assert.deepEqual(source.base_beta, ['PRIVATE'])
 }
 
-function testScraperOmitsPublishMetaForSections() {
+function testScraperKeepsPublishMetaForSections() {
     const scraper = new LarkDocScraper('root', 'base:*', 'wiki', 'unused')
     const source = scraper.__source_base_meta({}, {
         record_id: 'recSection',
@@ -145,9 +145,9 @@ function testScraperOmitsPublishMetaForSections() {
     })
 
     assert.equal(source.base_placement_type, 'section')
-    assert.equal(Object.prototype.hasOwnProperty.call(source, 'base_status'), false)
-    assert.equal(Object.prototype.hasOwnProperty.call(source, 'base_targets'), false)
-    assert.equal(Object.prototype.hasOwnProperty.call(source, 'base_beta'), false)
+    assert.equal(source.base_status, 'Deprecated')
+    assert.deepEqual(source.base_targets, ['Zilliz.SaaS'])
+    assert.deepEqual(source.base_beta, ['PUBLIC'])
 }
 
 function testScraperInfersSdkFeishuDocsAsCanonicalWithoutSlug() {
@@ -287,7 +287,8 @@ async function testSidebarSkipsRefToTargetFilteredOutForCurrentTarget() {
             base_status: 'Draft',
             blocks: {
                 items: [
-                    { block_type: 1, page: {}, children: ['text-block'] },
+                    { block_type: 1, page: {}, children: ['heading-block', 'text-block'] },
+                    { block_id: 'heading-block', block_type: 3, heading1: { elements: [{ text_run: { content: 'Install', text_element_style: {} } }] } },
                     { block_id: 'text-block', block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
                 ],
             },
@@ -307,6 +308,51 @@ async function testSidebarSkipsRefToTargetFilteredOutForCurrentTarget() {
         try {
             const items = await writer.generate_sidebar('docs-byoc/tutorials', 'docs-byoc')
             assert.deepEqual(items, [])
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
+async function testChineseSidebarUsesEnglishSlugForTopLevelBaseTable() {
+    await withTempDir(async dir => {
+        const sourceDir = path.join(dir, 'guides-zh-CN')
+        fs.mkdirSync(sourceDir)
+        fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify({
+            title: 'Cloud Docs',
+            slug: null,
+            node_token: 'root',
+            has_child: true,
+            children: [{
+                title: '工具',
+                slug: '',
+                node_token: 'base:tblTools',
+                has_child: true,
+            }],
+        }, null, 2))
+        fs.writeFileSync(path.join(sourceDir, 'tools.json'), JSON.stringify({
+            title: '工具',
+            name: '工具',
+            slug: '',
+            node_token: 'base:tblTools',
+            base_placement_type: 'section',
+            base_nav_virtual: true,
+            has_child: true,
+            children: [],
+        }, null, 2))
+
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', sourceDir, path.join(dir, 'images'),
+            'zilliz.saas', true, false,
+        )
+
+        try {
+            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [{
+                type: 'category',
+                label: '工具',
+                key: 'category:tutorials/tools',
+                items: [],
+            }])
         } finally {
             writer.destroy()
         }
@@ -347,7 +393,8 @@ async function testSidebarEmitsRefAsExistingDocItem() {
             base_status: 'Draft',
             blocks: {
                 items: [
-                    { block_type: 1, page: {}, children: ['text-block'] },
+                    { block_type: 1, page: {}, children: ['heading-block', 'text-block'] },
+                    { block_id: 'heading-block', block_type: 3, heading1: { elements: [{ text_run: { content: 'Install', text_element_style: {} } }] } },
                     { block_id: 'text-block', block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
                 ],
             },
@@ -362,8 +409,8 @@ async function testSidebarEmitsRefAsExistingDocItem() {
             base_placement_type: 'ref',
             base_nav_ref: true,
             base_nav_ref_target_token: 'target-token',
+            base_nav_ref_target_anchor: 'heading-block',
             base_targets: ['Zilliz.SaaS'],
-            base_status: 'Draft',
         }, null, 2))
 
         const writer = new LarkDocWriter(
@@ -380,8 +427,8 @@ async function testSidebarEmitsRefAsExistingDocItem() {
                     key: 'doc:tutorials/canonical-page',
                 },
                 {
-                    type: 'doc',
-                    id: 'tutorials/canonical-page',
+                    type: 'link',
+                    href: '/docs/canonical-page#install',
                     label: 'Reused Page',
                     key: 'ref:tutorials/reused-page',
                 },
@@ -404,6 +451,11 @@ async function testSidebarKeepsEmptySectionAsCategory() {
                 slug: 'scim-provisioning',
                 node_token: 'section-token',
                 has_child: false,
+            }, {
+                title: 'Section Landing',
+                slug: 'section-landing',
+                node_token: 'section-landing-token',
+                has_child: false,
             }],
         }, null, 2))
         fs.writeFileSync(path.join(dir, 'section.json'), JSON.stringify({
@@ -415,6 +467,19 @@ async function testSidebarKeepsEmptySectionAsCategory() {
             base_nav_virtual: true,
             has_child: false,
         }, null, 2))
+        fs.writeFileSync(path.join(dir, 'section-landing.json'), JSON.stringify({
+            title: 'Section Landing',
+            name: 'Section Landing',
+            slug: 'section-landing',
+            node_token: 'section-landing-token',
+            base_placement_type: 'section',
+            base_targets: ['Zilliz.SaaS'],
+            has_child: false,
+            blocks: {items: [
+                {block_type: 1, page: {}, children: ['text-block']},
+                {block_id: 'text-block', block_type: 2, text: {elements: [{text_run: {content: 'body'}}]}},
+            ]},
+        }, null, 2))
 
         const writer = new LarkDocWriter(
             'root', 'base:*', 'default', dir, path.join(dir, 'images'),
@@ -422,12 +487,21 @@ async function testSidebarKeepsEmptySectionAsCategory() {
         )
 
         try {
-            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [{
-                type: 'category',
-                label: 'SCIM Provisioning',
-                key: 'category:tutorials/scim-provisioning',
-                items: [],
-            }])
+            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [
+                {
+                    type: 'category',
+                    label: 'SCIM Provisioning',
+                    key: 'category:tutorials/scim-provisioning',
+                    items: [],
+                },
+                {
+                    type: 'category',
+                    label: 'Section Landing',
+                    key: 'category:tutorials/section-landing',
+                    link: {type: 'doc', id: 'tutorials/section-landing/section-landing'},
+                    items: [],
+                },
+            ])
         } finally {
             writer.destroy()
         }
@@ -671,8 +745,8 @@ async function testIndexedSidebarDelegatesRefsParentsSectionsAndSlugLookups() {
                     }],
                 },
                 {
-                    type: 'doc',
-                    id: 'tutorials/category/target',
+                    type: 'link',
+                    href: '/docs/target',
                     label: 'Reused Target',
                     key: 'ref:tutorials/reused-target',
                 },
@@ -868,11 +942,12 @@ async function testRemoveStaleTokenFilesKeepsCurrentDestination() {
 
 async function run() {
     testScraperCopiesBetaToBaseSourceMeta()
-    testScraperOmitsPublishMetaForSections()
+    testScraperKeepsPublishMetaForSections()
     testScraperInfersSdkFeishuDocsAsCanonicalWithoutSlug()
     await testScraperKeepsRecordsHiddenBySelectedView()
     await testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug()
     await testSidebarSkipsRefToTargetFilteredOutForCurrentTarget()
+    await testChineseSidebarUsesEnglishSlugForTopLevelBaseTable()
     await testSidebarEmitsRefAsExistingDocItem()
     await testSidebarKeepsEmptySectionAsCategory()
     await testBaseCanonicalWithChildrenKeepsLandingPage()

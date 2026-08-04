@@ -13,18 +13,9 @@ const RepositoryPathSchema = z.string().min(1).superRefine((value, context) => {
   if (invalid) context.addIssue({code: z.ZodIssueCode.custom, message: 'Path must be normalized, NFC, and repository-relative'});
 });
 
-const SidebarSourceSchema = z.string().superRefine((value, context) => {
-  const [filePath, key, extra] = value.split('#');
-  if (!filePath || !key || extra !== undefined || filePath !== filePath.normalize('NFC') || key !== key.normalize('NFC')) {
-    context.addIssue({code: z.ZodIssueCode.custom, message: 'Sidebar source must contain one NFC file#key identity'});
-    return;
-  }
-  const parsed = RepositoryPathSchema.safeParse(filePath);
-  if (!parsed.success) context.addIssue({code: z.ZodIssueCode.custom, message: 'Sidebar source path must be normalized and repository-relative'});
-});
-
-export const TranslationTargetIdSchema = z.enum(['ja-JP', 'zh-CN-reference', 'zh-CN-tools']);
+export const TranslationTargetIdSchema = z.enum(['ja-JP', 'zh-CN-reference']);
 export const TranslationCandidateReasonSchema = z.enum(['current_delta', 'missing_target', 'stale_source']);
+export const TranslationRetirementChangeKindSchema = z.enum(['source_deleted', 'source_renamed', 'sidebar_removed']);
 
 const MappingSchema = z.object({
   sourceRoot: RepositoryPathSchema,
@@ -55,19 +46,9 @@ export const TranslationTargetSchema = z.discriminatedUnion('id', [
     targetRoot: RepositoryPathSchema,
     state: z.object({kind: z.literal('reference-manifest'), path: RepositoryPathSchema}).strict(),
   }).strict(),
-  z.object({
-    ...CommonTarget,
-    id: z.literal('zh-CN-tools'),
-    targetSite: z.literal('zh-CN'),
-    locale: z.literal('zh-CN'),
-    sourceRoot: RepositoryPathSchema,
-    targetRoot: RepositoryPathSchema,
-    sidebarSource: SidebarSourceSchema,
-    sidebarTarget: RepositoryPathSchema,
-    state: z.object({kind: z.literal('tools-manifest'), path: RepositoryPathSchema}).strict(),
-  }).strict(),
 ]);
 
 export type TranslationTargetId = z.infer<typeof TranslationTargetIdSchema>;
 export type TranslationTarget = z.infer<typeof TranslationTargetSchema>;
 export type TranslationCandidateReason = z.infer<typeof TranslationCandidateReasonSchema>;
+export type TranslationRetirementChangeKind = z.infer<typeof TranslationRetirementChangeKindSchema>;

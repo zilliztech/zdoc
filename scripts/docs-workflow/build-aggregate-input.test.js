@@ -1,9 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
-const fs = require('node:fs')
 const test = require('node:test')
-const yaml = require('js-yaml')
 const { buildAggregateInput, parseCandidateCounts } = require('./build-aggregate-input')
 
 const GUIDES_TRANSLATION_CANDIDATES = JSON.stringify({ total: 163, current_delta: 15, missing_target: 18, stale_source: 130 })
@@ -26,14 +24,15 @@ test('builds artifact-only rows directly from producer terminal states', () => {
   })
 })
 
-test('builds English-only publication rows when translations are disabled', () => {
+test('requires lightweight final verification even when translations are disabled', () => {
   assert.deepEqual(buildAggregateInput({
     MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'python',
+    FINAL_VERIFICATION: 'passed', REVISION_RECONCILIATION: 'passed',
     PYTHON_PRODUCER: 'artifact_ready', PYTHON_SOURCE: 'published', PYTHON_SOURCE_SHA: 'a'.repeat(40),
   }), {
     mode: 'publish', requestedGroups: ['python'], groups: { python: {
       source: 'source_published', translation: 'skipped', translationRequested: false, sourceCommitSha: 'a'.repeat(40),
-    } }, revisionReconciliation: 'skipped', finalVerification: 'skipped',
+    } }, revisionReconciliation: 'passed', finalVerification: 'passed',
   })
 })
 
@@ -46,6 +45,21 @@ test('maps revision reconciliation exactly by workflow mode', () => {
   assert.equal(buildAggregateInput({ ...base, MODE: 'artifact_only', REVISION_RECONCILIATION: 'passed' }).revisionReconciliation, 'skipped')
 })
 
+test('records a validated downstream translation handoff without treating translation as completed inline', () => {
+  const result = buildAggregateInput({
+    MODE: 'publish', SELECTED_GROUP: 'java', RUN_TRANSLATIONS: 'false',
+    JAVA_PRODUCER: 'artifact_ready', JAVA_SOURCE: 'published', JAVA_SOURCE_SHA: 'a'.repeat(40),
+    TRANSLATION_HANDOFF_REQUESTED: 'true', TRANSLATION_HANDOFF_RESULT: 'success',
+    TRANSLATION_HANDOFF_RUN_ID: '30599999999',
+    TRANSLATION_HANDOFF_RUN_URL: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
+  })
+  assert.deepEqual(result.translationHandoff, {
+    requested: true, dispatched: true, runId: '30599999999',
+    runUrl: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
+  })
+  assert.equal(result.groups.java.translationRequested, false)
+  assert.equal(result.groups.java.translation, 'skipped')
+})
 test('includes optional Guides translation candidate counts when supplied', () => {
   const result = buildAggregateInput({
     MODE: 'publish', SELECTED_GROUP: 'guides', FINAL_VERIFICATION: 'passed',
@@ -55,25 +69,6 @@ test('includes optional Guides translation candidate counts when supplied', () =
   assert.deepEqual(result.groups.guides.translationCandidates, {
     total: 163, current_delta: 15, missing_target: 18, stale_source: 130,
   })
-})
-
-test('workflow passes the exact publisher result through finalization and aggregation without branch fallback', () => {
-  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
-  const finalize = workflow.jobs.finalize_guides_translation.steps.find(step => step.id === 'result')
-  assert.equal(finalize.env.BATCH_COUNT, "${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}")
-  assert.equal(finalize.env.BATCH_RESULT, '${{ needs.translate_guides_batches.result }}')
-  assert.equal(finalize.env.PUBLISHER_RESULT, '${{ needs.publish_guides_translation_batches.result }}')
-  assert.equal(finalize.env.PUBLISHER_STATUS, '${{ needs.publish_guides_translation_batches.outputs.status }}')
-  assert.equal(finalize.env.PUBLISHER_COMMIT_SHA, '${{ needs.publish_guides_translation_batches.outputs.commit_sha }}')
-  assert.equal(finalize.env.TARGET_BRANCH, undefined)
-
-  const aggregate = workflow.jobs.aggregate.steps.find(step => step.id === 'aggregate')
-  assert.equal(aggregate.env.REVISION_RECONCILIATION, '${{ needs.verify.outputs.revision_status }}')
-  assert.notEqual(aggregate.env.REVISION_RECONCILIATION, aggregate.env.FINAL_VERIFICATION)
-  assert.equal(aggregate.env.GUIDES_TRANSLATOR, '${{ needs.finalize_guides_translation.outputs.translator_status }}')
-  assert.equal(aggregate.env.GUIDES_TRANSLATION, '${{ needs.finalize_guides_translation.outputs.publisher_status }}')
-  assert.equal(aggregate.env.GUIDES_TRANSLATION_SHA, '${{ needs.finalize_guides_translation.outputs.commit_sha }}')
-  assert.doesNotMatch(aggregate.env.GUIDES_TRANSLATION_SHA, /\|\|/)
 })
 
 test('aggregate input preserves the finalized Guides translation SHA exactly', () => {
@@ -124,4 +119,30 @@ test('maps producer, publisher, and translator failures to aggregate terminal st
   assert.equal(failedPublish.groups.java.source, 'publish_failed')
   const failedTranslation = buildAggregateInput({ SELECTED_GROUP: 'go', FINAL_VERIFICATION: 'passed', GO_PRODUCER: 'artifact_ready', GO_SOURCE: 'no_changes', GO_TRANSLATOR: 'failed' })
   assert.equal(failedTranslation.groups.go.translation, 'translation_failed')
+})
+
+test('requires both English and Chinese Guides lanes to finish successfully', () => {
+  const failedChineseFetch = buildAggregateInput({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'guides',
+    GUIDES_PRODUCER: 'artifact_ready', GUIDES_SOURCE: 'published', GUIDES_SOURCE_SHA: 'a'.repeat(40),
+    ZH_GUIDES_PRODUCER: 'failed', ZH_GUIDES_SOURCE: '',
+  })
+  assert.equal(failedChineseFetch.groups.guides.source, 'fetch_failed')
+
+  const failedChinesePublish = buildAggregateInput({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'guides',
+    GUIDES_PRODUCER: 'artifact_ready', GUIDES_SOURCE: 'no_changes',
+    ZH_GUIDES_PRODUCER: 'artifact_ready', ZH_GUIDES_SOURCE: 'failed',
+  })
+  assert.equal(failedChinesePublish.groups.guides.source, 'publish_failed')
+})
+
+test('uses the published Chinese Guides SHA when English Guides has no changes', () => {
+  const result = buildAggregateInput({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'guides',
+    GUIDES_PRODUCER: 'artifact_ready', GUIDES_SOURCE: 'no_changes',
+    ZH_GUIDES_PRODUCER: 'artifact_ready', ZH_GUIDES_SOURCE: 'published', ZH_GUIDES_SOURCE_SHA: 'b'.repeat(40),
+  })
+  assert.equal(result.groups.guides.source, 'source_published')
+  assert.equal(result.groups.guides.sourceCommitSha, 'b'.repeat(40))
 })

@@ -189,7 +189,7 @@ function parseCliArgs(argv) {
 
 function localeForTarget(target) {
   if (target === 'ja-JP') return 'ja-JP';
-  if (target === 'zh-CN-reference' || target === 'zh-CN-tools') return 'zh-CN';
+  if (target === 'zh-CN-reference') return 'zh-CN';
   throw new Error(`Unsupported recovery target: ${target}`);
 }
 

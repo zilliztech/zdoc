@@ -2,12 +2,11 @@
 'use strict'
 
 const fs = require('node:fs')
-const slugify = require('slugify')
 const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('../../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
+const { guidesTableSlug } = require('../../packages/docs-tooling/src/lark/guidesTableSlugs')
 
 const TARGETS = ['zilliz.paas', 'zilliz.saas']
 const SITES = new Set(['en', 'zh-CN'])
-const ZH_CN_PROTECTED_TABLE_IDENTITY = 'tools'
 
 function normalizeTarget(target) {
   const value = String(target || '').trim().toLowerCase()
@@ -34,26 +33,25 @@ function currentOwnership(snapshot) {
   return { targets, names }
 }
 
-function buildGuidesTableMatrix({ site, plan, snapshot }) {
+function buildGuidesTableMatrix({ site, plan, snapshot, forceFull = false }) {
   if (!SITES.has(site)) throw new Error('Guides table matrix site must be en or zh-CN')
   if (!plan || !['full', 'incremental'].includes(plan.mode)) throw new Error('Guides fetch plan mode must be full or incremental')
   if (!snapshot || snapshot.manual !== 'guides' || snapshot.schema_version !== 3 || !Array.isArray(snapshot.navigation_records)) throw new Error('Guides snapshot schema v3 navigation records are required')
   const current = currentOwnership(snapshot)
-  const affected = new Set(plan.mode === 'full'
+  if (typeof forceFull !== 'boolean') throw new Error('Guides table matrix forceFull must be boolean')
+  const affected = new Set(plan.mode === 'full' || forceFull
     ? [...current.targets.keys(), ...Object.keys(plan.previous_table_targets || {})]
     : (plan.affected_tables || []))
   const entries = []
 
   for (const tableId of affected) {
-    if (site === 'zh-CN' && tableId === ZH_CN_PROTECTED_TABLE_IDENTITY) continue
     const currentTargets = current.targets.get(tableId) || new Set()
     const previousTargets = new Set(plan.previous_table_targets?.[tableId] || [])
     const tableTargets = new Set([...currentTargets, ...previousTargets])
     if (tableTargets.size === 0) continue
     const tableName = current.names.get(tableId) || plan.current_table_names?.[tableId] || plan.previous_table_names?.[tableId]
     if (!tableName) throw new Error(`Missing Guides table name for ${tableId}`)
-    const tableSlug = slugify(tableName, { lower: true, strict: true })
-    if (site === 'zh-CN' && tableSlug === ZH_CN_PROTECTED_TABLE_IDENTITY) continue
+    const tableSlug = guidesTableSlug(site, tableName)
     for (const target of tableTargets) {
       const normalizedTarget = normalizeTarget(target)
       if (!TARGETS.includes(normalizedTarget)) continue
@@ -79,15 +77,18 @@ function argValue(args, name) {
 
 function main(argv) {
   const [command, ...args] = argv
-  if (command !== 'matrix') throw new Error('Usage: guides-tables.js matrix --site <en|zh-CN> --plan <plan.json> --snapshot <snapshot.json>')
+  if (command !== 'matrix') throw new Error('Usage: guides-tables.js matrix --site <en|zh-CN> --plan <plan.json> --snapshot <snapshot.json> [--force-full <true|false>]')
   const site = argValue(args, '--site')
   const planFile = argValue(args, '--plan')
   const snapshotFile = argValue(args, '--snapshot')
+  const forceFullValue = argValue(args, '--force-full')
   if (!site || !planFile || !snapshotFile) throw new Error('--site, --plan, and --snapshot are required')
+  if (forceFullValue !== null && !['true', 'false'].includes(forceFullValue)) throw new Error('--force-full must be true or false')
   const matrix = buildGuidesTableMatrix({
     site,
     plan: JSON.parse(fs.readFileSync(planFile, 'utf8')),
     snapshot: JSON.parse(fs.readFileSync(snapshotFile, 'utf8')),
+    forceFull: forceFullValue === 'true',
   })
   process.stdout.write(JSON.stringify(matrix))
 }

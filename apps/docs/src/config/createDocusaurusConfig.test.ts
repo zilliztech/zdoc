@@ -680,8 +680,34 @@ describe('createDocusaurusConfig', () => {
       {path: expect.stringMatching(/packages\/docs-ui\/src\/zh-CN\/pages$/)},
     ]);
     expect(createDocusaurusConfig(chinese).future).toMatchObject({
-      faster: {ssgWorkerThreads: true},
+      faster: {ssgWorkerThreads: false},
     });
+  });
+
+  it('excludes retained Chinese Reference retirement targets from published routes', () => {
+    const chinese = profile({
+      id: 'zh-CN',
+      language: 'zh-Hans',
+      outputDir: 'build/zh-CN',
+      content: [{
+        id: 'reference',
+        sourcePath: 'content/zh-CN/reference',
+        routeBasePath: 'reference',
+        sidebarPath: 'config/sidebars/zh-CN/reference.ts',
+      }],
+    });
+    const manifest = JSON.parse(readFileSync(
+      path.join(process.cwd(), 'generated/zh-CN/manifests/reference-translations.json'),
+      'utf8',
+    )) as {records: Array<{status: string; targetPath: string}>};
+    const expected = manifest.records
+      .filter(record => record.status === 'retired')
+      .map(record => path.posix.relative('content/zh-CN/reference', record.targetPath))
+      .sort();
+    const reference = docsPlugins(createDocusaurusConfig(chinese))
+      .find(([, options]) => options.id === 'reference');
+
+    expect(reference?.[1].exclude).toEqual(expected);
   });
 
   it('restores the legacy Chinese local-search route without enabling it for English', () => {
@@ -898,8 +924,13 @@ describe('createDocusaurusConfig', () => {
       /^NODE_OPTIONS=--max-old-space-size=8192 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site en -- docusaurus build /,
     );
     expect(packageJson.scripts['build:zh-CN']).toMatch(
-      /^DOCUSAURUS_SSG_WORKER_THREAD_COUNT=2 NODE_OPTIONS=--max-old-space-size=4096 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
+      /^pnpm --dir \.\.\/\.\. docs-tooling validate-reference --site zh-CN && NODE_OPTIONS=--max-old-space-size=4096 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
     );
+    expect(packageJson.scripts['build:zh-CN:site']).toMatch(
+      /^NODE_OPTIONS=--max-old-space-size=8192 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
+    );
+    expect(packageJson.scripts['build:zh-CN:site']).not.toContain('validate-reference');
+    expect(packageJson.scripts['build:zh-CN']).not.toContain('DOCUSAURUS_SSG_WORKER_THREAD_COUNT');
     expect(packageJson.scripts['build:en']).not.toContain('--experimental-strip-types');
     expect(packageJson.scripts['build:zh-CN']).not.toContain('--experimental-strip-types');
   });
@@ -907,6 +938,9 @@ describe('createDocusaurusConfig', () => {
   it('keeps the root build command behind the English publication fence', () => {
     const packageJson = JSON.parse(readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
     expect(packageJson.scripts.build).toBe('pnpm run build:en');
+    expect(packageJson.scripts['build:zh-CN:site']).toBe(
+      'pnpm --filter @zilliz/docs-site run build:zh-CN:site',
+    );
   });
 
   it('resolves repository paths from the factory module instead of the caller cwd', async () => {

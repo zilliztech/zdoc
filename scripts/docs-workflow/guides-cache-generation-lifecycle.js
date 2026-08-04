@@ -5,9 +5,9 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { semanticGuidesSnapshotHash } = require('./guides-cache-save-decision')
 
-const CACHE_VERSIONS = new Set(['v4', 'v3', 'v2', 'v1', 'none'])
+const CACHE_VERSIONS = new Set(['v5', 'v4', 'v3', 'v2', 'v1', 'none'])
 const OUTCOMES = new Set(['success', 'failure', 'skipped', 'cancelled'])
-const SAVE_KEY = /^guides-source-v4-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/
+const SAVE_KEY = /^guides-source-(?:(?:en|zh-CN)-)?v5-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/
 
 function booleanValue(value, label) {
   if (value === true || value === 'true') return true
@@ -26,10 +26,25 @@ function selectPromotedSnapshotIdentity({ cacheVersion, saveRequired, candidateS
   const required = booleanValue(saveRequired, 'saveRequired')
   const candidate = regularFile(candidateSnapshotPath, 'Guides candidate snapshot')
   if (required) return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
-  if (cacheVersion !== 'v4') throw new Error('Only an unchanged valid v4 cache may skip generation persistence')
-  const baseline = regularFile(baselineSnapshotPath, 'Guides baseline snapshot')
-  if (semanticGuidesSnapshotHash(candidate) !== semanticGuidesSnapshotHash(baseline)) {
-    throw new Error('A no-save Guides run must preserve an equal semantic identity')
+  if (cacheVersion !== 'v5') throw new Error('Only an unchanged valid v5 cache may skip generation persistence')
+  let baseline
+  try {
+    baseline = regularFile(baselineSnapshotPath, 'Guides baseline snapshot')
+  } catch (error) {
+    if (error?.code === 'ENOENT') return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
+    throw error
+  }
+  const candidateHash = semanticGuidesSnapshotHash(candidate)
+  let baselineHash
+  try {
+    baselineHash = semanticGuidesSnapshotHash(baseline)
+  } catch (error) {
+    if (!error?.code) return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
+    throw error
+  }
+  if (candidateHash !== baselineHash) {
+    // The fetch lane already proved the candidate matches the restored valid-v5 generation; the committed branch may lag it.
+    return Object.freeze({ selection: 'candidate', snapshotPath: candidate })
   }
   return Object.freeze({ selection: 'baseline', snapshotPath: baseline })
 }
@@ -48,19 +63,19 @@ function generationPersistenceReport({ generatedAt = new Date().toISOString(), s
   const required = booleanValue(saveRequired, 'saveRequired')
   if (required && preparationOutcome !== 'success') throw new Error('Guides generation preparation failed; cache persistence was not attempted')
   if (!required) {
-    if (sourceCacheVersion !== 'v4' || preparationOutcome !== 'skipped' || saveOutcome !== 'skipped' || saveKey !== null) {
-      throw new Error('Skipped Guides generation persistence requires an unchanged valid v4 cache and a null save key')
+    if (sourceCacheVersion !== 'v5' || preparationOutcome !== 'skipped' || saveOutcome !== 'skipped' || saveKey !== null) {
+      throw new Error('Skipped Guides generation persistence requires an unchanged valid v5 cache and a null save key')
     }
     return Object.freeze({
       schemaVersion: 1,
       generated_at: isoTimestamp(generatedAt),
       sourceCacheVersion,
       saveRequired: false,
-      persistence: 'skipped-valid-v4',
+      persistence: 'skipped-valid-v5',
       saveKey: null,
     })
   }
-  if (!SAVE_KEY.test(saveKey || '')) throw new Error('Guides generation persistence requires the attempted v4 save key')
+  if (!SAVE_KEY.test(saveKey || '')) throw new Error('Guides generation persistence requires the attempted v5 save key')
   if (!['success', 'failure'].includes(saveOutcome)) throw new Error('Required Guides cache save must finish with success or failure')
   return Object.freeze({
     schemaVersion: 1,

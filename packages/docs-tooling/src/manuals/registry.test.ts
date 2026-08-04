@@ -3,6 +3,7 @@ import {describe, expect, it} from 'vitest';
 import {
   manualRegistry,
   publicationEntries,
+  resolveGuidesSourceConfig,
   resolveManualPublication,
   validateManualRegistry,
 } from './registry';
@@ -48,8 +49,28 @@ describe('manual registry contract', () => {
       root: 'XyeFwdx6kiK9A6kq3yIcLNdEnDd',
       base: 'I6YUb1M0JajHrqsJGcLcZNh7neP:*',
       generatorManual: 'guides',
+      snapshotPath: 'packages/docs-tooling/src/lark/meta/snapshots/guides-zh-CN-uat-last-success.json',
     });
     expect(guides.publication.outputDir).toBe('content/zh-CN/guides/tutorials');
+  });
+
+  it('resolves site-qualified Guides cache identities', () => {
+    expect(resolveGuidesSourceConfig('en')).toEqual({
+      site: 'en',
+      rootToken: 'Tg6mwbRGDitPQ3kLUQzc44I7nth',
+      sourceDir: 'packages/docs-tooling/src/lark/meta/sources/guides',
+      snapshotPath: 'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+      sourceManifestPath: 'packages/docs-tooling/src/lark/meta/source-cache/guides-manifest.json',
+      mediaManifestPath: 'packages/docs-tooling/src/lark/meta/media-cache/guides.json',
+    });
+    expect(resolveGuidesSourceConfig('zh-CN')).toEqual({
+      site: 'zh-CN',
+      rootToken: 'XyeFwdx6kiK9A6kq3yIcLNdEnDd',
+      sourceDir: 'packages/docs-tooling/src/lark/meta/sources/guides-zh-CN',
+      snapshotPath: 'packages/docs-tooling/src/lark/meta/snapshots/guides-zh-CN-uat-last-success.json',
+      sourceManifestPath: 'packages/docs-tooling/src/lark/meta/source-cache/guides-zh-CN-manifest.json',
+      mediaManifestPath: 'packages/docs-tooling/src/lark/meta/media-cache/guides-zh-CN.json',
+    });
   });
 
   it('resolves active publication fallback chains in deterministic earliest-to-active order', () => {
@@ -283,7 +304,12 @@ describe('manual registry contract', () => {
     const chinese = resolveManualPublication('rest', 'zh-CN');
 
     expect(english.publication.outputDir).toBe('content/en/reference/api/restful/restful');
-    expect(english.publication.preservedFiles).toEqual(['restful.md']);
+    expect(english.publication.preservedFiles).toEqual([
+      'restful.md',
+      'versioning.md',
+      'v1/error-codes.md',
+      'v2/error-codes-v2.md',
+    ]);
     expect(chinese.source.sourceDir).toBe('content/zh-CN/reference/api/restful/restful');
     expect(chinese.publication.outputDir).toBe('content/zh-CN/reference/api/restful/restful');
     expect(chinese.publication.preservedFiles).toEqual(['restful.md']);

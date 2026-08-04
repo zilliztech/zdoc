@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
-const { lstat, mkdtemp, mkdir, readFile, readdir, realpath, symlink, utimes, writeFile } = require('node:fs/promises');
+const { lstat, mkdtemp, mkdir, readFile, readdir, realpath, rm, symlink, utimes, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -61,6 +61,7 @@ async function fixture() {
   const output = path.join(root, 'artifact');
   await mkdir(path.join(baselineDir, 'content/en/reference/api/python/python'), { recursive: true });
   await mkdir(path.join(workspace, 'content/en/reference/api/python/python'), { recursive: true });
+  await writeFile(path.join(workspace, 'content/en/reference/api/python/python/python.md'), '# Python landing\n');
   return { baselineDir, workspace, output };
 }
 
@@ -83,7 +84,7 @@ test('creates a deterministic, sorted artifact with changed, new, binary, and de
   assert.equal(manifest.createdAt, '2026-01-02T03:04:05.000Z');
   assert.equal(manifest.stage, 'source');
   assert.deepEqual(manifest.files.map((entry) => entry.path), [
-    `${root}/a-new.md`, `${root}/changed.md`, `${root}/z-new.bin`,
+    `${root}/a-new.md`, `${root}/changed.md`, `${root}/python.md`, `${root}/z-new.bin`,
     'content/en/reference/content-manifest.json',
   ]);
   assert.deepEqual(manifest.deletions, [`${root}/deleted.md`]);
@@ -115,6 +116,15 @@ test('keeps unbatched translation artifacts on schema 1 and applies their cache 
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
   await applyCheckpointArtifact({ artifactDir: f.output, targetDir: target, baselineDir: f.baselineDir });
   assert.equal(await readFile(path.join(target, '.translation-cache/ja-JP.json'), 'utf8'), '{\n  "doc": {\n    "new": 2\n  },\n  "targetOnly": 9\n}\n');
+});
+
+test('rejects a source checkpoint that omits a declared preserved landing', async () => {
+  const f = await fixture();
+  await rm(path.join(f.workspace, 'content/en/reference/api/python/python/python.md'));
+  await assert.rejects(
+    createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f }),
+    /preserved.*content\/en\/reference\/api\/python\/python\/python\.md/i,
+  );
 });
 
 test('allows a reconciliation-only translation batch with zero pending model files', async () => {
@@ -257,7 +267,9 @@ test('represents a baseline file changed into a directory', async () => {
   await writeFile(path.join(f.workspace, owned, 'index.md'), 'new child');
   const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, createdAt: '2026-01-02T03:04:05Z' });
   assert.deepEqual(manifest.deletions, [owned]);
-  assert.deepEqual(manifest.files.map((entry) => entry.path), [`${owned}/index.md`]);
+  assert.deepEqual(manifest.files.map((entry) => entry.path), [
+    'content/en/reference/api/python/python/python.md', `${owned}/index.md`,
+  ]);
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
 });
 
@@ -269,7 +281,9 @@ test('represents a baseline directory changed into a file', async () => {
   await writeFile(path.join(f.workspace, owned), 'new file');
   const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f });
   assert.deepEqual(manifest.deletions, [`${owned}/old.md`]);
-  assert.deepEqual(manifest.files.map((entry) => entry.path), [owned]);
+  assert.deepEqual(manifest.files.map((entry) => entry.path), [
+    'content/en/reference/api/python/python/python.md', owned,
+  ]);
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
 });
 
@@ -398,6 +412,7 @@ test('retains the retired generation so readers pinned before swap remain valid'
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
   assert.deepEqual((await validateCheckpointArtifact(f.output)).files.map((entry) => entry.path), [
     'content/en/reference/api/python/python/new.md', 'content/en/reference/api/python/python/old.md',
+    'content/en/reference/api/python/python/python.md',
   ]);
 });
 

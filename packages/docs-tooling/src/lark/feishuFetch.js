@@ -18,7 +18,7 @@ function isRetryableFetchError(err) {
 }
 
 function shouldRetryJsonResponse(res, json) {
-    return res.status === 429 || res.status >= 500 || json?.code === 99991400 || json?.status === 429
+    return res.status === 429 || res.status >= 500 || [1254607, 99991400].includes(json?.code) || json?.status === 429
 }
 
 function parseRetryAfterHeader(value) {

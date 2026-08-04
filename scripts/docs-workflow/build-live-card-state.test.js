@@ -8,6 +8,9 @@ test('adapts live jobs to the centralized exact card state', () => {
   const state = buildLiveCardState({
     requestedGroups: ['guides', 'rest'],
     publishEnabled: true,
+    runTranslations: true,
+    guideTableTotals: { en: 14, 'zh-CN': 11 },
+    handoff: { status: 'waiting' },
     jobs: [
       { id: 1, name: 'produce_guides_sources / fetch', status: 'in_progress', conclusion: null, steps: [{ name: 'Prefetch shared Guides media', status: 'in_progress' }] },
       { id: 2, name: 'produce_rest / produce', status: 'completed', conclusion: 'success' },
@@ -16,9 +19,11 @@ test('adapts live jobs to the centralized exact card state', () => {
     notes: ['# Link report\n\n- Broken links: 0'],
   })
 
-  assert.deepEqual(state.phases.map(phase => phase.key), ['produce', 'publish', 'translate', 'translation', 'verify'])
-  assert.equal(state.manuals[0].group, 'guides')
-  assert.equal(state.manuals[0].currentTask, 'Prefetch shared Guides media')
+  assert.deepEqual(state.phases.map(phase => phase.key), ['produce', 'publish', 'verify', 'handoff'])
+  assert.equal(state.guides[0].locale, 'en')
+  assert.equal(state.guides[0].currentTask, 'Prefetch shared Guides media')
+  assert.equal(state.guides[1].locale, 'zh-CN')
+  assert.equal(state.items[0].id, 'rest')
   assert.deepEqual(state.reports, [{ markdown: '# Link report\n\n- Broken links: 0' }])
   assert.equal(state.stages, undefined)
   assert.equal(state.noteMarkdown, undefined)

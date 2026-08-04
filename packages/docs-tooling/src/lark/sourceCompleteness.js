@@ -60,7 +60,7 @@ function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, sn
     result.rootError = fs.existsSync(rootFile) ? error.message : 'missing root source'
   }
 
-  const records = (snapshot?.records || []).filter(record => record.placement_type === 'canonical' && record.source_file)
+  const records = (snapshot?.records || []).filter(record => ['canonical', 'section'].includes(record.placement_type) && record.source_file)
   result.expectedCanonicalSources = records.length
   for (const record of records) {
     const relative = record.source_file

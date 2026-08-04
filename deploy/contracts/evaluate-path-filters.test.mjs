@@ -96,15 +96,13 @@ test('English Tools source content and its sidebar source select both builds', (
   });
 });
 
-test('Chinese Tools release inputs select only the Chinese build', () => {
+test('Chinese Guides-owned Tools inputs select only the Chinese build', () => {
   assert.deepEqual(evaluateChangedPaths([
     'content/zh-CN/guides/tutorials/tools/tool.md',
-    'generated/zh-CN/manifests/tools-translations.json',
     'generated/zh-CN/sidebars/tools.sidebar.js',
-    'config/tools-retirements.json',
   ], filters), {
     checks: ['build:zh-CN'],
-    matchedRules: ['zhToolsTranslation'],
+    matchedRules: ['zhGuides'],
     unclassifiedPaths: [],
   });
 });

@@ -1,0 +1,13 @@
+{
+  "sourceRunId": 30738338949,
+  "jobs": [
+    {"id": 91471099915, "name": "prepare", "status": "completed", "conclusion": "success"},
+    {"id": 91471139166, "name": "prepare_guides_batches / prepare", "status": "completed", "conclusion": "success"},
+    {"id": 91471208310, "name": "translate_guides_batches (0, 1) / translate", "status": "completed", "conclusion": "success"},
+    {"id": 91471208274, "name": "translate_guides_batches (1, 2) / translate", "status": "completed", "conclusion": "success"},
+    {"id": 91471208413, "name": "translate_guides_batches (2, 3) / translate", "status": "in_progress", "conclusion": null, "steps": [{"name": "Run translation agents", "status": "in_progress", "conclusion": null}]},
+    {"id": 91471208416, "name": "translate_guides_batches (3, 4) / translate", "status": "queued", "conclusion": null},
+    {"id": 91473491454, "name": "publish_ja_guides / publish", "status": "queued", "conclusion": null},
+    {"id": 91473559308, "name": "aggregate", "status": "queued", "conclusion": null}
+  ]
+}

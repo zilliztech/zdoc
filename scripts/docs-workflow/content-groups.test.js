@@ -24,6 +24,7 @@ test('defines the Python content group ownership contract', () => {
   assert.deepEqual(python.ownedPaths, [
     'content/en/reference/api/python/python',
     'generated/en/sidebars/python.sidebar.js',
+    'content/en/reference/api/python/python/python.md',
     'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json',
     'content/en/reference/content-manifest.json',
     'generated/en/manifests/lark-revisions/python.json',
@@ -79,7 +80,7 @@ test('consumes the Chinese manifest-owned Guides registry contract', () => {
     'content/zh-CN/byoc',
     'generated/zh-CN/sidebars/guides.sidebar.js',
     'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
-    'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json',
+    'generated/zh-CN/sidebars/tools.sidebar.js',
   ]);
   assert.equal(guides.publicationManifest, 'generated/zh-CN/manifests/guides-source-publication.json');
   for (const group of ['guides', 'onpremise']) {

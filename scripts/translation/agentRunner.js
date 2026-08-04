@@ -13,11 +13,9 @@ const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = 
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
 const {
-  assertSafeRepositoryPathChain,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
 } = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts')
-const { validateTranslatedSidebarFragment } = loadTypeScript('../../packages/docs-tooling/src/translation/candidates.ts')
 const { defaultReferenceManualForPath } = loadTypeScript('../../packages/docs-tooling/src/cli.ts')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
@@ -402,69 +400,6 @@ async function translateAndReviewUnit({
   return { translatedContent: restoreProtectedEsm(translatedContent, protectedEsm), review }
 }
 
-function collectSidebarFragments(value, key, matches = []) {
-  if (Array.isArray(value)) {
-    for (const child of value) collectSidebarFragments(child, key, matches)
-    return matches
-  }
-  if (!value || typeof value !== 'object') return matches
-  if (value.key === key) matches.push(value)
-  collectSidebarFragments(value.items, key, matches)
-  return matches
-}
-
-function readToolsSidebarFragment(siteDir, item) {
-  const target = resolveTranslationTarget('zh-CN-tools')
-  if (item.target !== target.id) throw new Error('Sidebar fragment pseudo-paths are supported only for zh-CN-tools')
-  if (item.sourcePath !== target.sidebarSource || item.targetPath !== target.sidebarTarget) {
-    throw new Error('Sidebar fragment paths must match the zh-CN-tools target registry')
-  }
-  const [relativePath, key, extra] = item.sourcePath.split('#')
-  if (!relativePath || !key || extra !== undefined) throw new Error(`Invalid sidebar fragment pseudo-path: ${item.sourcePath}`)
-  const absolutePath = assertSafeRepositoryPathChain(siteDir, relativePath, 'Tools sidebar source module')
-  const resolved = require.resolve(absolutePath)
-  delete require.cache[resolved]
-  const loaded = require(resolved)
-  const sidebar = loaded && typeof loaded === 'object' && 'default' in loaded ? loaded.default : loaded
-  const matches = collectSidebarFragments(sidebar, key)
-  if (matches.length === 0) throw new Error(`Missing sidebar fragment ${key}`)
-  if (matches.length > 1) throw new Error(`Ambiguous sidebar fragment ${key}`)
-  return matches[0]
-}
-
-async function processToolsSidebarFragment({siteDir, item, callModel, maxReviewRounds}) {
-  const sourceFragment = readToolsSidebarFragment(siteDir, item)
-  const sourceContent = `${JSON.stringify(sourceFragment, null, 2)}\n`
-  const unit = await translateAndReviewUnit({
-    target: item.target,
-    sourcePath: item.sourcePath,
-    sourceContent,
-    locale: item.locale,
-    callModel,
-    maxReviewRounds,
-    chunkContext: null,
-  })
-  if (!unit.review.pass) return {...item, status: 'failed', review: unit.review, validationErrors: []}
-
-  let translatedFragment
-  try {
-    translatedFragment = JSON.parse(unit.translatedContent)
-    validateTranslatedSidebarFragment(sourceFragment, translatedFragment)
-  } catch (error) {
-    return {
-      ...item,
-      status: 'failed',
-      review: unit.review,
-      validationErrors: [`Sidebar fragment validation failed: ${String(error?.message || error)}`],
-    }
-  }
-
-  const absTargetPath = path.join(siteDir, item.targetPath)
-  fs.mkdirSync(path.dirname(absTargetPath), {recursive: true})
-  fs.writeFileSync(absTargetPath, `'use strict'\n\nmodule.exports = ${JSON.stringify([translatedFragment], null, 2)}\n`, 'utf8')
-  return {...item, status: 'translated', review: unit.review, validationErrors: [], chunks: {total: 1}}
-}
-
 async function processManifestItem({
   siteDir,
   item,
@@ -474,9 +409,7 @@ async function processManifestItem({
   chunkMaxChars = DEFAULT_MAX_CHARS,
   validate = validateTranslatedContent,
 }) {
-  if (item.sourcePath.includes('#')) {
-    return processToolsSidebarFragment({siteDir, item, callModel, maxReviewRounds})
-  }
+  if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
   const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
@@ -595,14 +528,12 @@ function mappedTargetPath(target, sourcePath) {
     }
     return null
   }
-  if (target.id === 'zh-CN-tools' && sourcePath === target.sidebarSource) return target.sidebarTarget
   if (!sourcePath.startsWith(`${target.sourceRoot}/`)) return null
   return `${target.targetRoot}/${sourcePath.slice(target.sourceRoot.length + 1)}`
 }
 
 function expectedItemType(target, sourcePath) {
   if (target.id === 'zh-CN-reference') return 'reference'
-  if (target.id === 'zh-CN-tools') return sourcePath === target.sidebarSource ? 'sidebar' : 'tools'
   if (sourcePath.startsWith(`${target.mappings[0].sourceRoot}/`)) return 'guides'
   if (sourcePath.startsWith(`${target.mappings[1].sourceRoot}/`)) return 'byoc'
   if (sourcePath.startsWith(`${target.mappings[2].sourceRoot}/`)) return 'reference'
@@ -625,12 +556,10 @@ function validateTranslationManifest(manifest) {
     const label = `Translation manifest item ${index}`
     assertExactKeys(item, ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason'], label)
     if (item.locale !== target.locale) throw new Error(`${label} locale must be ${target.locale}`)
-    if (!(target.id === 'zh-CN-tools' && item.sourcePath === target.sidebarSource)) {
-      try {
-        assertSafeRepositoryRelativePath(item.sourcePath, `${label} source path`)
-      } catch {
-        throw new Error(`${label} source path must be a safe normalized repository-relative path`)
-      }
+    try {
+      assertSafeRepositoryRelativePath(item.sourcePath, `${label} source path`)
+    } catch {
+      throw new Error(`${label} source path must be a safe normalized repository-relative path`)
     }
     try {
       assertSafeRepositoryRelativePath(item.targetPath, `${label} target path`)
@@ -881,6 +810,17 @@ function partitionRecoveryWork(manifest, restoredResults = []) {
   return {recovered, pending}
 }
 
+function buildRecoveryIdentity(manifest, siteDir, env = process.env) {
+  return {
+    locale: manifest.locale,
+    group: manifest.group,
+    promptContractSha256: promptContractSha256(manifest.target, siteDir),
+    model: env.TRANSLATION_AGENT_MODEL,
+    sourceSha: manifest.sourceCheckpointSha,
+    toolingSha: env.TOOLING_SHA,
+  }
+}
+
 async function main() {
   require('dotenv/config')
   const args = new Map()
@@ -908,14 +848,7 @@ async function main() {
         siteDir,
         candidates: manifest.items,
         artifacts: discoverRecoveryArtifacts(path.resolve(siteDir, recoveryDir)),
-        identity: {
-          locale: manifest.locale,
-          group: manifest.group,
-          promptContractSha256: promptContractSha256(manifest.target, siteDir),
-          model: process.env.TRANSLATION_AGENT_MODEL,
-          sourceSha: manifest.sourceCheckpointSha,
-          toolingSha: process.env.MASTER_SHA,
-        },
+        identity: buildRecoveryIdentity(manifest, siteDir),
       })
     : {restored: [], pending: manifest.items, rejected: []}
   const work = partitionRecoveryWork(manifest, recovery.restored)
@@ -1003,6 +936,7 @@ if (require.main === module) {
 
 module.exports = {
   buildCorrectionMessages,
+  buildRecoveryIdentity,
   buildReviewMessages,
   buildTranslationMessages,
   createProviderCall,

@@ -44,12 +44,6 @@ const MANUALS = Object.freeze({
   }),
 } as const);
 
-const ZH_CN_GUIDES_PROTECTED_PATHS = Object.freeze([
-  'content/zh-CN/guides/tutorials/tools',
-  'generated/zh-CN/sidebars/tools.sidebar.js',
-  'generated/zh-CN/manifests/tools-translations.json',
-]);
-
 const ZH_CN_GUIDES_PUBLICATION_MANIFEST = 'generated/zh-CN/manifests/guides-source-publication.json';
 
 const GUIDES_CHECKPOINT_PATHS = Object.freeze([
@@ -108,9 +102,11 @@ function createGroup(site: SiteId, group: string): PublicationGroup {
   const value: PublicationGroup = {
     site,
     manuals: Object.freeze([...manuals]),
-    ownedPaths: ownedPaths(site, manuals),
+    ownedPaths: Object.freeze([
+      ...ownedPaths(site, manuals),
+      ...(site === 'zh-CN' && group === 'guides' ? ['generated/zh-CN/sidebars/tools.sidebar.js'] : []),
+    ]),
     ...(site === 'zh-CN' && group === 'guides' ? {
-      protectedPaths: ZH_CN_GUIDES_PROTECTED_PATHS,
       publicationManifest: ZH_CN_GUIDES_PUBLICATION_MANIFEST,
     } : {}),
   };
@@ -157,8 +153,9 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
     durableTranslationBatchSize: site === 'en' && groupName === 'guides' ? 30 : 0,
     checkpointPaths: distinct([
       ...group.ownedPaths,
+      ...preservedPaths,
       ...sourceSnapshots,
-      ...(groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
+      ...(site === 'en' && groupName === 'guides' ? GUIDES_CHECKPOINT_PATHS : []),
       ...(site === 'en' ? [ENGLISH_REFERENCE_CONTENT_MANIFEST] : []),
       ...(group.publicationManifest ? [group.publicationManifest] : []),
       ...(site === 'en' ? [`generated/en/manifests/lark-revisions/${groupName}.json`] : []),
@@ -169,4 +166,3 @@ export function resolvePublicationGroupWorkflow(site: SiteId, groupName: string)
 }
 
 export const publicationGroupOrder = GROUP_ORDER;
-export const zhCnGuidesProtectedPaths = ZH_CN_GUIDES_PROTECTED_PATHS;

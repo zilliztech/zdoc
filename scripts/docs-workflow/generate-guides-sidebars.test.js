@@ -8,7 +8,7 @@ const path = require('node:path')
 const test = require('node:test')
 const pluginPath = require.resolve('../../packages/docs-tooling/src/lark/index.js')
 const { generateSidebarTargets, writeSidebarPairTransactional } = require('../../packages/docs-tooling/src/lark/index.js')
-const { generateGuidesSidebars, parseArgs } = require('./generate-guides-sidebars')
+const { extractSidebarCategory, generateGuidesSidebars, parseArgs, sidebarOutputs } = require('./generate-guides-sidebars')
 
 function manualFixture(root = '.') {
   const guidesStage = 'tmp/docs-tooling/en/guides'
@@ -584,6 +584,38 @@ function writeSidebarOutputs(workspace) {
     fs.writeFileSync(path.join(workspace, output), 'module.exports = []\n')
   }
 }
+
+test('extractSidebarCategory returns one exact category and rejects missing or duplicate keys', () => {
+  const tools = { type: 'category', key: 'category:tutorials/tools', label: '工具', items: [] }
+  assert.deepEqual(extractSidebarCategory([{ type: 'category', key: 'root', items: [tools] }], tools.key), [tools])
+  assert.throws(() => extractSidebarCategory([], tools.key), /exactly one.*found 0/i)
+  assert.throws(() => extractSidebarCategory([tools, { ...tools }], tools.key), /exactly one.*found 2/i)
+})
+
+test('Chinese wrapper derives the Tools sidebar from the generated Cloud sidebar', () => {
+  const fixture = wrapperFixture()
+  const outputs = sidebarOutputs('zh-CN')
+  try {
+    generateGuidesSidebars({
+      ...fixture,
+      site: 'zh-CN',
+      spawnSync() {
+        for (const output of outputs.slice(0, 2)) {
+          fs.mkdirSync(path.join(fixture.workspace, path.dirname(output)), { recursive: true })
+        }
+        fs.writeFileSync(path.join(fixture.workspace, outputs[0]), "module.exports = [{type:'category',key:'category:tutorials/tools',label:'工具',items:[]}]\n")
+        fs.writeFileSync(path.join(fixture.workspace, outputs[1]), 'module.exports = []\n')
+        return { status: 0, signal: null }
+      },
+    })
+    delete require.cache[require.resolve(path.join(fixture.workspace, outputs[2]))]
+    assert.deepEqual(require(path.join(fixture.workspace, outputs[2])), [{
+      type: 'category', key: 'category:tutorials/tools', label: '工具', items: [],
+    }])
+  } finally {
+    fs.rmSync(fixture.workspace, { recursive: true, force: true })
+  }
+})
 
 test('wrapper spawns the exact combined Guides command and validates both outputs', () => {
   const fixture = wrapperFixture()

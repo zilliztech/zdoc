@@ -507,6 +507,66 @@ async function testBaseTablesRetriesPrematureClose() {
   }
 }
 
+async function testBaseRecordsRetriesDataNotReadyResponse() {
+  const originalLoad = Module._load;
+  const originalRetryDelay = process.env.FEISHU_RETRY_DELAY_MS;
+  process.env.FEISHU_RETRY_DELAY_MS = '1';
+  process.env.FEISHU_HOST = 'https://open.feishu.cn';
+
+  let attempts = 0;
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (request === 'node-fetch') {
+      return async function mockedFetch() {
+        attempts += 1;
+        return {
+          status: 200,
+          headers: { get: () => null },
+          text: async () => JSON.stringify(attempts === 1 ? {
+            code: 1254607,
+            msg: 'Data not ready, please try again later',
+          } : {
+            code: 0,
+            data: {
+              items: [{ record_id: 'record-1', fields: {} }],
+              has_more: false,
+            },
+          }),
+        };
+      };
+    }
+
+    return originalLoad.apply(this, arguments);
+  };
+
+  delete require.cache[require.resolve('./larkDocWriter')];
+  delete require.cache[require.resolve('./feishuFetch')];
+
+  try {
+    const WriterWithMockedFetch = require('./larkDocWriter');
+    const writer = new WriterWithMockedFetch('', 'base:*', 'default');
+    try {
+      const records = await writer.__base_records('tenant-token', {
+        table_id: 'tbl',
+        name: '数据表',
+      });
+
+      assert.equal(attempts, 2);
+      assert.deepEqual(records.map(record => record.record_id), ['record-1']);
+    } finally {
+      writer.destroy();
+    }
+  } finally {
+    Module._load = originalLoad;
+    if (originalRetryDelay === undefined) {
+      delete process.env.FEISHU_RETRY_DELAY_MS;
+    } else {
+      process.env.FEISHU_RETRY_DELAY_MS = originalRetryDelay;
+    }
+    delete require.cache[require.resolve('./larkDocWriter')];
+    delete require.cache[require.resolve('./feishuFetch')];
+  }
+}
+
 async function testCodeBlocksInferLanguageWhenFeishuOmitsLanguage() {
   const writer = createWriter([]);
   const python = await writer.__code(
@@ -819,6 +879,7 @@ async function run() {
   testSourceIndexSourcesAreClonedBeforeWriterMutation();
   testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics();
   await testBaseTablesRetriesPrematureClose();
+  await testBaseRecordsRetriesDataNotReadyResponse();
   console.log('larkDocWriter tests passed');
 }
 

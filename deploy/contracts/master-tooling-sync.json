@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "enabled": true,
+  "targetBranch": "dev",
+  "syncBranchPrefix": "automation/master-tooling-sync",
+  "validationWorkflow": "site-validation.yml",
+  "devOwnedPaths": [
+    ".translation-cache",
+    "config/generated",
+    "content",
+    "docs",
+    "docs-byoc",
+    "generated",
+    "i18n",
+    "packages/docs-tooling/src/lark/meta/assembly",
+    "packages/docs-tooling/src/lark/meta/reports",
+    "packages/docs-tooling/src/lark/meta/snapshots",
+    "reference",
+    "sidebar-overrides/en"
+  ],
+  "masterAuthoritativePaths": [
+    "config/reference-retirements.json"
+  ]
+}

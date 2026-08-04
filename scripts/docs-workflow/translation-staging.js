@@ -228,10 +228,10 @@ function commitAppliedBatch(options) {
   if (number > count) throw new Error('batchNumber cannot exceed batchCount')
   assertDetached(worktree)
   const originalHead = head(worktree)
-  const stagedBefore = git(worktree, ['diff', '--cached', '--name-only', '-z'], { buffer: true })
+  const stagedBefore = git(worktree, ['diff', '--cached', '--no-renames', '--name-only', '-z'], { buffer: true })
   if (stagedBefore.length) throw new Error('staging worktree index must be clean before committing; pre-staged changes are forbidden')
   const changed = new Set([
-    ...nulPaths(git(worktree, ['diff', '--name-only', '-z', 'HEAD', '--'], { buffer: true })),
+    ...nulPaths(git(worktree, ['diff', '--no-renames', '--name-only', '-z', 'HEAD', '--'], { buffer: true })),
     ...nulPaths(git(worktree, ['ls-files', '--others', '--exclude-standard', '-z'], { buffer: true })),
   ])
   const unrelated = [...changed].find(relative => !allowedMutation(relative))
@@ -241,7 +241,7 @@ function commitAppliedBatch(options) {
     git(worktree, ['reset', '--quiet'])
     throw new Error(`failed to stage applied batch: ${boundedMessage(error, 'git add failed')}`)
   }
-  const staged = nulPaths(git(worktree, ['diff', '--cached', '--name-only', '-z'], { buffer: true }))
+  const staged = nulPaths(git(worktree, ['diff', '--cached', '--no-renames', '--name-only', '-z'], { buffer: true }))
   if (staged.length !== changed.size || staged.some(relative => !changed.has(relative) || !allowedMutation(relative))) {
     git(worktree, ['reset', '--quiet'])
     throw new Error('staged batch paths do not match the validated translation changes')
