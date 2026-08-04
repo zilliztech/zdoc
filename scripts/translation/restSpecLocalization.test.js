@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict')
 const test = require('node:test')
-const { assembleRestDocument, collectLocalizableEntries, parseRestDocument, removeLocale, translateRestSpecs } = require('./restSpecLocalization')
+const { assembleRestDocument, collectLocalizableEntries, loadPrompt, parseRestDocument, promptNamesFor, removeLocale, translateRestSpecs } = require('./restSpecLocalization')
 
 const sourceSpecs = {
   summary: 'Search',
@@ -36,6 +36,16 @@ test('extracts supported prose without examples or existing locale data', () => 
   assert.deepEqual(entries.map(entry => entry.key), ['summary', 'description', 'description'])
   assert.ok(entries.every(entry => !entry.id.includes('example')))
   assert.ok(entries.every(entry => !entry.id.includes('x-i18n')))
+})
+
+test('REST Reviewer prompt declares the strict evidence severity and type enums', () => {
+  const prompt = loadPrompt(promptNamesFor('zh-CN-reference').restReview)
+  assert.match(prompt, /severity.*high.*medium.*low/is)
+  for (const type of [
+    'accuracy_omission', 'accuracy_addition', 'accuracy_mistranslation', 'product_claim',
+    'terminology', 'consistency', 'untranslated_prose', 'locale_style', 'mdx_structure',
+    'protected_content', 'link_or_path',
+  ]) assert.match(prompt, new RegExp(`\\b${type}\\b`))
 })
 
 test('adds Japanese locale data without changing the source specification', async () => {

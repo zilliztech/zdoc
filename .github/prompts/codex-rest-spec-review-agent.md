@@ -10,6 +10,9 @@ Return only one JSON object with exactly these keys:
 
 Each issue must contain exactly `severity`, `type`, `location`, `source_quote`, `draft_quote`, and `comment`.
 
+- `severity` must be exactly one of: `high`, `medium`, `low`.
+- `type` must be exactly one of: `accuracy_omission`, `accuracy_addition`, `accuracy_mistranslation`, `product_claim`, `terminology`, `consistency`, `untranslated_prose`, `locale_style`, `mdx_structure`, `protected_content`, `link_or_path`.
+
 Rules:
 - `source_quote` and `draft_quote` must be non-empty contiguous substrings from the same entry.
 - `location` must contain that entry's exact `id`.
