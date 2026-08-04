@@ -171,7 +171,7 @@ describe('link-check reporting', () => {
       ],
     }));
     expect(markdown).toBe([
-      '# Link Checks',
+      '# Documentation Site Change & Link Health Report',
       '',
       'Generated: 2026-07-02T00:00:00.000Z',
       'Workflow run: https://github.com/zilliztech/zdoc/actions/runs/1',
@@ -193,28 +193,103 @@ describe('link-check reporting', () => {
       '',
       '## Confirmed Expired External URLs',
       '',
-      '- https://expired.example.com (HTTP 404; pages: docs/a.html, docs/b.html; total pages: 2)',
+      '> These URLs returned HTTP 404 or 410. They are likely removed or permanently unavailable and should be corrected, replaced, or removed.',
+      '',
+      '- https://expired.example.com',
+      '  - Result: HTTP 404',
+      '  - Referring pages: docs/a.html, docs/b.html',
+      '  - Pages shown: 2 of 2',
       '',
       '## Blocked External URLs',
       '',
-      '- https://blocked.example.com (HTTP 403; pages: docs/c.html; total pages: 1)',
+      '> These URLs returned HTTP 401 or 403. The scanner was denied access, so this does not prove the links are broken; review them only if users also cannot open them.',
+      '',
+      '- https://blocked.example.com',
+      '  - Result: HTTP 403',
+      '  - Referring pages: docs/c.html',
+      '  - Pages shown: 1 of 1',
       '',
       '## Transient External URLs',
       '',
-      '- https://transient.example.com (Error: connection reset; pages: docs/d.html; total pages: 1)',
+      '> These URLs failed because of network errors, timeouts, or retryable HTTP responses such as 408, 425, 429, or 5xx. They are not confirmed broken and should be checked again in a later run.',
+      '',
+      '- https://transient.example.com',
+      '  - Result: Error: connection reset',
+      '  - Referring pages: docs/d.html',
+      '  - Pages shown: 1 of 1',
       '',
       '## Other External URL Responses',
       '',
-      '- https://other.example.com (HTTP 451; pages: docs/e.html; total pages: 1)',
+      '> These URLs returned non-success responses that are not classified as expired, blocked, or transient. Review them manually to determine whether the response is expected.',
+      '',
+      '- https://other.example.com',
+      '  - Result: HTTP 451',
+      '  - Referring pages: docs/e.html',
+      '  - Pages shown: 1 of 1',
       '',
       '## Deleted Routes',
+      '',
+      '> These routes exist in the production sitemap but are absent from the current `dev` build. They may represent intended removals or renames, or unexpected content loss.',
       '',
       '- https://docs.zilliz.com/docs/old/',
       '',
       '## Added Routes',
       '',
+      '> These routes exist in the current `dev` build but not in the production sitemap. They are expected to become public after deployment, unless they represent unintended new routes.',
+      '',
       '- https://docs.zilliz.com/docs/new/',
     ].join('\n'));
+  });
+
+  it('renders every unique URL and route without folding or truncation', () => {
+    const statuses = {expired: 404, blocked: 403, transient: 503, other: 451} as const;
+    const observations = Object.entries(statuses).flatMap(([classification, status]) => (
+      Array.from({length: 12}, (_, index) => ({
+        url: `https://${classification}-${index}.example.com`,
+        pages: [`docs/${classification}-${index}.html`],
+        status,
+        error: null,
+      }))
+    ));
+    const remoteUrls = Array.from({length: 12}, (_, index) => `https://docs.zilliz.com/docs/deleted-${index}/`);
+    const localUrls = Array.from({length: 12}, (_, index) => `https://docs.zilliz.com/docs/added-${index}/`);
+    const markdown = renderLinkCheckMarkdown(buildLinkCheckReport({
+      generatedAt: '2026-07-02T00:00:00.000Z',
+      toolingSha: 'a'.repeat(40),
+      contentSha: 'b'.repeat(40),
+      workflowRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/1',
+      remoteSitemapSource: 'https://docs.zilliz.com/sitemap.xml',
+      localSitemapSource: 'build/en/sitemap.xml',
+      remoteUrls,
+      localUrls,
+      checkedExternalLinks: observations.map(({url}) => ({url})),
+      observations,
+    }));
+
+    for (const item of observations) expect(markdown).toContain(`- ${item.url}\n`);
+    for (const url of [...remoteUrls, ...localUrls]) expect(markdown).toContain(`- ${url}`);
+    expect(markdown).not.toContain('...and');
+    expect(markdown).not.toContain('<details>');
+    expect(markdown).not.toContain('</details>');
+  });
+
+  it('keeps explanations visible when detailed sections are empty', () => {
+    const markdown = renderLinkCheckMarkdown(buildLinkCheckReport({
+      generatedAt: '2026-07-02T00:00:00.000Z',
+      toolingSha: null,
+      contentSha: null,
+      workflowRunUrl: null,
+      remoteSitemapSource: 'https://docs.zilliz.com/sitemap.xml',
+      localSitemapSource: 'build/en/sitemap.xml',
+      remoteUrls: ['https://docs.zilliz.com/docs/shared/'],
+      localUrls: ['https://docs.zilliz.com/docs/shared/'],
+      checkedExternalLinks: [],
+      observations: [],
+    }));
+
+    expect(markdown.match(/^- None$/gmu)).toHaveLength(6);
+    expect(markdown).toContain('These URLs returned HTTP 404 or 410.');
+    expect(markdown).toContain('These routes exist in the current `dev` build but not in the production sitemap.');
   });
 
   it('rejects a missing rendered-site build directory', async () => {
