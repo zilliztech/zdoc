@@ -212,6 +212,11 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (let i = 0; i < manifest.deletions.length; i++) {
     for (let j = i + 1; j < manifest.deletions.length; j++) if (pathsConflict(manifest.deletions[i], manifest.deletions[j])) throw new Error('Ambiguous ancestor deletion paths');
   }
+  if (manifest.stage === 'source') {
+    for (const preservedPath of group.preservedPaths) {
+      if (!filePaths.includes(preservedPath)) throw new Error(`Source checkpoint is missing declared preserved path: ${preservedPath}`);
+    }
+  }
   if (expected.group !== undefined && expected.group !== manifest.group) throw new Error('Expected group mismatch');
   if (expected.masterSha !== undefined && expected.masterSha !== manifest.masterSha) throw new Error('Expected master SHA mismatch');
   if (expected.devBaselineSha !== undefined && expected.devBaselineSha !== manifest.devBaselineSha) throw new Error('Expected dev baseline SHA mismatch');

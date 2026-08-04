@@ -511,7 +511,7 @@ function stageExistingSidebar(context: CommandContext): void {
   writeSecureAtomicFile(context.repositoryRoot, staged, readSecureFile(context.repositoryRoot, sourcePath, 'Publication sidebar source'), 'Staged publication sidebar');
 }
 
-function stagePreservedPublicationFiles(context: CommandContext): void {
+function stagePreservedPublicationFiles(context: CommandContext, replace = false): void {
   const outputPath = publicationStagePaths(context).outputPath;
   for (const relativePath of context.publication.preservedFiles ?? []) {
     const sourcePath = resolveOwnedRepositoryPath(
@@ -523,7 +523,13 @@ function stagePreservedPublicationFiles(context: CommandContext): void {
       throw new Error(`Preserved publication file is missing or is not a regular file: ${context.publication.outputDir}/${relativePath}`);
     }
     const targetPath = resolveOwnedRepositoryPath(outputPath, relativePath, 'Preserved staged publication file');
-    writeSecureAtomicFile(context.repositoryRoot, targetPath, readSecureFile(context.repositoryRoot, sourcePath, 'Preserved publication source'), 'Preserved staged publication file');
+    writeSecureAtomicFile(
+      context.repositoryRoot,
+      targetPath,
+      readSecureFile(context.repositoryRoot, sourcePath, 'Preserved publication source'),
+      'Preserved staged publication file',
+      {replace},
+    );
   }
 }
 
@@ -854,6 +860,7 @@ async function executeParsedDocsToolingCommand(
     if (dependencies.fetch) await dependencies.fetch(fetchContext);
     else await defaultFetch(fetchContext, dependencies.spawnSync ?? nodeSpawnSync, environment);
     if (publicationDiagnostics) {
+      stagePreservedPublicationFiles(fetchContext, true);
       transformStagedMarkdown(fetchContext, selectedAdapters);
       await validatePublicationStage(fetchContext);
     }

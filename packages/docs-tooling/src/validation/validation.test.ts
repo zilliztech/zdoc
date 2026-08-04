@@ -23,6 +23,26 @@ function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-validation-'));
 }
 
+function seedEnglishPythonLanding(repositoryRoot: string): void {
+  const landing = path.join(repositoryRoot, 'content/en/reference/api/python/python/python.md');
+  mkdirSync(path.dirname(landing), {recursive: true});
+  writeFileSync(landing, '# Python landing\n');
+}
+
+function seedEnglishRestPreservedFiles(repositoryRoot: string): void {
+  const output = path.join(repositoryRoot, 'content/en/reference/api/restful/restful');
+  for (const [relativePath, contents] of [
+    ['restful.md', '# REST API\n'],
+    ['versioning.md', '# Versioning\n'],
+    ['v1/error-codes.md', '# V1 errors\n'],
+    ['v2/error-codes-v2.md', '# V2 errors\n'],
+  ] as const) {
+    const target = path.join(output, relativePath);
+    mkdirSync(path.dirname(target), {recursive: true});
+    writeFileSync(target, contents);
+  }
+}
+
 function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
   if (value && typeof value === 'object') {
@@ -165,6 +185,31 @@ describe('docs-tooling CLI boundary', () => {
       .toBe('# Site-owned home\n');
   });
 
+  it('restores a declared preserved Reference landing after generator cleanup', async () => {
+    const repositoryRoot = temporaryRoot();
+    const landing = 'content/en/reference/api/python/python/python.md';
+    const liveLanding = path.join(repositoryRoot, landing);
+    mkdirSync(path.dirname(liveLanding), {recursive: true});
+    writeFileSync(liveLanding, '# Hand-authored Python landing\n');
+    const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
+      const paths = publicationStagePaths(context);
+      expect(readFileSync(path.join(paths.outputPath, 'python.md'), 'utf8')).toBe('# Hand-authored Python landing\n');
+      rmSync(paths.outputPath, {recursive: true, force: true});
+      mkdirSync(paths.outputPath, {recursive: true});
+      writeFileSync(path.join(paths.outputPath, 'generated.md'), '# Generated\n');
+      mkdirSync(path.dirname(paths.sidebarPath), {recursive: true});
+      writeFileSync(paths.sidebarPath, 'module.exports = []\n');
+    };
+
+    await executeDocsToolingCommand(
+      ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'],
+      {repositoryRoot, fetch},
+    );
+
+    expect(readFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/python', landing), 'utf8'))
+      .toBe('# Hand-authored Python landing\n');
+  });
+
   it('uses the selected Chinese adapters for staged Markdown and validates Aliyun through injection', async () => {
     const repositoryRoot = temporaryRoot();
     const aliyunOssValidator = {validatePublication: vi.fn().mockResolvedValue(undefined)};
@@ -295,6 +340,7 @@ describe('docs-tooling CLI boundary', () => {
 
   it('applies REST replacements only to the REST manual and leaves English publication unchanged', async () => {
     const repositoryRoot = temporaryRoot();
+    seedEnglishPythonLanding(repositoryRoot);
     mkdirSync(path.join(repositoryRoot, 'content/zh-CN/reference/api/restful/restful'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'content/zh-CN/reference/api/restful/restful/restful.md'), '# REST API\n');
     const fetch = (context: Parameters<NonNullable<Parameters<typeof executeDocsToolingCommand>[1]>['fetch']>[0]) => {
@@ -515,6 +561,7 @@ describe('docs-tooling CLI boundary', () => {
 
   it('serializes concurrent direct CLI commands through the canonical site and group fence', async () => {
     const repositoryRoot = temporaryRoot();
+    seedEnglishPythonLanding(repositoryRoot);
     const argv = ['fetch', '--manual', 'python', '--group', 'python', '--site', 'en', '--stage', 'tmp/docs-tooling/en/python'];
     let releaseFirst!: () => void;
     const firstBlocked = new Promise<void>(resolve => { releaseFirst = resolve; });
@@ -567,6 +614,7 @@ describe('docs-tooling CLI boundary', () => {
 
   it('dispatches remote Lark sources to the moved generator with explicit identity and stage', async () => {
     const repositoryRoot = temporaryRoot();
+    seedEnglishPythonLanding(repositoryRoot);
     const spawnSync = vi.fn((command: string, args: readonly string[], options: {cwd: string}) => {
       expect(command).toBe(process.execPath);
       expect(args[0]).toBe(path.join(repositoryRoot, 'packages/docs-tooling/src/lark/cli.js'));
@@ -609,6 +657,7 @@ describe('docs-tooling CLI boundary', () => {
 
   it('fetches the full ordered fallback source chain before rendering the active SDK publication', async () => {
     const repositoryRoot = temporaryRoot();
+    seedEnglishPythonLanding(repositoryRoot);
     const calls: readonly string[][] = [];
     const spawnSync = vi.fn((_command: string, args: readonly string[]) => {
       (calls as string[][]).push([...args]);
@@ -731,7 +780,7 @@ describe('docs-tooling CLI boundary', () => {
     expect(calls[2]).toContain('--reuse-source');
   });
 
-  it('isolates canonical Tools from the Chinese Guides source publication stage', async () => {
+  it('lets the Chinese Guides source replace live Tools content', async () => {
     const repositoryRoot = temporaryRoot();
     const liveOutput = path.join(repositoryRoot, 'content/zh-CN/guides/tutorials');
     const liveSidebar = path.join(repositoryRoot, 'generated/zh-CN/sidebars/guides.sidebar.js');
@@ -752,10 +801,10 @@ describe('docs-tooling CLI boundary', () => {
         repositoryRoot,
         async fetch(fetchContext) {
           const staged = publicationStagePaths(fetchContext);
-          expect(readFileSync(path.join(staged.outputPath, 'tools/translated.md'))).toEqual(translatedTools);
-          writeFileSync(path.join(staged.outputPath, 'tools/translated.md'), '# generator overwrite\n');
-          writeFileSync(path.join(staged.outputPath, 'tools/generator-only.md'), '# generator-owned\n');
+          expect(existsSync(path.join(staged.outputPath, 'tools/translated.md'))).toBe(false);
           mkdirSync(staged.outputPath, {recursive: true});
+          mkdirSync(path.join(staged.outputPath, 'tools'), {recursive: true});
+          writeFileSync(path.join(staged.outputPath, 'tools/source-owned.md'), '# source-owned Tools\n');
           writeFileSync(path.join(staged.outputPath, 'terraform-provider.md'), '# 旧中文来源\n');
           writeFileSync(path.join(staged.outputPath, 'keep.md'), '# 中文产品文档\n');
           mkdirSync(path.dirname(staged.sidebarPath), {recursive: true});
@@ -768,18 +817,21 @@ describe('docs-tooling CLI boundary', () => {
     );
 
     const staged = publicationStagePaths(context);
-    expect(existsSync(path.join(staged.outputPath, 'terraform-provider.md'))).toBe(false);
+    expect(readFileSync(path.join(staged.outputPath, 'terraform-provider.md'), 'utf8')).toContain('旧中文来源');
     expect(readFileSync(path.join(staged.outputPath, 'keep.md'), 'utf8')).toContain('中文产品文档');
-    expect(readFileSync(path.join(staged.outputPath, 'tools/translated.md'))).toEqual(translatedTools);
-    expect(existsSync(path.join(staged.outputPath, 'tools/generator-only.md'))).toBe(false);
+    expect(readFileSync(path.join(staged.outputPath, 'tools/source-owned.md'), 'utf8')).toContain('source-owned Tools');
+    expect(existsSync(path.join(staged.outputPath, 'tools/translated.md'))).toBe(false);
     const require = createRequire(import.meta.url);
     delete require.cache[require.resolve(staged.sidebarPath)];
-    expect(require(staged.sidebarPath)).toEqual([{type: 'doc', id: 'tutorials/keep'}]);
+    expect(require(staged.sidebarPath)).toEqual([
+      {type: 'category', label: '工具', items: [{type: 'doc', id: 'tutorials/terraform-provider'}]},
+      {type: 'doc', id: 'tutorials/keep'},
+    ]);
 
     const replace = vi.fn(async options => {
       const contentReplacement = options.replacements.find(replacement => replacement.target === 'content/zh-CN/guides/tutorials');
       expect(contentReplacement).toBeDefined();
-      expect(readFileSync(path.join(contentReplacement!.source, 'tools/translated.md'))).toEqual(translatedTools);
+      expect(readFileSync(path.join(contentReplacement!.source, 'tools/source-owned.md'), 'utf8')).toContain('source-owned Tools');
     });
     await executeDocsToolingCommand(
       ['publish', '--manual', 'guides', '--group', 'guides', '--site', 'zh-CN', '--stage', 'tmp/docs-tooling/zh-CN/guides'],
@@ -825,6 +877,7 @@ describe('docs-tooling CLI boundary', () => {
 
   it('propagates remote generator failures without falling back to a cache copy', async () => {
     const repositoryRoot = temporaryRoot();
+    seedEnglishPythonLanding(repositoryRoot);
     const spawnSync = vi.fn(() => ({status: 7}));
 
     await expect(executeDocsToolingCommand(
@@ -882,8 +935,7 @@ describe('docs-tooling CLI boundary', () => {
 
   it('dispatches the English REST source to the moved REST generator', async () => {
     const repositoryRoot = temporaryRoot();
-    mkdirSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful'), {recursive: true});
-    writeFileSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful/restful.md'), '# REST API\n');
+    seedEnglishRestPreservedFiles(repositoryRoot);
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
     mkdirSync(path.join(repositoryRoot, 'generated/en/sidebars'), {recursive: true});
@@ -1058,8 +1110,7 @@ describe('docs-tooling CLI boundary', () => {
 
   it('clears stale REST stages before generation and leaves failures unpublishable', async () => {
     const repositoryRoot = temporaryRoot();
-    mkdirSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful'), {recursive: true});
-    writeFileSync(path.join(repositoryRoot, 'content/en/reference/api/restful/restful/restful.md'), '# REST API\n');
+    seedEnglishRestPreservedFiles(repositoryRoot);
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
     mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'), {recursive: true});
