@@ -975,6 +975,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         zhAssemble?.with?.publication_unit_key !== 'source/guides-zh-CN') {
       errors.push('fetch-docs.yml: Chinese Guides must use a complete site-qualified producer lane bound to source/guides-zh-CN')
     }
+    const guidesAssemblyPermissions = ['produce_guides', 'produce_zh_guides']
+      .map(jobName => caller?.jobs?.[jobName]?.permissions)
+    if (guidesAssemblyPermissions.some(permissions => permissions?.actions !== 'write' || permissions?.contents !== 'read' || Object.keys(permissions || {}).length !== 2)) {
+      errors.push('fetch-docs.yml: Guides assembly callers must grant actions: write and contents: read')
+    }
     const handoffJob = caller?.jobs?.prepare_translation_handoff
     const dispatchJob = caller?.jobs?.dispatch_translations
     const handoffNeeds = Array.isArray(handoffJob?.needs) ? handoffJob.needs : []

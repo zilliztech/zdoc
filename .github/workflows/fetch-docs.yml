@@ -241,6 +241,9 @@ jobs:
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
 
   produce_guides:
+    permissions:
+      actions: write
+      contents: read
     needs: [prepare, produce_guides_sources, render_guides_tables]
     if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides_sources.outputs.status == 'artifact_ready' && (needs.render_guides_tables.result == 'success' || needs.render_guides_tables.result == 'skipped') }}
     uses: ./.github/workflows/_assemble-guides.yml
@@ -302,6 +305,9 @@ jobs:
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
 
   produce_zh_guides:
+    permissions:
+      actions: write
+      contents: read
     needs: [prepare, produce_zh_guides_sources, render_zh_guides_tables]
     if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides_sources.outputs.status == 'artifact_ready' && (needs.render_zh_guides_tables.result == 'success' || needs.render_zh_guides_tables.result == 'skipped') }}
     uses: ./.github/workflows/_assemble-guides.yml

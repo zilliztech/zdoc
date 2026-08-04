@@ -2101,6 +2101,29 @@ test('Chinese Guides remains a direct site-qualified source lane', () => {
   assert.equal(workflow.jobs.publish_zh_guides, undefined)
 })
 
+test('Fetch grants both reusable Guides assembly jobs their exact cache permission contract', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  for (const job of ['produce_guides', 'produce_zh_guides']) {
+    assert.deepEqual(workflow.jobs[job].permissions, {actions: 'write', contents: 'read'}, job)
+  }
+})
+
+test('workflow policy rejects a Guides assembly caller that cannot satisfy reusable permissions', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-permissions-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    fs.writeFileSync(file, original.replace(
+      '  produce_guides:\n    permissions:\n      actions: write\n      contents: read\n',
+      '  produce_guides:\n    permissions:\n      actions: read\n      contents: read\n',
+    ))
+    assert.ok(validateWorkflowPolicies(directory).some(error => error.includes('Guides assembly callers must grant actions: write and contents: read')))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('source aggregate reports downstream handoff and downloads Guides reports before card collection', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const steps = workflow.jobs.aggregate.steps
