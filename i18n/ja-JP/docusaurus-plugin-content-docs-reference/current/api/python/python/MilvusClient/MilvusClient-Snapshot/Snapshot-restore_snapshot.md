@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はスナップショットを対象 collection に復元します。復元は非同期で実行されるため、進行状況の監視には `getrestoresnapshotstate()` を使用します。 | Python | MilvusClient"
+description: "この操作はスナップショットをターゲット collection に復元します。復元は非同期で実行されます — 進行状況の監視には `getrestoresnapshotstate()` を使用します。 | Python | MilvusClient"
 type: docx
 token: I2OZdk40IomugOx9MTqcooVcnEf
 sidebar_position: 8
@@ -15,10 +15,10 @@ keywords:
   - Deep Learning
   - ナレッジベース
   - 自然言語処理
-  - AIチャットボット
+  - AI チャットボット
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - restore_snapshot()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # restore_snapshot()
 
-この操作はスナップショットを対象 collection に復元します。復元は非同期で実行されるため、進行状況の監視には `get_restore_snapshot_state()` を使用します。
+この操作はスナップショットをターゲット collection に復元します。復元は非同期で実行されます — 進行状況の監視には `get_restore_snapshot_state()` を使用します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 restore_snapshot(
@@ -45,35 +45,35 @@ restore_snapshot(
 ) -> int
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-スナップショットの復元先となる対象 collection の名前です。
+- **collection_name** (*str*) -<br/>
+  **[必須]**<br/>
+  スナップショットの復元先となるターゲット collection の名前。
 
-- **snapshot_name** (*str*) -
-**[REQUIRED]**
-復元するスナップショットの名前です。
+- **snapshot_name** (*str*) -<br/>
+  **[必須]**<br/>
+  復元するスナップショットの名前。
 
-- **rewrite_data** (*bool*) -
-対象 collection 内の既存データを上書きするかどうかを指定します。デフォルトは *False* です。
+- **rewrite_data** (*bool*) -<br/>
+  ターゲット collection 内の既存データを上書きするかどうか。デフォルトは *False* です。
 
-- **timeout** (*Optional[float]*) -
-RPC に許可する秒単位の任意の継続時間です。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許可する秒単位の任意の時間。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *int*
 
-復元ジョブ ID。`get_restore_snapshot_state()` とともにこの ID を使用して、復元の進行状況を追跡します。
+復元ジョブ ID。この ID を `get_restore_snapshot_state()` とともに使用して、復元の進行状況を追跡します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
-    スナップショットが存在しない場合、対象 collection が利用できない場合、または操作に失敗した場合。
+    スナップショットが存在しない場合、ターゲット collection が利用できない場合、または操作が失敗した場合。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

@@ -15,10 +15,10 @@ keywords:
   - 情報検索
   - 次元削減
   - hnsw algorithm
-  - vector similarity search
+  - ベクトル類似検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - drop_snapshot()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作はスナップショットを完全に削除します。削除されると、スナップショットデータは復元できません。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 drop_snapshot(
@@ -43,26 +43,26 @@ drop_snapshot(
 ) -> None
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **snapshot_name** (*str*) -
-**[必須]**
-削除するスナップショットの名前。
+- **snapshot_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  削除するスナップショットの名前。
 
-- **timeout** (*Optional[float]*) -
-RPC の実行に許可する任意の時間（秒）。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC の実行に許可するタイムアウト時間（秒単位）。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *None*
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusException**
 
-    スナップショットが存在しない場合、または操作が失敗した場合。
+    スナップショットが存在しないか、操作が失敗した場合。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、ソース collection、partition 名、作成タイムスタンプ、ストレージの場所など、特定の snapshot に関する詳細なメタデータを取得します。 | Python | MilvusClient"
+description: "この操作は、ソース collection、partition 名、作成タイムスタンプ、保存場所を含む、特定の snapshot に関する詳細なメタデータを取得します。 | Python | MilvusClient"
 type: docx
 token: GF0yd9S4RoImivxbIlPcicEynQb
 sidebar_position: 2
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe_snapshot()
 
-この操作は、ソース collection、partition 名、作成タイムスタンプ、ストレージの場所など、特定の snapshot に関する詳細なメタデータを取得します。
+この操作は、ソース collection、partition 名、作成タイムスタンプ、保存場所を含む、特定の snapshot に関する詳細なメタデータを取得します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_snapshot(
@@ -43,22 +43,22 @@ describe_snapshot(
 ) -> SnapshotInfo
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **snapshot_name** (*str*) -
-**[REQUIRED]**
-記述対象の snapshot の名前。
+- **snapshot_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  説明対象の snapshot の名前。
 
-- **timeout** (*Optional[float]*) -
-RPC に許可される秒単位のオプションの時間。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許可する秒単位の任意の時間。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *SnapshotInfo*
 
-**戻り値:**
+**RETURNS:**
 
-以下のフィールドを含む snapshot メタデータの dataclass:
+以下のフィールドを持つ snapshot メタデータを含むデータクラス:
 
 ```python
 {
@@ -71,7 +71,7 @@ RPC に許可される秒単位のオプションの時間。
 }
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **name** (*str*) - 
 
@@ -87,7 +87,7 @@ RPC に許可される秒単位のオプションの時間。
 
 - **partition_names** (*List[str]*) - 
 
-    snapshot に含まれる partition 名のリスト。
+    snapshot に含まれる partition 名の一覧。
 
 - **create_ts** (*int*) - 
 
@@ -95,15 +95,15 @@ RPC に許可される秒単位のオプションの時間。
 
 - **s3_location** (*str*) - 
 
-    snapshot データの S3 ストレージの場所。
+    snapshot データの S3 保存場所。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusException**
 
-    snapshot が存在しないか、操作が失敗した場合。
+    snapshot が存在しない場合、または操作が失敗した場合。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

@@ -15,7 +15,7 @@ keywords:
   - managed milvus
   - Serverless vector database
   - milvus open source
-  - milvus はどのように動作するか
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
@@ -45,12 +45,12 @@ get_restore_snapshot_state(
 
 **PARAMETERS:**
 
-- **job_id** (*int*) -
-**[REQUIRED]**
-`restore_snapshot()` によって返される restore ジョブ ID。
+- **job_id** (*int*) -<br/>
+  **[REQUIRED]**<br/>
+  `restore_snapshot()` によって返される restore ジョブ ID。
 
-- **timeout** (*Optional[float]*) -
-RPC に許可する秒単位のオプションの時間。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許可するオプションの時間（秒単位）。
 
 **RETURN TYPE:**
 
@@ -58,7 +58,7 @@ RPC に許可する秒単位のオプションの時間。
 
 **RETURNS:**
 
-以下のフィールドを含む restore ジョブ情報を格納した dataclass:
+以下のフィールドを含む、restore ジョブ情報を格納した dataclass:
 
 ```python
 {
@@ -82,11 +82,11 @@ RPC に許可する秒単位のオプションの時間。
 
 - **snapshot_name** (*str*) -
 
-    復元対象の snapshot 名。
+    復元中の snapshot 名。
 
 - **db_name** (*str*) -
 
-    対象データベース名。
+    対象 database 名。
 
 - **collection_name** (*str*) -
 
@@ -106,11 +106,11 @@ RPC に許可する秒単位のオプションの時間。
 
 - **start_time** (*int*) -
 
-    ミリ秒単位の開始タイムスタンプ。
+    開始タイムスタンプ（ミリ秒）。
 
 - **time_cost** (*int*) -
 
-    ミリ秒単位の所要時間。
+    所要時間（ミリ秒）。
 
 **EXCEPTIONS:**
 

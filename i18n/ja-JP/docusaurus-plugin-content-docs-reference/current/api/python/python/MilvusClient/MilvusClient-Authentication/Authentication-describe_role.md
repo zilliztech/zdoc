@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、role に付与された privileges と role の説明を返します。 | Python | MilvusClient"
+description: "レスポンスでロールの説明が公開されるようになりました。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。中間ラッパーフィールドは公開 describerole() レスポンス辞書に変換されました。 | Python | MilvusClient"
 type: docx
 token: TYczdPuSNoV9lExR8iCcNIg9nGe
 sidebar_position: 5
@@ -31,49 +31,56 @@ import Admonition from '@theme/Admonition';
 
 # describe_role()
 
-この操作は、role に付与された privileges と role の説明を返します。
+レスポンスでロールの説明が公開されるようになりました。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。中間ラッパーフィールドは公開 describe_role() レスポンス辞書に変換されました。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_role(
     role_name: str,
-    timeout: Optional[float] = None
+    timeout: Optional[float] = None,
+    **kwargs,
 ) -> dict
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **role_name** (*str*) -
+- **role_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  説明を取得するロールの名前。
 
-    **[必須]**
+- **timeout** (*Optional[float]*) -<br/>
+  デフォルト: `None`<br/>
+  RPC の完了を待機する最大時間（秒単位）。
 
-    説明対象の role の名前。
+- **kwargs** (*Any*) -<br/>
+  追加のリクエストコンテキストオプション。
 
-- **timeout** (*float*) -
-
-    この操作のタイムアウト時間。
-
-**戻り値の型:**
+**RETURN TYPE:**
 
 *dict*
 
-`role`、`description`、`privileges` を含む辞書。
+**RETURNS:**
 
-**例外:**
+ロール、説明、権限を含む辞書。
 
-- **MilvusException**
+**EXCEPTIONS:**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-- **ParamError**
+## Examples\{#examples}
 
-    パラメーター値が無効な場合に、この例外が発生します。
-
-## 例\{#examples}
+ロール記述の使用方法を示します。
 
 ```python
-role_info = client.describe_role(role_name="analytics_reader")
-print(role_info["description"])
-print(role_info["privileges"])
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client.create_user("analyst", "Milvus123", description="Analytics account")
+client.update_user("analyst", description="Updated analytics account")
+client.create_role("read_only", description="Read-only role")
+client.alter_role("read_only", description="Updated read-only role")
+print(client.describe_user("analyst"))
+print(client.describe_role("read_only"))
 ```

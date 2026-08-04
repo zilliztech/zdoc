@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VolumeBulkWriter インスタンスは、生データを Zilliz Cloud が理解できる形式にローカルで書き換え、その後、生成されたファイルを Zilliz Cloud 内のリモート volume にアップロードします。 | Python"
+description: "接続およびローカル出力パスの動作を追加します。 | Python"
 type: docx
 token: L9ozd33RroJ0NZxHUc0czKjpnbh
 sidebar_position: 3
@@ -31,13 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-VolumeBulkWriter インスタンスは、生データを Zilliz Cloud が理解できる形式にローカルで書き換え、その後、生成されたファイルを Zilliz Cloud 内のリモート volume にアップロードします。
+接続およびローカル出力パスの動作を追加します。
 
-```python
-class pymilvus.bulk_writer.VolumeBulkWriter(LocalBulkWriter)
-```
-
-## Constructor\{#constructor}
+## リクエスト構文\{#request-syntax}
 
 ```python
 VolumeBulkWriter(
@@ -49,109 +45,77 @@ VolumeBulkWriter(
     chunk_size: int = 1024 * MB,
     file_type: BulkFileType = BulkFileType.PARQUET,
     config: Optional[dict] = None,
+    connect_type: ConnectType = ConnectType.AUTO,
     **kwargs,
 )
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **schema** (*[CollectionSchema](./MilvusClient-CollectionSchema)*) -
+- **schema** (*CollectionSchema*) -<br/>
+  **[REQUIRED]**<br/>
+  行を検証し、bulk ファイルを生成するために使用される collection スキーマ。
 
-    **[REQUIRED]**
+- **remote_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  コミットされたファイルのアップロード先となる、対象 volume 内のディレクトリ。
 
-    書き換えられたデータのインポート先となるターゲット collection のスキーマです。
+- **cloud_endpoint** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイント。
 
-- **remote_path** (*str*) -
+- **api_key** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  Zilliz Cloud で認証するために使用される API key。
 
-    **[REQUIRED]**
+- **volume_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  対象の Zilliz Cloud volume の名前。
 
-    書き換えられたデータを格納する、リモート volume 内のディレクトリへのパスです。
+- **chunk_size** (*int*) -<br/>
+  デフォルト: `1024 * MB`<br/>
+  writer が新しいファイルの作成を開始する前の、ローカル chunk の最大サイズ（バイト単位）。
 
-- **cloud_endpoint** (*str*) -
+- **file_type** ([BulkFileType](./DataImport-BulkFileType)) -<br/>
+  デフォルト: `BulkFileType.PARQUET`<br/>
+  writer によって生成される bulk ファイル形式。
 
-    **[REQUIRED]**
+- **config** (*Optional[dict]*) -<br/>
+  デフォルト: `None`<br/>
+  オプションの writer 設定。
 
-    Zilliz Cloud インスタンスのエンドポイント URL です。
+- **connect_type** (*ConnectType*) -<br/>
+  デフォルト: `ConnectType.AUTO`<br/>
+  volume 操作に使用される接続モード。
 
-- **api_key** (*str*) -
+- **kwargs** (*Any*) -<br/>
+  `LocalBulkWriter` に転送される追加オプション。
 
-    **[REQUIRED]**
+**戻り値の型:**
 
-    Zilliz Cloud インスタンスで認証するために使用される API key です。
+*VolumeBulkWriter*
 
-- **volume_name** (*str*) -
+**戻り値:**
 
-    **[REQUIRED]**
+bulk ファイルをローカルにステージングし、コミットされたファイルを設定済みの Zilliz Cloud volume にアップロードする writer。
 
-    ファイルのアップロード先となる、Zilliz Cloud 内のリモート volume の名前です。
+**例外:**
 
-- **chunk_size** (*int*) -
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-    ファイルセグメントの最大サイズです。
+## 例\{#examples}
 
-    生データの書き換え中、Zilliz Cloud はデータをバッチに分割し、各バッチを個別のファイルに保存します。
-
-    デフォルト値はバイト単位で 1,073,741,824、つまり 1 GB です。
-
-- **file_type** (*[BulkFileType](./DataImport-BulkFileType)*) -
-
-    出力ファイルのファイルタイプです。
-
-    デフォルト値は *BulkFileType.PARQUET* です。
-
-- **config** (*dict*) -
-
-    bulk writer 用のオプション設定パラメーターです。
-
-**Notes**
-
-VolumeBulkWriter はコンテキストマネージャーであり、`with` ステートメントで使用できます。コンテキストを抜けると、ローカルの作業ディレクトリはクリーンアップされます。
-
-## Properties\{#properties}
-
-以下は VolumeBulkWriter クラスのプロパティです。
-
-- **data_path** (*str*)
-
-    アップロードされたファイルが保存されているリモートパスを返します。
-
-- **batch_files** (*List[List[str]]*)
-
-    アップロードされたファイルバッチのリストを返します。各内部リストには、1 回の commit でアップロードされたファイルのリモートパスが含まれます。
-
-## Examples\{#examples}
+この例では、VolumeBulkWriter の使用方法を示します。
 
 ```python
-from pymilvus.bulk_writer.volume_bulk_writer import VolumeBulkWriter
-from pymilvus import CollectionSchema, FieldSchema, DataType
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-# Define collection schema
-fields = [
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=False),
-    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=128),
-]
-schema = CollectionSchema(fields, "example_collection")
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-# Create VolumeBulkWriter
-with VolumeBulkWriter(
-    schema=schema,
-    remote_path="/data/bulk_import",
-    cloud_endpoint="https://your-cloud-endpoint.zillizcloud.com",
-    api_key="your-api-key",
-    volume_name="my-volume",
-    chunk_size=1024 * 1024 * 1024,
-    file_type=BulkFileType.PARQUET,
-) as writer:
-    # Append rows
-    for i in range(1000):
-        writer.append_row({
-            "id": i,
-            "vector": [0.1] * 128,
-        })
-
-    # Commit and upload
-    writer.commit()
-
-    print(writer.data_path)
-    print(writer.batch_files)
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```

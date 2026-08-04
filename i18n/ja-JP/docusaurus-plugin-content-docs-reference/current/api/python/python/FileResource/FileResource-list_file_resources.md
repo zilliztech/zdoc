@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Milvus cluster に現在登録されているすべてのファイルリソースを返します。各エントリは `FileResourceInfo` オブジェクトで、`addfileresource()` を通じてリソースが登録された際の `name` と、その参照先である `path`（設定済みオブジェクトストア内のオブジェクトキー）を公開します。単一のリソースに対する専用の \"get\" API はなく、登録済みリソースを確認するための標準的な方法は `listfileresources()` です。 | Python"
+description: "現在 Milvus cluster に登録されているすべての file resource を返します。各エントリは `FileResourceInfo` オブジェクトで、`addfileresource()` を通じて resource が登録されたときの `name` と、それが指す `path`（設定された object store 内のオブジェクトキー）を公開します。単一の resource に対する専用の \"get\" API はありません。登録済み resource を確認する標準的な方法は `listfileresources()` です。 | Python"
 type: docx
 token: VWCwdHpnbofX9pxw4D1chAghnJg
 sidebar_position: 2
 keywords: 
   - マネージド vector database
   - Pinecone vector database
-  - Audio search
-  - semantic search とは
+  - 音声検索
+  - セマンティック検索とは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - list_file_resources()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_file_resources()
 
-Milvus cluster に現在登録されているすべてのファイルリソースを返します。各エントリは `FileResourceInfo` オブジェクトで、`add_file_resource()` を通じてリソースが登録された際の `name` と、その参照先である `path`（設定済みオブジェクトストア内のオブジェクトキー）を公開します。単一のリソースに対する専用の "get" API はなく、登録済みリソースを確認するための標準的な方法は `list_file_resources()` です。
+現在 Milvus cluster に登録されているすべての file resource を返します。各エントリは `FileResourceInfo` オブジェクトで、`add_file_resource()` を通じて resource が登録されたときの `name` と、それが指す `path`（設定された object store 内のオブジェクトキー）を公開します。単一の resource に対する専用の "get" API はありません。登録済み resource を確認する標準的な方法は `list_file_resources()` です。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -42,22 +42,22 @@ list_file_resources(
 )
 ```
 
-**パラメータ**:
+**PARAMETERS**:
 
-- **timeout** (*float* | *None*) -
- この操作のタイムアウト時間（秒）です。`None` を指定すると、タイムアウトは適用されません。
+- **timeout** (*float* | *None*) -<br/>
+   この操作のタイムアウト時間（秒）。`None` の場合、タイムアウトは適用されません。
 
-**戻り値**:
+**RETURNS**:
 
 *list[FileResourceInfo]*
 
-返されるリストの各要素は、以下の属性を持ちます。
+返されるリストの各要素は、次の属性を公開します。
 
-- **name** (*str*) -
- リソースが登録された名前です。
+- **name** (*str*) -<br/>
+   resource が登録されたときの名前。
 
-- **path** (*str*) -
- 登録されたファイルのオブジェクトストアキーで、`rootPath` プレフィックスを含みます。
+- **path** (*str*) -<br/>
+   登録されたファイルの object store キー。`rootPath` プレフィックスを含みます。
 
 ## 例\{#examples}
 

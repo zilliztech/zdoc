@@ -7,9 +7,9 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたソースパスにあるローカルファイルを、指定された managed volume 内のターゲットファイルパスにアップロードします。 | Python"
+description: "同時実行、再試行、マルチパートサイズ、パス、進捗コールバックの制御を追加します。 | Python"
 type: docx
-token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
+token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
 keywords: 
   - 画像類似検索
@@ -31,86 +31,83 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-この操作は、指定されたソースパスにあるローカルファイルを、指定された managed volume 内のターゲットファイルパスにアップロードします。
+同時実行、再試行、マルチパートサイズ、パス、進捗コールバックの制御を追加します。
 
 <Admonition type="info" icon="📘" title="注意">
 
-これは managed volume にのみ適用されます。external volume は読み取り専用です。
+これは管理対象 volume にのみ適用されます。外部 volume は読み取り専用です。
 
 </Admonition>
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 upload_file_to_volume(
     source_file_path: str,
-    target_volume_path: str
-)
+    target_volume_path: str,
+    upload_concurrency: int = 5,
+    max_retries: int = 5,
+    retry_interval: float = 5.0,
+    progress_callback: Callable[[UploadProgress], None] | None = None,
+    part_size: int = 0,
+) -> dict
 ```
 
-**パラメーター**
+**PARAMETERS:**
 
-- **source_file_path** (*str*) -
+- **source_file_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  アップロードするローカルファイルまたはディレクトリのパス。
 
-    **[REQUIRED]**
+- **target_volume_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  Zilliz Cloud volume 内の宛先パス。
 
-    指定された volume にアップロードするローカルデータファイルへのパス。
+- **upload_concurrency** (*int*) -<br/>
+  Default: `5`<br/>
+  同時にアップロードするファイルの最大数。
 
-- **target_volume_path** (*str*) -
+- **max_retries** (*int*) -<br/>
+  Default: `5`<br/>
+  各ファイルに対するアップロード試行の最大回数。
 
-    **[REQUIRED]**
+- **retry_interval** (*float*) -<br/>
+  Default: `5.0`<br/>
+  アップロード試行の間の待機時間（秒）。
 
-    この操作後に指定された volume 内でのデータファイルのパス。
+- **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
+  Default: `None`<br/>
+  アップロード進捗のスナップショットとともに呼び出されるコールバック。
 
-**戻り値の型**
+- **part_size** (*int*) -<br/>
+  Default: `0`<br/>
+  マルチパートアップロードのパートサイズ（バイト単位）。サイズを自動選択するには `0` を使用します。
 
-オブジェクト。
+**RETURN TYPE:**
 
-**戻り値**
+*dict*
 
-以下のデータ構造を持つオブジェクト:
+**RETURNS:**
 
-```json
-{
-    "volumeName": "my_volume",
-    "path": "path/to/your/data/file/in/the/volume"
-}
-```
+volumeName、volume_name、およびアップロードされたターゲットパスを含む辞書。
 
-- **volumeName** (*str*) -
+**EXCEPTIONS:**
 
-    **[REQUIRED]**
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーエラーメッセージを確認してください。
 
-    この操作のターゲット volume の名前。
+## Examples\{#examples}
 
-- **path** (*str*) -
-
-    **[REQUIRED]**
-
-    この操作後に指定された volume 内でのデータファイルのパス。
-
-## 例\{#example}
+この例では、volume へのファイルアップロードの使用方法を示します。
 
 ```python
-from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-volume_file_manager = VolumeFileManager(
-    cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-    volume_name="my_volume"
-)
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-result = volume_file_manager.upload_file_to_volume(
-    source_file_path="/path/to/your/local/data/file", 
-    target_volume_path="data/"
-)
-
-print(f"\nuploadFileToVolume results\n: {result}")
-
-# target_volume_path results: 
-# 
-# {
-#     "volumeName": "my_volume",
-#     "path": "data/"
-# }
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```

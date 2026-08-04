@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、オプションのスカラー フィルタリング式を使用してベクトル類似性検索を実行します。 | Python | MilvusClient"
+description: "この操作は、オプションのスカラー・フィルタリング式を使用して vector 類似度検索を実行します。 | Python | MilvusClient"
 type: docx
 token: DvaZdhYnyoo7lOxNIBwc5eKEn7d
 sidebar_position: 6
 keywords: 
-  - multimodal RAG
+  - マルチモーダルRAG
   - llm hallucinations
-  - hybrid search
-  - lexical search
+  - ハイブリッド検索
+  - レキシカル検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - search()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-この操作は、オプションのスカラー フィルタリング式を使用してベクトル類似性検索を実行します。
+この操作は、オプションのスカラー・フィルタリング式を使用して vector 類似度検索を実行します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
 このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
 
-- serving cluster の collection でこの操作を実行するには、cluster endpoint を使って **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を実行するには、project endpoint を使って **[MilvusClient](./Client-MilvusClient)** を作成し、その後検索のために on-demand cluster にアタッチする session を作成してください。
+- on-demand compute 用の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索用に on-demand cluster にアタッチする session を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -55,7 +55,7 @@ import Admonition from '@theme/Admonition';
 
 ## Request syntax\{#request-syntax}
 
-```plaintext
+```python
 search(
     self,
     collection_name: str,
@@ -89,9 +89,9 @@ search(
 
     **[REQUIRED]**
 
-    vector embedding のリストです。
+    vector 埋め込みのリストです。
 
-    Zilliz Cloud は、指定された vector embedding に最も類似した vector embedding を検索します。
+    Zilliz Cloud は、指定された vector 埋め込みに最も類似する vector 埋め込みを検索します。
 
     このパラメータは **ids** と相互排他的です。
 
@@ -99,39 +99,39 @@ search(
 
     主キーのリストです。
 
-    Zilliz Cloud は、指定された entity 内のものに最も類似した vector embedding を検索します。
+    Zilliz Cloud は、指定された entity 内の vector 埋め込みに最も類似する vector 埋め込みを検索します。
 
     このパラメータは **data** と相互排他的です。
 
 - **anns_field** (*str*) -
 
-    現在の検索対象 vector field の名前です。
+    現在の検索の対象 vector field の名前です。
 
 - **filter** (*str*) -
 
-    一致する entity を絞り込むための scalar filtering 条件です。 
+    一致する entity をフィルタリングするためのスカラー・フィルタリング条件です。 
 
-    デフォルト値は空文字列で、条件が適用されないことを示します。 
+    値のデフォルトは空文字列で、条件が適用されないことを示します。 
 
-    scalar filtering をスキップするには、このパラメータを空文字列に設定できます。scalar filtering 条件の構築については、[Filtering Overview](/docs/filtering-overview) を参照してください。 
+    スカラー・フィルタリングをスキップするには、このパラメータを空文字列に設定できます。スカラー・フィルタリング条件の構築方法については、[Filtering Overview](/docs/filtering-overview) を参照してください。 
 
 - **filter_params** (*dict*) -
 
-    [Filtering Templating](/docs/filtering-templating) に記載されているように `filter` でプレースホルダーを使用する場合、このパラメータの値としてキーと値のペアを指定して、これらのプレースホルダーの実際の値を設定できます。
+    [Filtering Templating](/docs/filtering-templating) に記載されているように `filter` でプレースホルダーを使用する場合、このパラメータの値として、これらのプレースホルダーに対する実際の値をキーと値のペアで指定できます。
 
 - **limit** (*int*) -
 
     返される entity の総数です。
 
-    このパラメータは **param** 内の **offset** と組み合わせて使用し、ページネーションを有効にできます。
+    **param** 内の **offset** と組み合わせて使用することで、ページネーションを有効にできます。
 
     この値と **param** 内の **offset** の合計は 16,384 未満である必要があります。 
 
-    ただし grouping search では、`limit` は個々の entity ではなく、返される group の最大数を指定します。各 group は指定された `group_by_field` に基づいて形成されます。
+    ただし、グルーピング検索では、`limit` は個々の entity ではなく、返される group の最大数を指定します。各 group は、指定された `group_by_field` に基づいて形成されます。
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    search aggregation に `group_by` が指定されている場合、`limit` を明示的に設定しないでください。返すトップレベル bucket の数は、ルートの `GroupBy.size` の値を使用して制御します。
+    検索集約に `group_by` を指定する場合、`limit` を明示的に設定しないでください。返す最上位 bucket 数の制御には、ルートの `GroupBy.size` 値を使用します。
 
     </Admonition>
 
@@ -139,31 +139,31 @@ search(
 
     返される各 entity に含める field 名のリストです。
 
-    デフォルト値は **None** です。指定しない場合は、primary field のみが含まれます。
+    値のデフォルトは **None** です。指定しない場合は、主 field のみが含まれます。
 
 - **search_params** (*dict*) -
 
-    この操作固有のパラメータ設定です。
+    この操作に固有のパラメータ設定です。
 
     - **radius** (float) -
 
-        最小類似度のしきい値を決定します。collection の metric type が L2 に設定されている場合、この値は **range_filter** より大きくする必要があります。それ以外の場合、この値は **range_filter** の値より小さくする必要があります。 
+        最小類似度のしきい値を決定します。collection の metric type が L2 に設定されている場合、この値は **range_filter** より大きくしてください。それ以外の場合、この値は **range_filter** より小さくする必要があります。 
 
     - **range_filter**  (float) -  
 
-        特定の類似度範囲内の vector に検索を絞り込みます。collection の metric type が `IP` または `COSINE` に設定されている場合、この値は **radius** の値より大きくする必要があります。それ以外の場合、この値は **radius** より小さくする必要があります。
+        特定の類似度範囲内の vector に検索を絞り込みます。collection の metric type が `IP` または `COSINE` に設定されている場合、この値は **radius** より大きくしてください。それ以外の場合、この値は **radius** より小さくする必要があります。
 
     - **level** (*int*)
 
-        Zilliz Cloud は、さまざまな index アルゴリズム固有の多数の検索パラメータを扱う必要がないように、検索パラメータの調整を簡素化する統一パラメータを使用します。
+        Zilliz Cloud は、さまざまな index アルゴリズム固有の多数の検索パラメータを扱う必要がないように、検索パラメータのチューニングを簡素化する統一パラメータを使用します。
 
-        デフォルト値は **1** で、範囲は **1** から **5** です。値を大きくすると再現率は高くなりますが、検索パフォーマンスは低下します。
+        値のデフォルトは **1** で、範囲は **1** から **5** です。値を大きくすると、検索パフォーマンスは低下しますが、再現率は高くなります。
 
     - **page_retain_order** (*bool*) -
 
-        `offset` が指定された場合に、検索結果の順序を保持するかどうかを指定します。 
+        `offset` が指定されている場合に、検索結果の順序を保持するかどうかです。 
 
-        このパラメータは `radius` も設定した場合にのみ適用されます。
+        このパラメータは、`radius` も設定した場合にのみ適用されます。
 
     - **params** (dict) -
 
@@ -171,59 +171,59 @@ search(
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        すべての追加パラメータは上位の `search_params` に移動されており、`params` 引数はまもなく非推奨になります。
+        すべての追加パラメータは上位の `search_params` に移動され、`params` 引数はまもなく非推奨になります。
 
         </Admonition>
 
         - **radius** (float) -
 
-            最小類似度のしきい値を決定します。collection の metric type が `L2` に設定されている場合、この値は **range_filter** より大きくする必要があります。それ以外の場合、この値は **range_filter** より小さくする必要があります。 
+            最小類似度のしきい値を決定します。collection の metric type が `L2` に設定されている場合、この値は **range_filter** より大きくしてください。それ以外の場合、この値は **range_filter** より小さくする必要があります。 
 
         - **range_filter**  (float) -  
 
-            特定の類似度範囲内の vector に検索を絞り込みます。collection の metric type が `IP` または `COSINE` に設定されている場合、この値は **radius** の値より大きくする必要があります。それ以外の場合、この値は **radius** より小さくする必要があります。
+            特定の類似度範囲内の vector に検索を絞り込みます。collection の metric type が `IP` または `COSINE` に設定されている場合、この値は **radius** より大きくしてください。それ以外の場合、この値は **radius** より小さくする必要があります。
 
         - **level** (*int*)
 
-            Zilliz Cloud は、さまざまな index アルゴリズム固有の多数の検索パラメータを扱う必要がないように、検索パラメータの調整を簡素化する統一パラメータを使用します。
+            Zilliz Cloud は、さまざまな index アルゴリズム固有の多数の検索パラメータを扱う必要がないように、検索パラメータのチューニングを簡素化する統一パラメータを使用します。
 
-            デフォルト値は **1** で、範囲は **1** から **5** です。値を大きくすると再現率は高くなりますが、検索パフォーマンスは低下します。
+            値のデフォルトは **1** で、範囲は **1** から **5** です。値を大きくすると、検索パフォーマンスは低下しますが、再現率は高くなります。
 
         - **page_retain_order** (*bool*) -
 
-            `offset` が指定された場合に、検索結果の順序を保持するかどうかを指定します。 
+            `offset` が指定されている場合に、検索結果の順序を保持するかどうかです。 
 
-            このパラメータは `radius` も設定した場合にのみ適用されます。
+            このパラメータは、`radius` も設定した場合にのみ適用されます。
 
     - **ignore_growing** (*str*) -
 
-        このオプションを設定すると、search は growing segment のデータを除外します。この設定を利用すると、index 化され完全に処理されたデータのみに集中することで、検索パフォーマンスが向上する可能性があります。
+        このオプションを設定すると、growing segment のデータを検索対象から除外するよう指示します。この設定を使用すると、インデックス化され、完全に処理されたデータのみに焦点を当てることで、検索パフォーマンスが向上する可能性があります。
 
-    その他の適用可能な検索パラメータの詳細については、[In-memory Index](https://milvus.io/docs/index.md) および [On-disk Index](https://milvus.io/docs/disk_index.md) を参照してください。
+    その他の適用可能な検索パラメータの詳細については、[In-memory Index](https://milvus.io/docs/index.md) と [On-disk Index](https://milvus.io/docs/disk_index.md) を参照してください。
 
     その他の適用可能な検索パラメータの詳細については、[AUTOINDEX Explained](/docs/autoindex-explained) を参照してください。
 
 - **group_by_field** (*str*)
 
-    検索結果を指定した field でグループ化し、同じ group から複数の結果が返されることを避けて多様性を確保します。
+    検索結果を指定した field でグループ化し、同じ group から複数の結果が返ることを避けて多様性を確保します。
 
     このパラメータは Grouping Search で使用されます。`group_by` と相互排他的です。
 
 - **group_size** (*int*)
 
-    grouping search において、各 group 内で返す entity の目標数です。たとえば、`group_size=2` に設定すると、システムは各 group 内で最も類似した entity（例: document passage や vector representation）を最大 2 件返します。`group_size` を設定しない場合、システムはデフォルトで各 group につき 1 entity のみを返します。
+    グルーピング検索で各 group 内に返す entity の目標数です。たとえば、`group_size=2` を設定すると、各 group 内で最も類似度の高い entity（例: ドキュメントのパッセージや vector 表現）を最大 2 件返すようシステムに指示します。`group_size` を設定しない場合、システムはデフォルトで各 group につき 1 entity のみを返します。
 
 - **strict_group_size** (*bool*)
 
-    この Boolean パラメータは、`group_size` を厳密に適用するかどうかを指定します。`strict_group_size=True` の場合、各 group に十分なデータが存在する限り、システムは各 group をちょうど `group_size` 件の結果で埋めようとします。group 内の entity 数が不足している場合は、利用可能な entity のみを返し、十分なデータがある group については指定した `group_size` を満たすようにします。
+    この Boolean パラメータは、`group_size` を厳密に適用するかどうかを指定します。`strict_group_size=True` の場合、各 group 内に十分なデータが存在する限り、システムは各 group をちょうど `group_size` 件の結果で埋めようとします。group 内の entity 数が不足している場合は、利用可能な entity のみを返し、十分なデータがある group については指定された `group_size` を満たすことを保証します。
 
-- **group_by** (*[GroupBy](./Vector-GroupBy) | None*) -
+- **group_by** (*GroupBy | None*) -
 
-    search aggregation を定義する `GroupBy` オブジェクトです。このパラメータが指定されると、Zilliz Cloud はルート `GroupBy` オブジェクト内の field に基づいて ANN 検索結果を bucket にグループ化します。各 bucket には、bucket ごとのメトリクス、代表 hit、ネストされた sub-group を含めることができます。`group_by` は `group_by_field` と相互排他的です。既存の単一 field の Grouping Search ワークフローには `group_by_field` を使用してください。bucket ごとのメトリクス、複数 field によるグループ化、bucket の並び替え、hit のソート、またはネストされたグループ化が必要な場合は `group_by` を使用してください。
+    検索集約を定義する `GroupBy` オブジェクトです。このパラメータを指定すると、Zilliz Cloud は ANN 検索結果をルートの `GroupBy` オブジェクト内の field に基づいて bucket にグループ化します。各 bucket には、bucket ごとのメトリクス、代表 hit、ネストしたサブグループを含めることができます。`group_by` は `group_by_field` と相互排他的です。既存の単一 field の Grouping Search ワークフローには `group_by_field` を使用してください。bucket ごとのメトリクス、複数 field のグループ化、bucket の順序付け、hit のソート、ネストしたグループ化が必要な場合は `group_by` を使用してください。
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    search aggregation のメトリクスは、collection 全体ではなく ANN によって取得された entity に対して計算されます。bucket 数、メトリクス、およびメトリクスベースの並び順は概算です。
+    検索集約メトリクスは、collection 全体ではなく、ANN によって取得された entity に対して計算されます。bucket 数、メトリクス、およびメトリクスベースの順序付けは近似値です。
 
     </Admonition>
 
@@ -231,43 +231,43 @@ search(
 
     サポートされている scalar field で検索結果をソートするための order-by 指定のリストです。
 
-    リスト内の各 dictionary には、次のキーがあります。
+    リスト内の各辞書には、次のキーがあります。
 
     - **field** (*str*) -
 
-        ソート対象の scalar field 名です。
+        ソートする scalar field の名前です。
 
     - **order** (*str*) -
 
         ソート方向です。指定可能な値は `"asc"` と `"desc"` です。このキーを省略した場合、Milvus はその field を昇順でソートします。
 
-    Zilliz Cloud は、指定した順序で複数の order-by field を適用します。指定したすべての order-by field の値が同じ entity については、Zilliz Cloud は元の類似度スコア順を維持します。
+    Zilliz Cloud は、指定した順序で複数の order-by field を適用します。指定されたすべての order-by field の値が同じ entity については、Zilliz Cloud は元の類似度スコア順を維持します。
 
-    grouping search では、Zilliz Cloud は各 group のトップ entity の指定 scalar field 値で group を並べ替えます。`limit` パラメータは引き続き group 数を制御し、`group_size` は group ごとの entity 数を制御します。
+    グルーピング検索では、Zilliz Cloud は各 group のトップ entity の指定 scalar field 値で group を並べ替えます。`limit` パラメータは引き続き group 数を制御し、`group_size` は group ごとの entity 数を制御します。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が到着するか、いずれかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
 - **partition_names** (*list*) -
 
     partition 名のリストです。
 
-    デフォルト値は **None** です。指定した場合、指定した partition のみが query に含まれます。
+    値のデフォルトは **None** です。指定した場合、指定された partition のみが query に含まれます。
 
 - **ranker** (*[Function](./MilvusClient-Function)* | *[FunctionScore](./MilvusClient-FunctionScore)*) -
 
     検索で使用する ranker です。
 
-    詳細については、[Decay Ranker Overview](/docs/decay-ranker-oveview) および . を参照してください。
+    詳細については、[Decay Ranker Overview](/docs/decay-ranker-oveview) と を参照してください。
 
 - **highlighter** (*Highlighter*) -
 
-    検索操作で一致した用語をハイライトするための highlighter です。詳細については、[Lexical Highlighter](/docs/text-highlighter) および [Semantic Highlighter](/docs/semantic-highlighter) を参照してください。
+    検索操作で一致した用語をハイライトするための highlighter です。詳細については、[Lexical Highlighter](/docs/text-highlighter) と [Semantic Highlighter](/docs/semantic-highlighter) を参照してください。
 
 - **search_aggregation** (*Optional[SearchAggregation]*) -
 
-    階層 bucket aggregation 指定です。**group_by_field** と相互排他的です。設定された場合、**limit** は無視され、ルートの `SearchAggregation.size` がトップレベル bucket 数を制御します。
+    階層型 bucket 集約仕様です。**group_by_field** と相互排他的です。設定されている場合、**limit** は無視され、ルートの `SearchAggregation.size` が最上位 bucket 数を制御します。
 
 - **kwargs** -
 
@@ -275,7 +275,7 @@ search(
 
         検索結果でスキップするレコード数です。 
 
-        このパラメータは `limit` と組み合わせて使用し、ページネーションを有効にできます。
+        このパラメータを `limit` と組み合わせて使用することで、ページネーションを有効にできます。
 
         この値と `limit` の合計は 16,384 未満である必要があります。 
 
@@ -283,17 +283,17 @@ search(
 
         Zilliz Cloud が計算された距離を丸める小数点以下の桁数です。
 
-        デフォルト値は **-1** で、Zilliz Cloud は計算された距離の丸めをスキップし、生の値を返します。
+        値のデフォルトは **-1** で、Zilliz Cloud が計算された距離の丸めをスキップし、生の値を返すことを示します。
 
     - **timezone** (*str*)
 
-        [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例: **Asia/Shanghai**、**America/Chicago**、または **UTC**）を設定することで、単一の query に対して collection または database のデフォルト time zone を一時的に上書きします。これにより、その操作中のみ `TIMESTAMPTZ` の値がどのように解釈、表示、比較されるかが制御されます。保存済みデータや collection 設定は変更されません。
+        [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例: **Asia/Shanghai**、**America/Chicago**、または **UTC**）を設定することで、単一の query に対して collection または database のデフォルト time zone を一時的に上書きします。これにより、その操作中に限り `TIMESTAMPTZ` 値の解釈、表示、比較方法が制御されます。保存済みデータや collection 設定は変更されません。
 
         詳細については、[TIMESTAMPZ Field](/docs/use-timestamptz-field) を参照してください。
 
     - **time_fields** (*str*)
 
-        query または search 操作中に `TIMESTAMPTZ` field から特定の時間要素を抽出します。抽出する要素はカンマ区切りのリストで指定します。サポートされる要素には、`year`、`month`、`day`、`hour`、`minute`、`second`、および `microsecond` が含まれます。
+        query または search 操作中に `TIMESTAMPTZ` field から特定の時間要素を抽出します。抽出する要素を指定するには、カンマ区切りのリストを使用してください。サポートされている要素は、`year`、`month`、`day`、`hour`、`minute`、`second`、および `microsecond` です。
 
         詳細については、TIMESTAMPZ Field を参照してください。
 
@@ -302,13 +302,13 @@ search(
 *list[dict]*
 
 **RETURNS:**
-指定された output field を含む、検索された entity を格納した dictionary のリストです。
+指定された output fields を持つ検索済み entity を含む辞書のリストです。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中にエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 ## Examples\{#examples}
 

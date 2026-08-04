@@ -60,8 +60,8 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 **PARAMETERS:**
 
-- **task_id** (*int*) -
-**[REQUIRED]**
+- **task_id** (*int*) -<br/>
+  **[REQUIRED]**
 
     **do_bulk_insert()** 関数によって返されるタスク ID。
 
@@ -73,7 +73,7 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 RETURN TYPE:
 
@@ -104,7 +104,7 @@ RETURN TYPE:
 │   └── collection_name
 ```
 
-**[BulkInsertState](./utility-BulkInsertState)** オブジェクトには、以下のフィールドがあります
+**[BulkInsertState](./utility-BulkInsertState)** オブジェクトには、次のフィールドがあります。
 
 - **task_id** (*int*)
 
@@ -112,7 +112,7 @@ RETURN TYPE:
 
 - **state** (*int*)
 
-    指定された bulk_insert タスクの状態を整数で表したものです。指定可能な値は以下の整数です。
+    指定された bulk_insert タスクの状態を整数で表したものです。指定可能な値は次の整数です。
 
     - **0**: タスクが保留状態であることを示します
 
@@ -126,11 +126,11 @@ RETURN TYPE:
 
     - **7**: タスクが失敗し、データがクリーンアップされたことを示します。
 
-    - **100**: タスクが不明な状態であることを示します。
+    - **100**: タスクが不明な状態にあることを示します。
 
 - **state_name** (*str*)
 
-    指定された bulk_insert タスクの状態名です。指定可能な値は以下のとおりです。
+    指定された bulk_insert タスクの状態を文字列で表したものです。指定可能な値は次のとおりです。
 
     - **Pending**: タスクが保留状態であることを示します
 
@@ -144,11 +144,11 @@ RETURN TYPE:
 
     - **FailedAndCleaned**: タスクが失敗し、データがクリーンアップされたことを示します。
 
-    - **Unknown**: タスクが不明な状態であることを示します。
+    - **Unknown**: タスクが不明な状態にあることを示します。
 
 - **row_count** (*int*)
 
-    現在の bulk-insert タスクで挿入されたエンティティの数。
+    現在の bulk-insert タスクで挿入されたエンティティ数。
 
 - **progress** (*int*) 
 
@@ -156,11 +156,11 @@ RETURN TYPE:
 
 - **infos** (*dict*)
 
-    現在の bulk-insert タスクに関する情報を含む辞書です。指定可能なキーは以下のとおりです。
+    現在の bulk-insert タスクに関する情報を含む辞書です。指定可能なキーは次のとおりです。
 
     - **files** (*str*)
 
-        現在の bulk-insert タスクに含まれるファイル名をカンマ区切りの文字列で表したもの。
+        現在の bulk-insert タスクに含まれるファイル名。カンマ区切りの文字列です。
 
     - **[collection](./ORM-Collection)** (*str*)
 
@@ -184,15 +184,15 @@ RETURN TYPE:
 
 - **ids** (*list*) 
 
-    挿入されたエンティティの ID を含むリスト。
+    挿入されたエンティティの ID のリスト。
 
 - **id_ranges** (*google._upb._message.RepeatedScalarContainer*)
 
-- 挿入されたエンティティの ID の範囲。
+- 範囲で表した挿入済みエンティティの ID。
 
 - **files** (str)
 
-    現在の bulk-insert タスクに含まれるファイル名をカンマ区切りの文字列で表したもの。
+    現在の bulk-insert タスクに含まれるファイル名。カンマ区切りの文字列です。
 
 - **create_timestamp** (int)
 
@@ -241,7 +241,7 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 ## Related operations\{#related-operations}
 
-以下の操作は `get_bulk_insert_state()` に関連しています。
+次の操作は `get_bulk_insert_state()` に関連しています。
 
 - [BulkInsertState](./utility-BulkInsertState)
 

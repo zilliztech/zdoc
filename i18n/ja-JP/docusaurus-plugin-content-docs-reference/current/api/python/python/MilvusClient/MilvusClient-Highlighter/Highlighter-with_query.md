@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "フィルタリング式（例: TEXTMATCH）に一致したテキストをハイライトするために、`LexicalHighlighter` 設定へクエリ用語の定義を追加します。これにより、どの field と用語をハイライトするか、およびそれらがどの filter type によって生成されたかを説明する 1 つのエントリが `highlightquery` に追加されます。ハイライト処理は後処理として実行され、取得、フィルタリング、ランキング、スコアリングには影響しません。 | Python | MilvusClient"
+description: "フィルタリング式（例: TEXTMATCH）で一致したテキストをハイライトするために、`LexicalHighlighter` 設定へクエリ語の定義を追加します。これにより、どのフィールドと語句をハイライトするか、およびそれらを生成したフィルタタイプを記述する 1 つのエントリが `highlightquery` に追加されます。ハイライトは後処理として実行され、取得、フィルタリング、ランキング、スコアリングには影響しません。 | Python | MilvusClient"
 type: docx
 token: KdiQdpHp3oEQwNx2hd5chqQKn2D
 sidebar_position: 3
 keywords: 
-  - vector database
+  - ベクターデータベース
   - IVF
   - knn
-  - Image Search
+  - 画像検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - with_query()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # with_query()
 
-フィルタリング式（例: TEXT_MATCH）に一致したテキストをハイライトするために、`LexicalHighlighter` 設定へクエリ用語の定義を追加します。これにより、どの field と用語をハイライトするか、およびそれらがどの filter type によって生成されたかを説明する 1 つのエントリが `highlight_query` に追加されます。ハイライト処理は後処理として実行され、取得、フィルタリング、ランキング、スコアリングには影響しません。
+フィルタリング式（例: TEXT_MATCH）で一致したテキストをハイライトするために、`LexicalHighlighter` 設定へクエリ語の定義を追加します。これにより、どのフィールドと語句をハイライトするか、およびそれらを生成したフィルタタイプを記述する 1 つのエントリが `highlight_query` に追加されます。ハイライトは後処理として実行され、取得、フィルタリング、ランキング、スコアリングには影響しません。
 
-## Request syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 with_query(
@@ -45,20 +45,20 @@ with_query(
 
 **PARAMETERS**:
 
-- **field** (*str*) -
-一致がフィルタリング式によって見つかったときに、その内容へ注釈を付ける対象のテキスト field 名です。collection schema 内の **VARCHAR** テキスト field に対応している必要があります。
+- **field** (*str*) -<br/>
+  一致がフィルタリング式によって見つかったときに、その内容へ注釈を付ける対象テキストフィールド名。collection スキーマ内の **VARCHAR** テキストフィールドに対応している必要があります。
 
-- **text** (*str*) -
-フィルタリング式からハイライトする用語またはフレーズです。たとえば、**"my doc"** は指定した field 内で **"my"** と **"doc"** の一致箇所をハイライトします。
+- **text** (*str*) -<br/>
+  フィルタリング式からハイライトする語句またはフレーズ。たとえば、**"my doc"** を指定すると、指定されたフィールド内で **"my"** と **"doc"** の一致がハイライトされます。
 
-- **query_type** (*str*) -
-ハイライトする用語を提供するフィルタリング type です。テキストベースのフィルタリングでは、**TEXT_MATCH** 条件に対応させるために **"TextMatch"** を使用します。
+- **query_type** (*str*) -<br/>
+  ハイライトする語句を提供するフィルタタイプ。テキストベースのフィルタリングでは、**TEXT_MATCH** 条件に対応する **"TextMatch"** を使用します。
 
 **RETURNS**:
 
 *None*
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import LexicalHighlighter

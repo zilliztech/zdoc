@@ -43,25 +43,25 @@ mkts_from_datetime(
 )
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **d_time** (*datetime*) -
-**[必須]**
-**datetime.datetime** オブジェクト。
+- **d_time** (*datetime*) -<br/>
+  **[REQUIRED]**<br/>
+  **datetime.datetime** オブジェクト。
 
-- **milliseconds** (*float*) -
-ミリ秒単位の増分時間間隔。
+- **milliseconds** (*float*) -<br/>
+  ミリ秒単位の増分時間間隔。
 
 - **delta** (*Optional[timedelta]*) -
 
-    2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差をマイクロ秒精度で表す期間を示す **datetime.timedelta** オブジェクト。
+    マイクロ秒精度で 2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差を表す期間を示す **datetime.timedelta** オブジェクト。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *int*
 
-**戻り値:**
-ハイブリッドタイムスタンプ。**0** から **18446744073709551615** の範囲の非負整数です。
+**RETURNS:**
+ハイブリッドタイムスタンプ。これは **0** から **18446744073709551615** の範囲の非負整数です。
 
 ## 例\{#examples}
 

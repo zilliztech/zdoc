@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`addfileresource()` を介して以前に登録された file resource を Milvus cluster から削除します。この呼び出しは冪等です。現在登録されていない名前を削除しても、例外を発生させず正常に完了します。 | Python"
+description: "`addfileresource()` を介して以前に登録されたファイルリソースを Milvus クラスターから削除します。この呼び出しは冪等です。現在登録されていない名前を削除しても、例外は発生せず正常に完了します。 | Python"
 type: docx
 token: DLsXdlRA3odugzx4sIccnBVKn0d
 sidebar_position: 3
@@ -18,7 +18,7 @@ keywords:
   - ベクトル検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - remove_file_resource()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # remove_file_resource()
 
-`add_file_resource()` を介して以前に登録された file resource を Milvus cluster から削除します。この呼び出しは冪等です。現在登録されていない名前を削除しても、例外を発生させず正常に完了します。
+`add_file_resource()` を介して以前に登録されたファイルリソースを Milvus クラスターから削除します。この呼び出しは冪等です。現在登録されていない名前を削除しても、例外は発生せず正常に完了します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -45,11 +45,11 @@ remove_file_resource(
 
 **パラメータ**:
 
-- **name** (*str*) -
- `add_file_resource()` にもともと渡した、削除する resource の名前。
+- **name** (*str*) -<br/>
+   `add_file_resource()` に元々渡された、削除するリソースの名前です。
 
-- **timeout** (*float* | *None*) -
- この操作のタイムアウト時間（秒）。`None` の場合、タイムアウトは適用されません。
+- **timeout** (*float* | *None*) -<br/>
+   この操作のタイムアウト時間（秒）です。値が `None` の場合、タイムアウトは適用されません。
 
 **戻り値**:
 

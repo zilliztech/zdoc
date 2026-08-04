@@ -13,7 +13,7 @@ token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
   - ベクトル化
-  - k 最近傍アルゴリズム
+  - k 近傍法
   - ANNS
   - ベクトル検索
   - zilliz
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、特定の collection に対して 2 つの query node 間にロードバランシンググループを設定します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 load_balance(
@@ -46,15 +46,15 @@ load_balance(
 )
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
+- **collection_name** (*str*) -<br/>
+  **[必須]**
 
     ロードバランシンググループを設定する既存の collection の名前。
 
-- **src_node_id** (*int*) -
-**[REQUIRED]**
+- **src_node_id** (*int*) -<br/>
+  **[必須]**
 
     現在その collection が使用している query node の ID。
 
@@ -68,7 +68,7 @@ load_balance(
 
 - **timeout** (*float*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、いずれかの応答が到着するか、エラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、いずれかのレスポンスが到着した時点、またはいずれかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **using** (*str*) - 
 
@@ -76,18 +76,18 @@ load_balance(
 
     デフォルト値は **default** で、この操作がデフォルト接続を使用することを示します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *NoneType*
 
-**RETURNS:**
-None
+**戻り値:**
+なし
 
-**EXCEPTIONS:**
+**例外:**
 
 該当なし
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import connections, utility

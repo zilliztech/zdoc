@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "FunctionScore インスタンスは、複数の [Function](./MilvusClient-Function) を設定可能な方法で組み合わせます。FunctionScore インスタンスを ranker として使用し、複数の reranking [Function](./MilvusClient-Function) を組み合わせることができます。 | Python | MilvusClient"
+description: "FunctionScore インスタンスは、複数の Function](./MilvusClient-Function)s を設定可能な方法で組み合わせます。FunctionScore インスタンスを ranker として使用して、複数の reranking [Functions. | Python | MilvusClient を組み合わせることができます"
 type: docx
 token: PfJNdkuMDoCqqcxm6S2cDD6TnFh
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - Sparse vector
   - Vector Dimension
   - ANN Search
-  - vector embeddings とは
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionScore
 
-**FunctionScore** インスタンスは、複数の **[Function](./MilvusClient-Function)** を設定可能な方法で組み合わせます。**FunctionScore** インスタンスを ranker として使用し、複数の reranking **[Function](./MilvusClient-Function)** を組み合わせることができます。
+**FunctionScore** インスタンスは、複数の **[Function](./MilvusClient-Function)** を設定可能な方法で組み合わせます。**FunctionScore** インスタンスを ranker として使用して、複数の reranking **[Function](./MilvusClient-Function)** を組み合わせることができます。
 
 ```python
 class pymilvus.FunctionScore
@@ -52,39 +52,39 @@ FunctionScore(
 
 - **functions** (*[Function](./MilvusClient-Function)*, *List[[Function](./MilvusClient-Function)]*) -
 
-    現在の FunctionScore インスタンスで組み合わせる Function インスタンス、または Function インスタンスのリストです。
+    現在の FunctionScore インスタンスで組み合わせる 1 つの Function インスタンス、または Function インスタンスのリストです。
 
 - **params** (*Dict*) -  
 
-    上記の Function インスタンスをどのように組み合わせるかを指定します。以下の設定を提供します。
+    上記の Function インスタンスをどのように組み合わせるかを指定します。以下の設定があります。
 
     - **boost_mode** (*str*) - 
 
-        指定された weight が、一致した entity の score にどのように影響するかを指定します。指定可能な値は以下のとおりです。
+        指定した重みが一致した entity のスコアにどのように影響するかを指定します。指定可能な値は次のとおりです。
 
         - `Multiply`
 
-            重み付けされた値が、一致した entity の元の score に指定された weight を乗算した値に等しいことを示します。 
+            重み付けされた値が、一致した entity の元のスコアに指定した重みを掛けた値であることを示します。 
 
             これはデフォルト値です。
 
         - `Sum`
 
-            重み付けされた値が、一致した entity の元の score と指定された weight の合計に等しいことを示します
+            重み付けされた値が、一致した entity の元のスコアと指定した重みの合計に等しいことを示します
 
     - **function_mode** (*str*) -
 
-        さまざまな Boost Ranker からの重み付けされた値をどのように処理するかを指定します。指定可能な値は以下のとおりです。
+        さまざまな Boost Ranker からの重み付けされた値をどのように処理するかを指定します。指定可能な値は次のとおりです。
 
         - `Multiply`
 
-            一致した entity の最終 score が、すべての Boost Ranker からの重み付けされた値の積に等しいことを示します。
+            一致した entity の最終スコアが、すべての Boost Ranker からの重み付けされた値の積に等しいことを示します。
 
             これはデフォルト値です。
 
         - `Sum`
 
-            一致した entity の最終 score が、すべての Boost Ranker からの重み付けされた値の合計に等しいことを示します。
+            一致した entity の最終スコアが、すべての Boost Ranker からの重み付けされた値の合計に等しいことを示します。
 
     **RETURN TYPE:**
 

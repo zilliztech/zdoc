@@ -10,15 +10,15 @@ notebook: false
 description: "- isl0 (bool) - | Python | MilvusClient"
 type: docx
 token: MhRidjHwYorxaexS8WXcaxWQnjd
-sidebar_position: 24
+sidebar_position: 26
 keywords: 
-  - オープンソース vector database
-  - Vector index
-  - オープンソース vector database
-  - オープンソース vector db
+  - オープンソースベクトルデータベース
+  - ベクトルインデックス
+  - オープンソースベクトルデータベース
+  - オープンソースベクトルdb
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - optimize()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -37,25 +37,25 @@ import Admonition from '@theme/Admonition';
 
 - **target_size** (*int*) -
 
-    compaction 後のターゲット segment サイズ。正の整数である必要があります。省略した場合、サーバーのデフォルト値が使用されます。
+    compaction 後のターゲットセグメントサイズ。正の整数である必要があります。省略した場合は、サーバーのデフォルト値が使用されます。
 
 - **target_size_unit** (*str*) -
 
     `target_size` の単位。サポートされる値は `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"`、`"pb"` です。クライアントはリクエスト送信前にこの値を MB に変換します。
 
-この操作は collection 内の小さな segment を compaction し、進行状況をポーリングできる compaction ジョブ ID を返します。
+この操作は collection 内の小さなセグメントを compaction し、進行状況をポーリングできる compaction ジョブ ID を返します。
 
-<Admonition type="warning" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="警告">
 
-これは本番環境以外での使用専用の Preview バージョン機能です（Benchmark、POC）。
+これは本番環境以外でのみ使用するための Preview バージョン機能です（Benchmark、POC）。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
 このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving cluster の collection でこの操作を行う場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -65,13 +65,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索用に on-demand cluster にアタッチする session を作成してください。
+- on-demand compute 用の collection でこの操作を行う場合は、project endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチするセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 client.optimize(
@@ -85,7 +85,7 @@ client.optimize(
 )
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
@@ -95,7 +95,7 @@ client.optimize(
 
 - **is_clustering** (*bool*) -
 
-    ターゲット segment サイズ。形式: `"1000MB"`、`"1GB"`、`"1.2gb"`。指定しない場合、システムのデフォルト値が使用されます。
+    ターゲットセグメントサイズ。形式: `"1000MB"`、`"1GB"`、`"1.2gb"`。指定しない場合は、システムデフォルトが使用されます。
 
 - **wait** (*bool*) -
 
@@ -103,18 +103,18 @@ client.optimize(
 
 - **timeout** (*float*) -
 
-    最適化の待機に使う最大時間（秒）。`wait=True` の場合にのみ適用されます。
+    最適化を待機する最大時間（秒）。`wait=True` の場合にのみ適用されます。
 
-**RETURN TYPE:**
+**戻り値の型:**
 *OptimizeResult | OptimizeTask*
 
 `wait=True` の場合は `OptimizeResult` を返し、`wait=False` の場合は `OptimizeTask` を返します。
 
-**RETURNS:**
+**戻り値:**
 
-`wait=True` の場合は、status、collection_name、compaction_id、target_size、progress を含む **OptimizeResult** を返します。`wait=False` の場合は、`done()`、`progress()`、`result()`、`cancel()` をサポートする **OptimizeTask** を返します。
+`wait=True` の場合、status、collection_name、compaction_id、target_size、progress を含む **OptimizeResult** を返します。`wait=False` の場合、`done()`、`progress()`、`result()`、`cancel()` をサポートする **OptimizeTask** を返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **ParamError**
 
@@ -122,9 +122,9 @@ client.optimize(
 
 - **MilvusException**
 
-    index build の失敗、compaction の失敗、またはタイムアウトが発生した場合にこの例外が発生します。
+    インデックス構築の失敗、compaction の失敗、またはタイムアウトが発生した場合にこの例外が発生します。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

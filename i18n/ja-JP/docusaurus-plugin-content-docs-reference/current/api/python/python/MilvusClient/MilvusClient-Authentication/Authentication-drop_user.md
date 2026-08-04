@@ -42,7 +42,7 @@ drop_user(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **user_name** (*str*) -
 
@@ -54,7 +54,7 @@ drop_user(
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、応答が返るか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -62,7 +62,7 @@ drop_user(
 
 **戻り値:**
 
-なし
+None
 
 **例外:**
 
@@ -94,7 +94,7 @@ client.drop_user(user_name="user_1")
 
 ## 関連メソッド\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

@@ -41,31 +41,31 @@ list_users(
 ) -> List
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。 
+    この操作のタイムアウト期間です。 
 
-    これを **None** に設定すると、いずれかのレスポンスが到着するか、いずれかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *list*
 
-**戻り値:**
+**RETURNS:**
 
 ユーザー名のリスト。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生すると、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合、この例外が発生します。
+    この操作が失敗した場合に、この例外が発生します。
 
 ## 例\{#example}
 
@@ -89,7 +89,7 @@ client.list_users()
 
 ## 関連メソッド\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

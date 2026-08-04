@@ -45,17 +45,17 @@ list_snapshots(
 
 **パラメータ:**
 
-- **collection_name** (*str*) -
-snapshot をフィルタリングするための任意の collection 名です。空の場合、すべての snapshot が一覧表示されます。
+- **collection_name** (*str*) -<br/>
+  snapshot をフィルタリングするための任意の collection 名です。空の場合は、すべての snapshot が一覧表示されます。
 
-- **timeout** (*Optional[float]*) -
-RPC に許可する秒単位の任意の時間です。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許可する秒単位の任意の時間です。
 
 **戻り値の型:**
 
 *List[str]*
 
-snapshot 名のリストです。
+snapshot 名のリスト。
 
 **例外:**
 
@@ -70,11 +70,11 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# 特定の collection のすべての snapshot を一覧表示
+# List all snapshots for a specific collection
 snapshots = client.list_snapshots(collection_name="my_collection")
 print(snapshots)
 # ['backup_20260401', 'backup_20260418']
 
-# すべての collection にわたるすべての snapshot を一覧表示
+# List all snapshots across all collections
 all_snapshots = client.list_snapshots()
 ```

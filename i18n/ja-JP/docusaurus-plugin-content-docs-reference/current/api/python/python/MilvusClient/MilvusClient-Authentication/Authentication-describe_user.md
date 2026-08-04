@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、ユーザーに割り当てられたロールとユーザーの説明を返します。 | Python | MilvusClient"
+description: "ユーザーアカウントに関連付けられた `roles` と `description` を返します。ユーザーが存在しない場合は空の辞書を返します。 | Python | MilvusClient"
 type: docx
 token: TwTnduPOioywHDx8hPQc80tRnKg
 sidebar_position: 6
 keywords: 
   - Milvus とは
-  - Milvus database
+  - Milvus データベース
   - Milvus lite
-  - Milvus benchmark
+  - Milvus ベンチマーク
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describe_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,49 +31,64 @@ import Admonition from '@theme/Admonition';
 
 # describe_user()
 
-この操作は、ユーザーに割り当てられたロールとユーザーの説明を返します。
+ユーザーアカウントに関連付けられた `roles` と `description` を返します。ユーザーが存在しない場合は空の辞書を返します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_user(
     user_name: str,
-    timeout: Optional[float] = None
+    timeout: Optional[float] = None,
+    **kwargs
 ) -> dict
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **user_name** (*str*) -
+- **user_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  説明対象のユーザーアカウント名。
 
-    **[REQUIRED]**
+- **timeout** (*Optional[float]*) -<br/>
+  デフォルト: `None`<br/>
+  RPC の完了を待機する最大時間（秒）。
 
-    説明を取得するユーザーの名前。
+- **kwargs** (*Any*) -<br/>
+  追加のリクエストコンテキストオプション。
 
-- **timeout** (*float*) -
-
-    この操作のタイムアウト時間。
-
-**戻り値の型:**
+**RETURN TYPE:**
 
 *dict*
 
-`user_name`、`roles`、`description` を含む辞書。
+**RETURNS:**
 
-**例外:**
+`user_name`、`roles`、`description` を含む辞書。ユーザーが見つからない場合は空の辞書を返します。
 
-- **MilvusException**
+- **user_name** (*str*) -<br/>
+  説明されたユーザーアカウントの名前。
 
-    この操作中にエラーが発生した場合に送出される例外です。
+- **roles** (*list[str]*) -<br/>
+  ユーザーアカウントに割り当てられたロール。
 
-- **ParamError**
+- **description** (*str*) -<br/>
+  ユーザーアカウントに保存されている説明。
 
-    パラメータの値が無効な場合に送出される例外です。
+**EXCEPTIONS:**
 
-## 例\{#examples}
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+
+## Examples\{#examples}
 
 ```python
-user_info = client.describe_user(user_name="analyst_user")
-print(user_info["roles"])
-print(user_info["description"])
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+user = client.describe_user("analyst")
+print(user)
+# {
+#     "user_name": "analyst",
+#     "roles": ["read_only"],
+#     "description": "Analytics account",
+# }
 ```

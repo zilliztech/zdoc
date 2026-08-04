@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、UNIX エポックタイムスタンプからハイブリッドタイムスタンプに変換します。 | Python | ORM"
+description: "この操作は、UNIX epoch タイムスタンプから hybrid timestamp を変換します。 | Python | ORM"
 type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
   - vectordb
-  - マルチモーダルベクトルデータベース検索
-  - 検索拡張生成
-  - 大規模言語モデル
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # mkts_from_unixtime()
 
-この操作は、UNIX エポックタイムスタンプからハイブリッドタイムスタンプに変換します。
+この操作は、UNIX epoch タイムスタンプから hybrid timestamp を変換します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -60,12 +60,12 @@ utility.mkts_from_unixtime(
 
     **[REQUIRED]**
 
-    UNIX エポックタイムスタンプです。
+    UNIX epoch タイムスタンプ。
 
-    UNIX エポックタイムスタンプは、1970 年 1 月 1 日（UTC/GMT の午前 0 時）からの経過時間を秒単位で表す整数です。
+    UNIX epoch タイムスタンプは、1970年1月1日（UTC/GMT の午前0時）からの経過時間を秒単位で表す整数です。
 
-- **milliseconds** (*float*) -
-ミリ秒単位の増分時間間隔です。
+- **milliseconds** (*float*) -<br/>
+  ミリ秒単位の増分時間間隔です。
 
 - **delta** (*Optional[timedelta]*) -
 
@@ -76,7 +76,7 @@ utility.mkts_from_unixtime(
 *int*
 
 **RETURNS:**
-ハイブリッドタイムスタンプ。**0** から **18446744073709551615** までの範囲を取る非負の整数です。
+hybrid timestamp。**0** から **18446744073709551615** の範囲の非負整数です。
 
 ## **Examples**\{#examples}
 
@@ -107,7 +107,7 @@ mkts_from_unixtime(
 )
 ```
 
-## Related operations\{#related-operations}
+## 関連操作\{#related-operations}
 
 以下の操作は `mkts_from_unixtime()` に関連しています。
 

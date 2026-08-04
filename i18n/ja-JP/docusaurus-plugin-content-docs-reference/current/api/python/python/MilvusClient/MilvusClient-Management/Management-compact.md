@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、collection 内の小さなセグメントをマージして、ストレージレイアウトとクエリ効率を向上させる compaction ジョブを開始します。 | Python | MilvusClient"
+description: "target_size/target_size_unit と正のサイズ検証を追加します。非同期バリアントは同期メソッドと同じ仕様に従います。 | Python | MilvusClient"
 type: docx
 token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
 keywords: 
   - ハイブリッド検索
-  - レキシカル検索
+  - 語彙検索
   - 最近傍探索
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - compact()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-この操作は、collection 内の小さなセグメントをマージして、ストレージレイアウトとクエリ効率を向上させる compaction ジョブを開始します。
+target_size/target_size_unit と正のサイズ検証を追加します。非同期バリアントは同期メソッドと同じ仕様に従います。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 compact(
@@ -47,66 +47,56 @@ compact(
 ) -> int
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **collection_name** (*str*) -
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  コンパクション対象のコレクション名。
 
-    **[REQUIRED]**
+- **is_clustering** (*Optional[bool]*) -<br/>
+  デフォルト: `False`<br/>
+  クラスタリングコンパクションを要求するフラグ。
 
-    compaction を実行する collection の名前。
+- **is_l0** (*Optional[bool]*) -<br/>
+  デフォルト: `False`<br/>
+  レベルゼロコンパクションを要求するフラグ。
 
-- **is_clustering** (*bool*) -
+- **target_size** (*Optional[int]*) -<br/>
+  デフォルト: `None`<br/>
+  コンパクション後の希望するセグメントサイズ。値は正の整数である必要があります。省略した場合はサーバーのデフォルトが使用されます。
 
-    clustering compaction をトリガーするかどうか。
+- **target_size_unit** (*str*) -<br/>
+  デフォルト: `"mb"`<br/>
+  `target_size` の単位。サポートされる値は `b`、`kb`、`mb`、`gb`、`tb`、`pb` で、デフォルトは `mb` です。
 
-- **is_l0** (*bool*) -
+- **timeout** (*Optional[float]*) -<br/>
+  デフォルト: `None`<br/>
+  RPC を待機する最大時間（秒）。省略した場合、クライアントはサーバーが応答するかエラーが発生するまで待機します。
 
-    L0 compaction をトリガーするかどうか。
+- **kwargs** (*Any*) -<br/>
+  追加のリクエストコンテキストオプション。
 
-- **target_size** (*int*) -
-
-    compaction 後のターゲットセグメントサイズ（任意）。正の整数である必要があります。
-
-- **target_size_unit** (*str*) -
-
-    `target_size` の単位。サポートされる値は `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"`、`"pb"` です。
-
-- **timeout** (*float*) -
-
-    任意の RPC タイムアウト（秒）。
-
-- **kwargs** (*dict*) -
-
-    任意のリクエストコンテキストパラメータ。
-
-**戻り値の型:**
+**RETURN TYPE:**
 
 *int*
 
-後続のステータス照会に使用する compaction ジョブ ID。
+**RETURNS:**
 
-**例外:**
+Milvus によって返されるコンパクションジョブ識別子。
 
-- **ParamError**
+**EXCEPTIONS:**
 
-    `target_size` が整数でない場合、または `target_size_unit` が無効な場合に発生します。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-- **MilvusException**
+## Examples\{#examples}
 
-    サーバーがリクエストを拒否した場合、または compaction RPC が失敗した場合に発生します。
-
-## 例\{#examples}
+compact の使用方法を示します。
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
-job_id = client.compact(
-    collection_name="book_catalog",
-    is_clustering=True,
-    target_size=512,
-    target_size_unit="mb",
-)
-
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+job_id = client.compact(collection_name="book_chunks", target_size=512, target_size_unit="mb")
 print(job_id)
 ```

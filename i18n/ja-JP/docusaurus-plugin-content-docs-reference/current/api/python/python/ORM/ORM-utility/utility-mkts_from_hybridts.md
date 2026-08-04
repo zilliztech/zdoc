@@ -12,13 +12,13 @@ type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
-  - Machine Learning
+  - 機械学習
   - RAG
   - NLP
-  - Neural Network
+  - ニューラルネットワーク
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - mkts_from_hybridts()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -53,12 +53,12 @@ mkts_from_hybridts(
 
     ハイブリッドタイムスタンプは、**0** から **18446744073709551615** までの非負整数です。
 
-- **milliseconds** (*float*) -
-ミリ秒単位の増分時間間隔。
+- **milliseconds** (*float*) -<br/>
+  ミリ秒単位の増分時間間隔。
 
 - **delta** (*Optional[timedelta]*) -
 
-    2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差をマイクロ秒精度で表す期間を示す **datetime.timedelta** オブジェクト。
+    2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差をマイクロ秒精度で表す継続時間を示す **datetime.timedelta** オブジェクト。
 
 **RETURN TYPE:**
 

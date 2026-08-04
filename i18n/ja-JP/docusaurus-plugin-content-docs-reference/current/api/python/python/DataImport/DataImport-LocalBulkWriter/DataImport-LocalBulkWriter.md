@@ -39,7 +39,7 @@ class pymilvus.LocalBulkWriter
 
 ## Constructor\{#constructor}
 
-schema、出力パス、segment size、および file type によって LocalBulkWriter オブジェクトを構築します。
+schema、出力パス、segment サイズ、ファイルタイプを指定して LocalBulkWriter オブジェクトを構築します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -61,11 +61,11 @@ writer = LocalBulkWriter(
 
 **PARAMETERS:**
 
-- **schema** (*[CollectionSchema](./ORM-CollectionSchema)*) -
+- **schema** (*CollectionSchema*) -
 
     **[REQUIRED]**
 
-    書き換えられたデータのインポート先となる target collection の schema。
+    書き換えられたデータのインポート先となる対象 collection の schema。
 
 - **local_path** (*str*) -
 
@@ -79,15 +79,15 @@ writer = LocalBulkWriter(
 
     生データを書き換える際、Zilliz Cloud は生データを複数の segment に分割します。
 
-    この値のデフォルトは **536,870,912** バイト、つまり **512** MB です。
+    デフォルト値は **536,870,912** バイト、つまり **512** MB です。
 
     <Admonition type="info" icon="📘" title="Note">
 
     BulkWriter はどのようにデータを segment 化しますか？
     
-        **BulkWriter** がデータを segment 化する方法は、target file type によって異なります。
+        **BulkWriter** がデータを segment 化する方法は、対象のファイルタイプによって異なります。
     
-        生成されたファイルが指定された segment size を超える場合、**BulkWriter** は複数のファイルを作成し、それぞれが segment size を超えないように連番で名前を付けます。
+        生成されたファイルが指定された segment サイズを超える場合、**BulkWriter** は複数のファイルを作成し、segment サイズを超えないようにそれぞれに連番の名前を付けます。
 
     </Admonition>
 
@@ -101,7 +101,7 @@ writer = LocalBulkWriter(
 
 - **config** (*dict*)
 
-    CSV ファイルの処理に関するオプション設定を指定する辞書です。このパラメータは、**file_type** が **BulkFileType.CSV** に設定されている場合にのみ使用できます。設定例:
+    CSV ファイル処理用のオプション設定を指定する辞書です。このパラメーターは、**file_type** が **BulkFileType.CSV** に設定されている場合にのみ使用できます。設定例:
 
     ```python
     config={
@@ -112,11 +112,11 @@ writer = LocalBulkWriter(
 
     - **sep** (*string*)
 
-        CSV file の区切り文字。値は長さ 1 の文字列である必要があり、デフォルトは `","` です。次の文字列は使用できません: `"\0"`、`"\n"`、`"\r"`、`"""`。
+        CSV ファイルの区切り文字。値は長さ 1 の文字列である必要があり、デフォルトは `","` です。次の文字列は使用できません: `"\0"`, `"\n"`, `"\r"`, `"""`.
 
     - **nullkey** (*string*)
 
-        null 値を表す特殊文字列。デフォルト値は空文字列 `""` です。
+        null 値を表す特別な文字列。デフォルト値は空文字列です: `""`.
 
 **RETURN TYPE:**
 
@@ -130,13 +130,13 @@ writer = LocalBulkWriter(
 
 - **SchemaNotReadyException**
 
-    指定された schema が無効な場合に、この例外が発生します。
+    指定された schema が無効な場合にこの例外が発生します。
 
 ## Properties\{#properties}
 
 - **uuid** (*str*) -
 
-    ランダムに生成された UUID で、出力ファイルまたはディレクトリの命名に使用されます。JSON、Parquet、および NumPy 形式がサポートされています。
+    ランダムに生成される UUID。JSON、Parquet、NumPy 形式をサポートし、出力ファイルまたはディレクトリの命名に使用されます。
 
 - **data_path** (*pathlib.PosixPath*) -
 
