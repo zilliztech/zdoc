@@ -22,6 +22,7 @@ test('recovery helper reuses exact source authority, validation, promotion, and 
   const source = fs.readFileSync(helper, 'utf8')
   assert.match(source, /assertGuidesSourceAuthority/)
   assert.match(source, /validate-guides-translation-staging\.js/)
+  assert.match(source, /--expected-target-sha['"], values\.expectedTargetSha/)
   assert.match(source, /promoteStaging/)
   assert.match(source, /deleteStagingWithLease/)
   assert.match(source, /planTranslationBatchSet/)

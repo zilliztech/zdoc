@@ -471,7 +471,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!/translation-batch-set\.js plan/.test(identities) || !/PAIRS_MANIFEST/.test(identities) || !/ARTIFACT_PAIRS_MANIFEST/.test(identities) || !/--expected-target-sha/.test(identities) || !/--source-checkpoint-sha/.test(identities) || !/preflight-checkpoint-archive\.js/.test(identities) || !/bindPublisherBatchIdentity/.test(identities) || /translation-(?:checkpoint|baseline)-\$GROUP-\$\{GITHUB_RUN_ID\}/.test(identities) || /git fetch/.test(identities)) errors.push(`${file}: publisher must preflight and extract every resolved locale-qualified pair before staging`)
       if (!/translation-staging-publisher/.test(apply) || !/applyPhase/.test(apply) || !/prepareStagingWorktree/.test(publisherHelper) || !/applyTranslationBatch/.test(publisherHelper) || !/commitAppliedBatch/.test(publisherHelper)) errors.push(`${file}: publisher must use one detached worktree and apply and commit batches in order`)
       if (!/translation-staging-publisher/.test(push) || !/pushPhase/.test(push) || !/deterministicStagingRef/.test(publisherHelper) || !/pushStagingRef/.test(publisherHelper) || !/probeRemoteStaging/.test(publisherHelper)) errors.push(`${file}: publisher must push and reconcile the exact deterministic Guides staging ref`)
-      if (!/restore-generated-state\.sh --exact --ref "\$staged_sha"/.test(validation) || !/validate-guides-translation-staging\.js/.test(validation) || !/--trusted-root/.test(validation) || !/recordValidationInfrastructureFailure/.test(validation)) errors.push(`${file}: publisher must restore and validate the exact combined staged SHA through the fixed wrapper with retained failure evidence`)
+      if (!/restore-generated-state\.sh --exact --ref "\$staged_sha"/.test(validation) || !/validate-guides-translation-staging\.js/.test(validation) || !/--expected-target-sha "\$EXPECTED_TARGET_SHA"/.test(validation) || !/--trusted-root/.test(validation) || !/recordValidationInfrastructureFailure/.test(validation)) errors.push(`${file}: publisher must restore and validate the exact combined staged SHA through the fixed wrapper with retained failure evidence`)
       if (containsFullValidationCommand(validation)) errors.push(`${file}: combined staging validation must run only through the fixed validation wrapper`)
       if (!/status === 'no_changes'[\s\S]*promotePhase/.test(promotion) || !/promoteStaging/.test(publisherHelper) || !/probeRemoteTarget/.test(publisherHelper)) errors.push(`${file}: publisher must skip no-change promotion and otherwise use the normal fast-forward staging helper`)
       if (!/cleanupPhase/.test(cleanup) || !/deleteStagingWithLease/.test(publisherHelper)) errors.push(`${file}: staging cleanup must use the exact SHA lease helper`)
@@ -823,10 +823,18 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const installIndex = prepareSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
     const readinessIndex = prepareSteps.findIndex(step => step?.name === 'Verify translation publication readiness')
     const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
+    const cardStep = cardIndex >= 0 ? prepareSteps[cardIndex] : null
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
         readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
+    }
+    if (cardStep?.['continue-on-error'] !== true || cardStep?.env?.CARD_TITLE !== 'Zilliz Cloud Docs Build' ||
+        !/card_parts=\("Produce"\)[\s\S]*"Publish" "Verify"[\s\S]*"Handoff"/.test(callerSource)) {
+      errors.push('fetch-docs.yml: Build card must use the approved title, stages, and best-effort creation')
+    }
+    if (/Translate manuals|Publish translations|Dispatch downstream translation/.test(callerSource)) {
+      errors.push('fetch-docs.yml: Build card must not include downstream translation phases')
     }
     const sourceGroups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
     const sourceBarrier = caller?.jobs?.source_publication_barrier
@@ -859,9 +867,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !String(dispatchJob?.if || '').includes("needs.prepare_translation_handoff.result == 'success'")) {
       errors.push('fetch-docs.yml: downstream translation dispatch must wait for successful source publication handoff')
     }
+    const dispatchSteps = dispatchJob?.steps || []
+    const handoffMetadata = dispatchSteps.find(step => step?.name === 'Create translation handoff monitor metadata')
+    const handoffUpload = dispatchSteps.find(step => step?.name === 'Upload translation handoff monitor metadata')
+    if (!/schemaVersion:1[\s\S]*parentRunId[\s\S]*childRunId[\s\S]*childRunUrl/.test(handoffMetadata?.run || '') ||
+        handoffUpload?.['continue-on-error'] !== true ||
+        handoffUpload?.with?.name !== 'docs-translation-handoff-${{ github.run_id }}' ||
+        handoffUpload?.with?.path !== '${{ runner.temp }}/docs-translation-handoff/handoff-metadata.json') {
+      errors.push('fetch-docs.yml: downstream dispatch must upload fixed-schema handoff monitor metadata')
+    }
     const monitorNeeds = Array.isArray(monitor?.needs) ? monitor.needs : monitor?.needs ? [monitor.needs] : []
     if (monitorNeeds.length !== 1 || monitorNeeds[0] !== 'prepare') errors.push('fetch-docs.yml: central monitor must start after prepare only')
     if (monitor?.uses !== './.github/workflows/_monitor-docs-progress.yml') errors.push('fetch-docs.yml: central monitor must use _monitor-docs-progress.yml')
+    if (monitor?.with?.run_translations !== "${{ needs.prepare.outputs.run_translations == 'true' }}" || !String(monitor?.if || '').includes("card_id != ''")) {
+      errors.push('fetch-docs.yml: Build monitor must receive translation handoff intent and require a created card')
+    }
     const aggregateNeeds = Array.isArray(caller?.jobs?.aggregate?.needs) ? caller.jobs.aggregate.needs : []
     if (aggregateNeeds.includes('monitor_docs_progress')) errors.push('fetch-docs.yml: aggregate must not depend on the central monitor')
     const aggregateStep = (caller?.jobs?.aggregate?.steps || []).find(step => step?.id === 'aggregate')
@@ -895,8 +915,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/CARD_EXPECT_ZH_GUIDES_REPORTS:/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: card collection must declare both expected Guides locale report sets')
     }
-    if (!/CARD_REPORT_ARTIFACT_URL:/.test(aggregateSource)) {
-      errors.push('fetch-docs.yml: artifact-only card reports require a workflow artifact URL')
+    const aggregateSteps = caller?.jobs?.aggregate?.steps || []
+    const artifactLinkIndex = aggregateSteps.findIndex(step => step?.id === 'report_artifact_links')
+    const reportsIndex = aggregateSteps.findIndex(step => step?.id === 'reports')
+    const artifactLinkStep = artifactLinkIndex >= 0 ? aggregateSteps[artifactLinkIndex] : null
+    const reportsStep = reportsIndex >= 0 ? aggregateSteps[reportsIndex] : null
+    if (artifactLinkIndex < 0 || reportsIndex <= artifactLinkIndex || artifactLinkStep?.['continue-on-error'] !== true ||
+        !/gh api --paginate --slurp[\s\S]*resolve-card-artifact-links\.js/.test(artifactLinkStep?.run || '') ||
+        reportsStep?.env?.CARD_REPORT_ARTIFACT_URL_EN !== '${{ steps.report_artifact_links.outputs.en_url }}' ||
+        reportsStep?.env?.CARD_REPORT_ARTIFACT_URL_ZH_CN !== '${{ steps.report_artifact_links.outputs.zh_cn_url }}' ||
+        Object.hasOwn(reportsStep?.env || {}, 'CARD_REPORT_ARTIFACT_URL')) {
+      errors.push('fetch-docs.yml: aggregate must resolve exact Guides report artifact links before collection')
+    }
+    if (/#artifacts|CARD_GUIDES_PUBLICATION|Guides translation publication/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: Build report collection must not use run-wide or inline translation reports')
     }
     if (!/produce_guides:[\s\S]*assembly_decision_sha256: \$\{\{ needs\.produce_guides_sources\.outputs\.assembly_decision_sha256 \}\}/.test(callerSource)) {
       errors.push('fetch-docs.yml: must pass the canonical Guides assembly decision hash into assembly')
@@ -925,8 +957,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const guidesSource = readWorkflow('_fetch-guides-sources.yml')
   if (guidesSource) {
     if (!/name: Create Guides progress metadata[\s\S]*continue-on-error: true/.test(guidesSource) ||
-        !/name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
-      errors.push('_fetch-guides-sources.yml: Guides progress metadata must be best-effort and run-scoped')
+        !/schemaVersion:2[\s\S]*locale:process\.env\.ZDOC_SITE[\s\S]*tableTotal:/.test(guidesSource) ||
+        !/name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides progress metadata must be best-effort, locale-qualified, and run-scoped')
     }
     let guidesWorkflow = {}
     try { guidesWorkflow = yaml.load(guidesSource) } catch {}
@@ -1062,6 +1095,37 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
   }
 
+  const translationSource = readWorkflow('translate-codex.yml')
+  const translationMonitorSource = readWorkflow('_monitor-translation-progress.yml')
+  if (translationSource) {
+    let translation = {}
+    try { translation = yaml.load(translationSource) } catch {}
+    const initialize = translation.jobs?.initialize_translation_card
+    const translationMonitor = translation.jobs?.monitor_translation_progress
+    const translationAggregateNeeds = Array.isArray(translation.jobs?.aggregate?.needs) ? translation.jobs.aggregate.needs : []
+    const translationCard = (initialize?.steps || []).find(step => step?.id === 'card')
+    if (!String(initialize?.if || '').includes("inputs.request_id != ''") ||
+        translationCard?.['continue-on-error'] !== true ||
+        !/Zilliz Cloud Docs Translation/.test(translationCard?.run || '') ||
+        !/Prepare,Translate,Publish,Aggregate/.test(translationCard?.run || '')) {
+      errors.push('translate-codex.yml: Translation card must use the approved title, stages, and best-effort creation')
+    }
+    if (translationMonitor?.uses !== './.github/workflows/_monitor-translation-progress.yml' ||
+        !String(translationMonitor?.if || '').includes("card_id != ''") ||
+        translationAggregateNeeds.includes('monitor_translation_progress')) {
+      errors.push('translate-codex.yml: Translation monitor must be independent from the child aggregate')
+    }
+  }
+  if (translationMonitorSource) {
+    if (!/^permissions:\n  actions: read\n  contents: read$/m.test(translationMonitorSource) ||
+        !/HANDOFF_JSON: \$\{\{ inputs\.handoff_json \}\}[\s\S]*REQUEST_ID: \$\{\{ inputs\.request_id \}\}[\s\S]*PUBLISH_ENABLED: \$\{\{ inputs\.publish_enabled \}\}/.test(translationMonitorSource) ||
+        /contents: write|actions: write|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY/.test(translationMonitorSource)) {
+      errors.push('_monitor-translation-progress.yml: Translation monitor must be read-only and receive exact handoff inputs')
+    }
+  } else if (translationSource) {
+    errors.push('_monitor-translation-progress.yml: Translation monitor workflow is required')
+  }
+
   const watchdogSource = readWorkflow('docs-ingestion-watchdog.yml')
   if (watchdogSource) {
     const watchdog = yaml.load(watchdogSource)
@@ -1116,6 +1180,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       /\n\s*'(?:docs|docs-byoc|reference|config\/generated)',/.test(guidesValidationSource)) {
     errors.push('validate-guides-translation-staging.js: combined validation must require canonical tracked roots only')
   }
+  if (!/exactCommit\(repository, expectedTargetSha, 'expectedTargetSha'/.test(guidesValidationSource) ||
+      !/verifyRestoredPaths\(repository, expectedTargetSha, outside/.test(guidesValidationSource)) {
+    errors.push('validate-guides-translation-staging.js: outside restored paths must exactly match the trusted expected target baseline')
+  }
+  if (!/git\(repository, \['merge-base', '--is-ancestor', expectedTargetSha, stagedSha\], environment\)/.test(guidesValidationSource)) {
+    errors.push('validate-guides-translation-staging.js: expected target must be an ancestor of staged translation')
+  }
 
   const publicationReportSource = fs.readFileSync(options.publicationReportPath || path.join(process.cwd(), 'scripts/docs-workflow/translation-publication-report.js'), 'utf8')
   if (!/validationSpec\('english-saas-mdx',[\s\S]*'content\/en\/guides'/.test(publicationReportSource) ||
@@ -1152,6 +1223,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     [/planTranslationBatchSet/, 'must replan complete validated pairs when the target moved'],
     [/applyPhase/, 'must recompose through the delta-safe staging worktree path'],
     [/validate-guides-translation-staging\.js/, 'must rerun the fixed seven-command validation gate'],
+    [/--expected-target-sha['"], values\.expectedTargetSha/, 'must bind validation to the candidate expected target baseline'],
     [/promoteStaging/, 'must use normal fast-forward staging promotion'],
     [/deleteStagingWithLease/, 'must use exact leased staging cleanup'],
     [/complete validated recovery pairs are unavailable/, 'must fail closed when target movement lacks complete recovery pairs'],

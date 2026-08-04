@@ -376,12 +376,12 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p "$RUNNER_TEMP/docs-progress-metadata"
-          node -e 'const fs=require("node:fs");const value={schemaVersion:1,runId:Number(process.env.GITHUB_RUN_ID),guidesTableTotal:Number(process.argv[1])};fs.writeFileSync(process.argv[2],JSON.stringify(value)+"\n")' "${{ steps.table_matrix.outputs.count }}" "$RUNNER_TEMP/docs-progress-metadata/progress-metadata.json"
+          node -e 'const fs=require("node:fs");const value={schemaVersion:2,runId:Number(process.env.GITHUB_RUN_ID),locale:process.env.ZDOC_SITE,tableTotal:Number(process.argv[1])};fs.writeFileSync(process.argv[2],JSON.stringify(value)+"\n")' "${{ steps.table_matrix.outputs.count }}" "$RUNNER_TEMP/docs-progress-metadata/progress-metadata.json"
       - name: Upload Guides progress metadata
         continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
-          name: docs-progress-metadata-${{ github.run_id }}
+          name: docs-progress-metadata-${{ inputs.site }}-${{ github.run_id }}
           path: ${{ runner.temp }}/docs-progress-metadata/progress-metadata.json
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: ignore

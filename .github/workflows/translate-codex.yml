@@ -19,12 +19,57 @@ on:
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
+      APP_ID: { required: false }
+      APP_SECRET: { required: false }
 
 permissions:
   actions: read
   contents: write
 
 jobs:
+  initialize_translation_card:
+    if: ${{ inputs.request_id != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      card_id: ${{ steps.card.outputs.card_id }}
+      card_started_at: ${{ steps.card.outputs.card_started_at }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ github.sha }}', fetch-depth: 1 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - id: target
+        name: Validate card handoff target
+        env: { HANDOFF_JSON: '${{ inputs.handoff_json }}' }
+        run: node -e 'const fs=require("node:fs");const {validateTranslationHandoff}=require("./scripts/docs-workflow/translation-handoff");const value=validateTranslationHandoff(JSON.parse(process.env.HANDOFF_JSON));fs.appendFileSync(process.env.GITHUB_OUTPUT,"target_branch="+value.targetBranch+"\n")'
+      - id: card
+        name: Create Translation progress card
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "Zilliz Cloud Docs Translation" --stages "Prepare,Translate,Publish,Aggregate" --target-branch "$TARGET_BRANCH"
+        env:
+          TARGET_BRANCH: ${{ steps.target.outputs.target_branch }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+  monitor_translation_progress:
+    needs: [initialize_translation_card]
+    if: ${{ needs.initialize_translation_card.outputs.card_id != '' }}
+    uses: ./.github/workflows/_monitor-translation-progress.yml
+    with:
+      tooling_sha: ${{ github.sha }}
+      card_id: ${{ needs.initialize_translation_card.outputs.card_id }}
+      card_started_at: ${{ needs.initialize_translation_card.outputs.card_started_at }}
+      handoff_json: ${{ inputs.handoff_json }}
+      request_id: ${{ inputs.request_id }}
+      publish_enabled: ${{ inputs.publish }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+
   prepare:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -242,8 +287,96 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with: { group: reference-landings, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-reference-landings-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-reference-landings-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish reference-landings translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: "${{ fromJSON(needs.prepare.outputs.source_checkpoints_json)['reference-landings'] }}", target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group reference-landings' }
 
-  aggregate:
+  reconcile_published_state:
     needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings]
+    if: ${{ always() && inputs.publish && needs.prepare.outputs.group == 'all' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Require successful translation publication chain
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          node - <<'NODE'
+          const needs = JSON.parse(process.env.NEEDS_JSON)
+          const failed = Object.entries(needs).filter(([, value]) => value.result === 'failure' || value.result === 'cancelled')
+          if (failed.length) throw new Error(`Cannot reconcile failed translation publication: ${failed.map(([name, value]) => `${name}=${value.result}`).join(', ')}`)
+          if (needs.prepare?.result !== 'success') throw new Error('Translation handoff preparation did not succeed')
+          NODE
+      - uses: actions/checkout@v4
+        with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Reconcile and publish derived translation state
+        env:
+          INPUT_LOCALE: ${{ needs.prepare.outputs.locale }}
+          SOURCE_SHA: ${{ needs.prepare.outputs.target_branch_sha }}
+          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git check-ref-format --branch "$TARGET_BRANCH"
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"
+          bash scripts/restore-generated-state.sh --exact --ref "$target_sha"
+
+          paths=(deploy/contracts/localization-inputs.inventory.json)
+          if [[ "$INPUT_LOCALE" == zh-CN || "$INPUT_LOCALE" == all ]]; then
+            pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write
+            pnpm docs-tooling validate-reference --site zh-CN
+            paths+=(
+              generated/en/manifests/reference.json
+              generated/zh-CN/manifests/reference-translations.json
+              generated/en/sidebars/python.sidebar.js
+              generated/en/sidebars/java.sidebar.js
+              generated/en/sidebars/node.sidebar.js
+              generated/en/sidebars/go.sidebar.js
+              generated/en/sidebars/cli.sidebar.js
+              generated/en/sidebars/restful.sidebar.js
+              generated/zh-CN/sidebars/python.sidebar.js
+              generated/zh-CN/sidebars/java.sidebar.js
+              generated/zh-CN/sidebars/node.sidebar.js
+              generated/zh-CN/sidebars/go.sidebar.js
+              generated/zh-CN/sidebars/cli.sidebar.js
+              generated/zh-CN/sidebars/restful.sidebar.js
+            )
+          fi
+          pnpm generate:localization-input-inventory
+          pnpm check:localization-input-inventory
+          if [[ "$INPUT_LOCALE" == ja-JP || "$INPUT_LOCALE" == all ]]; then
+            pnpm docs-tooling validate-mdx --path i18n/ja-JP
+            for group in guides python java node go cli rest; do
+              pnpm docs-tooling validate-translation --target ja-JP --group "$group"
+            done
+          fi
+
+          publish_worktree=$(mktemp -d "$RUNNER_TEMP/translation-derived.XXXXXX")
+          rmdir "$publish_worktree"
+          cleanup() { git worktree remove --force "$publish_worktree" >/dev/null 2>&1 || true; git worktree prune >/dev/null 2>&1 || true; }
+          trap cleanup EXIT
+          git worktree add --detach "$publish_worktree" "$target_sha"
+          for path in "${paths[@]}"; do
+            [[ -f "$path" && ! -L "$path" ]]
+            mkdir -p "$publish_worktree/$(dirname "$path")"
+            cp -- "$path" "$publish_worktree/$path"
+          done
+          git -C "$publish_worktree" add -- "${paths[@]}"
+          if git -C "$publish_worktree" diff --cached --quiet; then
+            echo "Derived translation state is already current."
+            exit 0
+          fi
+          git -C "$publish_worktree" config user.name docs-publish-bot
+          git -C "$publish_worktree" config user.email docs-publish-bot@users.noreply.github.com
+          git -C "$publish_worktree" commit -m 'chore(i18n): reconcile derived translation state' \
+            -m "sourceSha: $SOURCE_SHA" \
+            -m "translationTargetSha: $target_sha"
+          git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"
+
+  aggregate:
+    needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings, reconcile_published_state]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5

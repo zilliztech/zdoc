@@ -551,11 +551,23 @@ test('central monitor owns live and terminal card presentation', () => {
   const workflow = yaml.load(callerSource)
   assert.deepEqual(workflow.jobs.monitor_docs_progress.needs, ['prepare'])
   assert.equal(workflow.jobs.monitor_docs_progress.uses, './.github/workflows/_monitor-docs-progress.yml')
+  assert.equal(workflow.jobs.monitor_docs_progress.with.run_translations, "${{ needs.prepare.outputs.run_translations == 'true' }}")
   assert.equal(workflow.jobs.aggregate.needs.includes('monitor_docs_progress'), false)
   assert.deepEqual(workflow.jobs.finalize_card_fallback.needs, ['prepare', 'aggregate', 'monitor_docs_progress'])
   assert.match(workflow.jobs.finalize_card_fallback.if, /monitor_docs_progress\.result != 'success'/)
   assert.match(callerSource, /name: docs-card-report-\$\{\{ github\.run_id \}\}/)
   assert.doesNotMatch(callerSource, /name: Finish progress card/)
+  const sourceCard = workflow.jobs.prepare.steps.find(step => step.id === 'card')
+  assert.equal(sourceCard['continue-on-error'], true)
+  assert.equal(sourceCard.env.CARD_TITLE, 'Zilliz Cloud Docs Build')
+
+  const translationSource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
+  const translation = yaml.load(translationSource)
+  const translationCard = translation.jobs.initialize_translation_card.steps.find(step => step.id === 'card')
+  assert.equal(translationCard['continue-on-error'], true)
+  assert.match(translationCard.run, /Zilliz Cloud Docs Translation/)
+  assert.equal(translation.jobs.monitor_translation_progress.uses, './.github/workflows/_monitor-translation-progress.yml')
+  assert.equal(translation.jobs.aggregate.needs.includes('monitor_translation_progress'), false)
 
   const monitor = fs.readFileSync('.github/workflows/_monitor-docs-progress.yml', 'utf8')
   assert.match(monitor, /^\s+actions: read$/m)
@@ -573,6 +585,57 @@ test('central monitor owns live and terminal card presentation', () => {
   }
   for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
     assert.doesNotMatch(fs.readFileSync(path.join('.github/workflows', file), 'utf8'), /APP_ID|APP_SECRET/, file)
+  }
+})
+
+test('workflow validator enforces the separate Build and Translation card contract', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('CARD_TITLE: Zilliz Cloud Docs Build', 'CARD_TITLE: Legacy Docs Build'),
+      expected: /Build card must use the approved title/,
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace("      run_translations: ${{ needs.prepare.outputs.run_translations == 'true' }}\n", ''),
+      expected: /Build monitor must receive translation handoff intent/,
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('name: docs-translation-handoff-${{ github.run_id }}', 'name: docs-translation-handoff'),
+      expected: /fixed-schema handoff monitor metadata/,
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('resolve-card-artifact-links.js', 'missing-artifact-resolver.js'),
+      expected: /resolve exact Guides report artifact links/,
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('Zilliz Cloud Docs Translation', 'Legacy Translation'),
+      expected: /Translation card must use the approved title/,
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('publish_zh_reference_landings, reconcile_published_state]\n    if: ${{ always() }}', 'publish_zh_reference_landings, reconcile_published_state, monitor_translation_progress]\n    if: ${{ always() }}'),
+      expected: /Translation monitor must be independent/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'report-card-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = fixture.mutate(source)
+      assert.notEqual(mutated, source, `${fixture.file} mutation must change source`)
+      fs.writeFileSync(file, mutated)
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
   }
 })
 
@@ -774,9 +837,9 @@ test('workflow validator rejects incomplete aggregate report ingestion', () => {
     },
     {
       mutate(source) {
-        return source.replace(/^\s+CARD_REPORT_ARTIFACT_URL:.*\n/m, '')
+        return source.replace(/      - id: report_artifact_links[\s\S]*?      - id: reports\n/, '      - id: reports\n')
       },
-      expected: /artifact-only card reports require a workflow artifact URL/,
+      expected: /exact Guides report artifact links/,
     },
     {
       mutate(source) {
@@ -1008,7 +1071,7 @@ test('guides source and table render expose jobs for the central monitor without
   assert.equal(caller.jobs.render_guides_tables.with.site, 'en')
   assert.equal(caller.jobs.produce_guides.with.site, 'en')
   assert.match(source, /name: Create Guides progress metadata[\s\S]*continue-on-error: true/)
-  assert.match(source, /name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ inputs\.site \}\}-\$\{\{ github\.run_id \}\}/)
   const metadataSteps = source.slice(source.indexOf('name: Create Guides progress metadata'), source.indexOf('name: Create shared source artifact'))
   assert.doesNotMatch(metadataSteps, /APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
 })
@@ -1443,6 +1506,12 @@ test('Guides publisher resolves and preflights locale-qualified artifact pairs b
   assert.doesNotMatch(validation.run, /translation-(?:checkpoint|baseline)-\$GROUP-\$\{GITHUB_RUN_ID\}/)
 })
 
+test('Guides publisher passes the trusted expected target baseline to combined validation', () => {
+  const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/_publish-translation-batches.yml'), 'utf8'))
+  const validation = workflow.jobs.publish.steps.find(step => step.name === 'Validate combined Guides translation')
+  assert.match(validation.run, /--expected-target-sha "\$EXPECTED_TARGET_SHA"/)
+})
+
 test('workflow policy rejects repaired Guides helper boundary mutations', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
@@ -1460,6 +1529,16 @@ test('workflow policy rejects repaired Guides helper boundary mutations', () => 
       option: 'guidesValidationPath',
       source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8').replaceAll('content/en/guides', 'docs'),
       expected: 'validate-guides-translation-staging.js: combined validation must require canonical tracked roots only',
+    },
+    {
+      option: 'guidesValidationPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8').replace('verifyRestoredPaths(repository, expectedTargetSha, outside', 'verifyRestoredPaths(repository, stagedSha, outside'),
+      expected: 'validate-guides-translation-staging.js: outside restored paths must exactly match the trusted expected target baseline',
+    },
+    {
+      option: 'guidesValidationPath',
+      source: fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/validate-guides-translation-staging.js'), 'utf8').replace("  try { git(repository, ['merge-base', '--is-ancestor', expectedTargetSha, stagedSha], environment) } catch { throw new Error('expected target SHA must be an ancestor of staged SHA') }\n", ''),
+      expected: 'validate-guides-translation-staging.js: expected target must be an ancestor of staged translation',
     },
     {
       option: 'publicationReportPath',
@@ -1738,6 +1817,10 @@ test('durable translation batch preparation uses the same source delta as batch 
 test('fetch preparation blocks paid translation until publication readiness regressions pass', () => {
   const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
   const steps = workflow.jobs.prepare.steps
+  const checkout = steps[0]
+  assert.equal(checkout.uses, 'actions/checkout@v4')
+  assert.equal(checkout.with.ref, '${{ github.sha }}')
+  assert.equal(checkout.with['fetch-depth'], 1)
   const installIndex = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
   const readinessIndex = steps.findIndex(step => step.name === 'Verify translation publication readiness')
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
@@ -1767,7 +1850,9 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.doesNotMatch(source, /gh run list[^\n]*--branch/)
   assert.match(source, /gh run list[^\n]*--json displayTitle,url,headSha[\s\S]*\.headSha == \$sha/)
   assert.doesNotMatch(source, /Translate manuals|Publish translations|Publish [a-z]+ translation/)
-  assert.match(source, /Dispatch downstream translation/)
+  assert.match(source, /card_parts\+=\("Handoff"\)/)
+  assert.match(source, /Zilliz Cloud Docs Build/)
+  assert.doesNotMatch(source, /Translate manuals|Publish translations|Dispatch downstream translation/)
 })
 
 test('workflow policy rejects embedded translation and an unvalidated downstream dispatch', () => {
@@ -1855,6 +1940,33 @@ test('manual translation workflow owns parallel producers and serial publication
     assert.ok(parsed.jobs[publishers[index]].needs.includes(publishers[index - 1]), `${publishers[index]} must wait for ${publishers[index - 1]}`)
     assert.match(parsed.jobs[publishers[index]].if, new RegExp(`needs\\.${publishers[index - 1]}\\.result`))
   }
+})
+
+test('full translation publication reconciles derived state before aggregate success', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/translate-codex.yml')
+  const source = fs.readFileSync(workflowPath, 'utf8')
+  const workflow = yaml.load(source)
+  const reconcile = workflow.jobs.reconcile_published_state
+
+  assert.ok(reconcile, 'full translation workflow must reconcile derived state')
+  assert.ok(reconcile.needs.includes('prepare'))
+  assert.ok(reconcile.needs.includes('publish_zh_reference_landings'))
+  assert.match(reconcile.if, /inputs\.publish/)
+  assert.match(reconcile.if, /needs\.prepare\.outputs\.group == 'all'/)
+  assert.equal(reconcile.steps.find(step => step.uses === 'actions/checkout@v4')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
+
+  const run = reconcile.steps.find(step => step.name === 'Reconcile and publish derived translation state')?.run || ''
+  assert.match(run, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
+  assert.match(run, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_SHA" --write/)
+  assert.match(run, /pnpm generate:localization-input-inventory/)
+  assert.match(run, /pnpm check:localization-input-inventory/)
+  assert.match(run, /pnpm docs-tooling validate-reference --site zh-CN/)
+  assert.match(run, /deploy\/contracts\/localization-inputs\.inventory\.json/)
+  assert.match(run, /generated\/en\/manifests\/reference\.json/)
+  assert.match(run, /generated\/zh-CN\/manifests\/reference-translations\.json/)
+  assert.match(run, /git worktree add --detach "\$publish_worktree" "\$target_sha"/)
+  assert.match(run, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
+  assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_published_state'))
 })
 
 test('Guides translation batches take row identity from the matrix and shared metadata from preparation outputs', () => {
