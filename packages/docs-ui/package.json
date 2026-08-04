@@ -23,17 +23,17 @@
     "zod-to-json-schema": "^3.25.1"
   },
   "peerDependencies": {
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/plugin-content-docs": "3.10.1",
-    "@docusaurus/theme-classic": "3.10.1",
-    "@docusaurus/theme-common": "3.10.1",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/plugin-content-docs": "3.10.2",
+    "@docusaurus/theme-classic": "3.10.2",
+    "@docusaurus/theme-common": "3.10.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@docusaurus/theme-classic": "3.10.1",
-    "@docusaurus/types": "3.10.1",
-    "@swc/core": "1.15.32",
+    "@docusaurus/theme-classic": "3.10.2",
+    "@docusaurus/types": "3.10.2",
+    "@swc/core": "1.15.47",
     "@testing-library/react": "^16.3.2",
     "vitest": "^3.2.7"
   }

@@ -318,9 +318,9 @@ describe('docs UI Docusaurus integration', () => {
   it('uses peer dependencies for React and Docusaurus context singletons', () => {
     const manifest = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'packages/docs-ui/package.json'), 'utf8'));
     expect(manifest.peerDependencies).toMatchObject({
-      '@docusaurus/core': '3.10.1',
-      '@docusaurus/plugin-content-docs': '3.10.1',
-      '@docusaurus/theme-common': '3.10.1',
+      '@docusaurus/core': '3.10.2',
+      '@docusaurus/plugin-content-docs': '3.10.2',
+      '@docusaurus/theme-common': '3.10.2',
       react: '^18.0.0',
       'react-dom': '^18.0.0',
     });
