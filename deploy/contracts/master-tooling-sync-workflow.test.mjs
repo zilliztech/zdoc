@@ -10,6 +10,7 @@ test('master tooling sync uses a reviewed bootstrap and the shared dev writer lo
   const source = await readFile(path.join(repositoryRoot, '.github/workflows/sync-master-tooling-to-dev.yml'), 'utf8');
   const workflow = yaml.load(source);
   assert.deepEqual(workflow.on.push.branches, ['master']);
+  assert.deepEqual(workflow.on.schedule, [{cron: '17 */6 * * *'}]);
   assert.equal(workflow.on.workflow_dispatch.inputs.tooling_sha.required, true);
   assert.deepEqual(workflow.permissions, {actions: 'write', contents: 'write', 'pull-requests': 'write'});
   assert.deepEqual(workflow.concurrency, {group: 'docs-production-dev', 'cancel-in-progress': false});
@@ -18,6 +19,13 @@ test('master tooling sync uses a reviewed bootstrap and the shared dev writer lo
   assert.match(source, /VALIDATION_WORKFLOW: \$\{\{ steps\.bootstrap\.outputs\.validation_workflow \}\}/);
   assert.match(source, /git merge-base --is-ancestor "\$tooling_sha" origin\/master/);
   assert.doesNotMatch(source, /push --force|push -f|--force-with-lease/);
+});
+
+test('scheduled tooling sync resolves the current master SHA without dispatch inputs', async () => {
+  const source = await readFile(path.join(repositoryRoot, '.github/workflows/sync-master-tooling-to-dev.yml'), 'utf8');
+  assert.match(source, /GITHUB_EVENT_NAME" == workflow_dispatch[\s\S]*tooling_sha="\$REQUESTED_TOOLING_SHA"/);
+  assert.match(source, /GITHUB_EVENT_NAME" == push[\s\S]*tooling_sha="\$GITHUB_SHA"/);
+  assert.match(source, /tooling_sha=\$\(git rev-parse origin\/master\)/);
 });
 
 test('master tooling sync validates exact ownership, both sites, and dev identity before merge', async () => {
