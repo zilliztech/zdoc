@@ -297,6 +297,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
     }
 
+    if (file === 'sync-master-tooling-to-dev.yml') {
+      const checkout = namedJobStep(workflow, 'sync', 'Check out workflow tooling')
+      if (checkout?.uses !== 'actions/checkout@v5' ||
+          checkout?.with?.ref !== '${{ github.sha }}' ||
+          checkout?.with?.['fetch-depth'] !== 0 ||
+          checkout?.with?.filter !== 'blob:none') {
+        errors.push(`${file}: tooling sync must retain the full commit graph without downloading historical blobs`)
+      }
+    }
+
     if (file === '_fetch-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
