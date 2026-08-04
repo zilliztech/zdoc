@@ -48,7 +48,7 @@ function repository(): string {
     writeFileSync(path.join(root, `generated/en/sidebars/${manual}.sidebar.js`), 'module.exports = ["api/python/page"]\n');
   }
   writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify(navigationConfig(), null, 2)}\n`);
-  writeFileSync(path.join(root, 'config/reference-retirements.json'), '{\n  "schemaVersion": 1,\n  "retirements": []\n}\n');
+  writeFileSync(path.join(root, 'config/reference-retirements.json'), '{\n  "schemaVersion": 2,\n  "retirements": []\n}\n');
   writeFileSync(path.join(root, '.gitignore'), '.DS_Store\n');
   git(root, ['init', '--quiet']);
   git(root, ['config', 'user.email', 'reference-test@example.invalid']);
@@ -93,12 +93,13 @@ function retiredRepository(): string {
   const root = repository();
   rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
   writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
-    schemaVersion: 1,
+    schemaVersion: 2,
     retirements: [{
       manual: 'python',
       sourcePath: 'content/en/reference/api/python/page.md',
       targetPath: 'content/zh-CN/reference/api/python/page.md',
-      reason: 'Fixture retirement',
+      changeKind: null,
+      rationale: 'Fixture retirement',
     }],
   }, null, 2) + '\n');
   git(root, ['add', '-A']);
@@ -210,12 +211,13 @@ describe('Reference manifest executable security boundary', () => {
     const root = repository();
     rmSync(path.join(root, 'content/en/reference/api/python/page.md'));
     writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
-      schemaVersion: 1,
+      schemaVersion: 2,
       retirements: [{
         manual: 'python',
         sourcePath: 'content/en/reference/api/python/page.md',
         targetPath: 'content/zh-CN/reference/api/python/page.md',
-        reason: 'Fixture source was explicitly retired',
+        changeKind: null,
+        rationale: 'Fixture source was explicitly retired',
       }],
     }, null, 2) + '\n');
     git(root, ['add', '-A']);
@@ -229,6 +231,29 @@ describe('Reference manifest executable security boundary', () => {
     expect(JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8')).records).toHaveLength(1);
     const translations = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
     expect(translations.records).toHaveLength(2);
+    expect(translations.records.find((record: {sourcePath: string}) => record.sourcePath.endsWith('/page.md'))?.status).toBe('retired');
+  });
+
+  it('generates a retired record when only the registered English source remains', () => {
+    const root = repository();
+    rmSync(path.join(root, 'content/zh-CN/reference/api/python/page.md'));
+    writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
+      schemaVersion: 2,
+      retirements: [{
+        manual: 'python',
+        sourcePath: 'content/en/reference/api/python/page.md',
+        targetPath: 'content/zh-CN/reference/api/python/page.md',
+        changeKind: null,
+        rationale: 'Fixture target was explicitly retired',
+      }],
+    }, null, 2) + '\n');
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'retire target']);
+
+    const result = generate(root);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    const translations = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
     expect(translations.records.find((record: {sourcePath: string}) => record.sourcePath.endsWith('/page.md'))?.status).toBe('retired');
   });
 
@@ -289,16 +314,17 @@ describe('Reference manifest executable security boundary', () => {
   });
 
   it.each([
-    ['empty', (root: string) => writeFileSync(path.join(root, 'config/reference-retirements.json'), '{"schemaVersion":1,"retirements":[]}\n')],
+    ['empty', (root: string) => writeFileSync(path.join(root, 'config/reference-retirements.json'), '{"schemaVersion":2,"retirements":[]}\n')],
     ['missing', (root: string) => rmSync(path.join(root, 'config/reference-retirements.json'))],
     ['malformed', (root: string) => writeFileSync(path.join(root, 'config/reference-retirements.json'), '{not-json\n')],
     ['stale', (root: string) => writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
-      schemaVersion: 1,
+      schemaVersion: 2,
       retirements: [{
         manual: 'python',
         sourcePath: 'content/en/reference/api/python/stale.md',
         targetPath: 'content/zh-CN/reference/api/python/stale.md',
-        reason: 'Stale fixture retirement',
+        changeKind: null,
+        rationale: 'Stale fixture retirement',
       }],
     }, null, 2) + '\n')],
   ])('rejects a %s retirement registry during Chinese executable validation', (_kind, mutate) => {
@@ -309,6 +335,25 @@ describe('Reference manifest executable security boundary', () => {
 
     expect(result.status).not.toBe(0);
     expect(result.stderr).toMatch(/retirement|registry|missing|json/i);
+  });
+
+  it('ignores an obsolete retirement approval after both source and translation are restored', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    writeFileSync(path.join(root, 'config/reference-retirements.json'), JSON.stringify({
+      schemaVersion: 2,
+      retirements: [{
+        manual: 'python',
+        sourcePath: 'content/en/reference/api/python/page.md',
+        targetPath: 'content/zh-CN/reference/api/python/page.md',
+        changeKind: null,
+        rationale: 'Obsolete fixture retirement',
+      }],
+    }, null, 2) + '\n');
+
+    const result = validateChinese(root);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
   });
 
   it('rejects a source manifest manual that does not match authoritative ownership', () => {
