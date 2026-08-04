@@ -464,4 +464,4 @@ async function main() {
 
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1 })
 
-module.exports = { assertMediaCoverage, bootstrapMediaEntries, collectMediaReferences, figmaIdentity, parseArgs, prefetchGuidesMedia, readMediaManifest, resolvePrefetchScopes, selectRequiredSourceFiles, selectSourceFiles, sourceFilesForSnapshot, validateEntries, validateMediaPrefetchMetrics, writeMediaManifest, writeMediaPrefetchReport }
+module.exports = { assertMediaCoverage, bootstrapMediaEntries, collectMediaReferences, figmaIdentity, parseArgs, prefetchGuidesMedia, readMediaManifest, resolvePrefetchScopes, selectRequiredSourceFiles, selectSourceFiles, sourceFilesForSnapshot, trimBoard, validateEntries, validateMediaPrefetchMetrics, writeMediaManifest, writeMediaPrefetchReport }

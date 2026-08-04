@@ -15,10 +15,32 @@ const {
   resolvePrefetchScopes,
   selectRequiredSourceFiles,
   selectSourceFiles,
+  trimBoard,
   validateMediaPrefetchMetrics,
   writeMediaManifest,
   writeMediaPrefetchReport,
 } = require('./guides-media-prefetch')
+
+test('real Sharp processing trims a board and adds the publication border', async () => {
+  const sharp = require('sharp')
+  const input = Buffer.from([
+    '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30">',
+    '<rect width="30" height="30" fill="white"/>',
+    '<rect x="10" y="10" width="10" height="10" fill="black"/>',
+    '</svg>',
+  ].join(''))
+
+  const output = await trimBoard(input)
+  const metadata = await sharp(output).metadata()
+  assert.equal(metadata.format, 'png')
+  assert.equal(metadata.width, 50)
+  assert.equal(metadata.height, 50)
+
+  const {data, info} = await sharp(output).ensureAlpha().raw().toBuffer({resolveWithObject: true})
+  const pixel = (x, y) => [...data.subarray((y * info.width + x) * info.channels, (y * info.width + x + 1) * info.channels)]
+  assert.deepEqual(pixel(0, 0), [255, 255, 255, 255])
+  assert.deepEqual(pixel(20, 20), [0, 0, 0, 255])
+})
 
 function writeSource(root, name, blocks) {
   fs.mkdirSync(root, { recursive: true })
