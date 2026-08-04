@@ -46,6 +46,8 @@ test('sequential stale Python and Java source artifacts preserve remote and each
   try {
     put(s.seed, 'content/en/reference/api/python/python/keep.md', 'python old\n'); put(s.seed, 'content/en/reference/api/python/python/delete.md', 'delete\n');
     put(s.seed, 'content/en/reference/api/java/java/v2/keep.md', 'java old\n'); put(s.seed, 'content/en/reference/api/java/java/v2/delete.md', 'delete\n');
+    put(s.seed, 'content/en/reference/api/python/python/python.md', '# Python\n');
+    put(s.seed, 'content/en/reference/api/java/java/java.md', '# Java\n');
     put(s.seed, 'generated/en/sidebars/python.sidebar.js', 'python old sidebar\n'); put(s.seed, 'generated/en/sidebars/java.sidebar.js', 'java old sidebar\n');
     put(s.seed, 'packages/docs-tooling/src/lark/meta/snapshots/pymilvus30-uat-last-success.json', '{"old":true}\n');
     put(s.seed, 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json', '{"old":true}\n');
