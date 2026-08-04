@@ -11,7 +11,7 @@ import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../valid
 type Site = 'en' | 'zh-CN';
 type LinkEntry = {url: string; page?: string; pages?: string[]; status?: number; error?: string};
 type FetchResponse = {ok: boolean; status: number; text(): Promise<string>};
-type FetchLike = (url: string | URL, init?: {method?: string; headers?: Record<string, string>; signal?: AbortSignal}) => Promise<FetchResponse>;
+type FetchLike = (url: string | URL, init?: {method?: string; headers?: Record<string, string>; redirect?: 'follow'; signal?: AbortSignal}) => Promise<FetchResponse>;
 
 export type ExternalClassification = 'healthy' | 'expired' | 'blocked' | 'transient' | 'other';
 
@@ -84,6 +84,12 @@ type ExternalResult = {
   error: string | null;
 };
 
+type ProbedExternalObservation = ExternalResult & {
+  classification: ExternalClassification;
+  pages: readonly string[];
+  page_count: number;
+};
+
 type BuildLinkCheckReportInput = {
   generatedAt?: string;
   toolingSha: string | null;
@@ -98,6 +104,8 @@ type BuildLinkCheckReportInput = {
 };
 
 const sleep = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
+const FALLBACK_STATUSES = new Set([401, 403, 405, 501]);
+const RETRYABLE_STATUSES = new Set([408, 425, 429]);
 
 function normalizeUrl(value: string): string {
   return value.replace(/\/+$/u, '') + '/';
@@ -231,7 +239,7 @@ async function forEachConcurrent<T>(items: readonly T[], concurrency: number, vi
   await Promise.all(Array.from({length: Math.min(concurrency, items.length)}, worker));
 }
 
-async function fetchExternalLink(url: string, fetcher: FetchLike, timeoutMs: number): Promise<FetchResponse> {
+async function requestExternalLink(url: string, method: 'HEAD' | 'GET', fetcher: FetchLike, timeoutMs: number): Promise<FetchResponse> {
   const controller = new AbortController();
   let timedOut = false;
   const timer = setTimeout(() => {
@@ -239,13 +247,55 @@ async function fetchExternalLink(url: string, fetcher: FetchLike, timeoutMs: num
     controller.abort();
   }, timeoutMs);
   try {
-    return await fetcher(url, {method: 'HEAD', signal: controller.signal});
+    return await fetcher(url, {
+      method,
+      redirect: 'follow',
+      signal: controller.signal,
+      headers: method === 'GET'
+        ? {'Accept-Encoding': 'identity', Range: 'bytes=0-0'}
+        : {'Accept-Encoding': 'identity'},
+    });
   } catch (error) {
-    if (timedOut) throw new Error(`External link request timed out after ${timeoutMs}ms`);
+    if (timedOut) throw new Error(`request timed out after ${timeoutMs}ms`);
     throw error;
   } finally {
     clearTimeout(timer);
   }
+}
+
+function sanitizeExternalError(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  const sanitized = message
+    .replace(/[\u0000-\u001f\u007f-\u009f]/gu, ' ')
+    .replace(/\s+/gu, ' ')
+    .trim();
+  return (sanitized || 'External link request failed').slice(0, 240);
+}
+
+function isRetryableStatus(status: number): boolean {
+  return RETRYABLE_STATUSES.has(status) || status >= 500;
+}
+
+async function probeExternalLink(url: string, fetcher: FetchLike, timeoutMs: number, attempts: number): Promise<{status: number | null; error: string | null}> {
+  new URL(url);
+  if (!Number.isInteger(attempts) || attempts < 1 || attempts > 3) {
+    throw new Error('External link attempts must be an integer between 1 and 3');
+  }
+
+  let result: {status: number | null; error: string | null} = {status: null, error: 'External link request failed'};
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      let response = await requestExternalLink(url, 'HEAD', fetcher, timeoutMs);
+      if (FALLBACK_STATUSES.has(response.status)) {
+        response = await requestExternalLink(url, 'GET', fetcher, timeoutMs);
+      }
+      result = {status: response.status, error: null};
+      if (!isRetryableStatus(response.status)) return result;
+    } catch (error) {
+      result = {status: null, error: sanitizeExternalError(error)};
+    }
+  }
+  return result;
 }
 
 export function classifyExternalResult(result: {status: number | null; error: string | null}): ExternalClassification {
@@ -363,7 +413,7 @@ export function renderLinkCheckMarkdown(report: LinkCheckReport): string {
   return lines.join('\n');
 }
 
-export async function checkLinks(options: {repositoryRoot: string; site: string; output: string}, dependencies: {fetch?: FetchLike; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>; externalLinkConcurrency?: number; externalLinkTimeoutMs?: number} = {}): Promise<LinkCheckReport> {
+export async function checkLinks(options: {repositoryRoot: string; site: string; output: string}, dependencies: {fetch?: FetchLike; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>; externalLinkConcurrency?: number; externalLinkTimeoutMs?: number; externalLinkAttempts?: number} = {}): Promise<LinkCheckReport> {
   assertSite(options.site);
   const profile = resolveSiteProfile(options.site);
   const output = resolveOutput(options.repositoryRoot, options.output);
@@ -384,18 +434,24 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
   const local = await listUrls(localSource, options.repositoryRoot, fetcher);
   const routeRoots = contentRouteRoots(profile.content.map(item => item.routeBasePath));
   const externalLinks = uniqueLinkEntries(collectExternalLinkEntries(options.repositoryRoot, profile.outputDir, routeRoots));
-  const broken: LinkEntry[] = [];
+  const observations: ProbedExternalObservation[] = [];
   const concurrency = dependencies.externalLinkConcurrency ?? 8;
   const timeoutMs = dependencies.externalLinkTimeoutMs ?? 15_000;
+  const attempts = dependencies.externalLinkAttempts ?? 2;
   if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error('External link concurrency must be a positive integer');
   if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) throw new Error('External link timeout must be positive');
+  if (!Number.isInteger(attempts) || attempts < 1 || attempts > 3) throw new Error('External link attempts must be an integer between 1 and 3');
   await forEachConcurrent(externalLinks, concurrency, async link => {
-    try {
-      const response = await fetchExternalLink(link.url.split('|')[0], fetcher, timeoutMs);
-      if (response.status >= 400) broken.push({...link, status: response.status});
-    } catch (error) {
-      broken.push({...link, error: error instanceof Error ? error.message : String(error)});
-    }
+    const result = await probeExternalLink(link.url, fetcher, timeoutMs, attempts);
+    const pages = [...(link.pages ?? (link.page ? [link.page] : []))].sort((left, right) => left.localeCompare(right));
+    observations.push({
+      url: link.url,
+      classification: classifyExternalResult(result),
+      status: result.status,
+      error: result.error,
+      pages: pages.slice(0, 5),
+      page_count: pages.length,
+    });
   });
   const report = buildLinkCheckReport({
     generatedAt: now.toISOString(),
@@ -406,11 +462,7 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
     remoteUrls: remote,
     localUrls: local,
     checkedExternalLinks: externalLinks,
-    observations: broken.map(item => ({
-      ...item,
-      status: item.status ?? null,
-      error: item.error ?? null,
-    })),
+    observations,
     workflowRunUrl: resolveWorkflowRunUrl(environment),
   });
   const markdown = renderLinkCheckMarkdown(report);

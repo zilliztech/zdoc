@@ -26,6 +26,25 @@ function linkCheckFixture(root: string): void {
   writeFileSync(path.join(root, 'build/en/docs/new.html'), '<a class="external" href="https://bad.example.com">Bad</a>');
 }
 
+function externalLinkFixture(root: string, pages: Record<string, string>): void {
+  mkdirSync(path.join(root, 'build/en/docs'), {recursive: true});
+  writeFileSync(path.join(root, 'build/en/sitemap.xml'), '<urlset><url><loc>https://docs.zilliz.com/docs/new/</loc></url></urlset>');
+  for (const [name, contents] of Object.entries(pages)) {
+    writeFileSync(path.join(root, 'build/en/docs', name), contents);
+  }
+}
+
+function fetchResponse(status: number, onRead?: () => void) {
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    text: async () => {
+      onRead?.();
+      return '';
+    },
+  };
+}
+
 const fixedNow = () => new Date('2026-07-02T00:00:00.000Z');
 
 const linkCheckDependencies = {
@@ -152,6 +171,146 @@ describe('link-check reporting', () => {
     expect(readFileSync(path.join(root, 'tmp/link-report.md'), 'utf8')).toMatch(/https:\/\/bad\.example\.com/);
   });
 
+  it('falls back from HEAD 405 to GET 200 and records a healthy result', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {'new.html': '<a class="external" href="https://fallback.example.com">Fallback</a>'});
+    const methods: string[] = [];
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        methods.push(init.method);
+        return fetchResponse(init.method === 'HEAD' ? 405 : 200);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+    });
+
+    expect(methods).toEqual(['HEAD', 'GET']);
+    expect(report.summary).toMatchObject({checked_external_links: 1, healthy_external_links: 1});
+    expect(report.expired_external_links).toEqual([]);
+    expect(report.blocked_external_links).toEqual([]);
+    expect(report.transient_external_links).toEqual([]);
+    expect(report.other_external_links).toEqual([]);
+  });
+
+  it('classifies HEAD 403 followed by GET 403 as blocked', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {'new.html': '<a class="external" href="https://blocked.example.com">Blocked</a>'});
+    const methods: string[] = [];
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        methods.push(init.method);
+        return fetchResponse(403);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+    });
+
+    expect(methods).toEqual(['HEAD', 'GET']);
+    expect(report.blocked_external_links).toEqual([expect.objectContaining({
+      url: 'https://blocked.example.com',
+      classification: 'blocked',
+      status: 403,
+      error: null,
+    })]);
+  });
+
+  it.each([404, 410])('classifies HEAD %s as expired without a GET fallback', async status => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {'new.html': '<a class="external" href="https://expired.example.com">Expired</a>'});
+    const methods: string[] = [];
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        methods.push(init.method);
+        return fetchResponse(status);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+    });
+
+    expect(methods).toEqual(['HEAD']);
+    expect(report.expired_external_links).toEqual([expect.objectContaining({status, error: null})]);
+  });
+
+  it('retries HEAD 503 only up to the default bounded attempt count', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {'new.html': '<a class="external" href="https://unavailable.example.com">Unavailable</a>'});
+    const methods: string[] = [];
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        methods.push(init.method);
+        return fetchResponse(503);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+    });
+
+    expect(methods).toEqual(['HEAD', 'HEAD']);
+    expect(report.transient_external_links).toEqual([expect.objectContaining({status: 503, error: null})]);
+  });
+
+  it('sends a range-limited GET fallback without reading either response body', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {'new.html': '<a class="external" href="https://range.example.com">Range</a>'});
+    const requests: Array<{method?: string; headers?: Record<string, string>; redirect?: string}> = [];
+    let bodyReads = 0;
+
+    await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        requests.push(init);
+        return fetchResponse(init.method === 'HEAD' ? 405 : 200, () => { bodyReads += 1; });
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+    });
+
+    expect(requests).toEqual([
+      {method: 'HEAD', redirect: 'follow', signal: expect.any(AbortSignal), headers: {'Accept-Encoding': 'identity'}},
+      {method: 'GET', redirect: 'follow', signal: expect.any(AbortSignal), headers: {'Accept-Encoding': 'identity', Range: 'bytes=0-0'}},
+    ]);
+    expect(bodyReads).toBe(0);
+  });
+
+  it('probes duplicate URLs once while retaining every referring page', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {
+      'a.html': '<a class="external" href="https://duplicate.example.com">Duplicate A</a>',
+      'b.html': '<a class="external" href="https://duplicate.example.com">Duplicate B</a>',
+    });
+    let probes = 0;
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        probes += 1;
+        return fetchResponse(404);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+      externalLinkAttempts: 1,
+    });
+
+    expect(probes).toBe(1);
+    expect(report.expired_external_links).toEqual([expect.objectContaining({
+      pages: ['docs/a.html', 'docs/b.html'],
+      page_count: 2,
+    })]);
+  });
+
   it('checks external links under the Chinese on-premise content route', async () => {
     const root = temporaryRoot();
     mkdirSync(path.join(root, 'build/zh-CN/on-premise'), {recursive: true});
@@ -172,7 +331,7 @@ describe('link-check reporting', () => {
       environment: {},
     });
 
-    expect(checked).toEqual(['https://broken-on-prem.example.com']);
+    expect(checked).toEqual(['https://broken-on-prem.example.com', 'https://broken-on-prem.example.com']);
     expect(report.transient_external_links).toEqual([expect.objectContaining({
       url: 'https://broken-on-prem.example.com',
       pages: ['on-premise/install.html'],
@@ -209,12 +368,14 @@ describe('link-check reporting', () => {
     expect(maximumActive).toBe(2);
   });
 
-  it('aborts and reports an external-link request after its timeout', async () => {
+  it('bounds retries and sanitizes timeout observations', async () => {
     const root = temporaryRoot();
     linkCheckFixture(root);
+    let attempts = 0;
     const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
       fetch: async (_url, init?: {method?: string; signal?: AbortSignal}) => {
         if (init?.method !== 'HEAD') return {ok: true, status: 200, text: async () => '<urlset/>'};
+        attempts += 1;
         if (!init.signal) throw new Error('missing abort signal');
         return await new Promise((_resolve, reject) => {
           init.signal?.addEventListener('abort', () => reject(new Error('request aborted')), {once: true});
@@ -226,10 +387,45 @@ describe('link-check reporting', () => {
       externalLinkTimeoutMs: 10,
     });
 
+    expect(attempts).toBe(2);
     expect(report.transient_external_links).toEqual([expect.objectContaining({
       url: 'https://bad.example.com',
-      error: 'External link request timed out after 10ms',
+      status: null,
+      error: 'request timed out after 10ms',
     })]);
+  });
+
+  it('bounds retries and sanitizes connection-error observations', async () => {
+    const root = temporaryRoot();
+    linkCheckFixture(root);
+    let attempts = 0;
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        attempts += 1;
+        throw new Error(` connection\0 reset\n private\t detail ${'x'.repeat(300)}`);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+    });
+
+    expect(attempts).toBe(2);
+    const observation = report.transient_external_links[0];
+    expect(observation.status).toBeNull();
+    expect(observation.error).toMatch(/^connection reset private detail x+/u);
+    expect(observation.error).not.toMatch(/[\u0000-\u001f\u007f-\u009f]/u);
+    expect(observation.error?.length).toBe(240);
+  });
+
+  it.each([0, 4, 1.5])('rejects an external-link attempt count outside 1-3: %s', async externalLinkAttempts => {
+    const root = temporaryRoot();
+    linkCheckFixture(root);
+
+    await expect(checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      ...linkCheckDependencies,
+      externalLinkAttempts,
+    })).rejects.toThrow(/attempts.*integer between 1 and 3/i);
   });
 
   it.each([
