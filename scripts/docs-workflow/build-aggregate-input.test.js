@@ -1,10 +1,38 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
+const {spawnSync} = require('node:child_process')
 const test = require('node:test')
-const { buildAggregateInput, parseCandidateCounts } = require('./build-aggregate-input')
+const {buildFetchPublicationSelection} = require('./fetch-publication-selection')
+const {validatePublicationResults} = require('./publication-contracts')
+const { buildAggregateInput, buildAggregateInputFromPublication, parseCandidateCounts } = require('./build-aggregate-input')
 
 const GUIDES_TRANSLATION_CANDIDATES = JSON.stringify({ total: 163, current_delta: 15, missing_target: 18, stale_source: 130 })
+
+function javaPublication() {
+  const selection = buildFetchPublicationSelection({
+    repository: 'zilliztech/zdoc', runId: 123, runAttempt: 1, toolingSha: 'a'.repeat(40),
+    targetBranch: 'dev', initialTargetSha: 'b'.repeat(40), sourceBaselineSha: 'b'.repeat(40),
+    selectedGroup: 'java', publish: true, runTranslations: false,
+  })
+  const results = validatePublicationResults({
+    schemaVersion: 1, document: 'publication-results', workflow: 'fetch', repository: selection.repository,
+    runId: selection.runId, runAttempt: selection.runAttempt, selectionSha256: selection.selectionSha256,
+    mode: 'publish', targetBranch: 'dev', initialTargetSha: 'b'.repeat(40), finalTargetSha: 'c'.repeat(40),
+    startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T08:01:00.000Z', overallStatus: 'success',
+    orchestratorFailure: null,
+    units: [{
+      unitKey: 'source/java', producerJobId: 1, producerCompletedAt: '2026-08-04T08:00:01.000Z',
+      readyAt: '2026-08-04T08:00:02.000Z', sequence: 1, publishStartedAt: '2026-08-04T08:00:03.000Z',
+      publishCompletedAt: '2026-08-04T08:00:04.000Z', baseSha: 'b'.repeat(40), resultSha: 'c'.repeat(40),
+      commitShas: ['c'.repeat(40)], attempts: 1, status: 'published', failure: null,
+    }],
+  }, {selection})
+  return {selection, results}
+}
 
 test('builds selected terminal result rows and includes SHAs only for publications', () => {
   const result = buildAggregateInput({
@@ -16,6 +44,34 @@ test('builds selected terminal result rows and includes SHAs only for publicatio
     source: 'source_published', translation: 'translation_published', translationRequested: true,
     sourceCommitSha: 'a'.repeat(40), translationCommitSha: 'b'.repeat(40),
   } }, revisionReconciliation: 'passed', finalVerification: 'passed' })
+})
+
+test('builds aggregate source rows from canonical publication results', () => {
+  const publication = javaPublication()
+  const result = buildAggregateInputFromPublication({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', FINAL_VERIFICATION: 'passed', REVISION_RECONCILIATION: 'passed',
+  }, publication)
+  assert.deepEqual(result, {
+    mode: 'publish', requestedGroups: ['java'], groups: {java: {
+      source: 'source_published', translation: 'skipped', translationRequested: false, sourceCommitSha: 'c'.repeat(40),
+    }}, revisionReconciliation: 'passed', finalVerification: 'passed',
+  })
+})
+
+test('CLI accepts publication selection/results while retaining legacy environment input', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'aggregate-publication-results-'))
+  const publication = javaPublication()
+  const selectionFile = path.join(directory, 'selection.json')
+  const resultsFile = path.join(directory, 'results.json')
+  const output = path.join(directory, 'aggregate.json')
+  fs.writeFileSync(selectionFile, JSON.stringify(publication.selection))
+  fs.writeFileSync(resultsFile, JSON.stringify(publication.results))
+  const result = spawnSync(process.execPath, [
+    path.join(__dirname, 'build-aggregate-input.js'),
+    '--publication-selection', selectionFile, '--publication-results', resultsFile, '--output', output,
+  ], {encoding: 'utf8', env: {...process.env, MODE: 'publish', RUN_TRANSLATIONS: 'false', FINAL_VERIFICATION: 'passed', REVISION_RECONCILIATION: 'passed'}})
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(JSON.parse(fs.readFileSync(output, 'utf8')).groups.java.sourceCommitSha, 'c'.repeat(40))
 })
 
 test('builds artifact-only rows directly from producer terminal states', () => {

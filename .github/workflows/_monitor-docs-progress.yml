@@ -9,6 +9,8 @@ on:
       selected_group: { required: true, type: string }
       publish_enabled: { required: true, type: boolean }
       run_translations: { required: true, type: boolean }
+      publication_run_attempt: { required: false, type: number, default: 0 }
+      publication_selection_sha256: { required: false, type: string, default: '' }
     secrets:
       APP_ID: { required: true }
       APP_SECRET: { required: true }
@@ -42,6 +44,8 @@ jobs:
           SELECTED_GROUP: ${{ inputs.selected_group }}
           PUBLISH_ENABLED: ${{ inputs.publish_enabled }}
           RUN_TRANSLATIONS: ${{ inputs.run_translations }}
+          PUBLICATION_RUN_ATTEMPT: ${{ inputs.publication_run_attempt }}
+          PUBLICATION_SELECTION_SHA256: ${{ inputs.publication_selection_sha256 }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}

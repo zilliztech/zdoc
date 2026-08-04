@@ -2,6 +2,8 @@
 
 const fs = require('node:fs')
 const { listContentGroups } = require('./content-groups')
+const {aggregateSourceGroupsFromFetchResults} = require('./fetch-publication-results')
+const {readPublicationDocument} = require('./publication-contracts')
 
 const CANDIDATE_COUNT_KEYS = ['total', 'current_delta', 'missing_target', 'stale_source']
 
@@ -41,22 +43,24 @@ function guidesLaneState(env, mode) {
   return {producer, publisher, sha}
 }
 
-function buildAggregateInput(env) {
+function buildAggregateInput(env, options = {}) {
   const mode = env.MODE === 'artifact_only' ? 'artifact_only' : 'publish'
   const translationsRequested = mode === 'publish' && env.RUN_TRANSLATIONS !== 'false'
-  const requestedGroups = env.SELECTED_GROUP === 'all' ? listContentGroups() : [env.SELECTED_GROUP]
+  const sourceProjection = options.sourceProjection
+  const requestedGroups = sourceProjection?.requestedGroups || (env.SELECTED_GROUP === 'all' ? listContentGroups() : [env.SELECTED_GROUP])
   const groups = {}
   for (const group of requestedGroups) {
     const prefix = group.toUpperCase()
-    const guidesState = group === 'guides' ? guidesLaneState(env, mode) : null
+    const projectedSource = sourceProjection?.groups[group]
+    const guidesState = !projectedSource && group === 'guides' ? guidesLaneState(env, mode) : null
     const producer = guidesState?.producer ?? env[`${prefix}_PRODUCER`] ?? ''
     const publisher = guidesState?.publisher ?? env[`${prefix}_SOURCE`] ?? ''
     const translator = env[`${prefix}_TRANSLATOR`] || ''
     const translationPublisher = env[`${prefix}_TRANSLATION`] || ''
-    let source = mode === 'artifact_only' ? (producer === 'artifact_ready' ? 'artifact_ready' : 'fetch_failed')
+    let source = projectedSource?.source ?? (mode === 'artifact_only' ? (producer === 'artifact_ready' ? 'artifact_ready' : 'fetch_failed')
       : producer !== 'artifact_ready' ? 'fetch_failed'
-      : publisher === 'published' ? 'source_published'
-        : publisher === 'no_changes' ? 'no_changes' : 'publish_failed'
+        : publisher === 'published' ? 'source_published'
+          : publisher === 'no_changes' ? 'no_changes' : 'publish_failed')
     let translation = !translationsRequested ? 'skipped'
       : !['source_published', 'no_changes'].includes(source) ? 'skipped'
       : translator === 'failed' ? 'translation_failed'
@@ -64,7 +68,7 @@ function buildAggregateInput(env) {
           : translationPublisher === 'published' ? 'translation_published'
             : translationPublisher === 'no_changes' ? 'no_changes' : 'translation_failed'
     const entry = { source, translation, translationRequested: translationsRequested }
-    if (source === 'source_published') entry.sourceCommitSha = guidesState?.sha ?? env[`${prefix}_SOURCE_SHA`]
+    if (source === 'source_published') entry.sourceCommitSha = projectedSource?.sourceCommitSha ?? guidesState?.sha ?? env[`${prefix}_SOURCE_SHA`]
     if (translation === 'translation_published') entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
     if (translation === 'no_changes' && env[`${prefix}_TRANSLATION_SHA`]) entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
     if (group === 'guides') {
@@ -92,12 +96,42 @@ function buildAggregateInput(env) {
   return result
 }
 
-function main() {
-  const index = process.argv.indexOf('--output')
-  if (index < 0 || !process.argv[index + 1]) throw new Error('Usage: build-aggregate-input.js --output <json>')
-  fs.mkdirSync(require('node:path').dirname(process.argv[index + 1]), { recursive: true })
-  fs.writeFileSync(process.argv[index + 1], `${JSON.stringify(buildAggregateInput(process.env), null, 2)}\n`)
+function buildAggregateInputFromPublication(env, {selection, results}) {
+  const sourceProjection = aggregateSourceGroupsFromFetchResults({selection, results})
+  return buildAggregateInput({
+    ...env,
+    MODE: results.mode,
+    SELECTED_GROUP: selection.inputs.selectedGroup,
+    RUN_TRANSLATIONS: String(selection.inputs.runTranslations),
+  }, {sourceProjection})
+}
+
+function parseArguments(argv) {
+  const allowed = new Set(['--output', '--publication-selection', '--publication-results'])
+  const values = {}
+  for (let index = 0; index < argv.length; index += 2) {
+    const flag = argv[index]
+    const value = argv[index + 1]
+    if (!allowed.has(flag) || !value || Object.hasOwn(values, flag)) throw new Error('Usage: build-aggregate-input.js [--publication-selection <json> --publication-results <json>] --output <json>')
+    values[flag] = value
+  }
+  if (!values['--output']) throw new Error('Usage: build-aggregate-input.js [--publication-selection <json> --publication-results <json>] --output <json>')
+  if (Boolean(values['--publication-selection']) !== Boolean(values['--publication-results'])) throw new Error('publication selection and results must be provided together')
+  return values
+}
+
+function main(argv = process.argv.slice(2), env = process.env) {
+  const args = parseArguments(argv)
+  let result
+  if (args['--publication-selection']) {
+    const selection = readPublicationDocument(args['--publication-selection'], 'publication-selection')
+    const results = readPublicationDocument(args['--publication-results'], 'publication-results', {selection})
+    result = buildAggregateInputFromPublication(env, {selection, results})
+  } else result = buildAggregateInput(env)
+  fs.mkdirSync(require('node:path').dirname(args['--output']), { recursive: true })
+  fs.writeFileSync(args['--output'], `${JSON.stringify(result, null, 2)}\n`)
+  return result
 }
 
 if (require.main === module) { try { main() } catch (error) { console.error(error.message); process.exitCode = 1 } }
-module.exports = { buildAggregateInput, parseCandidateCounts }
+module.exports = { buildAggregateInput, buildAggregateInputFromPublication, main, parseCandidateCounts }
