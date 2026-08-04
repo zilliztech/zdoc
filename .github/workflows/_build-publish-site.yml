@@ -24,10 +24,10 @@ jobs:
       - name: Validate exact site build identity
         env: { BUILD_SHA: '${{ inputs.build_sha }}', SITE: '${{ inputs.site }}' }
         run: node -e 'if(!/^[0-9a-f]{40}$/.test(process.env.BUILD_SHA))throw new Error("build_sha must be exact");if(!["en","zh-CN"].includes(process.env.SITE))throw new Error("site must be en or zh-CN")'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ inputs.build_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm check:localization-input-inventory
@@ -42,7 +42,7 @@ jobs:
           (cd "build/$SITE" && find . -type f -print0 | sort -z | xargs -0 sha256sum) > "build/$SITE.sha256"
           printf '{"schemaVersion":1,"site":"%s","buildSha":"%s"}\n' "$SITE" "$BUILD_SHA" > "build/$SITE.provenance.json"
           echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: ${{ steps.identity.outputs.artifact_name }}
           path: |
@@ -59,7 +59,7 @@ jobs:
     timeout-minutes: 15
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with: { name: '${{ needs.build.outputs.artifact_name }}', path: '${{ runner.temp }}/site-artifact' }
       - name: Verify validated artifact for external deployment
         env: { SITE: '${{ inputs.site }}', BUILD_SHA: '${{ inputs.build_sha }}' }

@@ -21,7 +21,7 @@ jobs:
       build_en: ${{ steps.selection.outputs.build_en }}
       build_zh_cn: ${{ steps.selection.outputs.build_zh_cn }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { fetch-depth: 0 }
       - id: ref
         env: { SOURCE_REF: '${{ inputs.source_ref }}' }
@@ -77,9 +77,9 @@ jobs:
     timeout-minutes: 15
     environment: ${{ inputs.environment }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with: { name: 'site-build-en-${{ needs.resolve.outputs.build_sha }}', path: '${{ runner.temp }}/en' }
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with: { name: 'site-build-zh-CN-${{ needs.resolve.outputs.build_sha }}', path: '${{ runner.temp }}/zh-CN' }
       - name: Require both validated deployment artifacts
         run: |
