@@ -962,11 +962,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const sourceBarrier = caller?.jobs?.source_publication_barrier
     const sourceBarrierNeeds = Array.isArray(sourceBarrier?.needs) ? sourceBarrier.needs : []
     const sourceBarrierSteps = sourceBarrier?.steps || []
-    const sourceBarrierRun = String(sourceBarrierSteps.find(step => step?.name === 'Block paid translation until selected sources are published')?.run || '')
+    const sourceBarrierPnpmIndex = sourceBarrierSteps.findIndex(step => step?.uses === 'pnpm/action-setup@v5')
+    const sourceBarrierNodeIndex = sourceBarrierSteps.findIndex(step => step?.uses === 'actions/setup-node@v5')
+    const sourceBarrierInstallIndex = sourceBarrierSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
+    const sourceBarrierIndex = sourceBarrierSteps.findIndex(step => step?.name === 'Block paid translation until selected sources are published')
+    const sourceBarrierRun = String(sourceBarrierSteps[sourceBarrierIndex]?.run || '')
     if (sourceBarrierNeeds.join(',') !== 'prepare,publish_ready' ||
         !String(sourceBarrier?.if || '').includes("needs.prepare.outputs.publish == 'true'") ||
+        !(sourceBarrierPnpmIndex >= 0 && sourceBarrierPnpmIndex < sourceBarrierNodeIndex && sourceBarrierNodeIndex < sourceBarrierInstallIndex && sourceBarrierInstallIndex < sourceBarrierIndex) ||
         !/source-publication-barrier\.js[\s\S]*--selection[\s\S]*--results/.test(sourceBarrierRun)) {
-      errors.push('fetch-docs.yml: source publication barrier must consume canonical publication selection and results before paid translation')
+      errors.push('fetch-docs.yml: source publication barrier must install its runtime and consume canonical publication selection and results before paid translation')
     }
     const zhSource = caller?.jobs?.produce_zh_guides_sources
     const zhRender = caller?.jobs?.render_zh_guides_tables

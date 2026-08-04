@@ -88,6 +88,7 @@ paths=(
   "i18n"
   "content/en"
   "content/zh-CN"
+  "deploy/contracts/localization-inputs.inventory.json"
   ".translation-cache"
   "config/generated"
   "generated/en/sidebars/guides.sidebar.js"

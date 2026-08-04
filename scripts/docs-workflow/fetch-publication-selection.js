@@ -35,10 +35,9 @@ function selectedUnitKeys(selectedGroup) {
 }
 
 function validationCommands(site) {
-  return Object.freeze([
-    `node scripts/validate-generated-sidebars.js --site ${site}`,
-    site === 'zh-CN' ? 'pnpm run build:zh-CN:site' : 'pnpm run build:en',
-  ])
+  const commands = [`node scripts/validate-generated-sidebars.js --site ${site}`]
+  if (site === 'zh-CN') commands.push('pnpm run build:zh-CN:site')
+  return Object.freeze(commands)
 }
 
 function checkpointArtifactName(unitKey, runId) {

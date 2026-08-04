@@ -589,6 +589,18 @@ test('Fetch producers stay parallel while one publication coordinator owns Git w
   assert.deepEqual(workflow.jobs.dispatch_translations.permissions, {actions: 'write', contents: 'read'})
 })
 
+test('Fetch source publication barrier installs its runtime before validating results', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
+  const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))
+  const steps = workflow.jobs.source_publication_barrier.steps
+  const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v5')
+  const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v5')
+  const installIndex = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
+  const barrierIndex = steps.findIndex(step => step.name === 'Block paid translation until selected sources are published')
+  assert.ok(pnpmSetupIndex >= 0)
+  assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < barrierIndex)
+})
+
 test('job-level env must not reference the runner context', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'workflow-policy-'))
   try {

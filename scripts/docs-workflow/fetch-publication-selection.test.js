@@ -84,15 +84,16 @@ test('single groups select one unit while Guides selects both locale units', () 
   }
 })
 
-test('selection binds run-scoped artifacts, commit messages, and trusted validation commands', () => {
+test('selection binds run-scoped artifacts, commit messages, and existing publisher validation commands', () => {
   const selection = buildFetchPublicationSelection(input())
   const java = selection.units.find(unit => unit.unitKey === 'source/java')
   assert.deepEqual(java.artifacts, {checkpoint: 'docs-checkpoint-java-123', baseline: null})
   assert.equal(java.commitMessage, 'docs(java): publish SDK reference')
-  assert.deepEqual(java.validationCommands, [
-    'node scripts/validate-generated-sidebars.js --site en',
-    'pnpm run build:en',
-  ])
+  for (const english of selection.units.filter(unit => unit.site === 'en')) {
+    assert.deepEqual(english.validationCommands, [
+      'node scripts/validate-generated-sidebars.js --site en',
+    ], `${english.unitKey} must preserve the legacy publisher validation strength`)
+  }
   const english = selection.units.find(unit => unit.unitKey === 'source/guides-en')
   assert.equal(english.artifacts.checkpoint, 'docs-checkpoint-guides-en-123')
   assert.deepEqual(english.environment, {ZDOC_SITE: 'en'})
