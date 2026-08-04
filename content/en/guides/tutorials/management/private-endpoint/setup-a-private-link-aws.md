@@ -78,15 +78,15 @@ You need to complete this step on your cloud provider console using either the U
 
         </Admonition>
 
-        ![setup_private_link_window_aws](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_window_aws.png "setup_private_link_window_aws")
+        ![setup_private_link_window_aws](https://zdoc-images.s3.us-west-2.amazonaws.com/setupprivatelinkwindowaws.png "setup_private_link_window_aws")
 
     1. On the **Create Endpoint** page, select **Endpoint services that use NLBs and GWLBs** as the endpoint **Type**.
 
-        ![create_endpoint_type_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/create_endpoint_type_gcp.png "create_endpoint_type_gcp")
+        ![create_endpoint_type_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/createendpointtypegcp.png "create_endpoint_type_gcp")
 
     1. In **Service Settings**, paste the **Service Name** you copied from the Zilliz Cloud web console into the **Service Name** field. Then click **Verify service**.
 
-        ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_service_name_gcp.png "enter_service_name_gcp")
+        ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enterservicenamegcp.png "enter_service_name_gcp")
 
         <Admonition type="info" icon="📘" title="📘 Notes">
 
@@ -128,7 +128,7 @@ You need to complete this step on your cloud provider console using either the U
 
         In the top navigation, launch AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
 
-        ![setup_private_link_aws_cloud_shell](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_aws_cloud_shell.png "setup_private_link_aws_cloud_shell")
+        ![setup_private_link_aws_cloud_shell](https://zdoc-images.s3.us-west-2.amazonaws.com/setupprivatelinkawscloudshell.png "setup_private_link_aws_cloud_shell")
 
         The returned message is similar to the following:
 
@@ -161,7 +161,7 @@ You need to complete this step on your cloud provider console using either the U
 
 Paste the endpoint ID you obtained from the AWS console into the **Endpoint ID** box on Zilliz Cloud. Click **Create**.
 
-![setup_private_link_aws_authorize_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_aws_authorize_endpoint.png "setup_private_link_aws_authorize_endpoint")
+![setup_private_link_aws_authorize_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/setupprivatelinkawsauthorizeendpoint.png "setup_private_link_aws_authorize_endpoint")
 
 ## Obtain a private link\{#obtain-a-private-link}
 
@@ -258,7 +258,7 @@ To disable public endpoints:
 
 </Admonition>
 
-![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disable_public_endpoint.png "disable_public_endpoint")
+![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disablepublicendpoint.png "disable_public_endpoint")
 
 ## FAQ\{#faq}
 

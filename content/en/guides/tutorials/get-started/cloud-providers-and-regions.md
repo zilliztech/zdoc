@@ -64,13 +64,17 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>Canada (Central)</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>Europe</p></td>
+     <td rowspan="3"><p>Europe</p></td>
      <td><p>eu-central-1</p></td>
      <td><p>Frankfurt, Germany</p></td>
    </tr>
    <tr>
      <td><p>eu-west-1</p></td>
      <td><p>Ireland</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-west-2</p></td>
+     <td><p>London, United Kingdom</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>Asia</p></td>

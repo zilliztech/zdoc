@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-01T08:45:23.114Z",
+  "generated_at": "2026-08-04T03:21:29.964Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -46,6 +46,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782956800",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RZqzw4UPkiikHOkdoa4chGDgnWX",
         "VsLcwDK6SiGs0CkJ7i0cmRYWnof"
@@ -85,6 +89,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784197255",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
@@ -130,6 +138,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767924154",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
         "Lv1Pw8lORiaX44kjGL0cNnpPnub"
@@ -169,6 +181,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767924173",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW"
       ],
@@ -207,6 +223,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767924205",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
         "Lv1Pw8lORiaX44kjGL0cNnpPnub"
@@ -246,6 +266,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1781612373",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
         "GBY6wbUmwi9lLjkXSuKccODgnne",
@@ -286,6 +310,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1768184317",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -322,6 +350,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1780619753",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -358,6 +390,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784195645",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
@@ -399,6 +435,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784195657",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
@@ -442,6 +482,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767924384",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW"
       ],
@@ -480,6 +524,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767924397",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW"
       ],
@@ -518,6 +566,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767924444",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
         "GeaswUCLVi04xQkLl4vc7cbdnVh"
@@ -557,6 +609,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782097620",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
         "C94rw7r38ij0eCkvQKBcEFJ1n0e"
@@ -596,6 +652,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749613324",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GeaswUCLVi04xQkLl4vc7cbdnVh"
       ],
@@ -634,6 +694,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749194870",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -670,6 +734,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784195668",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
@@ -711,6 +779,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784195683",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "BX6iwjUzLi7udfksJoxc7jK1nsW",
@@ -752,6 +824,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116427",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
@@ -791,6 +867,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1744872359",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -827,6 +907,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1767755417",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FNlcdU22Loec6BxE8uEcjFK9npd",
         "HriHwEU3qiQrgskz3a0cdkcpnyf"
@@ -866,6 +951,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592532",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -911,6 +1000,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779190310",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -947,6 +1041,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778838368",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "D1E4wLr5xiuHoFkJgblcHZ1FnLb",
@@ -992,6 +1091,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783932867",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MtGywZwmXiHg0AkJMavcWAtxnCg"
       ],
@@ -1030,6 +1133,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778683894",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "INoRwFTjfiindPkaNlwc9XAgnkh",
         "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
@@ -1048,7 +1155,7 @@
       "doc_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Ghq9wEiOOivgeIkmj2HcHC9onXe",
       "source_file": "Ghq9wEiOOivgeIkmj2HcHC9onXe.json",
-      "source_hash": "809c743e78a020afe48d1f16dab5cfcd69349010a285948fffa5d35db6facd51",
+      "source_hash": "ac0ca9f0ce08f37cae11bc76295f9a56d0a215403d46d34aeb6edb0ed2a3a3c4",
       "node_metadata": {
         "requested_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
         "requested_node_token": "Ghq9wEiOOivgeIkmj2HcHC9onXe",
@@ -1071,6 +1178,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588716",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "AICcwQ55yiNqEPkjdV6cb2i8nqe",
@@ -1133,6 +1244,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781595334",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "UgqvwKh2QiKE1kkYNLJcaHt0nkg"
       ],
@@ -1148,7 +1264,7 @@
       "doc_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/CPLrwghdWiSvGBkdeEecGjgLnSb",
       "source_file": "CPLrwghdWiSvGBkdeEecGjgLnSb.json",
-      "source_hash": "0307ceaf8ce51dbd03e854f02a3564ed4157e6c8ab298bf2300ab638d675c43f",
+      "source_hash": "bdefb4d9ea8a5b7a9930b4f58ee926a1441acc92455b9f158cce309b0d6f5cba",
       "node_metadata": {
         "requested_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "requested_node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
@@ -1162,15 +1278,19 @@
         "parent_node_token": "NM2OwCcfVijX8DkNsIxcdajEnr7",
         "node_create_time": "1689055655",
         "obj_create_time": "1689055655",
-        "obj_edit_time": "1783427321",
+        "obj_edit_time": "1785740858",
         "revision_id": null
       },
       "node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
       "origin_node_token": "CPLrwghdWiSvGBkdeEecGjgLnSb",
       "obj_token": "BVoCd10pyoJDsnx1L7dc16kqnQf",
       "obj_type": "docx",
-      "obj_edit_time": "1783427321",
+      "obj_edit_time": "1785740858",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "AICcwQ55yiNqEPkjdV6cb2i8nqe",
@@ -1217,6 +1337,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783607192",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BkDMwo71MiZMazk7gbtc7fqknbh",
         "FOwZwuxaWiuthnkZdedcGbJOnZf",
@@ -1264,6 +1388,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783606727",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BTrNwoEfYii1e9kf0BScWDpcnA2",
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
@@ -1333,6 +1462,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784625377",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "A5lpwIZcZiTLqakdt6rcCmPcnEe",
@@ -1477,7 +1610,7 @@
       "doc_token": "CUuywySLVil4MKkmYZecUl9snLg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/CUuywySLVil4MKkmYZecUl9snLg",
       "source_file": "CUuywySLVil4MKkmYZecUl9snLg.json",
-      "source_hash": "11ee8bee24b543344ddbf21bc1b2a734e42f942166c8de7656f06d13783f9b2a",
+      "source_hash": "f001aa8ec97c70e9219410085d053ee3bdbb0e86d86370bb600e22492ede23ae",
       "node_metadata": {
         "requested_token": "CUuywySLVil4MKkmYZecUl9snLg",
         "requested_node_token": "CUuywySLVil4MKkmYZecUl9snLg",
@@ -1500,6 +1633,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1785410880",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "CWT2wh5YriZfPZkGlgCcWxVnnAf",
@@ -1549,6 +1686,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783318367",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
@@ -1593,6 +1734,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783590092",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BaGlwzDmyiyVvVk6NurcFclInCd",
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
@@ -1647,6 +1792,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783607493",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "CmR5wFcybi3iMokOJBxcXDQcntg",
@@ -1692,6 +1841,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1770646233",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MvE5wUlFli3gJOk0MkeclZCqnib",
         "OzLjwMmWliJdEBkz0gPcVZrqnZb",
@@ -1732,6 +1885,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783589489",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AICcwQ55yiNqEPkjdV6cb2i8nqe",
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
@@ -1789,6 +1946,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588602",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "E1BCwXVouiDrtpkWp5ecvdXHnAb",
@@ -1830,6 +1991,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783590793",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ghq9wEiOOivgeIkmj2HcHC9onXe",
         "H2GHwE8umiuP6WkwjxPcQOfGn0e",
@@ -1874,6 +2039,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783590826",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ARalwpaVDiCwDZkoSHtcPNgXnRg",
         "BYtDwHuOXiG7imkyIjHcWa6fnlb",
@@ -1925,6 +2094,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1760060743",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
         "PuQOwUaY5irgTrk0V10cNdHUned",
@@ -1965,6 +2138,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591553",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
         "HpbSwzS6kiW9gikHpQ0cUZLWnlc",
@@ -2008,6 +2185,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591896",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CEJrwt9sYizQgtkPlBBcJXvRnff",
         "CiVHwbwPwipX5SkFkqVcLpESnfe",
@@ -2055,6 +2236,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591004",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MBVVww2Zii8k6Bk77GJcXbZJnpf",
         "XDoSwZodyigAEVkjkWfc9nsfnCg"
@@ -2094,6 +2279,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767602482",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LMfdwRwKIiJtywkwbHVcGnOFnRf",
         "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
@@ -2134,6 +2323,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1747102937",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RQTRwhOVPiwnwokqr4scAtyfnBf"
       ],
@@ -2172,6 +2365,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1760062919",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BaGlwzDmyiyVvVk6NurcFclInCd",
         "NitBwKVzzi0hXBkjdDFcfwRsngb",
@@ -2212,6 +2409,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1731294205",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
         "PBEbwjRu9iyyaFkZnuzcINHCnke",
@@ -2253,6 +2454,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592015",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ex99woZlsico4FkfwxGckjRRnqf",
         "GOCJwJktXizGTXkRfCEc9GGLnsb",
@@ -2293,6 +2498,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592033",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CiVHwbwPwipX5SkFkqVcLpESnfe",
         "GOCJwJktXizGTXkRfCEc9GGLnsb",
@@ -2336,6 +2545,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1760064710",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PharwAysCiBzvgkuqqecmNzunQf",
         "RY8ww0NDQi8yU9kNpjicHP7Gn4b"
@@ -2375,6 +2588,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591841",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ARalwpaVDiCwDZkoSHtcPNgXnRg",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -2397,7 +2614,7 @@
       "doc_token": "EL8jwqHsPikz2okhYzXcuLscnhf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/EL8jwqHsPikz2okhYzXcuLscnhf",
       "source_file": "EL8jwqHsPikz2okhYzXcuLscnhf.json",
-      "source_hash": "6b28035f3c3a1f7fd2499b3850e155b31c4d187c5fe875a7e5128a4a4813d023",
+      "source_hash": "83c660c967c13133def86734f751f6707d9c69859e2b26c87fbaa6485992b999",
       "node_metadata": {
         "requested_token": "EL8jwqHsPikz2okhYzXcuLscnhf",
         "requested_node_token": "EL8jwqHsPikz2okhYzXcuLscnhf",
@@ -2420,6 +2637,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1760064668",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "EA2twSf5oiERMDkriKScU9GInc4",
@@ -2461,6 +2682,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591063",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BjHZwBkk0iFScik49QMc1Wwjndb",
         "CEJrwt9sYizQgtkPlBBcJXvRnff"
@@ -2500,6 +2725,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1725534662",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2536,6 +2765,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783607548",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -2577,6 +2810,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591172",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "UDjcwWISuixYjqkQy3GcmBpsnmV"
       ],
@@ -2592,7 +2829,7 @@
       "doc_token": "MocQwCCItiHYEbkkJtOcROPTnod",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MocQwCCItiHYEbkkJtOcROPTnod",
       "source_file": "MocQwCCItiHYEbkkJtOcROPTnod.json",
-      "source_hash": "3285d82c95bcec732e43419f9f0e8b9fc3272109b973a0c50e95c048ea8429f0",
+      "source_hash": "8504490be0b9d3e42fcf57ada09bcdb8233accc81fc70e82133686f090427276",
       "node_metadata": {
         "requested_token": "MocQwCCItiHYEbkkJtOcROPTnod",
         "requested_node_token": "MocQwCCItiHYEbkkJtOcROPTnod",
@@ -2615,6 +2852,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1734411389",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
@@ -2663,6 +2904,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1712140341",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2699,6 +2944,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1712140420",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
         "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
@@ -2716,7 +2965,7 @@
       "doc_token": "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Ti5uwysf0iZhuyk4xvjcFmsSnhG",
       "source_file": "Ti5uwysf0iZhuyk4xvjcFmsSnhG.json",
-      "source_hash": "8ce2775c9c0b12532cc60fbd0aba6d5a4f29811ab7804425d30a8c54823a3092",
+      "source_hash": "945952d6c4865ec2f3fb67b3d5f6a138a9bf833b882069c2b4113002e266fe78",
       "node_metadata": {
         "requested_token": "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
         "requested_node_token": "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
@@ -2739,6 +2988,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1712140564",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "PharwAysCiBzvgkuqqecmNzunQf"
@@ -2778,6 +3031,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783606650",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LMfdwRwKIiJtywkwbHVcGnOFnRf",
         "Neq4wR0EdiXokRkhXwbcMPfanCd",
@@ -2819,6 +3076,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591124",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
@@ -2859,6 +3120,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783607622",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "HHXewT7wTiM1zqkySjHcMNX5n9b",
         "JQvjwCDxhiMcj0kpaWicqXsTn1e",
@@ -2900,6 +3165,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1719296926",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2936,6 +3205,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1719297097",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -2972,6 +3245,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591234",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BjHZwBkk0iFScik49QMc1Wwjndb",
         "GBY6wbUmwi9lLjkXSuKccODgnne"
@@ -3011,6 +3288,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783591962",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EA2twSf5oiERMDkriKScU9GInc4",
         "KnnBwce9JifxvXkd070cvgUPnag"
@@ -3050,6 +3331,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781247406",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3086,6 +3372,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783301996",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "J274wT61xiEM4fkYeL8cMb4Pnbd",
         "ZWwJwKjeDi7SJGkzUQ0c7XfBnqh"
@@ -3125,6 +3415,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783606575",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -3181,6 +3476,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116450",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RsGAwmgAYiE6fgkOiokcijsBnEg"
       ],
@@ -3219,6 +3518,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1767527411",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3255,6 +3559,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116443",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
         "U7OvwHP3AiUWlckzIEKclLQQnPr"
@@ -3294,6 +3603,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778746246",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "U7OvwHP3AiUWlckzIEKclLQQnPr"
       ],
@@ -3332,6 +3646,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115710",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ANK0wJQ8DibXxIkpYDEcScMHnYe",
         "U7OvwHP3AiUWlckzIEKclLQQnPr"
@@ -3348,7 +3667,7 @@
       "doc_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "source_file": "Fighwx5zFiwaoIkV4q5cAJ1enDg.json",
-      "source_hash": "9001c97a9279dc2d3ccddf87a3713cb83525ad40e20a97b33a1dc574b8bd58da",
+      "source_hash": "ed7aa811fa9b47155c0eb11b1ee0690de34bae3616bab919b39b12c999765dec",
       "node_metadata": {
         "requested_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
         "requested_node_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
@@ -3362,15 +3681,20 @@
         "parent_node_token": "GcmOwHsHeiNXxpkfSTIckG5Znmc",
         "node_create_time": "1777168794",
         "obj_create_time": "1777168794",
-        "obj_edit_time": "1785466008",
+        "obj_edit_time": "1785725308",
         "revision_id": null
       },
       "node_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "origin_node_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "obj_token": "VpBXd70zuoEq2Cx7KIJcJz7Zn7c",
       "obj_type": "docx",
-      "obj_edit_time": "1785466008",
+      "obj_edit_time": "1785725308",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "T5NswVkifiad9hkF4PkcvWJWnAe",
         "VpBXd70zuoEq2Cx7KIJcJz7Zn7c"
@@ -3410,6 +3734,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778746329",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3446,6 +3775,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778746365",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
         "ARalwpaVDiCwDZkoSHtcPNgXnRg",
@@ -3492,6 +3826,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116451",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
         "ByJbwcpoCiBkDckR3VCcC4LTneg",
@@ -3533,6 +3872,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783501485",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MaWywRYCniq6vwkJsT7c2wAyn0f",
         "PFbNwB7Mli18n6k6VWScGcpWndc",
@@ -3574,6 +3918,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783501942",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "N0RmwUtmqinQvokWdYLc3yV5nJh",
         "PFbNwB7Mli18n6k6VWScGcpWndc",
@@ -3616,6 +3965,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785319634",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AwmtwHGQii1j9Wk1W04cNxvBnth",
         "Q0wpw4xZiimaUsk4GvScAg2un1d",
@@ -3659,6 +4013,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783075580",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "VmGMwsTliiGZdFkzzeBckRNlnCh"
       ],
@@ -3697,6 +4056,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1735812448",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Py6zwu6r4iPMqVkKAYXcUYLEnXg"
       ],
@@ -3735,6 +4099,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783477226",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MaWywRYCniq6vwkJsT7c2wAyn0f"
       ],
@@ -3773,6 +4142,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783077556",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
@@ -3815,6 +4189,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778683437",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -3851,6 +4230,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1762325654",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H2GHwE8umiuP6WkwjxPcQOfGn0e",
         "SOgiwzPxpisy8MkhtuecZqFbnaf"
@@ -3890,6 +4274,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784540942",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BJCjwpj8JizP0nkI11uci1pPndh",
         "CmR5wFcybi3iMokOJBxcXDQcntg",
@@ -3936,6 +4325,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115725",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BJCjwpj8JizP0nkI11uci1pPndh",
         "CmR5wFcybi3iMokOJBxcXDQcntg",
@@ -3981,6 +4375,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778683249",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BJCjwpj8JizP0nkI11uci1pPndh",
         "RQQKwqhZUiubFzkHo4WcR62Gnvh",
@@ -4021,6 +4420,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116454",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "DMrCwn4LXi1uKBkbHGfcpGnsnyh",
@@ -4061,6 +4464,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778746631",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "O2YiwLai5iSjT1k1WEsc06E8nEe",
@@ -4101,6 +4509,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781684206",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EqSpwh9BaiEISgkG5YVcDbCUnpe",
         "I60hwuYrSiVSWBkYq9RcqRcpnFh",
@@ -4147,6 +4560,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781684430",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "EqSpwh9BaiEISgkG5YVcDbCUnpe",
@@ -4190,6 +4608,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781684678",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "I60hwuYrSiVSWBkYq9RcqRcpnFh",
@@ -4233,6 +4656,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781684865",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
@@ -4276,6 +4704,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781685540",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "I60hwuYrSiVSWBkYq9RcqRcpnFh",
@@ -4320,6 +4753,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781685373",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "EOxmwUDxMiy2cpkOfIsc1dYzn4c",
@@ -4362,6 +4800,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782956303",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -4408,6 +4851,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778683773",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4444,6 +4892,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778746690",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "QWqiwrgJViA5AJkv64VcgQX2nKd"
       ],
@@ -4482,6 +4935,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778746750",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CmR5wFcybi3iMokOJBxcXDQcntg"
       ],
@@ -4520,6 +4978,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778682950",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4556,6 +5019,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1764644723",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BYtDwHuOXiG7imkyIjHcWa6fnlb",
         "RQTRwhOVPiwnwokqr4scAtyfnBf"
@@ -4595,6 +5063,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1781247988",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DtLVw8EUyi6MqMkXh3Cc3rfZnic",
         "KTWtw4V6SiTpDMkeGMQc8lChn8b"
@@ -4634,6 +5106,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592297",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B7SFwbn76iUM06kkYzBcffE8nYf",
         "KTWtw4V6SiTpDMkeGMQc8lChn8b"
@@ -4673,6 +5150,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323386",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B7SFwbn76iUM06kkYzBcffE8nYf",
         "DtLVw8EUyi6MqMkXh3Cc3rfZnic",
@@ -4713,6 +5194,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116435",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ANK0wJQ8DibXxIkpYDEcScMHnYe",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -4775,6 +5261,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783523532",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "EA2twSf5oiERMDkriKScU9GInc4",
@@ -4822,6 +5313,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588255",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "BcjLwmXTni1fiMkkyx9ct5iWngc",
@@ -4868,6 +5363,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588226",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RsGAwmgAYiE6fgkOiokcijsBnEg"
       ],
@@ -4906,6 +5405,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778744833",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -4942,6 +5446,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116449",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GthGwnrpEiGpClkV5JXcgWUgn8c",
         "OVxRwZWxNi4pYrkdKxCcOuY2nf1",
@@ -4985,6 +5494,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781594840",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GthGwnrpEiGpClkV5JXcgWUgn8c"
       ],
@@ -5023,6 +5537,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778050181",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5059,6 +5577,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780625645",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5095,6 +5618,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778744984",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BaGlwzDmyiyVvVk6NurcFclInCd",
         "L5jawEj7FiBXWZkGhLgcQCWQnDd",
@@ -5138,6 +5666,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778745021",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5174,6 +5707,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778745054",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5210,6 +5748,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779853538",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5246,6 +5789,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782878814",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B7SFwbn76iUM06kkYzBcffE8nYf",
         "CmR5wFcybi3iMokOJBxcXDQcntg",
@@ -5302,6 +5850,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778220224",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "JaLdw76LPiX003kLpKHcA0n8n2d"
       ],
@@ -5340,6 +5892,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782183195",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -5353,7 +5909,7 @@
       "doc_token": "A33MwQX84iXyQNkzopece3oenye",
       "doc_link": "https://zilliverse.feishu.cn/wiki/A33MwQX84iXyQNkzopece3oenye",
       "source_file": "A33MwQX84iXyQNkzopece3oenye.json",
-      "source_hash": "7f8400aa5870ef56c54c7f82bba6bf2dcaa76f081b0cdb2530e0bc0e683c34cf",
+      "source_hash": "55cf3284b68e20a40fa67267ac368b468536e301ad09bf074c96c2723b01b64e",
       "node_metadata": {
         "requested_token": "A33MwQX84iXyQNkzopece3oenye",
         "requested_node_token": "A33MwQX84iXyQNkzopece3oenye",
@@ -5376,6 +5932,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783589998",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "A3YdwRQwoiDLfkkPbwOcEOr3nLe",
@@ -5416,6 +5976,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784096283",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "INoRwFTjfiindPkaNlwc9XAgnkh",
         "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
@@ -5457,6 +6022,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784097565",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "JaLdw76LPiX003kLpKHcA0n8n2d",
@@ -5500,6 +6070,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782211803",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "INoRwFTjfiindPkaNlwc9XAgnkh",
         "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
@@ -5540,6 +6114,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782211750",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "INoRwFTjfiindPkaNlwc9XAgnkh",
         "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
@@ -5580,6 +6158,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116452",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "D2ctwKZhNilLY0ke1vpcHL62n5G",
         "EwArwXCOPip15hkSvvpciAMJnSe",
@@ -5624,6 +6207,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778745114",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "D2ctwKZhNilLY0ke1vpcHL62n5G",
         "WMh8w3tbKiBhukk3ICMc4ctznEg"
@@ -5663,6 +6251,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778745159",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BaGlwzDmyiyVvVk6NurcFclInCd",
         "EOxmwUDxMiy2cpkOfIsc1dYzn4c",
@@ -5704,6 +6297,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116432",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ARalwpaVDiCwDZkoSHtcPNgXnRg",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -5746,6 +6344,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116455",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ARalwpaVDiCwDZkoSHtcPNgXnRg",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -5790,6 +6393,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116460",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "GBynwwkyBihIHukvJXfc76dMnth",
@@ -5832,6 +6440,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782092707",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "GBynwwkyBihIHukvJXfc76dMnth",
@@ -5872,6 +6485,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116433",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
@@ -5914,6 +6532,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784516249",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dh8MwFuZliYf9Wkhee3c1FhUnGd",
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
@@ -5957,6 +6580,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784514473",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dh8MwFuZliYf9Wkhee3c1FhUnGd",
         "MBVVww2Zii8k6Bk77GJcXbZJnpf",
@@ -5999,6 +6627,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1762754648",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dh8MwFuZliYf9Wkhee3c1FhUnGd",
         "Neq4wR0EdiXokRkhXwbcMPfanCd",
@@ -6039,6 +6672,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783416897",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "MBVVww2Zii8k6Bk77GJcXbZJnpf",
@@ -6081,6 +6719,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782889158",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "EqSpwh9BaiEISgkG5YVcDbCUnpe",
@@ -6129,6 +6772,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781682572",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
@@ -6170,6 +6818,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781683362",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
@@ -6211,6 +6864,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784805734",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EDzFwzb7Sifsz4kFYZIcAF9Pn1p",
         "Q7wIwcnrEiVDofk5G4Fc7vlonPh",
@@ -6252,6 +6910,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781683595",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RzSBwW7dUizQeekka9CcZ3Etnyg",
         "VmGMwsTliiGZdFkzzeBckRNlnCh",
@@ -6293,6 +6956,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782954797",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "P3wrwSMNNihy8Vkf9p6cTsWYnTb",
@@ -6334,6 +7002,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782957115",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B7SFwbn76iUM06kkYzBcffE8nYf",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -6379,6 +7052,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782956345",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CemEwKryciMUepkgYWZcOw6wncb",
         "CpBbwcJ87irHp0k9oCSc2RNIn3d",
@@ -6425,6 +7103,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779782748",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "SsGkwyGJDirNDwk170rcHbUjnVe"
@@ -6464,6 +7147,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779421054",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -6500,6 +7188,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780997099",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "UR9SwucAIiQ2TYkc9EucsgvSnng"
       ],
@@ -6538,6 +7231,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782888930",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A9lowWdneiCQbZkgwrocKkT2nxW",
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
@@ -6585,6 +7283,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782181060",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -6621,6 +7323,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1777474509",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -6657,6 +7364,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115702",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ARalwpaVDiCwDZkoSHtcPNgXnRg",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -6709,6 +7421,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115703",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PV2bwNENViEjXWkOgzZcXoKHnce",
         "VlAlwAJvEiVVW6k0RBvcvkpWnhK"
@@ -6748,6 +7465,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773212172",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ARalwpaVDiCwDZkoSHtcPNgXnRg",
         "EwArwXCOPip15hkSvvpciAMJnSe",
@@ -6792,6 +7514,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778554479",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BYtDwHuOXiG7imkyIjHcWa6fnlb",
         "EAwdw2ZbtiBKttk66FTctUebn7f",
@@ -6833,6 +7560,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784255675",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EA2twSf5oiERMDkriKScU9GInc4"
       ],
@@ -6871,6 +7603,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773819114",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb"
       ],
@@ -6909,6 +7646,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115714",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EA2twSf5oiERMDkriKScU9GInc4",
         "MBVVww2Zii8k6Bk77GJcXbZJnpf"
@@ -6948,6 +7690,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780300197",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MBVVww2Zii8k6Bk77GJcXbZJnpf",
         "P3wrwSMNNihy8Vkf9p6cTsWYnTb",
@@ -6988,6 +7735,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1761615972",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H2GHwE8umiuP6WkwjxPcQOfGn0e",
         "SOgiwzPxpisy8MkhtuecZqFbnaf"
@@ -7027,6 +7779,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773819322",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EwArwXCOPip15hkSvvpciAMJnSe",
         "QBXVwP7oiiuEovkprDnckJlEnoK",
@@ -7067,6 +7824,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780996855",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "UR9SwucAIiQ2TYkc9EucsgvSnng",
         "YtJPwEVETiTaPMkWSfAccjXTnge"
@@ -7106,6 +7868,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783306410",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "YtJPwEVETiTaPMkWSfAccjXTnge"
       ],
@@ -7144,6 +7911,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778745970",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "OfUIwNWVuimZgFk3gBVc61GnnKW"
       ],
@@ -7182,6 +7954,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778746009",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb"
       ],
@@ -7220,6 +7997,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780611233",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -7256,6 +8038,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1734936050",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -7292,6 +8079,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768270090",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KkdswLx2bi4bgCkY6bEc7Do9neh",
         "MvgAwL4HIiuRRJkH0FwcJhxSnld",
@@ -7333,6 +8125,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768269810",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EHmOwLz5qi3tPDkb0gZcb5ExnJb",
         "KkdswLx2bi4bgCkY6bEc7Do9neh",
@@ -7374,6 +8171,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768270082",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FOwZwuxaWiuthnkZdedcGbJOnZf",
         "KkdswLx2bi4bgCkY6bEc7Do9neh",
@@ -7415,6 +8217,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1734935092",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -7451,6 +8258,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783303779",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KkdswLx2bi4bgCkY6bEc7Do9neh",
         "MvgAwL4HIiuRRJkH0FwcJhxSnld",
@@ -7492,6 +8304,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1708757996",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "YNbGwiEjAinaQfkSdNlcTehwn8I"
       ],
@@ -7530,6 +8347,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784096212",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -7582,6 +8404,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115711",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
@@ -7630,6 +8457,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115713",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "BjHZwBkk0iFScik49QMc1Wwjndb",
@@ -7677,6 +8509,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780611316",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KrbjwFhy3iojF3k97XmcvvXMnW7",
         "QyjpwAaKuihAeJkNBUJcdFesn9e",
@@ -7717,6 +8554,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1736477567",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "QVTnwVz2aifvSAkgomAc9KWRnHb"
       ],
@@ -7755,6 +8597,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782957686",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
         "Oyy6w5DYJiVCMYkdduEc6eD9nZg",
@@ -7797,6 +8644,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1767167302",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "Pulhw06e5iXJTFkidFXcGbylnod",
@@ -7839,6 +8691,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767083677",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -7880,6 +8736,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1768984163",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "P4KNwDdqaivEZFk7RpOcYeyhn2N"
@@ -7919,6 +8779,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1768814003",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "WVaVw8J7UiYZ52kaqVUcktqAnAf"
@@ -7958,6 +8822,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1785231285",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "NTH2d1EppoTxxExRvEicVYCRnfb",
@@ -7998,6 +8866,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1777277952",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BYtDwHuOXiG7imkyIjHcWa6fnlb",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
@@ -8039,6 +8912,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1774232658",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Oyy6w5DYJiVCMYkdduEc6eD9nZg",
         "WTsmwWdgOiKnwpkdZdScp093njh"
@@ -8078,6 +8956,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1776321291",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Nqguwf6ikiKrHEkGKgAc8g7Lnnh",
         "WTsmwWdgOiKnwpkdZdScp093njh"
@@ -8117,6 +9000,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768814150",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AIb1wNAE3iiKVSk8MHAcVA4QnJb"
       ],
@@ -8155,6 +9043,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768378652",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dj2NwrlqTiYlmDkwfAbcJNWSntd",
         "FbVmwmuaei9WkIkIWJmcs3ManEd",
@@ -8197,6 +9090,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768378592",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dj2NwrlqTiYlmDkwfAbcJNWSntd"
       ],
@@ -8235,6 +9133,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768378626",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dj2NwrlqTiYlmDkwfAbcJNWSntd"
       ],
@@ -8273,6 +9176,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768378553",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dj2NwrlqTiYlmDkwfAbcJNWSntd"
       ],
@@ -8311,6 +9219,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116458",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "QZYhwcQhWigYTVkLnHeczkwYnZb",
         "V7xfwDariioU5GkcmfXctzSEnyc"
@@ -8350,6 +9263,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1766998755",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "Mtxfwvu2fiOLwXkcURCcJxDPnLd",
@@ -8390,6 +9307,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1766999011",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "WTsmwWdgOiKnwpkdZdScp093njh"
@@ -8429,6 +9350,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1785233938",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "WTsmwWdgOiKnwpkdZdScp093njh"
@@ -8468,6 +9393,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783062276",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AhAhw08MFiB9OpkDjbPcVUTVnlg",
         "BZkiw99tkiDkLXktLhqcJtjKnmb",
@@ -8524,6 +9454,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809254",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AhAhw08MFiB9OpkDjbPcVUTVnlg",
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
@@ -8567,6 +9502,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809287",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AhAhw08MFiB9OpkDjbPcVUTVnlg",
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
@@ -8609,6 +9549,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783062659",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
         "JGURwBQNOijp2DkspFFctbAGnLh",
@@ -8649,6 +9594,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809544",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AhAhw08MFiB9OpkDjbPcVUTVnlg",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
@@ -8689,6 +9639,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809567",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AhAhw08MFiB9OpkDjbPcVUTVnlg",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e"
@@ -8728,6 +9683,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778173929",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "JGURwBQNOijp2DkspFFctbAGnLh",
@@ -8769,6 +9729,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1772679211",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "JGURwBQNOijp2DkspFFctbAGnLh"
@@ -8808,6 +9773,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809618",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "TVfnwtCEQico7Bk9bngcnV1cnGb"
@@ -8847,6 +9817,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1762417165",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "Pulhw06e5iXJTFkidFXcGbylnod"
@@ -8886,6 +9861,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809662",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e"
       ],
@@ -8924,6 +9904,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782957137",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e"
@@ -8963,6 +9948,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782953342",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e"
@@ -9002,6 +9992,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782956741",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "JGURwBQNOijp2DkspFFctbAGnLh"
@@ -9041,6 +10036,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782957848",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "JGURwBQNOijp2DkspFFctbAGnLh"
@@ -9080,6 +10080,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783061385",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "JGURwBQNOijp2DkspFFctbAGnLh"
       ],
@@ -9118,6 +10123,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782956158",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e"
@@ -9157,6 +10167,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782957353",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
@@ -9197,6 +10212,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782954120",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
@@ -9237,6 +10257,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809794",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e"
       ],
@@ -9275,6 +10300,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809808",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e"
       ],
@@ -9313,6 +10343,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785319927",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "PFbNwB7Mli18n6k6VWScGcpWndc"
@@ -9352,6 +10387,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1777003335",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GAX8wkC1QiTZhXkLBocc1GoTnke",
         "TBErwF79wil25bkkUIocVqI2nfb",
@@ -9392,6 +10432,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1768809863",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "H8MVwnjdgihp0hkRHHKcjBe9n5e",
         "JbPDwHqd0iZZSuk5tYicGqKbn9c",
@@ -9432,6 +10477,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783062905",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AhAhw08MFiB9OpkDjbPcVUTVnlg",
         "AwmtwHGQii1j9Wk1W04cNxvBnth",
@@ -9496,6 +10546,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1777000918",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DDrHwdsb7idJa9kVU6zc2VwInBf",
         "JGURwBQNOijp2DkspFFctbAGnLh",
@@ -9537,6 +10592,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783408164",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -9573,6 +10632,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783411265",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "J0jDwYQb8il1biknRo4cazHPn5d"
       ],
@@ -9611,6 +10674,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783589853",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
@@ -9657,6 +10725,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783589786",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "J274wT61xiEM4fkYeL8cMb4Pnbd",
@@ -9702,6 +10775,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780394440",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "RY8ww0NDQi8yU9kNpjicHP7Gn4b"
       ],
@@ -9740,6 +10818,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782875749",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "AICcwQ55yiNqEPkjdV6cb2i8nqe",
@@ -9785,6 +10868,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783073347",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PZ4uwwgUfio5OikY0Ecc5nrunFf"
       ],
@@ -9823,6 +10911,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783589917",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CmR5wFcybi3iMokOJBxcXDQcntg",
         "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
@@ -9868,6 +10961,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783484146",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BTrNwoEfYii1e9kf0BScWDpcnA2",
         "PharwAysCiBzvgkuqqecmNzunQf"
@@ -9907,6 +11005,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784011335",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "D1E4wLr5xiuHoFkJgblcHZ1FnLb",
         "DsqzwjegpiYSdtk1k75c1zXsnZc",
@@ -9955,6 +11058,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783484151",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Ah0DwMIWsilLa4kVbYocJGCMnlh",
         "BTrNwoEfYii1e9kf0BScWDpcnA2",
@@ -10001,6 +11109,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782876551",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AICcwQ55yiNqEPkjdV6cb2i8nqe",
         "RY8ww0NDQi8yU9kNpjicHP7Gn4b"
@@ -10040,6 +11153,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782984079",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "JzapwWCp7iRPDhky5qWczpTonZf",
         "PuxkwMWvbiHxvTkHsVkcMZP9n5f"
@@ -10079,6 +11197,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781514078",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GOCJwJktXizGTXkRfCEc9GGLnsb"
       ],
@@ -10117,6 +11240,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785394684",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PuxkwMWvbiHxvTkHsVkcMZP9n5f"
       ],
@@ -10155,6 +11283,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781676912",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GOCJwJktXizGTXkRfCEc9GGLnsb",
         "I5qmw4fxDiBxBQksrNwcLHQpnTc",
@@ -10195,6 +11328,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781676930",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -10231,6 +11369,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783043927",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -10267,6 +11410,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323320",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BTrNwoEfYii1e9kf0BScWDpcnA2",
         "L11Mw0GRTiKALikJaEycwj1wnKg",
@@ -10307,6 +11454,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784090104",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BTrNwoEfYii1e9kf0BScWDpcnA2",
         "PZ4uwwgUfio5OikY0Ecc5nrunFf",
@@ -10324,7 +11475,7 @@
       "doc_token": "AICcwQ55yiNqEPkjdV6cb2i8nqe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/AICcwQ55yiNqEPkjdV6cb2i8nqe",
       "source_file": "AICcwQ55yiNqEPkjdV6cb2i8nqe.json",
-      "source_hash": "cd52a3fca559d07e459511de4ab0922b0503a1dbf3701422ec7a6336adaf2eb1",
+      "source_hash": "038cfb8bb4686a78f52d8e7584f4c745d33180e2a17d7f3b23bcd65a0282252c",
       "node_metadata": {
         "requested_token": "AICcwQ55yiNqEPkjdV6cb2i8nqe",
         "requested_node_token": "AICcwQ55yiNqEPkjdV6cb2i8nqe",
@@ -10347,6 +11498,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783589264",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BClgwKlHaiushBkPPssclTkYnef",
         "D7F1wYcfVinn92kK0l5cTZDLnLf",
@@ -10390,6 +11546,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783322909",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
         "PharwAysCiBzvgkuqqecmNzunQf"
@@ -10429,6 +11590,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783322916",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "J274wT61xiEM4fkYeL8cMb4Pnbd",
@@ -10469,6 +11635,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783322921",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DknbwaLS3iAAiUk9ifPc1Vmvnze",
         "G6xpwyghRitwbqkwl86cpb3Gn2g",
@@ -10510,6 +11681,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783322927",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ByBTwOfgIie7e2k090Mc1EPknSf",
         "D7F1wYcfVinn92kK0l5cTZDLnLf",
@@ -10552,6 +11728,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783322933",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "D7F1wYcfVinn92kK0l5cTZDLnLf",
         "KnnBwce9JifxvXkd070cvgUPnag"
@@ -10591,6 +11772,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783589539",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BClgwKlHaiushBkPPssclTkYnef",
         "DW9wwFlgAiwOhBk2PgucY4URnke",
@@ -10631,6 +11817,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588296",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
         "ESVGwTkn8iLfUakSSrkc5dWJnye",
@@ -10675,6 +11866,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592107",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
         "ESVGwTkn8iLfUakSSrkc5dWJnye",
@@ -10695,7 +11891,7 @@
       "doc_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ESVGwTkn8iLfUakSSrkc5dWJnye",
       "source_file": "ESVGwTkn8iLfUakSSrkc5dWJnye.json",
-      "source_hash": "cee0d24ee8a3509913a5a5d4f56a7fd728d55895cd0e895f7f8c006947438f4a",
+      "source_hash": "badc3417a2eda415aff29a7d900d287f0ae3b1eaec3ccb0d3d888a2f50e28c75",
       "node_metadata": {
         "requested_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
         "requested_node_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
@@ -10718,6 +11914,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588381",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BClgwKlHaiushBkPPssclTkYnef",
         "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
@@ -10763,6 +11963,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781530063",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GLxhwO5vWiWkTBkoNCPcg4ahnbe",
         "RY8ww0NDQi8yU9kNpjicHP7Gn4b"
@@ -10802,6 +12007,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778570067",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "INoRwFTjfiindPkaNlwc9XAgnkh",
         "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
@@ -10843,6 +12052,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781511024",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -10879,6 +12093,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1774230376",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -10915,6 +12134,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782116480",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CemEwKryciMUepkgYWZcOw6wncb",
         "PharwAysCiBzvgkuqqecmNzunQf",
@@ -10932,7 +12156,7 @@
       "doc_token": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/TDkbwhwMyi7bPykZAoUc5PFfnIb",
       "source_file": "TDkbwhwMyi7bPykZAoUc5PFfnIb.json",
-      "source_hash": "b06e47e15201ada50f43cd536bd66dbb377a77d5c8cb7a0a166fc0f72d32ff3d",
+      "source_hash": "0672d8c96e3b17cff34746534a2ab871ba536b0cb0186b98e18b1596bee4219c",
       "node_metadata": {
         "requested_token": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
         "requested_node_token": "TDkbwhwMyi7bPykZAoUc5PFfnIb",
@@ -10955,6 +12179,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1754036662",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -10968,7 +12197,7 @@
       "doc_token": "PlX3wo82Di6oWVkg2ercRWCUnvV",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PlX3wo82Di6oWVkg2ercRWCUnvV",
       "source_file": "PlX3wo82Di6oWVkg2ercRWCUnvV.json",
-      "source_hash": "57844ee98bac40c7208a43bce3670b2ef804f0d6b54ae9e5229b7cd6b0cfd226",
+      "source_hash": "c6c7045fde2c18c53ce91d5c1308ff2212b1a3d4a471e1923b06dad577b93a9e",
       "node_metadata": {
         "requested_token": "PlX3wo82Di6oWVkg2ercRWCUnvV",
         "requested_node_token": "PlX3wo82Di6oWVkg2ercRWCUnvV",
@@ -10991,6 +12220,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767851422",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CemEwKryciMUepkgYWZcOw6wncb",
         "EA2twSf5oiERMDkriKScU9GInc4",
@@ -11033,6 +12266,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780611373",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "CemEwKryciMUepkgYWZcOw6wncb",
@@ -11076,6 +12314,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767851553",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "CemEwKryciMUepkgYWZcOw6wncb",
@@ -11117,6 +12359,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782957811",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CemEwKryciMUepkgYWZcOw6wncb",
         "CiVHwbwPwipX5SkFkqVcLpESnfe",
@@ -11140,7 +12386,7 @@
       "doc_token": "R33EwQchxiO3HKk4vPnce6vkntc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/R33EwQchxiO3HKk4vPnce6vkntc",
       "source_file": "R33EwQchxiO3HKk4vPnce6vkntc.json",
-      "source_hash": "27cb6e4dbcd3bee322ffa69922b20602fc47a0d8740c9b56a1aaddc2dfe05d10",
+      "source_hash": "c1a9d6904de65dbf76d0b8eaa96e2aa13e6c7048fcc7a7aa5cc89dc01b563d25",
       "node_metadata": {
         "requested_token": "R33EwQchxiO3HKk4vPnce6vkntc",
         "requested_node_token": "R33EwQchxiO3HKk4vPnce6vkntc",
@@ -11163,6 +12409,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749116568",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "JCMPwIyVciCT4Hk4O20c96MEnch",
@@ -11183,7 +12433,7 @@
       "doc_token": "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/LqMIw1DXyiHUjAk9TEAcqHp6nDd",
       "source_file": "LqMIw1DXyiHUjAk9TEAcqHp6nDd.json",
-      "source_hash": "b80e2bcee764a9cbe0a72027814adb439926892699cb193528f165029e9d46a1",
+      "source_hash": "63d6fa800e7a0f72eba4cc09b95487c01e4063e1a5c0ad21c46e0942e63e6f17",
       "node_metadata": {
         "requested_token": "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
         "requested_node_token": "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
@@ -11206,6 +12456,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749438697",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "KfgvwJKPDi8uDekl2aHcPOvgnSb",
@@ -11224,7 +12478,7 @@
       "doc_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
       "source_file": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf.json",
-      "source_hash": "046dca80693e6ed6613a4339bb5ab9145d5db224c2fe48237921a34dbc53b665",
+      "source_hash": "7e15d6a56fea3270b66a0fb904c66571330264db3978a5c7cb487aba1659e1e7",
       "node_metadata": {
         "requested_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
         "requested_node_token": "Y8nwwbi0KiwtVZkMaSQcsPcwnkf",
@@ -11247,6 +12501,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749116647",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KfgvwJKPDi8uDekl2aHcPOvgnSb"
       ],
@@ -11262,7 +12520,7 @@
       "doc_token": "CiVHwbwPwipX5SkFkqVcLpESnfe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/CiVHwbwPwipX5SkFkqVcLpESnfe",
       "source_file": "CiVHwbwPwipX5SkFkqVcLpESnfe.json",
-      "source_hash": "5820898ad7d453d1bbfab6893c42c8b48df20d03d3fdfb6d100bef25b7a467f0",
+      "source_hash": "365e6e522e660307a8a236f6473c1eacc63c39b11dd8cca8f4dd12c25ba77905",
       "node_metadata": {
         "requested_token": "CiVHwbwPwipX5SkFkqVcLpESnfe",
         "requested_node_token": "CiVHwbwPwipX5SkFkqVcLpESnfe",
@@ -11285,6 +12543,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749116670",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KfgvwJKPDi8uDekl2aHcPOvgnSb"
       ],
@@ -11300,7 +12562,7 @@
       "doc_token": "SwgXwdHG6iqpbUknXrHcOPd7nRe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/SwgXwdHG6iqpbUknXrHcOPd7nRe",
       "source_file": "SwgXwdHG6iqpbUknXrHcOPd7nRe.json",
-      "source_hash": "1cf4683d5ef53861ac742634031c54593235ff3da0d0087f4de92cb519271d87",
+      "source_hash": "ba8aa783aaf910a6a4edf89542ea65298ae34a18b73eb09e3c01ebf4c915161d",
       "node_metadata": {
         "requested_token": "SwgXwdHG6iqpbUknXrHcOPd7nRe",
         "requested_node_token": "SwgXwdHG6iqpbUknXrHcOPd7nRe",
@@ -11323,6 +12585,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749116713",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "DjROwgK6ziCf7Rkoji6ccyEUnsg",
         "KfgvwJKPDi8uDekl2aHcPOvgnSb",
@@ -11341,7 +12607,7 @@
       "doc_token": "VFMLwxpsniVGKYkE3DecmpQ2nrg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/VFMLwxpsniVGKYkE3DecmpQ2nrg",
       "source_file": "VFMLwxpsniVGKYkE3DecmpQ2nrg.json",
-      "source_hash": "1efea2e8a337ab40423c3b68c1a62b7bc2a23a2a5ed88fe1fb43781d00d422fb",
+      "source_hash": "b8846bc8518e94f1c2733b516f6214da1e9af0b0659994166065c4f8143336a7",
       "node_metadata": {
         "requested_token": "VFMLwxpsniVGKYkE3DecmpQ2nrg",
         "requested_node_token": "VFMLwxpsniVGKYkE3DecmpQ2nrg",
@@ -11364,6 +12630,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1749116764",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KfgvwJKPDi8uDekl2aHcPOvgnSb"
       ],
@@ -11379,7 +12649,7 @@
       "doc_token": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/KfgvwJKPDi8uDekl2aHcPOvgnSb",
       "source_file": "KfgvwJKPDi8uDekl2aHcPOvgnSb.json",
-      "source_hash": "a8da9f885f0efb9455fea62fdfbbdeb9087fb175a0a5f18d530e1da5d0238900",
+      "source_hash": "3a7616d1138302b3e8d2cc23007c038437cded3d450641650fee59781ae1b118",
       "node_metadata": {
         "requested_token": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
         "requested_node_token": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
@@ -11393,15 +12663,20 @@
         "parent_node_token": "IeNswy8ySiutKAkdphRc4lfynsf",
         "node_create_time": "1734425219",
         "obj_create_time": "1734425219",
-        "obj_edit_time": "1777262956",
+        "obj_edit_time": "1785739786",
         "revision_id": null
       },
       "node_token": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
       "origin_node_token": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
       "obj_token": "Zmi9dgE6toCiYdxKIZZciRmZn9d",
       "obj_type": "docx",
-      "obj_edit_time": "1777262956",
+      "obj_edit_time": "1785739786",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -11438,6 +12713,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784024237",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BaGlwzDmyiyVvVk6NurcFclInCd",
         "DbPIw4jLOiEabCk5uptc6EZ1nbf",
@@ -11483,6 +12763,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1774324257",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KnnBwce9JifxvXkd070cvgUPnag",
         "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
@@ -11524,6 +12809,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1762164708",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "UPg7wiU71ioeELk8I8KcLDYqncb"
       ],
@@ -11562,6 +12852,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778314576",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ARpTwYXlIi7ZLtkEHx5ciUK6nuc",
         "NvDLw4kFji0xeWkc4Hpc9wUfnRh"
@@ -11601,6 +12896,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778314622",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "NvDLw4kFji0xeWkc4Hpc9wUfnRh",
         "OzLjwMmWliJdEBkz0gPcVZrqnZb",
@@ -11642,6 +12942,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784024375",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -11678,6 +12983,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1767852476",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -11714,6 +13023,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783073563",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "CWT2wh5YriZfPZkGlgCcWxVnnAf",
@@ -11761,6 +13075,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782807543",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "YHG0wCYxfiZILvkZ2VLclmvsn7g",
         "YmsVwIzOBinv4OklCfmc2nyznAe"
@@ -11800,6 +13119,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782887038",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "YHG0wCYxfiZILvkZ2VLclmvsn7g"
       ],
@@ -11838,6 +13162,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782885772",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CWT2wh5YriZfPZkGlgCcWxVnnAf",
         "NitBwKVzzi0hXBkjdDFcfwRsngb"
@@ -11877,6 +13206,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782887066",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "NitBwKVzzi0hXBkjdDFcfwRsngb"
       ],
@@ -11915,6 +13249,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780402807",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "NitBwKVzzi0hXBkjdDFcfwRsngb",
         "PBZwwNqWjiikeYkXgHPcGhLznTh",
@@ -11955,6 +13294,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1767852637",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GMdhwQQCRi2QaLkimNOcc3qNnbh",
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -11997,6 +13341,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782885337",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "OzLjwMmWliJdEBkz0gPcVZrqnZb",
@@ -12038,6 +13387,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1746696622",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CWT2wh5YriZfPZkGlgCcWxVnnAf"
       ],
@@ -12076,6 +13430,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1763631880",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
         "KHAMwm0HUiU6qdkH2LOcu0FFnug",
@@ -12116,6 +13475,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323740",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -12152,6 +13516,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323731",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MvE5wUlFli3gJOk0MkeclZCqnib",
         "OQ2ZwpH9ki5EZIkwK21cghexnOh",
@@ -12192,6 +13561,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323751",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MvE5wUlFli3gJOk0MkeclZCqnib",
         "PZ4uwwgUfio5OikY0Ecc5nrunFf",
@@ -12232,6 +13606,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323755",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MvE5wUlFli3gJOk0MkeclZCqnib",
         "OLAEwETZtitiNFkkA9JcE5YZnXf",
@@ -12272,6 +13651,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323757",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MvE5wUlFli3gJOk0MkeclZCqnib",
         "PZ4uwwgUfio5OikY0Ecc5nrunFf",
@@ -12312,6 +13696,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323761",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "MvE5wUlFli3gJOk0MkeclZCqnib",
         "OLAEwETZtitiNFkkA9JcE5YZnXf",
@@ -12355,6 +13744,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1770082207",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "KHAMwm0HUiU6qdkH2LOcu0FFnug",
         "MvE5wUlFli3gJOk0MkeclZCqnib",
@@ -12395,6 +13789,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323851",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FnS1wY0iuia4qgkMycVclZyHnOf",
         "KHAMwm0HUiU6qdkH2LOcu0FFnug",
@@ -12435,6 +13834,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1782954512",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BRsZwqOUTiBbrPk9b5WcvFgTnze",
         "GBY6wbUmwi9lLjkXSuKccODgnne",
@@ -12457,7 +13860,7 @@
       "doc_token": "GBY6wbUmwi9lLjkXSuKccODgnne",
       "doc_link": "https://zilliverse.feishu.cn/wiki/GBY6wbUmwi9lLjkXSuKccODgnne",
       "source_file": "GBY6wbUmwi9lLjkXSuKccODgnne.json",
-      "source_hash": "cdacba8302d8541ceb167c498a2a0d23df1bcdc626bd3158334e06067c9c4c77",
+      "source_hash": "55deac56b99dcdcb914dd7dd3e031f1ecc933d205badc59bfa821ca43475f772",
       "node_metadata": {
         "requested_token": "GBY6wbUmwi9lLjkXSuKccODgnne",
         "requested_node_token": "GBY6wbUmwi9lLjkXSuKccODgnne",
@@ -12480,6 +13883,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783324512",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "GBY6wbUmwi9lLjkXSuKccODgnne",
@@ -12497,7 +13904,7 @@
       "doc_token": "IojuwADAwiRK0hkl4pgcvC2QnQd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/IojuwADAwiRK0hkl4pgcvC2QnQd",
       "source_file": "IojuwADAwiRK0hkl4pgcvC2QnQd.json",
-      "source_hash": "6c988fc3e60c75560f049e8a404901a5f5ae2dfa8911c4c8e2426cb7b0aac93a",
+      "source_hash": "0037f8782b573caea2a062b6a23d311c3f02b4951c953b20e184b5857f9ad1e3",
       "node_metadata": {
         "requested_token": "IojuwADAwiRK0hkl4pgcvC2QnQd",
         "requested_node_token": "IojuwADAwiRK0hkl4pgcvC2QnQd",
@@ -12520,6 +13927,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783324524",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "IojuwADAwiRK0hkl4pgcvC2QnQd"
@@ -12536,7 +13947,7 @@
       "doc_token": "W2fZwrrhVibvpGkd0MbcQGJQnib",
       "doc_link": "https://zilliverse.feishu.cn/wiki/W2fZwrrhVibvpGkd0MbcQGJQnib",
       "source_file": "W2fZwrrhVibvpGkd0MbcQGJQnib.json",
-      "source_hash": "2a0a49b3520dda5ccaf10b237b8633f782ba3bfb7e1eb8a07b64ffe846a20a6b",
+      "source_hash": "a5a7b52906ec1d42c3a7025dfedae3d3da08538529a09f8d4639b6984b865d18",
       "node_metadata": {
         "requested_token": "W2fZwrrhVibvpGkd0MbcQGJQnib",
         "requested_node_token": "W2fZwrrhVibvpGkd0MbcQGJQnib",
@@ -12559,6 +13970,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783324534",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb"
       ],
@@ -12597,6 +14012,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783324067",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -12633,6 +14053,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783324073",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "FOamwIi07ia7kpkBPW8cEuIpniu",
         "GLxhwO5vWiWkTBkoNCPcg4ahnbe",
@@ -12673,6 +14098,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785220487",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GBfswoqhviHfTVk2qhHc4eGXnfh",
         "INoRwFTjfiindPkaNlwc9XAgnkh",
@@ -12718,6 +14148,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323892",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "Nby4wCqNviuLg3kEZpkcdKtnnnb"
       ],
@@ -12756,6 +14191,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323900",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -12792,6 +14232,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323944",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "QPgEwd4qziOa5RkgJR2c9gpnn3b",
         "TeLbw6guCimFLgkQWdmcZB2unMd"
@@ -12831,6 +14276,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323949",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "INoRwFTjfiindPkaNlwc9XAgnkh",
         "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
@@ -12871,6 +14321,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783323953",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "TeLbw6guCimFLgkQWdmcZB2unMd"
       ],
@@ -12909,6 +14364,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782183237",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "INoRwFTjfiindPkaNlwc9XAgnkh",
         "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
@@ -12949,6 +14409,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782183322",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -12985,6 +14450,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1785401252",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A3YdwRQwoiDLfkkPbwOcEOr3nLe",
         "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
@@ -13025,6 +14494,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785408226",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A3YdwRQwoiDLfkkPbwOcEOr3nLe",
         "JYXswRlj9i5KE5kJ2U0cdaM5nBh",
@@ -13077,6 +14551,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782372823",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "K8hFwmeBQiCSO4ktT9ScD9zMnua",
         "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -13120,6 +14599,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779417197",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "OFjswbvuoit64pk5eGqc9Yx3nGg",
         "TfzMwdLsWibd0UkGpGAcLhuInvb",
@@ -13160,6 +14644,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779678903",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "UPg7wiU71ioeELk8I8KcLDYqncb"
       ],
@@ -13198,6 +14687,8 @@
       "obj_type": "docx",
       "obj_edit_time": "1779358008",
       "revision_id": null,
+      "publish_targets": [],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "At2XwmzCliTWJDkyxBIc1HVSnvg",
         "X6nAwrgYAiJ3Lzku8mBczdbXnuo"
@@ -13237,6 +14728,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1779782638",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -13280,6 +14775,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592421",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -13322,6 +14822,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592364",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "OzLjwMmWliJdEBkz0gPcVZrqnZb",
@@ -13362,6 +14867,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1781682592",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -13403,6 +14913,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1780637841",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "Fd8EwsD0JiIt98kmps4c5wGlnrh",
@@ -13443,6 +14958,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785410799",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "HriHwEU3qiQrgskz3a0cdkcpnyf",
@@ -13486,6 +15006,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782373169",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LDlOweEzmiLkdQkvPFec5lrcnbf",
         "LbFXwpruviFWWokwtkhcVmnhnFh",
@@ -13529,6 +15054,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785410964",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -13565,6 +15095,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785410909",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "JQvjwCDxhiMcj0kpaWicqXsTn1e",
         "M6PLwhVqAipx7wkQNFscmuNPnWc",
@@ -13605,6 +15140,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782375002",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "OzLjwMmWliJdEBkz0gPcVZrqnZb"
       ],
@@ -13643,6 +15183,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1780909214",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A3YdwRQwoiDLfkkPbwOcEOr3nLe",
         "JQvjwCDxhiMcj0kpaWicqXsTn1e",
@@ -13690,6 +15234,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1779175681",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "LDlOweEzmiLkdQkvPFec5lrcnbf",
@@ -13730,6 +15278,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1781682625",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
@@ -13770,6 +15322,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783590219",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "K8hFwmeBQiCSO4ktT9ScD9zMnua",
         "MYHwwhKtri4MMJku6BbcMjF4n1d",
@@ -13812,6 +15368,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784726893",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "EmcowmwYpiFbWgkmnqfcMf3knVc",
         "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
@@ -13853,6 +15413,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588646",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BClgwKlHaiushBkPPssclTkYnef",
         "GBfswoqhviHfTVk2qhHc4eGXnfh",
@@ -13895,6 +15459,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592223",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BClgwKlHaiushBkPPssclTkYnef",
         "BaGlwzDmyiyVvVk6NurcFclInCd",
@@ -13943,6 +15511,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783592337",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A33MwQX84iXyQNkzopece3oenye",
         "DtLVw8EUyi6MqMkXh3Cc3rfZnic",
@@ -13984,6 +15556,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778151674",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14020,6 +15596,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588536",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BaGlwzDmyiyVvVk6NurcFclInCd",
         "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
@@ -14065,6 +15645,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1781064132",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BClgwKlHaiushBkPPssclTkYnef",
         "GBfswoqhviHfTVk2qhHc4eGXnfh",
@@ -14105,6 +15689,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1785410297",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
         "V7nZwzmpFiOokGksfTqcAcjcnXh"
@@ -14144,6 +15733,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1783588142",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "BaGlwzDmyiyVvVk6NurcFclInCd",
         "ByBTwOfgIie7e2k090Mc1EPknSf",
@@ -14198,6 +15791,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1784014676",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GOCJwJktXizGTXkRfCEc9GGLnsb",
         "MtGywZwmXiHg0AkJMavcWAtxnCg",
@@ -14239,6 +15837,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1774230535",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "PuxkwMWvbiHxvTkHsVkcMZP9n5f"
       ],
@@ -14277,6 +15880,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1772759552",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "J274wT61xiEM4fkYeL8cMb4Pnbd"
@@ -14316,6 +15924,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1775092146",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14352,6 +15965,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779170289",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "LFepwAKeGiURJUksNA4cqYPYnIb"
       ],
@@ -14390,6 +16008,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1776245957",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14426,6 +16049,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1779169176",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A6q4wqxGViorDmkD5iKcoDBOnRh",
         "JiHgw9rQsibSugklTvBcpS1unGe"
@@ -14465,6 +16093,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1776246390",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14501,6 +16134,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1776246397",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14537,6 +16175,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1776246484",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "A6q4wqxGViorDmkD5iKcoDBOnRh",
         "JiHgw9rQsibSugklTvBcpS1unGe"
@@ -14576,6 +16219,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773978046",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "ANK0wJQ8DibXxIkpYDEcScMHnYe",
         "Fb4Ywqocai1i56ktDT4cquNwnke",
@@ -14623,6 +16271,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773656290",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14659,6 +16312,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1773366838",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14695,6 +16352,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1773814700",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14731,6 +16392,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778301567",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14767,6 +16432,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773827242",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14803,6 +16473,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773827248",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14839,6 +16514,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773805852",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14875,6 +16555,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773827261",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14911,6 +16596,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773827269",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14947,6 +16637,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1773826787",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -14983,6 +16678,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778300856",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -15019,6 +16718,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1778467183",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -15055,6 +16758,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778469024",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -15091,6 +16799,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1778653047",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -15127,6 +16840,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1774227231",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -15163,6 +16881,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1784771132",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B1cSwfWcri4VJLkCR20cHIs6nCf",
         "BClgwKlHaiushBkPPssclTkYnef",
@@ -15211,6 +16933,10 @@
       "obj_type": "docx",
       "obj_edit_time": "1779182672",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -15247,6 +16973,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1770084904",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [],
       "output_paths": []
     },
@@ -15283,6 +17014,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782957329",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "CPLrwghdWiSvGBkdeEecGjgLnSb",
         "FnS1wY0iuia4qgkMycVclZyHnOf",
@@ -15332,6 +17068,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782115689",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "B7SFwbn76iUM06kkYzBcffE8nYf",
         "JCMPwIyVciCT4Hk4O20c96MEnch",
@@ -15374,6 +17115,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782956136",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "AAqUwQW3qia3akkjfDNc0kwanlh",
         "KnnBwce9JifxvXkd070cvgUPnag",
@@ -15416,6 +17162,11 @@
       "obj_type": "docx",
       "obj_edit_time": "1782958053",
       "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
       "outgoing_tokens": [
         "GBY6wbUmwi9lLjkXSuKccODgnne",
         "LMfdwRwKIiJtywkwbHVcGnOFnRf"

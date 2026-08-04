@@ -144,7 +144,7 @@ Click **Copy and Go** on the Zilliz Cloud console to open the Private Service Co
 
     In the top navigation, launch Google Cloud Cloud Shell. Run the CLI command you just copied from Zilliz Cloud in the Cloud Shell.
 
-    ![vpc_networks_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/vpc_networks_gcp.png "vpc_networks_gcp")
+    ![vpc_networks_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/vpcnetworksgcp.png "vpc_networks_gcp")
 
     When the endpoint is created, navigate to the [Google Cloud Private Service Connect page](https://console.cloud.google.com/net-services/psc/list/consumers) and copy the name of the endpoint you just created. 
 
@@ -242,7 +242,7 @@ To disable public endpoints:
 
 </Admonition>
 
-![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disable_public_endpoint.png "disable_public_endpoint")
+![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disablepublicendpoint.png "disable_public_endpoint")
 
 ## FAQ\{#faq}
 
@@ -252,11 +252,11 @@ Check your DNS settings by referring to [Set up firewall rules and a DNS record]
 
 - If the configuration is correct, when you ping your private link, you should see
 
-    ![private_link_gcp_ts_01](https://zdoc-images.s3.us-west-2.amazonaws.com/private_link_gcp_ts_01.png "private_link_gcp_ts_01")
+    ![private_link_gcp_ts_01](https://zdoc-images.s3.us-west-2.amazonaws.com/privatelinkgcpts01.png "private_link_gcp_ts_01")
 
 - If the configuration is incorrect, when you ping your private link, you may see
 
-    ![private_link_gcp_ts_02](https://zdoc-images.s3.us-west-2.amazonaws.com/private_link_gcp_ts_02.png "private_link_gcp_ts_02")
+    ![private_link_gcp_ts_02](https://zdoc-images.s3.us-west-2.amazonaws.com/privatelinkgcpts02.png "private_link_gcp_ts_02")
 
 ### Can I create a private endpoint for an existing cluster?\{#can-i-create-a-private-endpoint-for-an-existing-cluster}
 
