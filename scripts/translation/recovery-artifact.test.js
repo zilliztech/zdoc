@@ -64,13 +64,15 @@ test('derives a stable target-specific prompt contract hash', () => {
   assert.notEqual(promptContractSha256('zh-CN-reference'), promptContractSha256('ja-JP'));
 });
 
-test('changes the prompt contract hash when the locale contract or Chinese correction prompt changes', () => {
+test('changes the prompt contract hash when locale, document correction, or REST review/correction prompts change', () => {
   const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-prompt-contract-'));
   const promptNames = [
     'codex-translation-agent.zh-CN-reference.md',
     'codex-review-agent.zh-CN-reference.md',
     'codex-correction-agent.zh-CN-reference.md',
     'codex-rest-spec-translation-agent.zh-CN-reference.md',
+    'codex-rest-spec-review-agent.md',
+    'codex-rest-spec-correction-agent.md',
   ];
   for (const name of promptNames) write(repositoryRoot, `.github/prompts/${name}`, `${name}\n`);
   write(repositoryRoot, 'config/reference-navigation.json', '{"targets":[]}\n');
@@ -85,6 +87,16 @@ test('changes the prompt contract hash when the locale contract or Chinese corre
   write(repositoryRoot, '.github/prompts/codex-correction-agent.zh-CN-reference.md', 'changed correction\n');
   const correctionChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
   assert.notEqual(correctionChanged, initial);
+
+  write(repositoryRoot, '.github/prompts/codex-correction-agent.zh-CN-reference.md', 'codex-correction-agent.zh-CN-reference.md\n');
+  write(repositoryRoot, '.github/prompts/codex-rest-spec-review-agent.md', 'changed REST review\n');
+  const restReviewChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
+  assert.notEqual(restReviewChanged, initial);
+
+  write(repositoryRoot, '.github/prompts/codex-rest-spec-review-agent.md', 'codex-rest-spec-review-agent.md\n');
+  write(repositoryRoot, '.github/prompts/codex-rest-spec-correction-agent.md', 'changed REST correction\n');
+  const restCorrectionChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
+  assert.notEqual(restCorrectionChanged, initial);
 });
 
 test('keeps a candidate pending when source, locale, contract, or target integrity differs', () => {

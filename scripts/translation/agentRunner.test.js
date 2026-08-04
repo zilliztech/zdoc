@@ -64,6 +64,8 @@ function testSelectsPromptsByTranslationTarget() {
     review: 'codex-review-agent.ja-JP.md',
     correction: 'codex-correction-agent.md',
     rest: 'codex-rest-spec-translation-agent.ja-JP.md',
+    restReview: 'codex-rest-spec-review-agent.md',
+    restCorrection: 'codex-rest-spec-correction-agent.md',
   })
   assert.equal(promptNamesFor('zh-CN-reference').review, 'codex-review-agent.zh-CN-reference.md')
   assert.equal(promptNamesFor('zh-CN-reference').correction, 'codex-correction-agent.zh-CN-reference.md')
@@ -297,11 +299,33 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
     const sourcePath = 'content/en/reference/api/restful/restful/v1/search.mdx'
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/search.mdx'
     write(path.join(siteDir, sourcePath), '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","example":{"message":"User has not authenticated"}}\nexport const endpoint = "/v1/search"\nexport const method = "post"\n')
+    const specCalls = []
+    let specReviewRound = 0
     const callModel = async ({ agent, messages }) => {
       if (messages[0].content.includes('structured Zilliz Cloud REST API')) {
+        specCalls.push(agent)
         return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
           ...entry,
-          text: entry.text === 'Search a collection.' ? 'コレクションを検索します。' : `JA:${entry.text}`,
+          text: entry.text === 'Search a collection.' ? '誤った検索文。' : `JA:${entry.text}`,
+        })))
+      }
+      if (agent === 'review' && messages[0].content.includes('structured REST API localization entries')) {
+        specCalls.push(agent)
+        specReviewRound += 1
+        if (specReviewRound > 1) return '{"pass":true,"issues":[]}'
+        return JSON.stringify({
+          pass: false,
+          issues: [{
+            severity: 'medium', type: 'accuracy_mistranslation', location: '["description"]',
+            source_quote: 'Search a collection.', draft_quote: '誤った検索文。', comment: 'Correct the REST description.',
+          }],
+        })
+      }
+      if (agent === 'correction' && messages[0].content.includes('structured REST API localization entries')) {
+        specCalls.push(agent)
+        return JSON.stringify(JSON.parse(taggedMessageContent(messages, 'draft')).map(entry => ({
+          ...entry,
+          text: entry.id === '["description"]' ? 'コレクションを検索します。' : entry.text,
         })))
       }
       if (agent === 'translation') return taggedMessageContent(messages, 'source').replace('Search', '検索')
@@ -321,6 +345,34 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
     assert.match(output, /"ja-JP":\{"summary":"JA:Search","description":"コレクションを検索します。"\}/)
     assert.match(output, /"message":"User has not authenticated"/)
     assert.match(output, /export const endpoint = "\/v1\/search"/)
+    assert.deepEqual(specCalls, ['translation', 'review', 'correction', 'review'])
+    assert.equal(result.restSpecReview.pass, true)
+  })
+}
+
+async function testRestSpecReviewFailureDoesNotWriteTarget() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/compaction.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/compaction.mdx'
+    write(path.join(siteDir, sourcePath), '# Compaction\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"description":"Compaction plans merge segments."}\nexport const endpoint = "/v1/compaction"\nexport const method = "post"\n')
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'rest-compaction', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (messages[0].content.includes('structured Zilliz Cloud REST API')) {
+          return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '压实计划会合并 Segment。'})))
+        }
+        if (agent === 'translation') return taggedMessageContent(messages, 'source')
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error(`unexpected ${agent} call`)
+      },
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.match(result.review.issues[0].comment, /Compaction/)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
   })
 }
 
@@ -1536,6 +1588,7 @@ async function run() {
   testValidatesExactManifestTargetContract()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
+  await testRestSpecReviewFailureDoesNotWriteTarget()
   await testProviderCallRetriesTransientFailures()
   await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()

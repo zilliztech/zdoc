@@ -425,7 +425,17 @@ async function processManifestItem({
       target: item.target,
       locale: item.locale,
       callModel,
+      maxReviewRounds,
     })
+    if (!specResult.review.pass) {
+      return {
+        ...item,
+        status: 'failed',
+        review: specResult.review,
+        validationErrors: [],
+        restSpecEntries: specResult.translatedCount,
+      }
+    }
     const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
       translatedPrefix: shell.translatedContent,
       localizedSpecs: specResult.localized,
@@ -436,7 +446,15 @@ async function processManifestItem({
     if (validationErrors.length) return { ...item, status: 'failed', review: shell.review, validationErrors, restSpecEntries: specResult.translatedCount }
     fs.mkdirSync(path.dirname(absTargetPath), { recursive: true })
     fs.writeFileSync(absTargetPath, translatedContent.endsWith('\n') ? translatedContent : `${translatedContent}\n`, 'utf8')
-    return { ...item, status: 'translated', review: shell.review, validationErrors: [], chunks: { total: 1 }, restSpecEntries: specResult.translatedCount }
+    return {
+      ...item,
+      status: 'translated',
+      review: shell.review,
+      restSpecReview: specResult.review,
+      validationErrors: [],
+      chunks: { total: 1 },
+      restSpecEntries: specResult.translatedCount,
+    }
   }
   const chunks = chunkDocument(sourceContent, { targetChars: chunkTargetChars, maxChars: chunkMaxChars })
   const documentTitle = extractDocumentTitle(sourceContent)

@@ -5,6 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
+const {parseAndValidateReviewEvidence} = require('./reviewEvidence')
 
 const LOCALIZABLE_KEYS = new Set(['summary', 'description', 'title', 'label', 'prompt', 'content'])
 const PRESERVED_SUBTREES = new Set(['example', 'examples', 'default', 'enum', 'enums', 'value'])
@@ -15,12 +16,16 @@ const PROMPTS_BY_TARGET = Object.freeze({
     review: 'codex-review-agent.ja-JP.md',
     correction: 'codex-correction-agent.md',
     rest: 'codex-rest-spec-translation-agent.ja-JP.md',
+    restReview: 'codex-rest-spec-review-agent.md',
+    restCorrection: 'codex-rest-spec-correction-agent.md',
   }),
   'zh-CN-reference': Object.freeze({
     translation: 'codex-translation-agent.zh-CN-reference.md',
     review: 'codex-review-agent.zh-CN-reference.md',
     correction: 'codex-correction-agent.zh-CN-reference.md',
     rest: 'codex-rest-spec-translation-agent.zh-CN-reference.md',
+    restReview: 'codex-rest-spec-review-agent.md',
+    restCorrection: 'codex-rest-spec-correction-agent.md',
   }),
 })
 
@@ -64,23 +69,32 @@ function collectLocalizableEntries(root) {
   return entries
 }
 
-function parseTranslationEntries(text, expected, localeContract) {
+function protectRestEntries(entries, textForEntry = entry => entry.text) {
+  return entries.map(entry => {
+    const protectedText = textForEntry(entry)
+    return {...entry, protectedText, protection: protectTranslationInput(protectedText)}
+  })
+}
+
+function parseTranslationEntries(text, expected) {
   const cleaned = String(text || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
   const parsed = JSON.parse(cleaned)
   if (!Array.isArray(parsed) || parsed.length !== expected.length) throw new Error('REST translation response entry count mismatch')
   const byId = new Map()
   for (const entry of parsed) {
-    if (!entry || typeof entry.id !== 'string' || typeof entry.text !== 'string' || byId.has(entry.id)) throw new Error('Invalid REST translation response entry')
+    const keys = entry && typeof entry === 'object' && !Array.isArray(entry) ? Object.keys(entry).sort() : []
+    if (JSON.stringify(keys) !== JSON.stringify(['id', 'text']) || typeof entry.id !== 'string' || typeof entry.text !== 'string' || byId.has(entry.id)) {
+      throw new Error('REST translation response entries must use exactly id and text fields with unique IDs')
+    }
     byId.set(entry.id, entry.text)
   }
   return expected.map(entry => {
     if (!byId.has(entry.id)) throw new Error(`Missing REST translation entry ${entry.id}`)
     const translation = restoreProtectedContent(byId.get(entry.id), entry.protection.manifest)
-    const protectedErrors = validateProtectedContent(entry.text, translation)
+    const protectedErrors = validateProtectedContent(entry.protectedText, translation)
     if (protectedErrors.length) throw new Error(`REST translation changed protected content for ${entry.id}: ${protectedErrors.join('; ')}`)
-    const localeIssues = validateLocaleContractDraft(entry.protection.content, protectTranslationInput(translation).content, localeContract)
-    if (localeIssues.length) throw new Error(`REST translation violates locale contract for ${entry.id}: ${localeIssues.map(issue => issue.comment).join('; ')}`)
-    return { ...entry, translation }
+    const {protectedText, protection, ...restoredEntry} = entry
+    return {...restoredEntry, translation}
   })
 }
 
@@ -127,15 +141,98 @@ function batchEntries(entries, maxChars = 12000) {
   return batches
 }
 
-async function translateRestSpecs({ sourceSpecs, target, locale, callModel }) {
+function validateRestReviewEvidence(evidence, sourceEntries, draftEntries) {
+  const draftById = new Map(draftEntries.map(entry => [entry.id, entry]))
+  const validatedIssues = []
+  const unsupportedIssues = [...evidence.unsupportedIssues]
+  for (const issue of evidence.validatedIssues) {
+    const matchingEntry = sourceEntries.find(entry => {
+      const draft = draftById.get(entry.id)
+      return entry.protection.content.includes(issue.source_quote)
+        && draft?.protection.content.includes(issue.draft_quote)
+        && issue.location.includes(entry.id)
+    })
+    if (matchingEntry) validatedIssues.push(issue)
+    else unsupportedIssues.push({issue, reason: 'Reviewer evidence must identify source and draft quotes from the same REST entry ID'})
+  }
+  return {
+    ...evidence,
+    effectivePass: !evidence.fatal && validatedIssues.length === 0,
+    validatedIssues,
+    unsupportedIssues,
+    correctionAuthorized: validatedIssues.length > 0,
+  }
+}
+
+function deterministicRestIssues(sourceEntries, draftEntries, localeContract) {
+  const draftById = new Map(draftEntries.map(entry => [entry.id, entry]))
+  return sourceEntries.flatMap(entry => validateLocaleContractDraft(
+    entry.protection.content,
+    draftById.get(entry.id).protection.content,
+    localeContract,
+  ).map(issue => Object.freeze({...issue, location: `REST entry ${entry.id}; ${issue.location}`})))
+}
+
+function combinedRestIssues(evidence, deterministicIssues) {
+  const issues = []
+  const seen = new Set()
+  for (const issue of [...evidence.validatedIssues, ...deterministicIssues]) {
+    const key = JSON.stringify(issue)
+    if (seen.has(key)) continue
+    seen.add(key)
+    issues.push(issue)
+  }
+  return issues
+}
+
+async function reviewAndCorrectRestBatch({entries, target, locale, callModel, localeContract, maxReviewRounds}) {
+  const sourceEntries = protectRestEntries(entries)
+  const sourceContent = JSON.stringify(sourceEntries.map(entry => ({id: entry.id, text: entry.protection.content})))
+  let currentEntries = entries
+  let review = {pass: false, issues: []}
+
+  for (let round = 0; round <= maxReviewRounds; round += 1) {
+    const draftEntries = protectRestEntries(currentEntries, entry => entry.translation)
+    const draftContent = JSON.stringify(draftEntries.map(entry => ({id: entry.id, text: entry.protection.content})))
+    const evidence = validateRestReviewEvidence(parseAndValidateReviewEvidence(await callModel({
+      agent: 'review',
+      messages: [
+        {role: 'system', content: `${loadPrompt(promptNamesFor(target).restReview)}\n\n${formatLocaleContract(localeContract)}`},
+        {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>`},
+      ],
+    }), {sourceContent, draftContent, localeContract}), sourceEntries, draftEntries)
+    const issues = combinedRestIssues(evidence, deterministicRestIssues(sourceEntries, draftEntries, localeContract))
+    review = {
+      pass: !evidence.fatal && issues.length === 0,
+      issues,
+      unsupportedIssues: evidence.unsupportedIssues,
+      reviewerPass: evidence.reviewerPass,
+      error: evidence.error,
+    }
+    if (review.pass || round === maxReviewRounds) break
+    if (evidence.fatal || issues.length === 0) break
+    const corrected = await callModel({
+      agent: 'correction',
+      messages: [
+        {role: 'system', content: `${loadPrompt(promptNamesFor(target).restCorrection)}\n\n${formatLocaleContract(localeContract)}`},
+        {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>\n\n<review_json>\n${JSON.stringify({pass: false, issues}, null, 2)}\n</review_json>`},
+      ],
+    })
+    currentEntries = parseTranslationEntries(corrected, draftEntries)
+  }
+  return {entries: currentEntries, review}
+}
+
+async function translateRestSpecs({ sourceSpecs, target, locale, callModel, maxReviewRounds = 2 }) {
   const promptName = promptNamesFor(target).rest
   if (!promptName) throw new Error(`REST translation is unsupported for translation target ${target}`)
   const localeContract = loadLocaleContract(target)
   const systemPrompt = `${loadPrompt(promptName)}\n\n${formatLocaleContract(localeContract)}`
   const entries = collectLocalizableEntries(sourceSpecs)
   const translated = []
+  const reviews = []
   for (const batch of batchEntries(entries)) {
-    const protectedBatch = batch.map(entry => ({...entry, protection: protectTranslationInput(entry.text)}))
+    const protectedBatch = protectRestEntries(batch)
     const response = await callModel({
       agent: 'translation',
       messages: [
@@ -143,11 +240,22 @@ async function translateRestSpecs({ sourceSpecs, target, locale, callModel }) {
         { role: 'user', content: `Locale: ${locale}\n\n${JSON.stringify(protectedBatch.map(({ id, protection }) => ({ id, text: protection.content })))}` },
       ],
     })
-    translated.push(...parseTranslationEntries(response, protectedBatch, localeContract))
+    const restored = parseTranslationEntries(response, protectedBatch)
+    const reviewed = await reviewAndCorrectRestBatch({entries: restored, target, locale, callModel, localeContract, maxReviewRounds})
+    translated.push(...reviewed.entries)
+    reviews.push(reviewed.review)
+    if (!reviewed.review.pass) break
   }
   const localized = applyLocaleEntries(sourceSpecs, translated, locale)
   assert.deepEqual(removeLocale(localized, locale), removeLocale(sourceSpecs, locale), 'Localized REST specs changed non-locale data')
-  return { localized, translatedCount: translated.length }
+  const review = {
+    pass: reviews.every(item => item.pass),
+    issues: reviews.flatMap(item => item.issues),
+    unsupportedIssues: reviews.flatMap(item => item.unsupportedIssues),
+    reviewerPass: reviews.every(item => item.reviewerPass),
+    error: reviews.find(item => item.error)?.error || null,
+  }
+  return { localized, translatedCount: translated.length, review }
 }
 
 function assembleRestDocument({ translatedPrefix, localizedSpecs, suffix, locale }) {
@@ -155,4 +263,4 @@ function assembleRestDocument({ translatedPrefix, localizedSpecs, suffix, locale
   return `${prefix}export const specs = ${JSON.stringify(localizedSpecs)}${suffix}`
 }
 
-module.exports = { applyLocaleEntries, assembleRestDocument, batchEntries, collectLocalizableEntries, loadPrompt, parseRestDocument, parseTranslationEntries, promptNamesFor, removeLocale, translateRestSpecs }
+module.exports = { applyLocaleEntries, assembleRestDocument, batchEntries, collectLocalizableEntries, loadPrompt, parseRestDocument, parseTranslationEntries, promptNamesFor, removeLocale, translateRestSpecs, validateRestReviewEvidence }
