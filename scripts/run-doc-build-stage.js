@@ -42,9 +42,9 @@ function linkReportHasChanges(reportPath) {
     const report = JSON.parse(fs.readFileSync(reportJsonPath, 'utf8'))
     const summary = report.summary || {}
     return Boolean(
-      summary.deleted_links ||
-      summary.added_links ||
-      summary.broken_external_links
+      summary.deleted_routes || summary.added_routes ||
+      summary.expired_external_links || summary.blocked_external_links ||
+      summary.transient_external_links || summary.other_external_links
     )
   } catch (error) {
     console.warn(`Could not read link-check summary from ${reportJsonPath}: ${error.message}`)
@@ -93,4 +93,6 @@ function main() {
   if (advanceStatus !== 0) process.exit(advanceStatus)
 }
 
-main()
+if (require.main === module) main()
+
+module.exports = { linkReportHasChanges, main, parseArgs }
