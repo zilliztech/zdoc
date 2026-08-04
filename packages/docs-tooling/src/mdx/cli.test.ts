@@ -132,7 +132,9 @@ describe('docs-tooling check-links', () => {
     const result = runWithEnvironment(root, {LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml'}, 'check-links', '--site', 'en', '--output', 'tmp/report.md');
 
     expect(result.status, result.stderr || result.stdout).toBe(0);
-    expect(JSON.parse(readFileSync(path.join(root, 'tmp/report.json'), 'utf8')).summary).toMatchObject({deleted_links: 1, added_links: 1});
+    const report = JSON.parse(readFileSync(path.join(root, 'tmp/report.json'), 'utf8'));
+    expect(report.schema_version).toBe(2);
+    expect(report.summary).toMatchObject({deleted_routes: 1, added_routes: 1});
   });
 
   it('keeps explicit process environment values over repository-root .env values', () => {
