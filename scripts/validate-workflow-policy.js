@@ -949,9 +949,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const coordinator = caller?.jobs?.publish_ready
     const coordinatorNeeds = Array.isArray(coordinator?.needs) ? coordinator.needs : []
     const coordinatorSteps = coordinator?.steps || []
-    const coordinatorRun = String(coordinatorSteps.find(step => step?.id === 'publish')?.run || '')
+    const coordinatorPublish = coordinatorSteps.find(step => step?.id === 'publish')
+    const coordinatorScript = String(coordinatorPublish?.with?.script || '')
     if (coordinatorNeeds.join(',') !== 'prepare' || coordinator?.permissions?.contents !== 'write' || coordinator?.permissions?.actions !== 'read' ||
-        !/mode=artifact_only[\s\S]*mode=publish[\s\S]*publication-coordinator\.js[\s\S]*--selection[\s\S]*--mode "\$mode"/.test(coordinatorRun)) {
+        coordinatorPublish?.uses !== 'actions/github-script@v8' || coordinatorPublish?.run !== undefined ||
+        !/process\.env\.PUBLISH === 'true' \? 'publish' : 'artifact_only'[\s\S]*exec\.exec\('node', \[[\s\S]*publication-coordinator\.js[\s\S]*'--selection'[\s\S]*'--mode', mode/.test(coordinatorScript)) {
       errors.push('fetch-docs.yml: publish_ready must be the single Git writer and poll ready units from prepare only')
     }
     for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {

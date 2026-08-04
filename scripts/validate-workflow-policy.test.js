@@ -571,9 +571,11 @@ test('Fetch producers stay parallel while one publication coordinator owns Git w
   const coordinator = workflow.jobs.publish_ready
   assert.deepEqual(coordinator.needs, ['prepare'])
   assert.deepEqual(coordinator.permissions, {actions: 'read', contents: 'write'})
-  const coordinatorRun = coordinator.steps.find(step => step.id === 'publish')?.run || ''
-  assert.match(coordinatorRun, /mode=artifact_only[\s\S]*mode=publish/)
-  assert.match(coordinatorRun, /publication-coordinator\.js[\s\S]*--mode "\$mode"/)
+  const coordinatorPublish = coordinator.steps.find(step => step.id === 'publish')
+  assert.equal(coordinatorPublish.uses, 'actions/github-script@v8')
+  assert.equal(coordinatorPublish.run, undefined)
+  assert.match(coordinatorPublish.with.script, /process\.env\.PUBLISH === 'true' \? 'publish' : 'artifact_only'/)
+  assert.match(coordinatorPublish.with.script, /exec\.exec\('node', \[[\s\S]*publication-coordinator\.js[\s\S]*'--mode', mode/)
   assert.doesNotMatch(JSON.stringify(coordinator), /APP_ID|APP_SECRET|FEISHU_HOST/)
   for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
     assert.equal(workflow.jobs[legacy], undefined)

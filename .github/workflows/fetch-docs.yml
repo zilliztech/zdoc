@@ -501,19 +501,21 @@ jobs:
           [[ "$actual" == "$EXPECTED_SELECTION_SHA256" ]]
       - id: publish
         name: Publish ready Fetch units in producer completion FIFO order
+        uses: actions/github-script@v8
         env:
           GITHUB_TOKEN: ${{ github.token }}
           PUBLISH: ${{ needs.prepare.outputs.publish }}
-        run: |
-          set -euo pipefail
-          mode=artifact_only
-          [[ "$PUBLISH" == true ]] && mode=publish
-          node scripts/docs-workflow/publication-coordinator.js \
-            --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
-            --mode "$mode" \
-            --poll-milliseconds 10000 \
-            --candidate-polls 6 \
-            --max-publish-attempts 10
+        with:
+          script: |
+            const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'
+            await exec.exec('node', [
+              'scripts/docs-workflow/publication-coordinator.js',
+              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,
+              '--mode', mode,
+              '--poll-milliseconds', '10000',
+              '--candidate-polls', '6',
+              '--max-publish-attempts', '10',
+            ])
 
   source_publication_barrier:
     needs: [prepare, publish_ready]
