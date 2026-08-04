@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection のスナップショットを作成します。スナップショットは collection とそのデータの現在の状態をキャプチャします。 | Node.js"
+description: "この操作は collection のスナップショットを作成します。スナップショットは collection とそのデータの現在の状態を記録します。 | Node.js"
 type: docx
 token: NeUFdr0OXo90RExodnccqc3OnYU
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createSnapshot()
 
-この操作は collection のスナップショットを作成します。スナップショットは collection とそのデータの現在の状態をキャプチャします。
+この操作は collection のスナップショットを作成します。スナップショットは collection とそのデータの現在の状態を記録します。
 
 ```typescript
 await milvusClient.createSnapshot(data: CreateSnapshotReq)
@@ -51,30 +51,30 @@ await milvusClient.createSnapshot({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collection_name** (*string*) -
-**[必須]**
-スナップショットを作成する collection の名前。
+- **collection_name** (*string*) -<br/>
+  **[必須]**<br/>
+  スナップショットを作成する collection の名前。
 
-- **snapshot_name** (*string*) -
-**[必須]**
-スナップショットの名前。
+- **snapshot_name** (*string*) -<br/>
+  **[必須]**<br/>
+  スナップショットの名前。
 
-- **description** (*string*) -
-任意のスナップショット説明。
+- **description** (*string*) -<br/>
+  任意のスナップショット説明。
 
-- **compaction_protection_seconds** (*number | string*) -
-参照されているセグメントを compaction から保護する期間。任意。
+- **compaction_protection_seconds** (*number | string*) -<br/>
+  参照されるセグメントを compaction から保護する期間。任意。
 
-- **db_name** (*string*) -
-データベース名。任意。
+- **db_name** (*string*) -<br/>
+  データベースの名前。任意。
 
-- **timeout** (*number*) -
-RPC に許可する任意の時間（ミリ秒）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する任意の時間（ミリ秒単位）。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡のためのトレース ID。任意。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。任意。
 
 **戻り値:**
 
@@ -84,7 +84,7 @@ RPC に許可する任意の時間（ミリ秒）。`undefined` に設定され�
 
 - **MilvusError**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 ## 例\{#example}
 

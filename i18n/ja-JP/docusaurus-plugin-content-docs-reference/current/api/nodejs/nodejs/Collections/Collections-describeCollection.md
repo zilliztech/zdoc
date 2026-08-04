@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection に関する詳細情報を一覧表示します。 | Node.js"
+description: "この操作は、特定のコレクションの詳細情報を一覧表示します。 | Node.js"
 type: docx
 token: IuTYdjSHHoznXNx5f7jcKqvYnhr
 sidebar_position: 8
 keywords: 
   - 自然言語検索
   - 類似検索
-  - マルチモーダル RAG
+  - マルチモーダルRAG
   - llm hallucinations
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeCollection()
 
-この操作は、特定の collection に関する詳細情報を一覧表示します。
+この操作は、特定のコレクションの詳細情報を一覧表示します。
 
 ```javascript
 await milvusClient.describeCollection(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.describeCollection({ 
@@ -46,25 +46,25 @@ await milvusClient.describeCollection({
 })
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    対象のコレクションを保持するデータベース名。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    既存のコレクションの名前。
 
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
-**戻り値** *Promise&lt;DescribeCollectionResponse&gt;*
+**RETURNS** *Promise&lt;DescribeCollectionResponse&gt;*
 
 このメソッドは、**DescribeCollectionResponse** オブジェクトに解決される promise を返します。
 
@@ -95,67 +95,67 @@ await milvusClient.describeCollection({
 }
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **schema** (*CollectionSchema*) -
-collection の schema。
+- **schema** (*CollectionSchema*) -<br/>
+  コレクションのスキーマ。
 
     - **name** (*string*) -
 
-        collection 名。
+        コレクション名。
 
     - **description** (*string*) -
 
-        collection の任意の説明。
+        コレクションの任意の説明。
 
     - **enable_dynamic_field** (*boolean*) -
 
-        dynamic field が有効かどうか。**true** の場合、schema で宣言されていない field は非表示の `$meta` JSON field に保存されます。
+        動的フィールドが有効かどうか。**true** の場合、スキーマで宣言されていないフィールドは非表示の `$meta` JSON フィールドに保存されます。
 
     - **autoID** (*boolean*) -
 
-        primary key が Milvus によって自動生成されるかどうか。
+        主キーが Milvus によって自動生成されるかどうか。
 
     - **fields** (*FieldSchema[]*) -
 
-        collection で宣言されているすべての scalar field と vector field。完全な **FieldSchema** の field リファレンスについては、`FieldSchema` クラスのドキュメントを参照してください。
+        コレクション上で宣言されているすべてのスカラーフィールドとベクトルフィールド。**FieldSchema** の完全なフィールドリファレンスについては、`FieldSchema` クラスのドキュメントを参照してください。
 
     - **functions** (*FunctionObject[]*) -
 
-        collection にアタッチされた doc-in / doc-out 関数（例: BM25 sparse-vector 関数）。
+        コレクションにアタッチされた doc-in / doc-out 関数（例: BM25 sparse-vector 関数）。
 
-- **collectionID** (*string*) -
-Milvus によって割り当てられた内部 collection ID。
+- **collectionID** (*string*) -<br/>
+  Milvus によって割り当てられた内部コレクション ID。
 
-- **collection_name** (*string*) -
-collection 名。
+- **collection_name** (*string*) -<br/>
+  コレクション名。
 
-- **consistency_level** (*string*) -
-この collection に対するクエリのデフォルトの整合性レベル。指定可能な値は **Strong**、**Session**、**Bounded**、**Eventually**、**Customized** です。
+- **consistency_level** (*string*) -<br/>
+  このコレクションに対するクエリのデフォルトの整合性レベル。指定可能な値は **Strong**、**Session**、**Bounded**、**Eventually**、**Customized** です。
 
-- **aliases** (*string[]*) -
-この collection を指す alias のリスト。
+- **aliases** (*string[]*) -<br/>
+  このコレクションを指すエイリアスの一覧。
 
-- **properties** (*KeyValuePair[]*) -
-作成時に宣言された、または `alterCollectionProperties()` を介して設定された collection レベルのプロパティ（例: **mmap.enabled**、**collection.ttl.seconds**）。
+- **properties** (*KeyValuePair[]*) -<br/>
+  コレクションレベルのプロパティ（例: **mmap.enabled**、**collection.ttl.seconds**）。作成時に宣言するか、`alterCollectionProperties()` を使用して設定します。
 
-- **created_timestamp** (*string*) -
-collection が作成された時点の hybrid timestamp。
+- **created_timestamp** (*string*) -<br/>
+  コレクションが作成された時点のハイブリッドタイムスタンプ。
 
-- **created_utc_timestamp** (*string*) -
-collection が作成された時点の UTC timestamp（ミリ秒単位）。
+- **created_utc_timestamp** (*string*) -<br/>
+  コレクションが作成された時点の UTC タイムスタンプ（ミリ秒）。
 
-- **shards_num** (*number*) -
-collection に設定されている shard の数。
+- **shards_num** (*number*) -<br/>
+  コレクションに設定されているシャード数。
 
-- **num_partitions** (*string*) -
-collection に設定されている partition の数。この値に意味があるのは、partition key field が宣言されている場合のみです。
+- **num_partitions** (*string*) -<br/>
+  コレクションに設定されているパーティション数。この値は、パーティションキーフィールドが宣言されている場合にのみ意味を持ちます。
 
-- **db_name** (*string*) -
-この collection を所有するデータベース。
+- **db_name** (*string*) -<br/>
+  このコレクションを所有するデータベース。
 
-- **functions** (*FunctionObject[]*) -
-collection にアタッチされた doc-in / doc-out 関数のフラット化されたリスト。
+- **functions** (*FunctionObject[]*) -<br/>
+  コレクションにアタッチされた doc-in / doc-out 関数のフラット化された一覧。
 
 - **external_source** (*string*) -
 
@@ -163,7 +163,7 @@ collection にアタッチされた doc-in / doc-out 関数のフラット化さ
 
 - **external_spec** (*string*) -
 
-    外部仕様の構成。任意。
+    外部 spec の設定。任意。
 
 - **do_physical_backfill** (*boolean*) -
 
@@ -173,23 +173,23 @@ collection にアタッチされた doc-in / doc-out 関数のフラット化さ
 
     外部ファイルリソース ID。任意。
 
-- **update_timestamp_str** (*string*) -
-collection が最後に更新された時点の hybrid timestamp を文字列形式にしたもの。
+- **update_timestamp_str** (*string*) -<br/>
+  コレクションが最後に更新された時点のハイブリッドタイムスタンプを文字列としてフォーマットしたもの。
 
-- **update_timestamp** (*number*) -
-最終更新 timestamp の数値形式。
+- **update_timestamp** (*number*) -<br/>
+  最終更新タイムスタンプの数値形式。
 
-- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -
-vector field 名からその **FieldSchema** へのマッピングで、collection で宣言されたすべての vector field を含みます。
+- **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
+  ベクトルフィールド名からその **FieldSchema** へのマッピングで、コレクション上で宣言されているすべてのベクトルフィールドをカバーします。
 
-- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -
-scalar field 名からその **FieldSchema** へのマッピングで、collection で宣言されたすべての scalar field を含みます。
+- **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
+  スカラーフィールド名からその **FieldSchema** へのマッピングで、コレクション上で宣言されているすべてのスカラーフィールドをカバーします。
 
-- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -
-関数出力 field 名からその **FieldSchema** へのマッピング。
+- **function_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
+  関数出力フィールド名からその **FieldSchema** へのマッピング。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -201,9 +201,9 @@ scalar field 名からその **FieldSchema** へのマッピングで、collecti
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

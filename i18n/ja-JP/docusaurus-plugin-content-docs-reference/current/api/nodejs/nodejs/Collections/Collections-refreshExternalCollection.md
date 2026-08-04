@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、外部コレクションのデータ更新をトリガーします。外部データソースが更新され、Milvus にデータを再読み込みさせたい場合に使用します。 | Node.js"
+description: "この操作は external collection のデータ更新をトリガーします。外部データソースが更新され、Milvus にデータを再読み込みさせたい場合に使用します。 | Node.js"
 type: docx
 token: JoiWdRIFcojRI4xVXnCclEoVnh2
 sidebar_position: 31
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshExternalCollection()
 
-この操作は、外部コレクションのデータ更新をトリガーします。外部データソースが更新され、Milvus にデータを再読み込みさせたい場合に使用します。
+この操作は external collection のデータ更新をトリガーします。外部データソースが更新され、Milvus にデータを再読み込みさせたい場合に使用します。
 
 ```typescript
 await milvusClient.refreshExternalCollection(data: RefreshExternalCollectionReq)
@@ -52,24 +52,24 @@ await milvusClient.refreshExternalCollection({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
-**[REQUIRED]**
-更新する外部コレクションの名前。
+- **collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  更新する external collection の名前。
 
-- **external_source** (*string*) -
-オプションの新しい外部ソースパス。指定した場合、コレクションはこの新しいソースから更新されます。
+- **external_source** (*string*) -<br/>
+  オプションの新しい外部ソースパス。指定した場合、collection はこの新しいソースから更新されます。
 
-- **external_spec** (*string*) -
-オプションの新しい外部仕様設定。指定した場合、コレクションはこの新しい仕様を使用します。
+- **external_spec** (*string*) -<br/>
+  オプションの新しい external spec 設定。指定した場合、collection はこの新しい spec を使用します。
 
-- **db_name** (*string*) -
-データベース名。オプションです。
+- **db_name** (*string*) -<br/>
+  データベースの名前。オプションです。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する任意の時間（ミリ秒）。`undefined` に設定した場合、client はサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。オプションです。
 
 **RETURNS** *Promise&lt;RefreshExternalCollectionResponse&gt;*
 
@@ -84,11 +84,11 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
 **PARAMETERS:**
 
-- **job_id** (*string*) -
-非同期更新ジョブの識別子。この値を `getRefreshExternalCollectionProgress()` に渡して、完了までの進行状況をポーリングします。
+- **job_id** (*string*) -<br/>
+  非同期更新ジョブの識別子。この値を `getRefreshExternalCollectionProgress()` に渡して、完了までポーリングします。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -100,7 +100,7 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

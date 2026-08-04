@@ -13,8 +13,8 @@ token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
   - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 自然言語処理データベース
+  - 安価な vector データベース
   - Managed vector database
   - zilliz
   - zilliz cloud
@@ -70,7 +70,7 @@ await milvusClient.getPartitionStatistics({
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点で、この操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;StatisticsResponse&gt;*
 
@@ -86,26 +86,26 @@ await milvusClient.getPartitionStatistics({
 
 **PARAMETERS:**
 
-- **stats** (*KeyValuePair[]*) -
-Milvus によって返される生の統計情報リストです。各エントリには、**key**（たとえば **row_count**）と、文字列としての **value** が含まれます。
+- **stats** (*KeyValuePair[]*) -<br/>
+  Milvus によって返される生の統計情報リスト。各エントリには **key**（たとえば **row_count**）と、文字列としての **value** が含まれます。
 
-- **data** (*Record&lt;string, any&gt;*) -
-利便性のために、**stats** をフラット化してキーでインデックス可能にしたビューです。たとえば、`data.row_count` は partition の行数を文字列として返します。
+- **data** (*Record&lt;string, any&gt;*) -<br/>
+  利便性のために **stats** をフラット化し、キーでインデックス化したビューです。たとえば、`data.row_count` は partition の行数を文字列として返します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

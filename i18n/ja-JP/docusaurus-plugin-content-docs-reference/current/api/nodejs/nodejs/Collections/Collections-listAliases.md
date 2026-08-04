@@ -18,7 +18,7 @@ keywords:
   - Context Window
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - listAliases()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 await milvusClient.listAliases(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
-このメソッドには以下の代替があります。
+このメソッドには以下の代替構文があります。
 
 ```javascript
 listAliases({
@@ -49,7 +49,7 @@ listAliases({
 })
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - **db_name** (*string*) -
 
@@ -57,7 +57,7 @@ listAliases({
 
 - **collection_name** (*string*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
     既存の collection の名前。
 
@@ -65,9 +65,9 @@ listAliases({
 
     この操作のタイムアウト時間。 
 
-    **None** を設定すると、レスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、レスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;ListAliasesResponse&gt;*
+**RETURNS** *Promise&lt;ListAliasesResponse&gt;*
 
 このメソッドは、**ListAliasesResponse** オブジェクトに解決される promise を返します。
 
@@ -80,19 +80,19 @@ listAliases({
 }
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **db_name** (*string*) -
-一覧表示された aliases を所有するデータベース。
+- **db_name** (*string*) -<br/>
+  一覧表示された alias を所有するデータベース。
 
-- **aliases** (*string[]*) -
-要求された collection を指すすべての aliases の一覧。
+- **aliases** (*string[]*) -<br/>
+  要求された collection を指すすべての alias のリスト。
 
-- **collection_name** (*string*) -
-一覧表示された aliases が指す collection 名。
+- **collection_name** (*string*) -<br/>
+  一覧表示された alias が指す collection 名。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -106,7 +106,7 @@ listAliases({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

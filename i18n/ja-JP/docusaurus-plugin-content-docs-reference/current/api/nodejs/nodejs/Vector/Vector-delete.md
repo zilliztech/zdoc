@@ -15,10 +15,10 @@ keywords:
   - 安価なベクトルデータベース
   - マネージドベクトルデータベース
   - Pinecone ベクトルデータベース
-  - オーディオ検索
+  - 音声検索
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - delete()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -40,9 +40,9 @@ await milvusClient.delete(data)
 
 ## リクエスト構文\{#request-syntax}
 
-このメソッドには、次の代替形式があります。
+このメソッドには以下の選択肢があります。
 
-### DeleteByIdsReq を使用する場合\{#with-deletebyidsreq}
+### DeleteByIdsReq を使用\{#with-deletebyidsreq}
 
 ```javascript
 await milvusClient.delete({
@@ -55,15 +55,15 @@ await milvusClient.delete({
  })
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **db_name** (*string*) -
 
-    対象の collection を保持しているデータベースの名前。
+    対象の collection を保持するデータベースの名前。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     既存の collection の名前。
 
@@ -73,7 +73,7 @@ await milvusClient.delete({
 
 - **ids** (*string[]* | *number[]*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     特定のエンティティ ID、またはエンティティ ID のリスト。
 
@@ -87,7 +87,7 @@ await milvusClient.delete({
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが返るか、エラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;MutationResult&gt;*
 
@@ -107,34 +107,34 @@ await milvusClient.delete({
 }
 ```
 
-**パラメーター:**
+**パラメータ:**
 
-- **succ_index** (*number[]*) -
-入力された ID のうち、行に一致して削除済みとしてマークされたものの 0 ベースの位置。
+- **succ_index** (*number[]*) -<br/>
+  行に一致し、削除済みとしてマークされた入力 ID の 0 ベース位置。
 
-- **err_index** (*number[]*) -
-どの行にも一致しなかった入力 ID の 0 ベースの位置。
+- **err_index** (*number[]*) -<br/>
+  どの行にも一致しなかった入力 ID の 0 ベース位置。
 
-- **acknowledged** (*boolean*) -
-削除が Milvus によって確認されたかどうか。
+- **acknowledged** (*boolean*) -<br/>
+  削除が Milvus によって確認されたかどうか。
 
-- **insert_cnt** (*string*) -
-`delete()` では常に **"0"**。
+- **insert_cnt** (*string*) -<br/>
+  `delete()` では常に **"0"** です。
 
-- **delete_cnt** (*string*) -
-この操作によって論理削除された行数。
+- **delete_cnt** (*string*) -<br/>
+  この操作によって論理削除された行数。
 
-- **upsert_cnt** (*string*) -
-`delete()` では常に **"0"**。
+- **upsert_cnt** (*string*) -<br/>
+  `delete()` では常に **"0"** です。
 
-- **timestamp** (*string*) -
-削除が可視になった時点のハイブリッドタイムスタンプ。
+- **timestamp** (*string*) -<br/>
+  削除が可視化されたハイブリッドタイムスタンプ。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-この削除の対象となった主キー。フィールドの完全なリファレンスについては、`insert()` ドキュメントを参照してください。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  この削除の対象となった主キー。完全なフィールドリファレンスについては、`insert()` のドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

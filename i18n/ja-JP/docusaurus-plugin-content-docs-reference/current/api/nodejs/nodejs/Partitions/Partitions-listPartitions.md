@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定した collection 内の partition を一覧表示します。 | Node.js"
+description: "この操作は、指定された collection 内の partition を一覧表示します。 | Node.js"
 type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - milvus はどのように動作するか
-  - Zilliz vector database
+  - Serverless ベクトルデータベース
+  - milvus オープンソース
+  - milvus の仕組み
+  - Zilliz ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - listPartitions()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listPartitions()
 
-この操作は、指定した collection 内の partition を一覧表示します。
+この操作は、指定された collection 内の partition を一覧表示します。
 
 ```javascript
 await milvusClient.listPartitions(data)
@@ -48,7 +48,7 @@ await milvusClient.listPartitions({
  })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **db_name** (*string*) -
 
@@ -62,7 +62,7 @@ await milvusClient.listPartitions({
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが返るか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **type** (*ShowPartitionsType*) - 
 
@@ -89,16 +89,16 @@ await milvusClient.listPartitions({
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **partition_names** (*string[]*) -
-collection に定義されている partition 名のリスト。
+- **partition_names** (*string[]*) -<br/>
+  collection に定義されている partition 名の一覧。
 
-- **partitionIDs** (*number[]*) -
-**partition_names** と同じ順序で並んだ、partition の内部識別子。
+- **partitionIDs** (*number[]*) -<br/>
+  **partition_names** と同じ順序の、partition の内部識別子。
 
-- **data** (*PartitionData[]*) -
-名前、識別子、作成タイムスタンプ、ロード率をまとめた、partition ごとのフラット化されたビュー。
+- **data** (*PartitionData[]*) -<br/>
+  名前、識別子、作成タイムスタンプ、ロード率をまとめた、partition ごとのフラットなビュー。
 
     - **name** (*string*) -
 
@@ -116,20 +116,20 @@ collection に定義されている partition 名のリスト。
 
         現在メモリにロードされている partition の割合。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はデータベースを記述し、データベース名、ID、作成タイムスタンプ、プロパティなどの詳細を返します。 | Node.js"
+description: "この操作はデータベースの詳細情報を取得し、データベース名、ID、作成タイムスタンプ、プロパティなどを返します。 | Node.js"
 type: docx
 token: PzXldcfljoU9rOx9TFUcIoNknt6
 sidebar_position: 8
 keywords: 
   - Zilliz
-  - milvus ベクトルデータベース
+  - milvus vector database
   - milvus db
   - milvus vector db
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeDatabase()
 
-この操作はデータベースを記述し、データベース名、ID、作成タイムスタンプ、プロパティなどの詳細を返します。
+この操作はデータベースの詳細情報を取得し、データベース名、ID、作成タイムスタンプ、プロパティなどを返します。
 
 ```javascript
 await milvusClient.describeDatabase(data: DescribeDatabaseRequest)
@@ -46,13 +46,13 @@ await milvusClient.describeDatabase({
 })
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    記述するデータベースの名前。
+    詳細を取得するデータベースの名前。
 
 - **timeout** (*number*) -
 
@@ -72,22 +72,22 @@ await milvusClient.describeDatabase({
 }
 ```
 
-**パラメーター:**
+**パラメータ:**
 
-- **db_name** (*string*) -
-データベース名。
+- **db_name** (*string*) -<br/>
+  データベース名。
 
-- **dbID** (*number*) -
-内部データベース識別子。
+- **dbID** (*number*) -<br/>
+  内部データベース識別子。
 
-- **created_timestamp** (*number*) -
-データベースの作成タイムスタンプ（ミリ秒単位）。
+- **created_timestamp** (*number*) -<br/>
+  データベースの作成タイムスタンプ（ミリ秒単位）。
 
-- **properties** (*KeyValuePair[]*) -
-作成時に宣言された、または `alterDatabaseProperties()` を使用して設定されたデータベースレベルのプロパティ（たとえば、**database.replica.number**、**database.resource_groups**）。
+- **properties** (*KeyValuePair[]*) -<br/>
+  作成時に宣言された、または `alterDatabaseProperties()` によって設定されたデータベースレベルのプロパティ（例: **database.replica.number**、**database.resource_groups**）。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -99,7 +99,7 @@ await milvusClient.describeDatabase({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

@@ -14,8 +14,8 @@ sidebar_position: 5
 keywords: 
   - 音声類似検索
   - Elastic vector database
-  - Pinecone と Milvus の比較
-  - Chroma と Milvus の比較
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -65,9 +65,9 @@ await milvusClient.insert({
 
     現在の collection に挿入するデータ。
 
-    挿入するデータは、現在の collection の schema に一致する辞書、またはそのような辞書のリストである必要があります。 
+    挿入するデータは、現在の collection のスキーマに一致する辞書、またはそのような辞書のリストである必要があります。 
 
-    以下のコードは、現在の collection の schema に **id** と **vector** という 2 つのフィールドがあることを前提としています。前者は主フィールドで、後者は 5 次元 vector 埋め込みを保持するためのフィールドです。
+    次のコードは、現在の collection のスキーマに **id** と **vector** という名前の 2 つのフィールドがあることを前提としています。前者は主フィールドであり、後者は 5 次元の vector 埋め込みを保持するためのフィールドです。
 
     ```javascript
     // A dictionary, or
@@ -111,13 +111,13 @@ await milvusClient.insert({
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **partition_name** (*string* | *None*) -
 
     現在の collection 内の partition の名前。 
 
-    指定した場合、データは指定した partition に挿入されます。
+    指定した場合、データは指定された partition に挿入されます。
 
 **RETURNS** *Promise&lt;MutationResult&gt;*
 
@@ -139,29 +139,29 @@ await milvusClient.insert({
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -
-入力データ内で正常に挿入された行の 0 ベース位置。
+- **succ_index** (*number[]*) -<br/>
+  正常に挿入された行の、入力データ内における 0 始まりの位置。
 
-- **err_index** (*number[]*) -
-拒否された行の 0 ベース位置。すべての行が成功した場合、このリストは空です。
+- **err_index** (*number[]*) -<br/>
+  拒否された行の 0 始まりの位置。すべての行が成功した場合、このリストは空です。
 
-- **acknowledged** (*boolean*) -
-書き込みが Milvus によって確認されたかどうか。
+- **acknowledged** (*boolean*) -<br/>
+  書き込みが Milvus によって確認されたかどうか。
 
-- **insert_cnt** (*string*) -
-挿入された行数。文字列としてフォーマットされます。
+- **insert_cnt** (*string*) -<br/>
+  挿入された行数。文字列としてフォーマットされます。
 
-- **delete_cnt** (*string*) -
-この操作によって削除された行数。`insert()` の場合、これは **"0"** のままです。
+- **delete_cnt** (*string*) -<br/>
+  この操作によって削除された行数。`insert()` では常に **"0"** です。
 
-- **upsert_cnt** (*string*) -
-この操作によって upsert された行数。`insert()` の場合、これは **"0"** のままです。
+- **upsert_cnt** (*string*) -<br/>
+  この操作によって upsert された行数。`insert()` では常に **"0"** です。
 
-- **timestamp** (*string*) -
-書き込みが可視になったハイブリッドタイムスタンプ。time-travel クエリにはこの値を使用します。
+- **timestamp** (*string*) -<br/>
+  書き込みが可視になった時点のハイブリッドタイムスタンプ。time-travel クエリにはこの値を使用します。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-挿入された行に割り当てられた主キー。autoID collection の場合、Milvus がこれらの値を生成します。それ以外の場合は、入力キーがそのまま返されます。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  挿入された行に割り当てられた主キー。autoID collection の場合、Milvus がこれらの値を生成します。それ以外の場合は、入力キーがそのまま返されます。
 
     - **int_id** (*\{ data: number[] }*) -
 
@@ -173,22 +173,22 @@ await milvusClient.insert({
 
     - **id_field** (*'int_id' | 'str_id'*) -
 
-        2 つの ID 配列のうち、どちらが値を保持しているかを示します。
+        2 つの id 配列のうち、どちらが値を保持しているかを示します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合、**0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合、**Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合、空文字列のままです。
 
 ## Example\{#example}
 

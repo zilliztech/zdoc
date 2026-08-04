@@ -49,24 +49,24 @@ await milvusClient.getFlushAllState({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **flush_all_ts** (*number*) -
-flush-all タイムスタンプ。オプションであり、非推奨です。
+- **flush_all_ts** (*number*) -<br/>
+  flush-all タイムスタンプです。任意であり、非推奨です。
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -
-データベース名から flush-all タイムスタンプへのマップです。オプションです。
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
+  database 名から flush-all タイムスタンプへのマップです。任意です。
 
-- **db_name** (*string*) -
-データベースの名前。オプションであり、非推奨です。
+- **db_name** (*string*) -<br/>
+  database の名前です。任意であり、非推奨です。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒単位）です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する任意の時間（ミリ秒単位）です。`undefined` に設定されている場合、client は server が応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡のためのトレース ID です。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID です。任意です。
 
-**RETURNS** *Promise&lt;GetFlushAllStateResponse&gt;*
+**戻り値** *Promise&lt;GetFlushAllStateResponse&gt;*
 
 このメソッドは、**GetFlushAllStateResponse** オブジェクトに解決される promise を返します。
 
@@ -77,13 +77,13 @@ RPC に許可するオプションの時間（ミリ秒単位）です。`undefi
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **flushed** (*boolean*) -
-指定されたタイムスタンプで識別される flush-all 操作が完全に完了したかどうかを示します。すべての channel が要求された flush タイムスタンプに到達すると **true**、そうでない場合は **false** です。
+- **flushed** (*boolean*) -<br/>
+  指定されたタイムスタンプで識別される flush-all 操作が完全に完了したかどうかを示します。すべての channel が要求された flush タイムスタンプに到達すると **true**、それ以外は **false** です。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 

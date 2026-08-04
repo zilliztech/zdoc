@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、オプションのスカラー フィルタリング式を使用してベクトル類似度検索を実行します。 | Node.js"
+description: "この操作は、オプションの scalar フィルタリング式を使用して vector 類似性検索を実行します。 | Node.js"
 type: docx
 token: HYv3d0NiRoc09Bx4rz0cIhqknb5
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-この操作は、オプションのスカラー フィルタリング式を使用してベクトル類似度検索を実行します。
+この操作は、オプションの scalar フィルタリング式を使用して vector 類似性検索を実行します。
 
 ```javascript
 await milvusClient.search(data)
@@ -74,7 +74,7 @@ await milvusClient.search({
 
     **[REQUIRED]**
 
-    検索対象の collection の名前です
+    検索対象の collection 名です
 
 - **partition_names** (*string[]*) -
 
@@ -82,49 +82,49 @@ await milvusClient.search({
 
 - **anns_field** (*string*) -
 
-    この操作の対象ベクトル フィールド名です。複数のベクトル フィールドを持つ collection で検索する場合は必須です。
+    この操作の対象 vector field の名前です。複数の vector field を持つ collection を検索する場合は必須です。
 
 - **data** (*number[]* | *number[][]*) -
 
-    ベクトル埋め込みのリストです。
+    vector 埋め込みのリストです。
 
-    Zilliz Cloud は、指定されたものに最も類似したベクトル埋め込みを検索します。
+    Zilliz Cloud は、指定されたものに最も類似する vector 埋め込みを検索します。
 
 - **output_fields** (*string[]*) -
 
-    返却される各 entity に含めるフィールド名のリストです。
+    戻り値の各 entity に含める field 名のリストです。
 
-    デフォルト値は **None** です。未指定の場合、プライマリ フィールドのみが含まれます。
+    デフォルト値は **None** です。指定しない場合は、primary field のみが含まれます。
 
 - **limit** (*number*) - 
 
-    返却する entity の総数です。
+    返す entity の総数です。
 
-    このパラメータは **param** 内の **offset** と組み合わせて使用することで、ページネーションを有効にできます。
+    このパラメータは **param** 内の **offset** と組み合わせて使用し、ページネーションを有効にできます。
 
     この値と **param** 内の **offset** の合計は 16,384 未満である必要があります。 
 
-    ただし、グループ化検索では、`limit` は個々の entity ではなく、返却するグループの最大数を指定します。各グループは、指定された `group_by_field` に基づいて形成されます。
+    ただし、grouping search では、`limit` は個々の entity ではなく、返す group の最大数を指定します。各 group は、指定された `group_by_field` に基づいて形成されます。
 
 - **offset** (*number*) - 
 
     検索結果でスキップするレコード数です。 
 
-    このパラメータは `limit` と組み合わせて使用することで、ページネーションを有効にできます。
+    このパラメータは `limit` と組み合わせて使用し、ページネーションを有効にできます。
 
     この値と `limit` の合計は 16,384 未満である必要があります。 
 
 - **filter** (*string*) -
 
-    一致する entity を絞り込むためのスカラー フィルタリング条件です。 
+    一致する entity を絞り込むための scalar フィルタリング条件です。 
 
     デフォルト値は空文字列で、条件が適用されないことを示します。
 
-    スカラー フィルタリングをスキップするには、このパラメータを空文字列に設定できます。スカラー フィルタリング条件の作成については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
+    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。scalar フィルタリング条件の構築については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
 
 - **exprValues** (*keyValueObj*) -
 
-    [Filtering Templating](/docs/filtering-templating) に記載されているように `filter` でプレースホルダーを使用する場合、このパラメータの値として、これらのプレースホルダーに対応する実際の値をキーと値のペアで指定できます。
+    [Filtering Templating](/docs/filtering-templating) に記載されているように `filter` でプレースホルダーを使用する場合、このパラメータの値として、それらのプレースホルダーに対する実際の値をキーと値のペアで指定できます。
 
 - **params** (*KeyValueObj*) -
 
@@ -132,27 +132,27 @@ await milvusClient.search({
 
     - **radius** (*number*) -
 
-        最低類似度のしきい値を決定します。`metric_type` を `L2` に設定する場合、この値が **range_filter** より大きいことを確認してください。それ以外の場合、この値は **range_filter** より小さくする必要があります。 
+        類似度の下限しきい値を決定します。`metric_type` を `L2` に設定する場合、この値は **range_filter** より大きくする必要があります。それ以外の場合、この値は **range_filter** より小さくする必要があります。 
 
     - **range_filter**  (*number*) -  
 
-        特定の類似度範囲内のベクトルに検索を絞り込みます。`metric_type` を `IP` または `COSINE` に設定する場合、この値が **radius** より大きいことを確認してください。それ以外の場合、この値は **radius** より小さくする必要があります。
+        特定の類似度範囲内の vectors に検索を絞り込みます。`metric_type` を `IP` または `COSINE` に設定する場合、この値は **radius** より大きくする必要があります。それ以外の場合、この値は **radius** より小さくする必要があります。
 
     - **level** (*number*)
 
-        Zilliz Cloud は、さまざまな index アルゴリズム固有の多数の検索パラメータを扱う代わりに、検索パラメータの調整を簡素化するための統一パラメータを使用します。
+        Zilliz Cloud は、さまざまな index アルゴリズム固有の多数の検索パラメータを個別に調整する代わりに、検索パラメータのチューニングを簡素化するための統一パラメータを使用します。
 
-        デフォルト値は **1** で、範囲は **1** から **5** です。値を大きくすると、検索パフォーマンスが低下する代わりに再現率が高くなります。
+        デフォルト値は **1** で、範囲は **1** から **5** です。値を大きくすると再現率は高くなりますが、検索パフォーマンスは低下します。
 
     - **page_retain_order** (*bool*) -
 
-        `offset` が指定されたときに検索結果の順序を保持するかどうか。 
+        `offset` が指定されている場合に、検索結果の順序を保持するかどうかです。 
 
-        このパラメータは、`radius` も設定した場合にのみ適用されます。
+        このパラメータは、`radius` も設定している場合にのみ適用されます。
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象 collection の整合性レベルです。デフォルト値は **Bounded** (**1**) で、**Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) を選択できます。
+    対象 collection の整合性レベルです。デフォルト値は **Bounded** (**1**) で、**Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) を指定できます。
 
 - **ignore_growing** (*boolean*) -
 
@@ -160,15 +160,15 @@ await milvusClient.search({
 
 - **group_by_field** (*string*) -
 
-    検索結果を指定されたフィールドでグループ化し、多様性を確保して同じグループから複数の結果が返されるのを防ぎます。
+    検索結果を指定した field でグループ化し、多様性を確保して同じ group から複数の結果が返されることを防ぎます。
 
 - **group_size** (*number*) -
 
-    グループ化検索で各グループ内に返す entity の目標数です。たとえば、`group_size=2` に設定すると、各グループ内で最も類似した entity（例: ドキュメントのパッセージやベクトル表現）を最大 2 件返すようシステムに指示します。`group_size` を設定しない場合、システムはデフォルトで各グループにつき 1 entity のみを返します。
+    grouping search において、各 group 内で返す entity の目標数です。たとえば、`group_size=2` を設定すると、各 group 内で最も類似する entity（例: ドキュメントの passage や vector 表現）を最大 2 件返すようシステムに指示します。`group_size` を設定しない場合、システムはデフォルトで各 group あたり 1 entity のみを返します。
 
 - **strict_group_size** (*boolean*) -
 
-    このブール パラメータは、`group_size` を厳密に適用するかどうかを指定します。`group_size=true` の場合、各グループ内に十分なデータが存在する限り、システムは各グループをちょうど `group_size` 件の結果で埋めようとします。グループ内の entity 数が不足している場合は、利用可能な entity のみを返し、十分なデータがあるグループでは指定された `group_size` を満たすようにします。
+    このブールパラメータは、`group_size` を厳密に適用するかどうかを指定します。`group_size=true` の場合、各 group 内に十分なデータが存在する限り、システムは各 group をちょうど `group_size` 件の結果で埋めようとします。group 内の entity 数が不足している場合は、利用可能な entity のみを返しつつ、十分なデータがある group では指定された `group_size` を満たすようにします。
 
 - **hints** (*string*) -
 
@@ -180,7 +180,7 @@ await milvusClient.search({
 
 - **transformers** (*OutputTransformers*) -
 
-    以下のデータ型のデータを変換するためのカスタム関数です。
+    以下のデータ型向けにデータを変換するカスタム関数です。
 
     - BFloat16Vector (`(bf16bytes: Uint8Array) => BFloat16Vector;`)
 
@@ -190,49 +190,49 @@ await milvusClient.search({
 
 - **rerank** (*RerankerObj* | *FunctionObject \ FunctionScore*) -
 
-    カスタム パラメータを伴うリランキング戦略です。**RerankerObj**、**FunctionObject**、または **FunctionScore** のいずれかを使用できます。
+    カスタムパラメータを持つ再ランキング戦略です。**RerankerObj**、**FunctionObject**、または **FunctionScore** のいずれかを使用できます。
 
-    **RerankerObj** には以下のパラメータがあります。
+    **RerankerObj** には次のパラメータがあります。
 
     - **strategy** (*string*) -
 
-        リランキング戦略です。指定可能な値は次のとおりです。
+        再ランキング戦略です。指定可能な値は次のとおりです。
 
         - **RRF** ("rrf")
 
-            この戦略は、特定の重視点がない場合に推奨されます。RRF は各ベクトル フィールドの重要度を効果的にバランスできます。
+            特定の強調ポイントがない場合に推奨される戦略です。RRF は各 vector field の重要性を効果的にバランスできます。
 
         - **WEIGHTED** ("weighted")
 
-            この戦略は、結果で特定のベクトル フィールドを重視したい場合に推奨されます。WeightedRanker を使用すると、特定のベクトル フィールドにより高い重みを割り当てて、より強調できます。たとえば、マルチモーダル検索では、画像の色よりもその画像のテキスト説明の方が重要と見なされる場合があります。
+            特定の vector field を重視した結果が必要な場合に推奨される戦略です。WeightedRanker では、特定の vector field に高い重みを割り当てて、それらをより強調できます。たとえば、multimodal 検索では、画像の色よりも画像のテキスト説明のほうが重要と見なされる場合があります。
 
     - **params** (*keyValueObj*) -
 
-        これらのパラメータはリランキング戦略ごとに異なります。
+        パラメータは再ランキング戦略ごとに異なります。
 
-        - RRFRanker 戦略を使用する場合、RRFRanker にパラメータ値 `k` を入力する必要があります。`k` のデフォルト値は 60 です。このパラメータは、異なる ANN 検索からのランクをどのように組み合わせるかを決定し、すべての検索にわたって重要度をバランスよく統合するのに役立ちます。
+        - RRFRanker 戦略を使用する場合、RRFRanker にパラメータ値 `k` を入力する必要があります。`k` のデフォルト値は 60 です。このパラメータは、異なる ANN 検索の順位をどのように結合するかを決定するのに役立ち、すべての検索にわたる重要性のバランスと統合を目的としています。
 
-        - WeightedRanker 戦略を使用する場合、`WeightedRanker` 関数に重み値を入力する必要があります。Hybrid Search における基本 ANN 検索の数は、入力が必要な値の数に対応します。入力値は [0,1] の範囲である必要があり、1 に近い値ほど重要度が高いことを示します。
+        - WeightedRanker 戦略を使用する場合、`WeightedRanker` 関数に重みの値を入力する必要があります。Hybrid Search における基本 ANN 検索の数は、入力すべき値の数に対応します。入力値は [0,1] の範囲である必要があり、1 に近いほど重要度が高いことを示します。
 
-    **FunctionObject** は以下の構造を持ちます。
+    **FunctionObject** は次の構造を持ちます。
 
     - **name** (*string*)
 
-        関数名です。この識別子は、クエリや collection 内で関数を参照するために使用されます。
+        関数名です。この識別子は、クエリおよび collection 内で関数を参照するために使用されます。
 
     - **description** (*string*)
 
-        関数の目的に関する簡単な説明です。大規模なプロジェクトではドキュメント化や明確化に役立ち、デフォルトでは空文字列です。
+        関数の目的の簡潔な説明です。大規模なプロジェクトではドキュメント化や明確化に役立ち、デフォルトは空文字列です。
 
     - **type** (*[FunctionType](./Collections-FunctionType)*)
 
-        生データを処理する関数の型です。このパラメータに指定できる値は `FunctionType.RERANK` です。
+        生データを処理する関数のタイプです。このパラメータに指定できる値は `FunctionType.RERANK` です。
 
     - **input_field_names** (*string[]*)
 
-        このパラメータの値は空の配列のままにしてください。
+        このパラメータの値は空配列のままにしてください。
 
-    **FunctionScore** は以下の構造を持ちます。
+    **FunctionScore** は次の構造を持ちます。
 
     - **functions** (*FunctionObject[]*) -
 
@@ -240,39 +240,39 @@ await milvusClient.search({
 
     - **params** (*keyValueObj*) -  
 
-        指定された関数がどのように連携して動作するかを指定します。構造は次のとおりです。
+        指定した関数がどのように連携するかを指定します。構造は次のとおりです。
 
         - **boost_mode** (*string*) -
 
-            指定された重みが一致する entity のスコアにどのように影響するかを指定します。指定可能な値は次のとおりです。
+            指定した重みが一致した entity のスコアにどのように影響するかを指定します。指定可能な値は次のとおりです。
 
             - `Multiply`
 
-                重み付けされた値が、一致する entity の元のスコアに指定した重みを掛けた値であることを示します。
+                重み付けされた値が、一致した entity の元のスコアに指定した重みを掛けた値に等しいことを示します。
 
-                これはデフォルト値です。
+                これがデフォルト値です。
 
             - `Sum`
 
-                重み付けされた値が、一致する entity の元のスコアと指定した重みの合計に等しいことを示します
+                重み付けされた値が、一致した entity の元のスコアと指定した重みの合計に等しいことを示します
 
         - **function_mode** (*string*) -
 
-            さまざまな Boost Ranker からの重み付け値をどのように処理するかを指定します。指定可能な値は次のとおりです。
+            複数の Boost Ranker からの重み付け値をどのように処理するかを指定します。指定可能な値は次のとおりです。
 
             - `Multiply`
 
-                一致する entity の最終スコアが、すべての Boost Ranker からの重み付け値の積に等しいことを示します。
+                一致した entity の最終スコアが、すべての Boost Ranker からの重み付け値の積に等しいことを示します。
 
-                これはデフォルト値です。
+                これがデフォルト値です。
 
             - `Sum`
 
-                一致する entity の最終スコアが、すべての Boost Ranker からの重み付け値の合計に等しいことを示します。
+                一致した entity の最終スコアが、すべての Boost Ranker からの重み付け値の合計に等しいことを示します。
 
 - **order_by_fields** (*OrderByFields*) -
 
-    検索結果の並び順に使用するフィールドです。オプションです。
+    検索結果の並び順に使用する fields です。オプションです。
 
 **RETURNS** *Promise&lt;SearchResults&lt;T&gt;&gt;*
 
@@ -291,47 +291,47 @@ await milvusClient.search({
 
 **PARAMETERS:**
 
-- **results** (*SearchResultData[]* | *SearchResultData[][]*) -
-各クエリ ベクトルに対して返されるヒットです。単一のクエリ ベクトルが指定された場合、これはフラットな **SearchResultData[]** になります。クエリ ベクトルのバッチが指定された場合、これはクエリごとに 1 つの内部リストを持つネストされた **SearchResultData[][]** になります。
+- **results** (*SearchResultData[]* | *SearchResultData[][]*) -<br/>
+  各クエリ vector に対して返されたヒットです。単一のクエリ vector が指定された場合、これはフラットな **SearchResultData[]** です。クエリ vector のバッチが指定された場合、これはクエリごとに 1 つの内部リストを持つネストされた **SearchResultData[][]** です。
 
     - **id** (*string*) -
 
-        一致した行のプライマリ キーです。
+        一致した行の primary key です。
 
     - **score** (*number*) -
 
-        構成された metric type によってスケーリングされた類似度スコアです。
+        設定された metric type によってスケーリングされた類似度スコアです。
 
     - **offset** (*number* | *string*) -
 
-        クエリ グループ内におけるこのヒットの 0 ベースのオフセットです。
+        クエリ group 内におけるこのヒットの 0 ベースのオフセットです。
 
     - **group_by_field_values** (*Record&lt;string, FieldData&gt;*) -
 
-        **group_by_field** が指定された場合に設定されます。このヒットのグループ化フィールドの値を保持します。
+        **group_by_field** が指定された場合に設定され、このヒットのグループ化 field の値を保持します。
 
     - **highlight** (*HighlightResult*) -
 
-        リクエストで **highlighter** が指定された場合に設定されます。一致したフィールドのハイライト断片を保持します。
+        リクエストで **highlighter** が指定された場合に設定され、一致する fields のハイライトされた断片を保持します。
 
     - **&lt;output_field&gt;** (*FieldData*) -
 
-        要求された各 **output_fields** エントリはヒット上のキーとして追加され、一致した行の値を保持します。
+        リクエストされた各 **output_fields** エントリはヒット上のキーとして追加され、一致した行の値を保持します。
 
-- **recalls** (*number[]*) -
-検索エンジンが生成した場合の、各クエリに対する推定再現率スコアです。
+- **recalls** (*number[]*) -<br/>
+  検索エンジンが生成した場合の、各クエリに対する推定再現率スコアです。
 
-- **session_ts** (*number*) -
-検索評価に Milvus が使用したセッション タイムスタンプです。
+- **session_ts** (*number*) -<br/>
+  検索の評価に Milvus が使用したセッションタイムスタンプです。
 
-- **collection_name** (*string*) -
-検索された collection です。
+- **collection_name** (*string*) -<br/>
+  検索された collection です。
 
-- **all_search_count** (*number*) -
-オプションです。検索が調査した候補の総数を報告する場合に設定されます。
+- **all_search_count** (*number*) -<br/>
+  オプションです。検索で調査した候補総数が報告される場合に設定されます。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -339,7 +339,7 @@ await milvusClient.search({
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラー コードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
@@ -347,7 +347,7 @@ await milvusClient.search({
 
 ## Example\{#example}
 
-```javascript
+```markdown
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

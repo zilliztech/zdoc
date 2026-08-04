@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、スナップショットから新規または既存のコレクションにコレクションを復元します。 | Node.js"
+description: "この操作は、snapshot から新規または既存の collection に collection を復元します。 | Node.js"
 type: docx
 token: PpuUdB9bLoL1UUxfIH4cxXkXnSb
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # restoreSnapshot()
 
-この操作は、スナップショットから新規または既存のコレクションにコレクションを復元します。
+この操作は、snapshot から新規または既存の collection に collection を復元します。
 
 ```typescript
 await milvusClient.restoreSnapshot(data: RestoreSnapshotReq)
@@ -53,29 +53,29 @@ await milvusClient.restoreSnapshot({
 
 **パラメータ:**
 
-- **snapshot_name** (*string*) -
-**[必須]**
-復元元のスナップショットの名前。
+- **snapshot_name** (*string*) -<br/>
+  **[必須]**<br/>
+  復元元の snapshot の名前。
 
-- **source_collection_name** (*string*) -
-**[必須]**
-ソースコレクションの名前。
+- **source_collection_name** (*string*) -<br/>
+  **[必須]**<br/>
+  ソース collection の名前。
 
-- **target_collection_name** (*string*) -
-**[必須]**
-復元先のターゲットコレクションの名前。
+- **target_collection_name** (*string*) -<br/>
+  **[必須]**<br/>
+  復元先のターゲット collection の名前。
 
-- **source_db_name** (*string*) -
-ソースデータベース名。省略可能です。
+- **source_db_name** (*string*) -<br/>
+  ソース database 名。任意です。
 
-- **target_db_name** (*string*) -
-ターゲットデータベース名。省略可能です。
+- **target_db_name** (*string*) -<br/>
+  ターゲット database 名。任意です。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許容する時間（ミリ秒）の任意の期間です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。省略可能です。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。任意です。
 
 **戻り値** *Promise&lt;RestoreSnapshotResponse&gt;*
 
@@ -90,23 +90,23 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
 **パラメータ:**
 
-- **job_id** (*string*) -
-非同期復元ジョブの識別子。完了をポーリングするには、この値を `getRestoreSnapshotState()` に渡します。
+- **job_id** (*string*) -<br/>
+  非同期復元ジョブの識別子です。完了をポーリングするには、この値を `getRestoreSnapshotState()` に渡します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

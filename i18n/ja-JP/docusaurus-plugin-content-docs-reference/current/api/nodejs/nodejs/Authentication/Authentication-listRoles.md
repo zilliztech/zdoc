@@ -14,7 +14,7 @@ sidebar_position: 20
 keywords: 
   - IVF
   - knn
-  - 画像検索
+  - Image Search
   - LLMs
   - zilliz
   - zilliz cloud
@@ -56,7 +56,7 @@ await milvusClient.listRoles(
 
     この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、何らかのレスポンスが返るかエラーが発生した時点で、この操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;SelectRoleResponse&gt;*
 
@@ -71,11 +71,11 @@ await milvusClient.listRoles(
 
 **パラメータ:**
 
-- **results** (*RoleResult[]*) -
-現在の Milvus インスタンスで定義されている各ロールごとに 1 つずつの **RoleResult** オブジェクトのリストです。**RoleResult** の全フィールドのリファレンスについては、`describeRole()` ドキュメントを参照してください。
+- **results** (*RoleResult[]*) -<br/>
+  現在の Milvus インスタンスで定義されている各ロールにつき1つの **RoleResult** オブジェクトのリストです。**RoleResult** の完全なフィールド参照については、`describeRole()` のドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 

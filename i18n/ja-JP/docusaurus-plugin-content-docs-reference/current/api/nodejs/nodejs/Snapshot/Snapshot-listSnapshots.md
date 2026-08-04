@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、collection のすべてのスナップショットを一覧表示します。 | Node.js"
+description: "この操作は、コレクションのすべてのスナップショットを一覧表示します。 | Node.js"
 type: docx
 token: VjhTds7NPoyPjBxk4PNc5pe0nw6
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listSnapshots()
 
-この操作は、collection のすべてのスナップショットを一覧表示します。
+この操作は、コレクションのすべてのスナップショットを一覧表示します。
 
 ```typescript
 await milvusClient.listSnapshots(data: ListSnapshotsReq)
@@ -48,20 +48,20 @@ await milvusClient.listSnapshots({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **collection_name** (*string*) -
-**[必須]**
-collection の名前です。
+- **collection_name** (*string*) -<br/>
+  **[必須]**<br/>
+  コレクションの名前。
 
-- **db_name** (*string*) -
-データベース名です。任意です。
+- **db_name** (*string*) -<br/>
+  データベースの名前。任意です。
 
-- **timeout** (*number*) -
-RPC に許可するミリ秒単位の任意の時間です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するオプションの時間（ミリ秒単位）。`undefined` に設定した場合、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID です。任意です。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。任意です。
 
 **戻り値** *Promise&lt;ListSnapshotsResponse&gt;*
 
@@ -74,25 +74,25 @@ RPC に許可するミリ秒単位の任意の時間です。`undefined` に設�
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **snapshots** (*string[]*) -
-要求された collection に現在存在するスナップショット名のリストです。
+- **snapshots** (*string[]*) -<br/>
+  要求されたコレクションに現在存在するスナップショット名の一覧。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

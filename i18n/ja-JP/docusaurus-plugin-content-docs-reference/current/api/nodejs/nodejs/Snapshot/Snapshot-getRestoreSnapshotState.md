@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はスナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返された jobid を使用します。 | Node.js"
+description: "この操作はスナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返される jobid を使用します。 | Node.js"
 type: docx
 token: IHY0di5uzooBe8xOCJqci9vinNh
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRestoreSnapshotState()
 
-この操作はスナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返された `job_id` を使用します。
+この操作はスナップショット復元ジョブの状態を確認します。restoreSnapshot() によって返される job_id を使用します。
 
 ```typescript
 await milvusClient.getRestoreSnapshotState(data: GetRestoreSnapshotStateReq)
@@ -47,19 +47,19 @@ await milvusClient.getRestoreSnapshotState({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **job_id** (*number | string*) -
-**[REQUIRED]**
-restoreSnapshot() によって返される復元ジョブ ID。
+- **job_id** (*number | string*) -<br/>
+  **[必須]**<br/>
+  restoreSnapshot() によって返される復元ジョブ ID。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒単位）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するオプションの時間（ミリ秒単位）。`undefined` に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡のためのトレース ID。オプションです。
 
-**RETURNS** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
+**戻り値** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
 
 このメソッドは、**GetRestoreSnapshotStateResponse** オブジェクトに解決される Promise を返します。
 
@@ -70,10 +70,10 @@ RPC に許可するオプションの時間（ミリ秒単位）。`undefined` �
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **info** (*RestoreSnapshotJobInfo*) -
-復元ジョブの現在の状態。
+- **info** (*RestoreSnapshotJobInfo*) -<br/>
+  復元ジョブの現在の状態。
 
     - **job_id** (*string*) -
 
@@ -81,23 +81,23 @@ RPC に許可するオプションの時間（ミリ秒単位）。`undefined` �
 
     - **snapshot_name** (*string*) -
 
-        復元中のスナップショット。
+        復元対象のスナップショット。
 
     - **db_name** (*string*) -
 
-        対象データベース。
+        ターゲット database。
 
     - **collection_name** (*string*) -
 
-        対象 collection 名。
+        ターゲット collection 名。
 
     - **state** (*RestoreSnapshotState*) -
 
-        現在のジョブ状態。使用可能な値は **RestoreSnapshotNone**、**RestoreSnapshotPending**、**RestoreSnapshotExecuting**、**RestoreSnapshotCompleted**、および **RestoreSnapshotFailed** です。
+        現在のジョブ状態。取り得る値は **RestoreSnapshotNone**、**RestoreSnapshotPending**、**RestoreSnapshotExecuting**、**RestoreSnapshotCompleted**、**RestoreSnapshotFailed** です。
 
     - **progress** (*number*) -
 
-        完了率。**0** から **100** までの整数です。
+        **0** から **100** までの整数で表される完了率。
 
     - **reason** (*string*) -
 
@@ -109,10 +109,10 @@ RPC に許可するオプションの時間（ミリ秒単位）。`undefined` �
 
     - **time_cost** (*string*) -
 
-        ジョブ開始以降の合計経過時間。
+        ジョブ開始からの総経過時間。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、複数のコレクションのスキーマとメタデータを1回の呼び出しで取得します。 | Node.js"
+description: "この操作は、単一の呼び出しで複数の collection のスキーマとメタデータを取得します。 | Node.js"
 type: docx
 token: ByKKdHVcAojjyZxKK3PciOTVnQg
 sidebar_position: 23
 keywords: 
   - AI Agent
-  - セマンティック検索
-  - 異常検知
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - batchDescribeCollections()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # batchDescribeCollections()
 
-この操作は、複数のコレクションのスキーマとメタデータを1回の呼び出しで取得します。
+この操作は、単一の呼び出しで複数の collection のスキーマとメタデータを取得します。
 
 ```typescript
 await milvusClient.batchDescribeCollections(data: BatchDescribeCollectionReq)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```typescript
 await milvusClient.batchDescribeCollections({
@@ -49,25 +49,25 @@ await milvusClient.batchDescribeCollections({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **collection_names** (*string[]*) -
-**[REQUIRED]**
-詳細を取得するコレクションの名前です。
+- **collection_names** (*string[]*) -<br/>
+  **[必須]**<br/>
+  説明対象の collection の名前です。
 
-- **db_name** (*string*) -
-データベース名です。オプションです。
+- **db_name** (*string*) -<br/>
+  データベース名です。任意です。
 
-- **collectionIDs** (*number[]*) -
-詳細を取得するコレクションの ID です。オプションです。
+- **collectionIDs** (*number[]*) -<br/>
+  説明対象の collection の ID です。任意です。
 
-- **timeout** (*number*) -
-RPC に許可される時間の長さ（ミリ秒）のオプション値です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するオプションの時間（ミリ秒）です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID です。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID です。任意です。
 
-**RETURNS** *Promise&lt;BatchDescribeCollectionResponse&gt;*
+**戻り値** *Promise&lt;BatchDescribeCollectionResponse&gt;*
 
 このメソッドは、**BatchDescribeCollectionResponse** オブジェクトに解決される promise を返します。
 
@@ -78,13 +78,13 @@ RPC に許可される時間の長さ（ミリ秒）のオプション値です�
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **responses** (*DescribeCollectionResponse[]*) -
-要求された各コレクションのスキーマとメタデータを含む配列です。エントリは入力したコレクション名と同じ順序で表示されます。**DescribeCollectionResponse** の完全なフィールドリファレンスについては、`describeCollection()` のドキュメントを参照してください。
+- **responses** (*DescribeCollectionResponse[]*) -<br/>
+  要求された各 collection のスキーマとメタデータを含む配列です。エントリは入力された collection 名と同じ順序で並びます。**DescribeCollectionResponse** の完全なフィールドリファレンスについては、`describeCollection()` ドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -98,7 +98,7 @@ RPC に許可される時間の長さ（ミリ秒）のオプション値です�
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

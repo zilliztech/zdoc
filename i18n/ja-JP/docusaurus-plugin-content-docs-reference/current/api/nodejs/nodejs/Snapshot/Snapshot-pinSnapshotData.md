@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、スナップショットデータがガベージコレクションされないように pin します。スナップショットをリストア用に利用可能な状態で維持するために使用します。 | Node.js"
+description: "この操作は、スナップショットデータがガベージコレクションされないように固定します。これを使用して、スナップショットが復元可能な状態を維持できるようにします。 | Node.js"
 type: docx
 token: Bx6FdwVlUoqZjVxZwSFcnUr2nDe
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # pinSnapshotData()
 
-この操作は、スナップショットデータがガベージコレクションされないように pin します。スナップショットをリストア用に利用可能な状態で維持するために使用します。
+この操作は、スナップショットデータがガベージコレクションされないように固定します。これを使用して、スナップショットが復元可能な状態を維持できるようにします。
 
 ```typescript
 await milvusClient.pinSnapshotData(data: PinSnapshotDataReq)
@@ -50,27 +50,27 @@ await milvusClient.pinSnapshotData({
 })
 ```
 
-**パラメーター:**
+**パラメータ:**
 
-- **collection_name** (*string*) -
-**[必須]**
-スナップショットが属する collection の名前。
+- **collection_name** (*string*) -<br/>
+  **[必須]**<br/>
+  スナップショットが属する collection の名前です。
 
-- **snapshot_name** (*string*) -
-**[必須]**
-pin するスナップショットの名前。
+- **snapshot_name** (*string*) -<br/>
+  **[必須]**<br/>
+  固定するスナップショットの名前です。
 
-- **ttl_seconds** (*number | string*) -
-オプションの pin TTL（秒）。指定しない場合、スナップショットは無期限に pin されます。
+- **ttl_seconds** (*number | string*) -<br/>
+  オプションの固定 TTL（秒）です。指定しない場合、スナップショットは無期限に固定されます。
 
-- **db_name** (*string*) -
-データベース名。オプション。
+- **db_name** (*string*) -<br/>
+  データベース名です。省略可能です。
 
-- **timeout** (*number*) -
-RPC に許可する時間（ミリ秒）のオプション値です。`undefined` に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するオプションの時間（ミリ秒）です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。オプション。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID です。省略可能です。
 
 **戻り値** *Promise&lt;PinSnapshotDataResponse&gt;*
 
@@ -83,21 +83,21 @@ RPC に許可する時間（ミリ秒）のオプション値です。`undefined
 }
 ```
 
-**パラメーター:**
+**パラメータ:**
 
-- **pin_id** (*string*) -
-pin リースの識別子です。TTL の期限が切れる前に pin を解除するには、この値を `unpinSnapshotData()` に渡します。
+- **pin_id** (*string*) -<br/>
+  固定リースの識別子です。TTL が期限切れになる前に固定を解除するには、この値を `unpinSnapshotData()` に渡します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 

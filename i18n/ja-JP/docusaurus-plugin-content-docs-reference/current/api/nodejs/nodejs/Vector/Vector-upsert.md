@@ -12,13 +12,13 @@ type: docx
 token: LEptdqqfcoqdtCx0LO1c3yxvnBo
 sidebar_position: 8
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - オープンソースの vector database
-  - Vector index
+  - Vector 埋め込み
+  - Vector ストア
+  - オープンソースの vector データベース
+  - Vector インデックス
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - upsert()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -63,7 +63,7 @@ await milvusClient.upsert({
 
     **[REQUIRED]**
 
-    upsert するデータです。各要素は、キーが collection スキーマのフィールド名と一致するプレーンな JavaScript オブジェクトです。プライマリキーが既存レコードと一致するエンティティは更新され、それ以外の場合は新しいエンティティが挿入されます。
+    upsert するデータです。各要素は、キーが collection スキーマのフィールド名と一致するプレーンな JavaScript オブジェクトです。主キーが既存レコードと一致するエンティティは更新され、一致しない場合は新しいエンティティが挿入されます。
 
 - **db_name** (*string*) -
 
@@ -71,23 +71,23 @@ await milvusClient.upsert({
 
 - **hash_keys** (*number[]*) -
 
-    内部使用のために予約されています。明示的に必要とされない限り、このパラメータは設定しないでください。
+    内部使用のために予約されています。明示的に必要とされない限り、このパラメータを設定しないでください。
 
 - **partial_update** (*boolean*) -
 
-    部分更新を有効にするかどうか。`true` に設定すると、`data` には更新が必要なフィールドのみを含めることができ、含まれていないフィールドは既存の値を保持します。
+    部分更新を有効にするかどうかです。`true` に設定すると、`data` には更新が必要なフィールドのみを含めることができ、含まれないフィールドは既存の値を保持します。
 
 - **partition_name** (*string*) -
 
-    現在の collection 内の partition の名前です。指定した場合、データはその partition に upsert されます。
+    現在の collection 内の partition 名です。指定した場合、データはその partition に upsert されます。
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト時間です。これを `None` に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点で、この操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを `None` に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **field_ops** (*FieldPartialUpdateOp[]*) -
 
-    array フィールドに対する部分更新操作です。任意です。
+    配列フィールドに対する部分更新操作です。省略可能です。
 
 **RETURNS** *Promise&lt;MutationResult&gt;*
 
@@ -109,44 +109,44 @@ await milvusClient.upsert({
 
 **PARAMETERS:**
 
-- **succ_index** (*number[]*) -
-入力データ内で upsert に成功した行の 0 始まりの位置です。
+- **succ_index** (*number[]*) -<br/>
+  正常に upsert された行の、入力データ内での 0 始まりの位置です。
 
-- **err_index** (*number[]*) -
-拒否された行の 0 始まりの位置です。すべての行が成功した場合、このリストは空です。
+- **err_index** (*number[]*) -<br/>
+  拒否された行の 0 始まりの位置です。すべての行が成功した場合、このリストは空になります。
 
-- **acknowledged** (*boolean*) -
-書き込みが Milvus によって確認されたかどうかです。
+- **acknowledged** (*boolean*) -<br/>
+  書き込みが Milvus によって確認されたかどうかです。
 
-- **insert_cnt** (*string*) -
-この操作によって新たに挿入された行数で、文字列としてフォーマットされます。
+- **insert_cnt** (*string*) -<br/>
+  この操作によって新しく挿入された行数で、文字列としてフォーマットされます。
 
-- **delete_cnt** (*string*) -
-置き換え用の領域を確保するために論理削除された行数です。
+- **delete_cnt** (*string*) -<br/>
+  置き換えのための領域を確保するために論理削除された行数です。
 
-- **upsert_cnt** (*string*) -
-この操作によって upsert された行の合計数です。
+- **upsert_cnt** (*string*) -<br/>
+  この操作によって upsert された行の総数です。
 
-- **timestamp** (*string*) -
-書き込みが可視になった時点のハイブリッドタイムスタンプです。
+- **timestamp** (*string*) -<br/>
+  書き込みが可視になったハイブリッドタイムスタンプです。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-upsert された行に含まれるプライマリキーです。フィールドの完全なリファレンスについては、`insert()` ドキュメントを参照してください。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  upsert された行に含まれる主キーです。完全なフィールド参照については、`insert()` ドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合、**0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合、**Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合、空文字列のままです。
 
 ## Example\{#example}
 

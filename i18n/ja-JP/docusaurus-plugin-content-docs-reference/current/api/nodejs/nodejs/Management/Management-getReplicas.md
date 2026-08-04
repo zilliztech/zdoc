@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、シャードの詳細を含む情報を返します。 | Node.js"
+description: "この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、shard の詳細を含む情報を返します。 | Node.js"
 type: docx
 token: XKRWdKvQVolmduxrtrDc0dhjnzc
 sidebar_position: 28
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getReplicas()
 
-この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、シャードの詳細を含む情報を返します。
+この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、shard の詳細を含む情報を返します。
 
 ```javascript
 await milvusClient.getReplicas(data: GetReplicaReq)
@@ -57,7 +57,7 @@ await milvusClient.getReplicas({
 
 - **with_shard_nodes** (*boolean*) -
 
-    レスポンスに shard node 情報を含めるかどうか。任意です。
+    レスポンスに shard ノード情報を含めるかどうか。任意です。
 
 - **timeout** (*number*) -
 
@@ -65,7 +65,7 @@ await milvusClient.getReplicas({
 
 **RETURNS** *Promise&lt;ReplicasResponse&gt;*
 
-このメソッドは **ReplicasResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**ReplicasResponse** オブジェクトに解決される promise を返します。
 
 ```typescript
 {
@@ -76,8 +76,8 @@ await milvusClient.getReplicas({
 
 **PARAMETERS:**
 
-- **replicas** (*ReplicaInfo[]*) -
-要求された collection を現在提供している replicas のリスト。
+- **replicas** (*ReplicaInfo[]*) -<br/>
+  リクエストされた collection を現在処理している replicas の一覧。
 
     - **replicaID** (*string*) -
 
@@ -89,15 +89,15 @@ await milvusClient.getReplicas({
 
     - **partition_ids** (*string[]*) -
 
-        この replica がカバーする partition 識別子。
+        この replica が対象とする partition 識別子。
 
     - **shard_replicas** (*ShardReplica[]*) -
 
-        シャードごとのリーダーおよびノード割り当て情報。
+        shard ごとのリーダーおよびノード割り当て情報。
 
         - **leaderID** (*string*) -
 
-        shard リーダーとして動作する query node ID。
+        shard リーダーとして動作する query node の ID。
 
         - **leader_addr** (*string*) -
 
@@ -105,15 +105,15 @@ await milvusClient.getReplicas({
 
         - **dm_channel_name** (*string*) -
 
-        この shard が提供する DML channel。
+        この shard が処理する DML channel。
 
         - **node_ids** (*string[]*) -
 
-        この shard のデータを保持する query node ID。
+        この shard のデータを保持する query node の ID。
 
         - **leaderID** (*string*) -
 
-            shard リーダーとして動作する query node ID。
+            shard リーダーとして動作する query node の ID。
 
         - **leader_addr** (*string*) -
 
@@ -121,15 +121,15 @@ await milvusClient.getReplicas({
 
         - **dm_channel_name** (*string*) -
 
-            この shard が提供する DML channel。
+            この shard が処理する DML channel。
 
         - **node_ids** (*string[]*) -
 
-            この shard のデータを保持する query node ID。
+            この shard のデータを保持する query node の ID。
 
     - **node_ids** (*string[]*) -
 
-        この replica に参加している query node ID。
+        この replica に参加している query node の ID。
 
     - **resource_group_name** (*string*) -
 
@@ -137,10 +137,10 @@ await milvusClient.getReplicas({
 
     - **num_outbound_node** (*Record&lt;string, number&gt;*) -
 
-        resource group ごとの outbound node 数。リバランシング時に使用されます。
+        resource group ごとの outbound ノード数で、リバランス時に使用されます。
 
-- **ResStatus**
-A **ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

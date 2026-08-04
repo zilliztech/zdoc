@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はセグメントを手動でシールし、データをディスクに永続化します。すべてのデータがコレクションに挿入された後にこの操作を呼び出すことを推奨します。これは、関数が戻る前にフラッシュ操作が完了したことを保証する同期関数です。 | Node.js"
+description: "この操作は、segment を手動で seal し、データをディスクに永続化します。すべてのデータが collection に挿入された後にこの操作を呼び出すことを推奨します。これは、関数が戻る前に flush 操作が完了していることを保証する同期関数です。 | Node.js"
 type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 8
 keywords: 
-  - マルチモーダルベクトルデータベース検索
+  - マルチモーダル vector database retrieval
   - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - 大規模言語モデル
+  - ベクトル化
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - flushSync()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flushSync()
 
-この操作はセグメントを手動でシールし、データをディスクに永続化します。すべてのデータがコレクションに挿入された後にこの操作を呼び出すことを推奨します。これは、関数が戻る前にフラッシュ操作が完了したことを保証する同期関数です。
+この操作は、segment を手動で seal し、データをディスクに永続化します。すべてのデータが collection に挿入された後にこの操作を呼び出すことを推奨します。これは、関数が戻る前に flush 操作が完了していることを保証する同期関数です。
 
 ```javascript
 await milvusClient.flushSync(data)
@@ -39,11 +39,11 @@ await milvusClient.flushSync(data)
 
 <Admonition type="info" icon="📘" title="注意">
 
-Milvus は一定間隔でデータを自動的に永続ストレージへフラッシュします。この自動データ永続化メカニズムに依存することを推奨します。
+Milvus は一定間隔でデータを永続ストレージに自動的に flush します。この自動データ永続化メカニズムに依存することを推奨します。
 
 </Admonition>
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.flushSync({
@@ -53,25 +53,25 @@ await milvusClient.flushSync({
 })
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - **db_name** (*string*) -
 
-    対象コレクションが属する対象データベースの名前です。
+    対象の collection が属する対象データベースの名前。
 
 - **collection_names** (*string[]*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    対象コレクション名のリストです。
+    対象 collection 名のリスト。
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間です。 
+    この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;GetFlushStateResponse&gt;*
+**RETURNS** *Promise&lt;GetFlushStateResponse&gt;*
 
 このメソッドは、**GetFlushStateResponse** オブジェクトに解決される promise を返します。
 
@@ -82,27 +82,27 @@ await milvusClient.flushSync({
 }
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **flushed** (*boolean*) -
-すべての対象セグメントが永続ストレージにフラッシュ済みかどうかを示します。`flushSync()` はフラッシュが完了するまでブロックするため、成功時にはこの値は **true** です。
+- **flushed** (*boolean*) -<br/>
+  対象のすべての segment が永続ストレージに flush されているかどうか。`flushSync()` は flush の完了までブロックするため、成功時にはこの値は **true** です。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

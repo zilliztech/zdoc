@@ -12,7 +12,7 @@ type: docx
 token: DZMUdKbtfoT1HbxaXEDcgFkJnsh
 sidebar_position: 5
 keywords: 
-  - 音声類似検索
+  - 音声類似性検索
   - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.listDatabases(data?)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.listDatabases({
@@ -45,15 +45,15 @@ await milvusClient.listDatabases({
 })
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;ListDatabasesResponse&gt;*
+**RETURNS** *Promise&lt;ListDatabasesResponse&gt;*
 
 このメソッドは、**ListDatabasesResponse** オブジェクトに解決される promise を返します。
 
@@ -66,19 +66,19 @@ await milvusClient.listDatabases({
 }
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **db_names** (*string[]*) -
-現在の Milvus インスタンスで定義されているデータベース名のリスト。
+- **db_names** (*string[]*) -<br/>
+  現在の Milvus インスタンスで定義されているデータベース名のリスト。
 
-- **db_ids** (*string[]*) -
-**db_names** と同じ順序の内部データベース識別子。
+- **db_ids** (*string[]*) -<br/>
+  **db_names** と同じ順序の、内部データベース識別子。
 
-- **created_timestamp** (*string[]*) -
-**db_names** と同じ順序のデータベースの作成タイムスタンプ。
+- **created_timestamp** (*string[]*) -<br/>
+  **db_names** と同じ順序の、データベースの作成タイムスタンプ。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -90,9 +90,9 @@ await milvusClient.listDatabases({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

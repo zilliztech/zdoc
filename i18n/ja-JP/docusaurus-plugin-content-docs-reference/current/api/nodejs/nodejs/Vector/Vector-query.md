@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたブール式を使用して scalar filtering を実行します。 | Node.js"
+description: "この操作は、指定されたブール式を使用して scalar フィルタリングを実行します。 | Node.js"
 type: docx
 token: Nle5dNFMuoy3MgxGIFGcJDWtnpg
 sidebar_position: 6
 keywords: 
   - 質問応答システム
   - llm-as-a-judge
-  - hybrid vector search
+  - ハイブリッド vector 検索
   - 動画重複排除
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - query()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-この操作は、指定されたブール式を使用して scalar filtering を実行します。
+この操作は、指定されたブール式を使用して scalar フィルタリングを実行します。
 
 ```javascript
 await milvusClient.query(data)
@@ -72,9 +72,9 @@ await milvusClient.query(data)
 
 - **output_fields** (*string[]*) -
 
-    返される各 entity に含めるフィールド名のリストです。
+    戻り値として各 entity に含めるフィールド名のリストです。
 
-    値のデフォルトは **None** です。指定しない場合、すべてのフィールドが出力フィールドとして選択されます。
+    デフォルト値は **None** です。指定しない場合、すべてのフィールドが出力フィールドとして選択されます。
 
 - **ids** (*string[]* | *number[]*) - 
 
@@ -82,15 +82,15 @@ await milvusClient.query(data)
 
 - **filter** (*string*) -
 
-    一致する entity を絞り込むための scalar filtering 条件です。 
+    一致する entity を絞り込むための scalar フィルタリング条件です。 
 
-    scalar filtering をスキップするには、このパラメータを空文字列に設定できます。scalar filtering 条件の構築方法については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
+    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。scalar フィルタリング条件を構築するには、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
 
 - **offset** (*number*) -
 
     クエリ結果でスキップするレコード数です。 
 
-    このパラメータを `limit` と組み合わせることで、ページネーションを有効にできます。
+    このパラメータは `limit` と組み合わせて使用することで、ページネーションを有効にできます。
 
     この値と `limit` の合計は 16,384 未満である必要があります。 
 
@@ -98,7 +98,7 @@ await milvusClient.query(data)
 
     クエリ結果で返すレコード数です。
 
-    このパラメータを `offset` と組み合わせることで、ページネーションを有効にできます。
+    このパラメータは `offset` と組み合わせて使用することで、ページネーションを有効にできます。
 
     この値と `offset` の合計は 16,384 未満である必要があります。 
 
@@ -106,9 +106,9 @@ await milvusClient.query(data)
 
     対象 collection の整合性レベルです。
 
-    値のデフォルトは、現在の collection 作成時に指定したものです。指定可能な値は **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) です。
+    デフォルト値は現在の collection 作成時に指定したものです。指定可能な値は **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) です。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" icon="📘" title="Note">
 
     整合性レベルとは何ですか？
     
@@ -116,17 +116,17 @@ await milvusClient.query(data)
     
         Zilliz Cloud は、**Strong**、**Bounded Staleness**、**Eventually** の 3 つの整合性レベルを提供しており、デフォルトは **Bounded Staleness** です。
     
-        vector 類似検索や query の実行時に整合性レベルを簡単に調整して、アプリケーションに最適な設定にすることができます。
+        vector 類似検索やクエリを実行する際に整合性レベルを簡単に調整して、アプリケーションに最適な設定にできます。
 
     </Admonition>
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかのレスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 - **order_by_fields** (*OrderByFields*) -
 
-    クエリ結果の並び順に使用するフィールドです。任意です。
+    クエリ結果の並び順を指定するフィールドです。任意です。
 
 - **order_by** (*OrderByFields*) -
 
@@ -145,11 +145,11 @@ await milvusClient.query(data)
 
 **PARAMETERS:**
 
-- **data** (*Record&lt;string, any&gt;[]*) -
-一致した行です。各エントリはフィールド名をキーとしており、要求された各 **output_fields** エントリの値に加えて主キーを保持します。collection で **enable_dynamic_field** が **true** の場合、動的フィールドの値は宣言済みフィールドと並んでインラインで表示されます。
+- **data** (*Record&lt;string, any&gt;[]*) -<br/>
+  一致した行です。各エントリはフィールド名をキーとし、要求された **output_fields** の各エントリに対応する値に加えて、主キーを保持します。collection で **enable_dynamic_field** が **true** の場合、動的フィールドの値は宣言済みフィールドと並んでインラインで表示されます。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -161,7 +161,7 @@ await milvusClient.query(data)
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

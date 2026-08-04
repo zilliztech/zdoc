@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、external collection のリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返される jobid を使用します。 | Node.js"
+description: "この操作は、external collection のリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された jobid を使用します。 | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
 sidebar_position: 29
@@ -18,7 +18,7 @@ keywords:
   - 情報検索
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - getRefreshExternalCollectionProgress()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRefreshExternalCollectionProgress()
 
-この操作は、external collection のリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返される `job_id` を使用します。
+この操作は、external collection のリフレッシュジョブの進行状況を確認します。refreshExternalCollection() によって返された job_id を使用します。
 
 ```typescript
 await milvusClient.getRefreshExternalCollectionProgress(data: GetRefreshExternalCollectionProgressReq)
@@ -49,15 +49,15 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **PARAMETERS:**
 
-- **job_id** (*number | string*) -
-**[REQUIRED]**
-refreshExternalCollection() によって返されるジョブ ID。
+- **job_id** (*number | string*) -<br/>
+  **[REQUIRED]**<br/>
+  refreshExternalCollection() によって返されるジョブ ID。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するミリ秒単位の任意の時間です。undefined に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。任意です。
 
 **RETURNS** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
@@ -72,8 +72,8 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
 **PARAMETERS:**
 
-- **job_info** (*RefreshExternalCollectionJobInfo*) -
-リフレッシュジョブの現在の状態。
+- **job_info** (*RefreshExternalCollectionJobInfo*) -<br/>
+  リフレッシュジョブの現在の状態。
 
     - **job_id** (*string*) -
 
@@ -81,7 +81,7 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
     - **collection_name** (*string*) -
 
-        リフレッシュ中の external collection。
+        リフレッシュ対象の external collection。
 
     - **state** (*RefreshExternalCollectionState*) -
 
@@ -89,7 +89,7 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
     - **progress** (*string*) -
 
-        **"0"** から **"100"** までの整数として表される完了率。
+        **"0"** から **"100"** までの整数による完了率。
 
     - **reason** (*string*) -
 
@@ -105,10 +105,10 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
     - **end_time** (*string*) -
 
-        ジョブが終了した時刻。ジョブがまだ実行中の場合は空文字列です。
+        ジョブが終了した時刻、またはジョブがまだ実行中の場合は空文字列。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

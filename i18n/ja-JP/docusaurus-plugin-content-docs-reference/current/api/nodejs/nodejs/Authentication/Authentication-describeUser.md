@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.describeUser(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.describeUser({
@@ -53,17 +53,17 @@ await milvusClient.describeUser({
 
     **[REQUIRED]**
 
-    説明するユーザーの名前。
+    説明対象のユーザー名です。
 
 - **includeRoleInfo** (*boolean*) -
 
-    ロール情報を含めるかどうかを示すブール値。
+    ロール情報を含めるかどうかを示すブール値です。
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、応答が到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;SelectUserResponse&gt;*
 
@@ -78,49 +78,49 @@ await milvusClient.describeUser({
 
 **PARAMETERS:**
 
-- **results** (*UserResult[]*) -
-**UserResult** オブジェクトのリスト。`describeUser()` では、このリストには要求されたユーザーを説明する単一のエントリが含まれます。
+- **results** (*UserResult[]*) -<br/>
+  **UserResult** オブジェクトのリストです。`describeUser()` の場合、このリストには要求されたユーザーを説明する単一のエントリが含まれます。
 
     - **user** (*User*) -
 
-        ユーザーを識別する **User** オブジェクト。
+        ユーザーを識別する **User** オブジェクトです。
 
         - **name** (*string*) -
 
-        ユーザー名。
+        ユーザー名です。
 
         - **name** (*string*) -
 
-            ユーザー名。
+            ユーザー名です。
 
     - **roles** (*RoleEntity[]*) -
 
-        このユーザーに割り当てられたロールのリスト。
+        このユーザーに割り当てられているロールのリストです。
 
         - **name** (*string*) -
 
-        ロール名。
+        ロール名です。
 
         - **name** (*string*) -
 
-            ロール名。
+            ロール名です。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 milvusClient.describeUser({username: 'name'})

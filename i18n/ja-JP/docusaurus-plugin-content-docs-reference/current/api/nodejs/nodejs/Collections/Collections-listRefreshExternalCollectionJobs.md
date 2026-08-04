@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、external collection のすべての refresh ジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。 | Node.js"
+description: "この操作は、external collection のすべてのリフレッシュジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。 | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
 sidebar_position: 30
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRefreshExternalCollectionJobs()
 
-この操作は、external collection のすべての refresh ジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。
+この操作は、external collection のすべてのリフレッシュジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。
 
 ```typescript
 await milvusClient.listRefreshExternalCollectionJobs(data?: ListRefreshExternalCollectionJobsReq)
@@ -48,21 +48,21 @@ await milvusClient.listRefreshExternalCollectionJobs({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **collection_name** (*string*) -
-collection 名でフィルタリングするためのオプション項目です。
+- **collection_name** (*string*) -<br/>
+  collection 名でのオプションのフィルターです。
 
-- **db_name** (*string*) -
-データベース名でフィルタリングするためのオプション項目です。
+- **db_name** (*string*) -<br/>
+  データベース名でのオプションのフィルターです。
 
-- **timeout** (*number*) -
-RPC に許可する時間の長さ（ミリ秒）のオプション値です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するオプションの時間（ミリ秒）です。undefined に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機を続けます。デフォルトは undefined です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID です。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID です。オプションです。
 
-**RETURNS** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
+**戻り値** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
 このメソッドは、**ListRefreshExternalCollectionJobsResponse** オブジェクトに解決される promise を返します。
 
@@ -73,13 +73,13 @@ RPC に許可する時間の長さ（ミリ秒）のオプション値です。`
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
-要求された database および collection フィルターに一致する refresh ジョブの一覧です。**RefreshExternalCollectionJobInfo** の完全なフィールド参照については、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
+- **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
+  要求されたデータベースおよび collection フィルターに一致するリフレッシュジョブのリストです。**RefreshExternalCollectionJobInfo** の完全なフィールドリファレンスについては、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 

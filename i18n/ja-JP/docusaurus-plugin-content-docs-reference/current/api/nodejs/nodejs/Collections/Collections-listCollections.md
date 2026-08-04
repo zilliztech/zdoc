@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は既存のすべての collection を一覧表示します。 | Node.js"
+description: "この操作は、既存のすべての collection を一覧表示します。 | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
@@ -18,7 +18,7 @@ keywords:
   - 非構造化データ
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - listCollections()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listCollections()
 
-この操作は既存のすべての collection を一覧表示します。
+この操作は、既存のすべての collection を一覧表示します。
 
 ```javascript
 milvusClient.listCollections();
@@ -51,9 +51,9 @@ listCollections({
 
 - **collection_name** (*string*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    既存の collection の名前です。
+    既存の collection の名前。
 
 - **type** (*ShowCollectionsType*) 
 
@@ -63,7 +63,7 @@ listCollections({
 
     この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、何らかのレスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;ShowCollectionsResponse&gt;*
 
@@ -80,17 +80,17 @@ listCollections({
 
 **PARAMETERS:**
 
-- **data** (*CollectionData[]*) -
-collection データオブジェクトのリストです。各エントリには、collection 名、ID、タイムスタンプ、ロード済みの割合が含まれます。
+- **data** (*CollectionData[]*) -<br/>
+  collection データオブジェクトの一覧です。各エントリには、collection 名、ID、タイムスタンプ、およびロード率が含まれます。
 
-- **created_timestamps** (*string[]*) -
-各 collection が作成された時刻を示すハイブリッドタイムスタンプのリストです。
+- **created_timestamps** (*string[]*) -<br/>
+  各 collection が作成された時刻を示すハイブリッドタイムスタンプの一覧です。
 
-- **created_utc_timestamps** (*string[]*) -
-各 collection が作成された時刻を示す UTC タイムスタンプのリストです。
+- **created_utc_timestamps** (*string[]*) -<br/>
+  各 collection が作成された時刻を示す UTC タイムスタンプの一覧です。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 

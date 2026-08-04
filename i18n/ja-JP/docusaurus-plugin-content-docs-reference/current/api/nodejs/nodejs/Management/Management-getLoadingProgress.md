@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection の読み込み進捗を取得します。 | Node.js"
+description: "この操作は、特定の collection のロード進行状況を取得します。 | Node.js"
 type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
 keywords: 
   - 自然言語検索
   - 類似性検索
-  - マルチモーダル RAG
+  - マルチモーダルRAG
   - llm hallucinations
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getLoadingProgress()
 
-この操作は、特定の collection の読み込み進捗を取得します。
+この操作は、特定の collection のロード進行状況を取得します。
 
 ```javascript
 await milvusClient.getLoadingProgress(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.getLoadingProgress({
@@ -56,7 +56,7 @@ await milvusClient.getLoadingProgress({
 
 - **collection_name** (*string*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
     対象の collection の名前。
 
@@ -66,7 +66,7 @@ await milvusClient.getLoadingProgress({
 
 - **timeout** (number) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;GetLoadingProgressResponse&gt;*
 
@@ -81,25 +81,25 @@ await milvusClient.getLoadingProgress({
 
 **パラメータ:**
 
-- **progress** (*string*) -
-読み込み操作の完了率です。**"0"** から **"100"** までの整数で表されます。この値が **"100"** に達すると、collection は完全に読み込まれます。
+- **progress** (*string*) -<br/>
+  ロード操作の完了率。**"0"** から **"100"** までの整数で表されます。この値が **"100"** に達すると、collection は完全にロードされています。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

@@ -47,9 +47,9 @@ milvusClient.listUsers()
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。
+    この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;ListCredUsersResponse&gt;*
 
@@ -64,11 +64,11 @@ milvusClient.listUsers()
 
 **PARAMETERS:**
 
-- **usernames** (*string[]*) -
-現在の Milvus インスタンスに存在するユーザー名のリスト。
+- **usernames** (*string[]*) -<br/>
+  現在の Milvus インスタンスに存在するユーザー名のリスト。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

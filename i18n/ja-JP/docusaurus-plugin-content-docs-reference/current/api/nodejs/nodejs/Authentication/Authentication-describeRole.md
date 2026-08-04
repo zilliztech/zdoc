@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は特定のロールの詳細を取得します。 | Node.js"
+description: "この操作は特定のロールを記述します。 | Node.js"
 type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 9
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeRole()
 
-この操作は特定のロールの詳細を取得します。
+この操作は特定のロールを記述します。
 
 ```javascript
 await milvusClient.describeRole(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.describeRole({
@@ -47,13 +47,13 @@ await milvusClient.describeRole({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **roleName** (*string*) -
 
     **[REQUIRED]**
 
-    詳細を取得するロールの名前。
+    記述するロールの名前。
 
 - **includeUserInfo** (*boolean*) -
 
@@ -63,9 +63,9 @@ await milvusClient.describeRole({
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、レスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;SelectRoleResponse&gt;*
+**戻り値** *Promise&lt;SelectRoleResponse&gt;*
 
 このメソッドは、**SelectRoleResponse** オブジェクトに解決される promise を返します。
 
@@ -76,14 +76,14 @@ await milvusClient.describeRole({
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **results** (*RoleResult[]*) -
-**RoleResult** オブジェクトのリスト。`describeRole()` では、このリストには要求されたロールを説明する単一のエントリが含まれます。
+- **results** (*RoleResult[]*) -<br/>
+  **RoleResult** オブジェクトのリスト。`describeRole()` では、このリストにはリクエストされたロールを記述する単一のエントリが含まれます。
 
     - **role** (*RoleEntity*) -
 
-        ロールを説明する **RoleEntity** オブジェクト。
+        ロールを記述する **RoleEntity** オブジェクト。
 
         - **name** (*string*) -
 
@@ -95,7 +95,7 @@ await milvusClient.describeRole({
 
     - **users** (*User[]*) -
 
-        このロールを保持しているユーザーのリスト。
+        このロールを保持するユーザーのリスト。
 
         - **name** (*string*) -
 
@@ -107,7 +107,7 @@ await milvusClient.describeRole({
 
     - **entities** (*GrantEntity[]*) -
 
-        このロールに関連付けられた権限付与のリスト。各エントリには、付与された権限、対象オブジェクト、およびそれを付与したユーザーが含まれます。
+        このロールに付与された権限のリスト。各エントリには、付与された権限、対象オブジェクト、およびそれを付与したユーザーが含まれます。
 
         - **role** (*RoleEntity*) -
 
@@ -115,11 +115,11 @@ await milvusClient.describeRole({
 
         - **object** (*ObjectEntity*) -
 
-        権限が適用されるオブジェクトタイプ（たとえば、**Collection**、**Global**、**User**）。
+        権限が適用されるオブジェクトタイプ（例: **Collection**、**Global**、**User**）。
 
         - **object_name** (*string*) -
 
-        権限が適用される特定のオブジェクト名。すべてのオブジェクトには `*` を使用します。
+        権限が適用される特定のオブジェクト名。すべてのオブジェクトを対象にするには `*` を使用します。
 
         - **grantor** (*Grantor*) -
 
@@ -135,7 +135,7 @@ await milvusClient.describeRole({
 
         - **db_name** (*string*) -
 
-        権限付与が適用されるデータベース。すべてのデータベースには `*` を使用します。
+        付与が適用されるデータベース。すべてのデータベースを対象にするには `*` を使用します。
 
         - **role** (*RoleEntity*) -
 
@@ -143,11 +143,11 @@ await milvusClient.describeRole({
 
         - **object** (*ObjectEntity*) -
 
-            権限が適用されるオブジェクトタイプ（たとえば、**Collection**、**Global**、**User**）。
+            権限が適用されるオブジェクトタイプ（例: **Collection**、**Global**、**User**）。
 
         - **object_name** (*string*) -
 
-            権限が適用される特定のオブジェクト名。すべてのオブジェクトには `*` を使用します。
+            権限が適用される特定のオブジェクト名。すべてのオブジェクトを対象にするには `*` を使用します。
 
         - **grantor** (*Grantor*) -
 
@@ -171,10 +171,10 @@ await milvusClient.describeRole({
 
         - **db_name** (*string*) -
 
-            権限付与が適用されるデータベース。すべてのデータベースには `*` を使用します。
+            付与が適用されるデータベース。すべてのデータベースを対象にするには `*` を使用します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -188,7 +188,7 @@ await milvusClient.describeRole({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 milvusClient.describeRole({roleName: 'myrole'});

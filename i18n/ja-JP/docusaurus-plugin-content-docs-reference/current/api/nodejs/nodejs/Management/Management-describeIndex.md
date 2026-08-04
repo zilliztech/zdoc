@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は特定のインデックスの情報を取得します。 | Node.js"
+description: "この操作は特定のインデックスの説明情報を取得します。 | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 4
 keywords: 
   - knn
-  - 画像検索
+  - Image Search
   - LLMs
-  - 機械学習
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeIndex()
 
-この操作は特定のインデックスの情報を取得します。
+この操作は特定のインデックスの説明情報を取得します。
 
 ```javascript
 await milvusClient.describeIndex(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
  milvusClient.describeIndex({ 
@@ -57,7 +57,7 @@ await milvusClient.describeIndex(data)
 
 - **collection_name** (*string*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
     既存のコレクションの名前。
 
@@ -67,15 +67,15 @@ await milvusClient.describeIndex(data)
 
 - **index_name** (*string*) -
 
-    説明するインデックスの名前。
+    説明情報を取得するインデックスの名前。
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;DescribeIndexResponse&gt;*
 
-このメソッドは **DescribeIndexResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**DescribeIndexResponse** オブジェクトに解決される promise を返します。
 
 ```typescript
 {
@@ -86,8 +86,8 @@ await milvusClient.describeIndex(data)
 
 **パラメータ:**
 
-- **index_descriptions** (*IndexDescription[]*) -
-要求されたコレクションのインデックス説明の一覧。**field_name** または **index_name** が指定されている場合、この一覧には一致するエントリのみが含まれます。
+- **index_descriptions** (*IndexDescription[]*) -<br/>
+  要求されたコレクションのインデックス説明情報のリスト。**field_name** または **index_name** が指定された場合、リストには一致するエントリのみが含まれます。
 
     - **index_name** (*string*) -
 
@@ -115,7 +115,7 @@ await milvusClient.describeIndex(data)
 
     - **state** (*string*) -
 
-        インデックスの構築状態。取り得る値は **IndexStateNone**、**Unissued**、**InProgress**、**Finished**、**Failed** です。
+        インデックスの構築状態。可能な値は **IndexStateNone**、**Unissued**、**InProgress**、**Finished**、および **Failed** です。
 
     - **index_state_fail_reason** (*string*) -
 
@@ -123,10 +123,10 @@ await milvusClient.describeIndex(data)
 
     - **pending_index_rows** (*string*) -
 
-        まだインデックス化を待っている行数。
+        まだインデックス化待ちの行数。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -140,7 +140,7 @@ await milvusClient.describeIndex(data)
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

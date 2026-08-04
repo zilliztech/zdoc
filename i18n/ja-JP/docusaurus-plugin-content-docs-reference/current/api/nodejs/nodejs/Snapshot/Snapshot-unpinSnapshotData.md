@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はスナップショットデータの固定を解除し、不要になった際にガベージコレクションされるようにします。 | Node.js"
+description: "この操作はスナップショットデータのピン留めを解除し、不要になったときにガベージコレクションの対象にできるようにします。 | Node.js"
 type: docx
 token: IjXedJe6poxhmAx6hFpcpNyJnsb
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # unpinSnapshotData()
 
-この操作はスナップショットデータの固定を解除し、不要になった際にガベージコレクションされるようにします。
+この操作はスナップショットデータのピン留めを解除し、不要になったときにガベージコレクションの対象にできるようにします。
 
 ```typescript
 await milvusClient.unpinSnapshotData(data: UnpinSnapshotDataReq)
@@ -49,15 +49,15 @@ await milvusClient.unpinSnapshotData({
 
 **パラメータ:**
 
-- **pin_id** (*number | string*) -
-**[必須]**
-pinSnapshotData() によって返される pin ID。
+- **pin_id** (*number | string*) -<br/>
+  **[必須]**<br/>
+  pinSnapshotData() によって返される pin ID。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒単位）。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機を続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するオプションの時間（ミリ秒）。`undefined` に設定すると、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡のためのトレース ID。オプションです。
 
 **戻り値:**
 
@@ -67,7 +67,7 @@ RPC に許可するオプションの時間（ミリ秒単位）。`undefined` �
 
 - **MilvusError**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 

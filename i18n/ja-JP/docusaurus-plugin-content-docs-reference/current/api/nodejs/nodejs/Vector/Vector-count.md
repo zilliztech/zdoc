@@ -13,8 +13,8 @@ token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
 sidebar_position: 1
 keywords: 
   - 動画検索
-  - AI Hallucination
-  - AI Agent
+  - AI ハルシネーション
+  - AI エージェント
   - セマンティック検索
   - zilliz
   - zilliz cloud
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.count(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.count({
@@ -48,7 +48,7 @@ await milvusClient.count({
 })
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **db_name** (*str*) -
 
@@ -58,19 +58,19 @@ await milvusClient.count({
 
     **[REQUIRED]**
 
-    エイリアスを作成する対象の collection の名前。
+    エイリアスを作成する collection の名前。
 
 - **expr** (*string*) -
 
     一致するエンティティを絞り込むための scalar フィルタリング条件。 
 
-    scalar フィルタリングをスキップするには、このパラメーターを空文字列に設定できます。scalar フィルタリング条件の作成方法については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
+    scalar フィルタリングをスキップするには、このパラメータを空文字列に設定できます。scalar フィルタリング条件の作成については、[Boolean Expression Rules](https://milvus.io/docs/boolean.md) を参照してください。 
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが返るかエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;CountResult&gt;*
+**RETURNS** *Promise&lt;CountResult&gt;*
 
 このメソッドは、**CountResult** オブジェクトに解決される promise を返します。
 
@@ -81,13 +81,13 @@ await milvusClient.count({
 }
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **data** (*number*) -
-指定されたフィルタ式に一致する collection 内の行数。式が指定されていない場合、これは総行数です。
+- **data** (*number*) -<br/>
+  指定されたフィルタ式に一致する collection 内の行数。式が指定されていない場合、これは総行数です。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -99,9 +99,9 @@ await milvusClient.count({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 ```javascript
 const milvusClient = new MilvusClient({

@@ -12,7 +12,7 @@ type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 9
 keywords: 
-  - milvus benchmark
+  - milvus ベンチマーク
   - managed milvus
   - Serverless vector database
   - milvus open source
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getCompactionState(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.getCompactionState({ 
@@ -46,7 +46,7 @@ await milvusClient.getCompactionState({
 })
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **compactionID** (*string | number*) -
 
@@ -58,7 +58,7 @@ await milvusClient.getCompactionState({
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、いずれかのレスポンスが返された時点、またはエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点で、この操作はタイムアウトします。
 
 **戻り値** *Promise&lt;GetCompactionStateResponse&gt;*
 
@@ -75,25 +75,25 @@ await milvusClient.getCompactionState({
 }
 ```
 
-**パラメーター:**
+**パラメータ:**
 
-- **state** (*CompactionState*) -
-compaction の集約状態。取り得る値は **UndefiedState**、**Executing**、および **Completed** です。
+- **state** (*CompactionState*) -<br/>
+  compaction の集約状態。指定可能な値は **UndefiedState**、**Executing**、**Completed** です。
 
-- **executingPlanNo** (*string*) -
-現在も実行中のプラン数。
+- **executingPlanNo** (*string*) -<br/>
+  まだ実行中のプラン数。
 
-- **timeoutPlanNo** (*string*) -
-タイムアウトしたプラン数。
+- **timeoutPlanNo** (*string*) -<br/>
+  タイムアウトしたプラン数。
 
-- **completedPlanNo** (*string*) -
-正常に完了したプラン数。
+- **completedPlanNo** (*string*) -<br/>
+  正常に完了したプラン数。
 
-- **failedPlanNo** (*string*) -
-失敗したプラン数。
+- **failedPlanNo** (*string*) -<br/>
+  失敗したプラン数。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -107,7 +107,7 @@ compaction の集約状態。取り得る値は **UndefiedState**、**Executing*
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient({

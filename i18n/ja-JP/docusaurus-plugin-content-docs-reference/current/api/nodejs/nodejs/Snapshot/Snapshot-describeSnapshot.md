@@ -12,10 +12,10 @@ type: docx
 token: KNOwdbcYXoVwGEx8ysScLO1CnUd
 sidebar_position: 2
 keywords: 
-  - vector 検索アルゴリズム
-  - 質問応答システム
+  - vector search algorithms
+  - Question answering system
   - llm-as-a-judge
-  - ハイブリッド vector 検索
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,22 +51,22 @@ await milvusClient.describeSnapshot({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
-**[REQUIRED]**
-snapshot が属する collection の名前。
+- **collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  snapshot が属する collection の名前。
 
-- **snapshot_name** (*string*) -
-**[REQUIRED]**
-詳細を取得する snapshot の名前。
+- **snapshot_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  説明対象の snapshot の名前。
 
-- **db_name** (*string*) -
-database の名前。オプションです。
+- **db_name** (*string*) -<br/>
+  データベースの名前。省略可能です。
 
-- **timeout** (*number*) -
-RPC に許可する任意の時間（ミリ秒）。`undefined` に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する時間の長さ（ミリ秒）の省略可能な値です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。省略可能です。
 
 **RETURNS** *Promise&lt;DescribeSnapshotResponse&gt;*
 
@@ -86,38 +86,38 @@ RPC に許可する任意の時間（ミリ秒）。`undefined` に設定する�
 
 **PARAMETERS:**
 
-- **name** (*string*) -
-snapshot 名。
+- **name** (*string*) -<br/>
+  snapshot の名前。
 
-- **description** (*string*) -
-snapshot 作成時に指定された説明。指定されていない場合は空文字列です。
+- **description** (*string*) -<br/>
+  snapshot 作成時に指定された説明、指定されなかった場合は空文字列です。
 
-- **collection_name** (*string*) -
-この snapshot を所有する collection。
+- **collection_name** (*string*) -<br/>
+  snapshot を所有する collection。
 
-- **partition_names** (*string[]*) -
-snapshot によって取得された partition 名。
+- **partition_names** (*string[]*) -<br/>
+  snapshot によって取得された partition 名。
 
-- **create_ts** (*string*) -
-snapshot が作成された時点の hybrid timestamp。
+- **create_ts** (*string*) -<br/>
+  snapshot が作成された時点のハイブリッドタイムスタンプ。
 
-- **s3_location** (*string*) -
-snapshot データが永続化されるオブジェクトストア URI。
+- **s3_location** (*string*) -<br/>
+  snapshot データが永続化されるオブジェクトストア URI。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

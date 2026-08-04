@@ -37,17 +37,17 @@ import Admonition from '@theme/Admonition';
 await milvusClient.compact(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.compact()
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **collection_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
     エイリアスを再割り当てする対象 collection の名前。
 
@@ -55,9 +55,9 @@ milvusClient.compact()
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
-**戻り値** *Promise&lt;CompactionResponse&gt;*
+**RETURNS** *Promise&lt;CompactionResponse&gt;*
 
 このメソッドは、**CompactionResponse** オブジェクトに解決される promise を返します。
 
@@ -69,16 +69,16 @@ milvusClient.compact()
 }
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **compactionID** (*string*) -
-compaction 操作の識別子です。進行状況をポーリングするには、この値を `getCompactionState()` または `getCompactionStateWithPlans()` に渡します。
+- **compactionID** (*string*) -<br/>
+  圧縮操作の識別子。この値を `getCompactionState()` または `getCompactionStateWithPlans()` に渡して進行状況をポーリングします。
 
-- **compactionPlanCount** (*number*) -
-この操作のために生成された compaction plan の数。
+- **compactionPlanCount** (*number*) -<br/>
+  この操作のために生成された圧縮プランの数。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -92,7 +92,7 @@ compaction 操作の識別子です。進行状況をポーリングするには
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient({
