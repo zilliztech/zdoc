@@ -116,6 +116,7 @@ test('expired links create one bounded alert card with explicit final state', ()
 
 test('watchdog contains none of the retired or stateful checker design', () => {
   assert.doesNotMatch(source, /^\s+cache:/m)
+  assert.doesNotMatch(source, /uses:\s*actions\/cache@/)
   assert.doesNotMatch(source, /\bbaseline\b/i)
   assert.doesNotMatch(source, /\backnowledg(?:e|ement)\b/i)
   assert.doesNotMatch(source, /\bsuppress(?:ion|ed)?\b/i)
