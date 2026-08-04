@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、主キー値または filter expression によって collection からエンティティを削除します。 | Go | v2"
+description: "この操作は、主キー値またはフィルター式によって collection からエンティティを削除します。 | Go | v2"
 type: docx
 token: ZIm2dVn5noFLpAxRkjbc6jiSnee
-sidebar_position: 2
+sidebar_position: 7
 keywords: 
   - ベクトル化
-  - k 近傍法
+  - k 最近傍アルゴリズム
   - ANNS
   - ベクトル検索
   - zilliz
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # Delete()
 
-この操作は、主キー値または filter expression によって collection からエンティティを削除します。
+この操作は、主キー値またはフィルター式によって collection からエンティティを削除します。
 
 ```go
 func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ...grpc.CallOption) (DeleteResult, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := milvusclient.NewDeleteOption(collectionName).
@@ -49,45 +49,45 @@ option := milvusclient.NewDeleteOption(collectionName).
 result, err := client.Delete(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collectionName** (*string*)
 
     対象の collection の名前。
 
-**OPTION METHODS:**
+**オプションメソッド:**
 
 - `WithExpr(expr string)`
 
-    この操作の expr を設定します。
+    操作の expr を設定します。
 
 - `WithInt64IDs(fieldName string, ids []int64)`
 
-    この操作の int64 IDs を設定します。
+    操作の int64 ID を設定します。
 
 - `WithStringIDs(fieldName string, ids []string)`
 
-    この操作の string IDs を設定します。
+    操作の string ID を設定します。
 
 - `WithPartition(partitionName string)`
 
-    この操作の partition を設定します。
+    操作の partition を設定します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *[DeleteResult](./v2-Vector-DeleteResult), error*
 
-**RETURNS:**
+**戻り値:**
 
-削除結果。操作が失敗した場合はエラーを返します。
+削除結果です。操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **error**
 
     失敗の詳細は `err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
 import (

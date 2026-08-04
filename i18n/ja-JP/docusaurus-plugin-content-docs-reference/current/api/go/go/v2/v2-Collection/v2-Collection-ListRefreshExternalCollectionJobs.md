@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、すべてまたは指定した collection の external collection refresh job を一覧表示します。 | Go | v2"
+description: "この操作は、すべてまたは指定された collection の external collection refresh job を一覧表示します。 | Go | v2"
 type: docx
 token: KTeqdqUI2o3YO1xg3EXcJqGcnbe
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
-  - vector database はどのように動作するか
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - ベクトルデータベースはどのように動作するか
+  - ベクトル db 比較
+  - openai ベクトル db
+  - 自然言語処理データベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - ListRefreshExternalCollectionJobs()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListRefreshExternalCollectionJobs()
 
-この操作は、すべてまたは指定した collection の external collection refresh job を一覧表示します。
+この操作は、すべてまたは指定された collection の external collection refresh job を一覧表示します。
 
 ```go
 func (c *Client) ListRefreshExternalCollectionJobs(ctx context.Context, option ListRefreshExternalCollectionJobsOption, callOptions ...grpc.CallOption) ([]*entity.RefreshExternalCollectionJobInfo, error) {
@@ -86,7 +86,7 @@ PARAMETERS:
 
 - **State** (*string*) -
 
-    指定した job の現在の状態です。可能な値は次のとおりです。
+    指定された job の現在の状態です。指定可能な値は次のとおりです。
 
     - RefreshPending
 
@@ -98,11 +98,11 @@ PARAMETERS:
 
 - **Progress** (*int64*) -
 
-    指定した job の現在の進行状況です。値は 0 から 100 までの整数です。
+    指定された job の現在の進行状況です。値は 0 から 100 までの整数です。
 
 - **Reason** (*string*) -
 
-    refresh 操作が失敗した場合のエラープロンプトです。通常時は空文字列です。
+    refresh 操作が失敗した場合のエラーメッセージです。通常は空文字列です。
 
 - **ExternalSource** (*string*) -
 
@@ -110,19 +110,19 @@ PARAMETERS:
 
 - **StartTime** (*int64*) -
 
-    指定した job が開始した時点のタイムスタンプ（ミリ秒）です。
+    指定された job が開始された時点のミリ秒単位のタイムスタンプです。
 
 - **EndTime** (*int64*) -  
 
-    指定した job が終了した時点のタイムスタンプ（ミリ秒）です。
+    指定された job が終了した時点のミリ秒単位のタイムスタンプです。
 
 ## Example\{#example}
 
 ```go
-// 指定した collection の refresh job を一覧表示します
+// List refresh jobs of a specified collection
 option := client.NewListRefreshExternalCollectionJobsOption("test_collection")
 
-// すべての external collection の refresh job を一覧表示します
+// List refresh jobs of all external collections
 option = client.NewListRefreshExternalCollectionJobsOption()
 
 result, err = client.ListRefreshExternalCollectionJobs(option)

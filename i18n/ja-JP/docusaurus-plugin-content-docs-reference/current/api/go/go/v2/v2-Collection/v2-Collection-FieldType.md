@@ -4,12 +4,12 @@ slug: /go/go/v2-Collection-FieldType
 sidebar_label: "FieldType"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "コレクションのフィールドでサポートされているデータ型を列挙します。 | Go | v2"
+description: "サポートされている Milvus フィールドデータ型を列挙し、vector 型を識別するためのヘルパーを提供します。 | Go | v2"
 type: docx
-token: Xq9Ydn3OJoYrHmxMVOLcMn9onHc
+token: V6aWdRUh3o1alDxmCo5c29hRnic
 sidebar_position: 16
 keywords: 
   - IVF
@@ -31,118 +31,121 @@ import Admonition from '@theme/Admonition';
 
 # FieldType
 
-コレクションのフィールドでサポートされているデータ型を列挙します。
+サポートされている Milvus フィールドデータ型を列挙し、vector 型を識別するためのヘルパーを提供します。
 
-```go
-type FieldType int32
-```
+**RETURN TYPE:**
 
-**値:**
+*FieldType*
 
-- **FieldTypeNone** = 0
+**RETURNS:**
 
-    型が指定されていません。
+collection フィールドでサポートされるデータ型を列挙します。
 
-- **FieldTypeBool** = 1
+- **FieldTypeNone** (*int32*) -
 
-    Boolean 型。
+    Default: `0`
 
-- **FieldTypeInt8** = 2
+    ゼロ値のプレースホルダー。
 
-    8 ビット整数型。
+- **FieldTypeBool** (*int32*) -
 
-- **FieldTypeInt16** = 3
+    Default: `1`
 
-    16 ビット整数型。
+- **FieldTypeInt8** (*int32*) -
 
-- **FieldTypeInt32** = 4
+    Default: `2`
 
-    32 ビット整数型。
+- **FieldTypeInt16** (*int32*) -
 
-- **FieldTypeInt64** = 5
+    Default: `3`
 
-    64 ビット整数型。
+- **FieldTypeInt32** (*int32*) -
 
-- **FieldTypeFloat** = 10
+    Default: `4`
 
-    32 ビット浮動小数点型。
+- **FieldTypeInt64** (*int32*) -
 
-- **FieldTypeDouble** = 11
+    Default: `5`
 
-    64 ビット浮動小数点型。
+- **FieldTypeFloat** (*int32*) -
 
-- **FieldTypeTimestamptz** = 15
+    Default: `10`
 
-    タイムゾーン対応のタイムスタンプ型。
+- **FieldTypeDouble** (*int32*) -
 
-- **FieldTypeString** = 20
+    Default: `11`
 
-    文字列型（VarChar のエイリアス）。
+- **FieldTypeString** (*int32*) -
 
-- **FieldTypeVarChar** = 21
+    Default: `20`
 
-    可変長文字列型。
+- **FieldTypeVarChar** (*int32*) -
 
-- **FieldTypeArray** = 22
+    Default: `21`
 
-    固定された要素型を持つ配列型。
+    指定された最大長を持つ可変長文字列。
 
-- **FieldTypeJSON** = 23
+- **FieldTypeArray** (*int32*) -
 
-    JSON ドキュメント型。
+    Default: `22`
 
-- **FieldTypeGeometry** = 24
+- **FieldTypeJSON** (*int32*) -
 
-    Geometry 空間型。
+    Default: `23`
 
-- **FieldTypeBinaryVector** = 100
+- **FieldTypeGeometry** (*int32*) -
 
-    バイナリベクトル型。
+    Default: `24`
 
-- **FieldTypeFloatVector** = 101
+- **FieldTypeTimestamptz** (*int32*) -
 
-    32 ビット浮動小数点ベクトル型。
+    Default: `26`
 
-- **FieldTypeFloat16Vector** = 102
+- **FieldTypeBinaryVector** (*int32*) -
 
-    16 ビット浮動小数点ベクトル型。
+    Default: `100`
 
-- **FieldTypeBFloat16Vector** = 103
+- **FieldTypeFloatVector** (*int32*) -
 
-    Brain floating-point 16 ビットベクトル型。
+    Default: `101`
 
-- **FieldTypeSparseVector** = 104
+- **FieldTypeFloat16Vector** (*int32*) -
 
-    スパースベクトル型。
+    Default: `102`
 
-- **FieldTypeInt8Vector** = 105
+- **FieldTypeBFloat16Vector** (*int32*) -
 
-    8 ビット整数ベクトル型。
+    Default: `103`
 
-- **FieldTypeStruct** = 201
+- **FieldTypeSparseVector** (*int32*) -
 
-    ネストされたフィールドを持つ Struct 型。
+    Default: `104`
+
+- **FieldTypeInt8Vector** (*int32*) -
+
+    Default: `105`
+
+- **FieldTypeStruct** (*int32*) -
+
+    Default: `201`
 
 ## Example\{#example}
 
+FieldType の使用方法を示します。
+
 ```go
 import (
-    "github.com/milvus-io/milvus/client/v2/entity"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v3/entity"
 )
 
-// Use FieldType when defining collection fields
-vectorField := entity.NewField().
-    WithName("embedding").
-    WithDataType(entity.FieldTypeFloatVector).
-    WithDim(768)
-
-pkField := entity.NewField().
-    WithName("id").
-    WithDataType(entity.FieldTypeInt64).
-    WithIsPrimaryKey(true)
-
-varcharField := entity.NewField().
-    WithName("category").
-    WithDataType(entity.FieldTypeVarChar).
-    WithMaxLength(256)
+fieldType := entity.FieldTypeFloatVector
+fmt.Println(fieldType.Name())
+fmt.Println(fieldType.IsVectorType())
 ```
+
+## Notes\{#notes}
+
+- `IsVectorType()` は、binary、float、float16、bfloat16、sparse、および int8 の vector フィールド型に対して true を返します。
+

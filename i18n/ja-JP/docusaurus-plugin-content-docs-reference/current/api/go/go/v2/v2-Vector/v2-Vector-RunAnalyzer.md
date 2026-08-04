@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、入力テキストに対してテキストアナライザーを実行し、トークン化された出力を返します。 | Go | v2"
+description: "この操作は入力テキストに対してテキストアナライザーを実行し、トークン化された出力を返します。 | Go | v2"
 type: docx
 token: CnuHdninQoBoJXxWe2pczq7snGd
-sidebar_position: 11
+sidebar_position: 16
 keywords: 
   - milvus vector db
   - Zilliz Cloud
-  - milvus とは
+  - what is milvus
   - milvus database
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # RunAnalyzer()
 
-この操作は、入力テキストに対してテキストアナライザーを実行し、トークン化された出力を返します。
+この操作は入力テキストに対してテキストアナライザーを実行し、トークン化された出力を返します。
 
 ```go
 func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, callOptions ...grpc.CallOption) ([]*entity.AnalyzerResult, error)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```go
 option := milvusclient.NewRunAnalyzerOption(text).
@@ -51,17 +51,17 @@ option := milvusclient.NewRunAnalyzerOption(text).
 result, err := client.RunAnalyzer(ctx, option)
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **text** (*...string*)
 
-    テキスト。
+    テキストです。
 
-**オプションメソッド:**
+**OPTION METHODS:**
 
 - `WithAnalyzerParamsStr(params string)`
 
-    この操作の analyzer params str を設定します。
+    この操作の analyzer params 文字列を設定します。
 
 - `WithAnalyzerParams(params map[string]any)`
 
@@ -83,21 +83,21 @@ result, err := client.RunAnalyzer(ctx, option)
 
     この操作の analyzer name を設定します。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *[]*entity.AnalyzerResult, error*
 
-**戻り値:**
+**RETURNS:**
 
-入力テキストがどのようにトークン化されるかを示す analyzer の出力です。操作が失敗した場合はエラーを返します。
+入力テキストがどのようにトークン化されるかを示す analyzer 出力です。操作が失敗した場合はエラーを返します。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **error**
 
     失敗の詳細は `err != nil` を確認してください。
 
-## 例\{#example}
+## Example\{#example}
 
 ```go
 import (

@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された外部コレクションのリフレッシュジョブの進行状況を返します。 | Go | v2"
+description: "この操作は、指定された外部コレクションリフレッシュジョブの進行状況を返します。 | Go | v2"
 type: docx
 token: OTM3db7aroAXAYxrTy4cyVbwnGG
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
   - 安価なベクトルデータベース
   - マネージドベクトルデータベース
   - Pinecone ベクトルデータベース
-  - オーディオ検索
+  - 音声検索
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # GetRefreshExternalCollectionProgress()
 
-この操作は、指定された外部コレクションのリフレッシュジョブの進行状況を返します。
+この操作は、指定された外部コレクションリフレッシュジョブの進行状況を返します。
 
 ```go
 func (c *Client) GetRefreshExternalCollectionProgress(ctx context.Context, option GetRefreshExternalCollectionProgressOption, callOptions ...grpc.CallOption) (*entity.RefreshExternalCollectionJobInfo, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := client.NewGetRefreshExternalCollectionProgressOption(jobID)
@@ -45,19 +45,19 @@ option := client.NewGetRefreshExternalCollectionProgressOption(jobID)
 result, err := client.GetRefreshExternalCollectionProgress(option)
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **jobID** (*int64*) -
 
     `refresh_external_collection()` によって返されるジョブ ID。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *&ast;entity.RefreshExternalCollectionJobInfo*
 
-**RETURNS:**
+**戻り値:**
 
-指定された外部コレクションのリフレッシュジョブの詳細を記録する struct 型です。
+指定された外部コレクションリフレッシュジョブの詳細を記録する構造体型です。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
@@ -72,9 +72,9 @@ type RefreshExternalCollectionJobInfo struct {
 }
 ```
 
-PARAMETERS:
+パラメータ:
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **JobID** (*int64*) -
 
@@ -110,13 +110,13 @@ PARAMETERS:
 
 - **StartTime** (*int64*) -
 
-    指定されたジョブが開始された時刻のミリ秒タイムスタンプ。
+    指定されたジョブが開始される時点のミリ秒単位のタイムスタンプ。
 
 - **EndTime** (*int64*) -  
 
-    指定されたジョブが終了した時刻のミリ秒タイムスタンプ。
+    指定されたジョブが終了する時点のミリ秒単位のタイムスタンプ。
 
-## Examples:\{#examples}
+## 例:\{#examples}
 
 ```go
 refreshResult, err := client.RefreshExternalCollection(ctx,

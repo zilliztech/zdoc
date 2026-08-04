@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "削除されたエンティティ数を含む Delete 操作の結果を格納します。 | Go | v2"
+description: "削除されたエンティティ数を含む Delete 操作の結果を保持します。 | Go | v2"
 type: docx
 token: Gh4ydrMIBopZekxncUFcrJctnBl
-sidebar_position: 3
+sidebar_position: 8
 keywords: 
   - Pinecone vector database
-  - 音声検索
-  - セマンティック検索とは
+  - Audio search
+  - what is semantic search
   - Embedding model
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DeleteResult
 
-削除されたエンティティ数を含む Delete 操作の結果を格納します。
+削除されたエンティティ数を含む Delete 操作の結果を保持します。
 
 ```go
 type DeleteResult struct {
@@ -39,7 +39,7 @@ type DeleteResult struct {
 }
 ```
 
-**FIELDS:**
+**フィールド:**
 
 - **DeleteCount** (*int64*)
 

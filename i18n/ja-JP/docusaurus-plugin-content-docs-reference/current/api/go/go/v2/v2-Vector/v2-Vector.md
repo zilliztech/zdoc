@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "vector データのインターフェース。実装には FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector、および Text が含まれます。 | Go | v2"
+description: "vector データのインターフェース。実装には FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector、Text が含まれます。 | Go | v2"
 type: docx
 token: CE0odAFVdoh2ehxNFRecD8WEn3f
-sidebar_position: 16
+sidebar_position: 21
 keywords: 
   - 動画検索
   - AI ハルシネーション
@@ -18,7 +18,7 @@ keywords:
   - セマンティック検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - Vector
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Vector
 
-vector データのインターフェース。実装には FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector、および Text が含まれます。
+vector データのインターフェースです。実装には FloatVector、BinaryVector、Float16Vector、BFloat16Vector、Int8Vector、Text が含まれます。
 
 ```go
 type Vector interface {
@@ -53,29 +53,29 @@ type Vector interface {
 
 - `FieldType() FieldType`
 
-    この vector 型に対応する FieldType 列挙値を返します。
+    この vector タイプの FieldType 列挙値を返します。
 
 ## Vector 配列型\{#vector-array-types}
 
 - `FloatVectorArray`
 
-    これは複数の FloatVector 値を 1 つのクエリ vector スロットにまとめ、struct 配列の ArrayOfVector サブフィールドに対する MAX_SIM スタイルの検索に使用します。
+    複数の FloatVector 値を 1 つのクエリ vector スロットにまとめ、struct 配列の ArrayOfVector サブフィールドに対する MAX_SIM スタイルの検索に使用します。
 
 - `Float16VectorArray`
 
-    これは EmbListFloat16Vector 検索のために複数の Float16Vector 値をまとめます。
+    EmbListFloat16Vector 検索用に複数の Float16Vector 値をまとめます。
 
 - `BFloat16VectorArray`
 
-    これは EmbListBFloat16Vector 検索のために複数の BFloat16Vector 値をまとめます。
+    EmbListBFloat16Vector 検索用に複数の BFloat16Vector 値をまとめます。
 
 - `BinaryVectorArray`
 
-    これは EmbListBinaryVector 検索のために複数の BinaryVector 値をまとめます。
+    EmbListBinaryVector 検索用に複数の BinaryVector 値をまとめます。
 
 - `Int8VectorArray`
 
-    これは EmbListInt8Vector 検索のために複数の Int8Vector 値をまとめます。
+    EmbListInt8Vector 検索用に複数の Int8Vector 値をまとめます。
 
 ## 例\{#example}
 

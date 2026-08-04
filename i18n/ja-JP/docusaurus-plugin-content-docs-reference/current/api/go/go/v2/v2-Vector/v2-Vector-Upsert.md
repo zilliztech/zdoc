@@ -4,13 +4,13 @@ slug: /go/go/v2-Vector-Upsert
 sidebar_label: "Upsert()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、主キー値に基づいて新しい entity を挿入するか、既存の entity を更新します。 | Go | v2"
+description: "struct-array およびフィールドレベル配列操作を使用して行または列をアップサートし、この操作のクライアントテレメトリを記録します。 | Go | v2"
 type: docx
-token: O1oidP1nEoZmlrxzGRRc30mjn5d
-sidebar_position: 14
+token: PB5kdtzs8ok748xwRWacJbEUnze
+sidebar_position: 19
 keywords: 
   - milvus vector database
   - milvus db
@@ -31,166 +31,148 @@ import Admonition from '@theme/Admonition';
 
 # Upsert()
 
-この操作は、主キー値に基づいて新しい entity を挿入するか、既存の entity を更新します。
+struct-array およびフィールドレベル配列操作を使用して行または列をアップサートし、この操作のクライアントテレメトリを記録します。
 
 ```go
 func (c *Client) Upsert(ctx context.Context, option UpsertOption, callOptions ...grpc.CallOption) (UpsertResult, error)
 ```
 
-## Request Syntax\{#request-syntax}
+**パラメーター:**
 
-```go
-option := milvusclient.NewColumnBasedInsertOption(collName).
-	WithInt64Column(colName, data).
-	WithVarcharColumn(colName, data).
-	WithFloatVectorColumn(colName, dim, data).
-	WithBinaryVectorColumn(colName, dim, data).
-	WithBoolColumn(colName, data).
-	WithStructArrayColumn(colName, structSchema, rows).
-	WithPartition(partitionName).
-	WithPartialUpdate(partialUpdate).
-	WithArrayAppend(arrayFieldName)
+- **collName** (*string*) -
 
-// Alternative (row-based):
-// option := milvusclient.NewRowBasedInsertOption(collName, rows...)
+    **[必須]**
 
-result, err := client.Upsert(ctx, option)
-```
+    対象 collection の名前です。
 
-**PARAMETERS:**
+- **rows** (*...any*) -
 
-- **collName** (*string*)
+    **[必須]**
 
-ターゲット collection の名前。
+    挿入または更新する 1 つ以上の行の値です。
 
-**OPTION METHODS:**
+**ビルダーメソッド:**
 
 - `WithColumns(columns ...column.Column)`
 
-    任意の型付き column を挿入します。
+    指定した列を write リクエストに追加します。
 
 - `WithBoolColumn(colName string, data []bool)`
 
-    boolean 値の column を挿入します。
+    指定した名前と値を持つ Boolean scalar 列を追加します。
 
 - `WithInt8Column(colName string, data []int8)`
 
-    int8 値の column を挿入します。
+    指定した名前と値を持つ Int8 scalar 列を追加します。
 
 - `WithInt16Column(colName string, data []int16)`
 
-    int16 値の column を挿入します。
+    指定した名前と値を持つ Int16 scalar 列を追加します。
 
 - `WithInt32Column(colName string, data []int32)`
 
-    int32 値の column を挿入します。
+    指定した名前と値を持つ Int32 scalar 列を追加します。
 
 - `WithInt64Column(colName string, data []int64)`
 
-    int64 値の column を挿入します。
+    指定した名前と値を持つ Int64 scalar 列を追加します。
 
 - `WithVarcharColumn(colName string, data []string)`
 
-    string 値の column を挿入します。
+    指定した名前と値を持つ VarChar scalar 列を追加します。
 
 - `WithFloatVectorColumn(colName string, dim int, data [][]float32)`
 
-    float32 dense vector の column を挿入します。
+    指定した名前、次元、および値を持つ float-vector 列を追加します。
 
 - `WithFloat16VectorColumn(colName string, dim int, data [][]float32)`
 
-    float16 vector の column を挿入します（float32 から変換）。
+    指定された float32 vector を Float16 値に変換し、生成された vector 列を追加します。
 
 - `WithBFloat16VectorColumn(colName string, dim int, data [][]float32)`
 
-    bfloat16 vector の column を挿入します（float32 から変換）。
+    指定された float32 vector を BFloat16 値に変換し、生成された vector 列を追加します。
 
 - `WithBinaryVectorColumn(colName string, dim int, data [][]byte)`
 
-    binary vector の column を挿入します。
+    指定した名前、次元、および値を持つ binary-vector 列を追加します。
 
 - `WithInt8VectorColumn(colName string, dim int, data [][]int8)`
 
-    int8 vector の column を挿入します。
-
-- `WithPartition(partitionName string)`
-
-    upsert 操作の対象として特定の partition を指定します。
-
-- `WithPartialUpdate(partialUpdate bool)`
-
-    partial update モードを有効にし、指定されたフィールドのみを更新します（payload に含まれない既存フィールドは保持されます）。
+    指定した名前、次元、および値を持つ Int8-vector 列を追加します。
 
 - `WithStructArrayColumn(colName string, structSchema *entity.StructSchema, rows []map[string]any)`
 
-    行ごとの map から構築された struct-array column を upsert します。各行の map は struct のサブフィールド名をキーにします。scalar サブフィールドは `[]int32` や `[]string` などの slice を使用し、vector サブフィールドは `[][]float32`、`[][]byte`、`[][]int8` などのネストされた slice を使用します。
+    行ベースのサブフィールド値から構築された struct-array 列を追加します。各行はサブフィールド名をキーとする map であり、各値は `structSchema` で宣言された scalar または vector 型と一致している必要があります。
+
+- `WithPartition(partitionName string)`
+
+    write リクエストの対象 partition を設定します。
+
+- `WithNamespace(namespace string)`
+
+    WithNamespace は write の対象を collection namespace に限定します。主キーは delete/upsert tombstone では引き続き collection スコープであるため、呼び出し元は同じ collection 内の namespace 間で主キーが一意になるように維持する必要があります。
+
+- `WithPartialUpdate(partialUpdate bool)`
+
+    write リクエストの partial-update 動作を有効または無効にします。
 
 - `WithArrayAppend(fieldName string)`
 
-    Upsert 中に指定した array フィールドへ `ARRAY_APPEND` セマンティクスを適用します。`REPLACE` 以外のフィールド操作は自動的に partial update モードを有効にします。
+    WithArrayAppend は、Array フィールド `fieldName` が Upsert 中に ARRAY_APPEND セマンティクスでマージされるべきことを宣言します。非 REPLACE 操作が存在する場合、サーバーは暗黙的に partial_update を有効にするため、呼び出し元が `WithPartialUpdate(true)` を別途呼び出す必要はありません。
 
 - `WithArrayRemove(fieldName string)`
 
-    Upsert 中に指定した array フィールドへ `ARRAY_REMOVE` セマンティクスを適用します。`REPLACE` 以外のフィールド操作は自動的に partial update モードを有効にします。
+    WithArrayRemove は、Array フィールド `fieldName` が Upsert 中に ARRAY_REMOVE セマンティクスでマージされるべきことを宣言します。partial_update の暗黙的な昇格については WithArrayAppend を参照してください。
 
 - `WithFieldPartialOp(fieldName string, op schemapb.FieldPartialUpdateOp_OpType)`
 
-    明示的なフィールドレベルの partial update 操作を設定します。一般的な array append および remove の動作には、操作別のヘルパーを使用してください。`REPLACE` を渡すと、そのフィールドに対する以前の指示はクリアされます。
+    WithFieldPartialOp は、名前 `fieldName` のフィールドに明示的な FieldPartialUpdateOp を関連付けます。上級ユーザー向けであり、一般的なユーザーは操作固有のヘルパー（WithArrayAppend、WithArrayRemove）を使用することを推奨します。
 
-**RETURN TYPE:**
+- `WithKeepAutoIDPk(keepPk bool)`
 
-*[UpsertResult](./v2-Vector-UpsertResult), error*
+    自動 ID 生成が有効な場合に、行ベースの write で指定された主キー値を保持するかどうかを制御します。
 
-**RETURNS:**
+**戻り値の型:**
 
-影響を受けた entity の ID を含む upsert 結果です。操作が失敗した場合は error を返します。
+*UpsertResult, error*
 
-**EXCEPTIONS:**
+**戻り値:**
+
+影響を受けた行数と主キーを返します。加えて、リクエスト構築または RPC が失敗した場合は error を返します。
+
+**エラーハンドリング:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。
+    検証、リクエスト構築、または RPC が失敗しました。失敗の詳細は返された error を確認してください。
 
 ## Example\{#example}
+
+Upsert() の使用方法を示します。
 
 ```go
 import (
 	"context"
-	"fmt"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-	Address: milvusAddr,
-})
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{Address: "YOUR_CLUSTER_ENDPOINT"})
 if err != nil {
 	// handle error
 }
-
 defer cli.Close(ctx)
 
-resp, err := cli.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("quick_setup").
-	WithInt64Column("id", []int64{1, 2, 3, 4, 5, 6, 7, 8, 9}).
-	WithVarcharColumn("color", []string{"pink_8682", "red_7025", "orange_6781", "pink_9298", "red_4794", "yellow_4222", "red_9392", "grey_8510", "white_9381", "purple_4976"}).
-	WithFloatVectorColumn("vector", 5, [][]float32{
-		{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
-		{0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
-		{0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
-		{0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345},
-		{0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106},
-		{0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955},
-		{0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987},
-		{-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052},
-		{0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336},
-		{0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608},
-	}),
-)
+result, err := cli.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("books").
+	WithInt64Column("id", []int64{1}).
+	WithVarcharColumn("tags", []string{"featured"}).
+	WithArrayAppend("tags"))
 if err != nil {
-	// handle err
+	// handle error
 }
-fmt.Println(resp)
+_ = result
 ```

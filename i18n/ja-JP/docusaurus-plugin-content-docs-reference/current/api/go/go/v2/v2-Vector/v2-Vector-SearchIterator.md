@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、大規模な検索結果セットをページネーションするためのイテレーターを作成します。 | Go | v2"
+description: "この操作は、大規模な検索結果セットをページネーションするためのイテレータを作成します。 | Go | v2"
 type: docx
 token: K6obdWvXyoNLbMxNkggc9JyMnPd
-sidebar_position: 13
+sidebar_position: 18
 keywords: 
   - ベクトル検索
   - 音声類似検索
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # SearchIterator()
 
-この操作は、大規模な検索結果セットをページネーションするためのイテレーターを作成します。
+この操作は、大規模な検索結果セットをページネーションするためのイテレータを作成します。
 
 ```go
 func (c *Client) SearchIterator(ctx context.Context, option SearchIteratorOption, callOptions ...grpc.CallOption) (SearchIterator, error)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```go
 option := milvusclient.NewSearchIteratorOption(collectionName, vector).
@@ -60,33 +60,33 @@ option := milvusclient.NewSearchIteratorOption(collectionName, vector).
 result, err := client.SearchIterator(ctx, option)
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **collectionName** (*string*)
 
-    対象コレクションの名前です。
+    対象 collection の名前です。
 
 - **[vector](./v2-Vector)** (*entity.Vector*)
 
-    類似検索のためのクエリベクトルです。
+    類似検索のクエリ vector です。
 
-**オプションメソッド:**
+**OPTION METHODS:**
 
 - `WithBatchSize(batchSize int)`
 
-    各反復バッチで取得するエンティティ数を設定します。
+    1 回のイテレーションバッチごとに取得するエンティティ数を設定します。
 
 - `WithPartitions(partitionNames ...string)`
 
-    操作を指定したパーティションに限定します。
+    操作を指定した partition に制限します。
 
 - `WithFilter(expr string)`
 
-    結果を絞り込むためのブールフィルター式を適用します。
+    boolean フィルター式を適用して結果を絞り込みます。
 
 - `WithTemplateParam(key string, val any)`
 
-    式評価用のテンプレートパラメーターを設定します。
+    式評価用のテンプレートパラメータを設定します。
 
 - `WithOffset(offset int)`
 
@@ -102,51 +102,51 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithANNSField(annsField string)`
 
-    検索対象とするベクトルフィールドを指定します。
+    検索対象とする vector フィールドを指定します。
 
 - `WithGroupByField(groupByField string)`
 
-    検索結果をスカラーフィールド値ごとにグループ化します。
+    scalar フィールド値で検索結果をグループ化します。
 
 - `WithGroupSize(groupSize int)`
 
-    グループごとに返す結果数を設定します。
+    各グループごとに返す結果数を設定します。
 
 - `WithStrictGroupSize(strictGroupSize bool)`
 
-    結果内の各グループに対して厳密なグループサイズを適用します。
+    結果内の各グループに対して厳密なグループサイズを強制します。
 
 - `WithIgnoreGrowing(ignoreGrowing bool)`
 
-    高速化のために growing セグメントでの検索をスキップしますが、結果が不完全になる可能性があります。
+    より高速ですが不完全になる可能性のある結果のために、growing セグメント内の検索をスキップします。
 
 - `WithAnnParam(ap [index.AnnParam](./v2-Vector-AnnParam))`
 
-    近似最近傍探索のパラメーター（例: nprobe、ef）を設定します。
+    近似最近傍検索のパラメータ（例: nprobe、ef）を設定します。
 
 - `WithSearchParam(key, value string)`
 
-    カスタム検索パラメーターのキーと値のペアを設定します。
+    カスタム検索パラメータのキーと値のペアを設定します。
 
 - `WithIteratorLimit(limit int64)`
 
-    WithIteratorLimit は反復するエントリ数の上限を設定します。`limit < 0` の場合、Unlimited に設定されます。
+    WithIteratorLimit は反復するエントリの上限を設定します。`limit < 0` の場合、Unlimited に設定されます。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *[SearchIterator](./v2-Vector-SearchIterator), error*
 
-**戻り値:**
+**RETURNS:**
 
-検索結果をページネーションするための SearchIterator です。操作が失敗した場合は error を返します。
+検索結果をページネーションするための SearchIterator です。操作に失敗した場合はエラーを返します。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **error**
 
     失敗の詳細は `err != nil` を確認してください。
 
-## 例\{#example}
+## Example\{#example}
 
 ```go
 import (

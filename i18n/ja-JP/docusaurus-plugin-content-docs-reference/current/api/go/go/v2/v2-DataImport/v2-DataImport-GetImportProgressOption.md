@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この型は、RESTful API を介して単一の一括インポートジョブの進行状況を取得するリクエストを設定します。セルフホスト Milvus には `NewGetImportProgressOption()`、Zilliz Cloud には `NewCloudGetImportProgressOption()` を使用して構築します。認可トークンを追加するには `WithAPIKey()` をチェーンします。 | Go | v2"
+description: "この型は、RESTful API を介して単一の bulk import ジョブの進行状況を取得するリクエストを設定します。self-hosted Milvus では `NewGetImportProgressOption()`、Zilliz Cloud では `NewCloudGetImportProgressOption()` を使って構築します。認可トークンを追加するには `WithAPIKey()` をチェーンします。 | Go | v2"
 type: docx
 token: Whyodunisox4GwxOciucHVT7nNh
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetImportProgressOption
 
-この型は、RESTful API を介して単一の一括インポートジョブの進行状況を取得するリクエストを設定します。セルフホスト Milvus には `NewGetImportProgressOption()`、Zilliz Cloud には `NewCloudGetImportProgressOption()` を使用して構築します。認可トークンを追加するには `WithAPIKey()` をチェーンします。
+この型は、RESTful API を介して単一の bulk import ジョブの進行状況を取得するリクエストを設定します。self-hosted Milvus では `NewGetImportProgressOption()`、Zilliz Cloud では `NewCloudGetImportProgressOption()` を使って構築します。認可トークンを追加するには `WithAPIKey()` をチェーンします。
 
 ```go
 type GetImportProgressOption struct {
@@ -44,17 +44,17 @@ type GetImportProgressOption struct {
 
 **FIELDS:**
 
-- **URL** (*string*) -
-Milvus または Zilliz Cloud クラスターのベース URL。パスは含めないでください。関数が `/v2/vectordb/jobs/import/describe` を自動的に追加します。
+- **URL** (*string*) -<br/>
+  Milvus または Zilliz Cloud cluster のベース URL です。パスは含めないでください。関数が自動的に `/v2/vectordb/jobs/import/describe` を追加します。
 
-- **JobID** (*string*) -
-確認対象の一括インポートジョブの一意識別子。`BulkImport()` が返す値を渡します。必須です。
+- **JobID** (*string*) -<br/>
+  確認対象の import ジョブの一意な識別子です。`BulkImport()` が返す値を渡します。必須です。
 
-- **ClusterID** (*string*) -
-Zilliz Cloud クラスター ID。省略可能で、クラウドインポートの場合にのみ使用されます。
+- **ClusterID** (*string*) -<br/>
+  Zilliz Cloud cluster ID です。任意です。cloud import の場合にのみ使用されます。
 
-- **APIKey** (*string*) -
-`Bearer` ヘッダーとして送信される認可トークン。省略可能ですが、サーバーでトークンベース認証が必須の場合は必要です。
+- **APIKey** (*string*) -<br/>
+  `Bearer` ヘッダーとして送信される認可トークンです。任意です。サーバーでトークンベース認証が強制されている場合は必須です。
 
 **BUILDER METHODS:**
 
@@ -64,9 +64,9 @@ Zilliz Cloud クラスター ID。省略可能で、クラウドインポート�
 
 **CONSTRUCTORS:**
 
-- `NewGetImportProgressOption(uri string, jobID string)`
-セルフホスト Milvus クラスター用の GetImportProgressOption を作成します。
+- `NewGetImportProgressOption(uri string, jobID string)`<br/>
+  これは self-hosted Milvus clusters 用の GetImportProgressOption を作成します。
 
-- `NewCloudGetImportProgressOption(uri string, jobID string, apiKey string, clusterID string)`
-Zilliz Cloud クラスター用の GetImportProgressOption を作成し、`APIKey` と `ClusterID` を事前設定します。
+- `NewCloudGetImportProgressOption(uri string, jobID string, apiKey string, clusterID string)`<br/>
+  これは Zilliz Cloud clusters 用の GetImportProgressOption を作成し、`APIKey` と `ClusterID` を事前設定します。
 

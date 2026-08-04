@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一致した entity ID、スコア、フィールド値を含む検索またはクエリ結果を格納します。 | Go | v2"
+description: "一致したエンティティ ID、スコア、フィールド値を含む検索またはクエリ結果を格納します。 | Go | v2"
 type: docx
 token: CCWrdPlSao0pOTx9oIgcA64Nnjd
-sidebar_position: 10
+sidebar_position: 15
 keywords: 
-  - ハイブリッド vector 検索
+  - ハイブリッドベクトル検索
   - 動画重複排除
-  - 動画類似性検索
-  - Vector retrieval
+  - 動画類似検索
+  - ベクトル検索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ResultSet
 
-一致した entity ID、スコア、フィールド値を含む検索またはクエリ結果を格納します。
+一致したエンティティ ID、スコア、フィールド値を含む検索またはクエリ結果を格納します。
 
 ```go
 type ResultSet struct {
@@ -57,7 +57,7 @@ type ResultSet struct {
 
 - **IDs** (*column.Column*)
 
-    自動生成された id。`Insert` API の列にマッピングできます
+    自動生成された ID で、`Insert` API の列にマッピングできます
 
 - **Fields** (*DataSet*)
 
@@ -65,21 +65,21 @@ type ResultSet struct {
 
 - **Scores** (*[]float32*)
 
-    対象 vector までの距離
+    ターゲットベクトルまでの距離
 
 - **Recall** (*float32*)
 
-    クエリ vector の検索結果の再現率（zilliz cloud による推定）
+    クエリベクトルの検索結果の再現率（Zilliz Cloud により推定）
 
 - **Err** (*error*)
 
-    存在する場合の検索エラー
+    検索エラー（存在する場合）
 
 **METHODS:**
 
 - `GetColumn(fieldName string) column.Column`
 
-    GetColumn は、指定されたフィールド名の列を返します。
+    指定されたフィールド名の列を返します。
 
 - `Len() int`
 

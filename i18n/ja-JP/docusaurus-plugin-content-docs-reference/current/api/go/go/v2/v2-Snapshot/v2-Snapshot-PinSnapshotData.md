@@ -7,7 +7,7 @@ added_since: v3.0.0
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は collection のスナップショットデータをピン留めし、ガベージコレクションされないようにします。後でデータのピン留めを解除するために使用できる pin ID を返します。 | Go | v2"
+description: "この操作はコレクションのスナップショットデータをピン留めし、ガベージコレクションされないようにします。後でデータのピン留めを解除するために使用できるピン ID を返します。 | Go | v2"
 type: docx
 token: HmEkdVsmRoc2TbxEjtkcKChfnEf
 sidebar_position: 7
@@ -15,7 +15,7 @@ keywords:
   - milvus db
   - milvus vector db
   - Zilliz Cloud
-  - Milvus とは
+  - milvus とは
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # PinSnapshotData()
 
-この操作は collection のスナップショットデータをピン留めし、ガベージコレクションされないようにします。後でデータのピン留めを解除するために使用できる pin ID を返します。
+この操作はコレクションのスナップショットデータをピン留めし、ガベージコレクションされないようにします。後でデータのピン留めを解除するために使用できるピン ID を返します。
 
 ```go
 func (c *Client) PinSnapshotData(ctx context.Context, opt PinSnapshotDataOption, callOptions ...grpc.CallOption) (int64, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```go
 option := milvusclient.NewPinSnapshotDataOption("my_snapshot", "my_collection").
@@ -47,38 +47,38 @@ option := milvusclient.NewPinSnapshotDataOption("my_snapshot", "my_collection").
 pinID, err := cli.PinSnapshotData(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **opt** (*PinSnapshotDataOption*) -
 
     スナップショットデータをピン留めするためのオプションです。
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
-- `NewPinSnapshotDataOption(name string, collectionName string)`
-指定された collection のスナップショットデータをピン留めするオプションを作成します。
+- `NewPinSnapshotDataOption(name string, collectionName string)`<br/>
+  指定したコレクションのスナップショットデータをピン留めするオプションを作成します。
 
-- `WithDbName(dbName string)`
-collection のデータベース名を設定します。
+- `WithDbName(dbName string)`<br/>
+  コレクションのデータベース名を設定します。
 
-- `WithTTL(ttlSeconds int64)`
-ピン留めの有効期間を秒単位で設定します。
+- `WithTTL(ttlSeconds int64)`<br/>
+  ピンの有効期限を秒単位で設定します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *int64, error*
 
-**RETURNS:**
+**戻り値:**
 
-成功時は pin ID を返し、操作が失敗した場合は error を返します。
+成功した場合はピン ID、操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **error**
 
-    失敗の詳細については `err != nil` を確認してください。
+    失敗の詳細は `err != nil` を確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
 import (

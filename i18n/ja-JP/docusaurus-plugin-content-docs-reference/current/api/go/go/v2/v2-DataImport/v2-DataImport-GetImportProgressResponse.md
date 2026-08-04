@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`GetImportProgress()` パッケージ関数によって返されるレスポンスを表すクラスです。`ResponseBase` を埋め込み、全体のジョブ統計情報とファイルごとの `Details` スライスの両方を含む `ImportProgressData` を通じて詳細な進捗ペイロードを公開します。 | Go | v2"
+description: "`GetImportProgress()` パッケージ関数によって返されるレスポンスを表すクラスです。`ResponseBase` を埋め込み、`ImportProgressData` を通じて詳細な進行状況ペイロードを公開します。これには、ジョブ全体の統計情報と、ファイルごとの `Details` スライスの両方が含まれます。 | Go | v2"
 type: docx
 token: ZasGdw9Szo9TQbxzHlYcLh1Rnyf
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetImportProgressResponse
 
-このクラスは、`GetImportProgress()` パッケージ関数によって返されるレスポンスを表します。`ResponseBase` を埋め込み、全体のジョブ統計情報とファイルごとの `Details` スライスの両方を含む `ImportProgressData` を通じて詳細な進捗ペイロードを公開します。
+このクラスは、`GetImportProgress()` パッケージ関数によって返されるレスポンスを表します。`ResponseBase` を埋め込み、`ImportProgressData` を通じて詳細な進行状況ペイロードを公開します。これには、ジョブ全体の統計情報と、ファイルごとの `Details` スライスの両方が含まれます。
 
 ```go
 type GetImportProgressResponse struct {
@@ -65,44 +65,44 @@ type ImportProgressDetail struct {
 
 **フィールド:**
 
-- **Status** (*int*) -
-`ResponseBase` から継承されます。`0` の値は成功を示します。
+- **Status** (*int*) -<br/>
+  `ResponseBase` から継承されます。値が `0` の場合は成功を示します。
 
-- **Message** (*string*) -
-`ResponseBase` から継承されます。`Status` が 0 以外の場合のエラー説明です。
+- **Message** (*string*) -<br/>
+  `ResponseBase` から継承されます。`Status` がゼロ以外の場合のエラー説明です。
 
-- **Data** (*\*ImportProgressData*) -
-要求されたジョブの進捗ペイロードです。
+- **Data** (*\*ImportProgressData*) -<br/>
+  要求されたジョブの進行状況ペイロードです。
 
 **ImportProgressData のフィールド:**
 
-- **CollectionName** (*string*) -
-ジョブの対象となる collection です。
+- **CollectionName** (*string*) -<br/>
+  ジョブの対象となる collection です。
 
-- **JobID** (*string*) -
-インポートジョブの一意の識別子です。
+- **JobID** (*string*) -<br/>
+  import ジョブの一意識別子です。
 
-- **State** (*string*) -
-現在のジョブ状態です。一般的な値には `Pending`、`Importing`、`Completed`、`Failed` が含まれます。
+- **State** (*string*) -<br/>
+  現在のジョブ状態です。一般的な値には `Pending`、`Importing`、`Completed`、`Failed` があります。
 
-- **Progress** (*int64*) -
-`[0, 100]` の範囲における全体の完了率です。
+- **Progress** (*int64*) -<br/>
+  `[0, 100]` の範囲で表される全体の完了率です。
 
-- **ImportedRows** (*int64*) -
-collection にすでにインポートされた行数です。
+- **ImportedRows** (*int64*) -<br/>
+  collection にすでに import された行数です。
 
-- **TotalRows** (*int64*) -
-すべてのソースファイルから想定される総行数です。
+- **TotalRows** (*int64*) -<br/>
+  すべてのソースファイルから想定される総行数です。
 
-- **FileSize** (*int64*) -
-すべてのソースファイルの合計サイズ（バイト）です。
+- **FileSize** (*int64*) -<br/>
+  すべてのソースファイルの合計サイズ（バイト単位）です。
 
-- **CompleteTime** (*string*) -
-ジョブ完了のタイムスタンプです。ジョブが終端状態に達するまでは空です。
+- **CompleteTime** (*string*) -<br/>
+  ジョブの完了タイムスタンプです。ジョブが終端状態に到達するまでは空です。
 
-- **Reason** (*string*) -
-`State == "Failed"` の場合の失敗理由です。それ以外は空です。
+- **Reason** (*string*) -<br/>
+  `State == "Failed"` の場合の失敗理由です。それ以外の場合は空です。
 
-- **Details** (*[]\ImportProgressDetail*) -
-親フィールドと同じ構造を持つファイルごとの進捗エントリで、それぞれ 1 つのソースファイルに対応します。
+- **Details** (*[]\ImportProgressDetail*) -<br/>
+  ファイルごとの進行状況エントリです。親フィールドと同じ構造を持ち、それぞれ1つのソースファイルに対応します。
 

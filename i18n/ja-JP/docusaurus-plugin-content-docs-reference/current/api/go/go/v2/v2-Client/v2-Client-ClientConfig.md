@@ -4,10 +4,10 @@ slug: /go/go/v2-Client-ClientConfig
 sidebar_label: "ClientConfig"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、Milvus または Zilliz Cloud サーバーへの接続を確立するための設定を提供します。`New()` を呼び出す際に、この struct へのポインタを渡してください。 | Go | v2"
+description: "認証、TLS、再試行、テレメトリ、データベース、および gRPC authority 設定を含む、Milvus v3 クライアント接続を構成します。 | Go | v2"
 type: docx
 token: NNQmdw1DloRDi6xeO0acaMfdnib
 sidebar_position: 1
@@ -31,102 +31,112 @@ import Admonition from '@theme/Admonition';
 
 # ClientConfig
 
-この操作は、Milvus または Zilliz Cloud サーバーへの接続を確立するための設定を提供します。`New()` を呼び出す際に、この struct へのポインタを渡してください。
+認証、TLS、再試行、テレメトリ、データベース、および gRPC authority 設定を含む、Milvus v3 クライアント接続を構成します。
 
 ```go
 type ClientConfig struct {
-    Address        string
-    Username       string
-    Password       string
-    DBName         string
-    EnableTLSAuth  bool
-    APIKey         string
-    DialOptions    []grpc.DialOption
+    Address string
+    Username string
+    Password string
+    DBName string
+    EnableTLSAuth bool
+    APIKey string
+    DialOptions []grpc.DialOption
     RetryRateLimit *RetryRateLimitOption
-    DisableConn    bool
-    ServerVersion  string
+    DisableConn bool
+    TelemetryConfig *TelemetryConfig
+    ServerVersion string
 }
 ```
 
-**PARAMETERS:**
+**メソッド:**
 
-- **Address** (*string*) -
-[必須] `host:port` 形式の Milvus サーバーのアドレスです（例: `YOUR_CLUSTER_ENDPOINT`）。Zilliz Cloud の場合は、完全な HTTPS エンドポイントを使用します。
+- `WithTLSConfig(tlsConfig *tls.Config) *ClientConfig`
 
-- **Username** (*string*) -
-パスワードベース認証用のユーザー名です。
+    これにより、カスタム TLS 構成を設定し、TLS 認証を有効にします。
 
-- **Password** (*string*) -
-パスワードベース認証用のパスワードです。
+- `WithGrpcAuthority(authority string) *ClientConfig`
 
-- **DBName** (*string*) -
-接続先データベースの名前です。設定されていない場合は、デフォルトデータベースを使用します。
+    これにより、プロキシベースのルーティング用に gRPC `:authority` ヘッダーを設定します。デフォルトのダイヤルオプションは、クライアントによって別途適用されます。
 
-- **EnableTLSAuth** (*bool*) -
-接続で TLS を有効にするかどうかを指定します。アドレスが `https` スキームを使用している場合は、自動的に `true` に設定されます。
-
-- **APIKey** (*string*) -
-Zilliz Cloud または認証が有効な Milvus インスタンス用の API key です。クラウドデプロイでは、ユーザー名/パスワードより優先されます。
-
-- **DialOptions** ([]*grpc.DialOption*) -
-接続をカスタマイズするための追加の gRPC ダイヤルオプションです。指定した場合、デフォルトオプションとマージされます。
-
-- **RetryRateLimit** (*RetryRateLimitOption*) -
-レート制限エラー発生時の自動再試行の設定です。
-
-- **DisableConn** (*bool*) -
-`true` の場合、クライアントは即座に接続を確立しません。テストや遅延接続のシナリオで役立ちます。
-
-- **ServerVersion** (*string*) -
-接続先サーバーのバージョン文字列です。接続後に自動的に設定されます。
-
-**BUILDER METHODS:**
-
-- `WithTLSConfig(tlsConfig *tls.Config)`
-セキュアな接続のためのカスタム TLS 設定を行います。
-
-- `WithGrpcAuthority(authority string)`
-接続用の gRPC authority ヘッダーを設定します。プロキシやロードバランサー経由で接続する場合に便利です。
-
-**RETURN TYPE:**
+**戻り値の型:**
 
 *ClientConfig*
 
-**RETURNS:**
+**戻り値:**
 
-メソッドチェーンのために更新された `ClientConfig` へのポインタです。
+アドレス、認証、TLS、データベース、および gRPC オプションを含む、Milvus クライアントを作成するための構成です。
+
+- **Address** (*string*) -
+
+    リモートアドレス、"YOUR_CLUSTER_ENDPOINT"。
+
+- **Username** (*string*) -
+
+    認証用のユーザー名。
+
+- **Password** (*string*) -
+
+    認証用のパスワード。
+
+- **DBName** (*string*) -
+
+    このクライアントの DBName。
+
+- **EnableTLSAuth** (*bool*) -
+
+    転送セキュリティのために TLS 認証を有効にします。
+
+- **APIKey** (*string*) -
+
+    API key。
+
+- **DialOptions** (*[]grpc.DialOption*) -
+
+    GRPC 用のダイヤルオプション。
+
+- **RetryRateLimit** (**RetryRateLimitOption*) -
+
+    レート制限インターセプター時の再試行用オプション。
+
+- **DisableConn** (*bool*) -
+
+    true に設定すると、クライアントが gRPC 接続を確立しないようにします。
+
+- **TelemetryConfig** (**TelemetryConfig*) -
+
+    クライアントのテレメトリ設定を構成します。
+
+- **ServerVersion** (*string*) -
+
+    ServerVersion。
 
 ## Example\{#example}
+
+ClientConfig の使用方法を示します。
 
 ```go
 import (
 	"context"
-	"log"
 
-	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v3/milvusclient"
 )
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-// Connect with username/password
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address:  "YOUR_CLUSTER_ENDPOINT",
-    Username: "root",
-    Password: "Milvus",
-    DBName:   "default",
-})
-if err != nil {
-    log.Fatal("failed to create client:", err)
-}
-defer client.Close(ctx)
+config := (&milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+}).WithGrpcAuthority("milvus.example.com")
 
-// Connect to Zilliz Cloud with API key
-cloudClient, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "https://your-endpoint.api.gcp-us-west1.zillizcloud.com:443",
-    APIKey:  "your-api-key",
-})
+cli, err := milvusclient.New(ctx, config)
 if err != nil {
-    log.Fatal("failed to create cloud client:", err)
+	// handle error
 }
+defer cli.Close(ctx)
 ```
+
+## Notes\{#notes}
+
+- `TelemetryConfig` は、v3 クライアントにおけるクライアントテレメトリの動作を制御します。
+

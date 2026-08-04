@@ -10,7 +10,7 @@ notebook: false
 description: "この型は、外部コレクションの更新ジョブの状態を表します。 | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
-sidebar_position: 29
+sidebar_position: 30
 keywords: 
   - ベクトル検索アルゴリズム
   - 質問応答システム
@@ -39,12 +39,12 @@ type RefreshExternalCollectionState milvuspb.RefreshExternalCollectionState
 
 **定数:**
 
-- **RefreshStatePending** -
-ジョブは保留中で、まだ開始されていません。
+- **RefreshStatePending** -<br/>
+  ジョブは保留中で、まだ開始されていません。
 
-- **RefreshStateInProgress** -
-ジョブは現在進行中です。
+- **RefreshStateInProgress** -<br/>
+  ジョブは現在進行中です。
 
-- **RefreshStateCompleted** -
-ジョブは正常に完了しました。
+- **RefreshStateCompleted** -<br/>
+  ジョブは正常に完了しました。
 
