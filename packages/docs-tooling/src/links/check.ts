@@ -82,6 +82,7 @@ type ExternalResult = {
   pages?: readonly string[];
   status: number | null;
   error: string | null;
+  page_count?: number;
 };
 
 type ProbedExternalObservation = ExternalResult & {
@@ -309,12 +310,14 @@ export function classifyExternalResult(result: {status: number | null; error: st
 }
 
 function groupExternalObservations(observations: readonly ExternalResult[]): ExternalObservation[] {
-  const byUrl = new Map<string, {url: string; status: number | null; error: string | null; pages: Set<string>}>();
+  const byUrl = new Map<string, {url: string; status: number | null; error: string | null; pages: Set<string>; pageCount: number}>();
   for (const item of observations) {
-    const entry = byUrl.get(item.url) ?? {url: item.url, status: item.status, error: item.error, pages: new Set<string>()};
+    const itemPages = item.pages ?? (item.page ? [item.page] : []);
+    const entry = byUrl.get(item.url) ?? {url: item.url, status: item.status, error: item.error, pages: new Set<string>(), pageCount: 0};
     if (entry.status === null && item.status !== null) entry.status = item.status;
     if (entry.error === null && item.error !== null) entry.error = item.error;
-    for (const page of item.pages ?? (item.page ? [item.page] : [])) entry.pages.add(page);
+    for (const page of itemPages) entry.pages.add(page);
+    entry.pageCount = Math.max(entry.pageCount, item.page_count ?? itemPages.length);
     byUrl.set(item.url, entry);
   }
   return [...byUrl.values()].map(item => {
@@ -325,7 +328,7 @@ function groupExternalObservations(observations: readonly ExternalResult[]): Ext
       status: item.status,
       error: item.error,
       pages: pages.slice(0, 5),
-      page_count: pages.length,
+      page_count: Math.max(item.pageCount, pages.length),
     };
   }).sort((left, right) => left.url.localeCompare(right.url));
 }

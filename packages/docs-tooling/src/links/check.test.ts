@@ -311,6 +311,33 @@ describe('link-check reporting', () => {
     })]);
   });
 
+  it('preserves the full duplicate-page count while retaining five sorted pages', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, Object.fromEntries(['g', 'c', 'a', 'f', 'b', 'e', 'd'].map(name => [
+      `${name}.html`,
+      '<a class="external" href="https://many-pages.example.com">Many pages</a>',
+    ])));
+    let probes = 0;
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (_url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        probes += 1;
+        return fetchResponse(404);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+      externalLinkAttempts: 1,
+    });
+
+    expect(probes).toBe(1);
+    expect(report.expired_external_links).toEqual([expect.objectContaining({
+      pages: ['docs/a.html', 'docs/b.html', 'docs/c.html', 'docs/d.html', 'docs/e.html'],
+      page_count: 7,
+    })]);
+  });
+
   it('checks external links under the Chinese on-premise content route', async () => {
     const root = temporaryRoot();
     mkdirSync(path.join(root, 'build/zh-CN/on-premise'), {recursive: true});
