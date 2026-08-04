@@ -38,7 +38,7 @@ pnpmfileChecksum: sha256-syTIarNQrogJEQfbK6xQlXeLFNLhSv5xLU9x+CVEkhs=
 
 patchedDependencies:
   sockjs@0.3.24:
-    hash: 7057e6c553d975c5f98a143615221c3b10f04326ae2db19558be0ed5c88625ed
+    hash: aa62f801a336fca6fedf8987236d89a6a266311f830602c6312598f10d58423c
     path: patches/sockjs@0.3.24.patch
 
 importers:
@@ -18517,7 +18517,7 @@ snapshots:
       dot-case: 3.0.4
       tslib: 2.8.1
 
-  sockjs@0.3.24(patch_hash=7057e6c553d975c5f98a143615221c3b10f04326ae2db19558be0ed5c88625ed):
+  sockjs@0.3.24(patch_hash=aa62f801a336fca6fedf8987236d89a6a266311f830602c6312598f10d58423c):
     dependencies:
       faye-websocket: 0.11.4
       websocket-driver: 0.7.5
@@ -19266,7 +19266,7 @@ snapshots:
       schema-utils: 4.3.3
       selfsigned: 5.5.0
       serve-index: 1.9.2
-      sockjs: 0.3.24(patch_hash=7057e6c553d975c5f98a143615221c3b10f04326ae2db19558be0ed5c88625ed)
+      sockjs: 0.3.24(patch_hash=aa62f801a336fca6fedf8987236d89a6a266311f830602c6312598f10d58423c)
       spdy: 4.0.2
       webpack-dev-middleware: 7.4.5(tslib@2.8.1)(webpack@5.105.4(@swc/core@1.15.47))
       ws: 8.21.0
