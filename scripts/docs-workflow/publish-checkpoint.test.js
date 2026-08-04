@@ -73,6 +73,13 @@ test('strictly rejects invalid arguments and contains no force push', () => {
   assert.doesNotMatch(readFileSync(script, 'utf8'), /DOCS_PUBLISH_BEFORE_PUSH_HOOK|NODE_ENV/);
 });
 
+test('legacy shell entrypoint delegates to the structured checkpoint transaction', () => {
+  const source = readFileSync(script, 'utf8');
+  assert.match(source, /checkpoint-publication\.js/);
+  assert.match(source, /legacy-json/);
+  assert.match(source, /status=.*commit_sha|finish_output/s);
+});
+
 test('preserves an unrelated commit already on the remote', () => {
   const s = setup(), base = path.join(s.root, 'base'), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, base]); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'content/en/guides/tutorials/a.md'), 'new\n');
   writeFileSync(path.join(s.seed, 'remote.txt'), 'keep\n'); git(s.seed, 'add', 'remote.txt'); git(s.seed, 'commit', '-m', 'remote unrelated'); git(s.seed, 'push', 'origin', 'dev');
