@@ -1293,6 +1293,33 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.equal(caller.jobs.render_guides_tables.secrets, undefined)
 })
 
+test('artifact-only Guides validation has a fail-closed no-write media mode', () => {
+  const caller = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const input = caller.on.workflow_dispatch.inputs.media_upload_mode
+  assert.equal(input.default, 'write')
+  assert.deepEqual(input.options, ['write', 'skip'])
+  assert.ok(caller.jobs.prepare.outputs.media_upload_mode)
+
+  const refs = caller.jobs.prepare.steps.find(step => step.id === 'refs')
+  assert.equal(refs.env.MEDIA_UPLOAD_MODE, "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.media_upload_mode || 'write' }}")
+  assert.match(refs.run, /MEDIA_UPLOAD_MODE.*skip[\s\S]*PUBLISH.*false[\s\S]*RUN_TRANSLATIONS.*false[\s\S]*SELECTED_GROUP.*guides/)
+  assert.equal(caller.jobs.produce_guides_sources.with.media_upload_mode, '${{ needs.prepare.outputs.media_upload_mode }}')
+  assert.equal(caller.jobs.produce_zh_guides_sources.with.media_upload_mode, '${{ needs.prepare.outputs.media_upload_mode }}')
+
+  const source = yaml.load(fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8'))
+  assert.equal(source.on.workflow_call.inputs.media_upload_mode.default, 'write')
+  const steps = source.jobs.fetch.steps
+  const nativeSharp = steps.find(step => step.name === 'Verify Sharp native runtime for no-write validation')
+  assert.equal(nativeSharp.if, "${{ inputs.media_upload_mode == 'skip' }}")
+  assert.match(nativeSharp.run, /sharp\.versions/)
+  assert.match(nativeSharp.run, /real Sharp processing trims a board and adds the publication border/)
+  const prefetch = steps.find(step => step.name === 'Prefetch shared guides media')
+  assert.match(prefetch.run, /--upload-mode "\$\{\{ inputs\.media_upload_mode \}\}"/)
+  const cacheResult = steps.find(step => step.name === 'Finalize Guides cache generation state')
+  assert.equal(cacheResult.env.MEDIA_UPLOAD_MODE, '${{ inputs.media_upload_mode }}')
+  assert.match(cacheResult.run, /MEDIA_UPLOAD_MODE.*skip[\s\S]*cache_save_required=false/)
+})
+
 test('Guides table matrix permits empty renders and exact assembly', () => {
   const caller = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')

@@ -355,6 +355,43 @@ test('prefetches every unique media reference once with bounded concurrency', as
   assert.deepEqual(result.manifest.entries.map(entry => entry.id), ['feishu-board:board', 'feishu-image:img', 'figma:key:1:2'])
 })
 
+test('no-write validation downloads and trims media without object-storage uploads', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-no-write-'))
+  const sourceDir = path.join(root, 'sources')
+  const output = path.join(root, 'guides.json')
+  writeSource(sourceDir, 'a.json', [
+    { image: { token: 'img', caption: { content: 'Image' } } },
+    { board: { token: 'board' } },
+    { iframe: { component: { iframe_type: 8, url: encodeURIComponent('https://www.figma.com/design/key/Name?node-id=1-2') } } },
+  ])
+  const calls = []
+  const downloader = {
+    async __downloadImage(token) { calls.push(`image:${token}`); return Buffer.from('image') },
+    async __downloadBoardPreview(token) { calls.push(`board:${token}`); return Buffer.from('board') },
+    async __fetchCaption(key, node) { calls.push(`caption:${key}:${node}`); return { nodes: { [node]: { document: { name: 'Figma Diagram' } } } } },
+    async __downloadIframe(key, node) { calls.push(`figma:${key}:${node}`); return Buffer.from('figma') },
+    async __uploadToS3(_buffer, key) { calls.push(`upload:${key}`) },
+  }
+
+  const result = await prefetchGuidesMedia({
+    sourceDir,
+    output,
+    downloader,
+    upload: false,
+    trimBoard: async buffer => { calls.push('trim:board'); return buffer },
+    concurrency: 1,
+    canonicalSourceFiles: ['a.json'],
+  })
+
+  assert.deepEqual(calls, [
+    'board:board', 'trim:board',
+    'image:img',
+    'caption:key:1:2', 'figma:key:1:2',
+  ])
+  assert.equal(result.metrics.resolvedByNetwork, 3)
+  assert.deepEqual(result.manifest.entries.map(entry => entry.id), ['feishu-board:board', 'feishu-image:img', 'figma:key:1:2'])
+})
+
 test('prunes stale prior manifest entries and counts them separately', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-stale-'))
   const sourceDir = path.join(root, 'sources')
@@ -454,6 +491,8 @@ test('CLI requires report, mode, cache state, and snapshot with bounded values',
   ]
   const required = [...common, '--mode', 'incremental', '--plan', 'plan.json']
   assert.equal(parseArgs(required).get('--report'), 'report.json')
+  assert.equal(parseArgs([...required, '--upload-mode', 'skip']).get('--upload-mode'), 'skip')
+  assert.throws(() => parseArgs([...required, '--upload-mode', 'invalid']), /upload-mode.*write.*skip/i)
   for (const flag of ['--report', '--mode', '--cache-state', '--snapshot']) {
     const index = required.indexOf(flag)
     assert.throws(() => parseArgs([...required.slice(0, index), ...required.slice(index + 2)]), new RegExp(flag.slice(2), 'i'))

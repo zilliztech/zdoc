@@ -6,6 +6,7 @@ on:
       site: { required: true, type: string }
       master_sha: { required: true, type: string }
       dev_baseline_sha: { required: true, type: string }
+      media_upload_mode: { required: false, type: string, default: write }
       artifact_retention_days: { required: false, type: number, default: 3 }
     outputs:
       status: { value: '${{ jobs.fetch.outputs.status }}' }
@@ -55,6 +56,11 @@ jobs:
       - uses: actions/setup-node@v5
         with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - name: Verify Sharp native runtime for no-write validation
+        if: ${{ inputs.media_upload_mode == 'skip' }}
+        run: |
+          node -e 'const sharp=require("sharp"); console.log(`[sharp-native] node=${process.version} sharp=${sharp.versions.sharp} vips=${sharp.versions.vips}`)'
+          node --test --test-name-pattern='real Sharp processing trims a board and adds the publication border' scripts/docs-workflow/guides-media-prefetch.test.js
       - name: Resolve site-owned Guides source
         run: pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"
       - name: Preflight Chinese publication validator
@@ -247,6 +253,7 @@ jobs:
             --report packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json
             --bootstrap-docs "content/${{ inputs.site }}/guides,content/${{ inputs.site }}/byoc"
             --concurrency 4
+            --upload-mode "${{ inputs.media_upload_mode }}"
           )
           if [[ "${{ steps.source_cache_check.outputs.media_valid }}" == true ]]; then
             mode=incremental
@@ -294,8 +301,11 @@ jobs:
             --prefetch-mode "${{ steps.media_prefetch.outputs.mode }}" \
             --candidate "$candidate" \
             --baseline "$baseline")
+          if [[ "$MEDIA_UPLOAD_MODE" == skip ]]; then cache_save_required=false; fi
           printf 'source_valid=true\nmedia_valid=true\ncache_version=%s\ncache_save_required=%s\n' \
             "$cache_version" "$cache_save_required" >> "$GITHUB_OUTPUT"
+        env:
+          MEDIA_UPLOAD_MODE: ${{ inputs.media_upload_mode }}
       - name: Validate Guides render readiness
         run: |
           node scripts/docs-workflow/guides-render-readiness.js \

@@ -281,16 +281,16 @@ async function trimBoard(buffer) {
     .toBuffer()
 }
 
-async function resolveReference(reference, downloader, trim) {
+async function resolveReference(reference, downloader, trim, upload) {
     if (reference.type === 'feishu-image') {
       const buffer = await downloader.__downloadImage(reference.token)
-      await downloader.__uploadToS3(buffer, reference.objectKey)
+      if (upload) await downloader.__uploadToS3(buffer, reference.objectKey)
       return reference
     }
     if (reference.type === 'feishu-board') {
       const objectKey = `${reference.token}.png`
       const buffer = await trim(await downloader.__downloadBoardPreview(reference.token))
-      await downloader.__uploadToS3(buffer, objectKey)
+      if (upload) await downloader.__uploadToS3(buffer, objectKey)
       return { ...reference, objectKey }
     }
     const response = await downloader.__fetchCaption(reference.fileKey, reference.nodeId)
@@ -298,7 +298,7 @@ async function resolveReference(reference, downloader, trim) {
     if (typeof caption !== 'string' || !caption.trim()) throw new Error(`Figma caption is missing: ${reference.id}`)
     const objectKey = `${slugify(caption, { lower: true, strict: true }) || `${reference.fileKey}-${reference.nodeId.replaceAll(':', '-')}`}.png`
     const buffer = await downloader.__downloadIframe(reference.fileKey, reference.nodeId)
-    await downloader.__uploadToS3(buffer, objectKey)
+    if (upload) await downloader.__uploadToS3(buffer, objectKey)
     return { ...reference, caption, objectKey }
 }
 
@@ -314,8 +314,10 @@ async function prefetchGuidesMedia({
   previousManifestPath = null,
   bootstrapDocsDirs = [],
   reuseExisting = false,
+  upload = true,
 }) {
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 16) throw new Error('Media prefetch concurrency must be between 1 and 16')
+  if (typeof upload !== 'boolean') throw new Error('Media prefetch upload must be a boolean')
   const references = collectMediaReferences(sourceDir, sourceFiles)
   const canonicalReferences = collectMediaReferences(sourceDir, canonicalSourceFiles)
   const canonicalById = new Map(canonicalReferences.map(reference => [reference.id, reference]))
@@ -353,7 +355,7 @@ async function prefetchGuidesMedia({
     while (cursor < referencesToResolve.length) {
       const index = cursor
       cursor += 1
-      resolved[index] = await resolveReference(referencesToResolve[index], downloader, trim)
+      resolved[index] = await resolveReference(referencesToResolve[index], downloader, trim, upload)
     }
   })
   await Promise.all(workers)
@@ -380,16 +382,17 @@ async function prefetchGuidesMedia({
 
 function parseArgs(argv) {
   const args = new Map()
-  const allowed = new Set(['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot', '--plan', '--doc-token', '--previous-manifest', '--bootstrap-docs', '--concurrency'])
+  const allowed = new Set(['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot', '--plan', '--doc-token', '--previous-manifest', '--bootstrap-docs', '--concurrency', '--upload-mode'])
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
     const value = argv[index + 1]
-    if (!allowed.has(flag) || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> --report <path> --mode <incremental|recovery> --cache-state <valid|invalid|missing|legacy> --snapshot <path> [--plan <path> | --doc-token <token[,token]>] [--previous-manifest <path>] [--bootstrap-docs <dir[,dir]>] [--concurrency <n>]')
+    if (!allowed.has(flag) || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> --report <path> --mode <incremental|recovery> --cache-state <valid|invalid|missing|legacy> --snapshot <path> [--plan <path> | --doc-token <token[,token]>] [--previous-manifest <path>] [--bootstrap-docs <dir[,dir]>] [--concurrency <n>] [--upload-mode <write|skip>]')
     args.set(flag, value)
   }
   for (const flag of ['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot']) if (!args.has(flag)) throw new Error(`Missing required argument: ${flag}`)
   if (!['incremental', 'recovery'].includes(args.get('--mode'))) throw new Error('--mode must be incremental or recovery')
   if (!['valid', 'invalid', 'missing', 'legacy'].includes(args.get('--cache-state'))) throw new Error('--cache-state must be valid, invalid, missing, or legacy')
+  if (args.has('--upload-mode') && !['write', 'skip'].includes(args.get('--upload-mode'))) throw new Error('--upload-mode must be write or skip')
   const hasPlan = args.has('--plan')
   const hasDocToken = args.has('--doc-token')
   if (args.get('--mode') === 'incremental' && hasPlan === hasDocToken) {
@@ -432,6 +435,7 @@ async function main() {
     mode: args.get('--mode'),
   })
   const bootstrapDocsDirs = (args.get('--bootstrap-docs') || '').split(',').map(value => value.trim()).filter(Boolean).map(value => path.resolve(value))
+  const uploadMode = args.get('--upload-mode') || 'write'
   const downloader = new Downloader({}, path.dirname(path.resolve(args.get('--output'))), {
     maxConcurrent: concurrency,
     minTime: Number(process.env.GUIDES_MEDIA_PREFETCH_MIN_TIME_MS || 250),
@@ -450,13 +454,14 @@ async function main() {
       previousManifestPath: args.has('--previous-manifest') ? path.resolve(args.get('--previous-manifest')) : null,
       bootstrapDocsDirs,
       reuseExisting: args.get('--mode') === 'recovery',
+      upload: uploadMode === 'write',
     })
     writeMediaPrefetchReport(path.resolve(args.get('--report')), {
       mode: args.get('--mode'),
       cacheState: args.get('--cache-state'),
       metrics: result.metrics,
     })
-    console.log(`[guides-media-prefetch] canonical=${result.metrics.canonicalReferencesRequired} selected=${result.metrics.selectedReferences} manifest_reuse=${result.metrics.validatedManifestReuse} docs_reconstruction=${result.metrics.committedDocsReconstruction} network_resolved=${result.metrics.resolvedByNetwork} stale_dropped=${result.metrics.staleEntriesDropped} final=${result.metrics.finalManifestEntries}`)
+    console.log(`[guides-media-prefetch] canonical=${result.metrics.canonicalReferencesRequired} selected=${result.metrics.selectedReferences} manifest_reuse=${result.metrics.validatedManifestReuse} docs_reconstruction=${result.metrics.committedDocsReconstruction} network_resolved=${result.metrics.resolvedByNetwork} stale_dropped=${result.metrics.staleEntriesDropped} final=${result.metrics.finalManifestEntries} upload_mode=${uploadMode}`)
   } finally {
     downloader.destroy()
   }
