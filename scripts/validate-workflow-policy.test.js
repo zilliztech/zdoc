@@ -230,6 +230,16 @@ test('workflow policy rejects classifier checkout regressions that restore whole
   }
 })
 
+test('master tooling sync keeps the full commit graph without downloading historical blobs', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
+  const checkout = workflow.jobs.sync.steps.find(step => step.name === 'Check out workflow tooling')
+
+  assert.equal(checkout.uses, 'actions/checkout@v5')
+  assert.equal(checkout.with.ref, '${{ github.sha }}')
+  assert.equal(checkout.with['fetch-depth'], 0)
+  assert.equal(checkout.with.filter, 'blob:none')
+})
+
 test('Chinese Reference validation jobs shallow-checkout the candidate and fetch only the manifest source commit', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/site-validation.yml', 'utf8'))
   for (const jobName of ['build_zh_cn', 'reference_coverage']) {
