@@ -67,7 +67,7 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /test -s build\/en\/ja-JP\/docs\/home\.html/);
   assert.match(workflow, /^  build_zh_cn:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
-  assert.match(jobBlock(workflow, 'build_zh_cn'), /uses: actions\/checkout@v4\n\s+with:\n(?:\s+ref:.*\n)?\s+fetch-depth: 0/);
+  assert.match(jobBlock(workflow, 'build_zh_cn'), /uses: actions\/checkout@v5\n\s+with:\n(?:\s+ref:.*\n)?\s+fetch-depth: 0/);
   assert.match(workflow, /run: pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm docs-tooling validate-reference --site zh-CN[\s\S]*pnpm build:zh-CN/);
@@ -100,7 +100,7 @@ test('manual site publication selects locale builds and deploys only validated a
   assert.match(reusable, /pnpm build:\$\{\{ inputs\.site \}\}/);
   assert.doesNotMatch(reusable, /fetch-docs|translate-content|agentRunner/);
   const deploy = jobBlock(reusable, 'deploy');
-  assert.match(deploy, /actions\/download-artifact@v4/);
+  assert.match(deploy, /actions\/download-artifact@v7/);
   assert.doesNotMatch(deploy, /pnpm (?:run )?build|docusaurus build/);
   assert.match(validation, /options: \[auto, en, zh-CN, all\]/);
   assert.match(validation, /source_ref:[\s\S]*default: dev/);
