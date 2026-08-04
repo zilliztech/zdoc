@@ -1,6 +1,7 @@
 import {existsSync, lstatSync, readFileSync, readdirSync, realpathSync} from 'node:fs';
 import path from 'node:path';
 
+import {load} from 'cheerio';
 import {XMLParser} from 'fast-xml-parser';
 import {resolveSiteProfile} from '@zilliz/site-config';
 import {z} from 'zod';
@@ -210,9 +211,11 @@ function collectExternalLinkEntries(repositoryRoot: string, outputDir: string, p
   const entries: LinkEntry[] = [];
   for (const page of pages) {
     const content = readFileSync(path.join(repositoryRoot, page), 'utf8');
-    for (const match of content.matchAll(/<a .* href="([^"]+)"/gu)) {
-      if (match[1].startsWith('http')) entries.push({url: match[1], page: path.relative(outputDir, page)});
-    }
+    const $ = load(content);
+    $('a[href]').each((_index, element) => {
+      const url = $(element).attr('href');
+      if (url?.startsWith('http')) entries.push({url, page: path.relative(outputDir, page)});
+    });
   }
   return entries;
 }

@@ -362,6 +362,36 @@ describe('link-check reporting', () => {
     expect(report.other_external_links).toEqual([]);
   });
 
+  it('extracts every direct external anchor from minified rendered HTML', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {
+      'new.html': [
+        '<a href="https://first.example.com">First</a>',
+        '<a href="/docs/internal">Internal</a>',
+        '<a href="https://second.example.com/path">Second</a>',
+      ].join(''),
+    });
+    const checked: string[] = [];
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      fetch: async (url, init) => {
+        if (!init?.method) return {ok: true, status: 200, text: async () => '<urlset/>'};
+        checked.push(String(url));
+        return fetchResponse(200);
+      },
+      now: fixedNow,
+      write: () => {},
+      environment: {},
+      externalLinkAttempts: 1,
+    });
+
+    expect(checked.sort()).toEqual([
+      'https://first.example.com',
+      'https://second.example.com/path',
+    ]);
+    expect(report.summary).toMatchObject({checked_external_links: 2, healthy_external_links: 2});
+  });
+
   it('classifies HEAD 403 followed by GET 403 as blocked', async () => {
     const root = temporaryRoot();
     externalLinkFixture(root, {'new.html': '<a class="external" href="https://blocked.example.com">Blocked</a>'});
