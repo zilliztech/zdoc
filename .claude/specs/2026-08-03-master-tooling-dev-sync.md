@@ -32,6 +32,16 @@ The automated workflow remains inert until `deploy/contracts/master-tooling-sync
 
 Conflicts, validation failures, moved refs, or ownership drift leave an unmerged evidence-bearing PR and fail the workflow.
 
+## Candidate-derived publication recovery
+
+The localization inventory is master tooling whose contents are derived from dev-owned localization inputs. Publication workflows therefore keep it convergent at three boundaries:
+
+- `translate-codex.yml` independently reconciles and publishes only the inventory after all selected translation publishers reach a terminal state, even when another translation lane fails. Full Guides and Reference reconciliation remains fail-closed and separate.
+- `fetch-docs.yml` restores the exact immutable dev baseline and checks the inventory before card creation, producers, or paid work. A stale target fails early without repairing or publishing anything.
+- `restore-generated-state.sh --exact` restores the inventory from the selected dev commit together with the other dev-owned generated state. Final verification can then combine immutable master tooling with the exact candidate-derived file published on dev.
+
+Inventory reconciliation commits must change only `deploy/contracts/localization-inputs.inventory.json`. They do not authorize source publication, site deployment, S3 writes, or OSS writes.
+
 ## Deferred follow-up: deduplicate site validation
 
 Do not change validation triggers until the current translation workflow and its real-artifact verification are complete.
