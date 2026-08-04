@@ -12,6 +12,40 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('workflow policy rejects action majors that still target the deprecated Node 20 runtime', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'node-action-runtime-policy-'))
+  const upgrades = [
+    ['actions/checkout@v4', 'actions/checkout@v5'],
+    ['actions/setup-node@v4', 'actions/setup-node@v5'],
+    ['pnpm/action-setup@v4', 'pnpm/action-setup@v5'],
+    ['actions/upload-artifact@v4', 'actions/upload-artifact@v6'],
+    ['actions/download-artifact@v4', 'actions/download-artifact@v7'],
+    ['actions/cache/restore@v4', 'actions/cache/restore@v5'],
+    ['actions/cache/save@v4', 'actions/cache/save@v5'],
+  ]
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    for (const file of fs.readdirSync(directory).filter(name => name.endsWith('.yml'))) {
+      const filePath = path.join(directory, file)
+      let source = fs.readFileSync(filePath, 'utf8')
+      for (const [oldReference, newReference] of upgrades) {
+        source = source.replaceAll(oldReference, newReference)
+      }
+      fs.writeFileSync(filePath, source)
+    }
+    const file = path.join(directory, 'fetch-docs.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    assert.ok(source.includes('actions/checkout@v5'))
+    fs.writeFileSync(file, source.replace('actions/checkout@v5', 'actions/checkout@v4'))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'fetch-docs.yml: actions/checkout@v4 uses the deprecated Node 20 action runtime; require @v5 or newer',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('manual translation entry selects recoverable locale groups before paid work', () => {
   const source = fs.readFileSync('.github/workflows/translate-content.yml', 'utf8')
   const workflow = yaml.load(source)
@@ -108,7 +142,7 @@ test('translation workflows declare immutable target identity and exact target v
   for (const input of ['tooling_sha', 'source_sha']) assert.equal(wrapper.on.workflow_call.inputs[input]?.required, true)
   assert.equal(wrapper.concurrency, undefined)
   const wrapperSource = fs.readFileSync('.github/workflows/translate-content.yml', 'utf8')
-  assert.ok(wrapperSource.indexOf('name: Validate immutable tooling identity') < wrapperSource.indexOf('uses: actions/checkout@v4'))
+  assert.ok(wrapperSource.indexOf('name: Validate immutable tooling identity') < wrapperSource.indexOf('uses: actions/checkout@v5'))
   assert.match(wrapperSource, /ref: ['"]?\$\{\{ inputs\.tooling_sha \}\}['"]?/)
   assert.match(wrapperSource, /validate-reference --site zh-CN/)
   assert.doesNotMatch(wrapperSource, /refs\/remotes\/origin\/(?:master|\$TARGET_BRANCH)|REQUESTED_(?:TOOLING|SOURCE)_SHA|git rev-parse .*TARGET_BRANCH/)
@@ -157,7 +191,7 @@ test('site classifier checks out only the shallow contract tree and fetches a mi
   const checkout = steps.find(step => step.name === 'Check out candidate')
   const comparison = steps.find(step => step.name === 'Fetch comparison base')
 
-  assert.equal(checkout.uses, 'actions/checkout@v4')
+  assert.equal(checkout.uses, 'actions/checkout@v5')
   assert.equal(checkout.with['fetch-depth'], 2)
   assert.equal(checkout.with['sparse-checkout'], 'deploy/contracts')
   assert.equal(comparison.if, "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}")
@@ -534,7 +568,7 @@ jobs:
     env:
       INVALID_PATH: \${{ runner.temp }}/job
     steps:
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           path: \${{ runner.temp }}/step
 `)
@@ -772,7 +806,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
       expected: /v5 cache save must be conditional, nonfatal/,
     },
     {
-      mutate(source) { return source.replace('continue-on-error: true\n        uses: actions/cache/save@v4', 'continue-on-error: false\n        uses: actions/cache/save@v4') },
+      mutate(source) { return source.replace('continue-on-error: true\n        uses: actions/cache/save@v5', 'continue-on-error: false\n        uses: actions/cache/save@v5') },
       expected: /v5 cache save must be conditional, nonfatal/,
     },
     {
@@ -869,13 +903,13 @@ test('reusable final verification uses immutable master tooling for lightweight 
   for (const input of ['final_dev_sha', 'master_sha', 'target_branch']) assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   assert.match(workflow, /^  contents: read$/m)
   assert.match(workflow, /timeout-minutes: 180/)
-  assert.match(workflow, /name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/)
+  assert.match(workflow, /name: Check out immutable master tooling[\s\S]*actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/)
   assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"/)
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/)
   assert.doesNotMatch(workflow, /git worktree add --detach "\$RUNNER_TEMP\/final-dev"/)
-  assert.doesNotMatch(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
+  assert.doesNotMatch(workflow, /actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
   assert.doesNotMatch(workflow, /Verify final cross-site consistency|validate-reference --site zh-CN/)
-  assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if: \$\{\{ always\(\) \}\}/)
+  assert.match(workflow, /actions\/upload-artifact@v6[\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(workflow, /value: \$\{\{ jobs\.verify\.outputs\.status \}\}/)
   assert.match(workflow, /status=passed[\s\S]*status=failed/)
   assert.doesNotMatch(workflow, /contents: write|git push/)
@@ -994,7 +1028,7 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /^  contents: read$/m)
   assert.doesNotMatch(workflow, /^concurrency:/m)
   assert.doesNotMatch(workflow, /git-auto-commit|git push(?:\s+--force|[^\n]*\s--force)/)
-  assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
+  assert.match(workflow, /actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/)
   assert.match(workflow, /name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*name: Fetch content group/)
   assert.match(workflow, /prepare-content-group-workspace\.js "\$SITE" "\$GROUP"/)
@@ -1018,9 +1052,9 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.doesNotMatch(inventoryStep, /APP_ID|APP_SECRET|fetch-lark|publish-group|update-lark-doc-snapshot|update-sdk-reference-snapshots/)
   assert.match(workflow, /create-checkpoint-artifact\.js[\s\S]*--baseline-dir "\$BASELINE_DIR"[\s\S]*--workspace "\$GITHUB_WORKSPACE"/)
   assert.match(workflow, /validate-checkpoint-artifact\.js/)
-  assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*docs-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(workflow, /actions\/upload-artifact@v6[\s\S]*docs-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(workflow, /artifact_name: \$\{\{ format\('docs-checkpoint-\{0\}-\{1\}', inputs\.group, github\.run_id\) \}\}/)
-  assert.match(workflow, /id: checkpoint_upload[\s\S]*uses: actions\/upload-artifact@v4/)
+  assert.match(workflow, /id: checkpoint_upload[\s\S]*uses: actions\/upload-artifact@v6/)
   assert.match(workflow, /name: Upload revision inventory report[\s\S]*if: \$\{\{ inputs\.site == 'en' \}\}[\s\S]*generated\/en\/manifests\/lark-revisions\/\$\{\{ inputs\.group \}\}\.json[\s\S]*tmp\/docs-tooling\/revision-diff\/\$\{\{ inputs\.group \}\}\.json[\s\S]*tmp\/docs-tooling\/revision-diff\/\$\{\{ inputs\.group \}\}\.md[\s\S]*if-no-files-found: error/)
   assert.match(workflow, /name: Upload Guides content reports[\s\S]*inputs\.group == 'guides'/)
   assert.match(workflow, /name: Emit producer result\n        id: result\n        if: \$\{\{ always\(\) \}\}[\s\S]*steps\.checkpoint_upload\.outcome[\s\S]*artifact_ready[\s\S]*failed/)
@@ -1214,7 +1248,7 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(assemble, /name: Prepare promoted Guides source manifest[\s\S]*guides-source-cache\.js create/)
   assert.match(assemble, /id: guides_v5_generation\n\s+name: Create Guides v5 generation payload\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' \}\}[\s\S]*guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate/)
   assert.match(assemble, /--media-manifest "\$media_manifest_path"/)
-  assert.match(assemble, /id: save_guides_v5_generation\n\s+name: Save Guides v5 generation\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' && steps\.guides_v5_generation\.outcome == 'success' \}\}\n\s+continue-on-error: true\n\s+uses: actions\/cache\/save@v4[\s\S]*path: tmp\/guides-source-cache-v5[\s\S]*key: \$\{\{ steps\.guides_v5_generation\.outputs\.key \}\}/)
+  assert.match(assemble, /id: save_guides_v5_generation\n\s+name: Save Guides v5 generation\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' && steps\.guides_v5_generation\.outcome == 'success' \}\}\n\s+continue-on-error: true\n\s+uses: actions\/cache\/save@v5[\s\S]*path: tmp\/guides-source-cache-v5[\s\S]*key: \$\{\{ steps\.guides_v5_generation\.outputs\.key \}\}/)
   assert.match(assemble, /name: Record Guides cache generation persistence\n\s+if: \$\{\{ always\(\) \}\}[\s\S]*guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*guides-cache-generation\.json/)
   assert.match(assemble, /^  actions: write$/m)
   assert.ok(assemble.indexOf('Validate combined guides output') < assemble.indexOf('Select promoted Guides source snapshot'))
@@ -1373,8 +1407,8 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content publisher workflow must exist')
   const workflow = fs.readFileSync(workflowPath, 'utf8')
   const steps = yaml.load(workflow).jobs.publish.steps
-  const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v4')
-  const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v4')
+  const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v5')
+  const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v5')
   const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
   const contractIndex = steps.findIndex(step => step.name === 'Validate content group contract')
   assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < contractIndex)
@@ -1393,7 +1427,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(workflow, /APP_ID|APP_SECRET|report-live-card|card_id|card_started_at|card_stages|card_mode/)
   assert.doesNotMatch(workflow, /^concurrency:/m)
   assert.match(workflow, /name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
-  assert.match(workflow, /actions\/download-artifact@v4[\s\S]*name: \$\{\{ inputs\.artifact_name \}\}/)
+  assert.match(workflow, /actions\/download-artifact@v7[\s\S]*name: \$\{\{ inputs\.artifact_name \}\}/)
   assert.match(workflow, /publish batch \$\{number\} of \$\{count\}[\s\S]*publish translations[\s\S]*group\.commitMessage/)
   assert.match(workflow, /name: Download baseline artifact[\s\S]*if: \$\{\{ inputs\.should_publish && inputs\.baseline_artifact_name != '' \}\}[\s\S]*name: \$\{\{ inputs\.baseline_artifact_name \}\}[\s\S]*baseline-download/)
   assert.match(workflow, /extract_checkpoint_archive "\$DOWNLOAD_DIR\/checkpoint-group\.tar" "\$EXTRACT_DIR" "\$ARTIFACT_DIR" "\$CHECKPOINT_PREFLIGHT_MANIFEST"[\s\S]*extract_checkpoint_archive "\$BASELINE_DOWNLOAD_DIR\/checkpoint-group\.tar" "\$BASELINE_EXTRACT_DIR" "\$BASELINE_DIR" "\$BASELINE_PREFLIGHT_MANIFEST"/)
@@ -1408,7 +1442,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*status=failed[\s\S]*status=skipped[\s\S]*published[\s\S]*no_changes/)
   assert.match(workflow, /commit_sha=/)
   assert.match(workflow, /name: Fail unsuccessful publication[\s\S]*steps\.result\.outputs\.status == 'failed'/)
-  assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/)
+  assert.match(workflow, /actions\/upload-artifact@v6[\s\S]*if-no-files-found: ignore/)
   assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force/)
   const publicationBody = workflow.slice(workflow.indexOf('name: Publish checkpoint'))
   assert.doesNotMatch(publicationBody, /secrets\./)
@@ -1667,7 +1701,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   for (const input of ['target', 'group', 'tooling_sha', 'source_baseline_sha', 'source_checkpoint_sha', 'should_translate']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
   for (const output of ['status', 'artifact_name', 'baseline_artifact_name', 'translated_count']) assert.match(source, new RegExp(`^      ${output}:`, 'm'))
   assert.match(source, /^  contents: read$/m)
-  assert.match(source, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}/)
+  assert.match(source, /actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}/)
   assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_CHECKPOINT_SHA"/)
   assert.match(source, /sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/)
   assert.doesNotMatch(source, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
@@ -1804,8 +1838,8 @@ test('workflow policy rejects numbered translation batch validation regressions'
 test('durable translation batch preparation uses the same source delta as batch execution', () => {
   const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_prepare-translation-batches.yml'), 'utf8')
   const steps = yaml.load(workflow).jobs.prepare.steps
-  const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v4')
-  const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v4')
+  const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v5')
+  const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v5')
   const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
   const materializeIndex = steps.findIndex(step => step.name === 'Materialize immutable translation source')
   assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < materializeIndex)
@@ -1818,7 +1852,7 @@ test('fetch preparation blocks paid translation until publication readiness regr
   const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8'))
   const steps = workflow.jobs.prepare.steps
   const checkout = steps[0]
-  assert.equal(checkout.uses, 'actions/checkout@v4')
+  assert.equal(checkout.uses, 'actions/checkout@v5')
   assert.equal(checkout.with.ref, '${{ github.sha }}')
   assert.equal(checkout.with['fetch-depth'], 1)
   const installIndex = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
@@ -1953,7 +1987,7 @@ test('full translation publication reconciles derived state before aggregate suc
   assert.ok(reconcile.needs.includes('publish_zh_reference_landings'))
   assert.match(reconcile.if, /inputs\.publish/)
   assert.match(reconcile.if, /needs\.prepare\.outputs\.group == 'all'/)
-  assert.equal(reconcile.steps.find(step => step.uses === 'actions/checkout@v4')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
+  assert.equal(reconcile.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
 
   const run = reconcile.steps.find(step => step.name === 'Reconcile and publish derived translation state')?.run || ''
   assert.match(run, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
@@ -2053,7 +2087,7 @@ test('translation workers always upload retirement review evidence without maski
   assert.ok(manifestIndex >= 0 && manifestIndex < uploadIndex && uploadIndex < agentsIndex)
   assert.match(steps[manifestIndex].run, /--retirement-report tmp\/translation-retirement-review\.json/)
   assert.equal(steps[uploadIndex].if, '${{ always() && inputs.should_translate }}')
-  assert.equal(steps[uploadIndex].uses, 'actions/upload-artifact@v4')
+  assert.equal(steps[uploadIndex].uses, 'actions/upload-artifact@v6')
   assert.match(steps[uploadIndex].with.name, /translation-retirement-review-/)
   assert.equal(steps[uploadIndex].with.path, 'tmp/translation-retirement-review.json')
   assert.equal(steps[uploadIndex].with['if-no-files-found'], 'ignore')

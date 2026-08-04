@@ -49,10 +49,10 @@ jobs:
       cache_save_required: ${{ steps.source_cache_result.outputs.cache_save_required }}
       assembly_decision_sha256: ${{ steps.assembly_decision.outputs.assembly_decision_sha256 }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Resolve site-owned Guides source
@@ -98,7 +98,7 @@ jobs:
             "$v4_restore_enabled" "$v4_lookup" "$v4_prefix" >> "$GITHUB_OUTPUT"
       - id: source_cache_v5
         name: Restore Guides v5 cache candidate
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: tmp/guides-source-cache-v5
           key: guides-source-${{ inputs.site }}-v5-lookup-${{ github.run_id }}-${{ github.run_attempt }}
@@ -136,7 +136,7 @@ jobs:
       - id: source_cache_v4
         name: Restore Guides v4 cache candidate
         if: ${{ steps.source_cache_v5_check.outputs.source_valid != 'true' && steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: tmp/guides-source-cache-v4
           key: ${{ steps.source_cache_keys.outputs.v4_lookup }}
@@ -379,7 +379,7 @@ jobs:
           node -e 'const fs=require("node:fs");const value={schemaVersion:2,runId:Number(process.env.GITHUB_RUN_ID),locale:process.env.ZDOC_SITE,tableTotal:Number(process.argv[1])};fs.writeFileSync(process.argv[2],JSON.stringify(value)+"\n")' "${{ steps.table_matrix.outputs.count }}" "$RUNNER_TEMP/docs-progress-metadata/progress-metadata.json"
       - name: Upload Guides progress metadata
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-progress-metadata-${{ inputs.site }}-${{ github.run_id }}
           path: ${{ runner.temp }}/docs-progress-metadata/progress-metadata.json
@@ -391,7 +391,7 @@ jobs:
           node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token "$root_token"
           tar -cf "$RUNNER_TEMP/guides-source.tar" -C "$RUNNER_TEMP" guides-source
       - id: upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: guides-sources-${{ inputs.site }}-${{ github.run_id }}
           path: ${{ runner.temp }}/guides-source.tar

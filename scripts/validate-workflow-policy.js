@@ -16,6 +16,17 @@ const publishingWorkflows = new Set([
   'sync-master-tooling-to-dev.yml',
 ])
 
+const minimumNode24ActionMajors = new Map([
+  ['actions/checkout', 5],
+  ['actions/setup-node', 5],
+  ['actions/upload-artifact', 6],
+  ['actions/download-artifact', 7],
+  ['actions/cache', 5],
+  ['actions/cache/restore', 5],
+  ['actions/cache/save', 5],
+  ['pnpm/action-setup', 5],
+])
+
 function executableShellLineEntries(source) {
   const entries = []
   let heredocDelimiter = null
@@ -140,6 +151,23 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: invalid YAML: ${error.message}`)
       continue
     }
+    const deprecatedActionRuntimeErrors = new Set()
+    for (const job of Object.values(workflow.jobs || {})) {
+      for (const step of Array.isArray(job?.steps) ? job.steps : []) {
+        const reference = String(step?.uses || '')
+        const match = reference.match(/^([^@\s]+)@v(\d+)$/)
+        if (!match) continue
+        const [, action, majorText] = match
+        const minimumMajor = minimumNode24ActionMajors.get(action)
+        const major = Number(majorText)
+        if (minimumMajor && major < minimumMajor) {
+          deprecatedActionRuntimeErrors.add(
+            `${file}: ${action}@v${major} uses the deprecated Node 20 action runtime; require @v${minimumMajor} or newer`,
+          )
+        }
+      }
+    }
+    errors.push(...deprecatedActionRuntimeErrors)
     for (const job of Object.values(workflow.jobs || {})) {
       if (Object.values(job?.env || {}).some(value => String(value).includes('${{ runner.temp }}'))) {
         errors.push(`${file}: job-level env must not reference runner.temp`)
@@ -215,7 +243,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const classifierCheckout = namedJobStep(workflow, 'classify', 'Check out candidate')
       const comparisonFetch = namedJobStep(workflow, 'classify', 'Fetch comparison base')
       const comparisonRun = String(comparisonFetch?.run || '')
-      if (classifierCheckout?.uses !== 'actions/checkout@v4' ||
+      if (classifierCheckout?.uses !== 'actions/checkout@v5' ||
           classifierCheckout?.with?.['fetch-depth'] !== 2 ||
           classifierCheckout?.with?.['sparse-checkout'] !== 'deploy/contracts' ||
           String(comparisonFetch?.if || '').trim() !== "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}" ||
@@ -258,12 +286,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === '_fetch-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
-        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
+        [/actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
         [/restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/, 'must exactly restore generated state from the immutable baseline SHA'],
         [/name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*prepare-content-group-workspace\.js "\$SITE" "\$GROUP"[\s\S]*name: Fetch content group/, 'must prepare the selected site group after baseline restore and before generation'],
         [/create-checkpoint-artifact\.js/, 'must create a checkpoint artifact'],
         [/validate-checkpoint-artifact\.js/, 'must validate the checkpoint artifact'],
-        [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],
+        [/actions\/upload-artifact@v6/, 'must upload the checkpoint artifact'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       const steps = workflow.jobs?.produce?.steps || []
@@ -301,7 +329,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         Object.keys(inventory?.env || {}).some(name => /APP_ID|APP_SECRET|FEISHU/i.test(name))) {
         errors.push(`${file}: revision inventory step must not receive Feishu credentials or fetch source metadata`)
       }
-      if (!report || report.uses !== 'actions/upload-artifact@v4' || report.with?.['if-no-files-found'] !== 'error' ||
+      if (!report || report.uses !== 'actions/upload-artifact@v6' || report.with?.['if-no-files-found'] !== 'error' ||
         !reportPaths.includes('generated/en/manifests/lark-revisions/${{ inputs.group }}.json') ||
         !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.json') ||
         !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.md')) {
@@ -492,8 +520,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === '_fetch-content-group.yml') {
       const steps = workflow.jobs?.produce?.steps || []
-      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
-      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v5')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v5')
       const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
       const validationIndex = steps.findIndex(step => step?.name === 'Validate content group')
       if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < validationIndex)) {
@@ -590,7 +618,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: v5 generation payload must be created, keyed, and revalidated from the exact promoted snapshot only when save is required`)
       }
       const save = stepById.get('save_guides_v5_generation')
-      if (save?.if !== "${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}" || save?.['continue-on-error'] !== true || save?.uses !== 'actions/cache/save@v4' || save?.with?.path !== 'tmp/guides-source-cache-v5' || save?.with?.key !== '${{ steps.guides_v5_generation.outputs.key }}') {
+      if (save?.if !== "${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}" || save?.['continue-on-error'] !== true || save?.uses !== 'actions/cache/save@v5' || save?.with?.path !== 'tmp/guides-source-cache-v5' || save?.with?.key !== '${{ steps.guides_v5_generation.outputs.key }}') {
         errors.push(`${file}: Guides v5 cache save must be conditional, nonfatal, and use the promoted snapshot generation key`)
       }
       const report = steps.find(step => step.name === 'Record Guides cache generation persistence')
@@ -635,8 +663,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === '_publish-content-group.yml') {
       const steps = workflow.jobs?.publish?.steps || []
-      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
-      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v5')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v5')
       const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
       const contractIndex = steps.findIndex(step => step?.name === 'Validate content group contract')
       if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < contractIndex)) {
@@ -648,7 +676,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out exact translation tooling and separate source tooling'],
-        [/actions\/download-artifact@v4/, 'must download the exact checkpoint artifact'],
+        [/actions\/download-artifact@v7/, 'must download the exact checkpoint artifact'],
         [/inputs\.baseline_artifact_name != ''[\s\S]*name: \$\{\{ inputs\.baseline_artifact_name \}\}/, 'must conditionally download the exact baseline artifact'],
         [/--translation-target[\s\S]*--source-checkpoint-sha[\s\S]*--tooling-sha[\s\S]*--source-site[\s\S]*--target-site[\s\S]*preflight-checkpoint-archive\.js[\s\S]*--manifest-output[\s\S]*tar -xf/, 'must verify the unique checkpoint manifest identity before full extraction'],
         [/extract_checkpoint_archive[\s\S]*extract_checkpoint_archive[\s\S]*manifest\.resolvedDir[\s\S]*payload[\s\S]*--baseline-dir/, 'must reuse safe extraction and pass the validated baseline payload directory'],
@@ -679,10 +707,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === '_verify-docs.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
-        [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
+        [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
         [/git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must materialize the exact final dev SHA'],
         [/restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must restore generated content from the exact final dev SHA'],
-        [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
+        [/actions\/upload-artifact@v6[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
@@ -751,7 +779,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (JSON.stringify(resultCommands) !== JSON.stringify(expectedResult)) {
         errors.push(`${file}: overall status must require revision verification success`)
       }
-      if (/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
+      if (/actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
       if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
     }
 
@@ -808,7 +836,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const translationWorkflow = yaml.load(readWorkflow('_translate-content-group.yml'))
   const publisherWorkflow = yaml.load(readWorkflow('_publish-content-group.yml'))
   const nodeVersion = (workflow, jobName) => (workflow?.jobs?.[jobName]?.steps || [])
-    .find(step => step?.uses === 'actions/setup-node@v4')?.with?.['node-version']
+    .find(step => step?.uses === 'actions/setup-node@v5')?.with?.['node-version']
   const translationNodeVersion = nodeVersion(translationWorkflow, 'translate')
   const publisherNodeVersion = nodeVersion(publisherWorkflow, 'publish')
   if (!translationNodeVersion || publisherNodeVersion !== translationNodeVersion) {

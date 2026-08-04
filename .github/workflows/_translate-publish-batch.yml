@@ -109,27 +109,27 @@ jobs:
           git check-ref-format --branch "$TARGET_BRANCH"
 
       - name: Check out immutable publisher tooling
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ inputs.tooling_sha }}
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with: { node-version: '20', cache: pnpm }
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Download translation checkpoint
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
           path: ${{ runner.temp }}/download
 
       - name: Download translation baseline
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
           path: ${{ runner.temp }}/baseline-download
@@ -213,7 +213,7 @@ jobs:
 
       - name: Upload publication diagnostics
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: publication-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
           path: |

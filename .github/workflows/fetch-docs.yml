@@ -59,7 +59,7 @@ jobs:
       card_id: ${{ steps.card.outputs.card_id }}
       card_started_at: ${{ steps.card.outputs.card_started_at }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
@@ -111,8 +111,8 @@ jobs:
           [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Handoff")
           card_stages=$(IFS=,; echo "${card_parts[*]}")
           printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Verify translation publication readiness
@@ -413,7 +413,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 1 }
       - name: Block paid translation until selected sources are published
         env:
@@ -527,7 +527,7 @@ jobs:
       handoff_json: ${{ steps.handoff.outputs.handoff_json }}
       workflow_ref: ${{ steps.handoff.outputs.workflow_ref }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 1 }
       - id: handoff
         name: Validate exact downstream translation handoff
@@ -620,7 +620,7 @@ jobs:
           node -e 'const fs=require("node:fs");const value={schemaVersion:1,parentRunId:Number(process.env.PARENT_RUN_ID),childRunId:Number(process.env.CHILD_RUN_ID),childRunUrl:process.env.CHILD_RUN_URL};if(!Number.isSafeInteger(value.parentRunId)||!Number.isSafeInteger(value.childRunId))throw new Error("invalid handoff run id");fs.writeFileSync(process.argv[1],JSON.stringify(value)+"\n")' "$RUNNER_TEMP/docs-translation-handoff/handoff-metadata.json"
       - name: Upload translation handoff monitor metadata
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-translation-handoff-${{ github.run_id }}
           path: ${{ runner.temp }}/docs-translation-handoff/handoff-metadata.json
@@ -634,7 +634,7 @@ jobs:
     outputs:
       final_dev_sha: ${{ steps.ref.outputs.final_dev_sha }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
       - id: ref
         env:
@@ -675,10 +675,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.master_sha }}' }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: aggregate
@@ -725,14 +725,14 @@ jobs:
       - name: Download current English Guides reports
         if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.result == 'success' && needs.produce_guides.outputs.status == 'artifact_ready' }}
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: docs-checkpoint-guides-en-${{ github.run_id }}-reports
           path: tmp/card-guides-reports/en
       - name: Download current Chinese Guides reports
         if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.result == 'success' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: docs-checkpoint-guides-zh-CN-${{ github.run_id }}-reports
           path: tmp/card-guides-reports/zh-CN
@@ -779,7 +779,7 @@ jobs:
       - name: Upload final card report artifact
         if: ${{ always() }}
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-card-report-${{ github.run_id }}
           path: tmp/docs-card-report/card-report.json
@@ -797,13 +797,13 @@ jobs:
       actions: read
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.master_sha }}' }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         continue-on-error: true
         with:
           name: docs-card-report-${{ github.run_id }}

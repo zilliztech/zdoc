@@ -35,10 +35,10 @@ jobs:
       card_id: ${{ steps.card.outputs.card_id }}
       card_started_at: ${{ steps.card.outputs.card_started_at }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ github.sha }}', fetch-depth: 1 }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: target
@@ -90,7 +90,7 @@ jobs:
         id: identity
         env: { HANDOFF_JSON: '${{ inputs.handoff_json }}' }
         run: node -e 'const fs=require("node:fs");const value=JSON.parse(process.env.HANDOFF_JSON);if(!/^[0-9a-f]{40}$/.test(value?.toolingSha))throw new Error("handoff toolingSha must be an exact lowercase 40-character SHA");fs.appendFileSync(process.env.GITHUB_OUTPUT,"tooling_sha="+value.toolingSha+"\n")'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ steps.identity.outputs.tooling_sha }}', fetch-depth: 0 }
       - name: Resolve and validate the complete translation handoff
         id: handoff
@@ -303,10 +303,10 @@ jobs:
           if (failed.length) throw new Error(`Cannot reconcile failed translation publication: ${failed.map(([name, value]) => `${name}=${value.result}`).join(', ')}`)
           if (needs.prepare?.result !== 'success') throw new Error('Translation handoff preparation did not succeed')
           NODE
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Reconcile and publish derived translation state
