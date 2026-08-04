@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所授予的权限。 | Python | ORM"
+description: "此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所允许的权限。 | Python | ORM"
 type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # remove_user()
 
-此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所授予的权限。
+此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所允许的权限。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,7 +47,7 @@ remove_user(
 
     **[必需]**
 
-    要从角色中移除的用户名。
+    要从角色中移除的用户名称。
 
 **返回类型：**
 

@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回 flush-all 操作是否已完成。在调用 `flushall()` 后，可使用此操作检查 flush 状态。 | Python | MilvusClient"
+description: "此操作返回 flush-all 操作是否已完成。在调用 `flushall()` 后，可使用此方法检查 flush 状态。 | Python | MilvusClient"
 type: docx
 token: G31wdmzVFo687JxZTAGctQlKnir
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - AI chatbots
   - cosine distance
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # get_flush_all_state()
 
-此操作返回 flush-all 操作是否已完成。在调用 `flush_all()` 后，可使用此操作检查 flush 状态。
+此操作返回 flush-all 操作是否已完成。在调用 `flush_all()` 后，可使用此方法检查 flush 状态。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="注意">
 
 这仅适用于托管集合。
 

@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作显示指定 collection 或 partition 是否已加载。 | Python | MilvusClient"
+description: "此操作显示指定集合或分区是否已加载。 | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
+  - 音频相似性搜索
+  - 弹性向量数据库
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_load_state()
 
-此操作显示指定 collection 或 partition 是否已加载。
+此操作显示指定集合或分区是否已加载。
 
 <Admonition type="info" icon="📘" title="说明">
 
-这仅适用于托管 collection。
+这仅适用于托管集合。
 
 </Admonition>
 
@@ -55,27 +55,27 @@ get_load_state(
 
     **[必填]**
 
-    collection 的名称。
+    集合名称。
 
 - **partition_name** (*str*) -
 
-    partition 的名称。
+    分区名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在任意响应返回或发生错误时超时。
 
 **返回类型：**
 
 *dict*
 
-**返回值：**
+**返回：**
 
-包含指定 collection 或 partition 状态的字典。
+一个包含指定集合或分区状态的字典。 
 
 <Admonition type="info" icon="📘" title="说明">
 
-如果 collection 的任意一个或全部 partition 已加载，则该 collection 处于已加载状态。
+如果一个集合的任意一个或全部分区已加载，则该集合处于已加载状态。
 
 </Admonition>
 

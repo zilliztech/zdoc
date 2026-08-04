@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作显示在特定分区上收集的统计信息。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="说明">
 
 这仅适用于托管集合。
 
@@ -67,7 +67,7 @@ get_partition_stats(
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作将超时。
 
 **返回类型：**
 
@@ -75,7 +75,7 @@ get_partition_stats(
 
 **返回：**
 
-一个包含指定分区中行数的字典。
+一个字典，包含指定分区中的行数。
 
 ```python
 {
@@ -85,9 +85,9 @@ get_partition_stats(
 
 <Admonition type="info" icon="📘" title="**为什么行数与插入的实体数量不一致？**">
 
-你插入的数据在最终保存之前会经历一个处理过程。最初，它会以数据流的形式流入。然后，它会作为实体存储在 segments 中。Milvus 会选择一个合适的 growing segment 来以流的形式存储这些数据，直到该 segment 达到上限并变为 sealed。
+您插入的数据在最终保存之前会经过一个处理过程。最初，数据会以数据流的形式进入。随后，它会作为实体存储在 segment 中。Milvus 会选择合适的 growing segment 来存储流式数据，直到该 segment 达到上限并变为 sealed。
 
-不过，需要注意的是，显示的行数可能与插入的记录数不一致，因为流式数据不会被计算在内。
+不过，需要注意的是，显示的行数可能与已插入的记录数不一致，因为数据流中的数据不会被计入。
 
 </Admonition>
 

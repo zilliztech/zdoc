@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回已连接的 Milvus 实例中的数据库名称列表。 | Python | ORM"
+description: "此操作从已连接的 Milvus 实例返回数据库名称列表。 | Python | ORM"
 type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_database()
 
-此操作返回已连接的 Milvus 实例中的数据库名称列表。
+此操作从已连接的 Milvus 实例返回数据库名称列表。
 
 ```python
 list_database(
@@ -56,7 +56,7 @@ db.list_database()
 
 - **timeout** (*float* | *None*)
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

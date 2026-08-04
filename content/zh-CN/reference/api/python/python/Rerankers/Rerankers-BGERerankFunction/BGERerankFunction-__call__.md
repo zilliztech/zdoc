@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "BGERerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。 | Python"
+description: "BGERerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。 | Python"
 type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[BGERerankFunction](./Rerankers-BGERerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。
+[BGERerankFunction](./Rerankers-BGERerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,17 +55,17 @@ bge_rf(
 
 - `documents` (*List[str]*)
 
-    将针对给定查询进行排序的文档字符串列表。
+    给定查询下将被排序的文档字符串列表。
 
 - `top_k` (*int*)
 
-    要返回的排名最高文档的最大数量。默认值为 **5**。
+    要返回的排名最高文档的最大数量。默认为 **5**。
 
 **返回类型：**
 
 *List[RerankResult]*
 
-**返回值：**
+**返回：**
 
 一个 `RerankResult` 对象列表。
 

@@ -12,10 +12,10 @@ type: docx
 token: Ld10d5YWJofvgGxtwYscGlWunDg
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - 低成本向量数据库
+  - 托管式向量数据库
+  - Pinecone 向量数据库
+  - 音频搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -45,13 +45,13 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    包含用于构造集合 schema 的原始数据的字典。
+    包含用于构造集合模式的原始数据的字典。
 
 **返回类型：**
 
 *[CollectionSchema](./MilvusClient-CollectionSchema)*
 
-**返回：**
+**返回值：**
 
 一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
 

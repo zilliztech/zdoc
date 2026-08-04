@@ -41,9 +41,9 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专用服务集群和按需计算。
+此方法仅适用于专属服务集群和按需计算。
 
-- 对于专用服务集群中的数据库，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于专属服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -53,7 +53,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的数据库，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -83,7 +83,7 @@ client.use_database(
 
 - **MilvusException**
 
-    当数据库不存在时将引发此异常（错误代码 800）。
+    当数据库不存在时，将引发此异常（错误代码 800）。
 
 ## 示例\{#example}
 
@@ -92,9 +92,9 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# 切换到其他数据库
+# Switch to a different database
 client.use_database(db_name="my_database")
 
-# 后续操作将使用 "my_database"
+# Subsequent operations will use "my_database"
 collections = client.list_collections()
 ```

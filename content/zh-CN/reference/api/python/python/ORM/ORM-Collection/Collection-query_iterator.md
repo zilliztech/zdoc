@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回一个 Python 迭代器，供您遍历查询结果。在查询结果包含大量数据时尤其有用。 | Python | ORM"
+description: "此操作会返回一个 Python 迭代器，供您遍历查询结果。当查询结果包含大量数据时，此功能尤其有用。 | Python | ORM"
 type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # query_iterator()
 
-此操作返回一个 Python 迭代器，供您遍历查询结果。在查询结果包含大量数据时尤其有用。
+此操作会返回一个 Python 迭代器，供您遍历查询结果。当查询结果包含大量数据时，此功能尤其有用。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,43 +50,43 @@ query_iterator(
 
 - **batch_size** (*int*)
 
-    每次在当前迭代器上调用 `next()` 时返回的实体数量。
+    每次对当前迭代器调用 `next()` 时返回的实体数量。
 
-    该值默认为 **1000**。请将其设置为合适的值，以控制每次迭代返回的实体数量。
+    默认值为 **1000**。请将其设置为合适的值，以控制每次迭代返回的实体数量。
 
 - **limit** (*int*)
 
     要返回的实体总数。
 
-    该值默认为 **-1**，表示将返回所有匹配的实体。
+    默认值为 **-1**，表示返回所有匹配的实体。
 
 - **expr** (*str*)
 
     用于筛选匹配实体的标量过滤条件。
 
-    该值默认为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
+    默认值为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参阅 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*)
 
-    一个字段名称列表，用于指定返回的每个实体中应包含哪些字段。
+    一个字段名称列表，用于指定每个返回实体中包含哪些字段。
 
-    该值默认为 **None**。如果未指定，则仅包含主字段。
+    默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*)
 
     分区名称列表。
 
-    该值默认为 **None**。如果已指定，则查询时仅涉及指定的分区。
+    默认值为 **None**。如果已指定，则查询时仅涉及指定的分区。
 
 - **timeout** (*float*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *QueryIterator*
 
-**返回：**
+**返回值：**
 
 一个 **QueryIterator**，供您遍历查询结果。
 

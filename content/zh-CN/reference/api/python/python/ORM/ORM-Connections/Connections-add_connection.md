@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作以批量方式为不同用途向多个 Zilliz Cloud 集群添加连接。 | Python | ORM"
+description: "此操作以批量方式向多个不同用途的 Zilliz Cloud 集群添加连接。 | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - 异常检测
+  - Anomaly Detection
   - sentence transformers
-  - 推荐系统
-  - 信息检索
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_connection()
 
-此操作以批量方式为不同用途向多个 Zilliz Cloud 集群添加 [connections](./ORM-Connections)。
+此操作以批量方式向多个不同用途的 Zilliz Cloud 集群添加 [connections](./ORM-Connections)。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,7 +47,7 @@ add_connection(
 
 - **kwargs** - 
 
-    传递关键字参数时，每个参数的名称都会在 **connect()** 方法中用作连接别名。
+    传递关键字参数时，每个参数的名称都会作为 **connect()** 方法中的连接别名。
 
     参数值应为包含以下一个或多个字段的字典：
 
@@ -61,55 +61,55 @@ add_connection(
 
     - **host** (*string*) -
 
-        Zilliz Cloud 集群的主机。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 将自动填充默认主机。
+        Zilliz Cloud 集群的主机。该值默认为 **localhost**，如果仅提供 **port**，PyMilvus 将填充默认主机。
 
     - **port** (*string | int*) -
 
-        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供 **host**，PyMilvus 将自动填充默认端口。
+        Zilliz Cloud 集群监听的端口。该值默认为 **19530**，如果仅提供 **host**，PyMilvus 将填充默认端口。
 
     - **user** (*string*) -
 
-        用于连接指定 Zilliz Cloud 集群的有效用户名。
+        用于连接到指定 Zilliz Cloud 集群的有效用户名。
 
         应与 **password** 一起使用。
 
     - **password** (*string*) -
 
-        用于连接指定 Zilliz Cloud 集群的有效密码。
+        用于连接到指定 Zilliz Cloud 集群的有效密码。
 
         应与 **user** 一起使用。
 
     - **token** (string) -
 
-        用于访问指定 Zilliz Cloud 集群的有效访问令牌。可替代分别设置 **user** 和 **password**。
+        用于访问指定 Zilliz Cloud 集群的有效访问令牌。可作为分别设置 **user** 和 **password** 的替代方案。
 
         设置此字段时，请注意：
 
-        有效的令牌应为以下之一：
+        有效的 token 必须是以下之一：
 
         - 具有足够权限的 API key，或
 
-        - 用于访问目标集群的一组用户名和密码，并使用冒号 (:) 拼接。例如，可以将其设置为 `username:p@ssw0rd`。
+        - 用于访问目标集群的一组用户名和密码，并使用冒号 (:) 连接。例如，可以将其设置为 `username:p@ssw0rd`。
 
 <Admonition type="info" icon="📘" title="说明">
 
-如何获取集群端点和 token？
+如何获取集群 endpoint 和 token？
 
-- **集群端点**
+- **集群 endpoint**
 
-    你可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群的名称，在 **Connect** 区域复制其 endpoint，并将其作为上述 URI 使用。
+    您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群的名称，在 **Connect** 区域复制其 endpoint，并将其用作上述 URI。
 
-- **访问令牌**
+- **访问 token**
 
-    要连接到 Zilliz Cloud 集群，你可以使用以下任一项：
+    要连接到 Zilliz Cloud 集群，您可以使用以下任一方式：
 
     - API key
 
-        你可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，在左侧导航栏中单击 **API Keys**。
+        您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **API Keys**。
 
-    - 用于访问集群的一组用户名和密码，并使用冒号（**:**）拼接。
+    - 一组用于访问集群的用户名和密码，并使用冒号（**:**）连接。
 
-        你可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭证，或任何现有集群用户的凭证。
+        您可以使用在 Zilliz Cloud 控制台中创建集群时指定的集群凭据，或任何现有集群用户的凭据。
 
 </Admonition>
 
@@ -117,7 +117,7 @@ add_connection(
 
 None
 
-**返回值：**
+**返回：**
 
 None
 

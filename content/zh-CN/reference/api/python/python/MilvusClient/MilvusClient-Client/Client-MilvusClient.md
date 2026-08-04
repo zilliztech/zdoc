@@ -37,13 +37,13 @@ import Admonition from '@theme/Admonition';
 pymilvus.MilvusClient
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 为常见用例构造一个客户端。
 
 <Admonition type="info" icon="📘" title="说明">
 
-该客户端可作为当前这组 API 的一个易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
+此客户端可作为当前这组 API 的易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
 
 </Admonition>
 
@@ -103,17 +103,17 @@ MilvusClient(
 
     设置此字段时，请注意：
 
-    有效的 token 应为以下之一：
+    有效的令牌应为以下之一：
 
     - 具有足够权限的 [API](/docs/manage-api-keys)[ key](/docs/manage-api-keys)，或
 
-    - 用于访问目标集群的一对 [username and password ](/docs/cluster-credentials)，二者以冒号（:）连接。例如，可将其设置为 `username:p@ssw0rd`。这仅适用于使用集群端点时。
+    - 用于访问目标集群的一对[用户名和密码](/docs/cluster-credentials)，并通过冒号 (:) 连接。例如，可以将其设置为 `username:p@ssw0rd`。这仅适用于使用集群端点时。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
 ## 示例\{#examples}
 
@@ -130,7 +130,7 @@ client = MilvusClient(
 
 <Admonition type="info" icon="📘" title="说明">
 
-将 **uri** 设置为你的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
+将 **uri** 设置为你的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭证。
 
 </Admonition>
 

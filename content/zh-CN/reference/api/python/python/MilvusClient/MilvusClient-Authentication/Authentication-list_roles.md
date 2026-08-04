@@ -47,7 +47,7 @@ list_roles(
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
@@ -86,7 +86,7 @@ client.list_roles()
 
 <Admonition type="info" icon="📘" title="说明">
 
-每个 Zilliz Cloud 集群都有三个内置角色，分别是 **db\_ro**、**db\_rw** 和 **db\_admin**。更多信息请参见 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
+每个 Zilliz Cloud 集群都有三个内置角色，即 **db\_ro**、**db\_rw** 和 **db\_admin**。详情请参见 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
 
 </Admonition>
 

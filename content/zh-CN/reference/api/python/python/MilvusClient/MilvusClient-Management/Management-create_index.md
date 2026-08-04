@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为指定集合创建索引。 | Python | MilvusClient"
+description: "此操作为特定集合创建索引。 | Python | MilvusClient"
 type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
   - 大语言模型
   - 向量化
-  - k 最近邻算法
+  - k nearest neighbor algorithm
   - ANNS
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # create_index()
 
-此操作为指定集合创建索引。
+此操作为特定集合创建索引。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="注意">
 
 此方法仅适用于专属服务集群和按需计算。 
 
-- 对于服务集群中集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如需在服务集群的集合中执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 如需在按需计算的集合中执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -76,11 +76,11 @@ create_index(
 
     **[必需]**
 
-    一个 **IndexParams** 对象，其中包含一个 **IndexParam** 对象列表。
+    一个 **IndexParams** 对象，其中包含 **IndexParam** 对象列表。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
 - **kwargs** -
 
@@ -88,9 +88,9 @@ create_index(
 
         控制索引构建与客户端请求之间的关系。有效值如下：
 
-        - `True`（默认）：客户端会等待索引完全构建完成后才返回。这意味着在流程完成之前，您不会收到响应。
+        - `True`（默认）：客户端会等待，直到索引完全构建完成后才返回。这意味着在过程完成之前，您不会收到响应。
 
-        - `False`：客户端在请求被接收后立即返回，索引将在后台构建。要确认索引创建是否已完成，请使用 [`describe_index()`](./Management-describe_index) 方法。
+        - `False`：客户端在收到请求且索引已开始在后台构建后立即返回。要确认索引创建是否已完成，请使用 [`describe_index()`](./Management-describe_index) 方法。
 
 **返回类型：**
 

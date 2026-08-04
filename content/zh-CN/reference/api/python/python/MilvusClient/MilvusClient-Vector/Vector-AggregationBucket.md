@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`AggregationBucket` 表示 Search Aggregation 返回的一个桶。PyMilvus 会根据服务器响应创建这些对象；应用程序不会直接构造它们。 | Python | MilvusClient"
+description: "`AggregationBucket` 表示 Search Aggregation 返回的一个桶。PyMilvus 从服务器响应中创建这些对象；应用程序不会直接构造它们。 | Python | MilvusClient"
 type: docx
 token: PK8NdNMMnonB66xrVDbcTYdZnah
 sidebar_position: 11
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AggregationBucket
 
-`AggregationBucket` 表示 Search Aggregation 返回的一个桶。PyMilvus 会根据服务器响应创建这些对象；应用程序不会直接构造它们。
+`AggregationBucket` 表示 Search Aggregation 返回的一个桶。PyMilvus 从服务器响应中创建这些对象；应用程序不会直接构造它们。
 
 ```python
 class pymilvus.AggregationBucket
@@ -41,11 +41,11 @@ class pymilvus.AggregationBucket
 
 - **key** (*list[dict[str, Any]]*) -
 
-    桶键组件。每个项都包含 `field_name`、`field_id` 和 `value`。
+    桶键组件。每一项都包含 `field_name`、`field_id` 和 `value`。
 
 - **count** (*int*) -
 
-    分配到该桶中的、通过 ANN 检索得到的实体数量。
+    分配到该桶中的、通过 ANN 检索到的实体数量。
 
 - **metrics** (*dict[str, Any]*) -
 
@@ -53,13 +53,13 @@ class pymilvus.AggregationBucket
 
 - **hits** (*list[AggregationHit]*) -
 
-    由 `TopHits` 选出的代表性实体。未在此层级配置 `top_hits` 时，该列表为空。
+    由 `TopHits` 选出的代表性实体。当未在此级别配置 `top_hits` 时，该列表为空。
 
 - **sub_groups** (*list[AggregationBucket]*) -
 
-    由 `sub_aggregation` 生成的嵌套桶。在叶子层级，该列表为空。
+    由 `sub_aggregation` 生成的嵌套桶。在叶子级别，该列表为空。
 
-集合类型的属性返回的是副本，因此更改返回的列表或字典不会修改桶对象本身。
+集合类型属性返回的是副本，因此修改返回的列表或字典不会更改 bucket 对象本身。
 
 ## 示例\{#example}
 

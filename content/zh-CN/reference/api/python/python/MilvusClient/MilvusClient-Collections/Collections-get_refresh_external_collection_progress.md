@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回指定外部集合刷新任务的进度。 | Python | MilvusClient"
+description: "此操作返回指定外部 collection 刷新任务的进度。 | Python | MilvusClient"
 type: docx
 token: HITBdKb0HotcK0xCKsycEeuqnXe
 sidebar_position: 27
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_refresh_external_collection_progress()
 
-此操作返回指定外部集合刷新任务的进度。
+此操作返回指定外部 collection 刷新任务的进度。
 
 <Admonition type="info" icon="📘" title="说明">
 
-这需要使用如下项目端点设置 `MilvusClient`：
+这要求使用项目端点按如下方式设置 MilvusClient：
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -57,21 +57,21 @@ def get_refresh_external_collection_progress(
 
     **[必需]**
 
-    由 `refresh_external_collection()` 返回的任务 ID。
+    `refresh_external_collection()` 返回的任务 ID。
 
 - **timeout** (*float*) - 
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
 *RefreshExternalCollectionJobInfo*
 
-**返回值：**
+**返回：**
 
-一个 **RefreshExternalCollectionJobInfo** 对象，用于记录指定外部集合刷新任务的详细信息。
+一个 **RefreshExternalCollectionJobInfo** 对象，用于记录指定外部 collection 刷新任务的详细信息。
 
 **参数：**
 
@@ -81,7 +81,7 @@ def get_refresh_external_collection_progress(
 
 - **collection_name** (*string*) -
 
-    在 `refresh_external_collection()` 中指定的外部集合名称。
+    在 `refresh_external_collection()` 中指定的外部 collection 名称。
 
 - **state** (*string*) -
 
@@ -97,7 +97,7 @@ def get_refresh_external_collection_progress(
 
 - **progress** (*int*) -
 
-    指定任务的当前进度。该值是一个范围为 0 到 100 的整数。
+    指定任务的当前进度。该值是范围从 0 到 100 的整数。
 
 - **external_source** (*str*) -
 
@@ -109,7 +109,7 @@ def get_refresh_external_collection_progress(
 
 - **reason** (*str*) -
 
-    刷新操作失败时的错误提示。正常情况下为空字符串。
+    如果刷新操作失败，则为错误提示。正常情况下为空字符串。
 
 - **start_time** (*int*) -
 

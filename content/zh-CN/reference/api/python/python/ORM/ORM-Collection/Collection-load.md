@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将当前集合的数据加载到内存中。 | Python | ORM"
+description: "此操作将当前 collection 的数据加载到内存中。 | Python | ORM"
 type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load()
 
-此操作会将当前集合的数据加载到内存中。
+此操作将当前 collection 的数据加载到内存中。
 
 ## 请求语法\{#request-syntax}
 
@@ -53,7 +53,7 @@ load(
 
 - **partition_names** (*list(str)* | *None*) - 
 
-    要加载的当前集合分区。如果未指定，则会加载所有分区。
+    要加载的当前 collection 的分区。如果未指定，则加载所有分区。
 
 - **timeout** (*float* | *None*)  -
 
@@ -75,7 +75,7 @@ load(
 
 <Admonition type="warning" icon="🚧" title="警告">
 
-如果您尝试加载一个尚未建立索引的集合，将会收到 **MilvusException**。
+如果您尝试加载一个未建立索引的 collection，将会收到 **MilvusException**。
 
 </Admonition>
 

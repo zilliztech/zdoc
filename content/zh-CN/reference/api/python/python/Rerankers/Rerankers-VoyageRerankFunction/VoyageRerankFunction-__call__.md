@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VoyageRerankFunction 中的此操作接收一个查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的 top k 文档。 | Python"
+description: "VoyageRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。 | Python"
 type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[VoyageRerankFunction](./Rerankers-VoyageRerankFunction) 中的此操作接收一个查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的 top k 文档。
+[VoyageRerankFunction](./Rerankers-VoyageRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,7 +59,7 @@ voyage_rf(
 
 - `top_k` (*int*)
 
-    要返回的排名最高文档的最大数量。默认值为 **5**。
+    要返回的排序最高的文档最大数量。默认值为 **5**。
 
 **返回类型：**
 
@@ -82,7 +82,7 @@ voyage_rf(
 
 - `score`：重排模型为该文档分配的分数。
 
-- `index`：该文档在原始 documents 列表中的索引。
+- `index`：该文档在原始文档列表中的索引。
 
 **异常：**
 

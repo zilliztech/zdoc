@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 collection 的数据加载到内存中。 | Python | MilvusClient"
+description: "此操作将特定 collection 的数据加载到内存中。 | Python | MilvusClient"
 type: docx
 token: YtiQdxTYzoCaYDxEMZcc8TEenQb
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load_collection()
 
-此操作会将指定 collection 的数据加载到内存中。
+此操作将特定 collection 的数据加载到内存中。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -52,7 +52,7 @@ load_collection(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     collection 的名称。
 
@@ -62,17 +62,17 @@ load_collection(
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生错误时，此操作才会超时。
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无
+None
 
 **异常：**
 

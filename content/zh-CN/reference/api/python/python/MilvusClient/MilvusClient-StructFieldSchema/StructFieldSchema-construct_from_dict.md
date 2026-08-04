@@ -45,7 +45,7 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    一个字典，包含用于构造结构体数组字段中某个结构体元素 schema 的原始数据
+    包含原始数据的字典，用于构造 struct 数组字段中某个 struct 元素的 schema。
 
 **返回类型：**
 

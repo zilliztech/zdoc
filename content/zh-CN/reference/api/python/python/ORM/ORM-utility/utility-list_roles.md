@@ -59,7 +59,7 @@ list_roles(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
 
 **返回类型：**
 
@@ -67,7 +67,7 @@ list_roles(
 
 **返回：**
 
-一个 **RoleInfo** 对象，其中包含一个由 **RoleItem** 对象组成的列表。
+一个 **RoleInfo** 对象，其中包含 **RoleItem** 对象列表。
 
 ```python
 ├── RoleInfo
@@ -77,7 +77,7 @@ list_roles(
 │           ├── users
 ```
 
-**RoleItem** 对象包含以下字段：
+一个 **RoleItem** 对象包含以下字段：
 
 - **role_name** (*str*)
 

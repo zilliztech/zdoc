@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Role 实例表示具有特定访问权限的角色。 | Python | ORM"
+description: "Role 实例表示一个具有特定访问权限的角色。 | Python | ORM"
 type: docx
 token: LZL1d0kckouPXNxJLCmcwbCTnkG
 sidebar_position: 11
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Role
 
-**Role** 实例表示具有特定访问权限的角色。
+**Role** 实例表示一个具有特定访问权限的角色。
 
 ```python
 class pymilvus.Role
@@ -58,7 +58,7 @@ Role(
 
 - **name** (*string*) - 
 
-    **[必需]**
+    **[REQUIRED]**
 
     要创建的角色名称。
 

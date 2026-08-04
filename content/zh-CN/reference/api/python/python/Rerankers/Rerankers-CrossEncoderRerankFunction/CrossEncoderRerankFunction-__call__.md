@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "CrossEncoderRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。 | Python"
+description: "CrossEncoderRerankFunction 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。 | Python"
 type: docx
 token: Vy5GdSeTdoNbSqxCdsOcSmQPnvf
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[CrossEncoderRerankFunction](./Rerankers-CrossEncoderRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。
+[CrossEncoderRerankFunction](./Rerankers-CrossEncoderRerankFunction) 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,15 +59,15 @@ ce_rf(
 
 - `top_k` (*int*)
 
-    要返回的排名最高文档的最大数量。默认为 **5**。
+    要返回的排名最高文档的最大数量。默认值为 **5**。
 
 **返回类型：**
 
 *List[RerankResult]*
 
-**返回值：**
+**返回：**
 
-`RerankResult` 对象列表。
+一个 `RerankResult` 对象列表。
 
 ```plaintext
 ├── RerankResult

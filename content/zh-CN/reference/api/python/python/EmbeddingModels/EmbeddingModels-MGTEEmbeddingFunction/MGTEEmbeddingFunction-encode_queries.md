@@ -13,7 +13,7 @@ token: HEWIdid9BoFMyNxN8Bbc0P3nn6g
 sidebar_position: 2
 keywords: 
   - ANNS
-  - Vector search
+  - 向量搜索
   - knn algorithm
   - HNSW
   - zilliz
@@ -53,7 +53,7 @@ encode_queries(
 
 **返回：**
 
-一个包含编码后嵌入的字典，包括 dense 和 sparse 两种表示。
+一个字典，包含编码后的嵌入，包括稠密和稀疏两种。
 
 **异常：**
 

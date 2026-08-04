@@ -43,7 +43,7 @@ describe(timeout: float | None)
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
@@ -51,7 +51,7 @@ describe(timeout: float | None)
 
 **返回：**
 
-一个包含指定集合详细信息的字典。
+一个字典，包含指定集合的详细信息。
 
 ```python
 {
@@ -100,7 +100,7 @@ describe(timeout: float | None)
 
 - **num_shards** (*int*) -
 
-    当前集合拥有的分片数量。
+    当前集合拥有的分片数。
 
 - **description** (*str*)
 
@@ -130,9 +130,9 @@ describe(timeout: float | None)
 
         当前字段的附加属性。
 
-        - 对于 VARCHAR 字段，**max_length** (*int*) 是可能的属性之一，用于确定当前字段值中的字符数。
+        - 对于 VARCHAR 字段，**max_length** (*int*) 是一个可能的属性，用于确定当前字段值中的字符数。
 
-        - 对于 FLOAT_VECTOR 字段，**dim** (*int*) 是可能的属性之一，用于确定当前字段值中的向量嵌入维度数。
+        - 对于 FLOAT_VECTOR 字段，**dim** (*int*) 是一个可能的属性，用于确定当前字段值中的向量嵌入数量。
 
     - **element_type** (*int*)
 
@@ -142,11 +142,11 @@ describe(timeout: float | None)
 
 - **aliases** (*list*)      
 
-    集合别名列表。您可以使用列表中的任一别名来使用当前集合。  
+    集合别名列表。您可以使用列表中的任意别名来使用当前集合。  
 
 - **collection_id** (*int*)
 
-    当前集合的 ID。Zilliz Cloud 会在创建每个集合时为其分配一个 ID。
+    当前集合的 ID。Zilliz Cloud 在创建集合时会为每个集合分配一个 ID。
 
 - **consistency_level** (*int*)
 
@@ -162,7 +162,7 @@ describe(timeout: float | None)
 
 - **DescribeCollectionException**
 
-    当此操作期间发生任何错误时会引发此异常。
+    当此操作期间发生任何错误时，会引发此异常。
 
 ## 示例\{#example}
 

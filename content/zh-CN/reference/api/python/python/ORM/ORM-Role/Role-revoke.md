@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会撤销授予当前角色的一项权限。 | Python | ORM"
+description: "此操作会撤销授予当前角色的权限。 | Python | ORM"
 type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # revoke()
 
-此操作会撤销授予当前角色的一项权限。
+此操作会撤销授予当前角色的权限。
 
 ## 请求语法\{#request-syntax}
 
@@ -60,7 +60,7 @@ revoke(
 
     在 **object** 中指定类型的目标对象名称。
 
-    它可以是集合名称、用户名，或通配符（*）。
+    它可以是集合名称、用户名或通配符（*）。
 
 - **privilege** (*string*)
 
@@ -72,21 +72,21 @@ revoke(
 
     <Admonition type="info" icon="📘" title="说明">
 
-    - 要向某一类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请将权限名称设为 `*`。
+    - 要向某类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请将权限名称设为 `*`。
     
-    - 当 `object` 设为 `Global` 时，将 `privilege` 设为 `\*` 并不等同于设为 `All`。`All` 权限包含所有许可，包括任何 collection 和 user 对象。
+    - 当 `object` 设为 `Global` 时，将 `privilege` 设为 `\*` 并不等同于将其设为 `All`。`All` 权限包括所有权限，包括任何 collection 和 user 对象的权限。
 
     </Admonition>
 
 - **db_name** (*string*)
 
-    对象所属数据库的名称。若未指定，则使用默认数据库。
+    对象所属数据库的名称。如果未指定，则使用默认数据库。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 *None*
 
@@ -94,7 +94,7 @@ revoke(
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会重命名现有集合，并可选择将该集合移动到新的数据库中。 | Python | ORM"
+description: "此操作会重命名现有集合，并可选择将该集合移动到新的数据库。 | Python | ORM"
 type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # rename_collection()
 
-此操作会重命名现有集合，并可选择将该集合移动到新的数据库中。
+此操作会重命名现有集合，并可选择将该集合移动到新的数据库。
 
 <Admonition type="info" icon="📘" title="说明">
 
-为目标集合创建的别名在此操作后仍会保留。
+为目标集合创建的别名在此操作后会保持不变。
 
 </Admonition>
 
@@ -55,22 +55,22 @@ rename_collection(
 
 - **old_collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
     目标集合的原始名称。
 
     如果将其设置为不存在的集合，将导致 **MilvusException**。
 
 - **new_collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     此操作后目标集合的名称。
 
-    如果将其设置为 **old_collection_name** 的值，将导致 **MilvusException**。
+    如果将其设置为与 **old_collection_name** 相同的值，将导致 **MilvusException**。
 
 - **new_db_name** (*str*) -
 
-    此操作后该集合所属数据库的名称。
+    此操作后集合所属数据库的名称。
 
     该值默认为 **default**。如果将其设置为与此操作前集合所属数据库不同的数据库，则会将该集合移动到指定数据库。
 
@@ -98,7 +98,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时将引发此异常，尤其是在指定别名不存在时。
 
 ## 示例\{#examples}
 

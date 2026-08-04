@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将新记录插入数据库或更新现有记录。 | Python | ORM"
+description: "此操作将新记录插入数据库或更新已有记录。 | Python | ORM"
 type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
@@ -32,11 +32,11 @@ import TabItem from '@theme/TabItem';
 
 # upsert()
 
-此操作将新记录插入数据库或更新现有记录。 
+此操作将新记录插入数据库或更新已有记录。
 
 <Admonition type="info" icon="📘" title="说明">
 
-upsert 是一种数据级操作：如果集合中已存在指定字段，则会覆盖现有实体；如果指定值尚不存在，则会插入新实体。
+Upsert 是一种数据级操作：如果集合中已存在指定字段，则会覆盖已有实体；如果指定值尚不存在，则会插入一个新实体。
 
 </Admonition>
 
@@ -76,11 +76,11 @@ partition.upsert(
 
     要插入到当前集合中的数据。
 
-    要插入的数据应与当前集合的 schema 匹配。你可以将数据组织为以下形式：
+    要插入的数据应与当前集合的 schema 匹配。你可以按以下方式组织数据：
 
-    - 列表形式的列
+    - 列表形式的列数据
 
-        每一列都是该列中所有实体值组成的列表。
+        每一列都是该列中所有实体值的列表。
 
         ```python
         data = [
@@ -95,9 +95,9 @@ partition.upsert(
         ]
         ```
 
-    - **pandas.DataFrame**
+    - 一个 **pandas.DataFrame**
 
-        你可以按任意方式构建数据框，示例如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
+        你可以用任意方式构造数据框，如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 中 **Example** 部分所示。
 
         ```python
         data = pd.DataFrame({
@@ -112,7 +112,7 @@ partition.upsert(
         })
         ```
 
-    - 行列表或单行
+    - 行列表或单行数据
 
         每一行都是一个表示实体的字典。
 
@@ -144,31 +144,31 @@ partition.upsert(
 
 - **insert_count** (*int*)
 
-    插入的实体数量。
+    已插入实体的数量。
 
 - **delete_count** (*int*)
 
-    删除的实体数量。
+    已删除实体的数量。
 
 - **upsert_count** (*int*)
 
-    upsert 的实体数量。
+    已执行 upsert 的实体数量。
 
 - **succ_count** (*int*)
 
-    此操作中成功执行的次数。
+    此操作中执行成功的数量。
 
 - **succ_index** (*list*)
 
-    一个从 0 开始的索引号列表，每个索引号表示一次成功的操作。
+    从 0 开始的索引编号列表，每个编号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    此操作中失败执行的次数。
+    此操作中执行失败的数量。
 
 - **err_index** (*list*)
 
-    一个从 0 开始的索引号列表，每个索引号表示一次失败的操作。
+    从 0 开始的索引编号列表，每个编号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 

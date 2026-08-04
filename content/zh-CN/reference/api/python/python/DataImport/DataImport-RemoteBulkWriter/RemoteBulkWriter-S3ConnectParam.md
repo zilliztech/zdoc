@@ -45,7 +45,7 @@ class pymilvus.RemoteBulkWriter.S3ConnectParam
 
 **S3ConnectParam** 对象定义了 Zilliz Cloud 连接到兼容 AWS S3 的存储桶所需的参数。
 
-您需要先创建此对象，然后再初始化 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
+在初始化 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象之前，需要先创建此对象。
 
 </Admonition>
 
@@ -77,9 +77,9 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
     兼容 AWS S3 的服务的 URL。
 
-    该值可以是 MinIO 服务的 URL，或任何兼容 AWS S3 的公共服务的 URL。
+    该值可以是 MinIO 服务的 URL，也可以是任何兼容 AWS S3 的公共服务的 URL。
 
-    | **服务名称** | **端点** |
+    | **服务名称** | **Endpoint** |
     | --- | --- |
     | **AWS S3** | s3.amazonaws.com |
     | **GCS** | storage.googleapis.com |
@@ -94,11 +94,11 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **secure** (*bool*)
 
-    是否使用安全（TLS）连接访问兼容 AWS S3 的服务。 
+    是否对兼容 AWS S3 的服务使用安全（TLS）连接。
 
 - **session_token** (*str*)
 
-    您在兼容 AWS S3 的服务中的账户会话令牌。
+    你在兼容 AWS S3 的服务中的账户会话令牌。
 
 - **region** (*str*)
 
@@ -110,7 +110,7 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **credentials** (*minio.credentials.Provider*)    
 
-    您在兼容 AWS S3 的服务中的账户凭证提供程序。
+    你在兼容 AWS S3 的服务中的账户凭证提供器。
 
 **返回类型：**
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "SemanticHighlighter 用于为搜索结果中的文本字段配置后处理语义高亮。与匹配精确术语的词法高亮不同，语义高亮会根据与查询的语义相似性识别并标记相关的文本片段。高亮会使用可自定义的标签对匹配的片段进行注释。它不会影响检索、过滤、排序或评分。 | Python | MilvusClient"
+description: "SemanticHighlighter 用于为搜索结果中的文本字段配置后处理语义高亮。与匹配精确词项的词法高亮不同，语义高亮基于与查询的语义相似性识别并标记相关文本片段。高亮会使用可自定义标签对匹配的跨度进行注释。它不会影响检索、过滤、排序或评分。 | Python | MilvusClient"
 type: docx
 token: SVoVdTdZRotav9xFjdFcZ8V2n3d
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SemanticHighlighter
 
-**SemanticHighlighter** 用于为搜索结果中的文本字段配置后处理语义高亮。与匹配精确术语的词法高亮不同，语义高亮会根据与查询的语义相似性识别并标记相关的文本片段。高亮会使用可自定义的标签对匹配的片段进行注释。它不会影响检索、过滤、排序或评分。
+**SemanticHighlighter** 用于为搜索结果中的文本字段配置后处理语义高亮。与匹配精确词项的词法高亮不同，语义高亮基于与查询的语义相似性识别并标记相关文本片段。高亮会使用可自定义标签对匹配的跨度进行注释。它不会影响检索、过滤、排序或评分。
 
 ```python
 class pymilvus.SemanticHighlighter
@@ -39,7 +39,7 @@ class pymilvus.SemanticHighlighter
 
 ## Constructor\{#constructor}
 
-初始化一个与语义搜索配合使用的高亮器配置。
+初始化用于语义搜索的高亮配置。
 
 ```python
 SemanticHighlighter(
@@ -58,7 +58,7 @@ SemanticHighlighter(
 
 - **queries** (*list[str]*) - 
 
-    要与文档进行匹配的搜索查询列表。高亮器使用这些查询来识别结果中在语义上相关的文本片段。
+    用于与文档进行匹配的搜索查询列表。高亮器使用这些查询来识别结果中在语义上相关的文本片段。
 
 - **input_fields** (*list[str]*) - 
 
@@ -66,27 +66,27 @@ SemanticHighlighter(
 
 - **pre_tags** (*list[str]*) - 
 
-    在返回的高亮结果中插入到每个匹配片段之前的标签。支持普通字符串（例如 `{`）或 HTML 安全标记（例如 `<em>`、`<mark>`）。如果提供多个标签，则会按匹配顺序轮换使用这些标签。
+    插入到返回高亮结果中每个匹配片段之前的标签。支持普通字符串（例如 `{`）或 HTML-safe 标记（例如 `<em>`、`<mark>`）。如果提供多个标签，则标签会按匹配顺序轮换使用。
 
 - **post_tags** (*list[str]*) - 
 
-    插入到每个匹配片段之后并与 `pre_tags` 配对的标签。提供多个标签时，轮换顺序与 `pre_tags` 相同。
+    插入到每个匹配片段之后并与 `pre_tags` 配对的标签。当提供多个标签时，其轮换顺序与 `pre_tags` 相同。
 
 - **threshold** (*float*) - 
 
-    定义高亮“足够匹配”的最小置信度分数（0.0 到 1.0）。语义高亮会在 top-k 检索之后按项应用——只有与查询在语义上匹配且高于该阈值的片段，才会返回带有 `pre_tags`/`post_tags` 的高亮片段。如果未设置，低于该阈值的片段将返回空结果（`fragments=[], scores=[]`）
+    定义“足够匹配”以进行高亮的最小置信度分数（0.0 到 1.0）。语义高亮会在 top-k 检索之后按每个条目应用——只有与查询在语义上匹配且高于该阈值的片段，才会返回带有 `pre_tags`/`post_tags` 的高亮片段。如果未设置，则低于该阈值的片段会返回空结果（`fragments=[], scores=[]`）
 
 - **highlight_only** (*bool*) - 
 
-    如果为 `True`（默认值），则只返回与查询在语义上相关的句子级片段，这有助于聚焦最相关的上下文。如果设置为 `False`，则会返回包含这些片段的完整段落，只要其长度不超过模型的上下文限制。但是，当返回完整段落时，`scores` 字段将不再具有实际意义。
+    如果为 `True`（默认值），则仅返回与查询在语义上相关的句子级片段，这有助于聚焦最相关的上下文。如果设置为 `False`，则会返回包含这些片段的完整段落，但其长度不能超过模型的上下文限制。不过，当返回完整段落时，`scores` 字段将不再具有实际意义。
 
 - **model_deployment_id** (*str*) - 
 
-    用于语义推理的已部署高亮模型 ID。该模型决定如何计算查询与文档片段之间的语义相似性。
+    用于语义推理的已部署高亮模型的 ID。该模型决定如何计算查询与文档片段之间的语义相似性。
 
 - **max_client_batch_size** (*int*) - 
 
-    限制单个批次中处理的条目数量。可用于控制内存使用和处理吞吐量。
+    限制单个批次中处理的条目数。可用于控制内存使用和处理吞吐量。
 
 **RETURN TYPE:**
 
@@ -98,7 +98,7 @@ SemanticHighlighter(
 
 ## Examples\{#examples}
 
-在稠密向量搜索中高亮与语义相关的文本：
+在稠密向量搜索中高亮语义相关的文本：
 
 ```python
 from pymilvus import MilvusClient, SemanticHighlighter
@@ -141,7 +141,7 @@ results = client.search(
 # }
 ```
 
-使用 `threshold` 过滤低置信度高亮：
+使用 `threshold` 过滤低置信度高亮结果：
 
 ```python
 from pymilvus import MilvusClient, SemanticHighlighter

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除特定集合。 | Python | ORM"
+description: "此操作删除特定 collection。 | Python | ORM"
 type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection()
 
-此操作会删除特定集合。
+此操作删除特定 collection。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,11 +49,11 @@ drop_collection(
 
     **[必需]**
 
-    要删除的集合名称。
+    要删除的 collection 名称。
 
 - **timeout** (*float*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 - **using** (*str*) - 
 
@@ -71,7 +71,7 @@ None
 
 **异常：**
 
-不适用
+N/A
 
 ### 示例\{#examples}
 

@@ -10,7 +10,7 @@ notebook: false
 description: "此操作列出集合当前已加载的所有 segment，包括行数、排序状态、存储级别和内存大小等信息。 | Python | MilvusClient"
 type: docx
 token: QWlfd7SO1ojpdHxM968coTYQnYg
-sidebar_position: 22
+sidebar_position: 24
 keywords: 
   - DiskANN
   - Sparse vector
@@ -54,11 +54,11 @@ client.list_loaded_segments(
 
     **[必需]**
 
-    集合名称。
+    集合的名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-这仅适用于托管 collection。
+这仅适用于托管集合。
 
 </Admonition>
 
@@ -53,13 +53,13 @@ release_partitions(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
     现有 collection 的名称。
 
 - **partition_names** (*str | list[str]*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
     要释放的 partitions 名称列表。
 
@@ -67,19 +67,19 @@ release_partitions(
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 无
 
 <Admonition type="info" icon="📘" title="说明">
 
-仅当 collection 的任意一个或全部 partitions 已加载时，该 collection 才处于已加载状态。
+只有当 collection 的任意一个或全部 partitions 已加载时，该 collection 才处于 loaded 状态。
 
 </Admonition>
 

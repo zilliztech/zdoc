@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会为特定 collection 的两个 query node 设置一个负载均衡组。 | Python | ORM"
+description: "此操作会为特定 collection 的两个 query node 建立负载均衡组。 | Python | ORM"
 type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load_balance()
 
-此操作会为特定 collection 的两个 query node 设置一个负载均衡组。
+此操作会为特定 collection 的两个 query node 建立负载均衡组。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,13 +48,13 @@ load_balance(
 
 **参数：**
 
-- **collection_name** (*str*) -
-**[必需]**
+- **collection_name** (*str*) -<br/>
+  **[必需]**
 
-    要为其设置负载均衡组的现有 collection 名称。
+    要为其建立负载均衡组的现有 collection 名称。
 
-- **src_node_id** (*int*) -
-**[必需]**
+- **src_node_id** (*int*) -<br/>
+  **[必需]**
 
     当前该 collection 所使用的 query node 的 ID。
 

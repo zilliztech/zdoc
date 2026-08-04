@@ -45,7 +45,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ encode_documents(
 
 - **ImportError**
 
-    当未安装必需的 sentence-transformers 模块时，将引发此异常。
+    当未安装所需的 sentence-transformers 模块时，将引发此异常。
 
 ## 示例\{#examples}
 

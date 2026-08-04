@@ -12,10 +12,10 @@ type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - what is milvus
-  - milvus database
+  - 什么是 milvus
+  - milvus 数据库
   - milvus lite
-  - milvus benchmark
+  - milvus 基准测试
   - zilliz
   - zilliz cloud
   - cloud
@@ -52,7 +52,7 @@ list_usernames(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
 
 **返回类型：**
 
@@ -60,7 +60,7 @@ list_usernames(
 
 **返回：**
 
-包含所有现有用户名称的列表。
+一个包含所有现有用户名称的列表。
 
 **异常：**
 

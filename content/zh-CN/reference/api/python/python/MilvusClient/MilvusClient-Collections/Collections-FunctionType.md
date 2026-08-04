@@ -45,4 +45,4 @@ import Admonition from '@theme/Admonition';
 
 - RERANK = 3
 
-    将函数类型设置为 **RERANK**。这表示 Milvus 将使用排序器对候选结果进行重排序，以提升搜索性能。
+    将函数类型设置为 **RERANK**。这表示 Milvus 将使用重排器对候选结果进行重排，以提升搜索性能。

@@ -35,9 +35,9 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专有服务集群和按需计算。 
+此方法仅适用于专用服务集群和按需计算。 
 
-- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的集合执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 对于按需计算中的集合执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -74,11 +74,11 @@ drop_index_properties(
 
 - **index_name** (*str*) -
 
-    要删除属性的索引文件名称。
+    要删除其属性的索引文件名称。
 
 - **property_keys** (*List[str]*) -
 
-    以列表形式提供的待删除属性名称。可选属性如下：
+    要删除的属性名称列表。可用属性如下：
 
     - `mmap.enabled`
 
@@ -86,7 +86,7 @@ drop_index_properties(
 
     此操作的超时时长。
 
-    将此项设置为 None 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将此参数设置为 None 表示在收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
@@ -100,7 +100,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

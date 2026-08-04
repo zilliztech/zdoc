@@ -45,7 +45,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ encode_documents(
 
 - **ValueError**
 
-    当您指定多个嵌入类型，或在初始化 CohereEmbeddingFunction 时使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
+    当你在初始化 `CohereEmbeddingFunction` 时指定了多个嵌入类型，或者使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
 
 ## 示例\{#examples}
 

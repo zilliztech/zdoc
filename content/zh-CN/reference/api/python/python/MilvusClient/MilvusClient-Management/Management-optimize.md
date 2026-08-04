@@ -10,7 +10,7 @@ notebook: false
 description: "- isl0 (bool) - | Python | MilvusClient"
 type: docx
 token: MhRidjHwYorxaexS8WXcaxWQnjd
-sidebar_position: 24
+sidebar_position: 26
 keywords: 
   - open source vector database
   - Vector index
@@ -43,19 +43,19 @@ import Admonition from '@theme/Admonition';
 
     `target_size` 的单位。支持的值包括 `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"` 和 `"pb"`。客户端会在发送请求前将该值转换为 MB。
 
-此操作会压缩 collection 中的小 segment，并返回一个可用于轮询进度的压缩任务 ID。
+此操作会压缩 collection 中的小 segment，并返回一个可用于轮询进度的压缩作业 ID。
 
 <Admonition type="warning" icon="🚧" title="警告">
 
-这是一个预览版功能，仅用于非生产用途（Benchmark、POC）。
+这是一个预览版功能，仅用于非生产环境（Benchmark、POC）。
 
 </Admonition>
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专用服务集群和按需计算。 
+此方法仅适用于专有服务集群和按需计算。 
 
-- 对于在服务集群的 collection 上执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 collection 执行此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -65,7 +65,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于在按需计算的 collection 上执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 对于按需计算中的 collection 执行此操作，请使用项目 endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个 session 并将其附加到按需集群以进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -89,7 +89,7 @@ client.optimize(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
     要优化的 collection 名称。
 
@@ -99,7 +99,7 @@ client.optimize(
 
 - **wait** (*bool*) -
 
-    是否等待优化完成。默认为 **True**。如果为 **False**，则返回一个 `OptimizeTask` 用于异步跟踪。
+    是否等待优化完成。默认为 **True**。如果为 **False**，则返回一个 `OptimizeTask` 以进行异步跟踪。
 
 - **timeout** (*float*) -
 
@@ -108,7 +108,7 @@ client.optimize(
 **返回类型：**
 *OptimizeResult | OptimizeTask*
 
-当 `wait=True` 时，返回一个 `OptimizeResult`；当 `wait=False` 时，返回一个 `OptimizeTask`。
+当 `wait=True` 时返回一个 `OptimizeResult`，当 `wait=False` 时返回一个 `OptimizeTask`。
 
 **返回值：**
 

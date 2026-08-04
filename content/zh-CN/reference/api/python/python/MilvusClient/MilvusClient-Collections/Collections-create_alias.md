@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专用服务集群和按需计算。
+此方法适用于专属服务集群和按需计算。 
 
 - 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -75,35 +75,35 @@ create_alias(
 
     **[REQUIRED]**
 
-    集合的别名。在执行此操作之前，请确保该别名尚不存在。否则会发生异常。
+    集合的别名。在执行此操作之前，请确保该别名尚不存在。如果已存在，将会发生异常。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" icon="📘" title="说明">
 
     什么是集合别名？
     
-        集合别名是集合的一个附加名称。当你希望将应用程序切换到新集合而无需修改任何代码时，集合别名会非常有用。
+        集合别名是集合的附加名称。当你希望将应用程序切换到一个新集合而无需对代码进行任何更改时，集合别名会非常有用。 
     
-        在 Zilliz Cloud 中，集合别名是全局唯一标识符。一个别名只能分配给一个集合。反过来，一个集合可以拥有多个别名。
+        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能精确地分配给一个集合。反之，一个集合可以拥有多个别名。
     
         下面是将一个集合的别名重新分配给另一个集合的示例：
     
-        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，它最初被分配给 `collection_1`：
+        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初分配给了 `collection_1`：
     
-        - `collection_1` 的 alias = ["bob"]
+        - `collection_1` 的别名 = ["bob"]
     
-        - `collection_2` 的 alias = []
+        - `collection_2` 的别名 = []
     
         调用 `alter_alias("collection_2", "bob")` 后：
     
-        - `collection_1` 的 alias = []
+        - `collection_1` 的别名 = []
     
-        - `collection_2` 的 alias = ["bob"]
+        - `collection_2` 的别名 = ["bob"]
 
     </Admonition>
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

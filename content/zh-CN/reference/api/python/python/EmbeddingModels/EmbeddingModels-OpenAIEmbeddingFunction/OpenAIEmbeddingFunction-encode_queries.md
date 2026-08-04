@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
 type: docx
 token: Sf9UdzL3rolQNAxDm8Ecga3snhg
 sidebar_position: 2
 keywords: 
-  - 向量嵌入
-  - 向量存储
-  - 开源向量数据库
-  - 向量索引
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
+此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ encode_queries(
 
 - **queries** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串表示一个将被传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 

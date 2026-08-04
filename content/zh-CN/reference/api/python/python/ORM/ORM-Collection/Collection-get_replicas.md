@@ -45,7 +45,7 @@ get_replicas(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
@@ -73,7 +73,7 @@ get_replicas(
 
     - **shards** (*list*)  
 
-        **Shard** 对象列表，包含以下字段：
+        **Shard** 对象列表，每个对象包含以下字段：
 
         - **channel_name** (*str*)
 
@@ -85,11 +85,11 @@ get_replicas(
 
 什么是副本？
 
-借助副本，Zilliz Cloud 可以在多个查询节点上加载相同的 segment。如果某个查询节点发生故障，或者在另一条搜索请求到达时正忙于处理当前搜索请求，系统可以将新请求发送到空闲的、拥有相同 segment 副本的查询节点。 
+借助副本，Zilliz Cloud 可以在多个查询节点上加载相同的 segment。如果某个查询节点发生故障，或者当另一个搜索请求到达时正忙于处理当前搜索请求，系统可以将新请求发送到拥有相同 segment 副本的空闲查询节点。 
 
-副本按副本组进行组织。每个副本组都包含 [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) 副本。每个 shard 副本都有一个流式副本和一个历史副本，分别对应 shard 中正在增长的和已封存的 [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment)。
+副本按副本组进行组织。每个副本组都包含 [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) 副本。每个 shard 副本都有一个流式副本和一个历史副本，分别对应 shard 中正在增长和已封存的 [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment)。
 
-Shards 可以被视为 DML 通道，用于在多个节点之间进行分布式数据写入操作，从而最大限度地发挥 Zilliz Cloud 集群的并行计算能力。
+Shard 可视为 DML 通道，用于在多个节点之间执行分布式数据写入操作，从而最大限度发挥 Zilliz Cloud 集群的并行计算潜力。
 
 </Admonition>
 

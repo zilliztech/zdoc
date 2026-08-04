@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查当前 collection 是否已构建索引。 | Python | ORM"
+description: "此操作检查当前集合是否已构建索引。 | Python | ORM"
 type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has_index()
 
-此操作检查当前 collection 是否已构建索引。
+此操作检查当前集合是否已构建索引。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,9 +49,9 @@ has_index(timeout: float | None)
 
 *bool*
 
-**返回：**
+**返回值：**
 
-一个布尔值，用于指示当前 collection 是否已构建索引。
+布尔值，表示当前集合是否已构建索引。
 
 **异常：**
 

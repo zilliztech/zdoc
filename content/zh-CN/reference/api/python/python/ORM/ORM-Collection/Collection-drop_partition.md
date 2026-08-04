@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从当前集合中删除指定的分区。 | Python | ORM"
+description: "此操作从当前 collection 中删除指定的 partition。 | Python | ORM"
 type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_partition()
 
-此操作从当前集合中删除指定的分区。
+此操作从当前 collection 中删除指定的 partition。
 
 ```python
 drop_partition(
@@ -58,7 +58,7 @@ collection.drop_partition(
 
 - **partition_name** (*str*) -
 
-    要删除的分区名称。
+    要删除的 partition 名称。
 
 - **timeout** (*float* | *None*)  
 
@@ -68,7 +68,7 @@ collection.drop_partition(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

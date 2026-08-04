@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定集合属性。 | Python | MilvusClient"
+description: "此操作会删除指定的集合属性。 | Python | MilvusClient"
 type: docx
 token: HTnvdQ8SbodURtxPEv5cURL0n5b
 sidebar_position: 12
@@ -59,7 +59,7 @@ drop_collection_properties(
 
 - **property_keys** (*List[str]*) -
 
-    要删除的属性名称列表。可选值如下：
+    要删除的属性名称列表。可能的值如下：
 
     - `collection.ttl.seconds`
 
@@ -73,7 +73,7 @@ drop_collection_properties(
 
     此操作的超时时长。
 
-    将此参数设置为 None 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -87,7 +87,7 @@ drop_collection_properties(
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
 ## 示例\{#example}
 

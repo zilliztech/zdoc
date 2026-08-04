@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "MistralAIEmbeddingFunction 是 pymilvus 中的一个类，使用 Mistral AI 嵌入模型将文本编码为向量，以支持在 Milvus 中进行向量检索。 | Python"
+description: "MistralAIEmbeddingFunction 是 pymilvus 中的一个类，负责使用 Mistral AI 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: CvxodXz8OoWXrlxD7OVcqqJLn8e
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # MistralAIEmbeddingFunction
 
-MistralAIEmbeddingFunction 是 pymilvus 中的一个类，使用 Mistral AI 嵌入模型将文本编码为向量，以支持在 Milvus 中进行向量检索。
+MistralAIEmbeddingFunction 是 pymilvus 中的一个类，负责使用 Mistral AI 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.MistralAIEmbeddingFunction
@@ -57,11 +57,11 @@ MistralAIEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    用于编码的 Mistral AI 嵌入模型名称。默认值为 `mistral-embed`。更多信息，请参见 [Embeddings](https://docs.mistral.ai/capabilities/embeddings/)。
+    用于编码的 Mistral AI 嵌入模型名称。该值默认为 `mistral-embed`。更多信息请参见 [Embeddings](https://docs.mistral.ai/capabilities/embeddings/)。
 
 - **kwargs**
 
-    允许在模型初始化时传入其他关键字参数。更多信息，请参见 [Embedding API](https://docs.mistral.ai/api/#tag/embeddings/operation/embeddings_v1_embeddings_post)。
+    允许向模型初始化传递额外的关键字参数。更多信息请参见 [Embedding API](https://docs.mistral.ai/api/#tag/embeddings/operation/embeddings_v1_embeddings_post)。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "JinaRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。 | Python"
+description: "JinaRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。 | Python"
 type: docx
 token: R3gEdUOSfo6JzMxwUsTcevNHn9g
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[JinaRerankFunction](./Rerankers-JinaRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。
+[JinaRerankFunction](./Rerankers-JinaRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,11 +55,11 @@ jina_rf(
 
 - `documents` (*List[str]*)
 
-    将针对给定查询进行排序的文档字符串列表。
+    一个文档字符串列表，将针对给定查询进行排序。
 
 - `top_k` (*int*)
 
-    要返回的排名最高文档的最大数量。默认为 **5**。
+    要返回的排序结果中排名最高的文档最大数量。默认为 **5**。
 
 **返回类型：**
 
@@ -80,7 +80,7 @@ jina_rf(
 
 - `text`：匹配到的文档文本。
 
-- `score`：重排模型分配给该文档的分数。
+- `score`：重排模型为该文档分配的分数。
 
 - `index`：该文档在原始文档列表中的索引。
 
@@ -88,7 +88,7 @@ jina_rf(
 
 - **RuntimeError**
 
-    当 Jina API 的响应中不包含 `results` 键时，将引发此异常。
+    当来自 Jina API 的响应中不包含 `results` 键时，将引发此异常。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会在一段时间内固定快照数据，以便在您导出或备份文件时，垃圾回收不会将其删除。 | Python | MilvusClient"
+description: "此操作会将快照数据固定一段时间，以便在导出或备份文件期间，垃圾回收不会将其删除。 | Python | MilvusClient"
 type: docx
 token: NqWDdRxKYoi6uTxHaYEcafx9nGc
 sidebar_position: 7
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # pin_snapshot_data()
 
-此操作会在一段时间内固定快照数据，以便在您导出或备份文件时，垃圾回收不会将其删除。
+此操作会将快照数据固定一段时间，以便在导出或备份文件期间，垃圾回收不会将其删除。
 
 ## 请求语法\{#request-syntax}
 
@@ -63,11 +63,11 @@ pin_snapshot_data(
 
 - **ttl_seconds** (*int*) -
 
-    固定的有效期（秒）。`0` 表示使用服务器默认 TTL。
+    固定生存时间（秒）。`0` 表示使用服务器默认 TTL。
 
 - **timeout** (*Optional[float]*) -
 
-    此操作的超时时间，单位为秒。
+    此操作的超时时间（秒）。
 
 - **kwargs** (*dict*) -
 

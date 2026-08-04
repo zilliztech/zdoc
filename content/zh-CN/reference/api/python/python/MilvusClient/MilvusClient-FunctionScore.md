@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "FunctionScore 实例以可配置的方式组合多个 [Function](./MilvusClient-Function)。你可以将 FunctionScore 实例用作 ranker，以组合多个重排序 [Function](./MilvusClient-Function)。 | Python | MilvusClient"
+description: "一个 FunctionScore 实例以可配置的方式组合多个 Function](./MilvusClient-Function)。您可以将 FunctionScore 实例用作排序器，以组合多个重排序 [Function。 | Python | MilvusClient"
 type: docx
 token: PfJNdkuMDoCqqcxm6S2cDD6TnFh
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionScore
 
-**FunctionScore** 实例以可配置的方式组合多个 **[Function](./MilvusClient-Function)**。你可以将 **FunctionScore** 实例用作 ranker，以组合多个重排序 **[Function](./MilvusClient-Function)**。
+**FunctionScore** 实例以可配置的方式组合多个 **[Function](./MilvusClient-Function)**。您可以将 **FunctionScore** 实例用作排序器，以组合多个重排序 **[Function](./MilvusClient-Function)**。
 
 ```python
 class pymilvus.FunctionScore
@@ -52,7 +52,7 @@ FunctionScore(
 
 - **functions** (*[Function](./MilvusClient-Function)*, *List[[Function](./MilvusClient-Function)]*) -
 
-    要在当前 FunctionScore 实例中组合的一个 Function 实例或一组 Function 实例。
+    要在当前 FunctionScore 实例中进行组合的一个 Function 实例或一个 Function 实例列表。
 
 - **params** (*Dict*) -  
 
@@ -60,31 +60,31 @@ FunctionScore(
 
     - **boost_mode** (*str*) - 
 
-        指定所设权重如何影响任何匹配实体的得分。可能的值包括：
+        指定所设定权重如何影响任何匹配实体的分数。可能的值包括：
 
         - `Multiply`
 
-            表示加权值等于匹配实体的原始得分乘以指定权重。 
+            表示加权值等于匹配实体的原始分数乘以指定权重。 
 
             这是默认值。
 
         - `Sum`
 
-            表示加权值等于匹配实体的原始得分与指定权重之和
+            表示加权值等于匹配实体的原始分数与指定权重之和
 
     - **function_mode** (*str*) -
 
-        指定如何处理来自多个 Boost Ranker 的加权值。可能的值包括：
+        指定如何处理来自各个 Boost Ranker 的加权值。可能的值包括：
 
         - `Multiply`
 
-            表示匹配实体的最终得分等于所有 Boost Ranker 加权值的乘积。
+            表示匹配实体的最终分数等于所有 Boost Ranker 的加权值乘积。
 
             这是默认值。
 
         - `Sum`
 
-            表示匹配实体的最终得分等于所有 Boost Ranker 加权值之和。
+            表示匹配实体的最终分数等于所有 Boost Ranker 的加权值之和。
 
     **RETURN TYPE:**
 
@@ -92,7 +92,7 @@ FunctionScore(
 
     **RETURNS:**
 
-    以配置方式组合后的一组 Functions
+    按配置方式组合的 Function 集合
 
     ## Examples\{#examples}
 

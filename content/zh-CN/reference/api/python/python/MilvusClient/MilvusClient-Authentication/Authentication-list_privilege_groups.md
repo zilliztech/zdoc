@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有的权限组。 | Python | MilvusClient"
+description: "此操作会列出所有现有的权限组。 | Python | MilvusClient"
 type: docx
 token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_privilege_groups()
 
-此操作列出所有现有的权限组。
+此操作会列出所有现有的权限组。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,13 +49,13 @@ list_privilege_groups(
 
     此操作的超时时长。
 
-    将其设置为 None 表示当收到任意响应或发生任何错误时，此操作即超时。
+    将其设置为 None 表示当收到任意响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
 *List[Dict[str, str]]*
 
-**返回：**
+**返回值：**
 
 权限组名称列表。
 
@@ -63,7 +63,7 @@ list_privilege_groups(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时将引发此异常，尤其是在指定的别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
 ## 示例\{#example}
 

@@ -45,7 +45,7 @@ encode_queries(
 
 - **queries** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ encode_queries(
 
 - **ValueError**
 
-    当您为 CohereEmbeddingFunction 初始化指定多个嵌入类型，或使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
+    当您在初始化 `CohereEmbeddingFunction` 时指定了多种嵌入类型，或使用了 `int8` 或 `uint8` 数据类型时，将引发此异常。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会封存所有分段。 | Python | ORM"
+description: "此操作会封存所有段。 | Python | ORM"
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flush_all()
 
-此操作会封存所有分段。
+此操作会封存所有段。
 
 ## 请求语法\{#request-syntax}
 
@@ -53,13 +53,13 @@ flush_all(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 

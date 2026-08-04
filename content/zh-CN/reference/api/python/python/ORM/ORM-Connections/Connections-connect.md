@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用提供的别名、地址和身份验证参数与 Zilliz Cloud 集群建立连接。 | Python | ORM"
+description: "此操作使用提供的别名、地址和身份验证参数来建立与 Zilliz Cloud 集群的连接。 | Python | ORM"
 type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # connect()
 
-此操作使用提供的别名、地址和身份验证参数与 Zilliz Cloud 集群建立连接。
+此操作使用提供的别名、地址和身份验证参数来建立与 Zilliz Cloud 集群的连接。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,13 +50,13 @@ connect(
 
 - **alias** (*string*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
     连接别名。
 
     <Admonition type="info" icon="📘" title="说明">
 
-    - 如果指定的连接别名不存在，则会新增一个连接别名，并将下面指定的参数添加为该连接别名的参数。
+    - 如果指定的连接别名不存在，则会新增一个，并将下面指定的参数添加为该连接别名的参数。
     
     - 如果指定的连接别名已通过调用 **add_connection()** 添加，则下面指定的参数会覆盖该连接别名原有的参数。
 
@@ -64,13 +64,13 @@ connect(
 
 - **user** (*string*) -
 
-    用于连接到指定 Zilliz Cloud 集群的有效用户名。
+    用于连接指定 Zilliz Cloud 集群的有效用户名。
 
     应与 **password** 一起使用。
 
 - **password** (*string*) -
 
-    用于连接到指定 Zilliz Cloud 集群的有效密码。
+    用于连接指定 Zilliz Cloud 集群的有效密码。
 
     应与 **user** 一起使用。
 
@@ -80,15 +80,15 @@ connect(
 
 - **token** (*string*) -
 
-    用于访问指定 Zilliz Cloud 集群的有效访问令牌。可作为分别设置 **user** 和 **password** 的替代方式。
+    用于访问指定 Zilliz Cloud 集群的有效访问令牌。此参数可替代分别设置 **user** 和 **password**。
 
     设置此字段时，请注意：
 
-    有效的令牌应为以下之一：
+    有效的 token 应当是以下之一：
 
     - 具有足够权限的 API key，或
 
-    - 用于访问目标集群的一组用户名和密码，并使用冒号 (:) 连接。例如，你可以将其设置为 `username:p@ssw0rd`。
+    - 用于访问目标集群的一组用户名和密码，并以冒号 (:) 连接。例如，你可以将其设置为 `username:p@ssw0rd`。
 
 - **kwargs** (*dict*) -
 
@@ -96,7 +96,7 @@ connect(
 
     - **address** (*string*) -
 
-        实际连接地址。示例地址：**YOUR_CLUSTER_ENDPOINT**。
+        要连接的实际地址。示例地址：**YOUR_CLUSTER_ENDPOINT**。
 
     - **uri** (*string*) -
 
@@ -104,55 +104,55 @@ connect(
 
     - **host** (*string*) -
 
-        Zilliz Cloud 集群的主机名。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 将补全默认主机。
+        Zilliz Cloud 集群的主机地址。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 会填入默认主机地址。
 
     - **port** (*string | int*) -
 
-        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供 **host**，PyMilvus 将补全默认端口。
+        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供 **host**，PyMilvus 会填入默认端口。
 
     - **secure** (*bool*) -
 
-        一个布尔值，用于指示连接中是否使用 TLS。
+        一个布尔值，表示连接中是否使用 TLS。
 
     - **client_key_path** (*string*) -
 
         指向有效 **client.key** 文件的路径，用于客户端侧的 TLS 证书验证。
 
-        使用自签名 TLS 证书或由未知证书颁发机构签名的证书时，此参数是必需的。
+        当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_pem_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 配合使用。
+        如适用，此参数应与 **client_pem_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 一起使用。
 
     - **client_pem_path** (*string*) -
 
         指向有效 **client.pem** 文件的路径，用于客户端侧的 TLS 证书验证。
 
-        使用自签名 TLS 证书或由未知证书颁发机构签名的证书时，此参数是必需的。
+        当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 配合使用。
+        如适用，此参数应与 **client_key_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 一起使用。
 
     - **ca_pem_path** (*string*) -
 
         指向有效 **ca.pem** 文件的路径，用于 TLS 证书验证。
 
-        使用自签名 TLS 证书或由未知证书颁发机构签名的证书时，此参数是必需的。
+        当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**client_pem_path**、**server_pem_path** 和 **server_name** 配合使用。
+        如适用，此参数应与 **client_key_path**、**client_pem_path**、**server_pem_path** 和 **server_name** 一起使用。
 
     - **server_pem_path** (*string*) -
 
         指向有效 **server.pem** 文件的路径，用于服务端侧的 TLS 证书验证。
 
-        使用自签名 TLS 证书或由未知证书颁发机构签名的证书时，此参数是必需的。
+        当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_name** 配合使用。
+        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_name** 一起使用。
 
     - **server_name** (*string*) -
 
         指向有效服务器名称的路径，用于服务端侧的 TLS 证书验证。
 
-        使用自签名 TLS 证书或由未知证书颁发机构签名的证书时，此参数是必需的。
+        当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_pem_path** 配合使用。
+        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_pem_path** 一起使用。
 
 **返回类型：**
 
@@ -170,7 +170,7 @@ None
 
 - **ParamError**: 
 
-    当为 pool 参数传入了不受支持的值时，将引发此异常。
+    当为 pool 参数传入不受支持的值时，将引发此异常。
 
 - **Exception**: 
 

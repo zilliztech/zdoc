@@ -35,9 +35,9 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于专属服务集群和按需计算。
 
-- 如需在服务集群的 collection 中执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如需在服务集群的 collection 中执行此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 如需在按需计算的 collection 中执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
+- 如需在按需计算的 collection 中执行此操作，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## 请求语法\{#request-syntax}
 
 ```python
 query(
@@ -66,21 +66,21 @@ query(
 ) -> List[dict]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
     现有 collection 的名称。
 
 - **filter** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    用于筛选匹配实体的标量过滤条件。 
+    用于过滤匹配实体的标量过滤条件。
 
-    你可以将此参数设为空字符串，以跳过标量过滤。有关如何构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。 
+    你可以将此参数设置为空字符串以跳过标量过滤。关于如何构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。
 
 - **output_fields** (*list[str]* | *None*) -
 
@@ -94,19 +94,19 @@ query(
     
     - 将其设置为 `output_fields=["count(\*)"]` 会输出与 **filter** 参数中指定条件匹配的已加载实体数量。
     
-    - 与 `group_by_fields` 一起使用时，此列表也支持聚合表达式：`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)` 和 `avg(<field>)`。聚合值将按组计算，并与分组键一同返回。
+    - 与 `group_by_fields` 一起使用时，此列表还支持聚合表达式：`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)` 和 `avg(<field>)`。聚合值会按组计算，并与分组键一起返回。
 
     </Admonition>
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
     分区名称列表。
 
-    默认值为 **None**。如果指定，则只在指定分区中执行查询。
+    默认值为 **None**。如果指定，则仅在指定的分区中执行查询。
 
 - **kwargs** -
 
@@ -114,13 +114,13 @@ query(
 
         目标 collection 的一致性级别。
 
-        该值默认与创建当前 collection 时指定的值一致，可选值包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
+        默认值为创建当前 collection 时指定的值，可选值包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
 
         <Admonition type="info" icon="📘" title="说明">
 
         什么是一致性级别？
         
-                分布式数据库中的一致性，特指在某一时刻进行数据写入或读取时，确保每个节点或副本看到相同数据视图的属性。
+                在分布式数据库中，一致性特指这样一种属性：在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同的视图。
         
                 Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
         
@@ -130,9 +130,9 @@ query(
 
     - **guarantee_timestamp** (*int*) -
 
-        一个有效的时间戳。 
+        一个有效的时间戳。
 
-        如果设置了此参数，则仅当该时间戳之前插入的所有实体对查询节点可见时，才会执行查询。 
+        如果设置了此参数，只有在此时间戳之前插入的所有实体都对查询节点可见时，才会执行查询。
 
         <Admonition type="info" icon="📘" title="说明">
 
@@ -142,7 +142,7 @@ query(
 
     - **graceful_time** (*int*) -
 
-        以秒为单位的时间段。
+        一个以秒为单位的时间段。
 
         默认值为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算保证时间戳。
 
@@ -154,29 +154,29 @@ query(
 
     - **offset** (*int*) -
 
-        在查询结果中要跳过的记录数。 
+        在查询结果中要跳过的记录数。
 
-        你可以将此参数与 `limit` 结合使用以实现分页。
+        你可以将此参数与 `limit` 结合使用以启用分页。
 
-        此值与 `limit` 的和应小于 16,384。 
+        此值与 `limit` 的总和应小于 16,384。
 
     - **limit** (*int*) -
 
         查询结果中要返回的记录数。
 
-        你可以将此参数与 `offset` 结合使用以实现分页。
+        你可以将此参数与 `offset` 结合使用以启用分页。
 
-        此值与 `offset` 的和应小于 16,384。
+        此值与 `offset` 的总和应小于 16,384。
 
     - **timezone** (*str*)
 
-        通过设置一个 [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**、**America/Chicago** 或 **UTC**），临时覆盖单次查询中 collection 或数据库的默认时区。这仅控制该操作期间 `TIMESTAMPTZ` 值的解释、显示和比较方式；不会修改已存储的数据或 collection 设置。
+        通过设置一个 [IANA 标识符](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**、**America/Chicago** 或 **UTC**），可为单次查询临时覆盖 collection 或数据库的默认时区。它仅控制该操作期间如何解释、显示和比较 `TIMESTAMPTZ` 值；不会修改已存储的数据或 collection 设置。
 
         更多信息，请参见 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
 
     - **time_fields** (*str*)
 
-        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定时间组成部分。使用逗号分隔的列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
+        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定的时间组成部分。使用逗号分隔列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
 
         更多信息，请参见 TIMESTAMPZ Field。
 
@@ -190,7 +190,7 @@ query(
 
     - **group_by_fields** (*list[str]*) -
 
-        用于对查询结果进行分组的标量字段列表。设置后，`query()` 会为指定字段值的每个唯一组合返回一行，且 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）都会按组计算。
+        用于对查询结果进行分组的标量字段列表。设置后，`query()` 会针对指定字段值的每种唯一组合返回一行，并对 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）按组计算。
 
         支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR 和 TIMESTAMPTZ。按向量、JSON 或 Array 字段分组会返回错误。
 
@@ -202,11 +202,11 @@ query(
 
         你可以将 `group_by_fields` 与 `limit` 结合使用，以限制返回的分组数量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *list[dict]*
 
-**RETURNS:**
+**返回值：**
 
 由字典组成的列表，其中每个字典表示一个查询到的实体。
 
@@ -216,17 +216,17 @@ query(
 
 </Admonition>
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任意错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    当参数值与所需数据类型不匹配时，将引发此异常。
+    当参数值与要求的数据类型不匹配时，将引发此异常。
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

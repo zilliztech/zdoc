@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于在资源组之间转移指定数量的副本。 | Python | ORM"
+description: "此操作在资源组之间转移指定数量的副本。 | Python | ORM"
 type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # transfer_replica()
 
-此操作用于在资源组之间转移指定数量的副本。
+此操作在资源组之间转移指定数量的副本。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,35 +50,35 @@ transfer_replica(
 
 - **source_group** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    要从中移动查询节点的源资源组名称。
+    要从中迁移查询节点的源资源组名称。
 
-    如果将此参数设置为不存在的资源组，将导致 **MilvusException**。
+    如果将其设置为不存在的资源组，将导致 **MilvusException**。
 
 - **target_group** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    要将查询节点移动到的源资源组名称。
+    要将查询节点迁移到的源资源组名称。
 
-    如果将此参数设置为不存在的资源组，将导致 **MilvusException**。
+    如果将其设置为不存在的资源组，将导致 **MilvusException**。
 
 - **num_replicas** (*int*) -
 
-    **[必填]**
+    **[必需]**
 
-    要在源资源组和目标资源组之间移动的副本数量。
+    在源资源组和目标资源组之间移动的副本数量。
 
     <Admonition type="info" icon="📘" title="说明">
 
     什么是副本？
     
-        借助副本，Zilliz Cloud 可以在多个查询节点上加载相同的 segment。如果某个查询节点发生故障，或者当新的搜索请求到达时该节点正忙于处理当前搜索请求，系统就可以将新请求发送到另一个空闲的、具有相同 segment 副本的查询节点。 
+        通过副本，Zilliz Cloud 可以在多个查询节点上加载相同的 segment。如果某个查询节点发生故障，或者在另一个搜索请求到达时正忙于处理当前搜索请求，系统可以将新请求发送到拥有相同 segment 副本的空闲查询节点。 
     
         副本按副本组进行组织。每个副本组都包含 [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) 副本。每个 shard 副本都有一个流式副本和一个历史副本，分别对应 shard 中正在增长的和已封存的 [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment)。
     
-        Shard 可被视为分布式数据写入操作中的 DML 通道，用于在多个节点之间充分利用 Zilliz Cloud 集群的并行计算能力。
+        Shard 可以视为分布式数据写入操作中的 DML 通道，用于在多个节点之间充分利用 Zilliz Cloud 集群的并行计算能力。
 
     </Admonition>
 
@@ -96,9 +96,9 @@ transfer_replica(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
-None。
+无。
 
 **异常：**
 

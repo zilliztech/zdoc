@@ -12,10 +12,10 @@ type: docx
 token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
 sidebar_position: 1
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - 自然语言处理数据库
+  - 经济实惠的向量数据库
+  - 托管向量数据库
+  - Pinecone 向量数据库
   - zilliz
   - zilliz cloud
   - cloud
@@ -47,7 +47,7 @@ add_function(
 
     **[必需]**
 
-    `Function` 类的一个实例，用于将数据转换为向量嵌入。此函数将被添加到集合的 schema 中。
+    `Function` 类的一个实例，用于将数据转换为向量嵌入。该函数将被添加到集合的 schema 中。
 
 **返回类型：**
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向集合中添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或 embedding 生成。 | Python | MilvusClient"
+description: "此操作会向集合添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。 | Python | MilvusClient"
 type: docx
 token: Qe3GdWZa9oAxjrx85tkct8ManRe
 sidebar_position: 21
@@ -15,7 +15,7 @@ keywords:
   - 什么是向量嵌入
   - 向量数据库教程
   - 向量数据库如何工作
-  - 向量数据库比较
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_function()
 
-此操作会向集合中添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或 embedding 生成。
+此操作会向集合添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。
 
 <Admonition type="info" icon="📘" title="说明">
 

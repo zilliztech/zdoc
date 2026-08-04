@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会永久删除一个快照。删除后，快照数据将无法恢复。 | Python | MilvusClient"
+description: "此操作会永久删除快照。快照一旦删除，其数据将无法恢复。 | Python | MilvusClient"
 type: docx
 token: UknCdYmtRoVIZ9xWcLnc02b0ndZ
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_snapshot()
 
-此操作会永久删除一个快照。删除后，快照数据将无法恢复。
+此操作会永久删除快照。快照一旦删除，其数据将无法恢复。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,12 +45,12 @@ drop_snapshot(
 
 **参数：**
 
-- **snapshot_name** (*str*) -
-**[必需]**
-要删除的快照名称。
+- **snapshot_name** (*str*) -<br/>
+  **[必需]**<br/>
+  要删除的快照名称。
 
-- **timeout** (*Optional[float]*) -
-RPC 允许的可选持续时间，单位为秒。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC 允许的可选时长（以秒为单位）。
 
 **返回类型：**
 

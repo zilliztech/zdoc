@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
+description: "此操作接收查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
 type: docx
 token: S9zPdiLkpokjfkxfZ68cWIFynnd
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
+此操作接收查询字符串列表，并将每个查询编码为向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,7 +51,7 @@ encode_queries(
 
 *csr_array*
 
-**返回：**
+**返回值：**
 
 表示查询嵌入的压缩稀疏行矩阵。
 

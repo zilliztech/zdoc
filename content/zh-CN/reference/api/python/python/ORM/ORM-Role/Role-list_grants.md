@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出授予当前角色的所有权限。 | Python | ORM"
+description: "此操作会列出授予当前角色的所有权限。 | Python | ORM"
 type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_grants()
 
-此操作列出授予当前角色的所有权限。
+此操作会列出授予当前角色的所有权限。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,7 +55,7 @@ list_grants(
 
 **返回：**
 
-一个 **GrantInfo** 对象，其中包含 **GrantItem** 对象列表。
+一个 **GrantInfo** 对象，其中包含一个 **GrantItem** 对象列表。
 
 ```python
 ├── GrantInfo

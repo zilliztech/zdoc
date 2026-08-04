@@ -51,7 +51,7 @@ list_indexes(
 
     现有集合的名称。
 
-    如果将其设置为不存在的集合，会导致 **CollectionNotExistException**。
+    如果将其设置为不存在的集合，将导致 **CollectionNotExistException**。
 
 - **index_name** (*str*) -
 
@@ -59,7 +59,7 @@ list_indexes(
 
     如果未指定，则使用默认索引。如果集合有多个索引，则此参数为必填。
 
-    如果将其设置为不存在的索引，会导致 **IndexNotExistException**。
+    如果将其设置为不存在的索引，将导致 **IndexNotExistException**。
 
 - **using** (*str*) - 
 
@@ -69,7 +69,7 @@ list_indexes(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 

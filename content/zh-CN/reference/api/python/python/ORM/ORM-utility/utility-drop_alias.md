@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定的集合别名。 | Python | ORM"
+description: "此操作会删除指定集合的别名。 | Python | ORM"
 type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
@@ -48,13 +48,13 @@ drop_alias(
 
 - **alias** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     要删除的别名。
 
     <Admonition type="info" icon="📘" title="说明">
 
-    删除别名时，您无需提供集合名称，因为一个别名只能分配给且仅能分配给一个集合。因此，服务器知道指定的别名属于哪个集合。
+    删除别名时，无需提供集合名称，因为一个别名只能被分配给且仅分配给一个集合。因此，服务器知道指定别名属于哪个集合。
 
     </Admonition>
 
@@ -72,7 +72,7 @@ drop_alias(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 

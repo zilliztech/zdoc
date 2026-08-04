@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作以迭代方式执行向量相似性搜索，并可选择使用标量过滤表达式。 | Python | MilvusClient"
+description: "该操作以迭代方式执行向量相似度搜索，并可选择附加标量过滤表达式。 | Python | MilvusClient"
 type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-此操作以迭代方式执行向量相似性搜索，并可选择使用标量过滤表达式。
+该操作以迭代方式执行向量相似度搜索，并可选择附加标量过滤表达式。
 
 <Admonition type="info" icon="📘" title="说明">
 
-外部集合不支持此操作。
+外部 Collection 不支持此操作。
 
 </Admonition>
 
-## Request syntax\{#request-syntax}
+## 请求语法\{#request-syntax}
 
 ```python
 search_iterator(
@@ -59,17 +59,17 @@ search_iterator(
 ) -> List[List[dict]]
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    已存在的 collection 名称。
 
 - **data** (*List[list], list]*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     向量嵌入列表。
 
@@ -81,33 +81,33 @@ search_iterator(
 
 - **anns_field** (*str*) -
 
-    当前搜索目标向量字段的名称。
+    当前搜索的目标向量字段名称。
 
 - **filter** (*str*) -
 
     用于过滤匹配实体的标量过滤条件。 
 
-    该值默认为空字符串，表示不应用任何条件。
+    默认值为空字符串，表示不应用任何条件。
 
-    你可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参阅[过滤概述](/docs/filtering-overview)。 
+    你可以将此参数设置为空字符串以跳过标量过滤。关于如何构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。 
 
 - **limit** (*int*) -
 
     要返回的实体总数。
 
-    你可以将此参数与 **param** 中的 **offset** 结合使用以启用分页。
+    你可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
 
     此值与 **param** 中 **offset** 的总和应小于 16,384。 
 
 - **output_fields** (l*ist[str]*) -
 
-    返回的每个实体中要包含的字段名称列表。
+    返回结果中每个实体要包含的字段名称列表。
 
-    该值默认为 **None**。如果未指定，则只包含主字段。
+    默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **search_params** (*dict*) -
 
-    此操作专用的参数设置。
+    此操作特有的参数设置。
 
     - **params** (dict) -
 
@@ -115,17 +115,17 @@ search_iterator(
 
         - **radius** (float) -
 
-            确定最低相似度的阈值。当集合的度量类型设置为 `L2` 时，请确保此值大于 **range_filter** 的值。否则，此值应小于 **range_filter** 的值。 
+            确定最低相似度阈值。当 collection 的 metric type 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
 
         - **range_filter**  (float) -  
 
-            将搜索范围细化为特定相似度区间内的向量。当集合的度量类型设置为 `IP` 或 `COSINE` 时，请确保此值大于 **radius** 的值。否则，此值应小于 **radius** 的值。
+            将搜索限定在特定相似度范围内的向量上。当 collection 的 metric type 为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
 
         - **level** (*int*)
 
             Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让你处理各种索引算法特有的大量搜索参数。
 
-            该值默认为 **1**，范围为 **1** 到 **10**。增大该值会提高召回率，但会降低搜索性能。详情请参阅[调整召回率](/docs/tune-recall-rate)。
+            默认值为 **1**，取值范围为 **1** 到 **10**。增大该值会提高召回率，但会降低搜索性能。详情请参见 [Tune Recall Rate](/docs/tune-recall-rate)。
 
         - **page_retain_order** (*bool*) -
 
@@ -137,25 +137,25 @@ search_iterator(
 
 - **group_by_field** (*str*)
 
-    按指定字段对搜索结果进行分组，以确保多样性并避免返回同一组中的多个结果。
+    按指定字段对搜索结果进行分组，以确保结果多样性并避免返回同一组中的多个结果。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示在收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **partition_names** (*list*) -
 
     分区名称列表。
 
-    该值默认为 **None**。如果指定，则仅指定的分区会参与查询。
+    默认值为 **None**。如果指定，则仅在指定分区中执行查询。
 
 - **anns_field** (*string*) -
 
-    目标向量字段的名称。如果目标集合中只有一个向量字段，则此参数可选。
+    目标向量字段的名称。如果目标 collection 中只有一个向量字段，则此参数为可选。
 
 - **round_decimal** (*int*) -
 
-    距离值的小数位数。默认值为 -1，表示不进行四舍五入。
+    距离值保留的小数位数。默认值为 -1，表示不进行四舍五入。
 
 - **kwargs** -
 
@@ -163,38 +163,38 @@ search_iterator(
 
         在搜索结果中要跳过的记录数。 
 
-        你可以将此参数与 `limit` 结合使用以启用分页。
+        你可以将此参数与 `limit` 结合使用，以启用分页。
 
         此值与 `limit` 的总和应小于 16,384。 
 
     - **round_decimal** (int) -
 
-        Zilliz Cloud 对计算出的距离进行四舍五入时保留的小数位数。
+        Zilliz Cloud 对计算出的距离值进行四舍五入时保留的小数位数。
 
-        该值默认为 **-1**，表示 Zilliz Cloud 不对计算出的距离进行四舍五入，而是返回原始值。
+        默认值为 **-1**，表示 Zilliz Cloud 不对计算出的距离值进行四舍五入，而是返回原始值。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *SearchIterator*
 
-**RETURNS:**
+**返回值：**
 一个 **SearchIterator** 实例，提供以下方法：
 
 - `next()`
 
-    此方法以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到获取到最后一个实体为止。
+    此方法以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到检索到最后一个实体为止。
 
 - `close()`
 
     此方法关闭当前的 **SearchIterator** 实例。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
     当此操作期间发生任何错误时，将引发此异常。
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

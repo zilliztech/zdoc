@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
 type: docx
 token: UehMdosTGoZVzaxdTcUcpy1ynef
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。
+此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,7 +55,7 @@ encode_queries(
 
 一个包含查询嵌入的字典。
 
-初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 均设置为 **True**，则返回的字典将包含键 **dense**、**sparse** 和 **colbert_vecs**，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
+在初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含 **dense**、**sparse** 和 **colbert_vecs** 键，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
 
 **异常：**
 

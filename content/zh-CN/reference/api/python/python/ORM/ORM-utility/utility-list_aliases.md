@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出特定集合的所有现有别名。 | Python | ORM"
+description: "此操作列出特定 collection 的所有现有别名。 | Python | ORM"
 type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_aliases()
 
-此操作列出特定集合的所有现有别名。
+此操作列出特定 collection 的所有现有别名。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ list_aliases(
 
     **[必需]**
 
-    要列出其别名的集合名称。
+    要列出其别名的 collection 名称。
 
 - **using** (*str*) - 
 
@@ -59,7 +59,7 @@ list_aliases(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
 **返回类型：**
 
@@ -67,13 +67,13 @@ list_aliases(
 
 **返回：**
 
-指定集合的别名列表。如果该集合没有别名，将返回空列表。
+指定 collection 的别名列表。如果该 collection 没有别名，则返回空列表。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 - **BaseException**
 

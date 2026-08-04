@@ -18,7 +18,7 @@ keywords:
   - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - revoke_role()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -47,13 +47,13 @@ revoke_role(
 
 - **user_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有用户的名称。
 
 - **role_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     要撤销的角色名称。
 
@@ -61,15 +61,15 @@ revoke_role(
 
     此操作的超时时长。 
 
-    将此参数设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无
+None
 
 **异常：**
 

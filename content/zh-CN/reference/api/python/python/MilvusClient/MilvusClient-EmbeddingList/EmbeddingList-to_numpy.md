@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_numpy()
 
-此操作会将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个包含所有向量嵌入的二维（2D）NumPy 数组。
+此操作会将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个二维（2D）NumPy 数组，其中包含所有向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ to_numpy()
 
 **返回：**
 
-一个形状为 **(num_embeddings, dim)** 的二维 NumPy 数组，其中包含所有向量嵌入。
+一个形状为 **(num_embeddings, dim)** 的二维 NumPy 数组，包含所有向量嵌入。
 
 **异常：**
 

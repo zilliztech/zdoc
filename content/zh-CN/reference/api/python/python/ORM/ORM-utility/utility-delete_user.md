@@ -48,17 +48,17 @@ delete_user(
 
 - **user** (*string*) - 
 
-    **[必需]**
+    **[必填]**
 
-    要删除的新用户名称。
+    要删除的新用户的名称。
 
 - **password** (*string*) - 
 
-    **[必需]**
+    **[必填]**
 
     要创建的新用户对应的密码。
 
-    如果将其设置为错误的密码，将导致 **MilvusException**。
+    如果将其设置为错误的密码，会导致 **MilvusException**。
 
 - **using** (*string*) - 
 
@@ -68,13 +68,13 @@ delete_user(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -98,7 +98,7 @@ user = utility.delete_user(user="admin", password="123456")
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `delete_user()` 相关：
+以下操作与 `delete_user()` 相关
 
 - [Role](./ORM-Role)
 

@@ -51,7 +51,7 @@ get_compaction_plans(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 

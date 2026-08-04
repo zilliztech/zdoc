@@ -45,12 +45,12 @@ get_restore_snapshot_state(
 
 **参数：**
 
-- **job_id** (*int*) -
-**[必需]**
-由 `restore_snapshot()` 返回的恢复作业 ID。
+- **job_id** (*int*) -<br/>
+  **[必需]**<br/>
+  `restore_snapshot()` 返回的恢复作业 ID。
 
-- **timeout** (*Optional[float]*) -
-RPC 允许的可选持续时间，单位为秒。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC 允许的可选持续时间，单位为秒。
 
 **返回类型：**
 
@@ -102,7 +102,7 @@ RPC 允许的可选持续时间，单位为秒。
 
 - **reason** (*str*) -
 
-    如果作业失败，对应的错误原因。
+    如果作业失败，表示错误原因。
 
 - **start_time** (*int*) -
 

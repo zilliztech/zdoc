@@ -49,13 +49,13 @@ insert(
 
     **[必需]**
 
-    要插入到当前集合中的数据。
+    要插入当前集合的数据。
 
-    要插入的数据应与当前集合的 schema 匹配。你可以将数据组织为：
+    待插入的数据应与当前集合的 schema 相匹配。您可以按以下方式组织数据：
 
     - 列表形式的列
 
-        每一列都是该列中所有实体的值组成的列表。
+        每一列都是该列中所有实体值组成的列表。
 
         ```python
         data = [
@@ -72,7 +72,7 @@ insert(
 
     - **pandas.DataFrame**
 
-        你可以使用任意方式构造数据框，示例如[此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中 **Example** 部分所示。
+        您可以按任意方式构造数据框，示例如[此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)的 **Example** 部分所示。
 
         ```python
         data = pd.DataFrame({
@@ -87,7 +87,7 @@ insert(
         })
         ```
 
-    - 行列表或单独的一行
+    - 行列表或单行
 
         每一行都是一个表示实体的字典。
 
@@ -107,19 +107,19 @@ insert(
 
 - **partition_name** (*string* | *None*) -
 
-    当前集合中的某个分区名称。 
+    当前集合中某个分区的名称。
 
     如果指定，则数据将被插入到指定分区中。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
 *MutationResult*
 
-**返回：**
+**返回值：**
 
 一个 **MutationResult** 对象，包含以下字段：
 
@@ -141,7 +141,7 @@ insert(
 
 - **succ_index** (*list*)
 
-    从 0 开始的索引编号列表，其中每个编号表示一次成功的操作。
+    一个从 0 开始的索引编号列表，每个编号表示一次成功的操作。
 
 - **err_count** (*int*)
 
@@ -149,7 +149,7 @@ insert(
 
 - **err_index** (*list*)
 
-    从 0 开始的索引编号列表，其中每个编号表示一次失败的操作。
+    一个从 0 开始的索引编号列表，每个编号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 

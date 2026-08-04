@@ -10,7 +10,7 @@ notebook: false
 description: "此操作会刷新当前数据库中的所有集合。这可确保所有已插入的数据都写入持久化存储。 | Python | MilvusClient"
 type: docx
 token: QejKdv2qKo97mQxEV0CcaSM5nLh
-sidebar_position: 16
+sidebar_position: 17
 keywords: 
   - Knowledge base
   - natural language processing
@@ -51,7 +51,7 @@ client.flush_all(
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 

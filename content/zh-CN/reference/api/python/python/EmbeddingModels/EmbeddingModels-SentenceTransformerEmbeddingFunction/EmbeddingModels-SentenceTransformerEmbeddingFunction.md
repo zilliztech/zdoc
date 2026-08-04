@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "SentenceTransformerEmbeddingFunction 是 pymilvus 中的一个类，用于使用 Sentence Transformer 模型将文本编码为嵌入，以支持 Milvus 中的嵌入检索。 | Python"
+description: "SentenceTransformerEmbeddingFunction 是 pymilvus 中的一个类，使用 Sentence Transformer 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: JOFedA4h8otTjHxsYQ7cnjsunHd
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SentenceTransformerEmbeddingFunction
 
-**SentenceTransformerEmbeddingFunction** 是 pymilvus 中的一个类，用于使用 Sentence Transformer 模型将文本编码为嵌入，以支持 Milvus 中的嵌入检索。
+**SentenceTransformerEmbeddingFunction** 是 pymilvus 中的一个类，使用 Sentence Transformer 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.SentenceTransformerEmbeddingFunction
@@ -39,7 +39,7 @@ pymilvus.model.dense.SentenceTransformerEmbeddingFunction
 
 ## 构造函数\{#constructor}
 
-为常见用例构造一个 SentenceTransformerEmbeddingFunction。
+构造一个适用于常见使用场景的 SentenceTransformerEmbeddingFunction。
 
 ```python
 SentenceTransformerEmbeddingFunction(
@@ -57,11 +57,11 @@ SentenceTransformerEmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    用于编码的 Sentence Transformer 模型名称。该值默认为 **all-MiniLM-L6-v2**。你可以使用 Sentence Transformers 的任意预训练模型。可用模型列表请参见 [Pretrained models](https://www.sbert.net/docs/pretrained_models.html)。
+    用于编码的 Sentence Transformer 模型名称。默认值为 **all-MiniLM-L6-v2**。你可以使用任意 Sentence Transformers 的预训练模型。可用模型列表请参见 [Pretrained models](https://www.sbert.net/docs/pretrained_models.html)。
 
 - **batch_size** (*int*) -
 
-    用于计算的批处理大小。
+    计算时使用的批大小。
 
 - **query_instruction** (*string*) -
 
@@ -73,11 +73,11 @@ SentenceTransformerEmbeddingFunction(
 
 - **device** (*string*) -
 
-    要使用的设备，**cpu** 表示 CPU，**cuda:n** 表示第 n 个 GPU 设备。
+    要使用的设备，其中 **cpu** 表示 CPU，**cuda:n** 表示第 n 个 GPU 设备。
 
 - **normalize_embeddings** (*bool*)
 
-    是否将返回的向量归一化为长度 1。在这种情况下，可以使用更快的点积（util.dot_score）而不是余弦相似度。
+    是否将返回的向量归一化为长度 1。在这种情况下，可以使用速度更快的点积（util.dot_score）而不是余弦相似度。
 
 - **&ast;&ast;kwargs**
 

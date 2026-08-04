@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会封存分区中的所有段。在此操作之后的任何插入都将生成一个新段。 | Python | ORM"
+description: "此操作会封存分区中的所有段。此操作之后的任何插入都会生成一个新段。 | Python | ORM"
 type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-此操作会封存分区中的所有段。在此操作之后的任何插入都将生成一个新段。
+此操作会封存分区中的所有段。此操作之后的任何插入都会生成一个新段。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,9 +45,9 @@ flush(
 
 我可以在每次插入数据后都调用 `flush()` 吗？
 
-插入新数据时，数据会被写入增长中的段。当增长中的段大小达到其上限时，Zilliz Cloud 会自动封存该段。 
+插入新数据时，数据会被写入增长中的段。当增长中的段大小达到上限时，Zilliz Cloud 会自动封存该段。 
 
-持续调用此操作会产生许多体积较小的已封存段，这可能会逐渐降低搜索性能。 
+持续调用此操作会产生许多已封存但尺寸较小的段，这会逐渐降低搜索性能。 
 
 建议在执行任何搜索之前，先等待 Zilliz Cloud 封存所有段。
 
@@ -63,7 +63,7 @@ flush(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 

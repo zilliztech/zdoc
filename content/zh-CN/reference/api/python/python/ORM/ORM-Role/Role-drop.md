@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除现有角色。如果指定的角色存在，则该操作将成功。否则，此操作将失败。 | Python | ORM"
+description: "此操作会删除一个现有角色。如果指定的角色存在，则该操作会成功。否则，该操作会失败。 | Python | ORM"
 type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop()
 
-此操作会删除现有角色。如果指定的角色存在，则该操作将成功。否则，此操作将失败。
+此操作会删除一个现有角色。如果指定的角色存在，则该操作会成功。否则，该操作会失败。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,7 +47,7 @@ drop()
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 

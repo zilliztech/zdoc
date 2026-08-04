@@ -12,10 +12,10 @@ type: docx
 token: UASmdlcqvojCe4xNY94cz9Wznyh
 sidebar_position: 4
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
+  - 弹性向量数据库
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,7 +51,7 @@ MilvusClient.session(
 
 - **cluster_id** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     目标按需集群的标识符。该值必须是非空字符串。
 
@@ -59,13 +59,13 @@ MilvusClient.session(
 
 *MilvusClientSession*
 
-一个会话对象，用于将 search、query 和 get 操作代理到指定的按需集群。
+一个会话对象，将 search、query 和 get 操作代理到指定的按需集群。
 
 **异常：**
 
 - **ParamError**
 
-    当 `cluster_id` 不是字符串或为空时引发。
+    当 `cluster_id` 不是字符串或为空时抛出。
 
 ## 示例\{#examples}
 

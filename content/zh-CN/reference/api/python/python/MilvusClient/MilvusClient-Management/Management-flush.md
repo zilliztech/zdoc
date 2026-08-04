@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会刷写流式数据并封存段。不建议在所有数据都插入到集合后调用此操作，以避免产生小段，这可能会降低搜索性能。 | Python | MilvusClient"
+description: "此操作会刷写流式数据并封存分段。不建议在所有数据都已插入集合后调用此操作，以避免产生小分段，这可能会降低搜索性能。 | Python | MilvusClient"
 type: docx
 token: JnPrdOiPyo2e5gxzzFycbnvwnSd
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-此操作会刷写流式数据并封存段。不建议在所有数据都插入到集合后调用此操作，以避免产生小段，这可能会降低搜索性能。
+此操作会刷写流式数据并封存分段。不建议在所有数据都已插入集合后调用此操作，以避免产生小分段，这可能会降低搜索性能。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -60,7 +60,7 @@ flush(
 
     此操作的超时时长。
 
-    将其设置为 None 表示当收到任意响应或发生任意错误时，此操作超时。
+    将此参数设置为 None 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
@@ -74,7 +74,7 @@ flush(
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
 
 ## 示例\{#example}
 

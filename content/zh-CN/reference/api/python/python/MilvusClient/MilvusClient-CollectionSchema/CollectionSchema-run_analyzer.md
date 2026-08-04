@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作处理输入数据并生成分词输出。 | Python | MilvusClient"
+description: "此操作会处理输入数据并生成分词后的输出。 | Python | MilvusClient"
 type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # run_analyzer()
 
-此操作处理输入数据并生成分词输出。
+此操作会处理输入数据并生成分词后的输出。
 
 ## 请求语法\{#request-syntax}
 
-```plaintext
+```python
 run_analyzer(
     texts: Union[str, List[str]],
     analyzer_params: Union[str, Dict, None] = None,
@@ -65,19 +65,19 @@ run_analyzer(
 
 - `timeout` (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 *None* 表示当发生任何响应或错误时，此操作超时。
+    此操作的超时时长。将其设置为 *None* 表示当出现任何响应或错误时，此操作会超时。
 
 **返回类型：**
 
 *List[str], List[List[str]]*
 
-**返回：**
+**返回值：**
 
 一个元组，包含：
 
 - 一个字符串列表，表示主要的分词输出。
 
-- 一个字符串列表的列表，表示详细的 token 信息（如果启用了详细输出）。
+- 一个由字符串列表组成的列表，表示详细的 token 信息（如果启用了详细输出）。
 
 **异常：**
 
@@ -93,14 +93,14 @@ client = MilvusClient(
 )
 
 analyzer_params = {
-    "type": "standard", # 使用标准内置分析器
-    "stop_words": ["a", "an", "for"] # 定义一个在分词时排除的常见词（停用词）列表
+    "type": "standard", # Uses the standard built-in analyzer
+    "stop_words": ["a", "an", "for"] # Defines a list of common words (stop words) to exclude from tokenization
 }
 
-# 要分析的示例文本
+# Sample text to analyze
 text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
 
-# 运行分析器
+# Run analyzer
 result = client.run_analyzer(
     text,
     analyzer_params
@@ -108,6 +108,6 @@ result = client.run_analyzer(
 
 print(result)
 
-# 预期输出：
+# Expected output:
 # ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
 ```

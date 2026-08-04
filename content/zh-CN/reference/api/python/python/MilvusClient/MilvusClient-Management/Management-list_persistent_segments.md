@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出集合的所有持久化（已 flush）段，包括行数、排序状态和存储级别等信息。 | Python | MilvusClient"
+description: "此操作会列出某个集合的所有持久化（已 flush）分段，包括行数、排序状态和存储级别等信息。 | Python | MilvusClient"
 type: docx
 token: QsGNdp1t3oHaunxgIZGc3PdSnof
-sidebar_position: 23
+sidebar_position: 25
 keywords: 
   - vector databases comparison
   - Faiss
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_persistent_segments()
 
-此操作列出集合的所有持久化（已 flush）段，包括行数、排序状态和存储级别等信息。
+此操作会列出某个集合的所有持久化（已 flush）分段，包括行数、排序状态和存储级别等信息。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -54,11 +54,11 @@ client.list_persistent_segments(
 
     **[必需]**
 
-    集合名称。
+    集合的名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -66,7 +66,7 @@ client.list_persistent_segments(
 
 **返回：**
 
-持久化段信息对象列表，包含 segment_id、collection_id、collection_name、num_rows、is_sorted、state、level 和 storage_version。
+持久化分段信息对象列表，包含 segment_id、collection_id、collection_name、num_rows、is_sorted、state、level 和 storage_version。
 
 **异常：**
 

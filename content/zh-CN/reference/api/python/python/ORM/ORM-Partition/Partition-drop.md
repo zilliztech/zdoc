@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop()
 
-此操作会删除当前[分区](./ORM-Partition)。
+此操作会删除当前的[分区](./ORM-Partition)。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,7 +59,7 @@ drop(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，会引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

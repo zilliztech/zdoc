@@ -12,10 +12,10 @@ type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量数据库教程
   - zilliz
   - zilliz cloud
   - cloud

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
 type: docx
 token: FgbjdQHBEoITxgxk7NMc1NzpnAc
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。
+此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ encode_queries(
 
 - **queries** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ encode_queries(
 
 - **RuntimeError**
 
-    当来自 Jina API 的响应中不包含 `data` 键时，将引发此异常。
+    当 Jina API 的响应中不包含 `data` 键时，将引发此异常。
 
 ## 示例\{#examples}
 

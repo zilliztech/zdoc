@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将角色授予用户。 | Python | MilvusClient"
+description: "此操作为用户授予角色。 | Python | MilvusClient"
 type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grant_role()
 
-此操作会将角色授予用户。
+此操作为用户授予角色。
 
 ## 请求语法\{#request-syntax}
 

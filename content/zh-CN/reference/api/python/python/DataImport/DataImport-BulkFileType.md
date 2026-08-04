@@ -41,7 +41,7 @@ import Admonition from '@theme/Admonition';
 
 - **JSON** = 2
 
-    将文件类型设置为 **JSON** (*.json*)。 
+    将文件类型设置为 **JSON** (*.json*)。
 
 - **PARQUET** = 3
 

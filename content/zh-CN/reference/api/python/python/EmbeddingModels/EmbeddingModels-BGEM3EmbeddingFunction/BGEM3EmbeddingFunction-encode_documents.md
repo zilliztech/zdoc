@@ -51,9 +51,9 @@ encode_documents(
 
 *Dict*
 
-**返回值：**
+**返回：**
 
-一个包含文档嵌入的字典。
+包含文档嵌入的字典。
 
 在初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含键 **dense**、**sparse** 和 **colbert_vecs**，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
 

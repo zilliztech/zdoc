@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回压缩作业的当前状态。在调用 `compact()` 后，使用此操作验证压缩是否已完成。 | Python | MilvusClient"
+description: "此操作返回压缩作业的当前状态。在调用 `compact()` 后，使用此操作可验证压缩是否已完成。 | Python | MilvusClient"
 type: docx
 token: MSDVdu103obklexX8GvcW5cWnCf
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - hybrid vector search
   - Video deduplication
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_state()
 
-此操作返回压缩作业的当前状态。在调用 `compact()` 后，使用此操作验证压缩是否已完成。
+此操作返回压缩作业的当前状态。在调用 `compact()` 后，使用此操作可验证压缩是否已完成。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -60,7 +60,7 @@ client.get_compaction_state(
 
     **[必需]**
 
-    由 `compact()` 返回的压缩作业 ID。
+    `compact()` 返回的压缩作业 ID。
 
 - **timeout** (*float* | *None*) -
 
@@ -70,7 +70,7 @@ client.get_compaction_state(
 
 *str*
 
-**返回：**
+**返回值：**
 
 压缩作业的状态名称。可能的值包括 `"UndefiedState"`、`"Executing"` 和 `"Completed"`。
 

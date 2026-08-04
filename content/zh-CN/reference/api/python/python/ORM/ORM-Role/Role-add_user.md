@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将现有用户添加到当前角色。添加后，用户将获得当前角色所允许的权限，并可执行某些操作。 | Python | ORM"
+description: "此操作将一个现有用户添加到当前角色。添加后，该用户将获得当前角色允许的权限，并可执行某些操作。 | Python | ORM"
 type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_user()
 
-此操作会将现有用户添加到当前角色。添加后，用户将获得当前角色所允许的权限，并可执行某些操作。
+此操作将一个现有用户添加到当前角色。添加后，该用户将获得当前角色允许的权限，并可执行某些操作。
 
 ## 请求语法\{#request-syntax}
 

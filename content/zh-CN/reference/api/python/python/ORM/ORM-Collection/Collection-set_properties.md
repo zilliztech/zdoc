@@ -51,15 +51,15 @@ set_properties(
 
     - **collection.ttl.seconds**
 
-        设置此属性后，当前集合中的数据会在指定时间后过期。集合中的过期数据将被清理，且不会参与搜索或查询。
+        设置此属性后，当前集合中的数据会在指定时间后过期。集合中过期的数据将被清理，并且不会参与搜索或查询。
 
     - **mmap.enabled**
 
-        是否在集合级别启用内存映射存储。更多信息，请参阅[配置内存映射](https://milvus.io/docs/mmap.md#Configure-memory-mapping)。
+        是否在集合级别启用内存映射存储。更多信息，请参见[配置内存映射](https://milvus.io/docs/mmap.md#Configure-memory-mapping)。
 
 - **timeout** (*float*)  -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
 **返回类型：**
 
@@ -67,7 +67,7 @@ set_properties(
 
 **返回：**
 
-None
+无
 
 ## 示例\{#examples}
 

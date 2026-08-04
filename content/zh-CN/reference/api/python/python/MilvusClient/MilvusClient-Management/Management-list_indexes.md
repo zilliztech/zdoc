@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出特定 collection 的所有索引。 | Python | MilvusClient"
+description: "此操作会列出特定集合的所有索引。 | Python | MilvusClient"
 type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list_indexes()
 
-此操作列出特定 collection 的所有索引。
+此操作会列出特定集合的所有索引。
 
 <Admonition type="info" icon="📘" title="说明">
 
 此方法仅适用于专属服务集群和按需计算。 
 
-- 如需在服务集群的 collection 中执行此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 如需在按需计算的 collection 中执行此操作，请使用项目 endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个 session 并将其附加到按需集群以执行搜索。
+- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,13 +67,13 @@ list_indexes(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
-    现有 collection 的名称。
+    现有集合的名称。
 
 - **field_name** (*str*) -
 
-    字段名称。若不指定此参数，则此操作会列出所有索引。
+    字段名称。若不指定此参数，此操作将列出所有索引。
 
 **返回类型：**
 

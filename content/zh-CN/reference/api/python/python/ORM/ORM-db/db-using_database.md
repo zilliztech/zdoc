@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将某个数据库设置为当前连接的默认数据库。 | Python | ORM"
+description: "此操作将一个数据库设置为当前连接的默认数据库。 | Python | ORM"
 type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # using_database()
 
-此操作将某个数据库设置为当前连接的默认数据库。
+此操作将一个数据库设置为当前连接的默认数据库。
 
 ## 请求语法\{#request-syntax}
 
-Milvus 集群自带一个名为 **default** 的默认数据库。所有集合操作都在默认数据库中执行。你可以使用此方法更改默认数据库。
+Milvus 集群附带一个名为 **default** 的默认数据库。所有集合操作都在默认数据库中执行。您可以使用此方法更改默认数据库。
 
 ```python
 using_database(
@@ -54,7 +54,7 @@ using_database(
 
 - **using** (*string*) -
 
-    连接别名。默认为 **default**。
+    连接的别名。默认为 **default**。
 
 **返回类型：**
 

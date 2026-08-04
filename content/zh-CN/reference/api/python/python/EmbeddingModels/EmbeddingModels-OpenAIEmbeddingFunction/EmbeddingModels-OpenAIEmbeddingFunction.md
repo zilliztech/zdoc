@@ -55,19 +55,19 @@ OpenAIEmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    用于编码的 OpenAI 模型名称。有效选项包括 **text-embedding-3-small**、**text-embedding-3-large** 和 **text-embedding-ada-002**（默认）。
+    要用于编码的 OpenAI 模型名称。有效选项包括 **text-embedding-3-small**、**text-embedding-3-large** 和 **text-embedding-ada-002**（默认）。
 
 - **api_key** (*string*) -
 
-    用于访问 OpenAI API 的 API 密钥。如果未指定，代码会检查环境变量中的 API 密钥作为回退。
+    用于访问 OpenAI API 的 API 密钥。如果未指定，代码会回退检查环境变量中的 API 密钥。
 
 - **base_url** (*string*) -
 
-    用于将文本编码为嵌入的 OpenAI API 端点基础 URL。该值默认为 **None**，表示使用默认端点上的公共 OpenAI API 服务器。
+    用于将文本编码为嵌入的 OpenAI API 端点基础 URL。该值默认为 **None**，即使用默认端点上的公共 OpenAI API 服务器。
 
 - **dimensions** (*int*) -
 
-    生成的输出嵌入应具有的维度数。仅在 **text-embedding-3** 及更高版本的模型中受支持。
+    结果输出嵌入应具有的维度数。仅 **text-embedding-3** 及后续模型支持此参数。
 
 - **&ast;&ast;kwargs**
 

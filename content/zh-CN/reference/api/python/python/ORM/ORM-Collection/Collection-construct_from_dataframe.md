@@ -47,23 +47,23 @@ construct_from_dataframe(
 
 - **name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     要创建的集合名称。
 
 - **primary_field** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    主字段的名称。它应当是以下 dataframe 中的某个列标签。
+    主字段的名称。它应是下方 dataframe 中的列标签之一。
 
 - **dataframe** (*pandas.DataFrame*) 
 
-    **[必填]**
+    **[必需]**
 
     包含要插入到集合中的数据的 dataframe。
 
-    你可以通过任意方式构造一个 data frame，如[此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中的 **Example** 部分所示。
+    你可以用任意方式构造数据框，如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
 
     ```python
     dataframe = pd.DataFrame({
@@ -98,7 +98,7 @@ construct_from_dataframe(
 
 - **upsert_count** (*int*)
 
-    已 upsert 实体的数量。
+    已 upsert 的实体数量。
 
 - **succ_count** (*int*)
 
@@ -106,7 +106,7 @@ construct_from_dataframe(
 
 - **succ_index** (*list*)
 
-    从 0 开始的索引编号列表，其中每个编号表示一次成功的操作。
+    一个从 0 开始的索引编号列表，其中每个编号表示一次成功的操作。
 
 - **err_count** (*int*)
 
@@ -114,7 +114,7 @@ construct_from_dataframe(
 
 - **err_index** (*list*)
 
-    从 0 开始的索引编号列表，其中每个编号表示一次失败的操作。
+    一个从 0 开始的索引编号列表，其中每个编号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 

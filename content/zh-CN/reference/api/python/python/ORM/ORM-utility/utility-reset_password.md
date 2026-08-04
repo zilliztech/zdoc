@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会重置特定用户的密码。 | Python | ORM"
+description: "此操作将重置特定用户的密码。 | Python | ORM"
 type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # reset_password()
 
-此操作会重置特定用户的密码。 
+此操作将重置特定用户的密码。 
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -65,7 +65,7 @@ reset_password(
 
     指定用户的原始密码。
 
-    如果将其设置为错误的密码，会导致 **MilvusException**。
+    如果将其设置为错误的密码，将导致 **MilvusException**。
 
 - **new_password** (*str*) - 
 
@@ -73,7 +73,7 @@ reset_password(
 
     指定用户的新密码。 
 
-    密码必须是 8 到 64 个字符的字符串，并且必须至少包含以下字符类型中的三种：大写字母、小写字母、数字和特殊字符。
+    密码必须是一个长度为 8 到 64 个字符的字符串，并且必须至少包含以下四类字符中的三类：大写字母、小写字母、数字和特殊字符。
 
 - **using** (*string*) - 
 
@@ -83,7 +83,7 @@ reset_password(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -91,7 +91,7 @@ reset_password(
 
 **返回：**
 
-None
+无
 
 **异常：**
 

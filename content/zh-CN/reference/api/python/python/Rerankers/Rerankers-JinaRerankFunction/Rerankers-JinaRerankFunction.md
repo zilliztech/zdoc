@@ -52,7 +52,7 @@ JinaRerankFunction(
 
 - **model_name** (*string*)
 
-    要用于编码的 Jina AI 重排模型名称。如果未指定此参数，将使用 `jina-reranker-v2-base-multilingual`。有关可用模型列表，请参阅 [Jina AI Rerankers](https://jina.ai/reranker/)。
+    用于编码的 Jina AI 重排模型名称。如果未指定此参数，将使用 `jina-reranker-v2-base-multilingual`。可用模型列表请参见 [Jina AI Rerankers](https://jina.ai/reranker/)。
 
 - **api_key** (*string*)
 

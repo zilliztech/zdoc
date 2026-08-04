@@ -45,9 +45,9 @@ list_users(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
@@ -89,7 +89,7 @@ client.list_users()
 
 ## 相关方法\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

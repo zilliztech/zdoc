@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作描述指定索引。 | Python | MilvusClient"
+description: "此操作描述特定索引。 | Python | MilvusClient"
 type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_index()
 
-此操作描述指定索引。
+此操作描述特定索引。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专用服务集群和按需计算。 
+此方法仅适用于专属服务集群和按需计算。 
 
-- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的集合上的此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 对于按需计算中集合上的此操作，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,23 +67,23 @@ describe_index(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     现有集合的名称。
 
-    将其设置为不存在的集合会导致 **MilvusException**。
+    如果将其设置为不存在的集合，将导致 **MilvusException**。
 
 - **index_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     要描述的索引名称。
 
-    将其设置为不存在的集合会导致 **MilvusException**。
+    如果将其设置为不存在的集合，将导致 **MilvusException**。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：** 
 
@@ -118,9 +118,9 @@ describe_index(
 
 - **metric_type** (*str*) -
 
-    用于衡量向量之间相似度的算法。可能的值包括 **IP**、**L2** 和 **COSINE**。
+    用于衡量向量之间相似度的算法。可能的值为 **IP**、**L2** 和 **COSINE**。
 
-    仅当指定字段是向量字段时，此项可用。 
+    仅当指定字段为向量字段时可用。 
 
 - **total_rows** (*int*) -
 
@@ -140,7 +140,7 @@ describe_index(
 
 - **field_name** (*str*) -
 
-    创建索引所基于的字段名称。
+    已创建索引的字段名称。
 
 - **index_name** (*str*) -
 

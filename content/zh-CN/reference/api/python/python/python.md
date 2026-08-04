@@ -11,25 +11,25 @@ import Admonition from '@theme/Admonition';
 
 # Python SDK 参考
 
-[PyMilvus](https://github.com/milvus-io/pymilvus) Python SDK 是 Milvus 和 Zilliz Cloud 的官方 Python 客户端。它同时提供基于 `MilvusClient` 的高级函数式 API，以及传统的 ORM 风格 API，便于开发者根据不同的项目需求、代码风格和使用场景选择合适的访问方式来完成数据写入、查询、搜索与管理等操作。
+[PyMilvus](https://github.com/milvus-io/pymilvus) Python SDK 是 Milvus 和 Zilliz Cloud 的官方 Python 客户端。它同时提供通过 `MilvusClient` 使用的高级函数式 API，以及传统的 ORM 风格 API，便于开发者根据项目需求选择更简洁或更兼容既有代码的访问方式。
 
 ## 功能特性
 
-- **MilvusClient** — 面向常见操作的简化函数式 API，适合快速集成与日常开发
-- **ORM API** — 传统的对象关系映射风格 API，适用于已经基于旧接口构建的代码
-- **Bulk import** — 提供本地和远程 bulk writer，用于大规模数据导入
-- **Embedding models** — 通过 `pymilvus[model]` 集成支持文本与图像 embedding
-- **Rerankers** — 内置用于混合搜索的重排序函数
+- **MilvusClient** — 面向常见操作的简化函数式 API，适合快速上手与日常开发
+- **ORM API** — 传统的对象关系映射风格 API，方便沿用旧版使用模式
+- **Bulk import** — 提供本地与远程批量写入器，用于大规模数据导入
+- **Embedding models** — 通过 `pymilvus[model]` 集成支持文本与图像嵌入模型
+- **Rerankers** — 内置重排序函数，可用于混合搜索结果的二次排序
 
 ## 安装与更新
 
-你可以在终端中运行以下命令来安装最新的 PyMilvus，或将现有的 PyMilvus 更新到此版本。
+你可以在终端中运行以下命令，安装最新版本的 PyMilvus，或将当前环境中的 PyMilvus 更新到此版本。
 
 ```shell
 pip install --upgrade pymilvus==v2.3.7
 ```
 
-安装完成后，你可以运行以下代码检查 `pymilvus` 的版本。
+安装完成后，你可以运行以下代码来检查 `pymilvus` 的版本。
 
 ```python
 from pymilvus import __version__
@@ -51,9 +51,9 @@ client = MilvusClient(
 )
 ```
 
-## 版本更新内容
+## 新增内容
 
-在此版本中，PyMilvus 新增了 `MilvusClient` 模块。该模块整合了多种函数式方法，使其整体功能与传统 ORM 模块更加对齐，从而让开发者在保留原有能力覆盖范围的同时，以更直接、更简洁的方式完成常用操作。
+在此版本中，PyMilvus 新增了 `MilvusClient` 模块。该模块引入了多个函数式方法，使其整体能力与传统 ORM 模块保持一致，同时为常用操作提供了更加直接、清晰的调用体验。
 
 import DocCardList from '@theme/DocCardList';
 
@@ -61,4 +61,4 @@ import DocCardList from '@theme/DocCardList';
 
 ## 示例
 
-除了本文档外，你还可以参考我们 [GitHub repository](https://github.com/milvus-io/pymilvus) 中的[示例集合](https://github.com/milvus-io/pymilvus/tree/master/examples)，了解更多实际用法与集成示例。
+除了本文档外，你还可以参考我们 [GitHub repository](https://github.com/milvus-io/pymilvus) 中的[示例集合](https://github.com/milvus-io/pymilvus/tree/master/examples)，以了解更多实际用法与集成方式。

@@ -50,7 +50,7 @@ GeminiEmbeddingFunction(
 )
 ```
 
-**参数：**
+**PARAMETERS:**
 
 - **model_name (string) -**
 
@@ -58,13 +58,13 @@ GeminiEmbeddingFunction(
 
 - **api_key (*string*)-**
 
-Gemini API 的访问密钥。
+用于访问 Gemini API 的 API 密钥。
 
 - **config** **(*types.EmbedContentConfig*) -**
 
     嵌入模型的可选配置。
 
-    - 可以通过 **output_dimensionality** 指定生成的输出嵌入维度数量。
+    - 可以通过 **output_dimensionality** 指定生成的输出嵌入维度数。
 
         | **Model Name** | **Dimensions** |
         | --- | --- |
@@ -72,17 +72,17 @@ Gemini API 的访问密钥。
         | models/embedding-001 | 768 |
         | models/text-embedding-004 | 768 |
 
-    - 可以指定 **task_type** 以针对特定任务生成优化后的嵌入，从而节省时间和成本并提升性能。仅 **gemini-embedding-exp-03-07** 模型支持此项。
+    - 可以通过 **task_type** 指定为特定任务生成优化后的嵌入，从而节省时间和成本并提升性能。仅 **gemini-embedding-exp-03-07** 模型支持。
 
         | Task Type | Description |
         | --- | --- |
-        | SEMANTIC_SIMILARITY | 用于生成针对评估文本相似性进行优化的嵌入。 |
-        | CLASSIFICATION | 用于生成针对按照预设标签对文本进行分类而优化的嵌入。 |
-        | CLUSTERING | 用于生成针对根据相似性对文本进行聚类而优化的嵌入。 |
-        | RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION | 用于生成针对文档搜索或信息检索进行优化的嵌入。 |
+        | SEMANTIC_SIMILARITY | 用于生成经过优化的嵌入，以评估文本相似性。 |
+        | CLASSIFICATION | 用于生成经过优化的嵌入，以根据预设标签对文本进行分类。 |
+        | CLUSTERING | 用于生成经过优化的嵌入，以基于相似性对文本进行聚类。 |
+        | RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION | 用于生成经过优化的嵌入，以进行文档搜索或信息检索。 |
         | CODE_RETRIEVAL_QUERY | 用于根据自然语言查询检索代码块，例如 sort an array 或 reverse a linked list。代码块的嵌入使用 RETRIEVAL_DOCUMENT 计算。 |
 
-## 示例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

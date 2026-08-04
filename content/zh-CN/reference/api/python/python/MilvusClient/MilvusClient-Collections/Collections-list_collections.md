@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出所有现有集合。 | Python | MilvusClient"
+description: "此操作列出所有现有集合。 | Python | MilvusClient"
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 17
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list_collections()
 
-此操作会列出所有现有集合。
+此操作列出所有现有集合。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专属服务集群和按需计算。
+此方法适用于专属服务集群和按需计算。 
 
 - 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -65,9 +65,9 @@ list_collections(**kwargs) -> Name
 
     - **timeout** (*float* | *None*) -
 
-        此操作的超时时长。
+        此操作的超时时长。 
 
-        将其设置为 **None** 表示此操作会一直等待，直到返回响应或发生错误。
+        将其设置为 **None** 表示当返回任意响应或发生错误时，此操作超时。
 
 **返回类型：**
 

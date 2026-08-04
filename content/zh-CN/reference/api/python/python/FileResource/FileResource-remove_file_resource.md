@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "从 Milvus 集群中移除先前通过 `addfileresource()` 注册的文件资源。该调用是幂等的：移除当前未注册的名称也会成功完成，不会引发异常。 | Python"
+description: "从 Milvus 集群中移除此前通过 `addfileresource()` 注册的文件资源。此调用是幂等的：移除当前未注册的名称也会成功完成，而不会引发异常。 | Python"
 type: docx
 token: DLsXdlRA3odugzx4sIccnBVKn0d
 sidebar_position: 3
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # remove_file_resource()
 
-从 Milvus 集群中移除先前通过 `add_file_resource()` 注册的文件资源。该调用是幂等的：移除当前未注册的名称也会成功完成，不会引发异常。
+从 Milvus 集群中移除此前通过 `add_file_resource()` 注册的文件资源。此调用是幂等的：移除当前未注册的名称也会成功完成，而不会引发异常。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ remove_file_resource(
 
 **参数**：
 
-- **name** (*str*) -
- 要移除的资源名称，即最初传递给 `add_file_resource()` 的名称。
+- **name** (*str*) -<br/>
+   要移除的资源名称，即最初传递给 `add_file_resource()` 的名称。
 
-- **timeout** (*float* | *None*) -
- 此操作的超时时长（以秒为单位）。值为 `None` 表示不应用超时限制。
+- **timeout** (*float* | *None*) -<br/>
+   此操作的超时时长（以秒为单位）。值为 `None` 表示不设置超时。
 
-**返回值**：
+**返回**：
 
 *None*
 

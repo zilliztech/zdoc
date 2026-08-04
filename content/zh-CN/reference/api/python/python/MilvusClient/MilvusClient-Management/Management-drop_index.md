@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从特定集合中删除一个索引。 | Python | MilvusClient"
+description: "此操作会从指定 collection 中删除一个索引。 | Python | MilvusClient"
 type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # drop_index()
 
-此操作会从特定集合中删除一个索引。
+此操作会从指定 collection 中删除一个索引。
 
 <Admonition type="info" icon="📘" title="说明">
 
-按需计算的集合不支持此操作。
+按需计算的 collection 不支持此操作。
 
 </Admonition>
 
@@ -54,19 +54,19 @@ drop_index(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 collection 的名称。
 
 - **index_name** (str) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     要删除的索引名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时结束。
 
 **返回类型：**
 

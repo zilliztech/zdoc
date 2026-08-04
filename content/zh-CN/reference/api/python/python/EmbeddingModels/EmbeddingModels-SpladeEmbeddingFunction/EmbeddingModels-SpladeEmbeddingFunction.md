@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "SpladeEmbeddingFunction 是 pymilvus 中的一个类，用于使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
+description: "SpladeEmbeddingFunction 是 pymilvus 中的一个类，使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SpladeEmbeddingFunction
 
-**SpladeEmbeddingFunction** 是 pymilvus 中的一个类，用于使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
+**SpladeEmbeddingFunction** 是 pymilvus 中的一个类，使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.sparse.SpladeEmbeddingFunction
@@ -39,7 +39,7 @@ pymilvus.model.sparse.SpladeEmbeddingFunction
 
 ## 构造函数\{#constructor}
 
-为常见用例构造一个 SpladeEmbeddingFunction。
+构造一个适用于常见用例的 SpladeEmbeddingFunction。
 
 ```python
 SpladeEmbeddingFunction(
@@ -62,7 +62,7 @@ SpladeEmbeddingFunction(
 
 - **batch_size** (*int*) -
 
-    用于计算的批大小。
+    用于计算的批处理大小。
 
 - **query_instruction** (*string*) -
 
@@ -74,7 +74,7 @@ SpladeEmbeddingFunction(
 
 - **device** (*string*) -
 
-    要使用的设备，其中 **cpu** 表示 CPU，**cuda:n** 表示第 n 个 GPU 设备。
+    要使用的设备，**cpu** 表示 CPU，**cuda:n** 表示第 n 个 GPU 设备。
 
 - **k_tokens_query** (*int*) -
 
@@ -86,7 +86,7 @@ SpladeEmbeddingFunction(
 
 - **&ast;&ast;kwargs**
 
-    允许向模型初始化传递其他关键字参数。更多信息请参见 [AutoModelForMaskedLM](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForMaskedLM)。
+    允许将其他关键字参数传递给模型初始化。更多信息请参见 [AutoModelForMaskedLM](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForMaskedLM)。
 
 ## 示例\{#examples}
 

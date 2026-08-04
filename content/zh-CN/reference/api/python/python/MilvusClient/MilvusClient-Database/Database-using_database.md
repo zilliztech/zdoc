@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -74,13 +74,13 @@ using_database(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
 
 ## 示例\{#examples}
 

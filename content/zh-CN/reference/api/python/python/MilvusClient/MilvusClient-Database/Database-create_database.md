@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个数据库。 | Python | MilvusClient"
+description: "此操作用于创建数据库。 | Python | MilvusClient"
 type: docx
 token: S278drWUVoRZ5fx8XkfcWaZfnwh
 sidebar_position: 2
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # create_database()
 
-此操作会创建一个数据库。
+此操作用于创建数据库。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于专用服务集群和按需计算。 
 
-- 对于专属服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于专用服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,7 +68,7 @@ create_database(
 
 - **db_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     要创建的数据库名称。
 
@@ -76,7 +76,7 @@ create_database(
 
     <Admonition type="info" icon="📘" title="说明">
 
-    这不适用于按需计算中的数据库。
+    这不适用于按需计算的数据库。
 
     </Admonition>
 
@@ -92,19 +92,19 @@ create_database(
 
     - **database.diskQuota.mb** (*int*) -
 
-        为数据库分配的磁盘配额，单位为兆字节（**MB**）。
+        分配给该数据库的磁盘配额，单位为 MB。
 
     - **database.max.collections** (*int*) -
 
-        数据库中允许的 collection 最大数量。
+        数据库中允许的最大 collection 数量。
 
     - **database.force.deny.writing** (*bool*) -
 
-        是否拒绝数据库中的所有写操作。
+        是否禁止数据库中的所有写入操作。
 
     - **database.force.deny.reading** (*bool*) -
 
-        是否拒绝数据库中的所有读操作。
+        是否禁止数据库中的所有读取操作。
 
 - **timeout** (*float* | *None*) -
 
@@ -114,13 +114,13 @@ create_database(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
 
 ## 示例\{#examples}
 

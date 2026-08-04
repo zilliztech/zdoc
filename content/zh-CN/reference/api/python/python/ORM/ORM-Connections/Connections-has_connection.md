@@ -12,10 +12,10 @@ type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
+  - 弹性向量数据库
   - zilliz
   - zilliz cloud
   - cloud
@@ -53,13 +53,13 @@ has_connection(alias: str)
 
 **返回：**
 
-一个 Boolean 值，表示该连接是否存在。
+一个 Boolean 值，用于指示连接是否存在。
 
 <Admonition type="info" icon="📘" title="说明">
 
 现有的连接别名并不一定表示相应的连接已经建立。
 
-仅当连接别名存在且相应连接已建立时，此操作才会返回 **True**。
+仅当连接别名存在且相应的连接已建立时，此操作才会返回 **True**。
 
 </Admonition>
 

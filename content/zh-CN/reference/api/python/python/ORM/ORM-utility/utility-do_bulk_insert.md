@@ -50,41 +50,41 @@ do_bulk_insert(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     此操作目标集合的名称。
 
 - **files** (*list[str]*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    包含源数据的文件路径列表。
+    包含源数据的文件路径列表。 
 
     <Admonition type="info" icon="📘" title="说明">
 
     如何准备源数据文件？
     
-        - 你可以使用一个 JSON 文件 (*.json*) 或一组 NumPy 文件 (*.npy*) 作为源数据文件。
+        - 您可以使用一个 JSON 文件（*.json*）或一组 NumPy 文件（*.npy*）作为源数据文件。
     
-            - 有效的 JSON 文件包含一个名为 **rows** 的根键，其值为字典列表，其中每个字典表示一个与目标集合 schema 匹配的实体。
+            - 有效的 JSON 文件需要包含一个名为 **rows** 的根键，其值是一个字典列表，其中每个字典表示一个实体，并且该实体需与目标集合的 schema 匹配。
     
                 如果目标集合允许动态字段，请在每个实体字典中包含动态字段及其值。
     
-            - 一组有效的 NumPy 文件应以目标集合 schema 中的字段名命名，并且其中的数据应与对应字段定义匹配。
+            - 一组有效的 NumPy 文件应以目标集合 schema 中的字段名命名，并且其中的数据应与对应的字段定义匹配。 
     
-                如果目标集合允许动态字段，请额外创建一个名为 **&#36;meta.npy** 的文件来包含动态字段及其值。
+                如果目标集合允许动态字段，请额外创建一个名为 **&#36;meta.npy** 的文件，以包含动态字段及其值。
     
-            有关如何准备源数据文件的详细信息，请参阅 [通过文件插入实体](https://milvus.io/docs/bulk_insert.md)。
+            有关如何准备源数据文件的详细信息，请参阅 [从文件插入实体](https://milvus.io/docs/bulk_insert.md)。
     
-        - 在运行此操作之前，你必须先将源数据文件上传到 Milvus 配置中 `minio.bucketname` 所定义的 bucket。
+        - 在运行此操作之前，您必须先将源数据文件上传到 Milvus 配置中 `minio.bucketname` 所定义的 bucket。 
     
-            以使用 Docker Compose 部署的 Milvus 实例为例，bucket 名称为 `a-bucket`。
+            以使用 Docker Compose 部署的 Milvus 实例为例，假设 bucket 名称为 `a-bucket`。
     
-            - 如果你将源数据文件上传到该 bucket 中，则应在 **files** 列表中仅填写带扩展名的文件名。例如，`files=["id.npy", "vector.npy"]` 或 `files=["data.json"]`。
+            - 如果您将源数据文件上传到此 bucket 的根目录，则应在 **files** 列表中仅包含带扩展名的文件名。例如，`files=["id.npy", "vector.npy"]` 或 `files=["data.json"]`。
     
-            - 如果你将源数据文件上传到该 bucket 的某个子目录中，则应填写相对于 bucket 的文件路径。例如，如果子目录为 `data`，则参数应设置为 `files=["data/id.npy", "data/vector.py"]` 或 `files=["data.json"]`。
+            - 如果您将源数据文件上传到此 bucket 的某个子目录，则应填写相对于 bucket 的文件路径。例如，如果子目录为 `data`，则参数应设置为 `files=["data/id.npy", "data/vector.py"]` 或 `files=["data.json"]`。
     
-        - 要查找你的 Milvus 实例所使用的 MinIO bucket 名称，只需登录到 MinIO 服务器查看即可。
+        - 如需查看您的 Milvus 实例使用的 MinIO bucket 名称，只需登录 MinIO 服务器进行查看。 
 
     </Admonition>
 
@@ -94,7 +94,7 @@ do_bulk_insert(
 
     设置此参数后，Milvus 会将数据批量插入到指定分区中。
 
-    如果将此参数设置为不存在的分区名称，将导致 **MilvusException**。
+    如果将此参数设置为不存在的分区名称，则会导致 **MilvusException**。
 
 - **using** (*str*) - 
 
@@ -104,14 +104,14 @@ do_bulk_insert(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *int*
 
-**返回值：**
-一个批量插入任务 ID。
+**返回：**
+批量插入任务 ID。
 
 **异常：**
 

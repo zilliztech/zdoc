@@ -12,9 +12,9 @@ type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
 keywords: 
-  - 向量检索
-  - 音频相似性搜索
-  - 弹性向量数据库
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
@@ -47,7 +47,7 @@ list_users(
 
 - **include_role_info** (*bool*) - 
 
-    **[必需]**
+    **[REQUIRED]**
 
     Zilliz Cloud 是否列出授予指定用户的角色。
 
@@ -59,7 +59,7 @@ list_users(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
 
 **返回类型：**
 
@@ -67,7 +67,7 @@ list_users(
 
 **返回：**
 
-一个包含用户信息的 **UserInfo** 对象。
+包含用户信息的 **UserInfo** 对象。
 
 ```python
 ├── UserInfo

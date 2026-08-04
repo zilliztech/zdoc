@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将多个向量嵌入添加到当前的 EmbeddingList 实例中。 | Python | MilvusClient"
+description: "此操作会将多个向量嵌入添加到当前 EmbeddingList 实例中。 | Python | MilvusClient"
 type: docx
 token: TJundbM8FoU8UKxczaMcix3QnHb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_batch()
 
-此操作会将多个向量嵌入添加到当前的 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中。
+此操作会将多个向量嵌入添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中。
 
 ## 请求语法\{#request-syntax}
 
@@ -60,7 +60,7 @@ add_batch(
 
 - **ValueError**:
 
-    如果提供的向量嵌入与现有嵌入在维度上不匹配，则会引发此异常。
+    如果提供的向量嵌入在维度上与现有嵌入不匹配，则会引发此异常。
 
 ## 示例\{#examples}
 

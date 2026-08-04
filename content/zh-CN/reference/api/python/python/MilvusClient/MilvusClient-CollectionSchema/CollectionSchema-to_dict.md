@@ -12,10 +12,10 @@ type: docx
 token: NnIxd6VYso9IBPx6bJDcJJmUnNd
 sidebar_position: 4
 keywords: 
-  - 向量数据库如何工作
-  - 向量数据库对比
-  - openai 向量数据库
-  - 自然语言处理数据库
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
@@ -47,9 +47,9 @@ to_dict()
 
 *dict*
 
-**返回：**
+**返回值：**
 
-集合 schema 的字典表示形式。
+集合模式的字典表示形式。
 
 **异常：**
 

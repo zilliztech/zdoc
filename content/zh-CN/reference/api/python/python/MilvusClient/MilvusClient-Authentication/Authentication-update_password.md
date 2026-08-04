@@ -7,9 +7,9 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会更新特定用户的密码。 | Python | MilvusClient"
+description: "更新与用户凭据/描述相关的签名行为。异步变体与同步方法共享相同的参数和响应约定。 | Python | MilvusClient"
 type: docx
-token: B4MWdXervo5cC0xBUaVcSiTgnMg
+token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
 sidebar_position: 20
 keywords: 
   - Agentic RAG
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-此操作会更新特定用户的密码。
+更新与用户凭据/描述相关的签名行为。异步变体与同步方法共享相同的参数和响应约定。
 
 ## 请求语法\{#request-syntax}
 
@@ -42,87 +42,65 @@ update_password(
     new_password: str,
     reset_connection: Optional[bool] = False,
     timeout: Optional[float] = None,
+    description: Optional[str] = None,
     **kwargs,
-)
+) -> None
 ```
 
 **参数：**
 
-- **user_name** (*str*) -
+- **user_name** (*str*) -<br/>
+  **[必需]**<br/>
+  要更改密码的用户名称。
 
-    **[必需]**
+- **old_password** (*str*) -<br/>
+  **[必需]**<br/>
+  用户当前的密码。
 
-    现有用户的名称。
+- **new_password** (*str*) -<br/>
+  **[必需]**<br/>
+  用户的新密码。
 
-- **old_password** (*str*) -
+- **reset_connection** (*Optional[bool]*) -<br/>
+  默认值：`False`<br/>
+  更新后使用新密码重新连接客户端的标志。
 
-    **[必需]**
+- **timeout** (*Optional[float]*) -<br/>
+  默认值：`None`<br/>
+  等待 RPC 完成的最长时间，单位为秒。
 
-    用户的原始密码。
+- **description** (*Optional[str]*) -<br/>
+  默认值：`None`<br/>
+  用户账户的可选更新描述。
 
-- **new_password** (*str*) -
-
-    **[必需]**
-
-    用户的新密码。
-
-- **reset_connection** (*bool*) -
-
-    是否使用新凭证重置连接。
-
-- **timeout** (*float* | *None*)  
-
-    此操作的超时时长。 
-
-    将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+- **kwargs** (*Any*) -<br/>
+  附加的请求上下文选项。
 
 **返回类型：**
 
-*NoneType*
+*None*
 
 **返回值：**
 
-None
+密码成功更新后不返回任何值。
 
 **异常：**
 
-- **MilvusException**
+- **MilvusException**<br/>
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
-    当此操作期间发生任何错误时，将引发此异常。
+## 示例\{#examples}
 
-- **BaseException**
-
-    当此操作失败时，将引发此异常。
-
-## 示例\{#example}
+演示如何使用更新密码功能。
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Create a milvus client
-client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
-)
-
-# 2. Create a user
-client.create_user(user_name="user_1", password="P@ssw0rd")
-
-# 3. Change the password
-client.update_password(
-    user_name="user_1",
-    old_password="P@ssw0rd",
-    new_password="NewP@ssw0rd"
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+client.create_user("analyst", "Milvus123", description="Analytics account")
+client.update_user("analyst", description="Updated analytics account")
+client.create_role("read_only", description="Read-only role")
+client.alter_role("read_only", description="Updated read-only role")
+print(client.describe_user("analyst"))
+print(client.describe_role("read_only"))
 ```
-
-## 相关方法\{#related-methods}
-
-- [create_user()](./Authentication-create_user)
-
-- [describe_user()](./Authentication-describe_user)
-
-- [drop_user()](./Authentication-drop_user)
-
-- [list_users()](./Authentication-list_users)
-

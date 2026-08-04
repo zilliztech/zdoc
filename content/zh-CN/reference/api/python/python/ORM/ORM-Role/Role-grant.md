@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作向当前角色授予权限。 | Python | ORM"
+description: "此操作为当前角色授予权限。 | Python | ORM"
 type: docx
 token: BapSdVXjQoQXnbxnRYScCagAn1f
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grant()
 
-此操作向当前角色授予权限。
+此操作为当前角色授予权限。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,7 +48,7 @@ grant(
 
 - **object** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
     要授予权限的对象类型。
 
@@ -56,15 +56,15 @@ grant(
 
 - **object_name** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
     在 **object** 中指定类型的目标对象名称。
 
-    它可以是 collection 名称、用户名或通配符（*）。
+    它可以是集合名称、用户名或通配符（*）。
 
 - **privilege** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
     要授予的权限名称。
 
@@ -72,9 +72,9 @@ grant(
 
     <Admonition type="info" icon="📘" title="说明">
 
-    - 要向某一类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请将权限名称设为 `*`。
+    - 如需向某类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请使用 `*` 作为权限名称。
     
-    - 当 `object` 设置为 `Global` 时，将 `privilege` 设为 `\*` 并不等同于将其设为 `All`。`All` 权限包含所有权限，包括针对任何 collection 和 user 对象的权限。
+    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 不等同于将其设置为 `All`。`All` 权限包含所有权限，包括任何 collection 和 user 对象的权限。
 
     </Admonition>
 
@@ -86,7 +86,7 @@ grant(
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 *None*
 

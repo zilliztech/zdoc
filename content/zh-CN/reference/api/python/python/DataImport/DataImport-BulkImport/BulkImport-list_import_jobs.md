@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此函数列出批量导入任务，并支持可选的 collection 和分页过滤；对于 project 数据库，还包括 project/region 过滤。 | Python"
+description: "新增 projectid 和 regionid 过滤。 | Python"
 type: docx
 token: N13hd7jVjoA6B1xlgwic2GKRn5f
 sidebar_position: 3
 keywords: 
-  - Question answering system
+  - 问答系统
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - 混合向量搜索
+  - 视频去重
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_import_jobs()
 
-此函数列出批量导入任务，并支持可选的 collection 和分页过滤；对于 project 数据库，还包括 project/region 过滤。
+新增 `project_id` 和 `region_id` 过滤。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,100 +46,88 @@ list_import_jobs(
     api_key: str = "",
     page_size: int = 10,
     current_page: int = 1,
-    
-    project_id: str = "",
-    region_id: str = "",
-    
-    verify: bool | str = True,
-    cert: str | tuple | None = None,
+    verify: Optional[Union[bool, str]] = True,
+    cert: Optional[Union[str, tuple]] = None,
     **kwargs,
-)
+) -> requests.Response
 ```
 
 **参数：**
 
-- **url** (*str*) -
+- **url** (*str*) -<br/>
+  **[必填]**
 
-    **[必需]**
+    Zilliz Cloud API 服务器端点，即 `https://api.cloud.zilliz.com`。
 
-    用于批量导入 API 的服务器端点。
+- **collection_name** (*str*) -<br/>
+  默认值：`""`<br/>
+  要列出导入任务的集合名称。
 
-- **collection_name** (*str*) -
+- **db_name** (*str*) -<br/>
+  默认值：`""`<br/>
+  要列出导入任务的数据库名称。
 
-    可选的 collection 过滤条件。
+- **cluster_id** (*str*) -<br/>
+  默认值：`""`<br/>
+  目标 Zilliz Cloud 集群的 ID。
 
-- **db_name** (*str*) -
+- **project_id** (*str*) -<br/>
+  默认值：`""`<br/>
+  包含目标项目数据库的 Zilliz Cloud 项目的 ID。
 
-    可选的数据库过滤条件。
+- **region_id** (*str*) -<br/>
+  默认值：`""`<br/>
+  包含目标项目数据库的 Zilliz Cloud 区域的 ID。
 
-- **cluster_id** (*str*) -
+- **api_key** (*str*) -<br/>
+  默认值：`""`
 
-    Cloud cluster ID。
+    用于对请求进行身份验证的 Zilliz Cloud API 密钥。
 
-- **api_key** (*str*) -
+- **page_size** (*int*) -<br/>
+  默认值：`10`<br/>
+  每页返回的导入任务最大数量。
 
-    用于云认证的 API key。
+- **current_page** (*int*) -<br/>
+  默认值：`1`<br/>
+  要返回的页码，从 1 开始计数。
 
-- **page_size** (*int*) -
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  默认值：`True`<br/>
+  TLS 验证设置。使用 `True` 表示使用默认信任存储进行验证，或提供 CA 证书路径。
 
-    每页返回的任务数量。
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  默认值：`None`<br/>
+  客户端证书路径，或用于双向 TLS 的证书和私钥对。
 
-- **current_page** (*int*) -
-
-    要查询的页码。
-
-- **project_id** (*str*) -
-
-    有效的 Zilliz Cloud project ID。 
-
-    当你向按需计算数据库执行批量导入时适用。
-
-- **region_id** (*str*) -
-
-    有效的 Zilliz Cloud region ID。
-
-    当你向按需计算数据库执行批量导入时适用。
-
-- **verify** (*bool | str*) -
-
-    TLS 验证设置。
-
-- **cert** (*str | tuple*) -
-
-    客户端证书路径或 `(cert, key)` 元组。
-
-- **project_id** (*str*) -
-
-    额外的 HTTP 请求选项。
+- **kwargs** (*Any*) -<br/>
+  转发给 HTTP 请求的其他选项。
 
 **返回类型：**
+
 *requests.Response*
 
-返回分页后的导入任务列表。
+**返回：**
 
-包含分页导入任务摘要的 HTTP 响应。
+包含匹配导入任务和分页信息的 HTTP 响应。
 
 **异常：**
 
-- **MilvusException**
-
-    在列出任务失败时引发。
+- **MilvusException**<br/>
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
 ## 示例\{#examples}
+
+以下示例从 Zilliz Cloud 列出导入任务。
 
 ```python
 from pymilvus.bulk_writer import list_import_jobs
 
-resp = list_import_jobs(
+response = list_import_jobs(
     url="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
-    project_id="proj-xxx",
+    project_id="proj-xxxx",
     region_id="aws-us-west-2",
-    collection_name="book_catalog",
-    page_size=20,
-    current_page=1,
 )
-
-print(resp.json())
+print(response.json())
 ```
-

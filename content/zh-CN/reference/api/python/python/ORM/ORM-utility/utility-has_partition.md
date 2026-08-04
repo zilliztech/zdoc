@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查分区是否存在。 | Python | ORM"
+description: "此操作检查某个分区是否存在。 | Python | ORM"
 type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-此操作检查分区是否存在。
+此操作检查某个分区是否存在。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,14 +48,14 @@ has_partition(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
-    已存在的 collection 名称。
+    **[必填]**
+    已存在的集合名称。
 
-    如果将其设置为不存在的 collection，则会导致 **MilvusException**。
+    如果将其设置为不存在的集合，将导致抛出 **MilvusException**。
 
 - **partition_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
     分区名称。
 
 - **using** (*str*) - 
@@ -66,20 +66,20 @@ has_partition(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *bool*
 
-**返回：**
+**返回值：**
 布尔值，表示指定分区是否存在。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作支持以两种不同的方式创建集合：快速设置或自定义设置。 | Python | MilvusClient"
+description: "此操作支持以两种不同方式创建集合：快速设置或自定义设置。 | Python | MilvusClient"
 type: docx
 token: NbYidGUPcokra9xJ6IAcUNLEn9f
 sidebar_position: 5
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # create_collection()
 
-此操作支持以两种不同的方式创建集合：快速设置或自定义设置。
+此操作支持以两种不同方式创建集合：快速设置或自定义设置。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专有服务集群和按需计算。
+此方法适用于专属服务集群和按需计算。 
 
 - 对于服务集群中的集合，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -75,55 +75,55 @@ create_collection(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
     要创建的集合名称。
 
 - **dimension** (*int*) -
 
-    集合中用于存储向量嵌入的字段维度。
+    用于存储向量嵌入的集合字段的维度。
 
-    该值通常由你用于生成向量嵌入的模型决定，并且应为大于 1 的整数。
+    该值通常由你使用的向量嵌入生成模型决定，并且应为大于 1 的整数。
 
     此参数用于集合的快速设置；如果 **schema** 不为 **None**，且 schema 中某个字段的 **dim** 被设置为正整数，则会忽略此参数。
 
 - **primary_field_name** (*str*) -
 
-    此集合中主字段的名称。
+    此集合中主键字段的名称。
 
-    默认值为 **id**。你也可以根据需要使用其他名称。如果你需要使用自定义 schema 创建集合，请跳过此参数。
+    默认值为 **id**。你也可以根据需要使用其他名称。如果你需要使用自定义 schema 来设置集合，请跳过此参数。
 
     此参数用于集合的快速设置；如果 **schema** 不为 **None**，且 schema 中某个字段的 **is_primary** 被设置为 **True**，则会忽略此参数。
 
 - **id_type** (*[DataType](./Collections-DataType)*) -
 
-    此集合中主字段的数据类型。
+    此集合中主键字段的数据类型。
 
-    默认值为 **DataType.INT64**。可选值包括 **DataType.INT64** 和 **DataType.VARCHAR**。
+    默认值为 **DataType.INT64**。可选值为 **DataType.INT64** 和 **DataType.VARCHAR**。 
 
     此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
 - **vector_field_name** (*str*) -
 
-    集合中用于存储向量嵌入的字段名称。
+    用于存储向量嵌入的集合字段名称。
 
-    默认值为 **vector**。你也可以根据需要使用其他名称。
+    默认值为 **vector**。你也可以根据需要使用其他名称。 
 
     此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
 - **metric_type** (*str*) -
 
-    此集合用于衡量向量嵌入之间相似性的算法。
+    此集合中用于衡量向量嵌入相似度的算法。
 
-    默认值为 **COSINE**。可选值包括 **L2**、**IP** 和 **COSINE**。有关这些度量类型的详细信息，请参阅 [Similarity Metrics Explained](/docs/search-metrics-explained)。
+    默认值为 **COSINE**。可选值为 **L2**、**IP** 和 **COSINE**。有关这些度量类型的详细信息，请参见 [Similarity Metrics Explained](/docs/search-metrics-explained)。
 
     此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
 - **auto_id** (*bool*) -
 
-    向此集合插入数据时，主字段是否自动递增。
+    向此集合插入数据时，主键字段是否自动递增。
 
-    默认值为 **False**。将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主字段。自动生成的 ID 长度固定，无法更改。
+    默认值为 **False**。将其设置为 **True** 会使主键字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主键字段。自动生成的 ID 具有固定长度，无法更改。
 
     此参数用于集合的快速设置；如果 **schema** 不为 **None**，则会忽略此参数。
 
@@ -135,13 +135,13 @@ create_collection(
 
     此集合的 schema。
 
-    将其设置为 **None** 表示将以快速设置方式创建此集合。
+    将其设置为 **None** 表示将以快速设置方式创建此集合。 
 
-    如需使用自定义 schema 创建集合，你需要先创建一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象，并在此处引用它。在这种情况下，Zilliz Cloud 会忽略请求中携带的所有其他与 schema 相关的设置。
+    若要使用自定义 schema 设置集合，你需要先创建一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象并在此处引用它。在这种情况下，Zilliz Cloud 会忽略请求中所有其他与 schema 相关的设置。
 
 - **index_params** (*IndexParams* | *None*)
 
-    为此集合中的向量字段构建索引所需的参数。若要使用自定义 schema 创建集合并自动将集合加载到内存中，你需要创建一个 **IndexParams** 对象，并在此处引用它。
+    为此集合中的向量字段构建索引所需的参数。若要使用自定义 schema 设置集合并自动将集合加载到内存中，你需要创建一个 **IndexParams** 对象并在此处引用它。 
 
     你至少应为此集合中的向量字段添加一个索引。如果你希望稍后再设置索引参数，也可以跳过此参数。
 
@@ -157,17 +157,17 @@ create_collection(
 
     - **num_shards** (*int*) -
 
-        创建此集合时一并创建的 shard 数量。
+        创建此集合时同时创建的分片数量。 
 
-        默认值为 **1**，表示创建此集合时会同时创建 1 个 shard。
+        默认值为 **1**，表示创建此集合时会同时创建一个分片。
 
         <Admonition type="info" icon="📘" title="说明">
 
         什么是分片？
         
-                分片是指将写操作分发到不同节点，以充分利用 Milvus 集群在数据写入方面的并行计算能力。
+                分片是指将写入操作分发到不同节点，以最大限度利用 Milvus 集群在数据写入方面的并行计算能力。
         
-                默认情况下，一个集合包含一个 shard。
+                默认情况下，一个集合包含一个分片。
 
         </Admonition>
 
@@ -181,39 +181,39 @@ create_collection(
 
         什么是分区键？
         
-                为了支持面向分区的多租户，你可以将某个字段设置为分区键字段，以便 Zilliz Cloud 对该字段值进行哈希，并据此将实体分布到指定数量的分区中。
+                为了便于面向分区的多租户使用，你可以将某个字段设置为分区键字段，以便 Zilliz Cloud 对该字段值进行哈希，并据此将实体分布到指定数量的分区中。
         
-                检索实体时，请确保在布尔表达式中使用分区键字段进行过滤，以筛选出具有特定字段值的实体。
+                检索实体时，请确保在布尔表达式中使用分区键字段，以过滤出具有特定字段值的实体。
         
-                更多详情，请参阅 [Use Partition Key](/docs/use-partition-key) 和 [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md)。
+                更多信息请参见 [Use Partition Key](/docs/use-partition-key) 和 [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md)。
 
         </Admonition>
 
     - **partition_key_isolation** (*bool*) -
 
-        是否启用分区键隔离，以进一步提升按分区键进行标量过滤时的搜索性能。详情请参阅 [Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation)。
+        是否启用分区键隔离，以进一步提升在按分区键进行标量过滤时的搜索性能。更多信息请参见 [Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation)。
 
     - **num_partitions** (*int*) -
 
         为分区键功能创建的分区数量。
 
-        默认值为 **64**，表示创建此集合时会同时创建 64 个分区。此参数在 **partition_key_field** 被设置为某个字段名称时生效。
+        默认值为 **64**，表示创建此集合时会同时创建 64 个分区。当 **partition_key_field** 设置为某个字段名称时，此参数生效。
 
     - **consistency_level** (*int* | *str*)
 
         目标集合的一致性级别。
 
-        默认值为 **Bounded**（**2**），可选项包括 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。
+        默认值为 **Bounded**（**2**），可选值包括 **Strong**（**0**）、**Session**（**1**）、**Bounded**（**2**）和 **Eventually**（**3**）。
 
         <Admonition type="info" icon="📘" title="说明">
 
         什么是一致性级别？
         
-                在分布式数据库中，一致性特指这样一种属性：在给定时间进行写入或读取数据时，保证每个节点或副本看到的数据视图相同。
+                在分布式数据库中，一致性特指一种属性，即在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同视图。
         
                 Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
         
-                你可以在执行向量相似性搜索或查询时灵活调整一致性级别，使其更适合你的应用场景。
+                你可以在执行向量相似度搜索或查询时轻松调整一致性级别，使其最适合你的应用。
 
         </Admonition>
 
@@ -235,13 +235,13 @@ create_collection(
 
         - **partitionkey.isolation** (bool) -
 
-            是否启用分区键隔离。详情请参阅 [Use Partition Key](/docs/use-partition-key)。
+            是否启用分区键隔离。更多信息请参见 [Use Partition Key](/docs/use-partition-key)。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -249,15 +249,15 @@ None
 
 - **PrimaryKeyException**
 
-    如果主字段的数据类型不是整数或字符串，则会引发此异常。
+    当主键字段的数据类型不是整数或字符串时，将引发此异常。
 
 - **MilvusException**
 
-    如果此操作期间发生任何错误，则会引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 
-### 设置 Milvus client\{#set-up-a-milvus-client}
+### 设置 Milvus 客户端\{#set-up-a-milvus-client}
 
 ```python
 from pymilvus import MilvusClient
@@ -274,7 +274,7 @@ client = MilvusClient(
 
 - **快速设置**
 
-    快速设置创建的集合包含两个必需字段：主字段和向量字段。它还允许在动态字段中以键值对形式插入未定义字段及其值。
+    快速设置的集合包含两个必需字段：主键字段和向量字段。它还允许在动态字段中以键值对形式插入未定义字段及其值。
 
     ```python
     client.create_collection(
@@ -283,17 +283,17 @@ client = MilvusClient(
     )
     ```
 
-    在上述设置中：
+    在上述设置中， 
 
-    - 主字段和向量字段使用默认名称（**id** 和 **vector**）。
+    - 主键字段和向量字段使用其默认名称（**id** 和 **vector**）。
 
     - 度量类型也设置为默认值（**COSINE**）。
 
-    - 主字段接受整数，且不会自动递增。
+    - 主键字段接受整数，并且不会自动递增。
 
-    - 名为 **&#36;meta** 的保留 JSON 字段用于存储 schema 中未定义的字段及其值。
+    - 名为 **&#36;meta** 的保留 JSON 字段用于存储非 schema 定义的字段及其值。
 
-    你可以修改主字段和向量字段的名称，并更改度量类型。此外，还可以将主字段设置为自动递增。
+    你可以修改主键字段和向量字段的名称，并更改度量类型。此外，还可以将主键字段设置为自动递增。
 
     ```python
     client.create_collection(
@@ -310,9 +310,9 @@ client = MilvusClient(
 
     在上述代码中，集合将被创建、建立索引并加载到内存中。
 
-- **带索引参数的自定义设置**
+- **使用索引参数的自定义设置**
 
-    对于自定义设置，请预先创建 schema 和索引参数。
+    对于自定义设置，请预先创建 schema 和索引参数。 
 
     ```python
     from pymilvus import MilvusClient, DataType
@@ -353,7 +353,7 @@ client = MilvusClient(
 
     在上述代码中，集合将被创建、建立索引并加载到内存中。
 
-- **不带索引参数的自定义设置**
+- **不使用索引参数的自定义设置**
 
     ```python
     from pymilvus import MilvusClient, DataType
@@ -375,7 +375,7 @@ client = MilvusClient(
     )
     ```
 
-    在上述代码中，集合同样会被创建。但是，如果没有 `index_param`，集合中的数据不会被建立索引，也不会加载到内存中。
+    在上述代码中，集合同样会被创建。但是，如果没有 `index_param`，集合中的数据将不会被建立索引，也不会被加载到内存中。
 
 - **创建外部集合**
 

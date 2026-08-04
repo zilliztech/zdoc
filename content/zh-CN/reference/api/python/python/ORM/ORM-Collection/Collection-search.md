@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作执行向量相似性搜索，并可选择附加标量过滤表达式。 | Python | ORM"
+description: "此操作使用可选的标量过滤表达式执行向量相似性搜索。 | Python | ORM"
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-此操作执行向量相似性搜索，并可选择附加标量过滤表达式。
+此操作使用可选的标量过滤表达式执行向量相似性搜索。
 
 ## 请求语法\{#request-syntax}
 
@@ -56,7 +56,7 @@ search(
 
     **[必填]**
 
-    向量嵌入列表。
+    向量嵌入的列表。
 
     Zilliz Cloud 会搜索与指定向量嵌入最相似的向量嵌入。
 
@@ -64,13 +64,13 @@ search(
 
     **[必填]**
 
-    当前 collection 中向量字段的名称。
+    当前 collection 中向量字段的名称
 
 - **param** (dict) -
 
     **[必填]**
 
-    此操作的专用参数设置。
+    此操作专用的参数设置。
 
     - **metric_type** (*str*) -
 
@@ -80,7 +80,7 @@ search(
 
     - **params** (dict) -
 
-        附加参数。
+        附加参数
 
         - **offset** (int) -
 
@@ -92,11 +92,11 @@ search(
 
         - **radius** (float) -
 
-            确定最低相似度阈值。当 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
+            确定最低相似度阈值。当 `metric_type` 设置为 `L2` 时，确保此值大于 **range_filter** 的值。否则，此值应小于 **range_filter** 的值。 
 
         - **range_filter**  (float) -  
 
-            将搜索进一步限定为特定相似度范围内的向量。当 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
+            将搜索范围细化为特定相似度区间内的向量。当 `metric_type` 设置为 `IP` 或 `COSINE` 时，确保此值大于 **radius** 的值。否则，此值应小于 **radius** 的值。
 
     有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
@@ -112,39 +112,39 @@ search(
 
     用于过滤匹配实体的标量过滤条件。
 
-    默认值为 **None**，表示忽略标量过滤。有关构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
+    该值默认为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*) -
 
-    返回结果中每个实体要包含的字段名称列表。
+    返回的每个实体中要包含的字段名称列表。
 
-    默认值为 **None**。如果未指定，则仅包含主字段。
+    该值默认为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*) -
 
-    分区名称列表。
+    partition 名称列表。
 
-    默认值为 **None**。如果指定，则查询仅涉及指定分区。
+    该值默认为 **None**。如果指定，则仅在指定的 partitions 中执行查询。
 
 - **timeout** (*float*)  -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 - **round_decimal** (*int*) -
 
-    Zilliz Cloud 对计算出的距离值保留的小数位数。
+    Zilliz Cloud 对计算出的距离进行舍入时保留的小数位数。
 
-    默认值为 **-1**，表示 Zilliz Cloud 不对计算出的距离进行四舍五入，而是返回原始值。
+    该值默认为 **-1**，表示 Zilliz Cloud 跳过对计算距离的舍入并返回原始值。
 
 - **search_aggregation** (*Optional[SearchAggregation]*) -
 
-    分层桶聚合规范。与 **group_by_field** 互斥。设置后，将忽略 **limit**，并由根级 `SearchAggregation.size` 控制顶层桶数量。
+    分层 bucket 聚合规范。与 **group_by_field** 互斥。设置后，将忽略 **limit**，顶层 bucket 数量由根级 `SearchAggregation.size` 控制。
 
 - **consistency_level** (*str*) -
 
-    Milvus 在指定 collection 中执行搜索时使用的一致性级别。
+    Milvus 在指定 collection 内执行搜索时使用的一致性级别。
 
-    如果未指定此参数，则使用创建 collection 时指定的一致性级别。指定此参数将覆盖创建 collection 时指定的值。
+    如果未指定此参数，将使用创建 collection 时指定的一致性级别。指定此参数会覆盖 collection 创建时指定的值。
 
     可选值为 **Strong**、**Bounded**、**Eventually**、**Session** 和 **Customized**。
 
@@ -156,13 +156,13 @@ search(
 
     Milvus 在搜索期间用作参考的时间戳。
 
-    如果未指定此参数，Milvus 将在所有已刷写的实体中进行搜索。设置此值后，Milvus 将仅在指定时间戳之前已刷写的实体中进行搜索。
+    如果未指定此参数，Milvus 将在所有已 flush 的实体中进行搜索。设置此值后，Milvus 将仅在指定时间戳之前已 flush 的实体中进行搜索。
 
 - **graceful_time** (*int*) -
 
-    搜索的宽限期（以秒为单位）。
+    搜索的宽限时间（以秒为单位）。
 
-    设置此值后，Milvus 将在指定秒数之前已刷写的实体中进行搜索。
+    设置此值后，Milvus 将在指定秒数之前已 flush 的实体中进行搜索。
 
 **返回类型：**
 
@@ -176,9 +176,9 @@ search(
 
     <Admonition type="info" icon="📘" title="说明">
 
-    **SearchResult** 对象包含一个 **Hits** 对象列表，其中每个 **Hits** 对象对应搜索请求中的一个查询向量。 
+    一个 **SearchResult** 对象包含一个 **Hits** 对象列表，其中每个 **Hits** 对象对应搜索请求中的一个查询向量。 
     
-    **Hits** 对象包含一个 **Hit** 对象列表，其中每个 **Hit** 对象对应一个被搜索命中的实体。
+    一个 **Hits** 对象包含一个 **Hit** 对象列表，其中每个 **Hit** 对象对应一个被搜索命中的实体。
 
     </Admonition>
 
@@ -205,7 +205,7 @@ search(
 
         - **distances** (list[float]) 
 
-            命中实体的向量字段与查询向量之间的距离列表。
+            命中实体的向量字段与查询向量之间距离的列表。
 
     - **Hit** 对象具有以下字段：
 
@@ -227,7 +227,7 @@ search(
 
         - **get(*field_name: str*)**
 
-            用于获取命中实体中指定字段的值的函数。 
+            用于获取命中实体中指定字段值的函数。 
 
 **异常：**
 

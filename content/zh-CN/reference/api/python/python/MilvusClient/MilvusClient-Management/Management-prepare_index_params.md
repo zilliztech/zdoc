@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于准备索引参数，以便为特定 collection 构建索引。 | Python | MilvusClient"
+description: "此操作用于准备索引参数，以便为特定集合构建索引。 | Python | MilvusClient"
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 11
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # prepare_index_params()
 
-此操作用于准备索引参数，以便为特定 collection 构建索引。
+此操作用于准备索引参数，以便为特定集合构建索引。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专用服务集群和按需计算。 
+此方法仅适用于专有服务集群和按需计算。 
 
-- 对于服务集群中 collection 上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的集合执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中 collection 上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话，以附加到按需集群进行搜索。
+- 对于按需计算中的集合执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -69,11 +69,11 @@ pymilvus.MilvusClient.prepare_index_params() -> IndexParams
 
 **返回：**
 
-一个 **IndexParams**，其中包含 **IndexParam** 对象列表。
+一个 **IndexParams** 包含一组 **IndexParam** 对象。
 
 - **IndexParams**
 
-    一个 **IndexParam** 对象列表。
+    一个由 **IndexParam** 对象组成的列表。
 
     ```python
     ├── IndexParams 

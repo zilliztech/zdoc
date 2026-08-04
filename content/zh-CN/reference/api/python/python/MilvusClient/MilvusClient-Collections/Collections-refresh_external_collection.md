@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会扫描 schema 定义的外部存储中的数据文件，并生成元数据文件以记录这些文件与数据文件之间的映射关系。 | Python | MilvusClient"
+description: "此操作会扫描 schema 定义的外部存储中的数据文件，并生成元数据文件，用于记录这些元数据文件与数据文件之间的映射关系。 | Python | MilvusClient"
 type: docx
 token: ZVs4dDpvmoXI0OxOnKhc9numnJd
 sidebar_position: 29
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refresh_external_collection()
 
-此操作会扫描 schema 定义的外部存储中的数据文件，并生成元数据文件以记录这些文件与数据文件之间的映射关系。
+此操作会扫描 schema 定义的外部存储中的数据文件，并生成元数据文件，用于记录这些元数据文件与数据文件之间的映射关系。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -63,7 +63,7 @@ refresh_external_collection(
 
 - **external_source** (*str*) -
 
-    外部源 URI，应为指向可访问外部 volume 的 `volume://` URI。例如，`volume://<volume-name>/path/to/folder/`。
+    外部源 URI，应为指向可访问外部卷的 `volume://` URI。例如，`volume://<volume-name>/path/to/folder/`。
 
 - **external_spec** (*str*) -
 
@@ -81,9 +81,9 @@ refresh_external_collection(
 
 - **timeout** (*float*) -
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
@@ -91,7 +91,7 @@ refresh_external_collection(
 
 **返回：**
 
-表示已创建的异步任务的整数值。
+一个整数，表示已创建的异步作业。
 
 ## 示例\{#examples}
 

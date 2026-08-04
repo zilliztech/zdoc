@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 Partition 实例表示 collection 中的一个 partition。 | Python | ORM"
+description: "Partition 实例表示集合中的一个分区。 | Python | ORM"
 type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
 keywords: 
-  - 视频相似度搜索
+  - 视频相似性搜索
   - 向量检索
-  - 音频相似度搜索
+  - 音频相似性搜索
   - 弹性向量数据库
   - zilliz
   - zilliz cloud
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # Partition
 
-**Partition** 实例表示 collection 中的一个 partition。
+**Partition** 实例表示集合中的一个分区。
 
 ```python
 class pymilvus.Partition
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-通过名称、描述和其他参数在 collection 中构造一个 partition。 
+通过名称、描述和其他参数在集合中构造一个分区。
 
 <Admonition type="info" icon="📘" title="说明">
 
-使用 partition 时，请确保 collection schema 中的 **enable_partition_key** 未设置为 **True**。否则将发生错误。
+使用分区时，请确保集合 schema 中的 **enable_partition_key** 未设置为 **True**。否则，将会发生错误。
 
 </Admonition>
 
@@ -55,63 +55,63 @@ Partition(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **[collection](./ORM-Collection)** (*[Collection](./ORM-Collection)* | *str*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要在其中创建 partition 的 collection。 
+    要在其中创建分区的集合。
 
-    你既可以引用 **[Collection](./ORM-Collection)** 对象，也可以使用其名称。
+    您既可以引用 **[Collection](./ORM-Collection)** 对象，也可以使用其名称。
 
     <Admonition type="info" icon="📘" title="说明">
 
-    什么是 collection？
+    什么是集合？
     
-        collection 以具有固定列数和可变行数的二维表形式收集数据。在该表中，每一列对应一个字段，每一行代表一个实体。
+        集合以一个具有固定列数和可变行数的二维表来组织数据。在该表中，每一列对应一个字段，每一行代表一个实体。
     
-        一个 collection 最多支持 64 个 partition。
+        一个集合最多可以支持 64 个分区。
 
     </Admonition>
 
 - **name** (*string*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要创建的 partition 的名称。
+    要创建的分区名称。
 
 - **description** (*string*) - 
 
-    要创建的 partition 的描述。
+    要创建的分区描述。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Partition*
 
-**RETURNS:**
+**返回：**
 
 一个 **Partition** 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusException**
 
     当此操作期间发生任何错误时，将引发此异常。
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, Partition
 
-# Get an existing collection
+# 获取现有集合
 collection = Collection("book")
 
-# Create a partition object in the current collection
+# 在当前集合中创建一个分区对象
 partition = Partition(collection, "novel", "")
 ```
 
-## Members\{#members}
+## 成员\{#members}
 
 以下是 `Partition` 类的成员：
 

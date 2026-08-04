@@ -60,13 +60,13 @@ drop_partition(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有集合的名称。
 
 - **partition_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     要删除的分区名称。
 
@@ -78,9 +78,9 @@ drop_partition(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无
+None
 
 **异常：**
 

@@ -48,7 +48,7 @@ unpin_snapshot_data(
 
 - **pin_id** (*int*) -
 
-    由 `pin_snapshot_data()` 返回的固定 ID。
+    `pin_snapshot_data()` 返回的 pin ID。
 
 - **timeout** (*Optional[float]*) -
 
@@ -68,7 +68,7 @@ unpin_snapshot_data(
 
 - **MilvusException**
 
-    当固定不存在、已过期或请求失败时引发。
+    当 pin 不存在、已过期，或请求失败时抛出。
 
 ## 示例\{#example}
 

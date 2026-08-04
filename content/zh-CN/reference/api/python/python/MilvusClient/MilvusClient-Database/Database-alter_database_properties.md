@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作用于修改指定数据库的属性。 | Python | MilvusClient"
+description: "此操作修改指定数据库的属性。 | Python | MilvusClient"
 type: docx
 token: HCWBdorQdoONw2xaawacJWQkn1e
 sidebar_position: 1
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # alter_database_properties()
 
-此操作用于修改指定数据库的属性。
+此操作修改指定数据库的属性。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专用集群。
+此方法仅适用于专属集群。
 
 </Admonition>
 
@@ -72,7 +72,7 @@ alter_database_properties(
 
     - **database.diskQuota.mb** (*int*) -
 
-        分配给数据库的磁盘配额，单位为兆字节（**MB**）。
+        分配给数据库的磁盘配额，单位为 MB（兆字节）。
 
     - **database.max.collections** (*int*) -
 
@@ -80,15 +80,15 @@ alter_database_properties(
 
     - **database.force.deny.writing** (*bool*) -
 
-        是否拒绝数据库中的所有写入操作。
+        是否拒绝数据库中的所有写操作。
 
     - **database.force.deny.reading** (*bool*) -
 
-        是否拒绝数据库中的所有读取操作。
+        是否拒绝数据库中的所有读操作。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 *None* 表示当收到任何响应或错误时，此操作即超时。
+    此操作的超时时长。将其设置为 *None* 表示当发生任何响应或错误时，此操作即超时。
 
 **返回类型：**
 
@@ -100,7 +100,7 @@ alter_database_properties(
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
 
 ## 示例\{#examples}
 

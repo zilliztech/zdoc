@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出指定集合中的分区。 | Python | MilvusClient"
+description: "此操作会列出指定集合中的分区。 | Python | MilvusClient"
 type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_partitions()
 
-此操作列出指定集合中的分区。
+此操作会列出指定集合中的分区。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -52,7 +52,7 @@ list_partitions(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有集合的名称。
 

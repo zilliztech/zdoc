@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定的数据库。 | Python | MilvusClient"
+description: "此操作将删除指定的数据库。 | Python | MilvusClient"
 type: docx
 token: Vjd7dE5OyoGvYaxd7OCcubBWnLd
 sidebar_position: 4
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # drop_database()
 
-此操作会删除指定的数据库。
+此操作将删除指定的数据库。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于专属服务集群和按需计算。
 
 - 对于专属服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -73,7 +73,7 @@ drop_database(
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 *None* 表示在收到响应或发生错误时才会超时。
+    此操作的超时时长。将其设置为 *None* 表示在收到响应或发生错误时才超时。
 
 **返回类型：**
 

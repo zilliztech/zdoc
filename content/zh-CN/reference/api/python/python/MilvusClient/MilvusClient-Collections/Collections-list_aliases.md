@@ -35,9 +35,9 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专用服务集群和按需计算。 
+此方法适用于专用服务集群和按需计算。
 
-- 对于服务集群中的 collection，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 collection，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的 collection，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 collection，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -66,15 +66,15 @@ list_aliases(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     要列出其别名的 collection 名称。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

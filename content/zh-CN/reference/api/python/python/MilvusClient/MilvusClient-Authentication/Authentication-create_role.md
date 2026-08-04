@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个用于基于角色的访问控制的角色。 | Python | MilvusClient"
+description: "此操作会为基于角色的访问控制创建一个角色。 | Python | MilvusClient"
 type: docx
 token: HRqudGOOnokInhxczclcADBDn8g
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_role()
 
-此操作会创建一个用于基于角色的访问控制的角色。
+此操作会为基于角色的访问控制创建一个角色。
 
 ## 请求语法\{#request-syntax}
 

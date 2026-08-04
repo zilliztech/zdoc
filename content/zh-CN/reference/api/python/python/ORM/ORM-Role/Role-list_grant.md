@@ -51,7 +51,7 @@ list_grant(
 
     要授予权限的对象类型。
 
-    该值区分大小写。详情请参见 Users & Roles。
+    该值区分大小写。详情请参阅 Users & Roles。
 
 - **object_name** (*str*)
 
@@ -59,7 +59,7 @@ list_grant(
 
     **object** 中指定类型的目标对象名称。
 
-    它可以是集合名称、用户名或通配符 (*)。
+    可以是集合名称、用户名或通配符 (*)。
 
 - **db_name** (*str*)
 
@@ -71,7 +71,7 @@ list_grant(
 
 **返回：**
 
-一个 **GrantInfo** 对象，其中包含 **GrantItem** 对象列表。
+一个 **GrantInfo** 对象，其中包含一个 **GrantItem** 对象列表。
 
 ```python
 ├── GrantInfo
@@ -85,15 +85,15 @@ list_grant(
 │           └── db_name
 ```
 
-一个 **GrantItem** 对象包含以下字段：
+**GrantItem** 对象包含以下字段：
 
 - **object** (*str*)
 
-    权限所属对象的类型。
+    权限所属的对象类型。
 
 - **object_name** (*str*)
 
-    被授予指定权限的角色所对应对象的名称。
+    被授予指定权限的角色所对应的对象名称。
 
 - **role_name** (*str*)
 
@@ -105,11 +105,11 @@ list_grant(
 
 - **privilege** (*str*)
 
-    授予该角色的权限。
+    授予角色的权限。
 
 - **db_name** (str)
 
-    执行此操作所在数据库的名称。
+    执行此操作所在的数据库名称。
 
 **异常：**
 

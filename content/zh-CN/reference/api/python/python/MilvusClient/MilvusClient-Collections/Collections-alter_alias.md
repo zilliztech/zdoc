@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将一个集合的别名重新分配给另一个集合。 | Python | MilvusClient"
+description: "此操作会将一个集合的别名重新分配给另一个集合。 | Python | MilvusClient"
 type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alter_alias()
 
-此操作将一个集合的别名重新分配给另一个集合。
+此操作会将一个集合的别名重新分配给另一个集合。
 
 <Admonition type="info" icon="📘" title="说明">
 
 此方法适用于专属服务集群和按需计算。 
 
-- 对于服务集群中的集合，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,33 +67,33 @@ alter_alias(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要重新分配别名的目标集合名称。
+    要重新分配别名到的目标集合名称。
 
 - **alias** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    集合的别名。请注意，该别名必须预先存在。
+    集合的别名。请注意，该别名必须事先已存在。
 
     <Admonition type="info" icon="📘" title="说明">
 
     什么是集合别名？
     
-        集合别名是集合的一个附加名称。当你希望将应用程序切换到新的集合而无需修改代码时，集合别名非常有用。 
+        集合别名是集合的附加名称。当你希望将应用程序切换到一个新集合而无需对代码做任何修改时，集合别名会非常有用。 
     
-        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能分配给一个集合。反过来，一个集合可以拥有多个别名。
+        在 Zilliz Cloud 中，集合别名是全局唯一标识符。一个别名只能被分配给且仅分配给一个集合。反过来，一个集合可以拥有多个别名。
     
         下面是一个将一个集合的别名重新分配给另一个集合的示例：
     
-        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，它最初分配给了 `collection_1`：
+        假设有两个集合：`collection_1` 和 `collection_2`。另外还有一个名为 `bob` 的集合别名，它最初被分配给 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
         - `collection_2` 的别名 = []
     
-        调用 `alter_alias("collection_2", "bob")` 后：
+        调用 `alter_alias("collection_2", "bob")` 之后：
     
         - `collection_1` 的别名 = []
     
@@ -105,13 +105,13 @@ alter_alias(
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 
@@ -119,7 +119,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
 ## 示例\{#example}
 

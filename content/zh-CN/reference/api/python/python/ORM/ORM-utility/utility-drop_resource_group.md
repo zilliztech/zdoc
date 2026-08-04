@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除资源组。 | Python | ORM"
+description: "此操作会删除一个资源组。 | Python | ORM"
 type: docx
 token: EofGdftYjoQ9E6x8mxLcpbG1nhc
 sidebar_position: 11
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_resource_group()
 
-此操作会删除资源组。 
+此操作会删除一个资源组。 
 
 ## 请求语法\{#request-syntax}
 
@@ -47,7 +47,7 @@ drop_resource_group(
 
 - **name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     要删除的资源组名称。
 
@@ -59,7 +59,7 @@ drop_resource_group(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
@@ -73,7 +73,7 @@ None
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

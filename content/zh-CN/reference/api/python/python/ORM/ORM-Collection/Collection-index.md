@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取当前 collection 的指定索引。 | Python | ORM"
+description: "此操作获取当前集合的指定索引。 | Python | ORM"
 type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # index()
 
-此操作获取当前 collection 的指定索引。
+此操作获取当前集合的指定索引。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,7 +59,7 @@ index(
 
 **返回：**
 
-当前 collection 的一个 Index 对象。
+当前集合的一个 Index 对象。
 
 **异常：**
 

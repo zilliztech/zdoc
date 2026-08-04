@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。 | Python | MilvusClient"
+description: "此操作会检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。 | Python | MilvusClient"
 type: docx
 token: GF0yd9S4RoImivxbIlPcicEynQb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_snapshot()
 
-此操作检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。
+此操作会检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,18 +45,18 @@ describe_snapshot(
 
 **参数：**
 
-- **snapshot_name** (*str*) -
-**[必需]**
-要描述的快照名称。
+- **snapshot_name** (*str*) -<br/>
+  **[必需]**<br/>
+  要描述的快照名称。
 
-- **timeout** (*Optional[float]*) -
-RPC 允许的可选超时时长，单位为秒。
+- **timeout** (*Optional[float]*) -<br/>
+  允许 RPC 执行的可选时间长度，单位为秒。
 
 **返回类型：**
 
 *SnapshotInfo*
 
-**返回：**
+**返回值：**
 
 一个包含快照元数据的 dataclass，具有以下字段：
 

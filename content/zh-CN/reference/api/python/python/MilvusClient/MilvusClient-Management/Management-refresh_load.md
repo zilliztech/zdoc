@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将已加载 collection 中尚未加载的数据加载到内存中。 | Python | MilvusClient"
+description: "此操作将已加载集合中尚未加载的数据加载到内存中。 | Python | MilvusClient"
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # refresh_load()
 
-此操作会将已加载 collection 中尚未加载的数据加载到内存中。
+此操作将已加载集合中尚未加载的数据加载到内存中。
 
 <Admonition type="info" icon="📘" title="说明">
 
-这仅适用于托管 collection。
+这仅适用于托管集合。
 
 </Admonition>
 
@@ -54,13 +54,13 @@ refresh_load(
 
     **[必需]**
 
-    此操作目标 collection 的名称。
+    此操作目标集合的名称。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 

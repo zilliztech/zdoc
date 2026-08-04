@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作对集合执行多向量搜索，并在重排序后返回搜索结果。 | Python | ORM"
+description: "此操作对集合执行多向量搜索，并在重排后返回搜索结果。 | Python | ORM"
 type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybrid_search()
 
-此操作对集合执行多向量搜索，并在重排序后返回搜索结果。
+此操作对集合执行多向量搜索，并在重排后返回搜索结果。
 
 ## 请求语法\{#request-syntax}
 
@@ -64,29 +64,29 @@ hybrid_search(
         │   └── expr
         ```
 
-        - **data** (*List*)：请求中用于搜索的查询向量。此参数接受一个仅包含单个元素的列表。
+        - **data** (*List*)：请求中用于搜索的查询向量。此参数接受一个仅包含一个元素的列表。
 
-        - **anns_field** (*str*)：请求中使用的向量字段。
+        - **anns_field** (*str*)：请求中要使用的向量字段。
 
-        - **param** (*dict*)：请求的搜索参数字典。详情请参见 [Search parameters](https://milvus.io/docs/single-vector-search#search-parameters)。
+        - **param** (*dict*)：请求的搜索参数字典。详情请参见 [搜索参数](https://milvus.io/docs/single-vector-search#search-parameters)。
 
-        - **limit** (*int*)：请求中返回结果的最大数量。在使用多个 ANN 搜索请求执行混合搜索时，每个请求由 **limit** 定义的顶部结果会先被合并并重排序，然后再返回最终搜索结果。
+        - **limit** (*int*)：请求中要返回的最大结果数。在使用多个 ANN 搜索请求执行混合搜索时，每个请求由 **limit** 定义的顶部结果会先被合并并重新排序，然后再返回最终搜索结果。
 
         - **expr** (*str*)：（可选）用于过滤结果的表达式。
 
 - **rerank** (*BaseRanker*) -
 
-    用于混合搜索的重排序策略。有效值：`WeightedRanker` 和 `RRFRanker`。
+    混合搜索使用的重排策略。有效值：`WeightedRanker` 和 `RRFRanker`。
 
-    - `WeightedRanker`：平均加权评分重排序策略，会根据相关性对向量进行优先级排序，并对其重要性求平均。
+    - `WeightedRanker`：平均加权评分重排策略，根据相关性优先处理向量，并对其重要性求平均。
 
-    - `RRFRanker`：RRF 重排序策略，会合并多个搜索的结果，并优先保留稳定出现的条目。
+    - `RRFRanker`：RRF 重排策略，合并多个搜索的结果，并优先保留那些持续出现的项目。
 
 - **limit** (*int*) -
 
     要返回的实体总数。
 
-    您可以将此参数与 **param** 中的 `offset` 结合使用以启用分页。
+    你可以将此参数与 **param** 中的 `offset` 结合使用，以启用分页。
 
     此值与 **param** 中 `offset` 的总和应小于 16,384。
 
@@ -98,7 +98,7 @@ hybrid_search(
 
 - **output_fields** (*List[str]*) -
 
-    返回结果中每个实体需要包含的字段名称列表。
+    要包含在每个返回实体中的字段名称列表。
 
     默认值为 **None**。如果未指定，则仅包含主字段。
 
@@ -108,13 +108,13 @@ hybrid_search(
 
 - **round_decimal** (int) -
 
-    Milvus 对计算出的距离进行四舍五入时保留的小数位数。
+    Milvus 对计算距离进行四舍五入时保留的小数位数。
 
     默认值为 **-1**，表示 Milvus 跳过对计算距离的四舍五入并返回原始值。
 
 - **group_by_field** (*str*)
 
-    按指定字段对搜索结果进行分组，以确保结果多样性并避免返回同一组中的多个结果。详情请参见 [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search)。
+    按指定字段对搜索结果进行分组，以确保结果多样性并避免返回来自同一组的多个结果。详情请参见 [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search)。
 
 - **group_size** (*int*)
 
@@ -128,7 +128,7 @@ hybrid_search(
 
 *SearchResult*
 
-**返回：**
+**返回值：**
 
 一个 **SearchResult** 对象，其中包含 **Hits** 对象列表。 
 
@@ -136,9 +136,9 @@ hybrid_search(
 
     <Admonition type="info" icon="📘" title="说明">
 
-    一个 **SearchResult** 对象包含 **Hits** 对象列表，其中每个 **Hits** 对象对应搜索请求中的一个查询向量。 
+    一个 **SearchResult** 对象包含一个 **Hits** 对象列表，其中每个 **Hits** 对象对应搜索请求中的一个查询向量。 
     
-    一个 **Hits** 对象包含 **Hit** 对象列表，其中每个 **Hit** 对象对应一个被搜索命中的实体。
+    一个 **Hits** 对象包含一个 **Hit** 对象列表，其中每个 **Hit** 对象对应一个被搜索命中的实体。
 
     </Admonition>
 
@@ -165,7 +165,7 @@ hybrid_search(
 
         - **distances** (list[float]) 
 
-            命中实体的向量字段到查询向量的距离列表。
+            命中实体的向量字段与查询向量之间的距离列表。
 
     - **Hit** 对象包含以下字段：
 
@@ -175,7 +175,7 @@ hybrid_search(
 
         - **distance** (*float*)
 
-            命中实体的向量字段到查询向量的距离。
+            命中实体的向量字段与查询向量之间的距离。
 
         - **score** (*float*)
 

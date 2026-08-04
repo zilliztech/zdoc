@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "SentenceTransformerEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "SentenceTransformerEmbeddingFunction 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
+[SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction) 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
-为防止直接使用 **\_\_call()\_\_** 方法时出现潜在错误，请在初始化 SentenceTransformerEmbeddingFunction 时避免使用 **query_instruction** 或 **doc_instruction**。更多信息，请参见 [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction)。
+为防止直接使用 **\_\_call()\_\_** 方法时出现潜在错误，请避免在初始化 SentenceTransformerEmbeddingFunction 时使用 **query_instruction** 或 **doc_instruction**。更多信息请参见 [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction)。
 
 ## 请求语法\{#request-syntax}
 
 ```python
-# 已创建实例
+# Instance created
 sentence_transformer_ef = SentenceTransformerEmbeddingFunction()
 
-# 将调用 __call__ 方法
+# __call__ method will be called
 sentence_transformer_ef(
     texts: List[str]
 ) -> List[np.array]
@@ -51,7 +51,7 @@ sentence_transformer_ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -65,7 +65,7 @@ sentence_transformer_ef(
 
 - **ImportError**
 
-    当未安装所需的 sentence-transformers 模块时，将引发此异常。
+    当未安装必需的 sentence-transformers 模块时，将引发此异常。
 
 ## 示例\{#examples}
 

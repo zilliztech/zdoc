@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "CohereRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。 | Python"
+description: "CohereRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。 | Python"
 type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[CohereRerankFunction](./Rerankers-CohereRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。
+[CohereRerankFunction](./Rerankers-CohereRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,7 +55,7 @@ cohere_rf(
 
 - `documents` (*List[str]*)
 
-    针对给定查询进行排序的文档字符串列表。
+    将针对给定查询进行排序的文档字符串列表。
 
 - `top_k` (*int*)
 

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此函数返回批量导入任务的当前状态，包括云项目数据库中按项目/区域范围限定的任务。 | Python"
+description: "添加 projectid、regionid、dbname 和 DB-Name 请求头行为。 | Python"
 type: docx
 token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_import_progress()
 
-此函数返回批量导入任务的当前状态，包括云项目数据库中按项目/区域范围限定的任务。
+添加 `project_id`、`region_id`、`db_name` 和 `DB-Name` 请求头行为。
 
 ## 请求语法\{#request-syntax}
 
@@ -44,91 +44,81 @@ get_import_progress(
     region_id: str = "",
     api_key: str = "",
     db_name: str = "",
-    
-    project_id: str = "",
-    region_id: str = "",
-    
-    verify: bool | str = True,
-    cert: str | tuple | None = None,
+    verify: Optional[Union[bool, str]] = True,
+    cert: Optional[Union[str, tuple]] = None,
     **kwargs,
-)
+) -> requests.Response
 ```
 
 **参数：**
 
-- **url** (*str*) -
+- **url** (*str*) -<br/>
+  **[必需]**
 
-    **[必填]**
+    Zilliz Cloud API 服务器端点，即 `https://api.cloud.zilliz.com`。
 
-    批量导入 API 的服务器端点。
+- **job_id** (*str*) -<br/>
+  **[必需]**<br/>
+  要查看的导入任务 ID。
 
-- **job_id** (*str*) -
+- **cluster_id** (*str*) -<br/>
+  默认值：`""`<br/>
+  目标 Zilliz Cloud 集群的 ID。
 
-    **[必填]**
+- **project_id** (*str*) -<br/>
+  默认值：`""`<br/>
+  包含目标项目数据库的 Zilliz Cloud 项目的 ID。
 
-    `bulk_import()` 返回的导入任务 ID。
+- **region_id** (*str*) -<br/>
+  默认值：`""`<br/>
+  包含目标项目数据库的 Zilliz Cloud 区域 ID。
 
-- **cluster_id** (*str*) -
+- **api_key** (*str*) -<br/>
+  默认值：`""`
 
-    云集群 ID。
+    用于验证请求的 Zilliz Cloud API 密钥。
 
-- **api_key** (*str*) -
+- **db_name** (*str*) -<br/>
+  默认值：`""`<br/>
+  在 `DB-Name` 请求头中发送的数据库名称，用于基于角色的访问控制。
 
-    用于云身份验证的 API 密钥。
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  默认值：`True`<br/>
+  TLS 验证设置。使用 `True` 表示使用默认信任存储进行验证，或者提供 CA 证书路径。
 
-- **db_name** (*str*) -
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  默认值：`None`<br/>
+  客户端证书路径，或用于双向 TLS 的证书和私钥对。
 
-    用于请求路由的数据库名称。
-
-- **project_id** (*str*) -
-
-    有效的 Zilliz Cloud 项目 ID。 
-
-    当你将数据批量导入到按需计算的数据库时适用。
-
-- **region_id** (*str*) -
-
-    有效的 Zilliz Cloud 区域 ID。
-
-    当你将数据批量导入到按需计算的数据库时适用。
-
-- **verify** (*bool | str*) -
-
-    TLS 验证设置。
-
-- **cert** (*str | tuple*) -
-
-    客户端证书路径或 `(cert, key)` 元组。
-
-- **project_id** (*str*) -
-
-    附加的 HTTP 请求选项。
+- **kwargs** (*Any*) -<br/>
+  转发给 HTTP 请求的附加选项。
 
 **返回类型：**
+
 *requests.Response*
 
-返回当前导入任务进度的负载。
+**返回值：**
+
+包含当前批量导入任务状态和进度的 HTTP 响应。
 
 **异常：**
 
-- **MilvusException**
-
-    当进度查询失败时引发。
+- **MilvusException**<br/>
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
 ## 示例\{#examples}
+
+以下示例从 Zilliz Cloud 获取导入进度。
 
 ```python
 from pymilvus.bulk_writer import get_import_progress
 
-resp = get_import_progress(
+response = get_import_progress(
     url="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
-    project_id="proj-xxx",
+    project_id="proj-xxxx",
     region_id="aws-us-west-2",
-    job_id="448996221577371648",
-    db_name="book_db",
+    job_id="job-123",
 )
-
-print(resp.json())
+print(response.json())
 ```
-

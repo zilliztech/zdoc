@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridts_to_unixtime()
 
-此操作将混合时间戳转换为 UNIX 纪元时间戳。
+此操作将混合时间戳转换为 UNIX 纪元时间戳
 
 ## 请求语法\{#request-syntax}
 

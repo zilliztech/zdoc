@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会阻塞当前进程，直到指定集合已完成加载。 | Python | ORM"
+description: "此操作会阻塞当前进程，直到指定的集合已被加载。 | Python | ORM"
 type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 44
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # wait_for_loading_complete()
 
-此操作会阻塞当前进程，直到指定集合已完成加载。
+此操作会阻塞当前进程，直到指定的集合已被加载。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,7 +51,7 @@ wait_for_loading_complete(
 
     分区名称列表。
 
-    如果指定了任意分区名称，此操作会阻塞当前进程，直到指定分区已完成加载。
+    如果指定了任何分区名称，此操作会阻塞当前进程，直到指定分区已被加载。
 
 - **using** (*string*) - 
 
@@ -61,13 +61,13 @@ wait_for_loading_complete(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 None
 

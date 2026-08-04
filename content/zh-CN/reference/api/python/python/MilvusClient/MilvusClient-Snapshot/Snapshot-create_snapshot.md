@@ -47,19 +47,19 @@ create_snapshot(
 
 **参数：**
 
-- **collection_name** (*str*) -
-**[必需]**
-要创建快照的集合名称。
+- **collection_name** (*str*) -<br/>
+  **[必需]**<br/>
+  要创建快照的集合名称。
 
-- **snapshot_name** (*str*) -
-**[必需]**
-快照的唯一名称。不得与现有快照名称冲突。
+- **snapshot_name** (*str*) -<br/>
+  **[必需]**<br/>
+  快照的唯一名称。不得与现有快照名称冲突。
 
-- **description** (*str*) -
-快照的可选人类可读描述。
+- **description** (*str*) -<br/>
+  快照的可选描述，便于用户阅读。
 
-- **timeout** (*Optional[float]*) -
-可选的 RPC 允许时长，单位为秒。如果未提供，则使用客户端默认超时时间。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC 允许的可选持续时间，单位为秒。如果未提供，则使用客户端默认超时时间。
 
 **返回类型：**
 
@@ -69,7 +69,7 @@ create_snapshot(
 
 - **MilvusException**
 
-    如果集合不存在、快照名称已被占用，或者操作因其他任何原因失败。
+    如果集合不存在、快照名称已被占用，或操作因任何其他原因失败。
 
 ## 示例\{#examples}
 

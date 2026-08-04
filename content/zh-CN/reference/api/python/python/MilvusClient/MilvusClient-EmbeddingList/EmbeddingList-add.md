@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将单个向量嵌入添加到当前 EmbeddingList 实例中。 | Python | MilvusClient"
+description: "此操作会将单个向量嵌入添加到当前的 EmbeddingList 实例中。 | Python | MilvusClient"
 type: docx
 token: R0E9dLzIAoYGCcxRVj6cjJmWnPe
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-此操作将单个向量嵌入添加到当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中。
+此操作会将单个向量嵌入添加到当前的 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例中。
 
 ## 请求语法\{#request-syntax}
 
@@ -52,15 +52,15 @@ add(
 
 *[EmbeddingList](./MilvusClient-EmbeddingList)*
 
-**返回值：**
+**返回：**
 
-返回当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，以便进行方法链式调用
+当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，以便进行方法链式调用
 
 **异常：**
 
 - **ValueError**:
 
-    如果提供的向量嵌入与现有嵌入的维度不匹配，则会引发此异常。
+    如果提供的向量嵌入与现有嵌入的维度不一致，则会引发此异常。
 
 ## 示例\{#examples}
 

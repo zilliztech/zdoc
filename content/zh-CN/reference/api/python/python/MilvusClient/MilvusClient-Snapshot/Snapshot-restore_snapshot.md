@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将快照恢复到目标集合。恢复将异步运行——使用 `getrestoresnapshotstate()` 监控进度。 | Python | MilvusClient"
+description: "此操作将快照恢复到目标集合。恢复过程为异步运行 — 使用 `getrestoresnapshotstate()` 监控进度。 | Python | MilvusClient"
 type: docx
 token: I2OZdk40IomugOx9MTqcooVcnEf
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # restore_snapshot()
 
-此操作会将快照恢复到目标集合。恢复将异步运行——使用 `get_restore_snapshot_state()` 监控进度。
+此操作将快照恢复到目标集合。恢复过程为异步运行 —— 使用 `get_restore_snapshot_state()` 监控进度。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,19 +47,19 @@ restore_snapshot(
 
 **参数：**
 
-- **collection_name** (*str*) -
-**[必需]**
-要将快照恢复到的目标集合名称。
+- **collection_name** (*str*) -<br/>
+  **[必需]**<br/>
+  要将快照恢复到的目标集合名称。
 
-- **snapshot_name** (*str*) -
-**[必需]**
-要恢复的快照名称。
+- **snapshot_name** (*str*) -<br/>
+  **[必需]**<br/>
+  要恢复的快照名称。
 
-- **rewrite_data** (*bool*) -
-是否覆盖目标集合中的现有数据。默认为 *False*。
+- **rewrite_data** (*bool*) -<br/>
+  是否覆盖目标集合中的现有数据。默认为 *False*。
 
-- **timeout** (*Optional[float]*) -
-允许 RPC 执行的可选时长，单位为秒。
+- **timeout** (*Optional[float]*) -<br/>
+  可选的超时时长（以秒为单位），用于限制 RPC 的执行时间。
 
 **返回类型：**
 
@@ -71,7 +71,7 @@ restore_snapshot(
 
 - **MilvusException**
 
-    如果快照不存在、目标集合不可用，或者操作失败。
+    如果快照不存在、目标集合不可用，或操作失败。
 
 ## 示例\{#examples}
 

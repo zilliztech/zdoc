@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取当前的 compaction 状态。 | Python | ORM"
+description: "此操作获取当前的压缩状态。 | Python | ORM"
 type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_state()
 
-此操作获取当前的 compaction 状态。 
+此操作获取当前的压缩状态。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ get_compaction_state(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

@@ -51,7 +51,7 @@ wait_for_compaction_completed(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -59,7 +59,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，会引发此异常。
+    当此操作期间发生任何错误时会引发该异常。
 
 ## 示例\{#examples}
 

@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作根据给定的别名从注册表中移除连接，并在已连接时断开连接。 | Python | ORM"
+description: "此操作通过给定的别名从注册表中移除连接，并在已连接时断开连接。 | Python | ORM"
 type: docx
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
 keywords: 
   - 什么是向量数据库
-  - 什么是向量数据库
+  - 向量数据库是什么
   - 向量数据库对比
   - Faiss
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # remove_connection()
 
-此操作根据给定的别名从注册表中移除连接，并在已连接时断开连接。
+此操作通过给定的别名从注册表中移除连接，并在已连接时断开连接。
 
 ## 请求语法\{#request-syntax}
 

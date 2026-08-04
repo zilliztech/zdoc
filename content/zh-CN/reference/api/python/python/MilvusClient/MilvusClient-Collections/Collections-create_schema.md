@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作创建集合 schema。 | Python | MilvusClient"
+description: "此操作用于创建集合 schema。 | Python | MilvusClient"
 type: docx
 token: Er8vdVepxoqhPFxVyZUcxSHMnqe
 sidebar_position: 6
 keywords: 
-  - 向量数据库示例
-  - rag 向量数据库
-  - 什么是向量数据库
-  - 什么是向量数据库
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_schema()
 
-此操作创建集合 schema。
+此操作用于创建集合 schema。
 
 ## 请求语法\{#request-syntax}
 
@@ -41,7 +41,7 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
 <Admonition type="info" icon="📘" title="说明">
 
-这是一个类方法。你应像这样调用此方法：`MilvusClient.create_schema()`。
+这是一个类方法。你应按如下方式调用此方法：`MilvusClient.create_schema()`。
 
 </Admonition>
 
@@ -53,19 +53,19 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         是否允许主字段自动递增。
 
-        将此项设置为 **True** 会使主字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主字段。
+        将其设置为 **True** 会使主字段自动递增。在这种情况下，插入数据时不应包含主字段，以避免出错。
 
     - **enable_dynamic_field** (*bool*)
 
-        如果插入到目标集合的数据包含集合 schema 中未定义的字段，是否允许 Zilliz Cloud 将这些未定义字段的值保存到动态字段中。
+        当插入到目标集合中的数据包含集合 schema 中未定义的字段时，是否允许 Zilliz Cloud 将这些未定义字段的值保存到动态字段中。
 
-        当你将此项设置为 **True** 时，Zilliz Cloud 会创建一个名为 **&#36;meta** 的字段，用于存储插入数据中的所有未定义字段及其值。
+        当你将其设置为 **True** 时，Zilliz Cloud 会创建一个名为 **&#36;meta** 的字段，用于存储插入数据中的所有未定义字段及其值。
 
-        <Admonition type="info" icon="📘" title="注意">
+        <Admonition type="info" icon="📘" title="说明">
 
         什么是动态字段？
         
-                如果插入到目标集合的数据包含集合 schema 中未定义的字段，这些字段将作为键值对保存在一个名为 **&#36;meta** 的保留动态字段中。
+                如果插入到目标集合中的数据包含集合 schema 中未定义的字段，这些字段将作为键值对保存在名为 **&#36;meta** 的保留动态字段中。
 
         </Admonition>
 
@@ -75,27 +75,27 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
     - **partition_key_field** (*str*)
 
-        用作分区键的字段名称。
+        作为分区键的字段名称。
 
-        设置此项后，Zilliz Cloud 会管理当前集合中的所有分区。
+        设置此项后，Zilliz Cloud 将管理当前集合中的所有分区。
 
-        <Admonition type="info" icon="📘" title="注意">
+        <Admonition type="info" icon="📘" title="说明">
 
         什么是分区键？
         
-                一旦某个字段被指定为分区键，Zilliz Cloud 就会根据每个插入实体的分区键值计算哈希，并据此将实体保存到目标集合的相应分区中。
+                一旦某个字段被指定为分区键，Zilliz Cloud 会根据每个插入实体的分区键值计算哈希，并据此将实体保存到目标集合的相应分区中。
         
-                当你需要基于特定键实现数据隔离时，这一功能特别有用，例如面向分区的多租户。
+                这在基于特定键实现数据隔离时尤其有用，例如面向分区的多租户场景。
 
         </Admonition>
 
 - **external_source** (*str*) -
 
-    外部数据源 URI，应为指向可访问外部卷的 `volume://` URI。例如，`volume://<volume-name>/path/to/folder/`。
+    外部数据源 URI，应为指向可访问外部卷的 `volume://` URI。例如：`volume://<volume-name>/path/to/folder/`。
 
 - **external_spec** (*str*) -
 
-    外部数据源规范，即一组辅助参数：
+    外部数据源规格，即一组辅助参数：
 
     - **format** (*str*) - 
 
@@ -105,7 +105,7 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
     - **snapshot_id** (*str*) -
 
-        Iceberg 表的 ID。仅当 `format` 为 `iceberg-table` 时适用。
+        Iceberg 表的 ID。仅在 `format` 为 `iceberg-table` 时适用。
 
 **返回类型：**
 

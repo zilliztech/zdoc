@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回特定压缩作业的压缩计划，包括显示哪些分段将被合并的合并计划。 | Python | MilvusClient"
+description: "此操作返回特定压缩作业的压缩计划，包括显示哪些段将被合并的合并计划。 | Python | MilvusClient"
 type: docx
 token: Qa8ZdRkOKocH60xujcLcOxuBnkh
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - HNSW
   - What is unstructured data
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_plans()
 
-此操作返回特定压缩作业的压缩计划，包括显示哪些分段将被合并的合并计划。
+此操作返回特定压缩作业的压缩计划，包括显示哪些段将被合并的合并计划。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -58,7 +58,7 @@ client.get_compaction_plans(
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

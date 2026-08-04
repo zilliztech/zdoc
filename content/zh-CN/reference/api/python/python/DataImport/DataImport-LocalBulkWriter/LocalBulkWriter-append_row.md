@@ -45,9 +45,9 @@ append_row(
 
 - **row** (*dict*) -
 
-    一个表示要追加实体的字典。
+    表示要追加的实体的字典。
 
-    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 引用的 schema 匹配。
+    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 引用的 schema 相匹配。
 
 ## 示例\{#examples}
 

@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridts_to_datetime()
 
-此操作将混合时间戳转换为 Python 的 `datetime` 对象。
+此操作将混合时间戳转换为 Python 的 datetime 对象。
 
 ## 请求语法\{#request-syntax}
 

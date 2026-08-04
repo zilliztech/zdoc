@@ -2,7 +2,7 @@
 title: "BulkInsertState | Python | ORM"
 slug: /python/python/utility-BulkInsertState
 sidebar_label: "BulkInsertState"
-beta: NEAR DEPRECATE
+beta: 即将弃用
 added_since: Inherit
 last_modified: false
 deprecate_since: false
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 - **ImportPending** = 0
 
-    表示批量插入任务正在等待中。
+    表示批量插入任务处于待处理状态。
 
 - **ImportFailed** = 1
 
@@ -57,7 +57,7 @@ import Admonition from '@theme/Admonition';
 
 - **ImportFailedAndCleaned** = 7
 
-    表示批量插入任务失败且数据已清理。
+    表示批量插入任务失败，且数据已清理。
 
 - **ImportUnknownState** = 100
 

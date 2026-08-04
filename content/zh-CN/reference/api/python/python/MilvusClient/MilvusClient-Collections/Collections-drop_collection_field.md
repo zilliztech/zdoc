@@ -54,11 +54,11 @@ drop_collection_field(
 
 - **field_name** (*str*) -
 
-    要移除的字段名称。当您按名称标识字段时，请提供此参数。
+    要移除的字段名称。当你通过名称标识字段时，提供此参数。
 
 - **field_id** (*int*) -
 
-    要移除的字段 ID。当您的工作流按字段 ID 跟踪 schema 时，请使用此参数。
+    要移除的字段 ID。当你的工作流通过字段 ID 跟踪 schema 时，使用此参数。
 
 - **timeout** (*Optional[float]*) -
 
@@ -66,7 +66,7 @@ drop_collection_field(
 
 - **kwargs** (*dict*) -
 
-    传递给底层 RPC 的附加请求选项。
+    传递给底层 RPC 的其他请求选项。
 
 **返回类型：**
 
@@ -78,7 +78,7 @@ drop_collection_field(
 
 - **MilvusException**
 
-    当集合不存在、字段无法解析或请求失败时抛出。
+    当集合不存在、无法解析字段或请求失败时引发。
 
 ## 示例\{#example}
 

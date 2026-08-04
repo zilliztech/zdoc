@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将 StructFieldSchema 对象转换为字典表示。 | Python | MilvusClient"
+description: "此操作将 StructFieldSchema 对象转换为字典表示形式。 | Python | MilvusClient"
 type: docx
 token: Mq7idUip3ofMQmxj55XcB98nn0b
 sidebar_position: 4
@@ -18,7 +18,7 @@ keywords:
   - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - to_dict()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-此操作会将 **[StructFieldSchema](./MilvusClient-StructFieldSchema)** 对象转换为字典表示。
+此操作将 **[StructFieldSchema](./MilvusClient-StructFieldSchema)** 对象转换为字典表示形式。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,9 +47,9 @@ to_dict()
 
 *dict*
 
-**返回：**
+**返回值：**
 
-集合 schema 的字典表示。
+集合 schema 的字典表示形式。
 
 **异常：**
 

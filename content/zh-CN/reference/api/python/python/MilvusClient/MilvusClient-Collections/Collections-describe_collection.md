@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作列出特定集合的详细信息。 | Python | MilvusClient"
+description: "此操作列出特定 collection 的详细信息。 | Python | MilvusClient"
 type: docx
 token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_collection()
 
-此操作列出特定集合的详细信息。
+此操作列出特定 collection 的详细信息。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专属服务集群和按需计算。
+此方法适用于专属服务集群和按需计算。 
 
-- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 collection，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 collection，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## 请求语法\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_collection(
@@ -62,31 +62,31 @@ describe_collection(
 ) -> Name
 ```
 
-**参数：**
+**PARAMETERS:**
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
-    现有集合的名称。
+    已存在 collection 的名称。
 
-    如果将其设置为不存在的集合，将导致 **MilvusException**。
+    如果将其设置为不存在的 collection，则会导致 **MilvusException**。
 
 - **kwargs** -
 
     - **timeout** (*float* | *None*)  
 
-        此操作的超时时长。
+        此操作的超时时长。 
 
         将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
-**返回类型：**
+**RETURN TYPE:**
 
 *dict*
 
-**返回值：**
+**RETURNS:**
 
-包含指定集合详细信息的字典。
+包含指定 collection 详细信息的字典。
 
 ```python
 {
@@ -129,35 +129,35 @@ describe_collection(
 }
 ```
 
-**参数：**
+**PARAMETERS:**
 
 - **collection_name** (*str*) -
 
-    当前集合的名称。
+    当前 collection 的名称。
 
 - **auto_id** (*bool*) -
 
-    Zilliz Cloud 是否为该集合自动生成主键。
+    Zilliz Cloud 是否为该 collection 自动生成主键。
 
 - **num_shards** (*int*) -
 
-    当前集合拥有的分片数量。
+    当前 collection 拥有的分片数量。
 
 - **description** (*str*) -
 
-    当前集合的描述。
+    当前 collection 的描述。
 
 - **external_source** (*str*) -
 
-    集合的外部来源。仅适用于外部集合。
+    collection 的外部来源。仅适用于外部 collection。 
 
 - **external_specs** (*str*) -
 
-    集合的外部规格。仅适用于外部集合。
+    collection 的外部规格。仅适用于外部 collection。
 
 - **fields** (*list*) -
 
-    当前集合中的字段列表。
+    当前 collection 中的字段列表。
 
     - **field_id** (*int*) -
 
@@ -179,13 +179,13 @@ describe_collection(
 
         当前字段的附加属性。
 
-        - 对于 **VARCHAR** 字段，**max_length** (*int*) 是可能的属性之一，用于确定当前字段值中的字符数。
+        - 对于 **VARCHAR** 字段，**max_length** (*int*) 是一个可能的属性，用于确定当前字段值中的字符数。
 
-        - 对于向量字段，**dim** (*int*) 是可能的属性之一，用于确定当前字段值中向量嵌入的维度数。
+        - 对于向量字段，**dim** (*int*) 是一个可能的属性，用于确定当前字段值中的向量嵌入数量。
 
-        - 对于 **ARRAY** 字段，**max_capacity** (*int*) 是可能的属性之一，用于确定实体中该字段的最大元素数量。
+        - 对于 **ARRAY** 字段，**max_capacity** (*int*) 是一个可能的属性，用于确定实体中该字段的最大元素数量。
 
-        - 对于配置了 mmap 的字段，**mmap_enabled** (*bool*) 是可能的属性之一，用于指定当前字段是否启用 mmap。
+        - 对于已配置 mmap 的字段，**mmap_enabled** (*bool*) 是一个可能的属性，用于指定当前字段是否启用 mmap。
 
     - **element_type** (*int*) -
 
@@ -193,67 +193,67 @@ describe_collection(
 
     - **struct_fields** (*List[Field]*) -
 
-        添加到结构体数组字段中结构体元素的字段列表。有关可能的字段类型的详细信息，请参见 [Array of Structs](/docs/use-array-of-structs)。
+        添加到结构体数组字段中的 struct 元素的字段列表。有关可能的字段类型，请参见 [Array of Structs](/docs/use-array-of-structs)。
 
     - **is_primary** (*bool*) -
 
-        当前字段是否作为集合的主键。
+        当前字段是否作为 collection 的主键。
 
 - **functions** (*list[[Function](./MilvusClient-Function)]*) -
 
-    已在 schema 中定义的函数。
+    schema 中已定义的函数。
 
 - **aliases** (*list[str]*) -      
 
-    集合别名列表。您可以使用列表中的任一别名来使用当前集合。  
+    collection 别名列表。你可以使用列表中的任一别名来使用当前 collection。  
 
 - **collection_id** (*int*) -
 
-    当前集合的 ID。Zilliz Cloud 会在创建集合时为每个集合分配一个 ID。
+    当前 collection 的 ID。Zilliz Cloud 在创建每个 collection 时都会为其分配一个 ID。
 
 - **consistency_level** (*int*) -
 
-    当前集合的一致性级别。详情请参见 ConsistencyLevel。
+    当前 collection 的一致性级别。详情请参见 ConsistencyLevel。
 
 - **properties** (*dict*) -
 
-    当前集合的附加属性。字典中可能包含的键包括：
+    当前 collection 的附加属性。字典中的可能键包括：
 
     - **collection.ttl.seconds** (*int*) -
 
-        集合的生存时间（TTL），单位为秒。
+        collection 的生存时间（TTL），单位为秒。
 
     - **collection.timezone** (*str*) -
 
-        为集合配置的时区。默认值为 UTC。
+        为 collection 配置的时区。默认值为 UTC。
 
 - **num_partitions** (*int*) -
 
-    当前集合中的分区数量。
+    当前 collection 中的分区数量。 
 
-    - 如果当前集合启用了分区键，Zilliz Cloud 会管理为该集合创建的所有分区。管理的分区数应与创建集合时指定的数量一致。
+    - 如果当前 collection 启用了 partition key，Zilliz Cloud 会管理为该 collection 创建的所有分区。被管理的分区数量应与创建 collection 时指定的数量一致。
 
-    - 如果当前集合未启用分区键，则该数量应与此集合中已创建的分区数一致。
+    - 如果当前 collection 未启用 partition key，则该数量应与此 collection 中已创建的分区数量一致。
 
 - **enable_dynamic_field** (*bool*) -
 
-    是否使用保留的 JSON 字段 **&#36;meta** 以键值对形式保存未在 schema 中定义的字段及其值。
+    是否使用保留的 JSON 字段 **&#36;meta** 将 schema 未定义的字段及其值保存为键值对。
 
 - **created_timestamp** (*int*) -
 
-    集合创建时的时间戳。该时间戳由 Milvus 的 timestamp oracle service (TSO) 生成。
+    collection 创建时的时间戳。该时间戳由 Milvus 的 timestamp oracle service (TSO) 生成。
 
 - **updated_timestamp** (*int*) -
 
-    集合更新时的时间戳。该时间戳由 Milvus 的 timestamp oracle service (TSO) 生成。
+    collection 更新时的时间戳。该时间戳由 Milvus 的 timestamp oracle service (TSO) 生成。
 
-**异常：**
+**EXCEPTIONS:**
 
 - **DescribeCollectionException**
 
-    当此操作期间发生任何错误时引发。
+    当此操作期间发生任何错误时会引发此异常。
 
-## 示例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有恢复快照作业。也可以按集合名称进行筛选，以查看以特定集合为目标的恢复作业。 | Python | MilvusClient"
+description: "此操作会列出所有快照恢复任务。也可按集合名称进行筛选，以查看针对特定集合的恢复任务。 | Python | MilvusClient"
 type: docx
 token: PtHQdGNfaoI4Mux05rbcRWTVnMp
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_restore_snapshot_jobs()
 
-此操作列出所有恢复快照作业。也可以按集合名称进行筛选，以查看以特定集合为目标的恢复作业。
+此操作会列出所有快照恢复任务。也可按集合名称进行筛选，以查看针对特定集合的恢复任务。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,19 +45,19 @@ list_restore_snapshot_jobs(
 
 **参数：**
 
-- **collection_name** (*str*) -
-可选的集合名称，用于筛选恢复作业。如果为空，则列出所有恢复作业。
+- **collection_name** (*str*) -<br/>
+  可选的集合名称，用于筛选恢复任务。若为空，则列出所有恢复任务。
 
-- **timeout** (*Optional[float]*) -
-可选的时间长度，单位为秒，表示 RPC 允许执行的时长。
+- **timeout** (*Optional[float]*) -<br/>
+  可选的 RPC 超时时长，单位为秒。
 
 **返回类型：**
 
 *List[RestoreSnapshotJobInfo]*
 
-**返回：**
+**返回值：**
 
-一个 `RestoreSnapshotJobInfo` 对象列表，其中每个对象都包含恢复作业信息，包含以下字段：
+返回一个 `RestoreSnapshotJobInfo` 对象列表，其中每个对象都包含以下字段的恢复任务信息：
 
 ```python
 {
@@ -77,7 +77,7 @@ list_restore_snapshot_jobs(
 
 - **job_id** (*int*) -
 
-    恢复作业 ID。
+    恢复任务 ID。
 
 - **snapshot_name** (*str*) -
 
@@ -97,19 +97,19 @@ list_restore_snapshot_jobs(
 
 - **progress** (*int*) -
 
-    进度百分比 (0-100)。
+    进度百分比（0-100）。
 
 - **reason** (*str*) -
 
-    如果作业失败，对应的错误原因。
+    如果任务失败，对应的错误原因。
 
 - **start_time** (*int*) -
 
-    开始时间戳，单位为毫秒。
+    开始时间戳（毫秒）。
 
 - **time_cost** (*int*) -
 
-    耗时，单位为毫秒。
+    耗时（毫秒）。
 
 **异常：**
 

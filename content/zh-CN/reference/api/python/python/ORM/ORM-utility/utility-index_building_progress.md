@@ -48,19 +48,19 @@ index_building_progress(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     现有 collection 的名称。
 
-    如果将其设置为不存在的 collection，将导致 **CollectionNotExistException**。
+    将其设置为不存在的 collection 会导致 **CollectionNotExistException**。
 
 - **index_name** (*str*) -
 
     此操作目标索引的名称。
 
-    如果未指定，则应用默认索引。如果该 collection 有多个索引，则此参数为必填。
+    如果未指定，则使用默认索引。如果 collection 有多个索引，则此参数为必填项。
 
-    如果将其设置为不存在的索引，将导致 **IndexNotExistException**。
+    将其设置为不存在的索引会导致 **IndexNotExistException**。
 
 - **using** (*str*) - 
 
@@ -70,7 +70,7 @@ index_building_progress(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当接收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 

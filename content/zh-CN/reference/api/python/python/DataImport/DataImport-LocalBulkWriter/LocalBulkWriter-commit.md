@@ -47,7 +47,7 @@ pymilvus.LocalBulkWriter.commit(
 
     - **call_back** (function)
 
-        此操作完成后将调用的回调函数。
+        此操作完成后调用的回调函数。
 
         默认值为 **None**，表示没有可调用的回调函数。可使用此参数添加提交后的操作。
 

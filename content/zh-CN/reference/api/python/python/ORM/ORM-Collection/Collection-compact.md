@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会压缩并合并当前集合中的小分段。 | Python | ORM"
+description: "此操作会压缩并合并当前 collection 中的小 segment。 | Python | ORM"
 type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-此操作会压缩并合并当前集合中的小分段。
+此操作会压缩并合并当前 collection 中的小 segment。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ compact(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
 **返回类型：**
 
@@ -53,7 +53,7 @@ compact(
 
 **返回：**
 
-None
+无
 
 **异常：**
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个集合。 | Python | MilvusClient"
+description: "此操作会删除一个 collection。 | Python | MilvusClient"
 type: docx
 token: HZByd7LqQoiorTxCgyrcu3VUnof
 sidebar_position: 11
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection()
 
-此操作会删除一个集合。
+此操作会删除一个 collection。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专用服务集群和按需计算。 
+此方法适用于专用服务集群和按需计算。
 
-- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 collection，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 collection，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -69,11 +69,11 @@ drop_collection(
 
     **[必需]**
 
-    现有集合的名称。
+    现有 collection 的名称。
 
 - **timeout** (*Optional[float]*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
 **返回类型：**
 
@@ -81,7 +81,7 @@ drop_collection(
 
 **返回：**
 
-无
+None
 
 **异常：**
 

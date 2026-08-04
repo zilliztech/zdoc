@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将指定数量的 query node 从源资源组移动到目标资源组。 | Python | ORM"
+description: "此操作会将特定数量的查询节点从源资源组移动到目标资源组。 | Python | ORM"
 type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # transfer_node()
 
-此操作将指定数量的 query node 从源资源组移动到目标资源组。
+此操作会将特定数量的查询节点从源资源组移动到目标资源组。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,27 +49,27 @@ transfer_node(
 
 - **source_group** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    要从中移出 query node 的源资源组名称。
+    要从中移动查询节点的源资源组名称。
 
-    如果将此参数设置为不存在的资源组，会导致 **MilvusException**。
+    如果将此参数设置为不存在的资源组，将导致 **MilvusException**。
 
 - **target_group** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    要将 query node 移入其中的目标资源组名称。
+    要将查询节点移动到其中的源资源组名称。
 
-    如果将此参数设置为不存在的资源组，会导致 **MilvusException**。
+    如果将此参数设置为不存在的资源组，将导致 **MilvusException**。
 
 - **num_nodes** (*int*) -
 
-    **[必填]**
+    **[必需]**
 
-    要在源资源组和目标资源组之间移动的 query node 数量。
+    要在源资源组和目标资源组之间移动的查询节点数量。
 
-    如果将此参数设置为大于当前 Zilliz Cloud 集群中 query node 实际数量的整数，会导致 **MilvusException**。
+    如果将此参数设置为大于当前 Zilliz Cloud 集群中实际查询节点数量的整数，将导致 **MilvusException**。
 
 - **using** (*str*) - 
 
@@ -79,7 +79,7 @@ transfer_node(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
@@ -87,7 +87,7 @@ transfer_node(
 
 **返回：**
 
-None。
+无。
 
 **异常：**
 
@@ -100,31 +100,31 @@ None。
 ```python
 from pymilvus import connections, utility
 
-# 连接到 YOUR_CLUSTER_ENDPOINT
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
-# 获取源资源组中的 query node 数量
+# Get the number of query nodes in the source resource group
 res = utility.describe_resource_group(name="__default_resource_group")
 res.num_available_node # 1
 
-# 创建一个新的资源组
+# Create a new resource group
 utility.create_resource_group(
     name="rg_01",
     using="default"
 )
 
-# 获取目标资源组中的 query node 数量
+# Get the number of query nodes in the target resource group
 res = utility.describe_resource_group(name="rg_01")
 res.num_available_node # 0
 
-# 将节点从默认资源组移动到新资源组
+# Move the node from the default resource group to the new one
 utility.transfer_node(
     source_group="__default_resource_group",
     target_group="rg_01",
     num_nodes=1
 )
 
-# 获取源资源组和目标资源组中的 query node 数量
+# Get the number of query nodes in the source and target resource groups
 res = utility.describe_resource_group(name="__default_resource_group")
 res.num_available_node # 0
 

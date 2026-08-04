@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将数据插入当前分区。 | Python | ORM"
+description: "此操作将数据插入到当前分区中。 | Python | ORM"
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-此操作将数据插入当前分区。
+此操作将数据插入到当前分区中。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -52,15 +52,15 @@ insert(
 
 - **data** (*list* | *dict* | *pandas.DataFrame*) -
 
-    **[必填]**
+    **[必需]**
 
-    要插入到当前 collection 中的数据。
+    要插入到当前集合中的数据。
 
-    要插入的数据应与当前 collection 的 schema 匹配。你可以按以下方式组织数据：
+    要插入的数据应与当前集合的 schema 匹配。您可以按以下方式组织数据：
 
-    - 列表形式的列
+    - 列表形式的列数据
 
-        每一列都是一个列表，包含每个实体在该列中的值。
+        每一列都是一个列表，包含各实体在该列中的值。
 
         ```python
         data = [
@@ -77,7 +77,7 @@ insert(
 
     - **pandas.DataFrame**
 
-        你可以采用任意方式构建数据框，示例如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
+        您可以按任意方式构造数据框，示例如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
 
         ```python
         data = pd.DataFrame({
@@ -92,9 +92,9 @@ insert(
         })
         ```
 
-    - 行列表或单行
+    - 行列表或单独一行
 
-        每一行都是一个表示实体的字典。
+        每一行都是一个字典，表示一个实体。
 
         ```python
         data = [
@@ -112,13 +112,13 @@ insert(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *MutationResult*
 
-**返回：**
+**返回值：**
 
 一个 **MutationResult** 对象，包含以下字段：
 
@@ -144,7 +144,7 @@ insert(
 
     - **upsert_count** (*int*)
 
-        已 upsert 实体的数量。
+        已执行 upsert 的实体数量。
 
     - **succ_count** (*int*)
 
@@ -152,15 +152,15 @@ insert(
 
     - **succ_index** (*list*)
 
-        从 0 开始的索引号列表，每个索引表示一次成功的操作。
+        从 0 开始的索引号列表，每个索引号表示一次成功的操作。
 
     - **err_count** (*int*)
 
-        此操作中失败执行的次数。
+        此操作中执行失败的次数。
 
     - **err_index** (*list*)
 
-        从 0 开始的索引号列表，每个索引表示一次失败的操作。
+        从 0 开始的索引号列表，每个索引号表示一次失败的操作。
 
     - **primary_keys** (*list*)
 

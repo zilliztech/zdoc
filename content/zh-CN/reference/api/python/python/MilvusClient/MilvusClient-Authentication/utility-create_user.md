@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个带密码的用户。 | Python | MilvusClient"
+description: "此操作使用密码创建用户。 | Python | MilvusClient"
 type: docx
 token: EglSdm1jkozDSlxq6SEc4CRonVe
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_user()
 
-此操作会创建一个带密码的用户。
+此操作使用密码创建用户。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ create_user(
 
     **[必需]**
 
-    要创建的用户名。
+    要创建的用户名称。
 
 - **password** (*str*) -
 

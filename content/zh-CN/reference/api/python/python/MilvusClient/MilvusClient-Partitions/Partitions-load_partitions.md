@@ -69,19 +69,19 @@ load_partitions(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
 <Admonition type="info" icon="📘" title="说明">
 
-只要其任意一个或全部 partition 已加载，collection 就处于已加载状态。
+仅当 collection 的任意一个或全部 partition 已加载时，该 collection 才处于已加载状态。
 
 </Admonition>
 
@@ -89,7 +89,7 @@ None
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

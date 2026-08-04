@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VolumeBulkWriter 实例会在本地将原始数据重写为 Zilliz Cloud 可识别的格式，然后将生成的文件上传到 Zilliz Cloud 中的远程卷。 | Python"
+description: "添加连接和本地输出路径行为。 | Python"
 type: docx
 token: L9ozd33RroJ0NZxHUc0czKjpnbh
 sidebar_position: 3
@@ -31,13 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-`VolumeBulkWriter` 实例会在本地将原始数据重写为 Zilliz Cloud 可识别的格式，然后将生成的文件上传到 Zilliz Cloud 中的远程卷。
+添加连接和本地输出路径行为。
 
-```python
-class pymilvus.bulk_writer.VolumeBulkWriter(LocalBulkWriter)
-```
-
-## 构造函数\{#constructor}
+## 请求语法\{#request-syntax}
 
 ```python
 VolumeBulkWriter(
@@ -49,109 +45,77 @@ VolumeBulkWriter(
     chunk_size: int = 1024 * MB,
     file_type: BulkFileType = BulkFileType.PARQUET,
     config: Optional[dict] = None,
+    connect_type: ConnectType = ConnectType.AUTO,
     **kwargs,
 )
 ```
 
 **参数：**
 
-- **schema** (*[CollectionSchema](./MilvusClient-CollectionSchema)*) -
+- **schema** (*CollectionSchema*) -<br/>
+  **[必需]**<br/>
+  用于验证行数据并生成批量文件的集合 schema。
 
-    **[必需]**
+- **remote_path** (*str*) -<br/>
+  **[必需]**<br/>
+  已提交文件上传到目标 volume 中的目录。
 
-    要导入重写后数据的目标集合的 schema。
+- **cloud_endpoint** (*str*) -<br/>
+  **[必需]**<br/>
+  Zilliz Cloud API 服务器端点，即 `https://api.cloud.zilliz.com`。
 
-- **remote_path** (*str*) -
+- **api_key** (*str*) -<br/>
+  **[必需]**<br/>
+  用于向 Zilliz Cloud 进行身份验证的 API 密钥。
 
-    **[必需]**
+- **volume_name** (*str*) -<br/>
+  **[必需]**<br/>
+  目标 Zilliz Cloud volume 的名称。
 
-    远程卷中用于存放重写后数据的目录路径。
+- **chunk_size** (*int*) -<br/>
+  默认值：`1024 * MB`<br/>
+  在 writer 开始新文件之前，本地分块的最大大小（以字节为单位）。
 
-- **cloud_endpoint** (*str*) -
+- **file_type** ([BulkFileType](./DataImport-BulkFileType)) -<br/>
+  默认值：`BulkFileType.PARQUET`<br/>
+  writer 生成的批量文件格式。
 
-    **[必需]**
+- **config** (*Optional[dict]*) -<br/>
+  默认值：`None`<br/>
+  可选的 writer 配置。
 
-    Zilliz Cloud 实例的 endpoint URL。
+- **connect_type** (*ConnectType*) -<br/>
+  默认值：`ConnectType.AUTO`<br/>
+  用于 volume 操作的连接模式。
 
-- **api_key** (*str*) -
+- **kwargs** (*Any*) -<br/>
+  转发给 `LocalBulkWriter` 的附加选项。
 
-    **[必需]**
+**返回类型：**
 
-    用于对 Zilliz Cloud 实例进行身份验证的 API key。
+*VolumeBulkWriter*
 
-- **volume_name** (*str*) -
+**返回：**
 
-    **[必需]**
+一个先在本地暂存批量文件，并将已提交文件上传到已配置 Zilliz Cloud volume 的 writer。
 
-    Zilliz Cloud 中用于上传文件的远程卷名称。
+**异常：**
 
-- **chunk_size** (*int*) -
-
-    单个文件分片的最大大小。
-
-    在重写原始数据时，Zilliz Cloud 会将数据分割成多个批次，并将每个批次存储在单独的文件中。
-
-    默认值为 1,073,741,824 字节，即 1 GB。
-
-- **file_type** (*[BulkFileType](./DataImport-BulkFileType)*) -
-
-    输出文件的文件类型。
-
-    默认值为 *BulkFileType.PARQUET*。
-
-- **config** (*dict*) -
-
-    bulk writer 的可选配置参数。
-
-**说明**
-
-`VolumeBulkWriter` 是一个上下文管理器，可在 `with` 语句中使用。当退出上下文时，本地工作目录会被清理。
-
-## 属性\{#properties}
-
-以下是 `VolumeBulkWriter` 类的属性。
-
-- **data_path** (*str*)
-
-    返回已上传文件的远程存储路径。
-
-- **batch_files** (*List[List[str]]*)
-
-    返回已上传文件批次的列表。每个内部列表包含单次提交中上传文件的远程路径。
+- **MilvusException**<br/>
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
 ## 示例\{#examples}
 
+以下示例演示了 VolumeBulkWriter 的用法。
+
 ```python
-from pymilvus.bulk_writer.volume_bulk_writer import VolumeBulkWriter
-from pymilvus import CollectionSchema, FieldSchema, DataType
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-# 定义集合 schema
-fields = [
-    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=False),
-    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=128),
-]
-schema = CollectionSchema(fields, "example_collection")
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-# 创建 VolumeBulkWriter
-with VolumeBulkWriter(
-    schema=schema,
-    remote_path="/data/bulk_import",
-    cloud_endpoint="https://your-cloud-endpoint.zillizcloud.com",
-    api_key="your-api-key",
-    volume_name="my-volume",
-    chunk_size=1024 * 1024 * 1024,
-    file_type=BulkFileType.PARQUET,
-) as writer:
-    # 追加行
-    for i in range(1000):
-        writer.append_row({
-            "id": i,
-            "vector": [0.1] * 128,
-        })
-
-    # 提交并上传
-    writer.commit()
-
-    print(writer.data_path)
-    print(writer.batch_files)
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```

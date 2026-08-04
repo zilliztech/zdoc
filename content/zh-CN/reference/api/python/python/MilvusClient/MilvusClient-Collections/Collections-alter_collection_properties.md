@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会更改指定 collection 的属性。 | Python | MilvusClient"
+description: "此操作会更改指定集合的属性。 | Python | MilvusClient"
 type: docx
 token: SJ1FdUQQnohtObxhNgpcHalMnUc
 sidebar_position: 3
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_properties()
 
-此操作会更改指定 collection 的属性。
+此操作会更改指定集合的属性。
 
 <Admonition type="info" icon="📘" title="说明">
 
-这不适用于外部 collection。
+这不适用于外部集合。
 
 </Admonition>
 
@@ -55,15 +55,15 @@ alter_collection_properties(
 
 - **collection_name** (*str*) -
 
-    目标 collection 的名称。
+    目标集合的名称。
 
 - **properties** (*dict*) -
 
-    以字典形式指定属性及其新值。支持的字典键如下：
+    以字典形式指定属性及其新值。可用的字典键如下：
 
     - **collection.ttl.seconds** (*int*) -
 
-        collection 的生存时间（TTL），单位为秒。
+        集合的生存时间（TTL），单位为秒。
 
     - **ttl_field** (*str*)
 
@@ -71,7 +71,7 @@ alter_collection_properties(
 
     - **mmap.enabled** (*bool*) -
 
-        是否为 collection 中所有字段的原始数据和索引启用 mmap。详情请参见 [Use mmap](/docs/use-mmap)。
+        是否为集合中所有字段的原始数据和索引启用 mmap。详情请参见 [Use mmap](/docs/use-mmap)。
 
     - **partitionkey.isolation** (bool) -
 
@@ -85,7 +85,7 @@ alter_collection_properties(
 
     此操作的超时时长。
 
-    将其设置为 None 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 None 表示当收到任意响应或发生任意错误时，此操作即超时结束。
 
 **返回类型：**
 

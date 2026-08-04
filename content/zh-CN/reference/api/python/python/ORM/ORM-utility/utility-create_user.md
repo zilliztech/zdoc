@@ -1,13 +1,13 @@
 ---
 title: "create_user() | Python | ORM"
-slug: /python/python/utility-create_user
+slug: /python/python/ORM-utility/utility-create_user
 sidebar_label: "create_user()"
 beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个新用户及其对应的密码。 | Python | ORM"
+description: "此操作会创建一个带有对应密码的新用户。 | Python | ORM"
 type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # create_user()
 
-此操作会创建一个新用户及其对应的密码。
+此操作会创建一个带有对应密码的新用户。
 
 ## 请求语法\{#request-syntax}
 
@@ -68,9 +68,9 @@ utility.create_user(
 
     **[必需]**
 
-    要创建的新用户对应的密码。 
+    要创建的新用户对应的密码。
 
-    密码必须是 8 到 64 个字符的字符串，并且必须至少包含以下四类字符中的三类：大写字母、小写字母、数字和特殊字符。
+    密码必须是一个长度为 8 到 64 个字符的字符串，并且必须至少包含以下字符类型中的三种：大写字母、小写字母、数字和特殊字符。
 
 - **using** (*string*) - 
 
@@ -80,7 +80,7 @@ utility.create_user(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

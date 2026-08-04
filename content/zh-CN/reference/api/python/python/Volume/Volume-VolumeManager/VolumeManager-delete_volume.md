@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除一个卷。 | Python"
+description: "此操作用于删除卷。 | Python"
 type: docx
 token: FbzLd0f5ToAPRdxa8XWcWfUwnwe
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete_volume()
 
-此操作用于删除一个卷。
+此操作用于删除卷。
 
 ## 请求语法\{#request-syntax}
 
@@ -53,7 +53,7 @@ delete_volume(
 
 *None*
 
-**返回**
+**返回值**
 
 None
 

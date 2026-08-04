@@ -12,9 +12,9 @@ type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
 keywords: 
-  - 混合搜索
-  - 词法搜索
-  - 最近邻搜索
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - Agentic RAG
   - zilliz
   - zilliz cloud
@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专属服务集群和按需计算。 
+此方法适用于专用服务集群和按需计算。
 
 - 对于服务集群中的 collection，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -68,15 +68,15 @@ describe_alias(
 
     **[必需]**
 
-    collection 的别名。 
+    collection 的别名。
 
     在执行此操作之前，请确保该别名已存在。否则将发生异常。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
@@ -98,25 +98,25 @@ describe_alias(
 
 - **alias** (*str*) -
 
-    指定的别名。 
+    指定的别名。
 
 - **collection_name** (*str*) -
 
-    绑定的 collection 名称。 
+    绑定的 collection 名称。
 
 - **db_name** (*str*) -
 
-    绑定 collection 所属的数据库。 
+    绑定的 collection 所属的数据库。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，特别是当你将 `alias` 设置为不存在的别名时。
+    当此操作期间发生任何错误时将引发此异常，尤其是在你将 `alias` 设置为不存在的别名时。
 
 - **BaseException**
 
-    当此操作失败时，将引发此异常。
+    当此操作失败时将引发此异常。
 
 ## 示例\{#example}
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除一个用户。 | Python | MilvusClient"
+description: "此操作会删除一个用户。 | Python | MilvusClient"
 type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_user()
 
-此操作用于删除一个用户。
+此操作会删除一个用户。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,15 +46,15 @@ drop_user(
 
 - **user_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     要删除的用户名称。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -94,7 +94,7 @@ client.drop_user(user_name="user_1")
 
 ## 相关方法\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

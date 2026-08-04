@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出与当前角色关联的所有用户。 | Python | ORM"
+description: "此操作列出与当前角色关联的所有用户。 | Python | ORM"
 type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_users()
 
-此操作会列出与当前角色关联的所有用户。
+此操作列出与当前角色关联的所有用户。
 
 ## 请求语法\{#request-syntax}
 
@@ -41,7 +41,7 @@ get_users()
 
 **参数**
 
-无
+不适用
 
 **返回类型：**
 

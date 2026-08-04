@@ -47,7 +47,7 @@ partition(
 
     **[必需]**
 
-    要获取的 partition 的名称。
+    要获取的 partition 名称。
 
 **返回类型：**
 
@@ -55,13 +55,13 @@ partition(
 
 **返回：**
 
-一个 **Partition** 对象。如果当前 collection 中不存在指定名称的 partition，则返回 **None**。
+一个 **Partition** 对象。如果当前 collection 不存在指定名称的 partition，则返回 **None**。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

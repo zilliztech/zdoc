@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回指定 bulk-insert 任务的状态。 | Python | ORM"
+description: "此操作返回指定批量导入任务的状态。 | Python | ORM"
 type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # get_bulk_insert_state()
 
-此操作返回指定 bulk-insert 任务的状态。
+此操作返回指定批量导入任务的状态。
 
 ## 请求语法\{#request-syntax}
 
@@ -54,14 +54,14 @@ task_id = utility.do_bulk_insert(
     files=["string.npy", "string.npy"],
 )
 
-# 获取 bulk-insert 任务状态
+# Get bulk-insert task state
 res = utility.get_bulk_insert_state(task_id=task_id)
 ```
 
 **参数：**
 
-- **task_id** (*int*) -
-**[必需]**
+- **task_id** (*int*) -<br/>
+  **[必需]**
 
     由 do_bulk_insert() 函数返回的任务 ID。
 
@@ -73,14 +73,14 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
 返回类型：
 
 *[BulkInsertState](./utility-BulkInsertState)*
 
 **返回：**
-一个 **[BulkInsertState](./utility-BulkInsertState)**，其中包含指定 bulk-insert 任务状态的信息。
+一个 **[BulkInsertState](./utility-BulkInsertState)**，其中包含指定批量导入任务状态的信息。
 
 ```python
 ├── BulkInsertState
@@ -112,75 +112,75 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **state** (*int*)
 
-    指定 bulk_insert 任务的整数状态。可能的值如下：
+    指定 bulk_insert 任务的整数状态。可能的取值如下：
 
-    - **0**: 表示任务处于待处理状态
+    - **0**：表示任务处于待处理状态
 
-    - **1**: 表示任务失败。
+    - **1**：表示任务失败。
 
-    - **2**: 表示任务已开始。
+    - **2**：表示任务已经开始。
 
-    - **5**: 表示数据已持久化。
+    - **5**：表示数据已持久化。
 
-    - **6**: 表示任务已完成。
+    - **6**：表示任务已完成。
 
-    - **7**: 表示任务失败且数据已被清理。
+    - **7**：表示任务失败且数据已被清理。
 
-    - **100**: 表示任务处于未知状态。
+    - **100**：表示任务处于未知状态。
 
 - **state_name** (*str*)
 
-    指定 bulk_insert 任务的字符串状态名称。可能的值如下：
+    指定 bulk_insert 任务的整数状态。可能的取值为以下整数：
 
-    - **Pending**: 表示任务处于待处理状态
+    - **Pending**：表示任务处于待处理状态
 
-    - **Failed**: 表示任务失败。
+    - **Failed**：表示任务失败。
 
-    - **Started**: 表示任务已开始。
+    - **Started**：表示任务已经开始。
 
-    - **Persisted**: 表示数据已持久化。
+    - **Persisted**：表示数据已持久化。
 
-    - **Completed**: 表示任务已完成。
+    - **Completed**：表示任务已完成。
 
-    - **FailedAndCleaned**: 表示任务失败且数据已被清理。
+    - **FailedAndCleaned**：表示任务失败且数据已被清理。
 
-    - **Unknown**: 表示任务处于未知状态。
+    - **Unknown**：表示任务处于未知状态。
 
 - **row_count** (*int*)
 
-    当前 bulk-insert 任务中已插入的实体数量。
+    当前批量导入任务中已插入的实体数量。
 
 - **progress** (*int*) 
 
-    当前 bulk-insert 任务的进度。
+    当前批量导入任务的进度。
 
 - **infos** (*dict*)
 
-    包含当前 bulk-insert 任务信息的字典。可能的键如下：
+    一个字典，包含当前批量导入任务的信息。可能的键如下：
 
     - **files** (*str*)
 
-        以逗号分隔的字符串形式表示当前 bulk-insert 任务涉及的文件名。
+        当前批量导入任务涉及的文件名称，以逗号分隔的字符串表示。
 
     - **[collection](./ORM-Collection)** (*str*)
 
-        目标 collection 的名称。
+        目标集合的名称。
 
     - **[partition](./ORM-Partition)** (*str*)
 
-        目标 partition 的名称。
+        目标分区的名称。
 
     - **failed_reason** (*str*)
 
-        bulk-insert 失败的原因。如果任务成功，则该值为空字符串。
+        批量导入失败的原因。如果任务成功，则该值为空字符串。
 
     - **progress_percent** (str)
 
-        当前 bulk-insert 任务的百分比进度。
+        当前批量导入任务的百分比进度。
 
     - **persist_cost** (str)
 
-        当前 bulk-insert 任务的持久化耗时。
+        当前批量导入任务的持久化耗时。
 
 - **ids** (*list*) 
 
@@ -192,19 +192,19 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **files** (str)
 
-    以逗号分隔的字符串形式表示当前 bulk-insert 任务涉及的文件名。
+    当前批量导入任务涉及的文件名称，以逗号分隔的字符串表示。
 
 - **create_timestamp** (int)
 
-    当前 bulk-insert 任务的创建时间戳。
+    当前批量导入任务的创建时间戳。
 
 - **create_time_str** (str)
 
-    当前 bulk-insert 任务的创建时间戳，以人类可读字符串形式表示。
+    当前批量导入任务的创建时间戳，以人类可读的字符串形式表示。
 
 - **collection_name** (str)
 
-    目标 collection 的名称。
+    目标集合的名称。
 
 **异常：**
 
@@ -217,16 +217,16 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 ```python
 from pymilvus import connections, utility
 
-# 连接到 YOUR_CLUSTER_ENDPOINT
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
-# bulk-insert 数据
+# Bulk-insert data
 task_id = utility.do_bulk_insert(
     collection_name="test_collection",
     files=["data/id.npy", "data/vector.npy"],
 ) # 446781855410077319
 
-# 获取 bulk-insert 任务状态
+# Get bulk-insert task state
 res = utility.get_bulk_insert_state(task_id=task_id)
 
 # <Bulk insert state:

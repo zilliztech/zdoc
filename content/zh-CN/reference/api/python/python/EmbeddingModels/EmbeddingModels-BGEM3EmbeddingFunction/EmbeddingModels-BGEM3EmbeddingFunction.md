@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.hybrid.BGEM3EmbeddingFunction
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 构造一个适用于常见用例的 BGEM3EmbeddingFunction。
 
@@ -55,7 +55,7 @@ BGEM3EmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*) -
 
@@ -63,7 +63,7 @@ BGEM3EmbeddingFunction(
 
 - **batch_size** (*int*) -
 
-    计算时使用的批大小。
+    用于计算的批大小。
 
 - **device** (*string*) -
 
@@ -91,9 +91,9 @@ BGEM3EmbeddingFunction(
 
 - **&ast;&ast;kwargs**
 
-    允许将其他关键字参数传递给模型初始化。更多信息，请参见 [bge_m3](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/bge_m3.py)。
+    允许向模型初始化传递额外的关键字参数。更多信息，请参见 [bge_m3](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/bge_m3.py)。
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作根据字典表示构造一个 CollectionSchema 对象。 | Python | ORM"
+description: "此操作从字典表示构造一个 CollectionSchema 对象。 | Python | ORM"
 type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
 keywords: 
-  - Question answering system
+  - 问答系统
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - 混合向量搜索
+  - 视频去重
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-此操作根据字典表示构造一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
+此操作从字典表示构造一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    包含用于构造集合 schema 的原始数据的字典。
+    包含用于构造集合模式的原始数据的字典。
 
 **返回类型：**
 
 *[CollectionSchema](./MilvusClient-CollectionSchema)*
 
-**返回：**
+**返回值：**
 
 一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
 

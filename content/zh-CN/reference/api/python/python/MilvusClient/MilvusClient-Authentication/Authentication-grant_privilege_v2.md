@@ -51,21 +51,21 @@ grant_privilege_v2(
 
 - **role_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    要授予权限的角色名称。
+    要分配权限的角色名称。
 
 - **privilege** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    要授予的权限名称。 
+    要分配的权限名称。 
 
-    有关详情，请参见 [Users and Roles](https://milvus.io/docs/users_and_roles.md) 页面中表格的 **Privilege name** 列。
+    详情请参见[Users and Roles](https://milvus.io/docs/users_and_roles.md)页面表格中的 **Privilege name** 列。
 
 - **collection_name** (*str*) - 
 
-    **[REQUIRED]**
+    **[必填]**
 
     集合名称。若要授予当前数据库中所有集合相关的权限，请将此参数设置为 `*`。 
 
@@ -73,19 +73,19 @@ grant_privilege_v2(
 
     数据库名称。 
 
-    此参数为可选项。设置此参数会将权限授予限制在指定数据库内。
+    此参数为可选项。设置此参数后，权限授予将被限制在指定数据库内。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于专属服务集群和按需计算。
 
 - 对于专属服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -66,7 +66,7 @@ list_databases(
 
 - **db_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     要删除的数据库名称。
 
@@ -84,7 +84,7 @@ list_databases(
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
+- `MilvusException` - 如果在此操作期间发生任何错误，则会引发该异常。
 
 ## 示例\{#examples}
 

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出特定集合上收集到的统计信息。 | Python | MilvusClient"
+description: "此操作列出在特定集合上收集的统计信息。 | Python | MilvusClient"
 type: docx
 token: VfaldXzLUocBrJxffw6cJHPinlh
 sidebar_position: 13
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_collection_stats()
 
-此操作会列出特定集合上收集到的统计信息。
+此操作列出在特定集合上收集的统计信息。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -69,11 +69,11 @@ get_collection_stats(
 
     **[必需]**
 
-    集合名称。
+    集合的名称。
 
 - **timeout** (*Optional[float]*) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生错误时超时结束。
 
 - **\&ast;\&ast;kwargs** -
 
@@ -83,9 +83,9 @@ get_collection_stats(
 
 *dict*
 
-**返回值：**
+**返回：**
 
-一个字典，包含指定集合上收集到的统计信息。
+一个包含指定集合已收集统计信息的字典。
 
 ```python
 {
@@ -93,13 +93,13 @@ get_collection_stats(
 }
 ```
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="说明">
 
-为什么行数与插入的实体数量不一致？
+为什么行数与插入的实体数不一致？
 
-您插入的数据在最终保存前会经过处理。最初，它会以数据流的形式到达。随后，它会作为实体存储在 segment 中。Milvus 会选择一个合适的 growing segment 来存储流式数据，直到其达到上限并变为 sealed。
+插入的数据在最终保存之前会经过处理。最初，它会以数据流的形式到达。随后，它会作为实体存储在段中。Milvus 会选择一个合适的 Growing Segment（增长段）来存储流式数据，直到达到其上限并变为 Sealed Segment（密封段）。
 
-不过请注意，显示的行数可能与插入的记录数不一致，因为流式数据不包含在内。
+但是，请注意，显示的行数可能与插入的记录数不一致，因为流式数据不计入其中。
 
 </Admonition>
 

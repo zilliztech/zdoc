@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将记录追加到写入器中。 | Python"
+description: "此操作将记录追加到写入器。 | Python"
 type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # append_row()
 
-此操作会将记录追加到写入器中。
+此操作将记录追加到写入器。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,7 +47,7 @@ append_row(
 
     表示要追加的实体的字典。
 
-    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 引用的 schema 相匹配。
+    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 中引用的 schema 相匹配。
 
 ## 示例\{#examples}
 

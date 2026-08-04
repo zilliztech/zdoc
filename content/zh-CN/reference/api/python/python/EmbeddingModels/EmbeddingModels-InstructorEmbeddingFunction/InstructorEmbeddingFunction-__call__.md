@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "InstructorEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "InstructorEmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: VmAIdW9J2oH6iWxDh2PcJYfRnne
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[InstructorEmbeddingFunction](./EmbeddingModels-InstructorEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
+[InstructorEmbeddingFunction](./EmbeddingModels-InstructorEmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
 
 InstructorEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./InstructorEmbeddingFunction-encode_documents) 和 [encode_queries()](./InstructorEmbeddingFunction-encode_queries) 具有相同的功能。
 
@@ -52,13 +52,13 @@ ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *List[np.array]*
 
-**返回值：**
+**返回：**
 
 一个列表，其中每个元素都是一个 NumPy 数组。
 

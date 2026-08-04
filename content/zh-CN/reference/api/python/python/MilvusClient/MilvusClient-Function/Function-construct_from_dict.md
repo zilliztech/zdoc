@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从字典表示构造一个 `Function` 对象。 | Python | MilvusClient"
+description: "此操作从字典表示中构造一个 `Function` 对象。 | Python | MilvusClient"
 type: docx
 token: Ulypd24byoDBOpxGnnJcbF3Nnkb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-此操作从字典表示构造一个 `Function` 对象。
+此操作从字典表示中构造一个 `Function` 对象。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ construct_from_dict(
 
 - `raw` (*dict*)
 
-    包含用于构造集合模式原始数据的字典。
+    包含用于构造集合 schema 的原始数据的字典。
 
 **返回类型：**
 

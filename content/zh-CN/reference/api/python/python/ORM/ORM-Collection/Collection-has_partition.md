@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查当前集合中是否存在指定的分区。 | Python | ORM"
+description: "此操作检查指定分区是否存在于当前集合中。 | Python | ORM"
 type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-此操作检查当前集合中是否存在指定的分区。
+此操作检查指定分区是否存在于当前集合中。
 
 ## 请求语法\{#request-syntax}
 
@@ -58,7 +58,7 @@ has_partition(
 
 **返回：**
 
-一个布尔值，用于指示当前集合是否具有指定的分区
+一个布尔值，表示当前集合是否具有指定分区
 
 **异常：**
 

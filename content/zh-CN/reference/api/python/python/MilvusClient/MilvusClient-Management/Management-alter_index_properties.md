@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会更改指定的索引属性。 | Python | MilvusClient"
+description: "此操作更改指定的索引属性。 | Python | MilvusClient"
 type: docx
 token: QvyHdbEHholEqXxypKNcHHD5n0c
 sidebar_position: 14
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alter_index_properties()
 
-此操作会更改指定的索引属性。
+此操作更改指定的索引属性。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,25 +50,25 @@ alter_index_properties(
 
 - **collection_name** (*str*) -
 
-    目标 collection 的名称。
+    目标集合的名称。
 
 - **index_name** (*str*) -
 
-    要修改的索引文件名称。
+    要更改的索引文件名称。
 
 - **properties** (*dict*) -
 
-    此操作完成后生效的属性及其值。可更改的属性包括：
+    此操作完成后的属性及其值。可更改的属性包括：
 
     - **mmap.enabled** (*bool*) -
 
-        是否为指定索引启用 mmap。将其设置为 `true` 会将指定索引卸载到磁盘。详情请参见 [使用 mmap](/docs/use-mmap)
+        是否为指定索引启用 mmap。将其设置为 `true` 会将指定索引卸载到磁盘上。详情请参见 [使用 mmap](/docs/use-mmap)
 
 - **timeout** (*Optional[float]*) - 
 
     此操作的超时时长。
 
-    将其设置为 None 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -89,13 +89,13 @@ alter_index_properties(
 ```python
 from pymilvus import MilvusClient
 
-# 1. Create a milvus client
+# 1. 创建一个 milvus 客户端
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# update properties
+# 更新属性
 properties = {"mmap.enabled": true}
 
 client.alter_index_properties(

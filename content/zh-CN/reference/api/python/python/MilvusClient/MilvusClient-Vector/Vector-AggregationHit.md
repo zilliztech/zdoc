@@ -41,7 +41,7 @@ class pymilvus.AggregationHit
 
 - **pk** (*int | str | None*) -
 
-    实体主键。
+    实体的主键。
 
 - **score** (*float*) -
 
@@ -49,13 +49,13 @@ class pymilvus.AggregationHit
 
 - **fields** (*dict[str, Any]*) -
 
-    按字段名称作为键组织的请求输出字段。
+    以字段名为键的已请求输出字段。
 
 - **field_ids()** (*dict[str, int]*) -
 
-    返回从每个已返回字段名称到其数字 schema 字段 ID 的映射。
+    返回一个映射，将每个返回字段名映射到其对应的数字 schema 字段 ID。
 
-`fields` 和 `field_ids()` 映射都是副本。更改它们不会修改命中对象。
+`fields` 和 `field_ids()` 映射都是副本。修改它们不会改变 hit 对象。
 
 ## 示例\{#example}
 

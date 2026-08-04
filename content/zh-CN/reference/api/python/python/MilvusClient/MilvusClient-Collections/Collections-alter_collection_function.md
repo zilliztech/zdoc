@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作通过使用新的函数模式替换现有函数，来修改集合中的现有函数。 | Python | MilvusClient"
+description: "此操作通过使用新的函数模式替换集合中的现有函数来对其进行更改。 | Python | MilvusClient"
 type: docx
 token: N9d9df9IIojLZDxft1HcU0mkn0b
 sidebar_position: 22
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_function()
 
-此操作通过使用新的函数模式替换现有函数，来修改集合中的现有函数。
+此操作通过使用新的函数模式替换集合中的现有函数来对其进行更改。
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -73,7 +73,7 @@ client.alter_collection_function(
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **kwargs** (*dict*) -
 

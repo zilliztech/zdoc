@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法适用于专属服务集群和按需计算。 
+此方法适用于专用服务集群和按需计算。 
 
 - 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
 
@@ -69,27 +69,27 @@ rename_collection(
 
 - **old_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
     现有集合的名称。
 
-    如果将其设置为不存在的集合，则会导致 **MilvusException**。
+    如果将其设置为不存在的集合，将导致 **MilvusException**。
 
 - **new_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    此操作后目标集合的名称。
+    执行此操作后目标集合的名称。
 
-    如果将其设置为 **old_name** 的值，则会导致 **MilvusException**。
+    如果将其设置为 **old_name** 的值，将导致 **MilvusException**。
 
 - **target_db** (*Optional[str]*) -
 
-    集合将被移动到的目标数据库名称。默认为空字符串，表示集合保留在当前数据库中。
+    要将集合移动到的目标数据库名称。默认为空字符串，这表示集合将保留在当前数据库中。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 

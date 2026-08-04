@@ -48,7 +48,7 @@ load_state(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
     collection 的名称。
 
@@ -56,7 +56,7 @@ load_state(
 
     partition 名称列表。
 
-    如果指定了任何 partition 名称，释放其中任意一个 partition 都会导致返回 **NotLoad** 状态。
+    如果指定了任意 partition 名称，释放其中任一 partition 都会导致返回 **NotLoad** 状态。
 
 - **using** (*string*) - 
 
@@ -66,7 +66,7 @@ load_state(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
@@ -83,13 +83,13 @@ load_state(
 
 - **Loading**
 
-    表示指定的 collection 正在加载中。
+    表示指定的 collection 正在加载。
 
 - **NotExist**
 
     表示指定的 collection 不存在。 
 
-    在 **partition_names** 中包含不存在的 partition 会导致抛出 **MilvusException**。
+    如果在 **partition_names** 中包含不存在的 partition，则会导致 **MilvusException**。
 
 - **NotLoad**
 

@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-外部集合不支持此操作。
+外部 Collection 不支持此操作。
 
 </Admonition>
 
@@ -56,51 +56,51 @@ delete(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **ids** (*list* | *str* | *int*) -
 
-    **[必填]**
+    **[必需]**
 
-    特定实体 ID 或实体 ID 列表。
+    指定的实体 ID，或实体 ID 列表。
 
-    该值默认为 **None**，表示将应用标量过滤条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
+    默认值为 **None**，表示应用标量过滤条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
 
 - **timeout** (*float* | *None*) -
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **filter** (*str*) -
 
     用于筛选匹配实体的标量过滤条件。 
 
-    该值默认为空字符串，表示不应用任何条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
+    默认值为空字符串，表示不应用任何条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
 
-    你可以将此参数设置为空字符串以跳过标量过滤。有关构建标量过滤条件的信息，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。 
+    你可以将此参数设置为空字符串以跳过标量过滤。有关构建标量过滤条件的方法，请参见 [布尔表达式规则](https://milvus.io/docs/boolean.md)。 
 
     <Admonition type="info" icon="📘" title="说明">
 
-    使用过滤表达式删除实体时，请确保集合已被加载。否则，Zilliz Cloud 将返回错误。
+    使用 filter 表达式删除实体时，请确保 Collection 已加载。否则，Zilliz Cloud 将返回错误。
 
     </Admonition>
 
 - **partition_name** (*str* | *""*) -
 
-    要从中删除实体的分区名称。
+    要从中删除实体的 Partition 名称。
 
-    该值默认为空字符串。如果已指定，将从指定分区中删除实体。
+    默认值为空字符串。若指定此参数，则会从指定的 Partition 中删除实体。
 
 **返回类型：**
 
 *dict*
 
-**返回值：**
+**返回：**
 
-一个包含已删除实体数量的字典。
+包含已删除实体数量的字典。
 
 ```python
 {
@@ -112,7 +112,7 @@ delete(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 - **ParamError**
 
@@ -120,7 +120,7 @@ delete(
 
 - **DataTypeNotMatchException**
 
-    当参数值与所需的数据类型不匹配时，将引发此异常。
+    当参数值与要求的数据类型不匹配时，将引发此异常。
 
 ## 示例\{#examples}
 

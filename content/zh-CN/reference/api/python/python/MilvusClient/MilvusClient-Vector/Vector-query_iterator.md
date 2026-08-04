@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-外部 collection 不支持此操作。
+外部集合不支持此操作。
 
 </Admonition>
 
@@ -76,31 +76,31 @@ query_iterator(
 
     用于筛选匹配实体的标量过滤条件。 
 
-    你可以将此参数设置为空字符串以跳过标量过滤。有关如何构建标量过滤条件，请参见[过滤概述](/docs/filtering-overview)。 
+    您可以将此参数设置为空字符串以跳过标量过滤。有关构建标量过滤条件的更多信息，请参见[过滤概述](/docs/filtering-overview)。 
 
 - **output_fields** (*list[str]* | *None*) -
 
-    返回的每个实体中要包含的字段名称列表。
+    返回的每个实体中要包含的字段名列表。
 
     默认值为 **None**。
 
     <Admonition type="info" icon="📘" title="说明">
 
-    - 将其设置为 `output_fields=["\*"]` 可输出所有字段。
+    - 将其设置为 `output_fields=["\*"]` 会输出所有字段。
     
-    - 将其设置为 `output_fields=["count(\*)"]` 可输出与 **filter** 参数中指定条件匹配的已加载实体数量。 
+    - 将其设置为 `output_fields=["count(\*)"]` 会输出与 **filter** 参数中指定条件匹配的已加载实体数量。 
 
     </Admonition>
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    partition 名称列表。
+    分区名称列表。
 
-    默认值为 **None**。如果指定，则只有指定的 partitions 会参与查询。
+    默认值为 **None**。如果指定，则仅在指定分区中执行查询。
 
 - **kwargs** -
 
@@ -108,17 +108,17 @@ query_iterator(
 
         目标 collection 的一致性级别。
 
-        默认值为你创建当前 collection 时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
+        其值默认与创建当前 collection 时指定的值相同，可选值为 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
         <Admonition type="info" icon="📘" title="说明">
 
         什么是一致性级别？
         
-                在分布式数据库中，一致性特指这样一种属性：在给定时间写入或读取数据时，确保每个节点或副本看到的数据视图相同。
+                在分布式数据库中，一致性特指这样一种属性：在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同的视图。
         
                 Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
         
-                在执行向量相似性搜索或查询时，你可以轻松调整一致性级别，使其最适合你的应用。
+                您可以在执行向量相似性搜索或查询时轻松调整一致性级别，使其最适合您的应用程序。
 
         </Admonition>
 
@@ -126,23 +126,23 @@ query_iterator(
 
         一个有效的时间戳。 
 
-        如果设置了此参数，则仅当在该时间戳之前插入的所有实体都对查询节点可见时，才会执行查询。 
+        如果设置了此参数，只有在该时间戳之前插入的所有实体对查询节点可见时，才会执行查询。 
 
         <Admonition type="info" icon="📘" title="说明">
 
-        当使用默认一致性级别时，此参数有效。
+        当应用默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        以秒为单位的一段时间。
+        一个以秒为单位的时间段。
 
-        默认值为 **5**。如果设置了此参数，则通过从当前时间戳中减去该值来计算保证时间戳。
+        默认值为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算保证时间戳。
 
         <Admonition type="info" icon="📘" title="说明">
 
-        当使用非默认一致性级别时，此参数有效。
+        当应用的不是默认一致性级别时，此参数有效。
 
         </Admonition>
 
@@ -150,7 +150,7 @@ query_iterator(
 
         查询结果中要跳过的记录数。 
 
-        你可以将此参数与 `limit` 结合使用以实现分页。
+        您可以将此参数与 `limit` 结合使用以启用分页。
 
         此值与 `limit` 的总和应小于 16,384。 
 
@@ -158,7 +158,7 @@ query_iterator(
 
         查询结果中要返回的记录数。
 
-        你可以将此参数与 `offset` 结合使用以实现分页。
+        您可以将此参数与 `offset` 结合使用以启用分页。
 
         此值与 `offset` 的总和应小于 16,384。 
 
@@ -172,15 +172,15 @@ query_iterator(
 
 - `next()`
 
-    此方法以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到检索到最后一个实体为止。
+    此方法会以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到取回最后一个实体为止。
 
 - `close()`
 
-    此方法关闭当前 **QueryIterator** 实例。
+    此方法会关闭当前 **QueryIterator** 实例。
 
 <Admonition type="info" icon="📘" title="说明">
 
-如果返回的实体数量少于预期，则你的 collection 中可能存在重复实体。
+如果返回的实体数量少于预期，您的 collection 中可能存在重复实体。
 
 </Admonition>
 
@@ -188,7 +188,7 @@ query_iterator(
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 

@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "CohereEmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "CohereEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: P2n8d2wQtoK8YqxnccocmNwRnKb
 sidebar_position: 4
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call()\_\_
 
-[CohereEmbeddingFunction](./EmbeddingModels-CohereEmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
+[CohereEmbeddingFunction](./EmbeddingModels-CohereEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
 CohereEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./CohereEmbeddingFunction-encode_documents) 和 [encode_queries()](./CohereEmbeddingFunction-encode_queries) 具有相同的功能。
 
@@ -52,7 +52,7 @@ cohere_ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -66,7 +66,7 @@ cohere_ef(
 
 - **ValueError**
 
-    当您在初始化 CohereEmbeddingFunction 时指定了多个嵌入类型，或使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
+    当您在初始化 CohereEmbeddingFunction 时指定了多种 embedding 类型，或使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
 
 ## 示例\{#examples}
 

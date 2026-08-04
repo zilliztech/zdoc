@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "StructFieldSchema 实例表示结构体数组字段中结构体元素的模式。模式勾勒出结构体元素的结构。 | Python | MilvusClient"
+description: "构造函数行为已更改。现有类页面中记录了新的 nullable 属性。 | Python | MilvusClient"
 type: docx
 token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
 sidebar_position: 3
@@ -31,50 +31,26 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-`StructFieldSchema` 实例表示结构体数组字段中结构体元素的模式。模式勾勒出结构体元素的结构。
+构造函数行为已更改。现有类页面中记录了新的 nullable 属性。
+
+## 请求语法\{#request-syntax}
 
 ```python
-class pymilvus.StructFieldSchema
-```
-
-## 构造函数\{#constructor}
-
-通过定义字段、数据类型和其他参数，构造结构体数组字段中结构体元素的模式。
-
-```python
-CollectionSchema(
-    fields: list,
-    description: str
+StructFieldSchema(
+    nullable: bool = False,
+    description: str = "",
 )
 ```
 
 **参数：**
 
-- **name** (*str*) -
+- **nullable** (*bool*) -<br/>
+  默认值：`False`<br/>
+  允许结构体字段包含空值的标志。
 
-    **[必需]**
-
-    模式的名称。
-
-- **fields** (*list*) -
-
-    **[必需]**
-
-    一个 **[FieldSchema](./ORM-FieldSchema)** 对象列表，用于定义结构体数组字段中结构体模式里的各个字段。
-
-    <Admonition type="info" icon="📘" title="说明">
-
-    什么是字段模式？
-    
-        字段模式表示并包含单个字段的元数据，而 **StructFieldSchema** 则将一组 **[FieldSchema](./ORM-FieldSchema)** 对象组织在一起，用于定义结构体数组字段中结构体的模式。
-
-    </Admonition>
-
-- **description** (*string*) -
-
-    模式的描述。
-
-    如果未提供描述，则将其设置为空字符串。
+- **description** (*str*) -<br/>
+  默认值：`""`<br/>
+  结构体字段的描述。
 
 **返回类型：**
 
@@ -82,54 +58,26 @@ CollectionSchema(
 
 **返回：**
 
-一个 **StructFieldSchema** 对象。
+包含嵌套字段以及 nullable/default 元数据的结构体字段模式实例。
 
 **异常：**
 
-- **FieldsTypeException**: 
+- **MilvusException**<br/>
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详细信息。
 
-    当 **fields** 参数不是列表时，将引发此异常。
+## 示例\{#examples}
 
-- **FieldTypeException**: 
-
-    当 **fields** 列表中的某个字段不是 **[FieldSchema](./ORM-FieldSchema)** 对象时，将引发此异常。
+演示 StructFieldSchema 的用法。
 
 ```python
-from pymilvus import StructFieldSchema, FieldSchema, DataType
+from pymilvus import CollectionSchema, DataType, FieldSchema, StructFieldSchema
 
-vector = FieldSchema(
-    name="vector",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=768
-)
+chunk = StructFieldSchema(nullable=True, description="Optional chunk metadata")
+chunk.add_field("source", DataType.VARCHAR, max_length=128)
 
-varchar = FieldSchema(
-    name="varchar",
-    dtype=DataType.VARCHAR,
-    max_length=512
-)
-
-# Construct a schema with the predefined fields
-schema = StructFieldSchema(
-    name="struct_schema",
-    fields=[vector, varchar],
-    description="example_schema"
-)
+schema = CollectionSchema(fields=[
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
+    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=3),
+])
+print(schema)
 ```
-
-## 属性\{#properties}
-
-- **fields** (*list*) -
-
-    一个 **[FieldSchema](./ORM-FieldSchema)** 对象列表，用于定义结构体数组字段中结构体模式里的各个字段。
-
-- **description** (*string*) -
-
-    模式的描述。
-
-    如果未提供描述，则为空字符串。
-
-## 方法\{#methods}
-
-以下是 `StructFieldSchema` 类的方法：
-

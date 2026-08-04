@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回 `Function` 对象的字典表示。 | Python | MilvusClient"
+description: "此操作返回 `Function` 对象的字典表示形式。 | Python | MilvusClient"
 type: docx
 token: AmwJdW0z6opMPcxhMlBcYPIWn2M
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-此操作返回 `Function` 对象的字典表示。
+此操作返回 `Function` 对象的字典表示形式。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ to_dict()
 
 **返回值：**
 
-`Function` 对象的字典表示。
+`Function` 对象的字典表示形式。
 
 **异常：**
 

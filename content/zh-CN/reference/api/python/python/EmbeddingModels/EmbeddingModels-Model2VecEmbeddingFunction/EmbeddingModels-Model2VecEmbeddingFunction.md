@@ -54,11 +54,11 @@ Model2VecEmbeddingFunction(
 
     模型来源，可以是 Hugging Face 模型标识符，也可以是指向 model2vec 嵌入模型的本地路径。
 
-    Hugging Face 模型标识符的有效选项包括 **minishlab/potion-base-8M**（默认）、**minishlab/potion-base-4M**、**minishlab/potion-base-2M**、**minishlab/potion-base-32M** 和 **minishlab/potion-retrieval-32M**
+    有效的 Hugging Face 模型标识符选项包括 **minishlab/potion-base-8M**（默认）、**minishlab/potion-base-4M**、**minishlab/potion-base-2M**、**minishlab/potion-base-32M** 和 **minishlab/potion-retrieval-32M**
 
 - **&ast;&ast;kwargs**
 
-    允许在从 Hugging Face Hub 加载模型时，将额外的关键字参数传递给模型初始化，包括 Hugging Face 身份验证令牌等参数。
+    允许在从 Hugging Face Hub 加载模型时，将其他关键字参数传递给模型初始化，包括 Hugging Face 身份验证令牌等参数。
 
 ## 示例\{#examples}
 

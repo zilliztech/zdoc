@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作描述特定资源组的详细信息。 | Python | ORM"
+description: "此操作描述指定资源组的详细信息。 | Python | ORM"
 type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe_resource_group()
 
-此操作描述特定资源组的详细信息。
+此操作描述指定资源组的详细信息。
 
-## 请求语法\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_resource_group(
@@ -43,11 +43,11 @@ describe_resource_group(
 )
 ```
 
-**参数：**
+**PARAMETERS:**
 
 - **name** (*str*) -
 
-    **[必填]**
+    **[REQUIRED]**
 
     要描述的资源组名称。
 
@@ -61,15 +61,15 @@ describe_resource_group(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**返回类型：**
+**RETURN TYPE:**
 
 *ResourceGroupInfo*
 
-**返回：**
+**RETURNS:**
 
-一个 **ResourceGroupInfo** 对象，包含资源组的详细描述信息。
+一个 **ResourceGroupInfo** 对象，包含资源组的详细描述。
 
 ```python
 ├── ResourceGroupInfo 
@@ -99,7 +99,7 @@ describe_resource_group(
 
 - **capacity** (*int*)
 
-    转移到该资源组的 query node 数量。
+    转移到此资源组中的 query node 数量。
 
 - **num_available_node** (*int*)
 
@@ -107,15 +107,15 @@ describe_resource_group(
 
 - **num_loaded_replica** (*google._upb._message.ScalarMapContainer*)
 
-    集合名称及其在此资源组中对应的已加载副本数量。
+    此资源组中集合名称及其对应已加载副本数量的映射。
 
 - **num_outgoing_node** (*google._upb._message.ScalarMapContainer*)
 
-    集合名称及其用于传出请求的 query node 数量。 
+    集合名称及其用于传出请求的 query node 数量。
 
 - **num_incoming_node** (*google._upb._message.ScalarMapContainer*)
 
-    集合名称及其用于传入请求的 query node 数量。 
+    集合名称及其用于传入请求的 query node 数量。
 
 - **config** (*ResourceGroupConfig*)
 
@@ -123,13 +123,13 @@ describe_resource_group(
 
     - **requests** (*dict*) -
 
-        指定资源组应持有的 query node 数量的字典。该键应包含：
+        指定资源组应持有的 query node 数量的字典。此键应包含：
 
         - **node_num** (*int*) - 为资源组请求的 query node 数量。
 
     - **limits** (*dict*) -
 
-        指定资源组可持有的最大 query node 数量的字典。该键应包含：
+        指定资源组可持有的最大 query node 数量的字典。此键应包含：
 
         - **node_num** (*int*) - 资源组允许的最大 query node 数量。
 
@@ -137,19 +137,19 @@ describe_resource_group(
 
     NodeInfo 对象列表，每个对象包含：
 
-    - **node_id** (*int*) - 节点 ID。
+    - **node_id** (*int*) - 节点的 ID。
 
     - **address** (*str*) - 节点地址。
 
     - **hostname** (*str*) - 节点主机名。
 
-**异常：**
+**EXCEPTIONS:**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
-## 示例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -206,7 +206,7 @@ print(f"Resource group rg description: {info}")
 # <hostname:doc-test1-axjfu-milvus-querynode-776bb5768-v2dqh>]>
 ```
 
-## 相关操作\{#related-operations}
+## Related operations\{#related-operations}
 
 以下操作与 `describe_resource_group()` 相关：
 

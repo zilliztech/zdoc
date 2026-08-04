@@ -12,9 +12,9 @@ type: docx
 token: AdSXdtNDsoTMnJx1QoGcSsnZnWd
 sidebar_position: 5
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
   - llm-as-a-judge
   - zilliz
   - zilliz cloud
@@ -61,25 +61,25 @@ drop_database_properties(
 
     - **database.resource_groups** (*list[str]*) - 专用于该数据库的资源组。
 
-    - **database.diskQuota.mb** (*int*) - 为数据库分配的磁盘配额，单位为兆字节（**MB**）。
+    - **database.diskQuota.mb** (*int*) - 分配给该数据库的磁盘配额，单位为兆字节（**MB**）。
 
     - **database.max.collections** (*int*) - 数据库中允许的最大集合数量。
 
-    - **database.force.deny.writing** (*bool*) - 是否禁止数据库中的所有写操作。
+    - **database.force.deny.writing** (*bool*) - 是否拒绝数据库中的所有写操作。
 
-    - **database.force.deny.reading** (*bool*) - 是否禁止数据库中的所有读操作。
+    - **database.force.deny.reading** (*bool*) - 是否拒绝数据库中的所有读操作。
 
     - **database.replica.number** (*int*) - 数据库的副本数量。
 
     - **database.resource_groups** (*list[str]*) - 专用于该数据库的资源组。
 
-    - **database.diskQuota.mb** (*int*) - 为数据库分配的磁盘配额，单位为兆字节（**MB**）。
+    - **database.diskQuota.mb** (*int*) - 分配给该数据库的磁盘配额，单位为兆字节（**MB**）。
 
     - **database.max.collections** (*int*) - 数据库中允许的最大集合数量。
 
-    - **database.force.deny.writing** (*bool*) - 是否禁止数据库中的所有写操作。
+    - **database.force.deny.writing** (*bool*) - 是否拒绝数据库中的所有写操作。
 
-    - **database.force.deny.reading** (*bool*) - 是否禁止数据库中的所有读操作。
+    - **database.force.deny.reading** (*bool*) - 是否拒绝数据库中的所有读操作。
 
 **返回类型：**
 

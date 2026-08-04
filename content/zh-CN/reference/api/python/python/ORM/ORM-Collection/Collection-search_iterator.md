@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。 | Python | ORM"
+description: "此操作会返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。 | Python | ORM"
 type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-此操作返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。
+此操作会返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。
 
 ## 请求语法\{#request-syntax}
 
@@ -54,7 +54,7 @@ search_iterator(
 
 - **data** (*list[list[float]]*) - 
 
-    **[REQUIRED]**
+    **[必填]**
 
     向量嵌入列表。
 
@@ -62,19 +62,19 @@ search_iterator(
 
 - **anns_field** (str) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    当前 collection 中向量字段的名称。
+    当前集合中向量字段的名称。
 
 - **param** (dict) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    此操作特有的参数设置。
+    此操作专用的参数设置。
 
     - **metric_type** (*str*) -
 
-        应用于此操作的度量类型。它应与您为上述指定向量字段创建索引时使用的度量类型相同。 
+        应用于此操作的度量类型。该值应与为上述指定向量字段创建索引时使用的度量类型保持一致。 
 
         可选值包括 **L2**、**IP** 和 **COSINE**。
 
@@ -84,13 +84,13 @@ search_iterator(
 
         - **radius** (float) -
 
-            用于确定最低相似度阈值。当将 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
+            确定最低相似度的阈值。将 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
 
         - **range_filter**  (float) -  
 
-            将搜索结果限定为特定相似度范围内的向量。当将 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
+            将搜索范围细化为特定相似度区间内的向量。将 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
 
-    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
+    有关其他可用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **batch_size** (*int*) -
 
@@ -100,7 +100,7 @@ search_iterator(
 
 - **limit** (*int*) -
 
-    返回的实体总数。
+    要返回的实体总数。
 
     默认值为 **-1**，表示返回所有匹配的实体。
 
@@ -108,7 +108,7 @@ search_iterator(
 
     用于筛选匹配实体的标量过滤条件。
 
-    默认值为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参见 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
+    默认值为 **None**，表示忽略标量过滤。有关如何构建标量过滤条件，请参阅 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*) -
 
@@ -124,19 +124,19 @@ search_iterator(
 
 - **timeout** (*float*)  -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **round_decimal** (int) -
 
-    Zilliz Cloud 对计算距离进行四舍五入时保留的小数位数。
+    Zilliz Cloud 对计算得到的距离值进行四舍五入时保留的小数位数。
 
-    默认值为 **-1**，表示 Zilliz Cloud 跳过对计算距离的四舍五入并返回原始值。
+    默认值为 **-1**，表示 Zilliz Cloud 不对计算得到的距离值进行四舍五入，而是返回原始值。
 
 **返回类型：**
 
 *SearchIterator*
 
-**返回值：**
+**返回：**
 
 一个 **SearchIterator**，供您遍历搜索结果。
 

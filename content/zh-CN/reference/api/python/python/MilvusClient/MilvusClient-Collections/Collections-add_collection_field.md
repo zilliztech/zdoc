@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部 schema 同步，字段几乎会立即可用，仅有极小延迟。 | Python | MilvusClient"
+description: "此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部架构同步，该字段几乎会立即可用，仅有极小延迟。 | Python | MilvusClient"
 type: docx
 token: IquldHhyGo9s4IxF3cicOXGnnNf
 sidebar_position: 20
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_field()
 
-此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部 schema 同步，字段几乎会立即可用，仅有极小延迟。
+此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部架构同步，该字段几乎会立即可用，仅有极小延迟。
 
 <Admonition type="info" icon="📘" title="说明">
 
-如果集合启用了动态字段，并且你添加了一个与现有动态字段键同名的静态字段，则该静态字段会遮蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
+如果集合启用了动态字段，并且你添加了一个与现有动态字段键同名的静态字段，则该静态字段会屏蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
 
 </Admonition>
 
@@ -59,19 +59,19 @@ add_collection_field(
 
 - **collection_name** *(string)* –
 
-    **[必填]**
+    **[必需]**
 
     目标集合的名称。
 
 - **field_name** *(string)* –
 
-    **[必填]**
+    **[必需]**
 
     新字段的名称。
 
 - **data_type** *(DataType)* –
 
-    **[必填]**
+    **[必需]**
 
     新字段的数据类型。支持的类型请参见 DataType。
 
@@ -85,11 +85,11 @@ add_collection_field(
 
 - **kwargs** *(dict, optional)* –
 
-    其他参数包括：
+    附加参数包括：
 
     - **nullable** *(bool)*:
 
-        对于动态添加的字段，必须设置为 `True`，以兼容现有实体中没有新字段值的情况。
+        对于动态添加的字段，必须将其设置为 `True`，以兼容那些没有新字段值的现有实体。
 
     - **default_value** *(DataType-specific)*:
 
@@ -97,15 +97,15 @@ add_collection_field(
 
     - **max_length** *(int)*:
 
-        `DataType.VARCHAR` 字段必填。设置字符串允许的最大字节长度（1 到 65,535）。
+        `DataType.VARCHAR` 字段必需。设置字符串允许的最大字节长度（1 到 65,535）。
 
     - **element_type** *(DataType)*:
 
-        `DataType.ARRAY` 字段必填。指定数组内元素的数据类型。
+        `DataType.ARRAY` 字段必需。指定数组中元素的数据类型。
 
     - **max_capacity** *(int)*:
 
-        `DataType.ARRAY` 字段必填。定义数组中的最大元素数量。
+        `DataType.ARRAY` 字段必需。定义数组中的最大元素数量。
 
 **返回类型：**
 
@@ -119,7 +119,7 @@ add_collection_field(
 
 ## 示例\{#examples}
 
-**示例 1：** 添加一个基础可空字段
+**示例 1：** 添加一个基础的可空字段
 
 ```python
 client.add_collection_field(
@@ -130,7 +130,7 @@ client.add_collection_field(
 )
 ```
 
-**示例 2：** 添加一个带默认值的字段
+**示例 2：** 添加带默认值的字段
 
 ```python
 client.add_collection_field(

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: v2.6.x
 notebook: false
-description: "此操作返回指定压缩任务的状态。 | Python | MilvusClient"
+description: "此操作返回指定 compaction 作业的状态。 | Python | MilvusClient"
 type: docx
 token: WEsjdspGLokueRxggM1cNFgknze
 sidebar_position: 7
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_compact_state()
 
-此操作返回指定压缩任务的状态。
+此操作返回指定 compaction 作业的状态。
 
 <Admonition type="info" icon="📘" title="说明">
 
-此方法已弃用。最新的等效方法请参见 [get_compaction_state()](./Management-get_compaction_state)。
+此方法已弃用。有关最新的等效方法，请参见 [get_compaction_state()](./Management-get_compaction_state)。
 
 </Admonition>
 
@@ -54,7 +54,7 @@ get_compaction_state(
 
 - **job_id** (*int*) -
 
-    压缩任务 ID。
+    compaction 作业 ID。
 
 - **timeout** (*Optional[float]*) - 
 
@@ -68,7 +68,7 @@ get_compaction_state(
 
 **返回：**
 
-指定压缩任务的状态。可能的值包括：
+指定 compaction 作业的状态。可能的值包括：
 
 - `UndefinedState`
 

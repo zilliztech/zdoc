@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "EmbeddingList 实例表示一个向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。 | Python | MilvusClient"
+description: "一个 EmbeddingList 实例表示一个向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以在 Array of Structs 字段中的向量字段上执行搜索。 | Python | MilvusClient"
 type: docx
 token: Ve2WdUAfwoz456xwBIJcGvltn6b
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingList
 
-**EmbeddingList** 实例表示一个向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。
+**EmbeddingList** 实例表示一个向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以在 Array of Structs 字段中的向量字段上执行搜索。
 
 ```python
 class pymilvus.EmbeddingList
@@ -55,7 +55,7 @@ EmbeddingList(
 
     向量嵌入列表，可以是以下任一类型：
 
-    - 形状为 **(n, dim)** 的 **np.ndarray**，表示由多个向量嵌入组成的列表
+    - 形状为 **(n, dim)** 的 **np.ndarray**，表示包含多个向量嵌入的列表
 
     - 形状为 **(dim,)** 的 **np.ndarray**，表示单个向量嵌入
 

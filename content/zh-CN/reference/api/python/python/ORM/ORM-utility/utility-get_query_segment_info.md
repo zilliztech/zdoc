@@ -71,7 +71,7 @@ get_query_segment_info(
 
 **异常：**
 
-N/A
+不适用
 
 ## 示例\{#examples}
 
