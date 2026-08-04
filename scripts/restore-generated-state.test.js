@@ -10,6 +10,7 @@ const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
 const revisionInventoryRoot = 'generated/en/manifests/lark-revisions'
+const referenceSourceManifest = 'generated/en/manifests/reference.json'
 const localizationInventory = 'deploy/contracts/localization-inputs.inventory.json'
 const restorePaths = [
   'docs',
@@ -28,6 +29,7 @@ const restorePaths = [
   'generated/en/sidebars/go.sidebar.js',
   'generated/en/sidebars/cli.sidebar.js',
   'generated/en/sidebars/restful.sidebar.js',
+  referenceSourceManifest,
   revisionInventoryRoot,
   'generated/zh-CN',
   'packages/docs-tooling/src/lark/meta/snapshots',
@@ -74,7 +76,7 @@ function createFixture() {
   git(source, 'remote', 'add', 'origin', origin)
 
   for (const restorePath of restorePaths) {
-    const fixturePath = restorePath.endsWith('.js') || restorePath === localizationInventory
+    const fixturePath = restorePath.endsWith('.js') || restorePath === localizationInventory || restorePath === referenceSourceManifest
       ? restorePath
       : path.join(restorePath, 'state.txt')
     write(source, fixturePath, `old:${restorePath}\n`)
@@ -224,6 +226,25 @@ test('exact immutable ref restores revision inventories from the target commit',
 
     assert.equal(result.status, 0, result.stderr)
     assert.equal(fs.readFileSync(path.join(fixture.work, inventory), 'utf8'), '{"source":"final-dev"}\n')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref restores the English Reference source manifest from the target commit', () => {
+  const fixture = createFixture()
+  try {
+    write(fixture.source, referenceSourceManifest, '{"sourceCommit":"final-dev"}\n')
+    git(fixture.source, 'add', referenceSourceManifest)
+    git(fixture.source, 'commit', '-m', 'reconcile Reference source manifest')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, referenceSourceManifest, '{"sourceCommit":"master-tooling"}\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, referenceSourceManifest), 'utf8'), '{"sourceCommit":"final-dev"}\n')
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }

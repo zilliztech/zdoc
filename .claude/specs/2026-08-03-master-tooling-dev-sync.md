@@ -34,13 +34,17 @@ Conflicts, validation failures, moved refs, or ownership drift leave an unmerged
 
 ## Candidate-derived publication recovery
 
-The localization inventory is master tooling whose contents are derived from dev-owned localization inputs. Publication workflows therefore keep it convergent at three boundaries:
+The localization inventory is master tooling whose contents are derived from dev-owned localization inputs. Publication recovery keeps candidate-derived inventory and Reference state convergent at these boundaries:
 
-- `translate-codex.yml` independently reconciles and publishes only the inventory after all selected translation publishers reach a terminal state, even when another translation lane fails. Full Guides and Reference reconciliation remains fail-closed and separate.
+- `translate-codex.yml` independently reconciles and publishes only the inventory after all selected translation publishers reach a terminal state, even when another translation lane fails.
+- After inventory reconciliation reaches a terminal state, `translate-codex.yml` independently reconciles Chinese Reference manifests and generated Reference sidebars whenever the selected locale and group can publish Chinese Reference. This recovery boundary also runs after partial publication when another translation lane fails.
+- The all-groups derived-state reconciliation remains a separate fail-closed gate downstream of both independent recovery boundaries.
 - `fetch-docs.yml` restores the exact immutable dev baseline and checks the inventory before card creation, producers, or paid work. A stale target fails early without repairing or publishing anything.
 - `restore-generated-state.sh --exact` restores the inventory from the selected dev commit together with the other dev-owned generated state. Final verification can then combine immutable master tooling with the exact candidate-derived file published on dev.
 
 Inventory reconciliation commits must change only `deploy/contracts/localization-inputs.inventory.json`. They do not authorize source publication, site deployment, S3 writes, or OSS writes.
+
+Reference reconciliation commits must change only the English and Chinese Reference manifests and the generated Python, Java, Node, Go, CLI, and RESTful Reference sidebars for both locales. They do not authorize Guides state, source publication, site deployment, S3 writes, or OSS writes.
 
 ## Deferred follow-up: deduplicate site validation
 

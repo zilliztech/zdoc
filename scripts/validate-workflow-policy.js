@@ -253,6 +253,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           !/git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/.test(comparisonRun)) {
         errors.push(`${file}: classifier must use a shallow sparse checkout and exact comparison-base fetch`)
       }
+      for (const jobName of ['build_zh_cn', 'reference_coverage']) {
+        const steps = workflow.jobs?.[jobName]?.steps || []
+        const checkout = steps.find(step => step?.uses === 'actions/checkout@v5')
+        const sourceFetch = steps.find(step => step?.name === 'Fetch immutable Reference source commit')
+        const sourceFetchRun = String(sourceFetch?.run || '')
+        if (checkout?.with?.ref !== '${{ needs.classify.outputs.source_sha }}' ||
+            checkout?.with?.['fetch-depth'] !== 1 ||
+            !/generated\/en\/manifests\/reference\.json/.test(sourceFetchRun) ||
+            !/\[\[ "\$source_commit" =~ \^\[0-9a-f\]\{40\}\$ \]\]/.test(sourceFetchRun) ||
+            !/git fetch --no-tags --depth=1 origin -- "\$source_commit"/.test(sourceFetchRun) ||
+            !/git cat-file -e "\$source_commit\^\{commit\}"/.test(sourceFetchRun)) {
+          errors.push(`${file}: ${jobName} must shallow-checkout the candidate and fetch the immutable Reference source commit`)
+        }
+      }
       const chineseBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '')).join('\n')
       const toolsCoverageRuns = (workflow.jobs?.tools_coverage?.steps || []).map(step => String(step?.run || '')).join('\n')
       if (!/build\/zh-CN\/build-provenance\.json[\s\S]*toolsSidebarReachable[\s\S]*docs-agents/.test(chineseBuildRuns) ||
@@ -818,6 +832,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const fullReconcileNeeds = Array.isArray(workflow.jobs?.reconcile_published_state?.needs)
         ? workflow.jobs.reconcile_published_state.needs
         : []
+      const aggregateNeeds = Array.isArray(workflow.jobs?.aggregate?.needs) ? workflow.jobs.aggregate.needs : []
       if (!inventoryReconcile ||
           requiredInventoryNeeds.some(job => !inventoryNeeds.includes(job)) ||
           String(inventoryReconcile.if || '').trim() !== "${{ always() && inputs.publish && needs.prepare.result == 'success' }}" ||
@@ -827,8 +842,76 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           !/git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/.test(inventoryRun) ||
           !/git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/.test(inventoryRun) ||
           /validate-translation|reference-manifest/.test(inventoryRun) ||
-          !fullReconcileNeeds.includes('reconcile_localization_inventory')) {
+          !fullReconcileNeeds.includes('reconcile_localization_inventory') ||
+          !aggregateNeeds.includes('reconcile_localization_inventory')) {
         errors.push(`${file}: partial translation publication must independently reconcile localization inventory`)
+      }
+
+      const referenceReconcile = workflow.jobs?.reconcile_reference_state
+      const referenceNeeds = Array.isArray(referenceReconcile?.needs) ? referenceReconcile.needs : []
+      const requiredReferenceNeeds = [...requiredInventoryNeeds, 'reconcile_localization_inventory']
+      const requiredReferenceCondition = "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}"
+      const referenceCheckoutSteps = (referenceReconcile?.steps || []).filter(step => String(step?.uses || '').startsWith('actions/checkout@'))
+      const referenceCheckout = referenceCheckoutSteps[0]
+      const referenceStep = namedJobStep(workflow, 'reconcile_reference_state', 'Reconcile and publish Reference derived state')
+      const referenceRun = String(referenceStep?.run || '')
+      const referenceCommands = executableCommandLines(referenceRun)
+      const requiredReferenceCommands = [
+        '[[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]',
+        'git check-ref-format --branch "$TARGET_BRANCH"',
+        'git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"',
+        'target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")',
+        'git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"',
+        'bash scripts/restore-generated-state.sh --exact --ref "$target_sha"',
+        'pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write',
+        'pnpm docs-tooling validate-reference --site zh-CN',
+        'git worktree add --detach "$publish_worktree" "$target_sha"',
+        'git -C "$publish_worktree" add -- "${paths[@]}"',
+        'git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"',
+      ]
+      const requiredReferencePaths = [
+        'generated/en/manifests/reference.json',
+        'generated/zh-CN/manifests/reference-translations.json',
+        'generated/en/sidebars/python.sidebar.js',
+        'generated/en/sidebars/java.sidebar.js',
+        'generated/en/sidebars/node.sidebar.js',
+        'generated/en/sidebars/go.sidebar.js',
+        'generated/en/sidebars/cli.sidebar.js',
+        'generated/en/sidebars/restful.sidebar.js',
+        'generated/zh-CN/sidebars/python.sidebar.js',
+        'generated/zh-CN/sidebars/java.sidebar.js',
+        'generated/zh-CN/sidebars/node.sidebar.js',
+        'generated/zh-CN/sidebars/go.sidebar.js',
+        'generated/zh-CN/sidebars/cli.sidebar.js',
+        'generated/zh-CN/sidebars/restful.sidebar.js',
+      ]
+      const referencePathBlock = referenceRun.match(/(?:^|\n)\s*paths=\(\n([\s\S]*?)\n\s*\)/)
+      const referencePaths = referencePathBlock
+        ? referencePathBlock[1].split('\n').map(line => line.trim()).filter(Boolean)
+        : []
+      const referenceAddCommands = referenceCommands.filter(command => /(?:^|\s)git(?:\s+-C\s+"\$publish_worktree")?\s+add\b/.test(command))
+      const referenceCommitCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" commit '))
+      const referencePushCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" push '))
+      if (!referenceReconcile ||
+          JSON.stringify(referenceNeeds) !== JSON.stringify(requiredReferenceNeeds) ||
+          String(referenceReconcile.if || '').trim() !== requiredReferenceCondition ||
+          referenceCheckoutSteps.length !== 1 ||
+          referenceCheckout?.uses !== 'actions/checkout@v5' ||
+          referenceCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
+          referenceCheckout?.with?.['fetch-depth'] !== 0 ||
+          referenceStep?.env?.SOURCE_SHA !== '${{ needs.prepare.outputs.target_branch_sha }}' ||
+          referenceStep?.env?.TARGET_BRANCH !== '${{ needs.prepare.outputs.target_branch }}' ||
+          !commandsAppearInOrder(referenceCommands, requiredReferenceCommands) ||
+          JSON.stringify(referencePaths) !== JSON.stringify(requiredReferencePaths) ||
+          JSON.stringify(referenceAddCommands) !== JSON.stringify(['git -C "$publish_worktree" add -- "${paths[@]}"']) ||
+          referenceCommitCommands.length !== 1 ||
+          JSON.stringify(referencePushCommands) !== JSON.stringify(['git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"']) ||
+          !/if git -C "\$publish_worktree" diff --cached --quiet; then[\s\S]*?exit 0[\s\S]*?fi/.test(referenceRun) ||
+          /deploy\/contracts\/localization-inputs\.inventory\.json|validate-translation|generate:localization-input-inventory/.test(referenceRun) ||
+          !fullReconcileNeeds.includes('reconcile_reference_state') ||
+          !aggregateNeeds.includes('reconcile_reference_state') ||
+          !aggregateNeeds.includes('reconcile_published_state')) {
+        errors.push(`${file}: partial Chinese Reference publication must independently reconcile Reference derived state`)
       }
     }
 
