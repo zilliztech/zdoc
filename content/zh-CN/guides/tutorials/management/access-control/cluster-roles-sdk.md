@@ -320,29 +320,29 @@ curl --request POST \
        <tr>
          <td rowspan="2"><p><strong>Collection</strong></p></td>
          <td><p>指定 Collection</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="col1",      db_name="db1" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;CollectionAdmin&quot;,     collection_name=&quot;col1&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
          <td><p>输入目标 Collection 的名称，以及该 Collection 所属 Database 的名称。</p></td>
        </tr>
        <tr>
          <td><p>当前 Database 下所有 Collection</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="&ast;",      db_name="db1" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;CollectionAdmin&quot;,     collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
          <td><p>输入目标 Database 的名称，并将 Collection 名称设置为通配符 <code>&ast;</code>。</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>Database</strong></p></td>
          <td><p>指定 Database</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="db1" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;db1&quot; )</code></pre></td>
          <td><p>输入目标 Database 的名称，并将 Collection 名称设置为通配符 <code>&ast;</code>。</p></td>
        </tr>
        <tr>
          <td><p>当前集群下所有 Database</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;DatabaseAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
          <td><p>将 Database 名称和 Collection 名称都设置为通配符 <code>&ast;</code>。</p></td>
        </tr>
        <tr>
          <td><p><strong>集群</strong></p></td>
          <td><p>当前集群</p></td>
-         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="ClusterAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
+         <td><pre><code class="language-python"> client.grant_privilege_v2(     role_name=&quot;roleA&quot;,      privilege=&quot;ClusterAdmin&quot;,      collection_name=&quot;&ast;&quot;,      db_name=&quot;&ast;&quot; )</code></pre></td>
          <td><p>将 Database 名称和 Collection 名称都设置为通配符 <code>&ast;</code>。</p></td>
        </tr>
     </table>

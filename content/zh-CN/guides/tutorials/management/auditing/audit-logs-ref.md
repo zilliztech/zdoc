@@ -52,32 +52,32 @@ import Admonition from '@theme/Admonition';
    <tr>
      <td><p><code>date</code></p></td>
      <td><p>String（ISO 8601 格式）</p></td>
-     <td><p>操作发生的时间戳（UTC 时间），例如 <code>"2025-01-21T08:38:39.494527Z"</code>。</p></td>
+     <td><p>操作发生的时间戳（UTC 时间），例如 <code>&quot;2025-01-21T08:38:39.494527Z&quot;</code>。</p></td>
    </tr>
    <tr>
      <td><p><code>action</code></p></td>
      <td><p>String</p></td>
-     <td><p>执行的操作类型（例如 <code>"DescribeCollection"</code>）。可执行的操作列表详见<a href="./audit-logs-ref#list-of-actions">操作列表</a>。</p></td>
+     <td><p>执行的操作类型（例如 <code>&quot;DescribeCollection&quot;</code>）。可执行的操作列表详见<a href="./audit-logs-ref#list-of-actions">操作列表</a>。</p></td>
    </tr>
    <tr>
      <td><p><code>cluster_id</code></p></td>
      <td><p>String</p></td>
-     <td><p>操作发生的集群唯一标识（例如<code>"in01-b5a7e190615xxxf"</code>）。</p></td>
+     <td><p>操作发生的集群唯一标识（例如<code>&quot;in01-b5a7e190615xxxf&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>database</code></p></td>
      <td><p>String</p></td>
-     <td><p>涉及到的数据库名称（例如 <code>"default"</code>）。</p></td>
+     <td><p>涉及到的数据库名称（例如 <code>&quot;default&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>interface</code></p></td>
      <td><p>string</p></td>
-     <td><p>执行操作所使用的接口类型（例如 <code>"Grpc"</code>, <code>"Restful"</code>）。</p></td>
+     <td><p>执行操作所使用的接口类型（例如 <code>&quot;Grpc&quot;</code>, <code>&quot;Restful&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>log_type</code></p></td>
      <td><p>String</p></td>
-     <td><p>日志条目的类型（例如 <code>"AUDIT"</code>）。</p></td>
+     <td><p>日志条目的类型（例如 <code>&quot;AUDIT&quot;</code>）。</p></td>
    </tr>
    <tr>
      <td><p><code>params</code></p></td>

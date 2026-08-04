@@ -196,7 +196,7 @@ Private Endpoint 创建完成后，您可以前往**集群详情**页查看该�
        </tr>
        <tr>
          <td><p>内置权威域名（Zone）</p></td>
-         <td><p>请根据您的集群地域修改内置权威域名。以下为终端节点所在区域对应的 Zone 名称：</p><p>Dedicated 集群：</p><ul><li><p>杭州：<code>ali-cn-hangzhou.vectordb.zilliz.com.cn</code></p></li><li><p>北京：<code>ali-cn-beijing.vectordb.zilliz.com.cn</code></p></li><li><p>深圳：<code>ali-cn-shenzhen.vectordb.zilliz.com.cn</code></p></li><li><p>上海：<code>ali-cn-shanghai.vectordb.zilliz.com.cn</code></p></li><li><p>弗吉尼亚：<code>ali-us-east-1.vectordb.zilliz.com.cn</code></p></li><li><p>新加坡：<code>ali-ap-southeast-1.vectordb.zilliz.com.cn</code></p><p>项目访问端点：</p></li><li><p>北京：<code>ali-cn-beijing.api.zilliz.com.cn</code></p></li><li><p>上海：<code>ali-cn-shanghai.api.zilliz.com.cn</code></p></li></ul></td>
+         <td><p>请根据您的集群地域修改内置权威域名。以下为终端节点所在区域对应的 Zone 名称：</p><p>Dedicated 集群：</p><ul><li><p>杭州：<code>ali-cn-hangzhou.vectordb.zilliz.com.cn</code></p></li><li><p>北京：<code>ali-cn-beijing.vectordb.zilliz.com.cn</code></p></li><li><p>深圳：<code>ali-cn-shenzhen.vectordb.zilliz.com.cn</code></p></li><li><p>上海：<code>ali-cn-shanghai.vectordb.zilliz.com.cn</code></p></li><li><p>弗吉尼亚：<code>ali-us-east-1.vectordb.zilliz.com.cn</code></p></li><li><p>新加坡：<code>ali-ap-southeast-1.vectordb.zilliz.com.cn</code></p></li></ul><p>项目访问端点：</p><ul><li><p>北京：<code>ali-cn-beijing.api.zilliz.com.cn</code></p></li><li><p>上海：<code>ali-cn-shanghai.api.zilliz.com.cn</code></p></li></ul></td>
        </tr>
        <tr>
          <td><p>子域名递归解析代理</p></td>
@@ -247,7 +247,7 @@ Private Endpoint 创建完成后，您可以前往**集群详情**页查看该�
        </tr>
        <tr>
          <td><p>记录值</p></td>
-         <td><p>请填写在"创建 Private Endpoint" <a href="./aliyun-private-link#create-endpoint">步骤 3</a> 中获取的<strong>默认服务域名</strong>。</p></td>
+         <td><p>请填写在&quot;创建 Private Endpoint&quot; <a href="./aliyun-private-link#create-endpoint">步骤 3</a> 中获取的<strong>默认服务域名</strong>。</p></td>
        </tr>
     </table>
 

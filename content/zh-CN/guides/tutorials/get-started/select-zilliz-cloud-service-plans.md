@@ -26,7 +26,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 
 - **Dedicated**：提供企业级稳定性与安全合规，适用于生产环境应用开发。详情请查看 [Zilliz 定价页面](https://zilliz.com.cn/pricing)。
 
-- **BYOC (Bring Your Own Cloud)**：适用于需要在自有云环境中部署，且高度注重数据隐私和合规的场景。如需选择 BYOC 版本，请[联系销售](https://zilliz.com.cn/contact-sales)。
+- **BYOC (Bring Your Own Cloud)**：适用于需要在自有云环境中部署，且高度注重数据隐私和合规的场景。如需选择 BYOC 版本，请[联系销售](http://zilliz.com.cn/contact-sales)。
 
 ## 选择版本类型\{#select-a-cluster-plan}
 
@@ -67,7 +67,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
      <td><p>Query CU 数量</p></td>
      <td><p>单个 Query CU</p></td>
      <td><p>弹性伸缩，无需配置</p></td>
-     <td><p>最多 256 Query CU (支持 Query CU 数量包括: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…, 256</p><p>当 Query CU 大于 8 时，增加梯度为 4 CU。</p><p>当 Query CU 大于 64 时， 增加梯度为 8 CU。)</p></td>
+     <td><p>最多 256 Query CU (支持 Query CU 数量包括: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32,...,64, 72, 80, 88,..., 256</p><p>当 Query CU 大于 8 时，增加梯度为 4 CU。</p><p>当 Query CU 大于 64 时， 增加梯度为 8 CU。)</p></td>
      <td><p>可根据用户需求定制</p></td>
    </tr>
    <tr>
@@ -93,7 +93,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 | 可用区 |  | 单个 | 多个 | 多个 |
 | [多副本（Replica）](./manage-replica) |  |  | ✔ | ✔ |
 | 快照 Snapshot |  |  | ✔ | ✔ |
-| Global Cluster |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
+| Global Cluster |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 
 ### 数据管理\{#data-management}
 
@@ -110,16 +110,16 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 
 |  | **Free** | **Serverless** | **Dedicated 企业版** | **Bring Your Own Cloud (BYOC)** |
 | --- | --- | --- | --- | --- |
-| CMEK |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
+| CMEK |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | [MFA](./multi-factor-auth) |  | ✔ | ✔ | ✔ |
 | [审计系统](./undefined) |  |  | ✔ | ✔ |
 | [API 密钥管理](./manage-api-keys) |  | ✔ | ✔ | ✔ |
 | [数据传输加密和静态加密](./undefined#data-encryption) | ✔ | ✔ | ✔ | ✔ |
 | [备份与恢复](./undefined) |  |  | ✔ | ✔ |
 | [跨地域备份](./backup-to-other-regions) |  |  | ✔ | ✔ |
-| 持续数据保护 |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
-| PITR |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
-| 数据脱敏（Tokenization） |  |  | [联系我们](https://zilliz.com.cn/contact-sales) | [联系我们](https://zilliz.com.cn/contact-sales) |
+| 持续数据保护 |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
+| PITR |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
+| 数据脱敏（Tokenization） |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | [IP 地址访问控制](./setup-whitelist) |  |  | ✔ | ✔ |
 | [VPC 私网连接（Private Link）](./undefined) |  |  | ✔ | ✔ |
 | ISO/ICE 27001、GDPR 合规与安全认证 | ✔ | ✔ | ✔ | ✔ |

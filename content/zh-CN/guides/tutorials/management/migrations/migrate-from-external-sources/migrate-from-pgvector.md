@@ -57,7 +57,7 @@ import Admonition from '@theme/Admonition';
    <tr>
      <td><p>主键</p></td>
      <td><p>主键 / Auto ID</p></td>
-     <td><ul><li><p><strong>单字段主键</strong>：直接映射为目标 Collection 的主键。</p></li><li><p><strong>无主键</strong>：如果源表没有主键字段，目标 Collection 将启用 Auto ID 功能。</p></li><li><p><strong>复合主键</strong>：默认启用 Auto ID 功能；复合主键将作为普通标量字段处理。</p><p>在数据迁移时，您可以选择启用 Auto ID 功能；但请注意，启用后源表中的原始主键值将会被舍弃。</p></li></ul></td>
+     <td><ul><li><p><strong>单字段主键</strong>：直接映射为目标 Collection 的主键。</p></li><li><p><strong>无主键</strong>：如果源表没有主键字段，目标 Collection 将启用 Auto ID 功能。</p></li><li><p><strong>复合主键</strong>：默认启用 Auto ID 功能；复合主键将作为普通标量字段处理。</p></li></ul><p>在数据迁移时，您可以选择启用 Auto ID 功能；但请注意，启用后源表中的原始主键值将会被舍弃。</p></td>
    </tr>
    <tr>
      <td><p>vector</p></td>
@@ -72,42 +72,42 @@ import Admonition from '@theme/Admonition';
    <tr>
      <td><p>bigint</p></td>
      <td><p>INT64</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>integer</p></td>
      <td><p>INT32</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>smallint</p></td>
      <td><p>INT16</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>double precision</p></td>
      <td><p>DOUBLE</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>real</p></td>
      <td><p>FLOAT</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>boolean</p></td>
      <td><p>BOOL</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>array</p></td>
      <td><p>ARRAY</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
    <tr>
      <td><p>json</p></td>
      <td><p>JSON</p></td>
-     <td><p>-</p></td>
+     <td><ul><li></li></ul></td>
    </tr>
 </table>
 

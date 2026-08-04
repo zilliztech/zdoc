@@ -24,7 +24,7 @@ Zilliz Cloud 提供多种部署方式和计费方式的集群，方便您根据�
 
 Zilliz Cloud 提供 Free、Serverless、Dedicated 三种部署方式的集群。其中，Dedicated 集群提供两种不同的计费方式——按量计费、包年包月。
 
-本文将介绍 Dedicated 集群两种计费方式的区别。如需了解各种部署方式，请参考 [Zilliz Cloud 定价](https://zilliz.com.cn/pricing)。
+本文将介绍 Dedicated 集群两种计费方式的区别。如需了解各种部署方式，请参考 [Zilliz Cloud 定价](http://zilliz.com.cn/pricing)。
 
 ### 包年包月 vs 按量计费\{#annual-subscription-vs-usage-based}
 
@@ -44,8 +44,8 @@ Zilliz Cloud 针对 Dedicated 集群提供按量计费和包年包月两种计�
    </tr>
    <tr>
      <td><p><strong>适用场景</strong></p></td>
-     <td><p>适用于以下场景：</p><ul><li><p>可预估资源使用周期</p></li><li><p>具有较稳定的业务场景</p></li><li><p>需要长期使用资源</p><p>相比按量计费方式价格更优惠。</p></li></ul></td>
-     <td><p>适用于以下场景：</p><ul><li><p>资源使用有临时性和突发性，无法进行准确预测</p></li><li><p>业务较为波动</p></li><li><p>资源需随时开通，随时删除</p><p>相比包年包月计费方式更灵活。</p></li></ul></td>
+     <td><p>适用于以下场景：</p><ul><li><p>可预估资源使用周期</p></li><li><p>具有较稳定的业务场景</p></li><li><p>需要长期使用资源</p></li></ul><p>相比按量计费方式价格更优惠。</p></td>
+     <td><p>适用于以下场景：</p><ul><li><p>资源使用有临时性和突发性，无法进行准确预测</p></li><li><p>业务较为波动</p></li><li><p>资源需随时开通，随时删除</p></li></ul><p>相比包年包月计费方式更灵活。</p></td>
    </tr>
    <tr>
      <td><p><strong>折扣</strong></p></td>

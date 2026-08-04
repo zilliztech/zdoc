@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
    <tr>
      <td><p><strong>跨地域流量</strong></p></td>
      <td><p>跨地域流量指不同地域之间的数据传输，仅在以下场景产生：</p><ul><li><p>跨地域的集群数据迁移（例如将阿里云北京的 Zilliz 集群迁移至阿里云新加坡的集群中）</p></li><li><p>跨地域备份</p></li></ul></td>
-     <td><ul><li><p>对于阿里云集群，具体价格由流量流出和流入大洲决定。</p></li><li><p>对于腾讯云和亚马逊云科技集群，具体价格由流量流出大洲决定。</p><p>详细费率请参见 <a href="https://zilliz.com.cn/pricing/pricing-guide">Zilliz Cloud 定价指南</a>。</p></li></ul></td>
+     <td><ul><li><p>对于阿里云集群，具体价格由流量流出和流入大洲决定。</p></li><li><p>对于腾讯云和亚马逊云科技集群，具体价格由流量流出大洲决定。</p></li></ul><p>详细费率请参见 <a href="https://zilliz.com.cn/pricing/pricing-guide">Zilliz Cloud 定价指南</a>。</p></td>
    </tr>
    <tr>
      <td><p><strong>同地域流量</strong></p></td>

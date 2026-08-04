@@ -47,12 +47,12 @@ import Admonition from '@theme/Admonition';
    <tr>
      <td><p>License 有效期</p></td>
      <td><p>表示离组织 License 过期前的剩余天数。</p></td>
-     <td><ul><li><p><strong>< 60 天</strong>：可以开始续期操作。</p></li><li><p><strong>已过期</strong> ：应当立即续期或升级操作，避免影响业务（如创建新集群或集群扩容等）。</p></li></ul></td>
+     <td><ul><li><p><strong>&lt; 60 天</strong>：可以开始续期操作。</p></li><li><p><strong>已过期</strong> ：应当立即续期或升级操作，避免影响业务（如创建新集群或集群扩容等）。</p></li></ul></td>
    </tr>
    <tr>
      <td><p>已使用 CPU 核心数</p></td>
      <td><p>表示已使用的 CPU 核心数与 License 中包含的 CPU 核心数的比值。</p></td>
-     <td><ul><li><p><strong>></strong> <strong>70%</strong>：评估未来需求，计划续期或升级。</p></li><li><p><strong>100%</strong>：应该立即续期或升级，避免影响业务。</p></li></ul></td>
+     <td><ul><li><p><strong>&gt;</strong> <strong>70%</strong>：评估未来需求，计划续期或升级。</p></li><li><p><strong>100%</strong>：应该立即续期或升级，避免影响业务。</p></li></ul></td>
    </tr>
 </table>
 
