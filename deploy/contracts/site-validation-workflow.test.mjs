@@ -196,12 +196,18 @@ test('legacy content-production workflows name their English build explicitly', 
   );
 });
 
-test('external UAT handoff names the two available Jenkins validation pipelines', async () => {
+test('current Jenkins handoff exposes environment-neutral target commands', async () => {
   const readme = await readFile(path.join(repositoryRoot, 'deploy/contracts/README.md'), 'utf8');
-  assert.match(readme, /`zilliz-docs-dev`/);
-  assert.match(readme, /`zilliz-docs-cn-dev`/);
+  assert.match(readme, /UAT and Prod.*same repository build interface/is);
+  assert.match(readme, /`pnpm build:en`/);
+  assert.match(readme, /`pnpm build:zh-CN`/);
+  assert.match(readme, /English and Japanese/i);
+  assert.match(readme, /independent/i);
+  assert.doesNotMatch(readme, /`zilliz-docs-(?:cn-)?(?:dev|prod)`/);
   assert.match(readme, /GitHub Actions.*does not deploy|does not deploy.*GitHub Actions/i);
+});
 
+test('historical shadow reports retain their recorded Jenkins pipeline names', async () => {
   const english = JSON.parse(await readFile(path.join(repositoryRoot, 'migration/reports/shadow-en.json'), 'utf8'));
   const chinese = JSON.parse(await readFile(path.join(repositoryRoot, 'migration/reports/shadow-zh-CN.json'), 'utf8'));
   assert.equal(english.externalShadow.uatPipeline, 'zilliz-docs-dev');
