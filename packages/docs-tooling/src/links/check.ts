@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import {XMLParser} from 'fast-xml-parser';
 import {resolveSiteProfile} from '@zilliz/site-config';
+import {z} from 'zod';
 
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
 import {assertSafeAtomicWriteTargets, writeAtomicRepositoryFiles} from '../validation/atomicFiles.ts';
@@ -11,6 +12,90 @@ type Site = 'en' | 'zh-CN';
 type LinkEntry = {url: string; page?: string; pages?: string[]; status?: number; error?: string};
 type FetchResponse = {ok: boolean; status: number; text(): Promise<string>};
 type FetchLike = (url: string | URL, init?: {method?: string; headers?: Record<string, string>; signal?: AbortSignal}) => Promise<FetchResponse>;
+
+export type ExternalClassification = 'healthy' | 'expired' | 'blocked' | 'transient' | 'other';
+
+const ExternalObservationSchema = z.object({
+  url: z.string().url(),
+  classification: z.enum(['healthy', 'expired', 'blocked', 'transient', 'other']),
+  status: z.number().int().min(100).max(599).nullable(),
+  error: z.string().min(1).max(240).nullable(),
+  pages: z.array(z.string().min(1).max(240)).max(5),
+  page_count: z.number().int().nonnegative(),
+}).strict().superRefine((observation, context) => {
+  if (observation.status === null && observation.error === null) {
+    context.addIssue({code: z.ZodIssueCode.custom, message: 'External observations require a status or error'});
+  }
+  if (observation.page_count < observation.pages.length) {
+    context.addIssue({code: z.ZodIssueCode.custom, message: 'External observation page_count must include retained pages'});
+  }
+});
+
+export type ExternalObservation = z.infer<typeof ExternalObservationSchema>;
+
+const SummarySchema = z.object({
+  deleted_routes: z.number().int().nonnegative(),
+  added_routes: z.number().int().nonnegative(),
+  checked_external_links: z.number().int().nonnegative(),
+  healthy_external_links: z.number().int().nonnegative(),
+  expired_external_links: z.number().int().nonnegative(),
+  blocked_external_links: z.number().int().nonnegative(),
+  transient_external_links: z.number().int().nonnegative(),
+  other_external_links: z.number().int().nonnegative(),
+}).strict();
+
+const canonicalDateTime = z.string().datetime().refine(value => new Date(value).toISOString() === value, {
+  message: 'generated_at must be a canonical UTC datetime',
+});
+const nullableSha = z.string().regex(/^[0-9a-f]{40}$/u).nullable();
+const observationBucket = (classification: Exclude<ExternalClassification, 'healthy'>) => ExternalObservationSchema.refine(
+  observation => observation.classification === classification,
+  {message: `Observation must be classified as ${classification}`},
+);
+
+export const LinkCheckReportSchema = z.object({
+  schema_version: z.literal(2),
+  generated_at: canonicalDateTime,
+  tooling_sha: nullableSha,
+  content_sha: nullableSha,
+  workflow_run_url: z.string().url().nullable(),
+  remote_sitemap_source: z.string().min(1).max(2048),
+  local_sitemap_source: z.string().min(1).max(2048),
+  summary: SummarySchema,
+  deleted_routes: z.array(z.string().url()),
+  added_routes: z.array(z.string().url()),
+  expired_external_links: z.array(observationBucket('expired')),
+  blocked_external_links: z.array(observationBucket('blocked')),
+  transient_external_links: z.array(observationBucket('transient')),
+  other_external_links: z.array(observationBucket('other')),
+}).strict().superRefine((report, context) => {
+  if ((report.tooling_sha === null) !== (report.content_sha === null)) {
+    context.addIssue({code: z.ZodIssueCode.custom, message: 'tooling_sha and content_sha must both be null or both be valid'});
+  }
+});
+
+export type LinkCheckReport = z.infer<typeof LinkCheckReportSchema>;
+
+type ExternalResult = {
+  url: string;
+  page?: string;
+  pages?: readonly string[];
+  status: number | null;
+  error: string | null;
+};
+
+type BuildLinkCheckReportInput = {
+  generatedAt?: string;
+  toolingSha: string | null;
+  contentSha: string | null;
+  remoteSitemapSource: string;
+  localSitemapSource: string;
+  remoteUrls: readonly string[];
+  localUrls: readonly string[];
+  checkedExternalLinks: readonly {url: string}[];
+  observations: readonly ExternalResult[];
+  workflowRunUrl?: string | null;
+};
 
 const sleep = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
 
@@ -163,16 +248,36 @@ async function fetchExternalLink(url: string, fetcher: FetchLike, timeoutMs: num
   }
 }
 
-function groupBrokenExternalLinks(externalLinks: LinkEntry[]) {
-  const byUrl = new Map<string, {url: string; status: number | null; error: string | null; pages: string[]}>();
-  for (const item of externalLinks) {
-    const entry = byUrl.get(item.url) ?? {url: item.url, status: item.status ?? null, error: item.error ?? null, pages: []};
-    if (!entry.status && item.status) entry.status = item.status;
-    if (!entry.error && item.error) entry.error = item.error;
-    for (const page of item.pages ?? (item.page ? [item.page] : [])) if (!entry.pages.includes(page)) entry.pages.push(page);
+export function classifyExternalResult(result: {status: number | null; error: string | null}): ExternalClassification {
+  if (result.error !== null) return 'transient';
+  const status = result.status;
+  if (status !== null && status >= 200 && status < 400) return 'healthy';
+  if (status === 404 || status === 410) return 'expired';
+  if (status === 401 || status === 403) return 'blocked';
+  if (status !== null && ([408, 425, 429].includes(status) || status >= 500)) return 'transient';
+  return 'other';
+}
+
+function groupExternalObservations(observations: readonly ExternalResult[]): ExternalObservation[] {
+  const byUrl = new Map<string, {url: string; status: number | null; error: string | null; pages: Set<string>}>();
+  for (const item of observations) {
+    const entry = byUrl.get(item.url) ?? {url: item.url, status: item.status, error: item.error, pages: new Set<string>()};
+    if (entry.status === null && item.status !== null) entry.status = item.status;
+    if (entry.error === null && item.error !== null) entry.error = item.error;
+    for (const page of item.pages ?? (item.page ? [item.page] : [])) entry.pages.add(page);
     byUrl.set(item.url, entry);
   }
-  return [...byUrl.values()].sort((left, right) => left.url.localeCompare(right.url));
+  return [...byUrl.values()].map(item => {
+    const pages = [...item.pages].sort((left, right) => left.localeCompare(right));
+    return {
+      url: item.url,
+      classification: classifyExternalResult(item),
+      status: item.status,
+      error: item.error,
+      pages: pages.slice(0, 5),
+      page_count: pages.length,
+    };
+  }).sort((left, right) => left.url.localeCompare(right.url));
 }
 
 export function resolveWorkflowRunUrl(environment: Record<string, string | undefined> = process.env): string | null {
@@ -181,25 +286,53 @@ export function resolveWorkflowRunUrl(environment: Record<string, string | undef
   return `${environment.GITHUB_SERVER_URL || 'https://github.com'}/${environment.GITHUB_REPOSITORY}/actions/runs/${environment.GITHUB_RUN_ID}`;
 }
 
-export function buildLinkCheckReport({generatedAt = new Date().toISOString(), remoteSitemapSource, localSitemapSource, remoteUrls, localUrls, externalLinks, checkedExternalLinks = externalLinks, workflowRunUrl = resolveWorkflowRunUrl()}: any) {
-  const deleted = remoteUrls.filter((url: string) => !localUrls.includes(url));
-  const added = localUrls.filter((url: string) => !remoteUrls.includes(url));
-  const brokenExternalLinks = groupBrokenExternalLinks(externalLinks);
-  return {
+export function buildLinkCheckReport({
+  generatedAt = new Date().toISOString(),
+  toolingSha,
+  contentSha,
+  remoteSitemapSource,
+  localSitemapSource,
+  remoteUrls,
+  localUrls,
+  checkedExternalLinks,
+  observations,
+  workflowRunUrl = resolveWorkflowRunUrl(),
+}: BuildLinkCheckReportInput): LinkCheckReport {
+  const deletedRoutes = remoteUrls.filter(url => !localUrls.includes(url)).sort((left, right) => left.localeCompare(right));
+  const addedRoutes = localUrls.filter(url => !remoteUrls.includes(url)).sort((left, right) => left.localeCompare(right));
+  const grouped = groupExternalObservations(observations);
+  const expiredExternalLinks = grouped.filter(item => item.classification === 'expired');
+  const blockedExternalLinks = grouped.filter(item => item.classification === 'blocked');
+  const transientExternalLinks = grouped.filter(item => item.classification === 'transient');
+  const otherExternalLinks = grouped.filter(item => item.classification === 'other');
+  const nonHealthyUrls = new Set([...expiredExternalLinks, ...blockedExternalLinks, ...transientExternalLinks, ...otherExternalLinks].map(item => item.url));
+  const checkedUrls = new Set(checkedExternalLinks.map(item => item.url));
+  const healthyExternalLinks = [...checkedUrls].filter(url => !nonHealthyUrls.has(url)).length;
+  return LinkCheckReportSchema.parse({
+    schema_version: 2,
     generated_at: generatedAt,
+    tooling_sha: toolingSha,
+    content_sha: contentSha,
     workflow_run_url: workflowRunUrl,
     remote_sitemap_source: remoteSitemapSource,
     local_sitemap_source: localSitemapSource,
     summary: {
-      deleted_links: deleted.length,
-      added_links: added.length,
-      external_links: new Set(checkedExternalLinks.map((item: LinkEntry) => item.url)).size,
-      broken_external_links: brokenExternalLinks.length,
+      deleted_routes: deletedRoutes.length,
+      added_routes: addedRoutes.length,
+      checked_external_links: checkedUrls.size,
+      healthy_external_links: healthyExternalLinks,
+      expired_external_links: expiredExternalLinks.length,
+      blocked_external_links: blockedExternalLinks.length,
+      transient_external_links: transientExternalLinks.length,
+      other_external_links: otherExternalLinks.length,
     },
-    deleted,
-    added,
-    broken_external_links: brokenExternalLinks,
-  };
+    deleted_routes: deletedRoutes,
+    added_routes: addedRoutes,
+    expired_external_links: expiredExternalLinks,
+    blocked_external_links: blockedExternalLinks,
+    transient_external_links: transientExternalLinks,
+    other_external_links: otherExternalLinks,
+  });
 }
 
 function listItems(items: any[], renderItem: (item: any) => string, limit = 10): string {
@@ -209,22 +342,28 @@ function listItems(items: any[], renderItem: (item: any) => string, limit = 10):
   return visible.join('\n');
 }
 
-export function renderLinkCheckMarkdown(report: any): string {
+export function renderLinkCheckMarkdown(report: LinkCheckReport): string {
+  const nonHealthyExternalLinks = [
+    ...report.expired_external_links,
+    ...report.blocked_external_links,
+    ...report.transient_external_links,
+    ...report.other_external_links,
+  ];
   const lines = ['# Link Checks', '', `Generated: ${report.generated_at}`];
   if (report.workflow_run_url) lines.push(`Workflow run: ${report.workflow_run_url}`);
   lines.push(`Remote sitemap: ${report.remote_sitemap_source}`, `Local sitemap: ${report.local_sitemap_source}`, '', '## Summary', '');
-  lines.push(`- Deleted routes: ${report.summary.deleted_links}`, `- Added routes: ${report.summary.added_links}`, `- External URLs checked: ${report.summary.external_links}`, `- Broken external URLs: ${report.summary.broken_external_links}`, '');
-  lines.push('## Deleted Routes', '', listItems(report.deleted, url => `- ${url}`), '', '## Added Routes', '', listItems(report.added, url => `- ${url}`), '', '## Broken External URLs', '');
-  lines.push(listItems(report.broken_external_links, item => {
+  lines.push(`- Deleted routes: ${report.summary.deleted_routes}`, `- Added routes: ${report.summary.added_routes}`, `- External URLs checked: ${report.summary.checked_external_links}`, `- Broken external URLs: ${nonHealthyExternalLinks.length}`, '');
+  lines.push('## Deleted Routes', '', listItems(report.deleted_routes, url => `- ${url}`), '', '## Added Routes', '', listItems(report.added_routes, url => `- ${url}`), '', '## Broken External URLs', '');
+  lines.push(listItems(nonHealthyExternalLinks, item => {
     const status = item.status ? `HTTP ${item.status}` : item.error;
     const pages = item.pages.slice(0, 3).join(', ');
-    const suffix = item.pages.length > 3 ? `, ...and ${item.pages.length - 3} more` : '';
+    const suffix = item.page_count > 3 ? `, ...and ${item.page_count - 3} more` : '';
     return `- ${item.url} (${status}) on ${pages}${suffix}`;
   }));
   return lines.join('\n');
 }
 
-export async function checkLinks(options: {repositoryRoot: string; site: string; output: string}, dependencies: {fetch?: FetchLike; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>; externalLinkConcurrency?: number; externalLinkTimeoutMs?: number} = {}): Promise<any> {
+export async function checkLinks(options: {repositoryRoot: string; site: string; output: string}, dependencies: {fetch?: FetchLike; now?: () => Date; write?: (message: string) => void; environment?: Record<string, string | undefined>; externalLinkConcurrency?: number; externalLinkTimeoutMs?: number} = {}): Promise<LinkCheckReport> {
   assertSite(options.site);
   const profile = resolveSiteProfile(options.site);
   const output = resolveOutput(options.repositoryRoot, options.output);
@@ -260,12 +399,18 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
   });
   const report = buildLinkCheckReport({
     generatedAt: now.toISOString(),
+    toolingSha: null,
+    contentSha: null,
     remoteSitemapSource: remoteSource,
     localSitemapSource: localSource,
     remoteUrls: remote,
     localUrls: local,
     checkedExternalLinks: externalLinks,
-    externalLinks: broken,
+    observations: broken.map(item => ({
+      ...item,
+      status: item.status ?? null,
+      error: item.error ?? null,
+    })),
     workflowRunUrl: resolveWorkflowRunUrl(environment),
   });
   const markdown = renderLinkCheckMarkdown(report);
@@ -276,10 +421,10 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
     {path: timestampedMarkdown, contents: markdown},
     {path: timestampedJson, contents: json},
   ], 'Link-check report output');
-  write(`Deleted links: ${report.summary.deleted_links}`);
-  write(`Added links: ${report.summary.added_links}`);
-  write(`Total external links: ${report.summary.external_links}`);
-  write(`Broken links: ${report.summary.broken_external_links}`);
+  write(`Deleted links: ${report.summary.deleted_routes}`);
+  write(`Added links: ${report.summary.added_routes}`);
+  write(`Total external links: ${report.summary.checked_external_links}`);
+  write(`Broken links: ${report.summary.expired_external_links + report.summary.blocked_external_links + report.summary.transient_external_links + report.summary.other_external_links}`);
   write(`Link-check report written to ${path.relative(options.repositoryRoot, output)}`);
   return report;
 }

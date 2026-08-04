@@ -6,7 +6,15 @@ import {describe, expect, it} from 'vitest';
 
 import {resolveSiteProfile} from '@zilliz/site-config';
 
-import {buildLinkCheckReport, checkLinks, contentRouteRoots, renderLinkCheckMarkdown, resolveWorkflowRunUrl} from './check.ts';
+import {
+  buildLinkCheckReport,
+  checkLinks,
+  classifyExternalResult,
+  contentRouteRoots,
+  LinkCheckReportSchema,
+  renderLinkCheckMarkdown,
+  resolveWorkflowRunUrl,
+} from './check.ts';
 
 function temporaryRoot(): string {
   return mkdtempSync(path.join(tmpdir(), 'docs-tooling-links-'));
@@ -32,6 +40,19 @@ const linkCheckDependencies = {
 };
 
 describe('link-check reporting', () => {
+  it.each([
+    [200, 'healthy'], [204, 'healthy'], [301, 'healthy'], [308, 'healthy'],
+    [404, 'expired'], [410, 'expired'], [401, 'blocked'], [403, 'blocked'],
+    [408, 'transient'], [425, 'transient'], [429, 'transient'], [503, 'transient'],
+    [400, 'other'], [409, 'other'], [451, 'other'],
+  ] as const)('classifies HTTP %s as %s', (status, expected) => {
+    expect(classifyExternalResult({status, error: null})).toBe(expected);
+  });
+
+  it('classifies network errors as transient', () => {
+    expect(classifyExternalResult({status: null, error: 'connection reset'})).toBe('transient');
+  });
+
   it('derives minimal scan roots from every declared site content route', () => {
     expect(contentRouteRoots(resolveSiteProfile('en').content.map(item => item.routeBasePath))).toEqual(['docs', 'reference']);
     expect(contentRouteRoots(resolveSiteProfile('zh-CN').content.map(item => item.routeBasePath))).toEqual(['docs', 'on-premise', 'reference']);
@@ -47,32 +68,66 @@ describe('link-check reporting', () => {
       .toBe('https://github.com/zilliztech/zdoc/actions/runs/28835409913');
   });
 
-  it('groups broken external links with their pages', () => {
+  it('builds a schema-valid classified report and aggregates bounded referring pages', () => {
     const report = buildLinkCheckReport({
       generatedAt: '2026-07-02T00:00:00.000Z',
+      toolingSha: 'a'.repeat(40),
+      contentSha: 'b'.repeat(40),
       remoteSitemapSource: 'https://docs.zilliz.com/sitemap.xml',
       localSitemapSource: 'build/en/sitemap.xml',
       remoteUrls: ['https://docs.zilliz.com/docs/a/', 'https://docs.zilliz.com/docs/old/'],
       localUrls: ['https://docs.zilliz.com/docs/a/', 'https://docs.zilliz.com/docs/new/'],
       workflowRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/1',
-      externalLinks: [
-        {url: 'https://bad.example.com', page: 'docs/a.html', status: 404},
-        {url: 'https://bad.example.com', page: 'docs/b.html', status: 404},
-        {url: 'https://timeout.example.com', page: 'reference/c.html', error: 'timeout'},
+      checkedExternalLinks: [
+        {url: 'https://healthy.example.com'},
+        {url: 'https://expired.example.com'},
+        {url: 'https://blocked.example.com'},
+        {url: 'https://transient.example.com'},
+        {url: 'https://other.example.com'},
+      ],
+      observations: [
+        {url: 'https://healthy.example.com', pages: ['docs/healthy.html'], status: 200, error: null},
+        {url: 'https://expired.example.com', pages: ['docs/f.html', 'docs/e.html', 'docs/d.html'], status: 404, error: null},
+        {url: 'https://expired.example.com', pages: ['docs/c.html', 'docs/b.html', 'docs/a.html'], status: 404, error: null},
+        {url: 'https://blocked.example.com', pages: ['docs/blocked.html'], status: 403, error: null},
+        {url: 'https://transient.example.com', pages: ['docs/transient.html'], status: 503, error: null},
+        {url: 'https://other.example.com', pages: ['docs/other.html'], status: 451, error: null},
       ],
     });
-    expect(report.summary).toEqual({deleted_links: 1, added_links: 1, external_links: 2, broken_external_links: 2});
-    expect(report.deleted).toEqual(['https://docs.zilliz.com/docs/old/']);
-    expect(report.added).toEqual(['https://docs.zilliz.com/docs/new/']);
-    expect(report.broken_external_links[0]).toMatchObject({url: 'https://bad.example.com', pages: ['docs/a.html', 'docs/b.html']});
+    expect(report.summary).toEqual({
+      deleted_routes: 1,
+      added_routes: 1,
+      checked_external_links: 5,
+      healthy_external_links: 1,
+      expired_external_links: 1,
+      blocked_external_links: 1,
+      transient_external_links: 1,
+      other_external_links: 1,
+    });
+    expect(report.deleted_routes).toEqual(['https://docs.zilliz.com/docs/old/']);
+    expect(report.added_routes).toEqual(['https://docs.zilliz.com/docs/new/']);
+    expect(report.expired_external_links).toEqual([{
+      url: 'https://expired.example.com',
+      classification: 'expired',
+      status: 404,
+      error: null,
+      pages: ['docs/a.html', 'docs/b.html', 'docs/c.html', 'docs/d.html', 'docs/e.html'],
+      page_count: 6,
+    }]);
+    expect(report.blocked_external_links[0]).toMatchObject({classification: 'blocked', status: 403, error: null, page_count: 1});
+    expect(report.transient_external_links[0]).toMatchObject({classification: 'transient', status: 503, error: null, page_count: 1});
+    expect(report.other_external_links[0]).toMatchObject({classification: 'other', status: 451, error: null, page_count: 1});
+    expect(() => LinkCheckReportSchema.parse(report)).not.toThrow();
   });
 
   it('renders the compact Feishu-ready summary', () => {
     const markdown = renderLinkCheckMarkdown(buildLinkCheckReport({
-      generatedAt: '2026-07-02T00:00:00.000Z', remoteSitemapSource: 'https://docs.zilliz.com/sitemap.xml',
+      generatedAt: '2026-07-02T00:00:00.000Z', toolingSha: null, contentSha: null,
+      remoteSitemapSource: 'https://docs.zilliz.com/sitemap.xml',
       localSitemapSource: 'build/en/sitemap.xml', remoteUrls: ['https://docs.zilliz.com/docs/old/'],
       localUrls: ['https://docs.zilliz.com/docs/new/'],
-      externalLinks: [{url: 'https://bad.example.com', page: 'docs/a.html', status: 404}],
+      checkedExternalLinks: [{url: 'https://bad.example.com'}],
+      observations: [{url: 'https://bad.example.com', page: 'docs/a.html', status: 404, error: null}],
     }));
     expect(markdown).toMatch(/Deleted routes: 1/);
     expect(markdown).toMatch(/Added routes: 1/);
@@ -84,7 +139,16 @@ describe('link-check reporting', () => {
     linkCheckFixture(root);
     await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, linkCheckDependencies);
     const report = JSON.parse(readFileSync(path.join(root, 'tmp/link-report.json'), 'utf8'));
-    expect(report.summary).toEqual({deleted_links: 1, added_links: 1, external_links: 1, broken_external_links: 1});
+    expect(report.summary).toEqual({
+      deleted_routes: 1,
+      added_routes: 1,
+      checked_external_links: 1,
+      healthy_external_links: 0,
+      expired_external_links: 1,
+      blocked_external_links: 0,
+      transient_external_links: 0,
+      other_external_links: 0,
+    });
     expect(readFileSync(path.join(root, 'tmp/link-report.md'), 'utf8')).toMatch(/https:\/\/bad\.example\.com/);
   });
 
@@ -109,7 +173,7 @@ describe('link-check reporting', () => {
     });
 
     expect(checked).toEqual(['https://broken-on-prem.example.com']);
-    expect(report.broken_external_links).toEqual([expect.objectContaining({
+    expect(report.transient_external_links).toEqual([expect.objectContaining({
       url: 'https://broken-on-prem.example.com',
       pages: ['on-premise/install.html'],
       status: 503,
@@ -162,7 +226,7 @@ describe('link-check reporting', () => {
       externalLinkTimeoutMs: 10,
     });
 
-    expect(report.broken_external_links).toEqual([expect.objectContaining({
+    expect(report.transient_external_links).toEqual([expect.objectContaining({
       url: 'https://bad.example.com',
       error: 'External link request timed out after 10ms',
     })]);
