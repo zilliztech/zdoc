@@ -16,19 +16,14 @@ COPY . .
 ARG ZDOC_SHA
 ARG ZDOC_SITE=zh-CN
 ARG JENKINS_BUILD_ID
-ARG ZDOC_REFERENCE_SOURCE_SHA
 RUN test -n "$ZDOC_SHA" \
     && test "${#ZDOC_SHA}" -eq 40 \
     && test "${ZDOC_SHA#*[!0-9a-f]}" = "$ZDOC_SHA" \
     && test "$ZDOC_SITE" = "zh-CN" \
-    && test -n "$JENKINS_BUILD_ID" \
-    && test -n "$ZDOC_REFERENCE_SOURCE_SHA" \
-    && test "${#ZDOC_REFERENCE_SOURCE_SHA}" -eq 40 \
-    && test "${ZDOC_REFERENCE_SOURCE_SHA#*[!0-9a-f]}" = "$ZDOC_REFERENCE_SOURCE_SHA"
+    && test -n "$JENKINS_BUILD_ID"
 ENV ZDOC_PROVENANCE_COMMIT=${ZDOC_SHA} \
     ZDOC_PROVENANCE_WORKTREE=external-snapshot \
-    ZDOC_PROVENANCE_TRACKED_INPUTS=deploy/contracts/localization-inputs.inventory.json \
-    ZDOC_REFERENCE_SOURCE_SHA=${ZDOC_REFERENCE_SOURCE_SHA}
+    ZDOC_PROVENANCE_TRACKED_INPUTS=deploy/contracts/localization-inputs.inventory.json
 RUN pnpm run build:zh-CN
 
 FROM nginx:1.28-alpine
