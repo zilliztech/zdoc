@@ -8,8 +8,10 @@ The first synchronization is a reviewed pull request that merges one exact maste
 
 - Dev owns published content, generated sidebars and manifests, translation state, fetched source snapshots/reports, and English source sidebar overrides.
 - Master owns tooling, workflows, applications, packages, deployment contracts, and `config/reference-retirements.json`.
+- Candidate-derived paths are deterministic outputs of the exact merge candidate. The only current candidate-derived path is `deploy/contracts/localization-inputs.inventory.json`.
 - A master history that changes a dev-owned path is not synchronizable automatically.
-- A merge candidate must preserve every dev-owned path from the exact dev baseline and match the exact master SHA everywhere else.
+- A merge candidate must preserve every dev-owned path from the exact dev baseline and match the exact master SHA everywhere except explicitly declared candidate-derived paths.
+- Candidate-derived paths must be regenerated and checked on the exact merge candidate; declaring one does not bypass its freshness validation.
 
 ## Bootstrap
 
@@ -21,11 +23,12 @@ The automated workflow remains inert until `deploy/contracts/master-tooling-sync
 2. Resolve exact master and dev SHAs and verify master ancestry.
 3. Reject master changes to dev-owned paths.
 4. Create a normal merge commit from the exact dev baseline and exact master SHA.
-5. Verify path ownership in both directions.
-6. Run focused repository validation.
-7. Recheck dev, push an immutable candidate branch, and create a PR.
-8. Dispatch `site-validation.yml` for both sites against the exact candidate SHA and wait for success.
-9. Recheck the dev baseline and PR head, then merge the PR.
+5. Install dependencies, regenerate and check declared candidate-derived files on the exact merge candidate, then amend the original merge commit while preserving both parents.
+6. Recompute the final candidate SHA and verify path ownership in both directions against that final commit.
+7. Run focused repository validation.
+8. Recheck dev, push the immutable final candidate branch, and create a PR.
+9. Dispatch `site-validation.yml` for both sites against the final candidate SHA and wait for success.
+10. Recheck the dev baseline and PR head against the final candidate SHA, then merge the PR.
 
 Conflicts, validation failures, moved refs, or ownership drift leave an unmerged evidence-bearing PR and fail the workflow.
 
