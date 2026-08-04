@@ -1,6 +1,6 @@
 import { capitalize } from 'lodash';
 import { i18n } from './i18n.js'
-import Showdown from 'showdown';
+import { renderMarkdownHtml } from '../../markdown/renderMarkdownHtml.js'
 // planeConfig is passed from callers that read it via useDocusaurusContext
 
 export const getBaseUrl = (endpoint, lang, pubTarget, planeConfig) => {
@@ -56,8 +56,7 @@ export const textFilter =  (text, targets) => {
         text = textFilter(preText + matchText + postText, targets)
     }
 
-    const converter = new Showdown.Converter();
-    text = converter.makeHtml(text);
+    text = renderMarkdownHtml(text);
 
     return sanitizeHtmlBlockParagraphs(text);
 }

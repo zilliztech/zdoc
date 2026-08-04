@@ -16,6 +16,17 @@ const publishingWorkflows = new Set([
   'sync-master-tooling-to-dev.yml',
 ])
 
+const minimumNode24ActionMajors = new Map([
+  ['actions/checkout', 5],
+  ['actions/setup-node', 5],
+  ['actions/upload-artifact', 6],
+  ['actions/download-artifact', 7],
+  ['actions/cache', 5],
+  ['actions/cache/restore', 5],
+  ['actions/cache/save', 5],
+  ['pnpm/action-setup', 5],
+])
+
 function executableShellLineEntries(source) {
   const entries = []
   let heredocDelimiter = null
@@ -140,6 +151,23 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: invalid YAML: ${error.message}`)
       continue
     }
+    const deprecatedActionRuntimeErrors = new Set()
+    for (const job of Object.values(workflow.jobs || {})) {
+      for (const step of Array.isArray(job?.steps) ? job.steps : []) {
+        const reference = String(step?.uses || '')
+        const match = reference.match(/^([^@\s]+)@v(\d+)$/)
+        if (!match) continue
+        const [, action, majorText] = match
+        const minimumMajor = minimumNode24ActionMajors.get(action)
+        const major = Number(majorText)
+        if (minimumMajor && major < minimumMajor) {
+          deprecatedActionRuntimeErrors.add(
+            `${file}: ${action}@v${major} uses the deprecated Node 20 action runtime; require @v${minimumMajor} or newer`,
+          )
+        }
+      }
+    }
+    errors.push(...deprecatedActionRuntimeErrors)
     for (const job of Object.values(workflow.jobs || {})) {
       if (Object.values(job?.env || {}).some(value => String(value).includes('${{ runner.temp }}'))) {
         errors.push(`${file}: job-level env must not reference runner.temp`)
@@ -215,7 +243,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const classifierCheckout = namedJobStep(workflow, 'classify', 'Check out candidate')
       const comparisonFetch = namedJobStep(workflow, 'classify', 'Fetch comparison base')
       const comparisonRun = String(comparisonFetch?.run || '')
-      if (classifierCheckout?.uses !== 'actions/checkout@v4' ||
+      if (classifierCheckout?.uses !== 'actions/checkout@v5' ||
           classifierCheckout?.with?.['fetch-depth'] !== 2 ||
           classifierCheckout?.with?.['sparse-checkout'] !== 'deploy/contracts' ||
           String(comparisonFetch?.if || '').trim() !== "${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}" ||
@@ -224,6 +252,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           !/\[\[ ! "\$BASE_SHA" =~ \^0\{40\}\$ \]\][\s\S]*git cat-file -e "\$BASE_SHA\^\{commit\}"/.test(comparisonRun) ||
           !/git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/.test(comparisonRun)) {
         errors.push(`${file}: classifier must use a shallow sparse checkout and exact comparison-base fetch`)
+      }
+      for (const jobName of ['build_zh_cn', 'reference_coverage']) {
+        const steps = workflow.jobs?.[jobName]?.steps || []
+        const checkout = steps.find(step => step?.uses === 'actions/checkout@v5')
+        const sourceFetch = steps.find(step => step?.name === 'Fetch immutable Reference source commit')
+        const sourceFetchRun = String(sourceFetch?.run || '')
+        if (checkout?.with?.ref !== '${{ needs.classify.outputs.source_sha }}' ||
+            checkout?.with?.['fetch-depth'] !== 1 ||
+            !/generated\/en\/manifests\/reference\.json/.test(sourceFetchRun) ||
+            !/\[\[ "\$source_commit" =~ \^\[0-9a-f\]\{40\}\$ \]\]/.test(sourceFetchRun) ||
+            !/git fetch --no-tags --depth=1 origin -- "\$source_commit"/.test(sourceFetchRun) ||
+            !/git cat-file -e "\$source_commit\^\{commit\}"/.test(sourceFetchRun)) {
+          errors.push(`${file}: ${jobName} must shallow-checkout the candidate and fetch the immutable Reference source commit`)
+        }
       }
       const chineseBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '')).join('\n')
       const toolsCoverageRuns = (workflow.jobs?.tools_coverage?.steps || []).map(step => String(step?.run || '')).join('\n')
@@ -255,15 +297,25 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
     }
 
+    if (file === 'sync-master-tooling-to-dev.yml') {
+      const checkout = namedJobStep(workflow, 'sync', 'Check out workflow tooling')
+      if (checkout?.uses !== 'actions/checkout@v5' ||
+          checkout?.with?.ref !== '${{ github.sha }}' ||
+          checkout?.with?.['fetch-depth'] !== 0 ||
+          checkout?.with?.filter !== 'blob:none') {
+        errors.push(`${file}: tooling sync must retain the full commit graph without downloading historical blobs`)
+      }
+    }
+
     if (file === '_fetch-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
-        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
+        [/actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
         [/restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/, 'must exactly restore generated state from the immutable baseline SHA'],
         [/name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*prepare-content-group-workspace\.js "\$SITE" "\$GROUP"[\s\S]*name: Fetch content group/, 'must prepare the selected site group after baseline restore and before generation'],
         [/create-checkpoint-artifact\.js/, 'must create a checkpoint artifact'],
         [/validate-checkpoint-artifact\.js/, 'must validate the checkpoint artifact'],
-        [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],
+        [/actions\/upload-artifact@v6/, 'must upload the checkpoint artifact'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       const steps = workflow.jobs?.produce?.steps || []
@@ -301,7 +353,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         Object.keys(inventory?.env || {}).some(name => /APP_ID|APP_SECRET|FEISHU/i.test(name))) {
         errors.push(`${file}: revision inventory step must not receive Feishu credentials or fetch source metadata`)
       }
-      if (!report || report.uses !== 'actions/upload-artifact@v4' || report.with?.['if-no-files-found'] !== 'error' ||
+      if (!report || report.uses !== 'actions/upload-artifact@v6' || report.with?.['if-no-files-found'] !== 'error' ||
         !reportPaths.includes('generated/en/manifests/lark-revisions/${{ inputs.group }}.json') ||
         !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.json') ||
         !reportPaths.includes('tmp/docs-tooling/revision-diff/${{ inputs.group }}.md')) {
@@ -492,8 +544,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === '_fetch-content-group.yml') {
       const steps = workflow.jobs?.produce?.steps || []
-      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
-      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v5')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v5')
       const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
       const validationIndex = steps.findIndex(step => step?.name === 'Validate content group')
       if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < validationIndex)) {
@@ -590,7 +642,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: v5 generation payload must be created, keyed, and revalidated from the exact promoted snapshot only when save is required`)
       }
       const save = stepById.get('save_guides_v5_generation')
-      if (save?.if !== "${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}" || save?.['continue-on-error'] !== true || save?.uses !== 'actions/cache/save@v4' || save?.with?.path !== 'tmp/guides-source-cache-v5' || save?.with?.key !== '${{ steps.guides_v5_generation.outputs.key }}') {
+      if (save?.if !== "${{ inputs.cache_save_required == 'true' && steps.guides_v5_generation.outcome == 'success' }}" || save?.['continue-on-error'] !== true || save?.uses !== 'actions/cache/save@v5' || save?.with?.path !== 'tmp/guides-source-cache-v5' || save?.with?.key !== '${{ steps.guides_v5_generation.outputs.key }}') {
         errors.push(`${file}: Guides v5 cache save must be conditional, nonfatal, and use the promoted snapshot generation key`)
       }
       const report = steps.find(step => step.name === 'Record Guides cache generation persistence')
@@ -635,8 +687,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === '_publish-content-group.yml') {
       const steps = workflow.jobs?.publish?.steps || []
-      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v4')
-      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v4')
+      const pnpmSetupIndex = steps.findIndex(step => step?.uses === 'pnpm/action-setup@v5')
+      const nodeSetupIndex = steps.findIndex(step => step?.uses === 'actions/setup-node@v5')
       const installIndex = steps.findIndex(step => step?.name === 'Install dependencies')
       const contractIndex = steps.findIndex(step => step?.name === 'Validate content group contract')
       if (!(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < contractIndex)) {
@@ -648,7 +700,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/name: Check out immutable translation tooling[\s\S]*ref: \$\{\{ inputs\.tooling_sha \}\}[\s\S]*name: Check out immutable source tooling[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out exact translation tooling and separate source tooling'],
-        [/actions\/download-artifact@v4/, 'must download the exact checkpoint artifact'],
+        [/actions\/download-artifact@v7/, 'must download the exact checkpoint artifact'],
         [/inputs\.baseline_artifact_name != ''[\s\S]*name: \$\{\{ inputs\.baseline_artifact_name \}\}/, 'must conditionally download the exact baseline artifact'],
         [/--translation-target[\s\S]*--source-checkpoint-sha[\s\S]*--tooling-sha[\s\S]*--source-site[\s\S]*--target-site[\s\S]*preflight-checkpoint-archive\.js[\s\S]*--manifest-output[\s\S]*tar -xf/, 'must verify the unique checkpoint manifest identity before full extraction'],
         [/extract_checkpoint_archive[\s\S]*extract_checkpoint_archive[\s\S]*manifest\.resolvedDir[\s\S]*payload[\s\S]*--baseline-dir/, 'must reuse safe extraction and pass the validated baseline payload directory'],
@@ -679,10 +731,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === '_verify-docs.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
-        [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
+        [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
         [/git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must materialize the exact final dev SHA'],
         [/restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must restore generated content from the exact final dev SHA'],
-        [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
+        [/actions\/upload-artifact@v6[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
@@ -751,7 +803,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (JSON.stringify(resultCommands) !== JSON.stringify(expectedResult)) {
         errors.push(`${file}: overall status must require revision verification success`)
       }
-      if (/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
+      if (/actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
       if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
     }
 
@@ -776,6 +828,100 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       if (!needsPrepare('prepare_guides_batches') || !needsPrepare('translate_sdk') || !needsPrepare('translate_guides_batches')) {
         errors.push(`${file}: translation matrices must wait for complete handoff repository validation`)
+      }
+      const inventoryReconcile = workflow.jobs?.reconcile_localization_inventory
+      const inventoryNeeds = Array.isArray(inventoryReconcile?.needs) ? inventoryReconcile.needs : []
+      const requiredInventoryNeeds = [
+        'prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk',
+        'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+        'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+        'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+      ]
+      const inventoryStep = namedJobStep(workflow, 'reconcile_localization_inventory', 'Reconcile and publish localization inventory')
+      const inventoryRun = String(inventoryStep?.run || '')
+      const fullReconcileNeeds = Array.isArray(workflow.jobs?.reconcile_published_state?.needs)
+        ? workflow.jobs.reconcile_published_state.needs
+        : []
+      const aggregateNeeds = Array.isArray(workflow.jobs?.aggregate?.needs) ? workflow.jobs.aggregate.needs : []
+      if (!inventoryReconcile ||
+          requiredInventoryNeeds.some(job => !inventoryNeeds.includes(job)) ||
+          String(inventoryReconcile.if || '').trim() !== "${{ always() && inputs.publish && needs.prepare.result == 'success' }}" ||
+          inventoryReconcile.steps?.find(step => step?.uses === 'actions/checkout@v5')?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
+          !/restore-generated-state\.sh --exact --ref "\$target_sha"/.test(inventoryRun) ||
+          !/pnpm generate:localization-input-inventory[\s\S]*pnpm check:localization-input-inventory/.test(inventoryRun) ||
+          !/git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/.test(inventoryRun) ||
+          !/git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/.test(inventoryRun) ||
+          /validate-translation|reference-manifest/.test(inventoryRun) ||
+          !fullReconcileNeeds.includes('reconcile_localization_inventory') ||
+          !aggregateNeeds.includes('reconcile_localization_inventory')) {
+        errors.push(`${file}: partial translation publication must independently reconcile localization inventory`)
+      }
+
+      const referenceReconcile = workflow.jobs?.reconcile_reference_state
+      const referenceNeeds = Array.isArray(referenceReconcile?.needs) ? referenceReconcile.needs : []
+      const requiredReferenceNeeds = [...requiredInventoryNeeds, 'reconcile_localization_inventory']
+      const requiredReferenceCondition = "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}"
+      const referenceCheckoutSteps = (referenceReconcile?.steps || []).filter(step => String(step?.uses || '').startsWith('actions/checkout@'))
+      const referenceCheckout = referenceCheckoutSteps[0]
+      const referenceStep = namedJobStep(workflow, 'reconcile_reference_state', 'Reconcile and publish Reference derived state')
+      const referenceRun = String(referenceStep?.run || '')
+      const referenceCommands = executableCommandLines(referenceRun)
+      const requiredReferenceCommands = [
+        '[[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]',
+        'git check-ref-format --branch "$TARGET_BRANCH"',
+        'git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"',
+        'target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")',
+        'git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"',
+        'bash scripts/restore-generated-state.sh --exact --ref "$target_sha"',
+        'pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write',
+        'pnpm docs-tooling validate-reference --site zh-CN',
+        'git worktree add --detach "$publish_worktree" "$target_sha"',
+        'git -C "$publish_worktree" add -- "${paths[@]}"',
+        'git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"',
+      ]
+      const requiredReferencePaths = [
+        'generated/en/manifests/reference.json',
+        'generated/zh-CN/manifests/reference-translations.json',
+        'generated/en/sidebars/python.sidebar.js',
+        'generated/en/sidebars/java.sidebar.js',
+        'generated/en/sidebars/node.sidebar.js',
+        'generated/en/sidebars/go.sidebar.js',
+        'generated/en/sidebars/cli.sidebar.js',
+        'generated/en/sidebars/restful.sidebar.js',
+        'generated/zh-CN/sidebars/python.sidebar.js',
+        'generated/zh-CN/sidebars/java.sidebar.js',
+        'generated/zh-CN/sidebars/node.sidebar.js',
+        'generated/zh-CN/sidebars/go.sidebar.js',
+        'generated/zh-CN/sidebars/cli.sidebar.js',
+        'generated/zh-CN/sidebars/restful.sidebar.js',
+      ]
+      const referencePathBlock = referenceRun.match(/(?:^|\n)\s*paths=\(\n([\s\S]*?)\n\s*\)/)
+      const referencePaths = referencePathBlock
+        ? referencePathBlock[1].split('\n').map(line => line.trim()).filter(Boolean)
+        : []
+      const referenceAddCommands = referenceCommands.filter(command => /(?:^|\s)git(?:\s+-C\s+"\$publish_worktree")?\s+add\b/.test(command))
+      const referenceCommitCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" commit '))
+      const referencePushCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" push '))
+      if (!referenceReconcile ||
+          JSON.stringify(referenceNeeds) !== JSON.stringify(requiredReferenceNeeds) ||
+          String(referenceReconcile.if || '').trim() !== requiredReferenceCondition ||
+          referenceCheckoutSteps.length !== 1 ||
+          referenceCheckout?.uses !== 'actions/checkout@v5' ||
+          referenceCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
+          referenceCheckout?.with?.['fetch-depth'] !== 0 ||
+          referenceStep?.env?.SOURCE_SHA !== '${{ needs.prepare.outputs.target_branch_sha }}' ||
+          referenceStep?.env?.TARGET_BRANCH !== '${{ needs.prepare.outputs.target_branch }}' ||
+          !commandsAppearInOrder(referenceCommands, requiredReferenceCommands) ||
+          JSON.stringify(referencePaths) !== JSON.stringify(requiredReferencePaths) ||
+          JSON.stringify(referenceAddCommands) !== JSON.stringify(['git -C "$publish_worktree" add -- "${paths[@]}"']) ||
+          referenceCommitCommands.length !== 1 ||
+          JSON.stringify(referencePushCommands) !== JSON.stringify(['git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"']) ||
+          !/if git -C "\$publish_worktree" diff --cached --quiet; then[\s\S]*?exit 0[\s\S]*?fi/.test(referenceRun) ||
+          /deploy\/contracts\/localization-inputs\.inventory\.json|validate-translation|generate:localization-input-inventory/.test(referenceRun) ||
+          !fullReconcileNeeds.includes('reconcile_reference_state') ||
+          !aggregateNeeds.includes('reconcile_reference_state') ||
+          !aggregateNeeds.includes('reconcile_published_state')) {
+        errors.push(`${file}: partial Chinese Reference publication must independently reconcile Reference derived state`)
       }
     }
 
@@ -808,7 +954,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const translationWorkflow = yaml.load(readWorkflow('_translate-content-group.yml'))
   const publisherWorkflow = yaml.load(readWorkflow('_publish-content-group.yml'))
   const nodeVersion = (workflow, jobName) => (workflow?.jobs?.[jobName]?.steps || [])
-    .find(step => step?.uses === 'actions/setup-node@v4')?.with?.['node-version']
+    .find(step => step?.uses === 'actions/setup-node@v5')?.with?.['node-version']
   const translationNodeVersion = nodeVersion(translationWorkflow, 'translate')
   const publisherNodeVersion = nodeVersion(publisherWorkflow, 'publish')
   if (!translationNodeVersion || publisherNodeVersion !== translationNodeVersion) {
@@ -822,12 +968,26 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const prepareSteps = caller?.jobs?.prepare?.steps || []
     const installIndex = prepareSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
     const readinessIndex = prepareSteps.findIndex(step => step?.name === 'Verify translation publication readiness')
+    const inventoryIndex = prepareSteps.findIndex(step => step?.name === 'Verify immutable target localization inventory')
     const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
     const cardStep = cardIndex >= 0 ? prepareSteps[cardIndex] : null
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
         readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
+    }
+    const inventoryStep = inventoryIndex >= 0 ? prepareSteps[inventoryIndex] : null
+    const inventoryCommands = executableCommandLines(inventoryStep?.run)
+    if (inventoryIndex <= readinessIndex || cardIndex <= inventoryIndex ||
+        String(inventoryStep?.if || '').trim() !== "${{ steps.refs.outputs.publish == 'true' }}" ||
+        inventoryStep?.env?.DEV_BASELINE_SHA !== '${{ steps.refs.outputs.dev_baseline_sha }}' ||
+        !commandsAppearInOrder(inventoryCommands, [
+          'set -euo pipefail',
+          'git fetch --no-tags origin "$DEV_BASELINE_SHA"',
+          'bash scripts/restore-generated-state.sh --exact --ref "$DEV_BASELINE_SHA"',
+          'pnpm check:localization-input-inventory',
+        ]) || /generate:localization-input-inventory/.test(String(inventoryStep?.run || ''))) {
+      errors.push('fetch-docs.yml: prepare must validate the immutable target localization inventory before paid work starts')
     }
     if (cardStep?.['continue-on-error'] !== true || cardStep?.env?.CARD_TITLE !== 'Zilliz Cloud Docs Build' ||
         !/card_parts=\("Produce"\)[\s\S]*"Publish" "Verify"[\s\S]*"Handoff"/.test(callerSource)) {

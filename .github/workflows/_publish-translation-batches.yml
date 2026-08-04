@@ -68,13 +68,13 @@ jobs:
             "REPORT_FILE=$trusted_root/publication-report.json" >> "$GITHUB_ENV"
 
       - name: Check out immutable master tooling
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ inputs.tooling_sha }}
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - name: Install immutable master tooling
         run: pnpm install --frozen-lockfile
@@ -109,12 +109,12 @@ jobs:
           git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
 
       - name: Download Guides translation checkpoints
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-checkpoints
       - name: Download Guides translation baselines
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-baselines
@@ -347,7 +347,7 @@ jobs:
 
       - name: Upload Guides translation publication report
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         continue-on-error: true
         with:
           name: docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}

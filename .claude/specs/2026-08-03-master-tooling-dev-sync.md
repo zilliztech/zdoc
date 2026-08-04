@@ -8,8 +8,10 @@ The first synchronization is a reviewed pull request that merges one exact maste
 
 - Dev owns published content, generated sidebars and manifests, translation state, fetched source snapshots/reports, and English source sidebar overrides.
 - Master owns tooling, workflows, applications, packages, deployment contracts, and `config/reference-retirements.json`.
+- Candidate-derived paths are deterministic outputs of the exact merge candidate. The only current candidate-derived path is `deploy/contracts/localization-inputs.inventory.json`.
 - A master history that changes a dev-owned path is not synchronizable automatically.
-- A merge candidate must preserve every dev-owned path from the exact dev baseline and match the exact master SHA everywhere else.
+- A merge candidate must preserve every dev-owned path from the exact dev baseline and match the exact master SHA everywhere except explicitly declared candidate-derived paths.
+- Candidate-derived paths must be regenerated and checked on the exact merge candidate; declaring one does not bypass its freshness validation.
 
 ## Bootstrap
 
@@ -21,13 +23,28 @@ The automated workflow remains inert until `deploy/contracts/master-tooling-sync
 2. Resolve exact master and dev SHAs and verify master ancestry.
 3. Reject master changes to dev-owned paths.
 4. Create a normal merge commit from the exact dev baseline and exact master SHA.
-5. Verify path ownership in both directions.
-6. Run focused repository validation.
-7. Recheck dev, push an immutable candidate branch, and create a PR.
-8. Dispatch `site-validation.yml` for both sites against the exact candidate SHA and wait for success.
-9. Recheck the dev baseline and PR head, then merge the PR.
+5. Install dependencies, regenerate and check declared candidate-derived files on the exact merge candidate, then amend the original merge commit while preserving both parents.
+6. Recompute the final candidate SHA and verify path ownership in both directions against that final commit.
+7. Run focused repository validation.
+8. Recheck dev, push the immutable final candidate branch, and create a PR.
+9. Dispatch `site-validation.yml` for both sites against the final candidate SHA and wait for success.
+10. Recheck the dev baseline and PR head against the final candidate SHA, then merge the PR.
 
 Conflicts, validation failures, moved refs, or ownership drift leave an unmerged evidence-bearing PR and fail the workflow.
+
+## Candidate-derived publication recovery
+
+The localization inventory is master tooling whose contents are derived from dev-owned localization inputs. Publication recovery keeps candidate-derived inventory and Reference state convergent at these boundaries:
+
+- `translate-codex.yml` independently reconciles and publishes only the inventory after all selected translation publishers reach a terminal state, even when another translation lane fails.
+- After inventory reconciliation reaches a terminal state, `translate-codex.yml` independently reconciles Chinese Reference manifests and generated Reference sidebars whenever the selected locale and group can publish Chinese Reference. This recovery boundary also runs after partial publication when another translation lane fails.
+- The all-groups derived-state reconciliation remains a separate fail-closed gate downstream of both independent recovery boundaries.
+- `fetch-docs.yml` restores the exact immutable dev baseline and checks the inventory before card creation, producers, or paid work. A stale target fails early without repairing or publishing anything.
+- `restore-generated-state.sh --exact` restores the inventory from the selected dev commit together with the other dev-owned generated state. Final verification can then combine immutable master tooling with the exact candidate-derived file published on dev.
+
+Inventory reconciliation commits must change only `deploy/contracts/localization-inputs.inventory.json`. They do not authorize source publication, site deployment, S3 writes, or OSS writes.
+
+Reference reconciliation commits must change only the English and Chinese Reference manifests and the generated Python, Java, Node, Go, CLI, and RESTful Reference sidebars for both locales. They do not authorize Guides state, source publication, site deployment, S3 writes, or OSS writes.
 
 ## Deferred follow-up: deduplicate site validation
 

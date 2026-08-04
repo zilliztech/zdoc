@@ -1,0 +1,19 @@
+diff --git a/lib/transport.js b/lib/transport.js
+index 019b1efab6a775f4f53b93e7bb0f5209f7a2e705..7c6f791acdad958bb4081914de67995a11d1eabe 100644
+--- a/lib/transport.js
++++ b/lib/transport.js
+@@ -3 +3 @@
+-  var GenericReceiver, MAP, ResponseReceiver, Session, SockJSConnection, Transport, closeFrame, register, stream, utils, uuidv4,
++  var GenericReceiver, MAP, ResponseReceiver, Session, SockJSConnection, Transport, closeFrame, crypto, register, stream, utils,
+@@ -9 +9 @@
+-  uuidv4 = require('uuid').v4;
++  crypto = require('crypto');
+@@ -37 +37 @@
+-      this.id = uuidv4();
++      this.id = crypto.randomUUID();
+diff --git a/package.json b/package.json
+index 0cb70c1372cc0ecf2349443a1c01d8ef567de85c..d93b18fcd92258b3510cae69faee21221d7aa3e9 100644
+--- a/package.json
++++ b/package.json
+@@ -21 +20,0 @@
+-    "uuid": "^8.3.2",

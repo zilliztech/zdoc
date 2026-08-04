@@ -85,15 +85,15 @@ jobs:
           NODE
 
       - name: Check out immutable master source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ inputs.master_sha }}
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: pnpm
@@ -211,7 +211,7 @@ jobs:
 
       - name: Upload revision inventory report
         if: ${{ inputs.site == 'en' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-checkpoint-${{ inputs.group }}-${{ github.run_id }}-revision-report
           path: |
@@ -247,7 +247,7 @@ jobs:
 
       - name: Upload source checkpoint artifact
         id: checkpoint_upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-checkpoint-${{ inputs.group }}-${{ github.run_id }}
           path: ${{ runner.temp }}/checkpoint-group.tar
@@ -256,7 +256,7 @@ jobs:
 
       - name: Upload Guides content reports
         if: ${{ always() && inputs.group == 'guides' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-checkpoint-${{ inputs.group }}-${{ github.run_id }}-reports
           path: packages/docs-tooling/src/lark/meta/reports/
